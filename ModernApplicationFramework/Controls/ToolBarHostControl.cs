@@ -21,8 +21,8 @@ namespace ModernApplicationFramework.Controls
             "TopTrayBackground", typeof (Brush), typeof (ToolBarHostControl),
             new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
 
-        private readonly Dictionary<string, Tuple<ToolBar, System.Windows.Controls.Dock, bool, ContextMenuGlyphItem>> _contextList =
-            new Dictionary<string, Tuple<ToolBar, System.Windows.Controls.Dock, bool, ContextMenuGlyphItem>>();
+        private readonly Dictionary<string, Tuple<ToolBar, Dock, bool, ContextMenuGlyphItem>> _contextList =
+            new Dictionary<string, Tuple<ToolBar, Dock, bool, ContextMenuGlyphItem>>();
 
         public static ToolBarHostControl Instance { get; private set; }
 
@@ -51,17 +51,17 @@ namespace ModernApplicationFramework.Controls
             set { SetValue(TopTrayBackgroundProperty, value); }
         }
 
-        public void AddToolBar(ToolBar toolBar, bool visible, System.Windows.Controls.Dock dock)
+        public void AddToolBar(ToolBar toolBar, bool visible, Dock dock)
         {
             if (toolBar == null)
-                throw new ArgumentNullException("toolBar");
+                throw new ArgumentNullException(nameof(toolBar));
             if (string.IsNullOrEmpty(toolBar.IdentifierName))
                 throw new NullReferenceException("Toolbar Id must not be null");
             if (_contextList.ContainsKey(toolBar.IdentifierName))
                 throw new ToolBarAlreadyExistsException();
             var item = CreateContextMenuItem(toolBar.IdentifierName);
             _contextList.Add(toolBar.IdentifierName,
-                new Tuple<ToolBar, System.Windows.Controls.Dock, bool, ContextMenuGlyphItem>(toolBar, dock, visible, item));
+                new Tuple<ToolBar, Dock, bool, ContextMenuGlyphItem>(toolBar, dock, visible, item));
             if (!visible)
                 return;
             ShowToolBarByName(toolBar.IdentifierName);
@@ -72,13 +72,13 @@ namespace ModernApplicationFramework.Controls
             new CustomizeDialog().Show();
         }
 
-        public void ChangeToolBarDock(string name, System.Windows.Controls.Dock newValue)
+        public void ChangeToolBarDock(string name, Dock newValue)
         {
             if (_topToolBarTay == null || _leftToolBarTay == null || _rightToolBarTay == null ||
                 _bottomToolBarTay == null)
                 throw new NullReferenceException("Could not find all 4 ToolbarTrays");
             if (string.IsNullOrEmpty(name))
-                throw new ArgumentNullException("name");
+                throw new ArgumentNullException(nameof(name));
             if (!_contextList.ContainsKey(name))
                 throw new ToolBarNotFoundException();
             var wasVisible = _contextList[name].Item3;
@@ -94,7 +94,7 @@ namespace ModernApplicationFramework.Controls
                 _bottomToolBarTay == null)
                 throw new NullReferenceException("Could not find all 4 ToolbarTrays");
             if (string.IsNullOrEmpty(name))
-                throw new ArgumentNullException("name");
+                throw new ArgumentNullException(nameof(name));
             if (!_contextList.ContainsKey(name))
                 throw new ToolBarNotFoundException();
             if (newValue)
@@ -111,16 +111,16 @@ namespace ModernApplicationFramework.Controls
         public ToolBar GetToolBar(string name)
         {
             if (string.IsNullOrEmpty(name))
-                throw new ArgumentNullException("name");
+                throw new ArgumentNullException(nameof(name));
             if (!_contextList.ContainsKey(name))
                 throw new ToolBarNotFoundException();
             return _contextList[name].Item1;
         }
 
-        public System.Windows.Controls.Dock GetToolBarDock(string name)
+        public Dock GetToolBarDock(string name)
         {
             if (string.IsNullOrEmpty(name))
-                throw new ArgumentNullException("name");
+                throw new ArgumentNullException(nameof(name));
             if (!_contextList.ContainsKey(name))
                 throw new ToolBarNotFoundException();
             return _contextList[name].Item2;
@@ -129,7 +129,7 @@ namespace ModernApplicationFramework.Controls
         public bool GetToolBarVisibility(string name)
         {
             if (string.IsNullOrEmpty(name))
-                throw new ArgumentNullException("name");
+                throw new ArgumentNullException(nameof(name));
             if (!_contextList.ContainsKey(name))
                 throw new ToolBarNotFoundException();
             return _contextList[name].Item3;
@@ -194,20 +194,20 @@ namespace ModernApplicationFramework.Controls
             return item;
         }
 
-        private void HideToolBar(ToolBar toolBar, System.Windows.Controls.Dock dock)
+        private void HideToolBar(ToolBar toolBar, Dock dock)
         {
             if (_topToolBarTay == null || _leftToolBarTay == null || _rightToolBarTay == null ||
                 _bottomToolBarTay == null)
                 throw new NullReferenceException("Could not find all 4 ToolbarTrays");
             switch (dock)
             {
-                case System.Windows.Controls.Dock.Top:
+                case Dock.Top:
                     _topToolBarTay.RemoveToolBar(toolBar);
                     break;
-                case System.Windows.Controls.Dock.Left:
+                case Dock.Left:
                     _leftToolBarTay.RemoveToolBar(toolBar);
                     break;
-                case System.Windows.Controls.Dock.Right:
+                case Dock.Right:
                     _rightToolBarTay.RemoveToolBar(toolBar);
                     break;
                 default:
@@ -250,20 +250,20 @@ namespace ModernApplicationFramework.Controls
             item.IconGeometry = geomitry;
         }
 
-        private void ShowToolBar(ToolBar toolBar, System.Windows.Controls.Dock dock)
+        private void ShowToolBar(ToolBar toolBar, Dock dock)
         {
             if (_topToolBarTay == null || _leftToolBarTay == null || _rightToolBarTay == null ||
                 _bottomToolBarTay == null)
                 throw new NullReferenceException("Could not find all 4 ToolbarTrays");
             switch (dock)
             {
-                case System.Windows.Controls.Dock.Top:
+                case Dock.Top:
                     _topToolBarTay.ShowToolBar(toolBar);
                     break;
-                case System.Windows.Controls.Dock.Left:
+                case Dock.Left:
                     _leftToolBarTay.ShowToolBar(toolBar);
                     break;
-                case System.Windows.Controls.Dock.Right:
+                case Dock.Right:
                     _rightToolBarTay.ShowToolBar(toolBar);
                     break;
                 default:
@@ -275,7 +275,7 @@ namespace ModernApplicationFramework.Controls
         private void ShowToolBarByName(string name)
         {
             if (string.IsNullOrEmpty(name))
-                throw new ArgumentNullException("name");
+                throw new ArgumentNullException(nameof(name));
             UpdateVisibility(name, true);
             ShowToolBar(_contextList[name].Item1, _contextList[name].Item2);
             SetCheckMark(_contextList[name].Item4);
@@ -286,10 +286,10 @@ namespace ModernApplicationFramework.Controls
             OpenMenu();
         }
 
-        private void UpdateDock(string name, System.Windows.Controls.Dock newValue)
+        private void UpdateDock(string name, Dock newValue)
         {
             if (string.IsNullOrEmpty(name))
-                throw new ArgumentNullException("name");
+                throw new ArgumentNullException(nameof(name));
             if (!_contextList.ContainsKey(name))
                 throw new ToolBarNotFoundException();
 
@@ -299,13 +299,13 @@ namespace ModernApplicationFramework.Controls
 
             _contextList.Remove(name);
             _contextList.Add(name,
-                new Tuple<ToolBar, System.Windows.Controls.Dock, bool, ContextMenuGlyphItem>(oldToolbar, newValue, oldVibility, oldMenuItem));
+                new Tuple<ToolBar, Dock, bool, ContextMenuGlyphItem>(oldToolbar, newValue, oldVibility, oldMenuItem));
         }
 
         private void UpdateVisibility(string name, bool newValue)
         {
             if (string.IsNullOrEmpty(name))
-                throw new ArgumentNullException("name");
+                throw new ArgumentNullException(nameof(name));
             if (!_contextList.ContainsKey(name))
                 throw new ToolBarNotFoundException();
 
@@ -315,7 +315,7 @@ namespace ModernApplicationFramework.Controls
 
             _contextList.Remove(name);
             _contextList.Add(name,
-                new Tuple<ToolBar, System.Windows.Controls.Dock, bool, ContextMenuGlyphItem>(oldToolbar, oldDock, newValue, oldMenuItem));
+                new Tuple<ToolBar, Dock, bool, ContextMenuGlyphItem>(oldToolbar, oldDock, newValue, oldMenuItem));
         }
     }
 }
