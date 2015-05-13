@@ -39,7 +39,7 @@ namespace ModernApplicationFramework.Controls
 
         #endregion
 
-        public void ShowToolBar(ToolBar toolBar)
+        public void AddToolBar(ToolBar toolBar)
         {
             if (ToolBars.Contains(toolBar))
                 return;

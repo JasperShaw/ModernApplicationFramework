@@ -21,6 +21,17 @@ namespace ModernApplicationFramework.Controls
             "TopTrayBackground", typeof (Brush), typeof (ToolBarHostControl),
             new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
 
+        /*
+            This Dictionary contains all the information needed to interact with the toolbar across classes
+            This Dictionary contains as Key:
+                IdName of toolbar
+            And as Value
+                a Tuple with 4 Items:
+                    Item1: Toolbar-Object
+                    Item2: Toolbar-Dock orientation
+                    Item3: Toolbar-Visibility
+                    Item4: Toolbar-Linked ContextMenuItem  
+        */
         private readonly Dictionary<string, Tuple<ToolBar, Dock, bool, ContextMenuGlyphItem>> _contextList =
             new Dictionary<string, Tuple<ToolBar, Dock, bool, ContextMenuGlyphItem>>();
 
@@ -51,6 +62,24 @@ namespace ModernApplicationFramework.Controls
             set { SetValue(TopTrayBackgroundProperty, value); }
         }
 
+
+        /*
+            This adds a new toolbar by:
+                Checking for:
+                    Not Null Object
+                    ObjectID not null
+                    Not Existing already
+                Creating a new ContextMenuItem for it
+                Adds to Dictionary
+                If visible param is true
+                    Show Toolbar on screen
+        */
+        /// <summary>
+        /// Adds new Toolbar to HostControl
+        /// </summary>
+        /// <param name="toolBar">Toolbar object</param>
+        /// <param name="visible">Toolbar visibility</param>
+        /// <param name="dock">Toolbar orientation</param>
         public void AddToolBar(ToolBar toolBar, bool visible, Dock dock)
         {
             if (toolBar == null)
@@ -67,11 +96,31 @@ namespace ModernApplicationFramework.Controls
             ShowToolBarByName(toolBar.IdentifierName);
         }
 
+        /// <summary>
+        /// Opens ToolbarCustomize Dialog
+        /// </summary>
         public void OpenToolBarEditDialog()
         {
-            new CustomizeDialog().Show();
+            new CustomizeDialog().ShowDialog();
         }
 
+        /*
+            Change Orientation of Toolbar by:
+                Checking for:
+                    At least one Tray exists
+                    IdName not null
+                    Toolbar exists
+                Save visibility
+                HideToolbar
+                Change Dock
+                If was Visible
+                    Show Again
+        */
+        /// <summary>
+        /// Change Orientation of Toolbar
+        /// </summary>
+        /// <param name="name">IdentifierName of Toolbar</param>
+        /// <param name="newValue">New Orientation Value</param>
         public void ChangeToolBarDock(string name, Dock newValue)
         {
             if (_topToolBarTay == null || _leftToolBarTay == null || _rightToolBarTay == null ||
@@ -88,6 +137,22 @@ namespace ModernApplicationFramework.Controls
                 ShowToolBarByName(name);
         }
 
+        /*
+            Change Visibility of Toolbar by:
+                 Checking for:
+                    At least one Tray exists
+                    IdName not null
+                    Toolbar exists
+                If newValue true
+                    Show Toolbar
+                Else
+                    Hide Toolbar  
+        */
+        /// <summary>
+        /// Change Visibility of Toolbar
+        /// </summary>
+        /// <param name="name">IdentifierName of Toolbar</param>
+        /// <param name="newValue">New Visibility Value</param>
         public void ChangeToolBarVisibility(string name, bool newValue)
         {
             if (_topToolBarTay == null || _leftToolBarTay == null || _rightToolBarTay == null ||
@@ -108,6 +173,11 @@ namespace ModernApplicationFramework.Controls
             _contentLoaded = true;
         }
 
+        /// <summary>
+        /// Get a Toolbar by Name
+        /// </summary>
+        /// <param name="name">IdentifierName of Toolbar</param>
+        /// <returns>Found Toolbar Object</returns>
         public ToolBar GetToolBar(string name)
         {
             if (string.IsNullOrEmpty(name))
@@ -117,6 +187,11 @@ namespace ModernApplicationFramework.Controls
             return _contextList[name].Item1;
         }
 
+        /// <summary>
+        /// Get Orientation of Toolbar
+        /// </summary>
+        /// <param name="name">Identifier Name of Toolbar</param>
+        /// <returns>Orientation</returns>
         public Dock GetToolBarDock(string name)
         {
             if (string.IsNullOrEmpty(name))
@@ -126,6 +201,11 @@ namespace ModernApplicationFramework.Controls
             return _contextList[name].Item2;
         }
 
+        /// <summary>
+        /// Get Toolbar Visibility
+        /// </summary>
+        /// <param name="name">Identifier Name of Toolbar</param>
+        /// <returns>Bool of visibility</returns>
         public bool GetToolBarVisibility(string name)
         {
             if (string.IsNullOrEmpty(name))
@@ -135,6 +215,10 @@ namespace ModernApplicationFramework.Controls
             return _contextList[name].Item3;
         }
 
+        /// <summary>
+        /// Returns a list of Toolbar Objects
+        /// </summary>
+        /// <returns></returns>
         public List<ToolBar> GetToolBars()
         {
             return new List<ToolBar>(_contextList.Values.Select(x => x.Item1).ToList());
@@ -182,6 +266,15 @@ namespace ModernApplicationFramework.Controls
             _contextMenu.IsOpen = true;
         }
 
+
+        /*
+            Returns a toolbar specific MenuItem by:
+                Creating the Item
+                Header is IdentifierName of Toolbar
+                Creats Click Event
+                Adds into Menu
+                Returns Item
+        */
         private ContextMenuGlyphItem CreateContextMenuItem(string identifierName)
         {
             var item = new ContextMenuGlyphItem {Header = identifierName};
@@ -194,6 +287,13 @@ namespace ModernApplicationFramework.Controls
             return item;
         }
 
+        /*
+            Hides Toolbar by:
+                Check for:
+                    At least one tray exists
+                Decide Dock
+                Remove From Tray
+        */
         private void HideToolBar(ToolBar toolBar, Dock dock)
         {
             if (_topToolBarTay == null || _leftToolBarTay == null || _rightToolBarTay == null ||
@@ -216,13 +316,21 @@ namespace ModernApplicationFramework.Controls
             }
         }
 
+        /*
+            Hides Toolbar from IdName by:
+                Check for:
+                    name not null/empty
+                UpdateVisibility
+                Hide ( Object and Orientation)
+                Remove Checkmark from MenuItem
+        */
         private void HideToolBarByName(string name)
         {
             if (string.IsNullOrEmpty(name))
                 return;
             UpdateVisibility(name, false);
             HideToolBar(_contextList[name].Item1, _contextList[name].Item2);
-            _contextList[name].Item4.Icon = null;
+            _contextList[name].Item4.IconGeometry = null;
         }
 
         private void Item_Click(object sender, RoutedEventArgs e)
@@ -250,6 +358,13 @@ namespace ModernApplicationFramework.Controls
             item.IconGeometry = geomitry;
         }
 
+        /*
+            Show Toolbar by:
+                Check for:
+                    At least one tray exists
+                Decide Dock
+                Add Toolbar to tray
+        */
         private void ShowToolBar(ToolBar toolBar, Dock dock)
         {
             if (_topToolBarTay == null || _leftToolBarTay == null || _rightToolBarTay == null ||
@@ -258,20 +373,28 @@ namespace ModernApplicationFramework.Controls
             switch (dock)
             {
                 case Dock.Top:
-                    _topToolBarTay.ShowToolBar(toolBar);
+                    _topToolBarTay.AddToolBar(toolBar);
                     break;
                 case Dock.Left:
-                    _leftToolBarTay.ShowToolBar(toolBar);
+                    _leftToolBarTay.AddToolBar(toolBar);
                     break;
                 case Dock.Right:
-                    _rightToolBarTay.ShowToolBar(toolBar);
+                    _rightToolBarTay.AddToolBar(toolBar);
                     break;
                 default:
-                    _bottomToolBarTay.ShowToolBar(toolBar);
+                    _bottomToolBarTay.AddToolBar(toolBar);
                     break;
             }
         }
 
+        /*
+            Show Toolbar with IdName by:
+                Check for: 
+                    name not null/empty
+                UpdateVisibility
+                Show Toolbar (Object Orientation)
+                Set Checkmark for MenuItem
+        */
         private void ShowToolBarByName(string name)
         {
             if (string.IsNullOrEmpty(name))
@@ -286,6 +409,17 @@ namespace ModernApplicationFramework.Controls
             OpenMenu();
         }
 
+        /*
+            Update Dock by:
+                Check for:
+                    Name not null/empty
+                    Toolbar exists
+                Save Toolbar Object, Visibility, MenuItem
+                Remove toolbar from Dictionary
+                Add new Entry to Dictionary by using:
+                    just saved values 
+                    new Dock value (param)
+        */
         private void UpdateDock(string name, Dock newValue)
         {
             if (string.IsNullOrEmpty(name))
@@ -302,6 +436,17 @@ namespace ModernApplicationFramework.Controls
                 new Tuple<ToolBar, Dock, bool, ContextMenuGlyphItem>(oldToolbar, newValue, oldVibility, oldMenuItem));
         }
 
+        /*
+            Update Visibility by:
+                Check for:
+                    Name not null/empty
+                    Toolbar exists
+                Save Toolbar Object, Dock, MenuItem
+                Remove toolbar from Dictionary
+                Add new Entry to Dictionary by using:
+                    just saved values 
+                    new Visibility value (param)
+        */
         private void UpdateVisibility(string name, bool newValue)
         {
             if (string.IsNullOrEmpty(name))
