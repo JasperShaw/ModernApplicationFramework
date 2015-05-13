@@ -1,0 +1,21 @@
+﻿<customize:CustomizeDialog xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                           xmlns:customize="clr-namespace:ModernApplicationFramework.Controls.Customize"
+                           ShowInTaskbar="False" Title="Customize" ResizeMode="CanResizeWithGrip" Height="550" Width="535" 
+                           MinHeight="490" MinWidth="375" Padding="12" WindowStartupLocation="CenterOwner">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition x:Uid="RowDefinition_1" Height="*"/>
+            <RowDefinition x:Uid="RowDefinition_2" Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TabControl Grid.Row="0" Margin="12,12,12,10">
+            <TabItem x:Name="ToolbarsTab" Header="Toolbars">
+                <customize:ToolBarsPage/>
+            </TabItem>
+        </TabControl>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,2,0">
+            <Button MinHeight="23" MinWidth="75" Margin="0,0,10,10" Padding="10,1,10,1" Content="Close" IsCancel="True" IsDefault="True" x:Name="Button"/>
+        </StackPanel>
+    </Grid>
+    
+</customize:CustomizeDialog>

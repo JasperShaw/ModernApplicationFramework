@@ -1,0 +1,13 @@
+﻿<test:MainWindow x:Class="ModernApplicationFrameworkTestAppWindow.MainWindow"
+        xmlns:test="http://modern.framework.com/controls"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        Title="MainWindow" Height="350" Width="525" ShowInTaskbar="True">
+    <Grid>
+        <test:Button Margin="51,97,152,118" Content="Click" Click="Button_Click" Height="50" Width="100"/>
+        <TextBox Margin="51,207,176,52" TextChanged="TextBoxBase_OnTextChanged" Height="50" Width="100"/>
+        <test:CheckBox Margin="42,48,336,240" Content="test" Height="50" Width="100"></test:CheckBox>
+    </Grid>
+    
+
+</test:MainWindow>

@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:ModernApplicationFramework.Controls"
+                    xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes">
+    
+    <Style TargetType="{x:Type local:WindowBase}" BasedOn="{StaticResource {x:Type Window}}">
+        <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.WindowBaseBackground}}"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.WindowBaseForeground}}"/>
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
+    </Style>
+</ResourceDictionary>

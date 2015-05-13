@@ -1,0 +1,15 @@
+﻿This Project contains basic controls that are styled  like controls in Visual Stuido. This Library can be used by any Tool. This must not reference to a tool. it has to stand for itsself. The Controls have different styles using different colors. Which are defined in a Sub-Project. 
+
+
+Sturcture of what this Project Contains: 
+
+
+
+
+
+
+
+Known Bugs:
+
+	Odd Window-Border-Shadow Clipping when Mouseinteraction with NonClientArea  -- FIXED (Owner = null), for some stange reason this fixed both issues at same time
+	MainWindow is always below Floatingwindows -- FIXED (Owner = null)

@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="ModernApplicationFrameworkTestAppDock.ColorEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ModernApplicationFrameworkTestAppDock"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" Width="767.796">
+	<Grid>
+		<Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+		<DockPanel Grid.Row="0" Background="White">
+			<Label VerticalContentAlignment="Center" >Alpha:</Label>
+            <TextBox Name="TextBoxAlpha" VerticalContentAlignment="Center" Margin="5" Height="22" Width="50" VerticalAlignment="Stretch" DockPanel.Dock="Left" TextChanged="TextBoxColor_OnTextChanged"/>
+			<Label VerticalContentAlignment="Center" >Red:</Label>
+            <TextBox Name="TextBoxRed" VerticalContentAlignment="Center" Margin="5" Height="22" Width="50" VerticalAlignment="Stretch" DockPanel.Dock="Left" TextChanged="TextBoxColor_OnTextChanged"/>
+            <Label VerticalContentAlignment="Center" >Green:</Label>
+            <TextBox Name="TextBoxGreen" VerticalContentAlignment="Center" Margin="5" Height="22" Width="50" VerticalAlignment="Stretch" DockPanel.Dock="Left" TextChanged="TextBoxColor_OnTextChanged"/>
+            <Label VerticalContentAlignment="Center" >Blue:</Label>
+            <TextBox Name="TextBoxBlue" VerticalContentAlignment="Center" Margin="5" Height="22" Width="50" VerticalAlignment="Stretch" DockPanel.Dock="Left" TextChanged="TextBoxColor_OnTextChanged"/>
+			<Label VerticalContentAlignment="Center" >Preview:</Label>
+			<Border Name="PreviewBorder" Width="50" Margin="5"/>
+            <Button Width="50" Height="24" HorizontalAlignment="Left" Margin="5" Name="ButtonFilter" Click="ButtonChange_Click">Change</Button>
+			<Button Width="50" Height="24" HorizontalAlignment="Left" Margin="5" Name="ButtonRefresh" Click="ButtonRefresh_Click" >Refresh</Button>
+			<Button Width="50" Height="24" HorizontalAlignment="Left" Margin="5" Name="ButtonExport" Click="ButtonCreate_Click" >Export</Button>
+		</DockPanel>
+		
+		<ListView x:Name="ListView" Grid.Row="1" SelectionMode="Single" SelectionChanged="ListView_OnSelectionChanged">
+			<ListView.Resources>
+                <ContextMenu x:Key="ContextMenuColor" StaysOpen="true">
+                    <MenuItem x:Name="MenuItemCopy" Header="Copy" Click="MenuItemCopy_Click" ToolTip="Copy color key">
+                    </MenuItem>
+                </ContextMenu>
+            </ListView.Resources>
+			<ListView.View>
+                <GridView>                  
+                    <GridViewColumn Header="Color Key" Width="270" DisplayMemberBinding="{Binding ColorKey}"/>
+                    <GridViewColumn Header="Color" Width="200">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Background="{Binding Color}" Width="270" Height="22" Foreground="{Binding FontColor}">
+                                    <TextBlock Text="{Binding RGB}" />
+                                </Label>    
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+		</ListView>
+	</Grid>
+		
+</UserControl>

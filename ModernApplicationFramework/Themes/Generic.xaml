@@ -1,0 +1,65 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/Brushes.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/Button.xaml"/>
+
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/ComboBox.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/ComboBoxItem.xaml"/>
+
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/DropDownButtonBase.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/DropDownButton.xaml"/>
+
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/GridSplitter.xaml"/>
+
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/Menu.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/MenuItem.xaml"/>
+
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/Separator.xaml"/>
+
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/ScrollBar.xaml"/>
+
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/SplitButton.xaml"/>
+
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/StatusBar.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/TextBox.xaml"/>
+
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/TitleBarButton.xaml"/>
+
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/ToolBarTray.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/ToolBar.xaml"/>
+
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/CheckBox.xaml"/>
+
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/ModernChromeWindow.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/MainWindow.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/SystemMenu.xaml"/>
+
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/ContextMenu.xaml"/>
+
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/WindowTitleBarButton.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/DropDownTitleBarButton.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/ResizeGrip.xaml"/>
+
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/WindowBase.xaml"/>
+
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/OverlayWindow.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/NavigatorWindow.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/LayoutAutoHideWindowControl.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/LayoutAnchorableFloatingWindowControl.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/LayoutDocumentFloatingWindowControl.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/LayoutDocumentTabItem.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/LayoutAnchorableTabItem.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/LayoutAnchorableControl.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/LayoutGridResizerControl.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/LayoutDocumentControl.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/DockingManager.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/LayoutDocumentPaneControl.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/LayoutAnchorablePaneControl.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/AnchorablePaneTitle.xaml"/>
+
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>
