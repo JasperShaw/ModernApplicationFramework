@@ -8,5 +8,6 @@ namespace ModernApplicationFramework.Controls
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Button), new FrameworkPropertyMetadata(typeof(Button)));
         }
+
     }
 }
