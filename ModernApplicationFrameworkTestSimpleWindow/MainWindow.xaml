@@ -1,0 +1,12 @@
+﻿<mafc:MainWindow x:Class="ModernApplicationFrameworkTestSimpleWindow.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ModernApplicationFrameworkTestSimpleWindow"
+        xmlns:mafc="http://modern.framework.com/controls"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525" IsSimpleWindowType="True" UseStatusBar="False" UseTitleBar="False">
+    <Grid>
+    </Grid>
+</mafc:MainWindow>

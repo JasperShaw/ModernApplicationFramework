@@ -310,5 +310,58 @@ namespace ModernApplicationFramework.Controls
 
 		public static readonly DependencyProperty ThemeProperty = DependencyProperty.Register("Theme", typeof (Theme),
 			typeof (MainWindow), new FrameworkPropertyMetadata(null, OnThemeChanged));
-	}
+
+	    public static readonly DependencyProperty IsSimpleWindowTypeProperty = DependencyProperty.Register(
+	        "IsSimpleWindowType", typeof (bool), typeof (MainWindow), new PropertyMetadata(default(bool)));
+
+	    public bool IsSimpleWindowType
+	    {
+	        get { return (bool) GetValue(IsSimpleWindowTypeProperty); }
+	        set { SetValue(IsSimpleWindowTypeProperty, value); }
+	    }
+
+	    public static readonly DependencyProperty UseStatusBarProperty = DependencyProperty.Register(
+	        "UseStatusBar", typeof (bool), typeof (MainWindow), new PropertyMetadata(true));
+
+	    public bool UseStatusBar
+	    {
+	        get { return (bool) GetValue(UseStatusBarProperty); }
+	        set { SetValue(UseStatusBarProperty, value); }
+	    }
+
+	    public static readonly DependencyProperty UseTitleBarProperty = DependencyProperty.Register(
+	        "UseTitleBar", typeof (bool), typeof (MainWindow), new PropertyMetadata(true));
+
+	    public bool UseTitleBar
+	    {
+	        get { return (bool) GetValue(UseTitleBarProperty); }
+	        set { SetValue(UseTitleBarProperty, value); }
+	    }
+
+	    private bool _fullWindowMovement;
+
+	    public bool FullWindowMovement
+	    {
+            get { return _fullWindowMovement; }
+	        set
+	        {
+	            _fullWindowMovement = value;
+	            OnFullWindowMovementChanged();
+	        }
+	    }
+
+	    private void OnFullWindowMovementChanged()
+	    {
+	        if (FullWindowMovement)
+                MouseDown += MainWindow_MouseDown;
+            else
+                MouseDown -= MainWindow_MouseDown;
+        }
+
+        private void MainWindow_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (Mouse.LeftButton == MouseButtonState.Pressed)
+                DragMove();
+        }
+    }
 }

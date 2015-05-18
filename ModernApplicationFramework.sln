@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFrameworkT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFrameworkTestAppWindow", "ModernApplicationFrameworkTestAppWindow\ModernApplicationFrameworkTestAppWindow.csproj", "{390498E1-337D-4A4B-9572-D12C2C728A0C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFrameworkTestSimpleWindow", "ModernApplicationFrameworkTestSimpleWindow\ModernApplicationFrameworkTestSimpleWindow.csproj", "{24998A06-26E8-42C4-A3FC-481A3B64D346}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{390498E1-337D-4A4B-9572-D12C2C728A0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{390498E1-337D-4A4B-9572-D12C2C728A0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{390498E1-337D-4A4B-9572-D12C2C728A0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24998A06-26E8-42C4-A3FC-481A3B64D346}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24998A06-26E8-42C4-A3FC-481A3B64D346}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24998A06-26E8-42C4-A3FC-481A3B64D346}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24998A06-26E8-42C4-A3FC-481A3B64D346}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
