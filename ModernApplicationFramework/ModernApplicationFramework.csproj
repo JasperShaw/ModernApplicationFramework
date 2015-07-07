@@ -318,7 +318,7 @@
     <Compile Include="Docking\MathHelper.cs" />
     <Compile Include="Docking\Win32Helper.cs" />
     <Compile Include="Docking\WindowHelper.cs" />
-    <Compile Include="Model\ViewModelBase.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ModernApplicationFrameworkVersionInfo.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -626,6 +626,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Commands\Base\" />
     <Folder Include="Themes\Dark\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

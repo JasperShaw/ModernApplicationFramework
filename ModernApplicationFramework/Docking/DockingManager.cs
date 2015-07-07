@@ -77,19 +77,19 @@ namespace ModernApplicationFramework.Docking
 
 		protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
 		{
-			Trace.WriteLine(string.Format("DockingManager.OnMouseLeftButtonDown([{0}])", e.GetPosition(this)));
+			Trace.WriteLine($"DockingManager.OnMouseLeftButtonDown([{e.GetPosition(this)}])");
 			base.OnMouseLeftButtonDown(e);
 		}
 
 		protected override void OnPreviewGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
 		{
-			Trace.WriteLine(string.Format("DockingManager.OnPreviewGotKeyboardFocus({0})", e.NewFocus));
+			Trace.WriteLine($"DockingManager.OnPreviewGotKeyboardFocus({e.NewFocus})");
 			base.OnPreviewGotKeyboardFocus(e);
 		}
 
 		protected override void OnPreviewLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
 		{
-			Trace.WriteLine(string.Format("DockingManager.OnPreviewLostKeyboardFocus({0})", e.OldFocus));
+			Trace.WriteLine($"DockingManager.OnPreviewLostKeyboardFocus({e.OldFocus})");
 			base.OnPreviewLostKeyboardFocus(e);
 		}
 
@@ -2246,7 +2246,7 @@ namespace ModernApplicationFramework.Docking
 
 		protected override void OnPreviewKeyDown(KeyEventArgs e)
 		{
-			Trace.WriteLine(string.Format("OnPreviewKeyDown({0})", e.Key));
+			Trace.WriteLine($"OnPreviewKeyDown({e.Key})");
 			if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
 			{
 				if (e.IsDown && e.Key == Key.Tab)

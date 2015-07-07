@@ -14,7 +14,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Docking.Layout.Serialization;
-using ModernApplicationFramework.Model;
 
 namespace ModernApplicationFrameworkMVVMTestApp
 {
