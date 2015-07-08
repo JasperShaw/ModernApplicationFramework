@@ -17,14 +17,16 @@ using ModernApplicationFramework.Core.NativeMethods;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Docking;
+using ModernApplicationFramework.ViewModels;
 
 namespace ModernApplicationFramework.Controls
 {
-	public abstract class MainWindow : ModernChromeWindow
+	public abstract class MainWindow : ModernChromeWindow, IViewModelUser
 	{
 		protected MainWindow()
 		{
-			IsVisibleChanged += OnVisibilityChanged;
+            ViewModel = new MainWindowViewModel();
+            IsVisibleChanged += OnVisibilityChanged;
 			SetBinding(LeftProperty, new Binding
 			{
 				Path = new PropertyPath("Left"),
@@ -363,5 +365,7 @@ namespace ModernApplicationFramework.Controls
             if (Mouse.LeftButton == MouseButtonState.Pressed)
                 DragMove();
         }
-    }
+
+	    public ViewModelBase ViewModel { get; set; }
+	}
 }
