@@ -4,15 +4,15 @@
         xmlns:mafc="http://modern.framework.com/controls"
         xmlns:local="clr-namespace:ModernApplicationFrameworkMVVMTestApp"
         Title="MainWindow" Height="350" Width="525">
-    <mafc:MainWindow.ViewModel>
+    <mafc:MainWindow.DataContext>
         <local:MainWindowViewModel></local:MainWindowViewModel>
-    </mafc:MainWindow.ViewModel>
+    </mafc:MainWindow.DataContext>
     <Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
-        <Button Margin="0,0,0,222" Grid.RowSpan="2" Content="Test"></Button>
+        <Button x:Name="TestButton" Margin="0,0,0,222" Grid.RowSpan="2" Content="Test" Command="{Binding TestCommand}"></Button>
 		<mafc:DockingManager Grid.Row="1" x:Name="DockManager" AllowMixedOrientation="True" Margin="0,100,0,0">
 			
 		</mafc:DockingManager>

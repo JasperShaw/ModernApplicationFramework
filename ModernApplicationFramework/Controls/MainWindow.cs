@@ -21,11 +21,11 @@ using ModernApplicationFramework.ViewModels;
 
 namespace ModernApplicationFramework.Controls
 {
-	public abstract class MainWindow : ModernChromeWindow, IViewModelUser
+	public abstract class MainWindow : ModernChromeWindow
 	{
 		protected MainWindow()
 		{
-            ViewModel = new MainWindowViewModel();
+            DataContext = new MainWindowViewModel();
             IsVisibleChanged += OnVisibilityChanged;
 			SetBinding(LeftProperty, new Binding
 			{
@@ -117,8 +117,12 @@ namespace ModernApplicationFramework.Controls
 		{
 			SetWindowIcons();
 			var minimizeButton = GetTemplateChild("MinimizeButton") as System.Windows.Controls.Button;
-			if (minimizeButton != null)
-				minimizeButton.Click += MinimizeButtonClick;
+		    if (minimizeButton != null)
+		    {
+		        minimizeButton.Click += MinimizeButtonClick;
+		        var a = DataContext as MainWindowViewModel;
+		        minimizeButton.Command = a.TestCommand;
+		    }
 
 			var maximizeRestoreButton = GetTemplateChild("MaximizeRestoreButton") as System.Windows.Controls.Button;
 			if (maximizeRestoreButton != null)
@@ -365,7 +369,5 @@ namespace ModernApplicationFramework.Controls
             if (Mouse.LeftButton == MouseButtonState.Pressed)
                 DragMove();
         }
-
-	    public ViewModelBase ViewModel { get; set; }
 	}
 }

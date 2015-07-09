@@ -4,7 +4,7 @@ namespace ModernApplicationFrameworkMVVMTestApp
 {
     public sealed class MainWindowViewModel : ModernApplicationFramework.ViewModels.MainWindowViewModel
     {
-        public override void ShowMessage()
+        protected override void OnTest()
         {
             MessageBox.Show("Testing");
         }

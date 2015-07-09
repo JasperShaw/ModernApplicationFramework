@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using ModernApplicationFramework.Commands.Base;
 
-namespace ModernApplicationFramework.Commands.Base
+namespace ModernApplicationFramework.Commands
 {
     public class Command<T> : CommandBase
     {
@@ -34,7 +35,7 @@ namespace ModernApplicationFramework.Commands.Base
             await base.Execute(parameter);
         }
 
-        private Command(Func<T, Task> executeMethod) : this(executeMethod, o => true)
+        public Command(Func<T, Task> executeMethod) : this(executeMethod, o => true)
         {
             
         }

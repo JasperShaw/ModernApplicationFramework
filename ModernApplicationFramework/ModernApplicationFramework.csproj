@@ -95,9 +95,9 @@
     <EmbeddedResource Include="Themes\Generic\Images\Checked.png" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\Base\Command.cs" />
+    <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\Base\CommandBase.cs" />
-    <Compile Include="Commands\Base\CommandT.cs" />
+    <Compile Include="Commands\CommandT.cs" />
     <Compile Include="Commands\Base\WeakEventHandlerManager.cs" />
     <Compile Include="Controls\Button.cs" />
     <Compile Include="Controls\CheckableListBox.cs" />
@@ -322,7 +322,6 @@
     <Compile Include="Docking\MathHelper.cs" />
     <Compile Include="Docking\Win32Helper.cs" />
     <Compile Include="Docking\WindowHelper.cs" />
-    <Compile Include="ViewModels\IViewModelUser.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ModernApplicationFrameworkVersionInfo.cs" />

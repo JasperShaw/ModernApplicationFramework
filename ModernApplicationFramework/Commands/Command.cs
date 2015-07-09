@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using ModernApplicationFramework.Commands.Base;
 
-namespace ModernApplicationFramework.Commands.Base
+namespace ModernApplicationFramework.Commands
 {
     public class Command : CommandBase
     {

@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Windows;
+using ModernApplicationFramework.Commands.Base;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Docking.Layout.Serialization;
 
@@ -12,8 +13,6 @@ namespace ModernApplicationFrameworkMVVMTestApp
 	{
 		public MainWindow()
 		{
-            ViewModel = new MainWindowViewModel();
-            ((MainWindowViewModel)ViewModel).ShowMessage();
 			InitializeComponent();
 			DockingManager = DockManager;
 
