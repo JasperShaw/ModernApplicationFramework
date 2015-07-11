@@ -4,9 +4,6 @@
         xmlns:mafc="http://modern.framework.com/controls"
         xmlns:local="clr-namespace:ModernApplicationFrameworkMVVMTestApp"
         Title="MainWindow" Height="350" Width="525">
-    <mafc:MainWindow.DataContext>
-        <local:MainWindowViewModel></local:MainWindowViewModel>
-    </mafc:MainWindow.DataContext>
     <Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>

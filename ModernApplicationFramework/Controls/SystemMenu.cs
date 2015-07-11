@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.ViewModels;
 using SystemCommands = ModernApplicationFramework.Core.Shell.SystemCommands;
 
 namespace ModernApplicationFramework.Controls
@@ -136,8 +137,8 @@ namespace ModernApplicationFramework.Controls
 				}
 				SystemCommands.ShowSystemMenu(w, p);
 			}
-			if (e.ClickCount == 2 && e.ChangedButton == MouseButton.Left)
-				w.CloseMainWindow();
+	        if (e.ClickCount == 2 && e.ChangedButton == MouseButton.Left)
+	            ((MainWindowViewModel) DataContext).CloseCommand.Execute(null);
 	    }
     }
 }

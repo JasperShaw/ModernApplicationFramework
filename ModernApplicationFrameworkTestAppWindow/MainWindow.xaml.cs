@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using ModernApplicationFramework.Themes.LightIDE;
+using ModernApplicationFramework.ViewModels;
 using Menu = ModernApplicationFramework.Controls.Menu;
 using MenuItem = ModernApplicationFramework.Controls.MenuItem;
 using ToolBar = ModernApplicationFramework.Controls.ToolBar;
@@ -29,7 +30,7 @@ namespace ModernApplicationFrameworkTestAppWindow
 
             var m = new Menu();
             m.Items.Add(new MenuItem {Header = "Test"});
-            MenuHostControl.Menu = m;
+            ((MainWindowViewModel)DataContext).MenuHostViewModel.Menu = m;
         }
 
         protected override void SetWindowIcons()

@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using ModernApplicationFramework.Docking;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Themes.LightIDE;
+using ModernApplicationFramework.ViewModels;
 using Menu = ModernApplicationFramework.Controls.Menu;
 using MenuItem = ModernApplicationFramework.Controls.MenuItem;
 using TextBox = ModernApplicationFramework.Controls.TextBox;
@@ -67,8 +68,8 @@ namespace ModernApplicationFrameworkTestAppDock
 
 			var m = new Menu();
 			m.Items.Add(new MenuItem { Header = "Test" });
-			MenuHostControl.Menu = m;
-		}
+            ((MainWindowViewModel)DataContext).MenuHostViewModel.Menu = m;
+        }
 
 		private void DockingManager_OnDocumentClosing(object sender, DocumentClosingEventArgs e)
 		{

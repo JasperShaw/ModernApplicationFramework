@@ -241,6 +241,7 @@ namespace ModernApplicationFramework.Controls
 
         private void EditItem_Click(object sender, RoutedEventArgs e)
         {
+            //TODO: If there is no toolbar we get an null exception here
             OpenToolBarEditDialog();
         }
 

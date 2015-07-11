@@ -25,7 +25,7 @@ namespace ModernApplicationFramework.Controls
 	{
 		protected MainWindow()
 		{
-            DataContext = new MainWindowViewModel();
+            DataContext = new MainWindowViewModel(this);
             IsVisibleChanged += OnVisibilityChanged;
 			SetBinding(LeftProperty, new Binding
 			{
@@ -52,6 +52,7 @@ namespace ModernApplicationFramework.Controls
 				Converter = new DeviceToLogicalYConverter()
 			});
 			UIElementAutomationPeer.CreatePeerForElement(this);
+
 			MenuCanOpenToolBarContextMenu = true;
 
 			Application.Current.MainWindow = this;
@@ -74,13 +75,18 @@ namespace ModernApplicationFramework.Controls
 		public BitmapImage ActivatedFloatIcon { get; set; }
 		public BitmapImage DeactivatedFloatIcon { get; set; }
 
+        /// <summary>
+        /// Contains the current shown Icon
+        /// </summary>
 		public new ImageSource Icon
 		{
 			get { return (ImageSource) GetValue(IconProperty); }
 			set { SetValue(IconProperty, value); }
 		}
 
-		public MenuHostControl MenuHostControl { get; private set; }
+        /// <summary>
+        /// Contains the Statusbar for this MainWindow
+        /// </summary>
 		public StatusBar StatusBar { get; set; }
 
 		public Theme Theme
@@ -98,11 +104,6 @@ namespace ModernApplicationFramework.Controls
 			Close();
 		}
 
-		void CloseButtonClick(object sender, RoutedEventArgs e)
-		{
-			CloseMainWindow();
-		}
-
 		public virtual void MaximizeRestoreButtonClick(object sender, RoutedEventArgs e)
 		{
 			WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
@@ -116,13 +117,14 @@ namespace ModernApplicationFramework.Controls
 		public override void OnApplyTemplate()
 		{
 			SetWindowIcons();
+		    var viewModel = DataContext as MainWindowViewModel;
+
+            if (viewModel == null)
+                throw new ArgumentNullException(nameof(viewModel));
+
 			var minimizeButton = GetTemplateChild("MinimizeButton") as System.Windows.Controls.Button;
 		    if (minimizeButton != null)
-		    {
-		        minimizeButton.Click += MinimizeButtonClick;
-		        var a = DataContext as MainWindowViewModel;
-		        minimizeButton.Command = a.TestCommand;
-		    }
+		        minimizeButton.Command = viewModel.MinimizeCommand;
 
 			var maximizeRestoreButton = GetTemplateChild("MaximizeRestoreButton") as System.Windows.Controls.Button;
 			if (maximizeRestoreButton != null)
@@ -130,14 +132,11 @@ namespace ModernApplicationFramework.Controls
 
 			var closeButton = GetTemplateChild("CloseButton") as System.Windows.Controls.Button;
 			if (closeButton != null)
-				closeButton.Click += CloseButtonClick;
+				closeButton.Command = viewModel.CloseCommand;
 
 			var menuHostControl = GetTemplateChild("MenuHostControl") as MenuHostControl;
 			if (menuHostControl != null)
-			{
-				MenuHostControl = menuHostControl;
-				menuHostControl.MouseRightButtonDown += MenuHostControl_MouseRightButtonDown;
-			}
+			    viewModel.MenuHostControl = menuHostControl;
 
 			var toolbarHostControl = GetTemplateChild("ToolbarHostControl") as ToolBarHostControl;
 			if (toolbarHostControl != null)

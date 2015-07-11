@@ -11,6 +11,9 @@ namespace ModernApplicationFramework.Controls
         public static readonly DependencyProperty MenuProperty = DependencyProperty.Register(
             "Menu", typeof (Menu), typeof (MenuHostControl), new PropertyMetadata(default(Menu)));
 
+        /// <summary>
+        /// Contains the Menu
+        /// </summary>
         public Menu Menu
         {
             get { return (Menu) GetValue(MenuProperty); }

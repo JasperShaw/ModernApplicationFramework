@@ -13,12 +13,15 @@ namespace ModernApplicationFrameworkMVVMTestApp
 	{
 		public MainWindow()
 		{
+            
 			InitializeComponent();
 			DockingManager = DockManager;
 
 			Loaded += MainWindow_Loaded;
 			Unloaded += MainWindow_Unloaded;
-		}
+
+            DataContext = new MainWindowViewModel(this);
+        }
 
 
 
@@ -44,7 +47,7 @@ namespace ModernApplicationFrameworkMVVMTestApp
 		{
 			var m = new Menu();
 			m.Items.Add(new MenuItem { Header = "Test" });
-			MenuHostControl.Menu = m;
+			((MainWindowViewModel)DataContext).MenuHostViewModel.Menu = m;
 		}
 
 		protected override void SetWindowIcons()

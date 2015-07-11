@@ -6,7 +6,12 @@ namespace ModernApplicationFrameworkMVVMTestApp
     {
         protected override void OnTest()
         {
-            MessageBox.Show("Testing");
+            base.OnTest();
+            //MessageBox.Show("Testing");
+        }
+
+        public MainWindowViewModel(ModernApplicationFramework.Controls.MainWindow mainWindow) : base(mainWindow)
+        {
         }
     }
 }

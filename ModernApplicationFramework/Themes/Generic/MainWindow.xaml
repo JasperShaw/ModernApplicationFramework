@@ -43,55 +43,55 @@
 								<RowDefinition Height="*" />
 								<RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
-							<this:MainWindowTitleBar x:Name="MainWindowTitleBar" Grid.Row="0" Grid.Column="0"
+                            <this:MainWindowTitleBar x:Name="MainWindowTitleBar" Grid.Row="0" Grid.Column="0"
 							                         Background="{DynamicResource {x:Static core:EnvironmentColors.MainWindowTitleBarBackground}}"
 							                         TextElement.Foreground="{DynamicResource {x:Static core:EnvironmentColors.MainWindowTitleBarForeground}}">
-								<DockPanel>
-									<this:SystemMenu x:Name="PART_SystemMenu" Width="32" Height="27" Margin="0,0,12,4" HorizontalAlignment="Left"
+                                <DockPanel>
+                                    <this:SystemMenu x:Name="PART_SystemMenu" Width="32" Height="27" Margin="0,0,12,4" HorizontalAlignment="Left"
 									                 DockPanel.Dock="Left" Padding="12,7,0,0" Source="{TemplateBinding Icon}" 
                                                      WindowChrome.IsHitTestVisibleInChrome="True" />
-									<StackPanel x:Name="WindowTitleBarButtons"
+                                    <StackPanel x:Name="WindowTitleBarButtons"
 									            DockPanel.Dock="Right"
 									            Orientation="Horizontal">
-										<this:WindowTitleBarButton x:Name="MinimizeButton" Width="34" Height="26"  VerticalAlignment="Top"
+                                        <this:WindowTitleBarButton x:Name="MinimizeButton" Width="34" Height="26"  VerticalAlignment="Top"
 										                           AutomationProperties.AutomationId="Minimize" AutomationProperties.Name="Minimize"
 										                           BorderThickness="1,0,1,1" Padding="0,3,0,0" ToolTip="Minimize" WindowChrome.IsHitTestVisibleInChrome="True">
-											<Path x:Name="MinimizeButtonPath" Width="9"  Height="9"  Data="F1 M 0,6 L 0,9 9,9 9,6 0,6 Z" Stretch="None">
-												<Shape.Fill>
-													<Binding Path="(TextElement.Foreground)" RelativeSource="{RelativeSource Self}" />
-												</Shape.Fill>
-											</Path>
-										</this:WindowTitleBarButton>
-										<this:WindowTitleBarButton x:Name="MaximizeRestoreButton" Width="34" Height="26" VerticalAlignment="Top" AutomationProperties.AutomationId="Maximize"
+                                            <Path x:Name="MinimizeButtonPath" Width="9"  Height="9"  Data="F1 M 0,6 L 0,9 9,9 9,6 0,6 Z" Stretch="None">
+                                                <Shape.Fill>
+                                                    <Binding Path="(TextElement.Foreground)" RelativeSource="{RelativeSource Self}" />
+                                                </Shape.Fill>
+                                            </Path>
+                                        </this:WindowTitleBarButton>
+                                        <this:WindowTitleBarButton x:Name="MaximizeRestoreButton" Width="34" Height="26" VerticalAlignment="Top" AutomationProperties.AutomationId="Maximize"
 										                           AutomationProperties.Name="Maximize" BorderThickness="1,0,1,1" Padding="0,3,0,0"
 										                           ToolTip="Maximize"  WindowChrome.IsHitTestVisibleInChrome="True">
-											<Path x:Name="MaximizeRestoreButtonPath" Width="9" Height="9"
+                                            <Path x:Name="MaximizeRestoreButtonPath" Width="9" Height="9"
 											      Data="F1 M 0,0 L 0,9 9,9 9,0 0,0 0,3 8,3 8,8 1,8 1,3 Z" Stretch="Uniform">
-												<Shape.Fill>
-													<Binding Path="(TextElement.Foreground)" RelativeSource="{RelativeSource Self}" />
-												</Shape.Fill>
-											</Path>
-										</this:WindowTitleBarButton>
-										<this:WindowTitleBarButton x:Name="CloseButton" Width="34" Height="26" VerticalAlignment="Top" AutomationProperties.AutomationId="Close"
+                                                <Shape.Fill>
+                                                    <Binding Path="(TextElement.Foreground)" RelativeSource="{RelativeSource Self}" />
+                                                </Shape.Fill>
+                                            </Path>
+                                        </this:WindowTitleBarButton>
+                                        <this:WindowTitleBarButton x:Name="CloseButton" Width="34" Height="26" VerticalAlignment="Top" AutomationProperties.AutomationId="Close"
 										                           AutomationProperties.Name="Close" BorderThickness="1,0,1,1" Padding="0,3,0,0"
 										                           ToolTip="Close" WindowChrome.IsHitTestVisibleInChrome="True">
-											<Path x:Name="CloseButtonPath" Width="10" Height="8"
+                                            <Path x:Name="CloseButtonPath" Width="10" Height="8"
                                                   Data="F1 M 0,0 L 2,0 5,3 8,0 10,0 6,4 10,8 8,8 5,5 2,8 0,8 4,4 0,0 Z" Stretch="Uniform">
-												<Shape.Fill>
-													<Binding Path="(TextElement.Foreground)" RelativeSource="{RelativeSource Self}" />
-												</Shape.Fill>
-											</Path>
-										</this:WindowTitleBarButton>
-									</StackPanel>
-									<TextBlock Margin="0,7,0,4"
+                                                <Shape.Fill>
+                                                    <Binding Path="(TextElement.Foreground)" RelativeSource="{RelativeSource Self}" />
+                                                </Shape.Fill>
+                                            </Path>
+                                        </this:WindowTitleBarButton>
+                                    </StackPanel>
+                                    <TextBlock Margin="0,7,0,4"
 									           VerticalAlignment="Center"
 									           Text="{TemplateBinding Title}"
 									           TextOptions.TextFormattingMode="Display" />
-								</DockPanel>
-							</this:MainWindowTitleBar>
-							<this:MenuHostControl x:Name="MenuHostControl" Grid.Row="1" />
-							<this:ToolBarHostControl x:Name="ToolbarHostControl" Grid.Row="2" />
-							<DockPanel x:Name="StatusBarPanel"
+                                </DockPanel>
+                            </this:MainWindowTitleBar>
+                            <this:MenuHostControl x:Name="MenuHostControl" Grid.Row="1" />
+                            <this:ToolBarHostControl x:Name="ToolbarHostControl" Grid.Row="2" />
+                            <DockPanel x:Name="StatusBarPanel"
 							           Grid.Row="3"
 							           Background="{Binding ElementName=StatusBar, Path=Background}">
 								<this:ResizeGrip x:Name="ResizeGrip" VerticalAlignment="Bottom" Cursor="SizeNWSE" DockPanel.Dock="Right" Padding="0" />
