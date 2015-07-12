@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Controls;
@@ -10,6 +11,7 @@ namespace ModernApplicationFramework.ViewModels
     {
         private readonly MainWindow _mainWindow;
         private MenuHostViewModel _menuHostViewModel;
+        private ToolBarHostViewModel _toolBarHostViewModel;
 
         public MainWindowViewModel(MainWindow mainWindow)
         {
@@ -24,13 +26,26 @@ namespace ModernApplicationFramework.ViewModels
             get { return _menuHostViewModel; }
             internal set
             {
-                if (MenuHostViewModelSet)
-                    return;
+                if (MenuHostViewModelSetted)
+                    throw new InvalidOperationException("You can not change the MenuHostViewModel once it was seeted up");
                 _menuHostViewModel = value;
             }
         }
 
-        public bool MenuHostViewModelSet => MenuHostViewModel != null;
+        public ToolBarHostViewModel ToolBarHostViewModel
+        {
+            get { return _toolBarHostViewModel; }
+            internal set
+            {
+                if (ToolbarHostViewModelSetted)
+                    throw new InvalidOperationException("You can not change the ToolBarHostViewModel once it was seeted up");
+                _toolBarHostViewModel = value;
+            }
+        }
+
+        public bool MenuHostViewModelSetted => MenuHostViewModel != null;
+
+        public bool ToolbarHostViewModelSetted => ToolBarHostViewModel != null;
 
         #region Commands
 

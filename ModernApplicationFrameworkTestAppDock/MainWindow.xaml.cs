@@ -61,10 +61,10 @@ namespace ModernApplicationFrameworkTestAppDock
 
 		protected override void PopulateMenuAndToolBars()
 		{
-			AddToolBar(new ToolBar { IdentifierName = "Test" }, true, Dock.Top);
-			AddToolBar(new ToolBar { IdentifierName = "Test1" }, true, Dock.Top);
-			AddToolBar(new ToolBar { IdentifierName = "Testing" }, true, Dock.Left);
-			AddToolBar(new ToolBar { IdentifierName = "Testing2" }, true, Dock.Left);
+            ((MainWindowViewModel)DataContext).ToolBarHostViewModel.AddToolBar(new ToolBar { IdentifierName = "Test" }, true, Dock.Top);
+            ((MainWindowViewModel)DataContext).ToolBarHostViewModel.AddToolBar(new ToolBar { IdentifierName = "Test1" }, true, Dock.Top);
+            ((MainWindowViewModel)DataContext).ToolBarHostViewModel.AddToolBar(new ToolBar { IdentifierName = "Testing" }, true, Dock.Left);
+            ((MainWindowViewModel)DataContext).ToolBarHostViewModel.AddToolBar(new ToolBar { IdentifierName = "Testing2" }, true, Dock.Left);
 
 			var m = new Menu();
 			m.Items.Add(new MenuItem { Header = "Test" });

@@ -134,8 +134,11 @@ namespace ModernApplicationFramework.Controls
 		    }
 
 			var toolbarHostControl = GetTemplateChild("ToolbarHostControl") as ToolBarHostControl;
-			if (toolbarHostControl != null)
-				ToolbarHostControl = toolbarHostControl;
+		    if (toolbarHostControl != null)
+		    {
+		        //ToolbarHostControl = toolbarHostControl;
+		        viewModel.ToolBarHostViewModel = toolbarHostControl.DataContext as ToolBarHostViewModel;
+		    }
 
 			var statusBar = GetTemplateChild("StatusBar") as StatusBar;
 			if (statusBar != null)
@@ -162,15 +165,10 @@ namespace ModernApplicationFramework.Controls
 
 		public DockingHost DockingHost { get; protected set; }
 
-		protected void AddToolBar(ToolBar toolBar, bool display, Dock orientation)
-		{
-			ToolbarHostControl.AddToolBar(toolBar, display, orientation);
-		}
-
-		protected ToolBar GetToolBar(string name)
-		{
-			return ToolbarHostControl.GetToolBar(name);
-		}
+		//protected void AddToolBar(ToolBar toolBar, bool display, Dock orientation)
+		//{
+		//	ToolbarHostControl.AddToolBar(toolBar, display, orientation);
+		//}
 
 		protected override void OnActivated(EventArgs e)
 		{
@@ -197,16 +195,6 @@ namespace ModernApplicationFramework.Controls
 
 		protected abstract void PopulateMenuAndToolBars();
 		protected abstract void SetWindowIcons();
-
-		protected void UpdateToolBarDock(string name, Dock newValue)
-		{
-			ToolbarHostControl.ChangeToolBarDock(name, newValue);
-		}
-
-		protected void UpdateToolbarVisibility(string name, bool newValue)
-		{
-			ToolbarHostControl.ChangeToolBarVisibility(name, newValue);
-		}
 
 		protected override IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam, ref bool handled)
 		{
@@ -241,12 +229,6 @@ namespace ModernApplicationFramework.Controls
 		private static void OnThemeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			((MainWindow) d).OnThemeChanged(e);
-		}
-
-		private void MenuHostControl_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
-		{
-			if (MenuCanOpenToolBarContextMenu)
-				ToolbarHostControl.OpenMenu();
 		}
 
 		private void OnThemeChanged(DependencyPropertyChangedEventArgs e)

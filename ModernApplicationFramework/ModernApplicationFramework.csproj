@@ -324,6 +324,7 @@
     <Compile Include="Docking\WindowHelper.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MenuHostViewModel.cs" />
+    <Compile Include="ViewModels\ToolBarHostViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ModernApplicationFrameworkVersionInfo.cs" />
     <Compile Include="Properties\Annotations.cs" />

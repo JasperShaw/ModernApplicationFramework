@@ -2,6 +2,7 @@
 using System.Data;
 using System.Windows;
 using System.Windows.Controls;
+using ModernApplicationFramework.ViewModels;
 
 namespace ModernApplicationFramework.Controls.Customize
 {
@@ -11,11 +12,11 @@ namespace ModernApplicationFramework.Controls.Customize
     public partial class ToolBarsPage
     {
 
-        private readonly ToolBarHostControl _toolBarHostControl;
+        private ToolBarHostViewModel _toolBarHostControl { get; }
         public ToolBarsPage()
         {
             InitializeComponent();
-            _toolBarHostControl = ToolBarHostControl.Instance;
+            _toolBarHostControl = ToolBarHostControl.Instance.DataContext as ToolBarHostViewModel;
             if (DesignerProperties.GetIsInDesignMode(this))
                 return;
             Loaded += OnLoaded;
