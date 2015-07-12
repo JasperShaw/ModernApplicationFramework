@@ -7,63 +7,64 @@ namespace ModernApplicationFramework.ViewModels
 {
     public class MenuHostViewModel : ViewModelBase
     {
-        private MenuHostControl _control;
+        private MainWindowViewModel _mainWindowViewModel;
         private Menu _menu;
 
-        public MenuHostViewModel(MainWindowViewModel mainWindow)
+        public MenuHostViewModel(MenuHostControl control)
         {
-            _mainWindow = mainWindow;
+            MenuHostControl = control;
+            MenuHostControl.MouseRightButtonDown += _control_MouseRightButtonDown;
         }
 
-        public ICommand RightClickCommand => new Command(ExecuteRightClick);
-
+        public MenuHostControl MenuHostControl { get; }
+     
         /// <summary>
         /// Tells if you can open the ToolbarHostContextMenu
         /// Default is true
         /// </summary>
         public bool CanOpenToolBarContextMenu { get; set; } = true;
 
+        /// <summary>
+        /// Contains the MainWindowViewModel shall not be changed after setted up
+        /// </summary>
+        public MainWindowViewModel MainWindowViewModel
+        {
+            get { return _mainWindowViewModel; }
+            internal set
+            {
+                if (_mainWindowViewModel == null)
+                    _mainWindowViewModel = value;
+            }
+        }
+
+        /// <summary>
+        /// Contains the Menu of the MenuHostControl
+        /// </summary>
         public Menu Menu
         {
             get { return _menu; }
             set
             {
-                if (!Equals(value, _menu))
-                {
-                    _menu = value;
-                    _mainWindow.MenuHostControl.Menu = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public MenuHostControl MenuHostControl
-        {
-            get { return _control; }
-            set
-            {
-                if (Equals(value, _control))
+                if (Equals(value, _menu))
                     return;
-                _control = value;
-                if (value != null)
-                    _control.MouseRightButtonDown += _control_MouseRightButtonDown;
-                else
-                    _control.MouseRightButtonDown -= _control_MouseRightButtonDown;
+                _menu = value;
                 OnPropertyChanged();
             }
-        }
-
-        private readonly MainWindowViewModel _mainWindow;
-
-        public virtual void ExecuteRightClick()
-        {
-            if (CanOpenToolBarContextMenu)
-                MessageBox.Show("Open");
         }
 
         private void _control_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             RightClickCommand.Execute(null);
         }
+
+        #region Commands
+        public ICommand RightClickCommand => new Command(ExecuteRightClick);
+
+        public virtual void ExecuteRightClick()
+        {
+            if (CanOpenToolBarContextMenu)
+                MessageBox.Show("Open");
+        }
+        #endregion
     }
 }

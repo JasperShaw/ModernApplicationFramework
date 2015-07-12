@@ -104,16 +104,6 @@ namespace ModernApplicationFramework.Controls
 			Close();
 		}
 
-		public virtual void MaximizeRestoreButtonClick(object sender, RoutedEventArgs e)
-		{
-			WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
-		}
-
-		public virtual void MinimizeButtonClick(object sender, RoutedEventArgs e)
-		{
-			WindowState = WindowState.Minimized;
-		}
-
 		public override void OnApplyTemplate()
 		{
 			SetWindowIcons();
@@ -128,15 +118,20 @@ namespace ModernApplicationFramework.Controls
 
 			var maximizeRestoreButton = GetTemplateChild("MaximizeRestoreButton") as System.Windows.Controls.Button;
 			if (maximizeRestoreButton != null)
-				maximizeRestoreButton.Click += MaximizeRestoreButtonClick;
+				maximizeRestoreButton.Command = viewModel.MaximizeResizeCommand;
 
 			var closeButton = GetTemplateChild("CloseButton") as System.Windows.Controls.Button;
 			if (closeButton != null)
 				closeButton.Command = viewModel.CloseCommand;
 
 			var menuHostControl = GetTemplateChild("MenuHostControl") as MenuHostControl;
-			if (menuHostControl != null)
-			    viewModel.MenuHostControl = menuHostControl;
+		    if (menuHostControl != null)
+		    {
+		        var dataContext = menuHostControl.DataContext as MenuHostViewModel;
+		        viewModel.MenuHostViewModel = dataContext;
+		        if (dataContext != null)
+                    dataContext.MainWindowViewModel = viewModel;
+		    }
 
 			var toolbarHostControl = GetTemplateChild("ToolbarHostControl") as ToolBarHostControl;
 			if (toolbarHostControl != null)
@@ -153,7 +148,6 @@ namespace ModernApplicationFramework.Controls
 				DockingHost = dockingHost;
 				//TODO Add events		
 			}
-
 			base.OnApplyTemplate();
 		}
 

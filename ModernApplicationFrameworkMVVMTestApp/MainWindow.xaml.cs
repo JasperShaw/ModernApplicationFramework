@@ -47,7 +47,7 @@ namespace ModernApplicationFrameworkMVVMTestApp
 		{
 			var m = new Menu();
 			m.Items.Add(new MenuItem { Header = "Test" });
-			((MainWindowViewModel)DataContext).MenuHostViewModel.Menu = m;
+		    ((MainWindowViewModel) DataContext).MenuHostViewModel.Menu = m;
 		}
 
 		protected override void SetWindowIcons()

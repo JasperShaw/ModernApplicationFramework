@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Controls;
@@ -10,35 +9,28 @@ namespace ModernApplicationFramework.ViewModels
     public class MainWindowViewModel : ViewModelBase
     {
         private readonly MainWindow _mainWindow;
-        private MenuHostControl _menuHostControlControl;
+        private MenuHostViewModel _menuHostViewModel;
 
         public MainWindowViewModel(MainWindow mainWindow)
         {
             _mainWindow = mainWindow;
-            MenuHostViewModel = new MenuHostViewModel(this);
         }
-
-        public MenuHostViewModel MenuHostViewModel { get; }
 
         /// <summary>
-        /// Contains the MenuHostControl
-        /// Only the API is allowed to change this Property: Security reasons
-        /// TODO: I hate this but it works think of a new way some day: Problem is that the MenuHostControl should know its ViewModel which it does not now at the moment. Currently we tunnel thourgh the whole API
+        /// Contains the ViewModel of the MainWindows MenuHostControl
+        /// This can not be changed once it it setted with a value.
         /// </summary>
-        internal MenuHostControl MenuHostControl
-        {
-            get { return _menuHostControlControl; }
-            set
+        public MenuHostViewModel MenuHostViewModel {
+            get { return _menuHostViewModel; }
+            internal set
             {
-                if (Equals(value, _menuHostControlControl))
+                if (MenuHostViewModelSet)
                     return;
-                if (_menuHostControlControl != null)
-                    throw new NotSupportedException("Can not be setted once initalized");
-                _menuHostControlControl = value;
-                MenuHostViewModel.MenuHostControl = value;
-                OnPropertyChanged();
+                _menuHostViewModel = value;
             }
         }
+
+        public bool MenuHostViewModelSet => MenuHostViewModel != null;
 
         #region Commands
 
@@ -52,6 +44,18 @@ namespace ModernApplicationFramework.ViewModels
         public virtual bool CanMinimize()
         {
             return  _mainWindow.WindowState != WindowState.Minimized;
+        }
+
+        public ICommand MaximizeResizeCommand => new Command(MaximizeResize, CanMaximizeResize);
+
+        public virtual void MaximizeResize()
+        {
+            _mainWindow.WindowState = _mainWindow.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+        }
+
+        public virtual bool CanMaximizeResize()
+        {
+            return true;
         }
 
         public ICommand CloseCommand => new Command(Close, CanClose);
@@ -70,6 +74,9 @@ namespace ModernApplicationFramework.ViewModels
 
         protected virtual void OnTest()
         {
+            var m = new Menu();
+            m.Items.Add(new MenuItem { Header = "Testing" });
+            MenuHostViewModel.Menu = m;
             MessageBox.Show("Test");
         }
 

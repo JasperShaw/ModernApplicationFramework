@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using ModernApplicationFramework.ViewModels;
 
 namespace ModernApplicationFramework.Controls
 {
@@ -8,21 +9,10 @@ namespace ModernApplicationFramework.Controls
     {
         private bool _contentLoaded;
 
-        public static readonly DependencyProperty MenuProperty = DependencyProperty.Register(
-            "Menu", typeof (Menu), typeof (MenuHostControl), new PropertyMetadata(default(Menu)));
-
-        /// <summary>
-        /// Contains the Menu
-        /// </summary>
-        public Menu Menu
-        {
-            get { return (Menu) GetValue(MenuProperty); }
-            set { SetValue(MenuProperty, value); }
-        }
-
         public MenuHostControl()
         {
             InitializeComponent();
+            DataContext = new MenuHostViewModel(this);
         }
 
         private void InitializeComponent()
