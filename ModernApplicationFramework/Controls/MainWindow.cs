@@ -5,7 +5,6 @@ using System.Security.AccessControl;
 using System.Threading;
 using System.Windows;
 using System.Windows.Automation.Peers;
-using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -53,8 +52,6 @@ namespace ModernApplicationFramework.Controls
 			});
 			UIElementAutomationPeer.CreatePeerForElement(this);
 
-			MenuCanOpenToolBarContextMenu = true;
-
 			Application.Current.MainWindow = this;
 		}
 
@@ -95,8 +92,6 @@ namespace ModernApplicationFramework.Controls
 			set { SetValue(ThemeProperty, value); }
 		}
 
-		public ToolBarHostControl ToolbarHostControl { get; private set; }
-		protected bool MenuCanOpenToolBarContextMenu { get; set; }
 		internal IntPtr MainWindowHandle => new WindowInteropHelper(this).Handle;
 
 		public virtual void CloseMainWindow()
@@ -136,8 +131,10 @@ namespace ModernApplicationFramework.Controls
 			var toolbarHostControl = GetTemplateChild("ToolbarHostControl") as ToolBarHostControl;
 		    if (toolbarHostControl != null)
 		    {
-		        //ToolbarHostControl = toolbarHostControl;
-		        viewModel.ToolBarHostViewModel = toolbarHostControl.DataContext as ToolBarHostViewModel;
+                var dataContext = toolbarHostControl.DataContext as ToolBarHostViewModel;
+		        viewModel.ToolBarHostViewModel = dataContext;
+		        if (dataContext != null)
+		            dataContext.MainWindowViewModel = viewModel;
 		    }
 
 			var statusBar = GetTemplateChild("StatusBar") as StatusBar;
@@ -164,11 +161,6 @@ namespace ModernApplicationFramework.Controls
 		public bool UsesDockingManagerHost { get;  protected set; }
 
 		public DockingHost DockingHost { get; protected set; }
-
-		//protected void AddToolBar(ToolBar toolBar, bool display, Dock orientation)
-		//{
-		//	ToolbarHostControl.AddToolBar(toolBar, display, orientation);
-		//}
 
 		protected override void OnActivated(EventArgs e)
 		{
@@ -226,12 +218,12 @@ namespace ModernApplicationFramework.Controls
 			return true;
 		}
 
-		private static void OnThemeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		{
-			((MainWindow) d).OnThemeChanged(e);
-		}
+	    private static void OnThemeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	    {
+	        ((MainWindow) d).OnThemeChanged(e);
+	    }
 
-		private void OnThemeChanged(DependencyPropertyChangedEventArgs e)
+	    private void OnThemeChanged(DependencyPropertyChangedEventArgs e)
 		{
 			var oldTheme = e.OldValue as Theme;
 			var newValue = e.NewValue as Theme;

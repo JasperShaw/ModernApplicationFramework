@@ -40,6 +40,8 @@ using System.Windows.Markup;
 
 [assembly: XmlnsPrefix("http://modern.framework.com/controls", "mafc")]
 [assembly: XmlnsDefinition("http://modern.framework.com/controls", "ModernApplicationFramework.Controls")]
+[assembly: XmlnsDefinition("http://modern.framework.com/controls", "ModernApplicationFramework.Controls.Customize")]
+[assembly: XmlnsDefinition("http://modern.framework.com/controls", "ModernApplicationFramework.Controls.Utilities")]
 [assembly: XmlnsDefinition("http://modern.framework.com/controls", "ModernApplicationFramework.Docking")]
 [assembly: XmlnsDefinition("http://modern.framework.com/controls", "ModernApplicationFramework.Docking.Controls")]
 [assembly: XmlnsDefinition("http://modern.framework.com/controls", "ModernApplicationFramework.Docking.Converters")]

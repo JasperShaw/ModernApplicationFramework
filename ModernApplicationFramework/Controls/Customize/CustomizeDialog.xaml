@@ -10,7 +10,7 @@
         </Grid.RowDefinitions>
         <TabControl Grid.Row="0" Margin="12,12,12,10">
             <TabItem x:Name="ToolbarsTab" Header="Toolbars">
-                <customize:ToolBarsPage/>
+                <customize:ToolBarsPage x:Name="ToolBarsPage"/>
             </TabItem>
         </TabControl>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,2,0">

@@ -124,6 +124,7 @@
     <Compile Include="Controls\ResizeGrip.cs" />
     <Compile Include="Controls\SystemMenu.cs" />
     <Compile Include="Controls\ToolBarHostControl.cs" />
+    <Compile Include="Controls\Utilities\ContextMenuGlyphItemUtilities.cs" />
     <Compile Include="Controls\WindowBase.cs" />
     <Compile Include="Controls\WindowContentPresenter.cs" />
     <Compile Include="Controls\WindowTitleBarButton.cs" />
@@ -324,6 +325,7 @@
     <Compile Include="Docking\WindowHelper.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MenuHostViewModel.cs" />
+    <Compile Include="ViewModels\ToolBarCustomizeDialogViewModel.cs" />
     <Compile Include="ViewModels\ToolBarHostViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ModernApplicationFrameworkVersionInfo.cs" />

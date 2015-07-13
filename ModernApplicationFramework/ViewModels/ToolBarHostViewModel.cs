@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Controls.Customize;
@@ -19,8 +16,6 @@ namespace ModernApplicationFramework.ViewModels
 {
     public class ToolBarHostViewModel : ViewModelBase
     {
-        //TODO: Dont forget to link this with TheCustomizeWindow in MainWindoViewModel
-
         /*
             This Dictionary contains all the information needed to interact with the toolbar across classes
             This Dictionary contains as Key:
@@ -41,6 +36,8 @@ namespace ModernApplicationFramework.ViewModels
         private ToolBarTray _rightToolBarTay;
         private ToolBarTray _topToolBarTay;
 
+        private MainWindowViewModel _mainWindowViewModel;
+
         public ToolBarHostViewModel(ToolBarHostControl toolBarHostControl)
         {
             ToolBarHostControl = toolBarHostControl;
@@ -49,6 +46,16 @@ namespace ModernApplicationFramework.ViewModels
         }
 
         public ToolBarHostControl ToolBarHostControl { get; }
+
+        public MainWindowViewModel MainWindowViewModel
+        {
+            get { return _mainWindowViewModel; }
+            internal set
+            {
+                if (_mainWindowViewModel == null)
+                    _mainWindowViewModel = value;
+            }
+        }
 
         internal ToolBarTray BottomToolBarTay
         {
@@ -247,22 +254,6 @@ namespace ModernApplicationFramework.ViewModels
             return _contextList[name].Item3;
         }
 
-        /// <summary>
-        /// Opens ToolbarCustomize Dialog
-        /// </summary>
-        public void OpenToolBarEditDialog()
-        {
-            new CustomizeDialog().ShowDialog();
-        }
-
-        private static void SetCheckMark(ContextMenuGlyphItem item)
-        {
-            var converter = TypeDescriptor.GetConverter(typeof (Geometry));
-            var geomitry = (Geometry) converter.ConvertFrom("F1 M 5,11 L 3,7 L 5,7 L 6,9 L 9,3 L 11,3 L 7,11 L 5,11 Z");
-
-            item.IconGeometry = geomitry;
-        }
-
         /*
             Returns a toolbar specific MenuItem by:
                 Creating the Item
@@ -274,20 +265,17 @@ namespace ModernApplicationFramework.ViewModels
 
         private ContextMenuGlyphItem CreateContextMenuItem(string identifierName)
         {
-            var item = new ContextMenuGlyphItem {Header = identifierName};
-            item.Click += Item_Click;
-
+            var item = new ContextMenuGlyphItem
+            {
+                Header = identifierName,
+                Command = ClickContextMenuItemCommand
+            };
+            item.CommandParameter = item;
             if (ContextMenu.Items.Count < 2)
                 ContextMenu.Items.Add(item);
             else
                 ContextMenu.Items.Insert(ContextMenu.Items.Count - 2, item);
             return item;
-        }
-
-        private void EditItem_Click(object sender, RoutedEventArgs e)
-        {
-            //TODO: If there is no toolbar we get an null exception here
-            OpenToolBarEditDialog();
         }
 
         /*
@@ -338,27 +326,13 @@ namespace ModernApplicationFramework.ViewModels
             _contextList[name].Item4.IconGeometry = null;
         }
 
-        private void Item_Click(object sender, RoutedEventArgs e)
-        {
-            var item = sender as ContextMenuGlyphItem;
-            if (item != null && item.IconGeometry == null)
-            {
-                SetCheckMark(item);
-                ShowToolBarByName(item.Header.ToString());
-            }
-            else
-            {
-                if (item == null)
-                    return;
-                item.IconGeometry = null;
-                HideToolBarByName(item.Header.ToString());
-            }
-        }
-
         private void SetupContextMenu()
         {
-            var editItem = new ContextMenuItem {Header = "Edit..."};
-            editItem.Click += EditItem_Click;
+            var editItem = new ContextMenuItem
+            {
+                Header = "Edit...",
+                Command = OpenCostumizeDialogCommand
+            };
             ContextMenu.Items.Add(new Separator());
             ContextMenu.Items.Add(editItem);
         }
@@ -408,7 +382,7 @@ namespace ModernApplicationFramework.ViewModels
                 throw new ArgumentNullException(nameof(name));
             UpdateVisibility(name, true);
             ShowToolBar(_contextList[name].Item1, _contextList[name].Item2);
-            SetCheckMark(_contextList[name].Item4);
+            Controls.Utilities.ContextMenuGlyphItemUtilities.SetCheckMark(_contextList[name].Item4);
         }
 
         /*
@@ -481,6 +455,41 @@ namespace ModernApplicationFramework.ViewModels
             return true;
         }
 
+        public ICommand ClickContextMenuItemCommand => new Command<ContextMenuGlyphItem>(ClickContextMenuItem, CanClickContextMenuItem);
+
+        public virtual void ClickContextMenuItem(ContextMenuGlyphItem contextMenuItem)
+        {
+            var item = contextMenuItem;
+            if (item != null && item.IconGeometry == null)
+            {
+                Controls.Utilities.ContextMenuGlyphItemUtilities.SetCheckMark(item);
+                ShowToolBarByName(item.Header.ToString());
+            }
+            else
+            {
+                if (item == null)
+                    return;
+                item.IconGeometry = null;
+                HideToolBarByName(item.Header.ToString());
+            }
+        }
+
+        public virtual bool CanClickContextMenuItem(ContextMenuGlyphItem item)
+        {
+            return true;
+        }
+
+        public ICommand OpenCostumizeDialogCommand => new Command(OpenCostumizeDialog, CanOpenCostumizeDialog);
+
+        public virtual void OpenCostumizeDialog()
+        {
+            new CustomizeDialog(this).ShowDialog();
+        }
+
+        public virtual bool CanOpenCostumizeDialog()
+        {
+            return true;
+        }
         #endregion
     }
 }

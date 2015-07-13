@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Controls;
 
@@ -63,7 +62,7 @@ namespace ModernApplicationFramework.ViewModels
         public virtual void ExecuteRightClick()
         {
             if (CanOpenToolBarContextMenu)
-                MessageBox.Show("Open");
+                MainWindowViewModel.ToolBarHostViewModel.OpenContextMenuCommand.Execute(null);
         }
         #endregion
     }
