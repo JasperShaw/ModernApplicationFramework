@@ -138,6 +138,32 @@ namespace ModernApplicationFramework.ViewModels
         }
 
         /*
+            This removes a Toolbar by:
+                Checking for:
+                    Name not null
+                If Tooblar not exists
+                    Do nothing
+                Else
+                    Make invisible
+                    Remove Context Menu Entry
+                    Remove from Tuple
+        */
+        /// <summary>
+        /// Removes Toolbar from ToolBarHostControl
+        /// </summary>
+        /// <param name="name"></param>
+        public void RemoveToolBar(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException(nameof(name));
+            if (!_contextList.ContainsKey(name))
+                return;
+            ChangeToolBarVisibility(name, false);
+            ContextMenu.Items.Remove(_contextList[name].Item4);
+            _contextList.Remove(name);
+        }
+
+        /*
             Change Orientation of Toolbar by:
                 Checking for:
                     At least one Tray exists
@@ -445,19 +471,19 @@ namespace ModernApplicationFramework.ViewModels
 
         public ICommand OpenContextMenuCommand => new Command(OpenContextMenu, CanOpenContextMenu);
 
-        public virtual void OpenContextMenu()
+        protected virtual void OpenContextMenu()
         {
             ContextMenu.IsOpen = true;
         }
 
-        public virtual bool CanOpenContextMenu()
+        protected virtual bool CanOpenContextMenu()
         {
             return true;
         }
 
         public ICommand ClickContextMenuItemCommand => new Command<ContextMenuGlyphItem>(ClickContextMenuItem, CanClickContextMenuItem);
 
-        public virtual void ClickContextMenuItem(ContextMenuGlyphItem contextMenuItem)
+        protected virtual void ClickContextMenuItem(ContextMenuGlyphItem contextMenuItem)
         {
             var item = contextMenuItem;
             if (item != null && item.IconGeometry == null)
@@ -474,19 +500,19 @@ namespace ModernApplicationFramework.ViewModels
             }
         }
 
-        public virtual bool CanClickContextMenuItem(ContextMenuGlyphItem item)
+        protected virtual bool CanClickContextMenuItem(ContextMenuGlyphItem item)
         {
             return true;
         }
 
         public ICommand OpenCostumizeDialogCommand => new Command(OpenCostumizeDialog, CanOpenCostumizeDialog);
 
-        public virtual void OpenCostumizeDialog()
+        protected virtual void OpenCostumizeDialog()
         {
             new CustomizeDialog(this).ShowDialog();
         }
 
-        public virtual bool CanOpenCostumizeDialog()
+        protected virtual bool CanOpenCostumizeDialog()
         {
             return true;
         }

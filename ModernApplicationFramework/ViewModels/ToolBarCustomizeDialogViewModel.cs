@@ -16,7 +16,7 @@ namespace ModernApplicationFramework.ViewModels
         {
             ToolBarsPage = toolBarsPage;
             ToolBarsPage.Loaded += ToolBarsPage_Loaded;
-            
+
             ToolBarsPage.ToolBarListBox.SelectionChanged += OnItemSelectionChanged;
 
             SetupRadioButtons();
@@ -126,7 +126,7 @@ namespace ModernApplicationFramework.ViewModels
         #region Commands
         public ICommand RadioButtonCheckedCommand => new Command<RadioButton>(RadioButtonChecked, CanRadioButtonChecked);
 
-        public virtual void RadioButtonChecked(RadioButton button)
+        protected virtual void RadioButtonChecked(RadioButton button)
         {
             if (button == null)
                 return;
@@ -139,7 +139,7 @@ namespace ModernApplicationFramework.ViewModels
             ToolBarHostViewModel.ChangeToolBarDock(toolBar.IdentifierName, dock);
         }
 
-        public virtual bool CanRadioButtonChecked(RadioButton button)
+        protected virtual bool CanRadioButtonChecked(RadioButton button)
         {
             return true;
         }

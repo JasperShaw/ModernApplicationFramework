@@ -1,8 +1,11 @@
 ﻿using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using ModernApplicationFramework.Commands.Base;
-using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Docking.Layout.Serialization;
+using Menu = ModernApplicationFramework.Controls.Menu;
+using MenuItem = ModernApplicationFramework.Controls.MenuItem;
+using ToolBar = ModernApplicationFramework.Controls.ToolBar;
 
 namespace ModernApplicationFrameworkMVVMTestApp
 {
@@ -48,7 +51,8 @@ namespace ModernApplicationFrameworkMVVMTestApp
 			var m = new Menu();
 			m.Items.Add(new MenuItem { Header = "Test" });
 		    ((MainWindowViewModel) DataContext).MenuHostViewModel.Menu = m;
-		}
+            ((MainWindowViewModel)DataContext).ToolBarHostViewModel.AddToolBar(new ToolBar { IdentifierName = "Test" }, true, Dock.Top);
+        }
 
 		protected override void SetWindowIcons()
 		{

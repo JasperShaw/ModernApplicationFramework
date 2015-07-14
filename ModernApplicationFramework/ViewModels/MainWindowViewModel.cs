@@ -20,7 +20,7 @@ namespace ModernApplicationFramework.ViewModels
 
         /// <summary>
         /// Contains the ViewModel of the MainWindows MenuHostControl
-        /// This can not be changed once it it setted with a value.
+        /// This can not be changed once it was setted with a value.
         /// </summary>
         public MenuHostViewModel MenuHostViewModel {
             get { return _menuHostViewModel; }
@@ -32,6 +32,10 @@ namespace ModernApplicationFramework.ViewModels
             }
         }
 
+        /// <summary>
+        /// Contains the ViewModel of the MainWindows ToolbarHostControl
+        /// This can not be changed once it was setted with a value
+        /// </summary>
         public ToolBarHostViewModel ToolBarHostViewModel
         {
             get { return _toolBarHostViewModel; }
@@ -51,36 +55,36 @@ namespace ModernApplicationFramework.ViewModels
 
         public ICommand MinimizeCommand => new Command(Minimize, CanMinimize);
 
-        public virtual void Minimize()
+        protected virtual void Minimize()
         {
             _mainWindow.WindowState = WindowState.Minimized;
         }
 
-        public virtual bool CanMinimize()
+        protected virtual bool CanMinimize()
         {
             return  _mainWindow.WindowState != WindowState.Minimized;
         }
 
         public ICommand MaximizeResizeCommand => new Command(MaximizeResize, CanMaximizeResize);
 
-        public virtual void MaximizeResize()
+        protected virtual void MaximizeResize()
         {
             _mainWindow.WindowState = _mainWindow.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
         }
 
-        public virtual bool CanMaximizeResize()
+        protected virtual bool CanMaximizeResize()
         {
             return true;
         }
 
         public ICommand CloseCommand => new Command(Close, CanClose);
 
-        public virtual void Close()
+        protected virtual void Close()
         {
             _mainWindow.Close();
         }
 
-        public virtual bool CanClose()
+        protected virtual bool CanClose()
         {
             return true;
         }

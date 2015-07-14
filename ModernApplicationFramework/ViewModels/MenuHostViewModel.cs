@@ -59,7 +59,7 @@ namespace ModernApplicationFramework.ViewModels
         #region Commands
         public ICommand RightClickCommand => new Command(ExecuteRightClick);
 
-        public virtual void ExecuteRightClick()
+        protected virtual void ExecuteRightClick()
         {
             if (CanOpenToolBarContextMenu)
                 MainWindowViewModel.ToolBarHostViewModel.OpenContextMenuCommand.Execute(null);
