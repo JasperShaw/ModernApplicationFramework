@@ -15,7 +15,7 @@ namespace ModernApplicationFramework.ViewModels
     /// 
     /// This contains the Logic for the MainWindow
     /// </summary>
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     {
         protected bool MainWindowInitialized;
         private readonly MainWindow _mainWindow;
@@ -56,7 +56,7 @@ namespace ModernApplicationFramework.ViewModels
                     return;
                 _activeIcon = value;
                 OnPropertyChanged();
-                ApplyMainWindowIconChange();
+                ApplyWindowIconChange();
             }
         }
 
@@ -114,7 +114,7 @@ namespace ModernApplicationFramework.ViewModels
                     return;
                 _passiveIcon = value;
                 OnPropertyChanged();
-                ApplyMainWindowIconChange();
+                ApplyWindowIconChange();
             }
         }
 
@@ -216,7 +216,7 @@ namespace ModernApplicationFramework.ViewModels
         /// <summary>
         /// Makes sure the just changed Active or Passive Icons are applied to the View
         /// </summary>
-        protected virtual void ApplyMainWindowIconChange()
+        protected virtual void ApplyWindowIconChange()
         {
             if (_mainWindow == null)
                 return;

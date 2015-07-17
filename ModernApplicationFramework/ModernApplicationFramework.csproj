@@ -323,6 +323,8 @@
     <Compile Include="Docking\MathHelper.cs" />
     <Compile Include="Docking\Win32Helper.cs" />
     <Compile Include="Docking\WindowHelper.cs" />
+    <Compile Include="ViewModels\IMainWindowViewModel.cs" />
+    <Compile Include="ViewModels\IWindowViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MenuHostViewModel.cs" />
     <Compile Include="ViewModels\ToolBarCustomizeDialogViewModel.cs" />
