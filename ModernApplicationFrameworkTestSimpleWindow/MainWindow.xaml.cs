@@ -12,10 +12,10 @@ namespace ModernApplicationFrameworkTestSimpleWindow
         public MainWindow()
         {
             InitializeComponent();
-            FullWindowMovement = true;
             ((MainWindowViewModel) DataContext).UseStatusBar = false;
             ((MainWindowViewModel) DataContext).UseTitleBar = false;
-            ((MainWindowViewModel)DataContext).IsSimpleWindow = true;
+            ((MainWindowViewModel) DataContext).IsSimpleWindow = true;
+            ((MainWindowViewModel) DataContext).UseSimpleMovement = true;
         }
     }
 }

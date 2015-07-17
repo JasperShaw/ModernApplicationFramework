@@ -18,6 +18,7 @@ namespace ModernApplicationFrameworkMVVMTestApp
             //MessageBox.Show("Testing");
             ActiveIcon = new BitmapImage(new Uri("pack://application:,,,/ModernApplicationFrameworkMVVMTestApp;component/test.jpg"));
             UseStatusBar = false;
+            UseSimpleMovement = true;
         }
 
         public MainWindowViewModel(ModernApplicationFramework.Controls.MainWindow mainWindow) : base(mainWindow)

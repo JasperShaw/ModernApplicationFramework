@@ -112,7 +112,7 @@ namespace ModernApplicationFramework.Controls
             return 3;
         }
 
-	    protected override void OnMouseDown(MouseButtonEventArgs e)
+	   async protected override void OnMouseDown(MouseButtonEventArgs e)
 	    {
 			base.OnMouseDown(e);
 		    MainWindow w = Window.GetWindow(this) as MainWindow;
@@ -138,7 +138,7 @@ namespace ModernApplicationFramework.Controls
 				SystemCommands.ShowSystemMenu(w, p);
 			}
 	        if (e.ClickCount == 2 && e.ChangedButton == MouseButton.Left)
-	            ((MainWindowViewModel) DataContext).CloseCommand.Execute(null);
+	            await ((MainWindowViewModel) DataContext).CloseCommand.Execute();
 	    }
     }
 }

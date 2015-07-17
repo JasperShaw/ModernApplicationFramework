@@ -22,13 +22,8 @@ namespace ModernApplicationFramework.Controls
 {
 	public abstract class MainWindow : ModernChromeWindow
 	{
-	    public new static readonly DependencyProperty IconProperty = DependencyProperty.Register(
-			"Icon", typeof (ImageSource), typeof (MainWindow), new PropertyMetadata(default(ImageSource)));
-
 	    public static readonly DependencyProperty ThemeProperty = DependencyProperty.Register("Theme", typeof (Theme),
 			typeof (MainWindow), new FrameworkPropertyMetadata(null, OnThemeChanged));
-
-	    private bool _fullWindowMovement;
 
 	    protected MainWindow()
 		{
@@ -77,16 +72,6 @@ namespace ModernApplicationFramework.Controls
 	    public BitmapImage ActivatedFloatIcon { get; set; }
 	    public BitmapImage DeactivatedFloatIcon { get; set; }
 	    public DockingHost DockingHost { get; protected set; }
-
-	    public bool FullWindowMovement
-	    {
-            get { return _fullWindowMovement; }
-	        set
-	        {
-	            _fullWindowMovement = value;
-	            OnFullWindowMovementChanged();
-	        }
-	    }
 
 	    public Theme Theme
 		{
@@ -194,20 +179,6 @@ namespace ModernApplicationFramework.Controls
 		{
 			throw new NotImplementedException();
 		}
-
-	    private void MainWindow_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (Mouse.LeftButton == MouseButtonState.Pressed)
-                DragMove();
-        }
-
-	    private void OnFullWindowMovementChanged()
-	    {
-	        if (FullWindowMovement)
-                MouseDown += MainWindow_MouseDown;
-            else
-                MouseDown -= MainWindow_MouseDown;
-        }
 
 	    private void OnThemeChanged(DependencyPropertyChangedEventArgs e)
 		{

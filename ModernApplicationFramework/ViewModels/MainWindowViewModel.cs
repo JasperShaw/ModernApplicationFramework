@@ -21,6 +21,39 @@ namespace ModernApplicationFramework.ViewModels
         private bool _useStatusbar;
         private bool _useTitleBar;
 
+        private bool _useSimpleMovement;
+
+        public bool UseSimpleMovement
+        {
+            get
+            {
+                return _useSimpleMovement;
+            }
+            set
+            {
+                if (Equals(value, _useSimpleMovement))
+                    return;
+                _useSimpleMovement = value;
+                OnUseSimpleMovementChanged();
+                SimpleMoveWindowCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        protected virtual void OnUseSimpleMovementChanged()
+        {
+            if (_mainWindow == null)
+                return;
+            if (_useSimpleMovement)
+                _mainWindow.MouseDown += _mainWindow_MouseDown;
+            else
+                _mainWindow.MouseDown -= _mainWindow_MouseDown;
+        }
+
+        async private void _mainWindow_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            await SimpleMoveWindowCommand.Execute();
+        }
+
         public MainWindowViewModel(MainWindow mainWindow)
         {
             UseStatusBar = true;
@@ -182,14 +215,14 @@ namespace ModernApplicationFramework.ViewModels
                 throw new Exception("You can not run this Operation until the MainWindow is not initialized");
         }
 
-        private void _mainWindow_Activated(object sender, EventArgs e)
+        async private void _mainWindow_Activated(object sender, EventArgs e)
         {
-            ChangeWindowIconActiveCommand.Execute(null);
+            await ChangeWindowIconActiveCommand.Execute();
         }
 
-        private void _mainWindow_Deactivated(object sender, EventArgs e)
+        async private void _mainWindow_Deactivated(object sender, EventArgs e)
         {
-            ChangeWindowIconPassiveCommand.Execute(null);
+            await ChangeWindowIconPassiveCommand.Execute();
         }
 
         private void _mainWindow_SourceInitialized(object sender, EventArgs e)
@@ -200,7 +233,7 @@ namespace ModernApplicationFramework.ViewModels
 
         #region Commands
 
-        public ICommand MinimizeCommand => new Command(Minimize, CanMinimize);
+        public Command MinimizeCommand => new Command(Minimize, CanMinimize);
 
         protected virtual void Minimize()
         {
@@ -212,7 +245,7 @@ namespace ModernApplicationFramework.ViewModels
             return  _mainWindow.WindowState != WindowState.Minimized;
         }
 
-        public ICommand MaximizeResizeCommand => new Command(MaximizeResize, CanMaximizeResize);
+        public Command MaximizeResizeCommand => new Command(MaximizeResize, CanMaximizeResize);
 
         protected virtual void MaximizeResize()
         {
@@ -224,7 +257,7 @@ namespace ModernApplicationFramework.ViewModels
             return true;
         }
 
-        public ICommand CloseCommand => new Command(Close, CanClose);
+        public Command CloseCommand => new Command(Close, CanClose);
 
         protected virtual void Close()
         {
@@ -236,7 +269,7 @@ namespace ModernApplicationFramework.ViewModels
             return true;
         }
 
-        public ICommand ChangeWindowIconActiveCommand => new Command(ChangeWindowIconActive, CanChangeWindowIcon);
+        public Command ChangeWindowIconActiveCommand => new Command(ChangeWindowIconActive, CanChangeWindowIcon);
 
         private bool CanChangeWindowIcon()
         {
@@ -248,16 +281,28 @@ namespace ModernApplicationFramework.ViewModels
             Icon = ActiveIcon;
         }
 
-        public ICommand ChangeWindowIconPassiveCommand => new Command(ChangeWindowIconPassive, CanChangeWindowIcon);
-
+        public Command ChangeWindowIconPassiveCommand => new Command(ChangeWindowIconPassive, CanChangeWindowIcon);
 
         public void ChangeWindowIconPassive()
         {
             Icon = PassiveIcon;
         }
 
+        public Command SimpleMoveWindowCommand => new Command(MoveSimpleWindow, CanMoveSimpleWindow);
 
-        public ICommand TestCommand => new Command(OnTest);
+        public virtual void MoveSimpleWindow()
+        {
+            if (Mouse.LeftButton == MouseButtonState.Pressed)
+                _mainWindow?.DragMove();
+        }
+
+        public virtual bool CanMoveSimpleWindow()
+        {
+            return UseSimpleMovement;
+        }
+
+
+        public Command TestCommand => new Command(OnTest);
 
         protected virtual void OnTest()
         {

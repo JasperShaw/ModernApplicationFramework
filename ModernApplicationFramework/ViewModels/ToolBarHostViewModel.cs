@@ -97,9 +97,9 @@ namespace ModernApplicationFramework.ViewModels
             }
         }
 
-        private void ToolBarTay_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        async private void ToolBarTay_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            OpenContextMenuCommand.Execute(null);
+            await OpenContextMenuCommand.Execute();
         }
 
         private ContextMenu ContextMenu { get; }
@@ -469,7 +469,7 @@ namespace ModernApplicationFramework.ViewModels
 
         #region Commands
 
-        public ICommand OpenContextMenuCommand => new Command(OpenContextMenu, CanOpenContextMenu);
+        public Command OpenContextMenuCommand => new Command(OpenContextMenu, CanOpenContextMenu);
 
         protected virtual void OpenContextMenu()
         {
@@ -481,7 +481,7 @@ namespace ModernApplicationFramework.ViewModels
             return true;
         }
 
-        public ICommand ClickContextMenuItemCommand => new Command<ContextMenuGlyphItem>(ClickContextMenuItem, CanClickContextMenuItem);
+        public Command<ContextMenuGlyphItem> ClickContextMenuItemCommand => new Command<ContextMenuGlyphItem>(ClickContextMenuItem, CanClickContextMenuItem);
 
         protected virtual void ClickContextMenuItem(ContextMenuGlyphItem contextMenuItem)
         {

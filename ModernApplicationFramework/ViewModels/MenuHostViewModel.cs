@@ -51,18 +51,18 @@ namespace ModernApplicationFramework.ViewModels
             }
         }
 
-        private void _control_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        async private void _control_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            RightClickCommand.Execute(null);
+            await RightClickCommand.Execute();
         }
 
         #region Commands
-        public ICommand RightClickCommand => new Command(ExecuteRightClick);
+        public Command RightClickCommand => new Command(ExecuteRightClick);
 
-        protected virtual void ExecuteRightClick()
+        async protected virtual void ExecuteRightClick()
         {
             if (CanOpenToolBarContextMenu)
-                MainWindowViewModel.ToolBarHostViewModel.OpenContextMenuCommand.Execute(null);
+                await MainWindowViewModel.ToolBarHostViewModel.OpenContextMenuCommand.Execute();
         }
         #endregion
     }

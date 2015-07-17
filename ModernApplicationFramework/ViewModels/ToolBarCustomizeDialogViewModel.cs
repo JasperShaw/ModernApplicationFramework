@@ -124,7 +124,7 @@ namespace ModernApplicationFramework.ViewModels
 
 
         #region Commands
-        public ICommand RadioButtonCheckedCommand => new Command<RadioButton>(RadioButtonChecked, CanRadioButtonChecked);
+        public Command<RadioButton> RadioButtonCheckedCommand => new Command<RadioButton>(RadioButtonChecked, CanRadioButtonChecked);
 
         protected virtual void RadioButtonChecked(RadioButton button)
         {
