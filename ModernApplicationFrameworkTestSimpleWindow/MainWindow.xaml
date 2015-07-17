@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ModernApplicationFrameworkTestSimpleWindow"
         xmlns:mafc="http://modern.framework.com/controls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" IsSimpleWindowType="True" UseStatusBar="False" UseTitleBar="False">
+        Title="MainWindow" Height="350" Width="525">
     <Grid>
     </Grid>
 </mafc:MainWindow>

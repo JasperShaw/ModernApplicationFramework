@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Data;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Controls;
-using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace ModernApplicationFramework.ViewModels
 {
@@ -16,13 +13,18 @@ namespace ModernApplicationFramework.ViewModels
         private readonly MainWindow _mainWindow;
         private BitmapImage _activeIcon;
         private BitmapImage _icon;
+        private bool _isSimpleWindow;
         private MenuHostViewModel _menuHostViewModel;
         private BitmapImage _passiveIcon;
         private StatusBar _statusBar;
         private ToolBarHostViewModel _toolBarHostViewModel;
+        private bool _useStatusbar;
+        private bool _useTitleBar;
 
         public MainWindowViewModel(MainWindow mainWindow)
         {
+            UseStatusBar = true;
+            UseTitleBar = true;
             _mainWindow = mainWindow;
             _mainWindow.SourceInitialized += _mainWindow_SourceInitialized;
             _mainWindow.Activated += _mainWindow_Activated;
@@ -57,6 +59,21 @@ namespace ModernApplicationFramework.ViewModels
                 if (Equals(value, _icon))
                     return;
                 _icon = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// A SimpleWindow is a window which is not possible to resize my dragging the edges
+        /// </summary>
+        public bool IsSimpleWindow
+        {
+            get { return _isSimpleWindow; }
+            set
+            {
+                if (Equals(value, _isSimpleWindow))
+                    return;
+                _isSimpleWindow = value;
                 OnPropertyChanged();
             }
         }
@@ -117,16 +134,43 @@ namespace ModernApplicationFramework.ViewModels
         }
 
         /// <summary>
+        /// Contains information whether a StatusBar is displayed or not
+        /// </summary>
+        public bool UseStatusBar
+        {
+            get { return _useStatusbar; }
+            set
+            {
+                if (Equals(value, _useStatusbar))
+                    return;
+                _useStatusbar = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Contains information whether a TitleBar is displayed or not
+        /// </summary>
+        public bool UseTitleBar
+        {
+            get { return _useTitleBar; }
+            set
+            {
+                if (Equals(value, _useTitleBar))
+                    return;
+                _useTitleBar = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
         /// Makes sure the just changed Active or Passive Icons are applied to the View
         /// </summary>
         protected virtual void ApplyMainWindowIconChange()
         {
             if (_mainWindow == null)
                 return;
-            if (_mainWindow.IsActive)
-                Icon = ActiveIcon;
-            else
-                Icon = PassiveIcon;
+            Icon = _mainWindow.IsActive ? ActiveIcon : PassiveIcon;
         }
 
         /// <summary>

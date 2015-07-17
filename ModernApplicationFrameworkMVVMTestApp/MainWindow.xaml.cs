@@ -1,11 +1,6 @@
 ﻿using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using ModernApplicationFramework.Commands.Base;
 using ModernApplicationFramework.Docking.Layout.Serialization;
-using Menu = ModernApplicationFramework.Controls.Menu;
-using MenuItem = ModernApplicationFramework.Controls.MenuItem;
-using ToolBar = ModernApplicationFramework.Controls.ToolBar;
 
 namespace ModernApplicationFrameworkMVVMTestApp
 {
@@ -44,14 +39,5 @@ namespace ModernApplicationFrameworkMVVMTestApp
 			if (File.Exists(@".\AvalonDock.config"))
 				serializer.Deserialize(@".\AvalonDock.config");
 		}
-
-	    protected override void PopulateMenuAndToolBars()
-	    {
-	        
-	    }
-
-	    protected override void SetWindowIcons()
-	    {
-	    }
 	}
 }

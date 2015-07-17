@@ -121,22 +121,22 @@
 							<Setter TargetName="MainWindowTitleBar" Property="TextElement.Foreground" Value="{DynamicResource {x:Static core:EnvironmentColors.MainWindowTitleBarForegroundInactive}}" />
 							<Setter TargetName="PART_SystemMenu" Property="VectorFill" Value="White" />
 						</Trigger>
-                        <Trigger Property="IsSimpleWindowType" Value="True">
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=DataContext.IsSimpleWindow}" Value="True">
                             <Setter Property="ResizeMode" Value="NoResize"/>
                             <Setter TargetName="ResizeGrip" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="MaximizeRestoreButton" Property="Visibility" Value="Collapsed"/>
-                        </Trigger>
-                        <Trigger Property="UseStatusBar" Value="False">
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=DataContext.UseStatusBar}" Value="False">
                             <Setter TargetName="StatusBarPanel" Property="Visibility" Value="Collapsed"/>
-                        </Trigger>
-                        <Trigger Property="UseTitleBar" Value="False">
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=DataContext.UseTitleBar}" Value="False">
                             <Setter TargetName="MainWindowTitleBar" Property="Visibility" Value="Collapsed"/>
                             <Setter Property="WindowChrome.WindowChrome">
                                 <Setter.Value>
                                     <WindowChrome CaptionHeight="0" GlassFrameThickness="1" ResizeBorderThickness="3" UseAeroCaptionButtons="False" />
                                 </Setter.Value>
                             </Setter>
-                        </Trigger>
+                        </DataTrigger>
 					</ControlTemplate.Triggers>
 				</ControlTemplate>
 			</Setter.Value>

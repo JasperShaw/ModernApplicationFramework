@@ -1,26 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Themes.LightIDE;
 using ModernApplicationFramework.ViewModels;
 using Menu = ModernApplicationFramework.Controls.Menu;
 using MenuItem = ModernApplicationFramework.Controls.MenuItem;
-using TextBox = ModernApplicationFramework.Controls.TextBox;
 using ToolBar = ModernApplicationFramework.Controls.ToolBar;
 
 namespace ModernApplicationFrameworkTestAppDock
@@ -35,13 +25,32 @@ namespace ModernApplicationFrameworkTestAppDock
 			InitializeComponent();
 			DockingManager = Manager;
 			Icon = new BitmapImage(new Uri("pack://application:,,,/ModernApplicationFrameworkTestAppDock;component/Build.png"));
+            this.SourceInitialized += MainWindow_SourceInitialized;
         }
 
-		public override void OnApplyTemplate()
+        private void MainWindow_SourceInitialized(object sender, EventArgs e)
+        {
+            ((MainWindowViewModel)DataContext).ActiveIcon = new BitmapImage(new Uri("pack://application:,,,/ModernApplicationFrameworkTestAppDock;component/Build.png"));
+            ((MainWindowViewModel)DataContext).PassiveIcon = new BitmapImage(new Uri("pack://application:,,,/ModernApplicationFrameworkTestAppDock;component/test.jpg"));
+
+            DeactivatedFloatIcon = new BitmapImage(new Uri("pack://application:,,,/ModernApplicationFrameworkTestAppDock;component/Build.png"));
+            ActivatedFloatIcon = new BitmapImage(new Uri("pack://application:,,,/ModernApplicationFrameworkTestAppDock;component/test.jpg"));
+
+            ((MainWindowViewModel)DataContext).ToolBarHostViewModel.AddToolBar(new ToolBar { IdentifierName = "Test" }, true, Dock.Top);
+            ((MainWindowViewModel)DataContext).ToolBarHostViewModel.AddToolBar(new ToolBar { IdentifierName = "Test1" }, true, Dock.Top);
+            ((MainWindowViewModel)DataContext).ToolBarHostViewModel.AddToolBar(new ToolBar { IdentifierName = "Testing" }, true, Dock.Left);
+            ((MainWindowViewModel)DataContext).ToolBarHostViewModel.AddToolBar(new ToolBar { IdentifierName = "Testing2" }, true, Dock.Left);
+
+            var m = new Menu();
+            m.Items.Add(new MenuItem { Header = "Test" });
+            ((MainWindowViewModel)DataContext).MenuHostViewModel.Menu = m;
+        }
+
+        public override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
 			//Application.Current.Resources[ModernApplicationFramework.Core.Themes.EnvironmentColors.MainWindowBackground] = new SolidColorBrush(Colors.Red);
-			TextBox.Text = Application.Current.TryFindResource(ModernApplicationFramework.Core.Themes.EnvironmentColors.MainWindowBackground).ToString();
+			TextBox.Text = Application.Current.TryFindResource(EnvironmentColors.MainWindowBackground).ToString();
 			string s = "";
 			foreach (var resource in Application.Current.Resources)
 			{
@@ -50,29 +59,6 @@ namespace ModernApplicationFrameworkTestAppDock
 
 		}
 
-		protected override void SetWindowIcons()
-		{
-            ((MainWindowViewModel)DataContext).ActiveIcon = new BitmapImage(new Uri("pack://application:,,,/ModernApplicationFrameworkTestAppDock;component/Build.png"));
-            ((MainWindowViewModel)DataContext).PassiveIcon = new BitmapImage(new Uri("pack://application:,,,/ModernApplicationFrameworkTestAppDock;component/test.jpg"));
-
-            ActivatedIcon = new BitmapImage(new Uri("pack://application:,,,/ModernApplicationFrameworkTestAppDock;component/Build.png"));
-			DeactivatedIcon = new BitmapImage(new Uri("pack://application:,,,/ModernApplicationFrameworkTestAppDock;component/test.jpg"));
-
-			DeactivatedFloatIcon = new BitmapImage(new Uri("pack://application:,,,/ModernApplicationFrameworkTestAppDock;component/Build.png"));
-			ActivatedFloatIcon = new BitmapImage(new Uri("pack://application:,,,/ModernApplicationFrameworkTestAppDock;component/test.jpg"));
-		}
-
-		protected override void PopulateMenuAndToolBars()
-		{
-            ((MainWindowViewModel)DataContext).ToolBarHostViewModel.AddToolBar(new ToolBar { IdentifierName = "Test" }, true, Dock.Top);
-            ((MainWindowViewModel)DataContext).ToolBarHostViewModel.AddToolBar(new ToolBar { IdentifierName = "Test1" }, true, Dock.Top);
-            ((MainWindowViewModel)DataContext).ToolBarHostViewModel.AddToolBar(new ToolBar { IdentifierName = "Testing" }, true, Dock.Left);
-            ((MainWindowViewModel)DataContext).ToolBarHostViewModel.AddToolBar(new ToolBar { IdentifierName = "Testing2" }, true, Dock.Left);
-
-			var m = new Menu();
-			m.Items.Add(new MenuItem { Header = "Test" });
-            ((MainWindowViewModel)DataContext).MenuHostViewModel.Menu = m;
-        }
 
 		private void DockingManager_OnDocumentClosing(object sender, DocumentClosingEventArgs e)
 		{
