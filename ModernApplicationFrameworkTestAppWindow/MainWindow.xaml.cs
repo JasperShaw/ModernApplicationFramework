@@ -40,7 +40,7 @@ namespace ModernApplicationFrameworkTestAppWindow
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Theme = new LightTheme();
+            ((MainWindowViewModel)DataContext).Theme = new LightTheme();
         }
 
         private void TextBoxBase_OnTextChanged(object sender, TextChangedEventArgs e)

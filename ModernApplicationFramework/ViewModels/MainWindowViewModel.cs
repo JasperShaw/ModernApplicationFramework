@@ -1,12 +1,20 @@
 ﻿using System;
+using System.Data;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Core.Themes;
 
 namespace ModernApplicationFramework.ViewModels
 {
+    /// <summary>
+    /// TODO: There are queit a few EventHandlers here. Try to eliminate them with Commands some day
+    /// 
+    /// This contains the Logic for the MainWindow
+    /// </summary>
     public class MainWindowViewModel : ViewModelBase
     {
         protected bool MainWindowInitialized;
@@ -17,42 +25,11 @@ namespace ModernApplicationFramework.ViewModels
         private MenuHostViewModel _menuHostViewModel;
         private BitmapImage _passiveIcon;
         private StatusBar _statusBar;
+        private Theme _theme;
         private ToolBarHostViewModel _toolBarHostViewModel;
+        private bool _useSimpleMovement;
         private bool _useStatusbar;
         private bool _useTitleBar;
-
-        private bool _useSimpleMovement;
-
-        public bool UseSimpleMovement
-        {
-            get
-            {
-                return _useSimpleMovement;
-            }
-            set
-            {
-                if (Equals(value, _useSimpleMovement))
-                    return;
-                _useSimpleMovement = value;
-                OnUseSimpleMovementChanged();
-                SimpleMoveWindowCommand.RaiseCanExecuteChanged();
-            }
-        }
-
-        protected virtual void OnUseSimpleMovementChanged()
-        {
-            if (_mainWindow == null)
-                return;
-            if (_useSimpleMovement)
-                _mainWindow.MouseDown += _mainWindow_MouseDown;
-            else
-                _mainWindow.MouseDown -= _mainWindow_MouseDown;
-        }
-
-        async private void _mainWindow_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            await SimpleMoveWindowCommand.Execute();
-        }
 
         public MainWindowViewModel(MainWindow mainWindow)
         {
@@ -152,6 +129,26 @@ namespace ModernApplicationFramework.ViewModels
         }
 
         /// <summary>
+        /// Contains the current Theme of the Application. 
+        /// </summary>
+        public Theme Theme
+        {
+            get { return _theme; }
+            set
+            {
+                if (value == null)
+                    throw new NoNullAllowedException();
+                if (Equals(value, _theme))
+                    return;
+                var oldTheme = _theme;
+                _theme = value;
+                OnPropertyChanged();
+                OnThemeChanged(oldTheme, _theme);
+            }
+            
+        }
+
+        /// <summary>
         /// Contains the ViewModel of the MainWindows ToolbarHostControl
         /// This can not be changed once it was setted with a value
         /// </summary>
@@ -163,6 +160,26 @@ namespace ModernApplicationFramework.ViewModels
                 if (ToolbarHostViewModelSetted)
                     throw new InvalidOperationException("You can not change the ToolBarHostViewModel once it was seeted up");
                 _toolBarHostViewModel = value;
+            }
+        }
+
+        /// <summary>
+        /// Contains the Movement Technique for the MainWindow
+        /// SimpleMovemtn allows to move the Window by clicking/dragging anywhere on it
+        /// </summary>
+        public bool UseSimpleMovement
+        {
+            get
+            {
+                return _useSimpleMovement;
+            }
+            set
+            {
+                if (Equals(value, _useSimpleMovement))
+                    return;
+                _useSimpleMovement = value;
+                OnUseSimpleMovementChanged();
+                SimpleMoveWindowCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -215,6 +232,43 @@ namespace ModernApplicationFramework.ViewModels
                 throw new Exception("You can not run this Operation until the MainWindow is not initialized");
         }
 
+        /// <summary>
+        /// Called Theme property when changed. 
+        /// Implements the logic that applys the new Theme
+        /// </summary>
+        /// <param name="oldValue"></param>
+        /// <param name="newValue"></param>
+        protected virtual void OnThemeChanged(Theme oldValue, Theme newValue)
+        {
+            var resources = _mainWindow.Resources;
+            resources.Clear();
+            resources.MergedDictionaries.Clear();
+            if (oldValue != null)
+            {
+                var resourceDictionaryToRemove =
+                    resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldValue.GetResourceUri());
+                if (resourceDictionaryToRemove != null)
+                    resources.MergedDictionaries.Remove(resourceDictionaryToRemove);
+            }
+            if (newValue != null)
+                resources.MergedDictionaries.Add(new ResourceDictionary { Source = newValue.GetResourceUri() });
+
+            _mainWindow?.DockingManager?.OnThemeChanged(oldValue, newValue);
+        }
+
+        /// <summary>
+        /// Handles what happens after UseSimpleMovement was changed
+        /// </summary>
+        protected virtual void OnUseSimpleMovementChanged()
+        {
+            if (_mainWindow == null)
+                return;
+            if (_useSimpleMovement)
+                _mainWindow.MouseDown += _mainWindow_MouseDown;
+            else
+                _mainWindow.MouseDown -= _mainWindow_MouseDown;
+        }
+
         async private void _mainWindow_Activated(object sender, EventArgs e)
         {
             await ChangeWindowIconActiveCommand.Execute();
@@ -223,6 +277,11 @@ namespace ModernApplicationFramework.ViewModels
         async private void _mainWindow_Deactivated(object sender, EventArgs e)
         {
             await ChangeWindowIconPassiveCommand.Execute();
+        }
+
+        async private void _mainWindow_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            await SimpleMoveWindowCommand.Execute();
         }
 
         private void _mainWindow_SourceInitialized(object sender, EventArgs e)

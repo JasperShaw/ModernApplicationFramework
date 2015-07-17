@@ -83,7 +83,7 @@ namespace ModernApplicationFrameworkTestAppDock
 
 		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
-			Theme = new LightTheme();
+            ((MainWindowViewModel)DataContext).Theme = new LightTheme();
 		}
 	}
 }

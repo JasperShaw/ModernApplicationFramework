@@ -656,5 +656,15 @@
     <SolidColorBrush x:Key="MenuArrowSlected" Color="Black"/>
     <SolidColorBrush x:Key="MenuArrowNormal" Color="Black"/>
     <SolidColorBrush x:Key="MenuDisabledForeground" Color="#FF656565"/>
+    
+    
+    
+    
+    
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=AnchorPaneTitleBackgroundActive}" Color="Green"/>
+    
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=FloatingWindowTitleBarBackground}" Color="Green"/>
 
 </ResourceDictionary>

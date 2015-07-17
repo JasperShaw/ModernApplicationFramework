@@ -1926,6 +1926,32 @@ namespace ModernApplicationFramework.Docking
 		}
 
 
+	    public virtual void OnThemeChanged(Theme oldValue, Theme newValue)
+	    {
+	        var oldTheme = oldValue;
+	        var newTheme = newValue;
+            var resources = Resources;
+            if (oldTheme != null)
+            {
+                var resourceDictionaryToRemove =
+                    resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldTheme.GetResourceUri());
+                if (resourceDictionaryToRemove != null)
+                    resources.MergedDictionaries.Remove(
+                        resourceDictionaryToRemove);
+            }
+
+            if (newTheme != null)
+            {
+                resources.MergedDictionaries.Add(new ResourceDictionary() { Source = newTheme.GetResourceUri() });
+            }
+
+            foreach (var fwc in _fwList)
+                fwc.UpdateThemeResources(oldTheme);
+
+            _navigatorWindow?.UpdateThemeResources();
+            _overlayWindow?.UpdateThemeResources();
+        }
+
 		public virtual void OnThemeChanged(DependencyPropertyChangedEventArgs e)
 		{
 			var oldTheme = e.OldValue as Theme;

@@ -23,7 +23,7 @@ namespace ModernApplicationFramework.Controls
 	public abstract class MainWindow : ModernChromeWindow
 	{
 	    public static readonly DependencyProperty ThemeProperty = DependencyProperty.Register("Theme", typeof (Theme),
-			typeof (MainWindow), new FrameworkPropertyMetadata(null, OnThemeChanged));
+			typeof (MainWindow), new FrameworkPropertyMetadata(null));
 
 	    protected MainWindow()
 		{
@@ -58,7 +58,8 @@ namespace ModernApplicationFramework.Controls
 			Application.Current.MainWindow = this;
 		}
 
-	    //TODO: Decide if abstract or not later (But Makes Sense...)
+	    // TODO: Decide if abstract or not later (But Makes Sense...)
+	    // TODO: Try to move Theme DProptery out of this class some day. Task to do first: think of how to implement the DockingManager and DockingManagerHost correct
 
 	    static MainWindow()
 		{
@@ -72,6 +73,7 @@ namespace ModernApplicationFramework.Controls
 	    public BitmapImage ActivatedFloatIcon { get; set; }
 	    public BitmapImage DeactivatedFloatIcon { get; set; }
 	    public DockingHost DockingHost { get; protected set; }
+	    public DockingManager DockingManager { get; set; }
 
 	    public Theme Theme
 		{
@@ -80,8 +82,6 @@ namespace ModernApplicationFramework.Controls
 		}
 
 	    public bool UsesDockingManagerHost { get;  protected set; }
-
-	    protected DockingManager DockingManager { get; set; }
 	    internal IntPtr MainWindowHandle => new WindowInteropHelper(this).Handle;
 
 	    public override void OnApplyTemplate()
@@ -136,69 +136,43 @@ namespace ModernApplicationFramework.Controls
 		}
 
 	    protected override AutomationPeer OnCreateAutomationPeer()
-		{
-			return new MainWindowAutomationPeer(this);
-		}
+        {
+            return new MainWindowAutomationPeer(this);
+        }
 
 	    protected override IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam, ref bool handled)
-		{
-			switch (msg)
-			{
-				case 4242:
-					handled = HandleInputProcessing((int) lparam);
-					break;
-			}
-			return base.WindowProc(hwnd, msg, wparam, lparam, ref handled);
-		}
+        {
+            switch (msg)
+            {
+                case 4242:
+                    handled = HandleInputProcessing((int)lparam);
+                    break;
+            }
+            return base.WindowProc(hwnd, msg, wparam, lparam, ref handled);
+        }
 
 	    private static bool HandleInputProcessing(int timeoutMs)
-		{
-			var num = timeoutMs <= 0 ? 500 : timeoutMs;
-			var timer = new DispatcherTimer(DispatcherPriority.ApplicationIdle)
-			{
-				Interval = TimeSpan.FromMilliseconds(num)
-			};
-			timer.Tick += (sender, args) =>
-			{
-				using (
-					var eventWaitHandle = EventWaitHandle.OpenExisting("InputProcessed",
-						EventWaitHandleRights.Modify))
-					eventWaitHandle.Set();
-				timer.Stop();
-			};
-			timer.Start();
-			return true;
-		}
-
-	    private static void OnThemeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-	    {
-	        ((MainWindow) d).OnThemeChanged(e);
-	    }
+        {
+            var num = timeoutMs <= 0 ? 500 : timeoutMs;
+            var timer = new DispatcherTimer(DispatcherPriority.ApplicationIdle)
+            {
+                Interval = TimeSpan.FromMilliseconds(num)
+            };
+            timer.Tick += (sender, args) =>
+            {
+                using (
+                    var eventWaitHandle = EventWaitHandle.OpenExisting("InputProcessed",
+                        EventWaitHandleRights.Modify))
+                    eventWaitHandle.Set();
+                timer.Stop();
+            };
+            timer.Start();
+            return true;
+        }
 
 	    private void DockingHost_Loaded(object sender, RoutedEventArgs e)
 		{
 			throw new NotImplementedException();
-		}
-
-	    private void OnThemeChanged(DependencyPropertyChangedEventArgs e)
-		{
-			var oldTheme = e.OldValue as Theme;
-			var newValue = e.NewValue as Theme;
-
-			var resources = Resources;
-			resources.Clear();
-			resources.MergedDictionaries.Clear();
-			if (oldTheme != null)
-			{
-				var resourceDictionaryToRemove =
-					resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldTheme.GetResourceUri());
-				if (resourceDictionaryToRemove != null)
-					resources.MergedDictionaries.Remove(resourceDictionaryToRemove);
-			}
-			if (newValue != null)
-				resources.MergedDictionaries.Add(new ResourceDictionary {Source = newValue.GetResourceUri()});
-
-			DockingManager?.OnThemeChanged(e);
 		}
 
 	    private void OnVisibilityChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -211,12 +185,12 @@ namespace ModernApplicationFramework.Controls
 
 	    private class DeviceToLogicalXConverter : ValueConverter<int, double>
 		{
-		    protected override double Convert(int value, object parameter, CultureInfo culture)
+	        protected override double Convert(int value, object parameter, CultureInfo culture)
 			{
 				return value*DpiHelper.DeviceToLogicalUnitsScalingFactorX;
 			}
 
-		    protected override int ConvertBack(double value, object parameter, CultureInfo culture)
+	        protected override int ConvertBack(double value, object parameter, CultureInfo culture)
 			{
 				return (int) (value*DpiHelper.LogicalToDeviceUnitsScalingFactorX);
 			}
@@ -224,12 +198,12 @@ namespace ModernApplicationFramework.Controls
 
 	    private class DeviceToLogicalYConverter : ValueConverter<int, double>
 		{
-		    protected override double Convert(int value, object parameter, CultureInfo culture)
+	        protected override double Convert(int value, object parameter, CultureInfo culture)
 			{
 				return value*DpiHelper.DeviceToLogicalUnitsScalingFactorY;
 			}
 
-		    protected override int ConvertBack(double value, object parameter, CultureInfo culture)
+	        protected override int ConvertBack(double value, object parameter, CultureInfo culture)
 			{
 				return (int) (value*DpiHelper.LogicalToDeviceUnitsScalingFactorY);
 			}
