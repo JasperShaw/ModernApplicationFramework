@@ -48,7 +48,7 @@
 							                         TextElement.Foreground="{DynamicResource {x:Static core:EnvironmentColors.MainWindowTitleBarForeground}}">
                                 <DockPanel>
                                     <this:SystemMenu x:Name="PART_SystemMenu" Width="32" Height="27" Margin="0,0,12,4" HorizontalAlignment="Left"
-									                 DockPanel.Dock="Left" Padding="12,7,0,0" Source="{TemplateBinding Icon}" 
+									                 DockPanel.Dock="Left" Padding="12,7,0,0" Source="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=DataContext.Icon}" 
                                                      WindowChrome.IsHitTestVisibleInChrome="True" />
                                     <StackPanel x:Name="WindowTitleBarButtons"
 									            DockPanel.Dock="Right"

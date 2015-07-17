@@ -22,7 +22,24 @@ namespace ModernApplicationFramework.Controls
 {
 	public abstract class MainWindow : ModernChromeWindow
 	{
-		protected MainWindow()
+	    public new static readonly DependencyProperty IconProperty = DependencyProperty.Register(
+			"Icon", typeof (ImageSource), typeof (MainWindow), new PropertyMetadata(default(ImageSource)));
+
+	    public static readonly DependencyProperty ThemeProperty = DependencyProperty.Register("Theme", typeof (Theme),
+			typeof (MainWindow), new FrameworkPropertyMetadata(null, OnThemeChanged));
+
+	    public static readonly DependencyProperty IsSimpleWindowTypeProperty = DependencyProperty.Register(
+	        "IsSimpleWindowType", typeof (bool), typeof (MainWindow), new PropertyMetadata(default(bool)));
+
+	    public static readonly DependencyProperty UseStatusBarProperty = DependencyProperty.Register(
+	        "UseStatusBar", typeof (bool), typeof (MainWindow), new PropertyMetadata(true));
+
+	    public static readonly DependencyProperty UseTitleBarProperty = DependencyProperty.Register(
+	        "UseTitleBar", typeof (bool), typeof (MainWindow), new PropertyMetadata(true));
+
+	    private bool _fullWindowMovement;
+
+	    protected MainWindow()
 		{
             DataContext = new MainWindowViewModel(this);
             IsVisibleChanged += OnVisibilityChanged;
@@ -55,9 +72,9 @@ namespace ModernApplicationFramework.Controls
 			Application.Current.MainWindow = this;
 		}
 
-		//TODO: Decide if abstract or not later (But Makes Sense...)
+	    //TODO: Decide if abstract or not later (But Makes Sense...)
 
-		static MainWindow()
+	    static MainWindow()
 		{
 			Keyboard.DefaultRestoreFocusMode = RestoreFocusMode.None;
 			RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
@@ -66,40 +83,61 @@ namespace ModernApplicationFramework.Controls
 			//TODO FloatingWindow event stuff
 		}
 
-		public BitmapImage ActivatedIcon { get; set; }
-		public BitmapImage DeactivatedIcon { get; set; }
+	    public BitmapImage ActivatedFloatIcon { get; set; }
+	    public BitmapImage ActivatedIcon { get; set; }
+	    public BitmapImage DeactivatedFloatIcon { get; set; }
+	    public BitmapImage DeactivatedIcon { get; set; }
+	    public DockingHost DockingHost { get; protected set; }
 
-		public BitmapImage ActivatedFloatIcon { get; set; }
-		public BitmapImage DeactivatedFloatIcon { get; set; }
+	    public bool FullWindowMovement
+	    {
+            get { return _fullWindowMovement; }
+	        set
+	        {
+	            _fullWindowMovement = value;
+	            OnFullWindowMovementChanged();
+	        }
+	    }
 
-        /// <summary>
+	    /// <summary>
         /// Contains the current shown Icon
         /// </summary>
-		public new ImageSource Icon
-		{
-			get { return (ImageSource) GetValue(IconProperty); }
-			set { SetValue(IconProperty, value); }
-		}
+		//public new ImageSource Icon
+		//{
+		//	get { return (ImageSource) GetValue(IconProperty); }
+		//	set { SetValue(IconProperty, value); }
+		//}
 
-        /// <summary>
-        /// Contains the Statusbar for this MainWindow
-        /// </summary>
-		public StatusBar StatusBar { get; set; }
+	    public bool IsSimpleWindowType
+	    {
+	        get { return (bool) GetValue(IsSimpleWindowTypeProperty); }
+	        set { SetValue(IsSimpleWindowTypeProperty, value); }
+	    }
 
-		public Theme Theme
+	    public Theme Theme
 		{
 			get { return (Theme) GetValue(ThemeProperty); }
 			set { SetValue(ThemeProperty, value); }
 		}
 
-		internal IntPtr MainWindowHandle => new WindowInteropHelper(this).Handle;
+	    public bool UsesDockingManagerHost { get;  protected set; }
 
-		public virtual void CloseMainWindow()
-		{
-			Close();
-		}
+	    public bool UseStatusBar
+	    {
+	        get { return (bool) GetValue(UseStatusBarProperty); }
+	        set { SetValue(UseStatusBarProperty, value); }
+	    }
 
-		public override void OnApplyTemplate()
+	    public bool UseTitleBar
+	    {
+	        get { return (bool) GetValue(UseTitleBarProperty); }
+	        set { SetValue(UseTitleBarProperty, value); }
+	    }
+
+	    protected DockingManager DockingManager { get; set; }
+	    internal IntPtr MainWindowHandle => new WindowInteropHelper(this).Handle;
+
+	    public override void OnApplyTemplate()
 		{
 			SetWindowIcons();
 		    var viewModel = DataContext as MainWindowViewModel;
@@ -139,7 +177,7 @@ namespace ModernApplicationFramework.Controls
 
 			var statusBar = GetTemplateChild("StatusBar") as StatusBar;
 			if (statusBar != null)
-				StatusBar = statusBar;
+				viewModel.StatusBar = statusBar;
 
 			var dockingHost = GetTemplateChild("DockingHost") as DockingHost;
 			if (dockingHost != null)
@@ -151,44 +189,33 @@ namespace ModernApplicationFramework.Controls
 			base.OnApplyTemplate();
 		}
 
-		private void DockingHost_Loaded(object sender, RoutedEventArgs e)
-		{
-			throw new NotImplementedException();
-		}
-
-		protected DockingManager DockingManager { get; set; }
-
-		public bool UsesDockingManagerHost { get;  protected set; }
-
-		public DockingHost DockingHost { get; protected set; }
-
-		protected override void OnActivated(EventArgs e)
+	    protected override void OnActivated(EventArgs e)
 		{
 			Icon = ActivatedIcon;
 			base.OnActivated(e);
 		}
 
-		protected override AutomationPeer OnCreateAutomationPeer()
+	    protected override AutomationPeer OnCreateAutomationPeer()
 		{
 			return new MainWindowAutomationPeer(this);
 		}
 
-		protected override void OnDeactivated(EventArgs e)
+	    protected override void OnDeactivated(EventArgs e)
 		{
 			Icon = DeactivatedIcon;
 			base.OnDeactivated(e);
 		}
 
-		protected override void OnSourceInitialized(EventArgs e)
+	    protected override void OnSourceInitialized(EventArgs e)
 		{
 			PopulateMenuAndToolBars();
 			base.OnSourceInitialized(e);
 		}
 
-		protected abstract void PopulateMenuAndToolBars();
-		protected abstract void SetWindowIcons();
+	    protected abstract void PopulateMenuAndToolBars();
+	    protected abstract void SetWindowIcons();
 
-		protected override IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam, ref bool handled)
+	    protected override IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam, ref bool handled)
 		{
 			switch (msg)
 			{
@@ -199,7 +226,7 @@ namespace ModernApplicationFramework.Controls
 			return base.WindowProc(hwnd, msg, wparam, lparam, ref handled);
 		}
 
-		private static bool HandleInputProcessing(int timeoutMs)
+	    private static bool HandleInputProcessing(int timeoutMs)
 		{
 			var num = timeoutMs <= 0 ? 500 : timeoutMs;
 			var timer = new DispatcherTimer(DispatcherPriority.ApplicationIdle)
@@ -223,6 +250,25 @@ namespace ModernApplicationFramework.Controls
 	        ((MainWindow) d).OnThemeChanged(e);
 	    }
 
+	    private void DockingHost_Loaded(object sender, RoutedEventArgs e)
+		{
+			throw new NotImplementedException();
+		}
+
+	    private void MainWindow_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (Mouse.LeftButton == MouseButtonState.Pressed)
+                DragMove();
+        }
+
+	    private void OnFullWindowMovementChanged()
+	    {
+	        if (FullWindowMovement)
+                MouseDown += MainWindow_MouseDown;
+            else
+                MouseDown -= MainWindow_MouseDown;
+        }
+
 	    private void OnThemeChanged(DependencyPropertyChangedEventArgs e)
 		{
 			var oldTheme = e.OldValue as Theme;
@@ -244,7 +290,7 @@ namespace ModernApplicationFramework.Controls
 			DockingManager?.OnThemeChanged(e);
 		}
 
-		private void OnVisibilityChanged(object sender, DependencyPropertyChangedEventArgs e)
+	    private void OnVisibilityChanged(object sender, DependencyPropertyChangedEventArgs e)
 		{
 			var handle = new WindowInteropHelper(this).Handle;
 			if (!NativeMethods.IsWindow(handle))
@@ -252,89 +298,30 @@ namespace ModernApplicationFramework.Controls
 			NativeMethods.ShowOwnedPopups(handle, IsVisible);
 		}
 
-		private class DeviceToLogicalXConverter : ValueConverter<int, double>
+	    private class DeviceToLogicalXConverter : ValueConverter<int, double>
 		{
-			protected override double Convert(int value, object parameter, CultureInfo culture)
+		    protected override double Convert(int value, object parameter, CultureInfo culture)
 			{
 				return value*DpiHelper.DeviceToLogicalUnitsScalingFactorX;
 			}
 
-			protected override int ConvertBack(double value, object parameter, CultureInfo culture)
+		    protected override int ConvertBack(double value, object parameter, CultureInfo culture)
 			{
 				return (int) (value*DpiHelper.LogicalToDeviceUnitsScalingFactorX);
 			}
 		}
 
-		private class DeviceToLogicalYConverter : ValueConverter<int, double>
+	    private class DeviceToLogicalYConverter : ValueConverter<int, double>
 		{
-			protected override double Convert(int value, object parameter, CultureInfo culture)
+		    protected override double Convert(int value, object parameter, CultureInfo culture)
 			{
 				return value*DpiHelper.DeviceToLogicalUnitsScalingFactorY;
 			}
 
-			protected override int ConvertBack(double value, object parameter, CultureInfo culture)
+		    protected override int ConvertBack(double value, object parameter, CultureInfo culture)
 			{
 				return (int) (value*DpiHelper.LogicalToDeviceUnitsScalingFactorY);
 			}
 		}
-
-		public new static readonly DependencyProperty IconProperty = DependencyProperty.Register(
-			"Icon", typeof (ImageSource), typeof (MainWindow), new PropertyMetadata(default(ImageSource)));
-
-		public static readonly DependencyProperty ThemeProperty = DependencyProperty.Register("Theme", typeof (Theme),
-			typeof (MainWindow), new FrameworkPropertyMetadata(null, OnThemeChanged));
-
-	    public static readonly DependencyProperty IsSimpleWindowTypeProperty = DependencyProperty.Register(
-	        "IsSimpleWindowType", typeof (bool), typeof (MainWindow), new PropertyMetadata(default(bool)));
-
-	    public bool IsSimpleWindowType
-	    {
-	        get { return (bool) GetValue(IsSimpleWindowTypeProperty); }
-	        set { SetValue(IsSimpleWindowTypeProperty, value); }
-	    }
-
-	    public static readonly DependencyProperty UseStatusBarProperty = DependencyProperty.Register(
-	        "UseStatusBar", typeof (bool), typeof (MainWindow), new PropertyMetadata(true));
-
-	    public bool UseStatusBar
-	    {
-	        get { return (bool) GetValue(UseStatusBarProperty); }
-	        set { SetValue(UseStatusBarProperty, value); }
-	    }
-
-	    public static readonly DependencyProperty UseTitleBarProperty = DependencyProperty.Register(
-	        "UseTitleBar", typeof (bool), typeof (MainWindow), new PropertyMetadata(true));
-
-	    public bool UseTitleBar
-	    {
-	        get { return (bool) GetValue(UseTitleBarProperty); }
-	        set { SetValue(UseTitleBarProperty, value); }
-	    }
-
-	    private bool _fullWindowMovement;
-
-	    public bool FullWindowMovement
-	    {
-            get { return _fullWindowMovement; }
-	        set
-	        {
-	            _fullWindowMovement = value;
-	            OnFullWindowMovementChanged();
-	        }
-	    }
-
-	    private void OnFullWindowMovementChanged()
-	    {
-	        if (FullWindowMovement)
-                MouseDown += MainWindow_MouseDown;
-            else
-                MouseDown -= MainWindow_MouseDown;
-        }
-
-        private void MainWindow_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (Mouse.LeftButton == MouseButtonState.Pressed)
-                DragMove();
-        }
 	}
 }
