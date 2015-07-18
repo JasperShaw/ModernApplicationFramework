@@ -28,30 +28,33 @@ namespace ModernApplicationFramework.Controls
 		{
             DataContext = new MainWindowViewModel(this);
             IsVisibleChanged += OnVisibilityChanged;
-			SetBinding(LeftProperty, new Binding
-			{
-				Path = new PropertyPath("Left"),
-				Mode = BindingMode.TwoWay,
-				Converter = new DeviceToLogicalXConverter()
-			});
-			SetBinding(TopProperty, new Binding
-			{
-				Path = new PropertyPath("Top"),
-				Mode = BindingMode.TwoWay,
-				Converter = new DeviceToLogicalYConverter()
-			});
-			SetBinding(WidthProperty, new Binding
-			{
-				Path = new PropertyPath("Width"),
-				Mode = BindingMode.TwoWay,
-				Converter = new DeviceToLogicalXConverter()
-			});
-			SetBinding(HeightProperty, new Binding
-			{
-				Path = new PropertyPath("Height"),
-				Mode = BindingMode.TwoWay,
-				Converter = new DeviceToLogicalYConverter()
-			});
+            //TODO: Decide what to do with this
+
+			//SetBinding(LeftProperty, new Binding
+			//{
+			//	Path = new PropertyPath("Left"),
+			//	Mode = BindingMode.TwoWay,
+			//	Converter = new DeviceToLogicalXConverter()
+			//});
+			//SetBinding(TopProperty, new Binding
+			//{
+			//	Path = new PropertyPath("Top"),
+			//	Mode = BindingMode.TwoWay,
+			//	Converter = new DeviceToLogicalYConverter()
+			//});
+			//SetBinding(WidthProperty, new Binding
+			//{
+			//	Path = new PropertyPath("Width"),
+			//	Mode = BindingMode.TwoWay,
+			//	Converter = new DeviceToLogicalXConverter()
+			//});
+			//SetBinding(HeightProperty, new Binding
+			//{
+			//	Path = new PropertyPath("Height"),
+			//	Mode = BindingMode.TwoWay,
+			//	Converter = new DeviceToLogicalYConverter()
+			//});
+
 			UIElementAutomationPeer.CreatePeerForElement(this);
 
 			Application.Current.MainWindow = this;
