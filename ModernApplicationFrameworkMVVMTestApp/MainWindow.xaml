@@ -9,7 +9,7 @@
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
-        <Button x:Name="TestButton" Margin="0,0,0,222" Grid.RowSpan="2" Content="Test" Command="{Binding TestCommand}"></Button>
+        <mafc:ImageButton NormalImage="Build.png" PressedImage="Build.png" HoverImage="test.jpg" x:Name="TestButton" Margin="0,0,0,222" Grid.RowSpan="2" Content="Test" Command="{Binding TestCommand}"></mafc:ImageButton>
 		<mafc:DockingManager Grid.Row="1" x:Name="DockManager" AllowMixedOrientation="True" Margin="0,100,0,0">
 			
 		</mafc:DockingManager>
