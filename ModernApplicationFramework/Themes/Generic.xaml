@@ -61,6 +61,7 @@
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/AnchorablePaneTitle.xaml"/>
         
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/ImageButton.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/ImageToggleButton.xaml"/>
 
     </ResourceDictionary.MergedDictionaries>
 

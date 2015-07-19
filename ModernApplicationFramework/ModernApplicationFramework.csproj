@@ -117,6 +117,7 @@
     </Compile>
     <Compile Include="Controls\GlyphButton.cs" />
     <Compile Include="Controls\ImageButton.cs" />
+    <Compile Include="Controls\ImageToggleButton.cs" />
     <Compile Include="Controls\INonClientArea.cs" />
     <Compile Include="Controls\Internals\SelectionDelegatingCheckBox.cs" />
     <Compile Include="Controls\MainWindowAutomationPeer.cs" />
@@ -373,6 +374,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\Generic\ImageButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic\ImageToggleButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
