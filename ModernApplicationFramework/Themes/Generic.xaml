@@ -62,6 +62,7 @@
         
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/ImageButton.xaml"/>
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/ImageToggleButton.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/ImageRadioButton.xaml"/>
 
     </ResourceDictionary.MergedDictionaries>
 

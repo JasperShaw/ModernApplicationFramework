@@ -10,8 +10,8 @@
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
         <mafc:ImageButton NormalImage="Build.png" PressedImage="Build.png" HoverImage="test.jpg" x:Name="TestButton" Margin="0,0,0,222" Grid.RowSpan="2" Content="Test" Command="{Binding TestCommand}"></mafc:ImageButton>
-        <mafc:ImageToggleButton Margin="0,122,402,120" Grid.RowSpan="2" NormalImage="Build.png" CheckedImage="test.jpg"/>
-        <mafc:ImageToggleButton Margin="326,122,0,120" Grid.RowSpan="2" NormalImage="Build.png" CheckedImage="test.jpg"/>
+        <mafc:ImageRadioButton Margin="0,122,402,120" Grid.RowSpan="2" NormalImage="Build.png" CheckedImage="test.jpg"/>
+        <mafc:ImageRadioButton Margin="326,122,0,120" Grid.RowSpan="2" NormalImage="Build.png" CheckedImage="test.jpg"/>
 		<mafc:DockingManager Grid.Row="1" x:Name="DockManager" AllowMixedOrientation="True" Margin="0,200,0,0">
 			
 		</mafc:DockingManager>
