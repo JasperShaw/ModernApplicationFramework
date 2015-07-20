@@ -124,6 +124,7 @@
     <Compile Include="Controls\MainWindowAutomationPeer.cs" />
     <Compile Include="Controls\MainWindowTitleBarAutomationPeer.cs" />
     <Compile Include="Controls\MenuHostControl.cs" />
+    <Compile Include="Controls\OutlineTextBlock.cs" />
     <Compile Include="Controls\ResizeGrip.cs" />
     <Compile Include="Controls\SystemMenu.cs" />
     <Compile Include="Controls\ToolBarHostControl.cs" />
