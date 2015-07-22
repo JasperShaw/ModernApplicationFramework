@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Documents;
@@ -83,10 +82,22 @@ namespace ModernApplicationFramework.Controls
                 typeof (string),
                 typeof (OutlineTextBlock),
                 new FrameworkPropertyMetadata(
-                    String.Empty,
+                    string.Empty,
                     FrameworkPropertyMetadataOptions.AffectsMeasure |
                     FrameworkPropertyMetadataOptions.AffectsRender,
-                    OnOutlineTextInvalidated));
+                    OnOutlineTextInvalidated, CoerceValueCallback));
+
+        private static object CoerceValueCallback(DependencyObject dependencyObject, object baseValue)
+        {
+
+            OutlineTextBlock outlineTextBlock = (OutlineTextBlock)dependencyObject;
+
+            if (baseValue == null)
+                baseValue = string.Empty;
+            if ((string) baseValue == (string) outlineTextBlock.GetValue(TextProperty))
+                outlineTextBlock.CreateText();
+            return baseValue;
+        }
 
         private Geometry _textGeometry;
 
