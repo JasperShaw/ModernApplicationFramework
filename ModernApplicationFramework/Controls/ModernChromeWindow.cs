@@ -869,6 +869,7 @@ namespace ModernApplicationFramework.Controls
             AllowsTransparency = true;
 
             _targetWindow = owner;
+            Owner = owner;
 
 	        ShowInTaskbar = false;
 
