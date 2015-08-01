@@ -296,7 +296,7 @@ namespace ModernApplicationFramework.ViewModels
 
         protected virtual void Minimize()
         {
-            _mainWindow.WindowState = WindowState.Minimized;
+            SystemCommands.MinimizeWindow(_mainWindow);
         }
 
         protected virtual bool CanMinimize()
@@ -308,7 +308,10 @@ namespace ModernApplicationFramework.ViewModels
 
         protected virtual void MaximizeResize()
         {
-            _mainWindow.WindowState = _mainWindow.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+            if (_mainWindow.WindowState == WindowState.Maximized)
+                SystemCommands.RestoreWindow(_mainWindow);
+            else 
+                SystemCommands.MaximizeWindow(_mainWindow);
         }
 
         protected virtual bool CanMaximizeResize()
@@ -320,7 +323,7 @@ namespace ModernApplicationFramework.ViewModels
 
         protected virtual void Close()
         {
-            _mainWindow.Close();
+            SystemCommands.CloseWindow(_mainWindow);
         }
 
         protected virtual bool CanClose()

@@ -293,8 +293,8 @@ namespace ModernApplicationFramework.Controls
         {
             var hwndSource = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
             hwndSource?.AddHook(WindowProc);
-            base.OnSourceInitialized(e);
             Loaded += OnLoaded;
+            base.OnSourceInitialized(e);       
         }
 
         protected override void OnStateChanged(EventArgs e)
@@ -303,6 +303,7 @@ namespace ModernApplicationFramework.Controls
             {
                 UpdateGlowActiveState();
                 UpdateGlowWindowPositions(true);
+                WindowStyle = WindowStyle.None;
             }
             else
                 UpdateGlowVisibility(false);
@@ -646,7 +647,7 @@ namespace ModernApplicationFramework.Controls
             var shouldShowShadow = ShouldShowShadow;
             if (shouldShowShadow == IsShadowVisible)
                 return;
-            if (SystemParameters.MinimizeAnimation && shouldShowShadow && delayIfNecessary)
+            if (SystemParameters.MinimizeAnimation & shouldShowShadow & delayIfNecessary)
             {
                 if (_makeShadowVisibleTimer != null)
                     _makeShadowVisibleTimer.Stop();
@@ -743,6 +744,12 @@ namespace ModernApplicationFramework.Controls
                     RedrawWindowFlags.Invalidate | RedrawWindowFlags.NoChildren | RedrawWindowFlags.UpdateNow |
                     RedrawWindowFlags.Frame);
             }
+
+            if (scWparam == 61472 || scWparam == 61728)
+                WindowStyle = WindowStyle.SingleBorderWindow;
+            else
+                WindowStyle = WindowStyle.None;
+
             if ((scWparam == 61488 || scWparam == 61472 || (scWparam == 61456 || scWparam == 61440)) &&
                 (WindowState == WindowState.Normal && !IsAeroSnappedToMonitor(hwnd)))
                 _logicalSizeForRestore = new Rect(Left, Top, Width, Height);
