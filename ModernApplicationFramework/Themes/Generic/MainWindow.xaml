@@ -123,7 +123,7 @@
 							<Setter TargetName="PART_SystemMenu" Property="VectorFill" Value="White" />
 						</Trigger>
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=DataContext.IsSimpleWindow}" Value="True">
-                            <Setter Property="ResizeMode" Value="NoResize"/>
+                            <Setter Property="ResizeMode" Value="CanMinimize"/>
                             <Setter TargetName="ResizeGrip" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="MaximizeRestoreButton" Property="Visibility" Value="Collapsed"/>
                         </DataTrigger>
