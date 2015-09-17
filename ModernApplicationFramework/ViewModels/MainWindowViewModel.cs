@@ -238,7 +238,7 @@ namespace ModernApplicationFramework.ViewModels
         /// </summary>
         /// <param name="oldValue"></param>
         /// <param name="newValue"></param>
-        protected virtual void OnThemeChanged(Theme oldValue, Theme newValue)
+        public virtual void OnThemeChanged(Theme oldValue, Theme newValue)
         {
             var resources = Application.Current.Resources;
             resources.Clear();
@@ -254,6 +254,7 @@ namespace ModernApplicationFramework.ViewModels
                 resources.MergedDictionaries.Add(new ResourceDictionary { Source = newValue.GetResourceUri() });
 
             _mainWindow?.DockingManager?.OnThemeChanged(oldValue, newValue);
+            _mainWindow?.OnThemeChanged(oldValue, newValue);
 
             ToolBarHostViewModel.OnThemeChanged(oldValue, newValue);
         }

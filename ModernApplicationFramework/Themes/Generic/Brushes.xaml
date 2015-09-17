@@ -376,6 +376,9 @@
     </LinearGradientBrush>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                    ResourceId=ContextMenuForeground}" Color="#FF000000"/>
+    
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
                      ResourceId=ContextMenuIconBackground}" Color="#FFF2F4FE"/>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
@@ -618,6 +621,17 @@
     <!--LayoutAutoHideWindowControl-->
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
                      ResourceId=LayoutAutoHideWindowBackground}" Color="#FF293955"/>
+    
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=LayoutAutoHideWindowBorder}" Color="#FF293955"/>
+    
+    
+    <!--LayoutGridResizer-->
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=LayoutGridResizerBackground}" Color="#FF293955"/>
+    
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=LayoutGridResizerBackgroundHorizontal}" Color="#FF293955"/>
     
     <!--DockingManager-->
     <LinearGradientBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},

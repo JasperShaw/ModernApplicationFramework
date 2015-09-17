@@ -242,7 +242,7 @@ namespace ModernApplicationFramework.Docking.Controls
             _hwndSrc?.AddHook(_hwndSrcHook);
         }
 
-	    public virtual void OnThemeChanged(Theme oldValue, Theme newValue)
+	    public override void OnThemeChanged(Theme oldValue, Theme newValue)
 	    {
 	        if (oldValue != null)
 	        {
@@ -255,7 +255,8 @@ namespace ModernApplicationFramework.Docking.Controls
 	        if (newValue == null)
 	            return;
 	        Resources.MergedDictionaries.Add(new ResourceDictionary {Source = newValue.GetResourceUri()});
-	    }
+            base.OnThemeChanged(oldValue, newValue);
+        }
 
 	    private void OnUnloaded(object sender, RoutedEventArgs e)
 		{

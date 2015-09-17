@@ -244,6 +244,7 @@ namespace ModernApplicationFramework.Core.Themes
 
         //ContextMenu
         private static ComponentResourceKey _contextMenuBackground;
+        private static ComponentResourceKey _contextMenuForeground;
         private static ComponentResourceKey _contextMenuIconBackground;
         private static ComponentResourceKey _contextMenuBorder;
         private static ComponentResourceKey _contextMenuShadow;
@@ -288,6 +289,11 @@ namespace ModernApplicationFramework.Core.Themes
 
         //LayoutAutoHideWindowControl
         private static ComponentResourceKey _layoutAutoHideWindowBackground;
+        private static ComponentResourceKey _layoutAutoHideWindowBorder;
+
+        //LayoutGridResizer
+        private static ComponentResourceKey _layoutGridResizerBackground;
+        private static ComponentResourceKey _layoutGridResizerBackgroundHorizontal;
 
         //DockingManager
         private static ComponentResourceKey _dockingManagerBackground;
@@ -1139,6 +1145,12 @@ namespace ModernApplicationFramework.Core.Themes
                                                                     (_contextMenuBackground =
                                                                         new ComponentResourceKey(typeof(EnvironmentColors), "ContextMenuBackground"));
 
+        public static ComponentResourceKey ContextMenuForeground => _contextMenuForeground ??
+                                                                    (_contextMenuForeground =
+                                                                        new ComponentResourceKey(
+                                                                            typeof (EnvironmentColors),
+                                                                            "ContextMenuForeground"));
+
         public static ComponentResourceKey ContextMenuIconBackground => _contextMenuIconBackground ??
                                                                         (_contextMenuIconBackground =
                                                                             new ComponentResourceKey(typeof(EnvironmentColors), "ContextMenuIconBackground"));
@@ -1275,6 +1287,28 @@ namespace ModernApplicationFramework.Core.Themes
            =>
                _layoutAutoHideWindowBackground ?? (_layoutAutoHideWindowBackground =
                (new ComponentResourceKey(typeof(EnvironmentColors), "LayoutAutoHideWindowBackground")));
+
+        public static ComponentResourceKey LayoutAutoHideWindowBorder
+            =>
+                _layoutAutoHideWindowBorder ??
+                (_layoutAutoHideWindowBorder =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "LayoutAutoHideWindowBorder"));
+        #endregion
+
+        #region LayoutGridResizer
+
+        public static ComponentResourceKey LayoutGridResizerBackground
+            =>
+                _layoutGridResizerBackground ??
+                (_layoutGridResizerBackground =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "LayoutGridResizerBackground"));
+
+        public static ComponentResourceKey LayoutGridResizerBackgroundHorizontal
+            =>
+                _layoutGridResizerBackgroundHorizontal ??
+                (_layoutGridResizerBackgroundHorizontal =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "LayoutGridResizerBackgroundHorizontal"));
+
         #endregion
 
         #region DockingManager

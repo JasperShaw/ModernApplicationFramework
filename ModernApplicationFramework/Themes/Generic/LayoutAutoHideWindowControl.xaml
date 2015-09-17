@@ -2,9 +2,16 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:avalonDockControls="clr-namespace:ModernApplicationFramework.Docking.Controls"
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes">
+    
+    
+    <Style x:Key="LayoutAutoHideWindowControlBorder" TargetType="Control">
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.LayoutAutoHideWindowBorder}}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+    </Style>
 
     <Style x:Key="{x:Type avalonDockControls:LayoutAutoHideWindowControl}" TargetType="{x:Type avalonDockControls:LayoutAutoHideWindowControl}">
         <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.LayoutAutoHideWindowBackground}}"/>
+        <Setter Property="AnchorableStyle" Value="{StaticResource LayoutAutoHideWindowControlBorder}"/>
     </Style>
 
 </ResourceDictionary>

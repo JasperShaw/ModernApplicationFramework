@@ -1,6 +1,6 @@
 ﻿namespace ModernApplicationFramework.Core.Themes
 {
-    internal interface IOnThemeChanged
+    public interface IOnThemeChanged
     {
         void OnThemeChanged(Theme oldValue, Theme newValue);
     }

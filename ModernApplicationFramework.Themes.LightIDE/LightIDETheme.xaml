@@ -3,6 +3,7 @@
     
    <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/ModernApplicationFramework.Themes.LightIDE;component/Brushes.xaml"/>
+		<ResourceDictionary Source="/ModernApplicationFramework.Themes.LightIDE;component/OverlayWindow.xaml"/>
     </ResourceDictionary.MergedDictionaries>	
     
 </ResourceDictionary>

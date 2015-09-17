@@ -328,13 +328,13 @@
                      ResourceId=MenuItemIconForegroundHover}" Color="Green"/>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuItemPopupBackground}" Color="#FFFCFCFC"/>
+                     ResourceId=MenuItemPopupBackground}" Color="#FFF6F6F6"/>
     
     <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
                      ResourceId=MenuItemPopupShadow}" A="72" R="0" G="0" B="0"/>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuItemPopupIconBackground}" Color="#FFFCFCFC"/>
+                     ResourceId=MenuItemPopupIconBackground}" Color="#FFF6F6F6"/>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
                      ResourceId=MenuItemPopupBorder}" Color="#FFCCCEDB"/>
@@ -374,6 +374,9 @@
         <GradientStop Color="#FFF6F6F6" Offset="0.0"/>
         <GradientStop Color="#FFF6F6F6" Offset="1.0" />
     </LinearGradientBrush>
+    
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                ResourceId=ContextMenuForeground}" Color="#FF1E1E1E"/>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
                      ResourceId=ContextMenuIconBackground}" Color="#FFF6F6F6"/>
@@ -617,7 +620,17 @@
     
     <!--LayoutAutoHideWindowControl-->
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=LayoutAutoHideWindowBackground}" Color="#CBCDDA"/>
+                     ResourceId=LayoutAutoHideWindowBackground}" Color="#FFF5F5F5"/>
+    
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=LayoutAutoHideWindowBorder}" Color="#FFCCCEDB"/>
+    
+    <!--LayoutGridResizer-->
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=LayoutGridResizerBackground}" Color="#FFEEEEF2"/>
+    
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=LayoutGridResizerBackgroundHorizontal}" Color="#FFCCCEDB"/>
     
     <!--DockingManager-->
     <LinearGradientBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},

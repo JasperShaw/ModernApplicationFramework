@@ -143,6 +143,7 @@
     <Compile Include="Core\Converters\BooleanToFlowDirectionConverter.cs" />
     <Compile Include="Core\Converters\DockLocationConverter.cs" />
     <Compile Include="Core\Converters\InverseBoolConverter.cs" />
+    <Compile Include="Core\Converters\IsHorizontalResizeGripConverter.cs" />
     <Compile Include="Core\Converters\MultiValueConverter.cs" />
     <Compile Include="Core\Converters\ToBooleanValueConverter.cs" />
     <Compile Include="Core\Converters\ToolBarVisibilityConverter.cs" />

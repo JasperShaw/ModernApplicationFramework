@@ -21,7 +21,7 @@
                     <avalonDockControls:DropDownControlArea DropDownContextMenu="{Binding Root.Manager.DocumentContextMenu}"
                                                             DropDownContextMenuDataContext="{Binding LayoutItem, RelativeSource={RelativeSource TemplatedParent}}">
                         <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
-                                BorderThickness="{TemplateBinding BorderThickness}" Padding="0,2,0,1">
+                                BorderThickness="{TemplateBinding BorderThickness}" Padding="0,2,0,0">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -37,7 +37,7 @@
                                         <Path x:Name="HideButtonPath" Fill="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyph}}" Width="10" Height="8" Stretch="Uniform"
                                           Data="F1 M 0,0 L 2,0 5,3 8,0 10,0 6,4 10,8 8,8 5,5 2,8 0,8 4,4 0,0 Z"/>
                                     </controls:Button>
-                                    <ContentPresenter x:Name="Content" Content="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}" TextElement.Foreground="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemText}}"
+                                    <ContentPresenter x:Name="Content" Content="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}" TextElement.Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}, Mode=FindAncestor}, Path=Foreground}"
                                             ContentTemplate="{Binding DocumentHeaderTemplate, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"
                                             ContentTemplateSelector="{Binding DocumentHeaderTemplateSelector, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"/>
                                 </DockPanel>
@@ -70,7 +70,7 @@
 							<Setter TargetName="Content" Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemTextHover}}"/>
 						</Trigger>
 						<DataTrigger Binding="{Binding Path=CanClose}" Value="false">
-							<Setter Property="Visibility" Value="Collapsed" TargetName="DocumentCloseButton"/>
+							<Setter Property="Visibility" Value="Hidden" TargetName="DocumentCloseButton"/>
 						</DataTrigger>
 						<Trigger SourceName="DocumentCloseButton" Property="IsMouseOver" Value="True">
 							<Setter TargetName="DocumentCloseButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBackgroundHover}}"/>
@@ -82,6 +82,14 @@
 							<Setter TargetName="DocumentCloseButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBorderDown}}"/>
 							<Setter TargetName="HideButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyphDown}}"/>
 						</Trigger>
+                        <MultiDataTrigger>
+							<MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}, Mode=FindAncestor}, Path=IsMouseOver}" Value="true"/>
+							</MultiDataTrigger.Conditions>
+                            <MultiDataTrigger.Setters>
+                                <Setter Property="Visibility" Value="Visible" TargetName="DocumentCloseButton"/>
+                            </MultiDataTrigger.Setters>
+						</MultiDataTrigger>
 						<MultiDataTrigger>
 							<MultiDataTrigger.Conditions>
 								<Condition Binding="{Binding Path=IsSelected}" Value="True"/>
@@ -189,7 +197,7 @@
 								<Setter TargetName="HideButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyphLastActiveDown}}"/>
 							</MultiDataTrigger.Setters>
 						</MultiDataTrigger>
-					</ControlTemplate.Triggers>
+                    </ControlTemplate.Triggers>
 				</ControlTemplate>
             </Setter.Value>
         </Setter>
