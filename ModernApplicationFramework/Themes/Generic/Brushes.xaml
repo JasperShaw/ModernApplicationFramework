@@ -482,6 +482,12 @@
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
                      ResourceId=SplitButtonSeparatorDown}" Color="#FFFDF4BF"/>
     
+     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=SplitButtonActionButtonDown}" Color="#FFFDF4BF"/>
+    
+     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=SplitButtonToggleButtonDown}" Color="#FFFDF4BF"/>
+    
            <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
                      ResourceId=SplitButtonActionButtonBackgroundChecked}" Color="#FFFFF29D"/>
     
@@ -1089,8 +1095,8 @@
             </GeometryDrawing>
         </DrawingBrush.Drawing>
     </DrawingBrush>
-	
-	<DrawingBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+
+    <DrawingBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
                      ResourceId=AnchorPaneTitleGripActive}" ViewportUnits="Absolute" Viewport="0,0,4,5" Viewbox="0,0,4,5" TileMode="Tile" ViewboxUnits="Absolute">
         <DrawingBrush.Drawing>
             <GeometryDrawing Brush="#FFFFF29D">
@@ -1106,56 +1112,4 @@
             </GeometryDrawing>
         </DrawingBrush.Drawing>
     </DrawingBrush>
-    
-    
-
-    
-
-    <!-- Button-->
-
-    <SolidColorBrush x:Key="ForegroundNormal" Color="Black"/>
-    <SolidColorBrush x:Key="ForegroundPressed" Color="Black"/>
-
-    <SolidColorBrush x:Key="GridSplitterPreview" Color="#80000000"/>
-
-    <SolidColorBrush x:Key="BorderBrushHighlighted" Color="#E4C265"/>
-    <SolidColorBrush x:Key="BorderBrushSelected" Color="#E4C265"/>
-    
-    <SolidColorBrush x:Key="BackgroundHighlighted" Color="#FCF3BE"/>
-    <SolidColorBrush x:Key="BackgroundSelected" Color="#FEF19C"/>
-
-
-    <SolidColorBrush x:Key="ComboBoxBorder" Color="#8490A1"/>
-    <SolidColorBrush x:Key="ComboBoxHighlighted" Color="#FCF3BE"/>
-    <SolidColorBrush x:Key="ComboBoxBorderHighlighted" Color="#E4C265"/>
-    <SolidColorBrush x:Key="ComboBoxTextFieldBackground" Color="White"/>
-    <SolidColorBrush x:Key="ComboBoxPressed" Color="#E4C265"/>
-    <SolidColorBrush x:Key="ComboBoxPopupBackground" Color="#EEEEEE"/>
-    <SolidColorBrush x:Key="ComboBoxPopupBorder" Color="#9AA6B6"/>
-    <SolidColorBrush x:Key="ComboBoxItemHighlight" Color="#FCF3BE"/>
-    <SolidColorBrush x:Key="ComboBoxArrowNormal" Color="#1B293E"/>
-    <SolidColorBrush x:Key="ComboBoxArrowHighlighted" Color="#1B293E"/>
-    <SolidColorBrush x:Key="ComboBoxArrowPressed" Color="#1B293E"/>
-
-    <SolidColorBrush x:Key="DropDownButtonBaseBorder" Color="#E4C265"/>
-    <SolidColorBrush x:Key="DropDownButtonBaseHighlighted" Color="#FCF3BE"/>
-    <SolidColorBrush x:Key="DropDownButtonBasePressed" Color="#FEF19C"/>
-    <SolidColorBrush x:Key="DropDownButtonContentBorder" Color="#9AA6B6"/>
-    <SolidColorBrush x:Key="DropDownButtonArrowNormal" Color="Black"/>
-    <SolidColorBrush x:Key="DropDownButtonArrowHighlighted" Color="Black"/>
-    <SolidColorBrush x:Key="DropDownButtonArrowPressed" Color="Black"/>
-
-
-    <SolidColorBrush x:Key="SeparatorBackground" Color="#FF8490A1"/>
-
-    <SolidColorBrush x:Key="MenuItemIconBackgroundNormal" Color="#FFF1F3FD"/>
-    <SolidColorBrush x:Key="MenuSeparatorBorderBrush" Color="#FFBDC2CA"/>
-    <SolidColorBrush x:Key="SubmenuItemBackground" Color="#FFE9EFFE"/>
-    <SolidColorBrush x:Key="MenuItemHighlightedBackground" Color="#FFFCF3BE"/>
-    <SolidColorBrush x:Key="MenuItemBorderHighlighted" Color="#FFE4C265"/>
-    <SolidColorBrush x:Key="SubmenuItemBackgroundHighlighted" Color="#FFFCF3BE"/>
-    <SolidColorBrush x:Key="MenuArrowSlected" Color="Black"/>
-    <SolidColorBrush x:Key="MenuArrowNormal" Color="Black"/>
-    <SolidColorBrush x:Key="MenuDisabledForeground" Color="#FF656565"/>
-
 </ResourceDictionary>

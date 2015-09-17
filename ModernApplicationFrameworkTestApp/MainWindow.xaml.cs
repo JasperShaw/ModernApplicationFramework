@@ -4,6 +4,8 @@ using System.Windows.Input;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Core.Events;
 using MenuItem = System.Windows.Controls.MenuItem;
+using ModernApplicationFramework.Themes;
+using ModernApplicationFramework.Themes.LightIDE;
 
 namespace ModernApplicationFrameworkTestApp
 {
@@ -15,6 +17,10 @@ namespace ModernApplicationFrameworkTestApp
         public MainWindow()
         {
             InitializeComponent();
+            Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary
+            {
+                Source = new LightTheme().GetResourceUri()
+            });
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -23,7 +29,7 @@ namespace ModernApplicationFrameworkTestApp
 
             Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary
             {
-                Source = new Uri("/ModernApplicationFramework;component/Themes/Light.xaml", UriKind.Relative)
+                Source = new GenericTheme().GetResourceUri()
             });
         }
 

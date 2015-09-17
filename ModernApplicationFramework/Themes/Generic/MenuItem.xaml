@@ -53,8 +53,7 @@
                                         </Grid>
                                     </themes:SystemDropShadowChrome>
                                      <Border Margin="1,0,0,0" x:Name="TransitionBorder" Width="0" Height="2" 
-                                                    VerticalAlignment="Top" HorizontalAlignment="Left" 
-                                                    Background="{StaticResource SubmenuItemBackground}" SnapsToDevicePixels="False"
+                                                    VerticalAlignment="Top" HorizontalAlignment="Left" SnapsToDevicePixels="False"
                                                     BorderThickness="1" BorderBrush="{DynamicResource {x:Static colors:EnvironmentColors.ContextMenuBackground}}"/>
                                 </Grid>
                             </Popup>

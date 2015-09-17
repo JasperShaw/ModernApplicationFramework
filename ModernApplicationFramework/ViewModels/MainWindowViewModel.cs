@@ -240,7 +240,7 @@ namespace ModernApplicationFramework.ViewModels
         /// <param name="newValue"></param>
         protected virtual void OnThemeChanged(Theme oldValue, Theme newValue)
         {
-            var resources = _mainWindow.Resources;
+            var resources = Application.Current.Resources;
             resources.Clear();
             resources.MergedDictionaries.Clear();
             if (oldValue != null)
@@ -254,6 +254,8 @@ namespace ModernApplicationFramework.ViewModels
                 resources.MergedDictionaries.Add(new ResourceDictionary { Source = newValue.GetResourceUri() });
 
             _mainWindow?.DockingManager?.OnThemeChanged(oldValue, newValue);
+
+            ToolBarHostViewModel.OnThemeChanged(oldValue, newValue);
         }
 
         /// <summary>

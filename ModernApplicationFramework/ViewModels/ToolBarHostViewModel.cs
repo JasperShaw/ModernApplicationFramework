@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Controls.Customize;
 using ModernApplicationFramework.Core.Exception;
+using ModernApplicationFramework.Core.Themes;
 using ContextMenu = ModernApplicationFramework.Controls.ContextMenu;
 using Separator = ModernApplicationFramework.Controls.Separator;
 using ToolBar = ModernApplicationFramework.Controls.ToolBar;
@@ -14,7 +16,7 @@ using ToolBarTray = ModernApplicationFramework.Controls.ToolBarTray;
 
 namespace ModernApplicationFramework.ViewModels
 {
-    public class ToolBarHostViewModel : ViewModelBase
+    public class ToolBarHostViewModel : ViewModelBase, IOnThemeChanged
     {
         /*
             This Dictionary contains all the information needed to interact with the toolbar across classes
@@ -517,5 +519,25 @@ namespace ModernApplicationFramework.ViewModels
             return true;
         }
         #endregion
+
+        public void OnThemeChanged(Theme oldValue, Theme newValue)
+        {
+            var oldTheme = oldValue;
+            var newTheme = newValue;
+            var resources = ContextMenu.Resources;
+            if (oldTheme != null)
+            {
+                var resourceDictionaryToRemove =
+                    resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldTheme.GetResourceUri());
+                if (resourceDictionaryToRemove != null)
+                    resources.MergedDictionaries.Remove(
+                        resourceDictionaryToRemove);
+            }
+
+            if (newTheme != null)
+            {
+                resources.MergedDictionaries.Add(new ResourceDictionary() { Source = newTheme.GetResourceUri() });
+            }
+        }
     }
 }

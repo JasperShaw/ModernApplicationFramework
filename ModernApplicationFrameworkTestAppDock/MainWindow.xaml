@@ -22,6 +22,7 @@
 							<test:LayoutDocument Title="Test">
 								<Grid Background="White">
 									<TextBox x:Name="TextBox"/>
+                                    <test:ScrollBar></test:ScrollBar>
 								</Grid>
 							</test:LayoutDocument>
 							<test:LayoutDocument Title="Test2">

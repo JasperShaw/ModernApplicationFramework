@@ -23,7 +23,7 @@ using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-	public class NavigatorWindow : Window
+	public class NavigatorWindow : Window, IOnThemeChanged
 	{
 		private readonly DockingManager _manager;
 		private bool _internalSetSelectedDocument;
@@ -55,8 +55,8 @@ namespace ModernApplicationFramework.Docking.Controls
 			Loaded += OnLoaded;
 			Unloaded += OnUnloaded;
 
-			UpdateThemeResources();
-		}
+            OnThemeChanged(null, null);
+        }
 
 		static NavigatorWindow()
 		{
@@ -161,25 +161,21 @@ namespace ModernApplicationFramework.Docking.Controls
 			}
 		}
 
-		internal void UpdateThemeResources(Theme oldTheme = null)
-		{
-			if (oldTheme != null)
-			{
-				var resourceDictionaryToRemove =
-					Resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldTheme.GetResourceUri());
-				if (resourceDictionaryToRemove != null)
-					Resources.MergedDictionaries.Remove(
-						resourceDictionaryToRemove);
-			}
-			var main = Application.Current.MainWindow as MainWindow;
+        public void OnThemeChanged(Theme oldValue, Theme newValue)
+        {
+            if (oldValue != null)
+            {
+                var resourceDictionaryToRemove =
+                    Resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldValue.GetResourceUri());
+                if (resourceDictionaryToRemove != null)
+                    Resources.MergedDictionaries.Remove(
+                        resourceDictionaryToRemove);
+            }
+            if (newValue != null)
+                Resources.MergedDictionaries.Add(new ResourceDictionary { Source = newValue.GetResourceUri() });
+        }
 
-			if (main?.Theme != null)
-			{
-				Resources.MergedDictionaries.Add(new ResourceDictionary() {Source = main.Theme.GetResourceUri()});
-			}
-		}
-
-		private static void OnSelectedAnchorableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnSelectedAnchorableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			((NavigatorWindow) d).OnSelectedAnchorableChanged(e);
 		}

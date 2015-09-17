@@ -220,14 +220,13 @@ namespace ModernApplicationFramework.Docking.Controls
 		{
 		}
 
-		internal override void UpdateThemeResources(Theme oldTheme = null)
-		{
-			base.UpdateThemeResources(oldTheme);
+	    public override void OnThemeChanged(Theme oldValue, Theme newValue)
+	    {
+	        base.OnThemeChanged(oldValue, newValue);
+	        _overlayWindow?.OnThemeChanged(oldValue, newValue);
+	    }
 
-			_overlayWindow?.UpdateThemeResources(oldTheme);
-		}
-
-		private static void OnSingleContentLayoutItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	    private static void OnSingleContentLayoutItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			((LayoutAnchorableFloatingWindowControl) d).OnSingleContentLayoutItemChanged(e);
 		}
@@ -296,11 +295,24 @@ namespace ModernApplicationFramework.Docking.Controls
 
 		private void LayoutAnchorableFloatingWindowControl_Loaded(object sender, RoutedEventArgs e)
 		{
-			//Do this so Shadow and border gets not clipped when this window is inside MainWindow
-			ChangeOwner(new WindowInteropHelper(this).Handle);
+            Owner = GetWindow(Model.Root.Manager);
+            if (Owner != null)
+            {
+                Owner.Activated += KeepOnTop;
+                Owner.Deactivated += KeepOnTop;
+            }
+
+            //Do this so Shadow and border gets not clipped when this window is inside MainWindow
+            ChangeOwner(new WindowInteropHelper(this).Handle);
 		}
 
-		private void OnExecuteHideWindowCommand(object parameter)
+        private void KeepOnTop(object sender, EventArgs e)
+        {
+            Topmost = true;
+            Topmost = false;
+        }
+
+        private void OnExecuteHideWindowCommand(object parameter)
 		{
 			var manager = Model.Root.Manager;
 			foreach (

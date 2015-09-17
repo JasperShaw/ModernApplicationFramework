@@ -158,6 +158,14 @@ namespace ModernApplicationFramework.Core.Themes
         private static ComponentResourceKey _splitButtonActionButtonBackgroundDown;
         private static ComponentResourceKey _splitButtonActionButtonForegroundDown;
         private static ComponentResourceKey _splitButtonSeparatorDown;
+        private static ComponentResourceKey _splitButtonToggleButtonDown;
+        private static ComponentResourceKey _splitButtonActionButtonDown;
+
+        public static ComponentResourceKey SplitButtonToggleButtonDown => _splitButtonToggleButtonDown ??
+                                                                      (_splitButtonToggleButtonDown = new ComponentResourceKey(typeof(EnvironmentColors), "SplitButtonToggleButtonDown"));
+
+        public static ComponentResourceKey SplitButtonActionButtonDown => _splitButtonActionButtonDown ??
+                                                                      (_splitButtonActionButtonDown = new ComponentResourceKey(typeof(EnvironmentColors), "SplitButtonActionButtonDown"));
 
         private static ComponentResourceKey _splitButtonActionButtonBackgroundChecked;
         private static ComponentResourceKey _splitButtonActionButtonForegroundChecked;
@@ -278,203 +286,203 @@ namespace ModernApplicationFramework.Core.Themes
         private static ComponentResourceKey _windowBaseBackground;
         private static ComponentResourceKey _windowBaseForeground;
 
-		//LayoutAutoHideWindowControl
-	    private static ComponentResourceKey _layoutAutoHideWindowBackground;
+        //LayoutAutoHideWindowControl
+        private static ComponentResourceKey _layoutAutoHideWindowBackground;
 
-		//DockingManager
-	    private static ComponentResourceKey _dockingManagerBackground;
+        //DockingManager
+        private static ComponentResourceKey _dockingManagerBackground;
 
-		//OverlayWindow
-		private static ComponentResourceKey _overlayWindowPreviewBoxBackground;
-		private static ComponentResourceKey _overlayWindowPreviewBoxBorder;
+        //OverlayWindow
+        private static ComponentResourceKey _overlayWindowPreviewBoxBackground;
+        private static ComponentResourceKey _overlayWindowPreviewBoxBorder;
 
-		//NavigatorWindow
-	    private static ComponentResourceKey _navigatorWindowBackground;
-	    private static ComponentResourceKey _navigatorWindowBorder;
-		private static ComponentResourceKey _navigatorWindowTitleText;
-		private static ComponentResourceKey _navigatorWindowTextForeground;
-		private static ComponentResourceKey _navigatorWindowItemBackground;
-		private static ComponentResourceKey _navigatorWindowItemBorder;
-		private static ComponentResourceKey _navigatorWindowItemForeground;
-		private static ComponentResourceKey _navigatorWindowItemBackgroundChecked;
-		private static ComponentResourceKey _navigatorWindowItemBorderChecked;
-		private static ComponentResourceKey _navigatorWindowItemForegroundChecked;
+        //NavigatorWindow
+        private static ComponentResourceKey _navigatorWindowBackground;
+        private static ComponentResourceKey _navigatorWindowBorder;
+        private static ComponentResourceKey _navigatorWindowTitleText;
+        private static ComponentResourceKey _navigatorWindowTextForeground;
+        private static ComponentResourceKey _navigatorWindowItemBackground;
+        private static ComponentResourceKey _navigatorWindowItemBorder;
+        private static ComponentResourceKey _navigatorWindowItemForeground;
+        private static ComponentResourceKey _navigatorWindowItemBackgroundChecked;
+        private static ComponentResourceKey _navigatorWindowItemBorderChecked;
+        private static ComponentResourceKey _navigatorWindowItemForegroundChecked;
 
-		//LayoutAnchorableFloatingWindowControl
-		private static ComponentResourceKey _anchorableFloatingWindowTitleBarBackground;
-		private static ComponentResourceKey _anchorableFloatingWindowTitleBarBackgroundActive;
+        //LayoutAnchorableFloatingWindowControl
+        private static ComponentResourceKey _anchorableFloatingWindowTitleBarBackground;
+        private static ComponentResourceKey _anchorableFloatingWindowTitleBarBackgroundActive;
 
-		private static ComponentResourceKey _anchorableFloatingWindowTitleBarGlyph;
-		private static ComponentResourceKey _anchorableFloatingWindowTitleBarGlyphHover;
-		private static ComponentResourceKey _anchorableFloatingWindowTitleBarGlyphDown;
+        private static ComponentResourceKey _anchorableFloatingWindowTitleBarGlyph;
+        private static ComponentResourceKey _anchorableFloatingWindowTitleBarGlyphHover;
+        private static ComponentResourceKey _anchorableFloatingWindowTitleBarGlyphDown;
 
-		private static ComponentResourceKey _anchorableFloatingWindowTitleBarGlyphActive;
-		private static ComponentResourceKey _anchorableFloatingWindowTitleBarGlyphActiveHover;
-		private static ComponentResourceKey _anchorableFloatingWindowTitleBarGlyphActiveDown;
+        private static ComponentResourceKey _anchorableFloatingWindowTitleBarGlyphActive;
+        private static ComponentResourceKey _anchorableFloatingWindowTitleBarGlyphActiveHover;
+        private static ComponentResourceKey _anchorableFloatingWindowTitleBarGlyphActiveDown;
 
-		private static ComponentResourceKey _anchorableFloatingWindowTitleBarForeground;
-		private static ComponentResourceKey _anchorableFloatingWindowTitleBarForegroundActive;
+        private static ComponentResourceKey _anchorableFloatingWindowTitleBarForeground;
+        private static ComponentResourceKey _anchorableFloatingWindowTitleBarForegroundActive;
 
-	    private static ComponentResourceKey _anchorableFloatingWindowGrip;
-	    private static ComponentResourceKey _anchorableFloatingWindowGripActive;
+        private static ComponentResourceKey _anchorableFloatingWindowGrip;
+        private static ComponentResourceKey _anchorableFloatingWindowGripActive;
 
-		private static ComponentResourceKey _anchorableFloatingWindowTitleBarButtonBackground;
-		private static ComponentResourceKey _anchorableFloatingWindowTitleBarButtonBackgroundHover;
-		private static ComponentResourceKey _anchorableFloatingWindowTitleBarButtonBackgroundDown;
+        private static ComponentResourceKey _anchorableFloatingWindowTitleBarButtonBackground;
+        private static ComponentResourceKey _anchorableFloatingWindowTitleBarButtonBackgroundHover;
+        private static ComponentResourceKey _anchorableFloatingWindowTitleBarButtonBackgroundDown;
 
-		private static ComponentResourceKey _anchorableFloatingWindowTitleBarButtonBorder;
-		private static ComponentResourceKey _anchorableFloatingWindowTitleBarButtonBorderHover;
-		private static ComponentResourceKey _anchorableFloatingWindowTitleBarButtonBorderDown;
+        private static ComponentResourceKey _anchorableFloatingWindowTitleBarButtonBorder;
+        private static ComponentResourceKey _anchorableFloatingWindowTitleBarButtonBorderHover;
+        private static ComponentResourceKey _anchorableFloatingWindowTitleBarButtonBorderDown;
 
-		private static ComponentResourceKey _anchorableFloatingWindowTitleBarButtonBackgroundActive;
-		private static ComponentResourceKey _anchorableFloatingWindowTitleBarButtonBackgroundActiveHover;
-		private static ComponentResourceKey _anchorableFloatingWindowTitleBarButtonBackgroundActiveDown;
+        private static ComponentResourceKey _anchorableFloatingWindowTitleBarButtonBackgroundActive;
+        private static ComponentResourceKey _anchorableFloatingWindowTitleBarButtonBackgroundActiveHover;
+        private static ComponentResourceKey _anchorableFloatingWindowTitleBarButtonBackgroundActiveDown;
 
-		private static ComponentResourceKey _anchorableFloatingWindowTitleBarButtonBorderActive;
-		private static ComponentResourceKey _anchorableFloatingWindowTitleBarButtonBorderActiveHover;
-		private static ComponentResourceKey _anchorableFloatingWindowTitleBarButtonBorderActiveDown;
+        private static ComponentResourceKey _anchorableFloatingWindowTitleBarButtonBorderActive;
+        private static ComponentResourceKey _anchorableFloatingWindowTitleBarButtonBorderActiveHover;
+        private static ComponentResourceKey _anchorableFloatingWindowTitleBarButtonBorderActiveDown;
 
-		//FloatingWindow
-		private static ComponentResourceKey _floatingWindowBackground;
-		private static ComponentResourceKey _floatingWindowTitleBarBackground;
-	    private static ComponentResourceKey _floatingWindowTitleBarGlyph;
-		private static ComponentResourceKey _floatingWindowTitleBarGlyphHover;
-		private static ComponentResourceKey _floatingWindowTitleBarGlyphDown;
-		private static ComponentResourceKey _floatingWindowTitleBarForeground;
-		private static ComponentResourceKey _floatingWindowTitleBarForegroundActive;
+        //FloatingWindow
+        private static ComponentResourceKey _floatingWindowBackground;
+        private static ComponentResourceKey _floatingWindowTitleBarBackground;
+        private static ComponentResourceKey _floatingWindowTitleBarGlyph;
+        private static ComponentResourceKey _floatingWindowTitleBarGlyphHover;
+        private static ComponentResourceKey _floatingWindowTitleBarGlyphDown;
+        private static ComponentResourceKey _floatingWindowTitleBarForeground;
+        private static ComponentResourceKey _floatingWindowTitleBarForegroundActive;
 
-		//DocumentTabItem
-	    private static ComponentResourceKey _documentTabItemText;
-		private static ComponentResourceKey _documentTabItemTextHover;
-		private static ComponentResourceKey _documentTabItemTextActive;
-	    private static ComponentResourceKey _documentTabItemTextLastActive;
+        //DocumentTabItem
+        private static ComponentResourceKey _documentTabItemText;
+        private static ComponentResourceKey _documentTabItemTextHover;
+        private static ComponentResourceKey _documentTabItemTextActive;
+        private static ComponentResourceKey _documentTabItemTextLastActive;
 
-	    private static ComponentResourceKey _documentTabItemGlyph;
-	    private static ComponentResourceKey _documentTabItemGlyphHover;
-	    private static ComponentResourceKey _documentTabItemGlyphDown;
+        private static ComponentResourceKey _documentTabItemGlyph;
+        private static ComponentResourceKey _documentTabItemGlyphHover;
+        private static ComponentResourceKey _documentTabItemGlyphDown;
 
-	    private static ComponentResourceKey _documentTabItemGlyphActive;
-		private static ComponentResourceKey _documentTabItemGlyphActiveHover;
-		private static ComponentResourceKey _documentTabItemGlyphActiveDown;
+        private static ComponentResourceKey _documentTabItemGlyphActive;
+        private static ComponentResourceKey _documentTabItemGlyphActiveHover;
+        private static ComponentResourceKey _documentTabItemGlyphActiveDown;
 
-		private static ComponentResourceKey _documentTabItemGlyphLastActive;
-		private static ComponentResourceKey _documentTabItemGlyphLastActiveHover;
-		private static ComponentResourceKey _documentTabItemGlyphLastActiveDown;
+        private static ComponentResourceKey _documentTabItemGlyphLastActive;
+        private static ComponentResourceKey _documentTabItemGlyphLastActiveHover;
+        private static ComponentResourceKey _documentTabItemGlyphLastActiveDown;
 
-		private static ComponentResourceKey _documentTabItemButtonBackground;
-		private static ComponentResourceKey _documentTabItemButtonBorder;
-		private static ComponentResourceKey _documentTabItemButtonBackgroundHover;
-		private static ComponentResourceKey _documentTabItemButtonBorderHover;
-		private static ComponentResourceKey _documentTabItemButtonBackgroundDown;
-		private static ComponentResourceKey _documentTabItemButtonBorderDown;
+        private static ComponentResourceKey _documentTabItemButtonBackground;
+        private static ComponentResourceKey _documentTabItemButtonBorder;
+        private static ComponentResourceKey _documentTabItemButtonBackgroundHover;
+        private static ComponentResourceKey _documentTabItemButtonBorderHover;
+        private static ComponentResourceKey _documentTabItemButtonBackgroundDown;
+        private static ComponentResourceKey _documentTabItemButtonBorderDown;
 
-		private static ComponentResourceKey _documentTabItemButtonBackgroundActive;
-		private static ComponentResourceKey _documentTabItemButtonBorderActive;
-		private static ComponentResourceKey _documentTabItemButtonBackgroundActiveHover;
-		private static ComponentResourceKey _documentTabItemButtonBorderActiveHover;
-		private static ComponentResourceKey _documentTabItemButtonBackgroundActiveDown;
-		private static ComponentResourceKey _documentTabItemButtonBorderActiveDown;
+        private static ComponentResourceKey _documentTabItemButtonBackgroundActive;
+        private static ComponentResourceKey _documentTabItemButtonBorderActive;
+        private static ComponentResourceKey _documentTabItemButtonBackgroundActiveHover;
+        private static ComponentResourceKey _documentTabItemButtonBorderActiveHover;
+        private static ComponentResourceKey _documentTabItemButtonBackgroundActiveDown;
+        private static ComponentResourceKey _documentTabItemButtonBorderActiveDown;
 
-		private static ComponentResourceKey _documentTabItemButtonBackgroundLastActive;
-		private static ComponentResourceKey _documentTabItemButtonBorderLastActive;
-		private static ComponentResourceKey _documentTabItemButtonBackgroundLastActiveHover;
-		private static ComponentResourceKey _documentTabItemButtonBorderLastActiveHover;
-		private static ComponentResourceKey _documentTabItemButtonBackgroundLastActiveDown;
-		private static ComponentResourceKey _documentTabItemButtonBorderLastActiveDown;
+        private static ComponentResourceKey _documentTabItemButtonBackgroundLastActive;
+        private static ComponentResourceKey _documentTabItemButtonBorderLastActive;
+        private static ComponentResourceKey _documentTabItemButtonBackgroundLastActiveHover;
+        private static ComponentResourceKey _documentTabItemButtonBorderLastActiveHover;
+        private static ComponentResourceKey _documentTabItemButtonBackgroundLastActiveDown;
+        private static ComponentResourceKey _documentTabItemButtonBorderLastActiveDown;
 
-		private static ComponentResourceKey _documentTabItemBackground;
-	    private static ComponentResourceKey _documentTabItemBorder;
-		private static ComponentResourceKey _documentTabItemBackgroundHover;
-		private static ComponentResourceKey _documentTabItemBorderHover;
-		private static ComponentResourceKey _documentTabItemBackgroundActive;
-	    private static ComponentResourceKey _documentTabItemBorderActive;
-		private static ComponentResourceKey _documentTabItemBackgroundLastActive;
-		private static ComponentResourceKey _documentTabItemBorderLastActive;
-		private static ComponentResourceKey _documentTabItemBackgroundDisabled;
-		private static ComponentResourceKey _documentTabItemBorderDisabled;
+        private static ComponentResourceKey _documentTabItemBackground;
+        private static ComponentResourceKey _documentTabItemBorder;
+        private static ComponentResourceKey _documentTabItemBackgroundHover;
+        private static ComponentResourceKey _documentTabItemBorderHover;
+        private static ComponentResourceKey _documentTabItemBackgroundActive;
+        private static ComponentResourceKey _documentTabItemBorderActive;
+        private static ComponentResourceKey _documentTabItemBackgroundLastActive;
+        private static ComponentResourceKey _documentTabItemBorderLastActive;
+        private static ComponentResourceKey _documentTabItemBackgroundDisabled;
+        private static ComponentResourceKey _documentTabItemBorderDisabled;
 
-		//AnchorTabItem
-		private static ComponentResourceKey _anchorTabItemBackground;
-		private static ComponentResourceKey _anchorTabItemBackgroundHover;
-		private static ComponentResourceKey _anchorTabItemBackgroundActive;
-		private static ComponentResourceKey _anchorTabItemBackgroundDisabled;
+        //AnchorTabItem
+        private static ComponentResourceKey _anchorTabItemBackground;
+        private static ComponentResourceKey _anchorTabItemBackgroundHover;
+        private static ComponentResourceKey _anchorTabItemBackgroundActive;
+        private static ComponentResourceKey _anchorTabItemBackgroundDisabled;
 
-		private static ComponentResourceKey _anchorTabItemBorder;
-		private static ComponentResourceKey _anchorTabItemBorderHover;
-	    private static ComponentResourceKey _anchorTabItemBorderActive;
-	    private static ComponentResourceKey _anchorTabItemBorderDisabled;
+        private static ComponentResourceKey _anchorTabItemBorder;
+        private static ComponentResourceKey _anchorTabItemBorderHover;
+        private static ComponentResourceKey _anchorTabItemBorderActive;
+        private static ComponentResourceKey _anchorTabItemBorderDisabled;
 
-		private static ComponentResourceKey _anchorTabItemText;
-		private static ComponentResourceKey _anchorTabItemTextHover;
-		private static ComponentResourceKey _anchorTabItemTextActive;
-		private static ComponentResourceKey _anchorTabItemTextDisabled;
+        private static ComponentResourceKey _anchorTabItemText;
+        private static ComponentResourceKey _anchorTabItemTextHover;
+        private static ComponentResourceKey _anchorTabItemTextActive;
+        private static ComponentResourceKey _anchorTabItemTextDisabled;
 
-		//AnchorPaneControl
-		private static ComponentResourceKey _anchorPaneControlBorder;
+        //AnchorPaneControl
+        private static ComponentResourceKey _anchorPaneControlBorder;
 
-		//LayoutAnchorableControl
-		private static ComponentResourceKey _anchorableControlBackground;
+        //LayoutAnchorableControl
+        private static ComponentResourceKey _anchorableControlBackground;
 
-		//AnchorSideItem
-		private static ComponentResourceKey _anchorSideItemBackground;
-	    private static ComponentResourceKey _anchorSideItemBorder;
-	    private static ComponentResourceKey _anchorSideItemForeground;
-		private static ComponentResourceKey _anchorSideItemBackgroundHover;
-		private static ComponentResourceKey _anchorSideItemBorderHover;
-		private static ComponentResourceKey _anchorSideItemForegroundHover;
+        //AnchorSideItem
+        private static ComponentResourceKey _anchorSideItemBackground;
+        private static ComponentResourceKey _anchorSideItemBorder;
+        private static ComponentResourceKey _anchorSideItemForeground;
+        private static ComponentResourceKey _anchorSideItemBackgroundHover;
+        private static ComponentResourceKey _anchorSideItemBorderHover;
+        private static ComponentResourceKey _anchorSideItemForegroundHover;
 
-		//AnchorPaneTitle
+        //AnchorPaneTitle
 
-	    private static ComponentResourceKey _anchorPaneTitleBackgroundActive;
+        private static ComponentResourceKey _anchorPaneTitleBackgroundActive;
 
-		private static ComponentResourceKey _anchorPaneTitleGlyph;
-		private static ComponentResourceKey _anchorPaneTitleGlyphHover;
-		private static ComponentResourceKey _anchorPaneTitleGlyphDown;
+        private static ComponentResourceKey _anchorPaneTitleGlyph;
+        private static ComponentResourceKey _anchorPaneTitleGlyphHover;
+        private static ComponentResourceKey _anchorPaneTitleGlyphDown;
 
-	    private static ComponentResourceKey _anchorPaneTitleGlyphActive;
-		private static ComponentResourceKey _anchorPaneTitleGlyphActiveHover;
-		private static ComponentResourceKey _anchorPaneTitleGlyphActiveDown;
+        private static ComponentResourceKey _anchorPaneTitleGlyphActive;
+        private static ComponentResourceKey _anchorPaneTitleGlyphActiveHover;
+        private static ComponentResourceKey _anchorPaneTitleGlyphActiveDown;
 
-		private static ComponentResourceKey _anchorPaneTitleButtonBackground;
-		private static ComponentResourceKey _anchorPaneTitleButtonBackgroundHover;
-		private static ComponentResourceKey _anchorPaneTitleButtonBackgroundDown;
+        private static ComponentResourceKey _anchorPaneTitleButtonBackground;
+        private static ComponentResourceKey _anchorPaneTitleButtonBackgroundHover;
+        private static ComponentResourceKey _anchorPaneTitleButtonBackgroundDown;
 
-	    private static ComponentResourceKey _anchorPaneTitleButtonBackgroundActive;
-		private static ComponentResourceKey _anchorPaneTitleButtonBackgroundActiveHover;
-		private static ComponentResourceKey _anchorPaneTitleButtonBackgroundActiveDown;
+        private static ComponentResourceKey _anchorPaneTitleButtonBackgroundActive;
+        private static ComponentResourceKey _anchorPaneTitleButtonBackgroundActiveHover;
+        private static ComponentResourceKey _anchorPaneTitleButtonBackgroundActiveDown;
 
-		private static ComponentResourceKey _anchorPaneTitleButtonBorder;
-		private static ComponentResourceKey _anchorPaneTitleButtonBorderHover;
-		private static ComponentResourceKey _anchorPaneTitleButtonBorderDown;
+        private static ComponentResourceKey _anchorPaneTitleButtonBorder;
+        private static ComponentResourceKey _anchorPaneTitleButtonBorderHover;
+        private static ComponentResourceKey _anchorPaneTitleButtonBorderDown;
 
-	    private static ComponentResourceKey _anchorPaneTitleButtonBorderActive;
-		private static ComponentResourceKey _anchorPaneTitleButtonBorderActiveHover;
-		private static ComponentResourceKey _anchorPaneTitleButtonBorderActiveDown;
+        private static ComponentResourceKey _anchorPaneTitleButtonBorderActive;
+        private static ComponentResourceKey _anchorPaneTitleButtonBorderActiveHover;
+        private static ComponentResourceKey _anchorPaneTitleButtonBorderActiveDown;
 
-		private static ComponentResourceKey _anchorPaneTitleGrip;
-		private static ComponentResourceKey _anchorPaneTitleGripActive;
+        private static ComponentResourceKey _anchorPaneTitleGrip;
+        private static ComponentResourceKey _anchorPaneTitleGripActive;
 
-	    private static ComponentResourceKey _anchorPaneTitleText;
-	    private static ComponentResourceKey _anchorPaneTitleTextActive;
+        private static ComponentResourceKey _anchorPaneTitleText;
+        private static ComponentResourceKey _anchorPaneTitleTextActive;
 
-	    //DocumentPaneControl
-		private static ComponentResourceKey _documentPaneControlBackground;
-	    private static ComponentResourceKey _documentPaneControlBackgroundLastActive;
-	    private static ComponentResourceKey _documentPaneControlBorder;
-		private static ComponentResourceKey _documentPaneControlGlyph;
-		private static ComponentResourceKey _documentPaneControlGlyphHover;
-		private static ComponentResourceKey _documentPaneControlGlyphDown;
-		private static ComponentResourceKey _documentPaneControlButtonBackground;
-		private static ComponentResourceKey _documentPaneControlButtonBackgroundHover;
-		private static ComponentResourceKey _documentPaneControlButtonBackgroundDown;
-	    private static ComponentResourceKey _documentPaneControlButtonBorder;
-		private static ComponentResourceKey _documentPaneControlButtonBorderHover;
-		private static ComponentResourceKey _documentPaneControlButtonBorderDown;
+        //DocumentPaneControl
+        private static ComponentResourceKey _documentPaneControlBackground;
+        private static ComponentResourceKey _documentPaneControlBackgroundLastActive;
+        private static ComponentResourceKey _documentPaneControlBorder;
+        private static ComponentResourceKey _documentPaneControlGlyph;
+        private static ComponentResourceKey _documentPaneControlGlyphHover;
+        private static ComponentResourceKey _documentPaneControlGlyphDown;
+        private static ComponentResourceKey _documentPaneControlButtonBackground;
+        private static ComponentResourceKey _documentPaneControlButtonBackgroundHover;
+        private static ComponentResourceKey _documentPaneControlButtonBackgroundDown;
+        private static ComponentResourceKey _documentPaneControlButtonBorder;
+        private static ComponentResourceKey _documentPaneControlButtonBorderHover;
+        private static ComponentResourceKey _documentPaneControlButtonBorderDown;
 
-		#region Global
+        #region Global
 
-		public static ComponentResourceKey DropDownGlyph => _dropDownGlyph ??
-                                                            (_dropDownGlyph = new ComponentResourceKey(typeof (EnvironmentColors), "DropDownGlyph"));
+        public static ComponentResourceKey DropDownGlyph => _dropDownGlyph ??
+                                                            (_dropDownGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownGlyph"));
 
         public static ComponentResourceKey DropDownGlyphHover => _dropDownGlyphHover ??
                                                                  (_dropDownGlyphHover = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownGlyphHover"));
@@ -490,17 +498,17 @@ namespace ModernApplicationFramework.Core.Themes
         #region Button
 
         public static ComponentResourceKey ButtonBackground => _buttonBackground ??
-                                                               (_buttonBackground = new ComponentResourceKey(typeof (EnvironmentColors), "ButtonBackground"));
+                                                               (_buttonBackground = new ComponentResourceKey(typeof(EnvironmentColors), "ButtonBackground"));
 
         public static ComponentResourceKey ButtonForeground => _buttonForeground ??
-                                                               (_buttonForeground = new ComponentResourceKey(typeof (EnvironmentColors), "ButtonForeground"));
+                                                               (_buttonForeground = new ComponentResourceKey(typeof(EnvironmentColors), "ButtonForeground"));
 
         public static ComponentResourceKey ButtonBorder => _buttonBorder ??
-                                                           (_buttonBorder = new ComponentResourceKey(typeof (EnvironmentColors), "ButtonBorder"));
+                                                           (_buttonBorder = new ComponentResourceKey(typeof(EnvironmentColors), "ButtonBorder"));
 
         public static ComponentResourceKey ButtonBackgroundHover => _buttonBackgroundHover ??
                                                                     (_buttonBackgroundHover =
-                                                                        new ComponentResourceKey(typeof (EnvironmentColors), "ButtonBackgroundHover"));
+                                                                        new ComponentResourceKey(typeof(EnvironmentColors), "ButtonBackgroundHover"));
 
         public static ComponentResourceKey ButtonForegroundHover => _buttonForegroundHover ??
                                                                     (_buttonForegroundHover = new ComponentResourceKey(typeof(EnvironmentColors), "ButtonForegroundHover"));
@@ -531,21 +539,21 @@ namespace ModernApplicationFramework.Core.Themes
         #region ComboBox
 
         public static ComponentResourceKey ComboBoxBorder => _comboBoxBorder ??
-                                                             (_comboBoxBorder = new ComponentResourceKey(typeof (EnvironmentColors), "ComboBoxBorder"));
+                                                             (_comboBoxBorder = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxBorder"));
 
         public static ComponentResourceKey ComboBoxBackground => _comboBoxBackground ??
-                                                                 (_comboBoxBackground = new ComponentResourceKey(typeof (EnvironmentColors), "ComboBoxBackground"));
+                                                                 (_comboBoxBackground = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxBackground"));
 
         public static ComponentResourceKey ComboboxButtonBackground => _comboboxButtonBackground ??
                                                                        (_comboboxButtonBackground =
-                                                                           new ComponentResourceKey(typeof (EnvironmentColors), "ComboboxButtonBackground"));
+                                                                           new ComponentResourceKey(typeof(EnvironmentColors), "ComboboxButtonBackground"));
 
         public static ComponentResourceKey ComboBoxButtonBorder => _comboBoxButtonBorder ??
                                                                    (_comboBoxButtonBorder =
-                                                                       new ComponentResourceKey(typeof (EnvironmentColors), "ComboBoxButtonBorder"));
+                                                                       new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxButtonBorder"));
 
         public static ComponentResourceKey ComboBoxForeground => _comboBoxForeground ??
-                                                                 (_comboBoxForeground = new ComponentResourceKey(typeof (EnvironmentColors), "ComboBoxForeground"));
+                                                                 (_comboBoxForeground = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxForeground"));
 
         public static ComponentResourceKey ComboBoxArrow => _comboBoxGlyph ??
                                                             (_comboBoxGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxArrow"));
@@ -656,19 +664,19 @@ namespace ModernApplicationFramework.Core.Themes
 
         public static ComponentResourceKey DropDownButtonBackground => _dropDownButtonBackground ??
                                                                        (_dropDownButtonBackground =
-                                                                           new ComponentResourceKey(typeof (EnvironmentColors), "DropDownButtonBackground"));
+                                                                           new ComponentResourceKey(typeof(EnvironmentColors), "DropDownButtonBackground"));
 
         public static ComponentResourceKey DropDownButtonBorder => _dropDownButtonBorder ??
                                                                    (_dropDownButtonBorder =
-                                                                       new ComponentResourceKey(typeof (EnvironmentColors), "DropDownButtonBorder"));
+                                                                       new ComponentResourceKey(typeof(EnvironmentColors), "DropDownButtonBorder"));
 
         public static ComponentResourceKey DropDownButtonForeground => _dropDownButtonForeground ??
                                                                        (_dropDownButtonForeground =
-                                                                           new ComponentResourceKey(typeof (EnvironmentColors), "DropDownButtonForeground"));
+                                                                           new ComponentResourceKey(typeof(EnvironmentColors), "DropDownButtonForeground"));
 
         public static ComponentResourceKey DropDownButtonGlyph => _dropDownButtonGlyph ??
                                                                   (_dropDownButtonGlyph =
-                                                                      new ComponentResourceKey(typeof (EnvironmentColors), "DropDownButtonGlyph"));
+                                                                      new ComponentResourceKey(typeof(EnvironmentColors), "DropDownButtonGlyph"));
 
         public static ComponentResourceKey DropDownButtonBackgroundDisabled => _dropDownButtonBackgroundDisabled ??
                                                                                (_dropDownButtonBackgroundDisabled =
@@ -723,59 +731,59 @@ namespace ModernApplicationFramework.Core.Themes
         #region Menu
 
         public static ComponentResourceKey MenuBackground => _menuBackground ??
-                                                             (_menuBackground = new ComponentResourceKey(typeof (EnvironmentColors), "MenuBackground"));
+                                                             (_menuBackground = new ComponentResourceKey(typeof(EnvironmentColors), "MenuBackground"));
 
         public static ComponentResourceKey MenuForeground => _menuForeground ??
-                                                             (_menuForeground = new ComponentResourceKey(typeof (EnvironmentColors), "MenuForeground"));
+                                                             (_menuForeground = new ComponentResourceKey(typeof(EnvironmentColors), "MenuForeground"));
 
         public static ComponentResourceKey MenuSeparator => _menuSeparator ??
-                                                            (_menuSeparator = new ComponentResourceKey(typeof (EnvironmentColors), "MenuSeparator"));
+                                                            (_menuSeparator = new ComponentResourceKey(typeof(EnvironmentColors), "MenuSeparator"));
 
         #endregion
 
         #region MenuItem
 
         public static ComponentResourceKey MenuItemForeground => _menuItemForeground ??
-                                                                 (_menuItemForeground = new ComponentResourceKey(typeof (EnvironmentColors), "MenuItemForeground"));
+                                                                 (_menuItemForeground = new ComponentResourceKey(typeof(EnvironmentColors), "MenuItemForeground"));
 
         public static ComponentResourceKey MenuItemBackgroundHover => _menuItemBackgroundHover ??
                                                                       (_menuItemBackgroundHover =
-                                                                          new ComponentResourceKey(typeof (EnvironmentColors), "MenuItemBackgroundHover"));
+                                                                          new ComponentResourceKey(typeof(EnvironmentColors), "MenuItemBackgroundHover"));
 
         public static ComponentResourceKey MenuItemBorderHover => _menuItemBorderHover ??
                                                                   (_menuItemBorderHover =
-                                                                      new ComponentResourceKey(typeof (EnvironmentColors), "MenuItemBorderHover"));
+                                                                      new ComponentResourceKey(typeof(EnvironmentColors), "MenuItemBorderHover"));
 
         public static ComponentResourceKey MenuItemForegroundHover => _menuItemForegroundHover ??
                                                                       (_menuItemForegroundHover =
-                                                                          new ComponentResourceKey(typeof (EnvironmentColors), "MenuItemForegroundHover"));
+                                                                          new ComponentResourceKey(typeof(EnvironmentColors), "MenuItemForegroundHover"));
 
         public static ComponentResourceKey MenuItemBackgroundDown => _menuItemBackgroundDown ??
                                                                      (_menuItemBackgroundDown =
-                                                                         new ComponentResourceKey(typeof (EnvironmentColors), "MenuItemBackgroundDown"));
+                                                                         new ComponentResourceKey(typeof(EnvironmentColors), "MenuItemBackgroundDown"));
 
         public static ComponentResourceKey MenuItemBorderDown => _menuItemBorderDown ??
-                                                                 (_menuItemBorderDown = new ComponentResourceKey(typeof (EnvironmentColors), "MenuItemBorderDown"));
+                                                                 (_menuItemBorderDown = new ComponentResourceKey(typeof(EnvironmentColors), "MenuItemBorderDown"));
 
         public static ComponentResourceKey MenuItemForegroundDown => _menuItemForegroundDown ??
                                                                      (_menuItemForegroundDown =
-                                                                         new ComponentResourceKey(typeof (EnvironmentColors), "MenuItemForegroundDown"));
+                                                                         new ComponentResourceKey(typeof(EnvironmentColors), "MenuItemForegroundDown"));
 
         public static ComponentResourceKey MenuItemForegroundDisabled => _menuItemForegroundDisabled ??
                                                                          (_menuItemForegroundDisabled =
-                                                                             new ComponentResourceKey(typeof (EnvironmentColors), "MenuItemForegroundDisabled"));
+                                                                             new ComponentResourceKey(typeof(EnvironmentColors), "MenuItemForegroundDisabled"));
 
         public static ComponentResourceKey MenuItemPopupBackground => _menuItemPopupBackground ??
                                                                       (_menuItemPopupBackground =
-                                                                          new ComponentResourceKey(typeof (EnvironmentColors), "MenuItemPopupBackground"));
+                                                                          new ComponentResourceKey(typeof(EnvironmentColors), "MenuItemPopupBackground"));
 
         public static ComponentResourceKey MenuItemPopupIconBackground => _menuItemPopupIconBackground ??
                                                                           (_menuItemPopupIconBackground =
-                                                                              new ComponentResourceKey(typeof (EnvironmentColors), "MenuItemPopupIconBackground"));
+                                                                              new ComponentResourceKey(typeof(EnvironmentColors), "MenuItemPopupIconBackground"));
 
         public static ComponentResourceKey MenuItemPopupBorder => _menuItemPopupBorder ??
                                                                   (_menuItemPopupBorder =
-                                                                      new ComponentResourceKey(typeof (EnvironmentColors), "MenuItemPopupBorder"));
+                                                                      new ComponentResourceKey(typeof(EnvironmentColors), "MenuItemPopupBorder"));
 
         public static ComponentResourceKey MenuItemIconForeground => _menuItemIconForeground ??
                                                                      (_menuItemIconForeground =
@@ -790,7 +798,7 @@ namespace ModernApplicationFramework.Core.Themes
                                                                               new ComponentResourceKey(typeof(EnvironmentColors), "MenuItemIconForegroundHover"));
 
         public static ComponentResourceKey MenuSubItemGlyph => _menuSubItemGlyph ??
-                                                               (_menuSubItemGlyph = new ComponentResourceKey(typeof (EnvironmentColors), "MenuSubItemGlyph"));
+                                                               (_menuSubItemGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "MenuSubItemGlyph"));
 
         public static ComponentResourceKey MenuSubItemGlyphHover => _menuSubItemGlyphHover ??
                                                                     (_menuSubItemGlyphHover = new ComponentResourceKey(typeof(EnvironmentColors), "MenuSubItemGlyphHover"));
@@ -800,7 +808,7 @@ namespace ModernApplicationFramework.Core.Themes
 
         public static ComponentResourceKey MenuSubItemForeground => _menuSubItemForeground ??
                                                                     (_menuSubItemForeground =
-                                                                        new ComponentResourceKey(typeof (EnvironmentColors), "MenuSubItemForeground"));
+                                                                        new ComponentResourceKey(typeof(EnvironmentColors), "MenuSubItemForeground"));
 
         public static ComponentResourceKey MenuSubItemForegroundHover => _menuSubItemForegroundHover ??
                                                                          (_menuSubItemForegroundHover =
@@ -812,7 +820,7 @@ namespace ModernApplicationFramework.Core.Themes
 
         public static ComponentResourceKey MenuSubItemBackgroundHover => _menuSubItemBackgroundHover ??
                                                                          (_menuSubItemBackgroundHover =
-                                                                             new ComponentResourceKey(typeof (EnvironmentColors), "MenuSubItemBackgroundHover"));
+                                                                             new ComponentResourceKey(typeof(EnvironmentColors), "MenuSubItemBackgroundHover"));
 
         #endregion
 
@@ -820,76 +828,76 @@ namespace ModernApplicationFramework.Core.Themes
 
         public static ComponentResourceKey SeparatorBackground => _separatorBackground ??
                                                                   (_separatorBackground =
-                                                                      new ComponentResourceKey(typeof (EnvironmentColors), "SeparatorBackground"));
+                                                                      new ComponentResourceKey(typeof(EnvironmentColors), "SeparatorBackground"));
 
         #endregion
 
         #region ScrollBar
         public static ComponentResourceKey ScrollBarBackground => _scrollBarBackground ??
                                                                   (_scrollBarBackground =
-                                                                      new ComponentResourceKey(typeof (EnvironmentColors), "ScrollBarBackground"));
+                                                                      new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarBackground"));
 
         public static ComponentResourceKey ScrollBarBorder => _scrollBarBorder ??
                                                               (_scrollBarBorder =
-                                                                  new ComponentResourceKey(typeof (EnvironmentColors), "ScrollBarBorder"));
+                                                                  new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarBorder"));
 
         public static ComponentResourceKey ScrollBarButtonBackground => _scrollBarButtonBackground ??
                                                                         (_scrollBarButtonBackground =
-                                                                            new ComponentResourceKey(typeof (EnvironmentColors), "ScrollBarButtonBackground"));
+                                                                            new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarButtonBackground"));
 
         public static ComponentResourceKey ScrollBarButtonGlyph => _scrollBarButtonGlyph ??
                                                                    (_scrollBarButtonGlyph =
-                                                                       new ComponentResourceKey(typeof (EnvironmentColors), "ScrollBarButtonGlyph"));
+                                                                       new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarButtonGlyph"));
 
         public static ComponentResourceKey ScrollBarButtonBackgroundHover => _scrollBarButtonBackgroundHover ??
                                                                              (_scrollBarButtonBackgroundHover =
-                                                                                 new ComponentResourceKey(typeof (EnvironmentColors), "ScrollBarButtonBackgroundHover"));
+                                                                                 new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarButtonBackgroundHover"));
 
         public static ComponentResourceKey ScrollBarButtonGlyphHover => _scrollBarButtonGlyphHover ??
                                                                         (_scrollBarButtonGlyphHover =
-                                                                            new ComponentResourceKey(typeof (EnvironmentColors), "ScrollBarButtonGlyphHover"));
+                                                                            new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarButtonGlyphHover"));
 
         public static ComponentResourceKey ScrollBarButtonBackgroundDown => _scrollBarButtonBackgroundDown ??
                                                                             (_scrollBarButtonBackgroundDown =
-                                                                                new ComponentResourceKey(typeof (EnvironmentColors), "ScrollBarButtonBackgroundDown"));
+                                                                                new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarButtonBackgroundDown"));
 
         public static ComponentResourceKey ScrollBarButtonGlyphDown => _scrollBarButtonGlyphDown ??
                                                                        (_scrollBarButtonGlyphDown =
-                                                                           new ComponentResourceKey(typeof (EnvironmentColors), "ScrollBarButtonGlyphDown"));
+                                                                           new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarButtonGlyphDown"));
 
         public static ComponentResourceKey ScrollBarButtonBackgroundDisabled => _scrollBarButtonBackgroundDisabled ??
                                                                                 (_scrollBarButtonBackgroundDisabled =
-                                                                                    new ComponentResourceKey(typeof (EnvironmentColors), "ScrollBarButtonBackgroundDisabled"));
+                                                                                    new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarButtonBackgroundDisabled"));
 
         public static ComponentResourceKey ScrollBarButtonGlyphDisabled => _scrollBarButtonGlyphDisabled ??
                                                                            (_scrollBarButtonGlyphDisabled =
-                                                                               new ComponentResourceKey(typeof (EnvironmentColors), "ScrollBarButtonGlyphDisabled"));
+                                                                               new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarButtonGlyphDisabled"));
 
         public static ComponentResourceKey ScrollBarThumbBackground => _scrollBarThumbBackground ??
                                                                        (_scrollBarThumbBackground =
-                                                                           new ComponentResourceKey(typeof (EnvironmentColors), "ScrollBarThumbBackground"));
+                                                                           new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarThumbBackground"));
 
         public static ComponentResourceKey ScrollBarThumbBackgroundHover => _scrollBarThumbBackgroundHover ??
                                                                             (_scrollBarThumbBackgroundHover =
-                                                                                new ComponentResourceKey(typeof (EnvironmentColors), "ScrollBarThumbBackgroundHover"));
+                                                                                new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarThumbBackgroundHover"));
 
         public static ComponentResourceKey ScrollBarThumbBackgroundDown => _scrollBarThumbBackgroundDown ??
                                                                            (_scrollBarThumbBackgroundDown =
-                                                                               new ComponentResourceKey(typeof (EnvironmentColors), "ScrollBarThumbBackgroundDown"));
+                                                                               new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarThumbBackgroundDown"));
 
         public static ComponentResourceKey ScrollBarThumbBackgroundDisabled => _scrollBarThumbBackgroundDisabled ??
                                                                                (_scrollBarThumbBackgroundDisabled =
-                                                                                   new ComponentResourceKey(typeof (EnvironmentColors), "ScrollBarThumbBackgroundDisabled"));
+                                                                                   new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarThumbBackgroundDisabled"));
 
         #endregion
 
         #region SplitButton
         public static ComponentResourceKey SplitButtonBorder => _splitButtonBorder ??
-                                                                (_splitButtonBorder = new ComponentResourceKey(typeof (EnvironmentColors), "SplitButtonBorder"));
+                                                                (_splitButtonBorder = new ComponentResourceKey(typeof(EnvironmentColors), "SplitButtonBorder"));
 
         public static ComponentResourceKey SplitButtonBackground => _splitButtonBackground ??
                                                                     (_splitButtonBackground =
-                                                                        new ComponentResourceKey(typeof (EnvironmentColors), "SplitButtonBackground"));
+                                                                        new ComponentResourceKey(typeof(EnvironmentColors), "SplitButtonBackground"));
 
         public static ComponentResourceKey SplitButtonActionButtonBackground => _splitButtonActionButtonBackground ??
                                                                                 (_splitButtonActionButtonBackground = new ComponentResourceKey(typeof(EnvironmentColors), "SplitButtonActionButtonBackground"));
@@ -961,7 +969,7 @@ namespace ModernApplicationFramework.Core.Themes
                                                             (_textBoxBorder = new ComponentResourceKey(typeof(EnvironmentColors), "TextBoxBorder"));
 
         public static ComponentResourceKey TextBoxSelection => _textBoxSelection ??
-                                                               (_textBoxSelection = new ComponentResourceKey(typeof (EnvironmentColors), "TextBoxSelection"));
+                                                               (_textBoxSelection = new ComponentResourceKey(typeof(EnvironmentColors), "TextBoxSelection"));
 
         public static ComponentResourceKey TextBoxBackground => _textBoxBackground ??
                                                                 (_textBoxBackground = new ComponentResourceKey(typeof(EnvironmentColors), "TextBoxBackground"));
@@ -1053,7 +1061,7 @@ namespace ModernApplicationFramework.Core.Themes
 
         public static ComponentResourceKey ToolBarTrayBackground => _toolBarTrayBackground ??
                                                                     (_toolBarTrayBackground =
-                                                                        new ComponentResourceKey(typeof (EnvironmentColors), "ToolBarTrayBackground"));
+                                                                        new ComponentResourceKey(typeof(EnvironmentColors), "ToolBarTrayBackground"));
 
         #endregion
 
@@ -1080,7 +1088,7 @@ namespace ModernApplicationFramework.Core.Themes
                                                                  (_checkBoxBackground = new ComponentResourceKey(typeof(EnvironmentColors), "CheckBoxBackground"));
 
         public static ComponentResourceKey CheckBoxBorder => _checkBoxBorder ??
-                                                             (_checkBoxBorder = new ComponentResourceKey(typeof (EnvironmentColors), "CheckBoxBorder"));
+                                                             (_checkBoxBorder = new ComponentResourceKey(typeof(EnvironmentColors), "CheckBoxBorder"));
 
         public static ComponentResourceKey CheckBoxGlyph => _checkBoxGlyph ??
                                                             (_checkBoxGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "CheckBoxGlyph"));
@@ -1260,829 +1268,829 @@ namespace ModernApplicationFramework.Core.Themes
                                                                    (_windowBaseForeground =
                                                                        new ComponentResourceKey(typeof(EnvironmentColors), "WindowBaseForeground"));
 
-		#endregion
-
-		#region LayoutAutoHideWindowControl
-		public static ComponentResourceKey LayoutAutoHideWindowBackground
-		   =>
-			   _layoutAutoHideWindowBackground ?? (_layoutAutoHideWindowBackground =
-			   (new ComponentResourceKey(typeof(EnvironmentColors), "LayoutAutoHideWindowBackground")));
-		#endregion
-
-		#region DockingManager
-		public static ComponentResourceKey DockingManagerBackground
-			=>
-				_dockingManagerBackground ??
-				(_dockingManagerBackground = new ComponentResourceKey(typeof(EnvironmentColors), "DockingManagerBackground"));
-		#endregion
-
-		#region OverlayWindow
-		public static ComponentResourceKey OverlayWindowPreviewBoxBackground
-			=>
-				_overlayWindowPreviewBoxBackground ??
-				(_overlayWindowPreviewBoxBackground =
-					new ComponentResourceKey(typeof(EnvironmentColors), "OverlayWindowPreviewBoxBackground"));
-
-		public static ComponentResourceKey OverlayWindowPreviewBoxBorder
-			=>
-				_overlayWindowPreviewBoxBorder ??
-				(_overlayWindowPreviewBoxBorder =
-					new ComponentResourceKey(typeof(EnvironmentColors), "OverlayWindowPreviewBoxBorder"));
-		#endregion
-
-		#region NavigatorWindow
-		public static ComponentResourceKey NavigatorWindowBackground
-			=>
-				_navigatorWindowBackground ??
-				(_navigatorWindowBackground = new ComponentResourceKey(typeof(EnvironmentColors), "NavigatorWindowBackground"));
-
-		public static ComponentResourceKey NavigatorWindowBorder
-			=>
-				_navigatorWindowBorder ??
-				(_navigatorWindowBorder = new ComponentResourceKey(typeof(EnvironmentColors), "NavigatorWindowBorder"));
-
-		public static ComponentResourceKey NavigatorWindowTextForeground
-			=>
-				_navigatorWindowTextForeground ??
-				(_navigatorWindowTextForeground = new ComponentResourceKey(typeof(EnvironmentColors), "NavigatorWindowTextForeground"));
-
-		public static ComponentResourceKey NavigatorWindowItemBackground
-			=>
-				_navigatorWindowItemBackground ??
-				(_navigatorWindowItemBackground = new ComponentResourceKey(typeof(EnvironmentColors), "NavigatorWindowItemBackground"));
-
-		public static ComponentResourceKey NavigatorWindowItemForeground
-			=>
-				_navigatorWindowItemForeground ??
-				(_navigatorWindowItemForeground = new ComponentResourceKey(typeof(EnvironmentColors), "NavigatorWindowItemForeground"));
-
-		public static ComponentResourceKey NavigatorWindowItemBackgroundChecked
-			=>
-				_navigatorWindowItemBackgroundChecked ??
-				(_navigatorWindowItemBackgroundChecked = new ComponentResourceKey(typeof(EnvironmentColors), "NavigatorWindowItemBackgroundChecked"));
-
-		public static ComponentResourceKey NavigatorWindowItemForegroundChecked
-			=>
-				_navigatorWindowItemForegroundChecked ??
-				(_navigatorWindowItemForegroundChecked = new ComponentResourceKey(typeof(EnvironmentColors), "NavigatorWindowItemForegroundChecked"));
-
-		public static ComponentResourceKey NavigatorWindowTitleText
-	=>
-		_navigatorWindowTitleText ??
-		(_navigatorWindowTitleText = new ComponentResourceKey(typeof(EnvironmentColors), "NavigatorWindowTitleText"));
-
-		public static ComponentResourceKey NavigatorWindowItemBorder
-			=>
-				_navigatorWindowItemBorder ??
-				(_navigatorWindowItemBorder = new ComponentResourceKey(typeof(EnvironmentColors), "NavigatorWindowItemBorder"));
-
-		public static ComponentResourceKey NavigatorWindowItemBorderChecked
-			=>
-				_navigatorWindowItemBorderChecked ??
-				(_navigatorWindowItemBorderChecked = new ComponentResourceKey(typeof(EnvironmentColors), "NavigatorWindowItemBorderChecked"));
-
-		#endregion
-
-		#region LayoutAnchorableFloatingWindowControl
-
-		public static ComponentResourceKey AnchorableFloatingWindowTitleBarBackground
-			=>
-				_anchorableFloatingWindowTitleBarBackground ??
-				(_anchorableFloatingWindowTitleBarBackground =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarBackground"));
-
-		public static ComponentResourceKey AnchorableFloatingWindowTitleBarBackgroundActive
-			=>
-				_anchorableFloatingWindowTitleBarBackgroundActive ??
-				(_anchorableFloatingWindowTitleBarBackgroundActive =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarBackgroundActive"));
-
-		public static ComponentResourceKey AnchorableFloatingWindowTitleBarGlyph
-			=>
-				_anchorableFloatingWindowTitleBarGlyph ??
-				(_anchorableFloatingWindowTitleBarGlyph =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarGlyph"));
-
-		public static ComponentResourceKey AnchorableFloatingWindowTitleBarGlyphActive
-			=>
-				_anchorableFloatingWindowTitleBarGlyphActive ??
-				(_anchorableFloatingWindowTitleBarGlyphActive =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarGlyphActive"));
-
-		public static ComponentResourceKey AnchorableFloatingWindowTitleBarGlyphHover
-			=>
-				_anchorableFloatingWindowTitleBarGlyphHover ??
-				(_anchorableFloatingWindowTitleBarGlyphHover =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarGlyphHover"));
-
-		public static ComponentResourceKey AnchorableFloatingWindowTitleBarGlyphDown
-			=>
-				_anchorableFloatingWindowTitleBarGlyphDown ??
-				(_anchorableFloatingWindowTitleBarGlyphDown =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarGlyphDown"));
-
-		public static ComponentResourceKey AnchorableFloatingWindowTitleBarGlyphActiveHover
-			=>
-				_anchorableFloatingWindowTitleBarGlyphActiveHover ??
-				(_anchorableFloatingWindowTitleBarGlyphActiveHover =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarGlyphActiveHover"));
-
-		public static ComponentResourceKey AnchorableFloatingWindowTitleBarGlyphActiveDown
-			=>
-				_anchorableFloatingWindowTitleBarGlyphActiveDown ??
-				(_anchorableFloatingWindowTitleBarGlyphActiveDown =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarGlyphActiveDown"));
-
-		public static ComponentResourceKey AnchorableFloatingWindowTitleBarForeground
-			=>
-				_anchorableFloatingWindowTitleBarForeground ??
-				(_anchorableFloatingWindowTitleBarForeground =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarForeground"));
-
-		public static ComponentResourceKey AnchorableFloatingWindowTitleBarForegroundActive
-			=>
-				_anchorableFloatingWindowTitleBarForegroundActive ??
-				(_anchorableFloatingWindowTitleBarForegroundActive =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarForegroundActive"));
-
-		public static ComponentResourceKey AnchorableFloatingWindowTitleBarButtonBackground
-			=>
-				_anchorableFloatingWindowTitleBarButtonBackground ??
-				(_anchorableFloatingWindowTitleBarButtonBackground =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarButtonBackground"));
-
-		public static ComponentResourceKey AnchorableFloatingWindowTitleBarButtonBackgroundHover
-			=>
-				_anchorableFloatingWindowTitleBarButtonBackgroundHover ??
-				(_anchorableFloatingWindowTitleBarButtonBackgroundHover
-			=
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarButtonBackgroundHover"));
-
-		public static ComponentResourceKey AnchorableFloatingWindowTitleBarButtonBackgroundDown
-			=>
-				_anchorableFloatingWindowTitleBarButtonBackgroundDown ??
-				(_anchorableFloatingWindowTitleBarButtonBackgroundDown =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarButtonBackgroundDown"));
-
-		public static ComponentResourceKey AnchorableFloatingWindowTitleBarButtonBorder
-			=>
-				_anchorableFloatingWindowTitleBarButtonBorder ??
-				(_anchorableFloatingWindowTitleBarButtonBorder =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarButtonBorder"));
-
-		public static ComponentResourceKey AnchorableFloatingWindowTitleBarButtonBorderHover
-			=>
-				_anchorableFloatingWindowTitleBarButtonBorderHover ??
-				(_anchorableFloatingWindowTitleBarButtonBorderHover =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarButtonBorderHover"));
-
-		public static ComponentResourceKey AnchorableFloatingWindowTitleBarButtonBorderDown
-			=>
-				_anchorableFloatingWindowTitleBarButtonBorderDown ??
-				(_anchorableFloatingWindowTitleBarButtonBorderDown =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarButtonBorderDown"));
-
-		public static ComponentResourceKey AnchorableFloatingWindowGrip
-			=>
-				_anchorableFloatingWindowGrip ??
-				(_anchorableFloatingWindowGrip =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowGrip"));
-
-		public static ComponentResourceKey AnchorableFloatingWindowGripActive
-			=>
-				_anchorableFloatingWindowGripActive ??
-				(_anchorableFloatingWindowGripActive =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowGripActive"));
-
-
-		public static ComponentResourceKey AnchorableFloatingWindowTitleBarButtonBackgroundActive
-			=>
-				_anchorableFloatingWindowTitleBarButtonBackgroundActive ??
-				(_anchorableFloatingWindowTitleBarButtonBackgroundActive =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarButtonBackgroundActive"));
-
-		public static ComponentResourceKey AnchorableFloatingWindowTitleBarButtonBackgroundActiveHover
-			=>
-				_anchorableFloatingWindowTitleBarButtonBackgroundActiveHover ??
-				(_anchorableFloatingWindowTitleBarButtonBackgroundActiveHover =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarButtonBackgroundActiveHover"));
-
-		public static ComponentResourceKey AnchorableFloatingWindowTitleBarButtonBackgroundActiveDown
-			=>
-				_anchorableFloatingWindowTitleBarButtonBackgroundActiveDown ??
-				(_anchorableFloatingWindowTitleBarButtonBackgroundActiveDown =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarButtonBackgroundActiveDown"));
-
-
-		public static ComponentResourceKey AnchorableFloatingWindowTitleBarButtonBorderActive
-			=>
-				_anchorableFloatingWindowTitleBarButtonBorderActive ??
-				(_anchorableFloatingWindowTitleBarButtonBorderActive =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarButtonBorderActive"));
-
-		public static ComponentResourceKey AnchorableFloatingWindowTitleBarButtonBorderActiveHover
-			=>
-				_anchorableFloatingWindowTitleBarButtonBorderActiveHover ??
-				(_anchorableFloatingWindowTitleBarButtonBorderActiveHover =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarButtonBorderActiveHover"));
-
-		public static ComponentResourceKey AnchorableFloatingWindowTitleBarButtonBorderActiveDown
-			=>
-				_anchorableFloatingWindowTitleBarButtonBorderActiveDown ??
-				(_anchorableFloatingWindowTitleBarButtonBorderActiveDown =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarButtonBorderActiveDown"));
-
-		#endregion
-
-		#region FloatingWindow
-
-		public static ComponentResourceKey FloatingWindowBackground
-			=>
-				_floatingWindowBackground ??
-				(_floatingWindowBackground = new ComponentResourceKey(typeof(EnvironmentColors), "FloatingWindowBackground"));
-
-
-		public static ComponentResourceKey FloatingWindowTitleBarBackground
-			=>
-				_floatingWindowTitleBarBackground ??
-				(_floatingWindowTitleBarBackground = new ComponentResourceKey(typeof(EnvironmentColors), "FloatingWindowTitleBarBackground"));
-
-		public static ComponentResourceKey FloatingWindowTitleBarGlyph
-			=>
-				_floatingWindowTitleBarGlyph ??
-				(_floatingWindowTitleBarGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "FloatingWindowTitleBarGlyph"));
-
-		public static ComponentResourceKey FloatingWindowTitleBarGlyphHover
-			=>
-				_floatingWindowTitleBarGlyphHover ??
-				(_floatingWindowTitleBarGlyphHover = new ComponentResourceKey(typeof(EnvironmentColors), "FloatingWindowTitleBarGlyphHover"));
-
-		public static ComponentResourceKey FloatingWindowTitleBarGlyphDown
-			=>
-				_floatingWindowTitleBarGlyphDown ??
-				(_floatingWindowTitleBarGlyphDown = new ComponentResourceKey(typeof(EnvironmentColors), "FloatingWindowTitleBarGlyphDown"));
-
-		public static ComponentResourceKey FloatingWindowTitleBarForeground
-			=>
-				_floatingWindowTitleBarForeground ??
-				(_floatingWindowTitleBarForeground = new ComponentResourceKey(typeof(EnvironmentColors), "FloatingWindowTitleBarForeground"));
-
-		public static ComponentResourceKey FloatingWindowTitleBarForegroundActive
-			=>
-				_floatingWindowTitleBarForegroundActive ??
-				(_floatingWindowTitleBarForegroundActive = new ComponentResourceKey(typeof(EnvironmentColors), "FloatingWindowTitleBarForegroundActive"));
-
-		#endregion
-
-		#region DocumentTabItem
-
-		public static ComponentResourceKey DocumentTabItemText
-			=>
-				_documentTabItemText ??
-				(_documentTabItemText = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemText"));
-
-		public static ComponentResourceKey DocumentTabItemTextHover
-			=>
-				_documentTabItemTextHover ??
-				(_documentTabItemTextHover
-			= new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemTextHover"));
-
-		public static ComponentResourceKey DocumentTabItemTextActive
-			=>
-				_documentTabItemTextActive ??
-				(_documentTabItemTextActive = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemTextActive"));
-
-		public static ComponentResourceKey DocumentTabItemTextLastActive
-			=>
-				_documentTabItemTextLastActive ??
-				(_documentTabItemTextLastActive = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemTextLastActive"));
-
-		public static ComponentResourceKey DocumentTabItemGlyph
-			=>
-				_documentTabItemGlyph ??
-				(_documentTabItemGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemGlyph"));
-
-		public static ComponentResourceKey DocumentTabItemGlyphHover
-			=>
-				_documentTabItemGlyphHover ??
-				(_documentTabItemGlyphHover = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemGlyphHover"));
-
-		public static ComponentResourceKey DocumentTabItemGlyphDown
-			=>
-				_documentTabItemGlyphDown ??
-				(_documentTabItemGlyphDown = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemGlyphDown"));
-
-		public static ComponentResourceKey DocumentTabItemGlyphActive
-			=>
-				_documentTabItemGlyphActive ??
-				(_documentTabItemGlyphActive = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemGlyphActive"));
-
-		public static ComponentResourceKey DocumentTabItemGlyphActiveHover
-			=>
-				_documentTabItemGlyphActiveHover ??
-				(_documentTabItemGlyphActiveHover = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemGlyphActiveHover"));
-
-		public static ComponentResourceKey DocumentTabItemGlyphActiveDown
-			=>
-				_documentTabItemGlyphActiveDown ??
-				(_documentTabItemGlyphActiveDown = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemGlyphActiveDown"));
-
-		public static ComponentResourceKey DocumentTabItemGlyphLastActive
-			=>
-				_documentTabItemGlyphLastActive ??
-				(_documentTabItemGlyphLastActive = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemGlyphLastActive"));
-
-		public static ComponentResourceKey DocumentTabItemGlyphLastActiveHover
-			=>
-				_documentTabItemGlyphLastActiveHover ??
-				(_documentTabItemGlyphLastActiveHover = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemGlyphLastActiveHover"));
-
-		public static ComponentResourceKey DocumentTabItemGlyphLastActiveDown
-			=>
-				_documentTabItemGlyphLastActiveDown ??
-				(_documentTabItemGlyphLastActiveDown = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemGlyphLastActiveDown"));
-
-		public static ComponentResourceKey DocumentTabItemButtonBackground
-		   =>
-			   _documentTabItemButtonBackground ??
-			   (_documentTabItemButtonBackground =
-				   new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBackground"));
-
-		public static ComponentResourceKey DocumentTabItemButtonBackgroundHover
-			=>
-				_documentTabItemButtonBackgroundHover ??
-				(_documentTabItemButtonBackgroundHover =
-					new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBackgroundHover"));
-
-		public static ComponentResourceKey DocumentTabItemButtonBackgroundDown
-			=>
-				_documentTabItemButtonBackgroundDown ??
-				(_documentTabItemButtonBackgroundDown =
-					new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBackgroundDown"));
-
-		public static ComponentResourceKey DocumentTabItemButtonBackgroundActive
-			=>
-				_documentTabItemButtonBackgroundActive ??
-				(_documentTabItemButtonBackgroundActive =
-					new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBackgroundActive"));
-
-		public static ComponentResourceKey DocumentTabItemButtonBackgroundActiveHover
-			=>
-				_documentTabItemButtonBackgroundActiveHover ??
-				(_documentTabItemButtonBackgroundActiveHover =
-					new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBackgroundActiveHover"));
-
-		public static ComponentResourceKey DocumentTabItemButtonBackgroundActiveDown
-			=>
-				_documentTabItemButtonBackgroundActiveDown ??
-				(_documentTabItemButtonBackgroundActiveDown =
-					new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBackgroundActiveDown"));
-
-		public static ComponentResourceKey DocumentTabItemButtonBackgroundLastActive
-	=>
-		_documentTabItemButtonBackgroundLastActive ??
-		(_documentTabItemButtonBackgroundLastActive =
-			new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBackgroundLastActive"));
-
-		public static ComponentResourceKey DocumentTabItemButtonBackgroundLastActiveHover
-			=>
-				_documentTabItemButtonBackgroundLastActiveHover ??
-				(_documentTabItemButtonBackgroundLastActiveHover =
-					new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBackgroundLastActiveHover"));
-
-		public static ComponentResourceKey DocumentTabItemButtonBackgroundLastActiveDown
-			=>
-				_documentTabItemButtonBackgroundLastActiveDown ??
-				(_documentTabItemButtonBackgroundLastActiveDown =
-					new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBackgroundLastActiveDown"));
-
-		public static ComponentResourceKey DocumentTabItemButtonBorder
-	=>
-		_documentTabItemButtonBorder ??
-		(_documentTabItemButtonBorder =
-			new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBorder"));
-
-		public static ComponentResourceKey DocumentTabItemButtonBorderHover
-			=>
-				_documentTabItemButtonBorderHover ??
-				(_documentTabItemButtonBorderHover =
-					new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBorderHover"));
-
-		public static ComponentResourceKey DocumentTabItemButtonBorderDown
-			=>
-				_documentTabItemButtonBorderDown ??
-				(_documentTabItemButtonBorderDown =
-					new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBorderDown"));
-
-
-		public static ComponentResourceKey DocumentTabItemButtonBorderActive
-			=>
-				_documentTabItemButtonBorderActive ??
-				(_documentTabItemButtonBorderActive =
-					new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBorderActive"));
-
-		public static ComponentResourceKey DocumentTabItemButtonBorderActiveHover
-			=>
-				_documentTabItemButtonBorderActiveHover ??
-				(_documentTabItemButtonBorderActiveHover =
-					new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBorderActiveHover"));
-
-		public static ComponentResourceKey DocumentTabItemButtonBorderActiveDown
-			=>
-				_documentTabItemButtonBorderActiveDown ??
-				(_documentTabItemButtonBorderActiveDown =
-					new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBorderActiveDown"));
-
-
-		public static ComponentResourceKey DocumentTabItemButtonBorderLastActive
-	=>
-		_documentTabItemButtonBorderLastActive ??
-		(_documentTabItemButtonBorderLastActive =
-			new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBorderLastActive"));
-
-		public static ComponentResourceKey DocumentTabItemButtonBorderLastActiveHover
-			=>
-				_documentTabItemButtonBorderLastActiveHover ??
-				(_documentTabItemButtonBorderLastActiveHover =
-					new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBorderLastActiveHover"));
-
-		public static ComponentResourceKey DocumentTabItemButtonBorderLastActiveDown
-			=>
-				_documentTabItemButtonBorderLastActiveDown ??
-				(_documentTabItemButtonBorderLastActiveDown =
-					new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBorderLastActiveDown"));
-
-		public static ComponentResourceKey DocumentTabItemBackground
-			=>
-				_documentTabItemBackground ??
-				(_documentTabItemBackground = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemBackground"));
-
-		public static ComponentResourceKey DocumentTabItemBackgroundHover
-			=>
-				_documentTabItemBackgroundHover ??
-				(_documentTabItemBackgroundHover = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemBackgroundHover"));
-
-		public static ComponentResourceKey DocumentTabItemBackgroundActive
-			=>
-				_documentTabItemBackgroundActive ??
-				(_documentTabItemBackgroundActive = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemBackgroundActive"));
-
-		public static ComponentResourceKey DocumentTabItemBackgroundLastActive
-			=>
-				_documentTabItemBackgroundLastActive ??
-				(_documentTabItemBackgroundLastActive = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemBackgroundLastActive"));
-
-		public static ComponentResourceKey DocumentTabItemBackgroundDisabled
-			=>
-				_documentTabItemBackgroundDisabled ??
-				(_documentTabItemBackgroundDisabled = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemBackgroundDisabled"));
-
-		public static ComponentResourceKey DocumentTabItemBorder
-		   =>
-			   _documentTabItemBorder ??
-			   (_documentTabItemBorder = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemBorder"));
-
-		public static ComponentResourceKey DocumentTabItemBorderHover
-			=>
-				_documentTabItemBorderHover ??
-				(_documentTabItemBorderHover = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemBorderHover"));
-
-		public static ComponentResourceKey DocumentTabItemBorderActive
-			=>
-				_documentTabItemBorderActive ??
-				(_documentTabItemBorderActive = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemBorderActive"));
-
-		public static ComponentResourceKey DocumentTabItemBorderLastActive
-			=>
-				_documentTabItemBorderLastActive ??
-				(_documentTabItemBorderLastActive = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemBorderLastActive"));
-
-		public static ComponentResourceKey DocumentTabItemBorderDisabled
-			=>
-				_documentTabItemBorderDisabled ??
-				(_documentTabItemBorderDisabled = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemBorderDisabled"));
-
-		#endregion
-
-		#region AnchorTabItem
-		public static ComponentResourceKey AnchorTabItemBackground
-		   =>
-			   _anchorTabItemBackground ??
-			   (_anchorTabItemBackground = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorTabItemBackground"));
-
-		public static ComponentResourceKey AnchorTabItemBackgroundHover
-			=>
-				_anchorTabItemBackgroundHover ??
-				(_anchorTabItemBackgroundHover = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorTabItemBackgroundHover"));
-
-		public static ComponentResourceKey AnchorTabItemBackgroundActive
-			=>
-				_anchorTabItemBackgroundActive ??
-				(_anchorTabItemBackgroundActive = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorTabItemBackgroundActive"));
-
-		public static ComponentResourceKey AnchorTabItemBackgroundDisabled
-			=>
-				_anchorTabItemBackgroundDisabled ??
-				(_anchorTabItemBackgroundDisabled = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorTabItemBackgroundDisabled"));
-
-		public static ComponentResourceKey AnchorTabItemBorder
-		   =>
-			   _anchorTabItemBorder ??
-			   (_anchorTabItemBorder = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorTabItemBorder"));
-
-		public static ComponentResourceKey AnchorTabItemBorderHover
-		   =>
-			   _anchorTabItemBorderHover ??
-			   (_anchorTabItemBorderHover = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorTabItemBorderHover"));
-
-		public static ComponentResourceKey AnchorTabItemBorderActive
-		   =>
-			   _anchorTabItemBorderActive ??
-			   (_anchorTabItemBorderActive = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorTabItemBorderActive"));
-
-		public static ComponentResourceKey AnchorTabItemBorderDisabled
-		   =>
-			   _anchorTabItemBorderDisabled ??
-			   (_anchorTabItemBorderDisabled = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorTabItemBorderDisabled"));
-
-		public static ComponentResourceKey AnchorTabItemText
-		   =>
-			   _anchorTabItemText ??
-			   (_anchorTabItemText = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorTabItemText"));
-
-		public static ComponentResourceKey AnchorTabItemTextHover
-		   =>
-			   _anchorTabItemTextHover ??
-			   (_anchorTabItemTextHover = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorTabItemTextHover"));
-
-		public static ComponentResourceKey AnchorTabItemTextActive
-		   =>
-			   _anchorTabItemTextActive ??
-			   (_anchorTabItemTextActive = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorTabItemTextActive"));
-
-		public static ComponentResourceKey AnchorTabItemTextDisabled
-		   =>
-			   _anchorTabItemTextDisabled ??
-			   (_anchorTabItemTextDisabled = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorTabItemTextDisabled"));
-		#endregion
-
-		#region AnchorPaneControl
-		public static ComponentResourceKey AnchorPaneControlBorder
-			=>
-				_anchorPaneControlBorder ??
-				(_anchorPaneControlBorder = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneControlBorder"));
-
-		#endregion
-
-		#region LayoutAnchorableControl
-
-		public static ComponentResourceKey AnchorableControlBackground
-			=>
-				_anchorableControlBackground ??
-				(_anchorableControlBackground =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableControlBackground"));
-		#endregion
-
-		#region AnchorSideItem
-
-		public static ComponentResourceKey AnchorSideItemBackground
-			=>
-				_anchorSideItemBackground ??
-				(_anchorSideItemBackground = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorSideItemBackground"));
-
-		public static ComponentResourceKey AnchorSideItemBackgroundHover
-			=>
-				_anchorSideItemBackgroundHover ??
-				(_anchorSideItemBackgroundHover = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorSideItemBackgroundHover"));
-
-		public static ComponentResourceKey AnchorSideItemBorder
-			=>
-				_anchorSideItemBorder ??
-				(_anchorSideItemBorder = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorSideItemBorder"));
-
-		public static ComponentResourceKey AnchorSideItemBorderHover
-			=>
-				_anchorSideItemBorderHover ??
-				(_anchorSideItemBorderHover = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorSideItemBorderHover"));
-
-		public static ComponentResourceKey AnchorSideItemForeground
-			=>
-				_anchorSideItemForeground ??
-				(_anchorSideItemForeground = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorSideItemForeground"));
-		public static ComponentResourceKey AnchorSideItemForegroundHover
-			=>
-				_anchorSideItemForegroundHover ??
-				(_anchorSideItemForegroundHover = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorSideItemForegroundHover"));
-
-		#endregion
-
-		#region AnchorPaneTitle
-
-		
-
-	    public static ComponentResourceKey AnchorPaneTitleBackgroundActive
-			=>
-				_anchorPaneTitleBackgroundActive ??
-			    (_anchorPaneTitleBackgroundActive = new ComponentResourceKey(typeof (EnvironmentColors), "AnchorPaneTitleBackgroundActive"));
-
-		public static ComponentResourceKey AnchorPaneTitleGlyph
-			=>
-				_anchorPaneTitleGlyph ??
-				(_anchorPaneTitleGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleGlyph"));
-
-		public static ComponentResourceKey AnchorPaneTitleGlyphHover
-			=>
-				_anchorPaneTitleGlyphHover ??
-				(_anchorPaneTitleGlyphHover = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleGlyphHover"));
-
-		public static ComponentResourceKey AnchorPaneTitleGlyphDown
-			=>
-				_anchorPaneTitleGlyphDown ??
-				(_anchorPaneTitleGlyphDown = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleGlyphDown"));
-
-		public static ComponentResourceKey AnchorPaneTitleGlyphActive
-		   =>
-			   _anchorPaneTitleGlyphActive ??
-			   (_anchorPaneTitleGlyphActive = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleGlyphActive"));
-
-		public static ComponentResourceKey AnchorPaneTitleGlyphActiveHover
-			=>
-				_anchorPaneTitleGlyphActiveHover ??
-				(_anchorPaneTitleGlyphActiveHover = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleGlyphActiveHover"));
-
-		public static ComponentResourceKey AnchorPaneTitleGlyphActiveDown
-			=>
-				_anchorPaneTitleGlyphActiveDown ??
-				(_anchorPaneTitleGlyphActiveDown = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleGlyphActiveDown"));
-
-		public static ComponentResourceKey AnchorPaneTitleButtonBackground
-			=>
-				_anchorPaneTitleButtonBackground ??
-				(_anchorPaneTitleButtonBackground =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleButtonBackground"));
-
-		public static ComponentResourceKey AnchorPaneTitleButtonBackgroundHover
-			=>
-				_anchorPaneTitleButtonBackgroundHover ??
-				(_anchorPaneTitleButtonBackgroundHover =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleButtonBackgroundHover"));
-
-		public static ComponentResourceKey AnchorPaneTitleButtonBackgroundDown
-			=>
-				_anchorPaneTitleButtonBackgroundDown ??
-				(_anchorPaneTitleButtonBackgroundDown =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleButtonBackgroundDown"));
-
-		public static ComponentResourceKey AnchorPaneTitleButtonBackgroundActive
-			=>
-				_anchorPaneTitleButtonBackgroundActive ??
-				(_anchorPaneTitleButtonBackgroundActive =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleButtonBackground"));
-
-		public static ComponentResourceKey AnchorPaneTitleButtonBackgroundActiveHover
-			=>
-				_anchorPaneTitleButtonBackgroundActiveHover ??
-				(_anchorPaneTitleButtonBackgroundActiveHover =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleButtonBackgroundActiveHover"));
-
-		public static ComponentResourceKey AnchorPaneTitleButtonBackgroundActiveDown
-			=>
-				_anchorPaneTitleButtonBackgroundActiveDown ??
-				(_anchorPaneTitleButtonBackgroundActiveDown =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleButtonBackgroundActiveDown"));
-
-		public static ComponentResourceKey AnchorPaneTitleButtonBorder
-			=>
-				_anchorPaneTitleButtonBorder ??
-				(_anchorPaneTitleButtonBorder =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleButtonBorder"));
-
-		public static ComponentResourceKey AnchorPaneTitleButtonBorderHover
-			=>
-				_anchorPaneTitleButtonBorderHover ??
-				(_anchorPaneTitleButtonBorderHover =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleButtonBorderHover"));
-
-		public static ComponentResourceKey AnchorPaneTitleButtonBorderDown
-			=>
-				_anchorPaneTitleButtonBorderDown ??
-				(_anchorPaneTitleButtonBorderDown =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleButtonBorderHover"));
-
-		public static ComponentResourceKey AnchorPaneTitleButtonBorderActive
-			=>
-				_anchorPaneTitleButtonBorderActive ??
-				(_anchorPaneTitleButtonBorderActive =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleButtonBorderActive"));
-
-		public static ComponentResourceKey AnchorPaneTitleButtonBorderActiveHover
-			=>
-				_anchorPaneTitleButtonBorderActiveHover ??
-				(_anchorPaneTitleButtonBorderActiveHover =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleButtonBorderActiveHover"));
-
-		public static ComponentResourceKey AnchorPaneTitleButtonBorderActiveDown
-			=>
-				_anchorPaneTitleButtonBorderActiveDown ??
-				(_anchorPaneTitleButtonBorderActiveDown =
-					new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleButtonBorderActiveDown"));
-
-		public static ComponentResourceKey AnchorPaneTitleGrip
-			=>
-				_anchorPaneTitleGrip ??
-				(_anchorPaneTitleGrip = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleGrip"));
-
-		public static ComponentResourceKey AnchorPaneTitleGripActive
-			=>
-				_anchorPaneTitleGripActive ??
-				(_anchorPaneTitleGripActive = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleGripActive"));
-
-		public static ComponentResourceKey AnchorPaneTitleText
-			=>
-				_anchorPaneTitleText ??
-				(_anchorPaneTitleText = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleText"));
-
-		public static ComponentResourceKey AnchorPaneTitleTextActive
-			=>
-				_anchorPaneTitleTextActive ??
-				(_anchorPaneTitleTextActive = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleTextActive"));
-
-
-		#endregion
-
-		#region DocumentPaneControl
-
-		public static ComponentResourceKey DocumentPaneControlBackground
-			=>
-				_documentPaneControlBackground ??
-				(_documentPaneControlBackground =
-					new ComponentResourceKey(typeof(EnvironmentColors), "DocumentPaneControlBackground"));
-
-		public static ComponentResourceKey DocumentPaneControlBackgroundLastActive
-			=>
-				_documentPaneControlBackgroundLastActive ??
-				(_documentPaneControlBackgroundLastActive =
-					new ComponentResourceKey(typeof(EnvironmentColors), "DocumentPaneControlBackgroundLastActive"));
-
-		public static ComponentResourceKey DocumentPaneControlGlyph
-			=>
-				_documentPaneControlGlyph ??
-				(_documentPaneControlGlyph =
-					new ComponentResourceKey(typeof(EnvironmentColors), "DocumentPaneControlGlyph"));
-
-		public static ComponentResourceKey DocumentPaneControlGlyphHover
-			=>
-				_documentPaneControlGlyphHover ??
-				(_documentPaneControlGlyphHover =
-					new ComponentResourceKey(typeof(EnvironmentColors), "DocumentPaneControlGlyphHover"));
-
-		public static ComponentResourceKey DocumentPaneControlGlyphDown
-			=>
-				_documentPaneControlGlyphDown ??
-				(_documentPaneControlGlyphDown =
-					new ComponentResourceKey(typeof(EnvironmentColors), "DocumentPaneControlGlyphDown"));
-
-		public static ComponentResourceKey DocumentPaneControlButtonBackground
-			=>
-				_documentPaneControlButtonBackground ??
-				(_documentPaneControlButtonBackground =
-					new ComponentResourceKey(typeof(EnvironmentColors), "DocumentPaneControlButtonBackground"));
-
-		public static ComponentResourceKey DocumentPaneControlButtonBackgroundHover
-			=>
-				_documentPaneControlButtonBackgroundHover ??
-				(_documentPaneControlButtonBackgroundHover =
-					new ComponentResourceKey(typeof(EnvironmentColors), "DocumentPaneControlButtonBackgroundHover"));
-
-		public static ComponentResourceKey DocumentPaneControlButtonBackgroundDown
-			=>
-				_documentPaneControlButtonBackgroundDown ??
-				(_documentPaneControlButtonBackgroundDown =
-					new ComponentResourceKey(typeof(EnvironmentColors), "DocumentPaneControlButtonBackgroundDown"));
-
-	    public static ComponentResourceKey DocumentPaneControlButtonBorder
-		    =>
-			    _documentPaneControlButtonBorder ??
-			    (_documentPaneControlButtonBorder =
-				    new ComponentResourceKey(typeof (EnvironmentColors), "DocumentPaneControlButtonBorder"));
-
-		public static ComponentResourceKey DocumentPaneControlButtonBorderHover
-			=>
-				_documentPaneControlButtonBorderHover ??
-				(_documentPaneControlButtonBorderHover =
-					new ComponentResourceKey(typeof(EnvironmentColors), "DocumentPaneControlButtonBorderHover"));
-
-		public static ComponentResourceKey DocumentPaneControlButtonBorderDown
-			=>
-				_documentPaneControlButtonBorderDown ??
-				(_documentPaneControlButtonBorderDown =
-					new ComponentResourceKey(typeof(EnvironmentColors), "DocumentPaneControlButtonBorderDown"));
-
-		public static ComponentResourceKey DocumentPaneControlBorder
-			=>
-			    _documentPaneControlBorder ??
-			    (_documentPaneControlBorder = new ComponentResourceKey(typeof (EnvironmentColors), "DocumentPaneControlBorder"));
-
-	    #endregion
+        #endregion
+
+        #region LayoutAutoHideWindowControl
+        public static ComponentResourceKey LayoutAutoHideWindowBackground
+           =>
+               _layoutAutoHideWindowBackground ?? (_layoutAutoHideWindowBackground =
+               (new ComponentResourceKey(typeof(EnvironmentColors), "LayoutAutoHideWindowBackground")));
+        #endregion
+
+        #region DockingManager
+        public static ComponentResourceKey DockingManagerBackground
+            =>
+                _dockingManagerBackground ??
+                (_dockingManagerBackground = new ComponentResourceKey(typeof(EnvironmentColors), "DockingManagerBackground"));
+        #endregion
+
+        #region OverlayWindow
+        public static ComponentResourceKey OverlayWindowPreviewBoxBackground
+            =>
+                _overlayWindowPreviewBoxBackground ??
+                (_overlayWindowPreviewBoxBackground =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "OverlayWindowPreviewBoxBackground"));
+
+        public static ComponentResourceKey OverlayWindowPreviewBoxBorder
+            =>
+                _overlayWindowPreviewBoxBorder ??
+                (_overlayWindowPreviewBoxBorder =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "OverlayWindowPreviewBoxBorder"));
+        #endregion
+
+        #region NavigatorWindow
+        public static ComponentResourceKey NavigatorWindowBackground
+            =>
+                _navigatorWindowBackground ??
+                (_navigatorWindowBackground = new ComponentResourceKey(typeof(EnvironmentColors), "NavigatorWindowBackground"));
+
+        public static ComponentResourceKey NavigatorWindowBorder
+            =>
+                _navigatorWindowBorder ??
+                (_navigatorWindowBorder = new ComponentResourceKey(typeof(EnvironmentColors), "NavigatorWindowBorder"));
+
+        public static ComponentResourceKey NavigatorWindowTextForeground
+            =>
+                _navigatorWindowTextForeground ??
+                (_navigatorWindowTextForeground = new ComponentResourceKey(typeof(EnvironmentColors), "NavigatorWindowTextForeground"));
+
+        public static ComponentResourceKey NavigatorWindowItemBackground
+            =>
+                _navigatorWindowItemBackground ??
+                (_navigatorWindowItemBackground = new ComponentResourceKey(typeof(EnvironmentColors), "NavigatorWindowItemBackground"));
+
+        public static ComponentResourceKey NavigatorWindowItemForeground
+            =>
+                _navigatorWindowItemForeground ??
+                (_navigatorWindowItemForeground = new ComponentResourceKey(typeof(EnvironmentColors), "NavigatorWindowItemForeground"));
+
+        public static ComponentResourceKey NavigatorWindowItemBackgroundChecked
+            =>
+                _navigatorWindowItemBackgroundChecked ??
+                (_navigatorWindowItemBackgroundChecked = new ComponentResourceKey(typeof(EnvironmentColors), "NavigatorWindowItemBackgroundChecked"));
+
+        public static ComponentResourceKey NavigatorWindowItemForegroundChecked
+            =>
+                _navigatorWindowItemForegroundChecked ??
+                (_navigatorWindowItemForegroundChecked = new ComponentResourceKey(typeof(EnvironmentColors), "NavigatorWindowItemForegroundChecked"));
+
+        public static ComponentResourceKey NavigatorWindowTitleText
+    =>
+        _navigatorWindowTitleText ??
+        (_navigatorWindowTitleText = new ComponentResourceKey(typeof(EnvironmentColors), "NavigatorWindowTitleText"));
+
+        public static ComponentResourceKey NavigatorWindowItemBorder
+            =>
+                _navigatorWindowItemBorder ??
+                (_navigatorWindowItemBorder = new ComponentResourceKey(typeof(EnvironmentColors), "NavigatorWindowItemBorder"));
+
+        public static ComponentResourceKey NavigatorWindowItemBorderChecked
+            =>
+                _navigatorWindowItemBorderChecked ??
+                (_navigatorWindowItemBorderChecked = new ComponentResourceKey(typeof(EnvironmentColors), "NavigatorWindowItemBorderChecked"));
+
+        #endregion
+
+        #region LayoutAnchorableFloatingWindowControl
+
+        public static ComponentResourceKey AnchorableFloatingWindowTitleBarBackground
+            =>
+                _anchorableFloatingWindowTitleBarBackground ??
+                (_anchorableFloatingWindowTitleBarBackground =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarBackground"));
+
+        public static ComponentResourceKey AnchorableFloatingWindowTitleBarBackgroundActive
+            =>
+                _anchorableFloatingWindowTitleBarBackgroundActive ??
+                (_anchorableFloatingWindowTitleBarBackgroundActive =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarBackgroundActive"));
+
+        public static ComponentResourceKey AnchorableFloatingWindowTitleBarGlyph
+            =>
+                _anchorableFloatingWindowTitleBarGlyph ??
+                (_anchorableFloatingWindowTitleBarGlyph =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarGlyph"));
+
+        public static ComponentResourceKey AnchorableFloatingWindowTitleBarGlyphActive
+            =>
+                _anchorableFloatingWindowTitleBarGlyphActive ??
+                (_anchorableFloatingWindowTitleBarGlyphActive =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarGlyphActive"));
+
+        public static ComponentResourceKey AnchorableFloatingWindowTitleBarGlyphHover
+            =>
+                _anchorableFloatingWindowTitleBarGlyphHover ??
+                (_anchorableFloatingWindowTitleBarGlyphHover =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarGlyphHover"));
+
+        public static ComponentResourceKey AnchorableFloatingWindowTitleBarGlyphDown
+            =>
+                _anchorableFloatingWindowTitleBarGlyphDown ??
+                (_anchorableFloatingWindowTitleBarGlyphDown =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarGlyphDown"));
+
+        public static ComponentResourceKey AnchorableFloatingWindowTitleBarGlyphActiveHover
+            =>
+                _anchorableFloatingWindowTitleBarGlyphActiveHover ??
+                (_anchorableFloatingWindowTitleBarGlyphActiveHover =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarGlyphActiveHover"));
+
+        public static ComponentResourceKey AnchorableFloatingWindowTitleBarGlyphActiveDown
+            =>
+                _anchorableFloatingWindowTitleBarGlyphActiveDown ??
+                (_anchorableFloatingWindowTitleBarGlyphActiveDown =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarGlyphActiveDown"));
+
+        public static ComponentResourceKey AnchorableFloatingWindowTitleBarForeground
+            =>
+                _anchorableFloatingWindowTitleBarForeground ??
+                (_anchorableFloatingWindowTitleBarForeground =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarForeground"));
+
+        public static ComponentResourceKey AnchorableFloatingWindowTitleBarForegroundActive
+            =>
+                _anchorableFloatingWindowTitleBarForegroundActive ??
+                (_anchorableFloatingWindowTitleBarForegroundActive =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarForegroundActive"));
+
+        public static ComponentResourceKey AnchorableFloatingWindowTitleBarButtonBackground
+            =>
+                _anchorableFloatingWindowTitleBarButtonBackground ??
+                (_anchorableFloatingWindowTitleBarButtonBackground =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarButtonBackground"));
+
+        public static ComponentResourceKey AnchorableFloatingWindowTitleBarButtonBackgroundHover
+            =>
+                _anchorableFloatingWindowTitleBarButtonBackgroundHover ??
+                (_anchorableFloatingWindowTitleBarButtonBackgroundHover
+            =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarButtonBackgroundHover"));
+
+        public static ComponentResourceKey AnchorableFloatingWindowTitleBarButtonBackgroundDown
+            =>
+                _anchorableFloatingWindowTitleBarButtonBackgroundDown ??
+                (_anchorableFloatingWindowTitleBarButtonBackgroundDown =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarButtonBackgroundDown"));
+
+        public static ComponentResourceKey AnchorableFloatingWindowTitleBarButtonBorder
+            =>
+                _anchorableFloatingWindowTitleBarButtonBorder ??
+                (_anchorableFloatingWindowTitleBarButtonBorder =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarButtonBorder"));
+
+        public static ComponentResourceKey AnchorableFloatingWindowTitleBarButtonBorderHover
+            =>
+                _anchorableFloatingWindowTitleBarButtonBorderHover ??
+                (_anchorableFloatingWindowTitleBarButtonBorderHover =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarButtonBorderHover"));
+
+        public static ComponentResourceKey AnchorableFloatingWindowTitleBarButtonBorderDown
+            =>
+                _anchorableFloatingWindowTitleBarButtonBorderDown ??
+                (_anchorableFloatingWindowTitleBarButtonBorderDown =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarButtonBorderDown"));
+
+        public static ComponentResourceKey AnchorableFloatingWindowGrip
+            =>
+                _anchorableFloatingWindowGrip ??
+                (_anchorableFloatingWindowGrip =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowGrip"));
+
+        public static ComponentResourceKey AnchorableFloatingWindowGripActive
+            =>
+                _anchorableFloatingWindowGripActive ??
+                (_anchorableFloatingWindowGripActive =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowGripActive"));
+
+
+        public static ComponentResourceKey AnchorableFloatingWindowTitleBarButtonBackgroundActive
+            =>
+                _anchorableFloatingWindowTitleBarButtonBackgroundActive ??
+                (_anchorableFloatingWindowTitleBarButtonBackgroundActive =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarButtonBackgroundActive"));
+
+        public static ComponentResourceKey AnchorableFloatingWindowTitleBarButtonBackgroundActiveHover
+            =>
+                _anchorableFloatingWindowTitleBarButtonBackgroundActiveHover ??
+                (_anchorableFloatingWindowTitleBarButtonBackgroundActiveHover =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarButtonBackgroundActiveHover"));
+
+        public static ComponentResourceKey AnchorableFloatingWindowTitleBarButtonBackgroundActiveDown
+            =>
+                _anchorableFloatingWindowTitleBarButtonBackgroundActiveDown ??
+                (_anchorableFloatingWindowTitleBarButtonBackgroundActiveDown =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarButtonBackgroundActiveDown"));
+
+
+        public static ComponentResourceKey AnchorableFloatingWindowTitleBarButtonBorderActive
+            =>
+                _anchorableFloatingWindowTitleBarButtonBorderActive ??
+                (_anchorableFloatingWindowTitleBarButtonBorderActive =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarButtonBorderActive"));
+
+        public static ComponentResourceKey AnchorableFloatingWindowTitleBarButtonBorderActiveHover
+            =>
+                _anchorableFloatingWindowTitleBarButtonBorderActiveHover ??
+                (_anchorableFloatingWindowTitleBarButtonBorderActiveHover =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarButtonBorderActiveHover"));
+
+        public static ComponentResourceKey AnchorableFloatingWindowTitleBarButtonBorderActiveDown
+            =>
+                _anchorableFloatingWindowTitleBarButtonBorderActiveDown ??
+                (_anchorableFloatingWindowTitleBarButtonBorderActiveDown =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableFloatingWindowTitleBarButtonBorderActiveDown"));
+
+        #endregion
+
+        #region FloatingWindow
+
+        public static ComponentResourceKey FloatingWindowBackground
+            =>
+                _floatingWindowBackground ??
+                (_floatingWindowBackground = new ComponentResourceKey(typeof(EnvironmentColors), "FloatingWindowBackground"));
+
+
+        public static ComponentResourceKey FloatingWindowTitleBarBackground
+            =>
+                _floatingWindowTitleBarBackground ??
+                (_floatingWindowTitleBarBackground = new ComponentResourceKey(typeof(EnvironmentColors), "FloatingWindowTitleBarBackground"));
+
+        public static ComponentResourceKey FloatingWindowTitleBarGlyph
+            =>
+                _floatingWindowTitleBarGlyph ??
+                (_floatingWindowTitleBarGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "FloatingWindowTitleBarGlyph"));
+
+        public static ComponentResourceKey FloatingWindowTitleBarGlyphHover
+            =>
+                _floatingWindowTitleBarGlyphHover ??
+                (_floatingWindowTitleBarGlyphHover = new ComponentResourceKey(typeof(EnvironmentColors), "FloatingWindowTitleBarGlyphHover"));
+
+        public static ComponentResourceKey FloatingWindowTitleBarGlyphDown
+            =>
+                _floatingWindowTitleBarGlyphDown ??
+                (_floatingWindowTitleBarGlyphDown = new ComponentResourceKey(typeof(EnvironmentColors), "FloatingWindowTitleBarGlyphDown"));
+
+        public static ComponentResourceKey FloatingWindowTitleBarForeground
+            =>
+                _floatingWindowTitleBarForeground ??
+                (_floatingWindowTitleBarForeground = new ComponentResourceKey(typeof(EnvironmentColors), "FloatingWindowTitleBarForeground"));
+
+        public static ComponentResourceKey FloatingWindowTitleBarForegroundActive
+            =>
+                _floatingWindowTitleBarForegroundActive ??
+                (_floatingWindowTitleBarForegroundActive = new ComponentResourceKey(typeof(EnvironmentColors), "FloatingWindowTitleBarForegroundActive"));
+
+        #endregion
+
+        #region DocumentTabItem
+
+        public static ComponentResourceKey DocumentTabItemText
+            =>
+                _documentTabItemText ??
+                (_documentTabItemText = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemText"));
+
+        public static ComponentResourceKey DocumentTabItemTextHover
+            =>
+                _documentTabItemTextHover ??
+                (_documentTabItemTextHover
+            = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemTextHover"));
+
+        public static ComponentResourceKey DocumentTabItemTextActive
+            =>
+                _documentTabItemTextActive ??
+                (_documentTabItemTextActive = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemTextActive"));
+
+        public static ComponentResourceKey DocumentTabItemTextLastActive
+            =>
+                _documentTabItemTextLastActive ??
+                (_documentTabItemTextLastActive = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemTextLastActive"));
+
+        public static ComponentResourceKey DocumentTabItemGlyph
+            =>
+                _documentTabItemGlyph ??
+                (_documentTabItemGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemGlyph"));
+
+        public static ComponentResourceKey DocumentTabItemGlyphHover
+            =>
+                _documentTabItemGlyphHover ??
+                (_documentTabItemGlyphHover = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemGlyphHover"));
+
+        public static ComponentResourceKey DocumentTabItemGlyphDown
+            =>
+                _documentTabItemGlyphDown ??
+                (_documentTabItemGlyphDown = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemGlyphDown"));
+
+        public static ComponentResourceKey DocumentTabItemGlyphActive
+            =>
+                _documentTabItemGlyphActive ??
+                (_documentTabItemGlyphActive = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemGlyphActive"));
+
+        public static ComponentResourceKey DocumentTabItemGlyphActiveHover
+            =>
+                _documentTabItemGlyphActiveHover ??
+                (_documentTabItemGlyphActiveHover = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemGlyphActiveHover"));
+
+        public static ComponentResourceKey DocumentTabItemGlyphActiveDown
+            =>
+                _documentTabItemGlyphActiveDown ??
+                (_documentTabItemGlyphActiveDown = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemGlyphActiveDown"));
+
+        public static ComponentResourceKey DocumentTabItemGlyphLastActive
+            =>
+                _documentTabItemGlyphLastActive ??
+                (_documentTabItemGlyphLastActive = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemGlyphLastActive"));
+
+        public static ComponentResourceKey DocumentTabItemGlyphLastActiveHover
+            =>
+                _documentTabItemGlyphLastActiveHover ??
+                (_documentTabItemGlyphLastActiveHover = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemGlyphLastActiveHover"));
+
+        public static ComponentResourceKey DocumentTabItemGlyphLastActiveDown
+            =>
+                _documentTabItemGlyphLastActiveDown ??
+                (_documentTabItemGlyphLastActiveDown = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemGlyphLastActiveDown"));
+
+        public static ComponentResourceKey DocumentTabItemButtonBackground
+           =>
+               _documentTabItemButtonBackground ??
+               (_documentTabItemButtonBackground =
+                   new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBackground"));
+
+        public static ComponentResourceKey DocumentTabItemButtonBackgroundHover
+            =>
+                _documentTabItemButtonBackgroundHover ??
+                (_documentTabItemButtonBackgroundHover =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBackgroundHover"));
+
+        public static ComponentResourceKey DocumentTabItemButtonBackgroundDown
+            =>
+                _documentTabItemButtonBackgroundDown ??
+                (_documentTabItemButtonBackgroundDown =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBackgroundDown"));
+
+        public static ComponentResourceKey DocumentTabItemButtonBackgroundActive
+            =>
+                _documentTabItemButtonBackgroundActive ??
+                (_documentTabItemButtonBackgroundActive =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBackgroundActive"));
+
+        public static ComponentResourceKey DocumentTabItemButtonBackgroundActiveHover
+            =>
+                _documentTabItemButtonBackgroundActiveHover ??
+                (_documentTabItemButtonBackgroundActiveHover =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBackgroundActiveHover"));
+
+        public static ComponentResourceKey DocumentTabItemButtonBackgroundActiveDown
+            =>
+                _documentTabItemButtonBackgroundActiveDown ??
+                (_documentTabItemButtonBackgroundActiveDown =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBackgroundActiveDown"));
+
+        public static ComponentResourceKey DocumentTabItemButtonBackgroundLastActive
+    =>
+        _documentTabItemButtonBackgroundLastActive ??
+        (_documentTabItemButtonBackgroundLastActive =
+            new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBackgroundLastActive"));
+
+        public static ComponentResourceKey DocumentTabItemButtonBackgroundLastActiveHover
+            =>
+                _documentTabItemButtonBackgroundLastActiveHover ??
+                (_documentTabItemButtonBackgroundLastActiveHover =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBackgroundLastActiveHover"));
+
+        public static ComponentResourceKey DocumentTabItemButtonBackgroundLastActiveDown
+            =>
+                _documentTabItemButtonBackgroundLastActiveDown ??
+                (_documentTabItemButtonBackgroundLastActiveDown =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBackgroundLastActiveDown"));
+
+        public static ComponentResourceKey DocumentTabItemButtonBorder
+    =>
+        _documentTabItemButtonBorder ??
+        (_documentTabItemButtonBorder =
+            new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBorder"));
+
+        public static ComponentResourceKey DocumentTabItemButtonBorderHover
+            =>
+                _documentTabItemButtonBorderHover ??
+                (_documentTabItemButtonBorderHover =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBorderHover"));
+
+        public static ComponentResourceKey DocumentTabItemButtonBorderDown
+            =>
+                _documentTabItemButtonBorderDown ??
+                (_documentTabItemButtonBorderDown =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBorderDown"));
+
+
+        public static ComponentResourceKey DocumentTabItemButtonBorderActive
+            =>
+                _documentTabItemButtonBorderActive ??
+                (_documentTabItemButtonBorderActive =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBorderActive"));
+
+        public static ComponentResourceKey DocumentTabItemButtonBorderActiveHover
+            =>
+                _documentTabItemButtonBorderActiveHover ??
+                (_documentTabItemButtonBorderActiveHover =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBorderActiveHover"));
+
+        public static ComponentResourceKey DocumentTabItemButtonBorderActiveDown
+            =>
+                _documentTabItemButtonBorderActiveDown ??
+                (_documentTabItemButtonBorderActiveDown =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBorderActiveDown"));
+
+
+        public static ComponentResourceKey DocumentTabItemButtonBorderLastActive
+    =>
+        _documentTabItemButtonBorderLastActive ??
+        (_documentTabItemButtonBorderLastActive =
+            new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBorderLastActive"));
+
+        public static ComponentResourceKey DocumentTabItemButtonBorderLastActiveHover
+            =>
+                _documentTabItemButtonBorderLastActiveHover ??
+                (_documentTabItemButtonBorderLastActiveHover =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBorderLastActiveHover"));
+
+        public static ComponentResourceKey DocumentTabItemButtonBorderLastActiveDown
+            =>
+                _documentTabItemButtonBorderLastActiveDown ??
+                (_documentTabItemButtonBorderLastActiveDown =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemButtonBorderLastActiveDown"));
+
+        public static ComponentResourceKey DocumentTabItemBackground
+            =>
+                _documentTabItemBackground ??
+                (_documentTabItemBackground = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemBackground"));
+
+        public static ComponentResourceKey DocumentTabItemBackgroundHover
+            =>
+                _documentTabItemBackgroundHover ??
+                (_documentTabItemBackgroundHover = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemBackgroundHover"));
+
+        public static ComponentResourceKey DocumentTabItemBackgroundActive
+            =>
+                _documentTabItemBackgroundActive ??
+                (_documentTabItemBackgroundActive = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemBackgroundActive"));
+
+        public static ComponentResourceKey DocumentTabItemBackgroundLastActive
+            =>
+                _documentTabItemBackgroundLastActive ??
+                (_documentTabItemBackgroundLastActive = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemBackgroundLastActive"));
+
+        public static ComponentResourceKey DocumentTabItemBackgroundDisabled
+            =>
+                _documentTabItemBackgroundDisabled ??
+                (_documentTabItemBackgroundDisabled = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemBackgroundDisabled"));
+
+        public static ComponentResourceKey DocumentTabItemBorder
+           =>
+               _documentTabItemBorder ??
+               (_documentTabItemBorder = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemBorder"));
+
+        public static ComponentResourceKey DocumentTabItemBorderHover
+            =>
+                _documentTabItemBorderHover ??
+                (_documentTabItemBorderHover = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemBorderHover"));
+
+        public static ComponentResourceKey DocumentTabItemBorderActive
+            =>
+                _documentTabItemBorderActive ??
+                (_documentTabItemBorderActive = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemBorderActive"));
+
+        public static ComponentResourceKey DocumentTabItemBorderLastActive
+            =>
+                _documentTabItemBorderLastActive ??
+                (_documentTabItemBorderLastActive = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemBorderLastActive"));
+
+        public static ComponentResourceKey DocumentTabItemBorderDisabled
+            =>
+                _documentTabItemBorderDisabled ??
+                (_documentTabItemBorderDisabled = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentTabItemBorderDisabled"));
+
+        #endregion
+
+        #region AnchorTabItem
+        public static ComponentResourceKey AnchorTabItemBackground
+           =>
+               _anchorTabItemBackground ??
+               (_anchorTabItemBackground = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorTabItemBackground"));
+
+        public static ComponentResourceKey AnchorTabItemBackgroundHover
+            =>
+                _anchorTabItemBackgroundHover ??
+                (_anchorTabItemBackgroundHover = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorTabItemBackgroundHover"));
+
+        public static ComponentResourceKey AnchorTabItemBackgroundActive
+            =>
+                _anchorTabItemBackgroundActive ??
+                (_anchorTabItemBackgroundActive = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorTabItemBackgroundActive"));
+
+        public static ComponentResourceKey AnchorTabItemBackgroundDisabled
+            =>
+                _anchorTabItemBackgroundDisabled ??
+                (_anchorTabItemBackgroundDisabled = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorTabItemBackgroundDisabled"));
+
+        public static ComponentResourceKey AnchorTabItemBorder
+           =>
+               _anchorTabItemBorder ??
+               (_anchorTabItemBorder = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorTabItemBorder"));
+
+        public static ComponentResourceKey AnchorTabItemBorderHover
+           =>
+               _anchorTabItemBorderHover ??
+               (_anchorTabItemBorderHover = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorTabItemBorderHover"));
+
+        public static ComponentResourceKey AnchorTabItemBorderActive
+           =>
+               _anchorTabItemBorderActive ??
+               (_anchorTabItemBorderActive = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorTabItemBorderActive"));
+
+        public static ComponentResourceKey AnchorTabItemBorderDisabled
+           =>
+               _anchorTabItemBorderDisabled ??
+               (_anchorTabItemBorderDisabled = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorTabItemBorderDisabled"));
+
+        public static ComponentResourceKey AnchorTabItemText
+           =>
+               _anchorTabItemText ??
+               (_anchorTabItemText = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorTabItemText"));
+
+        public static ComponentResourceKey AnchorTabItemTextHover
+           =>
+               _anchorTabItemTextHover ??
+               (_anchorTabItemTextHover = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorTabItemTextHover"));
+
+        public static ComponentResourceKey AnchorTabItemTextActive
+           =>
+               _anchorTabItemTextActive ??
+               (_anchorTabItemTextActive = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorTabItemTextActive"));
+
+        public static ComponentResourceKey AnchorTabItemTextDisabled
+           =>
+               _anchorTabItemTextDisabled ??
+               (_anchorTabItemTextDisabled = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorTabItemTextDisabled"));
+        #endregion
+
+        #region AnchorPaneControl
+        public static ComponentResourceKey AnchorPaneControlBorder
+            =>
+                _anchorPaneControlBorder ??
+                (_anchorPaneControlBorder = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneControlBorder"));
+
+        #endregion
+
+        #region LayoutAnchorableControl
+
+        public static ComponentResourceKey AnchorableControlBackground
+            =>
+                _anchorableControlBackground ??
+                (_anchorableControlBackground =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorableControlBackground"));
+        #endregion
+
+        #region AnchorSideItem
+
+        public static ComponentResourceKey AnchorSideItemBackground
+            =>
+                _anchorSideItemBackground ??
+                (_anchorSideItemBackground = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorSideItemBackground"));
+
+        public static ComponentResourceKey AnchorSideItemBackgroundHover
+            =>
+                _anchorSideItemBackgroundHover ??
+                (_anchorSideItemBackgroundHover = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorSideItemBackgroundHover"));
+
+        public static ComponentResourceKey AnchorSideItemBorder
+            =>
+                _anchorSideItemBorder ??
+                (_anchorSideItemBorder = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorSideItemBorder"));
+
+        public static ComponentResourceKey AnchorSideItemBorderHover
+            =>
+                _anchorSideItemBorderHover ??
+                (_anchorSideItemBorderHover = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorSideItemBorderHover"));
+
+        public static ComponentResourceKey AnchorSideItemForeground
+            =>
+                _anchorSideItemForeground ??
+                (_anchorSideItemForeground = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorSideItemForeground"));
+        public static ComponentResourceKey AnchorSideItemForegroundHover
+            =>
+                _anchorSideItemForegroundHover ??
+                (_anchorSideItemForegroundHover = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorSideItemForegroundHover"));
+
+        #endregion
+
+        #region AnchorPaneTitle
+
+
+
+        public static ComponentResourceKey AnchorPaneTitleBackgroundActive
+            =>
+                _anchorPaneTitleBackgroundActive ??
+                (_anchorPaneTitleBackgroundActive = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleBackgroundActive"));
+
+        public static ComponentResourceKey AnchorPaneTitleGlyph
+            =>
+                _anchorPaneTitleGlyph ??
+                (_anchorPaneTitleGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleGlyph"));
+
+        public static ComponentResourceKey AnchorPaneTitleGlyphHover
+            =>
+                _anchorPaneTitleGlyphHover ??
+                (_anchorPaneTitleGlyphHover = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleGlyphHover"));
+
+        public static ComponentResourceKey AnchorPaneTitleGlyphDown
+            =>
+                _anchorPaneTitleGlyphDown ??
+                (_anchorPaneTitleGlyphDown = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleGlyphDown"));
+
+        public static ComponentResourceKey AnchorPaneTitleGlyphActive
+           =>
+               _anchorPaneTitleGlyphActive ??
+               (_anchorPaneTitleGlyphActive = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleGlyphActive"));
+
+        public static ComponentResourceKey AnchorPaneTitleGlyphActiveHover
+            =>
+                _anchorPaneTitleGlyphActiveHover ??
+                (_anchorPaneTitleGlyphActiveHover = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleGlyphActiveHover"));
+
+        public static ComponentResourceKey AnchorPaneTitleGlyphActiveDown
+            =>
+                _anchorPaneTitleGlyphActiveDown ??
+                (_anchorPaneTitleGlyphActiveDown = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleGlyphActiveDown"));
+
+        public static ComponentResourceKey AnchorPaneTitleButtonBackground
+            =>
+                _anchorPaneTitleButtonBackground ??
+                (_anchorPaneTitleButtonBackground =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleButtonBackground"));
+
+        public static ComponentResourceKey AnchorPaneTitleButtonBackgroundHover
+            =>
+                _anchorPaneTitleButtonBackgroundHover ??
+                (_anchorPaneTitleButtonBackgroundHover =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleButtonBackgroundHover"));
+
+        public static ComponentResourceKey AnchorPaneTitleButtonBackgroundDown
+            =>
+                _anchorPaneTitleButtonBackgroundDown ??
+                (_anchorPaneTitleButtonBackgroundDown =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleButtonBackgroundDown"));
+
+        public static ComponentResourceKey AnchorPaneTitleButtonBackgroundActive
+            =>
+                _anchorPaneTitleButtonBackgroundActive ??
+                (_anchorPaneTitleButtonBackgroundActive =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleButtonBackground"));
+
+        public static ComponentResourceKey AnchorPaneTitleButtonBackgroundActiveHover
+            =>
+                _anchorPaneTitleButtonBackgroundActiveHover ??
+                (_anchorPaneTitleButtonBackgroundActiveHover =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleButtonBackgroundActiveHover"));
+
+        public static ComponentResourceKey AnchorPaneTitleButtonBackgroundActiveDown
+            =>
+                _anchorPaneTitleButtonBackgroundActiveDown ??
+                (_anchorPaneTitleButtonBackgroundActiveDown =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleButtonBackgroundActiveDown"));
+
+        public static ComponentResourceKey AnchorPaneTitleButtonBorder
+            =>
+                _anchorPaneTitleButtonBorder ??
+                (_anchorPaneTitleButtonBorder =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleButtonBorder"));
+
+        public static ComponentResourceKey AnchorPaneTitleButtonBorderHover
+            =>
+                _anchorPaneTitleButtonBorderHover ??
+                (_anchorPaneTitleButtonBorderHover =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleButtonBorderHover"));
+
+        public static ComponentResourceKey AnchorPaneTitleButtonBorderDown
+            =>
+                _anchorPaneTitleButtonBorderDown ??
+                (_anchorPaneTitleButtonBorderDown =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleButtonBorderHover"));
+
+        public static ComponentResourceKey AnchorPaneTitleButtonBorderActive
+            =>
+                _anchorPaneTitleButtonBorderActive ??
+                (_anchorPaneTitleButtonBorderActive =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleButtonBorderActive"));
+
+        public static ComponentResourceKey AnchorPaneTitleButtonBorderActiveHover
+            =>
+                _anchorPaneTitleButtonBorderActiveHover ??
+                (_anchorPaneTitleButtonBorderActiveHover =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleButtonBorderActiveHover"));
+
+        public static ComponentResourceKey AnchorPaneTitleButtonBorderActiveDown
+            =>
+                _anchorPaneTitleButtonBorderActiveDown ??
+                (_anchorPaneTitleButtonBorderActiveDown =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleButtonBorderActiveDown"));
+
+        public static ComponentResourceKey AnchorPaneTitleGrip
+            =>
+                _anchorPaneTitleGrip ??
+                (_anchorPaneTitleGrip = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleGrip"));
+
+        public static ComponentResourceKey AnchorPaneTitleGripActive
+            =>
+                _anchorPaneTitleGripActive ??
+                (_anchorPaneTitleGripActive = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleGripActive"));
+
+        public static ComponentResourceKey AnchorPaneTitleText
+            =>
+                _anchorPaneTitleText ??
+                (_anchorPaneTitleText = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleText"));
+
+        public static ComponentResourceKey AnchorPaneTitleTextActive
+            =>
+                _anchorPaneTitleTextActive ??
+                (_anchorPaneTitleTextActive = new ComponentResourceKey(typeof(EnvironmentColors), "AnchorPaneTitleTextActive"));
+
+
+        #endregion
+
+        #region DocumentPaneControl
+
+        public static ComponentResourceKey DocumentPaneControlBackground
+            =>
+                _documentPaneControlBackground ??
+                (_documentPaneControlBackground =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "DocumentPaneControlBackground"));
+
+        public static ComponentResourceKey DocumentPaneControlBackgroundLastActive
+            =>
+                _documentPaneControlBackgroundLastActive ??
+                (_documentPaneControlBackgroundLastActive =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "DocumentPaneControlBackgroundLastActive"));
+
+        public static ComponentResourceKey DocumentPaneControlGlyph
+            =>
+                _documentPaneControlGlyph ??
+                (_documentPaneControlGlyph =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "DocumentPaneControlGlyph"));
+
+        public static ComponentResourceKey DocumentPaneControlGlyphHover
+            =>
+                _documentPaneControlGlyphHover ??
+                (_documentPaneControlGlyphHover =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "DocumentPaneControlGlyphHover"));
+
+        public static ComponentResourceKey DocumentPaneControlGlyphDown
+            =>
+                _documentPaneControlGlyphDown ??
+                (_documentPaneControlGlyphDown =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "DocumentPaneControlGlyphDown"));
+
+        public static ComponentResourceKey DocumentPaneControlButtonBackground
+            =>
+                _documentPaneControlButtonBackground ??
+                (_documentPaneControlButtonBackground =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "DocumentPaneControlButtonBackground"));
+
+        public static ComponentResourceKey DocumentPaneControlButtonBackgroundHover
+            =>
+                _documentPaneControlButtonBackgroundHover ??
+                (_documentPaneControlButtonBackgroundHover =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "DocumentPaneControlButtonBackgroundHover"));
+
+        public static ComponentResourceKey DocumentPaneControlButtonBackgroundDown
+            =>
+                _documentPaneControlButtonBackgroundDown ??
+                (_documentPaneControlButtonBackgroundDown =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "DocumentPaneControlButtonBackgroundDown"));
+
+        public static ComponentResourceKey DocumentPaneControlButtonBorder
+            =>
+                _documentPaneControlButtonBorder ??
+                (_documentPaneControlButtonBorder =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "DocumentPaneControlButtonBorder"));
+
+        public static ComponentResourceKey DocumentPaneControlButtonBorderHover
+            =>
+                _documentPaneControlButtonBorderHover ??
+                (_documentPaneControlButtonBorderHover =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "DocumentPaneControlButtonBorderHover"));
+
+        public static ComponentResourceKey DocumentPaneControlButtonBorderDown
+            =>
+                _documentPaneControlButtonBorderDown ??
+                (_documentPaneControlButtonBorderDown =
+                    new ComponentResourceKey(typeof(EnvironmentColors), "DocumentPaneControlButtonBorderDown"));
+
+        public static ComponentResourceKey DocumentPaneControlBorder
+            =>
+                _documentPaneControlBorder ??
+                (_documentPaneControlBorder = new ComponentResourceKey(typeof(EnvironmentColors), "DocumentPaneControlBorder"));
+
+        #endregion
     }
 }

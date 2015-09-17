@@ -604,6 +604,7 @@ namespace ModernApplicationFramework.Controls
         {
             StopShadowTimer();
             UpdateGlowWindowPositions(false);
+            UpdateClipRegion();
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)

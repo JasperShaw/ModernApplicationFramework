@@ -25,7 +25,7 @@ using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-	public class OverlayWindow : Window, IOverlayWindow
+	public class OverlayWindow : Window, IOverlayWindow, IOnThemeChanged
 	{
 		private readonly List<IDropArea> _visibleAreas = new List<IDropArea>();
 		private FrameworkElement _anchorablePaneDropTargetBottom;
@@ -61,8 +61,8 @@ namespace ModernApplicationFramework.Docking.Controls
 
 		internal OverlayWindow(IOverlayWindowHost host)
 		{
-			UpdateThemeResources();
-		}
+            OnThemeChanged(null, null);
+        }
 
 		static OverlayWindow()
 		{
@@ -616,22 +616,19 @@ namespace ModernApplicationFramework.Docking.Controls
 				_mainCanvasPanel.Visibility = Visibility.Hidden;
 		}
 
-		internal void UpdateThemeResources(Theme oldTheme = null)
-		{
-			if (oldTheme != null)
-			{
-				var resourceDictionaryToRemove =
-					Resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldTheme.GetResourceUri());
-				if (resourceDictionaryToRemove != null)
-					Resources.MergedDictionaries.Remove(
-						resourceDictionaryToRemove);
-			}
+        public void OnThemeChanged(Theme oldValue, Theme newValue)
+        {
+            if (oldValue != null)
+            {
+                var resourceDictionaryToRemove =
+                    Resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldValue.GetResourceUri());
+                if (resourceDictionaryToRemove != null)
+                    Resources.MergedDictionaries.Remove(
+                        resourceDictionaryToRemove);
+            }
 
-			var main = Application.Current.MainWindow as MainWindow;
-			if (main?.Theme != null)
-			{
-				Resources.MergedDictionaries.Add(new ResourceDictionary() {Source = main.Theme.GetResourceUri()});
-			}
-		}
-	}
+            if (newValue != null)
+                Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = newValue.GetResourceUri() });
+        }
+    }
 }

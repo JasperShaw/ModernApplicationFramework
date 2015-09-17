@@ -32,7 +32,7 @@ using SystemCommands = ModernApplicationFramework.Core.Shell.SystemCommands;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-	public abstract class LayoutFloatingWindowControl : ModernChromeWindow, ILayoutControl
+	public abstract class LayoutFloatingWindowControl : ModernChromeWindow, ILayoutControl, IOnThemeChanged
 	{
 		private readonly ILayoutElement _model;
 		private bool _attachDrag;
@@ -46,7 +46,6 @@ namespace ModernApplicationFramework.Docking.Controls
 			_model = model;
 			Loaded += OnLoaded;
 			Unloaded += OnUnloaded;
-			UpdateThemeResources();
 		}
 
 		static LayoutFloatingWindowControl()
@@ -204,24 +203,6 @@ namespace ModernApplicationFramework.Docking.Controls
 			Close();
 		}
 
-		internal virtual void UpdateThemeResources(Theme oldTheme = null)
-		{
-			if (oldTheme != null)
-			{
-				var resourceDictionaryToRemove =
-					Resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldTheme.GetResourceUri());
-				if (resourceDictionaryToRemove != null)
-					Resources.MergedDictionaries.Remove(
-						resourceDictionaryToRemove);
-			}
-
-			var main = Application.Current.MainWindow as MainWindow;
-			if (main?.Theme != null)
-			{
-				Resources.MergedDictionaries.Add(new ResourceDictionary() {Source = main.Theme.GetResourceUri()});
-			}
-		}
-
 		private static object CoerceContentValue(DependencyObject sender, object content)
 		{
 			return new FloatingWindowContentHost(sender as LayoutFloatingWindowControl) {Content = content as UIElement};
@@ -253,17 +234,30 @@ namespace ModernApplicationFramework.Docking.Controls
 
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
-			Loaded -= OnLoaded;
+            Loaded -= OnLoaded;
+            OnThemeChanged(null, null);
+            this.SetParentToMainWindowOf(Model.Root.Manager);
+            _hwndSrc = PresentationSource.FromDependencyObject(this) as HwndSource;
+            _hwndSrcHook = FilterMessage;
+            _hwndSrc?.AddHook(_hwndSrcHook);
+        }
 
-			this.SetParentToMainWindowOf(Model.Root.Manager);
+	    public virtual void OnThemeChanged(Theme oldValue, Theme newValue)
+	    {
+	        if (oldValue != null)
+	        {
+	            var resourceDictionaryToRemove =
+	                Resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldValue.GetResourceUri());
+	            if (resourceDictionaryToRemove != null)
+	                Resources.MergedDictionaries.Remove(
+	                    resourceDictionaryToRemove);
+	        }
+	        if (newValue == null)
+	            return;
+	        Resources.MergedDictionaries.Add(new ResourceDictionary {Source = newValue.GetResourceUri()});
+	    }
 
-
-			_hwndSrc = PresentationSource.FromDependencyObject(this) as HwndSource;
-			_hwndSrcHook = FilterMessage;
-			_hwndSrc?.AddHook(_hwndSrcHook);
-		}
-
-		private void OnUnloaded(object sender, RoutedEventArgs e)
+	    private void OnUnloaded(object sender, RoutedEventArgs e)
 		{
 			Unloaded -= OnUnloaded;
 

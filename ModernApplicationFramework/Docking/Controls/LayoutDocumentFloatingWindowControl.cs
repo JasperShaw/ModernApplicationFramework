@@ -188,14 +188,13 @@ namespace ModernApplicationFramework.Docking.Controls
 		{
 		}
 
-		internal override void UpdateThemeResources(Theme oldTheme = null)
-		{
-			base.UpdateThemeResources(oldTheme);
+	    public override void OnThemeChanged(Theme oldValue, Theme newValue)
+	    {
+	        base.OnThemeChanged(oldValue, newValue);
+	        _overlayWindow?.OnThemeChanged(oldValue, newValue);
+	    }
 
-			_overlayWindow?.UpdateThemeResources(oldTheme);
-		}
-
-		private static void OnSingleContentLayoutItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	    private static void OnSingleContentLayoutItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			((LayoutDocumentFloatingWindowControl) d).OnSingleContentLayoutItemChanged(e);
 		}

@@ -7,6 +7,7 @@ using System.Windows.Media.Imaging;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking;
 using ModernApplicationFramework.Docking.Layout;
+using ModernApplicationFramework.Themes;
 using ModernApplicationFramework.Themes.LightIDE;
 using ModernApplicationFramework.ViewModels;
 using Menu = ModernApplicationFramework.Controls.Menu;
@@ -15,17 +16,18 @@ using ToolBar = ModernApplicationFramework.Controls.ToolBar;
 
 namespace ModernApplicationFrameworkTestAppDock
 {
-	/// <summary>
-	/// Interaction logic for MainWindow.xaml
-	/// </summary>
-	public partial class MainWindow
-	{
-		public MainWindow()
-		{
-			InitializeComponent();
-			DockingManager = Manager;
-			Icon = new BitmapImage(new Uri("pack://application:,,,/ModernApplicationFrameworkTestAppDock;component/Build.png"));
-            this.SourceInitialized += MainWindow_SourceInitialized;
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+            DockingManager = Manager;
+            Icon = new BitmapImage(new Uri("pack://application:,,,/ModernApplicationFrameworkTestAppDock;component/Build.png"));
+            SourceInitialized += MainWindow_SourceInitialized;
+            //((MainWindowViewModel)DataContext).Theme = new LightTheme();
         }
 
         private void MainWindow_SourceInitialized(object sender, EventArgs e)
@@ -42,48 +44,60 @@ namespace ModernApplicationFrameworkTestAppDock
             ((MainWindowViewModel)DataContext).ToolBarHostViewModel.AddToolBar(new ToolBar { IdentifierName = "Testing2" }, true, Dock.Left);
 
             var m = new Menu();
-            m.Items.Add(new MenuItem { Header = "Test" });
+
+            var mi2 = new MenuItem { Header = "Test2" };
+            mi2.Items.Add(new MenuItem { Header = "Test2" });
+
+            var mi = new MenuItem { Header = "Test" };
+            mi.Items.Add(mi2);
+
+
+            m.Items.Add(mi);
             ((MainWindowViewModel)DataContext).MenuHostViewModel.Menu = m;
         }
 
         public override void OnApplyTemplate()
-		{
-			base.OnApplyTemplate();
-			//Application.Current.Resources[ModernApplicationFramework.Core.Themes.EnvironmentColors.MainWindowBackground] = new SolidColorBrush(Colors.Red);
-			TextBox.Text = Application.Current.TryFindResource(EnvironmentColors.MainWindowBackground).ToString();
-			string s = "";
-			foreach (var resource in Application.Current.Resources)
-			{
-				s += resource.ToString();
-			}
+        {
+            base.OnApplyTemplate();
+            //Application.Current.Resources[ModernApplicationFramework.Core.Themes.EnvironmentColors.MainWindowBackground] = new SolidColorBrush(Colors.Red);
+            TextBox.Text = Application.Current.TryFindResource(EnvironmentColors.MainWindowBackground).ToString();
+            string s = "";
+            foreach (var resource in Application.Current.Resources)
+            {
+                s += resource.ToString();
+            }
 
-		}
+        }
 
 
-		private void DockingManager_OnDocumentClosing(object sender, DocumentClosingEventArgs e)
-		{
-			if (MessageBox.Show("Are you sure you want to close the document?", "AvalonDock Sample", MessageBoxButton.YesNo) == MessageBoxResult.No)
-				e.Cancel = true;
-		}
+        private void DockingManager_OnDocumentClosing(object sender, DocumentClosingEventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to close the document?", "AvalonDock Sample", MessageBoxButton.YesNo) == MessageBoxResult.No)
+                e.Cancel = true;
+        }
 
-		private void LayoutElement_OnPropertyChanged(object sender, PropertyChangedEventArgs e)
-		{
-			var activeContent = ((LayoutRoot)sender).ActiveContent;
-			if (e.PropertyName == "ActiveContent")
-			{
-				Debug.WriteLine("ActiveContent-> {0}", activeContent);
-			}
-		}
+        private void LayoutElement_OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            var activeContent = ((LayoutRoot)sender).ActiveContent;
+            if (e.PropertyName == "ActiveContent")
+            {
+                Debug.WriteLine("ActiveContent-> {0}", activeContent);
+            }
+        }
 
-		private void LayoutAnchorable_OnHiding(object sender, CancelEventArgs e)
-		{
-			if (MessageBox.Show("Are you sure you want to hide this tool?", "AvalonDock", MessageBoxButton.YesNo) == MessageBoxResult.No)
-				e.Cancel = true;
-		}
+        private void LayoutAnchorable_OnHiding(object sender, CancelEventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to hide this tool?", "AvalonDock", MessageBoxButton.YesNo) == MessageBoxResult.No)
+                e.Cancel = true;
+        }
 
-		private void Button_Click_1(object sender, RoutedEventArgs e)
-		{
-            ((MainWindowViewModel)DataContext).Theme = new LightTheme();
-		}
-	}
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (((MainWindowViewModel)DataContext).Theme is LightTheme)
+                ((MainWindowViewModel)DataContext).Theme = new GenericTheme();
+            else
+                ((MainWindowViewModel)DataContext).Theme = new LightTheme();
+
+        }
+    }
 }

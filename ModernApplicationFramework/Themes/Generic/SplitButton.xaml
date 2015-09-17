@@ -78,6 +78,10 @@
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True" SourceName="PART_ToggleButton">
                             <Setter TargetName="Separator" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.SplitButtonSeparatorDown}}"/>
+                            <Setter TargetName="PART_ActionButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.SplitButtonActionButtonDown}}"/>
+                            <Setter TargetName="PART_ToggleButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.SplitButtonToggleButtonDown}}"/>
+                            <Setter TargetName="PART_ActionButton" Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.SplitButtonActionButtonForegroundChecked}}"/>
+                            <Setter TargetName="PART_ToggleButton" Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.SplitButtonToggleButtonGlyphChecked}}"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True" SourceName="PART_ToggleButton">
                             <Setter TargetName="Separator" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.SplitButtonSeparatorChecked}}"/>
