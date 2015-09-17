@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -11,6 +12,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
 using ModernApplicationFramework.Core.Platform;
+using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
 using Point = System.Windows.Point;
 using DpiHelper = ModernApplicationFramework.Core.Utilities.DpiHelper;
@@ -20,7 +22,7 @@ using RECT = ModernApplicationFramework.Core.Platform.RECT;
 namespace ModernApplicationFramework.Controls
 {
     [SuppressMessage("ReSharper", "RedundantAssignment")]
-    public class ModernChromeWindow : Window
+    public class ModernChromeWindow : Window, IOnThemeChanged
     {
         private const int MonitorDefaulttonearest = 0x00000002;
         private readonly ShadowWindow[] _shadowWindows = new ShadowWindow[4];
@@ -32,12 +34,24 @@ namespace ModernApplicationFramework.Controls
         private bool _updatingZOrder;
         private bool _useLogicalSizeForRestore;
 
+        private int _lastScwParam;
+        private WindowState _lastState;
+        private bool _wasMaximized;
+
         protected enum ClipRegionChangeType
         {
             FromSize,
             FromPosition,
             FromPropertyChange,
             FromUndockSingleTab
+        }
+
+        public virtual void OnThemeChanged(Theme oldValue, Theme newValue)
+        {
+            UpdateGlowColors();
+            IsShadowVisible = false;
+            IsShadowVisible = true;
+            UpdateClipRegion();
         }
 
         public Brush ActiveShadowColor
@@ -86,7 +100,8 @@ namespace ModernApplicationFramework.Controls
                 if (NativeMethods.IsWindowVisible(handle) && !NativeMethods.IsIconic(handle) &&
                     !NativeMethods.IsZoomed(handle))
                 {
-	                if (ResizeMode == ResizeMode.NoResize) return true;
+	                if (ResizeMode == ResizeMode.NoResize)
+                        return true;
 	                return true;
                 }
 	            return false;
@@ -300,13 +315,9 @@ namespace ModernApplicationFramework.Controls
         protected override void OnStateChanged(EventArgs e)
         {
             if (WindowState == WindowState.Normal)
-            {
-                UpdateGlowActiveState();
-                UpdateGlowWindowPositions(true);
                 WindowStyle = WindowStyle.None;
-            }
-            else
-                UpdateGlowVisibility(false);
+            if (_lastScwParam == 61728 && _lastState == WindowState.Minimized && WindowState != WindowState.Maximized)
+                Thread.Sleep(200);
             Topmost = WindowState == WindowState.Minimized;
             base.OnStateChanged(e);
         }
@@ -739,17 +750,26 @@ namespace ModernApplicationFramework.Controls
         private void WmSysCommand(IntPtr hwnd, IntPtr wparam)
         {
             var scWparam = (int) wparam & 65520;
+            _lastScwParam = scWparam;
+            _lastState = WindowState;
             if (scWparam == 61456)
             {
                 NativeMethods.RedrawWindow(hwnd, IntPtr.Zero, IntPtr.Zero,
                     RedrawWindowFlags.Invalidate | RedrawWindowFlags.NoChildren | RedrawWindowFlags.UpdateNow |
                     RedrawWindowFlags.Frame);
             }
-
+            if (_wasMaximized)
+            {
+                WindowStyle = WindowStyle.None;
+                _wasMaximized = false;
+                return;
+            }
             if (scWparam == 61472 || scWparam == 61728)
                 WindowStyle = WindowStyle.SingleBorderWindow;
             else
                 WindowStyle = WindowStyle.None;
+            if (scWparam == 61472 && WindowState == WindowState.Maximized)
+                _wasMaximized = true;
 
             if ((scWparam == 61488 || scWparam == 61472 || (scWparam == 61456 || scWparam == 61440)) &&
                 (WindowState == WindowState.Normal && !IsAeroSnappedToMonitor(hwnd)))
@@ -778,7 +798,7 @@ namespace ModernApplicationFramework.Controls
                 else if (((int) windowpos.flags & 2) != 2)
                     UpdateClipRegion(hWnd, windowPlacement, ClipRegionChangeType.FromPosition, currentBounds);
                 OnWindowPosChanged(hWnd, windowPlacement.showCmd, windowPlacement.rcNormalPosition.ToInt32Rect());
-                UpdateGlowWindowPositions(((int) windowpos.flags & 64) == 0);
+                UpdateGlowWindowPositions(true);
                 UpdateZOrderOfThisAndOwner();
             }
             catch (Win32Exception)
