@@ -43,5 +43,50 @@
         </Setter>
     </Style>
     
+    <Style TargetType="{x:Type mafc:ImageTabButton}">
+        <Setter Property="Visibility" Value="Visible"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type mafc:ImageTabButton}">
+                    <Border Name="Bd" SnapsToDevicePixels="True">
+                        <Border.Background>
+                            <ImageBrush ImageSource="{Binding NormalImage, RelativeSource={RelativeSource TemplatedParent}}"/>
+                        </Border.Background>
+                        <ContentPresenter Name="Cp"  VerticalAlignment="Center" HorizontalAlignment="Center" Opacity=".8"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background">
+                                <Setter.Value>
+                                    <ImageBrush ImageSource="{Binding HoverImage, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="Cp" Property="Opacity" Value="1"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+							<Setter TargetName="Bd" Property="Background">
+								<Setter.Value>
+									<ImageBrush ImageSource="{Binding PressedImage, RelativeSource={RelativeSource TemplatedParent}}"/>
+								</Setter.Value>
+							</Setter>
+                            <Setter TargetName="Cp" Property="Opacity" Value="1"/>
+						</Trigger>
+						<Trigger Property="IsEnabled" Value="False">
+							<Setter TargetName="Bd" Property="Opacity" Value=".5"/>
+						</Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+							<Setter TargetName="Bd" Property="Background">
+								<Setter.Value>
+									<ImageBrush ImageSource="{Binding CheckedImage, RelativeSource={RelativeSource TemplatedParent}}"/>
+								</Setter.Value>
+							</Setter>
+                            <Setter TargetName="Cp" Property="Opacity" Value="1"/>
+						</Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
     
 </ResourceDictionary>

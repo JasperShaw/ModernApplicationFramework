@@ -11,6 +11,7 @@
                         <Border.Background>
                             <ImageBrush ImageSource="{Binding NormalImage, RelativeSource={RelativeSource TemplatedParent}}"></ImageBrush>
                         </Border.Background>
+                        <ContentPresenter Name="Cp"  VerticalAlignment="Center" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
                     </Border>
                     <ControlTemplate.Triggers>
 						<Trigger Property="IsMouseOver" Value="True">
@@ -19,6 +20,7 @@
 									<ImageBrush ImageSource="{Binding HoverImage, RelativeSource={RelativeSource TemplatedParent}}"/>
 								</Setter.Value>
 							</Setter>
+                            <Setter TargetName="Cp" Property="Opacity" Value=".8"/>
 						</Trigger>
 						<Trigger Property="IsPressed" Value="True">
 							<Setter TargetName="Bd" Property="Background">

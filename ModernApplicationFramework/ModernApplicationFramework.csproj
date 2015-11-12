@@ -117,6 +117,7 @@
     </Compile>
     <Compile Include="Controls\GlyphButton.cs" />
     <Compile Include="Controls\ImageButton.cs" />
+    <Compile Include="Controls\ImageTabButton.cs" />
     <Compile Include="Controls\ImageRadioButton.cs" />
     <Compile Include="Controls\ImageToggleButton.cs" />
     <Compile Include="Controls\INonClientArea.cs" />
