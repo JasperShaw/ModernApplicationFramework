@@ -96,8 +96,8 @@ namespace ModernApplicationFramework.Controls
         {
             get
             {
-                if (DpiHelper.GetScalingFactor() != 96)
-                    return false;
+                //if (DpiHelper.GetScalingFactor() != 96)
+                //    return false;
                 var handle = new WindowInteropHelper(this).Handle;
                 if (NativeMethods.IsWindowVisible(handle) && !NativeMethods.IsIconic(handle) &&
                     !NativeMethods.IsZoomed(handle))
