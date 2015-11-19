@@ -96,6 +96,8 @@ namespace ModernApplicationFramework.Controls
         {
             get
             {
+                if (DpiHelper.GetScalingFactor() != 96)
+                    return false;
                 var handle = new WindowInteropHelper(this).Handle;
                 if (NativeMethods.IsWindowVisible(handle) && !NativeMethods.IsIconic(handle) &&
                     !NativeMethods.IsZoomed(handle))
@@ -620,7 +622,7 @@ namespace ModernApplicationFramework.Controls
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-			CreateShadowWindowHandles();
+            CreateShadowWindowHandles();
         }
 
         private void StopShadowTimer()
@@ -820,8 +822,8 @@ namespace ModernApplicationFramework.Controls
                 _useLogicalSizeForRestore = false;
             }
             var rect = ViewSite.GetOnScreenPosition(floatRect).LogicalToDeviceUnits();
-            windowpos.x = (int) rect.X;
-            windowpos.y = (int) rect.Y;
+            windowpos.x = (int)rect.X;
+            windowpos.y = (int)rect.Y;
             Marshal.StructureToPtr((object) windowpos, lParam, true);
         }
 

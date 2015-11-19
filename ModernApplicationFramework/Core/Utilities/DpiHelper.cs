@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Media;
+using Size = System.Windows.Size;
 
 namespace ModernApplicationFramework.Core.Utilities
 {
@@ -11,60 +12,41 @@ namespace ModernApplicationFramework.Core.Utilities
         // ReSharper disable once InconsistentNaming
         private static readonly MatrixTransform transformToDevice;
 
-        public static double DeviceDpiX { get; private set; }
+        public static double DeviceDpiX { get; }
 
-        public static double DeviceDpiY { get; private set; }
+        public static double DeviceDpiY { get; }
 
-        public static MatrixTransform TransformFromDevice
+        public static MatrixTransform TransformFromDevice => transformFromDevice;
+
+        public static double DeviceToLogicalUnitsScalingFactorX => TransformFromDevice.Matrix.M11;
+
+        public static double DeviceToLogicalUnitsScalingFactorY => TransformFromDevice.Matrix.M22;
+
+        public static MatrixTransform TransformToDevice => transformToDevice;
+
+        public static double LogicalToDeviceUnitsScalingFactorX => TransformToDevice.Matrix.M11;
+
+        public static double LogicalToDeviceUnitsScalingFactorY => TransformToDevice.Matrix.M22;
+
+        public static double GetScalingFactor()
         {
-            get
-            {
-                return transformFromDevice;
-            }
-        }
+            var source = PresentationSource.FromVisual(Application.Current.MainWindow);
 
-        public static double DeviceToLogicalUnitsScalingFactorX
-        {
-            get
-            {
-                return TransformFromDevice.Matrix.M11;
-            }
-        }
-
-        public static double DeviceToLogicalUnitsScalingFactorY
-        {
-            get
-            {
-                return TransformFromDevice.Matrix.M22;
-            }
-        }
-
-        public static MatrixTransform TransformToDevice
-        {
-            get
-            {
-                return transformToDevice;
-            }
-        }
-
-        public static double LogicalToDeviceUnitsScalingFactorX
-        {
-            get
-            {
-                return TransformToDevice.Matrix.M11;
-            }
-        }
-
-        public static double LogicalToDeviceUnitsScalingFactorY
-        {
-            get
-            {
-                return TransformToDevice.Matrix.M22;
-            }
+            double dpiX = 96.0;
+            if (source?.CompositionTarget != null)
+                dpiX = 96.0 * source.CompositionTarget.TransformToDevice.M11;
+            return dpiX;
         }
 
         static DpiHelper()
         {
+
+            var x = GetScalingFactor();
+
+            var dpiX = 96.0 * x /100;
+            var dpiY = 96.0 * x / 100;
+
+
             var dc = NativeMethods.NativeMethods.GetDC(IntPtr.Zero);
             if (dc != IntPtr.Zero)
             {
@@ -74,13 +56,13 @@ namespace ModernApplicationFramework.Core.Utilities
             }
             else
             {
-                DeviceDpiX = 96.0;
-                DeviceDpiY = 96.0;
+                DeviceDpiX = dpiX;
+                DeviceDpiY = dpiY;
             }
             var identity1 = Matrix.Identity;
             var identity2 = Matrix.Identity;
-            identity1.Scale(DeviceDpiX / 96.0, DeviceDpiY / 96.0);
-            identity2.Scale(96.0 / DeviceDpiX, 96.0 / DeviceDpiY);
+            identity1.Scale(DeviceDpiX / dpiX, DeviceDpiY / dpiY);
+            identity2.Scale(dpiX / DeviceDpiX, dpiY / DeviceDpiY);
             transformFromDevice = new MatrixTransform(identity2);
             transformFromDevice.Freeze();
             transformToDevice = new MatrixTransform(identity1);
