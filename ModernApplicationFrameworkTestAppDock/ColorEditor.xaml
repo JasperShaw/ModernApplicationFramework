@@ -46,6 +46,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
+                    <GridViewColumn Header="Color Key" Width="Auto" DisplayMemberBinding="{Binding Changed}"/>
                 </GridView>
             </ListView.View>
 		</ListView>

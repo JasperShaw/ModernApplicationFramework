@@ -188,10 +188,10 @@ namespace ModernApplicationFramework.Docking.Controls
 		{
 		}
 
-	    public override void OnThemeChanged(Theme oldValue, Theme newValue)
+	    public override void ChangeTheme(Theme oldValue, Theme newValue)
 	    {
-            _overlayWindow?.OnThemeChanged(oldValue, newValue);
-            base.OnThemeChanged(oldValue, newValue);
+            _overlayWindow?.ChangeTheme(oldValue, newValue);
+            base.ChangeTheme(oldValue, newValue);
 	    }
 
 	    private static void OnSingleContentLayoutItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

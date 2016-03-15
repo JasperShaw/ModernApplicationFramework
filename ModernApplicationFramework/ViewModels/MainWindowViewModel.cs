@@ -128,6 +128,14 @@ namespace ModernApplicationFramework.ViewModels
             internal set { if (_statusBar == null) _statusBar = value; }
         }
 
+        public event EventHandler OnThemeChanged;
+
+        protected virtual void OnRaiseThemeChanged(EventArgs e)
+        {
+            var handler = OnThemeChanged;
+            handler?.Invoke(this, e);
+        }
+
         /// <summary>
         /// Contains the current Theme of the Application. 
         /// </summary>
@@ -143,7 +151,8 @@ namespace ModernApplicationFramework.ViewModels
                 var oldTheme = _theme;
                 _theme = value;
                 OnPropertyChanged();
-                OnThemeChanged(oldTheme, _theme);
+                ChangeTheme(oldTheme, _theme);
+                OnRaiseThemeChanged(null);
             }
             
         }
@@ -238,7 +247,7 @@ namespace ModernApplicationFramework.ViewModels
         /// </summary>
         /// <param name="oldValue"></param>
         /// <param name="newValue"></param>
-        public virtual void OnThemeChanged(Theme oldValue, Theme newValue)
+        public virtual void ChangeTheme(Theme oldValue, Theme newValue)
         {
             var resources = Application.Current.Resources;
             resources.Clear();
@@ -253,10 +262,10 @@ namespace ModernApplicationFramework.ViewModels
             if (newValue != null)
                 resources.MergedDictionaries.Add(new ResourceDictionary { Source = newValue.GetResourceUri() });
 
-            _mainWindow?.DockingManager?.OnThemeChanged(oldValue, newValue);
-            _mainWindow?.OnThemeChanged(oldValue, newValue);
+            _mainWindow?.DockingManager?.ChangeTheme(oldValue, newValue);
+            _mainWindow?.ChangeTheme(oldValue, newValue);
 
-            ToolBarHostViewModel.OnThemeChanged(oldValue, newValue);
+            ToolBarHostViewModel.ChangeTheme(oldValue, newValue);
         }
 
         /// <summary>

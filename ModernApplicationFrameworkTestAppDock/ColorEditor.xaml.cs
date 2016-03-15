@@ -22,9 +22,19 @@ namespace ModernApplicationFrameworkTestAppDock
 			InitializeComponent();
 			ListView.ContextMenu = ListView.Resources["ContextMenuColor"] as ContextMenu;
 			LoadColors(string.Empty);
-		}
 
-		private void LoadColors(string filterBy)
+		    var m = Application.Current.MainWindow as MainWindow;
+            if (m != null)
+                m.OnThemeChanged += OnThemeChanged;
+
+        }
+
+        private void OnThemeChanged(object sender, EventArgs e)
+        {
+            LoadColors(string.Empty);
+        }
+
+        private void LoadColors(string filterBy)
 		{
 			var themeColors = new List<ThemeColor>();
 			var type = typeof (EnvironmentColors);
@@ -47,7 +57,7 @@ namespace ModernApplicationFrameworkTestAppDock
 						{
 							themeColor.ComponentResourceKey = k;
 							themeColor.Color = solidBrush;
-							themeColor.RGB = string.Format("{0},{1},{2},{3}",color.A.ToString("X2"), color.R.ToString("X2"), color.G.ToString("X2"), color.B.ToString("X2"));
+							themeColor.RGB = $"{color.A.ToString("X2")},{color.R.ToString("X2")},{color.G.ToString("X2")},{color.B.ToString("X2")}";
 							themeColor.FontColor = GetLabelFontColor(Color.FromArgb(color.A, color.R, color.G, color.B));
 							themeColors.Add(themeColor);
 						}

@@ -16,7 +16,7 @@ using ToolBarTray = ModernApplicationFramework.Controls.ToolBarTray;
 
 namespace ModernApplicationFramework.ViewModels
 {
-    public class ToolBarHostViewModel : ViewModelBase, IOnThemeChanged
+    public class ToolBarHostViewModel : ViewModelBase, IChangeTheme
     {
         /*
             This Dictionary contains all the information needed to interact with the toolbar across classes
@@ -520,7 +520,15 @@ namespace ModernApplicationFramework.ViewModels
         }
         #endregion
 
-        public void OnThemeChanged(Theme oldValue, Theme newValue)
+        public event EventHandler OnThemeChanged;
+
+        protected virtual void OnRaiseThemeChanged(EventArgs e)
+        {
+            var handler = OnThemeChanged;
+            handler?.Invoke(this, e);
+        }
+
+        public void ChangeTheme(Theme oldValue, Theme newValue)
         {
             var oldTheme = oldValue;
             var newTheme = newValue;
@@ -538,6 +546,7 @@ namespace ModernApplicationFramework.ViewModels
             {
                 resources.MergedDictionaries.Add(new ResourceDictionary() { Source = newTheme.GetResourceUri() });
             }
+            OnRaiseThemeChanged(null);
         }
     }
 }

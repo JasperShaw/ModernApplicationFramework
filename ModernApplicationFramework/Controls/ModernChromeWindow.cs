@@ -22,7 +22,7 @@ using RECT = ModernApplicationFramework.Core.Platform.RECT;
 namespace ModernApplicationFramework.Controls
 {
     [SuppressMessage("ReSharper", "RedundantAssignment")]
-    public class ModernChromeWindow : Window, IOnThemeChanged
+    public class ModernChromeWindow : Window, IChangeTheme
     {
         private const int MonitorDefaulttonearest = 0x00000002;
         private readonly ShadowWindow[] _shadowWindows = new ShadowWindow[4];
@@ -46,12 +46,21 @@ namespace ModernApplicationFramework.Controls
             FromUndockSingleTab
         }
 
-        public virtual void OnThemeChanged(Theme oldValue, Theme newValue)
+        public event EventHandler OnThemeChanged;
+
+        protected virtual void OnRaiseThemeChanged(EventArgs e)
+        {
+            var handler = OnThemeChanged;
+            handler?.Invoke(this, e);
+        }
+
+        public virtual void ChangeTheme(Theme oldValue, Theme newValue)
         {
             UpdateGlowColors();
             IsShadowVisible = false;
             IsShadowVisible = true;
             UpdateClipRegion();
+            OnRaiseThemeChanged(null);
         }
 
         public Brush ActiveShadowColor

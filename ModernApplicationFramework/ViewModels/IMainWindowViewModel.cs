@@ -3,7 +3,7 @@ using ModernApplicationFramework.Core.Themes;
 
 namespace ModernApplicationFramework.ViewModels
 {
-    public interface IMainWindowViewModel : IWindowViewModel, IOnThemeChanged
+    public interface IMainWindowViewModel : IWindowViewModel, IChangeTheme
     {
         MenuHostViewModel MenuHostViewModel { get; }
         StatusBar StatusBar { get; }

@@ -32,7 +32,7 @@ using SystemCommands = ModernApplicationFramework.Core.Shell.SystemCommands;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-	public abstract class LayoutFloatingWindowControl : ModernChromeWindow, ILayoutControl, IOnThemeChanged
+	public abstract class LayoutFloatingWindowControl : ModernChromeWindow, ILayoutControl, IChangeTheme
 	{
 		private readonly ILayoutElement _model;
 		private bool _attachDrag;
@@ -235,14 +235,14 @@ namespace ModernApplicationFramework.Docking.Controls
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
             Loaded -= OnLoaded;
-            OnThemeChanged(null, null);
+            ChangeTheme(null, null);
             this.SetParentToMainWindowOf(Model.Root.Manager);
             _hwndSrc = PresentationSource.FromDependencyObject(this) as HwndSource;
             _hwndSrcHook = FilterMessage;
             _hwndSrc?.AddHook(_hwndSrcHook);
         }
 
-	    public override void OnThemeChanged(Theme oldValue, Theme newValue)
+	    public override void ChangeTheme(Theme oldValue, Theme newValue)
 	    {
 	        if (oldValue != null)
 	        {
@@ -255,7 +255,7 @@ namespace ModernApplicationFramework.Docking.Controls
 	        if (newValue == null)
 	            return;
 	        Resources.MergedDictionaries.Add(new ResourceDictionary {Source = newValue.GetResourceUri()});
-            base.OnThemeChanged(oldValue, newValue);
+            base.ChangeTheme(oldValue, newValue);
         }
 
 	    private void OnUnloaded(object sender, RoutedEventArgs e)

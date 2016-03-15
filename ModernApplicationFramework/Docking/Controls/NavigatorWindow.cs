@@ -14,6 +14,7 @@
 
   **********************************************************************/
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -23,7 +24,7 @@ using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-	public class NavigatorWindow : Window, IOnThemeChanged
+	public class NavigatorWindow : Window, IChangeTheme
 	{
 		private readonly DockingManager _manager;
 		private bool _internalSetSelectedDocument;
@@ -55,7 +56,7 @@ namespace ModernApplicationFramework.Docking.Controls
 			Loaded += OnLoaded;
 			Unloaded += OnUnloaded;
 
-            OnThemeChanged(null, null);
+            ChangeTheme(null, null);
         }
 
 		static NavigatorWindow()
@@ -161,7 +162,15 @@ namespace ModernApplicationFramework.Docking.Controls
 			}
 		}
 
-        public void OnThemeChanged(Theme oldValue, Theme newValue)
+	    public event EventHandler OnThemeChanged;
+
+        protected virtual void OnRaiseThemeChanged(EventArgs e)
+        {
+            var handler = OnThemeChanged;
+            handler?.Invoke(this, e);
+        }
+
+        public void ChangeTheme(Theme oldValue, Theme newValue)
         {
             if (oldValue != null)
             {
@@ -173,6 +182,9 @@ namespace ModernApplicationFramework.Docking.Controls
             }
             if (newValue != null)
                 Resources.MergedDictionaries.Add(new ResourceDictionary { Source = newValue.GetResourceUri() });
+
+            OnRaiseThemeChanged(null);
+
         }
 
         private static void OnSelectedAnchorableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

@@ -36,7 +36,7 @@ namespace ModernApplicationFramework.Docking
 {
     [ContentProperty("Layout")]
     [TemplatePart(Name = "PART_AutoHideArea")]
-    public class DockingManager : Control, IOverlayWindowHost, IOnThemeChanged //, ILogicalChildrenContainer
+    public class DockingManager : Control, IOverlayWindowHost, IChangeTheme //, ILogicalChildrenContainer
     {
         public DockingManager()
         {
@@ -1926,7 +1926,15 @@ namespace ModernApplicationFramework.Docking
         }
 
 
-        public virtual void OnThemeChanged(Theme oldValue, Theme newValue)
+        public event EventHandler OnThemeChanged;
+
+        protected virtual void OnRaiseThemeChanged(EventArgs e)
+        {
+            var handler = OnThemeChanged;
+            handler?.Invoke(this, e);
+        }
+
+        public virtual void ChangeTheme(Theme oldValue, Theme newValue)
         {
             var oldTheme = oldValue;
             var newTheme = newValue;
@@ -1946,10 +1954,12 @@ namespace ModernApplicationFramework.Docking
             }
 
             foreach (var fwc in _fwList)
-                fwc.OnThemeChanged(oldValue, newValue);
+                fwc.ChangeTheme(oldValue, newValue);
 
-            _navigatorWindow?.OnThemeChanged(oldValue, newValue);
-            _overlayWindow?.OnThemeChanged(oldValue, newValue);
+            _navigatorWindow?.ChangeTheme(oldValue, newValue);
+            _overlayWindow?.ChangeTheme(oldValue, newValue);
+
+            OnRaiseThemeChanged(null);
         }
 
         public static readonly DependencyProperty GridSplitterWidthProperty =

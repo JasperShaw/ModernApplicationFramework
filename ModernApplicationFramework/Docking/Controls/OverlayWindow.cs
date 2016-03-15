@@ -14,6 +14,7 @@
 
   **********************************************************************/
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -25,7 +26,7 @@ using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-	public class OverlayWindow : Window, IOverlayWindow, IOnThemeChanged
+	public class OverlayWindow : Window, IOverlayWindow, IChangeTheme
 	{
 		private readonly List<IDropArea> _visibleAreas = new List<IDropArea>();
 		private FrameworkElement _anchorablePaneDropTargetBottom;
@@ -61,7 +62,7 @@ namespace ModernApplicationFramework.Docking.Controls
 
 		internal OverlayWindow(IOverlayWindowHost host)
 		{
-            OnThemeChanged(null, null);
+            ChangeTheme(null, null);
         }
 
 		static OverlayWindow()
@@ -616,7 +617,15 @@ namespace ModernApplicationFramework.Docking.Controls
 				_mainCanvasPanel.Visibility = Visibility.Hidden;
 		}
 
-        public void OnThemeChanged(Theme oldValue, Theme newValue)
+        public event EventHandler OnThemeChanged;
+
+        protected virtual void OnRaiseThemeChanged(EventArgs e)
+        {
+            var handler = OnThemeChanged;
+            handler?.Invoke(this, e);
+        }
+
+        public void ChangeTheme(Theme oldValue, Theme newValue)
         {
             if (oldValue != null)
             {
@@ -629,6 +638,8 @@ namespace ModernApplicationFramework.Docking.Controls
 
             if (newValue != null)
                 Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = newValue.GetResourceUri() });
+
+            OnRaiseThemeChanged(null);
         }
     }
 }

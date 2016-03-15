@@ -188,7 +188,7 @@
     <Compile Include="Core\Standard\Utilities.cs" />
     <Compile Include="Core\Standard\Verify.cs" />
     <Compile Include="Core\Themes\EnvironmentColors.cs" />
-    <Compile Include="Core\Themes\IOnThemeChanged.cs" />
+    <Compile Include="Core\Themes\IChangeTheme.cs" />
     <Compile Include="Core\Themes\Theme.cs" />
     <Compile Include="Core\Utilities\BooleanOrConverter.cs" />
     <Compile Include="Core\Utilities\Cache.cs" />
