@@ -14,7 +14,10 @@
                 <test:LayoutPanel Orientation="Horizontal">
                     <test:LayoutAnchorablePane DockWidth="100">
                         <test:LayoutAnchorable x:Name="WinFormsWindow"  ContentId="WinFormsWindow" Title="WinForms Window" ToolTip="My WinForms Tool" CanHide="False" CanClose="False" >
-                            <test:Button Click="Button_Click_1">Theme</test:Button>
+                            <StackPanel>
+                                <test:Button Click="Button_Click_1">Theme</test:Button>
+                                <test:Button Click="ButtonBase_OnClick">Add Pane</test:Button>
+                            </StackPanel>
                         </test:LayoutAnchorable>
                     </test:LayoutAnchorablePane>
                     <test:LayoutDocumentPaneGroup>
@@ -25,11 +28,9 @@
                                     <test:ScrollBar></test:ScrollBar>
 								</Grid>
 							</test:LayoutDocument>
-							<test:LayoutDocument Title="Test2">
-								<Grid>
-									<modernApplicationFrameworkTestAppDock:ColorEditor/>
-								</Grid>
-							</test:LayoutDocument>
+                            <test:LayoutDocument Title="Test2">
+                                <modernApplicationFrameworkTestAppDock:ColorEditor/>
+                            </test:LayoutDocument>
                         </test:LayoutDocumentPane>
                     </test:LayoutDocumentPaneGroup>
                     <test:LayoutAnchorablePaneGroup DockWidth="150">

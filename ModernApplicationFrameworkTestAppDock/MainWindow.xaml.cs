@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -97,6 +99,18 @@ namespace ModernApplicationFrameworkTestAppDock
                 ((MainWindowViewModel)DataContext).Theme = new GenericTheme();
             else
                 ((MainWindowViewModel)DataContext).Theme = new LightTheme();
+
+        }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            var documentPane = Manager.Layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
+
+            LayoutDocument layoutDocument = new LayoutDocument { Title = "New Document" };
+
+            layoutDocument.Content = new ColorEditor();
+
+            documentPane.Children.Add(layoutDocument);
 
         }
     }
