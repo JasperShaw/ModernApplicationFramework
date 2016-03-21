@@ -130,6 +130,7 @@
     <Compile Include="Controls\SystemMenu.cs" />
     <Compile Include="Controls\ToolBarHostControl.cs" />
     <Compile Include="Controls\Utilities\ContextMenuGlyphItemUtilities.cs" />
+    <Compile Include="Controls\WaitDialog.cs" />
     <Compile Include="Controls\WindowBase.cs" />
     <Compile Include="Controls\WindowContentPresenter.cs" />
     <Compile Include="Controls\WindowTitleBarButton.cs" />
@@ -443,6 +444,10 @@
     <Page Include="Themes\Generic\ToolbarHostControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic\WaitDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

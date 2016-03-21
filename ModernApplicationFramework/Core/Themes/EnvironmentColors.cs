@@ -485,6 +485,36 @@ namespace ModernApplicationFramework.Core.Themes
         private static ComponentResourceKey _documentPaneControlButtonBorderHover;
         private static ComponentResourceKey _documentPaneControlButtonBorderDown;
 
+        //WaitDialog
+        private static ComponentResourceKey _waitDialogActiveShadowAndBorderColor;
+        private static ComponentResourceKey _waitDialogInactiveShadowAndBorderColor;
+        private static ComponentResourceKey _waitDialogTitleBarBackground;
+        private static ComponentResourceKey _waitDialogTitleBarForeground;
+        private static ComponentResourceKey _waitDialogMessageForeground;
+        private static ComponentResourceKey _waitDialogBackground;
+
+        #region WaitDialog
+
+        public static ComponentResourceKey WaitDialogActiveShadowAndBorderColor => _waitDialogActiveShadowAndBorderColor ??
+                                                            (_waitDialogActiveShadowAndBorderColor = new ComponentResourceKey(typeof(EnvironmentColors), "WaitDialogActiveShadowAndBorderColor"));
+
+        public static ComponentResourceKey WaitDialogInactiveShadowAndBorderColor => _waitDialogInactiveShadowAndBorderColor ??
+                                                            (_waitDialogInactiveShadowAndBorderColor = new ComponentResourceKey(typeof(EnvironmentColors), "WaitDialogInactiveShadowAndBorderColor"));
+
+        public static ComponentResourceKey WaitDialogTitleBarBackground => _waitDialogTitleBarBackground ??
+                                                            (_waitDialogTitleBarBackground = new ComponentResourceKey(typeof(EnvironmentColors), "WaitDialogTitleBarBackground"));
+
+        public static ComponentResourceKey WaitDialogTitleBarForeground => _waitDialogTitleBarForeground ??
+                                                            (_waitDialogTitleBarForeground = new ComponentResourceKey(typeof(EnvironmentColors), "WaitDialogTitleBarForeground"));
+
+        public static ComponentResourceKey WaitDialogMessageForeground => _waitDialogMessageForeground ??
+                                                            (_waitDialogMessageForeground = new ComponentResourceKey(typeof(EnvironmentColors), "WaitDialogMessageForeground"));
+
+        public static ComponentResourceKey WaitDialogBackground => _waitDialogBackground ??
+                                                            (_waitDialogBackground = new ComponentResourceKey(typeof(EnvironmentColors), "WaitDialogBackground"));
+
+        #endregion
+
         #region Global
 
         public static ComponentResourceKey DropDownGlyph => _dropDownGlyph ??
