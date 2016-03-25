@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -103,6 +102,7 @@ namespace ModernApplicationFrameworkTestAppDock
                 ((MainWindowViewModel)DataContext).Theme = new GenericTheme();
             else
                 ((MainWindowViewModel)DataContext).Theme = new LightTheme();
+            this.Title = "Test";
 
         }
 
