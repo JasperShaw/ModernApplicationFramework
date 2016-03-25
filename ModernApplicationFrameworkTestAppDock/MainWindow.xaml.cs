@@ -1,10 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Resources;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -119,14 +117,14 @@ namespace ModernApplicationFrameworkTestAppDock
 
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
-            //var serializer = new XmlLayoutSerializer(DockingManager);
-            //serializer.LayoutSerializationCallback += (s, args) =>
-            //{
-            //    args.Content = args.Content;
-            //};
+            var serializer = new XmlLayoutSerializer(DockingManager);
+            serializer.LayoutSerializationCallback += (s, args) =>
+            {
+                args.Content = args.Content;
+            };
 
-            //if (File.Exists(@".\AvalonDock.config"))
-            //    serializer.Deserialize(@".\AvalonDock.config");
+            if (File.Exists(@".\AvalonDock.config"))
+                serializer.Deserialize(@".\AvalonDock.config");
         }
 
         private void MainWindow_OnUnloaded(object sender, RoutedEventArgs e)
