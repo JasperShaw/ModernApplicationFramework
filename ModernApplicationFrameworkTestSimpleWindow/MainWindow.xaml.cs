@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows.Media.Imaging;
-using ModernApplicationFramework.ViewModels;
+﻿using ModernApplicationFramework.ViewModels;
 
 namespace ModernApplicationFrameworkTestSimpleWindow
 {
