@@ -129,8 +129,10 @@
         <controls:ContextMenuItem Header="Close" 
                   Command="{Binding Path=CloseCommand}"
                   Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"/>
+        <controls:ContextMenuItem Header="Close all" 
+                Command="{Binding Path=CloseAllCommand}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"/>
         <controls:ContextMenuItem Header="Close all but this" 
-                Command="{Binding Path=CloseAllButThisCommand}"/>
+                Command="{Binding Path=CloseAllButThisCommand}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"/>
         <controls:ContextMenuItem Header="Float" 
                 Command="{Binding Path=FloatCommand}"/>
         <controls:ContextMenuItem Header="Dock as Document" 

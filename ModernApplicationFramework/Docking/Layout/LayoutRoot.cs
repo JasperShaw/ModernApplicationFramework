@@ -17,8 +17,10 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Markup;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace ModernApplicationFramework.Docking.Layout
@@ -340,7 +342,7 @@ namespace ModernApplicationFramework.Docking.Layout
 			#endregion
 
 #if DEBUG
-			System.Diagnostics.Debug.Assert(
+			Debug.Assert(
 				!this.Descendents().OfType<LayoutAnchorablePane>().Any(a => a.ChildrenCount == 0 && a.IsVisible));
 #if TRACE
 			RootPanel.ConsoleDump(4);
@@ -477,19 +479,19 @@ namespace ModernApplicationFramework.Docking.Layout
 #if TRACE
 		public override void ConsoleDump(int tab)
 		{
-			System.Diagnostics.Trace.Write(new string(' ', tab*4));
-			System.Diagnostics.Trace.WriteLine("RootPanel()");
+			Trace.Write(new string(' ', tab*4));
+			Trace.WriteLine("RootPanel()");
 
 			RootPanel.ConsoleDump(tab + 1);
 
-			System.Diagnostics.Trace.Write(new string(' ', tab*4));
-			System.Diagnostics.Trace.WriteLine("FloatingWindows()");
+			Trace.Write(new string(' ', tab*4));
+			Trace.WriteLine("FloatingWindows()");
 
 			foreach (LayoutFloatingWindow fw in FloatingWindows)
 				fw.ConsoleDump(tab + 1);
 
-			System.Diagnostics.Trace.Write(new string(' ', tab*4));
-			System.Diagnostics.Trace.WriteLine("Hidden()");
+			Trace.Write(new string(' ', tab*4));
+			Trace.WriteLine("Hidden()");
 
 			foreach (LayoutAnchorable hidden in Hidden)
 				hidden.ConsoleDump(tab + 1);
@@ -602,6 +604,124 @@ namespace ModernApplicationFramework.Docking.Layout
 
 		public event EventHandler<LayoutElementEventArgs> ElementRemoved;
 
-		#endregion
+        #endregion
+
+
+        public void XmlDeserialize(XmlReader xmlReader)
+		{
+			while (xmlReader.Read())
+			{
+				if (xmlReader.NodeType == XmlNodeType.Element)
+				{
+					if (xmlReader.Name == "LayoutRoot")
+					{
+						DeserializeLayoutRoot(xmlReader);
+					}
+				}
+			}
+		}
+
+		private void DeserializeLayoutRoot(XmlReader xmlReader)
+		{
+			while (xmlReader.Read())
+			{
+				if (xmlReader.NodeType == XmlNodeType.Element)
+				{
+					if (xmlReader.Name == "RootPanel")
+					{
+						LayoutPanel layoutPanel = new LayoutPanel();
+						layoutPanel.XmlDeserialize(xmlReader);
+						RootPanel = layoutPanel;
+					}
+					else if (xmlReader.Name == "TopSide")
+				{
+						LayoutAnchorSide layoutAnchorSide = new LayoutAnchorSide();
+						layoutAnchorSide.XmlDeserialize(xmlReader);
+						TopSide = layoutAnchorSide;
+					}
+					else if (xmlReader.Name == "LeftSide")
+					{
+						LayoutAnchorSide layoutAnchorSide = new LayoutAnchorSide();
+						layoutAnchorSide.XmlDeserialize(xmlReader);
+						LeftSide = layoutAnchorSide;
+					}
+					else if (xmlReader.Name == "BottomSide")
+					{
+						LayoutAnchorSide layoutAnchorSide = new LayoutAnchorSide();
+						layoutAnchorSide.XmlDeserialize(xmlReader);
+						BottomSide = layoutAnchorSide;
+					}
+					else if (xmlReader.Name == "RightSide")
+					{
+						LayoutAnchorSide layoutAnchorSide = new LayoutAnchorSide();
+						layoutAnchorSide.XmlDeserialize(xmlReader);
+						RightSide = layoutAnchorSide;
+					}
+					else if (xmlReader.Name == "FloatingWindows")
+					{
+						DeserializeFloatingWindows(xmlReader);
+					}
+					else if (xmlReader.Name == "Hidden")
+					{
+						DeserializeHiddenWindows(xmlReader);
+					}
+					else
+					{
+						// Unhandled case. Fix it
+						Debugger.Break();
+					}
+				}
+			}
+		}
+
+		void DeserializeFloatingWindows(XmlReader xmlReader)
+		{
+			if (!xmlReader.IsEmptyElement)
+			{
+				while (xmlReader.Read())
+				{
+					if (xmlReader.NodeType == XmlNodeType.Element)
+					{
+						if (xmlReader.Name == "LayoutFloatingWindow")
+						{
+							xmlReader.MoveToAttribute("xsi:type");
+							string type = xmlReader.Value;
+							if (type == "LayoutAnchorableFloatingWindow")
+							{
+								LayoutAnchorableFloatingWindow layoutAnchorableFloatingWindow = new LayoutAnchorableFloatingWindow();
+								layoutAnchorableFloatingWindow.XmlDeserialize(xmlReader);
+								FloatingWindows.Add(layoutAnchorableFloatingWindow);
+							}
+							else if (type == "LayoutDocumentFloatingWindow")
+							{
+								LayoutDocumentFloatingWindow layoutDocumentFloatingWindow = new LayoutDocumentFloatingWindow();
+								layoutDocumentFloatingWindow.XmlDeserialize(xmlReader);
+								FloatingWindows.Add(layoutDocumentFloatingWindow);
+							}
+						}
+					}
+					else if (xmlReader.NodeType == XmlNodeType.EndElement)
+					{
+						break;
+					}
+				}
+			}
+		}
+
+		void DeserializeHiddenWindows(XmlReader xmlReader)
+		{
+		    if (xmlReader.IsEmptyElement)
+                return;
+		    while (xmlReader.Read())
+		    {
+		        if (xmlReader.NodeType != XmlNodeType.Element)
+		            continue;
+		        if (xmlReader.Name != "LayoutAnchorable")
+		            continue;
+		        LayoutAnchorable layoutAnchorable = new LayoutAnchorable();
+		        layoutAnchorable.XmlDeserialize(xmlReader);
+		        Hidden.Add(layoutAnchorable);
+		    }
+		}
 	}
 }

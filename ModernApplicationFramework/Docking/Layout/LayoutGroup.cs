@@ -18,6 +18,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace ModernApplicationFramework.Docking.Layout
@@ -73,7 +75,7 @@ namespace ModernApplicationFramework.Docking.Layout
 			return null;
 		}
 
-		public virtual void ReadXml(System.Xml.XmlReader reader)
+		public virtual void ReadXml(XmlReader reader)
 		{
 			reader.MoveToContent();
 			if (reader.IsEmptyElement)
@@ -87,7 +89,7 @@ namespace ModernApplicationFramework.Docking.Layout
 			while (true)
 			{
 				if (reader.LocalName == localName &&
-				    reader.NodeType == System.Xml.XmlNodeType.EndElement)
+				    reader.NodeType == XmlNodeType.EndElement)
 				{
 					break;
 				}
@@ -117,7 +119,7 @@ namespace ModernApplicationFramework.Docking.Layout
 			reader.ReadEndElement();
 		}
 
-		public virtual void WriteXml(System.Xml.XmlWriter writer)
+		public virtual void WriteXml(XmlWriter writer)
 		{
 			foreach (var child in Children)
 			{
@@ -213,5 +215,84 @@ namespace ModernApplicationFramework.Docking.Layout
 			var parentPane = Parent as ILayoutElementWithVisibility;
 			parentPane?.ComputeVisibility();
 		}
+
+        protected virtual void SetXmlAttributeValue(string name, string valueString)
+		{
+
+		}
+
+		internal void XmlDeserialize(XmlReader xmlReader)
+		{
+			bool isEmptyElement = xmlReader.IsEmptyElement;
+			if (xmlReader.HasAttributes)
+			{
+				while (xmlReader.MoveToNextAttribute())
+				{
+					string name = xmlReader.Name;
+					string valueString = xmlReader.Value;
+
+					MethodInfo methodInfo = GetType().GetMethod("SetXmlAttributeValue", BindingFlags.Instance | BindingFlags.NonPublic);
+					methodInfo.Invoke(this, new object[] { name, valueString
+   });
+				}
+				xmlReader.MoveToElement();
+			}
+
+			if (!isEmptyElement)
+			{
+				while (xmlReader.Read())
+				{
+					if (xmlReader.NodeType == XmlNodeType.Element)
+					{
+						if (xmlReader.Name == "LayoutDocumentPaneGroup")
+						{
+							LayoutDocumentPaneGroup layoutDocumentPaneGroup = new LayoutDocumentPaneGroup();
+							layoutDocumentPaneGroup.XmlDeserialize(xmlReader);
+							Children.Add((T)(object)layoutDocumentPaneGroup);
+						}
+						else if (xmlReader.Name == "LayoutDocumentPane")
+						{
+							LayoutDocumentPane layoutDocumentPane = new LayoutDocumentPane();
+							layoutDocumentPane.XmlDeserialize(xmlReader);
+							Children.Add((T)(object)layoutDocumentPane);
+						}
+						else if (xmlReader.Name == "LayoutDocument")
+						{
+							LayoutDocument layoutDocument = new LayoutDocument();
+							layoutDocument.XmlDeserialize(xmlReader);
+							Children.Add((T)(object)layoutDocument);
+						}
+						else if (xmlReader.Name == "LayoutAnchorablePaneGroup")
+						{
+							LayoutAnchorablePaneGroup layoutAnchorablePaneGroup = new LayoutAnchorablePaneGroup();
+							layoutAnchorablePaneGroup.XmlDeserialize(xmlReader);
+							Children.Add((T)(object)layoutAnchorablePaneGroup);
+						}
+						else if (xmlReader.Name == "LayoutAnchorablePane")
+						{
+							LayoutAnchorablePane layoutAnchorablePane = new LayoutAnchorablePane();
+							layoutAnchorablePane.XmlDeserialize(xmlReader);
+							Children.Add((T)(object)layoutAnchorablePane);
+						}
+						else if (xmlReader.Name == "LayoutAnchorable")
+						{
+							LayoutAnchorable layoutAnchorable = new LayoutAnchorable();
+							layoutAnchorable.XmlDeserialize(xmlReader);
+							Children.Add((T)(object)layoutAnchorable);
+						}
+						else if (xmlReader.Name == "LayoutAnchorGroup")
+						{
+							LayoutAnchorGroup layoutAnchorGroup = new LayoutAnchorGroup();
+							layoutAnchorGroup.XmlDeserialize(xmlReader);
+							Children.Add((T)(object)layoutAnchorGroup);
+						}
+					}
+					else if (xmlReader.NodeType == XmlNodeType.EndElement)
+					{
+						break;
+					}
+				}
+			}
+		}		
 	}
 }

@@ -74,7 +74,23 @@ namespace ModernApplicationFramework.Docking.Layout
 			base.WriteXml(writer);
 		}
 
-		protected override bool GetVisibility()
+	    protected override void SetXmlAttributeValue(string name, string valueString)
+	    {
+	        switch (name)
+	        {
+	            case "Id":
+	                _id = valueString;
+	                break;
+	            case "PreviousContainerId":
+	                ((ILayoutPreviousContainer) this).PreviousContainerId = valueString;
+	                break;
+	            default:
+	                base.SetXmlAttributeValue(name, valueString);
+	                break;
+	        }
+	    }
+
+	    protected override bool GetVisibility()
 		{
 			return Children.Count > 0;
 		}

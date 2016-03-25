@@ -24,7 +24,7 @@ namespace ModernApplicationFramework.Docking.Layout
 	public abstract class LayoutPositionableGroup<T> : LayoutGroup<T>, ILayoutPositionableElement,
 		ILayoutPositionableElementWithActualSize where T : class, ILayoutElement
 	{
-		private static readonly GridLengthConverter GridLengthConverter = new GridLengthConverter();
+		private static readonly GridLengthConverter _gridLengthConverter = new GridLengthConverter();
 		[NonSerialized] private double _actualHeight;
 		[NonSerialized] private double _actualWidth;
 		private GridLength _dockHeight = new GridLength(1.0, GridUnitType.Star);
@@ -179,9 +179,9 @@ namespace ModernApplicationFramework.Docking.Layout
 		public override void ReadXml(System.Xml.XmlReader reader)
 		{
 			if (reader.MoveToAttribute("DockWidth"))
-				_dockWidth = (GridLength) GridLengthConverter.ConvertFromInvariantString(reader.Value);
+				_dockWidth = (GridLength)_gridLengthConverter.ConvertFromInvariantString(reader.Value);
 			if (reader.MoveToAttribute("DockHeight"))
-				_dockHeight = (GridLength) GridLengthConverter.ConvertFromInvariantString(reader.Value);
+				_dockHeight = (GridLength)_gridLengthConverter.ConvertFromInvariantString(reader.Value);
 
 			if (reader.MoveToAttribute("DocMinWidth"))
 				_dockMinWidth = double.Parse(reader.Value, CultureInfo.InvariantCulture);
@@ -205,9 +205,9 @@ namespace ModernApplicationFramework.Docking.Layout
 		public override void WriteXml(System.Xml.XmlWriter writer)
 		{
 			if (DockWidth.Value != 1.0 || !DockWidth.IsStar)
-				writer.WriteAttributeString("DockWidth", GridLengthConverter.ConvertToInvariantString(DockWidth));
+				writer.WriteAttributeString("DockWidth", _gridLengthConverter.ConvertToInvariantString(DockWidth));
 			if (DockHeight.Value != 1.0 || !DockHeight.IsStar)
-				writer.WriteAttributeString("DockHeight", GridLengthConverter.ConvertToInvariantString(DockHeight));
+				writer.WriteAttributeString("DockHeight", _gridLengthConverter.ConvertToInvariantString(DockHeight));
 
 			if (DockMinWidth != 25.0)
 				writer.WriteAttributeString("DocMinWidth", DockMinWidth.ToString(CultureInfo.InvariantCulture));
@@ -235,5 +235,39 @@ namespace ModernApplicationFramework.Docking.Layout
 		protected virtual void OnDockWidthChanged()
 		{
 		}
+
+	    protected virtual void SetXmlAttributeValue(string name, string valueString)
+	    {
+	        switch (name)
+	        {
+	            case "DockWidth":
+	                _dockWidth = (GridLength) _gridLengthConverter.ConvertFromInvariantString(valueString);
+	                break;
+	            case "DockHeight":
+	                _dockHeight = (GridLength) _gridLengthConverter.ConvertFromInvariantString(valueString);
+	                break;
+	            case "DocMinWidth":
+	                _dockMinWidth = double.Parse(valueString, CultureInfo.InvariantCulture);
+	                break;
+	            case "DocMinHeight":
+	                _dockMinHeight = double.Parse(valueString, CultureInfo.InvariantCulture);
+	                break;
+	            case "FloatingWidth":
+	                _floatingWidth = double.Parse(valueString, CultureInfo.InvariantCulture);
+	                break;
+	            case "FloatingHeight":
+	                _floatingHeight = double.Parse(valueString, CultureInfo.InvariantCulture);
+	                break;
+	            case "FloatingLeft":
+	                _floatingLeft = double.Parse(valueString, CultureInfo.InvariantCulture);
+	                break;
+	            case "FloatingTop":
+	                _floatingTop = double.Parse(valueString, CultureInfo.InvariantCulture);
+	                break;
+	            default:
+	                //base.SetXmlAttributeValue(name, valueString);
+	                break;
+	        }
+	    }
 	}
 }

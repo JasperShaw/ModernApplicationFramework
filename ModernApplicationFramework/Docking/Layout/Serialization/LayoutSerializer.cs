@@ -47,7 +47,7 @@ namespace ModernApplicationFramework.Docking.Layout.Serialization
             {
                 var paneContainerToAttach = layout.Descendents().OfType<ILayoutPaneSerializable>().FirstOrDefault(lps => lps.Id == lcToAttach.PreviousContainerId);
                 if (paneContainerToAttach == null)
-                    throw new ArgumentException(string.Format("Unable to find a pane with id ='{0}'", lcToAttach.PreviousContainerId));
+                    throw new ArgumentException($"Unable to find a pane with id ='{lcToAttach.PreviousContainerId}'");
 
                 lcToAttach.PreviousContainer = paneContainerToAttach as ILayoutContainer;
             }

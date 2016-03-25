@@ -1,13 +1,17 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Resources;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking;
 using ModernApplicationFramework.Docking.Layout;
+using ModernApplicationFramework.Docking.Layout.Serialization;
 using ModernApplicationFramework.Themes;
 using ModernApplicationFramework.Themes.LightIDE;
 using ModernApplicationFramework.ViewModels;
@@ -111,7 +115,24 @@ namespace ModernApplicationFrameworkTestAppDock
             layoutDocument.Content = new ColorEditor();
 
             documentPane.Children.Add(layoutDocument);
+        }
 
+        private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            //var serializer = new XmlLayoutSerializer(DockingManager);
+            //serializer.LayoutSerializationCallback += (s, args) =>
+            //{
+            //    args.Content = args.Content;
+            //};
+
+            //if (File.Exists(@".\AvalonDock.config"))
+            //    serializer.Deserialize(@".\AvalonDock.config");
+        }
+
+        private void MainWindow_OnUnloaded(object sender, RoutedEventArgs e)
+        {
+            var serializer = new XmlLayoutSerializer(DockingManager);
+            serializer.Serialize(@".\AvalonDock.config");
         }
     }
 }

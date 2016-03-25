@@ -42,7 +42,7 @@ namespace ModernApplicationFramework.Core.Shell
 
         private static void _PostSystemCommand(Window window, SC command)
         {
-            IntPtr hwnd = new WindowInteropHelper(window).Handle;
+            IntPtr hwnd = new WindowInteropHelper(window).EnsureHandle();
             if (hwnd == IntPtr.Zero || !Standard.NativeMethods.IsWindow(hwnd))
             {
                 return;
@@ -89,7 +89,7 @@ namespace ModernApplicationFramework.Core.Shell
             const uint TPM_LEFTBUTTON = 0x0;
 
             Verify.IsNotNull(window, "window");
-            IntPtr hwnd = new WindowInteropHelper(window).Handle;
+            IntPtr hwnd = new WindowInteropHelper(window).EnsureHandle();
             if (hwnd == IntPtr.Zero || !Standard.NativeMethods.IsWindow(hwnd))
             {
                 return;

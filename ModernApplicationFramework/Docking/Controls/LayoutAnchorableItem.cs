@@ -225,6 +225,7 @@ namespace ModernApplicationFramework.Docking.Controls
 		private void ExecuteDockCommand(object parameter)
 		{
 			LayoutElement.Root.Manager._ExecuteDockCommand(_anchorable);
+		    IsFloating = false;
 		}
 
 		private void ExecuteHideCommand(object parameter)

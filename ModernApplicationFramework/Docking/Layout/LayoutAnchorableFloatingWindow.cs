@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Markup;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace ModernApplicationFramework.Docking.Layout
@@ -140,5 +141,16 @@ namespace ModernApplicationFramework.Docking.Layout
 			RaisePropertyChanged("IsSinglePane");
 			RaisePropertyChanged("SinglePane");
 		}
+
+        protected virtual void XmlDeserializeElement(XmlReader xmlReader)
+        {
+            if (xmlReader.IsEmptyElement)
+                return;
+            if (xmlReader.Name != "RootPanel")
+                return;
+            var layoutAnchorablePaneGroup = new LayoutAnchorablePaneGroup();
+            layoutAnchorablePaneGroup.XmlDeserialize(xmlReader);
+            RootPanel = layoutAnchorablePaneGroup;
+        }
 	}
 }

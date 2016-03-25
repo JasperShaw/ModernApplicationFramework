@@ -94,5 +94,18 @@ namespace ModernApplicationFramework.Docking.Layout
 	        root?.Manager.LayoutUpdateStrategy?.AfterInsertDocument(root, this);
 	        base.InternalDock();
         }
+
+        protected override void SetXmlAttributeValue(string name, string valueString)
+        {
+            switch (name)
+            {
+                case "Description":
+                    Description = valueString;
+                    break;
+                default:
+                    base.SetXmlAttributeValue(name, valueString);
+                    break;
+            }
+        }
     }
 }

@@ -15,6 +15,7 @@
   **********************************************************************/
 
 using System;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Markup;
 
@@ -54,12 +55,11 @@ namespace ModernApplicationFramework.Docking.Layout
 		public override void ConsoleDump(int tab)
 		{
 			System.Diagnostics.Trace.Write(new string(' ', tab*4));
-			System.Diagnostics.Trace.WriteLine(string.Format("DocumentPaneGroup({0})", Orientation));
+			System.Diagnostics.Trace.WriteLine($"DocumentPaneGroup({Orientation})");
 
-			foreach (var layoutDocumentPane in Children)
+			foreach (var child in Children.Cast<LayoutElement>())
 			{
-				var child = (LayoutElement) layoutDocumentPane;
-				child.ConsoleDump(tab + 1);
+			    child.ConsoleDump(tab + 1);
 			}
 		}
 #endif
@@ -81,5 +81,18 @@ namespace ModernApplicationFramework.Docking.Layout
 		{
 			return true;
 		}
+
+	    protected override void SetXmlAttributeValue(string name, string valueString)
+	    {
+	        switch (name)
+	        {
+	            case "Orientation":
+	                Orientation = (Orientation) Enum.Parse(typeof (Orientation), valueString, true);
+	                break;
+	            default:
+	                base.SetXmlAttributeValue(name, valueString);
+	                break;
+	        }
+	    }
 	}
 }

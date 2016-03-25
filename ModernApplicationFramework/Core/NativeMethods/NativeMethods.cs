@@ -1431,7 +1431,10 @@ namespace ModernApplicationFramework.Core.NativeMethods
     {
         private static int _vsmNotifyOwnerActivate;
 
-		[DllImport("kernel32.dll", EntryPoint = "SetLastError")]
+        [DllImport("shlwapi.dll", CharSet = CharSet.Unicode)]
+        public static extern int StrCmpLogicalW(string value1, string value2);
+
+        [DllImport("kernel32.dll", EntryPoint = "SetLastError")]
 		public static extern void SetLastError(int dwErrorCode);
 
 		[DllImport("user32.dll", EntryPoint = "SetWindowLongPtr", SetLastError = true)]

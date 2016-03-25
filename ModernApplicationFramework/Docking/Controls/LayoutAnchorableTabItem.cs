@@ -43,9 +43,15 @@ namespace ModernApplicationFramework.Docking.Controls
 		protected virtual void OnModelChanged(DependencyPropertyChangedEventArgs e)
 		{
 			SetLayoutItem(Model?.Root.Manager.GetLayoutItemFromModel(Model));
-		}
+        }
 
-		protected override void OnMouseEnter(MouseEventArgs e)
+	    protected override void OnPreviewDragEnter(DragEventArgs e)
+	    {
+	        Model.IsActive = true;
+	        base.OnPreviewDragEnter(e);
+	    }
+
+	    protected override void OnMouseEnter(MouseEventArgs e)
 		{
 			base.OnMouseEnter(e);
 

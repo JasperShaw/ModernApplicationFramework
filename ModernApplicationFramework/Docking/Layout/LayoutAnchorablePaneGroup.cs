@@ -54,7 +54,7 @@ namespace ModernApplicationFramework.Docking.Layout
 		public override void ConsoleDump(int tab)
 		{
 			System.Diagnostics.Trace.Write(new string(' ', tab*4));
-			System.Diagnostics.Trace.WriteLine(string.Format("AnchorablePaneGroup({0})", Orientation));
+			System.Diagnostics.Trace.WriteLine($"AnchorablePaneGroup({Orientation})");
 
 			foreach (var layoutAnchorablePane in Children)
 			{
@@ -117,5 +117,18 @@ namespace ModernApplicationFramework.Docking.Layout
 			var parentPane = Parent as ILayoutElementWithVisibility;
 			parentPane?.ComputeVisibility();
 		}
+
+	    protected override void SetXmlAttributeValue(string name, string valueString)
+	    {
+	        switch (name)
+	        {
+	            case "Orientation":
+	                Orientation = (Orientation) Enum.Parse(typeof (Orientation), valueString, true);
+	                break;
+	            default:
+	                base.SetXmlAttributeValue(name, valueString);
+	                break;
+	        }
+	    }
 	}
 }

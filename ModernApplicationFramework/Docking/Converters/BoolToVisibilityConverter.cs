@@ -16,6 +16,7 @@
 
 using System;
 using System.Windows;
+using System.Globalization;
 using System.Windows.Data;
 
 namespace ModernApplicationFramework.Docking.Converters
@@ -35,11 +36,11 @@ namespace ModernApplicationFramework.Docking.Converters
         /// <returns> 
         /// A converted value. If the method returns null, the valid null value is used. 
         /// </returns> 
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is bool && targetType == typeof(Visibility))
             {
-                bool val = (bool)value;
+                var val = (bool)value;
                 if (val)
                     return Visibility.Visible;
 	            if (parameter is Visibility)
@@ -66,11 +67,12 @@ namespace ModernApplicationFramework.Docking.Converters
         /// </returns> 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) 
         {
-	        if (!(value is Visibility) || targetType != typeof (bool))
-		        throw new ArgumentException(
-			        "Invalid argument/return type. Expected argument: Visibility and return type: bool");
-	        Visibility val = (Visibility)value; 
-	        return val == Visibility.Visible;
+            if (value is Visibility && targetType == typeof (bool))
+            {
+                var val = (Visibility)value;
+                return val == Visibility.Visible;
+            }
+            throw new ArgumentException("Invalid argument/return type. Expected argument: Visibility and return type: bool");
         } 
         #endregion 
     } 

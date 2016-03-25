@@ -18,10 +18,13 @@ using System;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Markup;
 using System.Windows.Media;
+using System.Xml;
 using System.Xml.Serialization;
+using ModernApplicationFramework.Core.Comparers;
 
 namespace ModernApplicationFramework.Docking.Layout
 {
@@ -30,7 +33,9 @@ namespace ModernApplicationFramework.Docking.Layout
 	public abstract class LayoutContent : LayoutElement, IXmlSerializable, ILayoutElementForFloatingWindow,
 		IComparable<LayoutContent>, ILayoutPreviousContainer
 	{
-		private bool _canClose = true;
+
+        private LogicalStringComparer _comparer = new LogicalStringComparer();
+        private bool _canClose = true;
 		private bool _canFloat = true;
 		[NonSerialized] private object _content;
 		private string _contentId;
@@ -77,7 +82,7 @@ namespace ModernApplicationFramework.Docking.Layout
 				return contentAsComparable.CompareTo(other.Content);
 			}
 
-			return string.CompareOrdinal(Title, other.Title);
+			return _comparer.Compare(Title, other.Title);
 		}
 
 		public double FloatingHeight
@@ -516,7 +521,9 @@ namespace ModernApplicationFramework.Docking.Layout
 			LayoutDocumentPane newParentPane;
 			if (root.LastFocusedDocument != null)
 			{
-				newParentPane = root.LastFocusedDocument.Parent as LayoutDocumentPane;
+			    newParentPane = root.LastFocusedDocument.Parent as LayoutDocumentPane ??
+			                    root.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
+
 			}
 			else
 			{
@@ -659,5 +666,85 @@ namespace ModernApplicationFramework.Docking.Layout
 		public static readonly DependencyProperty TitleProperty =
 			DependencyProperty.Register("Title", typeof (string), typeof (LayoutContent),
 				new UIPropertyMetadata(null, OnTitlePropertyChanged, CoerceTitleValue));
+
+	    protected virtual void SetXmlAttributeValue(string name, string valueString)
+	    {
+	        switch (name)
+	        {
+	            case "Title":
+	                Title = valueString;
+	                break;
+	            case "ToolTip":
+	                ToolTip = valueString;
+	                break;
+	            case "IsSelected":
+	                IsSelected = bool.Parse(valueString);
+	                break;
+	            case "CanClose":
+	                CanClose = bool.Parse(valueString);
+	                break;
+	            case "CanFloat":
+	                CanFloat = bool.Parse(valueString);
+	                break;
+	            case "IsLastFocusedDocument":
+	                IsLastFocusedDocument = bool.Parse(valueString);
+	                break;
+	            case "PreviousContainerId":
+	                PreviousContainerId = valueString;
+	                break;
+	            case "PreviousContainerIndex":
+	                PreviousContainerIndex = int.Parse(valueString);
+	                break;
+	            case "ContentId":
+	                ContentId = valueString;
+	                break;
+	            case "FloatingLeft":
+	                FloatingLeft = XmlConvert.ToDouble(valueString);
+	                break;
+	            case "FloatingTop":
+	                FloatingTop = XmlConvert.ToDouble(valueString);
+	                break;
+	            case "FloatingWidth":
+	                FloatingWidth = XmlConvert.ToDouble(valueString);
+	                break;
+	            case "FloatingHeight":
+	                FloatingHeight = XmlConvert.ToDouble(valueString);
+	                break;
+	            case "LastActivationTimeStamp":
+	                LastActivationTimeStamp = DateTime.Parse(valueString, CultureInfo.InvariantCulture);
+	                break;
+	        }
+	    }
+
+	    internal void XmlDeserialize(XmlReader xmlReader)
+	    {
+	        bool isEmptyElement = xmlReader.IsEmptyElement;
+	        if (xmlReader.HasAttributes)
+	        {
+	            while (xmlReader.MoveToNextAttribute())
+	            {
+	                string name = xmlReader.Name;
+	                string valueString = xmlReader.Value;
+
+	                MethodInfo methodInfo = GetType()
+	                    .GetMethod("SetXmlAttributeValue", BindingFlags.Instance | BindingFlags.NonPublic);
+	                methodInfo.Invoke(this, new object[]
+	                {
+	                    name, valueString
+	                });
+	            }
+	        }
+
+	        if (!isEmptyElement)
+	        {
+	            while (xmlReader.Read())
+	            {
+	                if (xmlReader.NodeType == XmlNodeType.EndElement)
+	                {
+	                    break;
+	                }
+	            }
+	        }
+	    }
 	}
 }

@@ -191,7 +191,7 @@ namespace ModernApplicationFramework.Docking.Controls
 			}
 			else
 			{
-				IntPtr windowHandle = new WindowInteropHelper(this).Handle;
+				IntPtr windowHandle = new WindowInteropHelper(this).EnsureHandle();
 				IntPtr lParam = new IntPtr(((int) Left & 0xFFFF) | (((int) Top) << 16));
 				Win32Helper.SendMessage(windowHandle, Win32Helper.WmNclbuttondown, new IntPtr(Win32Helper.HtCaption), lParam);
 			}
@@ -219,7 +219,7 @@ namespace ModernApplicationFramework.Docking.Controls
 
 			if (!_attachDrag || Mouse.LeftButton != MouseButtonState.Pressed)
 				return;
-			IntPtr windowHandle = new WindowInteropHelper(this).Handle;
+			IntPtr windowHandle = new WindowInteropHelper(this).EnsureHandle();
 			var mousePosition = this.PointToScreenDpi(Mouse.GetPosition(this));
 			var clientArea = Win32Helper.GetClientRect(windowHandle);
 			var windowArea = Win32Helper.GetWindowRect(windowHandle);

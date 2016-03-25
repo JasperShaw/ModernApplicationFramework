@@ -44,6 +44,8 @@ namespace ModernApplicationFramework.Docking.Layout
                 {
                     Hide();
                 }
+                RaisePropertyChanging("IsHidden");
+                RaisePropertyChanging("IsVisible");
             }
         }
 
@@ -51,10 +53,10 @@ namespace ModernApplicationFramework.Docking.Layout
 
         void NotifyIsVisibleChanged()
         {
-	        IsVisibleChanged?.Invoke(this, EventArgs.Empty);
+            IsVisibleChanged?.Invoke(this, EventArgs.Empty);
         }
 
-	    [XmlIgnore]
+        [XmlIgnore]
         public bool IsHidden => (Parent is LayoutRoot);
 
 	    protected override void OnParentChanged(ILayoutContainer oldValue, ILayoutContainer newValue)
@@ -579,6 +581,34 @@ namespace ModernApplicationFramework.Docking.Layout
 
 
             base.WriteXml(writer);
+        }
+
+        protected override void SetXmlAttributeValue(string name, string valueString)
+        {
+            switch (name)
+            {
+                case "CanHide":
+                    CanHide = bool.Parse(valueString);
+                    break;
+                case "CanAutoHide":
+                    CanAutoHide = bool.Parse(valueString);
+                    break;
+                case "AutoHideWidth":
+                    AutoHideWidth = double.Parse(valueString, CultureInfo.InvariantCulture);
+                    break;
+                case "AutoHideHeight":
+                    AutoHideHeight = double.Parse(valueString, CultureInfo.InvariantCulture);
+                    break;
+                case "AutoHideMinWidth":
+                    AutoHideMinWidth = double.Parse(valueString, CultureInfo.InvariantCulture);
+                    break;
+                case "AutoHideMinHeight":
+                    AutoHideMinHeight = double.Parse(valueString, CultureInfo.InvariantCulture);
+                    break;
+                default:
+                    base.SetXmlAttributeValue(name, valueString);
+                    break;
+            }
         }
 
 

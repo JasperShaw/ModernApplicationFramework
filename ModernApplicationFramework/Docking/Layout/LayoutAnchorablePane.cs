@@ -234,5 +234,21 @@ namespace ModernApplicationFramework.Docking.Layout
 		}
 
 		#endregion
+
+	    protected override void SetXmlAttributeValue(string name, string valueString)
+	    {
+	        switch (name)
+	        {
+	            case "Id":
+	                _id = valueString;
+	                break;
+	            case "Name":
+	                _name = valueString;
+	                break;
+	            default:
+	                base.SetXmlAttributeValue(name, valueString);
+	                break;
+	        }
+	    }
 	}
 }

@@ -141,6 +141,7 @@
     <Compile Include="Controls\MainWindowTitleBar.cs" />
     <Compile Include="Controls\Menu.cs" />
     <Compile Include="Controls\MenuItem.cs" />
+    <Compile Include="Core\Comparers\LogicalStringComparer.cs" />
     <Compile Include="Core\Converters\AndBooleanConverter.cs" />
     <Compile Include="Core\Converters\BooleanToFlowDirectionConverter.cs" />
     <Compile Include="Core\Converters\DockLocationConverter.cs" />
@@ -564,7 +565,6 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

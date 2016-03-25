@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:test="http://modern.framework.com/controls"
         xmlns:modernApplicationFrameworkTestAppDock="clr-namespace:ModernApplicationFrameworkTestAppDock"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="350" Width="525" Loaded="MainWindow_OnLoaded" Unloaded="MainWindow_OnUnloaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -22,12 +22,12 @@
                     </test:LayoutAnchorablePane>
                     <test:LayoutDocumentPaneGroup>
                         <test:LayoutDocumentPane>
-							<test:LayoutDocument Title="Test">
-								<Grid Background="White">
-									<TextBox x:Name="TextBox"/>
+                            <test:LayoutDocument Title="Test">
+                                <Grid Background="White">
+                                    <TextBox x:Name="TextBox"/>
                                     <test:ScrollBar></test:ScrollBar>
-								</Grid>
-							</test:LayoutDocument>
+                                </Grid>
+                            </test:LayoutDocument>
                             <test:LayoutDocument Title="Test2">
                                 <modernApplicationFrameworkTestAppDock:ColorEditor/>
                             </test:LayoutDocument>
@@ -35,7 +35,7 @@
                     </test:LayoutDocumentPaneGroup>
                     <test:LayoutAnchorablePaneGroup DockWidth="150">
                         <test:LayoutAnchorablePane>
-                            <test:LayoutAnchorable ContentId="toolWindow1" Title="Tool Window 1" Hiding="LayoutAnchorable_OnHiding">
+                            <test:LayoutAnchorable ContentId="toolWindow1" Title="Tool Window 1" Hiding="LayoutAnchorable_OnHiding" CanClose="False">
                                 <StackPanel>
                                     <TextBox Text="Test"/>
                                 </StackPanel>
@@ -46,7 +46,6 @@
                         </test:LayoutAnchorablePane>
                     </test:LayoutAnchorablePaneGroup>
                 </test:LayoutPanel>
-
                 <test:LayoutRoot.LeftSide>
                     <test:LayoutAnchorSide>
                         <test:LayoutAnchorGroup>

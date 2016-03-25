@@ -15,6 +15,7 @@
   **********************************************************************/
 
 using System.IO;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace ModernApplicationFramework.Docking.Layout.Serialization
@@ -70,14 +71,20 @@ namespace ModernApplicationFramework.Docking.Layout.Serialization
             try
             {
                 StartDeserialization();
-                var serializer = new XmlSerializer(typeof(LayoutRoot));
-                var layout = serializer.Deserialize(reader) as LayoutRoot;
+
+                LayoutRoot layout = new LayoutRoot();
+                XmlReader xmlReader = new XmlTextReader(reader);
+                layout.XmlDeserialize(xmlReader);
+
+                //var serializer = new XmlSerializer(typeof(LayoutRoot));
+                //var layout = serializer.Deserialize(reader) as LayoutRoot;
+
                 FixupLayout(layout);
                 Manager.Layout = layout;
             }
             finally
             {
-                EndDeserialization();
+                //
             }
         }
 

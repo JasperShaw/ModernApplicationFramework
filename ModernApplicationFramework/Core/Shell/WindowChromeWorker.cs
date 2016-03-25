@@ -158,7 +158,7 @@ namespace ModernApplicationFramework.Core.Shell
             // The window may have been shown and closed, in which case it's no longer usable.
             // We shouldn't add any hooks in that case, just exit early.
             // If the window hasn't yet been shown, then we need to make sure to remove hooks after it's closed.
-            _hwnd = new WindowInteropHelper(_window).Handle;
+            _hwnd = new WindowInteropHelper(_window).EnsureHandle();
 
             if (Utility.IsPresentationFrameworkVersionLessThan4)
             {
@@ -188,7 +188,7 @@ namespace ModernApplicationFramework.Core.Shell
             {
                 _window.SourceInitialized += (sender, e) =>
                 {
-                    _hwnd = new WindowInteropHelper(_window).Handle;
+                    _hwnd = new WindowInteropHelper(_window).EnsureHandle();
                     Assert.IsNotDefault(_hwnd);
                     _hwndSource = HwndSource.FromHwnd(_hwnd);
                     Assert.IsNotNull(_hwndSource);

@@ -171,5 +171,18 @@ namespace ModernApplicationFramework.Docking.Layout
 			var parentPane = Parent as ILayoutElementWithVisibility;
 			parentPane?.ComputeVisibility();
 		}
+
+	    protected override void SetXmlAttributeValue(string name, string valueString)
+	    {
+	        switch (name)
+	        {
+	            case "Id":
+	                _id = valueString;
+	                break;
+	            default:
+	                base.SetXmlAttributeValue(name, valueString);
+	                break;
+	        }
+	    }
 	}
 }

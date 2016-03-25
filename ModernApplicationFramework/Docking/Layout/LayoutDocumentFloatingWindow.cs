@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Markup;
+using System.Xml;
 
 namespace ModernApplicationFramework.Docking.Layout
 {
@@ -80,5 +81,14 @@ namespace ModernApplicationFramework.Docking.Layout
 			Debug.Assert(Equals(oldElement, RootDocument) && oldElement != null);
 			RootDocument = newElement as LayoutDocument;
 		}
+
+	    protected virtual void XmlDeserializeElement(XmlReader xmlReader)
+	    {
+	        if (xmlReader.Name != "RootDocument")
+                return;
+	        LayoutDocument layoutDocument = new LayoutDocument();
+	        layoutDocument.XmlDeserialize(xmlReader);
+	        RootDocument = layoutDocument;
+	    }
 	}
 }

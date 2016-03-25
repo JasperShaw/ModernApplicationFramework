@@ -16,6 +16,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace ModernApplicationFramework.Docking.Layout
@@ -34,5 +36,53 @@ namespace ModernApplicationFramework.Docking.Layout
         public abstract int ChildrenCount { get; }
 
         public abstract bool IsValid { get; }
+
+        protected virtual void SetXmlAttributeValue(string name, string valueString)
+		{
+			switch (name)
+			{
+				case "Title":
+					//Title = valueString;
+					break;
+				
+			}
+		}
+
+		protected virtual void XmlDeserializeElement(XmlReader xmlReader)
+		{
+		}
+ 
+		internal void XmlDeserialize(XmlReader xmlReader)
+		{
+			bool isEmptyElement = xmlReader.IsEmptyElement;
+			if (xmlReader.HasAttributes)
+			{
+				xmlReader.MoveToElement();
+				while (xmlReader.MoveToNextAttribute())
+				{
+					string name = xmlReader.Name;
+					string valueString = xmlReader.Value;
+
+					MethodInfo methodInfo = GetType().GetMethod("SetXmlAttributeValue", BindingFlags.Instance | BindingFlags.NonPublic);
+					methodInfo.Invoke(this, new object[] { name, valueString });
+				}
+			}
+
+			if (!isEmptyElement)
+			{
+				while (xmlReader.Read())
+				{
+					if (xmlReader.NodeType == XmlNodeType.Element)
+					{
+						MethodInfo methodInfo = GetType().GetMethod("XmlDeserializeElement", BindingFlags.Instance | BindingFlags.NonPublic);
+						methodInfo.Invoke(this, new object[] { xmlReader });
+					}
+					else if (xmlReader.NodeType == XmlNodeType.EndElement && xmlReader.Name == "LayoutFloatingWindow")
+					{
+						break;
+					}
+				}
+			}
+		}
     }
 }

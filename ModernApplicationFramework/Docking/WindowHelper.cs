@@ -37,13 +37,13 @@ namespace ModernApplicationFramework.Docking
             {
                 IntPtr parentHwnd;
                 if (GetParentWindowHandle(element, out parentHwnd))
-                    Win32Helper.SetOwner(new WindowInteropHelper(window).Handle, parentHwnd);
+                    Win32Helper.SetOwner(new WindowInteropHelper(window).EnsureHandle(), parentHwnd);
             }
         }
 
         public static IntPtr GetParentWindowHandle(this Window window)
         {
-	        return window.Owner != null ? new WindowInteropHelper(window.Owner).Handle : Win32Helper.GetOwner(new WindowInteropHelper(window).Handle);
+	        return window.Owner != null ? new WindowInteropHelper(window.Owner).EnsureHandle() : Win32Helper.GetOwner(new WindowInteropHelper(window).Handle);
         }
 
 
@@ -66,7 +66,7 @@ namespace ModernApplicationFramework.Docking
             if (window.Owner != null)
                 window.Owner = null;
             else
-                Win32Helper.SetOwner(new WindowInteropHelper(window).Handle, IntPtr.Zero);
+                Win32Helper.SetOwner(new WindowInteropHelper(window).EnsureHandle(), IntPtr.Zero);
         }
     }
 }

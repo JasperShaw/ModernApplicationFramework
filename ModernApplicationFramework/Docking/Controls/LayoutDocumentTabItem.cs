@@ -84,8 +84,8 @@ namespace ModernApplicationFramework.Docking.Controls
 
 			if (e.ClickCount != 1)
 				return;
-			_mouseDownPoint = e.GetPosition(this);
-			_isMouseDown = true;
+			_mouseDownPoint = this.PointToScreenDpi(e.GetPosition(this));
+            _isMouseDown = true;
 		}
 
 		protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
@@ -103,7 +103,7 @@ namespace ModernApplicationFramework.Docking.Controls
 
 			if (_isMouseDown)
 			{
-				Point ptMouseMove = e.GetPosition(this);
+			    Point ptMouseMove = this.PointToScreenDpi(e.GetPosition(this));
 
 				if (Math.Abs(ptMouseMove.X - _mouseDownPoint.X) > SystemParameters.MinimumHorizontalDragDistance ||
 				    Math.Abs(ptMouseMove.Y - _mouseDownPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
