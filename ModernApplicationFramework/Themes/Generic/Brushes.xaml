@@ -1126,26 +1126,4 @@
             </GeometryDrawing>
         </DrawingBrush.Drawing>
     </DrawingBrush>
-    
-    <!--WaitDialog-->
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
-                     ResourceId=WaitDialogActiveShadowAndBorderColor}" Color="#FF0D202D"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
-                     ResourceId=WaitDialogInactiveShadowAndBorderColor}" Color="#FF525252"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
-                     ResourceId=WaitDialogTitleBarBackground}" Color="#FFD6DBE9"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
-                     ResourceId=WaitDialogTitleBarForeground}" Color="#FF000000"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
-                     ResourceId=WaitDialogMessageForeground}" Color="#FF000000"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
-                     ResourceId=WaitDialogBackground}" Color="#FEFEFE"/>
-    
-    
 </ResourceDictionary>
