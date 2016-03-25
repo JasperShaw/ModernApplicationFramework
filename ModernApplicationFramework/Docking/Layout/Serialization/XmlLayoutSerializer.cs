@@ -59,7 +59,7 @@ namespace ModernApplicationFramework.Docking.Layout.Serialization
             }
         }
 
-        public void Deserialize(System.Xml.XmlReader reader)
+        public void Deserialize(XmlReader reader)
         {
             try
             {
@@ -81,7 +81,7 @@ namespace ModernApplicationFramework.Docking.Layout.Serialization
                 Deserialize(stream);
         }
 
-        public void Serialize(System.Xml.XmlWriter writer)
+        public void Serialize(XmlWriter writer)
         {
             var serializer = new XmlSerializer(typeof (LayoutRoot));
             serializer.Serialize(writer, Manager.Layout);

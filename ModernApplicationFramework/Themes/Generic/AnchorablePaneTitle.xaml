@@ -27,7 +27,7 @@
                             </Grid.RowDefinitions>
                             <DockPanel Grid.Column="0">
                                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-									<avalonDockControls:DropDownButton x:Name="MenuDropDownButton" Focusable="False" ToolTip="" Height="15" Width="15" BorderThickness="1"
+									<avalonDockControls:DropDownButton x:Name="MenuDropDownButton" Focusable="False" ToolTip="Positions" Height="15" Width="15" BorderThickness="1"
                                                                        DropDownContextMenu="{Binding Model.Root.Manager.AnchorableContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
                                                                        DropDownContextMenuDataContext="{Binding Path=LayoutItem, RelativeSource={RelativeSource TemplatedParent}}"
 																	   Background="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBackground}}"
@@ -39,7 +39,7 @@
 
                                 <controls:Button x:Name="PART_AutoHidePin" Focusable="False" Height="15" Width="15" BorderThickness="1"
                                                  Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
-                                                 Command="{Binding Path=LayoutItem.AutoHideCommand, RelativeSource={RelativeSource TemplatedParent}}" ToolTip=""
+                                                 Command="{Binding Path=LayoutItem.AutoHideCommand, RelativeSource={RelativeSource TemplatedParent}}" ToolTip="Auto Pin"
 												 Background="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBackground}}"
 												 BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBorder}}">
                                     <Path x:Name="PinButtonPath" Data="F1 M3,11 L3,7 0,7 0,6 1,6 1,1 1,0 6,0 6,1 6,6 7,6 7,7 4,7 4,11 3,11z M2,1L2,6 4,6 4,1 2,1z" 
@@ -49,7 +49,7 @@
 
                                 <controls:Button x:Name="PART_HidePin" Focusable="False" BorderThickness="1" Height="15" Width="15"
                                                  Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
-                                                 Command="{Binding Path=LayoutItem.HideCommand, RelativeSource={RelativeSource TemplatedParent}}" ToolTip=""
+                                                 Command="{Binding Path=LayoutItem.HideCommand, RelativeSource={RelativeSource TemplatedParent}}" ToolTip="Close"
 												 Background="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBackground}}"
 												 BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBorder}}">
                                    <Path Fill="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleGlyph}}" 

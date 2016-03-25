@@ -40,7 +40,7 @@ namespace ModernApplicationFramework.Docking.Layout
         private bool _canClose = true;
         private bool _canFloat = true;
 
-        private LogicalStringComparer _comparer = new LogicalStringComparer();
+        private readonly LogicalStringComparer _comparer = new LogicalStringComparer();
         [NonSerialized] private object _content;
         private string _contentId;
         private double _floatingHeight;
@@ -181,7 +181,7 @@ namespace ModernApplicationFramework.Docking.Layout
             return null;
         }
 
-        public virtual void ReadXml(System.Xml.XmlReader reader)
+        public virtual void ReadXml(XmlReader reader)
         {
             if (reader.MoveToAttribute("Title"))
                 Title = reader.Value;
@@ -219,7 +219,7 @@ namespace ModernApplicationFramework.Docking.Layout
             reader.Read();
         }
 
-        public virtual void WriteXml(System.Xml.XmlWriter writer)
+        public virtual void WriteXml(XmlWriter writer)
         {
             if (!string.IsNullOrWhiteSpace(Title))
                 writer.WriteAttributeString("Title", Title);
@@ -317,7 +317,7 @@ namespace ModernApplicationFramework.Docking.Layout
                 var contentAsControl = _content as FrameworkElement;
                 if (string.IsNullOrWhiteSpace(contentAsControl?.Name))
                     return _contentId;
-                return contentAsControl != null ? contentAsControl.Name : _contentId;
+                return contentAsControl.Name;
             }
             set
             {

@@ -51,8 +51,6 @@ namespace ModernApplicationFramework.Docking.Converters
             if (parameter is Visibility)
                 return parameter;
             return Visibility.Collapsed;
-
-            ///throw new ArgumentException("Invalid argument/return type. Expected argument: bool and return type: Visibility");
         }
 
         /// <summary> 
@@ -65,8 +63,7 @@ namespace ModernApplicationFramework.Docking.Converters
         /// <returns> 
         /// A converted value. If the method returns null, the valid null value is used. 
         /// </returns> 
-        public object ConvertBack(object value, Type targetType, object parameter,
-            System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is Visibility && targetType == typeof (bool))
             {

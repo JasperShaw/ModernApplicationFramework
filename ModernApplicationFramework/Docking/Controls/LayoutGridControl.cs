@@ -38,7 +38,7 @@ namespace ModernApplicationFramework.Docking.Controls
         internal LayoutGridControl(LayoutPositionableGroup<T> model, Orientation orientation)
         {
             if (model == null)
-                throw new ArgumentNullException("model");
+                throw new ArgumentNullException(nameof(model));
 
             _model = model;
 

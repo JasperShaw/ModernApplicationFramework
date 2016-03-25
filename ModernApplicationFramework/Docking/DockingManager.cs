@@ -29,9 +29,11 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Markup;
 using System.Windows.Threading;
+using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Controls;
 using ModernApplicationFramework.Docking.Layout;
+using ContextMenu = System.Windows.Controls.ContextMenu;
 
 namespace ModernApplicationFramework.Docking
 {
@@ -317,6 +319,8 @@ namespace ModernApplicationFramework.Docking
 
             _navigatorWindow?.ChangeTheme(oldValue, newValue);
             _overlayWindow?.ChangeTheme(oldValue, newValue);
+            ((ModernApplicationFramework.Controls.ContextMenu)DocumentContextMenu).ChangeTheme(oldValue, newValue);
+            ((ModernApplicationFramework.Controls.ContextMenu)AnchorableContextMenu).ChangeTheme(oldValue, newValue);
 
             OnRaiseThemeChanged(null);
         }
@@ -1663,7 +1667,7 @@ namespace ModernApplicationFramework.Docking
         {
             ((DockingManager) d).OnLayoutItemContainerStyleSelectorChanged(e);
 
-            var control = d as DockingManager;
+            var control = (DockingManager) d;
             if (control == null)
                 return;
 
