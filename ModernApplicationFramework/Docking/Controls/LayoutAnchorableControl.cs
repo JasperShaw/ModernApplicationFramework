@@ -20,55 +20,56 @@ using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-	public class LayoutAnchorableControl : Control
-	{
-		static LayoutAnchorableControl()
-		{
-			DefaultStyleKeyProperty.OverrideMetadata(typeof (LayoutAnchorableControl),
-				new FrameworkPropertyMetadata(typeof (LayoutAnchorableControl)));
-			FocusableProperty.OverrideMetadata(typeof (LayoutAnchorableControl), new FrameworkPropertyMetadata(false));
-		}
+    public class LayoutAnchorableControl : Control
+    {
+        public static readonly DependencyProperty ModelProperty =
+            DependencyProperty.Register("Model", typeof (LayoutAnchorable), typeof (LayoutAnchorableControl),
+                new FrameworkPropertyMetadata(null, OnModelChanged));
 
-		public LayoutItem LayoutItem => (LayoutItem) GetValue(LayoutItemProperty);
+        private static readonly DependencyPropertyKey LayoutItemPropertyKey
+            = DependencyProperty.RegisterReadOnly("LayoutItem", typeof (LayoutItem), typeof (LayoutAnchorableControl),
+                new FrameworkPropertyMetadata((LayoutItem) null));
 
-		public LayoutAnchorable Model
-		{
-			get { return (LayoutAnchorable) GetValue(ModelProperty); }
-			set { SetValue(ModelProperty, value); }
-		}
+        public static readonly DependencyProperty LayoutItemProperty
+            = LayoutItemPropertyKey.DependencyProperty;
 
-		protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
-		{
-			if (Model != null)
-				Model.IsActive = true;
 
-			base.OnGotKeyboardFocus(e);
-		}
+        static LayoutAnchorableControl()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof (LayoutAnchorableControl),
+                new FrameworkPropertyMetadata(typeof (LayoutAnchorableControl)));
+            FocusableProperty.OverrideMetadata(typeof (LayoutAnchorableControl), new FrameworkPropertyMetadata(false));
+        }
 
-		protected virtual void OnModelChanged(DependencyPropertyChangedEventArgs e)
-		{
-			SetLayoutItem(Model?.Root.Manager.GetLayoutItemFromModel(Model));
-		}
+        public LayoutItem LayoutItem => (LayoutItem) GetValue(LayoutItemProperty);
 
-		protected void SetLayoutItem(LayoutItem value)
-		{
-			SetValue(LayoutItemPropertyKey, value);
-		}
+        public LayoutAnchorable Model
+        {
+            get { return (LayoutAnchorable) GetValue(ModelProperty); }
+            set { SetValue(ModelProperty, value); }
+        }
 
-		private static void OnModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		{
-			((LayoutAnchorableControl) d).OnModelChanged(e);
-		}
+        protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
+        {
+            if (Model != null)
+                Model.IsActive = true;
 
-		public static readonly DependencyProperty ModelProperty =
-			DependencyProperty.Register("Model", typeof (LayoutAnchorable), typeof (LayoutAnchorableControl),
-				new FrameworkPropertyMetadata(null, OnModelChanged));
+            base.OnGotKeyboardFocus(e);
+        }
 
-		private static readonly DependencyPropertyKey LayoutItemPropertyKey
-			= DependencyProperty.RegisterReadOnly("LayoutItem", typeof (LayoutItem), typeof (LayoutAnchorableControl),
-				new FrameworkPropertyMetadata((LayoutItem) null));
+        protected virtual void OnModelChanged(DependencyPropertyChangedEventArgs e)
+        {
+            SetLayoutItem(Model?.Root.Manager.GetLayoutItemFromModel(Model));
+        }
 
-		public static readonly DependencyProperty LayoutItemProperty
-			= LayoutItemPropertyKey.DependencyProperty;
-	}
+        protected void SetLayoutItem(LayoutItem value)
+        {
+            SetValue(LayoutItemPropertyKey, value);
+        }
+
+        private static void OnModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((LayoutAnchorableControl) d).OnModelChanged(e);
+        }
+    }
 }

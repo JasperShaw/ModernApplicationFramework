@@ -34,6 +34,5 @@ namespace ModernApplicationFramework.Docking.Controls
         AnchorablePaneDockRight,
         AnchorablePaneDockBottom,
         AnchorablePaneDockInside,
-
     }
 }

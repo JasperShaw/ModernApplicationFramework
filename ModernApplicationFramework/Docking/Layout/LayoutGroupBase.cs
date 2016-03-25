@@ -19,32 +19,32 @@ using System.Xml.Serialization;
 
 namespace ModernApplicationFramework.Docking.Layout
 {
-	[Serializable]
-	public abstract class LayoutGroupBase : LayoutElement
-	{
-		[field: NonSerialized]
-		[field: XmlIgnore]
-		public event EventHandler ChildrenCollectionChanged;
+    [Serializable]
+    public abstract class LayoutGroupBase : LayoutElement
+    {
+        [field: NonSerialized]
+        [field: XmlIgnore]
+        public event EventHandler ChildrenCollectionChanged;
 
-		[field: NonSerialized]
-		[field: XmlIgnore]
-		public event EventHandler<ChildrenTreeChangedEventArgs> ChildrenTreeChanged;
+        [field: NonSerialized]
+        [field: XmlIgnore]
+        public event EventHandler<ChildrenTreeChangedEventArgs> ChildrenTreeChanged;
 
-		protected void NotifyChildrenTreeChanged(ChildrenTreeChange change)
-		{
-			OnChildrenTreeChanged(change);
-			var parentGroup = Parent as LayoutGroupBase;
-			parentGroup?.NotifyChildrenTreeChanged(ChildrenTreeChange.TreeChanged);
-		}
+        protected void NotifyChildrenTreeChanged(ChildrenTreeChange change)
+        {
+            OnChildrenTreeChanged(change);
+            var parentGroup = Parent as LayoutGroupBase;
+            parentGroup?.NotifyChildrenTreeChanged(ChildrenTreeChange.TreeChanged);
+        }
 
-		protected virtual void OnChildrenCollectionChanged()
-		{
-			ChildrenCollectionChanged?.Invoke(this, EventArgs.Empty);
-		}
+        protected virtual void OnChildrenCollectionChanged()
+        {
+            ChildrenCollectionChanged?.Invoke(this, EventArgs.Empty);
+        }
 
-		protected virtual void OnChildrenTreeChanged(ChildrenTreeChange change)
-		{
-			ChildrenTreeChanged?.Invoke(this, new ChildrenTreeChangedEventArgs(change));
-		}
-	}
+        protected virtual void OnChildrenTreeChanged(ChildrenTreeChange change)
+        {
+            ChildrenTreeChanged?.Invoke(this, new ChildrenTreeChangedEventArgs(change));
+        }
+    }
 }

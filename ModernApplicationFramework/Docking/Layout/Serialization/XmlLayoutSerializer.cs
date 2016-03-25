@@ -24,30 +24,7 @@ namespace ModernApplicationFramework.Docking.Layout.Serialization
     {
         public XmlLayoutSerializer(DockingManager manager)
             : base(manager)
-        { 
-
-        }
-
-        public void Serialize(System.Xml.XmlWriter writer)
         {
-            var serializer = new XmlSerializer(typeof(LayoutRoot));
-            serializer.Serialize(writer, Manager.Layout);
-        }
-        public void Serialize(TextWriter writer)
-        {
-            var serializer = new XmlSerializer(typeof(LayoutRoot));
-            serializer.Serialize(writer, Manager.Layout);
-        }
-        public void Serialize(Stream stream)
-        {
-            var serializer = new XmlSerializer(typeof(LayoutRoot));
-            serializer.Serialize(stream, Manager.Layout);
-        }
-
-        public void Serialize(string filepath)
-        {
-            using (var stream = new StreamWriter(filepath))
-                Serialize(stream);
         }
 
         public void Deserialize(Stream stream)
@@ -55,7 +32,7 @@ namespace ModernApplicationFramework.Docking.Layout.Serialization
             try
             {
                 StartDeserialization();
-                var serializer = new XmlSerializer(typeof(LayoutRoot));
+                var serializer = new XmlSerializer(typeof (LayoutRoot));
                 var layout = serializer.Deserialize(stream) as LayoutRoot;
                 FixupLayout(layout);
                 Manager.Layout = layout;
@@ -71,7 +48,7 @@ namespace ModernApplicationFramework.Docking.Layout.Serialization
             try
             {
                 StartDeserialization();
-                var serializer = new XmlSerializer(typeof(LayoutRoot));
+                var serializer = new XmlSerializer(typeof (LayoutRoot));
                 var layout = serializer.Deserialize(reader) as LayoutRoot;
                 FixupLayout(layout);
                 Manager.Layout = layout;
@@ -87,7 +64,7 @@ namespace ModernApplicationFramework.Docking.Layout.Serialization
             try
             {
                 StartDeserialization();
-                var serializer = new XmlSerializer(typeof(LayoutRoot));
+                var serializer = new XmlSerializer(typeof (LayoutRoot));
                 var layout = serializer.Deserialize(reader) as LayoutRoot;
                 FixupLayout(layout);
                 Manager.Layout = layout;
@@ -102,6 +79,30 @@ namespace ModernApplicationFramework.Docking.Layout.Serialization
         {
             using (var stream = new StreamReader(filepath))
                 Deserialize(stream);
+        }
+
+        public void Serialize(System.Xml.XmlWriter writer)
+        {
+            var serializer = new XmlSerializer(typeof (LayoutRoot));
+            serializer.Serialize(writer, Manager.Layout);
+        }
+
+        public void Serialize(TextWriter writer)
+        {
+            var serializer = new XmlSerializer(typeof (LayoutRoot));
+            serializer.Serialize(writer, Manager.Layout);
+        }
+
+        public void Serialize(Stream stream)
+        {
+            var serializer = new XmlSerializer(typeof (LayoutRoot));
+            serializer.Serialize(stream, Manager.Layout);
+        }
+
+        public void Serialize(string filepath)
+        {
+            using (var stream = new StreamWriter(filepath))
+                Serialize(stream);
         }
     }
 }

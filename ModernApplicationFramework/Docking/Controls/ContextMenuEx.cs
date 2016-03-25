@@ -28,9 +28,9 @@ namespace ModernApplicationFramework.Docking.Controls
 
         protected override void OnOpened(System.Windows.RoutedEventArgs e)
         {
-	        var bindingExpression = BindingOperations.GetBindingExpression(this, ItemsSourceProperty);
-	        bindingExpression?.UpdateTarget();
-	        base.OnOpened(e);
+            var bindingExpression = BindingOperations.GetBindingExpression(this, ItemsSourceProperty);
+            bindingExpression?.UpdateTarget();
+            base.OnOpened(e);
         }
     }
 }

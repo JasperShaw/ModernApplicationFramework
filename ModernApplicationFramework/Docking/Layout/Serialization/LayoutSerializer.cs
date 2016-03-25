@@ -21,9 +21,12 @@ namespace ModernApplicationFramework.Docking.Layout.Serialization
 {
     public abstract class LayoutSerializer
     {
-	    readonly DockingManager _manager;
+        readonly DockingManager _manager;
 
-	    protected LayoutSerializer(DockingManager manager)
+        readonly LayoutAnchorable[] _previousAnchorables;
+        readonly LayoutDocument[] _previousDocuments;
+
+        protected LayoutSerializer(DockingManager manager)
         {
             if (manager == null)
                 throw new ArgumentNullException("manager");
@@ -33,19 +36,27 @@ namespace ModernApplicationFramework.Docking.Layout.Serialization
             _previousDocuments = _manager.Layout.Descendents().OfType<LayoutDocument>().ToArray();
         }
 
-	    readonly LayoutAnchorable[] _previousAnchorables;
-	    readonly LayoutDocument[] _previousDocuments;
+        public event EventHandler<LayoutSerializationCallbackEventArgs> LayoutSerializationCallback;
 
         public DockingManager Manager => _manager;
 
-	    public event EventHandler<LayoutSerializationCallbackEventArgs> LayoutSerializationCallback;
+        protected void EndDeserialization()
+        {
+            Manager.SuspendDocumentsSourceBinding = false;
+            Manager.SuspendAnchorablesSourceBinding = false;
+        }
 
         protected virtual void FixupLayout(LayoutRoot layout)
         {
             //fix container panes
-            foreach (var lcToAttach in layout.Descendents().OfType<ILayoutPreviousContainer>().Where(lc => lc.PreviousContainerId != null))
+            foreach (
+                var lcToAttach in
+                    layout.Descendents().OfType<ILayoutPreviousContainer>().Where(lc => lc.PreviousContainerId != null))
             {
-                var paneContainerToAttach = layout.Descendents().OfType<ILayoutPaneSerializable>().FirstOrDefault(lps => lps.Id == lcToAttach.PreviousContainerId);
+                var paneContainerToAttach =
+                    layout.Descendents()
+                        .OfType<ILayoutPaneSerializable>()
+                        .FirstOrDefault(lps => lps.Id == lcToAttach.PreviousContainerId);
                 if (paneContainerToAttach == null)
                     throw new ArgumentException($"Unable to find a pane with id ='{lcToAttach.PreviousContainerId}'");
 
@@ -54,11 +65,13 @@ namespace ModernApplicationFramework.Docking.Layout.Serialization
 
 
             //now fix the content of the layoutcontents
-            foreach (var lcToFix in layout.Descendents().OfType<LayoutAnchorable>().Where(lc => lc.Content == null).ToArray())
+            foreach (
+                var lcToFix in layout.Descendents().OfType<LayoutAnchorable>().Where(lc => lc.Content == null).ToArray()
+                )
             {
                 LayoutAnchorable previousAchorable = null;
                 if (lcToFix.ContentId != null)
-                { 
+                {
                     //try find the content in replaced layout
                     previousAchorable = _previousAnchorables.FirstOrDefault(a => a.ContentId == lcToFix.ContentId);
                 }
@@ -84,7 +97,8 @@ namespace ModernApplicationFramework.Docking.Layout.Serialization
             }
 
 
-            foreach (var lcToFix in layout.Descendents().OfType<LayoutDocument>().Where(lc => lc.Content == null).ToArray())
+            foreach (
+                var lcToFix in layout.Descendents().OfType<LayoutDocument>().Where(lc => lc.Content == null).ToArray())
             {
                 LayoutDocument previousDocument = null;
                 if (lcToFix.ContentId != null)
@@ -119,12 +133,6 @@ namespace ModernApplicationFramework.Docking.Layout.Serialization
         {
             Manager.SuspendDocumentsSourceBinding = true;
             Manager.SuspendAnchorablesSourceBinding = true;
-        }
-
-        protected void EndDeserialization()
-        {
-            Manager.SuspendDocumentsSourceBinding = false;
-            Manager.SuspendAnchorablesSourceBinding = false;
         }
     }
 }

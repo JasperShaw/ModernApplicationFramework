@@ -23,150 +23,74 @@ using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-	public class NavigatorWindow : Window, IChangeTheme
-	{
-		private readonly DockingManager _manager;
-		private bool _internalSetSelectedDocument;
+    public class NavigatorWindow : Window, IChangeTheme
+    {
+        private static readonly DependencyPropertyKey AnchorablesPropertyKey
+            = DependencyProperty.RegisterReadOnly("Anchorables", typeof (IEnumerable<LayoutAnchorableItem>),
+                typeof (NavigatorWindow),
+                new FrameworkPropertyMetadata((IEnumerable<LayoutAnchorableItem>) null));
 
-		internal NavigatorWindow(DockingManager manager)
-		{
-			_manager = manager;
+        public static readonly DependencyProperty AnchorablesProperty
+            = AnchorablesPropertyKey.DependencyProperty;
 
-			_internalSetSelectedDocument = true;
-			SetAnchorables(
-				_manager.Layout.Descendents()
-					.OfType<LayoutAnchorable>()
-					.Where(a => a.IsVisible)
-					.Select(d => (LayoutAnchorableItem) _manager.GetLayoutItemFromModel(d))
-					.ToArray());
-			SetDocuments(
-				_manager.Layout.Descendents()
-					.OfType<LayoutDocument>()
-					.OrderByDescending(d => d.LastActivationTimeStamp.GetValueOrDefault())
-					.Select(d => (LayoutDocumentItem) _manager.GetLayoutItemFromModel(d))
-					.ToArray());
-			_internalSetSelectedDocument = false;
+        private static readonly DependencyPropertyKey DocumentsPropertyKey
+            = DependencyProperty.RegisterReadOnly("Documents", typeof (IEnumerable<LayoutDocumentItem>),
+                typeof (NavigatorWindow),
+                new FrameworkPropertyMetadata(null));
 
-			if (Documents.Length > 1)
-				InternalSetSelectedDocument(Documents[1]);
+        public static readonly DependencyProperty DocumentsProperty
+            = DocumentsPropertyKey.DependencyProperty;
 
-			DataContext = this;
+        public static readonly DependencyProperty SelectedDocumentProperty =
+            DependencyProperty.Register("SelectedDocument", typeof (LayoutDocumentItem), typeof (NavigatorWindow),
+                new FrameworkPropertyMetadata(null,
+                    OnSelectedDocumentChanged));
 
-			Loaded += OnLoaded;
-			Unloaded += OnUnloaded;
+        public static readonly DependencyProperty SelectedAnchorableProperty =
+            DependencyProperty.Register("SelectedAnchorable", typeof (LayoutAnchorableItem), typeof (NavigatorWindow),
+                new FrameworkPropertyMetadata(null,
+                    OnSelectedAnchorableChanged));
+
+
+        private readonly DockingManager _manager;
+        private bool _internalSetSelectedDocument;
+
+        internal NavigatorWindow(DockingManager manager)
+        {
+            _manager = manager;
+
+            _internalSetSelectedDocument = true;
+            SetAnchorables(
+                _manager.Layout.Descendents()
+                    .OfType<LayoutAnchorable>()
+                    .Where(a => a.IsVisible)
+                    .Select(d => (LayoutAnchorableItem) _manager.GetLayoutItemFromModel(d))
+                    .ToArray());
+            SetDocuments(
+                _manager.Layout.Descendents()
+                    .OfType<LayoutDocument>()
+                    .OrderByDescending(d => d.LastActivationTimeStamp.GetValueOrDefault())
+                    .Select(d => (LayoutDocumentItem) _manager.GetLayoutItemFromModel(d))
+                    .ToArray());
+            _internalSetSelectedDocument = false;
+
+            if (Documents.Length > 1)
+                InternalSetSelectedDocument(Documents[1]);
+
+            DataContext = this;
+
+            Loaded += OnLoaded;
+            Unloaded += OnUnloaded;
 
             ChangeTheme(null, null);
         }
 
-		static NavigatorWindow()
-		{
-			DefaultStyleKeyProperty.OverrideMetadata(typeof (NavigatorWindow),
-				new FrameworkPropertyMetadata(typeof (NavigatorWindow)));
-			ShowActivatedProperty.OverrideMetadata(typeof (NavigatorWindow), new FrameworkPropertyMetadata(false));
-			ShowInTaskbarProperty.OverrideMetadata(typeof (NavigatorWindow), new FrameworkPropertyMetadata(false));
-		}
-
-		public IEnumerable<LayoutAnchorableItem> Anchorables
-			=> (IEnumerable<LayoutAnchorableItem>) GetValue(AnchorablesProperty);
-
-		public LayoutDocumentItem[] Documents => (LayoutDocumentItem[]) GetValue(DocumentsProperty);
-
-		public LayoutAnchorableItem SelectedAnchorable
-		{
-			get { return (LayoutAnchorableItem) GetValue(SelectedAnchorableProperty); }
-			set { SetValue(SelectedAnchorableProperty, value); }
-		}
-
-		public LayoutDocumentItem SelectedDocument
-		{
-			get { return (LayoutDocumentItem) GetValue(SelectedDocumentProperty); }
-			set { SetValue(SelectedDocumentProperty, value); }
-		}
-
-		protected override void OnPreviewKeyDown(System.Windows.Input.KeyEventArgs e)
-		{
-			if (e.Key == System.Windows.Input.Key.Tab)
-			{
-				SelectNextDocument();
-				e.Handled = true;
-			}
-
-
-			base.OnPreviewKeyDown(e);
-		}
-
-		protected override void OnPreviewKeyUp(System.Windows.Input.KeyEventArgs e)
-		{
-			if (e.Key != System.Windows.Input.Key.Tab)
-			{
-				if (SelectedAnchorable != null &&
-				    SelectedAnchorable.ActivateCommand.CanExecute(null))
-					SelectedAnchorable.ActivateCommand.Execute(null);
-
-				if (SelectedAnchorable == null &&
-				    SelectedDocument != null &&
-				    SelectedDocument.ActivateCommand.CanExecute(null))
-					SelectedDocument.ActivateCommand.Execute(null);
-				Close();
-				e.Handled = true;
-			}
-
-
-			base.OnPreviewKeyUp(e);
-		}
-
-		protected virtual void OnSelectedAnchorableChanged(DependencyPropertyChangedEventArgs e)
-		{
-			if (SelectedAnchorable != null &&
-			    SelectedAnchorable.ActivateCommand.CanExecute(null))
-			{
-				SelectedAnchorable.ActivateCommand.Execute(null);
-				Close();
-			}
-		}
-
-		protected virtual void OnSelectedDocumentChanged(DependencyPropertyChangedEventArgs e)
-		{
-			if (_internalSetSelectedDocument)
-				return;
-
-			if (SelectedDocument != null &&
-			    SelectedDocument.ActivateCommand.CanExecute(null))
-			{
-				System.Diagnostics.Trace.WriteLine("OnSelectedDocumentChanged()");
-				SelectedDocument.ActivateCommand.Execute(null);
-				Hide();
-			}
-		}
-
-		protected void SetAnchorables(IEnumerable<LayoutAnchorableItem> value)
-		{
-			SetValue(AnchorablesPropertyKey, value);
-		}
-
-		protected void SetDocuments(LayoutDocumentItem[] value)
-		{
-			SetValue(DocumentsPropertyKey, value);
-		}
-
-		internal void SelectNextDocument()
-		{
-			if (SelectedDocument != null)
-			{
-				int docIndex = Documents.IndexOf(SelectedDocument);
-				docIndex++;
-				if (docIndex == Documents.Length)
-					docIndex = 0;
-				InternalSetSelectedDocument(Documents[docIndex]);
-			}
-		}
-
-	    public event EventHandler OnThemeChanged;
-
-        protected virtual void OnRaiseThemeChanged(EventArgs e)
+        static NavigatorWindow()
         {
-            var handler = OnThemeChanged;
-            handler?.Invoke(this, e);
+            DefaultStyleKeyProperty.OverrideMetadata(typeof (NavigatorWindow),
+                new FrameworkPropertyMetadata(typeof (NavigatorWindow)));
+            ShowActivatedProperty.OverrideMetadata(typeof (NavigatorWindow), new FrameworkPropertyMetadata(false));
+            ShowInTaskbarProperty.OverrideMetadata(typeof (NavigatorWindow), new FrameworkPropertyMetadata(false));
         }
 
         public void ChangeTheme(Theme oldValue, Theme newValue)
@@ -180,71 +104,148 @@ namespace ModernApplicationFramework.Docking.Controls
                         resourceDictionaryToRemove);
             }
             if (newValue != null)
-                Resources.MergedDictionaries.Add(new ResourceDictionary { Source = newValue.GetResourceUri() });
+                Resources.MergedDictionaries.Add(new ResourceDictionary {Source = newValue.GetResourceUri()});
 
             OnRaiseThemeChanged(null);
+        }
 
+        public event EventHandler OnThemeChanged;
+
+        public IEnumerable<LayoutAnchorableItem> Anchorables
+            => (IEnumerable<LayoutAnchorableItem>) GetValue(AnchorablesProperty);
+
+        public LayoutDocumentItem[] Documents => (LayoutDocumentItem[]) GetValue(DocumentsProperty);
+
+        public LayoutAnchorableItem SelectedAnchorable
+        {
+            get { return (LayoutAnchorableItem) GetValue(SelectedAnchorableProperty); }
+            set { SetValue(SelectedAnchorableProperty, value); }
+        }
+
+        public LayoutDocumentItem SelectedDocument
+        {
+            get { return (LayoutDocumentItem) GetValue(SelectedDocumentProperty); }
+            set { SetValue(SelectedDocumentProperty, value); }
+        }
+
+        protected override void OnPreviewKeyDown(System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Tab)
+            {
+                SelectNextDocument();
+                e.Handled = true;
+            }
+
+
+            base.OnPreviewKeyDown(e);
+        }
+
+        protected override void OnPreviewKeyUp(System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key != System.Windows.Input.Key.Tab)
+            {
+                if (SelectedAnchorable != null &&
+                    SelectedAnchorable.ActivateCommand.CanExecute(null))
+                    SelectedAnchorable.ActivateCommand.Execute(null);
+
+                if (SelectedAnchorable == null &&
+                    SelectedDocument != null &&
+                    SelectedDocument.ActivateCommand.CanExecute(null))
+                    SelectedDocument.ActivateCommand.Execute(null);
+                Close();
+                e.Handled = true;
+            }
+
+
+            base.OnPreviewKeyUp(e);
+        }
+
+        protected virtual void OnRaiseThemeChanged(EventArgs e)
+        {
+            var handler = OnThemeChanged;
+            handler?.Invoke(this, e);
+        }
+
+        protected virtual void OnSelectedAnchorableChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if (SelectedAnchorable != null &&
+                SelectedAnchorable.ActivateCommand.CanExecute(null))
+            {
+                SelectedAnchorable.ActivateCommand.Execute(null);
+                Close();
+            }
+        }
+
+        protected virtual void OnSelectedDocumentChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if (_internalSetSelectedDocument)
+                return;
+
+            if (SelectedDocument != null &&
+                SelectedDocument.ActivateCommand.CanExecute(null))
+            {
+                System.Diagnostics.Trace.WriteLine("OnSelectedDocumentChanged()");
+                SelectedDocument.ActivateCommand.Execute(null);
+                Hide();
+            }
+        }
+
+        protected void SetAnchorables(IEnumerable<LayoutAnchorableItem> value)
+        {
+            SetValue(AnchorablesPropertyKey, value);
+        }
+
+        protected void SetDocuments(LayoutDocumentItem[] value)
+        {
+            SetValue(DocumentsPropertyKey, value);
+        }
+
+        internal void SelectNextDocument()
+        {
+            if (SelectedDocument != null)
+            {
+                int docIndex = Documents.IndexOf(SelectedDocument);
+                docIndex++;
+                if (docIndex == Documents.Length)
+                    docIndex = 0;
+                InternalSetSelectedDocument(Documents[docIndex]);
+            }
         }
 
         private static void OnSelectedAnchorableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		{
-			((NavigatorWindow) d).OnSelectedAnchorableChanged(e);
-		}
+        {
+            ((NavigatorWindow) d).OnSelectedAnchorableChanged(e);
+        }
 
-		private static void OnSelectedDocumentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		{
-			((NavigatorWindow) d).OnSelectedDocumentChanged(e);
-		}
+        private static void OnSelectedDocumentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((NavigatorWindow) d).OnSelectedDocumentChanged(e);
+        }
 
-		private void InternalSetSelectedDocument(LayoutDocumentItem documentToSelect)
-		{
-			_internalSetSelectedDocument = true;
-			SelectedDocument = documentToSelect;
-			_internalSetSelectedDocument = false;
-		}
+        private void InternalSetSelectedDocument(LayoutDocumentItem documentToSelect)
+        {
+            _internalSetSelectedDocument = true;
+            SelectedDocument = documentToSelect;
+            _internalSetSelectedDocument = false;
+        }
 
-		private void OnLoaded(object sender, RoutedEventArgs e)
-		{
-			Loaded -= OnLoaded;
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            Loaded -= OnLoaded;
 
-			Focus();
+            Focus();
 
-			//this.SetParentToMainWindowOf(_manager);
-			WindowStartupLocation = WindowStartupLocation.CenterOwner;
-		}
+            //this.SetParentToMainWindowOf(_manager);
+            WindowStartupLocation = WindowStartupLocation.CenterOwner;
+        }
 
-		private void OnUnloaded(object sender, RoutedEventArgs e)
-		{
-			Unloaded -= OnUnloaded;
+        private void OnUnloaded(object sender, RoutedEventArgs e)
+        {
+            Unloaded -= OnUnloaded;
 
-			//_hwndSrc.RemoveHook(_hwndSrcHook);
-			//_hwndSrc.Dispose();
-			//_hwndSrc = null;
-		}
-
-		private static readonly DependencyPropertyKey DocumentsPropertyKey
-			= DependencyProperty.RegisterReadOnly("Documents", typeof (IEnumerable<LayoutDocumentItem>), typeof (NavigatorWindow),
-				new FrameworkPropertyMetadata(null));
-
-		public static readonly DependencyProperty DocumentsProperty
-			= DocumentsPropertyKey.DependencyProperty;
-
-		private static readonly DependencyPropertyKey AnchorablesPropertyKey
-			= DependencyProperty.RegisterReadOnly("Anchorables", typeof (IEnumerable<LayoutAnchorableItem>),
-				typeof (NavigatorWindow),
-				new FrameworkPropertyMetadata((IEnumerable<LayoutAnchorableItem>) null));
-
-		public static readonly DependencyProperty AnchorablesProperty
-			= AnchorablesPropertyKey.DependencyProperty;
-
-		public static readonly DependencyProperty SelectedDocumentProperty =
-			DependencyProperty.Register("SelectedDocument", typeof (LayoutDocumentItem), typeof (NavigatorWindow),
-				new FrameworkPropertyMetadata(null,
-					OnSelectedDocumentChanged));
-
-		public static readonly DependencyProperty SelectedAnchorableProperty =
-			DependencyProperty.Register("SelectedAnchorable", typeof (LayoutAnchorableItem), typeof (NavigatorWindow),
-				new FrameworkPropertyMetadata(null,
-					OnSelectedAnchorableChanged));
-	}
+            //_hwndSrc.RemoveHook(_hwndSrcHook);
+            //_hwndSrc.Dispose();
+            //_hwndSrc = null;
+        }
+    }
 }

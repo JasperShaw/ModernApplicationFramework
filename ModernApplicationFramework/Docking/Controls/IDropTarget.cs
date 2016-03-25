@@ -22,16 +22,15 @@ namespace ModernApplicationFramework.Docking.Controls
 {
     internal interface IDropTarget
     {
-        Geometry GetPreviewPath(OverlayWindow overlayWindow, LayoutFloatingWindow floatingWindow);
-
-        bool HitTest(Point dragPoint);
-
         DropTargetType Type { get; }
-
-        void Drop(LayoutFloatingWindow floatingWindow);
 
         void DragEnter();
 
         void DragLeave();
+
+        void Drop(LayoutFloatingWindow floatingWindow);
+        Geometry GetPreviewPath(OverlayWindow overlayWindow, LayoutFloatingWindow floatingWindow);
+
+        bool HitTest(Point dragPoint);
     }
 }

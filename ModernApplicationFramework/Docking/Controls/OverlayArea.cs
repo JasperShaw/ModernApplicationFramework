@@ -21,27 +21,24 @@ namespace ModernApplicationFramework.Docking.Controls
 {
     public abstract class OverlayArea : IOverlayWindowArea
     {
+        Rect? _screenDetectionArea;
+
         internal OverlayArea(IOverlayWindow overlayWindow)
         {
         }
 
-	    Rect? _screenDetectionArea;
         Rect IOverlayWindowArea.ScreenDetectionArea
         {
-	        get
-	        {
-		        Debug.Assert(_screenDetectionArea != null, "_screenDetectionArea != null");
-		        return _screenDetectionArea.Value;
-	        }
+            get
+            {
+                Debug.Assert(_screenDetectionArea != null, "_screenDetectionArea != null");
+                return _screenDetectionArea.Value;
+            }
         }
 
-	    protected void SetScreenDetectionArea(Rect rect)
+        protected void SetScreenDetectionArea(Rect rect)
         {
             _screenDetectionArea = rect;
         }
-
-
-
-
     }
 }

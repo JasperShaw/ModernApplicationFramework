@@ -18,35 +18,35 @@ using System.Windows;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-	public enum DropAreaType
-	{
-		DockingManager,
+    public enum DropAreaType
+    {
+        DockingManager,
 
-		DocumentPane,
+        DocumentPane,
 
-		DocumentPaneGroup,
+        DocumentPaneGroup,
 
-		AnchorablePane,
-	}
+        AnchorablePane,
+    }
 
 
-	public interface IDropArea
-	{
-		Rect DetectionRect { get; }
-		DropAreaType Type { get; }
-	}
+    public interface IDropArea
+    {
+        Rect DetectionRect { get; }
+        DropAreaType Type { get; }
+    }
 
-	public class DropArea<T> : IDropArea where T : FrameworkElement
-	{
-		internal DropArea(T areaElement, DropAreaType type)
-		{
-			AreaElement = areaElement;
-			DetectionRect = areaElement.GetScreenArea();
-			Type = type;
-		}
+    public class DropArea<T> : IDropArea where T : FrameworkElement
+    {
+        internal DropArea(T areaElement, DropAreaType type)
+        {
+            AreaElement = areaElement;
+            DetectionRect = areaElement.GetScreenArea();
+            Type = type;
+        }
 
-		public Rect DetectionRect { get; }
-		public DropAreaType Type { get; }
-		public T AreaElement { get; }
-	}
+        public Rect DetectionRect { get; }
+        public DropAreaType Type { get; }
+        public T AreaElement { get; }
+    }
 }

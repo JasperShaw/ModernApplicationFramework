@@ -20,6 +20,11 @@ namespace ModernApplicationFramework.Docking
 {
     internal static class MathHelper
     {
+        public static void AssertIsPositiveOrZero(double value)
+        {
+            if (value < 0.0)
+                throw new ArgumentException("Invalid value, must be a positive number or equal to zero");
+        }
 
         public static double MinMax(double value, double min, double max)
         {
@@ -32,12 +37,6 @@ namespace ModernApplicationFramework.Docking
                 return max;
 
             return value;
-        }
-
-        public static void AssertIsPositiveOrZero(double value)
-        {
-            if (value < 0.0)
-                throw new ArgumentException("Invalid value, must be a positive number or equal to zero");
         }
     }
 }

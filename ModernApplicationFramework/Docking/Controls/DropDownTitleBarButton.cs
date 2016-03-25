@@ -9,15 +9,17 @@ using ModernApplicationFramework.Controls;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-	class DropDownTitleBarButton : DropDownButton, INonClientArea
-	{
-		static DropDownTitleBarButton()
-		{
-			DefaultStyleKeyProperty.OverrideMetadata(typeof(DropDownTitleBarButton), new FrameworkPropertyMetadata(typeof(DropDownTitleBarButton)));
-		}
-		public int HitTest(Point point)
-		{
-			return 1;
-		}
-	}
+    class DropDownTitleBarButton : DropDownButton, INonClientArea
+    {
+        static DropDownTitleBarButton()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof (DropDownTitleBarButton),
+                new FrameworkPropertyMetadata(typeof (DropDownTitleBarButton)));
+        }
+
+        public int HitTest(Point point)
+        {
+            return 1;
+        }
+    }
 }

@@ -18,19 +18,20 @@ using System.Windows;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-	public class OverlayWindowDropTarget : IOverlayWindowDropTarget
-	{
-		private readonly Rect _screenDetectionArea;
-		private readonly OverlayWindowDropTargetType _type;
+    public class OverlayWindowDropTarget : IOverlayWindowDropTarget
+    {
+        private readonly Rect _screenDetectionArea;
+        private readonly OverlayWindowDropTargetType _type;
 
-		internal OverlayWindowDropTarget(IOverlayWindowArea overlayArea, OverlayWindowDropTargetType targetType,
-			FrameworkElement element)
-		{
-			_type = targetType;
-			_screenDetectionArea = new Rect(element.TransformToDeviceDpi(new Point()), element.TransformActualSizeToAncestor());
-		}
+        internal OverlayWindowDropTarget(IOverlayWindowArea overlayArea, OverlayWindowDropTargetType targetType,
+            FrameworkElement element)
+        {
+            _type = targetType;
+            _screenDetectionArea = new Rect(element.TransformToDeviceDpi(new Point()),
+                element.TransformActualSizeToAncestor());
+        }
 
-		Rect IOverlayWindowDropTarget.ScreenDetectionArea => _screenDetectionArea;
-		OverlayWindowDropTargetType IOverlayWindowDropTarget.Type => _type;
-	}
+        Rect IOverlayWindowDropTarget.ScreenDetectionArea => _screenDetectionArea;
+        OverlayWindowDropTargetType IOverlayWindowDropTarget.Type => _type;
+    }
 }

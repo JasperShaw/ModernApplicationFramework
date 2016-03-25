@@ -24,123 +24,118 @@ using System.Xml.Serialization;
 
 namespace ModernApplicationFramework.Docking.Layout
 {
-	[Serializable]
-	[ContentProperty("RootPanel")]
-	public class LayoutAnchorableFloatingWindow : LayoutFloatingWindow, ILayoutElementWithVisibility
-	{
-		[NonSerialized] private bool _isVisible = true;
-		private LayoutAnchorablePaneGroup _rootPanel;
-		public event EventHandler IsVisibleChanged;
+    [Serializable]
+    [ContentProperty("RootPanel")]
+    public class LayoutAnchorableFloatingWindow : LayoutFloatingWindow, ILayoutElementWithVisibility
+    {
+        [NonSerialized] private bool _isVisible = true;
+        private LayoutAnchorablePaneGroup _rootPanel;
+        public event EventHandler IsVisibleChanged;
 
-		void ILayoutElementWithVisibility.ComputeVisibility()
-		{
-			IsVisible = RootPanel != null && RootPanel.IsVisible;
-		}
+        void ILayoutElementWithVisibility.ComputeVisibility()
+        {
+            IsVisible = RootPanel != null && RootPanel.IsVisible;
+        }
 
-		public override IEnumerable<ILayoutElement> Children
-		{
-			get
-			{
-				if (ChildrenCount == 1)
-					yield return RootPanel;
-			}
-		}
+        public override IEnumerable<ILayoutElement> Children
+        {
+            get
+            {
+                if (ChildrenCount == 1)
+                    yield return RootPanel;
+            }
+        }
 
-		public override int ChildrenCount => RootPanel == null ? 0 : 1;
+        public override int ChildrenCount => RootPanel == null ? 0 : 1;
 
-		public bool IsSinglePane
-		{
-			get
-			{
-				return RootPanel != null && RootPanel.Descendents().OfType<ILayoutAnchorablePane>().Count(p => p.IsVisible) == 1;
-			}
-		}
+        public bool IsSinglePane
+        {
+            get
+            {
+                return RootPanel != null &&
+                       RootPanel.Descendents().OfType<ILayoutAnchorablePane>().Count(p => p.IsVisible) == 1;
+            }
+        }
 
-		public override bool IsValid => RootPanel != null;
+        public override bool IsValid => RootPanel != null;
 
-		public ILayoutAnchorablePane SinglePane
-		{
-			get
-			{
-				if (!IsSinglePane)
-					return null;
+        public ILayoutAnchorablePane SinglePane
+        {
+            get
+            {
+                if (!IsSinglePane)
+                    return null;
 
-				var singlePane = RootPanel.Descendents().OfType<LayoutAnchorablePane>().Single(p => p.IsVisible);
-				singlePane.UpdateIsDirectlyHostedInFloatingWindow();
-				return singlePane;
-			}
-		}
+                var singlePane = RootPanel.Descendents().OfType<LayoutAnchorablePane>().Single(p => p.IsVisible);
+                singlePane.UpdateIsDirectlyHostedInFloatingWindow();
+                return singlePane;
+            }
+        }
 
-		[XmlIgnore]
-		public bool IsVisible
-		{
-			get { return _isVisible; }
-			private set
-			{
-				if (_isVisible == value)
-					return;
-				RaisePropertyChanging("IsVisible");
-				_isVisible = value;
-				RaisePropertyChanged("IsVisible");
-				IsVisibleChanged?.Invoke(this, EventArgs.Empty);
-			}
-		}
+        [XmlIgnore]
+        public bool IsVisible
+        {
+            get { return _isVisible; }
+            private set
+            {
+                if (_isVisible == value)
+                    return;
+                RaisePropertyChanging("IsVisible");
+                _isVisible = value;
+                RaisePropertyChanged("IsVisible");
+                IsVisibleChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
 
-		public LayoutAnchorablePaneGroup RootPanel
-		{
-			get { return _rootPanel; }
-			set
-			{
-				if (Equals(_rootPanel, value))
-					return;
-				RaisePropertyChanging("RootPanel");
+        public LayoutAnchorablePaneGroup RootPanel
+        {
+            get { return _rootPanel; }
+            set
+            {
+                if (Equals(_rootPanel, value))
+                    return;
+                RaisePropertyChanging("RootPanel");
 
-				if (_rootPanel != null)
-					_rootPanel.ChildrenTreeChanged -= _rootPanel_ChildrenTreeChanged;
+                if (_rootPanel != null)
+                    _rootPanel.ChildrenTreeChanged -= _rootPanel_ChildrenTreeChanged;
 
-				_rootPanel = value;
-				if (_rootPanel != null)
-					_rootPanel.Parent = this;
+                _rootPanel = value;
+                if (_rootPanel != null)
+                    _rootPanel.Parent = this;
 
-				if (_rootPanel != null)
-					_rootPanel.ChildrenTreeChanged += _rootPanel_ChildrenTreeChanged;
+                if (_rootPanel != null)
+                    _rootPanel.ChildrenTreeChanged += _rootPanel_ChildrenTreeChanged;
 
-				RaisePropertyChanged("RootPanel");
-				RaisePropertyChanged("IsSinglePane");
-				RaisePropertyChanged("SinglePane");
-				RaisePropertyChanged("Children");
-				RaisePropertyChanged("ChildrenCount");
-				((ILayoutElementWithVisibility) this).ComputeVisibility();
-			}
-		}
+                RaisePropertyChanged("RootPanel");
+                RaisePropertyChanged("IsSinglePane");
+                RaisePropertyChanged("SinglePane");
+                RaisePropertyChanged("Children");
+                RaisePropertyChanged("ChildrenCount");
+                ((ILayoutElementWithVisibility) this).ComputeVisibility();
+            }
+        }
 
 #if TRACE
-		public override void ConsoleDump(int tab)
-		{
-			Trace.Write(new string(' ', tab*4));
-			Trace.WriteLine("FloatingAnchorableWindow()");
+        public override void ConsoleDump(int tab)
+        {
+            Trace.Write(new string(' ', tab*4));
+            Trace.WriteLine("FloatingAnchorableWindow()");
 
-			RootPanel.ConsoleDump(tab + 1);
-		}
+            RootPanel.ConsoleDump(tab + 1);
+        }
 #endif
 
-		public override void RemoveChild(ILayoutElement element)
-		{
-			Debug.Assert(Equals(element, RootPanel) && element != null);
-			RootPanel = null;
-		}
+        public override void RemoveChild(ILayoutElement element)
+        {
+            Debug.Assert(Equals(element, RootPanel) && element != null);
+            RootPanel = null;
+        }
 
-		public override void ReplaceChild(ILayoutElement oldElement, ILayoutElement newElement)
-		{
-			Debug.Assert(Equals(oldElement, RootPanel) && oldElement != null);
-			RootPanel = newElement as LayoutAnchorablePaneGroup;
-		}
-
-		private void _rootPanel_ChildrenTreeChanged(object sender, ChildrenTreeChangedEventArgs e)
-		{
-			RaisePropertyChanged("IsSinglePane");
-			RaisePropertyChanged("SinglePane");
-		}
+        public override void ReplaceChild(ILayoutElement oldElement, ILayoutElement newElement)
+        {
+            Debug.Assert(Equals(oldElement, RootPanel) && oldElement != null);
+            RootPanel = newElement as LayoutAnchorablePaneGroup;
+        }
 
         protected virtual void XmlDeserializeElement(XmlReader xmlReader)
         {
@@ -152,5 +147,11 @@ namespace ModernApplicationFramework.Docking.Layout
             layoutAnchorablePaneGroup.XmlDeserialize(xmlReader);
             RootPanel = layoutAnchorablePaneGroup;
         }
-	}
+
+        private void _rootPanel_ChildrenTreeChanged(object sender, ChildrenTreeChangedEventArgs e)
+        {
+            RaisePropertyChanged("IsSinglePane");
+            RaisePropertyChanged("SinglePane");
+        }
+    }
 }

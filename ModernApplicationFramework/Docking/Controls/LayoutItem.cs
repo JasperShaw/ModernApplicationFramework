@@ -29,12 +29,115 @@ namespace ModernApplicationFramework.Docking.Controls
 {
     public abstract class LayoutItem : FrameworkElement
     {
+        public static readonly DependencyProperty TitleProperty =
+            DependencyProperty.Register("Title", typeof (string), typeof (LayoutItem),
+                new FrameworkPropertyMetadata(null,
+                    OnTitleChanged));
+
+        public static readonly DependencyProperty IconSourceProperty =
+            DependencyProperty.Register("IconSource", typeof (ImageSource), typeof (LayoutItem),
+                new FrameworkPropertyMetadata(null,
+                    OnIconSourceChanged));
+
+        public static readonly DependencyProperty ContentIdProperty =
+            DependencyProperty.Register("ContentId", typeof (string), typeof (LayoutItem),
+                new FrameworkPropertyMetadata(null,
+                    OnContentIdChanged));
+
+        public static readonly DependencyProperty IsSelectedProperty =
+            DependencyProperty.Register("IsSelected", typeof (bool), typeof (LayoutItem),
+                new FrameworkPropertyMetadata(false,
+                    OnIsSelectedChanged));
+
+        public static readonly DependencyProperty IsActiveProperty =
+            DependencyProperty.Register("IsActive", typeof (bool), typeof (LayoutItem),
+                new FrameworkPropertyMetadata(false,
+                    OnIsActiveChanged));
+
+        public static readonly DependencyProperty CanCloseProperty =
+            DependencyProperty.Register("CanClose", typeof (bool), typeof (LayoutItem),
+                new FrameworkPropertyMetadata(true,
+                    OnCanCloseChanged));
+
+        public static readonly DependencyProperty CanFloatProperty =
+            DependencyProperty.Register("CanFloat", typeof (bool), typeof (LayoutItem),
+                new FrameworkPropertyMetadata(true,
+                    OnCanFloatChanged));
+
+        public static readonly DependencyProperty CloseCommandProperty =
+            DependencyProperty.Register("CloseCommand", typeof (ICommand), typeof (LayoutItem),
+                new FrameworkPropertyMetadata(null,
+                    OnCloseCommandChanged,
+                    CoerceCloseCommandValue));
+
+        public static readonly DependencyProperty FloatCommandProperty =
+            DependencyProperty.Register("FloatCommand", typeof (ICommand), typeof (LayoutItem),
+                new FrameworkPropertyMetadata(null,
+                    OnFloatCommandChanged,
+                    CoerceFloatCommandValue));
+
+        public static readonly DependencyProperty DockAsDocumentCommandProperty =
+            DependencyProperty.Register("DockAsDocumentCommand", typeof (ICommand), typeof (LayoutItem),
+                new FrameworkPropertyMetadata(null,
+                    OnDockAsDocumentCommandChanged,
+                    CoerceDockAsDocumentCommandValue));
+
+        public static readonly DependencyProperty CloseAllButThisCommandProperty =
+            DependencyProperty.Register("CloseAllButThisCommand", typeof (ICommand), typeof (LayoutItem),
+                new FrameworkPropertyMetadata(null,
+                    OnCloseAllButThisCommandChanged,
+                    CoerceCloseAllButThisCommandValue));
+
+        public static readonly DependencyProperty ActivateCommandProperty =
+            DependencyProperty.Register("ActivateCommand", typeof (ICommand), typeof (LayoutItem),
+                new FrameworkPropertyMetadata(null,
+                    OnActivateCommandChanged,
+                    CoerceActivateCommandValue));
+
+        public static readonly DependencyProperty NewVerticalTabGroupCommandProperty =
+            DependencyProperty.Register("NewVerticalTabGroupCommand", typeof (ICommand), typeof (LayoutItem),
+                new FrameworkPropertyMetadata(null,
+                    OnNewVerticalTabGroupCommandChanged));
+
+        public static readonly DependencyProperty NewHorizontalTabGroupCommandProperty =
+            DependencyProperty.Register("NewHorizontalTabGroupCommand", typeof (ICommand), typeof (LayoutItem),
+                new FrameworkPropertyMetadata(null,
+                    OnNewHorizontalTabGroupCommandChanged));
+
+        public static readonly DependencyProperty MoveToNextTabGroupCommandProperty =
+            DependencyProperty.Register("MoveToNextTabGroupCommand", typeof (ICommand), typeof (LayoutItem),
+                new FrameworkPropertyMetadata(null, OnMoveToNextTabGroupCommandChanged));
+
+        public static readonly DependencyProperty MoveToPreviousTabGroupCommandProperty =
+            DependencyProperty.Register("MoveToPreviousTabGroupCommand", typeof (ICommand), typeof (LayoutItem),
+                new FrameworkPropertyMetadata(null,
+                    OnMoveToPreviousTabGroupCommandChanged));
+
+        public static readonly DependencyProperty AddCommandProperty =
+            DependencyProperty.Register("AddCommand", typeof (ICommand), typeof (LayoutItem),
+                new FrameworkPropertyMetadata(null,
+                    OnAddCommandChanged,
+                    CoerceAddCommandValue));
+
+
+        public static readonly DependencyProperty CloseAllCommandProperty =
+            DependencyProperty.Register("CloseAllCommand", typeof (ICommand), typeof (LayoutItem),
+                new FrameworkPropertyMetadata(null,
+                    OnCloseAllCommandChanged,
+                    CoerceCloseAllCommandValue));
+
+
+        public static readonly DependencyProperty IsFloatingProperty = DependencyProperty.Register("IsFloating",
+            typeof (bool), typeof (LayoutItem),
+            new UIPropertyMetadata(false));
+
+
         private readonly ReentrantFlag _isActiveReentrantFlag = new ReentrantFlag();
         private readonly ReentrantFlag _isSelectedReentrantFlag = new ReentrantFlag();
-        private ICommand _defaultAddCommand;
-        private ICommand _defaultCloseAllCommand;
         private ICommand _defaultActivateCommand;
+        private ICommand _defaultAddCommand;
         private ICommand _defaultCloseAllButThisCommand;
+        private ICommand _defaultCloseAllCommand;
         private ICommand _defaultCloseCommand;
         private ICommand _defaultDockAsDocumentCommand;
         private ICommand _defaultFloatCommand;
@@ -81,6 +184,12 @@ namespace ModernApplicationFramework.Docking.Controls
             set { SetValue(ActivateCommandProperty, value); }
         }
 
+        public ICommand AddCommand
+        {
+            get { return (ICommand) GetValue(AddCommandProperty); }
+            set { SetValue(AddCommandProperty, value); }
+        }
+
         public bool CanClose
         {
             get { return (bool) GetValue(CanCloseProperty); }
@@ -97,6 +206,12 @@ namespace ModernApplicationFramework.Docking.Controls
         {
             get { return (ICommand) GetValue(CloseAllButThisCommandProperty); }
             set { SetValue(CloseAllButThisCommandProperty, value); }
+        }
+
+        public ICommand CloseAllCommand
+        {
+            get { return (ICommand) GetValue(CloseAllCommandProperty); }
+            set { SetValue(CloseAllCommandProperty, value); }
         }
 
         public ICommand CloseCommand
@@ -133,6 +248,13 @@ namespace ModernApplicationFramework.Docking.Controls
         {
             get { return (bool) GetValue(IsActiveProperty); }
             set { SetValue(IsActiveProperty, value); }
+        }
+
+        public bool IsFloating
+        {
+            [ExcludeFromCodeCoverage] get { return (bool) GetValue(IsFloatingProperty); }
+
+            [ExcludeFromCodeCoverage] set { SetValue(IsFloatingProperty, value); }
         }
 
         public bool IsSelected
@@ -232,6 +354,10 @@ namespace ModernApplicationFramework.Docking.Controls
         {
         }
 
+        protected virtual void OnAddCommandChanged(DependencyPropertyChangedEventArgs e)
+        {
+        }
+
         protected virtual void OnCanCloseChanged(DependencyPropertyChangedEventArgs e)
         {
             if (LayoutElement != null)
@@ -245,6 +371,10 @@ namespace ModernApplicationFramework.Docking.Controls
         }
 
         protected virtual void OnCloseAllButThisCommandChanged(DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+        protected virtual void OnCloseAllCommandChanged(DependencyPropertyChangedEventArgs e)
         {
         }
 
@@ -393,7 +523,17 @@ namespace ModernApplicationFramework.Docking.Controls
             return value;
         }
 
+        private static object CoerceAddCommandValue(DependencyObject d, object value)
+        {
+            return value;
+        }
+
         private static object CoerceCloseAllButThisCommandValue(DependencyObject d, object value)
+        {
+            return value;
+        }
+
+        private static object CoerceCloseAllCommandValue(DependencyObject d, object value)
         {
             return value;
         }
@@ -418,6 +558,11 @@ namespace ModernApplicationFramework.Docking.Controls
             ((LayoutItem) d).OnActivateCommandChanged(e);
         }
 
+        private static void OnAddCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((LayoutItem) d).OnAddCommandChanged(e);
+        }
+
         private static void OnCanCloseChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((LayoutItem) d).OnCanCloseChanged(e);
@@ -431,6 +576,11 @@ namespace ModernApplicationFramework.Docking.Controls
         private static void OnCloseAllButThisCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((LayoutItem) d).OnCloseAllButThisCommandChanged(e);
+        }
+
+        private static void OnCloseAllCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((LayoutItem) d).OnCloseAllCommandChanged(e);
         }
 
         private static void OnCloseCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -510,6 +660,26 @@ namespace ModernApplicationFramework.Docking.Controls
             return LayoutElement != null;
         }
 
+        private bool CanExecuteAddCommand(object parameter)
+        {
+            var root = LayoutElement?.Root;
+            if (root == null)
+                return false;
+
+            if (!LayoutElement.Root.Manager.CanAdd)
+            {
+                return false;
+            }
+
+            return
+                LayoutElement.Root.Manager.Layout.Descendents()
+                    .OfType<LayoutContent>()
+                    .Any(
+                        d =>
+                            !Equals(d, LayoutElement) &&
+                            (d.Parent is LayoutDocumentPane || d.Parent is LayoutDocumentFloatingWindow));
+        }
+
         private bool CanExecuteCloseAllButThisCommand(object parameter)
         {
             var root = LayoutElement?.Root;
@@ -526,6 +696,21 @@ namespace ModernApplicationFramework.Docking.Controls
                     d =>
                         !Equals(d, LayoutElement) &&
                         (d.Parent is LayoutDocumentPane || d.Parent is LayoutDocumentFloatingWindow));
+        }
+
+        private bool CanExecuteCloseAllCommand()
+        {
+            var root = LayoutElement?.Root;
+            if (root == null)
+                return false;
+            if (!LayoutElement.Root.Manager.CanCloseAll)
+                return false;
+
+            return
+                LayoutElement.Root.Manager.Layout
+                    .Descendents()
+                    .OfType<LayoutContent>()
+                    .Any(d => d.Parent is LayoutDocumentPane || d.Parent is LayoutDocumentFloatingWindow);
         }
 
         private bool CanExecuteCloseCommand(object parameter)
@@ -611,9 +796,19 @@ namespace ModernApplicationFramework.Docking.Controls
             LayoutElement.Root.Manager._ExecuteContentActivateCommand(LayoutElement);
         }
 
+        private void ExecuteAddCommand(object parameter)
+        {
+            LayoutElement.Root.Manager._ExecuteAddCommand(LayoutElement);
+        }
+
         private void ExecuteCloseAllButThisCommand(object parameter)
         {
             LayoutElement.Root.Manager._ExecuteCloseAllButThisCommand(LayoutElement);
+        }
+
+        private void ExecuteCloseAllCommand()
+        {
+            LayoutElement.Root.Manager._ExecuteCloseAllCommand();
         }
 
         private void ExecuteCloseCommand(object parameter)
@@ -736,202 +931,5 @@ namespace ModernApplicationFramework.Docking.Controls
             if (LayoutElement != null)
                 LayoutElement.ToolTip = ToolTip;
         }
-
-        public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register("Title", typeof (string), typeof (LayoutItem),
-                new FrameworkPropertyMetadata(null,
-                    OnTitleChanged));
-
-        public static readonly DependencyProperty IconSourceProperty =
-            DependencyProperty.Register("IconSource", typeof (ImageSource), typeof (LayoutItem),
-                new FrameworkPropertyMetadata(null,
-                    OnIconSourceChanged));
-
-        public static readonly DependencyProperty ContentIdProperty =
-            DependencyProperty.Register("ContentId", typeof (string), typeof (LayoutItem),
-                new FrameworkPropertyMetadata(null,
-                    OnContentIdChanged));
-
-        public static readonly DependencyProperty IsSelectedProperty =
-            DependencyProperty.Register("IsSelected", typeof (bool), typeof (LayoutItem),
-                new FrameworkPropertyMetadata(false,
-                    OnIsSelectedChanged));
-
-        public static readonly DependencyProperty IsActiveProperty =
-            DependencyProperty.Register("IsActive", typeof (bool), typeof (LayoutItem),
-                new FrameworkPropertyMetadata(false,
-                    OnIsActiveChanged));
-
-        public static readonly DependencyProperty CanCloseProperty =
-            DependencyProperty.Register("CanClose", typeof (bool), typeof (LayoutItem),
-                new FrameworkPropertyMetadata(true,
-                    OnCanCloseChanged));
-
-        public static readonly DependencyProperty CanFloatProperty =
-            DependencyProperty.Register("CanFloat", typeof (bool), typeof (LayoutItem),
-                new FrameworkPropertyMetadata(true,
-                    OnCanFloatChanged));
-
-        public static readonly DependencyProperty CloseCommandProperty =
-            DependencyProperty.Register("CloseCommand", typeof (ICommand), typeof (LayoutItem),
-                new FrameworkPropertyMetadata(null,
-                    OnCloseCommandChanged,
-                    CoerceCloseCommandValue));
-
-        public static readonly DependencyProperty FloatCommandProperty =
-            DependencyProperty.Register("FloatCommand", typeof (ICommand), typeof (LayoutItem),
-                new FrameworkPropertyMetadata(null,
-                    OnFloatCommandChanged,
-                    CoerceFloatCommandValue));
-
-        public static readonly DependencyProperty DockAsDocumentCommandProperty =
-            DependencyProperty.Register("DockAsDocumentCommand", typeof (ICommand), typeof (LayoutItem),
-                new FrameworkPropertyMetadata(null,
-                    OnDockAsDocumentCommandChanged,
-                    CoerceDockAsDocumentCommandValue));
-
-        public static readonly DependencyProperty CloseAllButThisCommandProperty =
-            DependencyProperty.Register("CloseAllButThisCommand", typeof (ICommand), typeof (LayoutItem),
-                new FrameworkPropertyMetadata(null,
-                    OnCloseAllButThisCommandChanged,
-                    CoerceCloseAllButThisCommandValue));
-
-        public static readonly DependencyProperty ActivateCommandProperty =
-            DependencyProperty.Register("ActivateCommand", typeof (ICommand), typeof (LayoutItem),
-                new FrameworkPropertyMetadata(null,
-                    OnActivateCommandChanged,
-                    CoerceActivateCommandValue));
-
-        public static readonly DependencyProperty NewVerticalTabGroupCommandProperty =
-            DependencyProperty.Register("NewVerticalTabGroupCommand", typeof (ICommand), typeof (LayoutItem),
-                new FrameworkPropertyMetadata(null,
-                    OnNewVerticalTabGroupCommandChanged));
-
-        public static readonly DependencyProperty NewHorizontalTabGroupCommandProperty =
-            DependencyProperty.Register("NewHorizontalTabGroupCommand", typeof (ICommand), typeof (LayoutItem),
-                new FrameworkPropertyMetadata(null,
-                    OnNewHorizontalTabGroupCommandChanged));
-
-        public static readonly DependencyProperty MoveToNextTabGroupCommandProperty =
-            DependencyProperty.Register("MoveToNextTabGroupCommand", typeof (ICommand), typeof (LayoutItem),
-                new FrameworkPropertyMetadata(null, OnMoveToNextTabGroupCommandChanged));
-
-        public static readonly DependencyProperty MoveToPreviousTabGroupCommandProperty =
-            DependencyProperty.Register("MoveToPreviousTabGroupCommand", typeof (ICommand), typeof (LayoutItem),
-                new FrameworkPropertyMetadata(null,
-                    OnMoveToPreviousTabGroupCommandChanged));
-
-        public static readonly DependencyProperty AddCommandProperty =
-            DependencyProperty.Register("AddCommand", typeof (ICommand), typeof (LayoutItem),
-                new FrameworkPropertyMetadata(null,
-                    OnAddCommandChanged,
-                    CoerceAddCommandValue));
-
-        public ICommand AddCommand
-        {
-            get { return (ICommand) GetValue(AddCommandProperty); }
-            set { SetValue(AddCommandProperty, value); }
-        }
-
-        private static void OnAddCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((LayoutItem) d).OnAddCommandChanged(e);
-        }
-
-        protected virtual void OnAddCommandChanged(DependencyPropertyChangedEventArgs e)
-        {
-
-        }
-
-        private static object CoerceAddCommandValue(DependencyObject d, object value)
-        {
-            return value;
-        }
-
-        private bool CanExecuteAddCommand(object parameter)
-        {
-            var root = LayoutElement?.Root;
-            if (root == null)
-                return false;
-
-            if (!LayoutElement.Root.Manager.CanAdd)
-            {
-                return false;
-            }
-
-            return
-                LayoutElement.Root.Manager.Layout.Descendents()
-                    .OfType<LayoutContent>()
-                    .Any(
-                        d =>
-                            !Equals(d, LayoutElement) &&
-                            (d.Parent is LayoutDocumentPane || d.Parent is LayoutDocumentFloatingWindow));
-        }
-
-        private void ExecuteAddCommand(object parameter)
-        {
-            LayoutElement.Root.Manager._ExecuteAddCommand(LayoutElement);
-        }
-
-        public static readonly DependencyProperty CloseAllCommandProperty =
-            DependencyProperty.Register("CloseAllCommand", typeof (ICommand), typeof (LayoutItem),
-                new FrameworkPropertyMetadata(null,
-                    OnCloseAllCommandChanged,
-                    CoerceCloseAllCommandValue));
-
-        public ICommand CloseAllCommand
-        {
-            get { return (ICommand) GetValue(CloseAllCommandProperty); }
-            set { SetValue(CloseAllCommandProperty, value); }
-        }
-
-        private static void OnCloseAllCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((LayoutItem)d).OnCloseAllCommandChanged(e);
-        }
-
-        protected virtual void OnCloseAllCommandChanged(DependencyPropertyChangedEventArgs e)
-        {
-            
-        }
-
-        private static object CoerceCloseAllCommandValue(DependencyObject d, object value)
-        {
-            return value;
-        }
-
-        private bool CanExecuteCloseAllCommand()
-        {
-            var root = LayoutElement?.Root;
-            if (root == null)
-                return false;
-            if (!LayoutElement.Root.Manager.CanCloseAll)
-                return false;
-
-            return
-                LayoutElement.Root.Manager.Layout
-                    .Descendents()
-                    .OfType<LayoutContent>()
-                    .Any(d => d.Parent is LayoutDocumentPane || d.Parent is LayoutDocumentFloatingWindow);
-        }
-
-        private void ExecuteCloseAllCommand()
-        {
-            LayoutElement.Root.Manager._ExecuteCloseAllCommand();
-        }
-
-        public static readonly DependencyProperty IsFloatingProperty = DependencyProperty.Register("IsFloating",
-            typeof (bool), typeof (LayoutItem),
-            new UIPropertyMetadata(false));
-
-        public bool IsFloating
-        {
-            [ExcludeFromCodeCoverage]
-            get { return (bool) GetValue(IsFloatingProperty); }
-
-            [ExcludeFromCodeCoverage]
-            set { SetValue(IsFloatingProperty, value);}
-        }
-
     }
 }

@@ -19,66 +19,66 @@ using System.Collections.Generic;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-	internal class WeakDictionary<TK, TV> where TK : class
-	{
-		private readonly List<WeakReference> _keys = new List<WeakReference>();
-		private readonly List<TV> _values = new List<TV>();
+    internal class WeakDictionary<TK, TV> where TK : class
+    {
+        private readonly List<WeakReference> _keys = new List<WeakReference>();
+        private readonly List<TV> _values = new List<TV>();
 
-		public TV this[TK key]
-		{
-			get
-			{
-				TV valueToReturn;
-				if (!GetValue(key, out valueToReturn))
-					throw new ArgumentException();
-				return valueToReturn;
-			}
-			set { SetValue(key, value); }
-		}
+        public TV this[TK key]
+        {
+            get
+            {
+                TV valueToReturn;
+                if (!GetValue(key, out valueToReturn))
+                    throw new ArgumentException();
+                return valueToReturn;
+            }
+            set { SetValue(key, value); }
+        }
 
-		public bool ContainsKey(TK key)
-		{
-			CollectGarbage();
-			return -1 != _keys.FindIndex(k => k.GetValueOrDefault<TK>() == key);
-		}
+        public bool ContainsKey(TK key)
+        {
+            CollectGarbage();
+            return -1 != _keys.FindIndex(k => k.GetValueOrDefault<TK>() == key);
+        }
 
-		public bool GetValue(TK key, out TV value)
-		{
-			CollectGarbage();
-			int vIndex = _keys.FindIndex(k => k.GetValueOrDefault<TK>() == key);
-			value = default(TV);
-			if (vIndex == -1)
-				return false;
-			value = _values[vIndex];
-			return true;
-		}
+        public bool GetValue(TK key, out TV value)
+        {
+            CollectGarbage();
+            int vIndex = _keys.FindIndex(k => k.GetValueOrDefault<TK>() == key);
+            value = default(TV);
+            if (vIndex == -1)
+                return false;
+            value = _values[vIndex];
+            return true;
+        }
 
-		public void SetValue(TK key, TV value)
-		{
-			CollectGarbage();
-			int vIndex = _keys.FindIndex(k => k.GetValueOrDefault<TK>() == key);
-			if (vIndex > -1)
-				_values[vIndex] = value;
-			else
-			{
-				_values.Add(value);
-				_keys.Add(new WeakReference(key));
-			}
-		}
+        public void SetValue(TK key, TV value)
+        {
+            CollectGarbage();
+            int vIndex = _keys.FindIndex(k => k.GetValueOrDefault<TK>() == key);
+            if (vIndex > -1)
+                _values[vIndex] = value;
+            else
+            {
+                _values.Add(value);
+                _keys.Add(new WeakReference(key));
+            }
+        }
 
-		private void CollectGarbage()
-		{
-			int vIndex = 0;
+        private void CollectGarbage()
+        {
+            int vIndex = 0;
 
-			do
-			{
-				vIndex = _keys.FindIndex(vIndex, k => !k.IsAlive);
-				if (vIndex >= 0)
-				{
-					_keys.RemoveAt(vIndex);
-					_values.RemoveAt(vIndex);
-				}
-			} while (vIndex >= 0);
-		}
-	}
+            do
+            {
+                vIndex = _keys.FindIndex(vIndex, k => !k.IsAlive);
+                if (vIndex >= 0)
+                {
+                    _keys.RemoveAt(vIndex);
+                    _values.RemoveAt(vIndex);
+                }
+            } while (vIndex >= 0);
+        }
+    }
 }

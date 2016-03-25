@@ -22,76 +22,77 @@ using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-	public class LayoutAnchorControl : Control, ILayoutControl
-	{
-		private readonly LayoutAnchorable _model;
+    public class LayoutAnchorControl : Control, ILayoutControl
+    {
+        private static readonly DependencyPropertyKey SidePropertyKey
+            = DependencyProperty.RegisterReadOnly("Side", typeof (AnchorSide), typeof (LayoutAnchorControl),
+                new FrameworkPropertyMetadata(AnchorSide.Left));
 
-		internal LayoutAnchorControl(LayoutAnchorable model)
-		{
-			_model = model;
-			_model.IsActiveChanged += _model_IsActiveChanged;
-			_model.IsSelectedChanged += _model_IsSelectedChanged;
+        public static readonly DependencyProperty SideProperty
+            = SidePropertyKey.DependencyProperty;
 
-			SetSide(_model.FindParent<LayoutAnchorSide>().Side);
-		}
 
-		static LayoutAnchorControl()
-		{
-			DefaultStyleKeyProperty.OverrideMetadata(typeof (LayoutAnchorControl),
-				new FrameworkPropertyMetadata(typeof (LayoutAnchorControl)));
-			IsHitTestVisibleProperty.AddOwner(typeof (LayoutAnchorControl), new FrameworkPropertyMetadata(true));
-		}
+        private readonly LayoutAnchorable _model;
 
-		public ILayoutElement Model => _model;
-		public AnchorSide Side => (AnchorSide) GetValue(SideProperty);
+        internal LayoutAnchorControl(LayoutAnchorable model)
+        {
+            _model = model;
+            _model.IsActiveChanged += _model_IsActiveChanged;
+            _model.IsSelectedChanged += _model_IsSelectedChanged;
 
-		protected override void OnMouseDown(System.Windows.Input.MouseButtonEventArgs e)
-		{
-			base.OnMouseDown(e);
+            SetSide(_model.FindParent<LayoutAnchorSide>().Side);
+        }
 
-			if (e.Handled)
-				return;
-			if (_model.IsActive)
-			{
-				_model.Root.Manager.HideAutoHideWindow(this);
-				_model.IsActive = false;
-			}
-			else
-			{
-				_model.Root.Manager.ShowAutoHideWindow(this);
-				_model.IsActive = true;
-			}
-		}
+        static LayoutAnchorControl()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof (LayoutAnchorControl),
+                new FrameworkPropertyMetadata(typeof (LayoutAnchorControl)));
+            IsHitTestVisibleProperty.AddOwner(typeof (LayoutAnchorControl), new FrameworkPropertyMetadata(true));
+        }
 
-		protected void SetSide(AnchorSide value)
-		{
-			SetValue(SidePropertyKey, value);
-		}
+        public ILayoutElement Model => _model;
+        public AnchorSide Side => (AnchorSide) GetValue(SideProperty);
 
-		private void _model_IsActiveChanged(object sender, EventArgs e)
-		{
-			if (!_model.IsAutoHidden)
-				_model.IsActiveChanged -= _model_IsActiveChanged;
-			else if (_model.IsActive)
-				_model.Root.Manager.ShowAutoHideWindow(this);
-		}
+        protected override void OnMouseDown(System.Windows.Input.MouseButtonEventArgs e)
+        {
+            base.OnMouseDown(e);
 
-		private void _model_IsSelectedChanged(object sender, EventArgs e)
-		{
-			if (!_model.IsAutoHidden)
-				_model.IsSelectedChanged -= _model_IsSelectedChanged;
-			else if (_model.IsSelected)
-			{
-				_model.Root.Manager.ShowAutoHideWindow(this);
-				_model.IsSelected = false;
-			}
-		}
+            if (e.Handled)
+                return;
+            if (_model.IsActive)
+            {
+                _model.Root.Manager.HideAutoHideWindow(this);
+                _model.IsActive = false;
+            }
+            else
+            {
+                _model.Root.Manager.ShowAutoHideWindow(this);
+                _model.IsActive = true;
+            }
+        }
 
-		private static readonly DependencyPropertyKey SidePropertyKey
-			= DependencyProperty.RegisterReadOnly("Side", typeof (AnchorSide), typeof (LayoutAnchorControl),
-				new FrameworkPropertyMetadata(AnchorSide.Left));
+        protected void SetSide(AnchorSide value)
+        {
+            SetValue(SidePropertyKey, value);
+        }
 
-		public static readonly DependencyProperty SideProperty
-			= SidePropertyKey.DependencyProperty;
-	}
+        private void _model_IsActiveChanged(object sender, EventArgs e)
+        {
+            if (!_model.IsAutoHidden)
+                _model.IsActiveChanged -= _model_IsActiveChanged;
+            else if (_model.IsActive)
+                _model.Root.Manager.ShowAutoHideWindow(this);
+        }
+
+        private void _model_IsSelectedChanged(object sender, EventArgs e)
+        {
+            if (!_model.IsAutoHidden)
+                _model.IsSelectedChanged -= _model_IsSelectedChanged;
+            else if (_model.IsSelected)
+            {
+                _model.Root.Manager.ShowAutoHideWindow(this);
+                _model.IsSelected = false;
+            }
+        }
+    }
 }

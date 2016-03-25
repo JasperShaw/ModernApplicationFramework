@@ -23,55 +23,50 @@ namespace ModernApplicationFramework.Docking.Layout
 {
     public static class Extensions
     {
+        public static bool ContainsChildOfType<T>(this ILayoutContainer element)
+        {
+            return element.Descendents().OfType<T>().Any();
+        }
+
+        public static bool ContainsChildOfType<T, TS>(this ILayoutContainer container)
+        {
+            return container.Descendents().Any(childElement => childElement is T || childElement is TS);
+        }
+
         public static IEnumerable<ILayoutElement> Descendents(this ILayoutElement element)
         {
             var container = element as ILayoutContainer;
-	        if (container == null)
-				yield break;
-	        foreach (var childElement in container.Children)
-	        {
-		        yield return childElement;
-		        foreach (var childChildElement in childElement.Descendents())
-			        yield return childChildElement;
-	        }
+            if (container == null)
+                yield break;
+            foreach (var childElement in container.Children)
+            {
+                yield return childElement;
+                foreach (var childChildElement in childElement.Descendents())
+                    yield return childChildElement;
+            }
         }
 
         public static T FindParent<T>(this ILayoutElement element) //where T : ILayoutContainer
-        { 
+        {
             var parent = element.Parent;
             while (parent != null &&
-                !(parent is T))
+                   !(parent is T))
                 parent = parent.Parent;
-            return (T)parent;
+            return (T) parent;
         }
 
         public static ILayoutRoot GetRoot(this ILayoutElement element) //where T : ILayoutContainer
         {
-	        var root = element as ILayoutRoot;
-	        if (root != null)
+            var root = element as ILayoutRoot;
+            if (root != null)
                 return root;
 
             var parent = element.Parent;
             while (parent != null &&
-                !(parent is ILayoutRoot))
+                   !(parent is ILayoutRoot))
                 parent = parent.Parent;
 
-            return (ILayoutRoot)parent;
-        }
-
-        public static bool ContainsChildOfType<T>(this ILayoutContainer element)
-        {
-	        return element.Descendents().OfType<T>().Any();
-        }
-
-	    public static bool ContainsChildOfType<T, TS>(this ILayoutContainer container)
-	    {
-		    return container.Descendents().Any(childElement => childElement is T || childElement is TS);
-	    }
-
-	    public static bool IsOfType<T, TS>(this ILayoutContainer container)
-        {
-            return container is T || container is TS;
+            return (ILayoutRoot) parent;
         }
 
         public static AnchorSide GetSide(this ILayoutElement element)
@@ -86,16 +81,18 @@ namespace ModernApplicationFramework.Docking.Layout
                 {
                     if (childElement == element ||
                         childElement.Descendents().Contains(element))
-                        return parentContainer.Orientation == System.Windows.Controls.Orientation.Horizontal ?
-                            AnchorSide.Left : AnchorSide.Top;
+                        return parentContainer.Orientation == System.Windows.Controls.Orientation.Horizontal
+                            ? AnchorSide.Left
+                            : AnchorSide.Top;
 
                     var childElementAsContainer = childElement as ILayoutContainer;
                     if (childElementAsContainer != null &&
                         (childElementAsContainer.IsOfType<LayoutDocumentPane, LayoutDocumentPaneGroup>() ||
-                        childElementAsContainer.ContainsChildOfType<LayoutDocumentPane, LayoutDocumentPaneGroup>()))
+                         childElementAsContainer.ContainsChildOfType<LayoutDocumentPane, LayoutDocumentPaneGroup>()))
                     {
-                        return parentContainer.Orientation == System.Windows.Controls.Orientation.Horizontal ?
-                           AnchorSide.Right : AnchorSide.Bottom;
+                        return parentContainer.Orientation == System.Windows.Controls.Orientation.Horizontal
+                            ? AnchorSide.Right
+                            : AnchorSide.Bottom;
                     }
                 }
             }
@@ -104,16 +101,21 @@ namespace ModernApplicationFramework.Docking.Layout
             return AnchorSide.Right;
         }
 
+        public static bool IsOfType<T, TS>(this ILayoutContainer container)
+        {
+            return container is T || container is TS;
+        }
+
 
         internal static void KeepInsideNearestMonitor(this ILayoutElementForFloatingWindow paneInsideFloatingWindow)
         {
-	        Win32Helper.RECT r = new Win32Helper.RECT
-	        {
-		        Left = (int) paneInsideFloatingWindow.FloatingLeft,
-		        Top = (int) paneInsideFloatingWindow.FloatingTop
-	        };
-	        r.Bottom = r.Top + (int)paneInsideFloatingWindow.FloatingHeight;
-            r.Right = r.Left + (int)paneInsideFloatingWindow.FloatingWidth;
+            Win32Helper.RECT r = new Win32Helper.RECT
+            {
+                Left = (int) paneInsideFloatingWindow.FloatingLeft,
+                Top = (int) paneInsideFloatingWindow.FloatingTop
+            };
+            r.Bottom = r.Top + (int) paneInsideFloatingWindow.FloatingHeight;
+            r.Right = r.Left + (int) paneInsideFloatingWindow.FloatingWidth;
 
             const uint monitorDefaulttonearest = 0x00000002;
             const uint monitorDefaulttonull = 0x00000000;
@@ -133,9 +135,11 @@ namespace ModernApplicationFramework.Docking.Layout
                         paneInsideFloatingWindow.FloatingLeft = monitorInfo.Work.Left + 10;
                     }
 
-                    if (paneInsideFloatingWindow.FloatingLeft + paneInsideFloatingWindow.FloatingWidth > monitorInfo.Work.Right)
+                    if (paneInsideFloatingWindow.FloatingLeft + paneInsideFloatingWindow.FloatingWidth >
+                        monitorInfo.Work.Right)
                     {
-                        paneInsideFloatingWindow.FloatingLeft = monitorInfo.Work.Right - (paneInsideFloatingWindow.FloatingWidth + 10);
+                        paneInsideFloatingWindow.FloatingLeft = monitorInfo.Work.Right -
+                                                                (paneInsideFloatingWindow.FloatingWidth + 10);
                     }
 
                     if (paneInsideFloatingWindow.FloatingTop < monitorInfo.Work.Top)
@@ -143,14 +147,14 @@ namespace ModernApplicationFramework.Docking.Layout
                         paneInsideFloatingWindow.FloatingTop = monitorInfo.Work.Top + 10;
                     }
 
-                    if (paneInsideFloatingWindow.FloatingTop + paneInsideFloatingWindow.FloatingHeight > monitorInfo.Work.Bottom)
+                    if (paneInsideFloatingWindow.FloatingTop + paneInsideFloatingWindow.FloatingHeight >
+                        monitorInfo.Work.Bottom)
                     {
-                        paneInsideFloatingWindow.FloatingTop = monitorInfo.Work.Bottom - (paneInsideFloatingWindow.FloatingHeight + 10);
+                        paneInsideFloatingWindow.FloatingTop = monitorInfo.Work.Bottom -
+                                                               (paneInsideFloatingWindow.FloatingHeight + 10);
                     }
                 }
             }
-
         }
-
     }
 }

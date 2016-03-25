@@ -20,20 +20,20 @@ namespace ModernApplicationFramework.Docking.Layout
 {
     public interface ILayoutRoot
     {
+        LayoutAnchorSide BottomSide { get; }
+
+        ObservableCollection<LayoutFloatingWindow> FloatingWindows { get; }
+        ObservableCollection<LayoutAnchorable> Hidden { get; }
+        LayoutAnchorSide LeftSide { get; }
         DockingManager Manager { get; }
+        LayoutAnchorSide RightSide { get; }
 
         LayoutPanel RootPanel { get; }
 
         LayoutAnchorSide TopSide { get; }
-        LayoutAnchorSide LeftSide { get; }
-        LayoutAnchorSide RightSide { get; }
-        LayoutAnchorSide BottomSide { get; }
 
         LayoutContent ActiveContent { get; set; }
 
         void CollectGarbage();
-
-        ObservableCollection<LayoutFloatingWindow> FloatingWindows { get; }
-        ObservableCollection<LayoutAnchorable> Hidden { get; }
     }
 }

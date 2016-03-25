@@ -22,126 +22,126 @@ using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-	public class LayoutAnchorableTabItem : Control
-	{
-		private bool _isMouseDown;
+    public class LayoutAnchorableTabItem : Control
+    {
+        public static readonly DependencyProperty ModelProperty =
+            DependencyProperty.Register("Model", typeof (LayoutContent), typeof (LayoutAnchorableTabItem),
+                new FrameworkPropertyMetadata(null, OnModelChanged));
 
-		static LayoutAnchorableTabItem()
-		{
-			DefaultStyleKeyProperty.OverrideMetadata(typeof (LayoutAnchorableTabItem),
-				new FrameworkPropertyMetadata(typeof (LayoutAnchorableTabItem)));
-		}
+        private static readonly DependencyPropertyKey LayoutItemPropertyKey
+            = DependencyProperty.RegisterReadOnly("LayoutItem", typeof (LayoutItem), typeof (LayoutAnchorableTabItem),
+                new FrameworkPropertyMetadata((LayoutItem) null));
 
-		public LayoutItem LayoutItem => (LayoutItem) GetValue(LayoutItemProperty);
+        public static readonly DependencyProperty LayoutItemProperty
+            = LayoutItemPropertyKey.DependencyProperty;
 
-		public LayoutContent Model
-		{
-			get { return (LayoutContent) GetValue(ModelProperty); }
-			set { SetValue(ModelProperty, value); }
-		}
 
-		protected virtual void OnModelChanged(DependencyPropertyChangedEventArgs e)
-		{
-			SetLayoutItem(Model?.Root.Manager.GetLayoutItemFromModel(Model));
+        private static LayoutAnchorableTabItem _draggingItem;
+        private bool _isMouseDown;
+
+        static LayoutAnchorableTabItem()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof (LayoutAnchorableTabItem),
+                new FrameworkPropertyMetadata(typeof (LayoutAnchorableTabItem)));
         }
 
-	    protected override void OnPreviewDragEnter(DragEventArgs e)
-	    {
-	        Model.IsActive = true;
-	        base.OnPreviewDragEnter(e);
-	    }
+        public LayoutItem LayoutItem => (LayoutItem) GetValue(LayoutItemProperty);
 
-	    protected override void OnMouseEnter(MouseEventArgs e)
-		{
-			base.OnMouseEnter(e);
+        public LayoutContent Model
+        {
+            get { return (LayoutContent) GetValue(ModelProperty); }
+            set { SetValue(ModelProperty, value); }
+        }
 
-			if (_draggingItem == null || Equals(_draggingItem, this) || e.LeftButton != MouseButtonState.Pressed)
-				return;
-			//Trace.WriteLine("Dragging item from {0} to {1}", _draggingItem, this);
+        protected virtual void OnModelChanged(DependencyPropertyChangedEventArgs e)
+        {
+            SetLayoutItem(Model?.Root.Manager.GetLayoutItemFromModel(Model));
+        }
 
-			var model = Model;
-			var container = model.Parent;
-			var containerPane = model.Parent as ILayoutPane;
-			var childrenList = container.Children.ToList();
-			containerPane?.MoveChild(childrenList.IndexOf(_draggingItem.Model), childrenList.IndexOf(model));
-		}
+        protected override void OnMouseEnter(MouseEventArgs e)
+        {
+            base.OnMouseEnter(e);
 
-		protected override void OnMouseLeave(MouseEventArgs e)
-		{
-			base.OnMouseLeave(e);
+            if (_draggingItem == null || Equals(_draggingItem, this) || e.LeftButton != MouseButtonState.Pressed)
+                return;
+            //Trace.WriteLine("Dragging item from {0} to {1}", _draggingItem, this);
 
-			if (_isMouseDown && e.LeftButton == MouseButtonState.Pressed)
-			{
-				_draggingItem = this;
-			}
+            var model = Model;
+            var container = model.Parent;
+            var containerPane = model.Parent as ILayoutPane;
+            var childrenList = container.Children.ToList();
+            containerPane?.MoveChild(childrenList.IndexOf(_draggingItem.Model), childrenList.IndexOf(model));
+        }
 
-			_isMouseDown = false;
-		}
+        protected override void OnMouseLeave(MouseEventArgs e)
+        {
+            base.OnMouseLeave(e);
 
-		protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
-		{
-			base.OnMouseLeftButtonDown(e);
+            if (_isMouseDown && e.LeftButton == MouseButtonState.Pressed)
+            {
+                _draggingItem = this;
+            }
 
-			_isMouseDown = true;
-			_draggingItem = this;
-		}
+            _isMouseDown = false;
+        }
 
-		protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
-		{
-			_isMouseDown = false;
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
 
-			base.OnMouseLeftButtonUp(e);
+            _isMouseDown = true;
+            _draggingItem = this;
+        }
 
-			Model.IsActive = true;
-		}
+        protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
+        {
+            _isMouseDown = false;
 
-		protected override void OnMouseMove(MouseEventArgs e)
-		{
-			base.OnMouseMove(e);
+            base.OnMouseLeftButtonUp(e);
 
-			if (e.LeftButton != MouseButtonState.Pressed)
-			{
-				_isMouseDown = false;
-				_draggingItem = null;
-			}
-		}
+            Model.IsActive = true;
+        }
 
-		protected void SetLayoutItem(LayoutItem value)
-		{
-			SetValue(LayoutItemPropertyKey, value);
-		}
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
 
-		internal static LayoutAnchorableTabItem GetDraggingItem()
-		{
-			return _draggingItem;
-		}
+            if (e.LeftButton != MouseButtonState.Pressed)
+            {
+                _isMouseDown = false;
+                _draggingItem = null;
+            }
+        }
 
-		internal static bool IsDraggingItem()
-		{
-			return _draggingItem != null;
-		}
+        protected override void OnPreviewDragEnter(DragEventArgs e)
+        {
+            Model.IsActive = true;
+            base.OnPreviewDragEnter(e);
+        }
 
-		internal static void ResetDraggingItem()
-		{
-			_draggingItem = null;
-		}
+        protected void SetLayoutItem(LayoutItem value)
+        {
+            SetValue(LayoutItemPropertyKey, value);
+        }
 
-		private static void OnModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		{
-			((LayoutAnchorableTabItem) d).OnModelChanged(e);
-		}
+        internal static LayoutAnchorableTabItem GetDraggingItem()
+        {
+            return _draggingItem;
+        }
 
-		public static readonly DependencyProperty ModelProperty =
-			DependencyProperty.Register("Model", typeof (LayoutContent), typeof (LayoutAnchorableTabItem),
-				new FrameworkPropertyMetadata(null, OnModelChanged));
+        internal static bool IsDraggingItem()
+        {
+            return _draggingItem != null;
+        }
 
-		private static readonly DependencyPropertyKey LayoutItemPropertyKey
-			= DependencyProperty.RegisterReadOnly("LayoutItem", typeof (LayoutItem), typeof (LayoutAnchorableTabItem),
-				new FrameworkPropertyMetadata((LayoutItem) null));
+        internal static void ResetDraggingItem()
+        {
+            _draggingItem = null;
+        }
 
-		public static readonly DependencyProperty LayoutItemProperty
-			= LayoutItemPropertyKey.DependencyProperty;
-
-		private static LayoutAnchorableTabItem _draggingItem;
-	}
+        private static void OnModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((LayoutAnchorableTabItem) d).OnModelChanged(e);
+        }
+    }
 }

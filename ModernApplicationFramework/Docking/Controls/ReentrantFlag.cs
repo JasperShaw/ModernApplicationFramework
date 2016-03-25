@@ -18,32 +18,32 @@ using System;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-	internal class ReentrantFlag
-	{
-		private bool _flag;
-		public bool CanEnter => !_flag;
+    internal class ReentrantFlag
+    {
+        private bool _flag;
+        public bool CanEnter => !_flag;
 
-		public _ReentrantFlagHandler Enter()
-		{
-			if (_flag)
-				throw new InvalidOperationException();
-			return new _ReentrantFlagHandler(this);
-		}
+        public _ReentrantFlagHandler Enter()
+        {
+            if (_flag)
+                throw new InvalidOperationException();
+            return new _ReentrantFlagHandler(this);
+        }
 
-		public class _ReentrantFlagHandler : IDisposable
-		{
-			private readonly ReentrantFlag _owner;
+        public class _ReentrantFlagHandler : IDisposable
+        {
+            private readonly ReentrantFlag _owner;
 
-			public _ReentrantFlagHandler(ReentrantFlag owner)
-			{
-				_owner = owner;
-				_owner._flag = true;
-			}
+            public _ReentrantFlagHandler(ReentrantFlag owner)
+            {
+                _owner = owner;
+                _owner._flag = true;
+            }
 
-			public void Dispose()
-			{
-				_owner._flag = false;
-			}
-		}
-	}
+            public void Dispose()
+            {
+                _owner._flag = false;
+            }
+        }
+    }
 }

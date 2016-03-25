@@ -21,11 +21,11 @@ using System.Windows.Data;
 
 namespace ModernApplicationFramework.Docking.Converters
 {
-    [ValueConversion(typeof(bool), typeof(Visibility))] 
-    public class BoolToVisibilityConverter : IValueConverter 
-    { 
-
+    [ValueConversion(typeof (bool), typeof (Visibility))]
+    public class BoolToVisibilityConverter : IValueConverter
+    {
         #region IValueConverter Members 
+
         /// <summary> 
         /// Converts a value. 
         /// </summary> 
@@ -38,21 +38,21 @@ namespace ModernApplicationFramework.Docking.Converters
         /// </returns> 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is bool && targetType == typeof(Visibility))
+            if (value is bool && targetType == typeof (Visibility))
             {
-                var val = (bool)value;
+                var val = (bool) value;
                 if (val)
                     return Visibility.Visible;
-	            if (parameter is Visibility)
-		            return parameter;
-	            return Visibility.Collapsed;
+                if (parameter is Visibility)
+                    return parameter;
+                return Visibility.Collapsed;
             }
-	        if (value != null) return Visibility.Visible;
-	        if (parameter is Visibility)
-		        return parameter;
-	        return Visibility.Collapsed;
+            if (value != null) return Visibility.Visible;
+            if (parameter is Visibility)
+                return parameter;
+            return Visibility.Collapsed;
 
-	        ///throw new ArgumentException("Invalid argument/return type. Expected argument: bool and return type: Visibility");
+            ///throw new ArgumentException("Invalid argument/return type. Expected argument: bool and return type: Visibility");
         }
 
         /// <summary> 
@@ -65,17 +65,18 @@ namespace ModernApplicationFramework.Docking.Converters
         /// <returns> 
         /// A converted value. If the method returns null, the valid null value is used. 
         /// </returns> 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) 
+        public object ConvertBack(object value, Type targetType, object parameter,
+            System.Globalization.CultureInfo culture)
         {
             if (value is Visibility && targetType == typeof (bool))
             {
-                var val = (Visibility)value;
+                var val = (Visibility) value;
                 return val == Visibility.Visible;
             }
-            throw new ArgumentException("Invalid argument/return type. Expected argument: Visibility and return type: bool");
-        } 
-        #endregion 
-    } 
+            throw new ArgumentException(
+                "Invalid argument/return type. Expected argument: Visibility and return type: bool");
+        }
 
-
+        #endregion
+    }
 }

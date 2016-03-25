@@ -21,14 +21,13 @@ namespace ModernApplicationFramework.Docking.Controls
 {
     internal interface IOverlayWindowHost
     {
-        bool HitTest(Point dragPoint);
-
-        IOverlayWindow ShowOverlayWindow(LayoutFloatingWindowControl draggingWindow);
-
-        void HideOverlayWindow();
+        DockingManager Manager { get; }
 
         IEnumerable<IDropArea> GetDropAreas(LayoutFloatingWindowControl draggingWindow);
 
-        DockingManager Manager { get; }
+        void HideOverlayWindow();
+        bool HitTest(Point dragPoint);
+
+        IOverlayWindow ShowOverlayWindow(LayoutFloatingWindowControl draggingWindow);
     }
 }

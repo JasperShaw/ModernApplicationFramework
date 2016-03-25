@@ -18,17 +18,17 @@ using System.Windows;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-	public class AnchorablePaneControlOverlayArea : OverlayArea
-	{
-		internal AnchorablePaneControlOverlayArea(
-			IOverlayWindow overlayWindow,
-			LayoutAnchorablePaneControl anchorablePaneControl)
-			: base(overlayWindow)
-		{
-			var anchorablePaneControl1 = anchorablePaneControl;
-			SetScreenDetectionArea(new Rect(
-				anchorablePaneControl1.PointToScreenDpi(new Point()),
-				anchorablePaneControl1.TransformActualSizeToAncestor()));
-		}
-	}
+    public class AnchorablePaneControlOverlayArea : OverlayArea
+    {
+        internal AnchorablePaneControlOverlayArea(
+            IOverlayWindow overlayWindow,
+            LayoutAnchorablePaneControl anchorablePaneControl)
+            : base(overlayWindow)
+        {
+            var anchorablePaneControl1 = anchorablePaneControl;
+            SetScreenDetectionArea(new Rect(
+                anchorablePaneControl1.PointToScreenDpi(new Point()),
+                anchorablePaneControl1.TransformActualSizeToAncestor()));
+        }
+    }
 }

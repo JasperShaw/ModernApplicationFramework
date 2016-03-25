@@ -23,66 +23,67 @@ using System.Xml.Serialization;
 namespace ModernApplicationFramework.Docking.Layout
 {
     [Serializable]
-    [XmlInclude(typeof(LayoutAnchorableFloatingWindow))]
-    [XmlInclude(typeof(LayoutDocumentFloatingWindow))]
+    [XmlInclude(typeof (LayoutAnchorableFloatingWindow))]
+    [XmlInclude(typeof (LayoutDocumentFloatingWindow))]
     public abstract class LayoutFloatingWindow : LayoutElement, ILayoutContainer
     {
-	    public abstract IEnumerable<ILayoutElement> Children { get; }
+        public abstract IEnumerable<ILayoutElement> Children { get; }
+
+        public abstract int ChildrenCount { get; }
 
         public abstract void RemoveChild(ILayoutElement element);
 
         public abstract void ReplaceChild(ILayoutElement oldElement, ILayoutElement newElement);
 
-        public abstract int ChildrenCount { get; }
-
         public abstract bool IsValid { get; }
 
         protected virtual void SetXmlAttributeValue(string name, string valueString)
-		{
-			switch (name)
-			{
-				case "Title":
-					//Title = valueString;
-					break;
-				
-			}
-		}
+        {
+            switch (name)
+            {
+                case "Title":
+                    //Title = valueString;
+                    break;
+            }
+        }
 
-		protected virtual void XmlDeserializeElement(XmlReader xmlReader)
-		{
-		}
- 
-		internal void XmlDeserialize(XmlReader xmlReader)
-		{
-			bool isEmptyElement = xmlReader.IsEmptyElement;
-			if (xmlReader.HasAttributes)
-			{
-				xmlReader.MoveToElement();
-				while (xmlReader.MoveToNextAttribute())
-				{
-					string name = xmlReader.Name;
-					string valueString = xmlReader.Value;
+        protected virtual void XmlDeserializeElement(XmlReader xmlReader)
+        {
+        }
 
-					MethodInfo methodInfo = GetType().GetMethod("SetXmlAttributeValue", BindingFlags.Instance | BindingFlags.NonPublic);
-					methodInfo.Invoke(this, new object[] { name, valueString });
-				}
-			}
+        internal void XmlDeserialize(XmlReader xmlReader)
+        {
+            bool isEmptyElement = xmlReader.IsEmptyElement;
+            if (xmlReader.HasAttributes)
+            {
+                xmlReader.MoveToElement();
+                while (xmlReader.MoveToNextAttribute())
+                {
+                    string name = xmlReader.Name;
+                    string valueString = xmlReader.Value;
 
-			if (!isEmptyElement)
-			{
-				while (xmlReader.Read())
-				{
-					if (xmlReader.NodeType == XmlNodeType.Element)
-					{
-						MethodInfo methodInfo = GetType().GetMethod("XmlDeserializeElement", BindingFlags.Instance | BindingFlags.NonPublic);
-						methodInfo.Invoke(this, new object[] { xmlReader });
-					}
-					else if (xmlReader.NodeType == XmlNodeType.EndElement && xmlReader.Name == "LayoutFloatingWindow")
-					{
-						break;
-					}
-				}
-			}
-		}
+                    MethodInfo methodInfo = GetType()
+                        .GetMethod("SetXmlAttributeValue", BindingFlags.Instance | BindingFlags.NonPublic);
+                    methodInfo.Invoke(this, new object[] {name, valueString});
+                }
+            }
+
+            if (!isEmptyElement)
+            {
+                while (xmlReader.Read())
+                {
+                    if (xmlReader.NodeType == XmlNodeType.Element)
+                    {
+                        MethodInfo methodInfo = GetType()
+                            .GetMethod("XmlDeserializeElement", BindingFlags.Instance | BindingFlags.NonPublic);
+                        methodInfo.Invoke(this, new object[] {xmlReader});
+                    }
+                    else if (xmlReader.NodeType == XmlNodeType.EndElement && xmlReader.Name == "LayoutFloatingWindow")
+                    {
+                        break;
+                    }
+                }
+            }
+        }
     }
 }

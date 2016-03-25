@@ -43,6 +43,7 @@ namespace ModernApplicationFramework.Docking.Commands
             _execute = execute;
             _canExecute = canExecute;
         }
+
         #endregion // Constructors
 
         #region ICommand Members

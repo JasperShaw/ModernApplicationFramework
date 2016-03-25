@@ -20,79 +20,79 @@ using System.Xml.Serialization;
 
 namespace ModernApplicationFramework.Docking.Layout
 {
-	[ContentProperty("Children")]
-	[Serializable]
-	public class LayoutAnchorGroup : LayoutGroup<LayoutAnchorable>, ILayoutPreviousContainer, ILayoutPaneSerializable
-	{
-		private string _id;
-		[field: NonSerialized] private ILayoutContainer _previousContainer;
+    [ContentProperty("Children")]
+    [Serializable]
+    public class LayoutAnchorGroup : LayoutGroup<LayoutAnchorable>, ILayoutPreviousContainer, ILayoutPaneSerializable
+    {
+        private string _id;
+        [field: NonSerialized] private ILayoutContainer _previousContainer;
 
-		string ILayoutPaneSerializable.Id
-		{
-			get { return _id; }
-			set { _id = value; }
-		}
+        string ILayoutPaneSerializable.Id
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
 
-		[XmlIgnore]
-		ILayoutContainer ILayoutPreviousContainer.PreviousContainer
-		{
-			get { return _previousContainer; }
-			set
-			{
-				if (_previousContainer == value)
-					return;
-				_previousContainer = value;
-				RaisePropertyChanged("PreviousContainer");
-				var paneSerializable = _previousContainer as ILayoutPaneSerializable;
-				if (paneSerializable != null &&
-				    paneSerializable.Id == null)
-					paneSerializable.Id = Guid.NewGuid().ToString();
-			}
-		}
+        [XmlIgnore]
+        ILayoutContainer ILayoutPreviousContainer.PreviousContainer
+        {
+            get { return _previousContainer; }
+            set
+            {
+                if (_previousContainer == value)
+                    return;
+                _previousContainer = value;
+                RaisePropertyChanged("PreviousContainer");
+                var paneSerializable = _previousContainer as ILayoutPaneSerializable;
+                if (paneSerializable != null &&
+                    paneSerializable.Id == null)
+                    paneSerializable.Id = Guid.NewGuid().ToString();
+            }
+        }
 
-		string ILayoutPreviousContainer.PreviousContainerId { get; set; }
+        string ILayoutPreviousContainer.PreviousContainerId { get; set; }
 
-		public override void ReadXml(System.Xml.XmlReader reader)
-		{
-			if (reader.MoveToAttribute("Id"))
-				_id = reader.Value;
-			if (reader.MoveToAttribute("PreviousContainerId"))
-				((ILayoutPreviousContainer) this).PreviousContainerId = reader.Value;
-			base.ReadXml(reader);
-		}
+        public override void ReadXml(System.Xml.XmlReader reader)
+        {
+            if (reader.MoveToAttribute("Id"))
+                _id = reader.Value;
+            if (reader.MoveToAttribute("PreviousContainerId"))
+                ((ILayoutPreviousContainer) this).PreviousContainerId = reader.Value;
+            base.ReadXml(reader);
+        }
 
-		public override void WriteXml(System.Xml.XmlWriter writer)
-		{
-			if (_id != null)
-				writer.WriteAttributeString("Id", _id);
-			var paneSerializable = _previousContainer as ILayoutPaneSerializable;
-			if (paneSerializable != null)
-			{
-				writer.WriteAttributeString("PreviousContainerId", paneSerializable.Id);
-			}
+        public override void WriteXml(System.Xml.XmlWriter writer)
+        {
+            if (_id != null)
+                writer.WriteAttributeString("Id", _id);
+            var paneSerializable = _previousContainer as ILayoutPaneSerializable;
+            if (paneSerializable != null)
+            {
+                writer.WriteAttributeString("PreviousContainerId", paneSerializable.Id);
+            }
 
-			base.WriteXml(writer);
-		}
+            base.WriteXml(writer);
+        }
 
-	    protected override void SetXmlAttributeValue(string name, string valueString)
-	    {
-	        switch (name)
-	        {
-	            case "Id":
-	                _id = valueString;
-	                break;
-	            case "PreviousContainerId":
-	                ((ILayoutPreviousContainer) this).PreviousContainerId = valueString;
-	                break;
-	            default:
-	                base.SetXmlAttributeValue(name, valueString);
-	                break;
-	        }
-	    }
+        protected override bool GetVisibility()
+        {
+            return Children.Count > 0;
+        }
 
-	    protected override bool GetVisibility()
-		{
-			return Children.Count > 0;
-		}
-	}
+        protected override void SetXmlAttributeValue(string name, string valueString)
+        {
+            switch (name)
+            {
+                case "Id":
+                    _id = valueString;
+                    break;
+                case "PreviousContainerId":
+                    ((ILayoutPreviousContainer) this).PreviousContainerId = valueString;
+                    break;
+                default:
+                    base.SetXmlAttributeValue(name, valueString);
+                    break;
+            }
+        }
+    }
 }

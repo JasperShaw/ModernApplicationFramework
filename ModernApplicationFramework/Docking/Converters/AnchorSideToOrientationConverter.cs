@@ -21,12 +21,12 @@ using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.Converters
 {
-    [ValueConversion(typeof(AnchorSide), typeof(Orientation))] 
+    [ValueConversion(typeof (AnchorSide), typeof (Orientation))]
     public class AnchorSideToOrientationConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            AnchorSide side = (AnchorSide)value;
+            AnchorSide side = (AnchorSide) value;
             if (side == AnchorSide.Left ||
                 side == AnchorSide.Right)
                 return Orientation.Vertical;
@@ -34,7 +34,8 @@ namespace ModernApplicationFramework.Docking.Converters
             return Orientation.Horizontal;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter,
+            System.Globalization.CultureInfo culture)
         {
             throw new NotImplementedException();
         }

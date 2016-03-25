@@ -20,15 +20,13 @@ namespace ModernApplicationFramework.Docking.Controls
 {
     public class DocumentPaneControlOverlayArea : OverlayArea
     {
-
-
         internal DocumentPaneControlOverlayArea(
             IOverlayWindow overlayWindow,
             LayoutDocumentPaneControl documentPaneControl)
             : base(overlayWindow)
         {
-	        var documentPaneControl1 = documentPaneControl;
-	        SetScreenDetectionArea(new Rect(
+            var documentPaneControl1 = documentPaneControl;
+            SetScreenDetectionArea(new Rect(
                 documentPaneControl1.PointToScreenDpi(new Point()),
                 documentPaneControl1.TransformActualSizeToAncestor()));
         }

@@ -23,70 +23,70 @@ using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-	public class LayoutDocumentPaneControl : TabControl, ILayoutControl //, ILogicalChildrenContainer
-	{
-		private readonly List<object> _logicalChildren = new List<object>();
-		private readonly LayoutDocumentPane _model;
+    public class LayoutDocumentPaneControl : TabControl, ILayoutControl //, ILogicalChildrenContainer
+    {
+        private readonly List<object> _logicalChildren = new List<object>();
+        private readonly LayoutDocumentPane _model;
 
-		internal LayoutDocumentPaneControl(LayoutDocumentPane model)
-		{
-			if (model == null)
-				throw new ArgumentNullException("model");
+        internal LayoutDocumentPaneControl(LayoutDocumentPane model)
+        {
+            if (model == null)
+                throw new ArgumentNullException("model");
 
-			_model = model;
-			SetBinding(ItemsSourceProperty, new Binding("Model.Children") {Source = this});
-			SetBinding(FlowDirectionProperty, new Binding("Model.Root.Manager.FlowDirection") {Source = this});
+            _model = model;
+            SetBinding(ItemsSourceProperty, new Binding("Model.Children") {Source = this});
+            SetBinding(FlowDirectionProperty, new Binding("Model.Root.Manager.FlowDirection") {Source = this});
 
-			LayoutUpdated += OnLayoutUpdated;
-		}
+            LayoutUpdated += OnLayoutUpdated;
+        }
 
-		static LayoutDocumentPaneControl()
-		{
-			FocusableProperty.OverrideMetadata(typeof (LayoutDocumentPaneControl), new FrameworkPropertyMetadata(false));
-		}
+        static LayoutDocumentPaneControl()
+        {
+            FocusableProperty.OverrideMetadata(typeof (LayoutDocumentPaneControl), new FrameworkPropertyMetadata(false));
+        }
 
-		public ILayoutElement Model => _model;
-		protected override System.Collections.IEnumerator LogicalChildren => _logicalChildren.GetEnumerator();
+        public ILayoutElement Model => _model;
+        protected override System.Collections.IEnumerator LogicalChildren => _logicalChildren.GetEnumerator();
 
-		protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
-		{
-			base.OnGotKeyboardFocus(e);
-			System.Diagnostics.Trace.WriteLine(string.Format("OnGotKeyboardFocus({0}, {1})", e.Source, e.NewFocus));
+        protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
+        {
+            base.OnGotKeyboardFocus(e);
+            System.Diagnostics.Trace.WriteLine(string.Format("OnGotKeyboardFocus({0}, {1})", e.Source, e.NewFocus));
 
 
-			//if (_model.SelectedContent != null)
-			//    _model.SelectedContent.IsActive = true;
-		}
+            //if (_model.SelectedContent != null)
+            //    _model.SelectedContent.IsActive = true;
+        }
 
-		protected override void OnMouseLeftButtonDown(System.Windows.Input.MouseButtonEventArgs e)
-		{
-			base.OnMouseLeftButtonDown(e);
+        protected override void OnMouseLeftButtonDown(System.Windows.Input.MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
 
-			if (!e.Handled && _model.SelectedContent != null)
-				_model.SelectedContent.IsActive = true;
-		}
+            if (!e.Handled && _model.SelectedContent != null)
+                _model.SelectedContent.IsActive = true;
+        }
 
-		protected override void OnMouseRightButtonDown(System.Windows.Input.MouseButtonEventArgs e)
-		{
-			base.OnMouseRightButtonDown(e);
+        protected override void OnMouseRightButtonDown(System.Windows.Input.MouseButtonEventArgs e)
+        {
+            base.OnMouseRightButtonDown(e);
 
-			if (!e.Handled && _model.SelectedContent != null)
-				_model.SelectedContent.IsActive = true;
-		}
+            if (!e.Handled && _model.SelectedContent != null)
+                _model.SelectedContent.IsActive = true;
+        }
 
-		protected override void OnSelectionChanged(SelectionChangedEventArgs e)
-		{
-			base.OnSelectionChanged(e);
+        protected override void OnSelectionChanged(SelectionChangedEventArgs e)
+        {
+            base.OnSelectionChanged(e);
 
-			if (_model.SelectedContent != null)
-				_model.SelectedContent.IsActive = true;
-		}
+            if (_model.SelectedContent != null)
+                _model.SelectedContent.IsActive = true;
+        }
 
-		private void OnLayoutUpdated(object sender, EventArgs e)
-		{
-			var modelWithAtcualSize = _model as ILayoutPositionableElementWithActualSize;
-			modelWithAtcualSize.ActualWidth = ActualWidth;
-			modelWithAtcualSize.ActualHeight = ActualHeight;
-		}
-	}
+        private void OnLayoutUpdated(object sender, EventArgs e)
+        {
+            var modelWithAtcualSize = _model as ILayoutPositionableElementWithActualSize;
+            modelWithAtcualSize.ActualWidth = ActualWidth;
+            modelWithAtcualSize.ActualHeight = ActualHeight;
+        }
+    }
 }

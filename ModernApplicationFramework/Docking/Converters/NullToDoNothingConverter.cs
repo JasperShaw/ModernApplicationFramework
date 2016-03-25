@@ -23,10 +23,11 @@ namespace ModernApplicationFramework.Docking.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-	        return value ?? Binding.DoNothing;
+            return value ?? Binding.DoNothing;
         }
 
-	    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter,
+            System.Globalization.CultureInfo culture)
         {
             throw new NotImplementedException();
         }

@@ -22,29 +22,29 @@ namespace ModernApplicationFramework.Docking.Layout
     [Serializable]
     public class LayoutDocument : LayoutContent
     {
+        private string _description;
         public bool IsVisible => true;
 
-        private string _description;
         public string Description
         {
             get { return _description; }
             set
             {
-	            if (_description == value)
-					return;
-	            _description = value;
-	            RaisePropertyChanged("Description");
+                if (_description == value)
+                    return;
+                _description = value;
+                RaisePropertyChanged("Description");
             }
         }
 
-        public override void WriteXml(System.Xml.XmlWriter writer)
+
+#if TRACE
+        public override void ConsoleDump(int tab)
         {
-            base.WriteXml(writer);
-
-            if (!string.IsNullOrWhiteSpace(Description))
-                writer.WriteAttributeString("Description", Description);
-
+            System.Diagnostics.Trace.Write(new string(' ', tab*4));
+            System.Diagnostics.Trace.WriteLine("Document()");
         }
+#endif
 
         public override void ReadXml(System.Xml.XmlReader reader)
         {
@@ -54,14 +54,13 @@ namespace ModernApplicationFramework.Docking.Layout
             base.ReadXml(reader);
         }
 
-
-#if TRACE
-        public override void ConsoleDump(int tab)
+        public override void WriteXml(System.Xml.XmlWriter writer)
         {
-          System.Diagnostics.Trace.Write( new string( ' ', tab * 4 ) );
-          System.Diagnostics.Trace.WriteLine( "Document()" );
+            base.WriteXml(writer);
+
+            if (!string.IsNullOrWhiteSpace(Description))
+                writer.WriteAttributeString("Description", Description);
         }
-#endif
 
 
         protected override void InternalDock()
@@ -86,13 +85,14 @@ namespace ModernApplicationFramework.Docking.Layout
             if (!added)
             {
                 if (documentPane == null)
-                    throw new InvalidOperationException("Layout must contains at least one LayoutDocumentPane in order to host documents");
+                    throw new InvalidOperationException(
+                        "Layout must contains at least one LayoutDocumentPane in order to host documents");
 
                 documentPane.Children.Add(this);
             }
 
-	        root?.Manager.LayoutUpdateStrategy?.AfterInsertDocument(root, this);
-	        base.InternalDock();
+            root?.Manager.LayoutUpdateStrategy?.AfterInsertDocument(root, this);
+            base.InternalDock();
         }
 
         protected override void SetXmlAttributeValue(string name, string valueString)

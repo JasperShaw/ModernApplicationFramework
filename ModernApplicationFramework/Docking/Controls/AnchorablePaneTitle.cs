@@ -22,109 +22,111 @@ using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-	public class AnchorablePaneTitle : Control
-	{
-		private bool _isMouseDown;
+    public class AnchorablePaneTitle : Control
+    {
+        public static readonly DependencyProperty ModelProperty =
+            DependencyProperty.Register("Model", typeof (LayoutAnchorable), typeof (AnchorablePaneTitle),
+                new FrameworkPropertyMetadata(null, _OnModelChanged));
 
-		static AnchorablePaneTitle()
-		{
-			IsHitTestVisibleProperty.OverrideMetadata(typeof (AnchorablePaneTitle), new FrameworkPropertyMetadata(true));
-			FocusableProperty.OverrideMetadata(typeof (AnchorablePaneTitle), new FrameworkPropertyMetadata(false));
-			DefaultStyleKeyProperty.OverrideMetadata(typeof (AnchorablePaneTitle),
-				new FrameworkPropertyMetadata(typeof (AnchorablePaneTitle)));
-		}
+        private static readonly DependencyPropertyKey LayoutItemPropertyKey
+            = DependencyProperty.RegisterReadOnly("LayoutItem", typeof (LayoutItem), typeof (AnchorablePaneTitle),
+                new FrameworkPropertyMetadata((LayoutItem) null));
 
-		public LayoutItem LayoutItem => (LayoutItem) GetValue(LayoutItemProperty);
+        public static readonly DependencyProperty LayoutItemProperty
+            = LayoutItemPropertyKey.DependencyProperty;
 
-		public LayoutAnchorable Model
-		{
-			get { return (LayoutAnchorable) GetValue(ModelProperty); }
-			set { SetValue(ModelProperty, value); }
-		}
 
-		protected virtual void OnModelChanged(DependencyPropertyChangedEventArgs e)
-		{
-			SetLayoutItem(Model?.Root.Manager.GetLayoutItemFromModel(Model));
-		}
+        private bool _isMouseDown;
 
-		protected override void OnMouseLeave(MouseEventArgs e)
-		{
-			base.OnMouseLeave(e);
+        static AnchorablePaneTitle()
+        {
+            IsHitTestVisibleProperty.OverrideMetadata(typeof (AnchorablePaneTitle), new FrameworkPropertyMetadata(true));
+            FocusableProperty.OverrideMetadata(typeof (AnchorablePaneTitle), new FrameworkPropertyMetadata(false));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof (AnchorablePaneTitle),
+                new FrameworkPropertyMetadata(typeof (AnchorablePaneTitle)));
+        }
 
-			if (_isMouseDown && e.LeftButton == MouseButtonState.Pressed)
-			{
-				var pane = this.FindVisualAncestor<LayoutAnchorablePaneControl>();
-				var paneModel = pane?.Model as LayoutAnchorablePane;
-				if (paneModel != null)
-				{
-					var manager = paneModel.Root.Manager;
+        public LayoutItem LayoutItem => (LayoutItem) GetValue(LayoutItemProperty);
 
-					manager.StartDraggingFloatingWindowForPane(paneModel);
-				}
-			}
+        public LayoutAnchorable Model
+        {
+            get { return (LayoutAnchorable) GetValue(ModelProperty); }
+            set { SetValue(ModelProperty, value); }
+        }
 
-			_isMouseDown = false;
-		}
+        protected virtual void OnModelChanged(DependencyPropertyChangedEventArgs e)
+        {
+            SetLayoutItem(Model?.Root.Manager.GetLayoutItemFromModel(Model));
+        }
 
-		protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
-		{
-			base.OnMouseLeftButtonDown(e);
+        protected override void OnMouseLeave(MouseEventArgs e)
+        {
+            base.OnMouseLeave(e);
 
-			if (e.Handled)
-				return;
-			bool attachFloatingWindow = false;
-			var parentFloatingWindow = Model.FindParent<LayoutAnchorableFloatingWindow>();
-			if (parentFloatingWindow != null)
-				attachFloatingWindow = parentFloatingWindow.Descendents().OfType<LayoutAnchorablePane>().Count() == 1;
+            if (_isMouseDown && e.LeftButton == MouseButtonState.Pressed)
+            {
+                var pane = this.FindVisualAncestor<LayoutAnchorablePaneControl>();
+                var paneModel = pane?.Model as LayoutAnchorablePane;
+                if (paneModel != null)
+                {
+                    var manager = paneModel.Root.Manager;
 
-			if (attachFloatingWindow)
-			{
-				//the pane is hosted inside a floating window that contains only an anchorable pane so drag the floating window itself
-				var floatingWndControl = Model.Root.Manager.FloatingWindows.Single(fwc => Equals(fwc.Model, parentFloatingWindow));
-				floatingWndControl.AttachDrag(false);
-			}
-			else
-				_isMouseDown = true; //normal drag
-		}
+                    manager.StartDraggingFloatingWindowForPane(paneModel);
+                }
+            }
 
-		protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
-		{
-			_isMouseDown = false;
-			base.OnMouseLeftButtonUp(e);
+            _isMouseDown = false;
+        }
 
-			if (Model != null)
-				Model.IsActive = true; //FocusElementManager.SetFocusOnLastElement(Model);
-		}
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
 
-		protected override void OnMouseMove(MouseEventArgs e)
-		{
-			if (e.LeftButton != MouseButtonState.Pressed)
-			{
-				_isMouseDown = false;
-			}
+            if (e.Handled)
+                return;
+            bool attachFloatingWindow = false;
+            var parentFloatingWindow = Model.FindParent<LayoutAnchorableFloatingWindow>();
+            if (parentFloatingWindow != null)
+                attachFloatingWindow = parentFloatingWindow.Descendents().OfType<LayoutAnchorablePane>().Count() == 1;
 
-			base.OnMouseMove(e);
-		}
+            if (attachFloatingWindow)
+            {
+                //the pane is hosted inside a floating window that contains only an anchorable pane so drag the floating window itself
+                var floatingWndControl =
+                    Model.Root.Manager.FloatingWindows.Single(fwc => Equals(fwc.Model, parentFloatingWindow));
+                floatingWndControl.AttachDrag(false);
+            }
+            else
+                _isMouseDown = true; //normal drag
+        }
 
-		protected void SetLayoutItem(LayoutItem value)
-		{
-			SetValue(LayoutItemPropertyKey, value);
-		}
+        protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
+        {
+            _isMouseDown = false;
+            base.OnMouseLeftButtonUp(e);
 
-		private static void _OnModelChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-		{
-			((AnchorablePaneTitle) sender).OnModelChanged(e);
-		}
+            if (Model != null)
+                Model.IsActive = true; //FocusElementManager.SetFocusOnLastElement(Model);
+        }
 
-		public static readonly DependencyProperty ModelProperty =
-			DependencyProperty.Register("Model", typeof (LayoutAnchorable), typeof (AnchorablePaneTitle),
-				new FrameworkPropertyMetadata(null, _OnModelChanged));
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            if (e.LeftButton != MouseButtonState.Pressed)
+            {
+                _isMouseDown = false;
+            }
 
-		private static readonly DependencyPropertyKey LayoutItemPropertyKey
-			= DependencyProperty.RegisterReadOnly("LayoutItem", typeof (LayoutItem), typeof (AnchorablePaneTitle),
-				new FrameworkPropertyMetadata((LayoutItem) null));
+            base.OnMouseMove(e);
+        }
 
-		public static readonly DependencyProperty LayoutItemProperty
-			= LayoutItemPropertyKey.DependencyProperty;
-	}
+        protected void SetLayoutItem(LayoutItem value)
+        {
+            SetValue(LayoutItemPropertyKey, value);
+        }
+
+        private static void _OnModelChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            ((AnchorablePaneTitle) sender).OnModelChanged(e);
+        }
+    }
 }

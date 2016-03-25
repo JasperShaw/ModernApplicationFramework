@@ -25,14 +25,15 @@ namespace ModernApplicationFramework.Docking.Converters
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             var layoutModel = value as LayoutContent;
-	        if (layoutModel?.Root?.Manager == null)
+            if (layoutModel?.Root?.Manager == null)
                 return null;
 
             var layoutItemModel = layoutModel.Root.Manager.GetLayoutItemFromModel(layoutModel);
             return layoutItemModel ?? Binding.DoNothing;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter,
+            System.Globalization.CultureInfo culture)
         {
             throw new NotImplementedException();
         }

@@ -19,50 +19,50 @@ using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-	public class LayoutDocumentItem : LayoutItem
-	{
-		private LayoutDocument _document;
+    public class LayoutDocumentItem : LayoutItem
+    {
+        public static readonly DependencyProperty DescriptionProperty =
+            DependencyProperty.Register("Description", typeof (string), typeof (LayoutDocumentItem),
+                new FrameworkPropertyMetadata(null, OnDescriptionChanged));
 
-		internal LayoutDocumentItem()
-		{
-		}
+        private LayoutDocument _document;
 
-		public string Description
-		{
-			get { return (string) GetValue(DescriptionProperty); }
-			set { SetValue(DescriptionProperty, value); }
-		}
+        internal LayoutDocumentItem()
+        {
+        }
 
-		protected override void Close()
-		{
-			var dockingManager = _document.Root.Manager;
-			dockingManager._ExecuteCloseCommand(_document);
-		}
+        public string Description
+        {
+            get { return (string) GetValue(DescriptionProperty); }
+            set { SetValue(DescriptionProperty, value); }
+        }
 
-		protected virtual void OnDescriptionChanged(DependencyPropertyChangedEventArgs e)
-		{
-			_document.Description = (string) e.NewValue;
-		}
+        protected override void Close()
+        {
+            var dockingManager = _document.Root.Manager;
+            dockingManager._ExecuteCloseCommand(_document);
+        }
 
-		internal override void Attach(LayoutContent model)
-		{
-			_document = model as LayoutDocument;
-			base.Attach(model);
-		}
+        protected virtual void OnDescriptionChanged(DependencyPropertyChangedEventArgs e)
+        {
+            _document.Description = (string) e.NewValue;
+        }
 
-		internal override void Detach()
-		{
-			_document = null;
-			base.Detach();
-		}
+        internal override void Attach(LayoutContent model)
+        {
+            _document = model as LayoutDocument;
+            base.Attach(model);
+        }
 
-		private static void OnDescriptionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		{
-			((LayoutDocumentItem) d).OnDescriptionChanged(e);
-		}
+        internal override void Detach()
+        {
+            _document = null;
+            base.Detach();
+        }
 
-		public static readonly DependencyProperty DescriptionProperty =
-			DependencyProperty.Register("Description", typeof (string), typeof (LayoutDocumentItem),
-				new FrameworkPropertyMetadata(null, OnDescriptionChanged));
-	}
+        private static void OnDescriptionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((LayoutDocumentItem) d).OnDescriptionChanged(e);
+        }
+    }
 }

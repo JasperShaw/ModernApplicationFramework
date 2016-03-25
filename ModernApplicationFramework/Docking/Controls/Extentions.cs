@@ -24,46 +24,67 @@ namespace ModernApplicationFramework.Docking.Controls
 {
     public static class Extentions
     {
-        public static IEnumerable<T> FindVisualChildren<T>(this DependencyObject depObj) where T : DependencyObject
+        public static T FindLogicalAncestor<T>(this DependencyObject dependencyObject) where T : class
         {
-	        if (depObj == null)
-				yield break;
-	        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
-	        {
-		        DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
-		        var children = child as T;
-		        if (children != null)
-		        {
-			        yield return children;
-		        }
-
-		        foreach (T childOfChild in FindVisualChildren<T>(child))
-		        {
-			        yield return childOfChild;
-		        }
-	        }
+            DependencyObject target = dependencyObject;
+            do
+            {
+                var current = target;
+                target = LogicalTreeHelper.GetParent(target) ?? VisualTreeHelper.GetParent(current);
+            } while (target != null && !(target is T));
+            return target as T;
         }
 
-	    public static IEnumerable<T> FindLogicalChildren<T>(this DependencyObject depObj) where T : DependencyObject
-	    {
-		    if (depObj == null)
-				yield break;
-		    foreach (DependencyObject child in LogicalTreeHelper.GetChildren(depObj).OfType<DependencyObject>())
-		    {
-			    var children = child as T;
-			    if (children != null)
-			    {
-				    yield return children;
-			    }
+        public static IEnumerable<T> FindLogicalChildren<T>(this DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj == null)
+                yield break;
+            foreach (DependencyObject child in LogicalTreeHelper.GetChildren(depObj).OfType<DependencyObject>())
+            {
+                var children = child as T;
+                if (children != null)
+                {
+                    yield return children;
+                }
 
-			    foreach (T childOfChild in FindLogicalChildren<T>(child))
-			    {
-				    yield return childOfChild;
-			    }
-		    }
-	    }
+                foreach (T childOfChild in FindLogicalChildren<T>(child))
+                {
+                    yield return childOfChild;
+                }
+            }
+        }
 
-	    public static DependencyObject FindVisualTreeRoot(this DependencyObject initial)
+        public static T FindVisualAncestor<T>(this DependencyObject dependencyObject) where T : class
+        {
+            DependencyObject target = dependencyObject;
+            do
+            {
+                target = VisualTreeHelper.GetParent(target);
+            } while (target != null && !(target is T));
+            return target as T;
+        }
+
+        public static IEnumerable<T> FindVisualChildren<T>(this DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj == null)
+                yield break;
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
+                var children = child as T;
+                if (children != null)
+                {
+                    yield return children;
+                }
+
+                foreach (T childOfChild in FindVisualChildren<T>(child))
+                {
+                    yield return childOfChild;
+                }
+            }
+        }
+
+        public static DependencyObject FindVisualTreeRoot(this DependencyObject initial)
         {
             DependencyObject current = initial;
             DependencyObject result = initial;
@@ -86,29 +107,5 @@ namespace ModernApplicationFramework.Docking.Controls
 
             return result;
         }
-
-        public static T FindVisualAncestor<T>(this DependencyObject dependencyObject) where T : class
-        {
-            DependencyObject target = dependencyObject;
-            do
-            {
-                target = VisualTreeHelper.GetParent(target);
-            }
-            while (target != null && !(target is T));
-            return target as T;
-        }
-
-        public static T FindLogicalAncestor<T>(this DependencyObject dependencyObject) where T : class
-        {
-            DependencyObject target = dependencyObject;
-            do
-            {
-                var current = target;
-                target = LogicalTreeHelper.GetParent(target) ?? VisualTreeHelper.GetParent(current);
-            }
-            while (target != null && !(target is T));
-            return target as T;
-        }
-
     }
 }

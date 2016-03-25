@@ -20,89 +20,89 @@ using ModernApplicationFramework.Controls;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-	public class MenuItemEx : ContextMenuItem
-	{
-		private bool _reentrantFlag;
+    public class MenuItemEx : ContextMenuItem
+    {
+        public static readonly DependencyProperty IconTemplateProperty =
+            DependencyProperty.Register("IconTemplate", typeof (DataTemplate), typeof (MenuItemEx),
+                new FrameworkPropertyMetadata(null,
+                    OnIconTemplateChanged));
 
-		static MenuItemEx()
-		{
-			IconProperty.OverrideMetadata(typeof (MenuItemEx), new FrameworkPropertyMetadata(OnIconPropertyChanged));
-		}
+        public static readonly DependencyProperty IconTemplateSelectorProperty =
+            DependencyProperty.Register("IconTemplateSelector", typeof (DataTemplateSelector), typeof (MenuItemEx),
+                new FrameworkPropertyMetadata(null,
+                    OnIconTemplateSelectorChanged));
 
-		public DataTemplate IconTemplate
-		{
-			get { return (DataTemplate) GetValue(IconTemplateProperty); }
-			set { SetValue(IconTemplateProperty, value); }
-		}
+        private bool _reentrantFlag;
 
-		/// <summary>
-		/// Gets or sets the IconTemplateSelector property.  This dependency property 
-		/// indicates the DataTemplateSelector for the Icon.
-		/// </summary>
-		public DataTemplateSelector IconTemplateSelector
-		{
-			get { return (DataTemplateSelector) GetValue(IconTemplateSelectorProperty); }
-			set { SetValue(IconTemplateSelectorProperty, value); }
-		}
+        static MenuItemEx()
+        {
+            IconProperty.OverrideMetadata(typeof (MenuItemEx), new FrameworkPropertyMetadata(OnIconPropertyChanged));
+        }
 
-		protected virtual void OnIconTemplateChanged(DependencyPropertyChangedEventArgs e)
-		{
-			UpdateIcon();
-		}
+        public DataTemplate IconTemplate
+        {
+            get { return (DataTemplate) GetValue(IconTemplateProperty); }
+            set { SetValue(IconTemplateProperty, value); }
+        }
 
-		/// <summary>
-		/// Provides derived classes an opportunity to handle changes to the IconTemplateSelector property.
-		/// </summary>
-		protected virtual void OnIconTemplateSelectorChanged(DependencyPropertyChangedEventArgs e)
-		{
-			UpdateIcon();
-		}
+        /// <summary>
+        /// Gets or sets the IconTemplateSelector property.  This dependency property 
+        /// indicates the DataTemplateSelector for the Icon.
+        /// </summary>
+        public DataTemplateSelector IconTemplateSelector
+        {
+            get { return (DataTemplateSelector) GetValue(IconTemplateSelectorProperty); }
+            set { SetValue(IconTemplateSelectorProperty, value); }
+        }
 
-		private static void OnIconPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-		{
-			if (e.NewValue != null)
-			{
-				((MenuItemEx) sender).UpdateIcon();
-			}
-		}
+        protected virtual void OnIconTemplateChanged(DependencyPropertyChangedEventArgs e)
+        {
+            UpdateIcon();
+        }
 
-		private static void OnIconTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		{
-			((MenuItemEx) d).OnIconTemplateChanged(e);
-		}
+        /// <summary>
+        /// Provides derived classes an opportunity to handle changes to the IconTemplateSelector property.
+        /// </summary>
+        protected virtual void OnIconTemplateSelectorChanged(DependencyPropertyChangedEventArgs e)
+        {
+            UpdateIcon();
+        }
 
-		/// <summary>
-		/// Handles changes to the IconTemplateSelector property.
-		/// </summary>
-		private static void OnIconTemplateSelectorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		{
-			((MenuItemEx) d).OnIconTemplateSelectorChanged(e);
-		}
+        private static void OnIconPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue != null)
+            {
+                ((MenuItemEx) sender).UpdateIcon();
+            }
+        }
 
-		private void UpdateIcon()
-		{
-			if (_reentrantFlag)
-				return;
-			_reentrantFlag = true;
-			if (IconTemplateSelector != null)
-			{
-				var dataTemplateToUse = IconTemplateSelector.SelectTemplate(Icon, this);
-				if (dataTemplateToUse != null)
-					Icon = dataTemplateToUse.LoadContent();
-			}
-			else if (IconTemplate != null)
-				Icon = IconTemplate.LoadContent();
-			_reentrantFlag = false;
-		}
+        private static void OnIconTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((MenuItemEx) d).OnIconTemplateChanged(e);
+        }
 
-		public static readonly DependencyProperty IconTemplateProperty =
-			DependencyProperty.Register("IconTemplate", typeof (DataTemplate), typeof (MenuItemEx),
-				new FrameworkPropertyMetadata(null,
-					OnIconTemplateChanged));
+        /// <summary>
+        /// Handles changes to the IconTemplateSelector property.
+        /// </summary>
+        private static void OnIconTemplateSelectorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((MenuItemEx) d).OnIconTemplateSelectorChanged(e);
+        }
 
-		public static readonly DependencyProperty IconTemplateSelectorProperty =
-			DependencyProperty.Register("IconTemplateSelector", typeof (DataTemplateSelector), typeof (MenuItemEx),
-				new FrameworkPropertyMetadata(null,
-					OnIconTemplateSelectorChanged));
-	}
+        private void UpdateIcon()
+        {
+            if (_reentrantFlag)
+                return;
+            _reentrantFlag = true;
+            if (IconTemplateSelector != null)
+            {
+                var dataTemplateToUse = IconTemplateSelector.SelectTemplate(Icon, this);
+                if (dataTemplateToUse != null)
+                    Icon = dataTemplateToUse.LoadContent();
+            }
+            else if (IconTemplate != null)
+                Icon = IconTemplate.LoadContent();
+            _reentrantFlag = false;
+        }
+    }
 }

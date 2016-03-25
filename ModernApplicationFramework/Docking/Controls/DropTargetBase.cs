@@ -18,20 +18,20 @@ using System.Windows;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-	internal abstract class DropTargetBase : DependencyObject
-	{
-		public static readonly DependencyProperty IsDraggingOverProperty =
-			DependencyProperty.RegisterAttached("IsDraggingOver", typeof (bool), typeof (DropTargetBase),
-				new FrameworkPropertyMetadata((bool) false));
+    internal abstract class DropTargetBase : DependencyObject
+    {
+        public static readonly DependencyProperty IsDraggingOverProperty =
+            DependencyProperty.RegisterAttached("IsDraggingOver", typeof (bool), typeof (DropTargetBase),
+                new FrameworkPropertyMetadata((bool) false));
 
-		public static bool GetIsDraggingOver(DependencyObject d)
-		{
-			return (bool) d.GetValue(IsDraggingOverProperty);
-		}
+        public static bool GetIsDraggingOver(DependencyObject d)
+        {
+            return (bool) d.GetValue(IsDraggingOverProperty);
+        }
 
-		public static void SetIsDraggingOver(DependencyObject d, bool value)
-		{
-			d.SetValue(IsDraggingOverProperty, value);
-		}
-	}
+        public static void SetIsDraggingOver(DependencyObject d, bool value)
+        {
+            d.SetValue(IsDraggingOverProperty, value);
+        }
+    }
 }

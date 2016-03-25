@@ -26,10 +26,6 @@ namespace ModernApplicationFramework.Docking
             Document = document;
         }
 
-        public LayoutDocument Document
-        {
-            get;
-            private set;
-        }
+        public LayoutDocument Document { get; private set; }
     }
 }

@@ -18,23 +18,23 @@ namespace ModernApplicationFramework.Docking.Layout
 {
     public interface ILayoutUpdateStrategy
     {
+        void AfterInsertAnchorable(
+            LayoutRoot layout,
+            LayoutAnchorable anchorableShown);
+
+        void AfterInsertDocument(
+            LayoutRoot layout,
+            LayoutDocument anchorableShown);
+
         bool BeforeInsertAnchorable(
             LayoutRoot layout,
             LayoutAnchorable anchorableToShow,
             ILayoutContainer destinationContainer);
-
-        void AfterInsertAnchorable(
-            LayoutRoot layout,
-            LayoutAnchorable anchorableShown);
 
 
         bool BeforeInsertDocument(
             LayoutRoot layout,
             LayoutDocument anchorableToShow,
             ILayoutContainer destinationContainer);
-
-        void AfterInsertDocument(
-            LayoutRoot layout,
-            LayoutDocument anchorableShown);
     }
 }

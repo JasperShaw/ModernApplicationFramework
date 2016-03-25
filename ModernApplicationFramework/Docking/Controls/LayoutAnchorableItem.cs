@@ -23,236 +23,237 @@ using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-	public class LayoutAnchorableItem : LayoutItem
-	{
-		private readonly ReentrantFlag _visibilityReentrantFlag = new ReentrantFlag();
-		private LayoutAnchorable _anchorable;
-		private ICommand _defaultAutoHideCommand;
-		private ICommand _defaultDockCommand;
-		private ICommand _defaultHideCommand;
+    public class LayoutAnchorableItem : LayoutItem
+    {
+        public static readonly DependencyProperty HideCommandProperty =
+            DependencyProperty.Register("HideCommand", typeof (ICommand), typeof (LayoutAnchorableItem),
+                new FrameworkPropertyMetadata(null,
+                    OnHideCommandChanged,
+                    CoerceHideCommandValue));
 
-		internal LayoutAnchorableItem()
-		{
-		}
+        public static readonly DependencyProperty AutoHideCommandProperty =
+            DependencyProperty.Register("AutoHideCommand", typeof (ICommand), typeof (LayoutAnchorableItem),
+                new FrameworkPropertyMetadata(null,
+                    OnAutoHideCommandChanged,
+                    CoerceAutoHideCommandValue));
 
-		public ICommand AutoHideCommand
-		{
-			get { return (ICommand) GetValue(AutoHideCommandProperty); }
-			set { SetValue(AutoHideCommandProperty, value); }
-		}
+        public static readonly DependencyProperty DockCommandProperty =
+            DependencyProperty.Register("DockCommand", typeof (ICommand), typeof (LayoutAnchorableItem),
+                new FrameworkPropertyMetadata(null,
+                    OnDockCommandChanged,
+                    CoerceDockCommandValue));
 
-		public bool CanHide
-		{
-			get { return (bool) GetValue(CanHideProperty); }
-			set { SetValue(CanHideProperty, value); }
-		}
+        public static readonly DependencyProperty CanHideProperty =
+            DependencyProperty.Register("CanHide", typeof (bool), typeof (LayoutAnchorableItem),
+                new FrameworkPropertyMetadata(true, OnCanHideChanged));
 
-		public ICommand DockCommand
-		{
-			get { return (ICommand) GetValue(DockCommandProperty); }
-			set { SetValue(DockCommandProperty, value); }
-		}
 
-		public ICommand HideCommand
-		{
-			get { return (ICommand) GetValue(HideCommandProperty); }
-			set { SetValue(HideCommandProperty, value); }
-		}
+        private readonly ReentrantFlag _visibilityReentrantFlag = new ReentrantFlag();
+        private LayoutAnchorable _anchorable;
+        private ICommand _defaultAutoHideCommand;
+        private ICommand _defaultDockCommand;
+        private ICommand _defaultHideCommand;
 
-		protected override void ClearDefaultBindings()
-		{
-			if (HideCommand == _defaultHideCommand)
-				BindingOperations.ClearBinding(this, HideCommandProperty);
-			if (AutoHideCommand == _defaultAutoHideCommand)
-				BindingOperations.ClearBinding(this, AutoHideCommandProperty);
-			if (DockCommand == _defaultDockCommand)
-				BindingOperations.ClearBinding(this, DockCommandProperty);
+        internal LayoutAnchorableItem()
+        {
+        }
 
-			base.ClearDefaultBindings();
-		}
+        public ICommand AutoHideCommand
+        {
+            get { return (ICommand) GetValue(AutoHideCommandProperty); }
+            set { SetValue(AutoHideCommandProperty, value); }
+        }
 
-		protected override void Close()
-		{
-			var dockingManager = _anchorable.Root.Manager;
-			dockingManager._ExecuteCloseCommand(_anchorable);
-		}
+        public bool CanHide
+        {
+            get { return (bool) GetValue(CanHideProperty); }
+            set { SetValue(CanHideProperty, value); }
+        }
 
-		protected override void InitDefaultCommands()
-		{
-			_defaultHideCommand = new RelayCommand(ExecuteHideCommand, CanExecuteHideCommand);
-			_defaultAutoHideCommand = new RelayCommand(ExecuteAutoHideCommand, CanExecuteAutoHideCommand);
-			_defaultDockCommand = new RelayCommand(ExecuteDockCommand, CanExecuteDockCommand);
+        public ICommand DockCommand
+        {
+            get { return (ICommand) GetValue(DockCommandProperty); }
+            set { SetValue(DockCommandProperty, value); }
+        }
 
-			base.InitDefaultCommands();
-		}
+        public ICommand HideCommand
+        {
+            get { return (ICommand) GetValue(HideCommandProperty); }
+            set { SetValue(HideCommandProperty, value); }
+        }
 
-		protected virtual void OnAutoHideCommandChanged(DependencyPropertyChangedEventArgs e)
-		{
-		}
+        protected override void ClearDefaultBindings()
+        {
+            if (HideCommand == _defaultHideCommand)
+                BindingOperations.ClearBinding(this, HideCommandProperty);
+            if (AutoHideCommand == _defaultAutoHideCommand)
+                BindingOperations.ClearBinding(this, AutoHideCommandProperty);
+            if (DockCommand == _defaultDockCommand)
+                BindingOperations.ClearBinding(this, DockCommandProperty);
 
-		protected virtual void OnCanHideChanged(DependencyPropertyChangedEventArgs e)
-		{
-			if (_anchorable != null)
-				_anchorable.CanHide = (bool) e.NewValue;
-		}
+            base.ClearDefaultBindings();
+        }
 
-		protected virtual void OnDockCommandChanged(DependencyPropertyChangedEventArgs e)
-		{
-		}
+        protected override void Close()
+        {
+            var dockingManager = _anchorable.Root.Manager;
+            dockingManager._ExecuteCloseCommand(_anchorable);
+        }
 
-		protected virtual void OnHideCommandChanged(DependencyPropertyChangedEventArgs e)
-		{
-		}
+        protected override void InitDefaultCommands()
+        {
+            _defaultHideCommand = new RelayCommand(ExecuteHideCommand, CanExecuteHideCommand);
+            _defaultAutoHideCommand = new RelayCommand(ExecuteAutoHideCommand, CanExecuteAutoHideCommand);
+            _defaultDockCommand = new RelayCommand(ExecuteDockCommand, CanExecuteDockCommand);
 
-		protected override void OnVisibilityChanged()
-		{
-			if (_anchorable?.Root != null)
-			{
-				if (_visibilityReentrantFlag.CanEnter)
-				{
-					using (_visibilityReentrantFlag.Enter())
-					{
-						if (Visibility == Visibility.Hidden)
-							_anchorable.Hide(false);
-						else if (Visibility == Visibility.Visible)
-							_anchorable.Show();
-					}
-				}
-			}
+            base.InitDefaultCommands();
+        }
 
-			base.OnVisibilityChanged();
-		}
+        protected virtual void OnAutoHideCommandChanged(DependencyPropertyChangedEventArgs e)
+        {
+        }
 
-		protected override void SetDefaultBindings()
-		{
-			if (HideCommand == null)
-				HideCommand = _defaultHideCommand;
-			if (AutoHideCommand == null)
-				AutoHideCommand = _defaultAutoHideCommand;
-			if (DockCommand == null)
-				DockCommand = _defaultDockCommand;
+        protected virtual void OnCanHideChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if (_anchorable != null)
+                _anchorable.CanHide = (bool) e.NewValue;
+        }
 
-			Visibility = _anchorable.IsVisible ? Visibility.Visible : Visibility.Hidden;
-			base.SetDefaultBindings();
-		}
+        protected virtual void OnDockCommandChanged(DependencyPropertyChangedEventArgs e)
+        {
+        }
 
-		internal override void Attach(LayoutContent model)
-		{
-			_anchorable = model as LayoutAnchorable;
-			if (_anchorable != null)
-				_anchorable.IsVisibleChanged += _anchorable_IsVisibleChanged;
+        protected virtual void OnHideCommandChanged(DependencyPropertyChangedEventArgs e)
+        {
+        }
 
-			base.Attach(model);
-		}
+        protected override void OnVisibilityChanged()
+        {
+            if (_anchorable?.Root != null)
+            {
+                if (_visibilityReentrantFlag.CanEnter)
+                {
+                    using (_visibilityReentrantFlag.Enter())
+                    {
+                        if (Visibility == Visibility.Hidden)
+                            _anchorable.Hide(false);
+                        else if (Visibility == Visibility.Visible)
+                            _anchorable.Show();
+                    }
+                }
+            }
 
-		internal override void Detach()
-		{
-			_anchorable.IsVisibleChanged -= _anchorable_IsVisibleChanged;
-			_anchorable = null;
-			base.Detach();
-		}
+            base.OnVisibilityChanged();
+        }
 
-		private static object CoerceAutoHideCommandValue(DependencyObject d, object value)
-		{
-			return value;
-		}
+        protected override void SetDefaultBindings()
+        {
+            if (HideCommand == null)
+                HideCommand = _defaultHideCommand;
+            if (AutoHideCommand == null)
+                AutoHideCommand = _defaultAutoHideCommand;
+            if (DockCommand == null)
+                DockCommand = _defaultDockCommand;
 
-		private static object CoerceDockCommandValue(DependencyObject d, object value)
-		{
-			return value;
-		}
+            Visibility = _anchorable.IsVisible ? Visibility.Visible : Visibility.Hidden;
+            base.SetDefaultBindings();
+        }
 
-		private static object CoerceHideCommandValue(DependencyObject d, object value)
-		{
-			return value;
-		}
+        internal override void Attach(LayoutContent model)
+        {
+            _anchorable = model as LayoutAnchorable;
+            if (_anchorable != null)
+                _anchorable.IsVisibleChanged += _anchorable_IsVisibleChanged;
 
-		private static void OnAutoHideCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		{
-			((LayoutAnchorableItem) d).OnAutoHideCommandChanged(e);
-		}
+            base.Attach(model);
+        }
 
-		private static void OnCanHideChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		{
-			((LayoutAnchorableItem) d).OnCanHideChanged(e);
-		}
+        internal override void Detach()
+        {
+            _anchorable.IsVisibleChanged -= _anchorable_IsVisibleChanged;
+            _anchorable = null;
+            base.Detach();
+        }
 
-		private static void OnDockCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		{
-			((LayoutAnchorableItem) d).OnDockCommandChanged(e);
-		}
+        private static object CoerceAutoHideCommandValue(DependencyObject d, object value)
+        {
+            return value;
+        }
 
-		private static void OnHideCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		{
-			((LayoutAnchorableItem) d).OnHideCommandChanged(e);
-		}
+        private static object CoerceDockCommandValue(DependencyObject d, object value)
+        {
+            return value;
+        }
 
-		private void _anchorable_IsVisibleChanged(object sender, EventArgs e)
-		{
-			if (_anchorable?.Root == null)
-				return;
-			if (!_visibilityReentrantFlag.CanEnter)
-				return;
-			using (_visibilityReentrantFlag.Enter())
-			{
-				Visibility = _anchorable.IsVisible ? Visibility.Visible : Visibility.Hidden;
-			}
-		}
+        private static object CoerceHideCommandValue(DependencyObject d, object value)
+        {
+            return value;
+        }
 
-		private bool CanExecuteAutoHideCommand(object parameter)
-		{
-			if (LayoutElement == null)
-				return false;
+        private static void OnAutoHideCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((LayoutAnchorableItem) d).OnAutoHideCommandChanged(e);
+        }
 
-			return LayoutElement.FindParent<LayoutAnchorableFloatingWindow>() == null && _anchorable.CanAutoHide;
-		}
+        private static void OnCanHideChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((LayoutAnchorableItem) d).OnCanHideChanged(e);
+        }
 
-		private bool CanExecuteDockCommand(object parameter)
-		{
-			return LayoutElement?.FindParent<LayoutAnchorableFloatingWindow>() != null;
-		}
+        private static void OnDockCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((LayoutAnchorableItem) d).OnDockCommandChanged(e);
+        }
 
-		private bool CanExecuteHideCommand(object parameter)
-		{
-			return LayoutElement != null && _anchorable.CanHide;
-		}
+        private static void OnHideCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((LayoutAnchorableItem) d).OnHideCommandChanged(e);
+        }
 
-		private void ExecuteAutoHideCommand(object parameter)
-		{
-			_anchorable?.Root?.Manager?._ExecuteAutoHideCommand(_anchorable);
-		}
+        private void _anchorable_IsVisibleChanged(object sender, EventArgs e)
+        {
+            if (_anchorable?.Root == null)
+                return;
+            if (!_visibilityReentrantFlag.CanEnter)
+                return;
+            using (_visibilityReentrantFlag.Enter())
+            {
+                Visibility = _anchorable.IsVisible ? Visibility.Visible : Visibility.Hidden;
+            }
+        }
 
-		private void ExecuteDockCommand(object parameter)
-		{
-			LayoutElement.Root.Manager._ExecuteDockCommand(_anchorable);
-		    IsFloating = false;
-		}
+        private bool CanExecuteAutoHideCommand(object parameter)
+        {
+            if (LayoutElement == null)
+                return false;
 
-		private void ExecuteHideCommand(object parameter)
-		{
-			_anchorable?.Root?.Manager?._ExecuteHideCommand(_anchorable);
-		}
+            return LayoutElement.FindParent<LayoutAnchorableFloatingWindow>() == null && _anchorable.CanAutoHide;
+        }
 
-		public static readonly DependencyProperty HideCommandProperty =
-			DependencyProperty.Register("HideCommand", typeof (ICommand), typeof (LayoutAnchorableItem),
-				new FrameworkPropertyMetadata(null,
-					OnHideCommandChanged,
-					CoerceHideCommandValue));
+        private bool CanExecuteDockCommand(object parameter)
+        {
+            return LayoutElement?.FindParent<LayoutAnchorableFloatingWindow>() != null;
+        }
 
-		public static readonly DependencyProperty AutoHideCommandProperty =
-			DependencyProperty.Register("AutoHideCommand", typeof (ICommand), typeof (LayoutAnchorableItem),
-				new FrameworkPropertyMetadata(null,
-					OnAutoHideCommandChanged,
-					CoerceAutoHideCommandValue));
+        private bool CanExecuteHideCommand(object parameter)
+        {
+            return LayoutElement != null && _anchorable.CanHide;
+        }
 
-		public static readonly DependencyProperty DockCommandProperty =
-			DependencyProperty.Register("DockCommand", typeof (ICommand), typeof (LayoutAnchorableItem),
-				new FrameworkPropertyMetadata(null,
-					OnDockCommandChanged,
-					CoerceDockCommandValue));
+        private void ExecuteAutoHideCommand(object parameter)
+        {
+            _anchorable?.Root?.Manager?._ExecuteAutoHideCommand(_anchorable);
+        }
 
-		public static readonly DependencyProperty CanHideProperty =
-			DependencyProperty.Register("CanHide", typeof (bool), typeof (LayoutAnchorableItem),
-				new FrameworkPropertyMetadata(true, OnCanHideChanged));
-	}
+        private void ExecuteDockCommand(object parameter)
+        {
+            LayoutElement.Root.Manager._ExecuteDockCommand(_anchorable);
+            IsFloating = false;
+        }
+
+        private void ExecuteHideCommand(object parameter)
+        {
+            _anchorable?.Root?.Manager?._ExecuteHideCommand(_anchorable);
+        }
+    }
 }

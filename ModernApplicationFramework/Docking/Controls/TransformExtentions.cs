@@ -21,6 +21,29 @@ namespace ModernApplicationFramework.Docking.Controls
 {
     internal static class TransformExtensions
     {
+        public static bool CanTransform(this Visual visual)
+        {
+            return PresentationSource.FromVisual(visual) != null;
+        }
+
+
+        public static Rect GetScreenArea(this FrameworkElement element)
+        {
+            var point = element.PointToScreenDpi(new Point());
+            if (FrameworkElement.GetFlowDirection(element) == FlowDirection.RightToLeft)
+            {
+                var actualSize = element.TransformActualSizeToAncestor();
+                Point leftToRightPoint = new Point(
+                    actualSize.Width - point.X,
+                    point.Y);
+                return new Rect(leftToRightPoint,
+                    actualSize);
+            }
+
+            return new Rect(point,
+                element.TransformActualSizeToAncestor());
+        }
+
         public static Point PointToScreenDpi(this Visual visual, Point pt)
         {
             Point resultPt = visual.PointToScreen(pt);
@@ -41,46 +64,13 @@ namespace ModernApplicationFramework.Docking.Controls
             return element.PointToScreenDpi(point);
         }
 
-
-
-        public static Rect GetScreenArea(this FrameworkElement element)
+        public static GeneralTransform TansformToAncestor(this FrameworkElement element)
         {
-            var point = element.PointToScreenDpi(new Point());
-            if (FrameworkElement.GetFlowDirection(element) == FlowDirection.RightToLeft)
-            {
-                var actualSize = element.TransformActualSizeToAncestor();
-                Point leftToRightPoint = new Point(
-                    actualSize.Width - point.X,
-                    point.Y);
-                return new Rect(leftToRightPoint,
-                    actualSize);
-            }
+            if (PresentationSource.FromVisual(element) == null)
+                return new MatrixTransform(Matrix.Identity);
 
-            return new Rect(point,
-                element.TransformActualSizeToAncestor());
-        }
-
-        public static Point TransformToDeviceDpi(this Visual visual, Point pt)
-        {
-            Matrix m = PresentationSource.FromVisual(visual).CompositionTarget.TransformToDevice;
-            return new Point(pt.X / m.M11, pt.Y / m.M22);
-        }
-
-        public static Size TransformFromDeviceDPI(this Visual visual, Size size)
-        {
-            Matrix m = PresentationSource.FromVisual(visual).CompositionTarget.TransformToDevice;
-            return new Size(size.Width * m.M11, size.Height * m.M22);
-        }
-
-        public static Point TransformFromDeviceDPI(this Visual visual, Point pt)
-        {
-            Matrix m = PresentationSource.FromVisual(visual).CompositionTarget.TransformToDevice;
-            return new Point(pt.X * m.M11, pt.Y * m.M22);
-        }
-
-        public static bool CanTransform(this Visual visual)
-        {
-            return PresentationSource.FromVisual(visual) != null;
+            var parentWindow = PresentationSource.FromVisual(element).RootVisual;
+            return element.TransformToAncestor(parentWindow);
         }
 
         public static Size TransformActualSizeToAncestor(this FrameworkElement element)
@@ -93,6 +83,18 @@ namespace ModernApplicationFramework.Docking.Controls
             return transformToWindow.TransformBounds(new Rect(0, 0, element.ActualWidth, element.ActualHeight)).Size;
         }
 
+        public static Size TransformFromDeviceDPI(this Visual visual, Size size)
+        {
+            Matrix m = PresentationSource.FromVisual(visual).CompositionTarget.TransformToDevice;
+            return new Size(size.Width*m.M11, size.Height*m.M22);
+        }
+
+        public static Point TransformFromDeviceDPI(this Visual visual, Point pt)
+        {
+            Matrix m = PresentationSource.FromVisual(visual).CompositionTarget.TransformToDevice;
+            return new Point(pt.X*m.M11, pt.Y*m.M22);
+        }
+
         public static Size TransformSizeToAncestor(this FrameworkElement element, Size sizeToTransform)
         {
             if (PresentationSource.FromVisual(element) == null)
@@ -103,14 +105,10 @@ namespace ModernApplicationFramework.Docking.Controls
             return transformToWindow.TransformBounds(new Rect(0, 0, sizeToTransform.Width, sizeToTransform.Height)).Size;
         }
 
-        public static GeneralTransform TansformToAncestor(this FrameworkElement element)
+        public static Point TransformToDeviceDpi(this Visual visual, Point pt)
         {
-            if (PresentationSource.FromVisual(element) == null)
-                return new MatrixTransform(Matrix.Identity);
-
-            var parentWindow = PresentationSource.FromVisual(element).RootVisual;
-            return element.TransformToAncestor(parentWindow);
+            Matrix m = PresentationSource.FromVisual(visual).CompositionTarget.TransformToDevice;
+            return new Point(pt.X/m.M11, pt.Y/m.M22);
         }
-
     }
 }

@@ -21,40 +21,42 @@ using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-	public class LayoutAnchorablePaneGroupControl : LayoutGridControl<ILayoutAnchorablePane>
-	{
-		private readonly LayoutAnchorablePaneGroup _model;
+    public class LayoutAnchorablePaneGroupControl : LayoutGridControl<ILayoutAnchorablePane>
+    {
+        private readonly LayoutAnchorablePaneGroup _model;
 
-		internal LayoutAnchorablePaneGroupControl(LayoutAnchorablePaneGroup model)
-			: base(model, model.Orientation)
-		{
-			_model = model;
-		}
+        internal LayoutAnchorablePaneGroupControl(LayoutAnchorablePaneGroup model)
+            : base(model, model.Orientation)
+        {
+            _model = model;
+        }
 
-		protected override void OnFixChildrenDockLengths()
-		{
-			#region Setup DockWidth/Height for children
+        protected override void OnFixChildrenDockLengths()
+        {
+            #region Setup DockWidth/Height for children
 
-			if (_model.Orientation == Orientation.Horizontal)
-			{
-				foreach (
-					var childModel in
-						_model.Children.OfType<ILayoutPositionableElement>().Where(childModel => !childModel.DockWidth.IsStar))
-				{
-					childModel.DockWidth = new GridLength(1.0, GridUnitType.Star);
-				}
-			}
-			else
-			{
-				foreach (
-					var childModel in
-						_model.Children.Select(t => t as ILayoutPositionableElement).Where(childModel => !childModel.DockHeight.IsStar))
-				{
-					childModel.DockHeight = new GridLength(1.0, GridUnitType.Star);
-				}
-			}
+            if (_model.Orientation == Orientation.Horizontal)
+            {
+                foreach (
+                    var childModel in
+                        _model.Children.OfType<ILayoutPositionableElement>()
+                            .Where(childModel => !childModel.DockWidth.IsStar))
+                {
+                    childModel.DockWidth = new GridLength(1.0, GridUnitType.Star);
+                }
+            }
+            else
+            {
+                foreach (
+                    var childModel in
+                        _model.Children.Select(t => t as ILayoutPositionableElement)
+                            .Where(childModel => !childModel.DockHeight.IsStar))
+                {
+                    childModel.DockHeight = new GridLength(1.0, GridUnitType.Star);
+                }
+            }
 
-			#endregion
-		}
-	}
+            #endregion
+        }
+    }
 }

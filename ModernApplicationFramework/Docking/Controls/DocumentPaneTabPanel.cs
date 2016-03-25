@@ -25,30 +25,15 @@ namespace ModernApplicationFramework.Docking.Controls
 {
     public class DocumentPaneTabPanel : Panel
     {
+        private int _indexOfFirstVisibleElement;
+        private int _indexOfLastVisibleElement;
+        private Size _oldFinalSize;
+        private int _selectedIndex;
+
         public DocumentPaneTabPanel()
         {
             FlowDirection = FlowDirection.LeftToRight;
         }
-
-        protected override Size MeasureOverride(Size availableSize)
-        {
-            Size desideredSize = new Size();
-            foreach (FrameworkElement child in Children)
-            {
-                child.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                desideredSize.Width += child.DesiredSize.Width;
-
-                desideredSize.Height = Math.Max(desideredSize.Height, child.DesiredSize.Height);
-            }
-
-            return new Size(Math.Min(desideredSize.Width, availableSize.Width), desideredSize.Height);
-        }
-
-
-        private int _indexOfFirstVisibleElement;
-        private int _indexOfLastVisibleElement;
-        private int _selectedIndex;
-        private Size _oldFinalSize;
 
         protected override Size ArrangeOverride(Size finalSize)
         {
@@ -105,6 +90,20 @@ namespace ModernApplicationFramework.Docking.Controls
             _selectedIndex = selectedIndex;
 
             return finalSize;
+        }
+
+        protected override Size MeasureOverride(Size availableSize)
+        {
+            Size desideredSize = new Size();
+            foreach (FrameworkElement child in Children)
+            {
+                child.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                desideredSize.Width += child.DesiredSize.Width;
+
+                desideredSize.Height = Math.Max(desideredSize.Height, child.DesiredSize.Height);
+            }
+
+            return new Size(Math.Min(desideredSize.Width, availableSize.Width), desideredSize.Height);
         }
 
         private static void ShowHideTabs(IList<TabItem> tabs, Size finalSize, int indexOfFirstVisibleElement,

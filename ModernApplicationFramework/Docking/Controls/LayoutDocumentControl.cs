@@ -20,54 +20,55 @@ using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-	public class LayoutDocumentControl : Control
-	{
-		static LayoutDocumentControl()
-		{
-			DefaultStyleKeyProperty.OverrideMetadata(typeof (LayoutDocumentControl),
-				new FrameworkPropertyMetadata(typeof (LayoutDocumentControl)));
-			FocusableProperty.OverrideMetadata(typeof (LayoutDocumentControl), new FrameworkPropertyMetadata(false));
-		}
+    public class LayoutDocumentControl : Control
+    {
+        public static readonly DependencyProperty ModelProperty =
+            DependencyProperty.Register("Model", typeof (LayoutContent), typeof (LayoutDocumentControl),
+                new FrameworkPropertyMetadata(null, OnModelChanged));
 
-		public LayoutItem LayoutItem => (LayoutItem) GetValue(LayoutItemProperty);
+        private static readonly DependencyPropertyKey LayoutItemPropertyKey
+            = DependencyProperty.RegisterReadOnly("LayoutItem", typeof (LayoutItem), typeof (LayoutDocumentControl),
+                new FrameworkPropertyMetadata((LayoutItem) null));
 
-		public LayoutContent Model
-		{
-			get { return (LayoutContent) GetValue(ModelProperty); }
-			set { SetValue(ModelProperty, value); }
-		}
+        public static readonly DependencyProperty LayoutItemProperty
+            = LayoutItemPropertyKey.DependencyProperty;
 
-		protected virtual void OnModelChanged(DependencyPropertyChangedEventArgs e)
-		{
-			SetLayoutItem(Model?.Root.Manager.GetLayoutItemFromModel(Model));
-		}
 
-		protected override void OnPreviewGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
-		{
-			if (Model != null)
-				Model.IsActive = true;
-			base.OnPreviewGotKeyboardFocus(e);
-		}
+        static LayoutDocumentControl()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof (LayoutDocumentControl),
+                new FrameworkPropertyMetadata(typeof (LayoutDocumentControl)));
+            FocusableProperty.OverrideMetadata(typeof (LayoutDocumentControl), new FrameworkPropertyMetadata(false));
+        }
 
-		protected void SetLayoutItem(LayoutItem value)
-		{
-			SetValue(LayoutItemPropertyKey, value);
-		}
+        public LayoutItem LayoutItem => (LayoutItem) GetValue(LayoutItemProperty);
 
-		private static void OnModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		{
-			((LayoutDocumentControl) d).OnModelChanged(e);
-		}
+        public LayoutContent Model
+        {
+            get { return (LayoutContent) GetValue(ModelProperty); }
+            set { SetValue(ModelProperty, value); }
+        }
 
-		public static readonly DependencyProperty ModelProperty =
-			DependencyProperty.Register("Model", typeof (LayoutContent), typeof (LayoutDocumentControl),
-				new FrameworkPropertyMetadata(null, OnModelChanged));
+        protected virtual void OnModelChanged(DependencyPropertyChangedEventArgs e)
+        {
+            SetLayoutItem(Model?.Root.Manager.GetLayoutItemFromModel(Model));
+        }
 
-		private static readonly DependencyPropertyKey LayoutItemPropertyKey
-			= DependencyProperty.RegisterReadOnly("LayoutItem", typeof (LayoutItem), typeof (LayoutDocumentControl),
-				new FrameworkPropertyMetadata((LayoutItem) null));
+        protected override void OnPreviewGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
+        {
+            if (Model != null)
+                Model.IsActive = true;
+            base.OnPreviewGotKeyboardFocus(e);
+        }
 
-		public static readonly DependencyProperty LayoutItemProperty
-			= LayoutItemPropertyKey.DependencyProperty;
-	}
+        protected void SetLayoutItem(LayoutItem value)
+        {
+            SetValue(LayoutItemPropertyKey, value);
+        }
+
+        private static void OnModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((LayoutDocumentControl) d).OnModelChanged(e);
+        }
+    }
 }

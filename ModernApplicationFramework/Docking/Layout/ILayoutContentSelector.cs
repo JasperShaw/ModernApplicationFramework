@@ -18,10 +18,9 @@ namespace ModernApplicationFramework.Docking.Layout
 {
     public interface ILayoutContentSelector
     {
+        LayoutContent SelectedContent { get; }
         int SelectedContentIndex { get; set; }
 
         int IndexOf(LayoutContent content);
-
-        LayoutContent SelectedContent { get; }
     }
 }

@@ -23,13 +23,30 @@ namespace ModernApplicationFramework.Docking.Controls
 {
     internal class DocumentPaneGroupDropTarget : DropTarget<LayoutDocumentPaneGroupControl>
     {
-        internal DocumentPaneGroupDropTarget(LayoutDocumentPaneGroupControl paneControl, Rect detectionRect, DropTargetType type)
+        readonly LayoutDocumentPaneGroupControl _targetPane;
+
+        internal DocumentPaneGroupDropTarget(LayoutDocumentPaneGroupControl paneControl, Rect detectionRect,
+            DropTargetType type)
             : base(paneControl, detectionRect, type)
         {
             _targetPane = paneControl;
         }
 
-	    readonly LayoutDocumentPaneGroupControl _targetPane;
+        public override Geometry GetPreviewPath(OverlayWindow overlayWindow, LayoutFloatingWindow floatingWindowModel)
+        {
+            switch (Type)
+            {
+                case DropTargetType.DocumentPaneGroupDockInside:
+                {
+                    var targetScreenRect = TargetElement.GetScreenArea();
+                    targetScreenRect.Offset(-overlayWindow.Left, -overlayWindow.Top);
+
+                    return new RectangleGeometry(targetScreenRect);
+                }
+            }
+
+            return null;
+        }
 
         protected override void Drop(LayoutDocumentFloatingWindow floatingWindow)
         {
@@ -38,16 +55,16 @@ namespace ModernApplicationFramework.Docking.Controls
             switch (Type)
             {
                 case DropTargetType.DocumentPaneGroupDockInside:
+                {
+                    var paneGroupModel = targetModel as LayoutDocumentPaneGroup;
+                    if (paneGroupModel != null)
                     {
-                        var paneGroupModel = targetModel as LayoutDocumentPaneGroup;
-	                    if (paneGroupModel != null)
-	                    {
-		                    var paneModel = paneGroupModel.Children[0] as LayoutDocumentPane;
-		                    var sourceModel = floatingWindow.RootDocument;
+                        var paneModel = paneGroupModel.Children[0] as LayoutDocumentPane;
+                        var sourceModel = floatingWindow.RootDocument;
 
-		                    paneModel?.Children.Insert(0, sourceModel);
-	                    }
+                        paneModel?.Children.Insert(0, sourceModel);
                     }
+                }
                     break;
             }
             base.Drop(floatingWindow);
@@ -60,42 +77,27 @@ namespace ModernApplicationFramework.Docking.Controls
             switch (Type)
             {
                 case DropTargetType.DocumentPaneGroupDockInside:
+                {
+                    var paneGroupModel = targetModel as LayoutDocumentPaneGroup;
+                    if (paneGroupModel != null)
                     {
-                        var paneGroupModel = targetModel as LayoutDocumentPaneGroup;
-	                    if (paneGroupModel != null)
-	                    {
-		                    var paneModel = paneGroupModel.Children[0] as LayoutDocumentPane;
-		                    var layoutAnchorablePaneGroup = floatingWindow.RootPanel;
+                        var paneModel = paneGroupModel.Children[0] as LayoutDocumentPane;
+                        var layoutAnchorablePaneGroup = floatingWindow.RootPanel;
 
-		                    int i = 0;
-		                    foreach (var anchorableToImport in layoutAnchorablePaneGroup.Descendents().OfType<LayoutAnchorable>().ToArray())
-		                    {
-			                    paneModel?.Children.Insert(i, anchorableToImport);
-			                    i++;
-		                    }
-	                    }
+                        int i = 0;
+                        foreach (
+                            var anchorableToImport in
+                                layoutAnchorablePaneGroup.Descendents().OfType<LayoutAnchorable>().ToArray())
+                        {
+                            paneModel?.Children.Insert(i, anchorableToImport);
+                            i++;
+                        }
                     }
+                }
                     break;
             }
 
             base.Drop(floatingWindow);
         }
-
-        public override Geometry GetPreviewPath(OverlayWindow overlayWindow, LayoutFloatingWindow floatingWindowModel)
-        {
-            switch (Type)
-            {
-                case DropTargetType.DocumentPaneGroupDockInside:
-                    {
-                        var targetScreenRect = TargetElement.GetScreenArea();
-                        targetScreenRect.Offset(-overlayWindow.Left, -overlayWindow.Top);
-
-                        return new RectangleGeometry(targetScreenRect);
-                    } 
-            }
-
-            return null;
-        }
-
     }
 }

@@ -25,14 +25,21 @@ namespace ModernApplicationFramework.Docking
     {
         public static bool Contains(this IEnumerable collection, object item)
         {
-	        return collection.Cast<object>().Any(o => o == item);
+            return collection.Cast<object>().Any(o => o == item);
         }
 
 
-	    public static void ForEach<T>(this IEnumerable<T> collection, Action<T> action)
+        public static void ForEach<T>(this IEnumerable<T> collection, Action<T> action)
         {
             foreach (T v in collection)
                 action(v);
+        }
+
+        public static TV GetValueOrDefault<TV>(this WeakReference wr)
+        {
+            if (wr == null || !wr.IsAlive)
+                return default(TV);
+            return (TV) wr.Target;
         }
 
 
@@ -43,13 +50,6 @@ namespace ModernApplicationFramework.Docking
                     return i;
 
             return -1;
-        }
-
-        public static TV GetValueOrDefault<TV>(this WeakReference wr)
-        {
-            if (wr == null || !wr.IsAlive)
-                return default(TV);
-            return (TV)wr.Target;
         }
     }
 }

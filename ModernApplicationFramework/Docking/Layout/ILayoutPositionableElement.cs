@@ -20,39 +20,30 @@ namespace ModernApplicationFramework.Docking.Layout
 {
     internal interface ILayoutPositionableElement : ILayoutElement, ILayoutElementForFloatingWindow
     {
-        GridLength DockWidth
-        {
-            get;
-            set;
-        }
+        bool IsVisible { get; }
 
-        GridLength DockHeight
-        {
-            get;
-            set;
-        }
+        GridLength DockHeight { get; set; }
 
-        double DockMinWidth { get; set; }
         double DockMinHeight { get; set; }
 
+        double DockMinWidth { get; set; }
 
-
-        bool IsVisible { get; }
+        GridLength DockWidth { get; set; }
     }
 
 
     internal interface ILayoutPositionableElementWithActualSize
     {
-        double ActualWidth { get; set; }
         double ActualHeight { get; set; }
+        double ActualWidth { get; set; }
     }
 
     internal interface ILayoutElementForFloatingWindow
     {
-        double FloatingWidth { get; set; }
         double FloatingHeight { get; set; }
         double FloatingLeft { get; set; }
         double FloatingTop { get; set; }
+        double FloatingWidth { get; set; }
         bool IsMaximized { get; set; }
     }
 }

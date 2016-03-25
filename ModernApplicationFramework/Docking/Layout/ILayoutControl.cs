@@ -18,6 +18,6 @@ namespace ModernApplicationFramework.Docking.Layout
 {
     public interface ILayoutControl
     {
-        ILayoutElement Model { get;  }
+        ILayoutElement Model { get; }
     }
 }

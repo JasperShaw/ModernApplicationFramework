@@ -18,16 +18,16 @@ using System.Windows;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-	public class DockingManagerOverlayArea : OverlayArea
-	{
-		internal DockingManagerOverlayArea(IOverlayWindow overlayWindow, DockingManager manager)
-			: base(overlayWindow)
-		{
-			var manager1 = manager;
+    public class DockingManagerOverlayArea : OverlayArea
+    {
+        internal DockingManagerOverlayArea(IOverlayWindow overlayWindow, DockingManager manager)
+            : base(overlayWindow)
+        {
+            var manager1 = manager;
 
-			SetScreenDetectionArea(new Rect(
-				manager1.PointToScreenDpi(new Point()),
-				manager1.TransformActualSizeToAncestor()));
-		}
-	}
+            SetScreenDetectionArea(new Rect(
+                manager1.PointToScreenDpi(new Point()),
+                manager1.TransformActualSizeToAncestor()));
+        }
+    }
 }

@@ -23,141 +23,143 @@ using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-	public class LayoutAnchorSideControl : Control, ILayoutControl
-	{
-		private readonly ObservableCollection<LayoutAnchorGroupControl> _childViews =
-			new ObservableCollection<LayoutAnchorGroupControl>();
+    public class LayoutAnchorSideControl : Control, ILayoutControl
+    {
+        private static readonly DependencyPropertyKey IsBottomSidePropertyKey
+            = DependencyProperty.RegisterReadOnly("IsBottomSide", typeof (bool), typeof (LayoutAnchorSideControl),
+                new FrameworkPropertyMetadata(false));
 
-		private readonly LayoutAnchorSide _model;
+        public static readonly DependencyProperty IsBottomSideProperty
+            = IsBottomSidePropertyKey.DependencyProperty;
 
-		internal LayoutAnchorSideControl(LayoutAnchorSide model)
-		{
-			if (model == null)
-				throw new ArgumentNullException("model");
+        private static readonly DependencyPropertyKey IsLeftSidePropertyKey
+            = DependencyProperty.RegisterReadOnly("IsLeftSide", typeof (bool), typeof (LayoutAnchorSideControl),
+                new FrameworkPropertyMetadata(false));
+
+        public static readonly DependencyProperty IsLeftSideProperty
+            = IsLeftSidePropertyKey.DependencyProperty;
+
+        private static readonly DependencyPropertyKey IsRightSidePropertyKey
+            = DependencyProperty.RegisterReadOnly("IsRightSide", typeof (bool), typeof (LayoutAnchorSideControl),
+                new FrameworkPropertyMetadata(false));
+
+        public static readonly DependencyProperty IsRightSideProperty
+            = IsRightSidePropertyKey.DependencyProperty;
+
+        private static readonly DependencyPropertyKey IsTopSidePropertyKey
+            = DependencyProperty.RegisterReadOnly("IsTopSide", typeof (bool), typeof (LayoutAnchorSideControl),
+                new FrameworkPropertyMetadata(false));
+
+        public static readonly DependencyProperty IsTopSideProperty
+            = IsTopSidePropertyKey.DependencyProperty;
 
 
-			_model = model;
+        private readonly ObservableCollection<LayoutAnchorGroupControl> _childViews =
+            new ObservableCollection<LayoutAnchorGroupControl>();
 
-			CreateChildrenViews();
+        private readonly LayoutAnchorSide _model;
 
-			_model.Children.CollectionChanged += (s, e) => OnModelChildrenCollectionChanged(e);
+        internal LayoutAnchorSideControl(LayoutAnchorSide model)
+        {
+            if (model == null)
+                throw new ArgumentNullException("model");
 
-			UpdateSide();
-		}
 
-		static LayoutAnchorSideControl()
-		{
-			DefaultStyleKeyProperty.OverrideMetadata(typeof (LayoutAnchorSideControl),
-				new FrameworkPropertyMetadata(typeof (LayoutAnchorSideControl)));
-		}
+            _model = model;
 
-		public ILayoutElement Model => _model;
-		public ObservableCollection<LayoutAnchorGroupControl> Children => _childViews;
-		public bool IsBottomSide => (bool) GetValue(IsBottomSideProperty);
-		public bool IsLeftSide => (bool) GetValue(IsLeftSideProperty);
-		public bool IsRightSide => (bool) GetValue(IsRightSideProperty);
-		public bool IsTopSide => (bool) GetValue(IsTopSideProperty);
+            CreateChildrenViews();
 
-		protected void SetIsBottomSide(bool value)
-		{
-			SetValue(IsBottomSidePropertyKey, value);
-		}
+            _model.Children.CollectionChanged += (s, e) => OnModelChildrenCollectionChanged(e);
 
-		protected void SetIsLeftSide(bool value)
-		{
-			SetValue(IsLeftSidePropertyKey, value);
-		}
+            UpdateSide();
+        }
 
-		protected void SetIsRightSide(bool value)
-		{
-			SetValue(IsRightSidePropertyKey, value);
-		}
+        static LayoutAnchorSideControl()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof (LayoutAnchorSideControl),
+                new FrameworkPropertyMetadata(typeof (LayoutAnchorSideControl)));
+        }
 
-		protected void SetIsTopSide(bool value)
-		{
-			SetValue(IsTopSidePropertyKey, value);
-		}
+        public ILayoutElement Model => _model;
+        public ObservableCollection<LayoutAnchorGroupControl> Children => _childViews;
+        public bool IsBottomSide => (bool) GetValue(IsBottomSideProperty);
+        public bool IsLeftSide => (bool) GetValue(IsLeftSideProperty);
+        public bool IsRightSide => (bool) GetValue(IsRightSideProperty);
+        public bool IsTopSide => (bool) GetValue(IsTopSideProperty);
 
-		private void CreateChildrenViews()
-		{
-			var manager = _model.Root.Manager;
-			foreach (var childModel in _model.Children)
-			{
-				_childViews.Add(manager.CreateUIElementForModel(childModel) as LayoutAnchorGroupControl);
-			}
-		}
+        protected void SetIsBottomSide(bool value)
+        {
+            SetValue(IsBottomSidePropertyKey, value);
+        }
 
-		private void OnModelChildrenCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-		{
-			if (e.OldItems != null &&
-			    (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove ||
-			     e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace))
-			{
-				foreach (var childModel in e.OldItems)
-					_childViews.Remove(_childViews.First(cv => cv.Model == childModel));
-			}
+        protected void SetIsLeftSide(bool value)
+        {
+            SetValue(IsLeftSidePropertyKey, value);
+        }
 
-			if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Reset)
-				_childViews.Clear();
+        protected void SetIsRightSide(bool value)
+        {
+            SetValue(IsRightSidePropertyKey, value);
+        }
 
-			if (e.NewItems != null &&
-			    (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add ||
-			     e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace))
-			{
-				var manager = _model.Root.Manager;
-				int insertIndex = e.NewStartingIndex;
-				foreach (LayoutAnchorGroup childModel in e.NewItems)
-				{
-					_childViews.Insert(insertIndex++, manager.CreateUIElementForModel(childModel) as LayoutAnchorGroupControl);
-				}
-			}
-		}
+        protected void SetIsTopSide(bool value)
+        {
+            SetValue(IsTopSidePropertyKey, value);
+        }
 
-		private void UpdateSide()
-		{
-			switch (_model.Side)
-			{
-				case AnchorSide.Left:
-					SetIsLeftSide(true);
-					break;
-				case AnchorSide.Top:
-					SetIsTopSide(true);
-					break;
-				case AnchorSide.Right:
-					SetIsRightSide(true);
-					break;
-				case AnchorSide.Bottom:
-					SetIsBottomSide(true);
-					break;
-			}
-		}
+        private void CreateChildrenViews()
+        {
+            var manager = _model.Root.Manager;
+            foreach (var childModel in _model.Children)
+            {
+                _childViews.Add(manager.CreateUIElementForModel(childModel) as LayoutAnchorGroupControl);
+            }
+        }
 
-		private static readonly DependencyPropertyKey IsLeftSidePropertyKey
-			= DependencyProperty.RegisterReadOnly("IsLeftSide", typeof (bool), typeof (LayoutAnchorSideControl),
-				new FrameworkPropertyMetadata(false));
+        private void OnModelChildrenCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.OldItems != null &&
+                (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove ||
+                 e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace))
+            {
+                foreach (var childModel in e.OldItems)
+                    _childViews.Remove(_childViews.First(cv => cv.Model == childModel));
+            }
 
-		public static readonly DependencyProperty IsLeftSideProperty
-			= IsLeftSidePropertyKey.DependencyProperty;
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Reset)
+                _childViews.Clear();
 
-		private static readonly DependencyPropertyKey IsTopSidePropertyKey
-			= DependencyProperty.RegisterReadOnly("IsTopSide", typeof (bool), typeof (LayoutAnchorSideControl),
-				new FrameworkPropertyMetadata(false));
+            if (e.NewItems != null &&
+                (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add ||
+                 e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace))
+            {
+                var manager = _model.Root.Manager;
+                int insertIndex = e.NewStartingIndex;
+                foreach (LayoutAnchorGroup childModel in e.NewItems)
+                {
+                    _childViews.Insert(insertIndex++,
+                        manager.CreateUIElementForModel(childModel) as LayoutAnchorGroupControl);
+                }
+            }
+        }
 
-		public static readonly DependencyProperty IsTopSideProperty
-			= IsTopSidePropertyKey.DependencyProperty;
-
-		private static readonly DependencyPropertyKey IsRightSidePropertyKey
-			= DependencyProperty.RegisterReadOnly("IsRightSide", typeof (bool), typeof (LayoutAnchorSideControl),
-				new FrameworkPropertyMetadata(false));
-
-		public static readonly DependencyProperty IsRightSideProperty
-			= IsRightSidePropertyKey.DependencyProperty;
-
-		private static readonly DependencyPropertyKey IsBottomSidePropertyKey
-			= DependencyProperty.RegisterReadOnly("IsBottomSide", typeof (bool), typeof (LayoutAnchorSideControl),
-				new FrameworkPropertyMetadata(false));
-
-		public static readonly DependencyProperty IsBottomSideProperty
-			= IsBottomSidePropertyKey.DependencyProperty;
-	}
+        private void UpdateSide()
+        {
+            switch (_model.Side)
+            {
+                case AnchorSide.Left:
+                    SetIsLeftSide(true);
+                    break;
+                case AnchorSide.Top:
+                    SetIsTopSide(true);
+                    break;
+                case AnchorSide.Right:
+                    SetIsRightSide(true);
+                    break;
+                case AnchorSide.Bottom:
+                    SetIsBottomSide(true);
+                    break;
+            }
+        }
+    }
 }

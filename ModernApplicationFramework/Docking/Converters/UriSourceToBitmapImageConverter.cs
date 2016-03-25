@@ -25,10 +25,11 @@ namespace ModernApplicationFramework.Docking.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-	        return value == null ? Binding.DoNothing : new Image { Source = new BitmapImage((Uri)value) };
+            return value == null ? Binding.DoNothing : new Image {Source = new BitmapImage((Uri) value)};
         }
 
-	    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter,
+            System.Globalization.CultureInfo culture)
         {
             throw new NotImplementedException();
         }

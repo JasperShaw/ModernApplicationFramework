@@ -20,12 +20,12 @@ using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.Converters
 {
-    [ValueConversion(typeof(AnchorSide), typeof(double))]
+    [ValueConversion(typeof (AnchorSide), typeof (double))]
     public class AnchorSideToAngleConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            AnchorSide side = (AnchorSide)value;
+            AnchorSide side = (AnchorSide) value;
             if (side == AnchorSide.Left ||
                 side == AnchorSide.Right)
                 return 90.0;
@@ -33,7 +33,8 @@ namespace ModernApplicationFramework.Docking.Converters
             return Binding.DoNothing;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter,
+            System.Globalization.CultureInfo culture)
         {
             throw new NotImplementedException();
         }
