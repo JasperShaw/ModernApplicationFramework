@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -11,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
+using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Platform;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
@@ -22,20 +24,41 @@ using RECT = ModernApplicationFramework.Core.Platform.RECT;
 namespace ModernApplicationFramework.Controls
 {
     [SuppressMessage("ReSharper", "RedundantAssignment")]
-    public class ModernChromeWindow : Window, IChangeTheme
+    public class ModernChromeWindow : Window, IHasTheme
     {
         private const int MonitorDefaulttonearest = 0x00000002;
+
+        public static readonly DependencyProperty ThemeProperty = DependencyProperty.Register("Theme", typeof (Theme),
+            typeof (ModernChromeWindow), new FrameworkPropertyMetadata(null));
+
+        public static readonly DependencyProperty ActiveShadowColorProperty =
+            DependencyProperty.Register("ActiveShadowColor", typeof (Brush), typeof (ModernChromeWindow),
+                new FrameworkPropertyMetadata(Brushes.Black, OnGlowColorChanged));
+
+        public static readonly DependencyProperty InactiveShadowColorProperty =
+            DependencyProperty.Register("InactiveShadowColor", typeof (Brush), typeof (ModernChromeWindow),
+                new FrameworkPropertyMetadata(Brushes.DarkGray, OnGlowColorChanged));
+
+        public static readonly DependencyProperty NonClientFillColorProperty =
+            DependencyProperty.Register("NonClientFillColor", typeof (Brush), typeof (ModernChromeWindow),
+                new FrameworkPropertyMetadata(Brushes.Black));
+
+        public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register("CornerRadius",
+            typeof (int), typeof (ModernChromeWindow), new FrameworkPropertyMetadata(0, OnCornerRadiusChanged));
+
+
         private readonly ShadowWindow[] _shadowWindows = new ShadowWindow[4];
         private bool _isShadowVisible;
+
+        private int _lastScwParam;
+        private WindowState _lastState;
         private int _lastWindowPlacement;
         private Rect _logicalSizeForRestore = Rect.Empty;
         private DispatcherTimer _makeShadowVisibleTimer;
         private IntPtr _ownerForActivate;
+        private Theme _theme;
         private bool _updatingZOrder;
         private bool _useLogicalSizeForRestore;
-
-        private int _lastScwParam;
-        private WindowState _lastState;
         private bool _wasMaximized;
 
         protected enum ClipRegionChangeType
@@ -46,21 +69,22 @@ namespace ModernApplicationFramework.Controls
             FromUndockSingleTab
         }
 
-        public event EventHandler OnThemeChanged;
+        public event EventHandler<ThemeChangedEventArgs> OnThemeChanged;
 
-        protected virtual void OnRaiseThemeChanged(EventArgs e)
+        public Theme Theme
         {
-            var handler = OnThemeChanged;
-            handler?.Invoke(this, e);
-        }
-
-        public virtual void ChangeTheme(Theme oldValue, Theme newValue)
-        {
-            UpdateGlowColors();
-            IsShadowVisible = false;
-            IsShadowVisible = true;
-            UpdateClipRegion();
-            OnRaiseThemeChanged(null);
+            get { return _theme; }
+            set
+            {
+                if (value == null)
+                    throw new NoNullAllowedException();
+                if (Equals(value, _theme))
+                    return;
+                var oldTheme = _theme;
+                _theme = value;
+                ChangeTheme(oldTheme, _theme);
+                OnRaiseThemeChanged(new ThemeChangedEventArgs(value, oldTheme));
+            }
         }
 
         public Brush ActiveShadowColor
@@ -95,9 +119,9 @@ namespace ModernApplicationFramework.Controls
                 if (NativeMethods.IsWindowVisible(handle) && !NativeMethods.IsIconic(handle) &&
                     !NativeMethods.IsZoomed(handle))
                 {
-	                return ResizeMode != ResizeMode.NoResize;
+                    return ResizeMode != ResizeMode.NoResize;
                 }
-	            return false;
+                return false;
             }
         }
 
@@ -111,11 +135,11 @@ namespace ModernApplicationFramework.Controls
                 if (NativeMethods.IsWindowVisible(handle) && !NativeMethods.IsIconic(handle) &&
                     !NativeMethods.IsZoomed(handle))
                 {
-	                if (ResizeMode == ResizeMode.NoResize)
+                    if (ResizeMode == ResizeMode.NoResize)
                         return true;
-	                return true;
+                    return true;
                 }
-	            return false;
+                return false;
             }
         }
 
@@ -177,6 +201,14 @@ namespace ModernApplicationFramework.Controls
         public void ChangeOwnerForActivate(IntPtr newOwner)
         {
             _ownerForActivate = newOwner;
+        }
+
+        public virtual void ChangeTheme(Theme oldValue, Theme newValue)
+        {
+            UpdateGlowColors();
+            IsShadowVisible = false;
+            IsShadowVisible = true;
+            UpdateClipRegion();
         }
 
         protected static void ShowWindowMenu(HwndSource source, Point screenPoint, bool canMinimize)
@@ -315,12 +347,18 @@ namespace ModernApplicationFramework.Controls
             base.OnDeactivated(e);
         }
 
+        protected virtual void OnRaiseThemeChanged(ThemeChangedEventArgs e)
+        {
+            var handler = OnThemeChanged;
+            handler?.Invoke(this, e);
+        }
+
         protected override void OnSourceInitialized(EventArgs e)
         {
             var hwndSource = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
             hwndSource?.AddHook(WindowProc);
             Loaded += OnLoaded;
-            base.OnSourceInitialized(e);       
+            base.OnSourceInitialized(e);
         }
 
         protected override void OnStateChanged(EventArgs e)
@@ -404,7 +442,7 @@ namespace ModernApplicationFramework.Controls
                 case 70:
                     WmWindowPosChanging(lparam);
                     break;
-				case 71:
+                case 71:
                     WmWindowPosChanged(hwnd, lparam);
                     break;
                 case 36: // GetMinMaxInfo
@@ -507,7 +545,7 @@ namespace ModernApplicationFramework.Controls
         private static Monitorinfo MonitorInfoFromWindow(IntPtr hWnd)
         {
             var hMonitor = NativeMethods.MonitorFromWindow(hWnd, 2);
-            var monitorInfo = new Monitorinfo { CbSize = (uint)Marshal.SizeOf(typeof(Monitorinfo)) };
+            var monitorInfo = new Monitorinfo {CbSize = (uint) Marshal.SizeOf(typeof (Monitorinfo))};
             NativeMethods.GetMonitorInfo(hMonitor, ref monitorInfo);
             return monitorInfo;
         }
@@ -831,8 +869,8 @@ namespace ModernApplicationFramework.Controls
                 _useLogicalSizeForRestore = false;
             }
             var rect = ViewSite.GetOnScreenPosition(floatRect).LogicalToDeviceUnits();
-            windowpos.x = (int)rect.X;
-            windowpos.y = (int)rect.Y;
+            windowpos.x = (int) rect.X;
+            windowpos.y = (int) rect.Y;
             Marshal.StructureToPtr((object) windowpos, lParam, true);
         }
 
@@ -860,21 +898,6 @@ namespace ModernApplicationFramework.Controls
             }
             Marshal.StructureToPtr(mmi, lparam, true);
         }
-
-        public static readonly DependencyProperty ActiveShadowColorProperty =
-            DependencyProperty.Register("ActiveShadowColor", typeof (Brush), typeof (ModernChromeWindow),
-                new FrameworkPropertyMetadata(Brushes.Black, OnGlowColorChanged));
-
-        public static readonly DependencyProperty InactiveShadowColorProperty =
-            DependencyProperty.Register("InactiveShadowColor", typeof (Brush), typeof (ModernChromeWindow),
-                new FrameworkPropertyMetadata(Brushes.DarkGray, OnGlowColorChanged));
-
-        public static readonly DependencyProperty NonClientFillColorProperty =
-            DependencyProperty.Register("NonClientFillColor", typeof (Brush), typeof (ModernChromeWindow),
-                new FrameworkPropertyMetadata(Brushes.Black));
-
-        public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register("CornerRadius",
-            typeof (int), typeof (ModernChromeWindow), new FrameworkPropertyMetadata(0, OnCornerRadiusChanged));
     }
 
     [TemplatePart(Name = InnerBorder, Type = typeof (Border))]
@@ -903,7 +926,7 @@ namespace ModernApplicationFramework.Controls
             _targetWindow = owner;
             Owner = owner;
 
-	        ShowInTaskbar = false;
+            ShowInTaskbar = false;
 
             ActiveBorderBrush = _targetWindow.ActiveShadowColor ?? Brushes.Black;
             InactiveBorderBrush = _targetWindow.InactiveShadowColor ?? Brushes.DarkGray;
@@ -1048,23 +1071,11 @@ namespace ModernApplicationFramework.Controls
             var hwndSource = HwndSource.FromHwnd((new WindowInteropHelper(this).Handle));
             hwndSource?.AddHook(WndProc);
 
-			Loaded += OnLoaded;
+            Loaded += OnLoaded;
         }
 
-		//Makes window not show in App-Switcher (Alt+Tab)
-		private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
-		{
-			var wndHelper = new WindowInteropHelper(this);
-			var exStyle = NativeMethods.GetWindowLong(wndHelper.Handle, Gwl.Exstyle);
 
-			exStyle |= 0x00000080;
-
-			NativeMethods.SetWindowLongShadow(wndHelper.Handle, (int)Gwl.Exstyle, (IntPtr)exStyle);
-
-		}
-
-
-		private void ClearWindow()
+        private void ClearWindow()
         {
             Hide();
         }
@@ -1118,6 +1129,17 @@ namespace ModernApplicationFramework.Controls
                         return Cursors.SizeNESW;
                     return xlParam + 18 > lpRect.Right ? Cursors.SizeNWSE : Cursors.SizeNS;
             }
+        }
+
+        //Makes window not show in App-Switcher (Alt+Tab)
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            var wndHelper = new WindowInteropHelper(this);
+            var exStyle = NativeMethods.GetWindowLong(wndHelper.Handle, Gwl.Exstyle);
+
+            exStyle |= 0x00000080;
+
+            NativeMethods.SetWindowLongShadow(wndHelper.Handle, (int) Gwl.Exstyle, (IntPtr) exStyle);
         }
 
         private void RenderLayeredWindow()

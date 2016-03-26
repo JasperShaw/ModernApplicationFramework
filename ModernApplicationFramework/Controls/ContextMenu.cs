@@ -1,18 +1,40 @@
 ﻿using System;
+using System.Data;
 using System.Linq;
 using System.Windows;
+using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
 
 namespace ModernApplicationFramework.Controls
 {
-    public class ContextMenu : System.Windows.Controls.ContextMenu, IChangeTheme
+    public class ContextMenu : System.Windows.Controls.ContextMenu, IHasTheme
     {
+        private Theme _theme;
+
         static ContextMenu()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(ContextMenu), new FrameworkPropertyMetadata(typeof(ContextMenu)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof (ContextMenu),
+                new FrameworkPropertyMetadata(typeof (ContextMenu)));
         }
 
-        public event EventHandler OnThemeChanged;
+        public event EventHandler<ThemeChangedEventArgs> OnThemeChanged;
+
+        public Theme Theme
+        {
+            get { return _theme; }
+            set
+            {
+                if (value == null)
+                    throw new NoNullAllowedException();
+                if (Equals(value, _theme))
+                    return;
+                var oldTheme = _theme;
+                _theme = value;
+                ChangeTheme(oldTheme, _theme);
+                OnRaiseThemeChanged(new ThemeChangedEventArgs(value, oldTheme));
+            }
+        }
+
         public void ChangeTheme(Theme oldValue, Theme newValue)
         {
             var oldTheme = oldValue;
@@ -29,8 +51,14 @@ namespace ModernApplicationFramework.Controls
 
             if (newTheme != null)
             {
-                resources.MergedDictionaries.Add(new ResourceDictionary { Source = newTheme.GetResourceUri() });
+                resources.MergedDictionaries.Add(new ResourceDictionary {Source = newTheme.GetResourceUri()});
             }
+        }
+
+        protected virtual void OnRaiseThemeChanged(ThemeChangedEventArgs e)
+        {
+            var handler = OnThemeChanged;
+            handler?.Invoke(this, e);
         }
     }
 }

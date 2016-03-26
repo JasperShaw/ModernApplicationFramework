@@ -117,8 +117,9 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public override void ChangeTheme(Theme oldValue, Theme newValue)
         {
-            _overlayWindow?.ChangeTheme(oldValue, newValue);
             base.ChangeTheme(oldValue, newValue);
+            if (_overlayWindow != null)
+                _overlayWindow.Theme = newValue;
         }
 
         public virtual void MaximizeRestoreButtonClick(object sender, RoutedEventArgs e)

@@ -16,14 +16,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Windows;
+using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-    public class NavigatorWindow : Window, IChangeTheme
+    public class NavigatorWindow : Window, IHasTheme
     {
         private static readonly DependencyPropertyKey AnchorablesPropertyKey
             = DependencyProperty.RegisterReadOnly("Anchorables", typeof (IEnumerable<LayoutAnchorableItem>),
@@ -54,6 +56,9 @@ namespace ModernApplicationFramework.Docking.Controls
 
         private readonly DockingManager _manager;
         private bool _internalSetSelectedDocument;
+
+
+        private Theme _theme;
 
         internal NavigatorWindow(DockingManager manager)
         {
@@ -93,23 +98,23 @@ namespace ModernApplicationFramework.Docking.Controls
             ShowInTaskbarProperty.OverrideMetadata(typeof (NavigatorWindow), new FrameworkPropertyMetadata(false));
         }
 
-        public void ChangeTheme(Theme oldValue, Theme newValue)
+        public event EventHandler<ThemeChangedEventArgs> OnThemeChanged;
+
+        public Theme Theme
         {
-            if (oldValue != null)
+            get { return _theme; }
+            set
             {
-                var resourceDictionaryToRemove =
-                    Resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldValue.GetResourceUri());
-                if (resourceDictionaryToRemove != null)
-                    Resources.MergedDictionaries.Remove(
-                        resourceDictionaryToRemove);
+                if (value == null)
+                    throw new NoNullAllowedException();
+                if (Equals(value, _theme))
+                    return;
+                var oldTheme = _theme;
+                _theme = value;
+                ChangeTheme(oldTheme, _theme);
+                OnRaiseThemeChanged(new ThemeChangedEventArgs(value, oldTheme));
             }
-            if (newValue != null)
-                Resources.MergedDictionaries.Add(new ResourceDictionary {Source = newValue.GetResourceUri()});
-
-            OnRaiseThemeChanged(null);
         }
-
-        public event EventHandler OnThemeChanged;
 
         public IEnumerable<LayoutAnchorableItem> Anchorables
             => (IEnumerable<LayoutAnchorableItem>) GetValue(AnchorablesProperty);
@@ -126,6 +131,20 @@ namespace ModernApplicationFramework.Docking.Controls
         {
             get { return (LayoutDocumentItem) GetValue(SelectedDocumentProperty); }
             set { SetValue(SelectedDocumentProperty, value); }
+        }
+
+        public void ChangeTheme(Theme oldValue, Theme newValue)
+        {
+            if (oldValue != null)
+            {
+                var resourceDictionaryToRemove =
+                    Resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldValue.GetResourceUri());
+                if (resourceDictionaryToRemove != null)
+                    Resources.MergedDictionaries.Remove(
+                        resourceDictionaryToRemove);
+            }
+            if (newValue != null)
+                Resources.MergedDictionaries.Add(new ResourceDictionary {Source = newValue.GetResourceUri()});
         }
 
         protected override void OnPreviewKeyDown(System.Windows.Input.KeyEventArgs e)
@@ -160,7 +179,7 @@ namespace ModernApplicationFramework.Docking.Controls
             base.OnPreviewKeyUp(e);
         }
 
-        protected virtual void OnRaiseThemeChanged(EventArgs e)
+        protected virtual void OnRaiseThemeChanged(ThemeChangedEventArgs e)
         {
             var handler = OnThemeChanged;
             handler?.Invoke(this, e);

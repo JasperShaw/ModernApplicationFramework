@@ -19,6 +19,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Data;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -29,7 +30,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Markup;
 using System.Windows.Threading;
-using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Controls;
 using ModernApplicationFramework.Docking.Layout;
@@ -39,7 +40,7 @@ namespace ModernApplicationFramework.Docking
 {
     [ContentProperty("Layout")]
     [TemplatePart(Name = "PART_AutoHideArea")]
-    public class DockingManager : Control, IOverlayWindowHost, IChangeTheme //, ILogicalChildrenContainer
+    public class DockingManager : Control, IOverlayWindowHost, IHasTheme //, ILogicalChildrenContainer
     {
         public static readonly DependencyProperty LayoutProperty =
             DependencyProperty.Register("Layout", typeof (LayoutRoot), typeof (DockingManager),
@@ -266,6 +267,8 @@ namespace ModernApplicationFramework.Docking
 
         private bool _suspendLayoutItemCreation;
 
+        private Theme _theme;
+
         public DockingManager()
         {
             Layout = new LayoutRoot
@@ -295,38 +298,24 @@ namespace ModernApplicationFramework.Docking
 
         public event EventHandler LayoutChanging;
 
-        public virtual void ChangeTheme(Theme oldValue, Theme newValue)
+
+        public event EventHandler<ThemeChangedEventArgs> OnThemeChanged;
+
+        public Theme Theme
         {
-            var oldTheme = oldValue;
-            var newTheme = newValue;
-            var resources = Resources;
-            if (oldTheme != null)
+            get { return _theme; }
+            set
             {
-                var resourceDictionaryToRemove =
-                    resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldTheme.GetResourceUri());
-                if (resourceDictionaryToRemove != null)
-                    resources.MergedDictionaries.Remove(
-                        resourceDictionaryToRemove);
+                if (value == null)
+                    throw new NoNullAllowedException();
+                if (Equals(value, _theme))
+                    return;
+                var oldTheme = _theme;
+                _theme = value;
+                ChangeTheme(oldTheme, _theme);
+                OnRaiseThemeChanged(new ThemeChangedEventArgs(value, oldTheme));
             }
-
-            if (newTheme != null)
-            {
-                resources.MergedDictionaries.Add(new ResourceDictionary() {Source = newTheme.GetResourceUri()});
-            }
-
-            foreach (var fwc in _fwList)
-                fwc.ChangeTheme(oldValue, newValue);
-
-            _navigatorWindow?.ChangeTheme(oldValue, newValue);
-            _overlayWindow?.ChangeTheme(oldValue, newValue);
-            ((ModernApplicationFramework.Controls.ContextMenu)DocumentContextMenu).ChangeTheme(oldValue, newValue);
-            ((ModernApplicationFramework.Controls.ContextMenu)AnchorableContextMenu).ChangeTheme(oldValue, newValue);
-
-            OnRaiseThemeChanged(null);
         }
-
-
-        public event EventHandler OnThemeChanged;
 
         IEnumerable<IDropArea> IOverlayWindowHost.GetDropAreas(LayoutFloatingWindowControl draggingWindow)
         {
@@ -667,6 +656,36 @@ namespace ModernApplicationFramework.Docking
 
         private bool IsNavigatorWindowActive => _navigatorWindow != null;
 
+        public virtual void ChangeTheme(Theme oldValue, Theme newValue)
+        {
+            var oldTheme = oldValue;
+            var newTheme = newValue;
+            var resources = Resources;
+            if (oldTheme != null)
+            {
+                var resourceDictionaryToRemove =
+                    resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldTheme.GetResourceUri());
+                if (resourceDictionaryToRemove != null)
+                    resources.MergedDictionaries.Remove(
+                        resourceDictionaryToRemove);
+            }
+
+            if (newTheme != null)
+            {
+                resources.MergedDictionaries.Add(new ResourceDictionary {Source = newTheme.GetResourceUri()});
+            }
+
+            foreach (var fwc in _fwList)
+                fwc.Theme = newValue;
+
+            if (_overlayWindow != null)
+                _overlayWindow.Theme = newValue;
+            if (_navigatorWindow != null)
+                _navigatorWindow.Theme = newValue;
+            ((ModernApplicationFramework.Controls.ContextMenu) DocumentContextMenu).Theme = newValue;
+            ((ModernApplicationFramework.Controls.ContextMenu) AnchorableContextMenu).Theme = newValue;
+        }
+
         public LayoutItem GetLayoutItemFromModel(LayoutContent content)
         {
             return _layoutItems.FirstOrDefault(item => Equals(item.LayoutElement, content));
@@ -936,7 +955,7 @@ namespace ModernApplicationFramework.Docking
             base.OnPreviewLostKeyboardFocus(e);
         }
 
-        protected virtual void OnRaiseThemeChanged(EventArgs e)
+        protected virtual void OnRaiseThemeChanged(ThemeChangedEventArgs e)
         {
             var handler = OnThemeChanged;
             handler?.Invoke(this, e);

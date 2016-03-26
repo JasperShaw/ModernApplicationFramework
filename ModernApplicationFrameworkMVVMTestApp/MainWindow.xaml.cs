@@ -1,6 +1,6 @@
-﻿using System.IO;
-using System.Windows;
-using ModernApplicationFramework.Docking.Layout.Serialization;
+﻿using System.Windows;
+using ModernApplicationFramework.Themes;
+using ModernApplicationFramework.Themes.LightIDE;
 
 namespace ModernApplicationFrameworkMVVMTestApp
 {
@@ -13,31 +13,24 @@ namespace ModernApplicationFrameworkMVVMTestApp
 		{
             
 			InitializeComponent();
-			DockingManager = DockManager;
-
-			Loaded += MainWindow_Loaded;
-			Unloaded += MainWindow_Unloaded;
 
             DataContext = new MainWindowViewModel(this);
+
+            OnThemeChanged += MainWindow_OnThemeChanged;
         }
 
+        private void MainWindow_OnThemeChanged(object sender, ModernApplicationFramework.Core.Events.ThemeChangedEventArgs e)
+        {
+            if (DockManager?.DockingManager != null && e != null)
+                DockManager.DockingManager.Theme = e.NewTheme;
+        }
 
-
-		private void MainWindow_Unloaded(object sender, RoutedEventArgs e)
-		{
-			var serializer = new XmlLayoutSerializer(DockManager);
-			serializer.Serialize(@".\AvalonDock.config");
-		}
-
-		private void MainWindow_Loaded(object sender, RoutedEventArgs e)
-		{
-			var serializer = new XmlLayoutSerializer(DockManager);
-			serializer.LayoutSerializationCallback += (s, args) =>
-			{
-				args.Content = args.Content;
-			};
-			if (File.Exists(@".\AvalonDock.config"))
-				serializer.Deserialize(@".\AvalonDock.config");
-		}
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+	    {
+            if (((ModernApplicationFramework.ViewModels.MainWindowViewModel)DataContext).Theme is LightTheme)
+                ((ModernApplicationFramework.ViewModels.MainWindowViewModel)DataContext).Theme = new GenericTheme();
+            else
+                ((ModernApplicationFramework.ViewModels.MainWindowViewModel)DataContext).Theme = new LightTheme();
+        }
 	}
 }

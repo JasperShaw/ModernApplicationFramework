@@ -32,7 +32,7 @@ using SystemCommands = ModernApplicationFramework.Core.Shell.SystemCommands;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-    public abstract class LayoutFloatingWindowControl : ModernChromeWindow, ILayoutControl, IChangeTheme
+    public abstract class LayoutFloatingWindowControl : ModernChromeWindow, ILayoutControl
     {
         private static readonly DependencyPropertyKey IsDraggingPropertyKey
             = DependencyProperty.RegisterReadOnly("IsDragging", typeof (bool), typeof (LayoutFloatingWindowControl),
@@ -74,6 +74,12 @@ namespace ModernApplicationFramework.Docking.Controls
                 new FrameworkPropertyMetadata(false));
         }
 
+        public abstract ILayoutElement Model { get; }
+        public bool IsDragging => (bool) GetValue(IsDraggingProperty);
+        public bool IsMaximized => (bool) GetValue(IsMaximizedProperty);
+        protected bool CloseInitiatedByUser => !_internalCloseFlag;
+        internal bool KeepContentVisibleOnClose { get; set; }
+
         public override void ChangeTheme(Theme oldValue, Theme newValue)
         {
             if (oldValue != null)
@@ -87,14 +93,7 @@ namespace ModernApplicationFramework.Docking.Controls
             if (newValue == null)
                 return;
             Resources.MergedDictionaries.Add(new ResourceDictionary {Source = newValue.GetResourceUri()});
-            base.ChangeTheme(oldValue, newValue);
         }
-
-        public abstract ILayoutElement Model { get; }
-        public bool IsDragging => (bool) GetValue(IsDraggingProperty);
-        public bool IsMaximized => (bool) GetValue(IsMaximizedProperty);
-        protected bool CloseInitiatedByUser => !_internalCloseFlag;
-        internal bool KeepContentVisibleOnClose { get; set; }
 
         protected virtual IntPtr FilterMessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {

@@ -1,39 +1,46 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using ModernApplicationFramework.Docking;
+using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Controls
 {
-	/// <summary>
-	/// Interaction logic for DockingHost.xaml
-	/// </summary>
-	public partial class DockingHost
-	{
-		public DockingHost()
-		{
-			InitializeComponent();
-		}
+    /// <summary>
+    /// Interaction logic for DockingHost.xaml
+    /// </summary>
+    public partial class DockingHost
+    {
+        public DockingHost()
+        {
+            InitializeComponent();
+        }
 
-		private void DockingManager_OnLoaded(object sender, RoutedEventArgs e)
-		{
-			throw new NotImplementedException();
-		}
+        public DockingManager DockingManager => dockingManager;
 
-		public void Connect(int connectionId, object target)
-		{
-			throw new NotImplementedException();
-		}
-	}
+        public void Connect(int connectionId, object target)
+        {
+        }
+
+        private void DockingManager_OnDocumentClosing(object sender, DocumentClosingEventArgs e)
+        {
+            if (
+                MessageBox.Show("Are you sure you want to close the document?", "AvalonDock Sample",
+                    MessageBoxButton.YesNo) == MessageBoxResult.No)
+                e.Cancel = true;
+        }
+
+        private void DockingManager_OnLoaded(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void LayoutElement_OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            var activeContent = ((LayoutRoot) sender).ActiveContent;
+            if (e.PropertyName == "ActiveContent")
+            {
+                Debug.WriteLine("ActiveContent-> {0}", activeContent);
+            }
+        }
+    }
 }

@@ -6,13 +6,12 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
 
 namespace ModernApplicationFramework.ViewModels
 {
     /// <summary>
-    /// TODO: There are queit a few EventHandlers here. Try to eliminate them with Commands some day
-    /// 
     /// This contains the Logic for the MainWindow
     /// </summary>
     public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
@@ -41,100 +40,7 @@ namespace ModernApplicationFramework.ViewModels
             _mainWindow.Deactivated += _mainWindow_Deactivated;
         }
 
-        public bool MenuHostViewModelSetted => MenuHostViewModel != null;
-        public bool ToolbarHostViewModelSetted => ToolBarHostViewModel != null;
-
-        /// <summary>
-        /// Contains the Active Icon for the MainWindow
-        /// </summary>
-        public BitmapImage ActiveIcon
-        {
-            get { return _activeIcon; }
-            set
-            {
-                if (Equals(value, _activeIcon))
-                    return;
-                _activeIcon = value;
-                OnPropertyChanged();
-                ApplyWindowIconChange();
-            }
-        }
-
-        /// <summary>
-        /// Contains the Current Icon of the MainWindow
-        /// </summary>
-        public BitmapImage Icon { get { return _icon; }
-            set
-            {
-                if (Equals(value, _icon))
-                    return;
-                _icon = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// A SimpleWindow is a window which is not possible to resize my dragging the edges
-        /// </summary>
-        public bool IsSimpleWindow
-        {
-            get { return _isSimpleWindow; }
-            set
-            {
-                if (Equals(value, _isSimpleWindow))
-                    return;
-                _isSimpleWindow = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Contains the ViewModel of the MainWindows MenuHostControl
-        /// This can not be changed once it was setted with a value.
-        /// </summary>
-        public MenuHostViewModel MenuHostViewModel {
-            get { return _menuHostViewModel; }
-            internal set
-            {
-                if (MenuHostViewModelSetted)
-                    throw new InvalidOperationException("You can not change the MenuHostViewModel once it was seeted up");
-                _menuHostViewModel = value;
-            }
-        }
-
-        /// <summary>
-        /// Contains the Passive Icon for the MainWindow
-        /// </summary>
-        public BitmapImage PassiveIcon
-        {
-            get { return _passiveIcon; }
-            set
-            {
-                if (Equals(value, _passiveIcon))
-                    return;
-                _passiveIcon = value;
-                OnPropertyChanged();
-                ApplyWindowIconChange();
-            }
-        }
-
-        /// <summary>
-        /// Contains the StatusBar of the MainWindow
-        /// This can not be changed once it was setted with a value
-        /// </summary>
-        public StatusBar StatusBar
-        {
-            get { return _statusBar; }
-            internal set { if (_statusBar == null) _statusBar = value; }
-        }
-
-        public event EventHandler OnThemeChanged;
-
-        protected virtual void OnRaiseThemeChanged(EventArgs e)
-        {
-            var handler = OnThemeChanged;
-            handler?.Invoke(this, e);
-        }
+        public event EventHandler<ThemeChangedEventArgs> OnThemeChanged;
 
         /// <summary>
         /// Contains the current Theme of the Application. 
@@ -152,9 +58,33 @@ namespace ModernApplicationFramework.ViewModels
                 _theme = value;
                 OnPropertyChanged();
                 ChangeTheme(oldTheme, _theme);
-                OnRaiseThemeChanged(null);
+                OnRaiseThemeChanged(new ThemeChangedEventArgs(value, oldTheme));
             }
-            
+        }
+
+        /// <summary>
+        /// Contains the ViewModel of the MainWindows MenuHostControl
+        /// This can not be changed once it was setted with a value.
+        /// </summary>
+        public MenuHostViewModel MenuHostViewModel
+        {
+            get { return _menuHostViewModel; }
+            internal set
+            {
+                if (MenuHostViewModelSetted)
+                    throw new InvalidOperationException("You can not change the MenuHostViewModel once it was seeted up");
+                _menuHostViewModel = value;
+            }
+        }
+
+        /// <summary>
+        /// Contains the StatusBar of the MainWindow
+        /// This can not be changed once it was setted with a value
+        /// </summary>
+        public StatusBar StatusBar
+        {
+            get { return _statusBar; }
+            internal set { if (_statusBar == null) _statusBar = value; }
         }
 
         /// <summary>
@@ -167,28 +97,9 @@ namespace ModernApplicationFramework.ViewModels
             internal set
             {
                 if (ToolbarHostViewModelSetted)
-                    throw new InvalidOperationException("You can not change the ToolBarHostViewModel once it was seeted up");
+                    throw new InvalidOperationException(
+                        "You can not change the ToolBarHostViewModel once it was seeted up");
                 _toolBarHostViewModel = value;
-            }
-        }
-
-        /// <summary>
-        /// Contains the Movement Technique for the MainWindow
-        /// SimpleMovemtn allows to move the Window by clicking/dragging anywhere on it
-        /// </summary>
-        public bool UseSimpleMovement
-        {
-            get
-            {
-                return _useSimpleMovement;
-            }
-            set
-            {
-                if (Equals(value, _useSimpleMovement))
-                    return;
-                _useSimpleMovement = value;
-                OnUseSimpleMovementChanged();
-                SimpleMoveWindowCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -223,6 +134,88 @@ namespace ModernApplicationFramework.ViewModels
         }
 
         /// <summary>
+        /// Contains the Active Icon for the MainWindow
+        /// </summary>
+        public BitmapImage ActiveIcon
+        {
+            get { return _activeIcon; }
+            set
+            {
+                if (Equals(value, _activeIcon))
+                    return;
+                _activeIcon = value;
+                OnPropertyChanged();
+                ApplyWindowIconChange();
+            }
+        }
+
+        /// <summary>
+        /// A SimpleWindow is a window which is not possible to resize my dragging the edges
+        /// </summary>
+        public bool IsSimpleWindow
+        {
+            get { return _isSimpleWindow; }
+            set
+            {
+                if (Equals(value, _isSimpleWindow))
+                    return;
+                _isSimpleWindow = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Contains the Passive Icon for the MainWindow
+        /// </summary>
+        public BitmapImage PassiveIcon
+        {
+            get { return _passiveIcon; }
+            set
+            {
+                if (Equals(value, _passiveIcon))
+                    return;
+                _passiveIcon = value;
+                OnPropertyChanged();
+                ApplyWindowIconChange();
+            }
+        }
+
+        /// <summary>
+        /// Contains the Movement Technique for the MainWindow
+        /// SimpleMovemtn allows to move the Window by clicking/dragging anywhere on it
+        /// </summary>
+        public bool UseSimpleMovement
+        {
+            get { return _useSimpleMovement; }
+            set
+            {
+                if (Equals(value, _useSimpleMovement))
+                    return;
+                _useSimpleMovement = value;
+                OnUseSimpleMovementChanged();
+                SimpleMoveWindowCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        public bool MenuHostViewModelSetted => MenuHostViewModel != null;
+        public bool ToolbarHostViewModelSetted => ToolBarHostViewModel != null;
+
+        /// <summary>
+        /// Contains the Current Icon of the MainWindow
+        /// </summary>
+        public BitmapImage Icon
+        {
+            get { return _icon; }
+            set
+            {
+                if (Equals(value, _icon))
+                    return;
+                _icon = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
         /// Makes sure the just changed Active or Passive Icons are applied to the View
         /// </summary>
         protected virtual void ApplyWindowIconChange()
@@ -241,31 +234,10 @@ namespace ModernApplicationFramework.ViewModels
                 throw new Exception("You can not run this Operation until the MainWindow is not initialized");
         }
 
-        /// <summary>
-        /// Called Theme property when changed. 
-        /// Implements the logic that applys the new Theme
-        /// </summary>
-        /// <param name="oldValue"></param>
-        /// <param name="newValue"></param>
-        public virtual void ChangeTheme(Theme oldValue, Theme newValue)
+        protected virtual void OnRaiseThemeChanged(ThemeChangedEventArgs e)
         {
-            var resources = Application.Current.Resources;
-            resources.Clear();
-            resources.MergedDictionaries.Clear();
-            if (oldValue != null)
-            {
-                var resourceDictionaryToRemove =
-                    resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldValue.GetResourceUri());
-                if (resourceDictionaryToRemove != null)
-                    resources.MergedDictionaries.Remove(resourceDictionaryToRemove);
-            }
-            if (newValue != null)
-                resources.MergedDictionaries.Add(new ResourceDictionary { Source = newValue.GetResourceUri() });
-
-            _mainWindow?.DockingManager?.ChangeTheme(oldValue, newValue);
-            _mainWindow?.ChangeTheme(oldValue, newValue);
-
-            ToolBarHostViewModel.ChangeTheme(oldValue, newValue);
+            var handler = OnThemeChanged;
+            handler?.Invoke(this, e);
         }
 
         /// <summary>
@@ -281,17 +253,17 @@ namespace ModernApplicationFramework.ViewModels
                 _mainWindow.MouseDown -= _mainWindow_MouseDown;
         }
 
-        async private void _mainWindow_Activated(object sender, EventArgs e)
+        private async void _mainWindow_Activated(object sender, EventArgs e)
         {
             await ChangeWindowIconActiveCommand.Execute();
         }
 
-        async private void _mainWindow_Deactivated(object sender, EventArgs e)
+        private async void _mainWindow_Deactivated(object sender, EventArgs e)
         {
             await ChangeWindowIconPassiveCommand.Execute();
         }
 
-        async private void _mainWindow_MouseDown(object sender, MouseButtonEventArgs e)
+        private async void _mainWindow_MouseDown(object sender, MouseButtonEventArgs e)
         {
             await SimpleMoveWindowCommand.Execute();
         }
@@ -300,6 +272,32 @@ namespace ModernApplicationFramework.ViewModels
         {
             MainWindowInitialized = true;
             InitializeMainWindow();
+        }
+
+        /// <summary>
+        /// Called Theme property when changed. 
+        /// Implements the logic that applys the new Theme
+        /// </summary>
+        /// <param name="oldValue"></param>
+        /// <param name="newValue"></param>
+        private void ChangeTheme(Theme oldValue, Theme newValue)
+        {
+            var resources = Application.Current.Resources;
+            resources.Clear();
+            resources.MergedDictionaries.Clear();
+            if (oldValue != null)
+            {
+                var resourceDictionaryToRemove =
+                    resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldValue.GetResourceUri());
+                if (resourceDictionaryToRemove != null)
+                    resources.MergedDictionaries.Remove(resourceDictionaryToRemove);
+            }
+            if (newValue != null)
+                resources.MergedDictionaries.Add(new ResourceDictionary {Source = newValue.GetResourceUri()});
+
+            _mainWindow.Theme = newValue;
+            if (ToolBarHostViewModel != null)
+                ToolBarHostViewModel.Theme = newValue;
         }
 
         #region Commands
@@ -313,7 +311,7 @@ namespace ModernApplicationFramework.ViewModels
 
         protected virtual bool CanMinimize()
         {
-            return  _mainWindow.WindowState != WindowState.Minimized;
+            return _mainWindow.WindowState != WindowState.Minimized;
         }
 
         public Command MaximizeResizeCommand => new Command(MaximizeResize, CanMaximizeResize);
@@ -322,7 +320,7 @@ namespace ModernApplicationFramework.ViewModels
         {
             if (_mainWindow.WindowState == WindowState.Maximized)
                 SystemCommands.RestoreWindow(_mainWindow);
-            else 
+            else
                 SystemCommands.MaximizeWindow(_mainWindow);
         }
 
@@ -381,7 +379,7 @@ namespace ModernApplicationFramework.ViewModels
         protected virtual void OnTest()
         {
             var m = new Menu();
-            m.Items.Add(new MenuItem { Header = "Testing" });
+            m.Items.Add(new MenuItem {Header = "Testing"});
             MenuHostViewModel.Menu = m;
             //MessageBox.Show("Test");
         }

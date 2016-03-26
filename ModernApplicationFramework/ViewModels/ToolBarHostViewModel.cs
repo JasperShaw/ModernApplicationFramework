@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -7,6 +8,7 @@ using System.Windows.Input;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Controls.Customize;
+using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Exception;
 using ModernApplicationFramework.Core.Themes;
 using ContextMenu = ModernApplicationFramework.Controls.ContextMenu;
@@ -16,7 +18,7 @@ using ToolBarTray = ModernApplicationFramework.Controls.ToolBarTray;
 
 namespace ModernApplicationFramework.ViewModels
 {
-    public class ToolBarHostViewModel : ViewModelBase, IChangeTheme
+    public class ToolBarHostViewModel : ViewModelBase, IHasTheme
     {
         /*
             This Dictionary contains all the information needed to interact with the toolbar across classes
@@ -35,16 +37,36 @@ namespace ModernApplicationFramework.ViewModels
 
         private ToolBarTray _bottomToolBarTay;
         private ToolBarTray _leftToolBarTay;
-        private ToolBarTray _rightToolBarTay;
-        private ToolBarTray _topToolBarTay;
 
         private MainWindowViewModel _mainWindowViewModel;
+        private ToolBarTray _rightToolBarTay;
+
+        private Theme _theme;
+        private ToolBarTray _topToolBarTay;
 
         public ToolBarHostViewModel(ToolBarHostControl toolBarHostControl)
         {
             ToolBarHostControl = toolBarHostControl;
             ContextMenu = new ContextMenu();
             SetupContextMenu();
+        }
+
+        public event EventHandler<ThemeChangedEventArgs> OnThemeChanged;
+
+        public Theme Theme
+        {
+            get { return _theme; }
+            set
+            {
+                if (value == null)
+                    throw new NoNullAllowedException();
+                if (Equals(value, _theme))
+                    return;
+                var oldTheme = _theme;
+                _theme = value;
+                ChangeTheme(oldTheme, _theme);
+                OnRaiseThemeChanged(new ThemeChangedEventArgs(value, oldTheme));
+            }
         }
 
         public ToolBarHostControl ToolBarHostControl { get; }
@@ -99,11 +121,6 @@ namespace ModernApplicationFramework.ViewModels
             }
         }
 
-        async private void ToolBarTay_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            await OpenContextMenuCommand.Execute();
-        }
-
         private ContextMenu ContextMenu { get; }
         /*
             This adds a new toolbar by:
@@ -139,30 +156,24 @@ namespace ModernApplicationFramework.ViewModels
             ShowToolBarByName(toolBar.IdentifierName);
         }
 
-        /*
-            This removes a Toolbar by:
-                Checking for:
-                    Name not null
-                If Tooblar not exists
-                    Do nothing
-                Else
-                    Make invisible
-                    Remove Context Menu Entry
-                    Remove from Tuple
-        */
-        /// <summary>
-        /// Removes Toolbar from ToolBarHostControl
-        /// </summary>
-        /// <param name="name"></param>
-        public void RemoveToolBar(string name)
+        public void ChangeTheme(Theme oldValue, Theme newValue)
         {
-            if (string.IsNullOrEmpty(name))
-                throw new ArgumentNullException(nameof(name));
-            if (!_contextList.ContainsKey(name))
-                return;
-            ChangeToolBarVisibility(name, false);
-            ContextMenu.Items.Remove(_contextList[name].Item4);
-            _contextList.Remove(name);
+            var oldTheme = oldValue;
+            var newTheme = newValue;
+            var resources = ContextMenu.Resources;
+            if (oldTheme != null)
+            {
+                var resourceDictionaryToRemove =
+                    resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldTheme.GetResourceUri());
+                if (resourceDictionaryToRemove != null)
+                    resources.MergedDictionaries.Remove(
+                        resourceDictionaryToRemove);
+            }
+
+            if (newTheme != null)
+            {
+                resources.MergedDictionaries.Add(new ResourceDictionary() {Source = newTheme.GetResourceUri()});
+            }
         }
 
         /*
@@ -280,6 +291,39 @@ namespace ModernApplicationFramework.ViewModels
             if (!_contextList.ContainsKey(name))
                 throw new ToolBarNotFoundException();
             return _contextList[name].Item3;
+        }
+
+        /*
+            This removes a Toolbar by:
+                Checking for:
+                    Name not null
+                If Tooblar not exists
+                    Do nothing
+                Else
+                    Make invisible
+                    Remove Context Menu Entry
+                    Remove from Tuple
+        */
+
+        /// <summary>
+        /// Removes Toolbar from ToolBarHostControl
+        /// </summary>
+        /// <param name="name"></param>
+        public void RemoveToolBar(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException(nameof(name));
+            if (!_contextList.ContainsKey(name))
+                return;
+            ChangeToolBarVisibility(name, false);
+            ContextMenu.Items.Remove(_contextList[name].Item4);
+            _contextList.Remove(name);
+        }
+
+        protected virtual void OnRaiseThemeChanged(ThemeChangedEventArgs e)
+        {
+            var handler = OnThemeChanged;
+            handler?.Invoke(this, e);
         }
 
         /*
@@ -413,6 +457,11 @@ namespace ModernApplicationFramework.ViewModels
             Controls.Utilities.ContextMenuGlyphItemUtilities.SetCheckMark(_contextList[name].Item4);
         }
 
+        private async void ToolBarTay_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            await OpenContextMenuCommand.Execute();
+        }
+
         /*
             Update Dock by:
                 Check for:
@@ -483,7 +532,8 @@ namespace ModernApplicationFramework.ViewModels
             return true;
         }
 
-        public Command<ContextMenuGlyphItem> ClickContextMenuItemCommand => new Command<ContextMenuGlyphItem>(ClickContextMenuItem, CanClickContextMenuItem);
+        public Command<ContextMenuGlyphItem> ClickContextMenuItemCommand
+            => new Command<ContextMenuGlyphItem>(ClickContextMenuItem, CanClickContextMenuItem);
 
         protected virtual void ClickContextMenuItem(ContextMenuGlyphItem contextMenuItem)
         {
@@ -518,35 +568,7 @@ namespace ModernApplicationFramework.ViewModels
         {
             return true;
         }
+
         #endregion
-
-        public event EventHandler OnThemeChanged;
-
-        protected virtual void OnRaiseThemeChanged(EventArgs e)
-        {
-            var handler = OnThemeChanged;
-            handler?.Invoke(this, e);
-        }
-
-        public void ChangeTheme(Theme oldValue, Theme newValue)
-        {
-            var oldTheme = oldValue;
-            var newTheme = newValue;
-            var resources = ContextMenu.Resources;
-            if (oldTheme != null)
-            {
-                var resourceDictionaryToRemove =
-                    resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldTheme.GetResourceUri());
-                if (resourceDictionaryToRemove != null)
-                    resources.MergedDictionaries.Remove(
-                        resourceDictionaryToRemove);
-            }
-
-            if (newTheme != null)
-            {
-                resources.MergedDictionaries.Add(new ResourceDictionary() { Source = newTheme.GetResourceUri() });
-            }
-            OnRaiseThemeChanged(null);
-        }
     }
 }

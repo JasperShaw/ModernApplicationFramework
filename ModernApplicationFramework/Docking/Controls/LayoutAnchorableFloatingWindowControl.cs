@@ -125,7 +125,8 @@ namespace ModernApplicationFramework.Docking.Controls
         public override void ChangeTheme(Theme oldValue, Theme newValue)
         {
             base.ChangeTheme(oldValue, newValue);
-            _overlayWindow?.ChangeTheme(oldValue, newValue);
+            if (_overlayWindow != null)
+                _overlayWindow.Theme = newValue;
         }
 
         protected override IntPtr FilterMessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)

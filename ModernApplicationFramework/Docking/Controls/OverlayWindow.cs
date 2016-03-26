@@ -16,17 +16,19 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shapes;
 using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-    public class OverlayWindow : Window, IOverlayWindow, IChangeTheme
+    public class OverlayWindow : Window, IOverlayWindow, IHasTheme
     {
         private readonly List<IDropArea> _visibleAreas = new List<IDropArea>();
         private FrameworkElement _anchorablePaneDropTargetBottom;
@@ -60,6 +62,8 @@ namespace ModernApplicationFramework.Docking.Controls
         private Canvas _mainCanvasPanel;
         private Path _previewBox;
 
+        private Theme _theme;
+
         internal OverlayWindow(IOverlayWindowHost host)
         {
             ChangeTheme(null, null);
@@ -77,24 +81,23 @@ namespace ModernApplicationFramework.Docking.Controls
             VisibilityProperty.OverrideMetadata(typeof (OverlayWindow), new FrameworkPropertyMetadata(Visibility.Hidden));
         }
 
-        public void ChangeTheme(Theme oldValue, Theme newValue)
+        public event EventHandler<ThemeChangedEventArgs> OnThemeChanged;
+
+        public Theme Theme
         {
-            if (oldValue != null)
+            get { return _theme; }
+            set
             {
-                var resourceDictionaryToRemove =
-                    Resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldValue.GetResourceUri());
-                if (resourceDictionaryToRemove != null)
-                    Resources.MergedDictionaries.Remove(
-                        resourceDictionaryToRemove);
+                if (value == null)
+                    throw new NoNullAllowedException();
+                if (Equals(value, _theme))
+                    return;
+                var oldTheme = _theme;
+                _theme = value;
+                ChangeTheme(oldTheme, _theme);
+                OnRaiseThemeChanged(new ThemeChangedEventArgs(value, oldTheme));
             }
-
-            if (newValue != null)
-                Resources.MergedDictionaries.Add(new ResourceDictionary() {Source = newValue.GetResourceUri()});
-
-            OnRaiseThemeChanged(null);
         }
-
-        public event EventHandler OnThemeChanged;
 
         void IOverlayWindow.DragDrop(IDropTarget target)
         {
@@ -625,6 +628,21 @@ namespace ModernApplicationFramework.Docking.Controls
             }
         }
 
+        public void ChangeTheme(Theme oldValue, Theme newValue)
+        {
+            if (oldValue != null)
+            {
+                var resourceDictionaryToRemove =
+                    Resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldValue.GetResourceUri());
+                if (resourceDictionaryToRemove != null)
+                    Resources.MergedDictionaries.Remove(
+                        resourceDictionaryToRemove);
+            }
+
+            if (newValue != null)
+                Resources.MergedDictionaries.Add(new ResourceDictionary() {Source = newValue.GetResourceUri()});
+        }
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -685,7 +703,7 @@ namespace ModernApplicationFramework.Docking.Controls
             _previewBox = GetTemplateChild("PART_PreviewBox") as Path;
         }
 
-        protected virtual void OnRaiseThemeChanged(EventArgs e)
+        protected virtual void OnRaiseThemeChanged(ThemeChangedEventArgs e)
         {
             var handler = OnThemeChanged;
             handler?.Invoke(this, e);
