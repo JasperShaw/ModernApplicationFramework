@@ -29,18 +29,25 @@ namespace ModernApplicationFramework.Docking.Controls
 {
     internal static class FocusElementManager
     {
-        private static readonly List<DockingManager> Managers = new List<DockingManager>();
+        [ThreadStatic] private static WeakReference _lastFocusedElement;
 
-        private static readonly FullWeakDictionary<ILayoutElement, IInputElement> ModelFocusedElement =
-            new FullWeakDictionary<ILayoutElement, IInputElement>();
+        [ThreadStatic] private static WeakReference _lastFocusedElementBeforeEnterMenuMode;
 
-        private static readonly WeakDictionary<ILayoutElement, IntPtr> ModelFocusedWindowHandle =
-            new WeakDictionary<ILayoutElement, IntPtr>();
+        [ThreadStatic] private static List<DockingManager> _managers;
+        [ThreadStatic] private static FullWeakDictionary<ILayoutElement, IInputElement> _modelFocusedElement;
+        [ThreadStatic] private static WeakDictionary<ILayoutElement, IntPtr> _modelFocusedWindowHandle;
 
-        private static WeakReference _lastFocusedElement;
-        private static WeakReference _lastFocusedElementBeforeEnterMenuMode;
-        private static DispatcherOperation _setFocusAsyncOperation;
-        private static WindowHookHandler _windowHandler;
+        [ThreadStatic] private static DispatcherOperation _setFocusAsyncOperation;
+
+        [ThreadStatic] private static WindowHookHandler _windowHandler;
+
+        private static List<DockingManager> Managers => _managers ?? (_managers = new List<DockingManager>());
+
+        private static FullWeakDictionary<ILayoutElement, IInputElement> ModelFocusedElement
+            => _modelFocusedElement ?? (_modelFocusedElement = new FullWeakDictionary<ILayoutElement, IInputElement>());
+
+        private static WeakDictionary<ILayoutElement, IntPtr> ModelFocusedWindowHandle
+            => _modelFocusedWindowHandle ?? (_modelFocusedWindowHandle = new WeakDictionary<ILayoutElement, IntPtr>());
 
         internal static void FinalizeFocusManagement(DockingManager manager)
         {
@@ -101,8 +108,8 @@ namespace ModernApplicationFramework.Docking.Controls
             if (ModelFocusedWindowHandle.GetValue(model, out handleToFocus))
                 focused = IntPtr.Zero != Win32Helper.SetFocus(handleToFocus);
 
-            Trace.WriteLine(string.Format("SetFocusOnLastElement(focused={0}, model={1}, element={2})", focused, model,
-                handleToFocus == IntPtr.Zero ? (objectToFocus?.ToString() ?? "") : handleToFocus.ToString()));
+            Trace.WriteLine(
+                $"SetFocusOnLastElement(focused={focused}, model={model}, element={(handleToFocus == IntPtr.Zero ? (objectToFocus?.ToString() ?? "") : handleToFocus.ToString())})");
 
             if (focused)
             {

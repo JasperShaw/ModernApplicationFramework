@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
+using ModernApplicationFramework.Docking.Layout.Serialization;
 using ModernApplicationFramework.Themes;
 using ModernApplicationFramework.Themes.LightIDE;
 
@@ -31,6 +33,24 @@ namespace ModernApplicationFrameworkMVVMTestApp
                 ((ModernApplicationFramework.ViewModels.MainWindowViewModel)DataContext).Theme = new GenericTheme();
             else
                 ((ModernApplicationFramework.ViewModels.MainWindowViewModel)DataContext).Theme = new LightTheme();
+        }
+
+	    private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
+	    {
+            var serializer = new XmlLayoutSerializer(DockManager.DockingManager);
+            serializer.LayoutSerializationCallback += (s, args) =>
+            {
+                args.Content = args.Content;
+            };
+
+            if (File.Exists(@".\AvalonDock.config"))
+                serializer.Deserialize(@".\AvalonDock.config");
+        }
+
+        private void MainWindow_OnUnloaded(object sender, RoutedEventArgs e)
+	    {
+            var serializer = new XmlLayoutSerializer(DockManager.DockingManager);
+            serializer.Serialize(@".\AvalonDock.config");
         }
 	}
 }

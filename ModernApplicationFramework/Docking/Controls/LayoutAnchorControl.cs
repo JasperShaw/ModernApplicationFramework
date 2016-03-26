@@ -28,11 +28,12 @@ namespace ModernApplicationFramework.Docking.Controls
             = DependencyProperty.RegisterReadOnly("Side", typeof (AnchorSide), typeof (LayoutAnchorControl),
                 new FrameworkPropertyMetadata(AnchorSide.Left));
 
-        public static readonly DependencyProperty SideProperty
-            = SidePropertyKey.DependencyProperty;
+        public static readonly DependencyProperty SideProperty = SidePropertyKey.DependencyProperty;
 
 
         private readonly LayoutAnchorable _model;
+
+        DispatcherTimer _openUpTimer;
 
         internal LayoutAnchorControl(LayoutAnchorable model)
         {
@@ -59,16 +60,36 @@ namespace ModernApplicationFramework.Docking.Controls
 
             if (e.Handled)
                 return;
-            if (_model.IsActive)
+            _model.Root.Manager.ShowAutoHideWindow(this);
+            _model.IsActive = true;
+        }
+
+        protected override void OnMouseEnter(System.Windows.Input.MouseEventArgs e)
+        {
+            base.OnMouseEnter(e);
+            if (!_model.ShowOnMouseOver)
+                return;
+            if (e.Handled)
+                return;
+            _openUpTimer = new DispatcherTimer(DispatcherPriority.ApplicationIdle)
             {
-                _model.Root.Manager.HideAutoHideWindow(this);
-                _model.IsActive = false;
-            }
-            else
+                Interval = TimeSpan.FromMilliseconds(400)
+            };
+            _openUpTimer.Tick += _openUpTimer_Tick;
+            _openUpTimer.Start();
+        }
+
+        protected override void OnMouseLeave(System.Windows.Input.MouseEventArgs e)
+        {
+            if (!_model.ShowOnMouseOver)
+                return;
+            if (_openUpTimer != null)
             {
-                _model.Root.Manager.ShowAutoHideWindow(this);
-                _model.IsActive = true;
+                _openUpTimer.Tick -= _openUpTimer_Tick;
+                _openUpTimer.Stop();
+                _openUpTimer = null;
             }
+            base.OnMouseLeave(e);
         }
 
         protected void SetSide(AnchorSide value)
@@ -93,6 +114,14 @@ namespace ModernApplicationFramework.Docking.Controls
                 _model.Root.Manager.ShowAutoHideWindow(this);
                 _model.IsSelected = false;
             }
+        }
+
+        void _openUpTimer_Tick(object sender, EventArgs e)
+        {
+            _openUpTimer.Tick -= _openUpTimer_Tick;
+            _openUpTimer.Stop();
+            _openUpTimer = null;
+            _model.Root.Manager.ShowAutoHideWindow(this);
         }
     }
 }

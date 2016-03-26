@@ -2188,6 +2188,8 @@ namespace ModernApplicationFramework.Docking
                 return;
             _autoHideWindowManager.HideAutoWindow();
 
+            AutoHideWindow?.Dispose();
+
             foreach (var fw in _fwList.ToArray())
             {
                 //fw.Owner = null;
@@ -2365,7 +2367,7 @@ namespace ModernApplicationFramework.Docking
                                 if (Layout.ActiveContent != null)
                                     FocusElementManager.SetFocusOnLastElement(Layout.ActiveContent);
                                 _setFocusAsyncOperation = null;
-                            }), DispatcherPriority.Background);
+                            }), DispatcherPriority.Input);
                         }
                     }
 

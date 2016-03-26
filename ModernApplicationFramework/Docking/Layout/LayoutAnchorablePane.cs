@@ -16,6 +16,7 @@
 
 using System;
 using System.Linq;
+using System.Windows;
 using System.Windows.Markup;
 using System.Xml.Serialization;
 
@@ -31,6 +32,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public LayoutAnchorablePane()
         {
+            DockWidth = new GridLength(250);
         }
 
         public LayoutAnchorablePane(LayoutAnchorable anchorable)

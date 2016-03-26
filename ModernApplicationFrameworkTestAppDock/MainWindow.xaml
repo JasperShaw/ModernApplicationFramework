@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:test="http://modern.framework.com/controls"
         xmlns:modernApplicationFrameworkTestAppDock="clr-namespace:ModernApplicationFrameworkTestAppDock"
-        Title="MainWindow" Height="350" Width="525" Loaded="MainWindow_OnLoaded" Unloaded="MainWindow_OnUnloaded">
+        Title="MainWindow" Height="350" Width="525">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

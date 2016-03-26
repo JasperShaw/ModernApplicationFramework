@@ -11,9 +11,8 @@
         <layout:LayoutRoot PropertyChanged="LayoutElement_OnPropertyChanged">
                 <layout:LayoutPanel Orientation="Horizontal">
                     <layout:LayoutAnchorablePane DockWidth="100">
-                        <layout:LayoutAnchorable x:Name="WinFormsWindow"  ContentId="WinFormsWindow" Title="WinForms Window" ToolTip="My WinForms Tool" CanHide="False" CanClose="False" >
-                        <StackPanel>
-                        </StackPanel>
+                        <layout:LayoutAnchorable x:Name="WinFormsWindow"  ContentId="WinFormsWindow" Title="WinForms Window" ToolTip="My WinForms Tool" CanHide="False" CanClose="False" ShowOnMouseOver="True">
+                        <StackPanel />
                         </layout:LayoutAnchorable>
                     </layout:LayoutAnchorablePane>
                     <layout:LayoutDocumentPaneGroup>
@@ -23,8 +22,7 @@
                                 <TextBox x:Name="TextBox"/>
                             </Grid>
                             </layout:LayoutDocument>
-                        <layout:LayoutDocument Title="Test2">
-                        </layout:LayoutDocument>
+                        <layout:LayoutDocument Title="Test2" />
                         </layout:LayoutDocumentPane>
                     </layout:LayoutDocumentPaneGroup>
                     <layout:LayoutAnchorablePaneGroup DockWidth="150">
@@ -44,8 +42,7 @@
                     <layout:LayoutAnchorSide>
                         <layout:LayoutAnchorGroup>
                             <layout:LayoutAnchorable Title="AutoHide1 Content" ContentId="AutoHide1Content" >
-								<Grid>
-								</Grid>
+								<Grid />
                             </layout:LayoutAnchorable>
                             <layout:LayoutAnchorable Title="AutoHide2 Content" ContentId="AutoHide2Content">
                                 <StackPanel Orientation="Vertical">

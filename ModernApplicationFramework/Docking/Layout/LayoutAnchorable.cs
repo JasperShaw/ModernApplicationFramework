@@ -31,9 +31,12 @@ namespace ModernApplicationFramework.Docking.Layout
 
         private double _autohideMinHeight = 100.0;
 
-        private double _autohideMinWidth = 100.0;
+        private double _autohideMinWidth = 250;
 
         private double _autohideWidth;
+
+
+        private bool _showOnMouseOver = true;
 
         public event EventHandler<CancelEventArgs> Hiding;
 
@@ -122,6 +125,18 @@ namespace ModernApplicationFramework.Docking.Layout
                 }
                 RaisePropertyChanging("IsHidden");
                 RaisePropertyChanging("IsVisible");
+            }
+        }
+
+        public bool ShowOnMouseOver
+        {
+            get { return _showOnMouseOver; }
+            set
+            {
+                if (_showOnMouseOver == value)
+                    return;
+                _showOnMouseOver = value;
+                RaisePropertyChanged("ShowOnMouseOver");
             }
         }
 
@@ -250,6 +265,8 @@ namespace ModernApplicationFramework.Docking.Layout
         {
             if (reader.MoveToAttribute("CanHide"))
                 CanHide = bool.Parse(reader.Value);
+            if (reader.MoveToAttribute("ShowOnMouseOver"))
+                ShowOnMouseOver = bool.Parse(reader.Value);
             if (reader.MoveToAttribute("CanAutoHide"))
                 CanAutoHide = bool.Parse(reader.Value);
             if (reader.MoveToAttribute("AutoHideWidth"))
@@ -477,6 +494,8 @@ namespace ModernApplicationFramework.Docking.Layout
         {
             if (!CanHide)
                 writer.WriteAttributeString("CanHide", CanHide.ToString());
+            if (!ShowOnMouseOver)
+                writer.WriteAttributeString("ShowOnMouseOver", ShowOnMouseOver.ToString());
             if (!CanAutoHide)
                 writer.WriteAttributeString("CanAutoHide", CanAutoHide.ToString(CultureInfo.InvariantCulture));
             if (AutoHideWidth > 0)
@@ -572,6 +591,9 @@ namespace ModernApplicationFramework.Docking.Layout
             {
                 case "CanHide":
                     CanHide = bool.Parse(valueString);
+                    break;
+                case "ShowOnMouseOver":
+                    ShowOnMouseOver = bool.Parse(valueString);
                     break;
                 case "CanAutoHide":
                     CanAutoHide = bool.Parse(valueString);

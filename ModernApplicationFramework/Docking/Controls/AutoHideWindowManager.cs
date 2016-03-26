@@ -34,7 +34,8 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public void HideAutoWindow(LayoutAnchorControl anchor = null)
         {
-            if (anchor == null || Equals(anchor, _currentAutohiddenAnchor.GetValueOrDefault<LayoutAnchorControl>()))
+            if (anchor == null ||
+                anchor == _currentAutohiddenAnchor.GetValueOrDefault<LayoutAnchorControl>())
                 StopCloseTimer();
             else
                 System.Diagnostics.Debug.Assert(false);

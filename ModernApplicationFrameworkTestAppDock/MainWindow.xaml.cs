@@ -27,7 +27,6 @@ namespace ModernApplicationFrameworkTestAppDock
         public MainWindow()
         {
             InitializeComponent();
-            DockingManager = Manager;
             Icon = new BitmapImage(new Uri("pack://application:,,,/ModernApplicationFrameworkTestAppDock;component/Build.png"));
             SourceInitialized += MainWindow_SourceInitialized;
             //((MainWindowViewModel)DataContext).Theme = new LightTheme();
@@ -113,24 +112,6 @@ namespace ModernApplicationFrameworkTestAppDock
             layoutDocument.Content = new ColorEditor();
 
             documentPane.Children.Add(layoutDocument);
-        }
-
-        private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            var serializer = new XmlLayoutSerializer(DockingManager);
-            serializer.LayoutSerializationCallback += (s, args) =>
-            {
-                args.Content = args.Content;
-            };
-
-            if (File.Exists(@".\AvalonDock.config"))
-                serializer.Deserialize(@".\AvalonDock.config");
-        }
-
-        private void MainWindow_OnUnloaded(object sender, RoutedEventArgs e)
-        {
-            var serializer = new XmlLayoutSerializer(DockingManager);
-            serializer.Serialize(@".\AvalonDock.config");
         }
     }
 }

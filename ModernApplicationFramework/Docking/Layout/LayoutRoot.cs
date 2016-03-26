@@ -176,8 +176,7 @@ namespace ModernApplicationFramework.Docking.Layout
                                                                                           null ||
                                                                                           !Equals(
                                                                                               c.PreviousContainer.Parent
-                                                                                                  .Root,
-                                                                                              this))))
+                                                                                                  .Root, this))))
                 {
                     content.PreviousContainer = null;
                 }
@@ -186,15 +185,13 @@ namespace ModernApplicationFramework.Docking.Layout
                 foreach (var emptyPane in this.Descendents().OfType<ILayoutPane>().Where(p => p.ChildrenCount == 0))
                 {
                     //...set null any reference coming from contents not yet hosted in a floating window
-                    var pane = emptyPane;
                     foreach (var contentReferencingEmptyPane in this.Descendents().OfType<LayoutContent>()
-                        .Where(c => ((ILayoutPreviousContainer) c).PreviousContainer == pane && !c.IsFloating))
+                        .Where(c => ((ILayoutPreviousContainer) c).PreviousContainer == emptyPane && !c.IsFloating)
+                        .Where(
+                            contentReferencingEmptyPane =>
+                                !(contentReferencingEmptyPane is LayoutAnchorable) ||
+                                ((LayoutAnchorable) contentReferencingEmptyPane).IsVisible))
                     {
-                        var anchorable = contentReferencingEmptyPane as LayoutAnchorable;
-                        if (anchorable != null &&
-                            !anchorable.IsVisible)
-                            continue;
-
                         ((ILayoutPreviousContainer) contentReferencingEmptyPane).PreviousContainer = null;
                         contentReferencingEmptyPane.PreviousContainerIndex = -1;
                     }
@@ -251,18 +248,24 @@ namespace ModernApplicationFramework.Docking.Layout
                     }
                 }
 
-                if (exitFlag)
-                    continue;
-                //removes any empty anchor group
-                foreach (
-                    var emptyPaneGroup in
-                        this.Descendents().OfType<LayoutAnchorGroup>().Where(p => p.ChildrenCount == 0))
+                if (!exitFlag)
                 {
-                    var parentGroup = emptyPaneGroup.Parent;
-                    parentGroup.RemoveChild(emptyPaneGroup);
-                    break;
+                    //removes any empty anchor group
+                    foreach (
+                        var emptyPaneGroup in
+                            this.Descendents().OfType<LayoutAnchorGroup>().Where(p => p.ChildrenCount == 0))
+                    {
+                        var parentGroup = emptyPaneGroup.Parent;
+                        parentGroup.RemoveChild(emptyPaneGroup);
+                        break;
+                    }
                 }
             } while (!exitFlag);
+
+            #endregion
+
+            #region collapse single child anchorable pane groups
+
             do
             {
                 exitFlag = true;
@@ -290,6 +293,11 @@ namespace ModernApplicationFramework.Docking.Layout
                     break;
                 }
             } while (!exitFlag);
+
+            #endregion
+
+            #region collapse single child document pane groups
+
             do
             {
                 exitFlag = true;
@@ -317,38 +325,10 @@ namespace ModernApplicationFramework.Docking.Layout
                     break;
                 }
             } while (!exitFlag);
-            do
-            {
-                exitFlag = true;
-                //for each panel that has only one child
-                foreach (
-                    var panelToCollapse in
-                        this.Descendents()
-                            .OfType<LayoutPanel>()
-                            .Where(p => p.ChildrenCount == 1 && p.Children[0] is LayoutPanel)
-                            .ToArray())
-                {
-                    var singleChild = panelToCollapse.Children[0] as LayoutPanel;
-                    panelToCollapse.Orientation = singleChild.Orientation;
-                    panelToCollapse.RemoveChild(singleChild);
-                    while (singleChild.ChildrenCount > 0)
-                    {
-                        panelToCollapse.InsertChildAt(
-                            panelToCollapse.ChildrenCount, singleChild.Children[0]);
-                    }
-
-                    exitFlag = false;
-                    break;
-                }
-            } while (!exitFlag);
 
             #endregion
-
-            #region Update ActiveContent and LastFocusedDocument properties
 
             UpdateActiveContentProperty();
-
-            #endregion
 
 #if DEBUG
             Debug.Assert(
