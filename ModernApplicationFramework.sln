@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFrameworkT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFrameworkTestSimpleWindow", "ModernApplicationFrameworkTestSimpleWindow\ModernApplicationFrameworkTestSimpleWindow.csproj", "{24998A06-26E8-42C4-A3FC-481A3B64D346}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.MVVM", "ModernApplicationFramework.MVVM\ModernApplicationFramework.MVVM.csproj", "{1F020157-699C-4E63-80CA-72D62191E063}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.MVVM.Demo", "ModernApplicationFramework.MVVM.Demo\ModernApplicationFramework.MVVM.Demo.csproj", "{ACBF5195-D0C0-480D-84F0-C72F538830BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,14 @@ Global
 		{24998A06-26E8-42C4-A3FC-481A3B64D346}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24998A06-26E8-42C4-A3FC-481A3B64D346}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24998A06-26E8-42C4-A3FC-481A3B64D346}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F020157-699C-4E63-80CA-72D62191E063}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F020157-699C-4E63-80CA-72D62191E063}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F020157-699C-4E63-80CA-72D62191E063}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F020157-699C-4E63-80CA-72D62191E063}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACBF5195-D0C0-480D-84F0-C72F538830BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACBF5195-D0C0-480D-84F0-C72F538830BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACBF5195-D0C0-480D-84F0-C72F538830BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACBF5195-D0C0-480D-84F0-C72F538830BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

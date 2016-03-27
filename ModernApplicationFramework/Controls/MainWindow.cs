@@ -43,13 +43,13 @@ namespace ModernApplicationFramework.Controls
         public BitmapImage ActivatedFloatIcon { get; set; }
         public BitmapImage DeactivatedFloatIcon { get; set; }
 
-        protected MainWindowViewModel VieModel => (MainWindowViewModel) DataContext;
+        protected MainWindowViewModel ViewModel => (MainWindowViewModel) DataContext;
 
         internal IntPtr MainWindowHandle => new WindowInteropHelper(this).Handle;
 
         public override void OnApplyTemplate()
         {
-            var viewModel = VieModel;
+            var viewModel = ViewModel;
             if (viewModel == null)
                 throw new ArgumentNullException(nameof(viewModel));
 
