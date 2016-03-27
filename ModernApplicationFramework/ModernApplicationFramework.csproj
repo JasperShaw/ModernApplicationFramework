@@ -145,6 +145,7 @@
     <Compile Include="Core\Converters\AndBooleanConverter.cs" />
     <Compile Include="Core\Converters\BooleanToFlowDirectionConverter.cs" />
     <Compile Include="Core\Converters\DockLocationConverter.cs" />
+    <Compile Include="Core\Converters\FullScreenToVisibilityConverter.cs" />
     <Compile Include="Core\Converters\InverseBoolConverter.cs" />
     <Compile Include="Core\Converters\IsHorizontalResizeGripConverter.cs" />
     <Compile Include="Core\Converters\MultiValueConverter.cs" />

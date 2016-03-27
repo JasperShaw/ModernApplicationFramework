@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Data;
 
 namespace ModernApplicationFramework.Core.Converters
 {
-    internal class IsHorizontalResizeGripConverter : IValueConverter
+    class FullScreenToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if ((int)(double)value >= 10)
-                return true;
-            return false;
+            bool flag = false;
+            if (value is bool)
+                flag = (bool)value;
+            return (Visibility)(flag ? 2 : 0);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
