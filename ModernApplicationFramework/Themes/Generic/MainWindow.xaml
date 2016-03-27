@@ -3,7 +3,6 @@
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
                     xmlns:core="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:this="clr-namespace:ModernApplicationFramework.Controls"
-                    xmlns:view="clr-namespace:ModernApplicationFramework.ViewModels"
                     xmlns:utilities="clr-namespace:ModernApplicationFramework.Core.Utilities">
 
 	<Style TargetType="{x:Type this:MainWindow}">
@@ -44,7 +43,7 @@
 								<RowDefinition Height="*" />
 								<RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
-                            <this:MainWindowTitleBar x:Name="MainWindowTitleBar" Grid.Row="0" Grid.Column="0"
+                            <this:MainWindowTitleBar x:Name="MainWindowTitleBar" Grid.Row="0"
 							                         Background="{DynamicResource {x:Static core:EnvironmentColors.MainWindowTitleBarBackground}}"
 							                         TextElement.Foreground="{DynamicResource {x:Static core:EnvironmentColors.MainWindowTitleBarForeground}}">
                                 <DockPanel>
@@ -90,7 +89,9 @@
 									           TextOptions.TextFormattingMode="Display" />
                                 </DockPanel>
                             </this:MainWindowTitleBar>
-                            <this:MenuHostControl x:Name="MenuHostControl" Grid.Row="1" />
+                            <DockPanel Grid.Row="1">
+                                <this:MenuHostControl x:Name="MenuHostControl"/>
+                            </DockPanel>
                             <this:ToolBarHostControl x:Name="ToolbarHostControl" Grid.Row="2" />
                             <DockPanel x:Name="StatusBarPanel"
 							           Grid.Row="3"
@@ -138,6 +139,16 @@
                                 </Setter.Value>
                             </Setter>
                         </DataTrigger>
+                        <Trigger Property="FullScreen" Value="True">
+                            <Setter TargetName="MainWindowTitleBar" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="ResizeGrip" Property="Visibility" Value="Collapsed"/>
+                            <Setter Property="ResizeMode" Value="NoResize"/>
+                            <Setter Property="WindowChrome.WindowChrome">
+                                <Setter.Value>
+                                    <WindowChrome ResizeBorderThickness="0" CaptionHeight="0"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
 					</ControlTemplate.Triggers>
 				</ControlTemplate>
 			</Setter.Value>

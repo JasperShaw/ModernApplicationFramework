@@ -33,7 +33,15 @@ namespace ModernApplicationFrameworkMVVMTestApp
         {
             base.InitializeMainWindow();
             var m = new Menu();
-            m.Items.Add(new MenuItem { Header = "Test" });
+
+            var mi2 = new MenuItem { Header = "Test2" };
+            mi2.Items.Add(new MenuItem { Header = "Test2" });
+
+            var mi = new MenuItem { Header = "Test" };
+            mi.Items.Add(mi2);
+
+
+            m.Items.Add(mi);
             MenuHostViewModel.Menu = m;
             ToolBarHostViewModel.AddToolBar(new ToolBar { IdentifierName = "Test" }, true, Dock.Top);
         }

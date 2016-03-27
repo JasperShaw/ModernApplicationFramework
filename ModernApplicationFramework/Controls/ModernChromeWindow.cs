@@ -20,6 +20,7 @@ using Point = System.Windows.Point;
 using DpiHelper = ModernApplicationFramework.Core.Utilities.DpiHelper;
 using NativeMethods = ModernApplicationFramework.Core.NativeMethods.NativeMethods;
 using RECT = ModernApplicationFramework.Core.Platform.RECT;
+using Screen = System.Windows.Forms.Screen;
 
 namespace ModernApplicationFramework.Controls
 {
@@ -46,6 +47,9 @@ namespace ModernApplicationFramework.Controls
         public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register("CornerRadius",
             typeof (int), typeof (ModernChromeWindow), new FrameworkPropertyMetadata(0, OnCornerRadiusChanged));
 
+        public static readonly DependencyProperty FullScreenProperty =
+            DependencyProperty.Register("FullScreen", typeof (bool), typeof (ModernChromeWindow));
+
 
         private readonly ShadowWindow[] _shadowWindows = new ShadowWindow[4];
         private bool _isShadowVisible;
@@ -55,11 +59,21 @@ namespace ModernApplicationFramework.Controls
         private int _lastWindowPlacement;
         private Rect _logicalSizeForRestore = Rect.Empty;
         private DispatcherTimer _makeShadowVisibleTimer;
+
+
+        private double _oldLeft, _oldTop, _oldWidth, _oldHeight;
         private IntPtr _ownerForActivate;
         private Theme _theme;
         private bool _updatingZOrder;
         private bool _useLogicalSizeForRestore;
         private bool _wasMaximized;
+
+
+        static ModernChromeWindow()
+        {
+            ResizeModeProperty.OverrideMetadata(typeof (ModernChromeWindow),
+                new FrameworkPropertyMetadata(OnResizeModeChanged));
+        }
 
         protected enum ClipRegionChangeType
         {
@@ -99,6 +113,12 @@ namespace ModernApplicationFramework.Controls
             set { SetValue(CornerRadiusProperty, value); }
         }
 
+        public bool FullScreen
+        {
+            get { return (bool) GetValue(FullScreenProperty); }
+            set { SetValue(FullScreenProperty, value); }
+        }
+
         public Brush InactiveShadowColor
         {
             get { return (Brush) GetValue(InactiveShadowColorProperty); }
@@ -119,7 +139,7 @@ namespace ModernApplicationFramework.Controls
                 if (NativeMethods.IsWindowVisible(handle) && !NativeMethods.IsIconic(handle) &&
                     !NativeMethods.IsZoomed(handle))
                 {
-                    return ResizeMode != ResizeMode.NoResize;
+                    return ResizeMode > 0U;
                 }
                 return false;
             }
@@ -347,6 +367,13 @@ namespace ModernApplicationFramework.Controls
             base.OnDeactivated(e);
         }
 
+        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            base.OnPropertyChanged(e);
+            if (e.Property == FullScreenProperty)
+                ChangeFullScreenApperance(e.NewValue);
+        }
+
         protected virtual void OnRaiseThemeChanged(ThemeChangedEventArgs e)
         {
             var handler = OnThemeChanged;
@@ -560,6 +587,11 @@ namespace ModernApplicationFramework.Controls
             ((ModernChromeWindow) d).UpdateGlowColors();
         }
 
+        private static void OnResizeModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+            ((ModernChromeWindow) obj).OnResizeModeChanged();
+        }
+
         private static void RaiseNonClientMouseMessageAsClient(IntPtr hwnd, int msg, IntPtr lparam)
         {
             var point = new Core.Platform.Point
@@ -633,6 +665,34 @@ namespace ModernApplicationFramework.Controls
             return IntPtr.Zero;
         }
 
+        private void ChangeFullScreenApperance(object newValue)
+        {
+            if ((bool) newValue)
+                ChangeToFullScreen();
+            else
+                RestoreToOldScreen();
+        }
+
+        private void ChangeToFullScreen()
+        {
+            if (WindowState == WindowState.Normal || WindowState == WindowState.Maximized)
+                _lastState = WindowState;
+            _oldLeft = Left;
+            _oldTop = Top;
+            _oldWidth = Width;
+            _oldHeight = Height;
+
+            var interop = new WindowInteropHelper(this);
+            interop.EnsureHandle();
+            var sc = Screen.FromHandle(interop.Handle);
+            var bounds = sc.Bounds.ToWpf().TransformFromDevice(this);
+
+            Left = bounds.Left;
+            Top = bounds.Top;
+            Width = bounds.Width;
+            Height = bounds.Height;
+        }
+
         private void CreateShadowWindowHandles()
         {
             for (var direction = 0; direction < _shadowWindows.Length; ++direction)
@@ -670,6 +730,35 @@ namespace ModernApplicationFramework.Controls
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             CreateShadowWindowHandles();
+        }
+
+        private void OnResizeModeChanged()
+        {
+            if (ResizeMode == ResizeMode.CanMinimize || ResizeMode == ResizeMode.NoResize)
+            {
+                foreach (var shadowWindow in LoadedShadowWindows)
+                    shadowWindow.IsHitTestVisible = false;
+            }
+            else
+            {
+                foreach (var shadowWindow in LoadedShadowWindows)
+                    shadowWindow.IsHitTestVisible = true;
+            }
+            UpdateGlowVisibility(false);
+        }
+
+        private void RestoreToOldScreen()
+        {
+            ClearValue(WindowStyleProperty);
+            ClearValue(ResizeModeProperty);
+            ClearValue(MaxWidthProperty);
+            ClearValue(MaxHeightProperty);
+            WindowState = _lastState;
+
+            Left = _oldLeft;
+            Top = _oldTop;
+            Width = _oldWidth;
+            Height = _oldHeight;
         }
 
         private void StopShadowTimer()

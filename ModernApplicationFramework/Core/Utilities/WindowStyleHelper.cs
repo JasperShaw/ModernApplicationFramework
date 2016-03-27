@@ -9,11 +9,39 @@ namespace ModernApplicationFramework.Core.Utilities
     {
         public static readonly DependencyProperty HasMaximizeButtonProperty =
             DependencyProperty.RegisterAttached("HasMaximizeButton", typeof (bool), typeof (WindowStyleHelper),
-                new FrameworkPropertyMetadata(Boxes.BoolFalse, new PropertyChangedCallback(OnWindowStyleChanged)));
+                new FrameworkPropertyMetadata(Boxes.BoolFalse, OnWindowStyleChanged));
 
         public static readonly DependencyProperty HasMinimizeButtonProperty =
             DependencyProperty.RegisterAttached("HasMinimizeButton", typeof (bool), typeof (WindowStyleHelper),
-                new FrameworkPropertyMetadata(Boxes.BoolFalse, new PropertyChangedCallback(OnWindowStyleChanged)));
+                new FrameworkPropertyMetadata(Boxes.BoolFalse, OnWindowStyleChanged));
+
+        public static bool GetHasMaximizeButton(Window window)
+        {
+            if (window == null)
+                throw new ArgumentNullException(nameof(window));
+            return (bool) window.GetValue(HasMaximizeButtonProperty);
+        }
+
+        public static bool GetHasMinimizeButton(Window window)
+        {
+            if (window == null)
+                throw new ArgumentNullException(nameof(window));
+            return (bool) window.GetValue(HasMinimizeButtonProperty);
+        }
+
+        public static void SetHasMaximizeButton(Window window, bool value)
+        {
+            if (window == null)
+                throw new ArgumentNullException(nameof(window));
+            window.SetValue(HasMaximizeButtonProperty, Boxes.Box(value));
+        }
+
+        public static void SetHasMinimizeButton(Window window, bool value)
+        {
+            if (window == null)
+                throw new ArgumentNullException(nameof(window));
+            window.SetValue(HasMinimizeButtonProperty, Boxes.Box(value));
+        }
 
         private static void OnWindowStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -30,34 +58,6 @@ namespace ModernApplicationFramework.Core.Utilities
             var num1 = !GetHasMaximizeButton(window) ? windowLong & -65537 : windowLong | 65536;
             var num2 = !GetHasMinimizeButton(window) ? num1 & -131073 : num1 | 131072;
             NativeMethods.NativeMethods.SetWindowLong(handle, -16, num2);
-        }
-
-        public static bool GetHasMaximizeButton(Window window)
-        {
-            if(window == null)
-                throw new ArgumentNullException("window");
-            return (bool) window.GetValue(HasMaximizeButtonProperty);
-        }
-
-        public static void SetHasMaximizeButton(Window window, bool value)
-        {
-            if (window == null)
-                throw new ArgumentNullException("window");
-            window.SetValue(HasMaximizeButtonProperty, Boxes.Box(value));
-        }
-
-        public static bool GetHasMinimizeButton(Window window)
-        {
-            if (window == null)
-                throw new ArgumentNullException("window");
-            return (bool)window.GetValue(HasMinimizeButtonProperty);
-        }
-
-        public static void SetHasMinimizeButton(Window window, bool value)
-        {
-            if (window == null)
-                throw new ArgumentNullException("window");
-            window.SetValue(HasMinimizeButtonProperty, Boxes.Box(value));
         }
     }
 }

@@ -1,0 +1,791 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ModernApplicationFramework.Commands.Base.CommandBase" Collapsed="true">
+    <Position X="23.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAQAACAgQAAEQAAAAAAAAAAAAAAAACAAAAAEA=</HashCode>
+      <FileName>Commands\Base\CommandBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ModernApplicationFramework.Commands.Command" Collapsed="true">
+    <Position X="22.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAQAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\Command.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Commands.Command&lt;T&gt;" Collapsed="true">
+    <Position X="24.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAQAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\CommandT.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Controls.Button" Collapsed="true">
+    <Position X="3" Y="20.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controls\Button.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Controls.ContextMenu" Collapsed="true">
+    <Position X="19.5" Y="22.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAABAAAAQAAAAAEAAAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>Controls\ContextMenu.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ModernApplicationFramework.Controls.ContextMenuItem" Collapsed="true">
+    <Position X="1.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controls\ContextMenuItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Controls.ContextMenuGlyphItem" Collapsed="true">
+    <Position X="2.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAAAAAABAAgAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Controls\ContextMenuItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Controls.DialogWindow" Collapsed="true">
+    <Position X="8.5" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controls\DialogWindow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Controls.DropDownButton" Collapsed="true">
+    <Position X="6.5" Y="24.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IEBJAAACAQBSBhEAgAAABoADsYIQEAAACASAIAKAIoI=</HashCode>
+      <FileName>Controls\DropDownButton.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ModernApplicationFramework.Controls.GlyphButton" Collapsed="true">
+    <Position X="3" Y="22" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Controls\GlyphButton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Controls.ImageButton" Collapsed="true">
+    <Position X="5.25" Y="22" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgEAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAgKAAA=</HashCode>
+      <FileName>Controls\ImageButton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Controls.ImageRadioButton" Collapsed="true">
+    <Position X="9.5" Y="24.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgEAAAAAAAAAAAAAEAQAAAAAAAAAAAAEAAAAgKAAA=</HashCode>
+      <FileName>Controls\ImageRadioButton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Controls.ImageTabButton" Collapsed="true">
+    <Position X="9.5" Y="26" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controls\ImageTabButton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Controls.MainWindow" Collapsed="true">
+    <Position X="19" Y="20" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAABAEAAAgAgAAEAAAAAAAAAgAAAAAAAgACQ=</HashCode>
+      <FileName>Controls\MainWindow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Controls.MenuItem" Collapsed="true">
+    <Position X="1.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controls\MenuItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Controls.ModernChromeWindow" Collapsed="true">
+    <Position X="20" Y="18.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>xAqkKmihDCFVQJCQQFFQUmiAFcoQAAAAANhBFKACCAo=</HashCode>
+      <FileName>Controls\ModernChromeWindow.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ModernApplicationFramework.Controls.SplittButton" Collapsed="true">
+    <Position X="6.5" Y="26" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controls\SplittButton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Controls.WaitDialog" Collapsed="true">
+    <Position X="16.75" Y="20" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAgCAAAQAAA=</HashCode>
+      <FileName>Controls\WaitDialog.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Controls.WindowBase" Collapsed="true">
+    <Position X="8.5" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAMAAEAAAAAAAggKARAAAgAAGABAAAAIAAA=</HashCode>
+      <FileName>Controls\WindowBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Controls.WindowTitleBarButton" Collapsed="true">
+    <Position X="0.75" Y="22" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controls\WindowTitleBarButton.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ModernApplicationFramework.Controls.Customize.CustomizeDialog" Collapsed="true">
+    <Position X="8.5" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAABAAAAAAAAAAACAAAAAAIAAABAAAAAAAA=</HashCode>
+      <FileName>Controls\Customize\CustomizeDialog.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Core.Converters.BooleanToFlowDirectionConverter" Collapsed="true">
+    <Position X="12.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Converters\BooleanToFlowDirectionConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Core.Converters.DockLocationConverter" Collapsed="true">
+    <Position X="15" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Converters\DockLocationConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Core.Converters.MultiValueConverter&lt;TSource1, TSource2, TTarget&gt;" Collapsed="true">
+    <Position X="22.5" Y="22.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Converters\MultiValueConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ModernApplicationFramework.Core.Converters.ToBooleanValueConverter&lt;TSource&gt;" Collapsed="true">
+    <Position X="23.5" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Converters\ToBooleanValueConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ModernApplicationFramework.Core.Converters.ToolBarVisibilityConverter" Collapsed="true">
+    <Position X="23.5" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Converters\ToolBarVisibilityConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Core.Converters.TrimSpacesConverter" Collapsed="true">
+    <Position X="17.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Converters\TrimSpacesConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Core.Converters.ValueConverter&lt;TSource, TTarget&gt;" Collapsed="true">
+    <Position X="16" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Converters\ValueConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ModernApplicationFramework.Core.Converters.WindowStateConverter" Collapsed="true">
+    <Position X="19.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Converters\WindowStateConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Core.Themes.Theme" Collapsed="true">
+    <Position X="17.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Themes\Theme.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Core.Utilities.BooleanOrConverter" Collapsed="true">
+    <Position X="22.5" Y="23.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Utilities\BooleanOrConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Controls.AnchorablePaneControlOverlayArea" Collapsed="true">
+    <Position X="0.75" Y="18.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Docking\Controls\AnchorablePaneControlOverlayArea.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Controls.AnchorablePaneDropTarget" Collapsed="true">
+    <Position X="7.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAIAAAAQAAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Docking\Controls\AnchorablePaneDropTarget.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Controls.ContextMenuEx" Collapsed="true">
+    <Position X="19.5" Y="24" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAQAAAA=</HashCode>
+      <FileName>Docking\Controls\ContextMenuEx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Controls.DockingManagerDropTarget" Collapsed="true">
+    <Position X="9.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAQAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Docking\Controls\DockingManagerDropTarget.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Controls.DockingManagerOverlayArea" Collapsed="true">
+    <Position X="3" Y="18.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Docking\Controls\DockingManagerOverlayArea.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Controls.DocumentPaneControlOverlayArea" Collapsed="true">
+    <Position X="5.25" Y="18.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Docking\Controls\DocumentPaneControlOverlayArea.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Controls.DocumentPaneDropAsAnchorableTarget" Collapsed="true">
+    <Position X="0.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQIAAIAAAAQAAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Docking\Controls\DocumentPaneDropAsAnchorableTarget.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Controls.DocumentPaneDropTarget" Collapsed="true">
+    <Position X="3" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAIAAAAQAAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Docking\Controls\DocumentPaneDropTarget.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Controls.DocumentPaneGroupDropTarget" Collapsed="true">
+    <Position X="5.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAIAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Docking\Controls\DocumentPaneGroupDropTarget.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Controls.DropDownButton" Collapsed="true">
+    <Position X="22.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAABAAAAAAgAAAAACIAAgAAAgIAAAAAAAAAA=</HashCode>
+      <FileName>Docking\Controls\DropDownButton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Controls.DropDownTitleBarButton" Collapsed="true">
+    <Position X="22.5" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Docking\Controls\DropDownTitleBarButton.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Controls.DropTarget&lt;T&gt;" Collapsed="true">
+    <Position X="5.25" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAUAAAAgAABQAAAAAAAAAAAAAAAgQAAAAUAAAAAAAAA=</HashCode>
+      <FileName>Docking\Controls\DropTarget.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Controls.DropTargetBase" Collapsed="true">
+    <Position X="5.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAIAABAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Docking\Controls\DropTargetBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Controls.LayoutAnchorableFloatingWindowControl" Collapsed="true">
+    <Position X="21.25" Y="21.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABIAKUQAAAIAAMAoAAgAggAAAAgABBCBwAADAAgAA=</HashCode>
+      <FileName>Docking\Controls\LayoutAnchorableFloatingWindowControl.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Controls.LayoutAnchorableItem" Collapsed="true">
+    <Position X="8.5" Y="23" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABIAGAEwAAJUCKAAACQAQAgBpEAABAAEACCEACgAAA=</HashCode>
+      <FileName>Docking\Controls\LayoutAnchorableItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Controls.LayoutAnchorablePaneGroupControl" Collapsed="true">
+    <Position X="8.75" Y="20" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Docking\Controls\LayoutAnchorablePaneGroupControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Controls.LayoutDocumentFloatingWindowControl" Collapsed="true">
+    <Position X="23.5" Y="21.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAACUgABAIAEMAgAAAAggAAAgAAABCBwAABAIgAA=</HashCode>
+      <FileName>Docking\Controls\LayoutDocumentFloatingWindowControl.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Controls.LayoutDocumentItem" Collapsed="true">
+    <Position X="10.75" Y="23" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEEgAAIAEAAAAAAAAIAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Docking\Controls\LayoutDocumentItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Controls.LayoutDocumentPaneGroupControl" Collapsed="true">
+    <Position X="11" Y="20" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Docking\Controls\LayoutDocumentPaneGroupControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Controls.LayoutFloatingWindowControl" Collapsed="true">
+    <Position X="22.25" Y="20" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgCAAAApBIAQIAAAdgAAAOgQEQgAABAQKBwAAAAAFAg=</HashCode>
+      <FileName>Docking\Controls\LayoutFloatingWindowControl.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Controls.LayoutGridControl&lt;T&gt;" Collapsed="true">
+    <Position X="11" Y="18.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAEApAAAaCAAEBAAgQAJIAAAAAgBQAAiAgIkAIABAA=</HashCode>
+      <FileName>Docking\Controls\LayoutGridControl.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Controls.LayoutItem" Collapsed="true">
+    <Position X="9.75" Y="21.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QwFgPQIAqSERMcLPEHiXPViAAJ2Twh3AOLhBBUKwkgE=</HashCode>
+      <FileName>Docking\Controls\LayoutItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Controls.LayoutPanelControl" Collapsed="true">
+    <Position X="13.25" Y="20" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Docking\Controls\LayoutPanelControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Controls.MenuItemEx" Collapsed="true">
+    <Position X="0.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgBBAQAAAAAAAAAAAAAAAAAAABAAAAAEAAgAABBAA=</HashCode>
+      <FileName>Docking\Controls\MenuItemEx.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Controls.OverlayArea" Collapsed="true">
+    <Position X="3" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAAAAAAQAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Docking\Controls\OverlayArea.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Layout.LayoutAnchorable" Collapsed="true">
+    <Position X="24.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABwBABAAAgBUABAkAhQEACGIAAkAAAAAEgEgAAxkAA=</HashCode>
+      <FileName>Docking\Layout\LayoutAnchorable.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Layout.LayoutAnchorableFloatingWindow" Collapsed="true">
+    <Position X="1.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAIAEAAAAEAAAAAgEEAAAAAICQIACAEAAIAAQACA=</HashCode>
+      <FileName>Docking\Layout\LayoutAnchorableFloatingWindow.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Layout.LayoutAnchorablePane" Collapsed="true">
+    <Position X="8.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEQgIBAAAAAAABCAAAhQAARCACAAIgQAIEBAgAAogAA=</HashCode>
+      <FileName>Docking\Layout\LayoutAnchorablePane.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Layout.LayoutAnchorablePaneGroup" Collapsed="true">
+    <Position X="10.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABgAAAAAQAAIBAAAEBgAAACAAAAAAQAAEAAgAAAAAA=</HashCode>
+      <FileName>Docking\Layout\LayoutAnchorablePaneGroup.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Layout.LayoutAnchorGroup" Collapsed="true">
+    <Position X="17.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAhAAAAAABAAAAAAAhAAAACAAAAAAQAAAAAgAAACAA=</HashCode>
+      <FileName>Docking\Layout\LayoutAnchorGroup.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Layout.LayoutAnchorSide" Collapsed="true">
+    <Position X="19.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAgAQACAAAAAAAgAA=</HashCode>
+      <FileName>Docking\Layout\LayoutAnchorSide.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Layout.LayoutContent" Collapsed="true">
+    <Position X="25.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QCAhEBACIjBAEEQBEIKAwBiCNARgKiJEMSgApAioiCA=</HashCode>
+      <FileName>Docking\Layout\LayoutContent.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Layout.LayoutDocument" Collapsed="true">
+    <Position X="26.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAgEAAEAAAAAAACIAAAAAAAAEAAgAAAAAA=</HashCode>
+      <FileName>Docking\Layout\LayoutDocument.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Layout.LayoutDocumentFloatingWindow" Collapsed="true">
+    <Position X="4" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAgEEAAABAICQAAAAEAAAAAAACA=</HashCode>
+      <FileName>Docking\Layout\LayoutDocumentFloatingWindow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Layout.LayoutDocumentPane" Collapsed="true">
+    <Position X="13" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAgABAAAAAAABCAAEhABABCAAAAAAQAIEAAgAAAAAA=</HashCode>
+      <FileName>Docking\Layout\LayoutDocumentPane.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Layout.LayoutDocumentPaneGroup" Collapsed="true">
+    <Position X="15.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAQAAIAAAAAAAAAACAAAAAAQAAEAAgAAAAAA=</HashCode>
+      <FileName>Docking\Layout\LayoutDocumentPaneGroup.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Layout.LayoutElement" Collapsed="true">
+    <Position X="14" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>SAAAAAACAAAQACAAAAAAQAARgAAAAAAgAEAAAAAAgAA=</HashCode>
+      <FileName>Docking\Layout\LayoutElement.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Layout.LayoutFloatingWindow" Collapsed="true">
+    <Position X="2.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAgEAAAAAAICQAAAAAgAAAAAACA=</HashCode>
+      <FileName>Docking\Layout\LayoutFloatingWindow.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Layout.LayoutGroup&lt;T&gt;" Collapsed="true">
+    <Position X="13" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAwAFBAACgAEQAAAEBEACACAAJAQAQAAAkAoAAAgCA=</HashCode>
+      <FileName>Docking\Layout\LayoutGroup.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Layout.LayoutGroupBase" Collapsed="true">
+    <Position X="13" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAACAAAAAAACgCAAAAAAAAAAA=</HashCode>
+      <FileName>Docking\Layout\LayoutGroupBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Layout.LayoutPanel" Collapsed="true">
+    <Position X="6.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAQAAIAAAAAAAAAACAAAAAAQAAEAAgAAAAAA=</HashCode>
+      <FileName>Docking\Layout\LayoutPanel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Layout.LayoutPositionableGroup&lt;T&gt;" Collapsed="true">
+    <Position X="10.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ASBgQmAAAiAAAAEBAACggAAKEAAACBIAEQgEoAAAAAA=</HashCode>
+      <FileName>Docking\Layout\LayoutPositionableGroup.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Layout.LayoutRoot" Collapsed="true">
+    <Position X="22" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAUAIqAQcogGgEEBQwQEA4AAAAKARAEAQEgEAAAEAHA=</HashCode>
+      <FileName>Docking\Layout\LayoutRoot.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Layout.Serialization.LayoutSerializer" Collapsed="true">
+    <Position X="16.5" Y="21.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAgAAAAAAAQACAAAAhAAAAAAACAAAEAA=</HashCode>
+      <FileName>Docking\Layout\Serialization\LayoutSerializer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Docking.Layout.Serialization.XmlLayoutSerializer" Collapsed="true">
+    <Position X="16.5" Y="22.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACBAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Docking\Layout\Serialization\XmlLayoutSerializer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Properties.PathReferenceAttribute" Collapsed="true">
+    <Position X="3" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Properties\Annotations.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Properties.AspMvcAreaAttribute" Collapsed="true">
+    <Position X="3" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Properties\Annotations.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Properties.AspMvcPartialViewAttribute" Collapsed="true">
+    <Position X="5.25" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Properties\Annotations.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Properties.AspMvcViewAttribute" Collapsed="true">
+    <Position X="0.75" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Properties\Annotations.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.Themes.GenericTheme" Collapsed="true">
+    <Position X="17.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Themes\GenericTheme.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.ViewModels.MainWindowViewModel" Collapsed="true">
+    <Position X="0.75" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>jAMoQBLiAAHEAgQYQABBAEABAAUAggOAABCGJMHAEgI=</HashCode>
+      <FileName>ViewModels\MainWindowViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ModernApplicationFramework.ViewModels.MenuHostViewModel" Collapsed="true">
+    <Position X="3" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAEAAAAIAAAAAAAAAAAAIAEAAAAAAECEgAAA=</HashCode>
+      <FileName>ViewModels\MenuHostViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.ViewModels.ToolBarCustomizeDialogViewModel" Collapsed="true">
+    <Position X="5.25" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAACAAAAABAAAAEQAAAAAAwAAAIAAAAAAQAAARE=</HashCode>
+      <FileName>ViewModels\ToolBarCustomizeDialogViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModernApplicationFramework.ViewModels.ToolBarHostViewModel" Collapsed="true">
+    <Position X="7.5" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>hAAkAwKAABBEENIYgERAAECosAADAIIAABIAABAgKBg=</HashCode>
+      <FileName>ViewModels\ToolBarHostViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ModernApplicationFramework.ViewModels.ViewModelBase" Collapsed="true">
+    <Position X="4" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAAAAAgAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\ViewModelBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="ModernApplicationFramework.Core.Standard.IObjectArray" Collapsed="true">
+    <Position X="3.5" Y="23.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Standard\ShellProvider.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ModernApplicationFramework.Core.Standard.IObjectCollection" Collapsed="true">
+    <Position X="3.5" Y="24.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAQAAAAAAAAAAAAAEAAAAAAABAIAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Core\Standard\ShellProvider.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ModernApplicationFramework.Core.Standard.IShellItem" Collapsed="true">
+    <Position X="0.5" Y="23.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAABAAAABAAAAAAAABAAAQAAAA=</HashCode>
+      <FileName>Core\Standard\ShellProvider.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ModernApplicationFramework.Core.Standard.IShellItem2" Collapsed="true">
+    <Position X="0.5" Y="24.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EASAAIAAAAAAAAABAAAAFAAQEJAAAAAQAABBQCQAAAA=</HashCode>
+      <FileName>Core\Standard\ShellProvider.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ModernApplicationFramework.Core.Standard.ITaskbarList" Collapsed="true">
+    <Position X="13.5" Y="21.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAIAAAEAAAAAAgAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Core\Standard\ShellProvider.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ModernApplicationFramework.Core.Standard.ITaskbarList2" Collapsed="true">
+    <Position X="13.5" Y="22.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>UAAAAAAAAAIAAAEAAAAAAgAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Core\Standard\ShellProvider.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ModernApplicationFramework.Core.Standard.ITaskbarList3" Collapsed="true">
+    <Position X="13.5" Y="24.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>UEAAAAAAAAIIAAMAAAAAQgAAAAAAIwQAACAEAAAIBIA=</HashCode>
+      <FileName>Core\Standard\ShellProvider.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ModernApplicationFramework.Core.Standard.ITaskbarList4" Collapsed="true">
+    <Position X="13.5" Y="25.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>UEAAAAAAAAIIAAMAAAAAQgAAAAAAIwQAASAEAAAIBIA=</HashCode>
+      <FileName>Core\Standard\ShellProvider.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ModernApplicationFramework.Core.Themes.IHasTheme" Collapsed="true">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Themes\IHasTheme.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ModernApplicationFramework.Docking.Layout.ILayoutAnchorablePane" Collapsed="true">
+    <Position X="16.5" Y="17" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Docking\Layout\ILayoutAnchorablePane.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ModernApplicationFramework.Docking.Layout.ILayoutContainer" Collapsed="true">
+    <Position X="18.75" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAEAAAAAAIAQAAAAAAAAAAAACA=</HashCode>
+      <FileName>Docking\Layout\ILayoutContainer.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ModernApplicationFramework.Docking.Layout.ILayoutDocumentPane" Collapsed="true">
+    <Position X="13.5" Y="17" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Docking\Layout\ILayoutDocumentPane.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ModernApplicationFramework.Docking.Layout.ILayoutElement" Collapsed="true">
+    <Position X="15.25" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Docking\Layout\ILayoutElement.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ModernApplicationFramework.Docking.Layout.ILayoutElementWithVisibility" Collapsed="true">
+    <Position X="21.75" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Docking\Layout\ILayoutElementWithVisibility.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ModernApplicationFramework.Docking.Layout.ILayoutGroup" Collapsed="true">
+    <Position X="21" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAgAAQAAAAAAACAAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Docking\Layout\ILayoutGroup.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ModernApplicationFramework.Docking.Layout.ILayoutOrientableGroup" Collapsed="true">
+    <Position X="21" Y="16" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Docking\Layout\ILayoutOrientableElement.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ModernApplicationFramework.Docking.Layout.ILayoutPane" Collapsed="true">
+    <Position X="18.75" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Docking\Layout\ILayoutPane.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ModernApplicationFramework.Docking.Layout.ILayoutPanelElement" Collapsed="true">
+    <Position X="14.25" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Docking\Layout\ILayoutPanelElement.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ModernApplicationFramework.Docking.Layout.ILayoutPositionableElement" Collapsed="true">
+    <Position X="15.25" Y="15" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAEAEAAAAAgAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Docking\Layout\ILayoutPositionableElement.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ModernApplicationFramework.Docking.Layout.ILayoutElementForFloatingWindow" Collapsed="true">
+    <Position X="11.75" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAACAAAEAgAIAAAAAA=</HashCode>
+      <FileName>Docking\Layout\ILayoutPositionableElement.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ModernApplicationFramework.ViewModels.IMainWindowViewModel" Collapsed="true">
+    <Position X="6.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAACCAAAAAAAAAAAAAAAAAAAAgAAAAAAAAIAAAAA=</HashCode>
+      <FileName>ViewModels\IMainWindowViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ModernApplicationFramework.ViewModels.IWindowViewModel" Collapsed="true">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAMAQAAAAAAEAAQAAAAAAEAAAAAAAAIAAACAAABAAAA=</HashCode>
+      <FileName>ViewModels\IWindowViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

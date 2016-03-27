@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Media;
 using ModernApplicationFramework.Core.Platform;
 using Point = ModernApplicationFramework.Core.Platform.Point;
 
@@ -9,16 +10,39 @@ namespace ModernApplicationFramework.Core.Utilities
 {
     public static class Screen
     {
-        internal static void FindMaximumSingleMonitorRectangle(RECT windowRect, out RECT screenSubRect, out RECT monitorRect)
+        public static System.Windows.Point ToWpf(this System.Drawing.Point p)
+        {
+            return new System.Windows.Point(p.X, p.Y);
+        }
+
+        public static Size ToWpf(this System.Drawing.Size s)
+        {
+            return new Size(s.Width, s.Height);
+        }
+
+        public static Rect ToWpf(this System.Drawing.Rectangle rect)
+        {
+            return new Rect(rect.Location.ToWpf(), rect.Size.ToWpf());
+        }
+
+        public static Rect TransformFromDevice(this Rect rect, Visual visual)
+        {
+            Matrix matrix = PresentationSource.FromVisual(visual).CompositionTarget.TransformFromDevice;
+            return Rect.Transform(rect, matrix);
+        }
+
+        internal static void FindMaximumSingleMonitorRectangle(RECT windowRect, out RECT screenSubRect,
+            out RECT monitorRect)
         {
             var rects = new List<RECT>();
-            NativeMethods.NativeMethods.EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero, (IntPtr hMonitor, IntPtr hdcMonitor, ref RECT rect, IntPtr lpData) =>
-            {
-                Monitorinfo monitorInfo = new Monitorinfo {CbSize = (uint) Marshal.SizeOf(typeof (Monitorinfo))};
-                NativeMethods.NativeMethods.GetMonitorInfo(hMonitor, ref monitorInfo);
-                rects.Add(monitorInfo.RcWork);
-                return true;
-            }, IntPtr.Zero);
+            NativeMethods.NativeMethods.EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero,
+                (IntPtr hMonitor, IntPtr hdcMonitor, ref RECT rect, IntPtr lpData) =>
+                {
+                    Monitorinfo monitorInfo = new Monitorinfo {CbSize = (uint) Marshal.SizeOf(typeof (Monitorinfo))};
+                    NativeMethods.NativeMethods.GetMonitorInfo(hMonitor, ref monitorInfo);
+                    rects.Add(monitorInfo.RcWork);
+                    return true;
+                }, IntPtr.Zero);
             var num1 = 0L;
             screenSubRect = new RECT()
             {
@@ -39,7 +63,7 @@ namespace ModernApplicationFramework.Core.Utilities
                 var lprcSrc1 = rect;
                 RECT lprcDst;
                 NativeMethods.NativeMethods.IntersectRect(out lprcDst, ref lprcSrc1, ref windowRect);
-                var num2 = (long)(lprcDst.Width * lprcDst.Height);
+                var num2 = (long) (lprcDst.Width*lprcDst.Height);
                 if (num2 > num1)
                 {
                     screenSubRect = lprcDst;
@@ -49,7 +73,8 @@ namespace ModernApplicationFramework.Core.Utilities
             }
         }
 
-        internal static void FindMaximumSingleMonitorRectangle(Rect windowRect, out Rect screenSubRect, out Rect monitorRect)
+        internal static void FindMaximumSingleMonitorRectangle(Rect windowRect, out Rect screenSubRect,
+            out Rect monitorRect)
         {
             RECT screenSubRect1;
             RECT monitorRect1;
@@ -58,12 +83,13 @@ namespace ModernApplicationFramework.Core.Utilities
             monitorRect = new Rect(monitorRect1.Position, monitorRect1.Size);
         }
 
-        internal static void FindMonitorRectsFromPoint(System.Windows.Point point, out Rect monitorRect, out Rect workAreaRect)
+        internal static void FindMonitorRectsFromPoint(System.Windows.Point point, out Rect monitorRect,
+            out Rect workAreaRect)
         {
             var hMonitor = NativeMethods.NativeMethods.MonitorFromPoint(new Point
             {
-                X = (int)point.X,
-                Y = (int)point.Y
+                X = (int) point.X,
+                Y = (int) point.Y
             }, 2);
             monitorRect = new Rect(0.0, 0.0, 0.0, 0.0);
             workAreaRect = new Rect(0.0, 0.0, 0.0, 0.0);
@@ -75,20 +101,22 @@ namespace ModernApplicationFramework.Core.Utilities
             workAreaRect = new Rect(monitorInfo.RcWork.Position, monitorInfo.RcWork.Size);
         }
 
-        internal static System.Windows.Point WorkAreaToScreen(System.Windows.Point pt)
-        {
-            Rect monitorRect;
-            Rect workAreaRect;
-            FindMonitorRectsFromPoint(pt, out monitorRect, out workAreaRect);
-            return new System.Windows.Point(pt.X - monitorRect.Left + workAreaRect.Left, pt.Y - monitorRect.Top + workAreaRect.Top);
-        }
-
         internal static System.Windows.Point ScreenToWorkArea(System.Windows.Point pt)
         {
             Rect monitorRect;
             Rect workAreaRect;
             FindMonitorRectsFromPoint(pt, out monitorRect, out workAreaRect);
-            return new System.Windows.Point(pt.X - workAreaRect.Left + monitorRect.Left, pt.Y - workAreaRect.Top + monitorRect.Top);
+            return new System.Windows.Point(pt.X - workAreaRect.Left + monitorRect.Left,
+                pt.Y - workAreaRect.Top + monitorRect.Top);
+        }
+
+        internal static System.Windows.Point WorkAreaToScreen(System.Windows.Point pt)
+        {
+            Rect monitorRect;
+            Rect workAreaRect;
+            FindMonitorRectsFromPoint(pt, out monitorRect, out workAreaRect);
+            return new System.Windows.Point(pt.X - monitorRect.Left + workAreaRect.Left,
+                pt.Y - monitorRect.Top + workAreaRect.Top);
         }
     }
 }

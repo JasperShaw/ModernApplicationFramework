@@ -11,7 +11,7 @@
         <layout:LayoutRoot PropertyChanged="LayoutElement_OnPropertyChanged">
                 <layout:LayoutPanel Orientation="Horizontal">
                     <layout:LayoutAnchorablePane DockWidth="100">
-                        <layout:LayoutAnchorable x:Name="WinFormsWindow"  ContentId="WinFormsWindow" Title="WinForms Window" ToolTip="My WinForms Tool" CanHide="False" CanClose="False" ShowOnMouseOver="True">
+                        <layout:LayoutAnchorable x:Name="WinFormsWindow"  ContentId="WinFormsWindow" Title="WinForms Window" ToolTip="My WinForms Tool" CanHide="False" CanClose="False" ShowOnMouseOver="False">
                         <StackPanel />
                         </layout:LayoutAnchorable>
                     </layout:LayoutAnchorablePane>

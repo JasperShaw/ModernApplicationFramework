@@ -36,7 +36,7 @@ namespace ModernApplicationFramework.Docking.Layout
         private double _autohideWidth;
 
 
-        private bool _showOnMouseOver = true;
+        private bool _showOnMouseOver;
 
         public event EventHandler<CancelEventArgs> Hiding;
 

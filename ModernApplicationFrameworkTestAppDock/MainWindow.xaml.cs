@@ -9,7 +9,6 @@ using System.Windows.Media.Imaging;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking;
 using ModernApplicationFramework.Docking.Layout;
-using ModernApplicationFramework.Docking.Layout.Serialization;
 using ModernApplicationFramework.Themes;
 using ModernApplicationFramework.Themes.LightIDE;
 using ModernApplicationFramework.ViewModels;

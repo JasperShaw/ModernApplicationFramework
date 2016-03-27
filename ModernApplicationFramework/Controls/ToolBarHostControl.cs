@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -16,9 +17,6 @@ namespace ModernApplicationFramework.Controls
             "TopTrayBackground", typeof (Brush), typeof (ToolBarHostControl),
             new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
 
-        private ToolBarHostViewModel ToolBarHostViewModel => DataContext as ToolBarHostViewModel;
-
-        public static ToolBarHostControl Instance { get; private set; }
         private bool _contentLoaded;
 
         public ToolBarHostControl()
@@ -27,6 +25,8 @@ namespace ModernApplicationFramework.Controls
             Instance = this;
             DataContext = new ToolBarHostViewModel(this);
         }
+
+        public static ToolBarHostControl Instance { get; private set; }
 
         public Brush DefaultBackground
         {
@@ -40,11 +40,14 @@ namespace ModernApplicationFramework.Controls
             set { SetValue(TopTrayBackgroundProperty, value); }
         }
 
+        private ToolBarHostViewModel ToolBarHostViewModel => DataContext as ToolBarHostViewModel;
+
         public void Connect(int connectionId, object target)
         {
             _contentLoaded = true;
         }
 
+        [DebuggerNonUserCode]
         public void InitializeComponent()
         {
             if (_contentLoaded)

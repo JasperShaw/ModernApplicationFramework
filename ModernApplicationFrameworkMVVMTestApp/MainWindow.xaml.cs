@@ -28,11 +28,12 @@ namespace ModernApplicationFrameworkMVVMTestApp
         }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-	    {
-            if (((ModernApplicationFramework.ViewModels.MainWindowViewModel)DataContext).Theme is LightTheme)
-                ((ModernApplicationFramework.ViewModels.MainWindowViewModel)DataContext).Theme = new GenericTheme();
-            else
-                ((ModernApplicationFramework.ViewModels.MainWindowViewModel)DataContext).Theme = new LightTheme();
+        {
+            FullScreen = !FullScreen;
+            //if (((ModernApplicationFramework.ViewModels.MainWindowViewModel)DataContext).Theme is LightTheme)
+            //    ((ModernApplicationFramework.ViewModels.MainWindowViewModel)DataContext).Theme = new GenericTheme();
+            //else
+            //    ((ModernApplicationFramework.ViewModels.MainWindowViewModel)DataContext).Theme = new LightTheme();
         }
 
 	    private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
