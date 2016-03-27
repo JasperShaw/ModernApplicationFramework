@@ -76,6 +76,9 @@
                 <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorSideItemBackgroundHover}}" TargetName="Bd"/>
                 <Setter TargetName="Content" Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorSideItemForegroundHover}}"/>
             </MultiTrigger>
+             <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:MainWindow}}, Path=FullScreen}" Value="true">
+                 <Setter Property="Visibility" Value="Collapsed"/>
+             </DataTrigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
