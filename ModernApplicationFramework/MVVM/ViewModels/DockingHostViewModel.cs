@@ -4,8 +4,12 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using Caliburn.Micro;
+using ModernApplicationFramework.Docking;
+using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.MVVM.Interfaces;
+using ModernApplicationFramework.MVVM.Views;
 
 namespace ModernApplicationFramework.MVVM.ViewModels
 {

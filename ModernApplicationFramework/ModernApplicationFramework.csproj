@@ -96,8 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MVVM\Controls\Document.cs" />
-    <Compile Include="MVVM\Interfaces\ITest.cs" />
-    <Compile Include="MVVM\ViewModels\TestViewModel.cs" />
+    <Compile Include="MVVM\Controls\Tool.cs" />
     <Compile Include="MVVM\Views\DockingMainWindowView.xaml.cs">
       <DependentUpon>DockingMainWindowView.xaml</DependentUpon>
     </Compile>

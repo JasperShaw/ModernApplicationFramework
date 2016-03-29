@@ -40,37 +40,38 @@
                     </core:PanesTemplateSelector.ToolTemplate>
                 </core:PanesTemplateSelector>
             </mafc:DockingManager.LayoutItemTemplateSelector>
-            
+
             <mafc:DockingManager.LayoutItemContainerStyleSelector>
                 <core:PanesStyleSelector>
                     <core:PanesStyleSelector.DocumentStyle>
                         <Style TargetType="{x:Type dockControl:LayoutItem}">
-						<Setter Property="ContentId" Value="{Binding Model.ContentId}" />
-							<Setter Property="Title" Value="{Binding Model.DisplayName, Mode=OneWay}" />
-							<Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}" />
-							<Setter Property="IconSource" Value="{Binding Model.IconSource, Converter={StaticResource NullableValueConverter}}" />
+                            <Setter Property="ContentId" Value="{Binding Model.ContentId}" />
+                            <Setter Property="Title" Value="{Binding Model.DisplayName, Mode=OneWay}" />
+                            <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}" />
+                            <Setter Property="IconSource" Value="{Binding Model.IconSource, Converter={StaticResource NullableValueConverter}}" />
                             <Setter Property="IsSelected" Value="{Binding Model.IsSelected, Mode=TwoWay}" />
                         </Style>
                     </core:PanesStyleSelector.DocumentStyle>
                     <core:PanesStyleSelector.ToolStyle>
                         <Style TargetType="{x:Type dockControl:LayoutAnchorableItem}">
-							<Setter Property="ContentId" Value="{Binding Model.ContentId}" />
-							<Setter Property="Title" Value="{Binding Model.DisplayName, Mode=OneWay}" />
-							<Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}" />
-							<Setter Property="IconSource" Value="{Binding Model.IconSource, Converter={StaticResource NullableValueConverter}}" />
-							<Setter Property="IsSelected" Value="{Binding Model.IsSelected, Mode=TwoWay}" />
-							<Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}"/>
-						</Style>
+                            <Setter Property="ContentId" Value="{Binding Model.ContentId}" />
+                            <Setter Property="Title" Value="{Binding Model.DisplayName, Mode=OneWay}" />
+                            <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}" />
+                            <Setter Property="IconSource" Value="{Binding Model.IconSource, Converter={StaticResource NullableValueConverter}}" />
+                            <Setter Property="IsSelected" Value="{Binding Model.IsSelected, Mode=TwoWay}" />
+                            <Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}"/>
+                        </Style>
                     </core:PanesStyleSelector.ToolStyle>
                 </core:PanesStyleSelector>
             </mafc:DockingManager.LayoutItemContainerStyleSelector>
-            
+
             <mafc:DockingManager.LayoutUpdateStrategy>
                 <core:LayoutInitializer/>
             </mafc:DockingManager.LayoutUpdateStrategy>
 
             <dockLayout:LayoutRoot>
                 <dockLayout:LayoutPanel x:Name="VerticalPanel" Orientation="Vertical">
+                    <dockLayout:LayoutAnchorablePane DockWidth="100" Name="LeftPane"/>
                     <dockLayout:LayoutPanel x:Name="HorizontalPanel" Orientation="Horizontal">
                         <dockLayout:LayoutDocumentPaneGroup Orientation="Horizontal">
                             <dockLayout:LayoutDocumentPane/>
@@ -78,134 +79,6 @@
                     </dockLayout:LayoutPanel>
                 </dockLayout:LayoutPanel>
             </dockLayout:LayoutRoot>
-
         </mafc:DockingManager>
     </DockPanel>
 </UserControl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -4,7 +4,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.MVVM.Core;
 using ModernApplicationFramework.MVVM.Interfaces;
 
-namespace ModernApplicationFramework.MVVM.Demo
+namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
 {
     [Export(typeof(IModule))]
     public class Module : ModuleBase

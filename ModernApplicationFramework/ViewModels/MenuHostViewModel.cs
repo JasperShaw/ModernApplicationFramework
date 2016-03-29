@@ -51,7 +51,7 @@ namespace ModernApplicationFramework.ViewModels
             }
         }
 
-        async private void _control_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        private async void _control_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             await RightClickCommand.Execute();
         }
@@ -59,7 +59,7 @@ namespace ModernApplicationFramework.ViewModels
         #region Commands
         public Command RightClickCommand => new Command(ExecuteRightClick);
 
-        async protected virtual void ExecuteRightClick()
+        protected virtual async void ExecuteRightClick()
         {
             if (CanOpenToolBarContextMenu)
                 await MainWindowViewModel.ToolBarHostViewModel.OpenContextMenuCommand.Execute();

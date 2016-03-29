@@ -1,4 +1,4 @@
-﻿namespace ModernApplicationFramework.MVVM.Demo
+﻿namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
 {
     /// <summary>
     /// Interaktionslogik für SampleView.xaml

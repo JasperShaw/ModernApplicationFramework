@@ -5,7 +5,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using Caliburn.Micro;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Core.Events;
@@ -16,7 +15,7 @@ namespace ModernApplicationFramework.ViewModels
     /// <summary>
     /// This contains the Logic for the MainWindow
     /// </summary>
-    public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel, IPartImportsSatisfiedNotification
+    public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     {
         protected bool MainWindowInitialized;
         private readonly MainWindow _mainWindow;
@@ -31,10 +30,6 @@ namespace ModernApplicationFramework.ViewModels
         private bool _useSimpleMovement;
         private bool _useStatusbar;
         private bool _useTitleBar;
-
-        public virtual void OnImportsSatisfied()
-        {
-        }
 
         public MainWindowViewModel(MainWindow mainWindow)
         {
