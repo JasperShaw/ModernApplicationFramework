@@ -12,34 +12,33 @@ namespace ModernApplicationFramework
 {
     public class Bootstrapper : BootstrapperBase
     {
+        private CompositionContainer _container;
+
+        private List<Assembly> _priorityAssemblies;
+
         public Bootstrapper()
         {
             Initialize();
         }
 
-        private List<Assembly> _priorityAssemblies;
         internal IList<Assembly> PriorityAssemblies => _priorityAssemblies;
 
-        protected override void OnStartup(object sender, System.Windows.StartupEventArgs e)
+        protected virtual void BindServices(CompositionBatch batch)
         {
-            base.OnStartup(sender, e);
-            DisplayRootViewFor<IDockingMainWindowViewModel>();
+            batch.AddExportedValue<IWindowManager>(new WindowManager());
+            batch.AddExportedValue<IEventAggregator>(new EventAggregator());
+            batch.AddExportedValue(_container);
+            batch.AddExportedValue(this);
         }
 
-        protected override IEnumerable<Assembly> SelectAssemblies()
+        protected override void BuildUp(object instance)
         {
-            return new[]
-            {
-                Assembly.GetEntryAssembly()
-            };
+            _container.SatisfyImportsOnce(instance);
         }
-
-        private CompositionContainer _container;
 
 
         protected override void Configure()
         {
-
             // Add all assemblies to AssemblySource (using a temporary DirectoryCatalog).
             var directoryCatalog = new DirectoryCatalog(@"./");
             AssemblySource.Instance.AddRange(
@@ -57,7 +56,7 @@ namespace ModernApplicationFramework
                     .Select(x => new AssemblyCatalog(x)));
             var mainProvider = new CatalogExportProvider(mainCatalog);
 
-            _container = new CompositionContainer(priorityProvider,mainProvider);
+            _container = new CompositionContainer(priorityProvider, mainProvider);
             priorityProvider.SourceProvider = _container;
             mainProvider.SourceProvider = _container;
 
@@ -69,12 +68,9 @@ namespace ModernApplicationFramework
             _container.Compose(batch);
         }
 
-        protected virtual void BindServices(CompositionBatch batch)
+        protected override IEnumerable<object> GetAllInstances(Type serviceType)
         {
-            batch.AddExportedValue<IWindowManager>(new WindowManager());
-            batch.AddExportedValue<IEventAggregator>(new EventAggregator());
-            batch.AddExportedValue(_container);
-            batch.AddExportedValue(this);
+            return _container.GetExportedValues<object>(AttributedModelServices.GetContractName(serviceType));
         }
 
         protected override object GetInstance(Type serviceType, string key)
@@ -82,21 +78,25 @@ namespace ModernApplicationFramework
             string contract = string.IsNullOrEmpty(key) ? AttributedModelServices.GetContractName(serviceType) : key;
             var exports = _container.GetExportedValues<object>(contract);
 
-            if (exports.Any())
-                return exports.First();
+            var enumerable = exports as object[] ?? exports.ToArray();
+            if (enumerable.Any())
+                return enumerable.First();
 
             throw new Exception($"Could not locate any instances of contract {contract}.");
         }
 
-        protected override IEnumerable<object> GetAllInstances(Type serviceType)
+        protected override void OnStartup(object sender, System.Windows.StartupEventArgs e)
         {
-            return _container.GetExportedValues<object>(AttributedModelServices.GetContractName(serviceType));
+            base.OnStartup(sender, e);
+            DisplayRootViewFor<IDockingMainWindowViewModel>();
         }
 
-        protected override void BuildUp(object instance)
+        protected override IEnumerable<Assembly> SelectAssemblies()
         {
-            _container.SatisfyImportsOnce(instance);
+            return new[]
+            {
+                Assembly.GetEntryAssembly()
+            };
         }
-
     }
 }
