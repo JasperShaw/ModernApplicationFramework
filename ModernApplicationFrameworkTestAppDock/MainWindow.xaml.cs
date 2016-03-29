@@ -28,7 +28,7 @@ namespace ModernApplicationFrameworkTestAppDock
             InitializeComponent();
             Icon = new BitmapImage(new Uri("pack://application:,,,/ModernApplicationFrameworkTestAppDock;component/Build.png"));
             SourceInitialized += MainWindow_SourceInitialized;
-            //((MainWindowViewModel)DataContext).Theme = new LightTheme();
+            //((UseDockingHost)DataContext).Theme = new LightTheme();
         }
 
         private void MainWindow_SourceInitialized(object sender, EventArgs e)

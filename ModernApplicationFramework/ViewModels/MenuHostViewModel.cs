@@ -6,7 +6,7 @@ namespace ModernApplicationFramework.ViewModels
 {
     public class MenuHostViewModel : ViewModelBase
     {
-        private MainWindowViewModel _mainWindowViewModel;
+        private IMainWindowViewModel _mainWindowViewModel;
         private Menu _menu;
 
         public MenuHostViewModel(MenuHostControl control)
@@ -24,12 +24,12 @@ namespace ModernApplicationFramework.ViewModels
         public bool CanOpenToolBarContextMenu { get; set; } = true;
 
         /// <summary>
-        /// Contains the MainWindowViewModel shall not be changed after setted up
+        /// Contains the UseDockingHost shall not be changed after setted up
         /// </summary>
-        public MainWindowViewModel MainWindowViewModel
+        public IMainWindowViewModel MainWindowViewModel
         {
             get { return _mainWindowViewModel; }
-            internal set
+            set
             {
                 if (_mainWindowViewModel == null)
                     _mainWindowViewModel = value;

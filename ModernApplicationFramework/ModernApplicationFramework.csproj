@@ -18,7 +18,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -95,6 +95,13 @@
     <EmbeddedResource Include="Themes\Generic\Images\Checked.png" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MVVM\Controls\Document.cs" />
+    <Compile Include="MVVM\Interfaces\ITest.cs" />
+    <Compile Include="MVVM\ViewModels\TestViewModel.cs" />
+    <Compile Include="MVVM\Views\DockingMainWindowView.xaml.cs">
+      <DependentUpon>DockingMainWindowView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVVM\ViewModels\DockingMainWindowViewModel.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\Base\CommandBase.cs" />
     <Compile Include="Commands\CommandT.cs" />
@@ -149,6 +156,7 @@
     <Compile Include="Core\Converters\InverseBoolConverter.cs" />
     <Compile Include="Core\Converters\IsHorizontalResizeGripConverter.cs" />
     <Compile Include="Core\Converters\MultiValueConverter.cs" />
+    <Compile Include="Core\Converters\NullableValueConverter.cs" />
     <Compile Include="Core\Converters\ToBooleanValueConverter.cs" />
     <Compile Include="Core\Converters\ToolBarVisibilityConverter.cs" />
     <Compile Include="Core\Converters\TrimSpacesConverter.cs" />
@@ -334,6 +342,37 @@
     <Compile Include="Docking\MathHelper.cs" />
     <Compile Include="Docking\Win32Helper.cs" />
     <Compile Include="Docking\WindowHelper.cs" />
+    <Compile Include="MVVM\Interfaces\IDockingMainWindowViewModel.cs" />
+    <Compile Include="MVVM\Commands\Command.cs" />
+    <Compile Include="MVVM\Commands\CommandDefinition.cs" />
+    <Compile Include="MVVM\Commands\CommandDefinitionBase.cs" />
+    <Compile Include="MVVM\Commands\CommandHandlerWrapper.cs" />
+    <Compile Include="MVVM\Commands\CommandListDefinition.cs" />
+    <Compile Include="MVVM\Commands\CommandRouter.cs" />
+    <Compile Include="MVVM\Commands\ICommandHandler.cs" />
+    <Compile Include="MVVM\Commands\ICommandRerouter.cs" />
+    <Compile Include="MVVM\Commands\ICommandRouter.cs" />
+    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="MVVM\Core\LayoutInitializer.cs" />
+    <Compile Include="MVVM\Core\LayoutItemBase.cs" />
+    <Compile Include="MVVM\Core\LayoutItemStatePersister.cs" />
+    <Compile Include="MVVM\Core\ModuleBase.cs" />
+    <Compile Include="MVVM\Core\PaneLocation.cs" />
+    <Compile Include="MVVM\Core\PanesStyleSelector.cs" />
+    <Compile Include="MVVM\Core\PanesTemplateSelector.cs" />
+    <Compile Include="MVVM\Core\Utilities\LayoutUtilities.cs" />
+    <Compile Include="MVVM\Interfaces\IDockingHost.cs" />
+    <Compile Include="MVVM\Interfaces\IDockingHostViewModel.cs" />
+    <Compile Include="MVVM\Interfaces\IDocument.cs" />
+    <Compile Include="MVVM\Interfaces\ILayoutItem.cs" />
+    <Compile Include="MVVM\Interfaces\ILayoutItemStatePersister.cs" />
+    <Compile Include="MVVM\Interfaces\IUseDockingHost.cs" />
+    <Compile Include="MVVM\Interfaces\IModule.cs" />
+    <Compile Include="MVVM\Interfaces\ITool.cs" />
+    <Compile Include="MVVM\ViewModels\DockingHostViewModel.cs" />
+    <Compile Include="MVVM\Views\DockingHostView.xaml.cs">
+      <DependentUpon>DockingHostView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\IMainWindowViewModel.cs" />
     <Compile Include="ViewModels\IWindowViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
@@ -341,7 +380,6 @@
     <Compile Include="ViewModels\ToolBarCustomizeDialogViewModel.cs" />
     <Compile Include="ViewModels\ToolBarHostViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
-    <Compile Include="ModernApplicationFrameworkVersionInfo.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controls\ScrollBar.cs" />
@@ -354,6 +392,10 @@
     <Compile Include="Controls\ToolBarTray.cs" />
     <Compile Include="Controls\ModernChromeWindow.cs" />
     <Compile Include="Themes\GenericTheme.cs" />
+    <Page Include="MVVM\Views\DockingMainWindowView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Customize\CustomizeDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -363,6 +405,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\DockingHost.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVVM\Views\DockingHostView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -454,11 +500,21 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Caliburn.Micro">
+      <HintPath>..\..\..\..\..\Desktop\Caliburn.Micro-master\bin\net45\Debug\Caliburn.Micro.dll</HintPath>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform">
+      <HintPath>..\..\..\..\..\Desktop\Caliburn.Micro-master\bin\net45\Debug\Caliburn.Micro.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform.Core">
+      <HintPath>..\..\..\..\..\Desktop\Caliburn.Micro-master\bin\net45\Debug\Caliburn.Micro.Platform.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
@@ -570,6 +626,7 @@
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

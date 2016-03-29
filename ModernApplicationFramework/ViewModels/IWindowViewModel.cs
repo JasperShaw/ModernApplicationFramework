@@ -1,15 +1,15 @@
-﻿using ModernApplicationFramework.Commands;
+﻿using System.Windows.Input;
 
 namespace ModernApplicationFramework.ViewModels
 {
     public interface IWindowViewModel
     {
-        Command ChangeWindowIconActiveCommand { get; }
-        Command ChangeWindowIconPassiveCommand { get; }
-        Command CloseCommand { get; }
-        Command MaximizeResizeCommand { get; }
-        Command MinimizeCommand { get; }
-        Command SimpleMoveWindowCommand { get; }
+        ICommand ChangeWindowIconActiveCommand { get; }
+        ICommand ChangeWindowIconPassiveCommand { get; }
+        ICommand CloseCommand { get; }
+        ICommand MaximizeResizeCommand { get; }
+        ICommand MinimizeCommand { get; }
+        ICommand SimpleMoveWindowCommand { get; }
         System.Windows.Media.Imaging.BitmapImage ActiveIcon { get; set; }
         bool IsSimpleWindow { get; set; }
         System.Windows.Media.Imaging.BitmapImage PassiveIcon { get; set; }

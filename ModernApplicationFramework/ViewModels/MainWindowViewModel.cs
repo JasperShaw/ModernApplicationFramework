@@ -1,9 +1,11 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.Data;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using Caliburn.Micro;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Core.Events;
@@ -14,7 +16,7 @@ namespace ModernApplicationFramework.ViewModels
     /// <summary>
     /// This contains the Logic for the MainWindow
     /// </summary>
-    public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
+    public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel, IPartImportsSatisfiedNotification
     {
         protected bool MainWindowInitialized;
         private readonly MainWindow _mainWindow;
@@ -29,6 +31,10 @@ namespace ModernApplicationFramework.ViewModels
         private bool _useSimpleMovement;
         private bool _useStatusbar;
         private bool _useTitleBar;
+
+        public virtual void OnImportsSatisfied()
+        {
+        }
 
         public MainWindowViewModel(MainWindow mainWindow)
         {
@@ -57,6 +63,7 @@ namespace ModernApplicationFramework.ViewModels
                 var oldTheme = _theme;
                 _theme = value;
                 OnPropertyChanged();
+                //NotifyOfPropertyChange(() => Theme);
                 ChangeTheme(oldTheme, _theme);
                 OnRaiseThemeChanged(new ThemeChangedEventArgs(value, oldTheme));
             }
@@ -69,7 +76,7 @@ namespace ModernApplicationFramework.ViewModels
         public MenuHostViewModel MenuHostViewModel
         {
             get { return _menuHostViewModel; }
-            internal set
+            set
             {
                 if (MenuHostViewModelSetted)
                     throw new InvalidOperationException("You can not change the MenuHostViewModel once it was seeted up");
@@ -84,7 +91,7 @@ namespace ModernApplicationFramework.ViewModels
         public StatusBar StatusBar
         {
             get { return _statusBar; }
-            internal set { if (_statusBar == null) _statusBar = value; }
+            set { if (_statusBar == null) _statusBar = value; }
         }
 
         /// <summary>
@@ -94,7 +101,7 @@ namespace ModernApplicationFramework.ViewModels
         public ToolBarHostViewModel ToolBarHostViewModel
         {
             get { return _toolBarHostViewModel; }
-            internal set
+            set
             {
                 if (ToolbarHostViewModelSetted)
                     throw new InvalidOperationException(
@@ -115,6 +122,7 @@ namespace ModernApplicationFramework.ViewModels
                     return;
                 _useStatusbar = value;
                 OnPropertyChanged();
+                //NotifyOfPropertyChange(() => UseStatusBar);
             }
         }
 
@@ -130,6 +138,7 @@ namespace ModernApplicationFramework.ViewModels
                     return;
                 _useTitleBar = value;
                 OnPropertyChanged();
+                //NotifyOfPropertyChange(() => UseTitleBar);
             }
         }
 
@@ -145,6 +154,7 @@ namespace ModernApplicationFramework.ViewModels
                     return;
                 _activeIcon = value;
                 OnPropertyChanged();
+                //NotifyOfPropertyChange(() => ActiveIcon);
                 ApplyWindowIconChange();
             }
         }
@@ -161,6 +171,7 @@ namespace ModernApplicationFramework.ViewModels
                     return;
                 _isSimpleWindow = value;
                 OnPropertyChanged();
+                //NotifyOfPropertyChange(() => IsSimpleWindow);
             }
         }
 
@@ -176,6 +187,7 @@ namespace ModernApplicationFramework.ViewModels
                     return;
                 _passiveIcon = value;
                 OnPropertyChanged();
+                //NotifyOfPropertyChange(() => PassiveIcon);
                 ApplyWindowIconChange();
             }
         }
@@ -193,7 +205,7 @@ namespace ModernApplicationFramework.ViewModels
                     return;
                 _useSimpleMovement = value;
                 OnUseSimpleMovementChanged();
-                SimpleMoveWindowCommand.RaiseCanExecuteChanged();
+                ((Command)SimpleMoveWindowCommand).RaiseCanExecuteChanged();
             }
         }
 
@@ -212,6 +224,7 @@ namespace ModernApplicationFramework.ViewModels
                     return;
                 _icon = value;
                 OnPropertyChanged();
+                //NotifyOfPropertyChange(() => Icon);
             }
         }
 
@@ -255,17 +268,17 @@ namespace ModernApplicationFramework.ViewModels
 
         private async void _mainWindow_Activated(object sender, EventArgs e)
         {
-            await ChangeWindowIconActiveCommand.Execute();
+            await ((Command)ChangeWindowIconActiveCommand).Execute();
         }
 
         private async void _mainWindow_Deactivated(object sender, EventArgs e)
         {
-            await ChangeWindowIconPassiveCommand.Execute();
+            await ((Command)ChangeWindowIconPassiveCommand).Execute();
         }
 
         private async void _mainWindow_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            await SimpleMoveWindowCommand.Execute();
+            await ((Command)SimpleMoveWindowCommand).Execute();
         }
 
         private void _mainWindow_SourceInitialized(object sender, EventArgs e)
@@ -302,7 +315,7 @@ namespace ModernApplicationFramework.ViewModels
 
         #region Commands
 
-        public Command MinimizeCommand => new Command(Minimize, CanMinimize);
+        public ICommand MinimizeCommand => new Command(Minimize, CanMinimize);
 
         protected virtual void Minimize()
         {
@@ -314,7 +327,7 @@ namespace ModernApplicationFramework.ViewModels
             return _mainWindow.WindowState != WindowState.Minimized;
         }
 
-        public Command MaximizeResizeCommand => new Command(MaximizeResize, CanMaximizeResize);
+        public ICommand MaximizeResizeCommand => new Command(MaximizeResize, CanMaximizeResize);
 
         protected virtual void MaximizeResize()
         {
@@ -329,7 +342,7 @@ namespace ModernApplicationFramework.ViewModels
             return true;
         }
 
-        public Command CloseCommand => new Command(Close, CanClose);
+        public ICommand CloseCommand => new Command(Close, CanClose);
 
         protected virtual void Close()
         {
@@ -341,7 +354,7 @@ namespace ModernApplicationFramework.ViewModels
             return true;
         }
 
-        public Command ChangeWindowIconActiveCommand => new Command(ChangeWindowIconActive, CanChangeWindowIcon);
+        public ICommand ChangeWindowIconActiveCommand => new Command(ChangeWindowIconActive, CanChangeWindowIcon);
 
         private bool CanChangeWindowIcon()
         {
@@ -353,14 +366,14 @@ namespace ModernApplicationFramework.ViewModels
             Icon = ActiveIcon;
         }
 
-        public Command ChangeWindowIconPassiveCommand => new Command(ChangeWindowIconPassive, CanChangeWindowIcon);
+        public ICommand ChangeWindowIconPassiveCommand => new Command(ChangeWindowIconPassive, CanChangeWindowIcon);
 
         public void ChangeWindowIconPassive()
         {
             Icon = PassiveIcon;
         }
 
-        public Command SimpleMoveWindowCommand => new Command(MoveSimpleWindow, CanMoveSimpleWindow);
+        public ICommand SimpleMoveWindowCommand => new Command(MoveSimpleWindow, CanMoveSimpleWindow);
 
         public virtual void MoveSimpleWindow()
         {

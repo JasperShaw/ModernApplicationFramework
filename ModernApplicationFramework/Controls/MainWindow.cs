@@ -23,7 +23,6 @@ namespace ModernApplicationFramework.Controls
         {
             DataContext = new MainWindowViewModel(this);
             IsVisibleChanged += OnVisibilityChanged;
-
             GetGoodStartingSize();
 
             UIElementAutomationPeer.CreatePeerForElement(this);
@@ -43,7 +42,7 @@ namespace ModernApplicationFramework.Controls
         public BitmapImage ActivatedFloatIcon { get; set; }
         public BitmapImage DeactivatedFloatIcon { get; set; }
 
-        protected MainWindowViewModel ViewModel => (MainWindowViewModel) DataContext;
+        protected IMainWindowViewModel ViewModel => (IMainWindowViewModel) DataContext;
 
         internal IntPtr MainWindowHandle => new WindowInteropHelper(this).Handle;
 

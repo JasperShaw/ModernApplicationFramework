@@ -138,7 +138,7 @@ namespace ModernApplicationFramework.Controls
 				SystemCommands.ShowSystemMenu(w, p);
 			}
 	        if (e.ClickCount == 2 && e.ChangedButton == MouseButton.Left)
-	            await ((MainWindowViewModel) DataContext).CloseCommand.Execute();
+	            ((MainWindowViewModel) DataContext).CloseCommand.Execute(null);
 	    }
     }
 }

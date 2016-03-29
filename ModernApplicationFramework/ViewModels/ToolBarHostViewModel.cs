@@ -38,7 +38,7 @@ namespace ModernApplicationFramework.ViewModels
         private ToolBarTray _bottomToolBarTay;
         private ToolBarTray _leftToolBarTay;
 
-        private MainWindowViewModel _mainWindowViewModel;
+        private IMainWindowViewModel _mainWindowViewModel;
         private ToolBarTray _rightToolBarTay;
 
         private Theme _theme;
@@ -71,10 +71,10 @@ namespace ModernApplicationFramework.ViewModels
 
         public ToolBarHostControl ToolBarHostControl { get; }
 
-        public MainWindowViewModel MainWindowViewModel
+        public IMainWindowViewModel MainWindowViewModel
         {
             get { return _mainWindowViewModel; }
-            internal set
+            set
             {
                 if (_mainWindowViewModel == null)
                     _mainWindowViewModel = value;
