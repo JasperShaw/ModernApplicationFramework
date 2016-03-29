@@ -6,17 +6,9 @@ namespace ModernApplicationFramework.MVVM.Core
 {
     class PanesTemplateSelector : DataTemplateSelector
     {
-        public DataTemplate ToolTemplate
-        {
-            get;
-            set;
-        }
+        public DataTemplate DocumentTemplate { get; set; }
 
-        public DataTemplate DocumentTemplate
-        {
-            get;
-            set;
-        }
+        public DataTemplate ToolTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {

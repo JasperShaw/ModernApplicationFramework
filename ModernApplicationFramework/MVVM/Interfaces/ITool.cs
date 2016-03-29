@@ -4,9 +4,9 @@ namespace ModernApplicationFramework.MVVM.Interfaces
 {
     public interface ITool : ILayoutItem
     {
+        double PreferredHeight { get; }
         PaneLocation PreferredLocation { get; }
         double PreferredWidth { get; }
-        double PreferredHeight { get; }
         bool IsVisible { get; set; }
     }
 }

@@ -6,17 +6,9 @@ namespace ModernApplicationFramework.MVVM.Core
 {
     public class PanesStyleSelector : StyleSelector
     {
-        public Style ToolStyle
-        {
-            get;
-            set;
-        }
+        public Style DocumentStyle { get; set; }
 
-        public Style DocumentStyle
-        {
-            get;
-            set;
-        }
+        public Style ToolStyle { get; set; }
 
         public override Style SelectStyle(object item, DependencyObject container)
         {

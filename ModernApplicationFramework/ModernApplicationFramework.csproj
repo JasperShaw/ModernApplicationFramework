@@ -352,9 +352,9 @@
     <Compile Include="MVVM\Commands\ICommandRerouter.cs" />
     <Compile Include="MVVM\Commands\ICommandRouter.cs" />
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="MVVM\Core\LayoutInitializer.cs" />
+    <Compile Include="MVVM\Core\Utilities\LayoutInitializer.cs" />
     <Compile Include="MVVM\Core\LayoutItemBase.cs" />
-    <Compile Include="MVVM\Core\LayoutItemStatePersister.cs" />
+    <Compile Include="MVVM\Core\Utilities\LayoutItemStatePersister.cs" />
     <Compile Include="MVVM\Core\ModuleBase.cs" />
     <Compile Include="MVVM\Core\PaneLocation.cs" />
     <Compile Include="MVVM\Core\PanesStyleSelector.cs" />

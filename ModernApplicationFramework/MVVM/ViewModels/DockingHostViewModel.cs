@@ -4,26 +4,36 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using Caliburn.Micro;
-using ModernApplicationFramework.Docking;
-using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.MVVM.Interfaces;
-using ModernApplicationFramework.MVVM.Views;
 
 namespace ModernApplicationFramework.MVVM.ViewModels
 {
-    [Export(typeof(IDockingHostViewModel))]
+    [Export(typeof (IDockingHostViewModel))]
     public class DockingHostViewModel : Conductor<IDocument>.Collection.OneActive, IDockingHostViewModel
     {
+        private readonly BindableCollection<ITool> _tools;
+
+        private ILayoutItem _activeLayoutItem;
+        private bool _closing;
 
         private IDockingHost _dockingHostView;
-        private bool _closing;
+#pragma warning disable 649
+        [Import] private ILayoutItemStatePersister _layoutItemStatePersister;
+
+        [ImportMany(typeof (IModule))] private IEnumerable<IModule> _modules;
+#pragma warning disable 649
+        private bool _showFloatingWindowsInTaskbar;
+
+        public DockingHostViewModel()
+        {
+            ((IActivate) this).Activate();
+            _tools = new BindableCollection<ITool>();
+        }
 
         public event EventHandler ActiveDocumentChanged;
         public event EventHandler ActiveDocumentChanging;
 
-        private ILayoutItem _activeLayoutItem;
         public ILayoutItem ActiveLayoutItem
         {
             get { return _activeLayoutItem; }
@@ -34,25 +44,31 @@ namespace ModernApplicationFramework.MVVM.ViewModels
 
                 _activeLayoutItem = value;
 
-                if (value is IDocument)
-                    ActivateItem((IDocument)value);
+                var item = value as IDocument;
+                if (item != null)
+                    ActivateItem(item);
 
                 NotifyOfPropertyChange(() => ActiveLayoutItem);
             }
         }
 
-        private readonly BindableCollection<ITool> _tools;
-        public IObservableCollection<ITool> Tools
+        public void Close()
         {
-            get { return _tools; }
+            Application.Current.MainWindow.Close();
         }
 
-        public IObservableCollection<IDocument> Documents
+        public void CloseDocument(IDocument document)
         {
-            get { return Items; }
+            DeactivateItem(document, true);
         }
 
-        private bool _showFloatingWindowsInTaskbar;
+        public IObservableCollection<IDocument> Documents => Items;
+
+        public void OpenDocument(IDocument model)
+        {
+            ActivateItem(model);
+        }
+
         public bool ShowFloatingWindowsInTaskbar
         {
             get { return _showFloatingWindowsInTaskbar; }
@@ -60,25 +76,8 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             {
                 _showFloatingWindowsInTaskbar = value;
                 NotifyOfPropertyChange(() => ShowFloatingWindowsInTaskbar);
-                if (_dockingHostView != null)
-                    _dockingHostView.UpdateFloatingWindows();
+                _dockingHostView?.UpdateFloatingWindows();
             }
-        }
-
-        public virtual string StateFile
-        {
-            get { return @".\ApplicationState.bin"; }
-        }
-
-        public bool HasPersistedState
-        {
-            get { return File.Exists(StateFile); }
-        }
-
-        public DockingHostViewModel()
-        {
-            ((IActivate)this).Activate();
-            _tools = new BindableCollection<ITool>();
         }
 
         public void ShowTool<TTool>()
@@ -97,15 +96,11 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             ActiveLayoutItem = model;
         }
 
-        public void OpenDocument(IDocument model)
-        {
-            ActivateItem(model);
-        }
+        public IObservableCollection<ITool> Tools => _tools;
 
-        public void CloseDocument(IDocument document)
-        {
-            DeactivateItem(document, true);
-        }
+        public bool HasPersistedState => File.Exists(StateFile);
+
+        public virtual string StateFile => @".\ApplicationState.bin";
 
         public override void ActivateItem(IDocument item)
         {
@@ -122,27 +117,6 @@ namespace ModernApplicationFramework.MVVM.ViewModels
                 RaiseActiveDocumentChanged();
         }
 
-        private void RaiseActiveDocumentChanging()
-        {
-            var handler = ActiveDocumentChanging;
-            if (handler != null)
-                handler(this, EventArgs.Empty);
-        }
-
-        private void RaiseActiveDocumentChanged()
-        {
-            var handler = ActiveDocumentChanged;
-            handler?.Invoke(this, EventArgs.Empty);
-        }
-
-        protected override void OnActivationProcessed(IDocument item, bool success)
-        {
-            if (!ReferenceEquals(ActiveLayoutItem, item))
-                ActiveLayoutItem = item;
-
-            base.OnActivationProcessed(item, success);
-        }
-
         public override void DeactivateItem(IDocument item, bool close)
         {
             RaiseActiveDocumentChanging();
@@ -152,9 +126,12 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             RaiseActiveDocumentChanged();
         }
 
-        public void Close()
+        protected override void OnActivationProcessed(IDocument item, bool success)
         {
-            Application.Current.MainWindow.Close();
+            if (!ReferenceEquals(ActiveLayoutItem, item))
+                ActiveLayoutItem = item;
+
+            base.OnActivationProcessed(item, success);
         }
 
         protected override void OnDeactivate(bool close)
@@ -188,9 +165,6 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             base.OnDeactivate(close);
         }
 
-        [Import]
-        private ILayoutItemStatePersister _layoutItemStatePersister;
-
         protected override void OnViewLoaded(object view)
         {
             foreach (var module in _modules)
@@ -203,13 +177,13 @@ namespace ModernApplicationFramework.MVVM.ViewModels
                 module.Initialize();
 
 
-            _dockingHostView = (IDockingHost)view;
+            _dockingHostView = (IDockingHost) view;
             if (!HasPersistedState)
             {
                 foreach (var defaultDocument in _modules.SelectMany(x => x.DefaultDocuments))
                     OpenDocument(defaultDocument);
                 foreach (var defaultTool in _modules.SelectMany(x => x.DefaultTools))
-                    ShowTool((ITool)IoC.GetInstance(defaultTool, null));
+                    ShowTool((ITool) IoC.GetInstance(defaultTool, null));
             }
             else
             {
@@ -221,7 +195,16 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             base.OnViewLoaded(view);
         }
 
-        [ImportMany(typeof(IModule))]
-        private IEnumerable<IModule> _modules;
+        private void RaiseActiveDocumentChanged()
+        {
+            var handler = ActiveDocumentChanged;
+            handler?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void RaiseActiveDocumentChanging()
+        {
+            var handler = ActiveDocumentChanging;
+            handler?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

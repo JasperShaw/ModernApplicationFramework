@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ModernApplicationFramework.Docking;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Docking.Layout.Serialization;
@@ -13,12 +10,6 @@ namespace ModernApplicationFramework.MVVM.Core.Utilities
 {
     internal static class LayoutUtilities
     {
-        public static void SaveLayout(DockingManager manager, Stream stream)
-        {
-            var layoutSerializer = new XmlLayoutSerializer(manager);
-            layoutSerializer.Serialize(stream);
-        }
-
         public static void LoadLayout(DockingManager manager, Stream stream, Action<IDocument> addDocumentCallback,
             Action<ITool> addToolCallback, Dictionary<string, ILayoutItem> items)
         {
@@ -55,7 +46,9 @@ namespace ModernApplicationFramework.MVVM.Core.Utilities
 
                         // Nasty hack to get around issue that occurs if documents are loaded from state,
                         // and more documents are opened programmatically.
-                        layoutDocument.GetType().GetProperty("IsLastFocusedDocument").SetValue(layoutDocument, false, null);
+                        layoutDocument.GetType()
+                            .GetProperty("IsLastFocusedDocument")
+                            .SetValue(layoutDocument, false, null);
 
                         document.IsSelected = layoutDocument.IsSelected;
                         return;
@@ -71,7 +64,14 @@ namespace ModernApplicationFramework.MVVM.Core.Utilities
             }
             catch
             {
+                // ignored
             }
+        }
+
+        public static void SaveLayout(DockingManager manager, Stream stream)
+        {
+            var layoutSerializer = new XmlLayoutSerializer(manager);
+            layoutSerializer.Serialize(stream);
         }
     }
 }

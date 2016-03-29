@@ -5,22 +5,30 @@ namespace ModernApplicationFramework.MVVM.Commands
 {
     public class Command : PropertyChangedBase
     {
-        private bool _visible = true;
-        private bool _enabled = true;
         private bool _checked;
+        private bool _enabled = true;
+        private Uri _iconSource;
         private string _text;
         private string _toolTip;
-        private Uri _iconSource;
+        private bool _visible = true;
+
+        public Command(CommandDefinitionBase commandDefinition)
+        {
+            CommandDefinition = commandDefinition;
+            Text = commandDefinition.Text;
+            ToolTip = commandDefinition.ToolTip;
+            IconSource = commandDefinition.IconSource;
+        }
 
         public CommandDefinitionBase CommandDefinition { get; }
 
-        public bool Visible
+        public bool Checked
         {
-            get { return _visible; }
+            get { return _checked; }
             set
             {
-                _visible = value;
-                NotifyOfPropertyChange(() => Visible);
+                _checked = value;
+                NotifyOfPropertyChange(() => Checked);
             }
         }
 
@@ -34,15 +42,17 @@ namespace ModernApplicationFramework.MVVM.Commands
             }
         }
 
-        public bool Checked
+        public Uri IconSource
         {
-            get { return _checked; }
+            get { return _iconSource; }
             set
             {
-                _checked = value;
-                NotifyOfPropertyChange(() => Checked);
+                _iconSource = value;
+                NotifyOfPropertyChange(() => IconSource);
             }
         }
+
+        public object Tag { get; set; }
 
         public string Text
         {
@@ -64,24 +74,14 @@ namespace ModernApplicationFramework.MVVM.Commands
             }
         }
 
-        public Uri IconSource
+        public bool Visible
         {
-            get { return _iconSource; }
+            get { return _visible; }
             set
             {
-                _iconSource = value;
-                NotifyOfPropertyChange(() => IconSource);
+                _visible = value;
+                NotifyOfPropertyChange(() => Visible);
             }
-        }
-
-        public object Tag { get; set; }
-
-        public Command(CommandDefinitionBase commandDefinition)
-        {
-            CommandDefinition = commandDefinition;
-            Text = commandDefinition.Text;
-            ToolTip = commandDefinition.ToolTip;
-            IconSource = commandDefinition.IconSource;
         }
     }
 }

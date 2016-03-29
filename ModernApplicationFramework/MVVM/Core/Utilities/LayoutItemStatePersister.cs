@@ -6,11 +6,78 @@ using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.MVVM.Interfaces;
 
-namespace ModernApplicationFramework.MVVM.Core
+namespace ModernApplicationFramework.MVVM.Core.Utilities
 {
-    [Export(typeof(ILayoutItemStatePersister))]
+    [Export(typeof (ILayoutItemStatePersister))]
     public class LayoutItemStatePersister : ILayoutItemStatePersister
     {
+        public void LoadState(IDockingHostViewModel shell, IDockingHost shellView, string fileName)
+        {
+            var layoutItems = new Dictionary<string, ILayoutItem>();
+
+            if (!File.Exists(fileName))
+            {
+                return;
+            }
+
+            FileStream stream = null;
+
+            try
+            {
+                stream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+
+                using (var reader = new BinaryReader(stream))
+                {
+                    stream = null;
+
+                    int count = reader.ReadInt32();
+
+                    for (int i = 0; i < count; i++)
+                    {
+                        string typeName = reader.ReadString();
+                        string contentId = reader.ReadString();
+                        long stateEndPosition = reader.ReadInt64();
+                        stateEndPosition += reader.BaseStream.Position;
+
+                        var contentType = Type.GetType(typeName);
+                        bool skipStateData = true;
+
+                        if (contentType != null)
+                        {
+                            var contentInstance = IoC.GetInstance(contentType, null) as ILayoutItem;
+
+                            if (contentInstance != null)
+                            {
+                                layoutItems.Add(contentId, contentInstance);
+
+                                try
+                                {
+                                    contentInstance.LoadState(reader);
+                                    skipStateData = false;
+                                }
+                                catch
+                                {
+                                    skipStateData = true;
+                                }
+                            }
+                        }
+
+                        // Skip state data block if we couldn't read it.
+                        if (skipStateData)
+                        {
+                            reader.BaseStream.Seek(stateEndPosition, SeekOrigin.Begin);
+                        }
+                    }
+
+                    shellView.LoadLayout(reader.BaseStream, shell.ShowTool, shell.OpenDocument, layoutItems);
+                }
+            }
+            catch
+            {
+                stream?.Close();
+            }
+        }
+
         public void SaveState(IDockingHostViewModel shell, IDockingHost shellView, string fileName)
         {
             FileStream stream = null;
@@ -36,24 +103,26 @@ namespace ModernApplicationFramework.MVVM.Core
 
                         var itemType = item.GetType();
                         List<ExportAttribute> exportAttributes = itemType
-                                .GetCustomAttributes(typeof(ExportAttribute), false)
-                                .Cast<ExportAttribute>().ToList();
+                            .GetCustomAttributes(typeof (ExportAttribute), false)
+                            .Cast<ExportAttribute>().ToList();
 
-                        var layoutType = typeof(ILayoutItem);
+                        var layoutType = typeof (ILayoutItem);
                         // get exports with explicit types or names that inherit from ILayoutItem
                         var exportTypes = (from att in exportAttributes
-                                               // select the contract type if it is of type ILayoutitem. else null
-                                           let typeFromContract = att.ContractType != null
-                                               && layoutType.IsAssignableFrom(att.ContractType) ? att.ContractType : null
-                                           // select the contract name if it is of type ILayoutItem. else null
-                                           let typeFromQualifiedName = GetTypeFromContractNameAsILayoutItem(att)
-                                           // select the viewmodel tpye if it is of type ILayoutItem. else null
-                                           let typeFromViewModel = layoutType.IsAssignableFrom(itemType) ? itemType : null
-                                           // att.ContractType overrides att.ContractName if both are set.
-                                           // fall back to the ViewModel type of neither are defined.
-                                           let type = typeFromContract ?? typeFromQualifiedName ?? typeFromViewModel
-                                           where type != null
-                                           select type).ToList();
+                            // select the contract type if it is of type ILayoutitem. else null
+                            let typeFromContract = att.ContractType != null
+                                                   && layoutType.IsAssignableFrom(att.ContractType)
+                                ? att.ContractType
+                                : null
+                            // select the contract name if it is of type ILayoutItem. else null
+                            let typeFromQualifiedName = GetTypeFromContractNameAsILayoutItem(att)
+                            // select the viewmodel tpye if it is of type ILayoutItem. else null
+                            let typeFromViewModel = layoutType.IsAssignableFrom(itemType) ? itemType : null
+                            // att.ContractType overrides att.ContractName if both are set.
+                            // fall back to the ViewModel type of neither are defined.
+                            let type = typeFromContract ?? typeFromQualifiedName ?? typeFromViewModel
+                            where type != null
+                            select type).ToList();
 
                         // throw exceptions here, instead of failing silently. These are design time errors.
                         var firstExport = exportTypes.FirstOrDefault();
@@ -131,76 +200,9 @@ namespace ModernApplicationFramework.MVVM.Core
                 return null;
 
             var type = Type.GetType(typeName);
-            if (type == null || !typeof(ILayoutItem).IsInstanceOfType(type))
+            if (type == null || !typeof (ILayoutItem).IsInstanceOfType(type))
                 return null;
             return type;
-        }
-
-        public void LoadState(IDockingHostViewModel shell, IDockingHost shellView, string fileName)
-        {
-            var layoutItems = new Dictionary<string, ILayoutItem>();
-
-            if (!File.Exists(fileName))
-            {
-                return;
-            }
-
-            FileStream stream = null;
-
-            try
-            {
-                stream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-
-                using (var reader = new BinaryReader(stream))
-                {
-                    stream = null;
-
-                    int count = reader.ReadInt32();
-
-                    for (int i = 0; i < count; i++)
-                    {
-                        string typeName = reader.ReadString();
-                        string contentId = reader.ReadString();
-                        long stateEndPosition = reader.ReadInt64();
-                        stateEndPosition += reader.BaseStream.Position;
-
-                        var contentType = Type.GetType(typeName);
-                        bool skipStateData = true;
-
-                        if (contentType != null)
-                        {
-                            var contentInstance = IoC.GetInstance(contentType, null) as ILayoutItem;
-
-                            if (contentInstance != null)
-                            {
-                                layoutItems.Add(contentId, contentInstance);
-
-                                try
-                                {
-                                    contentInstance.LoadState(reader);
-                                    skipStateData = false;
-                                }
-                                catch
-                                {
-                                    skipStateData = true;
-                                }
-                            }
-                        }
-
-                        // Skip state data block if we couldn't read it.
-                        if (skipStateData)
-                        {
-                            reader.BaseStream.Seek(stateEndPosition, SeekOrigin.Begin);
-                        }
-                    }
-
-                    shellView.LoadLayout(reader.BaseStream, shell.ShowTool, shell.OpenDocument, layoutItems);
-                }
-            }
-            catch
-            {
-                stream?.Close();
-            }
         }
     }
 }

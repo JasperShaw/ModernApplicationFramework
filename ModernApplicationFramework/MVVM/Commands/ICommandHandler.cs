@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ModernApplicationFramework.MVVM.Commands
@@ -9,8 +6,8 @@ namespace ModernApplicationFramework.MVVM.Commands
     public interface ICommandHandler<TCommandDefinition> : ICommandHandler
         where TCommandDefinition : CommandDefinition
     {
-        void Update(Command command);
         Task Run(Command command);
+        void Update(Command command);
     }
 
     public interface ICommandListHandler<TCommandDefinition> : ICommandHandler
@@ -22,22 +19,19 @@ namespace ModernApplicationFramework.MVVM.Commands
 
     public interface ICommandHandler
     {
-
     }
 
     public interface ICommandListHandler : ICommandHandler
     {
-
     }
 
     public abstract class CommandHandlerBase<TCommandDefinition> : ICommandHandler<TCommandDefinition>
         where TCommandDefinition : CommandDefinition
     {
+        public abstract Task Run(Command command);
+
         public virtual void Update(Command command)
         {
-
         }
-
-        public abstract Task Run(Command command);
     }
 }

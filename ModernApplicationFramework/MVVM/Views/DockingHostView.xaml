@@ -10,6 +10,7 @@
              xmlns:dockControl="clr-namespace:ModernApplicationFramework.Docking.Controls"
              xmlns:core="clr-namespace:ModernApplicationFramework.MVVM.Core"
              xmlns:cal="http://www.caliburnproject.org"
+             xmlns:utilities="clr-namespace:ModernApplicationFramework.MVVM.Core.Utilities"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
@@ -66,7 +67,7 @@
             </mafc:DockingManager.LayoutItemContainerStyleSelector>
 
             <mafc:DockingManager.LayoutUpdateStrategy>
-                <core:LayoutInitializer/>
+                <utilities:LayoutInitializer/>
             </mafc:DockingManager.LayoutUpdateStrategy>
 
             <dockLayout:LayoutRoot>

@@ -18,12 +18,8 @@ namespace ModernApplicationFramework.MVVM.Views
             InitializeComponent();
         }
 
-        private void DockingManager_OnLayoutUpdated(object sender, EventArgs e)
-        {
-            UpdateFloatingWindows();
-        }
-
-        public void LoadLayout(Stream stream, Action<ITool> addToolCallback, Action<IDocument> addDocumentCallback, Dictionary<string, ILayoutItem> itemsState)
+        public void LoadLayout(Stream stream, Action<ITool> addToolCallback, Action<IDocument> addDocumentCallback,
+            Dictionary<string, ILayoutItem> itemsState)
         {
             LayoutUtilities.LoadLayout(DockingManager, stream, addDocumentCallback, addToolCallback, itemsState);
         }
@@ -37,12 +33,17 @@ namespace ModernApplicationFramework.MVVM.Views
         {
             var mainWindow = Window.GetWindow(this);
             var mainWindowIcon = mainWindow?.Icon;
-            var showFloatingWindowsInTaskbar = ((DockingHostViewModel)DataContext).ShowFloatingWindowsInTaskbar;
+            var showFloatingWindowsInTaskbar = ((DockingHostViewModel) DataContext).ShowFloatingWindowsInTaskbar;
             foreach (var window in DockingManager.FloatingWindows)
             {
                 window.Icon = mainWindowIcon;
                 window.ShowInTaskbar = showFloatingWindowsInTaskbar;
             }
+        }
+
+        private void DockingManager_OnLayoutUpdated(object sender, EventArgs e)
+        {
+            UpdateFloatingWindows();
         }
     }
 }
