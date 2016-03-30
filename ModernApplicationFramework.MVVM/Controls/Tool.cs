@@ -1,5 +1,5 @@
 ﻿using System.Windows.Input;
-using ModernApplicationFramework.Docking.Commands;
+using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.MVVM.Core;
 using ModernApplicationFramework.MVVM.Interfaces;
 

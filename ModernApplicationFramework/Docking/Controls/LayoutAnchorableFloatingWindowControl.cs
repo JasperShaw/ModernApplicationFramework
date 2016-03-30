@@ -22,9 +22,9 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
+using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Core.Shell;
 using ModernApplicationFramework.Core.Themes;
-using ModernApplicationFramework.Docking.Commands;
 using ModernApplicationFramework.Docking.Converters;
 using ModernApplicationFramework.Docking.Layout;
 

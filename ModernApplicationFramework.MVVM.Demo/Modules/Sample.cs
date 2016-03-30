@@ -4,7 +4,7 @@ using ModernApplicationFramework.MVVM.Demo.Modules.Document;
 using ModernApplicationFramework.MVVM.Demo.Modules.Tool;
 using ModernApplicationFramework.MVVM.Interfaces;
 
-namespace ModernApplicationFramework.MVVM.Demo
+namespace ModernApplicationFramework.MVVM.Demo.Modules
 {
     [Export(typeof(ISample))]
     public class Sample : ISample

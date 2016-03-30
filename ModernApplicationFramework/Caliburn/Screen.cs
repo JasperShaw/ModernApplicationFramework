@@ -1,5 +1,4 @@
 ﻿using System;
-using ModernApplicationFramework.Caliburn.Conductor;
 using ModernApplicationFramework.Caliburn.EventArgs;
 using ModernApplicationFramework.Caliburn.Interfaces;
 using ModernApplicationFramework.Caliburn.Logger;
@@ -67,7 +66,7 @@ namespace ModernApplicationFramework.Caliburn
             private set
             {
                 _isActive = value;
-                NotifyOfPropertyChange("IsActive");
+                NotifyOfPropertyChange();
             }
         }
 
@@ -80,7 +79,7 @@ namespace ModernApplicationFramework.Caliburn
             set
             {
                 _parent = value;
-                NotifyOfPropertyChange("Parent");
+                NotifyOfPropertyChange();
             }
         }
 
@@ -150,7 +149,7 @@ namespace ModernApplicationFramework.Caliburn
             set
             {
                 _displayName = value;
-                NotifyOfPropertyChange("DisplayName");
+                NotifyOfPropertyChange();
             }
         }
 
@@ -164,7 +163,7 @@ namespace ModernApplicationFramework.Caliburn
             private set
             {
                 _isInitialized = value;
-                NotifyOfPropertyChange("IsInitialized");
+                NotifyOfPropertyChange();
             }
         }
 

@@ -1,8 +1,8 @@
 ﻿namespace ModernApplicationFramework.MVVM.Interfaces
 {
-    interface ILayoutItemStatePersister
+    public interface ILayoutItemStatePersister
     {
-        void SaveState(IDockingHostViewModel shell, IDockingHost shellView, string fileName);
         void LoadState(IDockingHostViewModel shell, IDockingHost shellView, string fileName);
+        void SaveState(IDockingHostViewModel shell, IDockingHost shellView, string fileName);
     }
 }

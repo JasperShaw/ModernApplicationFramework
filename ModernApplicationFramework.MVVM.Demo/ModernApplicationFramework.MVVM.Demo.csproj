@@ -70,7 +70,7 @@
       <DependentUpon>OutputView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\Tool\OutputWriter.cs" />
-    <Compile Include="Sample.cs" />
+    <Compile Include="Modules\Sample.cs" />
     <Page Include="Modules\Document\SampleView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -112,6 +112,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ModernApplicationFramework.MVVM\ModernApplicationFramework.MVVM.csproj">
+      <Project>{1f020157-699c-4e63-80ca-72d62191e063}</Project>
+      <Name>ModernApplicationFramework.MVVM</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework.Themes.LightIDE\ModernApplicationFramework.Themes.LightIDE.csproj">
       <Project>{845de7c9-6217-479c-9f4f-d98e6a3b436b}</Project>
       <Name>ModernApplicationFramework.Themes.LightIDE</Name>

@@ -31,15 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Caliburn.Micro">
-      <HintPath>..\..\..\..\..\Desktop\Caliburn.Micro-master\bin\net45\Debug\Caliburn.Micro.dll</HintPath>
-    </Reference>
-    <Reference Include="Caliburn.Micro.Platform">
-      <HintPath>..\..\..\..\..\Desktop\Caliburn.Micro-master\bin\net45\Debug\Caliburn.Micro.Platform.dll</HintPath>
-    </Reference>
-    <Reference Include="Caliburn.Micro.Platform.Core">
-      <HintPath>..\..\..\..\..\Desktop\Caliburn.Micro-master\bin\net45\Debug\Caliburn.Micro.Platform.Core.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -59,8 +50,18 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Bootstrapper.cs" />
-    <Compile Include="Controls\MainWindow.cs" />
+    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\CommandDefinition.cs" />
+    <Compile Include="Commands\CommandDefinitionBase.cs" />
+    <Compile Include="Commands\CommandHandlerWrapper.cs" />
+    <Compile Include="Commands\CommandListDefinition.cs" />
+    <Compile Include="Commands\CommandRouter.cs" />
+    <Compile Include="Commands\ICommandHandler.cs" />
+    <Compile Include="Commands\ICommandRerouter.cs" />
+    <Compile Include="Commands\ICommandRouter.cs" />
+    <Compile Include="Controls\Document.cs" />
+    <Compile Include="Controls\Tool.cs" />
     <Compile Include="Core\LayoutItemStatePersister.cs" />
     <Compile Include="Core\LayoutInitializer.cs" />
     <Compile Include="Core\LayoutItemBase.cs" />
@@ -68,27 +69,29 @@
     <Compile Include="Core\PaneLocation.cs" />
     <Compile Include="Core\PanesStyleSelector.cs" />
     <Compile Include="Core\PanesTemplateSelector.cs" />
+    <Compile Include="Core\Utilities\LayoutInitializer.cs" />
+    <Compile Include="Core\Utilities\LayoutItemStatePersister.cs" />
     <Compile Include="Core\Utilities\LayoutUtilities.cs" />
     <Compile Include="Interfaces\IDockingHost.cs" />
     <Compile Include="Interfaces\IDockingHostViewModel.cs" />
+    <Compile Include="Interfaces\IDockingMainWindowViewModel.cs" />
     <Compile Include="Interfaces\IDocument.cs" />
     <Compile Include="Interfaces\ILayoutItem.cs" />
     <Compile Include="Interfaces\ILayoutItemStatePersister.cs" />
-    <Compile Include="Interfaces\IMainWindowViewModel.cs" />
     <Compile Include="Interfaces\IModule.cs" />
     <Compile Include="Interfaces\ITool.cs" />
+    <Compile Include="Interfaces\IUseDockingHost.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\DockingHostViewModel.cs" />
-    <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="Views\DockingHost.xaml.cs">
-      <DependentUpon>DockingHost.xaml</DependentUpon>
+    <Compile Include="ViewModels\DockingMainWindowViewModel.cs" />
+    <Compile Include="Views\DockingHostView.xaml.cs">
+      <DependentUpon>DockingHostView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DockingMainWindowView.xaml.cs">
+      <DependentUpon>DockingMainWindowView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ModernApplicationFramework.Themes.LightIDE\ModernApplicationFramework.Themes.LightIDE.csproj">
-      <Project>{845de7c9-6217-479c-9f4f-d98e6a3b436b}</Project>
-      <Name>ModernApplicationFramework.Themes.LightIDE</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework\ModernApplicationFramework.csproj">
       <Project>{74f6c6a1-64bb-47d4-9e7f-6cd5c4ca166c}</Project>
       <Name>ModernApplicationFramework</Name>
@@ -96,9 +99,13 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Page Include="Views\DockingHost.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Views\DockingHostView.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DockingMainWindowView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

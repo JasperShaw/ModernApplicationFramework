@@ -12,7 +12,7 @@ using ModernApplicationFramework.Caliburn.Platform.Utilities;
 using ModernApplicationFramework.Caliburn.Platform.Xaml;
 using ModernApplicationFramework.MVVM.Interfaces;
 
-namespace ModernApplicationFramework
+namespace ModernApplicationFramework.MVVM
 {
     public class Bootstrapper : BootstrapperBase
     {

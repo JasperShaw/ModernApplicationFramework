@@ -1,7 +1,7 @@
 ﻿<Application x:Class="ModernApplicationFramework.MVVM.Demo.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:modernApplicationFramework="clr-namespace:ModernApplicationFramework;assembly=ModernApplicationFramework">
+             xmlns:modernApplicationFramework="clr-namespace:ModernApplicationFramework.MVVM;assembly=ModernApplicationFramework.MVVM">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

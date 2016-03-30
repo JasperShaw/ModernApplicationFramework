@@ -5,7 +5,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using ModernApplicationFramework.Caliburn;
 using ModernApplicationFramework.Caliburn.Conductor;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Controls;

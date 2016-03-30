@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using Menu = ModernApplicationFramework.Controls.Menu;
 using MenuItem = ModernApplicationFramework.Controls.MenuItem;

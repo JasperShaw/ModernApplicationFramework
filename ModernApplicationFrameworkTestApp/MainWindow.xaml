@@ -1,7 +1,6 @@
 ﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:mafc="http://modern.framework.com/controls"
-		x:Class="ModernApplicationFrameworkTestApp.MainWindow"
+        x:Class="ModernApplicationFrameworkTestApp.MainWindow"
 		Title="MainWindow" Height="434" Width="687" Background="#FFEEEEf2" MouseRightButtonDown="MainWindow_OnMouseRightButtonDown">
 
     <Grid>

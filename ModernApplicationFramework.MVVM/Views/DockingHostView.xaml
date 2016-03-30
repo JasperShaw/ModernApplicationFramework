@@ -3,20 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
-             xmlns:mafc="clr-namespace:ModernApplicationFramework.Docking"
-             xmlns:dockConv="clr-namespace:ModernApplicationFramework.Docking.Converters"
-             xmlns:dockLayout="clr-namespace:ModernApplicationFramework.Docking.Layout"
-             xmlns:dockControl="clr-namespace:ModernApplicationFramework.Docking.Controls"
-             xmlns:core="clr-namespace:ModernApplicationFramework.MVVM.Core"
-             xmlns:utilities="clr-namespace:ModernApplicationFramework.MVVM.Core.Utilities"
-             xmlns:xaml="clr-namespace:ModernApplicationFramework.Caliburn.Platform.Xaml"
+             xmlns:core1="clr-namespace:ModernApplicationFramework.MVVM.Core"
+             xmlns:utilities1="clr-namespace:ModernApplicationFramework.MVVM.Core.Utilities"
+             xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters;assembly=ModernApplicationFramework"
+             xmlns:mafc="http://modern.framework.com/controls"
+             xmlns:xaml="clr-namespace:ModernApplicationFramework.Caliburn.Platform.Xaml;assembly=ModernApplicationFramework"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <ResourceDictionary>
             <converters:NullableValueConverter x:Key="NullableValueConverter" />
-            <dockConv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            <mafc:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
     <DockPanel>
@@ -24,37 +21,37 @@
                          AnchorablesSource="{Binding Tools}" ActiveContent="{Binding ActiveLayoutItem, Mode=TwoWay}"
                          LayoutUpdated="DockingManager_OnLayoutUpdated">
             <mafc:DockingManager.LayoutItemTemplateSelector>
-                <core:PanesTemplateSelector>
-                    <core:PanesTemplateSelector.DocumentTemplate>
+                <core1:PanesTemplateSelector>
+                    <core1:PanesTemplateSelector.DocumentTemplate>
                         <DataTemplate>
                             <Grid>
                                 <ContentControl xaml:View.Model="{Binding}" IsTabStop="False" />
                             </Grid>
                         </DataTemplate>
-                    </core:PanesTemplateSelector.DocumentTemplate>
-                    <core:PanesTemplateSelector.ToolTemplate>
+                    </core1:PanesTemplateSelector.DocumentTemplate>
+                    <core1:PanesTemplateSelector.ToolTemplate>
                         <DataTemplate>
                             <Grid>
                                 <ContentControl xaml:View.Model="{Binding}" IsTabStop="False" />
                             </Grid>
                         </DataTemplate>
-                    </core:PanesTemplateSelector.ToolTemplate>
-                </core:PanesTemplateSelector>
+                    </core1:PanesTemplateSelector.ToolTemplate>
+                </core1:PanesTemplateSelector>
             </mafc:DockingManager.LayoutItemTemplateSelector>
 
             <mafc:DockingManager.LayoutItemContainerStyleSelector>
-                <core:PanesStyleSelector>
-                    <core:PanesStyleSelector.DocumentStyle>
-                        <Style TargetType="{x:Type dockControl:LayoutItem}">
+                <core1:PanesStyleSelector>
+                    <core1:PanesStyleSelector.DocumentStyle>
+                        <Style TargetType="{x:Type mafc:LayoutItem}">
                             <Setter Property="ContentId" Value="{Binding Model.ContentId}" />
                             <Setter Property="Title" Value="{Binding Model.DisplayName, Mode=OneWay}" />
                             <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}" />
                             <Setter Property="IconSource" Value="{Binding Model.IconSource, Converter={StaticResource NullableValueConverter}}" />
                             <Setter Property="IsSelected" Value="{Binding Model.IsSelected, Mode=TwoWay}" />
                         </Style>
-                    </core:PanesStyleSelector.DocumentStyle>
-                    <core:PanesStyleSelector.ToolStyle>
-                        <Style TargetType="{x:Type dockControl:LayoutAnchorableItem}">
+                    </core1:PanesStyleSelector.DocumentStyle>
+                    <core1:PanesStyleSelector.ToolStyle>
+                        <Style TargetType="{x:Type mafc:LayoutAnchorableItem}">
                             <Setter Property="ContentId" Value="{Binding Model.ContentId}" />
                             <Setter Property="Title" Value="{Binding Model.DisplayName, Mode=OneWay}" />
                             <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}" />
@@ -62,24 +59,24 @@
                             <Setter Property="IsSelected" Value="{Binding Model.IsSelected, Mode=TwoWay}" />
                             <Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}"/>
                         </Style>
-                    </core:PanesStyleSelector.ToolStyle>
-                </core:PanesStyleSelector>
+                    </core1:PanesStyleSelector.ToolStyle>
+                </core1:PanesStyleSelector>
             </mafc:DockingManager.LayoutItemContainerStyleSelector>
 
             <mafc:DockingManager.LayoutUpdateStrategy>
-                <utilities:LayoutInitializer/>
+                <utilities1:LayoutInitializer/>
             </mafc:DockingManager.LayoutUpdateStrategy>
 
-            <dockLayout:LayoutRoot>
-                <dockLayout:LayoutPanel x:Name="VerticalPanel" Orientation="Vertical">
-                    <dockLayout:LayoutAnchorablePane DockWidth="100" Name="LeftPane"/>
-                    <dockLayout:LayoutPanel x:Name="HorizontalPanel" Orientation="Horizontal">
-                        <dockLayout:LayoutDocumentPaneGroup Orientation="Horizontal">
-                            <dockLayout:LayoutDocumentPane/>
-                        </dockLayout:LayoutDocumentPaneGroup>
-                    </dockLayout:LayoutPanel>
-                </dockLayout:LayoutPanel>
-            </dockLayout:LayoutRoot>
+            <mafc:LayoutRoot>
+                <mafc:LayoutPanel x:Name="VerticalPanel" Orientation="Vertical">
+                    <mafc:LayoutAnchorablePane DockWidth="100" Name="LeftPane"/>
+                    <mafc:LayoutPanel x:Name="HorizontalPanel" Orientation="Horizontal">
+                        <mafc:LayoutDocumentPaneGroup Orientation="Horizontal">
+                            <mafc:LayoutDocumentPane/>
+                        </mafc:LayoutDocumentPaneGroup>
+                    </mafc:LayoutPanel>
+                </mafc:LayoutPanel>
+            </mafc:LayoutRoot>
         </mafc:DockingManager>
     </DockPanel>
 </UserControl>

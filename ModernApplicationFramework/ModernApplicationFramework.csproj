@@ -186,12 +186,7 @@
     <Compile Include="Caliburn\Extensions\ViewAttachedEventArgs.cs" />
     <Compile Include="Caliburn\ViewAware.cs" />
     <Compile Include="Caliburn\Collections\WeakValueDictionary.cs" />
-    <Compile Include="MVVM\Controls\Document.cs" />
-    <Compile Include="MVVM\Controls\Tool.cs" />
-    <Compile Include="MVVM\Views\DockingMainWindowView.xaml.cs">
-      <DependentUpon>DockingMainWindowView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MVVM\ViewModels\DockingMainWindowViewModel.cs" />
+    <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\Base\CommandBase.cs" />
     <Compile Include="Commands\CommandT.cs" />
@@ -304,7 +299,6 @@
     <Compile Include="Core\Utilities\ViewSite.cs" />
     <Compile Include="Core\Utilities\VisualUtilities.cs" />
     <Compile Include="Core\Utilities\WindowStyleHelper.cs" />
-    <Compile Include="Docking\Commands\RelayCommand.cs" />
     <Compile Include="Docking\Controls\AnchorablePaneControlOverlayArea.cs" />
     <Compile Include="Docking\Controls\AnchorablePaneDropTarget.cs" />
     <Compile Include="Docking\Controls\AnchorablePaneTabPanel.cs" />
@@ -432,37 +426,6 @@
     <Compile Include="Docking\MathHelper.cs" />
     <Compile Include="Docking\Win32Helper.cs" />
     <Compile Include="Docking\WindowHelper.cs" />
-    <Compile Include="MVVM\Interfaces\IDockingMainWindowViewModel.cs" />
-    <Compile Include="MVVM\Commands\Command.cs" />
-    <Compile Include="MVVM\Commands\CommandDefinition.cs" />
-    <Compile Include="MVVM\Commands\CommandDefinitionBase.cs" />
-    <Compile Include="MVVM\Commands\CommandHandlerWrapper.cs" />
-    <Compile Include="MVVM\Commands\CommandListDefinition.cs" />
-    <Compile Include="MVVM\Commands\CommandRouter.cs" />
-    <Compile Include="MVVM\Commands\ICommandHandler.cs" />
-    <Compile Include="MVVM\Commands\ICommandRerouter.cs" />
-    <Compile Include="MVVM\Commands\ICommandRouter.cs" />
-    <Compile Include="Bootstrapper.cs" />
-    <Compile Include="MVVM\Core\Utilities\LayoutInitializer.cs" />
-    <Compile Include="MVVM\Core\LayoutItemBase.cs" />
-    <Compile Include="MVVM\Core\Utilities\LayoutItemStatePersister.cs" />
-    <Compile Include="MVVM\Core\ModuleBase.cs" />
-    <Compile Include="MVVM\Core\PaneLocation.cs" />
-    <Compile Include="MVVM\Core\PanesStyleSelector.cs" />
-    <Compile Include="MVVM\Core\PanesTemplateSelector.cs" />
-    <Compile Include="MVVM\Core\Utilities\LayoutUtilities.cs" />
-    <Compile Include="MVVM\Interfaces\IDockingHost.cs" />
-    <Compile Include="MVVM\Interfaces\IDockingHostViewModel.cs" />
-    <Compile Include="MVVM\Interfaces\IDocument.cs" />
-    <Compile Include="MVVM\Interfaces\ILayoutItem.cs" />
-    <Compile Include="MVVM\Interfaces\ILayoutItemStatePersister.cs" />
-    <Compile Include="MVVM\Interfaces\IUseDockingHost.cs" />
-    <Compile Include="MVVM\Interfaces\IModule.cs" />
-    <Compile Include="MVVM\Interfaces\ITool.cs" />
-    <Compile Include="MVVM\ViewModels\DockingHostViewModel.cs" />
-    <Compile Include="MVVM\Views\DockingHostView.xaml.cs">
-      <DependentUpon>DockingHostView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ViewModels\IMainWindowViewModel.cs" />
     <Compile Include="ViewModels\IWindowViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
@@ -482,10 +445,6 @@
     <Compile Include="Controls\ToolBarTray.cs" />
     <Compile Include="Controls\ModernChromeWindow.cs" />
     <Compile Include="Themes\GenericTheme.cs" />
-    <Page Include="MVVM\Views\DockingMainWindowView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Controls\Customize\CustomizeDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -495,10 +454,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\DockingHost.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MVVM\Views\DockingHostView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -707,9 +662,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

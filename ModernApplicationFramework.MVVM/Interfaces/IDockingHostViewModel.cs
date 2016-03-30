@@ -1,5 +1,6 @@
 ﻿using System;
-using Caliburn.Micro;
+using ModernApplicationFramework.Caliburn.Collections;
+using ModernApplicationFramework.Caliburn.Interfaces;
 
 namespace ModernApplicationFramework.MVVM.Interfaces
 {
@@ -8,14 +9,14 @@ namespace ModernApplicationFramework.MVVM.Interfaces
         event EventHandler ActiveDocumentChanged;
         event EventHandler ActiveDocumentChanging;
 
-        bool ShowFloatingWindowsInTaskbar { get; set; }
-
         IDocument ActiveItem { get; }
 
         IObservableCollection<IDocument> Documents { get; }
         IObservableCollection<ITool> Tools { get; }
 
         ILayoutItem ActiveLayoutItem { get; set; }
+
+        bool ShowFloatingWindowsInTaskbar { get; set; }
 
         void Close();
         void CloseDocument(IDocument document);

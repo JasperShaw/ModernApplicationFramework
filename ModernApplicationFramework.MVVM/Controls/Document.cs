@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
-using ModernApplicationFramework.Docking.Commands;
 using ModernApplicationFramework.MVVM.Core;
 using ModernApplicationFramework.MVVM.Interfaces;
+using ModernApplicationFramework.Commands;
 
 namespace ModernApplicationFramework.MVVM.Controls
 {

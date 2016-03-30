@@ -4,9 +4,11 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using Caliburn.Micro;
+using ModernApplicationFramework.Caliburn;
+using ModernApplicationFramework.Caliburn.Collections;
+using ModernApplicationFramework.Caliburn.Conductor;
+using ModernApplicationFramework.Caliburn.Interfaces;
 using ModernApplicationFramework.MVVM.Interfaces;
-using ModernApplicationFramework.MVVM.Views;
 
 namespace ModernApplicationFramework.MVVM.ViewModels
 {
@@ -16,23 +18,20 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         private readonly BindableCollection<ITool> _tools;
 
         private ILayoutItem _activeLayoutItem;
-
         private bool _closing;
 
-        private IDockingHost _dockingHost;
+        private IDockingHost _dockingHostView;
+#pragma warning disable 649
+        [Import] private ILayoutItemStatePersister _layoutItemStatePersister;
 
+        [ImportMany(typeof (IModule))] private IEnumerable<IModule> _modules;
+#pragma warning disable 649
         private bool _showFloatingWindowsInTaskbar;
-
 
         public DockingHostViewModel()
         {
             ((IActivate) this).Activate();
             _tools = new BindableCollection<ITool>();
-        }
-
-        public DockingHostViewModel(DockingHost dockingHost)
-        {
-            _dockingHost = dockingHost;
         }
 
         public event EventHandler ActiveDocumentChanged;
@@ -80,7 +79,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             {
                 _showFloatingWindowsInTaskbar = value;
                 NotifyOfPropertyChange(() => ShowFloatingWindowsInTaskbar);
-                _dockingHost?.UpdateFloatingWindows();
+                _dockingHostView?.UpdateFloatingWindows();
             }
         }
 
@@ -164,7 +163,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             // requests that occur when _closing is true.
             _closing = true;
 
-            _layoutItemStatePersister.SaveState(this, _dockingHost, StateFile);
+            _layoutItemStatePersister.SaveState(this, _dockingHostView, StateFile);
 
             base.OnDeactivate(close);
         }
@@ -180,11 +179,8 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             foreach (var module in _modules)
                 module.Initialize();
 
-            // If after initialization no theme was loaded, load the default one
-            //if (_themeManager.CurrentTheme == null)
-            //    _themeManager.SetCurrentTheme(Properties.Settings.Default.ThemeName);
 
-            _dockingHost = (IDockingHost) view;
+            _dockingHostView = (IDockingHost) view;
             if (!HasPersistedState)
             {
                 foreach (var defaultDocument in _modules.SelectMany(x => x.DefaultDocuments))
@@ -194,12 +190,11 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             }
             else
             {
-                _layoutItemStatePersister.LoadState(this, _dockingHost, StateFile);
+                _layoutItemStatePersister.LoadState(this, _dockingHostView, StateFile);
             }
 
             foreach (var module in _modules)
                 module.PostInitialize();
-
             base.OnViewLoaded(view);
         }
 
@@ -214,10 +209,5 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             var handler = ActiveDocumentChanging;
             handler?.Invoke(this, EventArgs.Empty);
         }
-#pragma warning disable 649
-        [ImportMany(typeof (IModule))] private IEnumerable<IModule> _modules;
-
-        [Import] private ILayoutItemStatePersister _layoutItemStatePersister;
-#pragma warning restore 649
     }
 }
