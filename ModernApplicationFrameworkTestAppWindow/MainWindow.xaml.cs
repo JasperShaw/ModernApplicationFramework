@@ -4,8 +4,6 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using ModernApplicationFramework.Themes.LightIDE;
 using ModernApplicationFramework.ViewModels;
-using Menu = ModernApplicationFramework.Controls.Menu;
-using MenuItem = ModernApplicationFramework.Controls.MenuItem;
 using ToolBar = ModernApplicationFramework.Controls.ToolBar;
 
 namespace ModernApplicationFrameworkTestAppWindow
@@ -19,7 +17,7 @@ namespace ModernApplicationFrameworkTestAppWindow
         {
             InitializeComponent();
             Icon = new BitmapImage(new Uri("pack://application:,,,/ModernApplicationFrameworkTestAppWindow;component/Build.png"));
-            this.SourceInitialized += MainWindow_SourceInitialized;
+            SourceInitialized += MainWindow_SourceInitialized;
         }
 
         private void MainWindow_SourceInitialized(object sender, EventArgs e)
@@ -28,10 +26,6 @@ namespace ModernApplicationFrameworkTestAppWindow
             ((MainWindowViewModel)DataContext).ToolBarHostViewModel.AddToolBar(new ToolBar { IdentifierName = "Test1" }, true, Dock.Top);
             ((MainWindowViewModel)DataContext).ToolBarHostViewModel.AddToolBar(new ToolBar { IdentifierName = "Testing" }, true, Dock.Left);
             ((MainWindowViewModel)DataContext).ToolBarHostViewModel.AddToolBar(new ToolBar { IdentifierName = "Testing2" }, true, Dock.Left);
-
-            var m = new Menu();
-            m.Items.Add(new MenuItem { Header = "Test" });
-            ((MainWindowViewModel)DataContext).MenuHostViewModel.Menu = m;
 
             ((MainWindowViewModel)DataContext).ActiveIcon = new BitmapImage(new Uri("pack://application:,,,/ModernApplicationFrameworkTestAppWindow;component/Build.png"));
             ((MainWindowViewModel)DataContext).PassiveIcon = new BitmapImage(new Uri("pack://application:,,,/ModernApplicationFrameworkTestAppWindow;component/test.jpg"));

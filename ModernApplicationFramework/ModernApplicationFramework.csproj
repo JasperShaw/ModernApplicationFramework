@@ -426,7 +426,10 @@
     <Compile Include="Docking\MathHelper.cs" />
     <Compile Include="Docking\Win32Helper.cs" />
     <Compile Include="Docking\WindowHelper.cs" />
+    <Compile Include="Utilities\IMenuCreator.cs" />
     <Compile Include="ViewModels\IMainWindowViewModel.cs" />
+    <Compile Include="ViewModels\IMenuHostViewModel.cs" />
+    <Compile Include="ViewModels\IToolBarHostViewModel.cs" />
     <Compile Include="ViewModels\IWindowViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MenuHostViewModel.cs" />

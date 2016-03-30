@@ -5,9 +5,9 @@ namespace ModernApplicationFramework.ViewModels
 {
     public interface IMainWindowViewModel : IWindowViewModel, IHasTheme
     {
-        MenuHostViewModel MenuHostViewModel { get; set; }
+        IMenuHostViewModel MenuHostViewModel { get; set; }
         StatusBar StatusBar { get; set; }
-        ToolBarHostViewModel ToolBarHostViewModel { get; set; }
+        IToolBarHostViewModel ToolBarHostViewModel { get; set; }
         bool UseStatusBar { get; set; }
         bool UseTitleBar { get; set; }
     }

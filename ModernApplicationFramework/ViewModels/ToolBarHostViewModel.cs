@@ -18,7 +18,7 @@ using ToolBarTray = ModernApplicationFramework.Controls.ToolBarTray;
 
 namespace ModernApplicationFramework.ViewModels
 {
-    public class ToolBarHostViewModel : ViewModelBase, IHasTheme
+    public class ToolBarHostViewModel : ViewModelBase, IToolBarHostViewModel
     {
         /*
             This Dictionary contains all the information needed to interact with the toolbar across classes
@@ -81,7 +81,7 @@ namespace ModernApplicationFramework.ViewModels
             }
         }
 
-        internal ToolBarTray BottomToolBarTay
+        public ToolBarTray BottomToolBarTay
         {
             get { return _bottomToolBarTay; }
             set
@@ -91,7 +91,7 @@ namespace ModernApplicationFramework.ViewModels
             }
         }
 
-        internal ToolBarTray LeftToolBarTay
+        public ToolBarTray LeftToolBarTay
         {
             get { return _leftToolBarTay; }
             set
@@ -101,7 +101,7 @@ namespace ModernApplicationFramework.ViewModels
             }
         }
 
-        internal ToolBarTray RightToolBarTay
+        public ToolBarTray RightToolBarTay
         {
             get { return _rightToolBarTay; }
             set
@@ -111,7 +111,7 @@ namespace ModernApplicationFramework.ViewModels
             }
         }
 
-        internal ToolBarTray TopToolBarTay
+        public ToolBarTray TopToolBarTay
         {
             get { return _topToolBarTay; }
             set
@@ -358,7 +358,7 @@ namespace ModernApplicationFramework.ViewModels
                 Remove From Tray
         */
 
-        private void HideToolBar(ToolBar toolBar, Dock dock)
+        public void HideToolBar(ToolBar toolBar, Dock dock)
         {
             if (TopToolBarTay == null || LeftToolBarTay == null || RightToolBarTay == null ||
                 BottomToolBarTay == null)
@@ -389,7 +389,7 @@ namespace ModernApplicationFramework.ViewModels
                 Remove Checkmark from MenuItem
         */
 
-        private void HideToolBarByName(string name)
+        public void HideToolBarByName(string name)
         {
             if (string.IsNullOrEmpty(name))
                 return;
@@ -417,7 +417,7 @@ namespace ModernApplicationFramework.ViewModels
                 Add Toolbar to tray
         */
 
-        private void ShowToolBar(ToolBar toolBar, Dock dock)
+        public void ShowToolBar(ToolBar toolBar, Dock dock)
         {
             if (TopToolBarTay == null || LeftToolBarTay == null || RightToolBarTay == null ||
                 BottomToolBarTay == null)
@@ -448,7 +448,7 @@ namespace ModernApplicationFramework.ViewModels
                 Set Checkmark for MenuItem
         */
 
-        private void ShowToolBarByName(string name)
+        public void ShowToolBarByName(string name)
         {
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));
@@ -474,7 +474,7 @@ namespace ModernApplicationFramework.ViewModels
                     new Dock value (param)
         */
 
-        private void UpdateDock(string name, Dock newValue)
+        public void UpdateDock(string name, Dock newValue)
         {
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));
@@ -502,7 +502,7 @@ namespace ModernApplicationFramework.ViewModels
                     new Visibility value (param)
         */
 
-        private void UpdateVisibility(string name, bool newValue)
+        public void UpdateVisibility(string name, bool newValue)
         {
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));

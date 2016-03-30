@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using ModernApplicationFramework.Themes.LightIDE;
 using Menu = ModernApplicationFramework.Controls.Menu;
 using MenuItem = ModernApplicationFramework.Controls.MenuItem;
 using ToolBar = ModernApplicationFramework.Controls.ToolBar;
@@ -12,12 +12,7 @@ namespace ModernApplicationFrameworkMVVMTestApp
     {
         protected override void OnTest()
         {
-            base.OnTest();
-            //MessageBox.Show("Testing");
-            ActiveIcon = new BitmapImage(new Uri("pack://application:,,,/ModernApplicationFrameworkMVVMTestApp;component/test.jpg"));
-            UseStatusBar = false;
-            UseSimpleMovement = true;
-            MessageBox.Show("Test");
+            this.Theme = new LightTheme();
         }
 
         public MainWindowViewModel(ModernApplicationFramework.Controls.MainWindow mainWindow) : base(mainWindow)
@@ -30,17 +25,6 @@ namespace ModernApplicationFrameworkMVVMTestApp
         protected override void InitializeMainWindow()
         {
             base.InitializeMainWindow();
-            var m = new Menu();
-
-            var mi2 = new MenuItem { Header = "Test2" };
-            mi2.Items.Add(new MenuItem { Header = "Test2" });
-
-            var mi = new MenuItem { Header = "Test" };
-            mi.Items.Add(mi2);
-
-
-            m.Items.Add(mi);
-            MenuHostViewModel.Menu = m;
             ToolBarHostViewModel.AddToolBar(new ToolBar { IdentifierName = "Test" }, true, Dock.Top);
         }
     }

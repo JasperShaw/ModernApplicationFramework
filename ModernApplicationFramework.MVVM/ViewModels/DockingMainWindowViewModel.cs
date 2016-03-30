@@ -31,7 +31,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         private bool _isSimpleWindow;
 
 
-        private MenuHostViewModel _menuHostViewModel;
+        private IMenuHostViewModel _menuHostViewModel;
 
         private BitmapImage _passiveIcon;
 
@@ -40,7 +40,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
 
         private Theme _theme;
 
-        private ToolBarHostViewModel _toolBarHostViewModel;
+        private IToolBarHostViewModel _toolBarHostViewModel;
         private bool _useSimpleMovement;
         private bool _useStatusbar;
 
@@ -78,7 +78,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         /// Contains the ViewModel of the MainWindows MenuHostControl
         /// This can not be changed once it was setted with a value.
         /// </summary>
-        public MenuHostViewModel MenuHostViewModel
+        public IMenuHostViewModel MenuHostViewModel
         {
             get { return _menuHostViewModel; }
             set
@@ -104,7 +104,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         /// Contains the ViewModel of the MainWindows ToolbarHostControl
         /// This can not be changed once it was setted with a value
         /// </summary>
-        public ToolBarHostViewModel ToolBarHostViewModel
+        public IToolBarHostViewModel ToolBarHostViewModel
         {
             get { return _toolBarHostViewModel; }
             set

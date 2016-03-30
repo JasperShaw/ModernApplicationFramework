@@ -6,7 +6,7 @@
     <Control.Template>
         <ControlTemplate TargetType="{x:Type local:MenuHostControl}">
             <DockPanel Background="{DynamicResource {x:Static themes:EnvironmentColors.MenuHostControlBackground}}">
-                <ContentPresenter Margin="1,0,0,0" Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=DataContext.Menu}"/>
+                <local:Menu Margin="1,0,0,0" ItemsSource="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=DataContext.Items}"/>
             </DockPanel>
         </ControlTemplate>
     </Control.Template>

@@ -21,11 +21,11 @@ namespace ModernApplicationFramework.ViewModels
         private BitmapImage _activeIcon;
         private BitmapImage _icon;
         private bool _isSimpleWindow;
-        private MenuHostViewModel _menuHostViewModel;
+        private IMenuHostViewModel _menuHostViewModel;
         private BitmapImage _passiveIcon;
         private StatusBar _statusBar;
         private Theme _theme;
-        private ToolBarHostViewModel _toolBarHostViewModel;
+        private IToolBarHostViewModel _toolBarHostViewModel;
         private bool _useSimpleMovement;
         private bool _useStatusbar;
         private bool _useTitleBar;
@@ -67,7 +67,7 @@ namespace ModernApplicationFramework.ViewModels
         /// Contains the ViewModel of the MainWindows MenuHostControl
         /// This can not be changed once it was setted with a value.
         /// </summary>
-        public MenuHostViewModel MenuHostViewModel
+        public IMenuHostViewModel MenuHostViewModel
         {
             get { return _menuHostViewModel; }
             set
@@ -92,7 +92,7 @@ namespace ModernApplicationFramework.ViewModels
         /// Contains the ViewModel of the MainWindows ToolbarHostControl
         /// This can not be changed once it was setted with a value
         /// </summary>
-        public ToolBarHostViewModel ToolBarHostViewModel
+        public IToolBarHostViewModel ToolBarHostViewModel
         {
             get { return _toolBarHostViewModel; }
             set
@@ -385,10 +385,6 @@ namespace ModernApplicationFramework.ViewModels
 
         protected virtual void OnTest()
         {
-            var m = new Menu();
-            m.Items.Add(new MenuItem {Header = "Testing"});
-            MenuHostViewModel.Menu = m;
-            //MessageBox.Show("Test");
         }
 
         #endregion

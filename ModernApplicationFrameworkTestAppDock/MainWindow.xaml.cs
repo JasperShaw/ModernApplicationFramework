@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -43,18 +42,6 @@ namespace ModernApplicationFrameworkTestAppDock
             ((MainWindowViewModel)DataContext).ToolBarHostViewModel.AddToolBar(new ToolBar { IdentifierName = "Test1" }, true, Dock.Top);
             ((MainWindowViewModel)DataContext).ToolBarHostViewModel.AddToolBar(new ToolBar { IdentifierName = "Testing" }, true, Dock.Left);
             ((MainWindowViewModel)DataContext).ToolBarHostViewModel.AddToolBar(new ToolBar { IdentifierName = "Testing2" }, true, Dock.Left);
-
-            var m = new Menu();
-
-            var mi2 = new MenuItem { Header = "Test2" };
-            mi2.Items.Add(new MenuItem { Header = "Test2" });
-
-            var mi = new MenuItem { Header = "Test" };
-            mi.Items.Add(mi2);
-
-
-            m.Items.Add(mi);
-            ((MainWindowViewModel)DataContext).MenuHostViewModel.Menu = m;
         }
 
         public override void OnApplyTemplate()
