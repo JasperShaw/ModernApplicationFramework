@@ -30,10 +30,6 @@ namespace ModernApplicationFramework.Controls
                 e.Cancel = true;
         }
 
-        private void DockingManager_OnLoaded(object sender, RoutedEventArgs e)
-        {
-        }
-
         private void LayoutElement_OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             var activeContent = ((LayoutRoot) sender).ActiveContent;

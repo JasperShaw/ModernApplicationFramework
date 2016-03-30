@@ -51,12 +51,6 @@ using System.Windows.Markup;
 [assembly: XmlnsDefinition("http://modern.framework.com/controls", "ModernApplicationFramework.Commands")]
 [assembly: XmlnsDefinition("http://modern.framework.com/controls", "ModernApplicationFramework.Commands.Base")]
 
-[assembly: XmlnsDefinition("http://modern.framework.com/controls", "ModernApplicationFramework.MVVM.Core")]
-[assembly: XmlnsDefinition("http://modern.framework.com/controls", "ModernApplicationFramework.MVVM.Core.Utilities")]
-[assembly: XmlnsDefinition("http://modern.framework.com/controls", "ModernApplicationFramework.MVVM.Interfaces")]
-[assembly: XmlnsDefinition("http://modern.framework.com/controls", "ModernApplicationFramework.MVVM.ViewModels")]
-[assembly: XmlnsDefinition("http://modern.framework.com/controls", "ModernApplicationFramework.MVVM.Views")]
-
 
 
 
