@@ -11,7 +11,7 @@ namespace ModernApplicationFramework.MVVM.Controls
 
         public override ICommand CloseCommand
         {
-            get { return _closeCommand ?? (_closeCommand = new RelayCommand(p => TryClose(null), p => true)); }
+            get { return _closeCommand ?? (_closeCommand = new RelayCommand(p => TryClose(), p => true)); }
         }
     }
 }

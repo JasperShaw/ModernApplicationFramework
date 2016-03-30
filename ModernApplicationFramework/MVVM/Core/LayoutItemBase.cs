@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.IO;
 using System.Windows.Input;
-using Caliburn.Micro;
+using ModernApplicationFramework.Caliburn;
 using ModernApplicationFramework.MVVM.Interfaces;
 
 namespace ModernApplicationFramework.MVVM.Core

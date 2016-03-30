@@ -4,11 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mafc="clr-namespace:ModernApplicationFramework.Controls"
-             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:xaml="clr-namespace:ModernApplicationFramework.Caliburn.Platform.Xaml"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <ContentControl cal:View.Model="{Binding DockingHost}" />
+        <ContentControl xaml:View.Model="{Binding DockingHost}" />
     </Grid>
 </mafc:MainWindow>
 

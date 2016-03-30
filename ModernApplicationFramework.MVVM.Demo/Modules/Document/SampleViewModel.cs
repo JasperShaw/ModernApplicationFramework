@@ -10,23 +10,15 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
     {
         private readonly IDockingHostViewModel _dockingHostViewModel;
 
-        public override string DisplayName
-        {
-            get { return "Sample Browser"; }
-        }
+        public override string DisplayName => "Sample Browser";
 
-        private readonly ISample[] _samples;
-
-        public ISample[] Samples
-        {
-            get { return _samples; }
-        }
+        public ISample[] Samples { get; }
 
         [ImportingConstructor]
         public SampleViewModel([Import] IDockingHostViewModel shell, [ImportMany] ISample[] samples)
         {
             _dockingHostViewModel = shell;
-            _samples = samples;
+            Samples = samples;
             if (shell == null)
                 MessageBox.Show("null");
             shell?.ShowTool<IOutput>();

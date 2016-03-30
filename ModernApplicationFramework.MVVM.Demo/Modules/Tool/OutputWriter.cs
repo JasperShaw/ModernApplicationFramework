@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.Tool
 {
@@ -11,10 +7,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Tool
     {
         private readonly IOutput _output;
 
-        public override Encoding Encoding
-        {
-            get { return Encoding.Default; }
-        }
+        public override Encoding Encoding => Encoding.Default;
 
         public OutputWriter(IOutput output)
         {

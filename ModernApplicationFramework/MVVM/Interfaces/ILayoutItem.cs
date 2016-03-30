@@ -1,7 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Input;
-using Caliburn.Micro;
+using ModernApplicationFramework.Caliburn;
+using ModernApplicationFramework.Caliburn.Interfaces;
 
 namespace ModernApplicationFramework.MVVM.Interfaces
 {

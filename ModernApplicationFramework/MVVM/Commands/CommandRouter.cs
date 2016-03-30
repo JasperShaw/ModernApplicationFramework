@@ -5,7 +5,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using Caliburn.Micro;
+using ModernApplicationFramework.Caliburn;
+using ModernApplicationFramework.Caliburn.Platform.Xaml;
 using ModernApplicationFramework.MVVM.Interfaces;
 
 namespace ModernApplicationFramework.MVVM.Commands

@@ -3,7 +3,7 @@ using ModernApplicationFramework.MVVM.Interfaces;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.Tool
 {
-    interface IOutput : ITool
+    internal interface IOutput : ITool
     {
         TextWriter Writer { get; }
         void AppendLine(string text);

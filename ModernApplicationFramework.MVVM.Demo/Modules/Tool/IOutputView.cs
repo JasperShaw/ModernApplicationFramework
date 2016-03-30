@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ModernApplicationFramework.MVVM.Demo.Modules.Tool
+﻿namespace ModernApplicationFramework.MVVM.Demo.Modules.Tool
 {
     public interface IOutputView
     {

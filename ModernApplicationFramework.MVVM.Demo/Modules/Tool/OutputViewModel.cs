@@ -2,27 +2,21 @@
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Text;
-using Caliburn.Micro;
+using ModernApplicationFramework.Caliburn;
 using ModernApplicationFramework.MVVM.Core;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.Tool
 {
     [Export(typeof(IOutput))]
-    public class OutputViewModel: Controls.Tool, IOutput
+    public sealed class OutputViewModel: Controls.Tool, IOutput
     {
         private readonly StringBuilder _stringBuilder;
         private readonly OutputWriter _writer;
         private IOutputView _view;
 
-        public override PaneLocation PreferredLocation
-        {
-            get { return PaneLocation.Bottom; }
-        }
+        public override PaneLocation PreferredLocation => PaneLocation.Bottom;
 
-        public TextWriter Writer
-        {
-            get { return _writer; }
-        }
+        public TextWriter Writer => _writer;
 
         public OutputViewModel()
         {
@@ -34,7 +28,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Tool
         public void Clear()
         {
             if (_view != null)
-                Execute.OnUIThread(() => _view.Clear());
+                Execute.OnUiThread(() => _view.Clear());
             _stringBuilder.Clear();
         }
 
@@ -52,7 +46,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Tool
         private void OnTextChanged()
         {
             if (_view != null)
-                Execute.OnUIThread(() => _view.SetText(_stringBuilder.ToString()));
+                Execute.OnUiThread(() => _view.SetText(_stringBuilder.ToString()));
         }
 
         protected override void OnViewLoaded(object view)

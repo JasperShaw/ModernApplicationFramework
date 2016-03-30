@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows;
-using Caliburn.Micro;
 using ModernApplicationFramework.MVVM.Demo.Modules.Document;
 using ModernApplicationFramework.MVVM.Demo.Modules.Tool;
 using ModernApplicationFramework.MVVM.Interfaces;

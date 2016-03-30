@@ -1,5 +1,5 @@
 ﻿using System;
-using Caliburn.Micro;
+using ModernApplicationFramework.Caliburn;
 
 namespace ModernApplicationFramework.MVVM.Commands
 {
