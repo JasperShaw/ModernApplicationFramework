@@ -69,59 +69,6 @@ namespace ModernApplicationFramework.ViewModels
             }
         }
 
-        public ToolBarHostControl ToolBarHostControl { get; }
-
-        public IMainWindowViewModel MainWindowViewModel
-        {
-            get { return _mainWindowViewModel; }
-            set
-            {
-                if (_mainWindowViewModel == null)
-                    _mainWindowViewModel = value;
-            }
-        }
-
-        public ToolBarTray BottomToolBarTay
-        {
-            get { return _bottomToolBarTay; }
-            set
-            {
-                _bottomToolBarTay = value;
-                _bottomToolBarTay.MouseRightButtonDown += ToolBarTay_MouseRightButtonDown;
-            }
-        }
-
-        public ToolBarTray LeftToolBarTay
-        {
-            get { return _leftToolBarTay; }
-            set
-            {
-                _leftToolBarTay = value;
-                _leftToolBarTay.MouseRightButtonDown += ToolBarTay_MouseRightButtonDown;
-            }
-        }
-
-        public ToolBarTray RightToolBarTay
-        {
-            get { return _rightToolBarTay; }
-            set
-            {
-                _rightToolBarTay = value;
-                _rightToolBarTay.MouseRightButtonDown += ToolBarTay_MouseRightButtonDown;
-            }
-        }
-
-        public ToolBarTray TopToolBarTay
-        {
-            get { return _topToolBarTay; }
-            set
-            {
-                _topToolBarTay = value;
-                _topToolBarTay.MouseRightButtonDown += ToolBarTay_MouseRightButtonDown;
-            }
-        }
-
-        private ContextMenu ContextMenu { get; }
         /*
             This adds a new toolbar by:
                 Checking for:
@@ -156,23 +103,13 @@ namespace ModernApplicationFramework.ViewModels
             ShowToolBarByName(toolBar.IdentifierName);
         }
 
-        public void ChangeTheme(Theme oldValue, Theme newValue)
+        public ToolBarTray BottomToolBarTay
         {
-            var oldTheme = oldValue;
-            var newTheme = newValue;
-            var resources = ContextMenu.Resources;
-            if (oldTheme != null)
+            get { return _bottomToolBarTay; }
+            set
             {
-                var resourceDictionaryToRemove =
-                    resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldTheme.GetResourceUri());
-                if (resourceDictionaryToRemove != null)
-                    resources.MergedDictionaries.Remove(
-                        resourceDictionaryToRemove);
-            }
-
-            if (newTheme != null)
-            {
-                resources.MergedDictionaries.Add(new ResourceDictionary() {Source = newTheme.GetResourceUri()});
+                _bottomToolBarTay = value;
+                _bottomToolBarTay.MouseRightButtonDown += ToolBarTay_MouseRightButtonDown;
             }
         }
 
@@ -294,63 +231,6 @@ namespace ModernApplicationFramework.ViewModels
         }
 
         /*
-            This removes a Toolbar by:
-                Checking for:
-                    Name not null
-                If Tooblar not exists
-                    Do nothing
-                Else
-                    Make invisible
-                    Remove Context Menu Entry
-                    Remove from Tuple
-        */
-
-        /// <summary>
-        /// Removes Toolbar from ToolBarHostControl
-        /// </summary>
-        /// <param name="name"></param>
-        public void RemoveToolBar(string name)
-        {
-            if (string.IsNullOrEmpty(name))
-                throw new ArgumentNullException(nameof(name));
-            if (!_contextList.ContainsKey(name))
-                return;
-            ChangeToolBarVisibility(name, false);
-            ContextMenu.Items.Remove(_contextList[name].Item4);
-            _contextList.Remove(name);
-        }
-
-        protected virtual void OnRaiseThemeChanged(ThemeChangedEventArgs e)
-        {
-            var handler = OnThemeChanged;
-            handler?.Invoke(this, e);
-        }
-
-        /*
-            Returns a toolbar specific MenuItem by:
-                Creating the Item
-                Header is IdentifierName of Toolbar
-                Creats Click Event
-                Adds into Menu
-                Returns Item
-        */
-
-        private ContextMenuGlyphItem CreateContextMenuItem(string identifierName)
-        {
-            var item = new ContextMenuGlyphItem
-            {
-                Header = identifierName,
-                Command = ClickContextMenuItemCommand
-            };
-            item.CommandParameter = item;
-            if (ContextMenu.Items.Count < 2)
-                ContextMenu.Items.Add(item);
-            else
-                ContextMenu.Items.Insert(ContextMenu.Items.Count - 2, item);
-            return item;
-        }
-
-        /*
             Hides Toolbar by:
                 Check for:
                     At least one tray exists
@@ -398,15 +278,61 @@ namespace ModernApplicationFramework.ViewModels
             _contextList[name].Item4.IconGeometry = null;
         }
 
-        private void SetupContextMenu()
+        public ToolBarTray LeftToolBarTay
         {
-            var editItem = new ContextMenuItem
+            get { return _leftToolBarTay; }
+            set
             {
-                Header = "Edit...",
-                Command = OpenCostumizeDialogCommand
-            };
-            ContextMenu.Items.Add(new Separator());
-            ContextMenu.Items.Add(editItem);
+                _leftToolBarTay = value;
+                _leftToolBarTay.MouseRightButtonDown += ToolBarTay_MouseRightButtonDown;
+            }
+        }
+
+        public IMainWindowViewModel MainWindowViewModel
+        {
+            get { return _mainWindowViewModel; }
+            set
+            {
+                if (_mainWindowViewModel == null)
+                    _mainWindowViewModel = value;
+            }
+        }
+
+        /*
+            This removes a Toolbar by:
+                Checking for:
+                    Name not null
+                If Tooblar not exists
+                    Do nothing
+                Else
+                    Make invisible
+                    Remove Context Menu Entry
+                    Remove from Tuple
+        */
+
+        /// <summary>
+        /// Removes Toolbar from ToolBarHostControl
+        /// </summary>
+        /// <param name="name"></param>
+        public void RemoveToolBar(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException(nameof(name));
+            if (!_contextList.ContainsKey(name))
+                return;
+            ChangeToolBarVisibility(name, false);
+            ContextMenu.Items.Remove(_contextList[name].Item4);
+            _contextList.Remove(name);
+        }
+
+        public ToolBarTray RightToolBarTay
+        {
+            get { return _rightToolBarTay; }
+            set
+            {
+                _rightToolBarTay = value;
+                _rightToolBarTay.MouseRightButtonDown += ToolBarTay_MouseRightButtonDown;
+            }
         }
 
         /*
@@ -457,9 +383,14 @@ namespace ModernApplicationFramework.ViewModels
             Controls.Utilities.ContextMenuGlyphItemUtilities.SetCheckMark(_contextList[name].Item4);
         }
 
-        private async void ToolBarTay_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        public ToolBarTray TopToolBarTay
         {
-            await OpenContextMenuCommand.Execute();
+            get { return _topToolBarTay; }
+            set
+            {
+                _topToolBarTay = value;
+                _topToolBarTay.MouseRightButtonDown += ToolBarTay_MouseRightButtonDown;
+            }
         }
 
         /*
@@ -516,6 +447,76 @@ namespace ModernApplicationFramework.ViewModels
             _contextList.Remove(name);
             _contextList.Add(name,
                 new Tuple<ToolBar, Dock, bool, ContextMenuGlyphItem>(oldToolbar, oldDock, newValue, oldMenuItem));
+        }
+
+        public ToolBarHostControl ToolBarHostControl { get; }
+
+        private ContextMenu ContextMenu { get; }
+
+        public void ChangeTheme(Theme oldValue, Theme newValue)
+        {
+            var oldTheme = oldValue;
+            var newTheme = newValue;
+            var resources = ContextMenu.Resources;
+            if (oldTheme != null)
+            {
+                var resourceDictionaryToRemove =
+                    resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldTheme.GetResourceUri());
+                if (resourceDictionaryToRemove != null)
+                    resources.MergedDictionaries.Remove(
+                        resourceDictionaryToRemove);
+            }
+
+            if (newTheme != null)
+            {
+                resources.MergedDictionaries.Add(new ResourceDictionary() {Source = newTheme.GetResourceUri()});
+            }
+        }
+
+        protected virtual void OnRaiseThemeChanged(ThemeChangedEventArgs e)
+        {
+            var handler = OnThemeChanged;
+            handler?.Invoke(this, e);
+        }
+
+        /*
+            Returns a toolbar specific MenuItem by:
+                Creating the Item
+                Header is IdentifierName of Toolbar
+                Creats Click Event
+                Adds into Menu
+                Returns Item
+        */
+
+        private ContextMenuGlyphItem CreateContextMenuItem(string identifierName)
+        {
+            var item = new ContextMenuGlyphItem
+            {
+                Header = identifierName,
+                Command = ClickContextMenuItemCommand
+            };
+            item.CommandParameter = item;
+            if (ContextMenu.Items.Count < 2)
+                ContextMenu.Items.Add(item);
+            else
+                ContextMenu.Items.Insert(ContextMenu.Items.Count - 2, item);
+            return item;
+        }
+
+        private void SetupContextMenu()
+        {
+            var editItem = new ContextMenuItem
+            {
+                Header = "Edit...",
+                Command = OpenCostumizeDialogCommand
+            };
+            ContextMenu.Items.Add(new Separator());
+            ContextMenu.Items.Add(editItem);
+        }
+
+        private async void ToolBarTay_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            await OpenContextMenuCommand.Execute();
         }
 
         #region Commands

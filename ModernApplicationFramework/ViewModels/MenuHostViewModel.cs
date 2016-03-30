@@ -18,18 +18,21 @@ namespace ModernApplicationFramework.ViewModels
             Items = new BindableCollection<MenuItem>();
         }
 
-        public void CreateMenu(IMenuCreator creator)
-        {
-            creator.CreateMenu(this);
-        }
-
-        public MenuHostControl MenuHostControl { get; }
-     
         /// <summary>
         /// Tells if you can open the ToolbarHostContextMenu
         /// Default is true
         /// </summary>
         public bool CanOpenToolBarContextMenu { get; set; } = true;
+
+        public void CreateMenu(IMenuCreator creator)
+        {
+            creator.CreateMenu(this);
+        }
+
+        /// <summary>
+        /// Contains the Items of the MenuHostControl
+        /// </summary>
+        public ObservableCollection<MenuItem> Items { get; set; }
 
         /// <summary>
         /// Contains the UseDockingHost shall not be changed after setted up
@@ -44,10 +47,7 @@ namespace ModernApplicationFramework.ViewModels
             }
         }
 
-        /// <summary>
-        /// Contains the Items of the MenuHostControl
-        /// </summary>
-        public ObservableCollection<MenuItem> Items { get; set; }
+        public MenuHostControl MenuHostControl { get; }
 
         private async void _control_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -55,6 +55,7 @@ namespace ModernApplicationFramework.ViewModels
         }
 
         #region Commands
+
         public Command RightClickCommand => new Command(ExecuteRightClick);
 
         protected virtual async void ExecuteRightClick()
@@ -62,6 +63,7 @@ namespace ModernApplicationFramework.ViewModels
             if (CanOpenToolBarContextMenu)
                 await MainWindowViewModel.ToolBarHostViewModel.OpenContextMenuCommand.Execute();
         }
+
         #endregion
     }
 }

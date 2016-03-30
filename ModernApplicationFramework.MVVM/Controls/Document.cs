@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 using ModernApplicationFramework.MVVM.Core;
 using ModernApplicationFramework.MVVM.Interfaces;
 using ModernApplicationFramework.Commands;
@@ -12,6 +13,11 @@ namespace ModernApplicationFramework.MVVM.Controls
         public override ICommand CloseCommand
         {
             get { return _closeCommand ?? (_closeCommand = new RelayCommand(p => TryClose(), p => true)); }
+        }
+
+        public override void CanClose(Action<bool> callback)
+        {
+            base.CanClose(callback);
         }
     }
 }

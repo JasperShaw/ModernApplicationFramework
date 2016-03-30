@@ -9,22 +9,22 @@ namespace ModernApplicationFramework.ViewModels
     {
         MenuHostControl MenuHostControl { get; }
 
+        Command RightClickCommand { get; }
+
         /// <summary>
         /// Tells if you can open the ToolbarHostContextMenu
         /// </summary>
         bool CanOpenToolBarContextMenu { get; set; }
 
         /// <summary>
-        /// Contains the UseDockingHost shall not be changed after setted up
-        /// </summary>
-        IMainWindowViewModel MainWindowViewModel { get; set; }
-
-        /// <summary>
         /// Contains the MenuItems of the MenuHostControl
         /// </summary>
         ObservableCollection<MenuItem> Items { get; set; }
 
-        Command RightClickCommand { get; }
+        /// <summary>
+        /// Contains the UseDockingHost shall not be changed after setted up
+        /// </summary>
+        IMainWindowViewModel MainWindowViewModel { get; set; }
 
         /// <summary>
         /// Create Menus 

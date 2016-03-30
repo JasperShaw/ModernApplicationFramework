@@ -23,26 +23,6 @@ namespace ModernApplicationFramework.ViewModels
             SetupRadioButtons();
         }
 
-        private void SetupRadioButtons()
-        {
-            ToolBarsPage.RadioButtonTop.DataContext = Dock.Top;
-            ToolBarsPage.RadioButtonLeft.DataContext = Dock.Left;
-            ToolBarsPage.RadioButtonRight.DataContext = Dock.Right;
-            ToolBarsPage.RadioButtonBottom.DataContext = Dock.Bottom;
-
-            ToolBarsPage.RadioButtonTop.Command = RadioButtonCheckedCommand;
-            ToolBarsPage.RadioButtonTop.CommandParameter = ToolBarsPage.RadioButtonTop;
-
-            ToolBarsPage.RadioButtonRight.Command = RadioButtonCheckedCommand;
-            ToolBarsPage.RadioButtonRight.CommandParameter = ToolBarsPage.RadioButtonRight;
-
-            ToolBarsPage.RadioButtonLeft.Command = RadioButtonCheckedCommand;
-            ToolBarsPage.RadioButtonLeft.CommandParameter = ToolBarsPage.RadioButtonLeft;
-
-            ToolBarsPage.RadioButtonBottom.Command = RadioButtonCheckedCommand;
-            ToolBarsPage.RadioButtonBottom.CommandParameter = ToolBarsPage.RadioButtonBottom;
-        }
-
         public ToolBarsPage ToolBarsPage { get; }
 
         public ToolBarHostViewModel ToolBarHostViewModel
@@ -114,6 +94,26 @@ namespace ModernApplicationFramework.ViewModels
                 ToolBarHostViewModel.ChangeToolBarVisibility(toolBar.IdentifierName, false);
         }
 
+        private void SetupRadioButtons()
+        {
+            ToolBarsPage.RadioButtonTop.DataContext = Dock.Top;
+            ToolBarsPage.RadioButtonLeft.DataContext = Dock.Left;
+            ToolBarsPage.RadioButtonRight.DataContext = Dock.Right;
+            ToolBarsPage.RadioButtonBottom.DataContext = Dock.Bottom;
+
+            ToolBarsPage.RadioButtonTop.Command = RadioButtonCheckedCommand;
+            ToolBarsPage.RadioButtonTop.CommandParameter = ToolBarsPage.RadioButtonTop;
+
+            ToolBarsPage.RadioButtonRight.Command = RadioButtonCheckedCommand;
+            ToolBarsPage.RadioButtonRight.CommandParameter = ToolBarsPage.RadioButtonRight;
+
+            ToolBarsPage.RadioButtonLeft.Command = RadioButtonCheckedCommand;
+            ToolBarsPage.RadioButtonLeft.CommandParameter = ToolBarsPage.RadioButtonLeft;
+
+            ToolBarsPage.RadioButtonBottom.Command = RadioButtonCheckedCommand;
+            ToolBarsPage.RadioButtonBottom.CommandParameter = ToolBarsPage.RadioButtonBottom;
+        }
+
         private void ToolBarsPage_Loaded(object sender, RoutedEventArgs e)
         {
             var toolBars = ToolBarHostViewModel.GetToolBars();
@@ -123,9 +123,10 @@ namespace ModernApplicationFramework.ViewModels
             ToolBarsPage.Loaded -= ToolBarsPage_Loaded;
         }
 
-
         #region Commands
-        public Command<RadioButton> RadioButtonCheckedCommand => new Command<RadioButton>(RadioButtonChecked, CanRadioButtonChecked);
+
+        public Command<RadioButton> RadioButtonCheckedCommand
+            => new Command<RadioButton>(RadioButtonChecked, CanRadioButtonChecked);
 
         protected virtual void RadioButtonChecked(RadioButton button)
         {
@@ -136,7 +137,7 @@ namespace ModernApplicationFramework.ViewModels
             if (toolBar == null)
                 return;
 
-            var dock = (Dock)button.DataContext;
+            var dock = (Dock) button.DataContext;
             ToolBarHostViewModel.ChangeToolBarDock(toolBar.IdentifierName, dock);
         }
 
@@ -144,6 +145,7 @@ namespace ModernApplicationFramework.ViewModels
         {
             return true;
         }
+
         #endregion
     }
 }

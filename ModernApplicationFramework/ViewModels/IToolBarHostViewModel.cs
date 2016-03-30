@@ -9,14 +9,13 @@ namespace ModernApplicationFramework.ViewModels
 {
     public interface IToolBarHostViewModel : IHasTheme
     {
+        IMainWindowViewModel MainWindowViewModel { get; }
+
+        Command OpenContextMenuCommand { get; }
         ToolBarTray BottomToolBarTay { get; set; }
         ToolBarTray LeftToolBarTay { get; set; }
         ToolBarTray RightToolBarTay { get; set; }
         ToolBarTray TopToolBarTay { get; set; }
-
-        Command OpenContextMenuCommand { get; }
-
-        IMainWindowViewModel MainWindowViewModel { get; }
 
         /// <summary>
         /// Adds new Toolbar to HostControl
@@ -67,14 +66,15 @@ namespace ModernApplicationFramework.ViewModels
         /// <returns>Bool of visibility</returns>
         bool GetToolBarVisibility(string name);
 
+        void HideToolBar(ToolBar toolBar, Dock dock);
+        void HideToolBarByName(string name);
+
         /// <summary>
         /// Removes Toolbar from ToolBarHostControl
         /// </summary>
         /// <param name="name"></param>
         void RemoveToolBar(string name);
 
-        void HideToolBar(ToolBar toolBar, Dock dock);
-        void HideToolBarByName(string name);
         void ShowToolBar(ToolBar toolBar, Dock dock);
         void ShowToolBarByName(string name);
         void UpdateDock(string name, Dock newValue);

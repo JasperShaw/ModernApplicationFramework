@@ -199,7 +199,7 @@ namespace ModernApplicationFramework.ViewModels
                     return;
                 _useSimpleMovement = value;
                 OnUseSimpleMovementChanged();
-                ((Command)SimpleMoveWindowCommand).RaiseCanExecuteChanged();
+                ((Command) SimpleMoveWindowCommand).RaiseCanExecuteChanged();
             }
         }
 
@@ -262,17 +262,17 @@ namespace ModernApplicationFramework.ViewModels
 
         private async void _mainWindow_Activated(object sender, EventArgs e)
         {
-            await ((Command)ChangeWindowIconActiveCommand).Execute();
+            await ((Command) ChangeWindowIconActiveCommand).Execute();
         }
 
         private async void _mainWindow_Deactivated(object sender, EventArgs e)
         {
-            await ((Command)ChangeWindowIconPassiveCommand).Execute();
+            await ((Command) ChangeWindowIconPassiveCommand).Execute();
         }
 
         private async void _mainWindow_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            await ((Command)SimpleMoveWindowCommand).Execute();
+            await ((Command) SimpleMoveWindowCommand).Execute();
         }
 
         private void _mainWindow_SourceInitialized(object sender, EventArgs e)
