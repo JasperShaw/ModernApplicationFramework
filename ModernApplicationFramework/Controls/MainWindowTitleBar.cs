@@ -1,9 +1,9 @@
 ﻿using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Interop;
 using System.Windows.Media;
+using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Controls;
 
 namespace ModernApplicationFramework.Controls
 {

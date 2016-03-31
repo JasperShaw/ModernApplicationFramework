@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Controls;
-using ModernApplicationFramework.Utilities;
+using ModernApplicationFramework.Interfaces.Utilities;
 
-namespace ModernApplicationFramework.ViewModels
+namespace ModernApplicationFramework.Interfaces.ViewModels
 {
     public interface IMenuHostViewModel
     {

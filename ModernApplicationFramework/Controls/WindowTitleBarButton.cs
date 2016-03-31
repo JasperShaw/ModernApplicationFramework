@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Controls;
 
 namespace ModernApplicationFramework.Controls
 {

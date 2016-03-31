@@ -212,7 +212,7 @@
     <Compile Include="Controls\ImageTabButton.cs" />
     <Compile Include="Controls\ImageRadioButton.cs" />
     <Compile Include="Controls\ImageToggleButton.cs" />
-    <Compile Include="Controls\INonClientArea.cs" />
+    <Compile Include="Interfaces\Controls\INonClientArea.cs" />
     <Compile Include="Controls\Internals\SelectionDelegatingCheckBox.cs" />
     <Compile Include="Controls\MainWindowAutomationPeer.cs" />
     <Compile Include="Controls\MainWindowTitleBarAutomationPeer.cs" />
@@ -426,11 +426,11 @@
     <Compile Include="Docking\MathHelper.cs" />
     <Compile Include="Docking\Win32Helper.cs" />
     <Compile Include="Docking\WindowHelper.cs" />
-    <Compile Include="Utilities\IMenuCreator.cs" />
-    <Compile Include="ViewModels\IMainWindowViewModel.cs" />
-    <Compile Include="ViewModels\IMenuHostViewModel.cs" />
-    <Compile Include="ViewModels\IToolBarHostViewModel.cs" />
-    <Compile Include="ViewModels\IWindowViewModel.cs" />
+    <Compile Include="Interfaces\Utilities\IMenuCreator.cs" />
+    <Compile Include="Interfaces\ViewModels\IMainWindowViewModel.cs" />
+    <Compile Include="Interfaces\ViewModels\IMenuHostViewModel.cs" />
+    <Compile Include="Interfaces\ViewModels\IToolBarHostViewModel.cs" />
+    <Compile Include="Interfaces\ViewModels\IWindowViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MenuHostViewModel.cs" />
     <Compile Include="ViewModels\ToolBarCustomizeDialogViewModel.cs" />
@@ -666,6 +666,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utilities\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

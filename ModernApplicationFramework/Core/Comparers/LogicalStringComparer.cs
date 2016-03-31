@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ModernApplicationFramework.Core.Comparers
 {
-    class LogicalStringComparer : IComparer<String>
+    class LogicalStringComparer : IComparer<string>
     {
 
         private readonly int _order = 1;

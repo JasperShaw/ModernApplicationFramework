@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Controls;
 
 namespace ModernApplicationFramework.Docking.Controls
 {

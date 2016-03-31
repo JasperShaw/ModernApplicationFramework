@@ -5,7 +5,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ModernApplicationFramework.Core.Utilities;
-using ModernApplicationFramework.ViewModels;
+using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Controls;
+using ModernApplicationFramework.Interfaces.ViewModels;
 using SystemCommands = ModernApplicationFramework.Core.Shell.SystemCommands;
 
 namespace ModernApplicationFramework.Controls
@@ -112,7 +114,7 @@ namespace ModernApplicationFramework.Controls
             return 3;
         }
 
-	   async protected override void OnMouseDown(MouseButtonEventArgs e)
+	   protected override void OnMouseDown(MouseButtonEventArgs e)
 	    {
 			base.OnMouseDown(e);
 		    MainWindow w = Window.GetWindow(this) as MainWindow;
@@ -138,7 +140,7 @@ namespace ModernApplicationFramework.Controls
 				SystemCommands.ShowSystemMenu(w, p);
 			}
 	        if (e.ClickCount == 2 && e.ChangedButton == MouseButton.Left)
-	            ((MainWindowViewModel) DataContext).CloseCommand.Execute(null);
+	            ((IMainWindowViewModel) DataContext).CloseCommand.Execute(null);
 	    }
     }
 }

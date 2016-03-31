@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace ModernApplicationFramework.ViewModels
+namespace ModernApplicationFramework.Interfaces.ViewModels
 {
     public interface IWindowViewModel
     {

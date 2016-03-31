@@ -16,6 +16,8 @@ using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Platform;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Controls;
 using Point = System.Windows.Point;
 using DpiHelper = ModernApplicationFramework.Core.Utilities.DpiHelper;
 using NativeMethods = ModernApplicationFramework.Core.NativeMethods.NativeMethods;

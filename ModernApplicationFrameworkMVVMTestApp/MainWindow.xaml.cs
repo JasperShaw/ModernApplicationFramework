@@ -2,6 +2,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using ModernApplicationFramework.Docking.Layout.Serialization;
+using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.ViewModels;
 using ToolBar = ModernApplicationFramework.Controls.ToolBar;
 
 namespace ModernApplicationFrameworkMVVMTestApp
@@ -30,7 +32,7 @@ namespace ModernApplicationFrameworkMVVMTestApp
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
             //FullScreen = !FullScreen;
-            ((ModernApplicationFramework.ViewModels.IMainWindowViewModel)DataContext).ToolBarHostViewModel.AddToolBar(new ToolBar { IdentifierName = "Test1" }, true, Dock.Bottom);
+            ((IMainWindowViewModel)DataContext).ToolBarHostViewModel.AddToolBar(new ToolBar { IdentifierName = "Test1" }, true, Dock.Bottom);
 
 
             //if (((ModernApplicationFramework.ViewModels.UseDockingHost)DataContext).Theme is LightTheme)

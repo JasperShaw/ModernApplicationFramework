@@ -13,6 +13,8 @@ using System.Windows.Threading;
 using ModernApplicationFramework.Core.Converters;
 using ModernApplicationFramework.Core.NativeMethods;
 using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.ViewModels;
 
 namespace ModernApplicationFramework.Controls

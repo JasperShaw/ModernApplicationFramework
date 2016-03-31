@@ -5,7 +5,7 @@ using ModernApplicationFramework.Core.Themes;
 using ToolBar = ModernApplicationFramework.Controls.ToolBar;
 using ToolBarTray = ModernApplicationFramework.Controls.ToolBarTray;
 
-namespace ModernApplicationFramework.ViewModels
+namespace ModernApplicationFramework.Interfaces.ViewModels
 {
     public interface IToolBarHostViewModel : IHasTheme
     {

@@ -1,7 +1,7 @@
 ﻿using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Core.Themes;
 
-namespace ModernApplicationFramework.ViewModels
+namespace ModernApplicationFramework.Interfaces.ViewModels
 {
     public interface IMainWindowViewModel : IWindowViewModel, IHasTheme
     {

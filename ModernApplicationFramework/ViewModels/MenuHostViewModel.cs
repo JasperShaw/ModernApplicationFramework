@@ -3,7 +3,9 @@ using System.Windows.Input;
 using ModernApplicationFramework.Caliburn.Collections;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Controls;
-using ModernApplicationFramework.Utilities;
+using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Utilities;
+using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.ViewModels
 {

@@ -1,6 +1,9 @@
-﻿namespace ModernApplicationFramework.MVVM.Interfaces
+﻿using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.ViewModels;
+
+namespace ModernApplicationFramework.MVVM.Interfaces
 {
-    public interface IDockingMainWindowViewModel : ModernApplicationFramework.ViewModels.IMainWindowViewModel, IUseDockingHost
+    public interface IDockingMainWindowViewModel : IMainWindowViewModel, IUseDockingHost
     {
     }
 }

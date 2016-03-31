@@ -8,6 +8,8 @@ using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
+using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.ViewModels
 {
