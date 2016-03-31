@@ -7,6 +7,9 @@ namespace ModernApplicationFramework.MVVM.Demo
 {
     public sealed class TestCommandDefinition : CommandDefinition
     {
+
+        public static string GestureText = "Test";
+
         public TestCommandDefinition()
         {
             Command = new GestureCommand(Test, new KeyGesture(Key.P, ModifierKeys.Control));

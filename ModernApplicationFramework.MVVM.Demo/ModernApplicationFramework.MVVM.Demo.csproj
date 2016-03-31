@@ -56,7 +56,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="MenuCreator.cs" />
     <Compile Include="Modules\DockingMainWindowViewModel.cs" />
     <Compile Include="Modules\Document\SampleView.xaml.cs">
       <DependentUpon>SampleView.xaml</DependentUpon>
@@ -74,6 +73,7 @@
     <Compile Include="Modules\Tool\OutputWriter.cs" />
     <Compile Include="Modules\Sample.cs" />
     <Compile Include="TestCommandDefinition.cs" />
+    <Compile Include="MenuItemDefinitionsPopulator.cs" />
     <Page Include="Modules\Document\SampleView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

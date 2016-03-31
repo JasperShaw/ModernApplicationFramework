@@ -436,6 +436,8 @@
     <Compile Include="Interfaces\ViewModels\IWindowViewModel.cs" />
     <Compile Include="Properties\Annotations1.cs" />
     <Compile Include="Utilities\MenuCreator.cs" />
+    <Compile Include="Utilities\MenuItemDefinition.cs" />
+    <Compile Include="Utilities\MenuItemDefinitionsPopulatorBase.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MenuHostViewModel.cs" />
     <Compile Include="ViewModels\ToolBarCustomizeDialogViewModel.cs" />

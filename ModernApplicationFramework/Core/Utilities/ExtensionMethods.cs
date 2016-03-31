@@ -12,9 +12,7 @@ namespace ModernApplicationFramework.Core.Utilities
         }
         public static void RaiseEvent(this EventHandler eventHandler, object source, EventArgs args)
         {
-            if (eventHandler == null)
-                return;
-            eventHandler(source, args);
+            eventHandler?.Invoke(source, args);
         }
 
         public static bool IsConnectedToPresentationSource(this DependencyObject obj)
