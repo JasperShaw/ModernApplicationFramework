@@ -2,7 +2,7 @@
 
 namespace ModernApplicationFramework.MVVM.Commands
 {
-    public abstract class CommandDefinition : CommandDefinitionBase
+    internal abstract class CommandDefinition : CommandDefinitionBase
     {
         public override Uri IconSource => null;
 

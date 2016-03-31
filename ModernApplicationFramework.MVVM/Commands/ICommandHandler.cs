@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace ModernApplicationFramework.MVVM.Commands
 {
-    public interface ICommandHandler<TCommandDefinition> : ICommandHandler
+    internal interface ICommandHandler<TCommandDefinition> : ICommandHandler
         where TCommandDefinition : CommandDefinition
     {
         Task Run(Command command);
@@ -25,7 +25,7 @@ namespace ModernApplicationFramework.MVVM.Commands
     {
     }
 
-    public abstract class CommandHandlerBase<TCommandDefinition> : ICommandHandler<TCommandDefinition>
+    internal abstract class CommandHandlerBase<TCommandDefinition> : ICommandHandler<TCommandDefinition>
         where TCommandDefinition : CommandDefinition
     {
         public abstract Task Run(Command command);

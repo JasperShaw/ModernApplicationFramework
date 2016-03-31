@@ -186,6 +186,8 @@
     <Compile Include="Caliburn\Extensions\ViewAttachedEventArgs.cs" />
     <Compile Include="Caliburn\ViewAware.cs" />
     <Compile Include="Caliburn\Collections\WeakValueDictionary.cs" />
+    <Compile Include="Commands\CommandDefinition.cs" />
+    <Compile Include="Commands\GestureCommand.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\Base\CommandBase.cs" />
@@ -427,10 +429,12 @@
     <Compile Include="Docking\Win32Helper.cs" />
     <Compile Include="Docking\WindowHelper.cs" />
     <Compile Include="Interfaces\Utilities\IMenuCreator.cs" />
+    <Compile Include="Interfaces\Utilities\IKeyGestureHandler.cs" />
     <Compile Include="Interfaces\ViewModels\IMainWindowViewModel.cs" />
     <Compile Include="Interfaces\ViewModels\IMenuHostViewModel.cs" />
     <Compile Include="Interfaces\ViewModels\IToolBarHostViewModel.cs" />
     <Compile Include="Interfaces\ViewModels\IWindowViewModel.cs" />
+    <Compile Include="Properties\Annotations1.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MenuHostViewModel.cs" />
     <Compile Include="ViewModels\ToolBarCustomizeDialogViewModel.cs" />
