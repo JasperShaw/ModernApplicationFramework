@@ -62,8 +62,6 @@
     <Compile Include="Commands\ICommandRouter.cs" />
     <Compile Include="Controls\Document.cs" />
     <Compile Include="Controls\Tool.cs" />
-    <Compile Include="Core\LayoutItemStatePersister.cs" />
-    <Compile Include="Core\LayoutInitializer.cs" />
     <Compile Include="Core\LayoutItemBase.cs" />
     <Compile Include="Core\ModuleBase.cs" />
     <Compile Include="Core\PaneLocation.cs" />

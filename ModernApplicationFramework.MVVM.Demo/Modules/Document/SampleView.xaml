@@ -37,6 +37,7 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
+            <TextBox></TextBox>
         </StackPanel>
     </Border>
 </UserControl>

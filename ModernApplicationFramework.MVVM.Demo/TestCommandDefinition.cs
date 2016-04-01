@@ -1,10 +1,12 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Input;
 using ModernApplicationFramework.Commands;
 
 namespace ModernApplicationFramework.MVVM.Demo
 {
+    [Export(typeof(CommandDefinition))]
     public sealed class TestCommandDefinition : CommandDefinition
     {
 
@@ -12,7 +14,7 @@ namespace ModernApplicationFramework.MVVM.Demo
 
         public TestCommandDefinition()
         {
-            Command = new GestureCommand(Test, new KeyGesture(Key.P, ModifierKeys.Control));
+            Command = new GestureCommand(Test, new KeyGesture(Key.Z, ModifierKeys.Control));
         }
         public override string Name => "Test";
         public override string Text => Name;
@@ -24,8 +26,7 @@ namespace ModernApplicationFramework.MVVM.Demo
 
         private void Test()
         {
-            MessageBox.Show(((GestureCommand)Command).GestureText);
-            ((GestureCommand)Command).KeyGesture = new KeyGesture(Key.Q, ModifierKeys.Control);
+            MessageBox.Show("Test");
         }
     }
 

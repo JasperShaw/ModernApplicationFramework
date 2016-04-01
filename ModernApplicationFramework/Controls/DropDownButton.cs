@@ -259,7 +259,6 @@ namespace ModernApplicationFramework.Controls
 
         protected virtual void OnDropDownContentChanged(object p1, object p2)
         {
-            //TODO: Add some behavior if needed here   
         }
 
         protected virtual void OnIsOpenChanged(bool oldValue, bool newValue)

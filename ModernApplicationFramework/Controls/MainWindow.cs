@@ -13,7 +13,6 @@ using System.Windows.Threading;
 using ModernApplicationFramework.Core.Converters;
 using ModernApplicationFramework.Core.NativeMethods;
 using ModernApplicationFramework.Core.Utilities;
-using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.ViewModels;
 
@@ -39,6 +38,13 @@ namespace ModernApplicationFramework.Controls
             DefaultStyleKeyProperty.OverrideMetadata(typeof (MainWindow),
                 new FrameworkPropertyMetadata(typeof (MainWindow)));
             //TODO FloatingWindow event stuff
+        }
+
+        protected override void OnActivated(EventArgs e)
+        {
+            base.OnActivated(e);
+            //Needed so we can Bind Keygestures to the Window
+            Keyboard.Focus(this);
         }
 
         public BitmapImage ActivatedFloatIcon { get; set; }

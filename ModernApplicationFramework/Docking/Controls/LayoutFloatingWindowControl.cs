@@ -188,6 +188,13 @@ namespace ModernApplicationFramework.Docking.Controls
             base.OnInitialized(e);
         }
 
+        protected override void OnActivated(EventArgs e)
+        {
+            base.OnActivated(e);
+            // Sice they should not be used as a MainWindow we can do this in order to provide the Inputbindings from the MainWindow working
+            Keyboard.Focus(Application.Current.MainWindow);
+        }
+
         protected virtual void OnIsDraggingChanged(DependencyPropertyChangedEventArgs e)
         {
             //Trace.WriteLine("IsDragging={0}", e.NewValue);

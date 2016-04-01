@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using ModernApplicationFramework.Commands;
 
 namespace ModernApplicationFramework.Interfaces.Utilities
 {
@@ -7,6 +8,6 @@ namespace ModernApplicationFramework.Interfaces.Utilities
     {
         void BindKeyGesture(UIElement uiElement);
 
-        KeyGesture GetPrimaryKeyGesture();
+        KeyGesture GetPrimaryKeyGesture(GestureCommand command);
     }
 }

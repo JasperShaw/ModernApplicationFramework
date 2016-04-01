@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.Composition;
+using System.Windows;
 using System.Windows.Controls;
 using ModernApplicationFramework.Caliburn.Platform.Xaml;
+using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.MVVM.Interfaces;
 using ModernApplicationFramework.MVVM.Views;
 using ModernApplicationFramework.Themes.LightIDE;
@@ -13,6 +15,9 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules
     public class DockingMainWindowViewModel : ViewModels.DockingMainWindowViewModel
     {
 
+        [Import]
+        private IKeyGestureHandler _commandKeyGestureService;
+
         static DockingMainWindowViewModel()
         {
             ViewLocator.AddNamespaceMapping(typeof(DockingMainWindowViewModel).Namespace, typeof(DockingMainWindowView).Namespace);
@@ -23,6 +28,8 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules
             base.OnViewLoaded(view);
 
             new MenuCreator().CreateMenu(MenuHostViewModel, new MenuItemDefinitionsPopulator());
+
+            _commandKeyGestureService.BindKeyGesture((UIElement) view);
 
             ToolBarHostViewModel.AddToolBar(new ToolBar {IdentifierName = "1"}, true, Dock.Top);
 
