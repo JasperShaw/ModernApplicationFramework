@@ -428,6 +428,7 @@
     <Compile Include="Docking\MathHelper.cs" />
     <Compile Include="Docking\Win32Helper.cs" />
     <Compile Include="Docking\WindowHelper.cs" />
+    <Compile Include="Interfaces\Utilities\IToolbarCreator.cs" />
     <Compile Include="Interfaces\Utilities\IMenuCreator.cs" />
     <Compile Include="Interfaces\Utilities\IKeyGestureHandler.cs" />
     <Compile Include="Interfaces\ViewModels\IMainWindowViewModel.cs" />
@@ -435,8 +436,12 @@
     <Compile Include="Interfaces\ViewModels\IToolBarHostViewModel.cs" />
     <Compile Include="Interfaces\ViewModels\IWindowViewModel.cs" />
     <Compile Include="Properties\Annotations1.cs" />
+    <Compile Include="Utilities\KeyGestureHandler.cs" />
+    <Compile Include="Utilities\ToolbarTrayCreator.cs" />
     <Compile Include="Utilities\MenuCreator.cs" />
     <Compile Include="Utilities\MenuItemDefinition.cs" />
+    <Compile Include="Utilities\ToolbarDefinition.cs" />
+    <Compile Include="Utilities\ToolbarDefinitionsPopulatorBase.cs" />
     <Compile Include="Utilities\MenuItemDefinitionsPopulatorBase.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MenuHostViewModel.cs" />

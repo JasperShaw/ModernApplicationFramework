@@ -1,13 +1,11 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows;
-using System.Windows.Controls;
 using ModernApplicationFramework.Caliburn.Platform.Xaml;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.MVVM.Interfaces;
 using ModernApplicationFramework.MVVM.Views;
 using ModernApplicationFramework.Themes.LightIDE;
 using ModernApplicationFramework.Utilities;
-using ToolBar = ModernApplicationFramework.Controls.ToolBar;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules
 {
@@ -31,7 +29,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules
 
             _commandKeyGestureService.BindKeyGesture((UIElement) view);
 
-            ToolBarHostViewModel.AddToolBar(new ToolBar {IdentifierName = "1"}, true, Dock.Top);
+            new ToolbarTrayCreator().CreateToolbarTray(ToolBarHostViewModel, new ToolbarDefinitionsPopulator());           
 
             Theme = new LightTheme();
         }

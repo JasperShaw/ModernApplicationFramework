@@ -3,7 +3,6 @@ using System.Windows.Controls;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Core.Themes;
 using ToolBar = ModernApplicationFramework.Controls.ToolBar;
-using ToolBarTray = ModernApplicationFramework.Controls.ToolBarTray;
 
 namespace ModernApplicationFramework.Interfaces.ViewModels
 {
@@ -12,10 +11,6 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         IMainWindowViewModel MainWindowViewModel { get; }
 
         Command OpenContextMenuCommand { get; }
-        ToolBarTray BottomToolBarTay { get; set; }
-        ToolBarTray LeftToolBarTay { get; set; }
-        ToolBarTray RightToolBarTay { get; set; }
-        ToolBarTray TopToolBarTay { get; set; }
 
         /// <summary>
         /// Adds new Toolbar to HostControl
@@ -30,7 +25,7 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         /// </summary>
         /// <param name="name">IdentifierName of Toolbar</param>
         /// <param name="newValue">New Orientation Value</param>
-        void ChangeToolBarDock(string name, Dock newValue);
+        void ChangeToolBarPosition(string name, Dock newValue);
 
         /// <summary>
         /// Change Visibility of Toolbar
@@ -51,7 +46,7 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         /// </summary>
         /// <param name="name">Identifier Name of Toolbar</param>
         /// <returns>Orientation</returns>
-        Dock GetToolBarDock(string name);
+        Dock GetToolBarPosition(string name);
 
         /// <summary>
         /// Returns a list of Toolbar Objects

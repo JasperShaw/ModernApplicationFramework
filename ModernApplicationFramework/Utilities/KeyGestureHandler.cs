@@ -5,7 +5,7 @@ using System.Windows.Input;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Interfaces.Utilities;
 
-namespace ModernApplicationFramework.MVVM.Demo
+namespace ModernApplicationFramework.Utilities
 {
 
     /* TODO: Changeable Gestures

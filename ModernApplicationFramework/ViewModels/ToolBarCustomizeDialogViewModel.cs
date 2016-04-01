@@ -1,9 +1,9 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Controls.Customize;
+using ModernApplicationFramework.Interfaces.ViewModels;
 using RadioButton = System.Windows.Controls.RadioButton;
 using ToolBar = ModernApplicationFramework.Controls.ToolBar;
 
@@ -11,7 +11,7 @@ namespace ModernApplicationFramework.ViewModels
 {
     public class ToolBarCustomizeDialogViewModel : ViewModelBase
     {
-        private ToolBarHostViewModel _toolBarHostViewModel;
+        private IToolBarHostViewModel _toolBarHostViewModel;
 
         public ToolBarCustomizeDialogViewModel(ToolBarsPage toolBarsPage)
         {
@@ -25,7 +25,7 @@ namespace ModernApplicationFramework.ViewModels
 
         public ToolBarsPage ToolBarsPage { get; }
 
-        public ToolBarHostViewModel ToolBarHostViewModel
+        public IToolBarHostViewModel ToolBarHostViewModel
         {
             get { return _toolBarHostViewModel; }
             set
@@ -68,7 +68,7 @@ namespace ModernApplicationFramework.ViewModels
             var toolBar = item?.DataContext as ToolBar;
             if (toolBar == null)
                 return;
-            var td = ToolBarHostViewModel.GetToolBarDock(toolBar.IdentifierName);
+            var td = ToolBarHostViewModel.GetToolBarPosition(toolBar.IdentifierName);
             switch (td)
             {
                 case Dock.Top:
@@ -138,7 +138,7 @@ namespace ModernApplicationFramework.ViewModels
                 return;
 
             var dock = (Dock) button.DataContext;
-            ToolBarHostViewModel.ChangeToolBarDock(toolBar.IdentifierName, dock);
+            ToolBarHostViewModel.ChangeToolBarPosition(toolBar.IdentifierName, dock);
         }
 
         protected virtual bool CanRadioButtonChecked(RadioButton button)

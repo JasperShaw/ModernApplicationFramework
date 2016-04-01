@@ -11,7 +11,6 @@ using ModernApplicationFramework.Controls.Customize;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Exception;
 using ModernApplicationFramework.Core.Themes;
-using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ContextMenu = ModernApplicationFramework.Controls.ContextMenu;
 using Separator = ModernApplicationFramework.Controls.Separator;
@@ -133,7 +132,7 @@ namespace ModernApplicationFramework.ViewModels
         /// </summary>
         /// <param name="name">IdentifierName of Toolbar</param>
         /// <param name="newValue">New Orientation Value</param>
-        public void ChangeToolBarDock(string name, Dock newValue)
+        public void ChangeToolBarPosition(string name, Dock newValue)
         {
             if (TopToolBarTay == null || LeftToolBarTay == null || RightToolBarTay == null ||
                 BottomToolBarTay == null)
@@ -200,7 +199,7 @@ namespace ModernApplicationFramework.ViewModels
         /// </summary>
         /// <param name="name">Identifier Name of Toolbar</param>
         /// <returns>Orientation</returns>
-        public Dock GetToolBarDock(string name)
+        public Dock GetToolBarPosition(string name)
         {
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));

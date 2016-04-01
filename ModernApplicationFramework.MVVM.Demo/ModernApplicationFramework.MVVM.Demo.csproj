@@ -56,7 +56,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="KeyGestureHandler.cs" />
     <Compile Include="Modules\DockingMainWindowViewModel.cs" />
     <Compile Include="Modules\Document\SampleView.xaml.cs">
       <DependentUpon>SampleView.xaml</DependentUpon>
@@ -67,6 +66,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Modules\Document\ISample.cs" />
+    <Compile Include="Modules\TestToolBar.xaml.cs">
+      <DependentUpon>TestToolBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Modules\Tool\IOutputView.cs" />
     <Compile Include="Modules\Tool\OutputView.xaml.cs">
       <DependentUpon>OutputView.xaml</DependentUpon>
@@ -75,9 +77,14 @@
     <Compile Include="Modules\Sample.cs" />
     <Compile Include="TestCommandDefinition.cs" />
     <Compile Include="MenuItemDefinitionsPopulator.cs" />
+    <Compile Include="ToolbarDefinitionsPopulator.cs" />
     <Page Include="Modules\Document\SampleView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\TestToolBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Modules\Tool\OutputView.xaml">
       <SubType>Designer</SubType>

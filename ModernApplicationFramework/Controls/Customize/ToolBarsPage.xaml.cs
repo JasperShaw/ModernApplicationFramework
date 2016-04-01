@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using ModernApplicationFramework.ViewModels;
+﻿using ModernApplicationFramework.ViewModels;
 
 namespace ModernApplicationFramework.Controls.Customize
 {
@@ -12,9 +11,6 @@ namespace ModernApplicationFramework.Controls.Customize
         {
             InitializeComponent();
             DataContext = new ToolBarCustomizeDialogViewModel(this);
-
-            if (DesignerProperties.GetIsInDesignMode(this))
-                return;
         }
 
         public void Connect(int connectionId, object target)
