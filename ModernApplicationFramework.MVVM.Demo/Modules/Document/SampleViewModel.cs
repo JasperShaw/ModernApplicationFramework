@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows;
-using ModernApplicationFramework.MVVM.Demo.Modules.Tool;
+using ModernApplicationFramework.Caliburn;
+using ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest;
 using ModernApplicationFramework.MVVM.Interfaces;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
@@ -15,15 +16,19 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
         public ISample[] Samples { get; }
 
         [ImportingConstructor]
-        public SampleViewModel([Import] IDockingHostViewModel shell, [ImportMany] ISample[] samples)
+        public SampleViewModel(IDockingHostViewModel shell, [ImportMany] ISample[] samples)
         {
             _dockingHostViewModel = shell;
             Samples = samples;
             if (shell == null)
                 MessageBox.Show("null");
-            shell?.ShowTool<IOutput>();
         }
 
         public override bool ShouldReopenOnStart => true;
+
+        public void Activate(ISample sample)
+        {
+            _dockingHostViewModel.OpenDocument(IoC.Get<UndoRedoViewModel>());
+        }
     }
 }

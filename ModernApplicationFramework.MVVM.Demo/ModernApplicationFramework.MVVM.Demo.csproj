@@ -75,6 +75,10 @@
     </Compile>
     <Compile Include="Modules\Tool\OutputWriter.cs" />
     <Compile Include="Modules\Sample.cs" />
+    <Compile Include="Modules\UndoRedoTest\UndoRedoView.xaml.cs">
+      <DependentUpon>UndoRedoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\UndoRedoTest\UndoRedoViewModel.cs" />
     <Compile Include="TestCommandDefinition.cs" />
     <Compile Include="MenuItemDefinitionsPopulator.cs" />
     <Compile Include="ToolbarDefinitionsPopulator.cs" />
@@ -87,6 +91,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Modules\Tool\OutputView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\UndoRedoTest\UndoRedoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

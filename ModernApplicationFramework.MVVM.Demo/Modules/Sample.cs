@@ -11,11 +11,11 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules
     {
         public string Name => "Filter Designer";
 
-        public void Activate([Import]IDockingHostViewModel shell)
+        public void Activate(IDockingHostViewModel shell)
         {
             if (shell == null)
                 MessageBox.Show("WTF");
-            shell?.ShowTool<OutputViewModel>();
+            shell?.ShowTool<IOutput>();
         }
     }
 }
