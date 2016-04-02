@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Diagnostics;
 using System.Reflection;
 using System.Windows.Input;
 using ModernApplicationFramework.Commands;
+using ModernApplicationFramework.Utilities.UndoRedoManager;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest
 {
@@ -11,14 +13,19 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest
     {
         public override bool ShouldReopenOnStart => true;
 
+        public IUndoRedoManager UndoRedoManager { get; }
+
 
         public UndoRedoViewModel()
         {
             PropertyChanged += UndoRedoViewModel_PropertyChanged;
+            UndoRedoManager = new UndoRedoManager();
         }
 
         private void UndoRedoViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
+            if (e.PropertyName == nameof(Text))
+                Debug.WriteLine("Changed");
         }
 
         private string _test;
