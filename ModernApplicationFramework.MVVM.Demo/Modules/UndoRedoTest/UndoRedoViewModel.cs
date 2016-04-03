@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Input;
 using ModernApplicationFramework.Commands;
@@ -12,6 +13,13 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest
         public override bool ShouldReopenOnStart => true;
 
         private string _test;
+
+        public override void NotifyOfPropertyChange(string propertyName = null)
+        {
+            base.NotifyOfPropertyChange(propertyName);
+            Debug.WriteLine("Redo-Stack: " + UndoRedoManager.RedoStack.Count);
+            Debug.WriteLine("Undo-Stack: " + UndoRedoManager.UndoStack.Count);
+        }
 
         public string Text
         {
@@ -45,18 +53,6 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest
         private void SetValue()
         {
             Text += "5";
-        }
-
-        public override void SaveState(BinaryWriter writer)
-        {
-            writer.Write(Text);
-            writer.Write(Text2);
-        }
-
-        public override void LoadState(BinaryReader reader)
-        {
-            Text = reader.ReadString();
-            Text2 = reader.ReadString();
         }
     }
 }

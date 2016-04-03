@@ -1,4 +1,7 @@
 ﻿using System.Windows.Input;
+using ModernApplicationFramework.Caliburn;
+using ModernApplicationFramework.Commands.Service;
+using ModernApplicationFramework.MVVM.Commands;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules
 {
@@ -9,6 +12,6 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules
             InitializeComponent();
         }
 
-        //public ICommand TestCommand => new TestCommandDefinition().Command;
+        public ICommand TestCommand => IoC.Get<ICommandService>().GetCommandDefinition(typeof(UndoCommandDefinition)).Command;
     }
 }

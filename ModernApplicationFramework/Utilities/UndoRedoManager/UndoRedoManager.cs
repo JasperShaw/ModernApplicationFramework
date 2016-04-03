@@ -23,6 +23,7 @@ namespace ModernApplicationFramework.Utilities.UndoRedoManager
         {
             var action = Pop(_redoStack);
             action.Execute();
+            Pop(_undoStack);
             Push(_undoStack, action);
         }
 
