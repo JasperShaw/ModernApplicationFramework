@@ -14,6 +14,11 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest
 
         private string _test;
 
+        public UndoRedoViewModel()
+        {
+            DisplayName = "UndoRedoTest";
+        }
+
         public override void NotifyOfPropertyChange(string propertyName = null)
         {
             base.NotifyOfPropertyChange(propertyName);

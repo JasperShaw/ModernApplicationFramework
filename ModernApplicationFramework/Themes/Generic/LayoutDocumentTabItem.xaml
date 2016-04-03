@@ -37,7 +37,7 @@
                                         <Path x:Name="HideButtonPath" Fill="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyph}}" Width="10" Height="8" Stretch="Uniform"
                                           Data="F1 M 0,0 L 2,0 5,3 8,0 10,0 6,4 10,8 8,8 5,5 2,8 0,8 4,4 0,0 Z"/>
                                     </controls:Button>
-                                    <ContentPresenter x:Name="Content" Content="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}" TextElement.Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}, Mode=FindAncestor}, Path=Foreground}"
+                                    <ContentPresenter Margin="6,0,6,0" x:Name="Content" Content="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}" TextElement.Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}, Mode=FindAncestor}, Path=Foreground}"
                                             ContentTemplate="{Binding DocumentHeaderTemplate, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"
                                             ContentTemplateSelector="{Binding DocumentHeaderTemplateSelector, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"/>
                                 </DockPanel>
