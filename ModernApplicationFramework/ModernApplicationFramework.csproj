@@ -186,8 +186,11 @@
     <Compile Include="Caliburn\Extensions\ViewAttachedEventArgs.cs" />
     <Compile Include="Caliburn\ViewAware.cs" />
     <Compile Include="Caliburn\Collections\WeakValueDictionary.cs" />
+    <Compile Include="Commands\CommandWrapper.cs" />
+    <Compile Include="Commands\GestureCommandWrapper.cs" />
     <Compile Include="Commands\CommandDefinition.cs" />
-    <Compile Include="Commands\GestureCommand.cs" />
+    <Compile Include="Commands\Service\CommandService.cs" />
+    <Compile Include="Commands\Service\ICommandService.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\Base\CommandBase.cs" />
@@ -442,7 +445,6 @@
     <Compile Include="Utilities\MenuItemDefinition.cs" />
     <Compile Include="Utilities\ToolbarDefinition.cs" />
     <Compile Include="Utilities\ToolbarDefinitionsPopulatorBase.cs" />
-    <Compile Include="Utilities\MenuItemDefinitionsPopulatorBase.cs" />
     <Compile Include="Utilities\UndoRedoManager\InstancePropertyHandler.cs" />
     <Compile Include="Utilities\UndoRedoManager\IUndoRedoManager.cs" />
     <Compile Include="Utilities\UndoRedoManager\UndoRedoAction.cs" />

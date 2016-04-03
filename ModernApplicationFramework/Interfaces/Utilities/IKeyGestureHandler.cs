@@ -8,6 +8,6 @@ namespace ModernApplicationFramework.Interfaces.Utilities
     {
         void BindKeyGesture(UIElement uiElement);
 
-        KeyGesture GetPrimaryKeyGesture(GestureCommand command);
+        KeyGesture GetPrimaryKeyGesture(GestureCommandWrapper command);
     }
 }

@@ -1,24 +1,38 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using ModernApplicationFramework.Commands;
+using ModernApplicationFramework.Commands.Service;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using MenuItem = ModernApplicationFramework.Controls.MenuItem;
 
 namespace ModernApplicationFramework.Utilities
 {
+    [Export(typeof (IMenuCreator))]
     public class MenuCreator : IMenuCreator
     {
-        public void CreateMenu(IMenuHostViewModel model, MenuItemDefinitionsPopulatorBase definitions)
+        private readonly MenuItemDefinition[] _menuItems;
+
+        [ImportingConstructor]
+        public MenuCreator(ICommandService commandService, [ImportMany] MenuItemDefinition[] menuItems)
+        {
+            _menuItems = menuItems;
+        }
+
+        public void CreateMenu(IMenuHostViewModel model)
         {
             var items = new List<MenuItem>();
 
-            var menuDefinitions = definitions.GetDefinitions();
+            var menuDefinitions = _menuItems; //definitions.GetDefinitions();
 
-            var topLevelMenus = menuDefinitions.Where(x => x.HasItems == false).Where(x => x.HasParent == false).OrderBy(x => x.Priority);
+            var topLevelMenus =
+                menuDefinitions.Where(x => x.HasItems == false)
+                    .Where(x => x.HasParent == false)
+                    .OrderBy(x => x.Priority);
 
             foreach (var topLevel in topLevelMenus)
             {
@@ -30,37 +44,9 @@ namespace ModernApplicationFramework.Utilities
                 model.Items.Add(menuItem);
         }
 
-
-        private void CreateItemsRecursive(MenuItemDefinition topLevel, ItemsControl topItem, ICollection<MenuItemDefinition> list)
+        public MenuItem CreateItem(MenuItemDefinition definition)
         {
-            //MenuDefinitions which are parent of top
-            var menuItems = list.Where(x => x.HasItems).Where(x => x.Parent == topLevel).OrderBy(x => x.Priority);
-            foreach (var menusItem in menuItems)
-            {
-
-                //SubMenuDefinitions which are parent of currnet
-                var subDefinitonItems = list.Where(x => x.HasItems == false).Where(x => x.Parent == topLevel).OrderBy(x => x.Priority);
-                foreach (var subDefinitonItem in subDefinitonItems)
-                {
-                    list.Remove(subDefinitonItem);
-                    var subItem = CreateItem(subDefinitonItem);
-                    CreateItemsRecursive(subDefinitonItem, subItem, list);
-                    topItem.Items.Add(subItem);
-                }
-
-                //Normal Items which can be added directly
-                foreach (var definition in menusItem.Definitions)
-                    topItem.Items.Add(CreateItem(definition));
-            }
-        }
-
-        /// <summary>
-        /// Create a Menu and add it to the ViewModel
-        /// </summary>
-        /// <param name="model"></param>
-        public virtual void CreateMenu(IMenuHostViewModel model)
-        {
-            
+            return new MenuItem {Header = definition.Name};
         }
 
         /// <summary>
@@ -73,11 +59,21 @@ namespace ModernApplicationFramework.Utilities
             var menuItem = new MenuItem
             {
                 Header = definition.Name,
-                Command = definition.Command,
-                Icon = definition.IconSource,
+                Icon = definition.IconSource
             };
 
-            var c = definition.Command as GestureCommand;
+
+            var myBindingC = new Binding
+            {
+                Source = definition,
+                Path = new PropertyPath(nameof(definition.Command)),
+                Mode = BindingMode.OneWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            };
+            BindingOperations.SetBinding(menuItem, System.Windows.Controls.MenuItem.CommandProperty, myBindingC);
+
+
+            var c = definition.Command as GestureCommandWrapper;
             if (c == null)
                 return menuItem;
 
@@ -92,9 +88,29 @@ namespace ModernApplicationFramework.Utilities
             return menuItem;
         }
 
-        public MenuItem CreateItem(MenuItemDefinition definition)
+
+        private void CreateItemsRecursive(MenuItemDefinition topLevel, ItemsControl topItem,
+            ICollection<MenuItemDefinition> list)
         {
-            return new MenuItem { Header = definition.Name };
+            //MenuDefinitions which are parent of top
+            var menuItems = list.Where(x => x.HasItems).Where(x => x.Parent == topLevel).OrderBy(x => x.Priority);
+            foreach (var menusItem in menuItems)
+            {
+                //SubMenuDefinitions which are parent of currnet
+                var subDefinitonItems =
+                    list.Where(x => x.HasItems == false).Where(x => x.Parent == topLevel).OrderBy(x => x.Priority);
+                foreach (var subDefinitonItem in subDefinitonItems)
+                {
+                    list.Remove(subDefinitonItem);
+                    var subItem = CreateItem(subDefinitonItem);
+                    CreateItemsRecursive(subDefinitonItem, subItem, list);
+                    topItem.Items.Add(subItem);
+                }
+
+                //Normal Items which can be added directly
+                foreach (var definition in menusItem.Definitions)
+                    topItem.Items.Add(CreateItem(definition));
+            }
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using ModernApplicationFramework.Interfaces;
-using ModernApplicationFramework.Interfaces.ViewModels;
+﻿using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.MVVM.Interfaces
 {

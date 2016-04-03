@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using ModernApplicationFramework.Caliburn.Collections;
 
 namespace ModernApplicationFramework.Utilities.UndoRedoManager
 {
     public interface IUndoRedoManager
     {
-        IList<UndoRedoAction> RedoStack { get; }
-        IList<UndoRedoAction> UndoStack { get; }
+        IObservableCollection<UndoRedoAction> RedoStack { get; }
+        IObservableCollection<UndoRedoAction> UndoStack { get; }
+        void Push(UndoRedoAction action);
+        void Redo();
 
         void Undo();
-        void Redo();
-        void Push(UndoRedoAction action);
     }
 }

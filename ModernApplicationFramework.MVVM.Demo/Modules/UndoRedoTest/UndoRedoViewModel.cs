@@ -1,7 +1,5 @@
-﻿using System;
-using System.ComponentModel.Composition;
-using System.Diagnostics;
-using System.Reflection;
+﻿using System.ComponentModel.Composition;
+using System.IO;
 using System.Windows.Input;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Utilities.UndoRedoManager;
@@ -13,21 +11,6 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest
     {
         public override bool ShouldReopenOnStart => true;
 
-        public IUndoRedoManager UndoRedoManager { get; }
-
-
-        public UndoRedoViewModel()
-        {
-            PropertyChanged += UndoRedoViewModel_PropertyChanged;
-            UndoRedoManager = new UndoRedoManager();
-        }
-
-        private void UndoRedoViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(Text))
-                Debug.WriteLine("Changed");
-        }
-
         private string _test;
 
         public string Text
@@ -37,33 +20,43 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest
             {
                 if (value == _test)
                     return;
+                UndoRedoManager.Push(new UndoRedoAction(this, nameof(Text), value));
                 _test = value;
+                NotifyOfPropertyChange();  
+            }
+        }
+
+        private string _test2;
+        public string Text2
+        {
+            get { return _test2; }
+            set
+            {
+                if (value == _test2)
+                    return;
+                UndoRedoManager.Push(new UndoRedoAction(this, nameof(Text2), value));
+                _test2 = value;
                 NotifyOfPropertyChange();
             }
         }
 
-
         public ICommand SetValueCommand => new Command(SetValue);
-
-        public ICommand UndoCommand => new Command(Undo);
-
-        private void Undo()
-        {
-            Type type = GetType();
-
-            var t = "Text";
-
-            PropertyInfo prop = type.GetProperty(t);
-
-            prop.SetValue(this, "", null);
-        }
 
         private void SetValue()
         {
-            Text = "5";
+            Text += "5";
         }
 
+        public override void SaveState(BinaryWriter writer)
+        {
+            writer.Write(Text);
+            writer.Write(Text2);
+        }
 
-
+        public override void LoadState(BinaryReader reader)
+        {
+            Text = reader.ReadString();
+            Text2 = reader.ReadString();
+        }
     }
 }

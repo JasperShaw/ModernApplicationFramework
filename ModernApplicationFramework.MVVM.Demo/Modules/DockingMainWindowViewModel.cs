@@ -9,29 +9,36 @@ using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules
 {
-    [Export(typeof(IDockingMainWindowViewModel))]
+    [Export(typeof (IDockingMainWindowViewModel))]
     public class DockingMainWindowViewModel : ViewModels.DockingMainWindowViewModel
     {
+        [Import] private IKeyGestureHandler _commandKeyGestureService;
 
-        [Import]
-        private IKeyGestureHandler _commandKeyGestureService;
+        [Import] private IMenuCreator _menuCreator;
+
 
         static DockingMainWindowViewModel()
         {
-            ViewLocator.AddNamespaceMapping(typeof(DockingMainWindowViewModel).Namespace, typeof(DockingMainWindowView).Namespace);
+            ViewLocator.AddNamespaceMapping(typeof (DockingMainWindowViewModel).Namespace,
+                typeof (DockingMainWindowView).Namespace);
         }
+
+
+        public static DockingMainWindowViewModel Instance { get; private set; }
 
         protected override void OnViewLoaded(object view)
         {
             base.OnViewLoaded(view);
 
-            new MenuCreator().CreateMenu(MenuHostViewModel, new MenuItemDefinitionsPopulator());
+            _menuCreator.CreateMenu(MenuHostViewModel);
 
             _commandKeyGestureService.BindKeyGesture((UIElement) view);
 
-            new ToolbarTrayCreator().CreateToolbarTray(ToolBarHostViewModel, new ToolbarDefinitionsPopulator());           
+            new ToolbarTrayCreator().CreateToolbarTray(ToolBarHostViewModel, new ToolbarDefinitionsPopulator());
 
             Theme = new LightTheme();
+
+            Instance = this;
         }
     }
 }

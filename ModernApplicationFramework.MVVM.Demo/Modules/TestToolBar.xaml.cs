@@ -9,6 +9,6 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules
             InitializeComponent();
         }
 
-        public ICommand TestCommand => new TestCommandDefinition().Command;
+        //public ICommand TestCommand => new TestCommandDefinition().Command;
     }
 }

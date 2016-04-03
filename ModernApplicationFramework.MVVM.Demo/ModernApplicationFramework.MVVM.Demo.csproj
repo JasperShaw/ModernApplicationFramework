@@ -79,8 +79,6 @@
       <DependentUpon>UndoRedoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\UndoRedoTest\UndoRedoViewModel.cs" />
-    <Compile Include="TestCommandDefinition.cs" />
-    <Compile Include="MenuItemDefinitionsPopulator.cs" />
     <Compile Include="ToolbarDefinitionsPopulator.cs" />
     <Page Include="Modules\Document\SampleView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -128,7 +126,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="Modules\App.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ModernApplicationFramework.MVVM\ModernApplicationFramework.MVVM.csproj">

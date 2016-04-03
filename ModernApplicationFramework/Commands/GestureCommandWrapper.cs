@@ -7,24 +7,29 @@ using ModernApplicationFramework.Annotations;
 
 namespace ModernApplicationFramework.Commands
 {
-    public class GestureCommand : Command, INotifyPropertyChanged
+    public class GestureCommandWrapper : CommandWrapper, INotifyPropertyChanged
     {
-        public GestureCommand(Action executeMethod, KeyGesture gesture) : base(executeMethod)
-        {
-            KeyGesture = gesture;
-        }
-
-        public GestureCommand(Action executeMethod, Func<bool> canExecuteMethod, KeyGesture gesture) : base(executeMethod, canExecuteMethod)
-        {
-            KeyGesture = gesture;
-        }
-
         private KeyGesture _keyGesture;
+
+        public GestureCommandWrapper(ICommand wrappedCommand, KeyGesture gesture) : base(wrappedCommand)
+        {
+            KeyGesture = gesture;
+        }
+
+        public GestureCommandWrapper(Action executeAction, Func<bool> cantExectueFunc, KeyGesture gesture)
+            : base(executeAction, cantExectueFunc)
+        {
+            KeyGesture = gesture;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public string GestureText => KeyGesture.GetDisplayStringForCulture(CultureInfo.CurrentUICulture);
 
         public KeyGesture KeyGesture
         {
             get { return _keyGesture; }
-            private set
+            set
             {
                 if (_keyGesture == value)
                     return;
@@ -33,9 +38,6 @@ namespace ModernApplicationFramework.Commands
                 OnPropertyChanged(nameof(GestureText));
             }
         }
-
-        public string GestureText => KeyGesture.GetDisplayStringForCulture(CultureInfo.CurrentUICulture);
-        public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

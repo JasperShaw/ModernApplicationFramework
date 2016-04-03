@@ -51,16 +51,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Commands\Command.cs" />
-    <Compile Include="Commands\CommandDefinition.cs" />
-    <Compile Include="Commands\CommandDefinitionBase.cs" />
-    <Compile Include="Commands\CommandHandlerWrapper.cs" />
-    <Compile Include="Commands\CommandListDefinition.cs" />
-    <Compile Include="Commands\CommandRouter.cs" />
-    <Compile Include="Commands\ICommandHandler.cs" />
-    <Compile Include="Commands\ICommandRerouter.cs" />
-    <Compile Include="Commands\ICommandRouter.cs" />
+    <Compile Include="Commands\RedoCommandDefinition.cs" />
+    <Compile Include="Commands\UndoCommandDefinition.cs" />
     <Compile Include="Controls\Document.cs" />
+    <Compile Include="Controls\MenuDefinitions\MenuDefinitions.cs" />
     <Compile Include="Controls\Tool.cs" />
     <Compile Include="Core\LayoutItemBase.cs" />
     <Compile Include="Core\ModuleBase.cs" />

@@ -5,7 +5,6 @@ namespace ModernApplicationFramework.Utilities
 {
     public class ToolbarDefinition
     {
-
         public ToolbarDefinition(ToolBar toolBar, int sortOrder, bool visibleOnLoad, Dock position)
         {
             ToolBar = toolBar;
@@ -14,12 +13,12 @@ namespace ModernApplicationFramework.Utilities
             Position = position;
         }
 
-        public ToolBar ToolBar { get;}
-
-        public bool VisibleOnLoad { get; }
-
         public Dock Position { get; }
 
         public int SortOrder { get; }
+
+        public ToolBar ToolBar { get; }
+
+        public bool VisibleOnLoad { get; }
     }
 }
