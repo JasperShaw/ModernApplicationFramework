@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel.Composition;
-using System.Diagnostics;
-using System.IO;
 using System.Windows.Input;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Utilities.UndoRedoManager;
@@ -17,13 +15,6 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest
         public UndoRedoViewModel()
         {
             DisplayName = "UndoRedoTest";
-        }
-
-        public override void NotifyOfPropertyChange(string propertyName = null)
-        {
-            base.NotifyOfPropertyChange(propertyName);
-            Debug.WriteLine("Redo-Stack: " + UndoRedoManager.RedoStack.Count);
-            Debug.WriteLine("Undo-Stack: " + UndoRedoManager.UndoStack.Count);
         }
 
         public string Text
