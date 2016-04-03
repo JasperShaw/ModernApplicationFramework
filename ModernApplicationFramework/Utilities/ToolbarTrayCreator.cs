@@ -1,20 +1,27 @@
-﻿using System.Linq;
+﻿using System.ComponentModel.Composition;
+using System.Linq;
+using ModernApplicationFramework.Commands.Service;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Utilities
 {
+    [Export(typeof (IToolbarTrayCreator))]
     public class ToolbarTrayCreator : IToolbarTrayCreator
     {
-        public void CreateToolbarTray(IToolBarHostViewModel model, ToolbarDefinitionsPopulatorBase definitions)
+        private readonly ToolbarDefinition[] _toolbarDefinitions;
+
+        [ImportingConstructor]
+        public ToolbarTrayCreator(ICommandService commandService, [ImportMany] ToolbarDefinition[] toolbarDefinitions)
         {
-            var toolbarDefinitions = definitions.GetDefinitions().OrderBy(x => x.SortOrder);
-            foreach (var definition in toolbarDefinitions)
-                model.AddToolBar(definition.ToolBar, definition.VisibleOnLoad, definition.Position);
+            _toolbarDefinitions = toolbarDefinitions;
         }
 
-        public virtual void CreateToolbarTray(IToolBarHostViewModel model)
+        public void CreateToolbarTray(IToolBarHostViewModel model)
         {
+            var toolBars = _toolbarDefinitions.OrderBy(x => x.SortOrder);
+            foreach (var toolbar in toolBars)
+                model.AddToolBar(toolbar.ToolBar, toolbar.VisibleOnLoad, toolbar.Position);
         }
     }
 }

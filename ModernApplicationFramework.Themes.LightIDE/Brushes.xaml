@@ -609,7 +609,7 @@
                      ResourceId=ToolBarButtonBackgroundDisabled}" Color="#FFEEEEF2"/>
     
      <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ToolBarButtonBackgroundGlyphDisabled}" Color="#FF1E1E1E"/>
+                     ResourceId=ToolBarButtonBackgroundGlyphDisabled}" Color="#FF717171"/>
 
     <!--WindowBase-->
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 

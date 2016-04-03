@@ -10,13 +10,6 @@ namespace ModernApplicationFramework.Interfaces.Utilities
         /// </summary>
         /// <param name="model"></param>
         /// <param name="definitions"></param>
-        void CreateToolbarTray(IToolBarHostViewModel model, ToolbarDefinitionsPopulatorBase definitions);
-
-
-        /// <summary>
-        /// Populate a toolbartray freely
-        /// </summary>
-        /// <param name="model"></param>
         void CreateToolbarTray(IToolBarHostViewModel model);
     }
 }

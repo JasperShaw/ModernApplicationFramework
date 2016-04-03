@@ -440,11 +440,12 @@
     <Compile Include="Interfaces\ViewModels\IWindowViewModel.cs" />
     <Compile Include="Properties\Annotations1.cs" />
     <Compile Include="Utilities\KeyGestureHandler.cs" />
+    <Compile Include="Utilities\Service\ToolbarService.cs" />
+    <Compile Include="Utilities\Service\IToolbarService.cs" />
     <Compile Include="Utilities\ToolbarTrayCreator.cs" />
     <Compile Include="Utilities\MenuCreator.cs" />
     <Compile Include="Utilities\MenuItemDefinition.cs" />
     <Compile Include="Utilities\ToolbarDefinition.cs" />
-    <Compile Include="Utilities\ToolbarDefinitionsPopulatorBase.cs" />
     <Compile Include="Utilities\UndoRedoManager\InstancePropertyHandler.cs" />
     <Compile Include="Utilities\UndoRedoManager\IUndoRedoManager.cs" />
     <Compile Include="Utilities\UndoRedoManager\UndoRedoAction.cs" />

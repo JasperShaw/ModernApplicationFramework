@@ -5,17 +5,19 @@ using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.MVVM.Interfaces;
 using ModernApplicationFramework.MVVM.Views;
 using ModernApplicationFramework.Themes.LightIDE;
-using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules
 {
     [Export(typeof (IDockingMainWindowViewModel))]
     public class DockingMainWindowViewModel : ViewModels.DockingMainWindowViewModel
     {
+#pragma warning disable 649
         [Import] private IKeyGestureHandler _commandKeyGestureService;
 
         [Import] private IMenuCreator _menuCreator;
 
+        [Import] private IToolbarTrayCreator _toolbarTrayCreator;
+#pragma warning restore 649
 
         static DockingMainWindowViewModel()
         {
@@ -34,7 +36,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules
 
             _commandKeyGestureService.BindKeyGesture((UIElement) view);
 
-            new ToolbarTrayCreator().CreateToolbarTray(ToolBarHostViewModel, new ToolbarDefinitionsPopulator());
+            _toolbarTrayCreator.CreateToolbarTray(ToolBarHostViewModel);
 
             Theme = new LightTheme();
 
