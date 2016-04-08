@@ -10,5 +10,9 @@ namespace ModernApplicationFramework.MVVM.Interfaces
         ICommand UndoCommand { get; }
 
         ICommand RedoCommand { get; }
+
+        ICommand SaveFileCommand { get; }
+
+        ICommand SaveFileAsCommand { get; }
     }
 }

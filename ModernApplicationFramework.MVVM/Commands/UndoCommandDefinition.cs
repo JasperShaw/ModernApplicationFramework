@@ -24,6 +24,8 @@ namespace ModernApplicationFramework.MVVM.Commands
         public override ICommand Command { get; }
         public override Uri IconSource { get; }
 
+        public string MyText { get; set; }
+
         public override string Name => "Undo";
         public override string Text => Name;
         public override string ToolTip => Name;

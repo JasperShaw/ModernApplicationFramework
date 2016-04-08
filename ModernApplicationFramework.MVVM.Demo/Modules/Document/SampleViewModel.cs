@@ -29,6 +29,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
         public void Activate(ISample sample)
         {
             _dockingHostViewModel.OpenDocument(IoC.Get<UndoRedoViewModel>());
+            _dockingHostViewModel.OpenDocument(IoC.Get<UndoRedoViewModel>());
         }
     }
 }
