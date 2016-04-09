@@ -15,9 +15,9 @@ using ModernApplicationFramework.MVVM.Interfaces;
 
 namespace ModernApplicationFramework.MVVM.ViewModels
 {
-    [Export(typeof (IDockingMainWindowViewModel))]
+    [Export(typeof(IDockingMainWindowViewModel))]
     public class DockingMainWindowViewModel : Conductor<IDockingHostViewModel>, IDockingMainWindowViewModel,
-        IPartImportsSatisfiedNotification
+                                              IPartImportsSatisfiedNotification
     {
         protected bool MainWindowInitialized;
 
@@ -52,10 +52,32 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             UseTitleBar = true;
         }
 
+
+        public bool MenuHostViewModelSetted => MenuHostViewModel != null;
+        public bool ToolbarHostViewModelSetted => ToolBarHostViewModel != null;
+
+        /// <summary>
+        ///     Contains the Current Icon of the MainWindow
+        /// </summary>
+        public BitmapImage Icon
+        {
+            get { return _icon; }
+            set
+            {
+                if (Equals(value, _icon))
+                    return;
+                _icon = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public Window Window { get; private set; }
+        public WindowState WindowState { get; set; }
+
         public event EventHandler<ThemeChangedEventArgs> OnThemeChanged;
 
         /// <summary>
-        /// Contains the current Theme of the Application. 
+        ///     Contains the current Theme of the Application.
         /// </summary>
         public Theme Theme
         {
@@ -75,8 +97,8 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         }
 
         /// <summary>
-        /// Contains the ViewModel of the MainWindows MenuHostControl
-        /// This can not be changed once it was setted with a value.
+        ///     Contains the ViewModel of the MainWindows MenuHostControl
+        ///     This can not be changed once it was setted with a value.
         /// </summary>
         public IMenuHostViewModel MenuHostViewModel
         {
@@ -91,18 +113,22 @@ namespace ModernApplicationFramework.MVVM.ViewModels
 
 
         /// <summary>
-        /// Contains the StatusBar of the MainWindow
-        /// This can not be changed once it was setted with a value
+        ///     Contains the StatusBar of the MainWindow
+        ///     This can not be changed once it was setted with a value
         /// </summary>
         public StatusBar StatusBar
         {
             get { return _statusBar; }
-            set { if (_statusBar == null) _statusBar = value; }
+            set
+            {
+                if (_statusBar == null)
+                    _statusBar = value;
+            }
         }
 
         /// <summary>
-        /// Contains the ViewModel of the MainWindows ToolbarHostControl
-        /// This can not be changed once it was setted with a value
+        ///     Contains the ViewModel of the MainWindows ToolbarHostControl
+        ///     This can not be changed once it was setted with a value
         /// </summary>
         public IToolBarHostViewModel ToolBarHostViewModel
         {
@@ -117,7 +143,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         }
 
         /// <summary>
-        /// Contains information whether a StatusBar is displayed or not
+        ///     Contains information whether a StatusBar is displayed or not
         /// </summary>
         public bool UseStatusBar
         {
@@ -132,7 +158,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         }
 
         /// <summary>
-        /// Contains information whether a TitleBar is displayed or not
+        ///     Contains information whether a TitleBar is displayed or not
         /// </summary>
         public bool UseTitleBar
         {
@@ -146,15 +172,10 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             }
         }
 
-        void IPartImportsSatisfiedNotification.OnImportsSatisfied()
-        {
-            ActivateItem(_dockingHost);
-        }
-
         public IDockingHostViewModel DockingHost => _dockingHost;
 
         /// <summary>
-        /// Contains the Active Icon for the MainWindow
+        ///     Contains the Active Icon for the MainWindow
         /// </summary>
         public BitmapImage ActiveIcon
         {
@@ -176,7 +197,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         public ICommand CloseCommand => new Command(Close, CanClose);
 
         /// <summary>
-        /// A SimpleWindow is a window which is not possible to resize my dragging the edges
+        ///     A SimpleWindow is a window which is not possible to resize my dragging the edges
         /// </summary>
         public bool IsSimpleWindow
         {
@@ -195,7 +216,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         public ICommand MinimizeCommand => new Command(Minimize, CanMinimize);
 
         /// <summary>
-        /// Contains the Passive Icon for the MainWindow
+        ///     Contains the Passive Icon for the MainWindow
         /// </summary>
         public BitmapImage PassiveIcon
         {
@@ -213,8 +234,8 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         public ICommand SimpleMoveWindowCommand => new Command(MoveSimpleWindow, CanMoveSimpleWindow);
 
         /// <summary>
-        /// Contains the Movement Technique for the MainWindow
-        /// SimpleMovemtn allows to move the Window by clicking/dragging anywhere on it
+        ///     Contains the Movement Technique for the MainWindow
+        ///     SimpleMovemtn allows to move the Window by clicking/dragging anywhere on it
         /// </summary>
         public bool UseSimpleMovement
         {
@@ -229,31 +250,20 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             }
         }
 
-
-        public bool MenuHostViewModelSetted => MenuHostViewModel != null;
-        public bool ToolbarHostViewModelSetted => ToolBarHostViewModel != null;
-
-        /// <summary>
-        /// Contains the Current Icon of the MainWindow
-        /// </summary>
-        public BitmapImage Icon
+        void IPartImportsSatisfiedNotification.OnImportsSatisfied()
         {
-            get { return _icon; }
-            set
-            {
-                if (Equals(value, _icon))
-                    return;
-                _icon = value;
-                NotifyOfPropertyChange();
-            }
+            ActivateItem(_dockingHost);
         }
-
-        public Window Window { get; private set; }
-        public WindowState WindowState { get; set; }
 
         public virtual bool CanMoveSimpleWindow()
         {
             return UseSimpleMovement;
+        }
+
+        public virtual void MoveSimpleWindow()
+        {
+            if (Mouse.LeftButton == MouseButtonState.Pressed)
+                Window?.DragMove();
         }
 
         public void ChangeWindowIconActive()
@@ -264,12 +274,6 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         public void ChangeWindowIconPassive()
         {
             Icon = PassiveIcon;
-        }
-
-        public virtual void MoveSimpleWindow()
-        {
-            if (Mouse.LeftButton == MouseButtonState.Pressed)
-                Window?.DragMove();
         }
 
         protected virtual void ApplyWindowIconChange()
@@ -319,7 +323,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         }
 
         /// <summary>
-        /// Handles what happens after UseSimpleMovement was changed
+        ///     Handles what happens after UseSimpleMovement was changed
         /// </summary>
         protected virtual void OnUseSimpleMovementChanged()
         {
@@ -368,8 +372,8 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         }
 
         /// <summary>
-        /// Called Theme property when changed. 
-        /// Implements the logic that applys the new Theme
+        ///     Called Theme property when changed.
+        ///     Implements the logic that applys the new Theme
         /// </summary>
         /// <param name="oldValue"></param>
         /// <param name="newValue"></param>

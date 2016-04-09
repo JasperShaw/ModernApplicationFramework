@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media;
@@ -29,30 +30,283 @@ using ModernApplicationFramework.Core.Standard;
 
 namespace ModernApplicationFramework.Core.Shell
 {
-	[SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable")]
+    [SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable")]
     public class SystemParameters2 : INotifyPropertyChanged
     {
-        private delegate void _SystemMetricUpdate(IntPtr wParam, IntPtr lParam);
-
-        [ThreadStatic]
-        private static SystemParameters2 _threadLocalSingleton;
-
-        private MessageWindow _messageHwnd;
-
-        private bool _isGlassEnabled;
-        private Color _glassColor;
-        private SolidColorBrush _glassColorBrush;
-        private Thickness _windowResizeBorderThickness;
-        private Thickness _windowNonClientFrameThickness;
-        private double _captionHeight;
-        private Size _smallIconSize;
-        private string _uxThemeName;
-        private string _uxThemeColor;
-        private bool _isHighContrast;
-        private CornerRadius _windowCornerRadius;
-        private Rect _captionButtonLocation;
+        [ThreadStatic] private static SystemParameters2 _threadLocalSingleton;
 
         private readonly Dictionary<WM, List<_SystemMetricUpdate>> _UpdateTable;
+        private Rect _captionButtonLocation;
+        private double _captionHeight;
+        private Color _glassColor;
+        private SolidColorBrush _glassColorBrush;
+
+        private bool _isGlassEnabled;
+        private bool _isHighContrast;
+
+        private MessageWindow _messageHwnd;
+        private Size _smallIconSize;
+        private string _uxThemeColor;
+        private string _uxThemeName;
+        private CornerRadius _windowCornerRadius;
+        private Thickness _windowNonClientFrameThickness;
+        private Thickness _windowResizeBorderThickness;
+
+        /// <summary>
+        ///     Private constructor.  The public way to access this class is through the static Current property.
+        /// </summary>
+        private SystemParameters2()
+        {
+            // This window gets used for calculations about standard caption button locations
+            // so it has WS_OVERLAPPEDWINDOW as a style to give it normal caption buttons.
+            // This window may be shown during calculations of caption bar information, so create it at a location that's likely offscreen.
+            _messageHwnd = new MessageWindow(0, WS.OVERLAPPEDWINDOW | WS.DISABLED, 0, new Rect(-16000, -16000, 100, 100),
+                "", _WndProc);
+            _messageHwnd.Dispatcher.ShutdownStarted += (sender, e) => Utility.SafeDispose(ref _messageHwnd);
+
+            // Fixup the default values of the DPs.
+            _InitializeIsGlassEnabled();
+            _InitializeGlassColor();
+            _InitializeCaptionHeight();
+            _InitializeWindowNonClientFrameThickness();
+            _InitializeWindowResizeBorderThickness();
+            _InitializeCaptionButtonLocation();
+            _InitializeSmallIconSize();
+            _InitializeHighContrast();
+            _InitializeThemeInfo();
+            // WindowCornerRadius isn't exposed by true system parameters, so it requires the theme to be initialized first.
+            _InitializeWindowCornerRadius();
+
+            _UpdateTable = new Dictionary<WM, List<_SystemMetricUpdate>>
+            {
+                {
+                    WM.THEMECHANGED,
+                    new List<_SystemMetricUpdate>
+                    {
+                        _UpdateThemeInfo,
+                        _UpdateHighContrast,
+                        _UpdateWindowCornerRadius,
+                        _UpdateCaptionButtonLocation
+                    }
+                },
+                {
+                    WM.SETTINGCHANGE,
+                    new List<_SystemMetricUpdate>
+                    {
+                        _UpdateCaptionHeight,
+                        _UpdateWindowResizeBorderThickness,
+                        _UpdateSmallIconSize,
+                        _UpdateHighContrast,
+                        _UpdateWindowNonClientFrameThickness,
+                        _UpdateCaptionButtonLocation
+                    }
+                },
+                {WM.DWMNCRENDERINGCHANGED, new List<_SystemMetricUpdate> {_UpdateIsGlassEnabled}},
+                {WM.DWMCOMPOSITIONCHANGED, new List<_SystemMetricUpdate> {_UpdateIsGlassEnabled}},
+                {WM.DWMCOLORIZATIONCOLORCHANGED, new List<_SystemMetricUpdate> {_UpdateGlassColor}}
+            };
+        }
+
+        private delegate void _SystemMetricUpdate(IntPtr wParam, IntPtr lParam);
+
+        public static SystemParameters2 Current
+        {
+            get
+            {
+                if (_threadLocalSingleton == null)
+                {
+                    _threadLocalSingleton = new SystemParameters2();
+                }
+                return _threadLocalSingleton;
+            }
+        }
+
+        public bool HighContrast
+        {
+            get { return _isHighContrast; }
+            private set
+            {
+                if (value != _isHighContrast)
+                {
+                    _isHighContrast = value;
+                    _NotifyPropertyChanged("HighContrast");
+                }
+            }
+        }
+
+        public bool IsGlassEnabled
+        {
+            get
+            {
+                // return _isGlassEnabled;
+                // It turns out there may be some lag between someone asking this
+                // and the window getting updated.  It's not too expensive, just always do the check.
+                return Standard.NativeMethods.DwmIsCompositionEnabled();
+            }
+            private set
+            {
+                if (value != _isGlassEnabled)
+                {
+                    _isGlassEnabled = value;
+                    _NotifyPropertyChanged("IsGlassEnabled");
+                }
+            }
+        }
+
+        public Size SmallIconSize
+        {
+            get { return new Size(_smallIconSize.Width, _smallIconSize.Height); }
+            private set
+            {
+                if (value != _smallIconSize)
+                {
+                    _smallIconSize = value;
+                    _NotifyPropertyChanged("SmallIconSize");
+                }
+            }
+        }
+
+        [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Ux")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Ux")]
+        public string UxThemeColor
+        {
+            get { return _uxThemeColor; }
+            private set
+            {
+                if (value != _uxThemeColor)
+                {
+                    _uxThemeColor = value;
+                    _NotifyPropertyChanged("UxThemeColor");
+                }
+            }
+        }
+
+        [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Ux")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Ux")]
+        public string UxThemeName
+        {
+            get { return _uxThemeName; }
+            private set
+            {
+                if (value != _uxThemeName)
+                {
+                    _uxThemeName = value;
+                    _NotifyPropertyChanged("UxThemeName");
+                }
+            }
+        }
+
+        public Rect WindowCaptionButtonsLocation
+        {
+            get { return _captionButtonLocation; }
+            private set
+            {
+                if (value != _captionButtonLocation)
+                {
+                    _captionButtonLocation = value;
+                    _NotifyPropertyChanged("WindowCaptionButtonsLocation");
+                }
+            }
+        }
+
+        public double WindowCaptionHeight
+        {
+            get { return _captionHeight; }
+            private set
+            {
+                if (value != _captionHeight)
+                {
+                    _captionHeight = value;
+                    _NotifyPropertyChanged("WindowCaptionHeight");
+                }
+            }
+        }
+
+        public CornerRadius WindowCornerRadius
+        {
+            get { return _windowCornerRadius; }
+            private set
+            {
+                if (value != _windowCornerRadius)
+                {
+                    _windowCornerRadius = value;
+                    _NotifyPropertyChanged("WindowCornerRadius");
+                }
+            }
+        }
+
+        public SolidColorBrush WindowGlassBrush
+        {
+            get { return _glassColorBrush; }
+            private set
+            {
+                Assert.IsNotNull(value);
+                Assert.IsTrue(value.IsFrozen);
+                if (_glassColorBrush == null || value.Color != _glassColorBrush.Color)
+                {
+                    _glassColorBrush = value;
+                    _NotifyPropertyChanged("WindowGlassBrush");
+                }
+            }
+        }
+
+        public Color WindowGlassColor
+        {
+            get { return _glassColor; }
+            private set
+            {
+                if (value != _glassColor)
+                {
+                    _glassColor = value;
+                    _NotifyPropertyChanged("WindowGlassColor");
+                }
+            }
+        }
+
+        public Thickness WindowNonClientFrameThickness
+        {
+            get { return _windowNonClientFrameThickness; }
+            private set
+            {
+                if (value != _windowNonClientFrameThickness)
+                {
+                    _windowNonClientFrameThickness = value;
+                    _NotifyPropertyChanged("WindowNonClientFrameThickness");
+                }
+            }
+        }
+
+        public Thickness WindowResizeBorderThickness
+        {
+            get { return _windowResizeBorderThickness; }
+            private set
+            {
+                if (value != _windowResizeBorderThickness)
+                {
+                    _windowResizeBorderThickness = value;
+                    _NotifyPropertyChanged("WindowResizeBorderThickness");
+                }
+            }
+        }
+
+        private IntPtr _WndProc(IntPtr hwnd, WM msg, IntPtr wParam, IntPtr lParam)
+        {
+            // Don't do this if called within the SystemParameters2 constructor
+            if (_UpdateTable != null)
+            {
+                List<_SystemMetricUpdate> handlers;
+                if (_UpdateTable.TryGetValue(msg, out handlers))
+                {
+                    Assert.IsNotNull(handlers);
+                    foreach (var handler in handlers)
+                    {
+                        handler(wParam, lParam);
+                    }
+                }
+            }
+
+            return Standard.NativeMethods.DefWindowProc(hwnd, msg, wParam, lParam);
+        }
 
         #region Initialization and Update Methods
 
@@ -88,8 +342,8 @@ namespace ModernApplicationFramework.Core.Shell
 
         private void _UpdateGlassColor(IntPtr wParam, IntPtr lParam)
         {
-            bool isOpaque = lParam != IntPtr.Zero;
-            uint color = unchecked((uint)(int)wParam.ToInt64());
+            var isOpaque = lParam != IntPtr.Zero;
+            var color = unchecked((uint) (int) wParam.ToInt64());
             color |= isOpaque ? 0xFF000000 : 0;
             WindowGlassColor = Utility.ColorFromArgbDword(color);
             var glassBrush = new SolidColorBrush(WindowGlassColor);
@@ -99,7 +353,7 @@ namespace ModernApplicationFramework.Core.Shell
 
         private void _InitializeCaptionHeight()
         {
-            Point ptCaption = new Point(0, Standard.NativeMethods.GetSystemMetrics(SM.CYCAPTION));
+            var ptCaption = new Point(0, Standard.NativeMethods.GetSystemMetrics(SM.CYCAPTION));
             WindowCaptionHeight = DpiHelper.DevicePixelsToLogical(ptCaption).Y;
         }
 
@@ -110,11 +364,12 @@ namespace ModernApplicationFramework.Core.Shell
 
         private void _InitializeWindowResizeBorderThickness()
         {
-            Size frameSize = new Size(
+            var frameSize = new Size(
                 Standard.NativeMethods.GetSystemMetrics(SM.CXSIZEFRAME),
                 Standard.NativeMethods.GetSystemMetrics(SM.CYSIZEFRAME));
-            Size frameSizeInDips = DpiHelper.DeviceSizeToLogical(frameSize);
-            WindowResizeBorderThickness = new Thickness(frameSizeInDips.Width, frameSizeInDips.Height, frameSizeInDips.Width, frameSizeInDips.Height);
+            var frameSizeInDips = DpiHelper.DeviceSizeToLogical(frameSize);
+            WindowResizeBorderThickness = new Thickness(frameSizeInDips.Width, frameSizeInDips.Height,
+                frameSizeInDips.Width, frameSizeInDips.Height);
         }
 
         private void _UpdateWindowResizeBorderThickness(IntPtr wParam, IntPtr lParam)
@@ -124,13 +379,14 @@ namespace ModernApplicationFramework.Core.Shell
 
         private void _InitializeWindowNonClientFrameThickness()
         {
-            Size frameSize = new Size(
+            var frameSize = new Size(
                 Standard.NativeMethods.GetSystemMetrics(SM.CXSIZEFRAME),
                 Standard.NativeMethods.GetSystemMetrics(SM.CYSIZEFRAME));
-            Size frameSizeInDips = DpiHelper.DeviceSizeToLogical(frameSize);
-            int captionHeight = Standard.NativeMethods.GetSystemMetrics(SM.CYCAPTION);
-            double captionHeightInDips = DpiHelper.DevicePixelsToLogical(new Point(0, captionHeight)).Y;
-            WindowNonClientFrameThickness = new Thickness(frameSizeInDips.Width, frameSizeInDips.Height + captionHeightInDips, frameSizeInDips.Width, frameSizeInDips.Height);
+            var frameSizeInDips = DpiHelper.DeviceSizeToLogical(frameSize);
+            var captionHeight = Standard.NativeMethods.GetSystemMetrics(SM.CYCAPTION);
+            var captionHeightInDips = DpiHelper.DevicePixelsToLogical(new Point(0, captionHeight)).Y;
+            WindowNonClientFrameThickness = new Thickness(frameSizeInDips.Width,
+                frameSizeInDips.Height + captionHeightInDips, frameSizeInDips.Width, frameSizeInDips.Height);
         }
 
         private void _UpdateWindowNonClientFrameThickness(IntPtr wParam, IntPtr lParam)
@@ -154,13 +410,15 @@ namespace ModernApplicationFramework.Core.Shell
         {
             // This calculation isn't quite right, but it's pretty close.
             // I expect this is good enough for the scenarios where this is expected to be used.
-            int captionX = Standard.NativeMethods.GetSystemMetrics(SM.CXSIZE);
-            int captionY = Standard.NativeMethods.GetSystemMetrics(SM.CYSIZE);
+            var captionX = Standard.NativeMethods.GetSystemMetrics(SM.CXSIZE);
+            var captionY = Standard.NativeMethods.GetSystemMetrics(SM.CYSIZE);
 
-            int frameX = Standard.NativeMethods.GetSystemMetrics(SM.CXSIZEFRAME) + Standard.NativeMethods.GetSystemMetrics(SM.CXEDGE);
-            int frameY = Standard.NativeMethods.GetSystemMetrics(SM.CYSIZEFRAME) + Standard.NativeMethods.GetSystemMetrics(SM.CYEDGE);
+            var frameX = Standard.NativeMethods.GetSystemMetrics(SM.CXSIZEFRAME)
+                         + Standard.NativeMethods.GetSystemMetrics(SM.CXEDGE);
+            var frameY = Standard.NativeMethods.GetSystemMetrics(SM.CYSIZEFRAME)
+                         + Standard.NativeMethods.GetSystemMetrics(SM.CYEDGE);
 
-            Rect captionRect = new Rect(0, 0, captionX * 3, captionY);
+            var captionRect = new Rect(0, 0, captionX*3, captionY);
             captionRect.Offset(-frameX - captionRect.Width, frameY);
 
             WindowCaptionButtonsLocation = captionRect;
@@ -176,8 +434,8 @@ namespace ModernApplicationFramework.Core.Shell
                 return;
             }
 
-            var tbix = new TITLEBARINFOEX { cbSize = Marshal.SizeOf(typeof(TITLEBARINFOEX)) };
-            IntPtr lParam = Marshal.AllocHGlobal(tbix.cbSize);
+            var tbix = new TITLEBARINFOEX {cbSize = Marshal.SizeOf(typeof(TITLEBARINFOEX))};
+            var lParam = Marshal.AllocHGlobal(tbix.cbSize);
             try
             {
                 Marshal.StructureToPtr(tbix, lParam, false);
@@ -185,7 +443,7 @@ namespace ModernApplicationFramework.Core.Shell
                 // WM_GETTITLEBARINFOEX doesn't work correctly unless the window is visible while processing.
                 Standard.NativeMethods.ShowWindow(_messageHwnd.Handle, SW.SHOW);
                 Standard.NativeMethods.SendMessage(_messageHwnd.Handle, WM.GETTITLEBARINFOEX, IntPtr.Zero, lParam);
-                tbix = (TITLEBARINFOEX)Marshal.PtrToStructure(lParam, typeof(TITLEBARINFOEX));
+                tbix = (TITLEBARINFOEX) Marshal.PtrToStructure(lParam, typeof(TITLEBARINFOEX));
             }
             finally
             {
@@ -195,11 +453,11 @@ namespace ModernApplicationFramework.Core.Shell
 
             // TITLEBARINFOEX has information relative to the screen.  We need to convert the containing rect
             // to instead be relative to the top-right corner of the window.
-            RECT rcAllCaptionButtons = RECT.Union(tbix.rgrect_CloseButton, tbix.rgrect_MinimizeButton);
+            var rcAllCaptionButtons = RECT.Union(tbix.rgrect_CloseButton, tbix.rgrect_MinimizeButton);
             // For all known themes, the RECT for the maximize box shouldn't add anything to the union of the minimize and close boxes.
             Assert.AreEqual(rcAllCaptionButtons, RECT.Union(rcAllCaptionButtons, tbix.rgrect_MaximizeButton));
 
-            RECT rcWindow = Standard.NativeMethods.GetWindowRect(_messageHwnd.Handle);
+            var rcWindow = Standard.NativeMethods.GetWindowRect(_messageHwnd.Handle);
 
             // Reorient the Top/Right to be relative to the top right edge of the Window.
             var deviceCaptionLocation = new Rect(
@@ -208,7 +466,7 @@ namespace ModernApplicationFramework.Core.Shell
                 rcAllCaptionButtons.Width,
                 rcAllCaptionButtons.Height);
 
-            Rect logicalCaptionLocation = DpiHelper.DeviceRectToLogical(deviceCaptionLocation);
+            var logicalCaptionLocation = DpiHelper.DeviceRectToLogical(deviceCaptionLocation);
 
             WindowCaptionButtonsLocation = logicalCaptionLocation;
         }
@@ -220,7 +478,7 @@ namespace ModernApplicationFramework.Core.Shell
 
         private void _InitializeHighContrast()
         {
-            HIGHCONTRAST hc = Standard.NativeMethods.SystemParameterInfo_GetHIGHCONTRAST();
+            var hc = Standard.NativeMethods.SystemParameterInfo_GetHIGHCONTRAST();
             HighContrast = (hc.dwFlags & HCF.HIGHCONTRASTON) != 0;
         }
 
@@ -244,7 +502,7 @@ namespace ModernApplicationFramework.Core.Shell
             Standard.NativeMethods.GetCurrentThemeName(out name, out color, out size);
 
             // Consider whether this is the most useful way to expose this...
-            UxThemeName = System.IO.Path.GetFileNameWithoutExtension(name);
+            UxThemeName = Path.GetFileNameWithoutExtension(name);
             UxThemeColor = color;
         }
 
@@ -304,255 +562,7 @@ namespace ModernApplicationFramework.Core.Shell
             _InitializeWindowCornerRadius();
         }
 
-
         #endregion
-
-        /// <summary>
-        /// Private constructor.  The public way to access this class is through the static Current property.
-        /// </summary>
-        private SystemParameters2()
-        {
-            // This window gets used for calculations about standard caption button locations
-            // so it has WS_OVERLAPPEDWINDOW as a style to give it normal caption buttons.
-            // This window may be shown during calculations of caption bar information, so create it at a location that's likely offscreen.
-            _messageHwnd = new MessageWindow((CS)0, WS.OVERLAPPEDWINDOW | WS.DISABLED, (WS_EX)0, new Rect(-16000, -16000, 100, 100), "", _WndProc);
-            _messageHwnd.Dispatcher.ShutdownStarted += (sender, e) => Utility.SafeDispose(ref _messageHwnd);
-
-            // Fixup the default values of the DPs.
-            _InitializeIsGlassEnabled();
-            _InitializeGlassColor();
-            _InitializeCaptionHeight();
-            _InitializeWindowNonClientFrameThickness();
-            _InitializeWindowResizeBorderThickness();
-            _InitializeCaptionButtonLocation();
-            _InitializeSmallIconSize();
-            _InitializeHighContrast();
-            _InitializeThemeInfo();
-            // WindowCornerRadius isn't exposed by true system parameters, so it requires the theme to be initialized first.
-            _InitializeWindowCornerRadius();
-
-            _UpdateTable = new Dictionary<WM, List<_SystemMetricUpdate>>
-            {
-                { WM.THEMECHANGED,
-                    new List<_SystemMetricUpdate>
-                    {
-                        _UpdateThemeInfo, 
-                        _UpdateHighContrast, 
-                        _UpdateWindowCornerRadius,
-                        _UpdateCaptionButtonLocation, } },
-                { WM.SETTINGCHANGE,
-                    new List<_SystemMetricUpdate>
-                    {
-                        _UpdateCaptionHeight,
-                        _UpdateWindowResizeBorderThickness,
-                        _UpdateSmallIconSize,
-                        _UpdateHighContrast,
-                        _UpdateWindowNonClientFrameThickness,
-                        _UpdateCaptionButtonLocation, } },
-                { WM.DWMNCRENDERINGCHANGED, new List<_SystemMetricUpdate> { _UpdateIsGlassEnabled } },
-                { WM.DWMCOMPOSITIONCHANGED, new List<_SystemMetricUpdate> { _UpdateIsGlassEnabled } },
-                { WM.DWMCOLORIZATIONCOLORCHANGED, new List<_SystemMetricUpdate> { _UpdateGlassColor } },
-            };
-        }
-
-        public static SystemParameters2 Current
-        {
-            get
-            {
-                if (_threadLocalSingleton == null)
-                {
-                    _threadLocalSingleton = new SystemParameters2();
-                }
-                return _threadLocalSingleton;
-            }
-        }
-
-        private IntPtr _WndProc(IntPtr hwnd, WM msg, IntPtr wParam, IntPtr lParam)
-        {
-            // Don't do this if called within the SystemParameters2 constructor
-            if (_UpdateTable != null)
-            {
-                List<_SystemMetricUpdate> handlers;
-                if (_UpdateTable.TryGetValue(msg, out handlers))
-                {
-                    Assert.IsNotNull(handlers);
-                    foreach (var handler in handlers)
-                    {
-                        handler(wParam, lParam);
-                    }
-                }
-            }
-
-            return Standard.NativeMethods.DefWindowProc(hwnd, msg, wParam, lParam);
-        }
-
-        public bool IsGlassEnabled
-        {
-            get
-            {
-                // return _isGlassEnabled;
-                // It turns out there may be some lag between someone asking this
-                // and the window getting updated.  It's not too expensive, just always do the check.
-                return Standard.NativeMethods.DwmIsCompositionEnabled();
-            }
-            private set
-            {
-                if (value != _isGlassEnabled)
-                {
-                    _isGlassEnabled = value;
-                    _NotifyPropertyChanged("IsGlassEnabled");
-                }
-            }
-        }
-
-        public Color WindowGlassColor
-        {
-            get { return _glassColor; }
-            private set
-            {
-                if (value != _glassColor)
-                {
-                    _glassColor = value;
-                    _NotifyPropertyChanged("WindowGlassColor");
-                }
-            }
-        }
-
-        public SolidColorBrush WindowGlassBrush
-        {
-            get { return _glassColorBrush; }
-            private set
-            {
-                Assert.IsNotNull(value);
-                Assert.IsTrue(value.IsFrozen);
-                if (_glassColorBrush == null || value.Color != _glassColorBrush.Color)
-                {
-                    _glassColorBrush = value;
-                    _NotifyPropertyChanged("WindowGlassBrush");
-                }
-            }
-        }
-
-        public Thickness WindowResizeBorderThickness
-        {
-            get { return _windowResizeBorderThickness; }
-            private set
-            {
-                if (value != _windowResizeBorderThickness)
-                {
-                    _windowResizeBorderThickness = value;
-                    _NotifyPropertyChanged("WindowResizeBorderThickness");
-                }
-            }
-        }
-
-        public Thickness WindowNonClientFrameThickness
-        {
-            get { return _windowNonClientFrameThickness; }
-            private set
-            {
-                if (value != _windowNonClientFrameThickness)
-                {
-                    _windowNonClientFrameThickness = value;
-                    _NotifyPropertyChanged("WindowNonClientFrameThickness");
-                }
-            }
-        }
-
-        public double WindowCaptionHeight
-        {
-            get { return _captionHeight; }
-            private set
-            {
-                if (value != _captionHeight)
-                {
-                    _captionHeight = value;
-                    _NotifyPropertyChanged("WindowCaptionHeight");
-                }
-            }
-        }
-
-        public Size SmallIconSize
-        {
-            get { return new Size(_smallIconSize.Width, _smallIconSize.Height); }
-            private set
-            {
-                if (value != _smallIconSize)
-                {
-                    _smallIconSize = value;
-                    _NotifyPropertyChanged("SmallIconSize");
-                }
-            }
-        }
-
-        [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Ux")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Ux")]
-        public string UxThemeName
-        {
-            get { return _uxThemeName; }
-            private set
-            {
-                if (value != _uxThemeName)
-                {
-                    _uxThemeName = value;
-                    _NotifyPropertyChanged("UxThemeName");
-                }
-            }
-        }
-
-        [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Ux")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Ux")]
-        public string UxThemeColor
-        {
-            get { return _uxThemeColor; }
-            private set
-            {
-                if (value != _uxThemeColor)
-                {
-                    _uxThemeColor = value;
-                    _NotifyPropertyChanged("UxThemeColor");
-                }
-            }
-        }
-
-        public bool HighContrast
-        {
-            get { return _isHighContrast; }
-            private set
-            {
-                if (value != _isHighContrast)
-                {
-                    _isHighContrast = value;
-                    _NotifyPropertyChanged("HighContrast");
-                }
-            }
-        }
-
-        public CornerRadius WindowCornerRadius
-        {
-            get { return _windowCornerRadius; }
-            private set
-            {
-                if (value != _windowCornerRadius)
-                {
-                    _windowCornerRadius = value;
-                    _NotifyPropertyChanged("WindowCornerRadius");
-                }
-            }
-        }
-
-        public Rect WindowCaptionButtonsLocation
-        {
-            get { return _captionButtonLocation; }
-            private set
-            {
-                if (value != _captionButtonLocation)
-                {
-                    _captionButtonLocation = value;
-                    _NotifyPropertyChanged("WindowCaptionButtonsLocation");
-                }
-            }
-        }
 
         #region INotifyPropertyChanged Members
 

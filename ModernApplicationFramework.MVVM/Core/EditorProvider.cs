@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Globalization;
 using System.IO;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -24,7 +23,8 @@ namespace ModernApplicationFramework.MVVM.Core
             _fileDefinitionManager = fileDefinitionManager;
         }
 
-        public IEnumerable<ISupportedFileDefinition> SupportedFileDefinitions => _fileDefinitionManager.SupportedFileDefinitions;
+        public IEnumerable<ISupportedFileDefinition> SupportedFileDefinitions
+            => _fileDefinitionManager.SupportedFileDefinitions;
 
         public bool Handles(string path)
         {
@@ -36,21 +36,14 @@ namespace ModernApplicationFramework.MVVM.Core
         {
             var method = typeof(IoC).GetMethod("Get");
             method = method.MakeGenericMethod(editorType);
-            var editorToProve = method.Invoke(this, new object[] { null });
+            var editorToProve = method.Invoke(this, new object[] {null});
 
             var editor = editorToProve as IDocument;
-            
+
             if (editor == null)
                 throw new NotSupportedException("The specified type was not from type IDocument");
 
             return editor;
-        }
-
-        public static MethodInfo GetMethod<T>(Expression<Action<T>> expr)
-        {
-            return ((MethodCallExpression)expr.Body)
-                .Method
-                .GetGenericMethodDefinition();
         }
 
         public async Task New(IStorableDocument document, string name)
@@ -61,6 +54,13 @@ namespace ModernApplicationFramework.MVVM.Core
         public async Task Open(IStorableDocument document, string path)
         {
             await document.Load(path);
+        }
+
+        public static MethodInfo GetMethod<T>(Expression<Action<T>> expr)
+        {
+            return ((MethodCallExpression) expr.Body)
+                .Method
+                .GetGenericMethodDefinition();
         }
     }
 }

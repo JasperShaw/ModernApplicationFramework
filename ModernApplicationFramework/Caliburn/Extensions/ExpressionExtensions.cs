@@ -4,12 +4,12 @@ using System.Reflection;
 namespace ModernApplicationFramework.Caliburn.Extensions
 {
     /// <summary>
-    /// Extension for <see cref="Expression"/>.
+    ///     Extension for <see cref="Expression" />.
     /// </summary>
     public static class ExpressionExtensions
     {
         /// <summary>
-        /// Converts an expression into a <see cref="MemberInfo"/>.
+        ///     Converts an expression into a <see cref="MemberInfo" />.
         /// </summary>
         /// <param name="expression">The expression to convert.</param>
         /// <returns>The member info.</returns>

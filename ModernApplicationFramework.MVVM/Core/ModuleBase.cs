@@ -8,6 +8,10 @@ namespace ModernApplicationFramework.MVVM.Core
 {
     public abstract class ModuleBase : IModule
     {
+        protected IDockingHostViewModel DockingHostViewModel => _dockingHostViewModel;
+
+        protected IUseDockingHost MainWindow => _useDockingHost;
+
         public virtual IEnumerable<IDocument> DefaultDocuments
         {
             get { yield break; }
@@ -24,21 +28,11 @@ namespace ModernApplicationFramework.MVVM.Core
             get { yield break; }
         }
 
-        public virtual void Initialize()
-        {
-        }
+        public virtual void Initialize() {}
 
-        public virtual void PostInitialize()
-        {
-        }
+        public virtual void PostInitialize() {}
 
-        public virtual void PreInitialize()
-        {
-        }
-
-        protected IDockingHostViewModel DockingHostViewModel => _dockingHostViewModel;
-
-        protected IUseDockingHost MainWindow => _useDockingHost;
+        public virtual void PreInitialize() {}
 #pragma warning disable 649
         [Import] private IDockingMainWindowViewModel _useDockingHost;
 

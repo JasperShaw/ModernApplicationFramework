@@ -20,6 +20,15 @@ namespace ModernApplicationFramework.Controls
 {
     public abstract class MainWindow : ModernChromeWindow
     {
+        static MainWindow()
+        {
+            //Needed so we can use inputbinding in FloatingWindows as well
+            Keyboard.DefaultRestoreFocusMode = RestoreFocusMode.None;
+            RenderOptions.ProcessRenderMode = RenderMode.Default;
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(MainWindow),
+                new FrameworkPropertyMetadata(typeof(MainWindow)));
+        }
+
         protected MainWindow()
         {
             DataContext = new MainWindowViewModel(this);
@@ -29,22 +38,6 @@ namespace ModernApplicationFramework.Controls
             UIElementAutomationPeer.CreatePeerForElement(this);
 
             Application.Current.MainWindow = this;
-        }
-
-        static MainWindow()
-        {
-            //Needed so we can use inputbinding in FloatingWindows as well
-            Keyboard.DefaultRestoreFocusMode = RestoreFocusMode.None;
-            RenderOptions.ProcessRenderMode = RenderMode.Default;
-            DefaultStyleKeyProperty.OverrideMetadata(typeof (MainWindow),
-                new FrameworkPropertyMetadata(typeof (MainWindow)));
-        }
-
-        protected override void OnActivated(EventArgs e)
-        {
-            base.OnActivated(e);
-            //Needed so we can Bind Keygestures to the Window
-            Keyboard.Focus(this);
         }
 
         public BitmapImage ActivatedFloatIcon { get; set; }
@@ -95,6 +88,13 @@ namespace ModernApplicationFramework.Controls
                 viewModel.StatusBar = statusBar;
 
             base.OnApplyTemplate();
+        }
+
+        protected override void OnActivated(EventArgs e)
+        {
+            base.OnActivated(e);
+            //Needed so we can Bind Keygestures to the Window
+            Keyboard.Focus(this);
         }
 
         protected override AutomationPeer OnCreateAutomationPeer()

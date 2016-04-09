@@ -11,7 +11,7 @@ namespace ModernApplicationFramework.MVVM.Core.Utilities
     internal static class LayoutUtilities
     {
         public static void LoadLayout(DockingManager manager, Stream stream, Action<IDocument> addDocumentCallback,
-            Action<ITool> addToolCallback, Dictionary<string, ILayoutItem> items)
+                                      Action<ITool> addToolCallback, Dictionary<string, ILayoutItem> items)
         {
             var layoutSerializer = new XmlLayoutSerializer(manager);
             layoutSerializer.LayoutSerializationCallback += (s, e) =>
@@ -47,8 +47,8 @@ namespace ModernApplicationFramework.MVVM.Core.Utilities
                         // Nasty hack to get around issue that occurs if documents are loaded from state,
                         // and more documents are opened programmatically.
                         layoutDocument.GetType()
-                            .GetProperty("IsLastFocusedDocument")
-                            .SetValue(layoutDocument, false, null);
+                                      .GetProperty("IsLastFocusedDocument")
+                                      .SetValue(layoutDocument, false, null);
 
                         document.IsSelected = layoutDocument.IsSelected;
                         return;

@@ -9,9 +9,9 @@ namespace ModernApplicationFramework.MVVM.Interfaces
     {
         IEnumerable<ISupportedFileDefinition> SupportedFileDefinitions { get; }
 
-        bool Handles(string path);
-
         IDocument Create(Type editorType);
+
+        bool Handles(string path);
 
         Task New(IStorableDocument document, string name);
         Task Open(IStorableDocument document, string path);

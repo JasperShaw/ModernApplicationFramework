@@ -2,7 +2,7 @@
 
 namespace ModernApplicationFramework.Controls
 {
-    public class MenuItem: System.Windows.Controls.MenuItem
+    public class MenuItem : System.Windows.Controls.MenuItem
     {
         static MenuItem()
         {

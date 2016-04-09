@@ -5,7 +5,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ModernApplicationFramework.Core.Utilities;
-using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Controls;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using SystemCommands = ModernApplicationFramework.Core.Shell.SystemCommands;
@@ -14,17 +13,29 @@ namespace ModernApplicationFramework.Controls
 {
     public sealed class SystemMenu : Control, INonClientArea
     {
-        public static readonly DependencyProperty SourceProperty = Image.SourceProperty.AddOwner(typeof (SystemMenu),
+        public static readonly DependencyProperty SourceProperty = Image.SourceProperty.AddOwner(typeof(SystemMenu),
             new FrameworkPropertyMetadata(OnSourceChanged));
 
         public static readonly DependencyProperty VectorIconProperty = DependencyProperty.Register("VectorIcon",
-            typeof (Geometry), typeof (SystemMenu),
+            typeof(Geometry), typeof(SystemMenu),
             new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
 
         public static readonly DependencyProperty VectorFillProperty = DependencyProperty.Register("VectorFill",
-            typeof (Brush), typeof (SystemMenu));
+            typeof(Brush), typeof(SystemMenu));
 
         private ImageSource _optimalImageForSize;
+
+        static SystemMenu()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(SystemMenu),
+                new FrameworkPropertyMetadata(typeof(SystemMenu)));
+        }
+
+        public ImageSource Source
+        {
+            get { return (ImageSource) GetValue(SourceProperty); }
+            set { SetValue(SourceProperty, value); }
+        }
 
         public Brush VectorFill
         {
@@ -38,16 +49,38 @@ namespace ModernApplicationFramework.Controls
             set { SetValue(VectorIconProperty, value); }
         }
 
-        public ImageSource Source
+        public int HitTest(Point point)
         {
-            get { return (ImageSource) GetValue(SourceProperty); }
-            set { SetValue(SourceProperty, value); }
+            return 3;
         }
 
-        static SystemMenu()
+        protected override void OnMouseDown(MouseButtonEventArgs e)
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof (SystemMenu),
-                new FrameworkPropertyMetadata(typeof (SystemMenu)));
+            base.OnMouseDown(e);
+            var w = Window.GetWindow(this) as MainWindow;
+
+            if (w == null)
+                return;
+
+            if (e.ClickCount == 1)
+            {
+                Point p;
+                if (e.ChangedButton == MouseButton.Left)
+                {
+                    p = PointToScreen(e.GetPosition(this));
+                    p.X += 1;
+                    p.Y += 1;
+                }
+                else
+                {
+                    p = PointToScreen(e.GetPosition(this));
+                    p.X += 1;
+                    p.Y += 1;
+                }
+                SystemCommands.ShowSystemMenu(w, p);
+            }
+            if (e.ClickCount == 2 && e.ChangedButton == MouseButton.Left)
+                ((IMainWindowViewModel) DataContext).CloseCommand.Execute(null);
         }
 
         protected override void OnRender(DrawingContext drawingContext)
@@ -62,6 +95,11 @@ namespace ModernApplicationFramework.Controls
             drawingContext.DrawImage(_optimalImageForSize, new Rect(new Point(Padding.Left, Padding.Top), size));
         }
 
+        private static void OnSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((SystemMenu) d).OnSourceChanged();
+        }
+
         private void CoerceOptimalImageForSize(Size size)
         {
             if (_optimalImageForSize != null)
@@ -71,7 +109,8 @@ namespace ModernApplicationFramework.Controls
             var num2 = -1;
             if (frame != null)
             {
-                if (frame.Decoder == null) return;
+                if (frame.Decoder == null)
+                    return;
                 foreach (var bitmapFrame in frame.Decoder.Frames)
                 {
                     var pixelWidth = bitmapFrame.PixelWidth;
@@ -82,25 +121,21 @@ namespace ModernApplicationFramework.Controls
                     }
                     if (pixelWidth > num1)
                     {
-                        if (num2 >= num1 && pixelWidth >= num2) continue;
+                        if (num2 >= num1 && pixelWidth >= num2)
+                            continue;
                         num2 = pixelWidth;
                         _optimalImageForSize = bitmapFrame;
                     }
-                    else if (pixelWidth > num2)
-                    {
-                        num2 = pixelWidth;
-                        _optimalImageForSize = bitmapFrame;
-                    }
+                    else
+                        if (pixelWidth > num2)
+                        {
+                            num2 = pixelWidth;
+                            _optimalImageForSize = bitmapFrame;
+                        }
                 }
             }
             else
                 _optimalImageForSize = Source;
-
-        }
-
-        private static void OnSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((SystemMenu) d).OnSourceChanged();
         }
 
         private void OnSourceChanged()
@@ -108,39 +143,5 @@ namespace ModernApplicationFramework.Controls
             _optimalImageForSize = null;
             InvalidateVisual();
         }
-
-        public int HitTest(Point point)
-        {
-            return 3;
-        }
-
-	   protected override void OnMouseDown(MouseButtonEventArgs e)
-	    {
-			base.OnMouseDown(e);
-		    MainWindow w = Window.GetWindow(this) as MainWindow;
-
-			if (w == null)
-				return;
-
-			if (e.ClickCount == 1)
-			{
-				Point p;
-				if (e.ChangedButton == MouseButton.Left)
-				{
-					p = PointToScreen(e.GetPosition(this));
-					p.X += 1;
-					p.Y += 1;
-				}
-				else
-				{
-					p = PointToScreen(e.GetPosition(this));
-					p.X += 1;
-					p.Y += 1;
-				}
-				SystemCommands.ShowSystemMenu(w, p);
-			}
-	        if (e.ClickCount == 2 && e.ChangedButton == MouseButton.Left)
-	            ((IMainWindowViewModel) DataContext).CloseCommand.Execute(null);
-	    }
     }
 }

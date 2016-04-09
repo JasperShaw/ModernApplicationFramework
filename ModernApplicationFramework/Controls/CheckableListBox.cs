@@ -9,17 +9,17 @@ namespace ModernApplicationFramework.Controls
     {
         public List<Key> ToggleKeys { get; } = new List<Key>();
 
-        protected override DependencyObject GetContainerForItemOverride()
-        {
-            return new CheckableListBoxItem();
-        }
-
         public void SelectItem(object item)
         {
             SetSelectedItems(new[]
             {
                 item
             });
+        }
+
+        protected override DependencyObject GetContainerForItemOverride()
+        {
+            return new CheckableListBoxItem();
         }
     }
 }

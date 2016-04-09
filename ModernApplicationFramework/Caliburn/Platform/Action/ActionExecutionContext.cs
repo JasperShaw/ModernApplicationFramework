@@ -8,18 +8,18 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
     public class ActionExecutionContext : IDisposable
     {
         /// <summary>
-        /// Determines whether the action can execute.
+        ///     Determines whether the action can execute.
         /// </summary>
         /// <remarks>Returns true if the action can execute, false otherwise.</remarks>
         public Func<bool> CanExecute;
 
         /// <summary>
-        /// Any event arguments associated with the action's invocation.
+        ///     Any event arguments associated with the action's invocation.
         /// </summary>
         public object EventArgs;
 
         /// <summary>
-        /// The actual method info to be invoked.
+        ///     The actual method info to be invoked.
         /// </summary>
         public MethodInfo Method;
 
@@ -30,20 +30,12 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
         private WeakReference view;
 
         /// <summary>
-        /// Called when the execution context is disposed
+        ///     Called when the execution context is disposed
         /// </summary>
         public event EventHandler Disposing = delegate { };
 
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            Disposing(this, System.EventArgs.Empty);
-        }
-
-        /// <summary>
-        /// Gets or sets additional data needed to invoke the action.
+        ///     Gets or sets additional data needed to invoke the action.
         /// </summary>
         /// <param name="key">The data key.</param>
         /// <returns>Custom data associated with the context.</returns>
@@ -69,7 +61,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
         }
 
         /// <summary>
-        /// The message being executed.
+        ///     The message being executed.
         /// </summary>
         public ActionMessage Message
         {
@@ -78,7 +70,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
         }
 
         /// <summary>
-        /// The source from which the message originates.
+        ///     The source from which the message originates.
         /// </summary>
         public FrameworkElement Source
         {
@@ -87,7 +79,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
         }
 
         /// <summary>
-        /// The instance on which the action is invoked.
+        ///     The instance on which the action is invoked.
         /// </summary>
         public object Target
         {
@@ -96,12 +88,20 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
         }
 
         /// <summary>
-        /// The view associated with the target.
+        ///     The view associated with the target.
         /// </summary>
         public DependencyObject View
         {
             get { return view == null ? null : view.Target as DependencyObject; }
             set { view = new WeakReference(value); }
+        }
+
+        /// <summary>
+        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Disposing(this, System.EventArgs.Empty);
         }
     }
 }

@@ -7,16 +7,15 @@ using ModernApplicationFramework.Core.Input;
 
 namespace ModernApplicationFramework.Controls
 {
-
     //http://www.codeproject.com/Articles/234703/WPF-TextBox-with-PreviewTextChanged-event-for-filt
-    public class TextBox :System.Windows.Controls.TextBox
+    public class TextBox : System.Windows.Controls.TextBox
     {
-        public bool PreviewUndoEnabled { get; set; }
-
         static TextBox()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(TextBox), new FrameworkPropertyMetadata(typeof(TextBox)));
         }
+
+        public bool PreviewUndoEnabled { get; set; }
 
         #region Event
 
@@ -31,7 +30,7 @@ namespace ModernApplicationFramework.Controls
         }
 
         #endregion
-      
+
         #region Protected Methods
 
         protected override void OnInitialized(EventArgs e)
@@ -66,8 +65,8 @@ namespace ModernApplicationFramework.Controls
         {
             if (e.Command == ApplicationCommands.Cut || e.Command == ApplicationCommands.Delete)
             {
-                int start = SelectionStart;
-                int lenght = SelectionLength;
+                var start = SelectionStart;
+                var lenght = SelectionLength;
 
                 if (lenght > 0)
                     TextDelete(e, start, lenght);
@@ -77,7 +76,7 @@ namespace ModernApplicationFramework.Controls
             {
                 var dataObject = Clipboard.GetDataObject();
                 if (dataObject != null)
-                    TextInput(e, (string) dataObject.GetData(typeof (string)));
+                    TextInput(e, (string) dataObject.GetData(typeof(string)));
                 return;
             }
             if (PreviewUndoEnabled)
@@ -94,7 +93,7 @@ namespace ModernApplicationFramework.Controls
                 }
                 if (e.Command == ApplicationCommands.Redo)
                 {
-                    if(!Redo())
+                    if (!Redo())
                         return;
                     var text = Text;
                     Undo();
@@ -104,8 +103,8 @@ namespace ModernApplicationFramework.Controls
             }
             if (e.Command == EditingCommands.Backspace)
             {
-                int start = SelectionStart;
-                int lenght = SelectionLength;
+                var start = SelectionStart;
+                var lenght = SelectionLength;
 
                 if (lenght > 0 || start > 0)
                 {
@@ -118,16 +117,16 @@ namespace ModernApplicationFramework.Controls
             }
             if (e.Command == EditingCommands.DeleteNextWord)
             {
-                string text = Text;
-                int length = text.Length;
+                var text = Text;
+                var length = text.Length;
 
-                int start = CaretIndex;
-                int end = start;
+                var start = CaretIndex;
+                var end = start;
 
-                while (end < length && !Char.IsWhiteSpace(text[end]))
+                while (end < length && !char.IsWhiteSpace(text[end]))
                     end++;
 
-                while (end < length && Char.IsWhiteSpace(text[end]))
+                while (end < length && char.IsWhiteSpace(text[end]))
                     end++;
 
                 if (end > start)
@@ -137,15 +136,15 @@ namespace ModernApplicationFramework.Controls
 
             if (e.Command == EditingCommands.DeletePreviousWord)
             {
-                string text = Text;
+                var text = Text;
 
-                int end = CaretIndex;
-                int start = end;
+                var end = CaretIndex;
+                var start = end;
 
-                while (start > 0 && Char.IsWhiteSpace(text[start - 1]))
+                while (start > 0 && char.IsWhiteSpace(text[start - 1]))
                     start--;
 
-                while (start > 0 && !Char.IsWhiteSpace(text[start - 1]))
+                while (start > 0 && !char.IsWhiteSpace(text[start - 1]))
                     start--;
 
                 if (end > start)
@@ -155,8 +154,8 @@ namespace ModernApplicationFramework.Controls
 
         private new void TextInput(RoutedEventArgs e, string text)
         {
-            int start = SelectionStart;
-            int length = SelectionLength;
+            var start = SelectionStart;
+            var length = SelectionLength;
 
             if (length > 0)
                 TextReplace(e, start, length, text);

@@ -3,7 +3,6 @@ using System.Windows.Input;
 using ModernApplicationFramework.Caliburn.Collections;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Controls;
-using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
 
@@ -21,8 +20,8 @@ namespace ModernApplicationFramework.ViewModels
         }
 
         /// <summary>
-        /// Tells if you can open the ToolbarHostContextMenu
-        /// Default is true
+        ///     Tells if you can open the ToolbarHostContextMenu
+        ///     Default is true
         /// </summary>
         public bool CanOpenToolBarContextMenu { get; set; } = true;
 
@@ -32,12 +31,12 @@ namespace ModernApplicationFramework.ViewModels
         }
 
         /// <summary>
-        /// Contains the Items of the MenuHostControl
+        ///     Contains the Items of the MenuHostControl
         /// </summary>
         public ObservableCollection<MenuItem> Items { get; set; }
 
         /// <summary>
-        /// Contains the UseDockingHost shall not be changed after setted up
+        ///     Contains the UseDockingHost shall not be changed after setted up
         /// </summary>
         public IMainWindowViewModel MainWindowViewModel
         {

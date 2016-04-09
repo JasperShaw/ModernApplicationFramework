@@ -13,8 +13,8 @@ namespace ModernApplicationFramework.Controls
 
         static ContextMenu()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof (ContextMenu),
-                new FrameworkPropertyMetadata(typeof (ContextMenu)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ContextMenu),
+                new FrameworkPropertyMetadata(typeof(ContextMenu)));
         }
 
         public event EventHandler<ThemeChangedEventArgs> OnThemeChanged;

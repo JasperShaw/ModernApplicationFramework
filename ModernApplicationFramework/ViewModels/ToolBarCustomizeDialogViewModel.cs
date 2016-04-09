@@ -4,7 +4,6 @@ using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Controls.Customize;
 using ModernApplicationFramework.Interfaces.ViewModels;
-using RadioButton = System.Windows.Controls.RadioButton;
 using ToolBar = ModernApplicationFramework.Controls.ToolBar;
 
 namespace ModernApplicationFramework.ViewModels
@@ -41,7 +40,7 @@ namespace ModernApplicationFramework.ViewModels
             {
                 Content = toolBar.IdentifierName,
                 DataContext = toolBar,
-                IsChecked = ToolBarHostViewModel.GetToolBarVisibility(toolBar.IdentifierName),
+                IsChecked = ToolBarHostViewModel.GetToolBarVisibility(toolBar.IdentifierName)
             };
             item.Checked += OnItemChecked;
             item.Unchecked += OnItemUnchecked;

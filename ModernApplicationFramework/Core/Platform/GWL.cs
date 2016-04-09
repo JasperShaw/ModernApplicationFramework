@@ -3,6 +3,6 @@
     public enum Gwl
     {
         Exstyle = -20,
-        Style = -16,
+        Style = -16
     }
 }

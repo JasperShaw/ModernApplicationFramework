@@ -8,20 +8,20 @@ using ModernApplicationFramework.Caliburn.Interfaces;
 namespace ModernApplicationFramework.Caliburn
 {
     /// <summary>
-    /// Enables loosely-coupled publication of and subscription to events.
+    ///     Enables loosely-coupled publication of and subscription to events.
     /// </summary>
     public class EventAggregator : IEventAggregator
     {
         /// <summary>
-        /// Processing of handler results on publication thread.
+        ///     Processing of handler results on publication thread.
         /// </summary>
         public static Action<object, object> HandlerResultProcessing = (target, result) => { };
 
-        readonly List<Handler> _handlers = new List<Handler>();
+        private readonly List<Handler> _handlers = new List<Handler>();
 
         /// <summary>
-        /// Searches the subscribed handlers to check if we have a handler for
-        /// the message type supplied.
+        ///     Searches the subscribed handlers to check if we have a handler for
+        ///     the message type supplied.
         /// </summary>
         /// <param name="messageType">The message type to check with</param>
         /// <returns>True if any handler is found, false if not.</returns>
@@ -34,10 +34,10 @@ namespace ModernApplicationFramework.Caliburn
         }
 
         /// <summary>
-        /// Publishes a message.
+        ///     Publishes a message.
         /// </summary>
-        /// <param name = "message">The message instance.</param>
-        /// <param name = "marshal">Allows the publisher to provide a custom thread marshaller for the message publication.</param>
+        /// <param name="message">The message instance.</param>
+        /// <param name="marshal">Allows the publisher to provide a custom thread marshaller for the message publication.</param>
         public virtual void Publish(object message, Action<Action> marshal)
         {
             if (message == null)
@@ -73,9 +73,9 @@ namespace ModernApplicationFramework.Caliburn
         }
 
         /// <summary>
-        /// Subscribes an instance to all events declared through implementations of <see cref = "IHandle{T}" />
+        ///     Subscribes an instance to all events declared through implementations of <see cref="IHandle{T}" />
         /// </summary>
-        /// <param name = "subscriber">The instance to subscribe for event publication.</param>
+        /// <param name="subscriber">The instance to subscribe for event publication.</param>
         public virtual void Subscribe(object subscriber)
         {
             if (subscriber == null)
@@ -94,9 +94,9 @@ namespace ModernApplicationFramework.Caliburn
         }
 
         /// <summary>
-        /// Unsubscribes the instance from all events.
+        ///     Unsubscribes the instance from all events.
         /// </summary>
-        /// <param name = "subscriber">The instance to unsubscribe.</param>
+        /// <param name="subscriber">The instance to unsubscribe.</param>
         public virtual void Unsubscribe(object subscriber)
         {
             if (subscriber == null)
@@ -114,17 +114,17 @@ namespace ModernApplicationFramework.Caliburn
             }
         }
 
-        class Handler
+        private class Handler
         {
-            readonly WeakReference _reference;
-            readonly Dictionary<Type, MethodInfo> _supportedHandlers = new Dictionary<Type, MethodInfo>();
+            private readonly WeakReference _reference;
+            private readonly Dictionary<Type, MethodInfo> _supportedHandlers = new Dictionary<Type, MethodInfo>();
 
             public Handler(object handler)
             {
                 _reference = new WeakReference(handler);
 
                 var interfaces = handler.GetType().GetInterfaces()
-                    .Where(x => typeof (IHandle).IsAssignableFrom(x) && x.IsGenericType());
+                                        .Where(x => typeof(IHandle).IsAssignableFrom(x) && x.IsGenericType());
 
                 foreach (var @interface in interfaces)
                 {

@@ -16,17 +16,51 @@ namespace ModernApplicationFramework.MVVM.Commands
     [Export(typeof(CommandDefinition))]
     public class OpenFileCommandDefinition : CommandDefinition
     {
-#pragma warning disable 649
-        [Import] private IDockingMainWindowViewModel _shell;
-
-        [Import] private IEditorProvider _editorProvider;
-#pragma warning restore 649
-
-
-
         public OpenFileCommandDefinition()
         {
             Command = new GestureCommandWrapper(OpenFile, CanOpenFile, new KeyGesture(Key.O, ModifierKeys.Control));
+        }
+
+        public override bool CanShowInMenu => true;
+        public override bool CanShowInToolbar => true;
+
+        public override ICommand Command { get; }
+        public override string IconId => "OpenFile";
+
+        public override Uri IconSource
+            =>
+                new Uri("/ModernApplicationFramework.MVVM;component/Resources/Icons/OpenFile_16x.xaml",
+                    UriKind.RelativeOrAbsolute);
+
+        public override string Name => "Open File";
+        public override string Text => Name;
+        public override string ToolTip => "Opens an File";
+
+        internal static Task<IDocument> GetEditor(string path, Type editorType)
+        {
+            var provider = IoC.GetAllInstances(typeof(IEditorProvider))
+                              .Cast<IEditorProvider>()
+                              .FirstOrDefault(p => p.Handles(path));
+            if (provider == null)
+                return null;
+
+            var editor = provider.Create(editorType);
+
+            var viewAware = (IViewAware) editor;
+            viewAware.ViewAttached += (sender, e) =>
+            {
+                var frameworkElement = (FrameworkElement) e.View;
+
+                RoutedEventHandler loadedHandler = null;
+                loadedHandler = async (sender2, e2) =>
+                {
+                    frameworkElement.Loaded -= loadedHandler;
+                    await provider.Open((IStorableDocument) editor, path);
+                };
+                frameworkElement.Loaded += loadedHandler;
+            };
+
+            return Task.FromResult(editor);
         }
 
         private bool CanOpenFile()
@@ -60,41 +94,10 @@ namespace ModernApplicationFramework.MVVM.Commands
 
             _shell.DockingHost.OpenDocument(await GetEditor(dialog.FileName, editorType));
         }
+#pragma warning disable 649
+        [Import] private IDockingMainWindowViewModel _shell;
 
-        internal static Task<IDocument> GetEditor(string path, Type editorType)
-        {
-            var provider = IoC.GetAllInstances(typeof(IEditorProvider))
-                .Cast<IEditorProvider>()
-                .FirstOrDefault(p => p.Handles(path));
-            if (provider == null)
-                return null;
-
-            var editor = provider.Create(editorType);
-
-            var viewAware = (IViewAware)editor;
-            viewAware.ViewAttached += (sender, e) =>
-            {
-                var frameworkElement = (FrameworkElement)e.View;
-
-                RoutedEventHandler loadedHandler = null;
-                loadedHandler = async (sender2, e2) =>
-                {
-                    frameworkElement.Loaded -= loadedHandler;
-                    await provider.Open((IStorableDocument)editor, path);
-                };
-                frameworkElement.Loaded += loadedHandler;
-            };
-
-            return Task.FromResult(editor);
-        }
-
-        public override ICommand Command { get; }
-        public override string Name => "Open File";
-        public override string Text => Name;
-        public override string ToolTip => "Opens an File";
-        public override Uri IconSource => new Uri("/ModernApplicationFramework.MVVM;component/Resources/Icons/OpenFile_16x.xaml", UriKind.RelativeOrAbsolute);
-        public override string IconId => "OpenFile";
-        public override bool CanShowInMenu => true;
-        public override bool CanShowInToolbar => true;
+        [Import] private IEditorProvider _editorProvider;
+#pragma warning restore 649
     }
 }

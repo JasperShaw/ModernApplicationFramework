@@ -6,16 +6,15 @@ namespace ModernApplicationFramework.Core.Utilities
 {
     public static class ImageUtilities
     {
-       
         //http://tomelke.wordpress.com/2012/02/04/wpf-get-image-from-embedded-resource-file-from-code/
         public static Image CreateImageFromBitmapResource(string path)
         {
             var image = new Image();
-            Assembly thisassembly = Assembly.GetExecutingAssembly();
+            var thisassembly = Assembly.GetExecutingAssembly();
             var imageStream = thisassembly.GetManifestResourceStream("ModernApplicationFramework." + path);
             if (imageStream != null)
             {
-                BitmapFrame bmp = BitmapFrame.Create(imageStream);
+                var bmp = BitmapFrame.Create(imageStream);
                 image.Source = bmp;
             }
             return image;

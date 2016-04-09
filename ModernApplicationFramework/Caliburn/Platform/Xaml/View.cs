@@ -7,94 +7,97 @@ using System.Windows.Markup;
 using ModernApplicationFramework.Caliburn.Logger;
 using ModernApplicationFramework.Caliburn.Platform.Core;
 using DependencyPropertyHelper = ModernApplicationFramework.Caliburn.Platform.Utilities.DependencyPropertyHelper;
-using ExtensionMethods = ModernApplicationFramework.Caliburn.Platform.Core.ExtensionMethods;
 
 namespace ModernApplicationFramework.Caliburn.Platform.Xaml
 {
     /// <summary>
-    /// Hosts attached properties related to view models.
+    ///     Hosts attached properties related to view models.
     /// </summary>
     public static class View
     {
         /// <summary>
-        /// A dependency property which allows the override of convention application behavior.
+        ///     A dependency property which allows the override of convention application behavior.
         /// </summary>
         public static readonly DependencyProperty ApplyConventionsProperty =
             DependencyPropertyHelper.RegisterAttached(
                 "ApplyConventions",
-                typeof (bool?),
-                typeof (View)
+                typeof(bool?),
+                typeof(View)
                 );
 
         /// <summary>
-        /// A dependency property which allows the framework to track whether a certain element has already been loaded in certain scenarios.
+        ///     A dependency property which allows the framework to track whether a certain element has already been loaded in
+        ///     certain scenarios.
         /// </summary>
         public static readonly DependencyProperty IsLoadedProperty =
             DependencyPropertyHelper.RegisterAttached(
                 "IsLoaded",
-                typeof (bool),
-                typeof (View),
+                typeof(bool),
+                typeof(View),
                 false
                 );
 
         /// <summary>
-        /// A dependency property which marks an element as a name scope root.
+        ///     A dependency property which marks an element as a name scope root.
         /// </summary>
         public static readonly DependencyProperty IsScopeRootProperty =
             DependencyPropertyHelper.RegisterAttached(
                 "IsScopeRoot",
-                typeof (bool),
-                typeof (View),
+                typeof(bool),
+                typeof(View),
                 false
                 );
 
-        static readonly ContentPropertyAttribute DefaultContentProperty = new ContentPropertyAttribute("Content");
-        private static readonly ILog Log = LogManager.GetLog(typeof (View));
+        private static readonly ContentPropertyAttribute DefaultContentProperty = new ContentPropertyAttribute("Content");
+        private static readonly ILog Log = LogManager.GetLog(typeof(View));
 
         /// <summary>
-        /// A dependency property for assigning a context to a particular portion of the UI.
+        ///     A dependency property for assigning a context to a particular portion of the UI.
         /// </summary>
         public static readonly DependencyProperty ContextProperty =
             DependencyPropertyHelper.RegisterAttached(
                 "Context",
-                typeof (object),
-                typeof (View),
+                typeof(object),
+                typeof(View),
                 null,
                 OnContextChanged
                 );
 
         /// <summary>
-        /// A dependency property for attaching a model to the UI.
+        ///     A dependency property for attaching a model to the UI.
         /// </summary>
         public static DependencyProperty ModelProperty =
             DependencyPropertyHelper.RegisterAttached(
                 "Model",
-                typeof (object),
-                typeof (View),
+                typeof(object),
+                typeof(View),
                 null,
                 OnModelChanged
                 );
 
         /// <summary>
-        /// Used by the framework to indicate that this element was generated.
+        ///     Used by the framework to indicate that this element was generated.
         /// </summary>
         public static readonly DependencyProperty IsGeneratedProperty =
             DependencyPropertyHelper.RegisterAttached(
                 "IsGenerated",
-                typeof (bool),
-                typeof (View),
+                typeof(bool),
+                typeof(View),
                 false
                 );
 
 
         /// <summary>
-        /// Used to retrieve the root, non-framework-created view.
+        ///     Used to retrieve the root, non-framework-created view.
         /// </summary>
         /// <returns>The root element that was not created by the framework.</returns>
-        /// <remarks>In certain instances the services create UI elements.
-        /// For example, if you ask the window manager to show a UserControl as a dialog, it creates a window to host the UserControl in.
-        /// The WindowManager marks that element as a framework-created element so that it can determine what it created vs. what was intended by the developer.
-        /// Calling GetFirstNonGeneratedView allows the framework to discover what the original element was. 
+        /// <remarks>
+        ///     In certain instances the services create UI elements.
+        ///     For example, if you ask the window manager to show a UserControl as a dialog, it creates a window to host the
+        ///     UserControl in.
+        ///     The WindowManager marks that element as a framework-created element so that it can determine what it created vs.
+        ///     what was intended by the developer.
+        ///     Calling GetFirstNonGeneratedView allows the framework to discover what the original element was.
         /// </remarks>
         public static Func<object, object> GetFirstNonGeneratedView = view =>
         {
@@ -113,10 +116,10 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
                 }
                 var type = dependencyObject.GetType();
                 var contentProperty = type.GetAttributes<ContentPropertyAttribute>(true)
-                    .FirstOrDefault() ?? DefaultContentProperty;
+                                          .FirstOrDefault() ?? DefaultContentProperty;
 
                 return type.GetProperty(contentProperty.Name)
-                    .GetValue(dependencyObject, null);
+                           .GetValue(dependencyObject, null);
             }
 
             return dependencyObject;
@@ -126,7 +129,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
         private static bool? _inDesignMode;
 
         /// <summary>
-        /// Gets a value that indicates whether the process is running in design mode.
+        ///     Gets a value that indicates whether the process is running in design mode.
         /// </summary>
         public static bool InDesignMode
         {
@@ -135,7 +138,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
                 if (_inDesignMode != null)
                     return _inDesignMode.GetValueOrDefault(false);
                 var descriptor = DependencyPropertyDescriptor.FromProperty(
-                    DesignerProperties.IsInDesignModeProperty, typeof (FrameworkElement));
+                    DesignerProperties.IsInDesignModeProperty, typeof(FrameworkElement));
                 _inDesignMode = (bool) descriptor.Metadata.DefaultValue;
 
                 return _inDesignMode.GetValueOrDefault(false);
@@ -144,7 +147,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
 
 
         /// <summary>
-        /// Executes the handler the next time the elements's LayoutUpdated event fires.
+        ///     Executes the handler the next time the elements's LayoutUpdated event fires.
         /// </summary>
         /// <param name="element">The element.</param>
         /// <param name="handler">The handler.</param>
@@ -160,7 +163,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
         }
 
         /// <summary>
-        /// Executes the handler immediately if the element is loaded, otherwise wires it to the Loaded event.
+        ///     Executes the handler immediately if the element is loaded, otherwise wires it to the Loaded event.
         /// </summary>
         /// <param name="element">The element.</param>
         /// <param name="handler">The handler.</param>
@@ -184,7 +187,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
         }
 
         /// <summary>
-        /// Executes the handler when the element is unloaded.
+        ///     Executes the handler when the element is unloaded.
         /// </summary>
         /// <param name="element">The element.</param>
         /// <param name="handler">The handler.</param>
@@ -200,7 +203,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
         }
 
         /// <summary>
-        /// Gets the convention application behavior.
+        ///     Gets the convention application behavior.
         /// </summary>
         /// <param name="d">The element the property is attached to.</param>
         /// <returns>Whether or not to apply conventions.</returns>
@@ -210,7 +213,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
         }
 
         /// <summary>
-        /// Gets the context.
+        ///     Gets the context.
         /// </summary>
         /// <param name="d">The element the context is attached to.</param>
         /// <returns>The context.</returns>
@@ -220,7 +223,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
         }
 
         /// <summary>
-        /// Gets the model.
+        ///     Gets the model.
         /// </summary>
         /// <param name="d">The element the model is attached to.</param>
         /// <returns>The model.</returns>
@@ -230,7 +233,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
         }
 
         /// <summary>
-        /// Sets the convention application behavior.
+        ///     Sets the convention application behavior.
         /// </summary>
         /// <param name="d">The element to attach the property to.</param>
         /// <param name="value">Whether or not to apply conventions.</param>
@@ -244,8 +247,8 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
             try
             {
                 var type = targetLocation.GetType();
-                var contentProperty = ExtensionMethods.GetAttributes<ContentPropertyAttribute>(type, true)
-                    .FirstOrDefault() ?? DefaultContentProperty;
+                var contentProperty = type.GetAttributes<ContentPropertyAttribute>(true)
+                                          .FirstOrDefault() ?? DefaultContentProperty;
 
                 type.GetProperty(contentProperty.Name)
                     .SetValue(targetLocation, view, null);
@@ -261,7 +264,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
         }
 
         /// <summary>
-        /// Sets the context.
+        ///     Sets the context.
         /// </summary>
         /// <param name="d">The element to attach the context to.</param>
         /// <param name="value">The context.</param>
@@ -271,7 +274,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
         }
 
         /// <summary>
-        /// Sets the model.
+        ///     Sets the model.
         /// </summary>
         /// <param name="d">The element to attach the model to.</param>
         /// <param name="value">The model.</param>
@@ -280,7 +283,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
             d.SetValue(ModelProperty, value);
         }
 
-        static void OnContextChanged(DependencyObject targetLocation, DependencyPropertyChangedEventArgs e)
+        private static void OnContextChanged(DependencyObject targetLocation, DependencyPropertyChangedEventArgs e)
         {
             if (e.OldValue == e.NewValue)
             {
@@ -307,7 +310,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
             ViewModelBinder.Bind(model, view, e.NewValue);
         }
 
-        static void OnModelChanged(DependencyObject targetLocation, DependencyPropertyChangedEventArgs args)
+        private static void OnModelChanged(DependencyObject targetLocation, DependencyPropertyChangedEventArgs args)
         {
             if (args.OldValue == args.NewValue)
             {

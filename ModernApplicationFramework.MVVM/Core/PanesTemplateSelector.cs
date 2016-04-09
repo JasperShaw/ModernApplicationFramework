@@ -4,7 +4,7 @@ using ModernApplicationFramework.MVVM.Interfaces;
 
 namespace ModernApplicationFramework.MVVM.Core
 {
-    class PanesTemplateSelector : DataTemplateSelector
+    internal class PanesTemplateSelector : DataTemplateSelector
     {
         public DataTemplate DocumentTemplate { get; set; }
 

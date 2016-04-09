@@ -6,10 +6,10 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Commands.Service;
-using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using MenuItem = ModernApplicationFramework.Controls.MenuItem;
+using Separator = ModernApplicationFramework.Controls.Separator;
 
 namespace ModernApplicationFramework.Utilities
 {
@@ -118,14 +118,14 @@ namespace ModernApplicationFramework.Utilities
                     tempList.Remove(subDefinitonItem);
                     if (subDefinitonItem.Name == "Separator")
                     {
-                        topItem.Items.Add(new Controls.Separator());
+                        topItem.Items.Add(new Separator());
                     }
                     else
                     {
                         var subItem = CreateItem(subDefinitonItem);
                         CreateItemsRecursive(subDefinitonItem, subItem, list);
                         topItem.Items.Add(subItem);
-                    }                    
+                    }
                 }
 
                 //Normal Items which can be added directly

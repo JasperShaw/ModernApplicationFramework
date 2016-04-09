@@ -15,6 +15,11 @@ namespace ModernApplicationFramework.Controls
             DataContext = new MenuHostViewModel(this);
         }
 
+        public void Connect(int connectionId, object target)
+        {
+            _contentLoaded = true;
+        }
+
         private void InitializeComponent()
         {
             if (_contentLoaded)
@@ -22,11 +27,6 @@ namespace ModernApplicationFramework.Controls
             _contentLoaded = true;
             Application.LoadComponent(this,
                 new Uri("/ModernApplicationFramework;component/Themes/Generic/MenuHostControl.xaml", UriKind.Relative));
-        }
-
-        public void Connect(int connectionId, object target)
-        {
-            _contentLoaded = true;
         }
     }
 }

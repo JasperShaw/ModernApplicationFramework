@@ -4,12 +4,12 @@ using System.Collections.Generic;
 namespace ModernApplicationFramework.Caliburn.Extensions
 {
     /// <summary>
-    /// Extension methods for <see cref="IEnumerable&lt;T&gt;"/>
+    ///     Extension methods for <see cref="IEnumerable{T}" />
     /// </summary>
     public static class EnumerableExtensions
     {
         /// <summary>
-        /// Applies the action to each element in the list.
+        ///     Applies the action to each element in the list.
         /// </summary>
         /// <typeparam name="T">The enumerable item's type.</typeparam>
         /// <param name="enumerable">The elements to enumerate.</param>

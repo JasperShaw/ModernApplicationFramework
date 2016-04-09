@@ -6,7 +6,7 @@ namespace ModernApplicationFramework.Controls
     {
         static Menu()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof (Menu), new FrameworkPropertyMetadata(typeof (Menu)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(Menu), new FrameworkPropertyMetadata(typeof(Menu)));
         }
     }
 }

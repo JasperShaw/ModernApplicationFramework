@@ -12,19 +12,17 @@ using ModernApplicationFramework.MVVM.Interfaces;
 
 namespace ModernApplicationFramework.MVVM.ViewModels
 {
-    [Export(typeof (IDockingHostViewModel))]
+    [Export(typeof(IDockingHostViewModel))]
     public class DockingHostViewModel : Conductor<IDocument>.Collection.OneActive, IDockingHostViewModel
     {
         private readonly BindableCollection<ITool> _tools;
-
         private ILayoutItem _activeLayoutItem;
         private bool _closing;
-
         private IDockingHost _dockingHostView;
 #pragma warning disable 649
         [Import] private ILayoutItemStatePersister _layoutItemStatePersister;
 
-        [ImportMany(typeof (IModule))] private IEnumerable<IModule> _modules;
+        [ImportMany(typeof(IModule))] private IEnumerable<IModule> _modules;
 #pragma warning disable 649
         private bool _showFloatingWindowsInTaskbar;
 

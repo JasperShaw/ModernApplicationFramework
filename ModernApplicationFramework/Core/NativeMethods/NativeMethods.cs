@@ -1431,110 +1431,11 @@ namespace ModernApplicationFramework.Core.NativeMethods
     {
         private static int _vsmNotifyOwnerActivate;
 
-        [DllImport("shlwapi.dll", CharSet = CharSet.Unicode)]
-        public static extern int StrCmpLogicalW(string value1, string value2);
+        public delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
 
-        [DllImport("kernel32.dll", EntryPoint = "SetLastError")]
-		public static extern void SetLastError(int dwErrorCode);
-
-		[DllImport("user32.dll", EntryPoint = "SetWindowLongPtr", SetLastError = true)]
-		private static extern IntPtr IntSetWindowLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
-
-		[DllImport("user32.dll", EntryPoint = "SetWindowLong", SetLastError = true)]
-		private static extern int IntSetWindowLong(IntPtr hWnd, int nIndex, Int32 dwNewLong);
-
-		private static int IntPtrToInt32(IntPtr intPtr)
-		{
-			return unchecked((int)intPtr.ToInt64());
-		}
-
-		public static IntPtr SetWindowLongShadow(IntPtr hWnd, int nIndex, IntPtr dwNewLong)
-		{
-			int error;
-			IntPtr result;
-			// Win32 SetWindowLong doesn't clear error on success
-			SetLastError(0);
-
-			if (IntPtr.Size == 4)
-			{
-				// use SetWindowLong
-				var tempResult = IntSetWindowLong(hWnd, nIndex, IntPtrToInt32(dwNewLong));
-				error = Marshal.GetLastWin32Error();
-				result = new IntPtr(tempResult);
-			}
-			else
-			{
-				// use SetWindowLongPtr
-				result = IntSetWindowLongPtr(hWnd, nIndex, dwNewLong);
-				error = Marshal.GetLastWin32Error();
-			}
-
-			if ((result == IntPtr.Zero) && (error != 0))
-			{
-				throw new Win32Exception(error);
-			}
-
-			return result;
-		}
-
-
-		[DllImport("Gdi32.dll", CallingConvention = CallingConvention.StdCall)]
-        internal static extern IntPtr CreateRoundRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect, int nWidthEllipse, int nHeightEllipse);
-
-        [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool IsWindow(IntPtr hWnd);
-
-        public static void SetOwner(IntPtr childHandle, IntPtr ownerHandle)
-        {
-            SetWindowLong(
-                childHandle,
-                -8, // GWL_HWNDPARENT
-                ownerHandle.ToInt32());
-        }
-
-        [DllImport("user32.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
-        internal static extern IntPtr GetParent(IntPtr hWnd);
-
-        [DllImport("user32.dll")]
-        internal static extern IntPtr GetSystemMenu(IntPtr hwnd, bool bRevert);
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool EnableMenuItem(IntPtr menu, uint uIdEnableItem, uint uEnable);
-
-        [DllImport("user32.dll")]
-        internal static extern int TrackPopupMenuEx(IntPtr hmenu, uint fuFlags, int x, int y, IntPtr hwnd, IntPtr lptpm);
-
-        [DllImport("user32.dll")]
-        internal static extern int GetSystemMetrics(int index);
-
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool ShowOwnedPopups(IntPtr hwnd, [MarshalAs(UnmanagedType.Bool)] bool fShow);
-
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        private static extern IntPtr SetWindowLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
-
-        public static IntPtr SetWindowLongPtr(IntPtr hWnd, Gwlp nIndex, IntPtr dwNewLong)
-        {
-            if (IntPtr.Size == 8)
-                return SetWindowLongPtr(hWnd, (int)nIndex, dwNewLong);
-            return new IntPtr(SetWindowLong(hWnd, (int)nIndex, dwNewLong.ToInt32()));
-        }
-
-        [DllImport("Gdi32.dll", CallingConvention = CallingConvention.StdCall)]
-        internal static extern IntPtr CreateRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect);
-
-
-        [DllImport("Gdi32.dll", CallingConvention = CallingConvention.StdCall)]
-        private static extern int CombineRgn(IntPtr hrngDest, IntPtr hrgnSrc1, IntPtr hrgnSrc2, int fnCombineMode);
-
-        internal static int CombineRgn(IntPtr hrnDest, IntPtr hrgnSrc1, IntPtr hrgnSrc2, CombineMode combineMode)
-        {
-            return CombineRgn(hrnDest, hrgnSrc1, hrgnSrc2, (int)combineMode);
-        }
+        internal delegate bool EnumMonitorsDelegate(
+            IntPtr hMonitor, IntPtr hdcMonitor, ref RECT lprcMonitor, IntPtr dwData);
 
         public enum CombineMode
         {
@@ -1544,23 +1445,32 @@ namespace ModernApplicationFramework.Core.NativeMethods
             RgnXor = 3,
             RgnDiff = 4,
             RgnCopy = 5,
-            RgnMax = 5,
+            RgnMax = 5
         }
 
-
-        [DllImport("user32", SetLastError = true, CharSet = CharSet.Unicode)]
-        internal static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+        public static int Notifyowneractivate
+        {
+            get
+            {
+                if (_vsmNotifyOwnerActivate == 0)
+                    _vsmNotifyOwnerActivate =
+                        RegisterWindowMessage("NOTIFYOWNERACTIVATE{A982313C-756C-4da9-8BD0-0C375A45784B}");
+                return _vsmNotifyOwnerActivate;
+            }
+        }
 
         [DllImport("gdi32.dll")]
         public static extern IntPtr CreateSolidBrush(int colorref);
 
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        public static extern IntPtr CreateWindowEx(int dwExStyle, IntPtr classAtom, string lpWindowName, int dwStyle,
+                                                   int x, int y, int nWidth, int nHeight, IntPtr hWndParent,
+                                                   IntPtr hMenu, IntPtr hInstance, IntPtr lpParam);
+
         [DllImport("gdi32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DeleteObject(IntPtr hObject);
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool UpdateLayeredWindow(IntPtr hwnd, IntPtr hdcDest, ref Point pptDest, ref SIZE psize, IntPtr hdcSrc, ref Point pptSrc, uint crKey, [In] ref Blendfunction pblend, uint dwFlags);
 
 
         public static bool DeleteObject(HandleRef hObject)
@@ -1570,43 +1480,29 @@ namespace ModernApplicationFramework.Core.NativeMethods
 
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool FillRect(IntPtr hDc, ref RECT rect, IntPtr hbrush);
-
-        [DllImport("user32.dll")]
-        public static extern bool RedrawWindow(IntPtr hWnd, IntPtr lprcUpdate, IntPtr hrgnUpdate, RedrawWindowFlags flags);
-
+        public static extern bool EnumThreadWindows(uint dwThreadId, EnumWindowsProc lpfn, IntPtr lParam);
 
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool ClientToScreen(IntPtr hWnd, ref Point point);
+        public static extern bool FillRect(IntPtr hDc, ref RECT rect, IntPtr hbrush);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetClientRect(IntPtr hwnd, out RECT lpRect);
+
+        [DllImport("kernel32.dll")]
+        public static extern uint GetCurrentThreadId();
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetWindow(IntPtr hwnd, int nCmd);
 
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetWindowInfo(IntPtr hwnd, ref Windowinfo pwi);
 
-
-        [DllImport("User32.dll")]
-        internal static extern IntPtr GetDCEx(IntPtr hWnd, IntPtr hrgnClip, int dwFlags);
-
-        [DllImport("shell32", CallingConvention = CallingConvention.StdCall)]
-        internal static extern int SHAppBarMessage(int dwMessage, ref Appbardata pData);
-
-        [DllImport("user32.dll")]
-        internal static extern IntPtr PostMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
-
-        [DllImport("user32")]
-        internal static extern bool GetMonitorInfo(IntPtr hMonitor, MonitorInfo lpmi);
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool GetMonitorInfo(IntPtr hMonitor, ref Monitorinfo monitorInfo);
-
-        [DllImport("user32.dll")]
-        private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
-
         public static int GetWindowLong(IntPtr hWnd, Gwl nIndex)
         {
-            return GetWindowLong(hWnd, (int)nIndex);
+            return GetWindowLong(hWnd, (int) nIndex);
         }
 
         public static int GetWindowLong2(IntPtr hWnd, int nIndex)
@@ -1614,43 +1510,169 @@ namespace ModernApplicationFramework.Core.NativeMethods
             return GetWindowLong32(hWnd, nIndex);
         }
 
+        [DllImport("user32.dll", EntryPoint = "GetWindowLong", CharSet = CharSet.Auto)]
+        public static extern int GetWindowLong32(IntPtr hWnd, int nIndex);
+
+
+        public static Windowplacement GetWindowPlacement(IntPtr hwnd)
+        {
+            var lpwndpl = new Windowplacement();
+            if (GetWindowPlacement(hwnd, lpwndpl))
+                return lpwndpl;
+            throw new Win32Exception(Marshal.GetLastWin32Error());
+        }
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetWindowRect(IntPtr hwnd, out RECT lpRect);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool IsIconic(IntPtr hwnd);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool IsWindowVisible(IntPtr hwnd);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool IsZoomed(IntPtr hwnd);
+
+        [DllImport("user32.dll")]
+        public static extern bool RedrawWindow(IntPtr hWnd, IntPtr lprcUpdate, IntPtr hrgnUpdate,
+                                               RedrawWindowFlags flags);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        public static extern int RegisterWindowMessage(string lpString);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        public static extern IntPtr SendMessage(IntPtr hWnd, int nMsg, IntPtr wParam, IntPtr lParam);
+
+        [DllImport("kernel32.dll", EntryPoint = "SetLastError")]
+        public static extern void SetLastError(int dwErrorCode);
+
+        public static void SetOwner(IntPtr childHandle, IntPtr ownerHandle)
+        {
+            SetWindowLong(
+                childHandle,
+                -8, // GWL_HWNDPARENT
+                ownerHandle.ToInt32());
+        }
+
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         public static extern int SetWindowLong(IntPtr hWnd, short nIndex, int value);
 
         public static IntPtr SetWindowLong(IntPtr hWnd, int nIndex, IntPtr dwNewLong)
         {
-            return IntPtr.Size == 4 ? SetWindowLongPtr32(hWnd, nIndex, dwNewLong) : SetWindowLongPtr64(hWnd, nIndex, dwNewLong);
+            return IntPtr.Size == 4
+                ? SetWindowLongPtr32(hWnd, nIndex, dwNewLong)
+                : SetWindowLongPtr64(hWnd, nIndex, dwNewLong);
         }
 
-		[DllImport("user32.dll", EntryPoint = "SetWindowLong", CharSet = CharSet.Auto)]
+        public static int SetWindowLong(IntPtr hWnd, Gwl nIndex, int dwNewLong)
+        {
+            return SetWindowLong(hWnd, (int) nIndex, dwNewLong);
+        }
+
+        public static IntPtr SetWindowLongPtr(IntPtr hWnd, Gwlp nIndex, IntPtr dwNewLong)
+        {
+            if (IntPtr.Size == 8)
+                return SetWindowLongPtr(hWnd, (int) nIndex, dwNewLong);
+            return new IntPtr(SetWindowLong(hWnd, (int) nIndex, dwNewLong.ToInt32()));
+        }
+
+        [DllImport("user32.dll", EntryPoint = "SetWindowLong", CharSet = CharSet.Auto)]
         public static extern IntPtr SetWindowLongPtr32(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
 
         [DllImport("user32.dll", EntryPoint = "SetWindowLongPtr", CharSet = CharSet.Auto)]
         public static extern IntPtr SetWindowLongPtr64(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
 
-        [DllImport("user32.dll", EntryPoint = "GetWindowLong", CharSet = CharSet.Auto)]
-        public static extern int GetWindowLong32(IntPtr hWnd, int nIndex);
-
-        internal static IntPtr MakeParam(int lowWord, int highWord)
+        public static IntPtr SetWindowLongShadow(IntPtr hWnd, int nIndex, IntPtr dwNewLong)
         {
-            return new IntPtr(lowWord & ushort.MaxValue | highWord << 16);
-        }
+            int error;
+            IntPtr result;
+            // Win32 SetWindowLong doesn't clear error on success
+            SetLastError(0);
 
-        public static int Notifyowneractivate
-        {
-            get
+            if (IntPtr.Size == 4)
             {
-                if (_vsmNotifyOwnerActivate == 0)
-                    _vsmNotifyOwnerActivate = RegisterWindowMessage("NOTIFYOWNERACTIVATE{A982313C-756C-4da9-8BD0-0C375A45784B}");
-                return _vsmNotifyOwnerActivate;
+                // use SetWindowLong
+                var tempResult = IntSetWindowLong(hWnd, nIndex, IntPtrToInt32(dwNewLong));
+                error = Marshal.GetLastWin32Error();
+                result = new IntPtr(tempResult);
             }
+            else
+            {
+                // use SetWindowLongPtr
+                result = IntSetWindowLongPtr(hWnd, nIndex, dwNewLong);
+                error = Marshal.GetLastWin32Error();
+            }
+
+            if ((result == IntPtr.Zero) && (error != 0))
+            {
+                throw new Win32Exception(error);
+            }
+
+            return result;
         }
 
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        public static extern int RegisterWindowMessage(string lpString);
+        [DllImport("User32", CharSet = CharSet.Auto)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy,
+                                               int flags);
+
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool ShowOwnedPopups(IntPtr hwnd, [MarshalAs(UnmanagedType.Bool)] bool fShow);
+
+        [DllImport("shlwapi.dll", CharSet = CharSet.Unicode)]
+        public static extern int StrCmpLogicalW(string value1, string value2);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool UpdateLayeredWindow(IntPtr hwnd, IntPtr hdcDest, ref Point pptDest, ref SIZE psize,
+                                                      IntPtr hdcSrc, ref Point pptSrc, uint crKey,
+                                                      [In] ref Blendfunction pblend, uint dwFlags);
+
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool ClientToScreen(IntPtr hWnd, ref Point point);
+
+        internal static int CombineRgn(IntPtr hrnDest, IntPtr hrgnSrc1, IntPtr hrgnSrc2, CombineMode combineMode)
+        {
+            return CombineRgn(hrnDest, hrgnSrc1, hrgnSrc2, (int) combineMode);
+        }
+
+        [DllImport("Gdi32.dll", CallingConvention = CallingConvention.StdCall)]
+        internal static extern IntPtr CreateRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect);
+
+
+        [DllImport("Gdi32.dll", CallingConvention = CallingConvention.StdCall)]
+        internal static extern IntPtr CreateRectRgnIndirect(ref RECT lprc);
+
+
+        [DllImport("Gdi32.dll", CallingConvention = CallingConvention.StdCall)]
+        internal static extern IntPtr CreateRoundRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect,
+                                                         int nWidthEllipse, int nHeightEllipse);
+
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+        internal static extern IntPtr DefWindowProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool EnableMenuItem(IntPtr menu, uint uIdEnableItem, uint uEnable);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool EnumDisplayMonitors(IntPtr hdc, IntPtr lprcClip, EnumMonitorsDelegate lpfnEnum,
+                                                        IntPtr dwData);
+
+
+        [DllImport("user32", SetLastError = true, CharSet = CharSet.Unicode)]
+        internal static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -1658,7 +1680,7 @@ namespace ModernApplicationFramework.Core.NativeMethods
 
         internal static System.Windows.Point GetCursorPos()
         {
-            var point1 = new Point()
+            var point1 = new Point
             {
                 X = 0,
                 Y = 0
@@ -1671,83 +1693,34 @@ namespace ModernApplicationFramework.Core.NativeMethods
             return point2;
         }
 
-        public static int SetWindowLong(IntPtr hWnd, Gwl nIndex, int dwNewLong)
-        {
-            return SetWindowLong(hWnd, (int)nIndex, dwNewLong);
-        }
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool IntersectRect(out RECT lprcDst, [In] ref RECT lprcSrc1, [In] ref RECT lprcSrc2);
-
-
-        [DllImport("user32.dll")]
-        internal static extern IntPtr MonitorFromPoint(Point pt, int flags);
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool EnumDisplayMonitors(IntPtr hdc, IntPtr lprcClip, EnumMonitorsDelegate lpfnEnum, IntPtr dwData);
-
-        [return: MarshalAs(UnmanagedType.Bool)]
-        internal delegate bool EnumMonitorsDelegate(IntPtr hMonitor, IntPtr hdcMonitor, ref RECT lprcMonitor, IntPtr dwData);
-
-
-
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        internal static extern IntPtr DefWindowProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool ScreenToClient(IntPtr hWnd, ref Point point);
-
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-        public static extern IntPtr SendMessage(IntPtr hWnd, int nMsg, IntPtr wParam, IntPtr lParam);
-
-        internal static IntPtr SendMessage(IntPtr hwnd, int msg)
-        {
-            return SendMessage(hwnd, msg, IntPtr.Zero, IntPtr.Zero);
-        }
-
-        internal static IntPtr SendMessage(IntPtr hwnd, int msg, IntPtr wParam)
-        {
-            return SendMessage(hwnd, msg, wParam, IntPtr.Zero);
-        }
-        [DllImport("user32.dll")]
-        internal static extern short GetKeyState(int vKey);
-        internal static bool IsKeyPressed(int vKey)
-        {
-            return GetKeyState(vKey) < 0;
-        }
-
-
-        [DllImport("Gdi32.dll", CallingConvention = CallingConvention.StdCall)]
-        internal static extern IntPtr CreateRectRgnIndirect(ref RECT lprc);
-
-        [DllImport("User32.dll", CallingConvention = CallingConvention.StdCall)]
-        internal static extern int SetWindowRgn(IntPtr hWnd, IntPtr hRgn, [MarshalAs(UnmanagedType.Bool)] bool redraw);
-
-
-        [DllImport("User32")]
-        internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
-
         [DllImport("User32.dll", CallingConvention = CallingConvention.StdCall)]
         internal static extern IntPtr GetDC(IntPtr hWnd);
+
+
+        [DllImport("User32.dll")]
+        internal static extern IntPtr GetDCEx(IntPtr hWnd, IntPtr hrgnClip, int dwFlags);
 
         [DllImport("Gdi32.dll", CallingConvention = CallingConvention.StdCall)]
         internal static extern int GetDeviceCaps(IntPtr hdc, int nIndex);
 
-        [DllImport("User32.dll", CallingConvention = CallingConvention.StdCall)]
-        internal static extern int ReleaseDC(IntPtr hWnd, IntPtr hDc);
+        [DllImport("user32.dll")]
+        internal static extern short GetKeyState(int vKey);
 
-        // ReSharper disable once InconsistentNaming
-        internal static int ReleaseDC(HandleRef hWnd, HandleRef hDc)
-        {
-            return ReleaseDC(hWnd.Handle, hDc.Handle);
-        }
+        [DllImport("user32")]
+        internal static extern bool GetMonitorInfo(IntPtr hMonitor, MonitorInfo lpmi);
 
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetWindowRect(IntPtr hwnd, out RECT lpRect);
+        internal static extern bool GetMonitorInfo(IntPtr hMonitor, ref Monitorinfo monitorInfo);
+
+        [DllImport("user32.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
+        internal static extern IntPtr GetParent(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        internal static extern IntPtr GetSystemMenu(IntPtr hwnd, bool bRevert);
+
+        [DllImport("user32.dll")]
+        internal static extern int GetSystemMetrics(int index);
 
         internal static int GetXlParam(int lParam)
         {
@@ -1761,63 +1734,102 @@ namespace ModernApplicationFramework.Core.NativeMethods
 
         internal static int HiWord(int value)
         {
-            return (short)(value >> 16);
+            return (short) (value >> 16);
         }
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool IntersectRect(out RECT lprcDst, [In] ref RECT lprcSrc1, [In] ref RECT lprcSrc2);
+
+        internal static bool IsKeyPressed(int vKey)
+        {
+            return GetKeyState(vKey) < 0;
+        }
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool IsWindow(IntPtr hWnd);
 
         internal static int LoWord(int value)
         {
-            return (short)(value & ushort.MaxValue);
+            return (short) (value & ushort.MaxValue);
         }
+
+        internal static IntPtr MakeParam(int lowWord, int highWord)
+        {
+            return new IntPtr(lowWord & ushort.MaxValue | highWord << 16);
+        }
+
+
+        [DllImport("user32.dll")]
+        internal static extern IntPtr MonitorFromPoint(Point pt, int flags);
+
+
+        [DllImport("User32")]
+        internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
+
+        [DllImport("user32.dll")]
+        internal static extern IntPtr PostMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
+
+        [DllImport("User32.dll", CallingConvention = CallingConvention.StdCall)]
+        internal static extern int ReleaseDC(IntPtr hWnd, IntPtr hDc);
+
+        // ReSharper disable once InconsistentNaming
+        internal static int ReleaseDC(HandleRef hWnd, HandleRef hDc)
+        {
+            return ReleaseDC(hWnd.Handle, hDc.Handle);
+        }
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool ScreenToClient(IntPtr hWnd, ref Point point);
+
+        internal static IntPtr SendMessage(IntPtr hwnd, int msg)
+        {
+            return SendMessage(hwnd, msg, IntPtr.Zero, IntPtr.Zero);
+        }
+
+        internal static IntPtr SendMessage(IntPtr hwnd, int msg, IntPtr wParam)
+        {
+            return SendMessage(hwnd, msg, wParam, IntPtr.Zero);
+        }
+
+        [DllImport("User32.dll", CallingConvention = CallingConvention.StdCall)]
+        internal static extern int SetWindowRgn(IntPtr hWnd, IntPtr hRgn, [MarshalAs(UnmanagedType.Bool)] bool redraw);
+
+        [DllImport("shell32", CallingConvention = CallingConvention.StdCall)]
+        internal static extern int SHAppBarMessage(int dwMessage, ref Appbardata pData);
+
+        [DllImport("user32.dll")]
+        internal static extern int TrackPopupMenuEx(IntPtr hmenu, uint fuFlags, int x, int y, IntPtr hwnd, IntPtr lptpm);
+
+
+        [DllImport("Gdi32.dll", CallingConvention = CallingConvention.StdCall)]
+        private static extern int CombineRgn(IntPtr hrngDest, IntPtr hrgnSrc1, IntPtr hrgnSrc2, int fnCombineMode);
+
+        [DllImport("user32.dll")]
+        private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
 
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool GetWindowPlacement(IntPtr hwnd, Windowplacement lpwndpl);
 
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool IsWindowVisible(IntPtr hwnd);
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool IsIconic(IntPtr hwnd);
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool IsZoomed(IntPtr hwnd);
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetClientRect(IntPtr hwnd, out RECT lpRect);
-
-
-        public static Windowplacement GetWindowPlacement(IntPtr hwnd)
+        private static int IntPtrToInt32(IntPtr intPtr)
         {
-            var lpwndpl = new Windowplacement();
-            if (GetWindowPlacement(hwnd, lpwndpl))
-                return lpwndpl;
-            throw new Win32Exception(Marshal.GetLastWin32Error());
+            return unchecked((int) intPtr.ToInt64());
         }
 
-        [DllImport("User32", CharSet = CharSet.Auto)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, int flags);
+        [DllImport("user32.dll", EntryPoint = "SetWindowLong", SetLastError = true)]
+        private static extern int IntSetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
+        [DllImport("user32.dll", EntryPoint = "SetWindowLongPtr", SetLastError = true)]
+        private static extern IntPtr IntSetWindowLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
 
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-        public static extern IntPtr CreateWindowEx(int dwExStyle, IntPtr classAtom, string lpWindowName, int dwStyle,
-            int x, int y, int nWidth, int nHeight, IntPtr hWndParent, IntPtr hMenu, IntPtr hInstance, IntPtr lpParam);
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
-        [DllImport("user32.dll")]
-        public static extern IntPtr GetWindow(IntPtr hwnd, int nCmd);
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool EnumThreadWindows(uint dwThreadId, EnumWindowsProc lpfn, IntPtr lParam);
-
-        public delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
-
-        [DllImport("kernel32.dll")]
-        public static extern uint GetCurrentThreadId();
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        private static extern IntPtr SetWindowLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
 
         internal struct Blendfunction
         {
@@ -1826,6 +1838,5 @@ namespace ModernApplicationFramework.Core.NativeMethods
             public byte SourceConstantAlpha;
             public byte AlphaFormat;
         }
-
     }
 }

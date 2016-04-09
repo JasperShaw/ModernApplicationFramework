@@ -5,17 +5,17 @@ using ModernApplicationFramework.Caliburn.Logger;
 namespace ModernApplicationFramework.Caliburn.Result
 {
     /// <summary>
-    /// A result decorator which rescues errors from the decorated result by executing a rescue coroutine.
+    ///     A result decorator which rescues errors from the decorated result by executing a rescue coroutine.
     /// </summary>
     /// <typeparam name="TException">The type of the exception we want to perform the rescue on</typeparam>
     public class RescueResultDecorator<TException> : ResultDecoratorBase where TException : Exception
     {
-        private static readonly ILog Log = LogManager.GetLog(typeof (RescueResultDecorator<>));
-        readonly bool _cancelResult;
-        readonly Func<TException, IResult> _coroutine;
+        private static readonly ILog Log = LogManager.GetLog(typeof(RescueResultDecorator<>));
+        private readonly bool _cancelResult;
+        private readonly Func<TException, IResult> _coroutine;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RescueResultDecorator&lt;TException&gt;"/> class.
+        ///     Initializes a new instance of the <see cref="RescueResultDecorator&lt;TException&gt;" /> class.
         /// </summary>
         /// <param name="result">The result to decorate.</param>
         /// <param name="coroutine">The rescue coroutine.</param>
@@ -31,13 +31,13 @@ namespace ModernApplicationFramework.Caliburn.Result
         }
 
         /// <summary>
-        /// Called when the execution of the decorated result has completed.
+        ///     Called when the execution of the decorated result has completed.
         /// </summary>
         /// <param name="context">The context.</param>
         /// <param name="innerResult">The decorated result.</param>
         /// <param name="args">The <see cref="ResultCompletionEventArgs" /> instance containing the event data.</param>
         protected override void OnInnerResultCompleted(CoroutineExecutionContext context, IResult innerResult,
-            ResultCompletionEventArgs args)
+                                                       ResultCompletionEventArgs args)
         {
             var error = args.Error as TException;
             if (error == null)
@@ -52,7 +52,7 @@ namespace ModernApplicationFramework.Caliburn.Result
             }
         }
 
-        void Rescue(CoroutineExecutionContext context, TException exception)
+        private void Rescue(CoroutineExecutionContext context, TException exception)
         {
             IResult rescueResult;
             try
@@ -77,13 +77,13 @@ namespace ModernApplicationFramework.Caliburn.Result
             }
         }
 
-        void RescueCompleted(object sender, ResultCompletionEventArgs args)
+        private void RescueCompleted(object sender, ResultCompletionEventArgs args)
         {
             ((IResult) sender).Completed -= RescueCompleted;
             OnCompleted(new ResultCompletionEventArgs
             {
                 Error = args.Error,
-                WasCancelled = (args.Error == null && (args.WasCancelled || _cancelResult))
+                WasCancelled = args.Error == null && (args.WasCancelled || _cancelResult)
             });
         }
     }

@@ -8,7 +8,7 @@ namespace ModernApplicationFramework.Commands
     public class Command<T> : CommandBase
     {
         public Command(Action<T> executeMethod, Func<T, bool> canExecuteMethod)
-            : base(o => executeMethod((T)o), o => canExecuteMethod((T)o))
+            : base(o => executeMethod((T) o), o => canExecuteMethod((T) o))
         {
             if (executeMethod == null || canExecuteMethod == null)
                 throw new ArgumentNullException(nameof(executeMethod));
@@ -17,13 +17,25 @@ namespace ModernApplicationFramework.Commands
 
             if (!genericTypeInfo.IsValueType)
                 return;
-            if ((!genericTypeInfo.IsGenericType) || (!typeof(Nullable<>).GetTypeInfo().IsAssignableFrom(genericTypeInfo.GetGenericTypeDefinition().GetTypeInfo())))
+            if (!genericTypeInfo.IsGenericType
+                || !typeof(Nullable<>).GetTypeInfo()
+                                      .IsAssignableFrom(genericTypeInfo.GetGenericTypeDefinition().GetTypeInfo()))
                 throw new InvalidCastException();
+        }
+
+        public Command(Func<T, Task> executeMethod) : this(executeMethod, o => true) {}
+
+        private Command(Func<T, Task> executeMethod, Func<T, bool> canExecuteMethod)
+            : base(o => executeMethod((T) o), o => canExecuteMethod((T) o))
+        {
+            if (executeMethod == null || canExecuteMethod == null)
+                throw new ArgumentNullException(nameof(executeMethod));
         }
 
         public static Command<T> FromAsyncHandler(Func<T, Task> executeMethod) => new Command<T>(executeMethod);
 
-        public static Command<T> FromAsyncHandler(Func<T, Task> executeMethod, Func<T, bool> canExecuteMethod) => new Command<T>(executeMethod, canExecuteMethod);
+        public static Command<T> FromAsyncHandler(Func<T, Task> executeMethod, Func<T, bool> canExecuteMethod)
+            => new Command<T>(executeMethod, canExecuteMethod);
 
         public virtual bool CanExecute(T parameter)
         {
@@ -33,17 +45,6 @@ namespace ModernApplicationFramework.Commands
         public virtual async Task Execute(T parameter)
         {
             await base.Execute(parameter);
-        }
-
-        public Command(Func<T, Task> executeMethod) : this(executeMethod, o => true)
-        {
-
-        }
-
-        private Command(Func<T, Task> executeMethod, Func<T, bool> canExecuteMethod) : base(o => executeMethod((T)o), o => canExecuteMethod((T)o))
-        {
-            if (executeMethod == null || canExecuteMethod == null)
-                throw new ArgumentNullException(nameof(executeMethod));
         }
     }
 }

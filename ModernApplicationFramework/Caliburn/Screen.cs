@@ -6,23 +6,50 @@ using ModernApplicationFramework.Caliburn.Logger;
 namespace ModernApplicationFramework.Caliburn
 {
     /// <summary>
-    /// A base implementation of <see cref = "IScreen" />.
+    ///     A base implementation of <see cref="IScreen" />.
     /// </summary>
     public class Screen : ViewAware, IScreen, IChild
     {
-        static readonly ILog Log = LogManager.GetLog(typeof (Screen));
-        string _displayName;
+        private static readonly ILog Log = LogManager.GetLog(typeof(Screen));
+        private string _displayName;
 
-        bool _isActive;
-        bool _isInitialized;
-        object _parent;
+        private bool _isActive;
+        private bool _isInitialized;
+        private object _parent;
 
         /// <summary>
-        /// Creates an instance of the screen.
+        ///     Creates an instance of the screen.
         /// </summary>
         public Screen()
         {
             _displayName = GetType().FullName;
+        }
+
+        /// <summary>
+        ///     Indicates whether or not this instance is currently initialized.
+        ///     Virtualized in order to help with document oriented view models.
+        /// </summary>
+        public virtual bool IsInitialized
+        {
+            get { return _isInitialized; }
+            private set
+            {
+                _isInitialized = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        /// <summary>
+        ///     Gets or Sets the Parent <see cref="IConductor" />
+        /// </summary>
+        public virtual object Parent
+        {
+            get { return _parent; }
+            set
+            {
+                _parent = value;
+                NotifyOfPropertyChange();
+            }
         }
 
         void IActivate.Activate()
@@ -52,13 +79,13 @@ namespace ModernApplicationFramework.Caliburn
         }
 
         /// <summary>
-        /// Raised after activation occurs.
+        ///     Raised after activation occurs.
         /// </summary>
         public virtual event EventHandler<ActivationEventArgs> Activated = delegate { };
 
         /// <summary>
-        /// Indicates whether or not this instance is currently active.
-        /// Virtualized in order to help with document oriented view models.
+        ///     Indicates whether or not this instance is currently active.
+        ///     Virtualized in order to help with document oriented view models.
         /// </summary>
         public virtual bool IsActive
         {
@@ -71,21 +98,9 @@ namespace ModernApplicationFramework.Caliburn
         }
 
         /// <summary>
-        /// Gets or Sets the Parent <see cref = "IConductor" />
-        /// </summary>
-        public virtual object Parent
-        {
-            get { return _parent; }
-            set
-            {
-                _parent = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        /// <summary>
-        /// Tries to close this instance by asking its Parent to initiate shutdown or by asking its corresponding view to close.
-        /// Also provides an opportunity to pass a dialog result to it's corresponding view.
+        ///     Tries to close this instance by asking its Parent to initiate shutdown or by asking its corresponding view to
+        ///     close.
+        ///     Also provides an opportunity to pass a dialog result to it's corresponding view.
         /// </summary>
         /// <param name="dialogResult">The dialog result.</param>
         public virtual void TryClose(bool? dialogResult = null)
@@ -94,7 +109,7 @@ namespace ModernApplicationFramework.Caliburn
         }
 
         /// <summary>
-        /// Raised before deactivation.
+        ///     Raised before deactivation.
         /// </summary>
         public virtual event EventHandler<DeactivationEventArgs> AttemptingDeactivation = delegate { };
 
@@ -127,21 +142,21 @@ namespace ModernApplicationFramework.Caliburn
         }
 
         /// <summary>
-        /// Raised after deactivation.
+        ///     Raised after deactivation.
         /// </summary>
         public virtual event EventHandler<DeactivationEventArgs> Deactivated = delegate { };
 
         /// <summary>
-        /// Called to check whether or not this instance can close.
+        ///     Called to check whether or not this instance can close.
         /// </summary>
-        /// <param name = "callback">The implementor calls this action with the result of the close check.</param>
+        /// <param name="callback">The implementor calls this action with the result of the close check.</param>
         public virtual void CanClose(Action<bool> callback)
         {
             callback(true);
         }
 
         /// <summary>
-        /// Gets or Sets the Display Name
+        ///     Gets or Sets the Display Name
         /// </summary>
         public virtual string DisplayName
         {
@@ -154,39 +169,19 @@ namespace ModernApplicationFramework.Caliburn
         }
 
         /// <summary>
-        /// Indicates whether or not this instance is currently initialized.
-        /// Virtualized in order to help with document oriented view models.
+        ///     Called when activating.
         /// </summary>
-        public virtual bool IsInitialized
-        {
-            get { return _isInitialized; }
-            private set
-            {
-                _isInitialized = value;
-                NotifyOfPropertyChange();
-            }
-        }
+        protected virtual void OnActivate() {}
 
         /// <summary>
-        /// Called when activating.
+        ///     Called when deactivating.
         /// </summary>
-        protected virtual void OnActivate()
-        {
-        }
+        /// <param name="close">Inidicates whether this instance will be closed.</param>
+        protected virtual void OnDeactivate(bool close) {}
 
         /// <summary>
-        /// Called when deactivating.
+        ///     Called when initializing.
         /// </summary>
-        /// <param name = "close">Inidicates whether this instance will be closed.</param>
-        protected virtual void OnDeactivate(bool close)
-        {
-        }
-
-        /// <summary>
-        /// Called when initializing.
-        /// </summary>
-        protected virtual void OnInitialize()
-        {
-        }
+        protected virtual void OnInitialize() {}
     }
 }

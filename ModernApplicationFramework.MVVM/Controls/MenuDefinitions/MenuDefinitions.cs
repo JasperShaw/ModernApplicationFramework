@@ -28,6 +28,10 @@ namespace ModernApplicationFramework.MVVM.Controls.MenuDefinitions
         [Export] public static MenuItemDefinition SubItemSave = new MenuItemDefinition<SaveFileCommandDefinition>(
             "Save", 0, FileMenu);
 
+        [Export]
+        public static MenuItemDefinition SubItemSaveAs = new MenuItemDefinition<SaveFileAsCommandDefinition>(
+            "Save As", 0, FileMenu);
+
 
 
         [Export] public static MenuItemDefinition Edit = new MenuItemDefinition("Edit", 1);

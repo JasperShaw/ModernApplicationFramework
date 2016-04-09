@@ -10,42 +10,57 @@ namespace ModernApplicationFramework.Controls
 {
     public class DropDownButton : ContentControl, ICommandSource
     {
-
-        public static readonly DependencyProperty DropDownContentProperty =
-            DependencyProperty.Register("DropDownContent", typeof (object), typeof (DropDownButton),
-                new UIPropertyMetadata(null, OnDropDownContentChanged));
-
-        public static readonly DependencyProperty IsOpenProperty = DependencyProperty.Register("IsOpen", typeof (bool),
-            typeof (DropDownButton), new UIPropertyMetadata(false, OnIsOpenChanged));
-
-        public static readonly DependencyProperty CommandParameterProperty =
-            DependencyProperty.Register("CommandParameter", typeof (object), typeof (DropDownButton),
-                new PropertyMetadata(null));
-
-        public static readonly DependencyProperty CommandTargetProperty = DependencyProperty.Register("CommandTarget",
-            typeof (IInputElement), typeof (DropDownButton), new PropertyMetadata(null));
-
-        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command",
-            typeof (ICommand), typeof (DropDownButton), new PropertyMetadata(null, OnCommandChanged));
-
-
-        public static readonly RoutedEvent ClickEvent = EventManager.RegisterRoutedEvent("Click", RoutingStrategy.Bubble,
-            typeof (RoutedEventHandler), typeof (DropDownButton));
-
-        public static readonly RoutedEvent OpenedEvent = EventManager.RegisterRoutedEvent("Opened",
-            RoutingStrategy.Bubble, typeof (RoutedEventHandler), typeof (DropDownButton));
-
-        public static readonly RoutedEvent ClosedEvent = EventManager.RegisterRoutedEvent("Closed",
-            RoutingStrategy.Bubble, typeof (RoutedEventHandler), typeof (DropDownButton));
-
-
-
         private const string PartDropDownButton = "PART_DropDownButton";
         private const string PartContentPresenter = "PART_ContentPresenter";
         private const string PartPopup = "PART_Popup";
+
+        public static readonly DependencyProperty DropDownContentProperty =
+            DependencyProperty.Register("DropDownContent", typeof(object), typeof(DropDownButton),
+                new UIPropertyMetadata(null, OnDropDownContentChanged));
+
+        public static readonly DependencyProperty IsOpenProperty = DependencyProperty.Register("IsOpen", typeof(bool),
+            typeof(DropDownButton), new UIPropertyMetadata(false, OnIsOpenChanged));
+
+        public static readonly DependencyProperty CommandParameterProperty =
+            DependencyProperty.Register("CommandParameter", typeof(object), typeof(DropDownButton),
+                new PropertyMetadata(null));
+
+        public static readonly DependencyProperty CommandTargetProperty = DependencyProperty.Register("CommandTarget",
+            typeof(IInputElement), typeof(DropDownButton), new PropertyMetadata(null));
+
+        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command",
+            typeof(ICommand), typeof(DropDownButton), new PropertyMetadata(null, OnCommandChanged));
+
+
+        public static readonly RoutedEvent ClickEvent = EventManager.RegisterRoutedEvent("Click", RoutingStrategy.Bubble,
+            typeof(RoutedEventHandler), typeof(DropDownButton));
+
+        public static readonly RoutedEvent OpenedEvent = EventManager.RegisterRoutedEvent("Opened",
+            RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(DropDownButton));
+
+        public static readonly RoutedEvent ClosedEvent = EventManager.RegisterRoutedEvent("Closed",
+            RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(DropDownButton));
+
         private ButtonBase _button;
         private EventHandler _canExecuteChangedHandler;
 
+        #region Base Class Overrides
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            Button = GetTemplateChild(PartDropDownButton) as ToggleButton;
+            _contentPresenter = GetTemplateChild(PartContentPresenter) as ContentPresenter;
+
+            if (_popup != null)
+                _popup.Opened -= Popup_Opened;
+            _popup = GetTemplateChild(PartPopup) as Popup;
+            if (_popup != null)
+                _popup.Opened += Popup_Opened;
+        }
+
+        #endregion
 
         #region Members
 
@@ -58,7 +73,8 @@ namespace ModernApplicationFramework.Controls
 
         static DropDownButton()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(DropDownButton), new FrameworkPropertyMetadata(typeof(DropDownButton)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(DropDownButton),
+                new FrameworkPropertyMetadata(typeof(DropDownButton)));
         }
 
         public DropDownButton()
@@ -94,24 +110,6 @@ namespace ModernApplicationFramework.Controls
         {
             get { return (bool) GetValue(IsOpenProperty); }
             set { SetValue(IsOpenProperty, value); }
-        }
-        #endregion
-
-        #region Base Class Overrides
-
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-
-            Button = GetTemplateChild(PartDropDownButton) as ToggleButton;
-            _contentPresenter = GetTemplateChild(PartContentPresenter) as ContentPresenter;
-
-            if (_popup != null)
-                _popup.Opened -= Popup_Opened;
-            _popup = GetTemplateChild(PartPopup) as Popup;
-            if (_popup != null)
-                _popup.Opened += Popup_Opened;
-
         }
 
         #endregion
@@ -156,18 +154,18 @@ namespace ModernApplicationFramework.Controls
                     CloseDropDown(true);
                     e.Handled = true;
                 }
-                else if (e.Key == Key.Escape)
-                {
-                    CloseDropDown(true);
-                    e.Handled = true;
-                }
+                else
+                    if (e.Key == Key.Escape)
+                    {
+                        CloseDropDown(true);
+                        e.Handled = true;
+                    }
             }
         }
 
         private void OnMouseDownOutsideCapturedElement(object sender, MouseButtonEventArgs e)
         {
             CloseDropDown(false);
-
         }
 
         private void DropDownButton_Click(object sender, RoutedEventArgs e)
@@ -175,7 +173,7 @@ namespace ModernApplicationFramework.Controls
             OnClick();
         }
 
-        void CanExecuteChanged(object sender, EventArgs e)
+        private void CanExecuteChanged(object sender, EventArgs e)
         {
             CanExecuteChanged();
         }
@@ -254,12 +252,10 @@ namespace ModernApplicationFramework.Controls
         private static void OnIsOpenChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
             var dropDownButton = o as DropDownButton;
-            dropDownButton?.OnIsOpenChanged((bool)e.OldValue, (bool)e.NewValue);
+            dropDownButton?.OnIsOpenChanged((bool) e.OldValue, (bool) e.NewValue);
         }
 
-        protected virtual void OnDropDownContentChanged(object p1, object p2)
-        {
-        }
+        protected virtual void OnDropDownContentChanged(object p1, object p2) {}
 
         protected virtual void OnIsOpenChanged(bool oldValue, bool newValue)
         {
@@ -271,30 +267,21 @@ namespace ModernApplicationFramework.Controls
         #region ICommandSource Implementation
 
         [TypeConverter(typeof(CommandConverter))]
-        public ICommand Command 
+        public ICommand Command
         {
-            get
-            {
-                return (ICommand) GetValue(CommandProperty);
-            }
+            get { return (ICommand) GetValue(CommandProperty); }
             set { SetValue(CommandProperty, value); }
         }
 
         public object CommandParameter
         {
-            get
-            {
-                return GetValue(CommandParameterProperty);
-            }
+            get { return GetValue(CommandParameterProperty); }
             set { SetValue(CommandParameterProperty, value); }
         }
 
         public IInputElement CommandTarget
         {
-            get
-            {
-                return (IInputElement) GetValue(CommandTargetProperty);
-            }
+            get { return (IInputElement) GetValue(CommandTargetProperty); }
             set { SetValue(CommandTargetProperty, value); }
         }
 

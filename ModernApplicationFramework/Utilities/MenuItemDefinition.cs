@@ -25,7 +25,7 @@ namespace ModernApplicationFramework.Utilities
         }
 
         public MenuItemDefinition(string name, int priority, MenuItemDefinition parent,
-            IList<CommandDefinition> definitions)
+                                  IList<CommandDefinition> definitions)
         {
             Name = name;
             Priority = priority;
@@ -49,7 +49,7 @@ namespace ModernApplicationFramework.Utilities
     {
         public MenuItemDefinition(string name, int priority, MenuItemDefinition parent) : base(name, priority, parent)
         {
-            var t = IoC.Get<ICommandService>().GetCommandDefinition(typeof (T));
+            var t = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
             Definitions.Add(t);
         }
     }

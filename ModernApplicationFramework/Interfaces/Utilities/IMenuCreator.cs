@@ -5,7 +5,7 @@ namespace ModernApplicationFramework.Interfaces.Utilities
     public interface IMenuCreator
     {
         /// <summary>
-        /// Populate a menu freely
+        ///     Populate a menu freely
         /// </summary>
         /// <param name="model"></param>
         void CreateMenu(IMenuHostViewModel model);

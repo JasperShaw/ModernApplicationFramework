@@ -3,7 +3,7 @@
 namespace ModernApplicationFramework.Controls.Customize
 {
     /// <summary>
-    /// Interaktionslogik für ToolBarsPage.xaml
+    ///     Interaktionslogik für ToolBarsPage.xaml
     /// </summary>
     public partial class ToolBarsPage
     {
@@ -13,8 +13,6 @@ namespace ModernApplicationFramework.Controls.Customize
             DataContext = new ToolBarCustomizeDialogViewModel(this);
         }
 
-        public void Connect(int connectionId, object target)
-        {
-        }
+        public void Connect(int connectionId, object target) {}
     }
 }

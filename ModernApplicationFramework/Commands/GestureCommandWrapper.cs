@@ -22,8 +22,6 @@ namespace ModernApplicationFramework.Commands
             KeyGesture = gesture;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public string GestureText => KeyGesture.GetDisplayStringForCulture(CultureInfo.CurrentUICulture);
 
         public KeyGesture KeyGesture
@@ -38,6 +36,8 @@ namespace ModernApplicationFramework.Commands
                 OnPropertyChanged(nameof(GestureText));
             }
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

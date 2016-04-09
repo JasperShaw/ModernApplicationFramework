@@ -6,7 +6,7 @@ using System.Reflection;
 namespace ModernApplicationFramework.Caliburn.Extensions
 {
     /// <summary>
-    /// A collection of extension methods to help with differing reflection between the portable library and SL5
+    ///     A collection of extension methods to help with differing reflection between the portable library and SL5
     /// </summary>
     internal static class PortableReflectionExtensions
     {

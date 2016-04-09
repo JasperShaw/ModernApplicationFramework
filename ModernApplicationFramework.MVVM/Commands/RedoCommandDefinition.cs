@@ -7,7 +7,7 @@ using ModernApplicationFramework.MVVM.Interfaces;
 
 namespace ModernApplicationFramework.MVVM.Commands
 {
-    [Export(typeof (CommandDefinition))]
+    [Export(typeof(CommandDefinition))]
     public sealed class RedoCommandDefinition : CommandDefinition
     {
 #pragma warning disable 649
@@ -19,11 +19,16 @@ namespace ModernApplicationFramework.MVVM.Commands
             Command = new GestureCommandWrapper(Redo, CanRedo, new KeyGesture(Key.Y, ModifierKeys.Control));
         }
 
-        public override string IconId => "RedoIcon";
         public override bool CanShowInMenu => true;
         public override bool CanShowInToolbar => true;
         public override ICommand Command { get; }
-        public override Uri IconSource => new Uri("/ModernApplicationFramework.MVVM;component/Resources/Icons/Redo_16x.xaml", UriKind.RelativeOrAbsolute);
+
+        public override string IconId => "RedoIcon";
+
+        public override Uri IconSource
+            =>
+                new Uri("/ModernApplicationFramework.MVVM;component/Resources/Icons/Redo_16x.xaml",
+                    UriKind.RelativeOrAbsolute);
 
         public override string Name => "Redo";
         public override string Text => Name;

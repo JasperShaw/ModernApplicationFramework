@@ -4,10 +4,15 @@ namespace ModernApplicationFramework.Controls
 {
     public class WaitDialog : ModernChromeWindow
     {
-
         public static readonly DependencyProperty MessageTextProperty =
-           DependencyProperty.Register("MessageText", typeof(string), typeof(WaitDialog),
-               new FrameworkPropertyMetadata("Preparing..."));
+            DependencyProperty.Register("MessageText", typeof(string), typeof(WaitDialog),
+                new FrameworkPropertyMetadata("Preparing..."));
+
+        static WaitDialog()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(WaitDialog),
+                new FrameworkPropertyMetadata(typeof(WaitDialog)));
+        }
 
         public string MessageText
         {
@@ -15,9 +20,9 @@ namespace ModernApplicationFramework.Controls
             set { SetValue(MessageTextProperty, value); }
         }
 
-        static WaitDialog()
+        public static void EndWaitDialog(WaitDialog dialog)
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(WaitDialog), new FrameworkPropertyMetadata(typeof(WaitDialog)));
+            dialog.Close();
         }
 
         public static WaitDialog StartWaitDialog(string title, string message)
@@ -31,11 +36,6 @@ namespace ModernApplicationFramework.Controls
             };
             dialog.Show();
             return dialog;
-        }
-
-        public static void EndWaitDialog(WaitDialog dialog)
-        {
-            dialog.Close();
         }
     }
 }

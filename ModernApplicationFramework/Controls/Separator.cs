@@ -2,7 +2,7 @@
 
 namespace ModernApplicationFramework.Controls
 {
-    public class Separator: System.Windows.Controls.Separator
+    public class Separator : System.Windows.Controls.Separator
     {
         static Separator()
         {

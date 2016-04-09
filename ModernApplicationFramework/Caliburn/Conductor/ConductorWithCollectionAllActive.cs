@@ -11,12 +11,12 @@ namespace ModernApplicationFramework.Caliburn.Conductor
     public partial class Conductor<T>
     {
         /// <summary>
-        /// An implementation of <see cref="IConductor"/> that holds on many items.
+        ///     An implementation of <see cref="IConductor" /> that holds on many items.
         /// </summary>
         public partial class Collection
         {
             /// <summary>
-            /// An implementation of <see cref="IConductor"/> that holds on to many items wich are all activated.
+            ///     An implementation of <see cref="IConductor" /> that holds on to many items wich are all activated.
             /// </summary>
             public class AllActive : ConductorBase<T>
             {
@@ -24,7 +24,7 @@ namespace ModernApplicationFramework.Caliburn.Conductor
                 private readonly bool _openPublicItems;
 
                 /// <summary>
-                /// Initializes a new instance of the <see cref="Conductor&lt;T&gt;.Collection.AllActive"/> class.
+                ///     Initializes a new instance of the <see cref="Conductor&lt;T&gt;.Collection.AllActive" /> class.
                 /// </summary>
                 /// <param name="openPublicItems">if set to <c>true</c> opens public items that are properties of this class.</param>
                 public AllActive(bool openPublicItems)
@@ -34,7 +34,7 @@ namespace ModernApplicationFramework.Caliburn.Conductor
                 }
 
                 /// <summary>
-                /// Initializes a new instance of the <see cref="Conductor&lt;T&gt;.Collection.AllActive"/> class.
+                ///     Initializes a new instance of the <see cref="Conductor&lt;T&gt;.Collection.AllActive" /> class.
                 /// </summary>
                 public AllActive()
                 {
@@ -60,12 +60,12 @@ namespace ModernApplicationFramework.Caliburn.Conductor
                 }
 
                 /// <summary>
-                /// Gets the items that are currently being conducted.
+                ///     Gets the items that are currently being conducted.
                 /// </summary>
                 public IObservableCollection<T> Items => _items;
 
                 /// <summary>
-                /// Activates the specified item.
+                ///     Activates the specified item.
                 /// </summary>
                 /// <param name="item">The item to activate.</param>
                 public override void ActivateItem(T item)
@@ -86,7 +86,7 @@ namespace ModernApplicationFramework.Caliburn.Conductor
                 }
 
                 /// <summary>
-                /// Called to check whether or not this instance can close.
+                ///     Called to check whether or not this instance can close.
                 /// </summary>
                 /// <param name="callback">The implementor calls this action with the result of the close check.</param>
                 public override void CanClose(Action<bool> callback)
@@ -105,7 +105,7 @@ namespace ModernApplicationFramework.Caliburn.Conductor
                 }
 
                 /// <summary>
-                /// Deactivates the specified item.
+                ///     Deactivates the specified item.
                 /// </summary>
                 /// <param name="item">The item to close.</param>
                 /// <param name="close">Indicates whether or not to close the item after deactivating it.</param>
@@ -131,7 +131,7 @@ namespace ModernApplicationFramework.Caliburn.Conductor
                 }
 
                 /// <summary>
-                /// Gets the children.
+                ///     Gets the children.
                 /// </summary>
                 /// <returns>The collection of children.</returns>
                 public override IEnumerable<T> GetChildren()
@@ -140,7 +140,7 @@ namespace ModernApplicationFramework.Caliburn.Conductor
                 }
 
                 /// <summary>
-                /// Ensures that an item is ready to be activated.
+                ///     Ensures that an item is ready to be activated.
                 /// </summary>
                 /// <param name="newItem">The item that is about to be activated.</param>
                 /// <returns>The item to be activated.</returns>
@@ -161,7 +161,7 @@ namespace ModernApplicationFramework.Caliburn.Conductor
                 }
 
                 /// <summary>
-                /// Called when activating.
+                ///     Called when activating.
                 /// </summary>
                 protected override void OnActivate()
                 {
@@ -169,7 +169,7 @@ namespace ModernApplicationFramework.Caliburn.Conductor
                 }
 
                 /// <summary>
-                /// Called when deactivating.
+                ///     Called when deactivating.
                 /// </summary>
                 /// <param name="close">Inidicates whether this instance will be closed.</param>
                 protected override void OnDeactivate(bool close)
@@ -182,17 +182,17 @@ namespace ModernApplicationFramework.Caliburn.Conductor
                 }
 
                 /// <summary>
-                /// Called when initializing.
+                ///     Called when initializing.
                 /// </summary>
                 protected override void OnInitialize()
                 {
                     if (_openPublicItems)
                     {
                         GetType().GetProperties()
-                            .Where(x => x.Name != "Parent" && typeof (T).IsAssignableFrom(x.PropertyType))
-                            .Select(x => x.GetValue(this, null))
-                            .Cast<T>()
-                            .Apply(ActivateItem);
+                                 .Where(x => x.Name != "Parent" && typeof(T).IsAssignableFrom(x.PropertyType))
+                                 .Select(x => x.GetValue(this, null))
+                                 .Cast<T>()
+                                 .Apply(ActivateItem);
                     }
                 }
 

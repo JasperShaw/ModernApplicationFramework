@@ -5,11 +5,11 @@ namespace ModernApplicationFramework.Interfaces.Utilities
 {
     public interface ISupportedFileDefinition
     {
-        string Name { get; }
-        int SortOrder { get; }
         string Description { get; }
-        Uri IconSource { get; }
         FileType FileType { get; }
+        Uri IconSource { get; }
+        string Name { get; }
         Type PrefferedEditor { get; }
+        int SortOrder { get; }
     }
 }

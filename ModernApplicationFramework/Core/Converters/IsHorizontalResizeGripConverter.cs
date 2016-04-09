@@ -8,7 +8,7 @@ namespace ModernApplicationFramework.Core.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if ((int)(double)value >= 10)
+            if ((int) (double) value >= 10)
                 return true;
             return false;
         }

@@ -4,14 +4,14 @@ using System.Diagnostics;
 namespace ModernApplicationFramework.Caliburn.Logger
 {
     /// <summary>
-    ///   A simple logger thats logs everything to the debugger.
+    ///     A simple logger thats logs everything to the debugger.
     /// </summary>
     public class DebugLog : ILog
     {
         private readonly string _typeName;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DebugLog"/> class.
+        ///     Initializes a new instance of the <see cref="DebugLog" /> class.
         /// </summary>
         /// <param name="type">The type.</param>
         public DebugLog(Type type)
@@ -20,7 +20,7 @@ namespace ModernApplicationFramework.Caliburn.Logger
         }
 
         /// <summary>
-        /// Logs the exception.
+        ///     Logs the exception.
         /// </summary>
         /// <param name="exception">The exception.</param>
         public void Error(Exception exception)
@@ -29,7 +29,7 @@ namespace ModernApplicationFramework.Caliburn.Logger
         }
 
         /// <summary>
-        /// Logs the message as info.
+        ///     Logs the message as info.
         /// </summary>
         /// <param name="format">A formatted message.</param>
         /// <param name="args">Parameters to be injected into the formatted message.</param>
@@ -39,7 +39,7 @@ namespace ModernApplicationFramework.Caliburn.Logger
         }
 
         /// <summary>
-        /// Logs the message as a warning.
+        ///     Logs the message as a warning.
         /// </summary>
         /// <param name="format">A formatted message.</param>
         /// <param name="args">Parameters to be injected into the formatted message.</param>

@@ -7,35 +7,37 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
 {
     public static class Action
     {
-        static readonly ILog Log = LogManager.GetLog(typeof (Action));
+        private static readonly ILog Log = LogManager.GetLog(typeof(Action));
 
         /// <summary>
-        ///   A property definition representing the target of an <see cref="ActionMessage" /> . The DataContext of the element will be set to this instance.
+        ///     A property definition representing the target of an <see cref="ActionMessage" /> . The DataContext of the element
+        ///     will be set to this instance.
         /// </summary>
         public static readonly DependencyProperty TargetProperty =
             DependencyPropertyHelper.RegisterAttached(
                 "Target",
-                typeof (object),
-                typeof (Action),
+                typeof(object),
+                typeof(Action),
                 null,
                 OnTargetChanged
                 );
 
         /// <summary>
-        ///   A property definition representing the target of an <see cref="ActionMessage" /> . The DataContext of the element is not set to this instance.
+        ///     A property definition representing the target of an <see cref="ActionMessage" /> . The DataContext of the element
+        ///     is not set to this instance.
         /// </summary>
         public static readonly DependencyProperty TargetWithoutContextProperty =
             DependencyPropertyHelper.RegisterAttached(
                 "TargetWithoutContext",
-                typeof (object),
-                typeof (Action),
+                typeof(object),
+                typeof(Action),
                 null,
                 OnTargetWithoutContextChanged
                 );
 
 
         /// <summary>
-        ///   Gets the target for instances of <see cref="ActionMessage" /> .
+        ///     Gets the target for instances of <see cref="ActionMessage" /> .
         /// </summary>
         /// <param name="d"> The element to which the target is attached. </param>
         /// <returns> The target for instances of <see cref="ActionMessage" /> </returns>
@@ -45,7 +47,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
         }
 
         /// <summary>
-        ///   Gets the target for instances of <see cref="ActionMessage" /> .
+        ///     Gets the target for instances of <see cref="ActionMessage" /> .
         /// </summary>
         /// <param name="d"> The element to which the target is attached. </param>
         /// <returns> The target for instances of <see cref="ActionMessage" /> </returns>
@@ -54,11 +56,11 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
             return d.GetValue(TargetWithoutContextProperty);
         }
 
-        ///<summary>
-        ///  Checks if the <see cref="ActionMessage" /> -Target was set.
-        ///</summary>
-        ///<param name="element"> DependencyObject to check </param>
-        ///<returns> True if Target or TargetWithoutContext was set on <paramref name="element" /> </returns>
+        /// <summary>
+        ///     Checks if the <see cref="ActionMessage" /> -Target was set.
+        /// </summary>
+        /// <param name="element"> DependencyObject to check </param>
+        /// <returns> True if Target or TargetWithoutContext was set on <paramref name="element" /> </returns>
         public static bool HasTargetSet(DependencyObject element)
         {
             if (GetTarget(element) != null || GetTargetWithoutContext(element) != null)
@@ -71,17 +73,17 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
                    || ConventionManager.HasBinding(frameworkElement, TargetWithoutContextProperty);
         }
 
-        ///<summary>
-        ///  Uses the action pipeline to invoke the method.
-        ///</summary>
-        ///<param name="target"> The object instance to invoke the method on. </param>
-        ///<param name="methodName"> The name of the method to invoke. </param>
-        ///<param name="view"> The view. </param>
-        ///<param name="source"> The source of the invocation. </param>
-        ///<param name="eventArgs"> The event args. </param>
-        ///<param name="parameters"> The method parameters. </param>
+        /// <summary>
+        ///     Uses the action pipeline to invoke the method.
+        /// </summary>
+        /// <param name="target"> The object instance to invoke the method on. </param>
+        /// <param name="methodName"> The name of the method to invoke. </param>
+        /// <param name="view"> The view. </param>
+        /// <param name="source"> The source of the invocation. </param>
+        /// <param name="eventArgs"> The event args. </param>
+        /// <param name="parameters"> The method parameters. </param>
         public static void Invoke(object target, string methodName, DependencyObject view = null,
-            FrameworkElement source = null, object eventArgs = null, object[] parameters = null)
+                                  FrameworkElement source = null, object eventArgs = null, object[] parameters = null)
         {
             var message = new ActionMessage {MethodName = methodName};
 
@@ -104,7 +106,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
         }
 
         /// <summary>
-        ///   Sets the target of the <see cref="ActionMessage" /> .
+        ///     Sets the target of the <see cref="ActionMessage" /> .
         /// </summary>
         /// <param name="d"> The element to attach the target to. </param>
         /// <param name="target"> The target for instances of <see cref="ActionMessage" /> . </param>
@@ -114,29 +116,29 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
         }
 
         /// <summary>
-        ///   Sets the target of the <see cref="ActionMessage" /> .
+        ///     Sets the target of the <see cref="ActionMessage" /> .
         /// </summary>
         /// <param name="d"> The element to attach the target to. </param>
         /// <param name="target"> The target for instances of <see cref="ActionMessage" /> . </param>
         /// <remarks>
-        ///   The DataContext will not be set.
+        ///     The DataContext will not be set.
         /// </remarks>
         public static void SetTargetWithoutContext(DependencyObject d, object target)
         {
             d.SetValue(TargetWithoutContextProperty, target);
         }
 
-        static void OnTargetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnTargetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             SetTargetCore(e, d, true);
         }
 
-        static void OnTargetWithoutContextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnTargetWithoutContextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             SetTargetCore(e, d, false);
         }
 
-        static void SetTargetCore(DependencyPropertyChangedEventArgs e, DependencyObject d, bool setContext)
+        private static void SetTargetCore(DependencyPropertyChangedEventArgs e, DependencyObject d, bool setContext)
         {
             if (e.NewValue == e.OldValue || Execute.InDesignMode)
             {

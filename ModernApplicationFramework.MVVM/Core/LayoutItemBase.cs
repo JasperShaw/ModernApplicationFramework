@@ -9,19 +9,17 @@ namespace ModernApplicationFramework.MVVM.Core
 {
     public abstract class LayoutItemBase : Screen, ILayoutItem
     {
-        private readonly Guid _id = Guid.NewGuid();
-
         private bool _isSelected;
         public abstract ICommand CloseCommand { get; }
 
         [Browsable(false)]
-        public virtual string ContentId => _id.ToString();
+        public virtual string ContentId => Id.ToString();
 
         [Browsable(false)]
         public virtual Uri IconSource => null;
 
         [Browsable(false)]
-        public Guid Id => _id;
+        public Guid Id { get; } = Guid.NewGuid();
 
         [Browsable(false)]
         public bool IsSelected
@@ -34,13 +32,9 @@ namespace ModernApplicationFramework.MVVM.Core
             }
         }
 
-        public virtual void LoadState(BinaryReader reader)
-        {
-        }
+        public virtual void LoadState(BinaryReader reader) {}
 
-        public virtual void SaveState(BinaryWriter writer)
-        {
-        }
+        public virtual void SaveState(BinaryWriter writer) {}
 
         [Browsable(false)]
         public virtual bool ShouldReopenOnStart => false;

@@ -6,7 +6,7 @@ namespace ModernApplicationFramework.Core.Utilities
     {
         internal static Rect GetOnScreenPosition(Rect floatRect)
         {
-            Rect rect1 = floatRect;
+            var rect1 = floatRect;
             floatRect = floatRect.LogicalToDeviceUnits();
             Rect rect2;
             Rect rect3;

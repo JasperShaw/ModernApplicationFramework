@@ -12,18 +12,18 @@ using System.Windows.Markup;
 using System.Windows.Shapes;
 using ModernApplicationFramework.Caliburn.Interfaces;
 using ModernApplicationFramework.Caliburn.Logger;
+using ModernApplicationFramework.Caliburn.Platform.Xaml;
 using EventTrigger = System.Windows.Interactivity.EventTrigger;
-using View = ModernApplicationFramework.Caliburn.Platform.Xaml.View;
 
 namespace ModernApplicationFramework.Caliburn.Platform.Action
 {
     /// <summary>
-    /// Used to configure the conventions used by the framework to apply bindings and create actions.
+    ///     Used to configure the conventions used by the framework to apply bindings and create actions.
     /// </summary>
     public static class ConventionManager
     {
         /// <summary>
-        /// Creates a binding and sets it on the element, applying the appropriate conventions.
+        ///     Creates a binding and sets it on the element, applying the appropriate conventions.
         /// </summary>
         public static Action<Type, string, PropertyInfo, FrameworkElement, ElementConvention, DependencyProperty>
             SetBinding =
@@ -40,28 +40,28 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
                 };
 
         /// <summary>
-        /// Applies the appropriate binding mode to the binding.
+        ///     Applies the appropriate binding mode to the binding.
         /// </summary>
         public static Action<Binding, PropertyInfo> ApplyBindingMode = (binding, property) =>
         {
             var setMethod = property.GetSetMethod();
-            binding.Mode = (property.CanWrite && setMethod != null && setMethod.IsPublic)
+            binding.Mode = property.CanWrite && setMethod != null && setMethod.IsPublic
                 ? BindingMode.TwoWay
                 : BindingMode.OneWay;
         };
 
         /// <summary>
-        /// Determines whether a custom string format is needed and applies it to the binding.
+        ///     Determines whether a custom string format is needed and applies it to the binding.
         /// </summary>
         public static Action<Binding, ElementConvention, PropertyInfo> ApplyStringFormat =
             (binding, convention, property) =>
             {
-                if (typeof (DateTime).IsAssignableFrom(property.PropertyType))
+                if (typeof(DateTime).IsAssignableFrom(property.PropertyType))
                     binding.StringFormat = "{0:d}";
             };
 
         /// <summary>
-        /// Determines whether a custom update source trigger should be applied to the binding.
+        ///     Determines whether a custom update source trigger should be applied to the binding.
         /// </summary>
         public static Action<DependencyProperty, DependencyObject, Binding, PropertyInfo> ApplyUpdateSourceTrigger =
             (bindableProperty, element, binding, info) =>
@@ -70,40 +70,40 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
             };
 
         /// <summary>
-        /// Determines whether or not and what type of validation to enable on the binding.
+        ///     Determines whether or not and what type of validation to enable on the binding.
         /// </summary>
         public static Action<Binding, Type, PropertyInfo> ApplyValidation = (binding, viewModelType, property) =>
         {
-            if (typeof (INotifyDataErrorInfo).IsAssignableFrom(viewModelType))
+            if (typeof(INotifyDataErrorInfo).IsAssignableFrom(viewModelType))
             {
                 binding.ValidatesOnNotifyDataErrors = true;
                 binding.ValidatesOnExceptions = true;
             }
-            if (!typeof (IDataErrorInfo).IsAssignableFrom(viewModelType))
+            if (!typeof(IDataErrorInfo).IsAssignableFrom(viewModelType))
                 return;
             binding.ValidatesOnDataErrors = true;
             binding.ValidatesOnExceptions = true;
         };
 
         /// <summary>
-        /// Converters <see cref="bool"/> to/from <see cref="Visibility"/>.
+        ///     Converters <see cref="bool" /> to/from <see cref="Visibility" />.
         /// </summary>
         public static IValueConverter BooleanToVisibilityConverter = new BooleanToVisibilityConverter();
 
         /// <summary>
-        /// Determines whether a value converter is is needed and applies one to the binding.
+        ///     Determines whether a value converter is is needed and applies one to the binding.
         /// </summary>
         public static Action<Binding, DependencyProperty, PropertyInfo> ApplyValueConverter =
             (binding, bindableProperty, property) =>
             {
                 if (bindableProperty == UIElement.VisibilityProperty &&
-                    typeof (bool).IsAssignableFrom(property.PropertyType))
+                    typeof(bool).IsAssignableFrom(property.PropertyType))
                     binding.Converter = BooleanToVisibilityConverter;
             };
 
 
         /// <summary>
-        /// The default DataTemplate used for Headered controls when required.
+        ///     The default DataTemplate used for Headered controls when required.
         /// </summary>
         public static DataTemplate DefaultHeaderTemplate = (DataTemplate)
             XamlReader.Parse(
@@ -111,25 +111,26 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
                 );
 
         /// <summary>
-        /// The default DataTemplate used for ItemsControls when required.
+        ///     The default DataTemplate used for ItemsControls when required.
         /// </summary>
         public static DataTemplate DefaultItemTemplate = (DataTemplate)
             XamlReader.Parse(
                 "<DataTemplate xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation' " +
                 "xmlns:cal='clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform'> " +
-                "<ContentControl cal:View.Model=\"{Binding}\" VerticalContentAlignment=\"Stretch\" HorizontalContentAlignment=\"Stretch\" IsTabStop=\"False\" />" +
+                "<ContentControl cal:View.Model=\"{Binding}\" VerticalContentAlignment=\"Stretch\" HorizontalContentAlignment=\"Stretch\" IsTabStop=\"False\" />"
+                +
                 "</DataTemplate>"
                 );
 
         /// <summary>
-        /// Changes the provided word from a plural form to a singular form.
+        ///     Changes the provided word from a plural form to a singular form.
         /// </summary>
         public static Func<string, string> Singularize = original => original.EndsWith("ies")
             ? original.TrimEnd('s').TrimEnd('e').TrimEnd('i') + "y"
             : original.TrimEnd('s');
 
         /// <summary>
-        /// Derives the SelectedItem property name.
+        ///     Derives the SelectedItem property name.
         /// </summary>
         public static Func<string, IEnumerable<string>> DerivePotentialSelectionNames = name =>
         {
@@ -143,24 +144,24 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
         };
 
         /// <summary>
-        /// Indicates whether or not static properties should be included during convention name matching.
+        ///     Indicates whether or not static properties should be included during convention name matching.
         /// </summary>
         /// <remarks>False by default.</remarks>
         public static bool IncludeStaticProperties = false;
 
         /// <summary>
-        /// Indicates whether or not the Content of ContentControls should be overwritten by conventional bindings.
+        ///     Indicates whether or not the Content of ContentControls should be overwritten by conventional bindings.
         /// </summary>
         /// <remarks>False by default.</remarks>
         public static bool OverwriteContent = false;
 
-        static readonly Dictionary<Type, ElementConvention> ElementConventions =
+        private static readonly Dictionary<Type, ElementConvention> ElementConventions =
             new Dictionary<Type, ElementConvention>();
 
-        static readonly ILog Log = LogManager.GetLog(typeof (ConventionManager));
+        private static readonly ILog Log = LogManager.GetLog(typeof(ConventionManager));
 
         /// <summary>
-        /// Configures the selected item convention.
+        ///     Configures the selected item convention.
         /// </summary>
         public static Action<FrameworkElement, DependencyProperty, Type, string> ConfigureSelectedItem =
             (selector, selectedItemProperty, viewModelType, path) =>
@@ -196,7 +197,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
             };
 
         /// <summary>
-        /// Configures the SelectedItem binding for matched selection path.
+        ///     Configures the SelectedItem binding for matched selection path.
         /// </summary>
         /// <returns>A bool indicating whether to apply binding</returns>
         public static Func<FrameworkElement, DependencyProperty, Type, string, Binding, bool>
@@ -234,7 +235,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
                         && property.PropertyType.IsGenericType)
                     {
                         var itemType = property.PropertyType.GetGenericArguments().First();
-                        if (!itemType.IsValueType && !typeof (string).IsAssignableFrom(itemType))
+                        if (!itemType.IsValueType && !typeof(string).IsAssignableFrom(itemType))
                         {
                             tabControl.ContentTemplate = DefaultItemTemplate;
                             Log.Info("ContentTemplate applied to {0}.", element.Name);
@@ -310,18 +311,18 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
         }
 
         /// <summary>
-        /// Adds an element convention.
+        ///     Adds an element convention.
         /// </summary>
         /// <typeparam name="T">The type of element.</typeparam>
         /// <param name="bindableProperty">The default property for binding conventions.</param>
         /// <param name="parameterProperty">The default property for action parameters.</param>
         /// <param name="eventName">The default event to trigger actions.</param>
         public static ElementConvention AddElementConvention<T>(DependencyProperty bindableProperty,
-            string parameterProperty, string eventName)
+                                                                string parameterProperty, string eventName)
         {
             return AddElementConvention(new ElementConvention
             {
-                ElementType = typeof (T),
+                ElementType = typeof(T),
                 GetBindableProperty = element => bindableProperty,
                 ParameterProperty = parameterProperty,
                 CreateTrigger = () => new EventTrigger {EventName = eventName}
@@ -329,7 +330,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
         }
 
         /// <summary>
-        /// Adds an element convention.
+        ///     Adds an element convention.
         /// </summary>
         /// <param name="convention"></param>
         public static ElementConvention AddElementConvention(ElementConvention convention)
@@ -338,21 +339,21 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
         }
 
         /// <summary>
-        /// Applies a header template based on <see cref="IHaveDisplayName"/>
+        ///     Applies a header template based on <see cref="IHaveDisplayName" />
         /// </summary>
         /// <param name="element"></param>
         /// <param name="headerTemplateProperty"></param>
         /// <param name="headerTemplateSelectorProperty"> </param>
         /// <param name="viewModelType"></param>
         public static void ApplyHeaderTemplate(FrameworkElement element, DependencyProperty headerTemplateProperty,
-            DependencyProperty headerTemplateSelectorProperty, Type viewModelType)
+                                               DependencyProperty headerTemplateSelectorProperty, Type viewModelType)
         {
             var template = element.GetValue(headerTemplateProperty);
             var selector = headerTemplateSelectorProperty != null
                 ? element.GetValue(headerTemplateSelectorProperty)
                 : null;
 
-            if (template != null || selector != null || !typeof (IHaveDisplayName).IsAssignableFrom(viewModelType))
+            if (template != null || selector != null || !typeof(IHaveDisplayName).IsAssignableFrom(viewModelType))
             {
                 return;
             }
@@ -362,7 +363,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
         }
 
         /// <summary>
-        /// Attempts to apply the default item template to the items control.
+        ///     Attempts to apply the default item template to the items control.
         /// </summary>
         /// <param name="itemsControl">The items control.</param>
         /// <param name="property">The collection property.</param>
@@ -377,7 +378,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
             if (property.PropertyType.IsGenericType)
             {
                 var itemType = property.PropertyType.GetGenericArguments().First();
-                if (itemType.IsValueType || typeof (string).IsAssignableFrom(itemType))
+                if (itemType.IsValueType || typeof(string).IsAssignableFrom(itemType))
                 {
                     return;
                 }
@@ -389,7 +390,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
         }
 
         /// <summary>
-        /// Gets an element convention for the provided element type.
+        ///     Gets an element convention for the provided element type.
         /// </summary>
         /// <param name="elementType">The type of element to locate the convention for.</param>
         /// <returns>The convention if found, null otherwise.</returns>
@@ -405,7 +406,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
         }
 
         /// <summary>
-        /// Gets a property by name, ignoring case and searching all interfaces.
+        ///     Gets a property by name, ignoring case and searching all interfaces.
         /// </summary>
         /// <param name="type">The type to inspect.</param>
         /// <param name="propertyName">The property to search for.</param>
@@ -432,7 +433,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
         }
 
         /// <summary>
-        /// Determines whether a particular dependency property already has a binding on the provided element.
+        ///     Determines whether a particular dependency property already has a binding on the provided element.
         /// </summary>
         public static bool HasBinding(FrameworkElement element, DependencyProperty property)
         {
@@ -440,7 +441,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
         }
 
         /// <summary>
-        /// Creates a binding and set it on the element, guarding against pre-existing bindings and pre-existing values.
+        ///     Creates a binding and set it on the element, guarding against pre-existing bindings and pre-existing values.
         /// </summary>
         /// <param name="viewModelType"></param>
         /// <param name="path"></param>
@@ -450,9 +451,9 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
         /// <param name="bindableProperty"> </param>
         /// <returns></returns>
         public static bool SetBindingWithoutBindingOrValueOverwrite(Type viewModelType, string path,
-            PropertyInfo property, FrameworkElement element,
-            ElementConvention convention,
-            DependencyProperty bindableProperty)
+                                                                    PropertyInfo property, FrameworkElement element,
+                                                                    ElementConvention convention,
+                                                                    DependencyProperty bindableProperty)
         {
             if (bindableProperty == null || HasBinding(element, bindableProperty))
             {
@@ -469,11 +470,11 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
         }
 
         /// <summary>
-        /// Creates a binding and sets it on the element, guarding against pre-existing bindings.
+        ///     Creates a binding and sets it on the element, guarding against pre-existing bindings.
         /// </summary>
         public static bool SetBindingWithoutBindingOverwrite(Type viewModelType, string path, PropertyInfo property,
-            FrameworkElement element, ElementConvention convention,
-            DependencyProperty bindableProperty)
+                                                             FrameworkElement element, ElementConvention convention,
+                                                             DependencyProperty bindableProperty)
         {
             if (bindableProperty == null || HasBinding(element, bindableProperty))
             {

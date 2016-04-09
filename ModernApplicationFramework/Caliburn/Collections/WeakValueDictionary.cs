@@ -7,7 +7,7 @@ using ModernApplicationFramework.Caliburn.Extensions;
 namespace ModernApplicationFramework.Caliburn.Collections
 {
     /// <summary>
-    /// A dictionary in which the values are weak references.
+    ///     A dictionary in which the values are weak references.
     /// </summary>
     /// <typeparam name="TKey">The type of keys in the dictionary.</typeparam>
     /// <typeparam name="TValue">The type of values in the dictionary.</typeparam>
@@ -23,7 +23,7 @@ namespace ModernApplicationFramework.Caliburn.Collections
         }
 
         /// <summary>
-        /// Removes all keys and values from the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;"/>.
+        ///     Removes all keys and values from the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;" />.
         /// </summary>
         public void Clear()
         {
@@ -45,7 +45,7 @@ namespace ModernApplicationFramework.Caliburn.Collections
                 throw new ArgumentNullException(nameof(array));
             if (arrayIndex < 0 || arrayIndex >= array.Length)
                 throw new ArgumentOutOfRangeException(nameof(arrayIndex));
-            if ((arrayIndex + Count) > array.Length)
+            if (arrayIndex + Count > array.Length)
                 throw new ArgumentException(
                     "The number of elements in the source collection is greater than the available space from arrayIndex to the end of the destination array.");
 
@@ -53,12 +53,12 @@ namespace ModernApplicationFramework.Caliburn.Collections
         }
 
         /// <summary>
-        /// Gets the number of key/value pairs contained in the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;"/>.
+        ///     Gets the number of key/value pairs contained in the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;" />.
         /// </summary>
         /// <remarks>
-        /// Since the items in the dictionary are held by weak reference, the count value
-        /// cannot be relied upon to guarantee the number of objects that would be discovered via
-        /// enumeration. Treat the Count as an estimate only.
+        ///     Since the items in the dictionary are held by weak reference, the count value
+        ///     cannot be relied upon to guarantee the number of objects that would be discovered via
+        ///     enumeration. Treat the Count as an estimate only.
         /// </remarks>
         public int Count
         {
@@ -82,7 +82,7 @@ namespace ModernApplicationFramework.Caliburn.Collections
         }
 
         /// <summary>
-        /// Adds the specified key and value to the dictionary.
+        ///     Adds the specified key and value to the dictionary.
         /// </summary>
         /// <param name="key">The key of the element to add.</param>
         /// <param name="value">The value of the element to add. The value can be null for reference types.</param>
@@ -93,9 +93,9 @@ namespace ModernApplicationFramework.Caliburn.Collections
         }
 
         /// <summary>
-        /// Determines whether the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;"/> contains the specified key.
+        ///     Determines whether the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;" /> contains the specified key.
         /// </summary>
-        /// <param name="key">The key to locate in the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;"/>.</param>
+        /// <param name="key">The key to locate in the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;" />.</param>
         /// <returns></returns>
         public bool ContainsKey(TKey key)
         {
@@ -104,12 +104,13 @@ namespace ModernApplicationFramework.Caliburn.Collections
         }
 
         /// <summary>
-        /// Gets or sets the value associated with the specified key.
+        ///     Gets or sets the value associated with the specified key.
         /// </summary>
         /// <param name="key">The key of the value to get or set.</param>
         /// <returns>
-        /// The value associated with the specified key. If the specified key is not found, a get operation throws a <see cref="KeyNotFoundException"/>, 
-        /// and a set operation creates a new element with the specified key.
+        ///     The value associated with the specified key. If the specified key is not found, a get operation throws a
+        ///     <see cref="KeyNotFoundException" />,
+        ///     and a set operation creates a new element with the specified key.
         /// </returns>
         public TValue this[TKey key]
         {
@@ -128,15 +129,18 @@ namespace ModernApplicationFramework.Caliburn.Collections
         }
 
         /// <summary>
-        /// Gets a collection containing the keys in the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;"/>.
+        ///     Gets a collection containing the keys in the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;" />.
         /// </summary>
         public ICollection<TKey> Keys => _inner.Keys;
 
         /// <summary>
-        /// Removes the value with the specified key from the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;"/>.
+        ///     Removes the value with the specified key from the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;" />.
         /// </summary>
         /// <param name="key">The key of the element to remove.</param>
-        /// <returns>true if the element is successfully found and removed; otherwise, false. This method returns false if key is not found in the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;"/>.</returns>
+        /// <returns>
+        ///     true if the element is successfully found and removed; otherwise, false. This method returns false if key is
+        ///     not found in the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;" />.
+        /// </returns>
         public bool Remove(TKey key)
         {
             CleanIfNeeded();
@@ -144,14 +148,18 @@ namespace ModernApplicationFramework.Caliburn.Collections
         }
 
         /// <summary>
-        /// Gets the value associated with the specified key.
+        ///     Gets the value associated with the specified key.
         /// </summary>
         /// <param name="key">The key of the value to get.</param>
         /// <param name="value">
-        /// When this method returns, contains the value associated with the specified key, 
-        /// if the key is found; otherwise, the default value for the type of the value parameter.
-        /// This parameter is passed uninitialized.</param>
-        /// <returns>true if the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;"/> contains an element with the specified key; otherwise, false.</returns>
+        ///     When this method returns, contains the value associated with the specified key,
+        ///     if the key is found; otherwise, the default value for the type of the value parameter.
+        ///     This parameter is passed uninitialized.
+        /// </param>
+        /// <returns>
+        ///     true if the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;" /> contains an element with the specified key;
+        ///     otherwise, false.
+        /// </returns>
         public bool TryGetValue(TKey key, out TValue value)
         {
             CleanIfNeeded();
@@ -176,7 +184,7 @@ namespace ModernApplicationFramework.Caliburn.Collections
         }
 
         /// <summary>
-        /// Gets a collection containing the values in the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;"/>.
+        ///     Gets a collection containing the values in the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;" />.
         /// </summary>
         public ICollection<TValue> Values => new ValueCollection(this);
 
@@ -186,14 +194,14 @@ namespace ModernApplicationFramework.Caliburn.Collections
         }
 
         /// <summary>
-        /// Returns an enumerator that iterates through the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;"/>.
+        ///     Returns an enumerator that iterates through the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;" />.
         /// </summary>
         /// <returns>The enumerator.</returns>
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
             CleanIfNeeded();
             var enumerable = _inner.Select(pair => new KeyValuePair<TKey, TValue>(pair.Key, (TValue) pair.Value.Target))
-                .Where(pair => pair.Value != null);
+                                   .Where(pair => pair.Value != null);
             return enumerable.GetEnumerator();
         }
 
@@ -229,7 +237,7 @@ namespace ModernApplicationFramework.Caliburn.Collections
                     throw new ArgumentNullException(nameof(array));
                 if (arrayIndex < 0 || arrayIndex >= array.Length)
                     throw new ArgumentOutOfRangeException(nameof(arrayIndex));
-                if ((arrayIndex + Count) > array.Length)
+                if (arrayIndex + Count > array.Length)
                     throw new ArgumentException(
                         "The number of elements in the source collection is greater than the available space from arrayIndex to the end of the destination array.");
 
@@ -274,8 +282,8 @@ namespace ModernApplicationFramework.Caliburn.Collections
         private void CleanAbandonedItems()
         {
             var keysToRemove = _inner.Where(pair => !pair.Value.IsAlive)
-                .Select(pair => pair.Key)
-                .ToList();
+                                     .Select(pair => pair.Key)
+                                     .ToList();
 
             keysToRemove.Apply(key => _inner.Remove(key));
         }
@@ -293,7 +301,8 @@ namespace ModernApplicationFramework.Caliburn.Collections
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;"/> class that is empty, has the default initial capacity, and uses the default equality comparer for the key type.
+        ///     Initializes a new instance of the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;" /> class that is empty, has
+        ///     the default initial capacity, and uses the default equality comparer for the key type.
         /// </summary>
         public WeakValueDictionary()
         {
@@ -301,9 +310,14 @@ namespace ModernApplicationFramework.Caliburn.Collections
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;"/> class that contains elements copied from the specified <see cref="IDictionary&lt;TKey, TValue&gt;"/> and uses the default equality comparer for the key type.
+        ///     Initializes a new instance of the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;" /> class that contains
+        ///     elements copied from the specified <see cref="IDictionary&lt;TKey, TValue&gt;" /> and uses the default equality
+        ///     comparer for the key type.
         /// </summary>
-        /// <param name="dictionary">The <see cref="IDictionary&lt;TKey, TValue&gt;"/> whose elements are copied to the new <see cref="WeakValueDictionary&lt;TKey, TValue&gt;"/>.</param>
+        /// <param name="dictionary">
+        ///     The <see cref="IDictionary&lt;TKey, TValue&gt;" /> whose elements are copied to the new
+        ///     <see cref="WeakValueDictionary&lt;TKey, TValue&gt;" />.
+        /// </param>
         public WeakValueDictionary(IDictionary<TKey, TValue> dictionary)
         {
             _inner = new Dictionary<TKey, WeakReference>();
@@ -311,10 +325,18 @@ namespace ModernApplicationFramework.Caliburn.Collections
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;"/> class that contains elements copied from the specified <see cref="IDictionary&lt;TKey, TValue&gt;"/> and uses the specified <see cref="IEqualityComparer&lt;T&gt;"/>.
+        ///     Initializes a new instance of the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;" /> class that contains
+        ///     elements copied from the specified <see cref="IDictionary&lt;TKey, TValue&gt;" /> and uses the specified
+        ///     <see cref="IEqualityComparer&lt;T&gt;" />.
         /// </summary>
-        /// <param name="dictionary">The <see cref="IDictionary&lt;TKey, TValue&gt;"/> whose elements are copied to the new <see cref="WeakValueDictionary&lt;TKey, TValue&gt;"/>.</param>
-        /// <param name="comparer">The <see cref="IEqualityComparer&lt;T&gt;"/> implementation to use when comparing keys, or null to use the default <see cref="EqualityComparer&lt;T&gt;"/> for the type of the key.</param>
+        /// <param name="dictionary">
+        ///     The <see cref="IDictionary&lt;TKey, TValue&gt;" /> whose elements are copied to the new
+        ///     <see cref="WeakValueDictionary&lt;TKey, TValue&gt;" />.
+        /// </param>
+        /// <param name="comparer">
+        ///     The <see cref="IEqualityComparer&lt;T&gt;" /> implementation to use when comparing keys, or null
+        ///     to use the default <see cref="EqualityComparer&lt;T&gt;" /> for the type of the key.
+        /// </param>
         public WeakValueDictionary(IDictionary<TKey, TValue> dictionary, IEqualityComparer<TKey> comparer)
         {
             _inner = new Dictionary<TKey, WeakReference>(comparer);
@@ -322,28 +344,43 @@ namespace ModernApplicationFramework.Caliburn.Collections
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;"/> class that is empty, has the default initial capacity, and uses the specified <see cref="IEqualityComparer&lt;T&gt;"/>.
+        ///     Initializes a new instance of the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;" /> class that is empty, has
+        ///     the default initial capacity, and uses the specified <see cref="IEqualityComparer&lt;T&gt;" />.
         /// </summary>
-        /// <param name="comparer">The <see cref="IEqualityComparer&lt;T&gt;"/> implementation to use when comparing keys, or null to use the default <see cref="EqualityComparer&lt;T&gt;"/> for the type of the key.</param>
+        /// <param name="comparer">
+        ///     The <see cref="IEqualityComparer&lt;T&gt;" /> implementation to use when comparing keys, or null
+        ///     to use the default <see cref="EqualityComparer&lt;T&gt;" /> for the type of the key.
+        /// </param>
         public WeakValueDictionary(IEqualityComparer<TKey> comparer)
         {
             _inner = new Dictionary<TKey, WeakReference>(comparer);
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;"/> class that is empty, has the specified initial capacity, and uses the default equality comparer for the key type.
+        ///     Initializes a new instance of the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;" /> class that is empty, has
+        ///     the specified initial capacity, and uses the default equality comparer for the key type.
         /// </summary>
-        /// <param name="capacity">The initial number of elements that the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;"/> can contain.</param>
+        /// <param name="capacity">
+        ///     The initial number of elements that the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;" />
+        ///     can contain.
+        /// </param>
         public WeakValueDictionary(int capacity)
         {
             _inner = new Dictionary<TKey, WeakReference>(capacity);
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;"/> class that is empty, has the specified initial capacity, and uses the specified <see cref="IEqualityComparer&lt;T&gt;"/>.
+        ///     Initializes a new instance of the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;" /> class that is empty, has
+        ///     the specified initial capacity, and uses the specified <see cref="IEqualityComparer&lt;T&gt;" />.
         /// </summary>
-        /// <param name="capacity">The initial number of elements that the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;"/> can contain.</param>
-        /// <param name="comparer">The <see cref="IEqualityComparer&lt;T&gt;"/> implementation to use when comparing keys, or null to use the default <see cref="EqualityComparer&lt;T&gt;"/> for the type of the key.</param>
+        /// <param name="capacity">
+        ///     The initial number of elements that the <see cref="WeakValueDictionary&lt;TKey, TValue&gt;" />
+        ///     can contain.
+        /// </param>
+        /// <param name="comparer">
+        ///     The <see cref="IEqualityComparer&lt;T&gt;" /> implementation to use when comparing keys, or null
+        ///     to use the default <see cref="EqualityComparer&lt;T&gt;" /> for the type of the key.
+        /// </param>
         public WeakValueDictionary(int capacity, IEqualityComparer<TKey> comparer)
         {
             _inner = new Dictionary<TKey, WeakReference>(capacity, comparer);

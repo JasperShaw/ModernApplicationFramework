@@ -15,18 +15,14 @@ namespace ModernApplicationFramework.Core.Converters
                 throw new ArgumentException("Insufficient source parameters: 2");
             if (values.Any(obj => obj == DependencyProperty.UnsetValue || obj == BindingOperations.DisconnectedSource))
             {
-                return default (TTarget);
+                return default(TTarget);
             }
             MultiValueHelper.CheckValue<TSource1>(values, 0);
             MultiValueHelper.CheckValue<TSource2>(values, 1);
             if (!targetType.IsAssignableFrom(typeof(TTarget)))
-                throw new InvalidOperationException(string.Format("Target is not from Type: {0}", typeof(TTarget).FullName));
+                throw new InvalidOperationException(string.Format("Target is not from Type: {0}",
+                    typeof(TTarget).FullName));
             return Convert((TSource1) values[0], (TSource2) values[1], parameter, culture);
-        }
-
-        protected virtual TTarget Convert(TSource1 value1, TSource2 value2, object parameter, CultureInfo culture)
-        {
-            throw new NotSupportedException("Convert not defined");
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
@@ -46,7 +42,13 @@ namespace ModernApplicationFramework.Core.Converters
             };
         }
 
-        protected virtual void ConvertBack(TTarget value, out TSource1 out1, out TSource2 out2, object parameter, CultureInfo culture)
+        protected virtual TTarget Convert(TSource1 value1, TSource2 value2, object parameter, CultureInfo culture)
+        {
+            throw new NotSupportedException("Convert not defined");
+        }
+
+        protected virtual void ConvertBack(TTarget value, out TSource1 out1, out TSource2 out2, object parameter,
+                                           CultureInfo culture)
         {
             throw new NotSupportedException("ConvertBack not defined");
         }

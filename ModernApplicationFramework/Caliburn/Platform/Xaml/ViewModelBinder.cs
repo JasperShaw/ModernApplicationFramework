@@ -6,44 +6,47 @@ using System.Threading.Tasks;
 using System.Windows;
 using ModernApplicationFramework.Caliburn.Interfaces;
 using ModernApplicationFramework.Caliburn.Logger;
-using ConventionManager = ModernApplicationFramework.Caliburn.Platform.Action.ConventionManager;
+using ModernApplicationFramework.Caliburn.Platform.Action;
+using ModernApplicationFramework.Caliburn.Platform.Utilities;
 using DependencyPropertyHelper = ModernApplicationFramework.Caliburn.Platform.Utilities.DependencyPropertyHelper;
-using MessageBinder = ModernApplicationFramework.Caliburn.Platform.Utilities.MessageBinder;
 
 namespace ModernApplicationFramework.Caliburn.Platform.Xaml
 {
     /// <summary>
-    /// Binds a view to a view model.
+    ///     Binds a view to a view model.
     /// </summary>
     public static class ViewModelBinder
     {
-        const string AsyncSuffix = "Async";
+        private const string AsyncSuffix = "Async";
 
         /// <summary>
-        /// Indicates whether or not the conventions have already been applied to the view.
+        ///     Indicates whether or not the conventions have already been applied to the view.
         /// </summary>
         public static readonly DependencyProperty ConventionsAppliedProperty =
             DependencyPropertyHelper.RegisterAttached(
                 "ConventionsApplied",
-                typeof (bool),
-                typeof (ViewModelBinder),
+                typeof(bool),
+                typeof(ViewModelBinder),
                 false
                 );
 
         /// <summary>
-        /// Gets or sets a value indicating whether to apply conventions by default.
+        ///     Gets or sets a value indicating whether to apply conventions by default.
         /// </summary>
         /// <value>
-        /// 	<c>true</c> if conventions should be applied by default; otherwise, <c>false</c>.
+        ///     <c>true</c> if conventions should be applied by default; otherwise, <c>false</c>.
         /// </value>
         public static bool ApplyConventionsByDefault = true;
 
-        static readonly ILog Log = LogManager.GetLog(typeof (ViewModelBinder));
+        private static readonly ILog Log = LogManager.GetLog(typeof(ViewModelBinder));
 
         /// <summary>
-        /// Creates data bindings on the view's controls based on the provided properties.
+        ///     Creates data bindings on the view's controls based on the provided properties.
         /// </summary>
-        /// <remarks>Parameters include named Elements to search through and the type of view model to determine conventions for. Returns unmatched elements.</remarks>
+        /// <remarks>
+        ///     Parameters include named Elements to search through and the type of view model to determine conventions for.
+        ///     Returns unmatched elements.
+        /// </remarks>
         public static Func<IEnumerable<FrameworkElement>, Type, IEnumerable<FrameworkElement>> BindProperties =
             (namedElements, viewModelType) =>
             {
@@ -56,7 +59,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
                     var property = ConventionManager.GetPropertyCaseInsensitive(viewModelType, parts[0]);
                     var interpretedViewModelType = viewModelType;
 
-                    for (int i = 1; i < parts.Length && property != null; i++)
+                    for (var i = 1; i < parts.Length && property != null; i++)
                     {
                         interpretedViewModelType = property.PropertyType;
                         property = ConventionManager.GetPropertyCaseInsensitive(interpretedViewModelType, parts[i]);
@@ -99,9 +102,13 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
             };
 
         /// <summary>
-        /// Attaches instances of <see cref="Platform.Action.ActionMessage"/> to the view's controls based on the provided methods.
+        ///     Attaches instances of <see cref="Platform.Action.ActionMessage" /> to the view's controls based on the provided
+        ///     methods.
         /// </summary>
-        /// <remarks>Parameters include the named elements to search through and the type of view model to determine conventions for. Returns unmatched elements.</remarks>
+        /// <remarks>
+        ///     Parameters include the named elements to search through and the type of view model to determine conventions
+        ///     for. Returns unmatched elements.
+        /// </remarks>
         public static Func<IEnumerable<FrameworkElement>, Type, IEnumerable<FrameworkElement>> BindActions =
             (namedElements, viewModelType) =>
             {
@@ -155,15 +162,15 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
             };
 
         /// <summary>
-        /// Allows the developer to add custom handling of named elements which were not matched by any default conventions.
+        ///     Allows the developer to add custom handling of named elements which were not matched by any default conventions.
         /// </summary>
         public static Action<IEnumerable<FrameworkElement>, Type> HandleUnmatchedElements =
             (elements, viewModelType) => { };
 
         /// <summary>
-        /// Binds the specified viewModel to the view.
+        ///     Binds the specified viewModel to the view.
         /// </summary>
-        ///<remarks>Passes the the view model, view and creation context (or null for default) to use in applying binding.</remarks>
+        /// <remarks>Passes the the view model, view and creation context (or null for default) to use in applying binding.</remarks>
         public static Action<object, DependencyObject, object> Bind = (viewModel, view, context) =>
         {
             // when using d:DesignInstance, Blend tries to assign the DesignInstanceExtension class as the DataContext,
@@ -222,7 +229,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
 
 
         /// <summary>
-        /// Determines whether a view should have conventions applied to it.
+        ///     Determines whether a view should have conventions applied to it.
         /// </summary>
         /// <param name="view">The view to check.</param>
         /// <returns>Whether or not conventions should be applied to the view.</returns>
@@ -232,9 +239,9 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
             return overriden.GetValueOrDefault(ApplyConventionsByDefault);
         }
 
-        static bool IsAsyncMethod(MethodInfo method)
+        private static bool IsAsyncMethod(MethodInfo method)
         {
-            return typeof (Task).IsAssignableFrom(method.ReturnType) &&
+            return typeof(Task).IsAssignableFrom(method.ReturnType) &&
                    method.Name.EndsWith(AsyncSuffix, StringComparison.OrdinalIgnoreCase);
         }
     }

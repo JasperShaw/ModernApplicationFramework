@@ -33,23 +33,103 @@ using System.Threading;
 
 namespace ModernApplicationFramework.Core.Standard
 {
-	/// <summary>
-    /// A static class for retail validated assertions.
-    /// Instead of breaking into the debugger an exception is thrown.
+    /// <summary>
+    ///     A static class for retail validated assertions.
+    ///     Instead of breaking into the debugger an exception is thrown.
     /// </summary>
     internal static class Verify
     {
+        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        [DebuggerStepThrough]
+        public static void AreEqual<T>(T expected, T actual, string parameterName, string message)
+        {
+            if (null == expected)
+            {
+                // Two nulls are considered equal, regardless of type semantics.
+                if (null != actual && !actual.Equals(expected))
+                {
+                    throw new ArgumentException(message, parameterName);
+                }
+            }
+            else
+                if (!expected.Equals(actual))
+                {
+                    throw new ArgumentException(message, parameterName);
+                }
+        }
+
+        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        [DebuggerStepThrough]
+        public static void AreNotEqual<T>(T notExpected, T actual, string parameterName, string message)
+        {
+            if (null == notExpected)
+            {
+                // Two nulls are considered equal, regardless of type semantics.
+                if (null == actual || actual.Equals(notExpected))
+                {
+                    throw new ArgumentException(message, parameterName);
+                }
+            }
+            else
+                if (notExpected.Equals(actual))
+                {
+                    throw new ArgumentException(message, parameterName);
+                }
+        }
+
+        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        [DebuggerStepThrough]
+        public static void BoundedDoubleInc(double lowerBoundInclusive, double value, double upperBoundInclusive,
+                                            string message, string parameter)
+        {
+            if (value < lowerBoundInclusive || value > upperBoundInclusive)
+            {
+                throw new ArgumentException(message, parameter);
+            }
+        }
+
         /// <summary>
-        /// Ensure that the current thread's apartment state is what's expected.
+        ///     Verifies that the specified value is within the expected range.  The assertion fails if it isn't.
+        /// </summary>
+        /// <param name="lowerBoundInclusive">The lower bound inclusive value.</param>
+        /// <param name="value">The value to verify.</param>
+        /// <param name="upperBoundExclusive">The upper bound exclusive value.</param>
+        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        [DebuggerStepThrough]
+        public static void BoundedInteger(int lowerBoundInclusive, int value, int upperBoundExclusive,
+                                          string parameterName)
+        {
+            if (value < lowerBoundInclusive || value >= upperBoundExclusive)
+            {
+                throw new ArgumentException(
+                    string.Format(CultureInfo.InvariantCulture, "The integer value must be bounded with [{0}, {1})",
+                        lowerBoundInclusive, upperBoundExclusive), parameterName);
+            }
+        }
+
+        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        [DebuggerStepThrough]
+        public static void FileExists(string filePath, string parameterName)
+        {
+            IsNeitherNullNorEmpty(filePath, parameterName);
+            if (!File.Exists(filePath))
+            {
+                throw new ArgumentException(
+                    string.Format(CultureInfo.InvariantCulture, "No file exists at \"{0}\"", filePath), parameterName);
+            }
+        }
+
+        /// <summary>
+        ///     Ensure that the current thread's apartment state is what's expected.
         /// </summary>
         /// <param name="requiredState">
-        /// The required apartment state for the current thread.
+        ///     The required apartment state for the current thread.
         /// </param>
         /// <param name="message">
-        /// The message string for the exception to be thrown if the state is invalid.
+        ///     The message string for the exception to be thrown if the state is invalid.
         /// </param>
         /// <exception cref="InvalidOperationException">
-        /// Thrown if the calling thread's apartment state is not the same as the requiredState.
+        ///     Thrown if the calling thread's apartment state is not the same as the requiredState.
         /// </exception>
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DebuggerStepThrough]
@@ -62,7 +142,7 @@ namespace ModernApplicationFramework.Core.Standard
         }
 
         /// <summary>
-        /// Ensure that an argument is neither null nor empty.
+        ///     Ensure that an argument is neither null nor empty.
         /// </summary>
         /// <param name="value">The string to validate.</param>
         /// <param name="name">The name of the parameter that will be presented if an exception is thrown.</param>
@@ -87,7 +167,7 @@ namespace ModernApplicationFramework.Core.Standard
         }
 
         /// <summary>
-        /// Ensure that an argument is neither null nor does it consist only of whitespace.
+        ///     Ensure that an argument is neither null nor does it consist only of whitespace.
         /// </summary>
         /// <param name="value">The string to validate.</param>
         /// <param name="name">The name of the parameter that will be presented if an exception is thrown.</param>
@@ -100,7 +180,8 @@ namespace ModernApplicationFramework.Core.Standard
             Assert.IsNeitherNullNorEmpty(name);
 
             // Notice that ArgumentNullException and ArgumentException take the parameters in opposite order :P
-            const string errorMessage = "The parameter can not be either null or empty or consist only of white space characters.";
+            const string errorMessage =
+                "The parameter can not be either null or empty or consist only of white space characters.";
             if (null == value)
             {
                 throw new ArgumentNullException(name, errorMessage);
@@ -153,28 +234,8 @@ namespace ModernApplicationFramework.Core.Standard
             }
         }
 
-        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DebuggerStepThrough]
-        public static void PropertyIsNotNull<T>(T obj, string name) where T : class
-        {
-            if (null == obj)
-            {
-                throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, "The property {0} cannot be null at this time.", name));
-            }
-        }
-
-        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DebuggerStepThrough]
-        public static void PropertyIsNull<T>(T obj, string name) where T : class
-        {
-            if (null != obj)
-            {
-                throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, "The property {0} must be null at this time.", name));
-            }
-        }
-
         /// <summary>
-        /// Verifies the specified statement is true.  Throws an ArgumentException if it's not.
+        ///     Verifies the specified statement is true.  Throws an ArgumentException if it's not.
         /// </summary>
         /// <param name="statement">The statement to be verified as true.</param>
         /// <param name="name">Name of the parameter to include in the ArgumentException.</param>
@@ -189,7 +250,7 @@ namespace ModernApplicationFramework.Core.Standard
         }
 
         /// <summary>
-        /// Verifies the specified statement is true.  Throws an ArgumentException if it's not.
+        ///     Verifies the specified statement is true.  Throws an ArgumentException if it's not.
         /// </summary>
         /// <param name="statement">The statement to be verified as true.</param>
         /// <param name="name">Name of the parameter to include in the ArgumentException.</param>
@@ -206,74 +267,23 @@ namespace ModernApplicationFramework.Core.Standard
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DebuggerStepThrough]
-        public static void AreEqual<T>(T expected, T actual, string parameterName, string message)
+        public static void PropertyIsNotNull<T>(T obj, string name) where T : class
         {
-            if (null == expected)
+            if (null == obj)
             {
-                // Two nulls are considered equal, regardless of type semantics.
-                if (null != actual && !actual.Equals(expected))
-                {
-                    throw new ArgumentException(message, parameterName);
-                }
-            }
-            else if (!expected.Equals(actual))
-            {
-                throw new ArgumentException(message, parameterName);
+                throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture,
+                    "The property {0} cannot be null at this time.", name));
             }
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DebuggerStepThrough]
-        public static void AreNotEqual<T>(T notExpected, T actual, string parameterName, string message)
+        public static void PropertyIsNull<T>(T obj, string name) where T : class
         {
-            if (null == notExpected)
+            if (null != obj)
             {
-                // Two nulls are considered equal, regardless of type semantics.
-                if (null == actual || actual.Equals(notExpected))
-                {
-                    throw new ArgumentException(message, parameterName);
-                }
-            }
-            else if (notExpected.Equals(actual))
-            {
-                throw new ArgumentException(message, parameterName);
-            }
-        }
-
-        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DebuggerStepThrough]
-        public static void UriIsAbsolute(Uri uri, string parameterName)
-        {
-            Verify.IsNotNull(uri, parameterName);
-            if (!uri.IsAbsoluteUri)
-            {
-                throw new ArgumentException("The URI must be absolute.", parameterName);
-            }
-        }
-
-        /// <summary>
-        /// Verifies that the specified value is within the expected range.  The assertion fails if it isn't.
-        /// </summary>
-        /// <param name="lowerBoundInclusive">The lower bound inclusive value.</param>
-        /// <param name="value">The value to verify.</param>
-        /// <param name="upperBoundExclusive">The upper bound exclusive value.</param>
-        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DebuggerStepThrough]
-        public static void BoundedInteger(int lowerBoundInclusive, int value, int upperBoundExclusive, string parameterName)
-        {
-            if (value < lowerBoundInclusive || value >= upperBoundExclusive)
-            {
-                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "The integer value must be bounded with [{0}, {1})", lowerBoundInclusive, upperBoundExclusive), parameterName);
-            }
-        }
-
-        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DebuggerStepThrough]
-        public static void BoundedDoubleInc(double lowerBoundInclusive, double value, double upperBoundInclusive, string message, string parameter)
-        {
-            if (value < lowerBoundInclusive || value > upperBoundInclusive)
-            {
-                throw new ArgumentException(message, parameter);
+                throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture,
+                    "The property {0} must be null at this time.", name));
             }
         }
 
@@ -282,23 +292,24 @@ namespace ModernApplicationFramework.Core.Standard
         public static void TypeSupportsInterface(Type type, Type interfaceType, string parameterName)
         {
             Assert.IsNeitherNullNorEmpty(parameterName);
-            Verify.IsNotNull(type, "type");
-            Verify.IsNotNull(interfaceType, "interfaceType");
+            IsNotNull(type, "type");
+            IsNotNull(interfaceType, "interfaceType");
 
             if (type.GetInterface(interfaceType.Name) == null)
             {
-                throw new ArgumentException("The type of this parameter does not support a required interface", parameterName);
+                throw new ArgumentException("The type of this parameter does not support a required interface",
+                    parameterName);
             }
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DebuggerStepThrough]
-        public static void FileExists(string filePath, string parameterName)
+        public static void UriIsAbsolute(Uri uri, string parameterName)
         {
-            Verify.IsNeitherNullNorEmpty(filePath, parameterName);
-            if (!File.Exists(filePath))
+            IsNotNull(uri, parameterName);
+            if (!uri.IsAbsoluteUri)
             {
-                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "No file exists at \"{0}\"", filePath), parameterName);
+                throw new ArgumentException("The URI must be absolute.", parameterName);
             }
         }
 
@@ -310,7 +321,7 @@ namespace ModernApplicationFramework.Core.Standard
             Assert.IsNotNull(interfaceType);
             Assert.IsTrue(interfaceType.IsInterface);
 
-            bool isImplemented = false;
+            var isImplemented = false;
             foreach (var ifaceType in parameter.GetType().GetInterfaces())
             {
                 if (ifaceType == interfaceType)
@@ -322,7 +333,9 @@ namespace ModernApplicationFramework.Core.Standard
 
             if (!isImplemented)
             {
-                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "The parameter must implement interface {0}.", interfaceType.ToString()), parameterName);
+                throw new ArgumentException(
+                    string.Format(CultureInfo.InvariantCulture, "The parameter must implement interface {0}.",
+                        interfaceType.ToString()), parameterName);
             }
         }
     }

@@ -6,7 +6,7 @@ using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Utilities
 {
-    [Export(typeof (IToolbarTrayCreator))]
+    [Export(typeof(IToolbarTrayCreator))]
     public class ToolbarTrayCreator : IToolbarTrayCreator
     {
         private readonly ToolbarDefinition[] _toolbarDefinitions;

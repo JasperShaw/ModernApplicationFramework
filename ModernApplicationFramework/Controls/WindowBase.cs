@@ -9,23 +9,27 @@ namespace ModernApplicationFramework.Controls
     public abstract class WindowBase : Window
     {
         public static readonly DependencyProperty HasMaximizeButtonProperty = DependencyProperty.Register(
-            "HasMaximizeButton", typeof (bool), typeof (WindowBase), new PropertyMetadata(Boxes.BoolFalse, OnWindowStyleChanged));
+            "HasMaximizeButton", typeof(bool), typeof(WindowBase),
+            new PropertyMetadata(Boxes.BoolFalse, OnWindowStyleChanged));
 
         public static readonly DependencyProperty HasMinimizeButtonProperty = DependencyProperty.Register(
-            "HasMinimizeButton", typeof (bool), typeof (WindowBase), new PropertyMetadata(Boxes.BoolFalse, OnWindowStyleChanged));
+            "HasMinimizeButton", typeof(bool), typeof(WindowBase),
+            new PropertyMetadata(Boxes.BoolFalse, OnWindowStyleChanged));
 
         public static readonly DependencyProperty HasDialogFrameProperty = DependencyProperty.Register(
-            "HasDialogFrame", typeof(bool), typeof(WindowBase), new PropertyMetadata(Boxes.BoolTrue, OnWindowStyleChanged));
+            "HasDialogFrame", typeof(bool), typeof(WindowBase),
+            new PropertyMetadata(Boxes.BoolTrue, OnWindowStyleChanged));
 
         public static readonly DependencyProperty IsCloseButtonEnabledProperty = DependencyProperty.Register(
-            "IsCloseButtonEnabled", typeof(bool), typeof(WindowBase), new PropertyMetadata(Boxes.BoolTrue, OnWindowStyleChanged));
+            "IsCloseButtonEnabled", typeof(bool), typeof(WindowBase),
+            new PropertyMetadata(Boxes.BoolTrue, OnWindowStyleChanged));
 
         private HwndSource _hwndSource;
 
-        public bool IsCloseButtonEnabled
+        static WindowBase()
         {
-            get { return (bool) GetValue(IsCloseButtonEnabledProperty); }
-            set { SetValue(IsCloseButtonEnabledProperty, value); }
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(WindowBase),
+                new FrameworkPropertyMetadata(typeof(WindowBase)));
         }
 
         public bool HasDialogFrame
@@ -34,21 +38,34 @@ namespace ModernApplicationFramework.Controls
             set { SetValue(HasDialogFrameProperty, value); }
         }
 
-        public bool HasMinimizeButton
-        {
-            get { return (bool) GetValue(HasMinimizeButtonProperty); }
-            set { SetValue(HasMinimizeButtonProperty, value); }
-        }
-
         public bool HasMaximizeButton
         {
             get { return (bool) GetValue(HasMaximizeButtonProperty); }
             set { SetValue(HasMaximizeButtonProperty, value); }
         }
 
-        static WindowBase()
+        public bool HasMinimizeButton
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(WindowBase), new FrameworkPropertyMetadata(typeof(WindowBase)));
+            get { return (bool) GetValue(HasMinimizeButtonProperty); }
+            set { SetValue(HasMinimizeButtonProperty, value); }
+        }
+
+        public bool IsCloseButtonEnabled
+        {
+            get { return (bool) GetValue(IsCloseButtonEnabledProperty); }
+            set { SetValue(IsCloseButtonEnabledProperty, value); }
+        }
+
+        protected virtual void OnDialogThemeChanged() {}
+
+        protected override void OnClosed(EventArgs e)
+        {
+            if (_hwndSource != null)
+            {
+                _hwndSource.Dispose();
+                _hwndSource = null;
+            }
+            base.OnClosed(e);
         }
 
         protected override void OnSourceInitialized(EventArgs e)
@@ -59,14 +76,11 @@ namespace ModernApplicationFramework.Controls
             base.OnSourceInitialized(e);
         }
 
-        protected override void OnClosed(EventArgs e)
+
+        private static void OnWindowStyleChanged(DependencyObject dependencyObject,
+                                                 DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
-            if (_hwndSource != null)
-            {
-                _hwndSource.Dispose();
-                _hwndSource = null;
-            }
-            base.OnClosed(e);
+            ((WindowBase) dependencyObject).UpdateWindowStyle();
         }
 
         private void UpdateWindowStyle()
@@ -100,13 +114,5 @@ namespace ModernApplicationFramework.Controls
             handled = true;
             return IntPtr.Zero;
         }
-
-
-        private static void OnWindowStyleChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
-        {
-            ((WindowBase) dependencyObject).UpdateWindowStyle();
-        }
-
-        protected virtual void OnDialogThemeChanged() { }
     }
 }

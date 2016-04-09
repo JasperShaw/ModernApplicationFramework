@@ -7,14 +7,24 @@ namespace ModernApplicationFramework.Controls.Customize
 {
     public class CustomizeDialog : DialogWindow
     {
-        private bool _contentLoaded;
         private readonly ToolBarHostViewModel _toolBarHostViewModel;
+        private bool _contentLoaded;
 
         public CustomizeDialog(ToolBarHostViewModel toolBarViewModel)
         {
             InitializeComponent();
             _toolBarHostViewModel = toolBarViewModel;
             Loaded += CustomizeDialog_Loaded;
+        }
+
+        public void InitializeComponent()
+        {
+            if (_contentLoaded)
+                return;
+            _contentLoaded = true;
+            Application.LoadComponent(this,
+                new Uri("/ModernApplicationFramework;component/Controls/Customize/customizedialog.xaml",
+                    UriKind.Relative));
         }
 
         private void CustomizeDialog_Loaded(object sender, RoutedEventArgs e)
@@ -34,16 +44,6 @@ namespace ModernApplicationFramework.Controls.Customize
         private void OnCloseButtonClick(object sender, RoutedEventArgs routedEventArgs)
         {
             Close();
-        }
-
-        public void InitializeComponent()
-        {
-            if (_contentLoaded)
-                return;
-            _contentLoaded = true;
-            Application.LoadComponent(this,
-                new Uri("/ModernApplicationFramework;component/Controls/Customize/customizedialog.xaml",
-                    UriKind.Relative));
         }
     }
 }

@@ -13,7 +13,6 @@ namespace ModernApplicationFramework.Controls
             if (mainWindow?.Title == null)
                 return base.GetNameCore();
             return mainWindow.Title;
-
         }
     }
 }

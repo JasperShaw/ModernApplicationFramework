@@ -7,7 +7,7 @@ namespace ModernApplicationFramework.Controls
     public class ImageRadioButton : RadioButton
     {
         public static readonly DependencyProperty HoverImageProperty = DependencyProperty.Register(
-    "HoverImage", typeof(ImageSource), typeof(ImageRadioButton), new PropertyMetadata(default(ImageSource)));
+            "HoverImage", typeof(ImageSource), typeof(ImageRadioButton), new PropertyMetadata(default(ImageSource)));
 
         public static readonly DependencyProperty NormalImageProperty = DependencyProperty.Register(
             "NormalImage", typeof(ImageSource), typeof(ImageRadioButton), new PropertyMetadata(default(ImageSource)));
@@ -25,28 +25,28 @@ namespace ModernApplicationFramework.Controls
                 new FrameworkPropertyMetadata(typeof(ImageRadioButton)));
         }
 
+        public ImageSource CheckedImage
+        {
+            get { return (ImageSource) GetValue(CheckedImageProperty); }
+            set { SetValue(CheckedImageProperty, value); }
+        }
+
         public ImageSource HoverImage
         {
-            get { return (ImageSource)GetValue(HoverImageProperty); }
+            get { return (ImageSource) GetValue(HoverImageProperty); }
             set { SetValue(HoverImageProperty, value); }
         }
 
         public ImageSource NormalImage
         {
-            get { return (ImageSource)GetValue(NormalImageProperty); }
+            get { return (ImageSource) GetValue(NormalImageProperty); }
             set { SetValue(NormalImageProperty, value); }
         }
 
         public ImageSource PressedImage
         {
-            get { return (ImageSource)GetValue(PressedImageProperty); }
+            get { return (ImageSource) GetValue(PressedImageProperty); }
             set { SetValue(PressedImageProperty, value); }
-        }
-
-        public ImageSource CheckedImage
-        {
-            get { return (ImageSource)GetValue(CheckedImageProperty); }
-            set { SetValue(CheckedImageProperty, value); }
         }
     }
 }

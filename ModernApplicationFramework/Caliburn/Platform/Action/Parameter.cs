@@ -6,23 +6,43 @@ using System.Windows.Interactivity;
 namespace ModernApplicationFramework.Caliburn.Platform.Action
 {
     /// <summary>
-    /// Represents a parameter of an <see cref="ActionMessage"/>.
+    ///     Represents a parameter of an <see cref="ActionMessage" />.
     /// </summary>
     public class Parameter : Freezable, IAttachedObject
     {
         /// <summary>
-        /// A dependency property representing the parameter's value.
+        ///     A dependency property representing the parameter's value.
         /// </summary>
         public static readonly DependencyProperty ValueProperty =
             DependencyProperty.Register(
                 "Value",
-                typeof (object),
-                typeof (Parameter),
+                typeof(object),
+                typeof(Parameter),
                 new PropertyMetadata(OnValueChanged)
                 );
 
-        DependencyObject _associatedObject;
-        WeakReference _owner;
+        private DependencyObject _associatedObject;
+        private WeakReference _owner;
+
+        /// <summary>
+        ///     Gets or sets the value of the parameter.
+        /// </summary>
+        /// <value>The value.</value>
+        [Category("Common Properties")]
+        public object Value
+        {
+            get { return GetValue(ValueProperty); }
+            set { SetValue(ValueProperty, value); }
+        }
+
+        /// <summary>
+        ///     Gets or sets the owner.
+        /// </summary>
+        protected ActionMessage Owner
+        {
+            get { return _owner?.Target as ActionMessage; }
+            set { _owner = new WeakReference(value); }
+        }
 
         DependencyObject IAttachedObject.AssociatedObject
         {
@@ -48,27 +68,8 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
         }
 
         /// <summary>
-        /// Gets or sets the value of the parameter.
-        /// </summary>
-        /// <value>The value.</value>
-        [Category("Common Properties")]
-        public object Value
-        {
-            get { return GetValue(ValueProperty); }
-            set { SetValue(ValueProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the owner.
-        /// </summary>
-        protected ActionMessage Owner
-        {
-            get { return _owner?.Target as ActionMessage; }
-            set { _owner = new WeakReference(value); }
-        }
-
-        /// <summary>
-        /// When implemented in a derived class, creates a new instance of the <see cref="T:System.Windows.Freezable"/> derived class.
+        ///     When implemented in a derived class, creates a new instance of the <see cref="T:System.Windows.Freezable" />
+        ///     derived class.
         /// </summary>
         /// <returns>The new instance.</returns>
         protected override Freezable CreateInstanceCore()
@@ -77,7 +78,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
         }
 
         /// <summary>
-        /// Makes the parameter aware of the <see cref="ActionMessage"/> that it's attached to.
+        ///     Makes the parameter aware of the <see cref="ActionMessage" /> that it's attached to.
         /// </summary>
         /// <param name="owner">The action message.</param>
         internal void MakeAwareOf(ActionMessage owner)
@@ -85,7 +86,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
             Owner = owner;
         }
 
-        static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var parameter = (Parameter) d;
             var owner = parameter.Owner;

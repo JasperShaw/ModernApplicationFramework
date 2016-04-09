@@ -8,17 +8,17 @@ using System.Windows.Data;
 using System.Windows.Navigation;
 using ModernApplicationFramework.Caliburn.EventArgs;
 using ModernApplicationFramework.Caliburn.Interfaces;
-using ConventionManager = ModernApplicationFramework.Caliburn.Platform.Action.ConventionManager;
+using ModernApplicationFramework.Caliburn.Platform.Action;
 
 namespace ModernApplicationFramework.Caliburn.Platform.Xaml
 {
     /// <summary>
-    /// A service that manages windows.
+    ///     A service that manages windows.
     /// </summary>
     public interface IWindowManager
     {
         /// <summary>
-        /// Shows a modal dialog for the specified model.
+        ///     Shows a modal dialog for the specified model.
         /// </summary>
         /// <param name="rootModel">The root model.</param>
         /// <param name="context">The context.</param>
@@ -27,7 +27,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
         bool? ShowDialog(object rootModel, object context = null, IDictionary<string, object> settings = null);
 
         /// <summary>
-        /// Shows a popup at the current mouse position.
+        ///     Shows a popup at the current mouse position.
         /// </summary>
         /// <param name="rootModel">The root model.</param>
         /// <param name="context">The view context.</param>
@@ -35,7 +35,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
         void ShowPopup(object rootModel, object context = null, IDictionary<string, object> settings = null);
 
         /// <summary>
-        /// Shows a non-modal window for the specified model.
+        ///     Shows a non-modal window for the specified model.
         /// </summary>
         /// <param name="rootModel">The root model.</param>
         /// <param name="context">The context.</param>
@@ -44,31 +44,31 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
     }
 
     /// <summary>
-    /// A service that manages windows.
+    ///     A service that manages windows.
     /// </summary>
     public class WindowManager : IWindowManager
     {
         /// <summary>
-        /// Shows a modal dialog for the specified model.
+        ///     Shows a modal dialog for the specified model.
         /// </summary>
         /// <param name="rootModel">The root model.</param>
         /// <param name="context">The context.</param>
         /// <param name="settings">The dialog popup settings.</param>
         /// <returns>The dialog result.</returns>
         public virtual bool? ShowDialog(object rootModel, object context = null,
-            IDictionary<string, object> settings = null)
+                                        IDictionary<string, object> settings = null)
         {
             return CreateWindow(rootModel, true, context, settings).ShowDialog();
         }
 
         /// <summary>
-        /// Shows a popup at the current mouse position.
+        ///     Shows a popup at the current mouse position.
         /// </summary>
         /// <param name="rootModel">The root model.</param>
         /// <param name="context">The view context.</param>
         /// <param name="settings">The optional popup settings.</param>
         public virtual void ShowPopup(object rootModel, object context = null,
-            IDictionary<string, object> settings = null)
+                                      IDictionary<string, object> settings = null)
         {
             var popup = CreatePopup(rootModel, settings);
             var view = ViewLocator.LocateForModel(rootModel, popup, context);
@@ -93,13 +93,13 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
         }
 
         /// <summary>
-        /// Shows a window for the specified model.
+        ///     Shows a window for the specified model.
         /// </summary>
         /// <param name="rootModel">The root model.</param>
         /// <param name="context">The context.</param>
         /// <param name="settings">The optional window settings.</param>
         public virtual void ShowWindow(object rootModel, object context = null,
-            IDictionary<string, object> settings = null)
+                                       IDictionary<string, object> settings = null)
         {
             NavigationWindow navWindow = null;
 
@@ -120,24 +120,8 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
             }
         }
 
-        public bool ApplySettings(object target, IEnumerable<KeyValuePair<string, object>> settings)
-        {
-            if (settings == null)
-                return false;
-            var type = target.GetType();
-
-            foreach (var pair in settings)
-            {
-                var propertyInfo = type.GetProperty(pair.Key);
-
-                propertyInfo?.SetValue(target, pair.Value, null);
-            }
-
-            return true;
-        }
-
         /// <summary>
-        /// Creates the page.
+        ///     Creates the page.
         /// </summary>
         /// <param name="rootModel">The root model.</param>
         /// <param name="context">The context.</param>
@@ -169,8 +153,24 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
             return view;
         }
 
+        public bool ApplySettings(object target, IEnumerable<KeyValuePair<string, object>> settings)
+        {
+            if (settings == null)
+                return false;
+            var type = target.GetType();
+
+            foreach (var pair in settings)
+            {
+                var propertyInfo = type.GetProperty(pair.Key);
+
+                propertyInfo?.SetValue(target, pair.Value, null);
+            }
+
+            return true;
+        }
+
         /// <summary>
-        /// Creates a popup for hosting a popup window.
+        ///     Creates a popup for hosting a popup window.
         /// </summary>
         /// <param name="rootModel">The model.</param>
         /// <param name="settings">The optional popup settings.</param>
@@ -196,7 +196,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
         }
 
         /// <summary>
-        /// Creates a window.
+        ///     Creates a window.
         /// </summary>
         /// <param name="rootModel">The view model.</param>
         /// <param name="isDialog">Whethor or not the window is being shown as a dialog.</param>
@@ -204,7 +204,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
         /// <param name="settings">The optional popup settings.</param>
         /// <returns>The window.</returns>
         protected virtual Window CreateWindow(object rootModel, bool isDialog, object context,
-            IDictionary<string, object> settings)
+                                              IDictionary<string, object> settings)
         {
             var view = EnsureWindow(rootModel, ViewLocator.LocateForModel(rootModel, null, context), isDialog);
             ViewModelBinder.Bind(rootModel, view, context);
@@ -224,7 +224,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
         }
 
         /// <summary>
-        /// Ensures the view is a page or provides one.
+        ///     Ensures the view is a page or provides one.
         /// </summary>
         /// <param name="model">The model.</param>
         /// <param name="view">The view.</param>
@@ -243,7 +243,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
         }
 
         /// <summary>
-        /// Makes sure the view is a window is is wrapped by one.
+        ///     Makes sure the view is a window is is wrapped by one.
         /// </summary>
         /// <param name="model">The view model.</param>
         /// <param name="view">The view.</param>
@@ -287,7 +287,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
         }
 
         /// <summary>
-        /// Infers the owner of the window.
+        ///     Infers the owner of the window.
         /// </summary>
         /// <param name="window">The window to whose owner needs to be determined.</param>
         /// <returns>The owner.</returns>
@@ -305,13 +305,13 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
             return Equals(active, window) ? null : active;
         }
 
-        class WindowConductor
+        private class WindowConductor
         {
-            readonly object _model;
-            readonly Window _view;
-            bool _actuallyClosing;
-            bool _deactivateFromViewModel;
-            bool _deactivatingFromView;
+            private readonly object _model;
+            private readonly Window _view;
+            private bool _actuallyClosing;
+            private bool _deactivateFromViewModel;
+            private bool _deactivatingFromView;
 
             public WindowConductor(object model, Window view)
             {
@@ -352,7 +352,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
                 _deactivatingFromView = false;
             }
 
-            void Closing(object sender, CancelEventArgs e)
+            private void Closing(object sender, CancelEventArgs e)
             {
                 if (e.Cancel)
                 {
@@ -395,7 +395,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Xaml
                 runningAsync = e.Cancel = true;
             }
 
-            void Deactivated(object sender, DeactivationEventArgs e)
+            private void Deactivated(object sender, DeactivationEventArgs e)
             {
                 if (!e.WasClosed)
                 {

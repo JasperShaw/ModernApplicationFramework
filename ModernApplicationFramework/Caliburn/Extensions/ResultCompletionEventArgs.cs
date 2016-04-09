@@ -4,18 +4,18 @@ using ModernApplicationFramework.Caliburn.Result;
 namespace ModernApplicationFramework.Caliburn.Extensions
 {
     /// <summary>
-    /// The event args for the Completed event of an <see cref="IResult"/>.
+    ///     The event args for the Completed event of an <see cref="IResult" />.
     /// </summary>
     public class ResultCompletionEventArgs : System.EventArgs
     {
         /// <summary>
-        /// Gets or sets the error if one occurred.
+        ///     Gets or sets the error if one occurred.
         /// </summary>
         /// <value>The error.</value>
         public Exception Error;
 
         /// <summary>
-        /// Gets or sets a value indicating whether the result was cancelled.
+        ///     Gets or sets a value indicating whether the result was cancelled.
         /// </summary>
         /// <value><c>true</c> if cancelled; otherwise, <c>false</c>.</value>
         public bool WasCancelled;

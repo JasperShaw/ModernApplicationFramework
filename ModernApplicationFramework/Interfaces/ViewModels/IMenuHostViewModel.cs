@@ -12,22 +12,22 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         Command RightClickCommand { get; }
 
         /// <summary>
-        /// Tells if you can open the ToolbarHostContextMenu
+        ///     Tells if you can open the ToolbarHostContextMenu
         /// </summary>
         bool CanOpenToolBarContextMenu { get; set; }
 
         /// <summary>
-        /// Contains the MenuItems of the MenuHostControl
+        ///     Contains the MenuItems of the MenuHostControl
         /// </summary>
         ObservableCollection<MenuItem> Items { get; set; }
 
         /// <summary>
-        /// Contains the UseDockingHost shall not be changed after setted up
+        ///     Contains the UseDockingHost shall not be changed after setted up
         /// </summary>
         IMainWindowViewModel MainWindowViewModel { get; set; }
 
         /// <summary>
-        /// Create Menus 
+        ///     Create Menus
         /// </summary>
         /// <param name="creator"></param>
         void CreateMenu(IMenuCreator creator);

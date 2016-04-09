@@ -8,11 +8,11 @@ namespace ModernApplicationFramework.Core.Utilities
     internal static class WindowStyleHelper
     {
         public static readonly DependencyProperty HasMaximizeButtonProperty =
-            DependencyProperty.RegisterAttached("HasMaximizeButton", typeof (bool), typeof (WindowStyleHelper),
+            DependencyProperty.RegisterAttached("HasMaximizeButton", typeof(bool), typeof(WindowStyleHelper),
                 new FrameworkPropertyMetadata(Boxes.BoolFalse, OnWindowStyleChanged));
 
         public static readonly DependencyProperty HasMinimizeButtonProperty =
-            DependencyProperty.RegisterAttached("HasMinimizeButton", typeof (bool), typeof (WindowStyleHelper),
+            DependencyProperty.RegisterAttached("HasMinimizeButton", typeof(bool), typeof(WindowStyleHelper),
                 new FrameworkPropertyMetadata(Boxes.BoolFalse, OnWindowStyleChanged));
 
         public static bool GetHasMaximizeButton(Window window)

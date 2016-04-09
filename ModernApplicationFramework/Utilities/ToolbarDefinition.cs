@@ -29,7 +29,7 @@ namespace ModernApplicationFramework.Utilities
         public ToolbarDefinition(int sortOrder, bool visibleOnLoad, Dock position)
             : base(null, sortOrder, visibleOnLoad, position)
         {
-            var t = IoC.Get<IToolbarService>().GetToolbar(typeof (T));
+            var t = IoC.Get<IToolbarService>().GetToolbar(typeof(T));
             ToolBar = t;
         }
     }

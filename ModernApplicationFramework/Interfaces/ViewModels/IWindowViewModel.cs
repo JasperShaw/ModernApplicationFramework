@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace ModernApplicationFramework.Interfaces.ViewModels
 {
@@ -10,9 +11,9 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         ICommand MaximizeResizeCommand { get; }
         ICommand MinimizeCommand { get; }
         ICommand SimpleMoveWindowCommand { get; }
-        System.Windows.Media.Imaging.BitmapImage ActiveIcon { get; set; }
+        BitmapImage ActiveIcon { get; set; }
         bool IsSimpleWindow { get; set; }
-        System.Windows.Media.Imaging.BitmapImage PassiveIcon { get; set; }
+        BitmapImage PassiveIcon { get; set; }
         bool UseSimpleMovement { get; set; }
     }
 }

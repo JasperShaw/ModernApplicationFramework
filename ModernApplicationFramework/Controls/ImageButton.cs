@@ -6,18 +6,18 @@ namespace ModernApplicationFramework.Controls
     public class ImageButton : Button
     {
         public static readonly DependencyProperty HoverImageProperty = DependencyProperty.Register(
-            "HoverImage", typeof (ImageSource), typeof (ImageButton), new PropertyMetadata(default(ImageSource)));
+            "HoverImage", typeof(ImageSource), typeof(ImageButton), new PropertyMetadata(default(ImageSource)));
 
         public static readonly DependencyProperty NormalImageProperty = DependencyProperty.Register(
-            "NormalImage", typeof (ImageSource), typeof (ImageButton), new PropertyMetadata(default(ImageSource)));
+            "NormalImage", typeof(ImageSource), typeof(ImageButton), new PropertyMetadata(default(ImageSource)));
 
         public static readonly DependencyProperty PressedImageProperty = DependencyProperty.Register(
-            "PressedImage", typeof (ImageSource), typeof (ImageButton), new PropertyMetadata(default(ImageSource)));
+            "PressedImage", typeof(ImageSource), typeof(ImageButton), new PropertyMetadata(default(ImageSource)));
 
         static ImageButton()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof (ImageButton),
-                new FrameworkPropertyMetadata(typeof (ImageButton)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ImageButton),
+                new FrameworkPropertyMetadata(typeof(ImageButton)));
         }
 
         public ImageSource HoverImage

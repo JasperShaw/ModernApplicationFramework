@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
@@ -11,22 +12,22 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using ModernApplicationFramework.Caliburn.Extensions;
 using ModernApplicationFramework.Caliburn.Logger;
+using ModernApplicationFramework.Caliburn.Platform.Interfaces;
+using ModernApplicationFramework.Caliburn.Platform.Utilities;
+using ModernApplicationFramework.Caliburn.Platform.Xaml;
 using ModernApplicationFramework.Caliburn.Result;
 using EventTrigger = System.Windows.Interactivity.EventTrigger;
-using IHaveParameters = ModernApplicationFramework.Caliburn.Platform.Interfaces.IHaveParameters;
-using MessageBinder = ModernApplicationFramework.Caliburn.Platform.Utilities.MessageBinder;
-using View = ModernApplicationFramework.Caliburn.Platform.Xaml.View;
 
 namespace ModernApplicationFramework.Caliburn.Platform.Action
 {
     [ContentProperty("Parameters")]
-    [DefaultTrigger(typeof (FrameworkElement), typeof (EventTrigger), "MouseLeftButtonDown")]
-    [DefaultTrigger(typeof (ButtonBase), typeof (EventTrigger), "Click")]
-    [TypeConstraint(typeof (FrameworkElement))]
+    [DefaultTrigger(typeof(FrameworkElement), typeof(EventTrigger), "MouseLeftButtonDown")]
+    [DefaultTrigger(typeof(ButtonBase), typeof(EventTrigger), "Click")]
+    [TypeConstraint(typeof(FrameworkElement))]
     public class ActionMessage : TriggerAction<FrameworkElement>, IHaveParameters
     {
-        static readonly ILog Log = LogManager.GetLog(typeof (ActionMessage));
-        ActionExecutionContext _context;
+        private static readonly ILog Log = LogManager.GetLog(typeof(ActionMessage));
+        private ActionExecutionContext _context;
 
 #if WINDOWS_PHONE
         internal Microsoft.Phone.Shell.IApplicationBarMenuItem applicationBarSource;
@@ -34,55 +35,59 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
 
         internal static readonly DependencyProperty HandlerProperty = DependencyProperty.RegisterAttached(
             "Handler",
-            typeof (object),
-            typeof (ActionMessage),
+            typeof(object),
+            typeof(ActionMessage),
             new PropertyMetadata(null, HandlerPropertyChanged)
             );
 
-        ///<summary>
-        /// Causes the action invocation to "double check" if the action should be invoked by executing the guard immediately before hand.
-        ///</summary>
-        /// <remarks>This is disabled by default. If multiple actions are attached to the same element, you may want to enable this so that each individaul action checks its guard regardless of how the UI state appears.</remarks>
+        /// <summary>
+        ///     Causes the action invocation to "double check" if the action should be invoked by executing the guard immediately
+        ///     before hand.
+        /// </summary>
+        /// <remarks>
+        ///     This is disabled by default. If multiple actions are attached to the same element, you may want to enable this
+        ///     so that each individaul action checks its guard regardless of how the UI state appears.
+        /// </remarks>
         public static bool EnforceGuardsDuringInvocation = false;
 
-        ///<summary>
-        /// Causes the action to throw if it cannot locate the target or the method at invocation time.
-        ///</summary>
+        /// <summary>
+        ///     Causes the action to throw if it cannot locate the target or the method at invocation time.
+        /// </summary>
         /// <remarks>True by default.</remarks>
         public static bool ThrowsExceptions = true;
 
         /// <summary>
-        /// Represents the method name of an action message.
+        ///     Represents the method name of an action message.
         /// </summary>
         public static readonly DependencyProperty MethodNameProperty =
             DependencyProperty.Register(
                 "MethodName",
-                typeof (string),
-                typeof (ActionMessage),
+                typeof(string),
+                typeof(ActionMessage),
                 null
                 );
 
         /// <summary>
-        /// Represents the parameters of an action message.
+        ///     Represents the parameters of an action message.
         /// </summary>
         public static readonly DependencyProperty ParametersProperty =
             DependencyProperty.Register(
                 "Parameters",
-                typeof (Utilities.AttachedCollection<Parameter>),
-                typeof (ActionMessage),
+                typeof(AttachedCollection<Parameter>),
+                typeof(ActionMessage),
                 null
                 );
 
         /// <summary>
-        /// Creates an instance of <see cref="ActionMessage"/>.
+        ///     Creates an instance of <see cref="ActionMessage" />.
         /// </summary>
         public ActionMessage()
         {
-            SetValue(ParametersProperty, new Utilities.AttachedCollection<Parameter>());
+            SetValue(ParametersProperty, new AttachedCollection<Parameter>());
         }
 
         /// <summary>
-        /// Gets or sets the name of the method to be invoked on the presentation model class.
+        ///     Gets or sets the name of the method to be invoked on the presentation model class.
         /// </summary>
         /// <value>The name of the method.</value>
 #if !WinRT
@@ -95,24 +100,24 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
         }
 
         /// <summary>
-        /// Gets the parameters to pass as part of the method invocation.
+        ///     Gets the parameters to pass as part of the method invocation.
         /// </summary>
         /// <value>The parameters.</value>
 #if !WinRT
         [Category("Common Properties")]
 #endif
-            public Utilities.AttachedCollection<Parameter> Parameters
+            public AttachedCollection<Parameter> Parameters
         {
-            get { return (Utilities.AttachedCollection<Parameter>) GetValue(ParametersProperty); }
+            get { return (AttachedCollection<Parameter>) GetValue(ParametersProperty); }
         }
 
         /// <summary>
-        /// Occurs before the message detaches from the associated object.
+        ///     Occurs before the message detaches from the associated object.
         /// </summary>
         public event EventHandler Detaching = delegate { };
 
         /// <summary>
-        /// Called after the action is attached to an AssociatedObject.
+        ///     Called after the action is attached to an AssociatedObject.
         /// </summary>
 #if WinRT81
         protected override void OnAttached() {
@@ -150,7 +155,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
                 if (View.ExecuteOnLoad(AssociatedObject, ElementLoaded))
                 {
                     var trigger = Interaction.GetTriggers(AssociatedObject)
-                        .FirstOrDefault(t => t.Actions.Contains(this)) as EventTrigger;
+                                             .FirstOrDefault(t => t.Actions.Contains(this)) as EventTrigger;
                     if (trigger != null && trigger.EventName == "Loaded")
                         Invoke(new RoutedEventArgs());
                 }
@@ -160,13 +165,13 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
         }
 #endif
 
-        static void HandlerPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void HandlerPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((ActionMessage) d).UpdateContext();
         }
 
         /// <summary>
-        /// Called when the action is being detached from its AssociatedObject, but before it has actually occurred.
+        ///     Called when the action is being detached from its AssociatedObject, but before it has actually occurred.
         /// </summary>
         protected override void OnDetaching()
         {
@@ -180,7 +185,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
             base.OnDetaching();
         }
 
-        void ElementLoaded(object sender, RoutedEventArgs e)
+        private void ElementLoaded(object sender, RoutedEventArgs e)
         {
             UpdateContext();
 
@@ -196,7 +201,8 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
                     currentElement = VisualTreeHelper.GetParent(currentElement);
                 }
             }
-            else currentElement = _context.View;
+            else
+                currentElement = _context.View;
 
             var binding = new Binding
             {
@@ -207,7 +213,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
             BindingOperations.SetBinding(this, HandlerProperty, binding);
         }
 
-        void UpdateContext()
+        private void UpdateContext()
         {
             _context?.Dispose();
 
@@ -222,9 +228,12 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
         }
 
         /// <summary>
-        /// Invokes the action.
+        ///     Invokes the action.
         /// </summary>
-        /// <param name="eventArgs">The parameter to the action. If the action does not require a parameter, the parameter may be set to a null reference.</param>
+        /// <param name="eventArgs">
+        ///     The parameter to the action. If the action does not require a parameter, the parameter may be
+        ///     set to a null reference.
+        /// </param>
         protected override void Invoke(object eventArgs)
         {
             Log.Info("Invoking {0}.", this);
@@ -279,7 +288,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
         }
 
         /// <summary>
-        /// Forces an update of the UI's Enabled/Disabled state based on the the preconditions associated with the method.
+        ///     Forces an update of the UI's Enabled/Disabled state based on the the preconditions associated with the method.
         /// </summary>
         public virtual void UpdateAvailability()
         {
@@ -292,17 +301,17 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
             UpdateAvailabilityCore();
         }
 
-        bool UpdateAvailabilityCore()
+        private bool UpdateAvailabilityCore()
         {
             Log.Info("{0} availability update.", this);
             return ApplyAvailabilityEffect(_context);
         }
 
         /// <summary>
-        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+        ///     Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
         /// </summary>
         /// <returns>
-        /// A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+        ///     A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
         /// </returns>
         public override string ToString()
         {
@@ -310,14 +319,14 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
         }
 
         /// <summary>
-        /// Invokes the action using the specified <see cref="ActionExecutionContext"/>
+        ///     Invokes the action using the specified <see cref="ActionExecutionContext" />
         /// </summary>
         public static Action<ActionExecutionContext> InvokeAction = context =>
         {
             var values = MessageBinder.DetermineParameters(context, context.Method.GetParameters());
             var returnValue = context.Method.Invoke(context.Target, values);
 
-            var task = returnValue as System.Threading.Tasks.Task;
+            var task = returnValue as Task;
             if (task != null)
             {
                 returnValue = task.AsResult();
@@ -349,7 +358,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
         };
 
         /// <summary>
-        /// Applies an availability effect, such as IsEnabled, to an element.
+        ///     Applies an availability effect, such as IsEnabled, to an element.
         /// </summary>
         /// <remarks>Returns a value indicating whether or not the action is available.</remarks>
         public static Func<ActionExecutionContext, bool> ApplyAvailabilityEffect = context =>
@@ -370,18 +379,18 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
         };
 
         /// <summary>
-        /// Finds the method on the target matching the specified message.
+        ///     Finds the method on the target matching the specified message.
         /// </summary>
         /// <returns>The matching method, if available.</returns>
         public static Func<ActionMessage, object, MethodInfo> GetTargetMethod =
             (message, target) => (from method in target.GetType().GetMethods()
-                where method.Name == message.MethodName
-                let methodParameters = method.GetParameters()
-                where message.Parameters.Count == methodParameters.Length
-                select method).FirstOrDefault();
+                                  where method.Name == message.MethodName
+                                  let methodParameters = method.GetParameters()
+                                  where message.Parameters.Count == methodParameters.Length
+                                  select method).FirstOrDefault();
 
         /// <summary>
-        /// Sets the target, method and view on the context. Uses a bubbling strategy by default.
+        ///     Sets the target, method and view on the context. Uses a bubbling strategy by default.
         /// </summary>
         public static Action<ActionExecutionContext> SetMethodBinding = context =>
         {
@@ -429,7 +438,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
         };
 
         /// <summary>
-        /// Prepares the action execution context for use.
+        ///     Prepares the action execution context for use.
         /// </summary>
         public static Action<ActionExecutionContext> PrepareContext = context =>
         {
@@ -450,11 +459,12 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
 
                 var targetType = context.Target.GetType();
                 string matchingGuardName = null;
-                foreach (string possibleGuardName in possibleGuardNames)
+                foreach (var possibleGuardName in possibleGuardNames)
                 {
                     matchingGuardName = possibleGuardName;
                     guard = GetMethodInfo(targetType, "get_" + matchingGuardName);
-                    if (guard != null) break;
+                    if (guard != null)
+                        break;
                 }
 
                 if (guard == null)
@@ -489,36 +499,40 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
         };
 
         /// <summary>
-        /// Try to find a candidate for guard function, having: 
-        ///    - a name matching any of <paramref name="possibleGuardNames"/>
-        ///    - no generic parameters
-        ///    - a bool return type
-        ///    - no parameters or a set of parameters corresponding to the action method
+        ///     Try to find a candidate for guard function, having:
+        ///     - a name matching any of <paramref name="possibleGuardNames" />
+        ///     - no generic parameters
+        ///     - a bool return type
+        ///     - no parameters or a set of parameters corresponding to the action method
         /// </summary>
         /// <param name="context">The execution context</param>
         /// <param name="possibleGuardNames">Method names to look for.</param>
-        ///<returns>A MethodInfo, if found; null otherwise</returns>
-        static MethodInfo TryFindGuardMethod(ActionExecutionContext context, IEnumerable<string> possibleGuardNames)
+        /// <returns>A MethodInfo, if found; null otherwise</returns>
+        private static MethodInfo TryFindGuardMethod(ActionExecutionContext context,
+                                                     IEnumerable<string> possibleGuardNames)
         {
             var targetType = context.Target.GetType();
             MethodInfo guard = null;
-            foreach (string possibleGuardName in possibleGuardNames)
+            foreach (var possibleGuardName in possibleGuardNames)
             {
                 guard = GetMethodInfo(targetType, possibleGuardName);
-                if (guard != null) break;
+                if (guard != null)
+                    break;
             }
 
             if (guard == null)
                 return null;
             if (guard.ContainsGenericParameters)
                 return null;
-            if (!typeof (bool).Equals(guard.ReturnType))
+            if (!typeof(bool).Equals(guard.ReturnType))
                 return null;
 
             var guardPars = guard.GetParameters();
             var actionPars = context.Method.GetParameters();
-            if (guardPars.Length == 0) return guard;
-            if (guardPars.Length != actionPars.Length) return null;
+            if (guardPars.Length == 0)
+                return guard;
+            if (guardPars.Length != actionPars.Length)
+                return null;
 
             var comparisons = guardPars.Zip(
                 context.Method.GetParameters(),
@@ -534,7 +548,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
         }
 
         /// <summary>
-        /// Returns the list of possible names of guard methods / properties for the given method.
+        ///     Returns the list of possible names of guard methods / properties for the given method.
         /// </summary>
         public static Func<MethodInfo, IEnumerable<string>> BuildPossibleGuardNames = method =>
         {
@@ -556,7 +570,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Action
             return guardNames;
         };
 
-        static MethodInfo GetMethodInfo(Type t, string methodName)
+        private static MethodInfo GetMethodInfo(Type t, string methodName)
         {
             return t.GetMethod(methodName);
         }

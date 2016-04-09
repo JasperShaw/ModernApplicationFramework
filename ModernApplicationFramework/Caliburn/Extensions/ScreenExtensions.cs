@@ -6,15 +6,15 @@ using ModernApplicationFramework.Caliburn.Interfaces;
 namespace ModernApplicationFramework.Caliburn.Extensions
 {
     /// <summary>
-    /// Hosts extension methods for <see cref="IScreen"/> classes.
+    ///     Hosts extension methods for <see cref="IScreen" /> classes.
     /// </summary>
     public static class ScreenExtensions
     {
-        ///<summary>
-        /// Activates a child whenever the specified parent is activated.
-        ///</summary>
-        ///<param name="child">The child to activate.</param>
-        ///<param name="parent">The parent whose activation triggers the child's activation.</param>
+        /// <summary>
+        ///     Activates a child whenever the specified parent is activated.
+        /// </summary>
+        /// <param name="child">The child to activate.</param>
+        /// <param name="parent">The parent whose activation triggers the child's activation.</param>
         public static void ActivateWith(this IActivate child, IActivate parent)
         {
             var childReference = new WeakReference(child);
@@ -31,7 +31,7 @@ namespace ModernApplicationFramework.Caliburn.Extensions
         }
 
         /// <summary>
-        /// Closes the specified item.
+        ///     Closes the specified item.
         /// </summary>
         /// <param name="conductor">The conductor.</param>
         /// <param name="item">The item to close.</param>
@@ -41,7 +41,7 @@ namespace ModernApplicationFramework.Caliburn.Extensions
         }
 
         /// <summary>
-        /// Closes the specified item.
+        ///     Closes the specified item.
         /// </summary>
         /// <param name="conductor">The conductor.</param>
         /// <param name="item">The item to close.</param>
@@ -50,11 +50,11 @@ namespace ModernApplicationFramework.Caliburn.Extensions
             conductor.DeactivateItem(item, true);
         }
 
-        ///<summary>
-        /// Activates and Deactivates a child whenever the specified parent is Activated or Deactivated.
-        ///</summary>
-        ///<param name="child">The child to activate/deactivate.</param>
-        ///<param name="parent">The parent whose activation/deactivation triggers the child's activation/deactivation.</param>
+        /// <summary>
+        ///     Activates and Deactivates a child whenever the specified parent is Activated or Deactivated.
+        /// </summary>
+        /// <param name="child">The child to activate/deactivate.</param>
+        /// <param name="parent">The parent whose activation/deactivation triggers the child's activation/deactivation.</param>
         public static void ConductWith<TChild, TParent>(this TChild child, TParent parent)
             where TChild : IActivate, IDeactivate
             where TParent : IActivate, IDeactivate
@@ -63,11 +63,11 @@ namespace ModernApplicationFramework.Caliburn.Extensions
             child.DeactivateWith(parent);
         }
 
-        ///<summary>
-        /// Deactivates a child whenever the specified parent is deactivated.
-        ///</summary>
-        ///<param name="child">The child to deactivate.</param>
-        ///<param name="parent">The parent whose deactivation triggers the child's deactivation.</param>
+        /// <summary>
+        ///     Deactivates a child whenever the specified parent is deactivated.
+        /// </summary>
+        /// <param name="child">The child to deactivate.</param>
+        /// <param name="parent">The parent whose deactivation triggers the child's deactivation.</param>
         public static void DeactivateWith(this IDeactivate child, IDeactivate parent)
         {
             var childReference = new WeakReference(child);
@@ -84,7 +84,7 @@ namespace ModernApplicationFramework.Caliburn.Extensions
         }
 
         /// <summary>
-        /// Activates the item if it implements <see cref="IActivate"/>, otherwise does nothing.
+        ///     Activates the item if it implements <see cref="IActivate" />, otherwise does nothing.
         /// </summary>
         /// <param name="potentialActivatable">The potential activatable.</param>
         public static void TryActivate(object potentialActivatable)
@@ -94,7 +94,7 @@ namespace ModernApplicationFramework.Caliburn.Extensions
         }
 
         /// <summary>
-        /// Deactivates the item if it implements <see cref="IDeactivate"/>, otherwise does nothing.
+        ///     Deactivates the item if it implements <see cref="IDeactivate" />, otherwise does nothing.
         /// </summary>
         /// <param name="potentialDeactivatable">The potential deactivatable.</param>
         /// <param name="close">Indicates whether or not to close the item after deactivating it.</param>

@@ -1,6 +1,8 @@
-﻿namespace ModernApplicationFramework.Core.Platform
+﻿using System;
+
+namespace ModernApplicationFramework.Core.Platform
 {
-    [System.Flags]
+    [Flags]
     public enum RedrawWindowFlags : uint
     {
         Invalidate = 1U,
@@ -14,6 +16,6 @@
         UpdateNow = 256U,
         EraseNow = 512U,
         Frame = 1024U,
-        NoFrame = 2048U,
+        NoFrame = 2048U
     }
 }

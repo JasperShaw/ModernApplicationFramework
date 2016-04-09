@@ -13,7 +13,7 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         Command OpenContextMenuCommand { get; }
 
         /// <summary>
-        /// Adds new Toolbar to HostControl
+        ///     Adds new Toolbar to HostControl
         /// </summary>
         /// <param name="toolBar">Toolbar object</param>
         /// <param name="visible">Toolbar visibility</param>
@@ -21,41 +21,41 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         void AddToolBar(ToolBar toolBar, bool visible, Dock dock);
 
         /// <summary>
-        /// Change Orientation of Toolbar
+        ///     Change Orientation of Toolbar
         /// </summary>
         /// <param name="name">IdentifierName of Toolbar</param>
         /// <param name="newValue">New Orientation Value</param>
         void ChangeToolBarPosition(string name, Dock newValue);
 
         /// <summary>
-        /// Change Visibility of Toolbar
+        ///     Change Visibility of Toolbar
         /// </summary>
         /// <param name="name">IdentifierName of Toolbar</param>
         /// <param name="newValue">New Visibility Value</param>
         void ChangeToolBarVisibility(string name, bool newValue);
 
         /// <summary>
-        /// Get a Toolbar by Name
+        ///     Get a Toolbar by Name
         /// </summary>
         /// <param name="name">IdentifierName of Toolbar</param>
         /// <returns>Found Toolbar Object</returns>
         ToolBar GetToolBar(string name);
 
         /// <summary>
-        /// Get Orientation of Toolbar
+        ///     Get Orientation of Toolbar
         /// </summary>
         /// <param name="name">Identifier Name of Toolbar</param>
         /// <returns>Orientation</returns>
         Dock GetToolBarPosition(string name);
 
         /// <summary>
-        /// Returns a list of Toolbar Objects
+        ///     Returns a list of Toolbar Objects
         /// </summary>
         /// <returns></returns>
         List<ToolBar> GetToolBars();
 
         /// <summary>
-        /// Get Toolbar Visibility
+        ///     Get Toolbar Visibility
         /// </summary>
         /// <param name="name">Identifier Name of Toolbar</param>
         /// <returns>Bool of visibility</returns>
@@ -65,7 +65,7 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         void HideToolBarByName(string name);
 
         /// <summary>
-        /// Removes Toolbar from ToolBarHostControl
+        ///     Removes Toolbar from ToolBarHostControl
         /// </summary>
         /// <param name="name"></param>
         void RemoveToolBar(string name);

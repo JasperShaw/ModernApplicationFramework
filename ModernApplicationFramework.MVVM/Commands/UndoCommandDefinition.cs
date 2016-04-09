@@ -7,7 +7,7 @@ using ModernApplicationFramework.MVVM.Interfaces;
 
 namespace ModernApplicationFramework.MVVM.Commands
 {
-    [Export(typeof (CommandDefinition))]
+    [Export(typeof(CommandDefinition))]
     public sealed class UndoCommandDefinition : CommandDefinition
     {
 #pragma warning disable 649
@@ -19,17 +19,22 @@ namespace ModernApplicationFramework.MVVM.Commands
             Command = new GestureCommandWrapper(Undo, CanUndo, new KeyGesture(Key.Z, ModifierKeys.Control));
         }
 
-        public override string IconId => "UndoIcon";
         public override bool CanShowInMenu => true;
         public override bool CanShowInToolbar => true;
         public override ICommand Command { get; }
-        public override Uri IconSource => new Uri("/ModernApplicationFramework.MVVM;component/Resources/Icons/Undo_16x.xaml", UriKind.RelativeOrAbsolute);
 
-        public string MyText { get; set; }
+        public override string IconId => "UndoIcon";
+
+        public override Uri IconSource
+            =>
+                new Uri("/ModernApplicationFramework.MVVM;component/Resources/Icons/Undo_16x.xaml",
+                    UriKind.RelativeOrAbsolute);
 
         public override string Name => "Undo";
         public override string Text => Name;
         public override string ToolTip => Name;
+
+        public string MyText { get; set; }
 
         private bool CanUndo()
         {

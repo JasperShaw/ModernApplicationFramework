@@ -6,13 +6,13 @@ using System.ComponentModel;
 namespace ModernApplicationFramework.Caliburn.Collections
 {
     /// <summary>
-    /// A base collection class that supports automatic UI thread marshalling.
+    ///     A base collection class that supports automatic UI thread marshalling.
     /// </summary>
     /// <typeparam name="T">The type of elements contained in the collection.</typeparam>
     public class BindableCollection<T> : ObservableCollection<T>, IObservableCollection<T>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref = "BindableCollection&lt;T&gt;" /> class.
+        ///     Initializes a new instance of the <see cref="BindableCollection&lt;T&gt;" /> class.
         /// </summary>
         public BindableCollection()
         {
@@ -20,9 +20,9 @@ namespace ModernApplicationFramework.Caliburn.Collections
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref = "BindableCollection&lt;T&gt;" /> class.
+        ///     Initializes a new instance of the <see cref="BindableCollection&lt;T&gt;" /> class.
         /// </summary>
-        /// <param name = "collection">The collection from which the elements are copied.</param>
+        /// <param name="collection">The collection from which the elements are copied.</param>
         public BindableCollection(IEnumerable<T> collection)
             : base(collection)
         {
@@ -30,14 +30,14 @@ namespace ModernApplicationFramework.Caliburn.Collections
         }
 
         /// <summary>
-        /// Enables/Disables property change notification.
+        ///     Enables/Disables property change notification.
         /// </summary>
         public bool IsNotifying { get; set; }
 
         /// <summary>
-        /// Notifies subscribers of the property change.
+        ///     Notifies subscribers of the property change.
         /// </summary>
-        /// <param name = "propertyName">Name of the property.</param>
+        /// <param name="propertyName">Name of the property.</param>
         public virtual void NotifyOfPropertyChange(string propertyName)
         {
             if (IsNotifying)
@@ -45,7 +45,7 @@ namespace ModernApplicationFramework.Caliburn.Collections
         }
 
         /// <summary>
-        /// Raises a change notification indicating that all bindings should be refreshed.
+        ///     Raises a change notification indicating that all bindings should be refreshed.
         /// </summary>
         public void Refresh()
         {
@@ -58,9 +58,9 @@ namespace ModernApplicationFramework.Caliburn.Collections
         }
 
         /// <summary>
-        /// Adds the range.
+        ///     Adds the range.
         /// </summary>
-        /// <param name = "items">The items.</param>
+        /// <param name="items">The items.</param>
         public virtual void AddRange(IEnumerable<T> items)
         {
             Execute.OnUiThread(() =>
@@ -82,9 +82,9 @@ namespace ModernApplicationFramework.Caliburn.Collections
         }
 
         /// <summary>
-        /// Removes the range.
+        ///     Removes the range.
         /// </summary>
-        /// <param name = "items">The items.</param>
+        /// <param name="items">The items.</param>
         public virtual void RemoveRange(IEnumerable<T> items)
         {
             Execute.OnUiThread(() =>
@@ -108,18 +108,10 @@ namespace ModernApplicationFramework.Caliburn.Collections
         }
 
         /// <summary>
-        /// Clears the items contained by the collection.
-        /// </summary>
-        protected sealed override void ClearItems()
-        {
-            Execute.OnUiThread(ClearItemsBase);
-        }
-
-        /// <summary>
-        /// Exposes the base implementation of the <see cref = "ClearItems" /> function.
+        ///     Exposes the base implementation of the <see cref="ClearItems" /> function.
         /// </summary>
         /// <remarks>
-        ///   Used to avoid compiler warning regarding unverifiable code.
+        ///     Used to avoid compiler warning regarding unverifiable code.
         /// </remarks>
         protected virtual void ClearItemsBase()
         {
@@ -127,22 +119,12 @@ namespace ModernApplicationFramework.Caliburn.Collections
         }
 
         /// <summary>
-        ///   Inserts the item to the specified position.
+        ///     Exposes the base implementation of the <see cref="InsertItem" /> function.
         /// </summary>
-        /// <param name = "index">The index to insert at.</param>
-        /// <param name = "item">The item to be inserted.</param>
-        protected sealed override void InsertItem(int index, T item)
-        {
-            Execute.OnUiThread(() => InsertItemBase(index, item));
-        }
-
-        /// <summary>
-        /// Exposes the base implementation of the <see cref = "InsertItem" /> function.
-        /// </summary>
-        /// <param name = "index">The index.</param>
-        /// <param name = "item">The item.</param>
+        /// <param name="index">The index.</param>
+        /// <param name="item">The item.</param>
         /// <remarks>
-        ///   Used to avoid compiler warning regarding unverifiable code.
+        ///     Used to avoid compiler warning regarding unverifiable code.
         /// </remarks>
         protected virtual void InsertItemBase(int index, T item)
         {
@@ -150,9 +132,53 @@ namespace ModernApplicationFramework.Caliburn.Collections
         }
 
         /// <summary>
-        /// Raises the <see cref = "E:System.Collections.ObjectModel.ObservableCollection`1.CollectionChanged" /> event with the provided arguments.
+        ///     Exposes the base implementation of the <see cref="RemoveItem" /> function.
         /// </summary>
-        /// <param name = "e">Arguments of the event being raised.</param>
+        /// <param name="index">The index.</param>
+        /// <remarks>
+        ///     Used to avoid compiler warning regarding unverifiable code.
+        /// </remarks>
+        protected virtual void RemoveItemBase(int index)
+        {
+            base.RemoveItem(index);
+        }
+
+        /// <summary>
+        ///     Exposes the base implementation of the <see cref="SetItem" /> function.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <param name="item">The item.</param>
+        /// <remarks>
+        ///     Used to avoid compiler warning regarding unverifiable code.
+        /// </remarks>
+        protected virtual void SetItemBase(int index, T item)
+        {
+            base.SetItem(index, item);
+        }
+
+        /// <summary>
+        ///     Clears the items contained by the collection.
+        /// </summary>
+        protected sealed override void ClearItems()
+        {
+            Execute.OnUiThread(ClearItemsBase);
+        }
+
+        /// <summary>
+        ///     Inserts the item to the specified position.
+        /// </summary>
+        /// <param name="index">The index to insert at.</param>
+        /// <param name="item">The item to be inserted.</param>
+        protected sealed override void InsertItem(int index, T item)
+        {
+            Execute.OnUiThread(() => InsertItemBase(index, item));
+        }
+
+        /// <summary>
+        ///     Raises the <see cref="E:System.Collections.ObjectModel.ObservableCollection`1.CollectionChanged" /> event with the
+        ///     provided arguments.
+        /// </summary>
+        /// <param name="e">Arguments of the event being raised.</param>
         protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
             if (IsNotifying)
@@ -162,9 +188,9 @@ namespace ModernApplicationFramework.Caliburn.Collections
         }
 
         /// <summary>
-        /// Raises the PropertyChanged event with the provided arguments.
+        ///     Raises the PropertyChanged event with the provided arguments.
         /// </summary>
-        /// <param name = "e">The event data to report in the event.</param>
+        /// <param name="e">The event data to report in the event.</param>
         protected override void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             if (IsNotifying)
@@ -174,47 +200,22 @@ namespace ModernApplicationFramework.Caliburn.Collections
         }
 
         /// <summary>
-        /// Removes the item at the specified position.
+        ///     Removes the item at the specified position.
         /// </summary>
-        /// <param name = "index">The position used to identify the item to remove.</param>
+        /// <param name="index">The position used to identify the item to remove.</param>
         protected sealed override void RemoveItem(int index)
         {
             Execute.OnUiThread(() => RemoveItemBase(index));
         }
 
         /// <summary>
-        /// Exposes the base implementation of the <see cref = "RemoveItem" /> function.
+        ///     Sets the item at the specified position.
         /// </summary>
-        /// <param name = "index">The index.</param>
-        /// <remarks>
-        ///   Used to avoid compiler warning regarding unverifiable code.
-        /// </remarks>
-        protected virtual void RemoveItemBase(int index)
-        {
-            base.RemoveItem(index);
-        }
-
-        /// <summary>
-        /// Sets the item at the specified position.
-        /// </summary>
-        /// <param name = "index">The index to set the item at.</param>
-        /// <param name = "item">The item to set.</param>
+        /// <param name="index">The index to set the item at.</param>
+        /// <param name="item">The item to set.</param>
         protected sealed override void SetItem(int index, T item)
         {
             Execute.OnUiThread(() => SetItemBase(index, item));
-        }
-
-        /// <summary>
-        /// Exposes the base implementation of the <see cref = "SetItem" /> function.
-        /// </summary>
-        /// <param name = "index">The index.</param>
-        /// <param name = "item">The item.</param>
-        /// <remarks>
-        ///   Used to avoid compiler warning regarding unverifiable code.
-        /// </remarks>
-        protected virtual void SetItemBase(int index, T item)
-        {
-            base.SetItem(index, item);
         }
     }
 }

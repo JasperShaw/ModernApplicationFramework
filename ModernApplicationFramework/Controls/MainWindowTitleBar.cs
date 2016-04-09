@@ -2,24 +2,23 @@
 using System.Windows.Automation.Peers;
 using System.Windows.Controls;
 using System.Windows.Media;
-using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Controls;
 
 namespace ModernApplicationFramework.Controls
 {
     internal sealed class MainWindowTitleBar : Border, INonClientArea
     {
+        public int HitTest(Point point)
+        {
+            return 2;
+        }
+
         protected override HitTestResult HitTestCore(PointHitTestParameters hitTestParameters)
         {
             return new PointHitTestResult(this, hitTestParameters.HitPoint);
         }
 
-        protected override AutomationPeer OnCreateAutomationPeer()
-        {
-            return new MainWindowTitleBarAutomationPeer(this);
-        }
-
-		//Not Needed anymore since WindowChrome is Doing the Job now
+        //Not Needed anymore since WindowChrome is Doing the Job now
         protected override void OnContextMenuOpening(ContextMenuEventArgs e)
         {
             //if (e.Handled)
@@ -30,9 +29,9 @@ namespace ModernApplicationFramework.Controls
             //e.Handled = true;
         }
 
-        public int HitTest(Point point)
+        protected override AutomationPeer OnCreateAutomationPeer()
         {
-            return 2;
+            return new MainWindowTitleBarAutomationPeer(this);
         }
     }
 }

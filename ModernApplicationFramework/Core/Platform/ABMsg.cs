@@ -3,6 +3,6 @@
     internal enum AbMsg
     {
         AbmGetstate = 4,
-        AbmGettaskbarpos = 5,
+        AbmGettaskbarpos = 5
     }
 }

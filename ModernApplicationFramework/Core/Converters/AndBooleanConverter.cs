@@ -1,26 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using ModernApplicationFramework.Core.Platform;
 
 namespace ModernApplicationFramework.Core.Converters
 {
-    class AndBooleanConverter : IMultiValueConverter
+    internal class AndBooleanConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            bool flag = false;
-            foreach (object obj in values)
+            var flag = false;
+            foreach (var obj in values)
             {
                 if (obj == DependencyProperty.UnsetValue)
                     flag = true;
-                else if (!(bool)obj)
-                    return Boxes.BoolFalse;
+                else
+                    if (!(bool) obj)
+                        return Boxes.BoolFalse;
             }
             if (!flag)
                 return Boxes.BoolTrue;

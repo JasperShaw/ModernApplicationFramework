@@ -8,8 +8,6 @@ namespace ModernApplicationFramework.MVVM.Controls
     public abstract class StorableDocument : Document, IStorableDocument
     {
         private bool _isDirty;
-        public string FileName { get; private set; }
-        public string FilePath { get; private set; }
 
         public bool IsDirty
         {
@@ -24,12 +22,10 @@ namespace ModernApplicationFramework.MVVM.Controls
             }
         }
 
-        public bool IsNew { get; private set; }
+        public string FileName { get; private set; }
+        public string FilePath { get; private set; }
 
-        public override void CanClose(Action<bool> callback)
-        {
-            callback(!IsDirty);
-        }
+        public bool IsNew { get; private set; }
 
         public async Task Load(string filePath)
         {
@@ -66,6 +62,11 @@ namespace ModernApplicationFramework.MVVM.Controls
             IsNew = false;
         }
 
+        public override void CanClose(Action<bool> callback)
+        {
+            callback(!IsDirty);
+        }
+
         protected abstract Task CreateNewFile();
 
         protected abstract Task LoadFile(string filePath);
@@ -74,7 +75,7 @@ namespace ModernApplicationFramework.MVVM.Controls
 
         private void UpdateDisplayName()
         {
-            DisplayName = (IsDirty) ? FileName + "*" : FileName;
+            DisplayName = IsDirty ? FileName + "*" : FileName;
         }
     }
 }

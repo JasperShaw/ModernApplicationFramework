@@ -6,10 +6,16 @@ namespace ModernApplicationFramework.Controls
     public class ToolBarTray : System.Windows.Controls.ToolBarTray
     {
         public static readonly DependencyProperty IsMainToolBarProperty = DependencyProperty.Register(
-            "IsMainToolBarTray", typeof (bool), typeof (ToolBarTray), new PropertyMetadata(default(bool)));
+            "IsMainToolBarTray", typeof(bool), typeof(ToolBarTray), new PropertyMetadata(default(bool)));
 
         public static readonly DependencyProperty ContainsVisibleToolBarsProperty = DependencyProperty.Register(
-            "ContainsVisibleToolBars", typeof (bool), typeof (ToolBarTray), new PropertyMetadata(default(bool)));
+            "ContainsVisibleToolBars", typeof(bool), typeof(ToolBarTray), new PropertyMetadata(default(bool)));
+
+        static ToolBarTray()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ToolBarTray),
+                new FrameworkPropertyMetadata(typeof(ToolBarTray)));
+        }
 
         public bool ContainsVisibleToolBars
         {
@@ -22,22 +28,6 @@ namespace ModernApplicationFramework.Controls
             get { return (bool) GetValue(IsMainToolBarProperty); }
             set { SetValue(IsMainToolBarProperty, value); }
         }
-
-        static ToolBarTray()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(ToolBarTray), new FrameworkPropertyMetadata(typeof(ToolBarTray)));
-        }
-
-        #region Override Methods 
-
-        protected override Size ArrangeOverride(Size arrangeSize)
-        {
-            var size = base.ArrangeOverride(arrangeSize);
-            ContainsVisibleToolBars = ToolBars.FirstOrDefault(t => t.Visibility == Visibility.Visible) != null;
-            return size;
-        }
-
-        #endregion
 
         public void AddToolBar(ToolBar toolBar)
         {
@@ -52,5 +42,16 @@ namespace ModernApplicationFramework.Controls
                 return;
             ToolBars.Remove(toolBar);
         }
+
+        #region Override Methods 
+
+        protected override Size ArrangeOverride(Size arrangeSize)
+        {
+            var size = base.ArrangeOverride(arrangeSize);
+            ContainsVisibleToolBars = ToolBars.FirstOrDefault(t => t.Visibility == Visibility.Visible) != null;
+            return size;
+        }
+
+        #endregion
     }
 }

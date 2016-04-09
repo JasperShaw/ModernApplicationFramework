@@ -7,30 +7,27 @@ using ModernApplicationFramework.MVVM.Interfaces;
 namespace ModernApplicationFramework.MVVM.Commands
 {
     [Export(typeof(CommandDefinition))]
-    public class SaveFileCommandDefinition : CommandDefinition
+    public class SaveFileAsCommandDefinition : CommandDefinition
     {
 #pragma warning disable 649
         [Import] private IDockingMainWindowViewModel _shell;
 #pragma warning restore 649
 
 
-        public SaveFileCommandDefinition()
+        public SaveFileAsCommandDefinition()
         {
-            Command = new GestureCommandWrapper(SaveFile, CanSaveFile, new KeyGesture(Key.S, ModifierKeys.Control));
+            Command = new CommandWrapper(SaveFile, CanSaveFile);
         }
 
         public override bool CanShowInMenu => true;
         public override bool CanShowInToolbar => true;
 
         public override ICommand Command { get; }
-        public override string IconId => "SaveIcon";
+        public override string IconId => null;
 
-        public override Uri IconSource
-            =>
-                new Uri("/ModernApplicationFramework.MVVM;component/Resources/Icons/Save_16x.xaml",
-                    UriKind.RelativeOrAbsolute);
+        public override Uri IconSource => null;
 
-        public override string Name => "Save";
+        public override string Name => "Save As";
         public override string Text => Name;
         public override string ToolTip => "Saves the active file";
 
@@ -41,7 +38,7 @@ namespace ModernApplicationFramework.MVVM.Commands
 
         private void SaveFile()
         {
-            _shell.DockingHost.ActiveItem.SaveFileCommand.Execute(null);
+            _shell.DockingHost.ActiveItem.SaveFileAsCommand.Execute(null);
         }
     }
 }

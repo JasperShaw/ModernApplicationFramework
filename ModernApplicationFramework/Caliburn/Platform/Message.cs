@@ -2,44 +2,44 @@
 using System.Windows;
 using System.Windows.Interactivity;
 using ModernApplicationFramework.Caliburn.Extensions;
+using ModernApplicationFramework.Caliburn.Platform.Utilities;
 using DependencyPropertyHelper = ModernApplicationFramework.Caliburn.Platform.Utilities.DependencyPropertyHelper;
-using Parser = ModernApplicationFramework.Caliburn.Platform.Utilities.Parser;
 using TriggerBase = System.Windows.Interactivity.TriggerBase;
 
 namespace ModernApplicationFramework.Caliburn.Platform
 {
     /// <summary>
-    ///   Host's attached properties related to routed UI messaging.
+    ///     Host's attached properties related to routed UI messaging.
     /// </summary>
     public static class Message
     {
         internal static readonly DependencyProperty HandlerProperty =
             DependencyPropertyHelper.RegisterAttached(
                 "Handler",
-                typeof (object),
-                typeof (Message));
+                typeof(object),
+                typeof(Message));
 
         private static readonly DependencyProperty MessageTriggersProperty =
             DependencyPropertyHelper.RegisterAttached(
                 "MessageTriggers",
-                typeof (TriggerBase[]),
-                typeof (Message));
+                typeof(TriggerBase[]),
+                typeof(Message));
 
         /// <summary>
-        ///   A property definition representing attached triggers and messages.
+        ///     A property definition representing attached triggers and messages.
         /// </summary>
         public static readonly DependencyProperty AttachProperty =
             DependencyPropertyHelper.RegisterAttached(
                 "Attach",
-                typeof (string),
-                typeof (Message),
+                typeof(string),
+                typeof(Message),
                 null,
                 OnAttachChanged
                 );
 
 
         /// <summary>
-        ///   Gets the attached triggers and messages.
+        ///     Gets the attached triggers and messages.
         /// </summary>
         /// <param name="d"> The element that was attached to. </param>
         /// <returns> The parsable attachment text. </returns>
@@ -49,7 +49,7 @@ namespace ModernApplicationFramework.Caliburn.Platform
         }
 
         /// <summary>
-        ///   Gets the message handler for this element.
+        ///     Gets the message handler for this element.
         /// </summary>
         /// <param name="d"> The element. </param>
         /// <returns> The message handler. </returns>
@@ -59,7 +59,7 @@ namespace ModernApplicationFramework.Caliburn.Platform
         }
 
         /// <summary>
-        ///   Sets the attached triggers and messages.
+        ///     Sets the attached triggers and messages.
         /// </summary>
         /// <param name="d"> The element to attach to. </param>
         /// <param name="attachText"> The parsable attachment text. </param>
@@ -69,7 +69,7 @@ namespace ModernApplicationFramework.Caliburn.Platform
         }
 
         /// <summary>
-        ///   Places a message handler on this element.
+        ///     Places a message handler on this element.
         /// </summary>
         /// <param name="d"> The element. </param>
         /// <param name="value"> The message handler. </param>
@@ -78,7 +78,7 @@ namespace ModernApplicationFramework.Caliburn.Platform
             d.SetValue(HandlerProperty, value);
         }
 
-        static void OnAttachChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnAttachChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (e.NewValue == e.OldValue)
             {

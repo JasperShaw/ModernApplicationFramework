@@ -30,6 +30,6 @@
         Htsizelast = Htbottomright,
         Htobject = 19,
         Htclose = 20,
-        Hthelp = 21,
+        Hthelp = 21
     }
 }

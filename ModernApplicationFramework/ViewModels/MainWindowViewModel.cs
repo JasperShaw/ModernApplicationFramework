@@ -8,13 +8,12 @@ using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
-using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.ViewModels
 {
     /// <summary>
-    /// This contains the Logic for the MainWindow
+    ///     This contains the Logic for the MainWindow
     /// </summary>
     public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     {
@@ -42,10 +41,29 @@ namespace ModernApplicationFramework.ViewModels
             _mainWindow.Deactivated += _mainWindow_Deactivated;
         }
 
+        public bool MenuHostViewModelSetted => MenuHostViewModel != null;
+        public bool ToolbarHostViewModelSetted => ToolBarHostViewModel != null;
+
+        /// <summary>
+        ///     Contains the Current Icon of the MainWindow
+        /// </summary>
+        public BitmapImage Icon
+        {
+            get { return _icon; }
+            set
+            {
+                if (Equals(value, _icon))
+                    return;
+                _icon = value;
+                OnPropertyChanged();
+                //NotifyOfPropertyChange(() => Icon);
+            }
+        }
+
         public event EventHandler<ThemeChangedEventArgs> OnThemeChanged;
 
         /// <summary>
-        /// Contains the current Theme of the Application. 
+        ///     Contains the current Theme of the Application.
         /// </summary>
         public Theme Theme
         {
@@ -66,8 +84,8 @@ namespace ModernApplicationFramework.ViewModels
         }
 
         /// <summary>
-        /// Contains the ViewModel of the MainWindows MenuHostControl
-        /// This can not be changed once it was setted with a value.
+        ///     Contains the ViewModel of the MainWindows MenuHostControl
+        ///     This can not be changed once it was setted with a value.
         /// </summary>
         public IMenuHostViewModel MenuHostViewModel
         {
@@ -81,18 +99,22 @@ namespace ModernApplicationFramework.ViewModels
         }
 
         /// <summary>
-        /// Contains the StatusBar of the MainWindow
-        /// This can not be changed once it was setted with a value
+        ///     Contains the StatusBar of the MainWindow
+        ///     This can not be changed once it was setted with a value
         /// </summary>
         public StatusBar StatusBar
         {
             get { return _statusBar; }
-            set { if (_statusBar == null) _statusBar = value; }
+            set
+            {
+                if (_statusBar == null)
+                    _statusBar = value;
+            }
         }
 
         /// <summary>
-        /// Contains the ViewModel of the MainWindows ToolbarHostControl
-        /// This can not be changed once it was setted with a value
+        ///     Contains the ViewModel of the MainWindows ToolbarHostControl
+        ///     This can not be changed once it was setted with a value
         /// </summary>
         public IToolBarHostViewModel ToolBarHostViewModel
         {
@@ -107,7 +129,7 @@ namespace ModernApplicationFramework.ViewModels
         }
 
         /// <summary>
-        /// Contains information whether a StatusBar is displayed or not
+        ///     Contains information whether a StatusBar is displayed or not
         /// </summary>
         public bool UseStatusBar
         {
@@ -123,7 +145,7 @@ namespace ModernApplicationFramework.ViewModels
         }
 
         /// <summary>
-        /// Contains information whether a TitleBar is displayed or not
+        ///     Contains information whether a TitleBar is displayed or not
         /// </summary>
         public bool UseTitleBar
         {
@@ -139,7 +161,7 @@ namespace ModernApplicationFramework.ViewModels
         }
 
         /// <summary>
-        /// Contains the Active Icon for the MainWindow
+        ///     Contains the Active Icon for the MainWindow
         /// </summary>
         public BitmapImage ActiveIcon
         {
@@ -156,7 +178,7 @@ namespace ModernApplicationFramework.ViewModels
         }
 
         /// <summary>
-        /// A SimpleWindow is a window which is not possible to resize my dragging the edges
+        ///     A SimpleWindow is a window which is not possible to resize my dragging the edges
         /// </summary>
         public bool IsSimpleWindow
         {
@@ -172,7 +194,7 @@ namespace ModernApplicationFramework.ViewModels
         }
 
         /// <summary>
-        /// Contains the Passive Icon for the MainWindow
+        ///     Contains the Passive Icon for the MainWindow
         /// </summary>
         public BitmapImage PassiveIcon
         {
@@ -189,8 +211,8 @@ namespace ModernApplicationFramework.ViewModels
         }
 
         /// <summary>
-        /// Contains the Movement Technique for the MainWindow
-        /// SimpleMovemtn allows to move the Window by clicking/dragging anywhere on it
+        ///     Contains the Movement Technique for the MainWindow
+        ///     SimpleMovemtn allows to move the Window by clicking/dragging anywhere on it
         /// </summary>
         public bool UseSimpleMovement
         {
@@ -205,27 +227,8 @@ namespace ModernApplicationFramework.ViewModels
             }
         }
 
-        public bool MenuHostViewModelSetted => MenuHostViewModel != null;
-        public bool ToolbarHostViewModelSetted => ToolBarHostViewModel != null;
-
         /// <summary>
-        /// Contains the Current Icon of the MainWindow
-        /// </summary>
-        public BitmapImage Icon
-        {
-            get { return _icon; }
-            set
-            {
-                if (Equals(value, _icon))
-                    return;
-                _icon = value;
-                OnPropertyChanged();
-                //NotifyOfPropertyChange(() => Icon);
-            }
-        }
-
-        /// <summary>
-        /// Makes sure the just changed Active or Passive Icons are applied to the View
+        ///     Makes sure the just changed Active or Passive Icons are applied to the View
         /// </summary>
         protected virtual void ApplyWindowIconChange()
         {
@@ -235,7 +238,7 @@ namespace ModernApplicationFramework.ViewModels
         }
 
         /// <summary>
-        /// This Method initializes the MainWindow after it is initialized. Do not call from contstructor.
+        ///     This Method initializes the MainWindow after it is initialized. Do not call from contstructor.
         /// </summary>
         protected virtual void InitializeMainWindow()
         {
@@ -250,7 +253,7 @@ namespace ModernApplicationFramework.ViewModels
         }
 
         /// <summary>
-        /// Handles what happens after UseSimpleMovement was changed
+        ///     Handles what happens after UseSimpleMovement was changed
         /// </summary>
         protected virtual void OnUseSimpleMovementChanged()
         {
@@ -284,8 +287,8 @@ namespace ModernApplicationFramework.ViewModels
         }
 
         /// <summary>
-        /// Called Theme property when changed. 
-        /// Implements the logic that applys the new Theme
+        ///     Called Theme property when changed.
+        ///     Implements the logic that applys the new Theme
         /// </summary>
         /// <param name="oldValue"></param>
         /// <param name="newValue"></param>
@@ -385,9 +388,7 @@ namespace ModernApplicationFramework.ViewModels
 
         public Command TestCommand => new Command(OnTest);
 
-        protected virtual void OnTest()
-        {
-        }
+        protected virtual void OnTest() {}
 
         #endregion
     }

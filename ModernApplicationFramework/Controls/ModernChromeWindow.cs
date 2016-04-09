@@ -13,14 +13,12 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
 using ModernApplicationFramework.Core.Events;
+using ModernApplicationFramework.Core.NativeMethods;
 using ModernApplicationFramework.Core.Platform;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces.Controls;
 using Point = System.Windows.Point;
-using DpiHelper = ModernApplicationFramework.Core.Utilities.DpiHelper;
-using NativeMethods = ModernApplicationFramework.Core.NativeMethods.NativeMethods;
-using RECT = ModernApplicationFramework.Core.Platform.RECT;
 using Screen = System.Windows.Forms.Screen;
 
 namespace ModernApplicationFramework.Controls
@@ -30,26 +28,26 @@ namespace ModernApplicationFramework.Controls
     {
         private const int MonitorDefaulttonearest = 0x00000002;
 
-        public static readonly DependencyProperty ThemeProperty = DependencyProperty.Register("Theme", typeof (Theme),
-            typeof (ModernChromeWindow), new FrameworkPropertyMetadata(null));
+        public static readonly DependencyProperty ThemeProperty = DependencyProperty.Register("Theme", typeof(Theme),
+            typeof(ModernChromeWindow), new FrameworkPropertyMetadata(null));
 
         public static readonly DependencyProperty ActiveShadowColorProperty =
-            DependencyProperty.Register("ActiveShadowColor", typeof (Brush), typeof (ModernChromeWindow),
+            DependencyProperty.Register("ActiveShadowColor", typeof(Brush), typeof(ModernChromeWindow),
                 new FrameworkPropertyMetadata(Brushes.Black, OnGlowColorChanged));
 
         public static readonly DependencyProperty InactiveShadowColorProperty =
-            DependencyProperty.Register("InactiveShadowColor", typeof (Brush), typeof (ModernChromeWindow),
+            DependencyProperty.Register("InactiveShadowColor", typeof(Brush), typeof(ModernChromeWindow),
                 new FrameworkPropertyMetadata(Brushes.DarkGray, OnGlowColorChanged));
 
         public static readonly DependencyProperty NonClientFillColorProperty =
-            DependencyProperty.Register("NonClientFillColor", typeof (Brush), typeof (ModernChromeWindow),
+            DependencyProperty.Register("NonClientFillColor", typeof(Brush), typeof(ModernChromeWindow),
                 new FrameworkPropertyMetadata(Brushes.Black));
 
         public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register("CornerRadius",
-            typeof (int), typeof (ModernChromeWindow), new FrameworkPropertyMetadata(0, OnCornerRadiusChanged));
+            typeof(int), typeof(ModernChromeWindow), new FrameworkPropertyMetadata(0, OnCornerRadiusChanged));
 
         public static readonly DependencyProperty FullScreenProperty =
-            DependencyProperty.Register("FullScreen", typeof (bool), typeof (ModernChromeWindow));
+            DependencyProperty.Register("FullScreen", typeof(bool), typeof(ModernChromeWindow));
 
 
         private readonly ShadowWindow[] _shadowWindows = new ShadowWindow[4];
@@ -72,7 +70,7 @@ namespace ModernApplicationFramework.Controls
 
         static ModernChromeWindow()
         {
-            ResizeModeProperty.OverrideMetadata(typeof (ModernChromeWindow),
+            ResizeModeProperty.OverrideMetadata(typeof(ModernChromeWindow),
                 new FrameworkPropertyMetadata(OnResizeModeChanged));
         }
 
@@ -82,24 +80,6 @@ namespace ModernApplicationFramework.Controls
             FromPosition,
             FromPropertyChange,
             FromUndockSingleTab
-        }
-
-        public event EventHandler<ThemeChangedEventArgs> OnThemeChanged;
-
-        public Theme Theme
-        {
-            get { return _theme; }
-            set
-            {
-                if (value == null)
-                    throw new NoNullAllowedException();
-                if (Equals(value, _theme))
-                    return;
-                var oldTheme = _theme;
-                _theme = value;
-                ChangeTheme(oldTheme, _theme);
-                OnRaiseThemeChanged(new ThemeChangedEventArgs(value, oldTheme));
-            }
         }
 
         public Brush ActiveShadowColor
@@ -201,14 +181,40 @@ namespace ModernApplicationFramework.Controls
             }
         }
 
-        public static void ShowWindowMenu(HwndSource source, Visual element, Point elementPoint,
-            Size elementSize)
+        public event EventHandler<ThemeChangedEventArgs> OnThemeChanged;
+
+        public Theme Theme
         {
-            if (elementPoint.X < 0.0 || elementPoint.X > elementSize.Width ||
-                (elementPoint.Y < 0.0 || elementPoint.Y > elementSize.Height))
+            get { return _theme; }
+            set
+            {
+                if (value == null)
+                    throw new NoNullAllowedException();
+                if (Equals(value, _theme))
+                    return;
+                var oldTheme = _theme;
+                _theme = value;
+                ChangeTheme(oldTheme, _theme);
+                OnRaiseThemeChanged(new ThemeChangedEventArgs(value, oldTheme));
+            }
+        }
+
+        public static void ShowWindowMenu(HwndSource source, Visual element, Point elementPoint,
+                                          Size elementSize)
+        {
+            if (elementPoint.X < 0.0 || elementPoint.X > elementSize.Width || elementPoint.Y < 0.0
+                || elementPoint.Y > elementSize.Height)
                 return;
-            Point screenPoint = element.PointToScreen(elementPoint);
+            var screenPoint = element.PointToScreen(elementPoint);
             ShowWindowMenu(source, screenPoint, true);
+        }
+
+        public virtual void ChangeTheme(Theme oldValue, Theme newValue)
+        {
+            UpdateGlowColors();
+            IsShadowVisible = false;
+            IsShadowVisible = true;
+            UpdateClipRegion();
         }
 
         public void ChangeOwner(IntPtr newOwner)
@@ -222,14 +228,6 @@ namespace ModernApplicationFramework.Controls
         public void ChangeOwnerForActivate(IntPtr newOwner)
         {
             _ownerForActivate = newOwner;
-        }
-
-        public virtual void ChangeTheme(Theme oldValue, Theme newValue)
-        {
-            UpdateGlowColors();
-            IsShadowVisible = false;
-            IsShadowVisible = true;
-            UpdateClipRegion();
         }
 
         protected static void ShowWindowMenu(HwndSource source, Point screenPoint, bool canMinimize)
@@ -248,15 +246,16 @@ namespace ModernApplicationFramework.Controls
                 NativeMethods.EnableMenuItem(systemMenu, 61472U, uEnable);
                 NativeMethods.EnableMenuItem(systemMenu, 61536U, 0U);
             }
-            else if (windowPlacement.showCmd == 3)
-            {
-                NativeMethods.EnableMenuItem(systemMenu, 61728U, 0U);
-                NativeMethods.EnableMenuItem(systemMenu, 61456U, 1U);
-                NativeMethods.EnableMenuItem(systemMenu, 61440U, 1U);
-                NativeMethods.EnableMenuItem(systemMenu, 61488U, 1U);
-                NativeMethods.EnableMenuItem(systemMenu, 61472U, uEnable);
-                NativeMethods.EnableMenuItem(systemMenu, 61536U, 0U);
-            }
+            else
+                if (windowPlacement.showCmd == 3)
+                {
+                    NativeMethods.EnableMenuItem(systemMenu, 61728U, 0U);
+                    NativeMethods.EnableMenuItem(systemMenu, 61456U, 1U);
+                    NativeMethods.EnableMenuItem(systemMenu, 61440U, 1U);
+                    NativeMethods.EnableMenuItem(systemMenu, 61488U, 1U);
+                    NativeMethods.EnableMenuItem(systemMenu, 61472U, uEnable);
+                    NativeMethods.EnableMenuItem(systemMenu, 61536U, 0U);
+                }
             if (flag)
                 VisualUtilities.ModifyStyle(source.Handle, 0, 268435456);
             var fuFlags = (uint) (systemMetrics | 256 | 128 | 2);
@@ -265,6 +264,75 @@ namespace ModernApplicationFramework.Controls
             if (num == 0)
                 return;
             NativeMethods.PostMessage(source.Handle, 274, new IntPtr(num), IntPtr.Zero);
+        }
+
+        protected virtual void OnRaiseThemeChanged(ThemeChangedEventArgs e)
+        {
+            var handler = OnThemeChanged;
+            handler?.Invoke(this, e);
+        }
+
+        protected virtual void OnWindowPosChanged(IntPtr hWnd, int showCmd, Int32Rect rcNormalPosition) {}
+
+        protected virtual bool UpdateClipRegionCore(IntPtr hWnd, int showCmd, ClipRegionChangeType changeType,
+                                                    Int32Rect currentBounds)
+        {
+            if (showCmd == 3)
+            {
+                UpdateMaximizedClipRegion(hWnd);
+                return true;
+            }
+            if (changeType != ClipRegionChangeType.FromSize && changeType != ClipRegionChangeType.FromPropertyChange &&
+                _lastWindowPlacement == showCmd)
+                return false;
+            if (CornerRadius < 0)
+                ClearClipRegion(hWnd);
+            else
+                SetRoundRect(hWnd, currentBounds.Width, currentBounds.Height);
+            return true;
+        }
+
+        protected virtual IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam, ref bool handled)
+        {
+            switch (msg)
+            {
+                case 174:
+                case 175:
+                    break;
+                case 274: // SysCommand
+                    WmSysCommand(hwnd, wparam);
+                    break;
+                case 128: // SetIcon
+                case 12: // SetTitle
+                    CallDefWindowProcWithoutVisibleStyle(hwnd, ref handled);
+                    break;
+                case 132: // HitTest
+                    return WmHcHitTest(lparam, ref handled);
+                case 133: // Paint
+                    return WmNcPaint(hwnd, wparam, ref handled);
+                case 134: // NCActivate
+                    return WmNcActivate(hwnd, wparam, ref handled);
+                case 164:
+                case 165:
+                case 166: // ButtonClicks
+                    RaiseNonClientMouseMessageAsClient(hwnd, msg, lparam);
+                    handled = true;
+                    break;
+                case 6:
+                    WmActivate(wparam, lparam);
+                    break;
+                case 70:
+                    WmWindowPosChanging(lparam);
+                    break;
+                case 71:
+                    WmWindowPosChanged(hwnd, lparam);
+                    break;
+                case 36: // GetMinMaxInfo
+                    WnGetMinMaxInfo(hwnd, lparam);
+                    handled = true;
+                    break;
+            }
+            return IntPtr.Zero;
         }
 
         protected IntPtr ComputeCornerRadiusRectRegion(Int32Rect rect, CornerRadius cornerRadius)
@@ -375,12 +443,6 @@ namespace ModernApplicationFramework.Controls
                 ChangeFullScreenApperance(e.NewValue);
         }
 
-        protected virtual void OnRaiseThemeChanged(ThemeChangedEventArgs e)
-        {
-            var handler = OnThemeChanged;
-            handler?.Invoke(this, e);
-        }
-
         protected override void OnSourceInitialized(EventArgs e)
         {
             var hwndSource = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
@@ -399,10 +461,6 @@ namespace ModernApplicationFramework.Controls
             base.OnStateChanged(e);
         }
 
-        protected virtual void OnWindowPosChanged(IntPtr hWnd, int showCmd, Int32Rect rcNormalPosition)
-        {
-        }
-
         protected void SetRoundRect(IntPtr hWnd, int width, int height)
         {
             var roundRectRegion = ComputeRoundRectRegion(0, 0, width, height, CornerRadius);
@@ -418,67 +476,6 @@ namespace ModernApplicationFramework.Controls
             NativeMethods.GetWindowRect(hwndSource.Handle, out lpRect);
             var windowPlacement = NativeMethods.GetWindowPlacement(hwndSource.Handle);
             UpdateClipRegion(hwndSource.Handle, windowPlacement, regionChangeType, lpRect);
-        }
-
-        protected virtual bool UpdateClipRegionCore(IntPtr hWnd, int showCmd, ClipRegionChangeType changeType,
-            Int32Rect currentBounds)
-        {
-            if (showCmd == 3)
-            {
-                UpdateMaximizedClipRegion(hWnd);
-                return true;
-            }
-            if (changeType != ClipRegionChangeType.FromSize && changeType != ClipRegionChangeType.FromPropertyChange &&
-                _lastWindowPlacement == showCmd)
-                return false;
-            if (CornerRadius < 0)
-                ClearClipRegion(hWnd);
-            else
-                SetRoundRect(hWnd, currentBounds.Width, currentBounds.Height);
-            return true;
-        }
-
-        protected virtual IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam, ref bool handled)
-        {
-            switch (msg)
-            {
-                case 174:
-                case 175:
-                    break;
-                case 274: // SysCommand
-                    WmSysCommand(hwnd, wparam);
-                    break;
-                case 128: // SetIcon
-                case 12: // SetTitle
-                    CallDefWindowProcWithoutVisibleStyle(hwnd, ref handled);
-                    break;
-                case 132: // HitTest
-                    return WmHcHitTest(lparam, ref handled);
-                case 133: // Paint
-                    return WmNcPaint(hwnd, wparam, ref handled);
-                case 134: // NCActivate
-                    return WmNcActivate(hwnd, wparam, ref handled);
-                case 164:
-                case 165:
-                case 166: // ButtonClicks
-                    RaiseNonClientMouseMessageAsClient(hwnd, msg, lparam);
-                    handled = true;
-                    break;
-                case 6:
-                    WmActivate(wparam, lparam);
-                    break;
-                case 70:
-                    WmWindowPosChanging(lparam);
-                    break;
-                case 71:
-                    WmWindowPosChanged(hwnd, lparam);
-                    break;
-                case 36: // GetMinMaxInfo
-                    WnGetMinMaxInfo(hwnd, lparam);
-                    handled = true;
-                    break;
-            }
-            return IntPtr.Zero;
         }
 
         private static Minmaxinfo AdjustWorkingAreaForAutoHide(IntPtr monitor, Minmaxinfo mmi)
@@ -561,19 +558,21 @@ namespace ModernApplicationFramework.Controls
             int uEdge;
             if (rc.Top == rc.Left && rc.Bottom > rc.Right)
                 uEdge = (int) AbEdge.AbeLeft;
-            else if (rc.Top == rc.Left && rc.Bottom < rc.Right)
-                uEdge = (int) AbEdge.AbeTop;
-            else if (rc.Top > rc.Left)
-                uEdge = (int) AbEdge.AbeBottom;
             else
-                uEdge = (int) AbEdge.AbeRight;
+                if (rc.Top == rc.Left && rc.Bottom < rc.Right)
+                    uEdge = (int) AbEdge.AbeTop;
+                else
+                    if (rc.Top > rc.Left)
+                        uEdge = (int) AbEdge.AbeBottom;
+                    else
+                        uEdge = (int) AbEdge.AbeRight;
             return uEdge;
         }
 
         private static Monitorinfo MonitorInfoFromWindow(IntPtr hWnd)
         {
             var hMonitor = NativeMethods.MonitorFromWindow(hWnd, 2);
-            var monitorInfo = new Monitorinfo {CbSize = (uint) Marshal.SizeOf(typeof (Monitorinfo))};
+            var monitorInfo = new Monitorinfo {CbSize = (uint) Marshal.SizeOf(typeof(Monitorinfo))};
             NativeMethods.GetMonitorInfo(hMonitor, ref monitorInfo);
             return monitorInfo;
         }
@@ -772,7 +771,7 @@ namespace ModernApplicationFramework.Controls
         }
 
         private void UpdateClipRegion(IntPtr hWnd, Windowplacement placement, ClipRegionChangeType changeType,
-            RECT currentBounds)
+                                      RECT currentBounds)
         {
             UpdateClipRegionCore(hWnd, placement.showCmd, changeType, currentBounds.ToInt32Rect());
             _lastWindowPlacement = placement.showCmd;
@@ -910,13 +909,13 @@ namespace ModernApplicationFramework.Controls
             if (scWparam == 61472 && WindowState == WindowState.Maximized)
                 _wasMaximized = true;
 
-            if ((scWparam == 61488 || scWparam == 61472 || (scWparam == 61456 || scWparam == 61440)) &&
-                (WindowState == WindowState.Normal && !IsAeroSnappedToMonitor(hwnd)))
+            if ((scWparam == 61488 || scWparam == 61472 || scWparam == 61456 || scWparam == 61440)
+                && WindowState == WindowState.Normal && !IsAeroSnappedToMonitor(hwnd))
                 _logicalSizeForRestore = new Rect(Left, Top, Width, Height);
             if (scWparam == 61456 && WindowState == WindowState.Maximized && _logicalSizeForRestore == Rect.Empty)
                 _logicalSizeForRestore = new Rect(Left, Top, Width, Height);
-            if (scWparam != 61728 || WindowState == WindowState.Minimized ||
-                (_logicalSizeForRestore.Width <= 0.0 || _logicalSizeForRestore.Height <= 0.0))
+            if (scWparam != 61728 || WindowState == WindowState.Minimized || _logicalSizeForRestore.Width <= 0.0
+                || _logicalSizeForRestore.Height <= 0.0)
                 return;
             Left = _logicalSizeForRestore.Left;
             Top = _logicalSizeForRestore.Top;
@@ -928,28 +927,27 @@ namespace ModernApplicationFramework.Controls
         {
             try
             {
-                var windowpos = (Windowpos) Marshal.PtrToStructure(lParam, typeof (Windowpos));
+                var windowpos = (Windowpos) Marshal.PtrToStructure(lParam, typeof(Windowpos));
                 var windowPlacement = NativeMethods.GetWindowPlacement(hWnd);
                 var currentBounds = new RECT(windowpos.x, windowpos.y, windowpos.x + windowpos.cx,
                     windowpos.y + windowpos.cy);
                 if (((int) windowpos.flags & 1) != 1)
                     UpdateClipRegion(hWnd, windowPlacement, ClipRegionChangeType.FromSize, currentBounds);
-                else if (((int) windowpos.flags & 2) != 2)
-                    UpdateClipRegion(hWnd, windowPlacement, ClipRegionChangeType.FromPosition, currentBounds);
+                else
+                    if (((int) windowpos.flags & 2) != 2)
+                        UpdateClipRegion(hWnd, windowPlacement, ClipRegionChangeType.FromPosition, currentBounds);
                 OnWindowPosChanged(hWnd, windowPlacement.showCmd, windowPlacement.rcNormalPosition.ToInt32Rect());
                 UpdateGlowWindowPositions(true);
                 UpdateZOrderOfThisAndOwner();
             }
-            catch (Win32Exception)
-            {
-            }
+            catch (Win32Exception) {}
         }
 
         private void WmWindowPosChanging(IntPtr lParam)
         {
-            var windowpos = (Windowpos) Marshal.PtrToStructure(lParam, typeof (Windowpos));
-            if (((int) windowpos.flags & 2) != 0 || ((int) windowpos.flags & 1) != 0 ||
-                (windowpos.cx <= 0 || windowpos.cy <= 0))
+            var windowpos = (Windowpos) Marshal.PtrToStructure(lParam, typeof(Windowpos));
+            if (((int) windowpos.flags & 2) != 0 || ((int) windowpos.flags & 1) != 0 || windowpos.cx <= 0
+                || windowpos.cy <= 0)
                 return;
             var floatRect = new Rect(windowpos.x, windowpos.y, windowpos.cx, windowpos.cy).DeviceToLogicalUnits();
             if (_useLogicalSizeForRestore)
@@ -966,7 +964,7 @@ namespace ModernApplicationFramework.Controls
 
         private void WnGetMinMaxInfo(IntPtr hwnd, IntPtr lparam)
         {
-            var mmi = (Minmaxinfo) Marshal.PtrToStructure(lparam, typeof (Minmaxinfo));
+            var mmi = (Minmaxinfo) Marshal.PtrToStructure(lparam, typeof(Minmaxinfo));
             var monitor = NativeMethods.MonitorFromWindow(hwnd, MonitorDefaulttonearest);
 
             if (monitor != IntPtr.Zero)
@@ -990,8 +988,8 @@ namespace ModernApplicationFramework.Controls
         }
     }
 
-    [TemplatePart(Name = InnerBorder, Type = typeof (Border))]
-    [TemplatePart(Name = BorderName, Type = typeof (Border))]
+    [TemplatePart(Name = InnerBorder, Type = typeof(Border))]
+    [TemplatePart(Name = BorderName, Type = typeof(Border))]
     internal sealed class ShadowWindow : Window, IDisposable
     {
         private const string BorderName = "PART_Border";
@@ -1003,6 +1001,12 @@ namespace ModernApplicationFramework.Controls
         private readonly ModernChromeWindow _targetWindow;
         private bool _isActive;
         private bool _isVisible;
+
+        static ShadowWindow()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ShadowWindow),
+                new FrameworkPropertyMetadata(typeof(ShadowWindow)));
+        }
 
         public ShadowWindow(ModernChromeWindow owner, Dock direction)
         {
@@ -1030,17 +1034,6 @@ namespace ModernApplicationFramework.Controls
             Left = _targetWindow.Left;
         }
 
-        static ShadowWindow()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof (ShadowWindow),
-                new FrameworkPropertyMetadata(typeof (ShadowWindow)));
-        }
-
-        public void Dispose()
-        {
-            Close();
-        }
-
         public Brush ActiveBorderBrush { get; set; }
         public Brush InactiveBorderBrush { get; set; }
 
@@ -1065,6 +1058,11 @@ namespace ModernApplicationFramework.Controls
         }
 
         private IntPtr TargetWindowHandle => new WindowInteropHelper(_targetWindow).Handle;
+
+        public void Dispose()
+        {
+            Close();
+        }
 
         public void ChangeOwner(IntPtr newOwner)
         {
@@ -1158,7 +1156,7 @@ namespace ModernApplicationFramework.Controls
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
-            var hwndSource = HwndSource.FromHwnd((new WindowInteropHelper(this).Handle));
+            var hwndSource = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
             hwndSource?.AddHook(WndProc);
 
             Loaded += OnLoaded;
@@ -1286,7 +1284,7 @@ namespace ModernApplicationFramework.Controls
                 case 6:
                     return IntPtr.Zero;
                 case 70:
-                    var windowPos = (Windowpos) Marshal.PtrToStructure(lParam, typeof (Windowpos));
+                    var windowPos = (Windowpos) Marshal.PtrToStructure(lParam, typeof(Windowpos));
                     windowPos.flags |= 16U;
                     Marshal.StructureToPtr(windowPos, lParam, true);
                     break;

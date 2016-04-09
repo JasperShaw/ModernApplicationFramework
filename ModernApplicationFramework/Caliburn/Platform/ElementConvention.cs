@@ -7,12 +7,12 @@ using TriggerBase = System.Windows.Interactivity.TriggerBase;
 namespace ModernApplicationFramework.Caliburn.Platform
 {
     /// <summary>
-    /// Represents the conventions for a particular element type.
+    ///     Represents the conventions for a particular element type.
     /// </summary>
     public class ElementConvention
     {
         /// <summary>
-        /// Applies custom conventions for elements of this type.
+        ///     Applies custom conventions for elements of this type.
         /// </summary>
         /// <remarks>Pass the view model type, property path, property instance, framework element and its convention.</remarks>
         public Func<Type, string, PropertyInfo, FrameworkElement, ElementConvention, bool> ApplyBinding =
@@ -21,22 +21,22 @@ namespace ModernApplicationFramework.Caliburn.Platform
                     convention.GetBindableProperty(element));
 
         /// <summary>
-        /// The default trigger to be used when wiring actions on this element.
+        ///     The default trigger to be used when wiring actions on this element.
         /// </summary>
         public Func<TriggerBase> CreateTrigger;
 
         /// <summary>
-        /// The type of element to which the conventions apply.
+        ///     The type of element to which the conventions apply.
         /// </summary>
         public Type ElementType;
 
         /// <summary>
-        /// Gets the default property to be used in binding conventions.
+        ///     Gets the default property to be used in binding conventions.
         /// </summary>
         public Func<DependencyObject, DependencyProperty> GetBindableProperty;
 
         /// <summary>
-        /// The default property to be used for parameters of this type in actions.
+        ///     The default property to be used for parameters of this type in actions.
         /// </summary>
         public string ParameterProperty;
     }

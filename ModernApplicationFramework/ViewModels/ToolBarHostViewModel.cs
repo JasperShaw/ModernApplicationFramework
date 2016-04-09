@@ -8,6 +8,7 @@ using System.Windows.Input;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Controls.Customize;
+using ModernApplicationFramework.Controls.Utilities;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Exception;
 using ModernApplicationFramework.Core.Themes;
@@ -52,6 +53,50 @@ namespace ModernApplicationFramework.ViewModels
             SetupContextMenu();
         }
 
+        public ToolBarHostControl ToolBarHostControl { get; }
+
+        public ToolBarTray BottomToolBarTay
+        {
+            get { return _bottomToolBarTay; }
+            set
+            {
+                _bottomToolBarTay = value;
+                _bottomToolBarTay.MouseRightButtonDown += ToolBarTay_MouseRightButtonDown;
+            }
+        }
+
+        public ToolBarTray LeftToolBarTay
+        {
+            get { return _leftToolBarTay; }
+            set
+            {
+                _leftToolBarTay = value;
+                _leftToolBarTay.MouseRightButtonDown += ToolBarTay_MouseRightButtonDown;
+            }
+        }
+
+        public ToolBarTray RightToolBarTay
+        {
+            get { return _rightToolBarTay; }
+            set
+            {
+                _rightToolBarTay = value;
+                _rightToolBarTay.MouseRightButtonDown += ToolBarTay_MouseRightButtonDown;
+            }
+        }
+
+        public ToolBarTray TopToolBarTay
+        {
+            get { return _topToolBarTay; }
+            set
+            {
+                _topToolBarTay = value;
+                _topToolBarTay.MouseRightButtonDown += ToolBarTay_MouseRightButtonDown;
+            }
+        }
+
+        private ContextMenu ContextMenu { get; }
+
         public event EventHandler<ThemeChangedEventArgs> OnThemeChanged;
 
         public Theme Theme
@@ -83,7 +128,7 @@ namespace ModernApplicationFramework.ViewModels
         */
 
         /// <summary>
-        /// Adds new Toolbar to HostControl
+        ///     Adds new Toolbar to HostControl
         /// </summary>
         /// <param name="toolBar">Toolbar object</param>
         /// <param name="visible">Toolbar visibility</param>
@@ -104,16 +149,6 @@ namespace ModernApplicationFramework.ViewModels
             ShowToolBarByName(toolBar.IdentifierName);
         }
 
-        public ToolBarTray BottomToolBarTay
-        {
-            get { return _bottomToolBarTay; }
-            set
-            {
-                _bottomToolBarTay = value;
-                _bottomToolBarTay.MouseRightButtonDown += ToolBarTay_MouseRightButtonDown;
-            }
-        }
-
         /*
             Change Orientation of Toolbar by:
                 Checking for:
@@ -128,7 +163,7 @@ namespace ModernApplicationFramework.ViewModels
         */
 
         /// <summary>
-        /// Change Orientation of Toolbar
+        ///     Change Orientation of Toolbar
         /// </summary>
         /// <param name="name">IdentifierName of Toolbar</param>
         /// <param name="newValue">New Orientation Value</param>
@@ -161,7 +196,7 @@ namespace ModernApplicationFramework.ViewModels
         */
 
         /// <summary>
-        /// Change Visibility of Toolbar
+        ///     Change Visibility of Toolbar
         /// </summary>
         /// <param name="name">IdentifierName of Toolbar</param>
         /// <param name="newValue">New Visibility Value</param>
@@ -181,7 +216,7 @@ namespace ModernApplicationFramework.ViewModels
         }
 
         /// <summary>
-        /// Get a Toolbar by Name
+        ///     Get a Toolbar by Name
         /// </summary>
         /// <param name="name">IdentifierName of Toolbar</param>
         /// <returns>Found Toolbar Object</returns>
@@ -195,7 +230,7 @@ namespace ModernApplicationFramework.ViewModels
         }
 
         /// <summary>
-        /// Get Orientation of Toolbar
+        ///     Get Orientation of Toolbar
         /// </summary>
         /// <param name="name">Identifier Name of Toolbar</param>
         /// <returns>Orientation</returns>
@@ -209,7 +244,7 @@ namespace ModernApplicationFramework.ViewModels
         }
 
         /// <summary>
-        /// Returns a list of Toolbar Objects
+        ///     Returns a list of Toolbar Objects
         /// </summary>
         /// <returns></returns>
         public List<ToolBar> GetToolBars()
@@ -218,7 +253,7 @@ namespace ModernApplicationFramework.ViewModels
         }
 
         /// <summary>
-        /// Get Toolbar Visibility
+        ///     Get Toolbar Visibility
         /// </summary>
         /// <param name="name">Identifier Name of Toolbar</param>
         /// <returns>Bool of visibility</returns>
@@ -279,16 +314,6 @@ namespace ModernApplicationFramework.ViewModels
             _contextList[name].Item4.IconGeometry = null;
         }
 
-        public ToolBarTray LeftToolBarTay
-        {
-            get { return _leftToolBarTay; }
-            set
-            {
-                _leftToolBarTay = value;
-                _leftToolBarTay.MouseRightButtonDown += ToolBarTay_MouseRightButtonDown;
-            }
-        }
-
         public IMainWindowViewModel MainWindowViewModel
         {
             get { return _mainWindowViewModel; }
@@ -312,7 +337,7 @@ namespace ModernApplicationFramework.ViewModels
         */
 
         /// <summary>
-        /// Removes Toolbar from ToolBarHostControl
+        ///     Removes Toolbar from ToolBarHostControl
         /// </summary>
         /// <param name="name"></param>
         public void RemoveToolBar(string name)
@@ -324,16 +349,6 @@ namespace ModernApplicationFramework.ViewModels
             ChangeToolBarVisibility(name, false);
             ContextMenu.Items.Remove(_contextList[name].Item4);
             _contextList.Remove(name);
-        }
-
-        public ToolBarTray RightToolBarTay
-        {
-            get { return _rightToolBarTay; }
-            set
-            {
-                _rightToolBarTay = value;
-                _rightToolBarTay.MouseRightButtonDown += ToolBarTay_MouseRightButtonDown;
-            }
         }
 
         /*
@@ -381,17 +396,7 @@ namespace ModernApplicationFramework.ViewModels
                 throw new ArgumentNullException(nameof(name));
             UpdateVisibility(name, true);
             ShowToolBar(_contextList[name].Item1, _contextList[name].Item2);
-            Controls.Utilities.ContextMenuGlyphItemUtilities.SetCheckMark(_contextList[name].Item4);
-        }
-
-        public ToolBarTray TopToolBarTay
-        {
-            get { return _topToolBarTay; }
-            set
-            {
-                _topToolBarTay = value;
-                _topToolBarTay.MouseRightButtonDown += ToolBarTay_MouseRightButtonDown;
-            }
+            ContextMenuGlyphItemUtilities.SetCheckMark(_contextList[name].Item4);
         }
 
         /*
@@ -450,10 +455,6 @@ namespace ModernApplicationFramework.ViewModels
                 new Tuple<ToolBar, Dock, bool, ContextMenuGlyphItem>(oldToolbar, oldDock, newValue, oldMenuItem));
         }
 
-        public ToolBarHostControl ToolBarHostControl { get; }
-
-        private ContextMenu ContextMenu { get; }
-
         public void ChangeTheme(Theme oldValue, Theme newValue)
         {
             var oldTheme = oldValue;
@@ -470,7 +471,7 @@ namespace ModernApplicationFramework.ViewModels
 
             if (newTheme != null)
             {
-                resources.MergedDictionaries.Add(new ResourceDictionary() {Source = newTheme.GetResourceUri()});
+                resources.MergedDictionaries.Add(new ResourceDictionary {Source = newTheme.GetResourceUri()});
             }
         }
 
@@ -542,7 +543,7 @@ namespace ModernApplicationFramework.ViewModels
             var item = contextMenuItem;
             if (item != null && item.IconGeometry == null)
             {
-                Controls.Utilities.ContextMenuGlyphItemUtilities.SetCheckMark(item);
+                ContextMenuGlyphItemUtilities.SetCheckMark(item);
                 ShowToolBarByName(item.Header.ToString());
             }
             else

@@ -4,26 +4,26 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using ModernApplicationFramework.Caliburn.Platform.Action;
 using ModernApplicationFramework.Caliburn.Result;
-using ActionExecutionContext = ModernApplicationFramework.Caliburn.Platform.Action.ActionExecutionContext;
-using Parameter = ModernApplicationFramework.Caliburn.Platform.Action.Parameter;
 
 namespace ModernApplicationFramework.Caliburn.Platform.Utilities
 {
     /// <summary>
-    /// A service that is capable of properly binding values to a method's parameters and creating instances of <see cref="IResult"/>.
+    ///     A service that is capable of properly binding values to a method's parameters and creating instances of
+    ///     <see cref="IResult" />.
     /// </summary>
     public static class MessageBinder
     {
         /// <summary>
-        /// Custom converters used by the framework registered by destination type for which they will be selected.
-        /// The converter is passed the existing value to convert and a "context" object.
+        ///     Custom converters used by the framework registered by destination type for which they will be selected.
+        ///     The converter is passed the existing value to convert and a "context" object.
         /// </summary>
         public static readonly Dictionary<Type, Func<object, object, object>> CustomConverters =
             new Dictionary<Type, Func<object, object, object>>
             {
                 {
-                    typeof (DateTime), (value, context) =>
+                    typeof(DateTime), (value, context) =>
                     {
                         DateTime result;
                         DateTime.TryParse(value.ToString(), out result);
@@ -33,8 +33,9 @@ namespace ModernApplicationFramework.Caliburn.Platform.Utilities
             };
 
         /// <summary>
-        /// The special parameter values recognized by the message binder along with their resolvers.
-        /// Parameter names are case insensitive so the specified names are unique and can be used with different case variations
+        ///     The special parameter values recognized by the message binder along with their resolvers.
+        ///     Parameter names are case insensitive so the specified names are unique and can be used with different case
+        ///     variations
         /// </summary>
         public static readonly Dictionary<string, Func<ActionExecutionContext, object>> SpecialValues =
             new Dictionary<string, Func<ActionExecutionContext, object>>(StringComparer.OrdinalIgnoreCase)
@@ -47,7 +48,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Utilities
             };
 
         /// <summary>
-        /// Transforms the textual parameter into the actual parameter.
+        ///     Transforms the textual parameter into the actual parameter.
         /// </summary>
         public static Func<string, Type, ActionExecutionContext, object> EvaluateParameter =
             (text, parameterType, context) =>
@@ -57,7 +58,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Utilities
             };
 
         /// <summary>
-        /// Coerces the provided value to the destination type.
+        ///     Coerces the provided value to the destination type.
         /// </summary>
         /// <param name="destinationType">The destination type.</param>
         /// <param name="providedValue">The provided value.</param>
@@ -104,7 +105,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Utilities
                         : Enum.ToObject(destinationType, providedValue);
                 }
 
-                if (typeof (Guid).IsAssignableFrom(destinationType))
+                if (typeof(Guid).IsAssignableFrom(destinationType))
                 {
                     var stringValue = providedValue as string;
                     if (stringValue != null)
@@ -129,7 +130,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Utilities
         }
 
         /// <summary>
-        /// Determines the parameters that a method should be invoked with.
+        ///     Determines the parameters that a method should be invoked with.
         /// </summary>
         /// <param name="context">The action execution context.</param>
         /// <param name="requiredParameters">The parameters required to complete the invocation.</param>
@@ -139,7 +140,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Utilities
             var providedValues = context.Message.Parameters.OfType<Parameter>().Select(x => x.Value).ToArray();
             var finalValues = new object[requiredParameters.Length];
 
-            for (int i = 0; i < requiredParameters.Length; i++)
+            for (var i = 0; i < requiredParameters.Length; i++)
             {
                 var parameterType = requiredParameters[i].ParameterType;
                 var parameterValue = providedValues[i];
@@ -148,14 +149,15 @@ namespace ModernApplicationFramework.Caliburn.Platform.Utilities
                 if (parameterAsString != null)
                     finalValues[i] = CoerceValue(parameterType,
                         EvaluateParameter(parameterAsString, parameterType, context), context);
-                else finalValues[i] = CoerceValue(parameterType, parameterValue, context);
+                else
+                    finalValues[i] = CoerceValue(parameterType, parameterValue, context);
             }
 
             return finalValues;
         }
 
         /// <summary>
-        /// Gets the default value for a type.
+        ///     Gets the default value for a type.
         /// </summary>
         /// <param name="type">The type.</param>
         /// <returns>The default value.</returns>

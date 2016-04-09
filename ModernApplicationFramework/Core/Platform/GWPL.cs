@@ -6,6 +6,6 @@
         Id = -12,
         Hwndparent = -8,
         Hinstance = -6,
-        Wndproc = -4,
+        Wndproc = -4
     }
 }

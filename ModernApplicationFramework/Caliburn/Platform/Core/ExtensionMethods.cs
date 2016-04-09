@@ -6,12 +6,12 @@ using System.Reflection;
 namespace ModernApplicationFramework.Caliburn.Platform.Core
 {
     /// <summary>
-    /// Generic extension methods used by the framework.
+    ///     Generic extension methods used by the framework.
     /// </summary>
     public static class ExtensionMethods
     {
         /// <summary>
-        /// Get's the name of the assembly.
+        ///     Get's the name of the assembly.
         /// </summary>
         /// <param name="assembly">The assembly.</param>
         /// <returns>The assembly's name.</returns>
@@ -21,7 +21,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Core
         }
 
         /// <summary>
-        /// Gets all the attributes of a particular type.
+        ///     Gets all the attributes of a particular type.
         /// </summary>
         /// <typeparam name="T">The type of attributes to get.</typeparam>
         /// <param name="member">The member to inspect for attributes.</param>
@@ -33,7 +33,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Core
         }
 
         /// <summary>
-        /// Gets the value for a key. If the key does not exist, return default(TValue);
+        ///     Gets the value for a key. If the key does not exist, return default(TValue);
         /// </summary>
         /// <typeparam name="TKey">The type of the keys in the dictionary.</typeparam>
         /// <typeparam name="TValue">The type of the values in the dictionary.</typeparam>

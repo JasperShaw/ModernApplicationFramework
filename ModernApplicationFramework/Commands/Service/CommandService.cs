@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ModernApplicationFramework.Commands.Service
 {
-    [Export(typeof (ICommandService))]
+    [Export(typeof(ICommandService))]
     public class CommandService : ICommandService
     {
         private readonly Dictionary<Type, CommandDefinition> _commandDefinitionsLookup;

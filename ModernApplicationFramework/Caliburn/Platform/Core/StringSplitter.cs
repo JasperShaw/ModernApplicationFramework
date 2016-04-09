@@ -4,13 +4,13 @@ using System.Text;
 namespace ModernApplicationFramework.Caliburn.Platform.Core
 {
     /// <summary>
-    /// Helper class when splitting strings
+    ///     Helper class when splitting strings
     /// </summary>
     public static class StringSplitter
     {
         /// <summary>
-        /// Splits a string with a chosen separator. 
-        /// If a substring is contained in [...] it will not be splitted.
+        ///     Splits a string with a chosen separator.
+        ///     If a substring is contained in [...] it will not be splitted.
         /// </summary>
         /// <param name="message">The message to split</param>
         /// <param name="separator">The separator to use when splitting</param>
@@ -23,7 +23,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Core
             var list = new List<string>();
             var builder = new StringBuilder();
 
-            int squareBrackets = 0;
+            var squareBrackets = 0;
 
             foreach (var current in message)
             {
@@ -64,8 +64,8 @@ namespace ModernApplicationFramework.Caliburn.Platform.Core
         }
 
         /// <summary>
-        /// Splits a string with , as separator. 
-        /// Does not split within {},[],()
+        ///     Splits a string with , as separator.
+        ///     Does not split within {},[],()
         /// </summary>
         /// <param name="parameters">The string to split</param>
         /// <returns></returns>
@@ -75,12 +75,12 @@ namespace ModernApplicationFramework.Caliburn.Platform.Core
             var list = new List<string>();
             var builder = new StringBuilder();
 
-            bool isInString = false;
+            var isInString = false;
 
-            int curlyBrackets = 0;
-            int squareBrackets = 0;
-            int roundBrackets = 0;
-            for (int i = 0; i < parameters.Length; i++)
+            var curlyBrackets = 0;
+            var squareBrackets = 0;
+            var roundBrackets = 0;
+            for (var i = 0; i < parameters.Length; i++)
             {
                 var current = parameters[i];
 

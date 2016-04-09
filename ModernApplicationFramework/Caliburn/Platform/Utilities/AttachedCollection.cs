@@ -7,16 +7,16 @@ using ModernApplicationFramework.Caliburn.Extensions;
 namespace ModernApplicationFramework.Caliburn.Platform.Utilities
 {
     /// <summary>
-    /// A collection that can exist as part of a behavior.
+    ///     A collection that can exist as part of a behavior.
     /// </summary>
     /// <typeparam name="T">The type of item in the attached collection.</typeparam>
     public class AttachedCollection<T> : FreezableCollection<T>, IAttachedObject
         where T : DependencyObject, IAttachedObject
     {
-        DependencyObject _associatedObject;
+        private DependencyObject _associatedObject;
 
         /// <summary>
-        /// Creates an instance of <see cref="AttachedCollection{T}"/>
+        ///     Creates an instance of <see cref="AttachedCollection{T}" />
         /// </summary>
         public AttachedCollection()
         {
@@ -26,7 +26,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Utilities
         DependencyObject IAttachedObject.AssociatedObject => _associatedObject;
 
         /// <summary>
-        /// Attached the collection.
+        ///     Attached the collection.
         /// </summary>
         /// <param name="dependencyObject">The dependency object to attach the collection to.</param>
         public void Attach(DependencyObject dependencyObject)
@@ -39,7 +39,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Utilities
         }
 
         /// <summary>
-        /// Detaches the collection.
+        ///     Detaches the collection.
         /// </summary>
         public void Detach()
         {
@@ -50,7 +50,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Utilities
         }
 
         /// <summary>
-        /// Called when an item is added from the collection.
+        ///     Called when an item is added from the collection.
         /// </summary>
         /// <param name="item">The item that was added.</param>
         protected virtual void OnItemAdded(T item)
@@ -60,7 +60,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Utilities
         }
 
         /// <summary>
-        /// Called when an item is removed from the collection.
+        ///     Called when an item is removed from the collection.
         /// </summary>
         /// <param name="item">The item that was removed.</param>
         protected virtual void OnItemRemoved(T item)
@@ -69,7 +69,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Utilities
                 item.Detach();
         }
 
-        void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
             {

@@ -6,37 +6,40 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using ModernApplicationFramework.Caliburn.Extensions;
-using ChildResolver = ModernApplicationFramework.Caliburn.Platform.Utilities.ChildResolver;
-using View = ModernApplicationFramework.Caliburn.Platform.Xaml.View;
+using ModernApplicationFramework.Caliburn.Platform.Utilities;
+using ModernApplicationFramework.Caliburn.Platform.Xaml;
 
 namespace ModernApplicationFramework.Caliburn.Platform
 {
     /// <summary>
-    /// Provides methods for searching a given scope for named elements.
+    ///     Provides methods for searching a given scope for named elements.
     /// </summary>
     public static class BindingScope
     {
         /// <summary>
-        /// Gets all the <see cref="FrameworkElement"/> instances with names in the scope.
+        ///     Gets all the <see cref="FrameworkElement" /> instances with names in the scope.
         /// </summary>
-        /// <returns>Named <see cref="FrameworkElement"/> instances in the provided scope.</returns>
-        /// <remarks>Pass in a <see cref="DependencyObject"/> and receive a list of named <see cref="FrameworkElement"/> instances in the same scope.</remarks>
+        /// <returns>Named <see cref="FrameworkElement" /> instances in the provided scope.</returns>
+        /// <remarks>
+        ///     Pass in a <see cref="DependencyObject" /> and receive a list of named <see cref="FrameworkElement" />
+        ///     instances in the same scope.
+        /// </remarks>
         public static Func<DependencyObject, IEnumerable<FrameworkElement>> GetNamedElements = elementInScope =>
         {
             var routeHops = FindScopeNamingRoute(elementInScope);
             return FindNamedDescendants(routeHops);
         };
 
-        static readonly List<ChildResolver> ChildResolvers = new List<ChildResolver>();
-        static readonly Dictionary<Type, object> NonResolvableChildTypes = new Dictionary<Type, object>();
+        private static readonly List<ChildResolver> ChildResolvers = new List<ChildResolver>();
+        private static readonly Dictionary<Type, object> NonResolvableChildTypes = new Dictionary<Type, object>();
 
         /// <summary>
-        /// Finds a set of named <see cref="FrameworkElement"/> instances in each hop in a <see cref="ScopeNamingRoute"/>.
+        ///     Finds a set of named <see cref="FrameworkElement" /> instances in each hop in a <see cref="ScopeNamingRoute" />.
         /// </summary>
         /// <remarks>
-        /// Searches all the elements in the <see cref="ScopeNamingRoute"/> parameter as well as the visual children of 
-        /// each of these elements, the <see cref="ContentControl.Content"/>, the <c>HeaderedContentControl.Header</c>,
-        /// the <see cref="ItemsControl.Items"/>, or the <c>HeaderedItemsControl.Header</c>, if any are found.
+        ///     Searches all the elements in the <see cref="ScopeNamingRoute" /> parameter as well as the visual children of
+        ///     each of these elements, the <see cref="ContentControl.Content" />, the <c>HeaderedContentControl.Header</c>,
+        ///     the <see cref="ItemsControl.Items" />, or the <c>HeaderedItemsControl.Header</c>, if any are found.
         /// </remarks>
         public static Func<ScopeNamingRoute, IEnumerable<FrameworkElement>> FindNamedDescendants = routeHops =>
         {
@@ -47,7 +50,7 @@ namespace ModernApplicationFramework.Caliburn.Platform
 
             if (routeHops.Root == null)
             {
-                throw new ArgumentException($"Root is null on the given {typeof (ScopeNamingRoute)}");
+                throw new ArgumentException($"Root is null on the given {typeof(ScopeNamingRoute)}");
             }
 
             var descendants = new List<FrameworkElement>();
@@ -71,7 +74,7 @@ namespace ModernApplicationFramework.Caliburn.Platform
                     queue.Enqueue(hopTarget);
                     continue;
                 }
-                var childCount = (current is Visual || current is Visual3D)
+                var childCount = current is Visual || current is Visual3D
                     ? VisualTreeHelper.GetChildrenCount(current)
                     : 0;
                 if (childCount > 0)
@@ -109,11 +112,14 @@ namespace ModernApplicationFramework.Caliburn.Platform
         };
 
         /// <summary>
-        /// Finds a path of dependency objects which traces through visual anscestry until a root which is <see langword="null"/>,
-        /// a <see cref="UserControl"/>, a <c>Page</c> with a dependency object <c>Page.ContentProperty</c> value, 
-        /// a dependency object with <see cref="Xaml.View.IsScopeRootProperty"/> set to <see langword="true"/>. <see cref="ContentPresenter"/>
-        /// and <see cref="ItemsPresenter"/> are included in the resulting <see cref="ScopeNamingRoute"/> in order to track which item
-        /// in an items control we are scoped to.
+        ///     Finds a path of dependency objects which traces through visual anscestry until a root which is
+        ///     <see langword="null" />,
+        ///     a <see cref="UserControl" />, a <c>Page</c> with a dependency object <c>Page.ContentProperty</c> value,
+        ///     a dependency object with <see cref="Xaml.View.IsScopeRootProperty" /> set to <see langword="true" />.
+        ///     <see cref="ContentPresenter" />
+        ///     and <see cref="ItemsPresenter" /> are included in the resulting <see cref="ScopeNamingRoute" /> in order to track
+        ///     which item
+        ///     in an items control we are scoped to.
         /// </summary>
         public static Func<DependencyObject, ScopeNamingRoute> FindScopeNamingRoute = elementInScope =>
         {
@@ -144,11 +150,12 @@ namespace ModernApplicationFramework.Caliburn.Platform
 
                 if (root is ContentPresenter)
                     contentPresenter = root;
-                else if (root is ItemsPresenter && contentPresenter != null)
-                {
-                    routeHops.AddHop(root, contentPresenter);
-                    contentPresenter = null;
-                }
+                else
+                    if (root is ItemsPresenter && contentPresenter != null)
+                    {
+                        routeHops.AddHop(root, contentPresenter);
+                        contentPresenter = null;
+                    }
 
                 previous = root;
                 root = VisualTreeHelper.GetParent(previous);
@@ -170,12 +177,12 @@ namespace ModernApplicationFramework.Caliburn.Platform
         }
 
         /// <summary>
-        /// Adds a child resolver.
+        ///     Adds a child resolver.
         /// </summary>
         /// <param name="filter">The type filter.</param>
         /// <param name="resolver">The resolver.</param>
         public static ChildResolver AddChildResolver(Func<Type, bool> filter,
-            Func<DependencyObject, IEnumerable<DependencyObject>> resolver)
+                                                     Func<DependencyObject, IEnumerable<DependencyObject>> resolver)
         {
             if (filter == null)
             {
@@ -197,7 +204,7 @@ namespace ModernApplicationFramework.Caliburn.Platform
         }
 
         /// <summary>
-        /// Adds a child resolver.
+        ///     Adds a child resolver.
         /// </summary>
         /// <param name="resolver">The resolver.</param>
         public static ChildResolver AddChildResolver<T>(Func<T, IEnumerable<DependencyObject>> resolver)
@@ -210,7 +217,7 @@ namespace ModernApplicationFramework.Caliburn.Platform
 
             NonResolvableChildTypes.Clear();
 
-            var childResolver = new Utilities.ChildResolver<T>(resolver);
+            var childResolver = new ChildResolver<T>(resolver);
 
             ChildResolvers.Add(childResolver);
 
@@ -218,7 +225,7 @@ namespace ModernApplicationFramework.Caliburn.Platform
         }
 
         /// <summary>
-        /// Searches through the list of named elements looking for a case-insensitive match.
+        ///     Searches through the list of named elements looking for a case-insensitive match.
         /// </summary>
         /// <param name="elementsToSearch">The named elements to search through.</param>
         /// <param name="name">The name to search for.</param>
@@ -229,7 +236,7 @@ namespace ModernApplicationFramework.Caliburn.Platform
         }
 
         /// <summary>
-        /// Removes a child resolver.
+        ///     Removes a child resolver.
         /// </summary>
         /// <param name="resolver">The resolver to remove.</param>
         /// <returns>true, when the resolver was (found and) removed.</returns>
@@ -244,17 +251,17 @@ namespace ModernApplicationFramework.Caliburn.Platform
         }
 
         /// <summary>
-        /// Maintains a connection in the visual tree of dependency objects in order to record a route through it.
+        ///     Maintains a connection in the visual tree of dependency objects in order to record a route through it.
         /// </summary>
         public class ScopeNamingRoute
         {
-            readonly Dictionary<DependencyObject, DependencyObject> _path =
+            private readonly Dictionary<DependencyObject, DependencyObject> _path =
                 new Dictionary<DependencyObject, DependencyObject>();
 
-            DependencyObject _root;
+            private DependencyObject _root;
 
             /// <summary>
-            /// Gets or sets the starting point of the route.
+            ///     Gets or sets the starting point of the route.
             /// </summary>
             public DependencyObject Root
             {
@@ -271,15 +278,15 @@ namespace ModernApplicationFramework.Caliburn.Platform
             }
 
             /// <summary>
-            /// Adds a segment to the route.
+            ///     Adds a segment to the route.
             /// </summary>
             /// <param name="from">The source dependency object.</param>
             /// <param name="to">The target dependency object.</param>
             public void AddHop(DependencyObject from, DependencyObject to)
             {
-                if (@from == null)
+                if (from == null)
                 {
-                    throw new ArgumentNullException(nameof(@from));
+                    throw new ArgumentNullException(nameof(from));
                 }
 
                 if (to == null)
@@ -305,11 +312,14 @@ namespace ModernApplicationFramework.Caliburn.Platform
             }
 
             /// <summary>
-            /// Tries to get a target dependency object given a source.
+            ///     Tries to get a target dependency object given a source.
             /// </summary>
             /// <param name="hopSource">The possible beginning of a route segment (hop).</param>
             /// <param name="hopTarget">The target of a route segment (hop).</param>
-            /// <returns><see langword="true"/> if <paramref name="hopSource"/> had a target recorded; <see langword="false"/> otherwise.</returns>
+            /// <returns>
+            ///     <see langword="true" /> if <paramref name="hopSource" /> had a target recorded; <see langword="false" />
+            ///     otherwise.
+            /// </returns>
             public bool TryGetHop(DependencyObject hopSource, out DependencyObject hopTarget)
             {
                 return _path.TryGetValue(hopSource, out hopTarget);

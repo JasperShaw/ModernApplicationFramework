@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using ModernApplicationFramework.Caliburn.Extensions;
 using ModernApplicationFramework.Caliburn.Interfaces;
@@ -8,13 +9,14 @@ using ModernApplicationFramework.Caliburn.Interfaces;
 namespace ModernApplicationFramework.Caliburn
 {
     /// <summary>
-    /// A base class that implements the infrastructure for property change notification and automatically performs UI thread marshalling.
+    ///     A base class that implements the infrastructure for property change notification and automatically performs UI
+    ///     thread marshalling.
     /// </summary>
     [DataContract]
     public class PropertyChangedBase : INotifyPropertyChangedEx
     {
         /// <summary>
-        /// Creates an instance of <see cref = "PropertyChangedBase" />.
+        ///     Creates an instance of <see cref="PropertyChangedBase" />.
         /// </summary>
         public PropertyChangedBase()
         {
@@ -22,28 +24,28 @@ namespace ModernApplicationFramework.Caliburn
         }
 
         /// <summary>
-        /// Occurs when a property value changes.
+        ///     Occurs when a property value changes.
         /// </summary>
         public virtual event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// Enables/Disables property change notification.
-        /// Virtualized in order to help with document oriented view models.
+        ///     Enables/Disables property change notification.
+        ///     Virtualized in order to help with document oriented view models.
         /// </summary>
         public virtual bool IsNotifying { get; set; }
 
         /// <summary>
-        /// Notifies subscribers of the property change.
+        ///     Notifies subscribers of the property change.
         /// </summary>
-        /// <param name = "propertyName">Name of the property.</param>
-        public virtual void NotifyOfPropertyChange([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        /// <param name="propertyName">Name of the property.</param>
+        public virtual void NotifyOfPropertyChange([CallerMemberName] string propertyName = null)
         {
             if (IsNotifying && PropertyChanged != null)
                 Execute.OnUiThread(() => OnPropertyChanged(new PropertyChangedEventArgs(propertyName)));
         }
 
         /// <summary>
-        /// Raises a change notification indicating that all bindings should be refreshed.
+        ///     Raises a change notification indicating that all bindings should be refreshed.
         /// </summary>
         public virtual void Refresh()
         {
@@ -51,19 +53,19 @@ namespace ModernApplicationFramework.Caliburn
         }
 
         /// <summary>
-        /// Notifies subscribers of the property change.
+        ///     Notifies subscribers of the property change.
         /// </summary>
-        /// <typeparam name = "TProperty">The type of the property.</typeparam>
-        /// <param name = "property">The property expression.</param>
+        /// <typeparam name="TProperty">The type of the property.</typeparam>
+        /// <param name="property">The property expression.</param>
         public void NotifyOfPropertyChange<TProperty>(Expression<Func<TProperty>> property)
         {
             NotifyOfPropertyChange(property.GetMemberInfo().Name);
         }
 
         /// <summary>
-        /// Raises the <see cref="PropertyChanged" /> event directly.
+        ///     Raises the <see cref="PropertyChanged" /> event directly.
         /// </summary>
-        /// <param name="e">The <see cref="PropertyChangedEventArgs"/> instance containing the event data.</param>
+        /// <param name="e">The <see cref="PropertyChangedEventArgs" /> instance containing the event data.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected void OnPropertyChanged(PropertyChangedEventArgs e)
         {

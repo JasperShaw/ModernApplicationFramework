@@ -2,7 +2,5 @@
 
 namespace ModernApplicationFramework.MVVM.Interfaces
 {
-    public interface IDockingMainWindowViewModel : IMainWindowViewModel, IUseDockingHost
-    {
-    }
+    public interface IDockingMainWindowViewModel : IMainWindowViewModel, IUseDockingHost {}
 }

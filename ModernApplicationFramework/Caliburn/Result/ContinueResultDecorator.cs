@@ -5,18 +5,18 @@ using ModernApplicationFramework.Caliburn.Logger;
 namespace ModernApplicationFramework.Caliburn.Result
 {
     /// <summary>
-    /// A result decorator which executes a coroutine when the wrapped result was cancelled.
+    ///     A result decorator which executes a coroutine when the wrapped result was cancelled.
     /// </summary>
     public class ContinueResultDecorator : ResultDecoratorBase
     {
-        static readonly ILog Log = LogManager.GetLog(typeof (ContinueResultDecorator));
-        readonly Func<IResult> _coroutine;
+        private static readonly ILog Log = LogManager.GetLog(typeof(ContinueResultDecorator));
+        private readonly Func<IResult> _coroutine;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ContinueResultDecorator"/> class.
+        ///     Initializes a new instance of the <see cref="ContinueResultDecorator" /> class.
         /// </summary>
         /// <param name="result">The result to decorate.</param>
-        /// <param name="coroutine">The coroutine to execute when <paramref name="result"/> was canceled.</param>
+        /// <param name="coroutine">The coroutine to execute when <paramref name="result" /> was canceled.</param>
         public ContinueResultDecorator(IResult result, Func<IResult> coroutine)
             : base(result)
         {
@@ -27,13 +27,13 @@ namespace ModernApplicationFramework.Caliburn.Result
         }
 
         /// <summary>
-        /// Called when the execution of the decorated result has completed.
+        ///     Called when the execution of the decorated result has completed.
         /// </summary>
         /// <param name="context">The context.</param>
         /// <param name="innerResult">The decorated result.</param>
         /// <param name="args">The <see cref="ResultCompletionEventArgs" /> instance containing the event data.</param>
         protected override void OnInnerResultCompleted(CoroutineExecutionContext context, IResult innerResult,
-            ResultCompletionEventArgs args)
+                                                       ResultCompletionEventArgs args)
         {
             if (args.Error != null || !args.WasCancelled)
             {
@@ -71,10 +71,10 @@ namespace ModernApplicationFramework.Caliburn.Result
             }
         }
 
-        void ContinueCompleted(object sender, ResultCompletionEventArgs args)
+        private void ContinueCompleted(object sender, ResultCompletionEventArgs args)
         {
             ((IResult) sender).Completed -= ContinueCompleted;
-            OnCompleted(new ResultCompletionEventArgs {Error = args.Error, WasCancelled = (args.Error == null)});
+            OnCompleted(new ResultCompletionEventArgs {Error = args.Error, WasCancelled = args.Error == null});
         }
     }
 }

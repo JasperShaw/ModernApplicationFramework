@@ -24,6 +24,8 @@ namespace ModernApplicationFramework.Commands
             WrappedCommand = wrappedCommand;
         }
 
+        public ICommand WrappedCommand { get; }
+
         public bool CanExecute(object parameter)
         {
             return WrappedCommand.CanExecute(parameter);
@@ -39,7 +41,5 @@ namespace ModernApplicationFramework.Commands
         {
             WrappedCommand.Execute(parameter);
         }
-
-        public ICommand WrappedCommand { get; }
     }
 }

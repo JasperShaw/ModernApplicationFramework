@@ -4,14 +4,13 @@ namespace ModernApplicationFramework.MVVM.Interfaces
 {
     public interface IStorableDocument
     {
-        bool IsNew { get; }
-
         string FileName { get; }
 
         string FilePath { get; }
+        bool IsNew { get; }
+        Task Load(string filePath);
 
         Task New(string fileName);
-        Task Load(string filePath);
         Task Save(string filePath);
     }
 }

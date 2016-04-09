@@ -6,20 +6,20 @@ namespace ModernApplicationFramework.Core.Platform
     internal class MonitorInfo
     {
         /// <summary>
-        /// </summary>            
+        /// </summary>
         public int cbSize = Marshal.SizeOf(typeof(MonitorInfo));
 
         /// <summary>
-        /// </summary>            
+        /// </summary>
+        public int dwFlags = 0;
+
+        /// <summary>
+        /// </summary>
         public RECT rcMonitor = new RECT();
 
         /// <summary>
-        /// </summary>            
+        /// </summary>
         public RECT rcWork = new RECT();
-
-        /// <summary>
-        /// </summary>            
-        public int dwFlags = 0;
     }
 
     internal struct Monitorinfo

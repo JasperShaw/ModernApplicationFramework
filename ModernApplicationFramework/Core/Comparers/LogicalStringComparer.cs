@@ -3,15 +3,11 @@ using System.ComponentModel;
 
 namespace ModernApplicationFramework.Core.Comparers
 {
-    class LogicalStringComparer : IComparer<string>
+    internal class LogicalStringComparer : IComparer<string>
     {
-
         private readonly int _order = 1;
 
-        public LogicalStringComparer() : this(ListSortDirection.Ascending)
-        {
-            
-        }
+        public LogicalStringComparer() : this(ListSortDirection.Ascending) {}
 
         public LogicalStringComparer(ListSortDirection direction)
         {

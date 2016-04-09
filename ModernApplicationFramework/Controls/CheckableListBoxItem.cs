@@ -9,54 +9,45 @@ namespace ModernApplicationFramework.Controls
 {
     public class CheckableListBoxItem : ListBoxItem
     {
-        private static readonly DependencyProperty InternalIsCheckedProperty = DependencyProperty.Register("InternalIsChecked",
-            typeof (bool?), typeof (CheckableListBoxItem),
-            new FrameworkPropertyMetadata(Boxes.BoolFalse, FrameworkPropertyMetadataOptions.AffectsRender,
-                OnInternalIsCheckedChanged));
+        private static readonly DependencyProperty InternalIsCheckedProperty =
+            DependencyProperty.Register("InternalIsChecked",
+                typeof(bool?), typeof(CheckableListBoxItem),
+                new FrameworkPropertyMetadata(Boxes.BoolFalse, FrameworkPropertyMetadataOptions.AffectsRender,
+                    OnInternalIsCheckedChanged));
 
-        public static DependencyProperty IsCheckedProperty = DependencyProperty.Register("IsChecked", typeof (bool?),
-            typeof (CheckableListBoxItem),
+        public static DependencyProperty IsCheckedProperty = DependencyProperty.Register("IsChecked", typeof(bool?),
+            typeof(CheckableListBoxItem),
             new FrameworkPropertyMetadata(Boxes.BoolFalse, FrameworkPropertyMetadataOptions.AffectsRender,
                 OnIsCheckedChanged));
 
-        public static DependencyProperty IsToggleEnabledProperty = DependencyProperty.Register("IsToggleEnabled",
-            typeof (bool), typeof (CheckableListBoxItem), new FrameworkPropertyMetadata(Boxes.BoolTrue));
-
         public static readonly RoutedEvent CheckedEvent =
-            ToggleButton.CheckedEvent.AddOwner(typeof (CheckableListBoxItem));
+            ToggleButton.CheckedEvent.AddOwner(typeof(CheckableListBoxItem));
 
         public static readonly RoutedEvent UncheckedEvent =
-            ToggleButton.UncheckedEvent.AddOwner(typeof (CheckableListBoxItem));
+            ToggleButton.UncheckedEvent.AddOwner(typeof(CheckableListBoxItem));
+
+
+        public static DependencyProperty IsToggleEnabledProperty = DependencyProperty.Register("IsToggleEnabled",
+            typeof(bool), typeof(CheckableListBoxItem), new FrameworkPropertyMetadata(Boxes.BoolTrue));
+
+
+        private bool _contentLoaded;
+
+        public CheckableListBoxItem()
+        {
+            InitializeComponent();
+        }
 
         public event RoutedEventHandler Checked
         {
-            add
-            {
-                AddHandler(CheckedEvent, value);
-            }
-            remove
-            {
-                RemoveHandler(CheckedEvent, value);
-            }
+            add { AddHandler(CheckedEvent, value); }
+            remove { RemoveHandler(CheckedEvent, value); }
         }
 
         public event RoutedEventHandler Unchecked
         {
-            add
-            {
-                AddHandler(UncheckedEvent, value);
-            }
-            remove
-            {
-                RemoveHandler(UncheckedEvent, value);
-            }
-        }
-
-        private bool _contentLoaded;
-
-        private bool? InternalIsChecked
-        {
-            set { SetValue(InternalIsCheckedProperty, value); }
+            add { AddHandler(UncheckedEvent, value); }
+            remove { RemoveHandler(UncheckedEvent, value); }
         }
 
         public bool? IsChecked
@@ -71,37 +62,14 @@ namespace ModernApplicationFramework.Controls
             set { SetValue(IsToggleEnabledProperty, Boxes.Box(value)); }
         }
 
-        public CheckableListBoxItem()
+        private bool? InternalIsChecked
         {
-            InitializeComponent();
-        }
-
-        private void InitializeComponent()
-        {
-            if (_contentLoaded)
-                return;
-            _contentLoaded = true;
-            Application.LoadComponent(this, new Uri("/ModernApplicationFramework;component/Themes/Generic/CheckableListBoxItem.xaml", UriKind.Relative));
-        }
-
-        private static void OnIsCheckedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((CheckableListBoxItem)d).OnIsCheckedChanged(e);
+            set { SetValue(InternalIsCheckedProperty, value); }
         }
 
         public void OnIsCheckedChanged(DependencyPropertyChangedEventArgs e)
         {
-            InternalIsChecked = (bool?)e.NewValue;
-        }
-
-        private static void OnInternalIsCheckedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((CheckableListBoxItem)d).OnInternalIsCheckedChanged(e);
-        }
-
-        private void OnInternalIsCheckedChanged(DependencyPropertyChangedEventArgs e)
-        {
-            IsChecked = (bool?) e.NewValue;
+            InternalIsChecked = (bool?) e.NewValue;
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
@@ -137,11 +105,36 @@ namespace ModernApplicationFramework.Controls
                     {
                         var isChecked = IsChecked;
                         // ReSharper disable once MergeConditionalExpression
-                        nullable = isChecked.HasValue ? !isChecked.GetValueOrDefault() : new bool?();
+                        nullable = !isChecked.GetValueOrDefault();
                     }
                     IsChecked = nullable;
                     break;
             }
+        }
+
+        private static void OnInternalIsCheckedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((CheckableListBoxItem) d).OnInternalIsCheckedChanged(e);
+        }
+
+        private static void OnIsCheckedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((CheckableListBoxItem) d).OnIsCheckedChanged(e);
+        }
+
+        private void InitializeComponent()
+        {
+            if (_contentLoaded)
+                return;
+            _contentLoaded = true;
+            Application.LoadComponent(this,
+                new Uri("/ModernApplicationFramework;component/Themes/Generic/CheckableListBoxItem.xaml",
+                    UriKind.Relative));
+        }
+
+        private void OnInternalIsCheckedChanged(DependencyPropertyChangedEventArgs e)
+        {
+            IsChecked = (bool?) e.NewValue;
         }
     }
 }

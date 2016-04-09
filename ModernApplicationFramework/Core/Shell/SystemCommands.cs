@@ -23,33 +23,22 @@ using ModernApplicationFramework.Core.Standard;
 
 namespace ModernApplicationFramework.Core.Shell
 {
-	public static class SystemCommands
+    public static class SystemCommands
     {
-        public static RoutedCommand CloseWindowCommand { get; private set; }
-        public static RoutedCommand MaximizeWindowCommand { get; private set; }
-        public static RoutedCommand MinimizeWindowCommand { get; private set; }
-        public static RoutedCommand RestoreWindowCommand { get; private set; }
-        public static RoutedCommand ShowSystemMenuCommand { get; private set; }
-
         static SystemCommands()
         {
             CloseWindowCommand = new RoutedCommand("CloseWindow", typeof(SystemCommands));
             MaximizeWindowCommand = new RoutedCommand("MaximizeWindow", typeof(SystemCommands));
             MinimizeWindowCommand = new RoutedCommand("MinimizeWindow", typeof(SystemCommands));
             RestoreWindowCommand = new RoutedCommand("RestoreWindow", typeof(SystemCommands));
-            ShowSystemMenuCommand = new RoutedCommand("ShowSystemMenu", typeof(SystemCommands));                 
+            ShowSystemMenuCommand = new RoutedCommand("ShowSystemMenu", typeof(SystemCommands));
         }
 
-        private static void _PostSystemCommand(Window window, SC command)
-        {
-            IntPtr hwnd = new WindowInteropHelper(window).EnsureHandle();
-            if (hwnd == IntPtr.Zero || !Standard.NativeMethods.IsWindow(hwnd))
-            {
-                return;
-            }
-
-            Standard.NativeMethods.PostMessage(hwnd, WM.SYSCOMMAND, new IntPtr((int)command), IntPtr.Zero);
-        }
+        public static RoutedCommand CloseWindowCommand { get; private set; }
+        public static RoutedCommand MaximizeWindowCommand { get; private set; }
+        public static RoutedCommand MinimizeWindowCommand { get; private set; }
+        public static RoutedCommand RestoreWindowCommand { get; private set; }
+        public static RoutedCommand ShowSystemMenuCommand { get; private set; }
 
         public static void CloseWindow(Window window)
         {
@@ -89,19 +78,31 @@ namespace ModernApplicationFramework.Core.Shell
             const uint TPM_LEFTBUTTON = 0x0;
 
             Verify.IsNotNull(window, "window");
-            IntPtr hwnd = new WindowInteropHelper(window).EnsureHandle();
+            var hwnd = new WindowInteropHelper(window).EnsureHandle();
             if (hwnd == IntPtr.Zero || !Standard.NativeMethods.IsWindow(hwnd))
             {
                 return;
             }
 
-            IntPtr hmenu = Standard.NativeMethods.GetSystemMenu(hwnd, false);
+            var hmenu = Standard.NativeMethods.GetSystemMenu(hwnd, false);
 
-            uint cmd = Standard.NativeMethods.TrackPopupMenuEx(hmenu, TPM_LEFTBUTTON | TPM_RETURNCMD, (int)physicalScreenLocation.X, (int)physicalScreenLocation.Y, hwnd, IntPtr.Zero);
+            var cmd = Standard.NativeMethods.TrackPopupMenuEx(hmenu, TPM_LEFTBUTTON | TPM_RETURNCMD,
+                (int) physicalScreenLocation.X, (int) physicalScreenLocation.Y, hwnd, IntPtr.Zero);
             if (0 != cmd)
             {
                 Standard.NativeMethods.PostMessage(hwnd, WM.SYSCOMMAND, new IntPtr(cmd), IntPtr.Zero);
             }
         }
-	}
+
+        private static void _PostSystemCommand(Window window, SC command)
+        {
+            var hwnd = new WindowInteropHelper(window).EnsureHandle();
+            if (hwnd == IntPtr.Zero || !Standard.NativeMethods.IsWindow(hwnd))
+            {
+                return;
+            }
+
+            Standard.NativeMethods.PostMessage(hwnd, WM.SYSCOMMAND, new IntPtr((int) command), IntPtr.Zero);
+        }
+    }
 }

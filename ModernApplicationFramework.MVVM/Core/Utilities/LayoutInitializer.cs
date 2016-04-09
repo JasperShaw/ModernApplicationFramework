@@ -40,18 +40,16 @@ namespace ModernApplicationFramework.MVVM.Core.Utilities
             }
         }
 
-        public void AfterInsertDocument(LayoutRoot layout, LayoutDocument anchorableShown)
-        {
-        }
+        public void AfterInsertDocument(LayoutRoot layout, LayoutDocument anchorableShown) {}
 
         public bool BeforeInsertAnchorable(LayoutRoot layout, LayoutAnchorable anchorableToShow,
-            ILayoutContainer destinationContainer)
+                                           ILayoutContainer destinationContainer)
         {
             var tool = anchorableToShow.Content as ITool;
             if (tool != null)
             {
                 var preferredLocation = tool.PreferredLocation;
-                string paneName = GetPaneName(preferredLocation);
+                var paneName = GetPaneName(preferredLocation);
                 var toolsPane =
                     layout.Descendents().OfType<LayoutAnchorablePane>().FirstOrDefault(d => d.Name == paneName);
                 if (toolsPane == null)
@@ -81,13 +79,13 @@ namespace ModernApplicationFramework.MVVM.Core.Utilities
         }
 
         public bool BeforeInsertDocument(LayoutRoot layout, LayoutDocument anchorableToShow,
-            ILayoutContainer destinationContainer)
+                                         ILayoutContainer destinationContainer)
         {
             return false;
         }
 
         private static LayoutAnchorablePane CreateAnchorablePane(LayoutRoot layout, Orientation orientation,
-            string paneName, InsertPosition position)
+                                                                 string paneName, InsertPosition position)
         {
             var parent = layout.Descendents().OfType<LayoutPanel>().First(d => d.Orientation == orientation);
             var toolsPane = new LayoutAnchorablePane {Name = paneName};

@@ -12,8 +12,8 @@ namespace ModernApplicationFramework.Controls
     {
         public static readonly DependencyProperty BoldProperty = DependencyProperty.Register(
             "Bold",
-            typeof (bool),
-            typeof (OutlineTextBlock),
+            typeof(bool),
+            typeof(OutlineTextBlock),
             new FrameworkPropertyMetadata(
                 false,
                 FrameworkPropertyMetadataOptions.AffectsRender,
@@ -24,26 +24,26 @@ namespace ModernApplicationFramework.Controls
 
         public static readonly DependencyProperty FontFamilyProperty =
             TextElement.FontFamilyProperty.AddOwner(
-                typeof (OutlineTextBlock),
+                typeof(OutlineTextBlock),
                 new FrameworkPropertyMetadata(SystemFonts.MessageFontFamily,
                     FrameworkPropertyMetadataOptions.Inherits));
 
         public static readonly DependencyProperty FontSizeProperty =
             TextElement.FontSizeProperty.AddOwner(
-                typeof (OutlineTextBlock),
+                typeof(OutlineTextBlock),
                 new FrameworkPropertyMetadata(SystemFonts.MessageFontSize,
                     FrameworkPropertyMetadataOptions.Inherits));
 
         public static readonly DependencyProperty ForegroundProperty =
             TextElement.ForegroundProperty.AddOwner(
-                typeof (OutlineTextBlock),
+                typeof(OutlineTextBlock),
                 new FrameworkPropertyMetadata(SystemColors.ControlTextBrush,
                     FrameworkPropertyMetadataOptions.Inherits));
 
         public static readonly DependencyProperty ItalicProperty = DependencyProperty.Register(
             "Italic",
-            typeof (bool),
-            typeof (OutlineTextBlock),
+            typeof(bool),
+            typeof(OutlineTextBlock),
             new FrameworkPropertyMetadata(
                 false,
                 FrameworkPropertyMetadataOptions.AffectsRender,
@@ -54,8 +54,8 @@ namespace ModernApplicationFramework.Controls
 
         public static readonly DependencyProperty StrokeProperty = DependencyProperty.Register(
             "Stroke",
-            typeof (Brush),
-            typeof (OutlineTextBlock),
+            typeof(Brush),
+            typeof(OutlineTextBlock),
             new FrameworkPropertyMetadata(
                 new SolidColorBrush(Colors.Teal),
                 FrameworkPropertyMetadataOptions.AffectsRender,
@@ -66,8 +66,8 @@ namespace ModernApplicationFramework.Controls
 
         public static readonly DependencyProperty StrokeThicknessProperty = DependencyProperty.Register(
             "StrokeThickness",
-            typeof (ushort),
-            typeof (OutlineTextBlock),
+            typeof(ushort),
+            typeof(OutlineTextBlock),
             new FrameworkPropertyMetadata(
                 (ushort) 0,
                 FrameworkPropertyMetadataOptions.AffectsRender,
@@ -79,25 +79,13 @@ namespace ModernApplicationFramework.Controls
         public static readonly DependencyProperty TextProperty =
             DependencyProperty.Register(
                 "Text",
-                typeof (string),
-                typeof (OutlineTextBlock),
+                typeof(string),
+                typeof(OutlineTextBlock),
                 new FrameworkPropertyMetadata(
                     string.Empty,
                     FrameworkPropertyMetadataOptions.AffectsMeasure |
                     FrameworkPropertyMetadataOptions.AffectsRender,
                     OnOutlineTextInvalidated, CoerceValueCallback));
-
-        private static object CoerceValueCallback(DependencyObject dependencyObject, object baseValue)
-        {
-
-            OutlineTextBlock outlineTextBlock = (OutlineTextBlock)dependencyObject;
-
-            if (baseValue == null)
-                baseValue = string.Empty;
-            if ((string) baseValue == (string) outlineTextBlock.GetValue(TextProperty))
-                outlineTextBlock.CreateText();
-            return baseValue;
-        }
 
         private Geometry _textGeometry;
 
@@ -162,8 +150,8 @@ namespace ModernApplicationFramework.Controls
 
         public void CreateText()
         {
-            FontStyle fontStyle = FontStyles.Normal;
-            FontWeight fontWeight = FontWeights.Medium;
+            var fontStyle = FontStyles.Normal;
+            var fontWeight = FontWeights.Medium;
 
             if (Bold)
                 fontWeight = FontWeights.Bold;
@@ -188,6 +176,17 @@ namespace ModernApplicationFramework.Controls
         {
             CreateText();
             drawingContext.DrawGeometry(Foreground, new Pen(Stroke, StrokeThickness), _textGeometry);
+        }
+
+        private static object CoerceValueCallback(DependencyObject dependencyObject, object baseValue)
+        {
+            var outlineTextBlock = (OutlineTextBlock) dependencyObject;
+
+            if (baseValue == null)
+                baseValue = string.Empty;
+            if ((string) baseValue == (string) outlineTextBlock.GetValue(TextProperty))
+                outlineTextBlock.CreateText();
+            return baseValue;
         }
 
         private static void OnOutlineTextInvalidated(DependencyObject d, DependencyPropertyChangedEventArgs e)

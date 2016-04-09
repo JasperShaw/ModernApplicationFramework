@@ -7,6 +7,6 @@ namespace ModernApplicationFramework.Controls
         static ComboBox()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ComboBox), new FrameworkPropertyMetadata(typeof(ComboBox)));
-        }  
+        }
     }
 }

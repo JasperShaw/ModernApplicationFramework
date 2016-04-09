@@ -5,36 +5,40 @@
              x:Class="ModernApplicationFramework.Controls.Customize.ToolBarsPage">
     <FrameworkElement.Resources>
         <ResourceDictionary>
-            <converters:ToolBarVisibilityConverter x:Key="ToolBarVisibilityConverter"/>
+            <converters:ToolBarVisibilityConverter x:Key="ToolBarVisibilityConverter" />
         </ResourceDictionary>
     </FrameworkElement.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <Label x:Name="ToolBarsLabel" Content="Toolbars:" HorizontalAlignment="Left" Margin="10,0,10,5" Padding="0" VerticalAlignment="Top" Grid.Row="0"/>
+        <Label x:Name="ToolBarsLabel" Content="Toolbars:" HorizontalAlignment="Left" Margin="10,0,10,5" Padding="0"
+               VerticalAlignment="Top" Grid.Row="0" />
 
-        <local:CheckableListBox x:Name="ToolBarListBox"  Margin="10,0,10,10" IsSynchronizedWithCurrentItem="True" IsTextSearchEnabled="True"
-                               TextSearch.TextPath="Text" Grid.Row="1" Grid.Column="0" SelectedIndex="0" ScrollViewer.CanContentScroll="False">
+        <local:CheckableListBox x:Name="ToolBarListBox" Margin="10,0,10,10" IsSynchronizedWithCurrentItem="True"
+                                IsTextSearchEnabled="True"
+                                TextSearch.TextPath="Text" Grid.Row="1" Grid.Column="0" SelectedIndex="0"
+                                ScrollViewer.CanContentScroll="False">
             <ItemsControl.ItemContainerStyle>
                 <Style TargetType="{x:Type local:CheckableListBoxItem}">
-                    <Setter Property="IsChecked" Value="{Binding Mode=TwoWay, Path=ExplicitVisibilityState, Converter={StaticResource ToolBarVisibilityConverter}}"/>
-                    <Setter Property="IsToggleEnabled" Value="{Binding Mode=OneWay, Path=CanClose}"/>
-                    <Setter Property="Content" Value="{Binding Mode=OneWay, Path=Text}"/>
-                    <Setter Property="Padding" Value="5,2,5,2"/>
+                    <Setter Property="IsChecked"
+                            Value="{Binding Mode=TwoWay, Path=ExplicitVisibilityState, Converter={StaticResource ToolBarVisibilityConverter}}" />
+                    <Setter Property="IsToggleEnabled" Value="{Binding Mode=OneWay, Path=CanClose}" />
+                    <Setter Property="Content" Value="{Binding Mode=OneWay, Path=Text}" />
+                    <Setter Property="Padding" Value="5,2,5,2" />
                 </Style>
             </ItemsControl.ItemContainerStyle>
         </local:CheckableListBox>
         <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,0,10,10">
-            <RadioButton x:Name="RadioButtonTop" GroupName="Dock" Content="Top"/>
-            <RadioButton x:Name="RadioButtonLeft" GroupName="Dock" Content="Left"/>
-            <RadioButton x:Name="RadioButtonRight" GroupName="Dock" Content="Right"/>
-            <RadioButton x:Name="RadioButtonBottom" GroupName="Dock" Content="Bottom"/>
+            <RadioButton x:Name="RadioButtonTop" GroupName="Dock" Content="Top" />
+            <RadioButton x:Name="RadioButtonLeft" GroupName="Dock" Content="Left" />
+            <RadioButton x:Name="RadioButtonRight" GroupName="Dock" Content="Right" />
+            <RadioButton x:Name="RadioButtonBottom" GroupName="Dock" Content="Bottom" />
         </StackPanel>
     </Grid>
 </UserControl>

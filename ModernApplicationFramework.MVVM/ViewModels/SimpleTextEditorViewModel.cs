@@ -10,6 +10,10 @@ namespace ModernApplicationFramework.MVVM.ViewModels
     [PartCreationPolicy(CreationPolicy.NonShared)] //Ensures we can create multiple documents at the same type
     public class SimpleTextEditorViewModel : StorableDocument
     {
+        private string _originalText;
+
+        private SimpleTextEditorView _view;
+
         protected override Task CreateNewFile()
         {
             _originalText = string.Empty;
@@ -24,6 +28,11 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             return Task.FromResult(true);
         }
 
+        protected override void OnViewLoaded(object view)
+        {
+            _view = (SimpleTextEditorView) view;
+        }
+
         protected override Task SaveFile(string filePath)
         {
             var newText = _view.TextBox.Text;
@@ -32,22 +41,11 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             return Task.FromResult(true);
         }
 
-        private string _originalText;
-
         private void ApplyOriginalText()
         {
             _view.TextBox.Text = _originalText;
-            _view.TextBox.TextChanged += delegate
-            {
-                IsDirty = string.CompareOrdinal(_originalText, _view.TextBox.Text) != 0;
-            };
-        }
-
-        private SimpleTextEditorView _view;
-
-        protected override void OnViewLoaded(object view)
-        {
-            _view = (SimpleTextEditorView)view;
+            _view.TextBox.TextChanged +=
+                delegate { IsDirty = string.CompareOrdinal(_originalText, _view.TextBox.Text) != 0; };
         }
     }
 }

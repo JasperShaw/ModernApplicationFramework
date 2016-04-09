@@ -4,25 +4,24 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Data;
+using ModernApplicationFramework.Caliburn.Platform.Action;
 using ModernApplicationFramework.Caliburn.Platform.Core;
-using ActionMessage = ModernApplicationFramework.Caliburn.Platform.Action.ActionMessage;
-using ConventionManager = ModernApplicationFramework.Caliburn.Platform.Action.ConventionManager;
+using ModernApplicationFramework.Caliburn.Platform.Interfaces;
+using ModernApplicationFramework.Caliburn.Platform.Xaml;
 using EventTrigger = System.Windows.Interactivity.EventTrigger;
-using IHaveParameters = ModernApplicationFramework.Caliburn.Platform.Interfaces.IHaveParameters;
-using Parameter = ModernApplicationFramework.Caliburn.Platform.Action.Parameter;
-using TriggerBase = System.Windows.Interactivity.TriggerBase;
 using TriggerAction = System.Windows.Interactivity.TriggerAction;
-using View = ModernApplicationFramework.Caliburn.Platform.Xaml.View;
+using TriggerBase = System.Windows.Interactivity.TriggerBase;
 
 namespace ModernApplicationFramework.Caliburn.Platform.Utilities
 {
     /// <summary>
-    /// Parses text into a fully functional set of <see cref="TriggerBase"/> instances with <see cref="ActionMessage"/>.
+    ///     Parses text into a fully functional set of <see cref="System.Windows.Interactivity.TriggerBase" /> instances with
+    ///     <see cref="ActionMessage" />.
     /// </summary>
     public static class Parser
     {
         /// <summary>
-        /// The function used to generate a trigger.
+        ///     The function used to generate a trigger.
         /// </summary>
         /// <remarks>The parameters passed to the method are the the target of the trigger and string representing the trigger.</remarks>
         public static Func<DependencyObject, string, TriggerBase> CreateTrigger = (target, triggerText) =>
@@ -42,15 +41,16 @@ namespace ModernApplicationFramework.Caliburn.Platform.Utilities
         };
 
         /// <summary>
-        /// Function used to parse a string identified as a message.
+        ///     Function used to parse a string identified as a message.
         /// </summary>
         public static Func<DependencyObject, string, TriggerAction> InterpretMessageText =
             (target, text) => new ActionMessage {MethodName = Regex.Replace(text, "^Action", string.Empty).Trim()};
 
-        static readonly Regex LongFormatRegularExpression = new Regex(@"^[\s]*\[[^\]]*\][\s]*=[\s]*\[[^\]]*\][\s]*$");
+        private static readonly Regex LongFormatRegularExpression =
+            new Regex(@"^[\s]*\[[^\]]*\][\s]*=[\s]*\[[^\]]*\][\s]*$");
 
         /// <summary>
-        /// Function used to parse a string identified as a message parameter.
+        ///     Function used to parse a string identified as a message parameter.
         /// </summary>
         public static Func<DependencyObject, string, Parameter> CreateParameter = (target, parameterText) =>
         {
@@ -60,36 +60,38 @@ namespace ModernApplicationFramework.Caliburn.Platform.Utilities
             {
                 actualParameter.Value = parameterText.Substring(1, parameterText.Length - 2);
             }
-            else if (MessageBinder.SpecialValues.ContainsKey(parameterText.ToLower()) || char.IsNumber(parameterText[0]))
-            {
-                actualParameter.Value = parameterText;
-            }
-            else if (target is FrameworkElement)
-            {
-                var fe = (FrameworkElement) target;
-                var nameAndBindingMode = parameterText.Split(':').Select(x => x.Trim()).ToArray();
-                var index = nameAndBindingMode[0].IndexOf('.');
-
-                View.ExecuteOnLoad(fe, delegate
+            else
+                if (MessageBinder.SpecialValues.ContainsKey(parameterText.ToLower()) || char.IsNumber(parameterText[0]))
                 {
-                    BindParameter(
-                        fe,
-                        actualParameter,
-                        index == -1 ? nameAndBindingMode[0] : nameAndBindingMode[0].Substring(0, index),
-                        index == -1 ? null : nameAndBindingMode[0].Substring(index + 1),
-                        nameAndBindingMode.Length == 2
-                            ? (BindingMode) Enum.Parse(typeof (BindingMode), nameAndBindingMode[1], true)
-                            : BindingMode.OneWay
-                        );
-                });
-            }
+                    actualParameter.Value = parameterText;
+                }
+                else
+                    if (target is FrameworkElement)
+                    {
+                        var fe = (FrameworkElement) target;
+                        var nameAndBindingMode = parameterText.Split(':').Select(x => x.Trim()).ToArray();
+                        var index = nameAndBindingMode[0].IndexOf('.');
+
+                        View.ExecuteOnLoad(fe, delegate
+                        {
+                            BindParameter(
+                                fe,
+                                actualParameter,
+                                index == -1 ? nameAndBindingMode[0] : nameAndBindingMode[0].Substring(0, index),
+                                index == -1 ? null : nameAndBindingMode[0].Substring(index + 1),
+                                nameAndBindingMode.Length == 2
+                                    ? (BindingMode) Enum.Parse(typeof(BindingMode), nameAndBindingMode[1], true)
+                                    : BindingMode.OneWay
+                                );
+                        });
+                    }
 
             return actualParameter;
         };
 
 
         /// <summary>
-        /// Creates a binding on a <see cref="Parameter"/>.
+        ///     Creates a binding on a <see cref="Parameter" />.
         /// </summary>
         /// <param name="target">The target to which the message is applied.</param>
         /// <param name="parameter">The parameter object.</param>
@@ -97,7 +99,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Utilities
         /// <param name="path">The path of the element to bind to.</param>
         /// <param name="bindingMode">The binding mode to use.</param>
         public static void BindParameter(FrameworkElement target, Parameter parameter, string elementName, string path,
-            BindingMode bindingMode)
+                                         BindingMode bindingMode)
         {
             var element = elementName == "$this"
                 ? target
@@ -121,7 +123,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Utilities
         }
 
         /// <summary>
-        /// Creates an instance of <see cref="ActionMessage"/> by parsing out the textual dsl.
+        ///     Creates an instance of <see cref="ActionMessage" /> by parsing out the textual dsl.
         /// </summary>
         /// <param name="target">The target of the message.</param>
         /// <param name="messageText">The textual message dsl.</param>
@@ -160,7 +162,7 @@ namespace ModernApplicationFramework.Caliburn.Platform.Utilities
         }
 
         /// <summary>
-        /// Parses the specified message text.
+        ///     Parses the specified message text.
         /// </summary>
         /// <param name="target">The target.</param>
         /// <param name="text">The message text.</param>
@@ -182,9 +184,9 @@ namespace ModernApplicationFramework.Caliburn.Platform.Utilities
                     : new[] {null, messageText};
 
                 var messageDetail = triggerPlusMessage.Last()
-                    .Replace("[", string.Empty)
-                    .Replace("]", string.Empty)
-                    .Trim();
+                                                      .Replace("[", string.Empty)
+                                                      .Replace("]", string.Empty)
+                                                      .Trim();
 
                 var trigger = CreateTrigger(target, triggerPlusMessage.Length == 1 ? null : triggerPlusMessage[0]);
                 var message = CreateMessage(target, messageDetail);

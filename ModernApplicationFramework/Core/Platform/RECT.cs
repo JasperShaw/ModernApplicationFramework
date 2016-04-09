@@ -12,15 +12,9 @@ namespace ModernApplicationFramework.Core.Platform
         public int Right;
         public int Bottom;
 
-        public System.Windows.Point Position
-        {
-            get { return new System.Windows.Point(Left, Top); }
-        }
+        public System.Windows.Point Position => new System.Windows.Point(Left, Top);
 
-        public Size Size
-        {
-            get { return new Size(Width, Height); }
-        }
+        public Size Size => new Size(Width, Height);
 
         public int Height
         {
@@ -44,10 +38,10 @@ namespace ModernApplicationFramework.Core.Platform
 
         public RECT(Rect rect)
         {
-            Left = (int)rect.Left;
-            Top = (int)rect.Top;
-            Right = (int)rect.Right;
-            Bottom = (int)rect.Bottom;
+            Left = (int) rect.Left;
+            Top = (int) rect.Top;
+            Right = (int) rect.Right;
+            Bottom = (int) rect.Bottom;
         }
 
         public void Offset(int dx, int dy)

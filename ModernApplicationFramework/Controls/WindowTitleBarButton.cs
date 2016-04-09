@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Controls;
 
 namespace ModernApplicationFramework.Controls
@@ -8,10 +7,11 @@ namespace ModernApplicationFramework.Controls
     {
         static WindowTitleBarButton()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(WindowTitleBarButton), new FrameworkPropertyMetadata(typeof(WindowTitleBarButton)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(WindowTitleBarButton),
+                new FrameworkPropertyMetadata(typeof(WindowTitleBarButton)));
         }
 
-		public int HitTest(Point point)
+        public int HitTest(Point point)
         {
             return 1;
         }

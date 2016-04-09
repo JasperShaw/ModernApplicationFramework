@@ -2,19 +2,10 @@
 {
     internal class ToolBarNotFoundException : System.Exception
     {
-        public ToolBarNotFoundException()
-        {
-            
-        }
+        public ToolBarNotFoundException() {}
 
-        public ToolBarNotFoundException(string message) : base(message)
-        {
-            
-        }
+        public ToolBarNotFoundException(string message) : base(message) {}
 
-        public ToolBarNotFoundException(string message, System.Exception inner) : base(message, inner)
-        {
-            
-        }
+        public ToolBarNotFoundException(string message, System.Exception inner) : base(message, inner) {}
     }
 }

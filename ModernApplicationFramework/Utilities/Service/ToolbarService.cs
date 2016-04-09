@@ -6,7 +6,7 @@ using ModernApplicationFramework.Controls;
 
 namespace ModernApplicationFramework.Utilities.Service
 {
-    [Export(typeof (IToolbarService))]
+    [Export(typeof(IToolbarService))]
     public class ToolbarService : IToolbarService
     {
         private readonly Dictionary<Type, ToolBar> _commandDefinitionsLookup;

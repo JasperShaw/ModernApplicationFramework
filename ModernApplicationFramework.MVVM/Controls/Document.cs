@@ -4,11 +4,10 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Win32;
 using ModernApplicationFramework.Caliburn;
+using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.MVVM.Core;
 using ModernApplicationFramework.MVVM.Interfaces;
-using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Utilities.UndoRedoManager;
-using Command = ModernApplicationFramework.Commands.Command;
 
 namespace ModernApplicationFramework.MVVM.Controls
 {
@@ -42,8 +41,8 @@ namespace ModernApplicationFramework.MVVM.Controls
             var fileExtension = Path.GetExtension(storableDocument.FileName);
             var fileType =
                 IoC.GetAll<IEditorProvider>()
-                    .SelectMany(x => x.SupportedFileDefinitions)
-                    .SingleOrDefault(x => x.FileType.FileExtension == fileExtension);
+                   .SelectMany(x => x.SupportedFileDefinitions)
+                   .SingleOrDefault(x => x.FileType.FileExtension == fileExtension);
             if (fileType != null)
                 filter = fileType.Name + "|*" + fileType.FileType.FileExtension + "|";
 

@@ -6,7 +6,7 @@ namespace ModernApplicationFramework.Controls
     {
         static ScrollBar()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof (ScrollBar), new FrameworkPropertyMetadata(typeof (ScrollBar)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ScrollBar), new FrameworkPropertyMetadata(typeof(ScrollBar)));
         }
     }
 }

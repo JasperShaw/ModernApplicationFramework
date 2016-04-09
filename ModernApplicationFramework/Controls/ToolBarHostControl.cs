@@ -10,11 +10,11 @@ namespace ModernApplicationFramework.Controls
     public class ToolBarHostControl : ContentControl
     {
         public static readonly DependencyProperty DefaultBackgroundProperty = DependencyProperty.Register(
-            "DefaultBackground", typeof (Brush), typeof (ToolBarHostControl),
+            "DefaultBackground", typeof(Brush), typeof(ToolBarHostControl),
             new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
 
         public static readonly DependencyProperty TopTrayBackgroundProperty = DependencyProperty.Register(
-            "TopTrayBackground", typeof (Brush), typeof (ToolBarHostControl),
+            "TopTrayBackground", typeof(Brush), typeof(ToolBarHostControl),
             new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
 
         private bool _contentLoaded;

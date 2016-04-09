@@ -5,14 +5,13 @@ namespace ModernApplicationFramework.MVVM.Interfaces
 {
     public interface IDocument : ILayoutItem
     {
-        IUndoRedoManager UndoRedoManager { get; }
-
-        ICommand UndoCommand { get; }
-
         ICommand RedoCommand { get; }
+
+        ICommand SaveFileAsCommand { get; }
 
         ICommand SaveFileCommand { get; }
 
-        ICommand SaveFileAsCommand { get; }
+        ICommand UndoCommand { get; }
+        IUndoRedoManager UndoRedoManager { get; }
     }
 }

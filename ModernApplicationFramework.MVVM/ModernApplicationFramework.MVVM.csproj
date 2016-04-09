@@ -54,6 +54,7 @@
     <Compile Include="Commands\RedoCommandDefinition.cs" />
     <Compile Include="Commands\NewFileCommandDefinition.cs" />
     <Compile Include="Commands\OpenFileCommandDefinition.cs" />
+    <Compile Include="Commands\SaveFileAsCommandDefinition.cs" />
     <Compile Include="Commands\SaveFileCommandDefinition.cs" />
     <Compile Include="Commands\UndoCommandDefinition.cs" />
     <Compile Include="Controls\Document.cs" />

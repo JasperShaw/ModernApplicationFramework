@@ -47,25 +47,25 @@ namespace ModernApplicationFramework.Commands.Base
             remove { WeakEventHandlerManager.RemoveWeakReferenceHandler(_canExecuteChangedHandlers, value); }
         }
 
-        protected virtual void OnCanExecuteChanged()
-        {
-            WeakEventHandlerManager.CallWeakReferenceHandlers(this, _canExecuteChangedHandlers);
-        }
-
         [SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate")]
         public void RaiseCanExecuteChanged()
         {
             OnCanExecuteChanged();
         }
 
-        protected async Task Execute(object parameter)
+        protected virtual void OnCanExecuteChanged()
         {
-            await ExecuteMethod(parameter);
+            WeakEventHandlerManager.CallWeakReferenceHandlers(this, _canExecuteChangedHandlers);
         }
 
         protected bool CanExecute(object parameter)
         {
             return CanExecuteMethod == null || CanExecuteMethod(parameter);
+        }
+
+        protected async Task Execute(object parameter)
+        {
+            await ExecuteMethod(parameter);
         }
     }
 }

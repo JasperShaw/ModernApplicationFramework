@@ -6,47 +6,40 @@ namespace ModernApplicationFramework.Controls
     internal class DropDownButtonBase : ContentControl
     {
         public static readonly DependencyProperty RenderCheckedProperty = DependencyProperty.Register("RenderChecked",
-            typeof (bool), typeof (DropDownButtonBase), new UIPropertyMetadata(false, OnRenderCheckedChanged));
+            typeof(bool), typeof(DropDownButtonBase), new UIPropertyMetadata(false, OnRenderCheckedChanged));
 
         public static readonly DependencyProperty RenderEnabledProperty = DependencyProperty.Register("RenderEnabled",
-            typeof (bool), typeof (DropDownButtonBase), new UIPropertyMetadata(true, OnRenderEnabledChanged));
+            typeof(bool), typeof(DropDownButtonBase), new UIPropertyMetadata(true, OnRenderEnabledChanged));
 
         public static readonly DependencyProperty RenderFocusedProperty = DependencyProperty.Register("RenderFocused",
-            typeof (bool), typeof (DropDownButtonBase), new UIPropertyMetadata(false, OnRenderFocusedChanged));
+            typeof(bool), typeof(DropDownButtonBase), new UIPropertyMetadata(false, OnRenderFocusedChanged));
 
         public static readonly DependencyProperty RenderMouseOverProperty =
-            DependencyProperty.Register("RenderMouseOver", typeof (bool), typeof (DropDownButtonBase),
+            DependencyProperty.Register("RenderMouseOver", typeof(bool), typeof(DropDownButtonBase),
                 new UIPropertyMetadata(false, OnRenderMouseOverChanged));
 
         public static readonly DependencyProperty RenderNormalProperty = DependencyProperty.Register("RenderNormal",
-            typeof (bool), typeof (DropDownButtonBase), new UIPropertyMetadata(true, OnRenderNormalChanged));
+            typeof(bool), typeof(DropDownButtonBase), new UIPropertyMetadata(true, OnRenderNormalChanged));
 
         public static readonly DependencyProperty RenderPressedProperty = DependencyProperty.Register("RenderPressed",
-            typeof (bool), typeof (DropDownButtonBase), new UIPropertyMetadata(false, OnRenderPressedChanged));
+            typeof(bool), typeof(DropDownButtonBase), new UIPropertyMetadata(false, OnRenderPressedChanged));
 
         #region Constructors
 
         static DropDownButtonBase()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof (DropDownButtonBase),
-                new FrameworkPropertyMetadata(typeof (DropDownButtonBase)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(DropDownButtonBase),
+                new FrameworkPropertyMetadata(typeof(DropDownButtonBase)));
         }
 
         #endregion
-
 
         #region RenderChecked
 
         public bool RenderChecked
         {
-            get
-            {
-                return (bool) GetValue(RenderCheckedProperty);
-            }
-            set
-            {
-                SetValue(RenderCheckedProperty, value);
-            }
+            get { return (bool) GetValue(RenderCheckedProperty); }
+            set { SetValue(RenderCheckedProperty, value); }
         }
 
         private static void OnRenderCheckedChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
@@ -55,9 +48,7 @@ namespace ModernApplicationFramework.Controls
             buttonChrome?.OnRenderCheckedChanged((bool) e.OldValue, (bool) e.NewValue);
         }
 
-        protected virtual void OnRenderCheckedChanged(bool oldValue, bool newValue)
-        {
-        }
+        protected virtual void OnRenderCheckedChanged(bool oldValue, bool newValue) {}
 
         #endregion
 
@@ -65,14 +56,8 @@ namespace ModernApplicationFramework.Controls
 
         public bool RenderEnabled
         {
-            get
-            {
-                return (bool) GetValue(RenderEnabledProperty);
-            }
-            set
-            {
-                SetValue(RenderEnabledProperty, value);
-            }
+            get { return (bool) GetValue(RenderEnabledProperty); }
+            set { SetValue(RenderEnabledProperty, value); }
         }
 
         private static void OnRenderEnabledChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
@@ -81,9 +66,7 @@ namespace ModernApplicationFramework.Controls
             buttonChrome?.OnRenderEnabledChanged((bool) e.OldValue, (bool) e.NewValue);
         }
 
-        protected virtual void OnRenderEnabledChanged(bool oldValue, bool newValue)
-        {
-        }
+        protected virtual void OnRenderEnabledChanged(bool oldValue, bool newValue) {}
 
         #endregion
 
@@ -91,14 +74,8 @@ namespace ModernApplicationFramework.Controls
 
         public bool RenderFocused
         {
-            get
-            {
-                return (bool) GetValue(RenderFocusedProperty);
-            }
-            set
-            {
-                SetValue(RenderFocusedProperty, value);
-            }
+            get { return (bool) GetValue(RenderFocusedProperty); }
+            set { SetValue(RenderFocusedProperty, value); }
         }
 
         private static void OnRenderFocusedChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
@@ -107,9 +84,7 @@ namespace ModernApplicationFramework.Controls
             buttonChrome?.OnRenderFocusedChanged((bool) e.OldValue, (bool) e.NewValue);
         }
 
-        protected virtual void OnRenderFocusedChanged(bool oldValue, bool newValue)
-        {
-        }
+        protected virtual void OnRenderFocusedChanged(bool oldValue, bool newValue) {}
 
         #endregion
 
@@ -117,14 +92,8 @@ namespace ModernApplicationFramework.Controls
 
         public bool RenderMouseOver
         {
-            get
-            {
-                return (bool) GetValue(RenderMouseOverProperty);
-            }
-            set
-            {
-                SetValue(RenderMouseOverProperty, value);
-            }
+            get { return (bool) GetValue(RenderMouseOverProperty); }
+            set { SetValue(RenderMouseOverProperty, value); }
         }
 
         private static void OnRenderMouseOverChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
@@ -133,9 +102,7 @@ namespace ModernApplicationFramework.Controls
             buttonChrome?.OnRenderMouseOverChanged((bool) e.OldValue, (bool) e.NewValue);
         }
 
-        protected virtual void OnRenderMouseOverChanged(bool oldValue, bool newValue)
-        {
-        }
+        protected virtual void OnRenderMouseOverChanged(bool oldValue, bool newValue) {}
 
         #endregion
 
@@ -143,14 +110,8 @@ namespace ModernApplicationFramework.Controls
 
         public bool RenderNormal
         {
-            get
-            {
-                return (bool) GetValue(RenderNormalProperty);
-            }
-            set
-            {
-                SetValue(RenderNormalProperty, value);
-            }
+            get { return (bool) GetValue(RenderNormalProperty); }
+            set { SetValue(RenderNormalProperty, value); }
         }
 
         private static void OnRenderNormalChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
@@ -159,9 +120,7 @@ namespace ModernApplicationFramework.Controls
             buttonChrome?.OnRenderNormalChanged((bool) e.OldValue, (bool) e.NewValue);
         }
 
-        protected virtual void OnRenderNormalChanged(bool oldValue, bool newValue)
-        {
-        }
+        protected virtual void OnRenderNormalChanged(bool oldValue, bool newValue) {}
 
         #endregion
 
@@ -169,14 +128,8 @@ namespace ModernApplicationFramework.Controls
 
         public bool RenderPressed
         {
-            get
-            {
-                return (bool) GetValue(RenderPressedProperty);
-            }
-            set
-            {
-                SetValue(RenderPressedProperty, value);
-            }
+            get { return (bool) GetValue(RenderPressedProperty); }
+            set { SetValue(RenderPressedProperty, value); }
         }
 
         private static void OnRenderPressedChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
@@ -185,9 +138,7 @@ namespace ModernApplicationFramework.Controls
             buttonChrome?.OnRenderPressedChanged((bool) e.OldValue, (bool) e.NewValue);
         }
 
-        protected virtual void OnRenderPressedChanged(bool oldValue, bool newValue)
-        {
-        }
+        protected virtual void OnRenderPressedChanged(bool oldValue, bool newValue) {}
 
         #endregion //RenderPressed
     }
