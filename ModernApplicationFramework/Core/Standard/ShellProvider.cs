@@ -434,10 +434,10 @@ namespace ModernApplicationFramework.Core.Standard
     internal interface IEnumIDList
     {
         [PreserveSig]
-        HRESULT Next(uint celt, out IntPtr rgelt, out int pceltFetched);
+        Hresult Next(uint celt, out IntPtr rgelt, out int pceltFetched);
 
         [PreserveSig]
-        HRESULT Skip(uint celt);
+        Hresult Skip(uint celt);
 
         void Reset();
         void Clone([Out, MarshalAs(UnmanagedType.Interface)] out IEnumIDList ppenum);
@@ -561,7 +561,7 @@ namespace ModernApplicationFramework.Core.Standard
         // use the macro ResultFromShort() to extract the result comparison
         // it deals with the casting and type conversion issues for you
         [PreserveSig]
-        HRESULT CompareIDs([In] IntPtr lParam, [In] IntPtr pidl1, [In] IntPtr pidl2);
+        Hresult CompareIDs([In] IntPtr lParam, [In] IntPtr pidl1, [In] IntPtr pidl2);
 
         // creates a view object of the folder itself. The view
         // object is a difference instance from the shell folder object.
@@ -902,12 +902,12 @@ namespace ModernApplicationFramework.Core.Standard
         // PreserveSig because this will return custom errors when attempting to add unregistered ShellItems.
         // Can't readily detect that case without just trying to append it.
         [PreserveSig]
-        HRESULT AppendCategory([MarshalAs(UnmanagedType.LPWStr)] string pszCategory, IObjectArray poa);
+        Hresult AppendCategory([MarshalAs(UnmanagedType.LPWStr)] string pszCategory, IObjectArray poa);
 
         void AppendKnownCategory(KDC category);
 
         [PreserveSig]
-        HRESULT AddUserTasks(IObjectArray poa);
+        Hresult AddUserTasks(IObjectArray poa);
 
         void CommitList();
 
@@ -975,43 +975,43 @@ namespace ModernApplicationFramework.Core.Standard
         #endregion
 
         [PreserveSig]
-        HRESULT SetProgressValue(IntPtr hwnd, ulong ullCompleted, ulong ullTotal);
+        Hresult SetProgressValue(IntPtr hwnd, ulong ullCompleted, ulong ullTotal);
 
         [PreserveSig]
-        HRESULT SetProgressState(IntPtr hwnd, TBPF tbpFlags);
+        Hresult SetProgressState(IntPtr hwnd, TBPF tbpFlags);
 
         [PreserveSig]
-        HRESULT RegisterTab(IntPtr hwndTab, IntPtr hwndMDI);
+        Hresult RegisterTab(IntPtr hwndTab, IntPtr hwndMDI);
 
         [PreserveSig]
-        HRESULT UnregisterTab(IntPtr hwndTab);
+        Hresult UnregisterTab(IntPtr hwndTab);
 
         [PreserveSig]
-        HRESULT SetTabOrder(IntPtr hwndTab, IntPtr hwndInsertBefore);
+        Hresult SetTabOrder(IntPtr hwndTab, IntPtr hwndInsertBefore);
 
         [PreserveSig]
-        HRESULT SetTabActive(IntPtr hwndTab, IntPtr hwndMDI, uint dwReserved);
+        Hresult SetTabActive(IntPtr hwndTab, IntPtr hwndMDI, uint dwReserved);
 
         [PreserveSig]
-        HRESULT ThumbBarAddButtons(IntPtr hwnd, uint cButtons,
+        Hresult ThumbBarAddButtons(IntPtr hwnd, uint cButtons,
                                    [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] THUMBBUTTON[] pButtons);
 
         [PreserveSig]
-        HRESULT ThumbBarUpdateButtons(IntPtr hwnd, uint cButtons,
+        Hresult ThumbBarUpdateButtons(IntPtr hwnd, uint cButtons,
                                       [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] THUMBBUTTON[] pButtons);
 
         [PreserveSig]
-        HRESULT ThumbBarSetImageList(IntPtr hwnd, [MarshalAs(UnmanagedType.IUnknown)] object himl);
+        Hresult ThumbBarSetImageList(IntPtr hwnd, [MarshalAs(UnmanagedType.IUnknown)] object himl);
 
         [PreserveSig]
-        HRESULT SetOverlayIcon(IntPtr hwnd, IntPtr hIcon, [MarshalAs(UnmanagedType.LPWStr)] string pszDescription);
+        Hresult SetOverlayIcon(IntPtr hwnd, IntPtr hIcon, [MarshalAs(UnmanagedType.LPWStr)] string pszDescription);
 
         [PreserveSig]
-        HRESULT SetThumbnailTooltip(IntPtr hwnd, [MarshalAs(UnmanagedType.LPWStr)] string pszTip);
+        Hresult SetThumbnailTooltip(IntPtr hwnd, [MarshalAs(UnmanagedType.LPWStr)] string pszTip);
 
         // Using RefRECT to making passing NULL possible.  Removes clipping from the HWND.
         [PreserveSig]
-        HRESULT SetThumbnailClip(IntPtr hwnd, RefRECT prcClip);
+        Hresult SetThumbnailClip(IntPtr hwnd, RefRECT prcClip);
     }
 
     [
@@ -1040,43 +1040,43 @@ namespace ModernApplicationFramework.Core.Standard
         #endregion
 
         [PreserveSig]
-        new HRESULT SetProgressValue(IntPtr hwnd, ulong ullCompleted, ulong ullTotal);
+        new Hresult SetProgressValue(IntPtr hwnd, ulong ullCompleted, ulong ullTotal);
 
         [PreserveSig]
-        new HRESULT SetProgressState(IntPtr hwnd, TBPF tbpFlags);
+        new Hresult SetProgressState(IntPtr hwnd, TBPF tbpFlags);
 
         [PreserveSig]
-        new HRESULT RegisterTab(IntPtr hwndTab, IntPtr hwndMDI);
+        new Hresult RegisterTab(IntPtr hwndTab, IntPtr hwndMDI);
 
         [PreserveSig]
-        new HRESULT UnregisterTab(IntPtr hwndTab);
+        new Hresult UnregisterTab(IntPtr hwndTab);
 
         [PreserveSig]
-        new HRESULT SetTabOrder(IntPtr hwndTab, IntPtr hwndInsertBefore);
+        new Hresult SetTabOrder(IntPtr hwndTab, IntPtr hwndInsertBefore);
 
         [PreserveSig]
-        new HRESULT SetTabActive(IntPtr hwndTab, IntPtr hwndMDI, uint dwReserved);
+        new Hresult SetTabActive(IntPtr hwndTab, IntPtr hwndMDI, uint dwReserved);
 
         [PreserveSig]
-        new HRESULT ThumbBarAddButtons(IntPtr hwnd, uint cButtons,
+        new Hresult ThumbBarAddButtons(IntPtr hwnd, uint cButtons,
                                        [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] THUMBBUTTON[] pButtons);
 
         [PreserveSig]
-        new HRESULT ThumbBarUpdateButtons(IntPtr hwnd, uint cButtons,
+        new Hresult ThumbBarUpdateButtons(IntPtr hwnd, uint cButtons,
                                           [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] THUMBBUTTON[] pButtons);
 
         [PreserveSig]
-        new HRESULT ThumbBarSetImageList(IntPtr hwnd, [MarshalAs(UnmanagedType.IUnknown)] object himl);
+        new Hresult ThumbBarSetImageList(IntPtr hwnd, [MarshalAs(UnmanagedType.IUnknown)] object himl);
 
         [PreserveSig]
-        new HRESULT SetOverlayIcon(IntPtr hwnd, IntPtr hIcon, [MarshalAs(UnmanagedType.LPWStr)] string pszDescription);
+        new Hresult SetOverlayIcon(IntPtr hwnd, IntPtr hIcon, [MarshalAs(UnmanagedType.LPWStr)] string pszDescription);
 
         [PreserveSig]
-        new HRESULT SetThumbnailTooltip(IntPtr hwnd, [MarshalAs(UnmanagedType.LPWStr)] string pszTip);
+        new Hresult SetThumbnailTooltip(IntPtr hwnd, [MarshalAs(UnmanagedType.LPWStr)] string pszTip);
 
         // Using RefRECT to making passing NULL possible.  Removes clipping from the HWND.
         [PreserveSig]
-        new HRESULT SetThumbnailClip(IntPtr hwnd, RefRECT prcClip);
+        new Hresult SetThumbnailClip(IntPtr hwnd, RefRECT prcClip);
 
         #endregion
 

@@ -1419,7 +1419,7 @@ namespace ModernApplicationFramework.Core.Standard
                 dc = NativeMethods.CreateCompatibleDC(hPtr);
                 if (dc == null)
                 {
-                    HRESULT.ThrowLastError();
+                    Hresult.ThrowLastError();
                 }
             }
             finally
@@ -1484,7 +1484,7 @@ namespace ModernApplicationFramework.Core.Standard
             if (dc.IsInvalid)
             {
                 // GetDC does not set the last error...
-                HRESULT.E_FAIL.ThrowIfFailed();
+                Hresult.E_FAIL.ThrowIfFailed();
             }
 
             return dc;
@@ -1891,7 +1891,7 @@ namespace ModernApplicationFramework.Core.Standard
         private static class NativeMethods
         {
             [DllImport("ole32.dll")]
-            internal static extern HRESULT PropVariantClear(PROPVARIANT pvar);
+            internal static extern Hresult PropVariantClear(PROPVARIANT pvar);
         }
 
         #region IDisposable Pattern
@@ -2386,7 +2386,7 @@ namespace ModernApplicationFramework.Core.Standard
             // Native version modifies the parameter in place.
             if (!_AdjustWindowRectEx(ref lpRect, dwStyle, bMenu, dwExStyle))
             {
-                HRESULT.ThrowLastError();
+                Hresult.ThrowLastError();
             }
 
             return lpRect;
@@ -2395,7 +2395,7 @@ namespace ModernApplicationFramework.Core.Standard
         // Note that processes at or below SECURITY_MANDATORY_LOW_RID are not allowed to change the message filter.
         // If those processes call this function, it will fail and generate the extended error code, ERROR_ACCESS_DENIED.
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static HRESULT ChangeWindowMessageFilterEx(IntPtr hwnd, WM message, MSGFLT action,
+        public static Hresult ChangeWindowMessageFilterEx(IntPtr hwnd, WM message, MSGFLT action,
                                                           out MSGFLTINFO filterInfo)
         {
             filterInfo = MSGFLTINFO.NONE;
@@ -2406,7 +2406,7 @@ namespace ModernApplicationFramework.Core.Standard
             // If we're not on either, then this message filter isolation doesn't exist.
             if (!Utility.IsOSVistaOrNewer)
             {
-                return HRESULT.S_FALSE;
+                return Hresult.S_FALSE;
             }
 
             // If we're on Vista rather than Win7 then we can't use the Ex version of this function.
@@ -2418,20 +2418,20 @@ namespace ModernApplicationFramework.Core.Standard
                 ret = _ChangeWindowMessageFilter(message, action);
                 if (!ret)
                 {
-                    return (HRESULT) Win32Error.GetLastError();
+                    return (Hresult) Win32Error.GetLastError();
                 }
-                return HRESULT.S_OK;
+                return Hresult.S_OK;
             }
 
             var filterstruct = new CHANGEFILTERSTRUCT {cbSize = (uint) Marshal.SizeOf(typeof(CHANGEFILTERSTRUCT))};
             ret = _ChangeWindowMessageFilterEx(hwnd, message, action, ref filterstruct);
             if (!ret)
             {
-                return (HRESULT) Win32Error.GetLastError();
+                return (Hresult) Win32Error.GetLastError();
             }
 
             filterInfo = filterstruct.ExtStatus;
-            return HRESULT.S_OK;
+            return Hresult.S_OK;
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
@@ -2488,7 +2488,7 @@ namespace ModernApplicationFramework.Core.Standard
 
             if (hBitmap.IsInvalid)
             {
-                HRESULT.ThrowLastError();
+                Hresult.ThrowLastError();
             }
 
             return hBitmap;
@@ -2551,7 +2551,7 @@ namespace ModernApplicationFramework.Core.Standard
                 hMenu, hInstance, lpParam);
             if (IntPtr.Zero == ret)
             {
-                HRESULT.ThrowLastError();
+                Hresult.ThrowLastError();
             }
 
             return ret;
@@ -2706,7 +2706,7 @@ namespace ModernApplicationFramework.Core.Standard
             RECT rc;
             if (!_GetClientRect(hwnd, out rc))
             {
-                HRESULT.ThrowLastError();
+                Hresult.ThrowLastError();
             }
             return rc;
         }
@@ -2746,7 +2746,7 @@ namespace ModernApplicationFramework.Core.Standard
                 var size = _GetModuleFileName(hModule, buffer, buffer.Capacity);
                 if (size == 0)
                 {
-                    HRESULT.ThrowLastError();
+                    Hresult.ThrowLastError();
                 }
 
                 // GetModuleFileName returns nSize when it's truncated but does NOT set the last error.
@@ -2767,7 +2767,7 @@ namespace ModernApplicationFramework.Core.Standard
             var retPtr = _GetModuleHandle(lpModuleName);
             if (retPtr == IntPtr.Zero)
             {
-                HRESULT.ThrowLastError();
+                Hresult.ThrowLastError();
             }
             return retPtr;
         }
@@ -2788,7 +2788,7 @@ namespace ModernApplicationFramework.Core.Standard
             var retPtr = _GetStockObject(fnObject);
             if (retPtr == null)
             {
-                HRESULT.ThrowLastError();
+                Hresult.ThrowLastError();
             }
             return retPtr;
         }
@@ -2837,7 +2837,7 @@ namespace ModernApplicationFramework.Core.Standard
             RECT rc;
             if (!_GetWindowRect(hwnd, out rc))
             {
-                HRESULT.ThrowLastError();
+                Hresult.ThrowLastError();
             }
             return rc;
         }
@@ -2878,7 +2878,7 @@ namespace ModernApplicationFramework.Core.Standard
             var ret = _RegisterClassEx(ref lpwcx);
             if (ret == 0)
             {
-                HRESULT.ThrowLastError();
+                Hresult.ThrowLastError();
             }
 
             return ret;
@@ -2890,7 +2890,7 @@ namespace ModernApplicationFramework.Core.Standard
             var iRet = _RegisterWindowMessage(lpString);
             if (iRet == 0)
             {
-                HRESULT.ThrowLastError();
+                Hresult.ThrowLastError();
             }
             return (WM) iRet;
         }
@@ -2910,7 +2910,7 @@ namespace ModernApplicationFramework.Core.Standard
             var ret = _SelectObject(hdc, hgdiobj);
             if (ret == IntPtr.Zero)
             {
-                HRESULT.ThrowLastError();
+                Hresult.ThrowLastError();
             }
             return ret;
         }
@@ -2921,7 +2921,7 @@ namespace ModernApplicationFramework.Core.Standard
             var ret = _SelectObjectSafeHBITMAP(hdc, hgdiobj);
             if (ret == IntPtr.Zero)
             {
-                HRESULT.ThrowLastError();
+                Hresult.ThrowLastError();
             }
             return ret;
         }
@@ -2941,7 +2941,7 @@ namespace ModernApplicationFramework.Core.Standard
             var ret = _SetActiveWindow(hwnd);
             if (ret == IntPtr.Zero)
             {
-                HRESULT.ThrowLastError();
+                Hresult.ThrowLastError();
             }
 
             return ret;
@@ -3046,7 +3046,7 @@ namespace ModernApplicationFramework.Core.Standard
 
             if (!_SystemParametersInfo_HIGHCONTRAST(SPI.GETHIGHCONTRAST, hc.cbSize, ref hc, SPIF.None))
             {
-                HRESULT.ThrowLastError();
+                Hresult.ThrowLastError();
             }
 
             return hc;
@@ -3061,7 +3061,7 @@ namespace ModernApplicationFramework.Core.Standard
 
             if (!_SystemParametersInfo_NONCLIENTMETRICS(SPI.GETNONCLIENTMETRICS, metrics.cbSize, ref metrics, SPIF.None))
             {
-                HRESULT.ThrowLastError();
+                Hresult.ThrowLastError();
             }
 
             return metrics;
@@ -3072,7 +3072,7 @@ namespace ModernApplicationFramework.Core.Standard
         {
             if (!_SystemParametersInfo_String(uiAction, uiParam, pvParam, fWinIni))
             {
-                HRESULT.ThrowLastError();
+                Hresult.ThrowLastError();
             }
         }
 
@@ -3086,7 +3086,7 @@ namespace ModernApplicationFramework.Core.Standard
         {
             if (!_UnregisterClassAtom(new IntPtr(atom), hinstance))
             {
-                HRESULT.ThrowLastError();
+                Hresult.ThrowLastError();
             }
         }
 
@@ -3094,7 +3094,7 @@ namespace ModernApplicationFramework.Core.Standard
         {
             if (!_UnregisterClassName(lpClassName, hInstance))
             {
-                HRESULT.ThrowLastError();
+                Hresult.ThrowLastError();
             }
         }
 
@@ -3114,7 +3114,7 @@ namespace ModernApplicationFramework.Core.Standard
                 !_UpdateLayeredWindow(hwnd, hdcDst, ref pptDst, ref psize, hdcSrc, ref pptSrc, crKey, ref pblend,
                     dwFlags))
             {
-                HRESULT.ThrowLastError();
+                Hresult.ThrowLastError();
             }
         }
 
@@ -3129,7 +3129,7 @@ namespace ModernApplicationFramework.Core.Standard
                 !_UpdateLayeredWindowIntPtr(hwnd, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, crKey,
                     ref pblend, dwFlags))
             {
-                HRESULT.ThrowLastError();
+                Hresult.ThrowLastError();
             }
         }
 
@@ -3203,7 +3203,7 @@ namespace ModernApplicationFramework.Core.Standard
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport("dwmapi.dll", EntryPoint = "DwmGetColorizationColor", PreserveSig = true)]
-        private static extern HRESULT _DwmGetColorizationColor(out uint pcrColorization,
+        private static extern Hresult _DwmGetColorizationColor(out uint pcrColorization,
                                                                [Out, MarshalAs(UnmanagedType.Bool)] out bool
                                                                    pfOpaqueBlend);
 
@@ -3227,7 +3227,7 @@ namespace ModernApplicationFramework.Core.Standard
         private static extern bool _GetClientRect(IntPtr hwnd, [Out] out RECT lpRect);
 
         [DllImport("uxtheme.dll", EntryPoint = "GetCurrentThemeName", CharSet = CharSet.Unicode)]
-        private static extern HRESULT _GetCurrentThemeName(
+        private static extern Hresult _GetCurrentThemeName(
             StringBuilder pszThemeFileName,
             int dwMaxNameChars,
             StringBuilder pszColorBuff,
@@ -3425,7 +3425,7 @@ namespace ModernApplicationFramework.Core.Standard
         // #define DWM_SIT_DISPLAYFRAME    0x00000001  // Display a window frame around the provided bitmap
 
         [DllImport("dwmapi.dll", EntryPoint = "DwmGetCompositionTimingInfo")]
-        private static extern HRESULT _DwmGetCompositionTimingInfo(IntPtr hwnd, ref DWM_TIMING_INFO pTimingInfo);
+        private static extern Hresult _DwmGetCompositionTimingInfo(IntPtr hwnd, ref DWM_TIMING_INFO pTimingInfo);
 
         public static DWM_TIMING_INFO? DwmGetCompositionTimingInfo(IntPtr hwnd)
         {
@@ -3437,7 +3437,7 @@ namespace ModernApplicationFramework.Core.Standard
 
             var dti = new DWM_TIMING_INFO {cbSize = Marshal.SizeOf(typeof(DWM_TIMING_INFO))};
             var hr = _DwmGetCompositionTimingInfo(hwnd, ref dti);
-            if (hr == HRESULT.E_PENDING)
+            if (hr == Hresult.E_PENDING)
             {
                 // The system isn't yet ready to respond.  Return null rather than throw.
                 return null;
@@ -3467,7 +3467,7 @@ namespace ModernApplicationFramework.Core.Standard
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport("shell32.dll", PreserveSig = false)]
-        public static extern HRESULT SHCreateItemFromParsingName([MarshalAs(UnmanagedType.LPWStr)] string pszPath,
+        public static extern Hresult SHCreateItemFromParsingName([MarshalAs(UnmanagedType.LPWStr)] string pszPath,
                                                                  IBindCtx pbc, [In] ref Guid riid,
                                                                  [Out, MarshalAs(UnmanagedType.Interface)] out object
                                                                      ppv);
@@ -3492,7 +3492,7 @@ namespace ModernApplicationFramework.Core.Standard
         /// <param name="AppID"></param>
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport("shell32.dll")]
-        public static extern HRESULT GetCurrentProcessExplicitAppUserModelID(
+        public static extern Hresult GetCurrentProcessExplicitAppUserModelID(
             [Out, MarshalAs(UnmanagedType.LPWStr)] out string AppID);
 
         #endregion

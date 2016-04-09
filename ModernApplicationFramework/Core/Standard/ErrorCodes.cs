@@ -130,24 +130,23 @@ namespace ModernApplicationFramework.Core.Standard
         /// <summary>Performs HRESULT_FROM_WIN32 conversion.</summary>
         /// <param name="error">The Win32 error being converted to an HRESULT.</param>
         /// <returns>The equivilent HRESULT value.</returns>
-        public static explicit operator HRESULT(Win32Error error)
+        public static explicit operator Hresult(Win32Error error)
         {
             // #define __HRESULT_FROM_WIN32(x) 
             //     ((HRESULT)(x) <= 0 ? ((HRESULT)(x)) : ((HRESULT) (((x) & 0x0000FFFF) | (FACILITY_WIN32 << 16) | 0x80000000)))
             if (error._value <= 0)
             {
-                return new HRESULT((uint) error._value);
+                return new Hresult((uint) error._value);
             }
-            return HRESULT.Make(true, Facility.Win32, error._value & 0x0000FFFF);
+            return Hresult.Make(true, Facility.Win32, error._value & 0x0000FFFF);
         }
 
         // Method version of the cast operation
         /// <summary>Performs HRESULT_FROM_WIN32 conversion.</summary>
-        /// <param name="error">The Win32 error being converted to an HRESULT.</param>
         /// <returns>The equivilent HRESULT value.</returns>
-        public HRESULT ToHRESULT()
+        public Hresult ToHresult()
         {
-            return (HRESULT) this;
+            return (Hresult) this;
         }
 
         /// <summary>Performs the equivalent of Win32's GetLastError()</summary>
@@ -233,112 +232,117 @@ namespace ModernApplicationFramework.Core.Standard
 
     /// <summary>Wrapper for HRESULT status codes.</summary>
     [StructLayout(LayoutKind.Explicit)]
-    internal struct HRESULT
+    internal struct Hresult
     {
         [FieldOffset(0)] private readonly uint _value;
 
         // NOTE: These public static field declarations are automatically
         // picked up by ToString through reflection.
         /// <summary>S_OK</summary>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly HRESULT
-            S_OK = new HRESULT(0x00000000);
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly Hresult
+            S_OK = new Hresult(0x00000000);
 
         /// <summary>S_FALSE</summary>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly HRESULT
-            S_FALSE = new HRESULT(0x00000001);
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly Hresult
+            S_FALSE = new Hresult(0x00000001);
 
         /// <summary>E_PENDING</summary>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly HRESULT
-            E_PENDING = new HRESULT(0x8000000A);
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly Hresult
+            E_PENDING = new Hresult(0x8000000A);
 
         /// <summary>E_NOTIMPL</summary>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly HRESULT
-            E_NOTIMPL = new HRESULT(0x80004001);
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly Hresult
+            E_NOTIMPL = new Hresult(0x80004001);
 
         /// <summary>E_NOINTERFACE</summary>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly HRESULT
-            E_NOINTERFACE = new HRESULT(0x80004002);
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly Hresult
+            E_NOINTERFACE = new Hresult(0x80004002);
 
         /// <summary>E_POINTER</summary>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly HRESULT
-            E_POINTER = new HRESULT(0x80004003);
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly Hresult
+            E_POINTER = new Hresult(0x80004003);
 
         /// <summary>E_ABORT</summary>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly HRESULT
-            E_ABORT = new HRESULT(0x80004004);
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly Hresult
+            E_ABORT = new Hresult(0x80004004);
 
         /// <summary>E_FAIL</summary>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly HRESULT
-            E_FAIL = new HRESULT(0x80004005);
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly Hresult
+            E_FAIL = new Hresult(0x80004005);
 
         /// <summary>E_UNEXPECTED</summary>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly HRESULT
-            E_UNEXPECTED = new HRESULT(0x8000FFFF);
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly Hresult
+            E_UNEXPECTED = new Hresult(0x8000FFFF);
 
         /// <summary>STG_E_INVALIDFUNCTION</summary>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly HRESULT
-            STG_E_INVALIDFUNCTION = new HRESULT(0x80030001);
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly Hresult
+            STG_E_INVALIDFUNCTION = new Hresult(0x80030001);
 
         /// <summary>REGDB_E_CLASSNOTREG</summary>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly HRESULT
-            REGDB_E_CLASSNOTREG = new HRESULT(0x80040154);
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly Hresult
+            REGDB_E_CLASSNOTREG = new Hresult(0x80040154);
 
         /// <summary>DESTS_E_NO_MATCHING_ASSOC_HANDLER.  Win7 internal error code for Jump Lists.</summary>
         /// <remarks>There is no Assoc Handler for the given item registered by the specified application.</remarks>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly HRESULT
-            DESTS_E_NO_MATCHING_ASSOC_HANDLER = new HRESULT(0x80040F03);
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly Hresult
+            DESTS_E_NO_MATCHING_ASSOC_HANDLER = new Hresult(0x80040F03);
 
         /// <summary>DESTS_E_NORECDOCS.  Win7 internal error code for Jump Lists.</summary>
         /// <remarks>The given item is excluded from the recent docs folder by the NoRecDocs bit on its registration.</remarks>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly HRESULT
-            DESTS_E_NORECDOCS = new HRESULT(0x80040F04);
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly Hresult
+            DESTS_E_NORECDOCS = new Hresult(0x80040F04);
 
         /// <summary>DESTS_E_NOTALLCLEARED.  Win7 internal error code for Jump Lists.</summary>
         /// <remarks>Not all of the items were successfully cleared</remarks>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly HRESULT
-            DESTS_E_NOTALLCLEARED = new HRESULT(0x80040F05);
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly Hresult
+            DESTS_E_NOTALLCLEARED = new Hresult(0x80040F05);
 
         /// <summary>E_ACCESSDENIED</summary>
         /// <remarks>Win32Error ERROR_ACCESS_DENIED.</remarks>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly HRESULT
-            E_ACCESSDENIED = new HRESULT(0x80070005);
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly Hresult
+            E_ACCESSDENIED = new Hresult(0x80070005);
 
         /// <summary>E_OUTOFMEMORY</summary>
         /// <remarks>Win32Error ERROR_OUTOFMEMORY.</remarks>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly HRESULT
-            E_OUTOFMEMORY = new HRESULT(0x8007000E);
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly Hresult
+            E_OUTOFMEMORY = new Hresult(0x8007000E);
 
         /// <summary>E_INVALIDARG</summary>
         /// <remarks>Win32Error ERROR_INVALID_PARAMETER.</remarks>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly HRESULT
-            E_INVALIDARG = new HRESULT(0x80070057);
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly Hresult
+            E_INVALIDARG = new Hresult(0x80070057);
 
         /// <summary>INTSAFE_E_ARITHMETIC_OVERFLOW</summary>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly HRESULT
-            INTSAFE_E_ARITHMETIC_OVERFLOW = new HRESULT(0x80070216);
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly Hresult
+            INTSAFE_E_ARITHMETIC_OVERFLOW = new Hresult(0x80070216);
 
         /// <summary>COR_E_OBJECTDISPOSED</summary>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly HRESULT
-            COR_E_OBJECTDISPOSED = new HRESULT(0x80131622);
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly Hresult
+            COR_E_OBJECTDISPOSED = new Hresult(0x80131622);
 
         /// <summary>WC_E_GREATERTHAN</summary>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly HRESULT
-            WC_E_GREATERTHAN = new HRESULT(0xC00CEE23);
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly Hresult
+            WC_E_GREATERTHAN = new Hresult(0xC00CEE23);
 
         /// <summary>WC_E_SYNTAX</summary>
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly HRESULT
-            WC_E_SYNTAX = new HRESULT(0xC00CEE2D);
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly Hresult
+            WC_E_SYNTAX = new Hresult(0xC00CEE2D);
+
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public static readonly Hresult
+            ERROR_CANCELLED = new Hresult(0x800704C7);
+
+
 
         /// <summary>
         ///     Create an HRESULT from an integer value.
         /// </summary>
         /// <param name="i"></param>
-        public HRESULT(uint i)
+        public Hresult(uint i)
         {
             _value = i;
         }
 
-        public static HRESULT Make(bool severe, Facility facility, int code)
+        public static Hresult Make(bool severe, Facility facility, int code)
         {
             // #define MAKE_HRESULT(sev,fac,code) \
             //    ((HRESULT) (((unsigned long)(sev)<<31) | ((unsigned long)(fac)<<16) | ((unsigned long)(code))) )
@@ -354,16 +358,13 @@ namespace ModernApplicationFramework.Core.Standard
             // Code has 4 bits reserved.
             Assert.AreEqual(code, code & 0xFFFF);
 
-            return new HRESULT((uint) ((severe ? 1 << 31 : 0) | ((int) facility << 16) | code));
+            return new Hresult((uint) ((severe ? 1 << 31 : 0) | ((int) facility << 16) | code));
         }
 
         /// <summary>
         ///     retrieve HRESULT_FACILITY
         /// </summary>
-        public Facility Facility
-        {
-            get { return GetFacility((int) _value); }
-        }
+        public Facility Facility => GetFacility((int) _value);
 
         public static Facility GetFacility(int errorCode)
         {
@@ -374,10 +375,7 @@ namespace ModernApplicationFramework.Core.Standard
         /// <summary>
         ///     retrieve HRESULT_CODE
         /// </summary>
-        public int Code
-        {
-            get { return GetCode((int) _value); }
-        }
+        public int Code => GetCode((int) _value);
 
         public static int GetCode(int error)
         {
@@ -404,11 +402,11 @@ namespace ModernApplicationFramework.Core.Standard
             // CONSIDER: This data is static.  It could be cached 
             // after first usage for fast lookup since the keys are unique.
             //
-            foreach (var publicStaticField in typeof(HRESULT).GetFields(BindingFlags.Static | BindingFlags.Public))
+            foreach (var publicStaticField in typeof(Hresult).GetFields(BindingFlags.Static | BindingFlags.Public))
             {
-                if (publicStaticField.FieldType == typeof(HRESULT))
+                if (publicStaticField.FieldType == typeof(Hresult))
                 {
-                    var hr = (HRESULT) publicStaticField.GetValue(null);
+                    var hr = (Hresult) publicStaticField.GetValue(null);
                     if (hr == this)
                     {
                         return publicStaticField.Name;
@@ -425,7 +423,7 @@ namespace ModernApplicationFramework.Core.Standard
                     if (publicStaticField.FieldType == typeof(Win32Error))
                     {
                         var error = (Win32Error) publicStaticField.GetValue(null);
-                        if ((HRESULT) error == this)
+                        if ((Hresult) error == this)
                         {
                             return "HRESULT_FROM_WIN32(" + publicStaticField.Name + ")";
                         }
@@ -442,7 +440,7 @@ namespace ModernApplicationFramework.Core.Standard
         {
             try
             {
-                return ((HRESULT) obj)._value == _value;
+                return ((Hresult) obj)._value == _value;
             }
             catch (InvalidCastException)
             {
@@ -457,25 +455,19 @@ namespace ModernApplicationFramework.Core.Standard
 
         #endregion
 
-        public static bool operator ==(HRESULT hrLeft, HRESULT hrRight)
+        public static bool operator ==(Hresult hrLeft, Hresult hrRight)
         {
             return hrLeft._value == hrRight._value;
         }
 
-        public static bool operator !=(HRESULT hrLeft, HRESULT hrRight)
+        public static bool operator !=(Hresult hrLeft, Hresult hrRight)
         {
             return !(hrLeft == hrRight);
         }
 
-        public bool Succeeded
-        {
-            get { return (int) _value >= 0; }
-        }
+        public bool Succeeded => (int) _value >= 0;
 
-        public bool Failed
-        {
-            get { return (int) _value < 0; }
-        }
+        public bool Failed => (int) _value < 0;
 
         public void ThrowIfFailed()
         {
@@ -547,7 +539,8 @@ namespace ModernApplicationFramework.Core.Standard
                         Assert.IsNotNull(e);
                     }
                 }
-                throw e;
+                if (e != null)
+                    throw e;
             }
         }
 
@@ -556,7 +549,7 @@ namespace ModernApplicationFramework.Core.Standard
         /// </summary>
         public static void ThrowLastError()
         {
-            ((HRESULT) Win32Error.GetLastError()).ThrowIfFailed();
+            ((Hresult) Win32Error.GetLastError()).ThrowIfFailed();
             // Only expecting to call this when we're expecting a failed GetLastError()
             Assert.Fail();
         }

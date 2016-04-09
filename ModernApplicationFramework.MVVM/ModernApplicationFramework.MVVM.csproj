@@ -82,21 +82,30 @@
     <Compile Include="Interfaces\IDockingMainWindowViewModel.cs" />
     <Compile Include="Interfaces\IDocument.cs" />
     <Compile Include="Interfaces\IEditorProvider.cs" />
+    <Compile Include="Interfaces\IElementDialogItemPresenter.cs" />
     <Compile Include="Interfaces\ILayoutItem.cs" />
     <Compile Include="Interfaces\ILayoutItemStatePersister.cs" />
     <Compile Include="Interfaces\IModule.cs" />
+    <Compile Include="Interfaces\INewElementDialogModel.cs" />
     <Compile Include="Interfaces\IStorableDocument.cs" />
     <Compile Include="Interfaces\ITool.cs" />
     <Compile Include="Interfaces\IUseDockingHost.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\DockingHostViewModel.cs" />
     <Compile Include="ViewModels\DockingMainWindowViewModel.cs" />
+    <Compile Include="ViewModels\NewElementDialogViewModel.cs" />
     <Compile Include="ViewModels\SimpleTextEditorViewModel.cs" />
     <Compile Include="Views\DockingHostView.xaml.cs">
       <DependentUpon>DockingHostView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DockingMainWindowView.xaml.cs">
       <DependentUpon>DockingMainWindowView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NewElementDialogView.xaml.cs">
+      <DependentUpon>NewElementDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NewFileItemPresenter.xaml.cs">
+      <DependentUpon>NewFileItemPresenter.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SimpleTextEditorView.xaml.cs">
       <DependentUpon>SimpleTextEditorView.xaml</DependentUpon>
@@ -140,6 +149,14 @@
     <Page Include="Views\DockingMainWindowView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\NewElementDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NewFileItemPresenter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SimpleTextEditorView.xaml">
       <SubType>Designer</SubType>

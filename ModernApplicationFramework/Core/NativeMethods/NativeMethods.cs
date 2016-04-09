@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using ModernApplicationFramework.Core.Platform;
+using ModernApplicationFramework.Core.Shell;
 
 namespace ModernApplicationFramework.Core.NativeMethods
 {
@@ -1427,9 +1428,135 @@ namespace ModernApplicationFramework.Core.NativeMethods
         Systimer = 0x118
     }
 
+    internal enum Fdap
+    {
+        FdapBottom = 0x00000000,
+        FdapTop = 0x00000001,
+    }
+
+    [Flags]
+    internal enum Fos : uint
+    {
+        FosOverwriteprompt = 0x00000002,
+        FosStrictfiletypes = 0x00000004,
+        FosNochangedir = 0x00000008,
+        FosPickfolders = 0x00000020,
+        FosForcefilesystem = 0x00000040, // Ensure that items returned are filesystem items.
+        FosAllnonstorageitems = 0x00000080, // Allow choosing items that have no storage.
+        FosNovalidate = 0x00000100,
+        FosAllowmultiselect = 0x00000200,
+        FosPathmustexist = 0x00000800,
+        FosFilemustexist = 0x00001000,
+        FosCreateprompt = 0x00002000,
+        FosShareaware = 0x00004000,
+        FosNoreadonlyreturn = 0x00008000,
+        FosNotestfilecreate = 0x00010000,
+        FosHidemruplaces = 0x00020000,
+        FosHidepinnedplaces = 0x00040000,
+        FosNodereferencelinks = 0x00100000,
+        FosDontaddtorecent = 0x02000000,
+        FosForceshowhidden = 0x10000000,
+        FosDefaultnominimode = 0x20000000
+    }
+
+    internal enum FdeShareviolationResponse
+    {
+        FdesvrDefault = 0x00000000,
+        FdesvrAccept = 0x00000001,
+        FdesvrRefuse = 0x00000002
+    }
+
+    internal enum FdeOverwriteResponse
+    {
+        FdeorDefault = 0x00000000,
+        FdeorAccept = 0x00000001,
+        FdeorRefuse = 0x00000002
+    }
+
     internal class NativeMethods
     {
+
+        [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
+        public static extern int SHCreateItemFromParsingName([MarshalAs(UnmanagedType.LPWStr)] string pszPath, IntPtr pbc, ref Guid riid, [MarshalAs(UnmanagedType.Interface)] out object ppv);
+
+        public static IShellItem CreateItemFromParsingName(string path)
+        {
+            object item;
+            Guid guid = new Guid("43826d1e-e718-42ee-bc55-a1e261c37bfe"); // IID_IShellItem
+            int hr = SHCreateItemFromParsingName(path, IntPtr.Zero, ref guid, out item);
+            if (hr != 0)
+                throw new Win32Exception(hr);
+            return (IShellItem)item;
+        }
+
+
         private static int _vsmNotifyOwnerActivate;
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 4)]
+        internal struct KnownfolderDefinition
+        {
+            internal KfCategory category;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            internal string pszName;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            internal string pszCreator;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            internal string pszDescription;
+            internal Guid fidParent;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            internal string pszRelativePath;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            internal string pszParsingName;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            internal string pszToolTip;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            internal string pszLocalizedName;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            internal string pszIcon;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            internal string pszSecurity;
+            internal uint dwAttributes;
+            internal KfDefinitionFlags kfdFlags;
+            internal Guid ftidType;
+        }
+
+        internal enum Cdcontrolstate
+        {
+            CdcsInactive = 0x00000000,
+            CdcsEnabled = 0x00000001,
+            CdcsVisible = 0x00000002
+        }
+
+        [Flags]
+        internal enum KfDefinitionFlags
+        {
+            KfdfPersonalize = 0x00000001,
+            KfdfLocalRedirectOnly = 0x00000002,
+            KfdfRoamable = 0x00000004,
+        }
+
+
+        internal enum FffpMode
+        {
+            FffpExactmatch,
+            FffpNearestparentmatch
+        }
+
+        internal enum KfCategory
+        {
+            KfCategoryVirtual = 0x00000001,
+            KfCategoryFixed = 0x00000002,
+            KfCategoryCommon = 0x00000003,
+            KfCategoryPeruser = 0x00000004
+        }
+
+        // Property System structs and consts
+        [StructLayout(LayoutKind.Sequential, Pack = 4)]
+        internal struct Propertykey
+        {
+            internal Guid fmtid;
+            internal uint pid;
+        }
 
         public delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
 
@@ -1760,6 +1887,9 @@ namespace ModernApplicationFramework.Core.NativeMethods
             return new IntPtr(lowWord & ushort.MaxValue | highWord << 16);
         }
 
+        [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
+        public static extern IntPtr GetActiveWindow();
+
 
         [DllImport("user32.dll")]
         internal static extern IntPtr MonitorFromPoint(Point pt, int flags);
@@ -1838,5 +1968,17 @@ namespace ModernApplicationFramework.Core.NativeMethods
             public byte SourceConstantAlpha;
             public byte AlphaFormat;
         }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 4)]
+        internal struct ComdlgFilterspec
+        {
+            [MarshalAs(UnmanagedType.LPWStr)]
+            internal string pszName;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            internal string pszSpec;
+        }
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        internal static extern int GetDriveTypeW(string nDrive);
     }
 }

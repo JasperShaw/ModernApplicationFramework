@@ -35,9 +35,9 @@ namespace ModernApplicationFramework.Core.Standard
     /// </summary>
     internal sealed class ManagedIStream : IStream, IDisposable
     {
-        private const int STGTY_STREAM = 2;
-        private const int STGM_READWRITE = 2;
-        private const int LOCK_EXCLUSIVE = 2;
+        private const int StgtyStream = 2;
+        private const int StgmReadwrite = 2;
+        private const int LockExclusive = 2;
 
         private Stream _source;
 
@@ -98,7 +98,7 @@ namespace ModernApplicationFramework.Core.Standard
         public void Clone(out IStream ppstm)
         {
             ppstm = null;
-            HRESULT.STG_E_INVALIDFUNCTION.ThrowIfFailed("The method is not implemented.");
+            Hresult.STG_E_INVALIDFUNCTION.ThrowIfFailed("The method is not implemented.");
         }
 
         /// <summary>
@@ -196,7 +196,7 @@ namespace ModernApplicationFramework.Core.Standard
          Obsolete("The method is not implemented", true)]
         public void LockRegion(long libOffset, long cb, int dwLockType)
         {
-            HRESULT.STG_E_INVALIDFUNCTION.ThrowIfFailed("The method is not implemented.");
+            Hresult.STG_E_INVALIDFUNCTION.ThrowIfFailed("The method is not implemented.");
         }
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace ModernApplicationFramework.Core.Standard
          Obsolete("The method is not implemented", true)]
         public void Revert()
         {
-            HRESULT.STG_E_INVALIDFUNCTION.ThrowIfFailed("The method is not implemented.");
+            Hresult.STG_E_INVALIDFUNCTION.ThrowIfFailed("The method is not implemented.");
         }
 
         /// <summary>
@@ -304,10 +304,10 @@ namespace ModernApplicationFramework.Core.Standard
             pstatstg = default(STATSTG);
             _Validate();
 
-            pstatstg.type = STGTY_STREAM;
+            pstatstg.type = StgtyStream;
             pstatstg.cbSize = _source.Length;
-            pstatstg.grfMode = STGM_READWRITE;
-            pstatstg.grfLocksSupported = LOCK_EXCLUSIVE;
+            pstatstg.grfMode = StgmReadwrite;
+            pstatstg.grfLocksSupported = LockExclusive;
         }
 
         /// <summary>
@@ -331,7 +331,7 @@ namespace ModernApplicationFramework.Core.Standard
         [Obsolete("The method is not implemented", true)]
         public void UnlockRegion(long libOffset, long cb, int dwLockType)
         {
-            HRESULT.STG_E_INVALIDFUNCTION.ThrowIfFailed("The method is not implemented.");
+            Hresult.STG_E_INVALIDFUNCTION.ThrowIfFailed("The method is not implemented.");
         }
 
         /// <summary>
