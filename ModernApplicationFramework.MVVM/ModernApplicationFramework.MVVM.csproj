@@ -52,6 +52,9 @@
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Commands\RedoCommandDefinition.cs" />
+    <Compile Include="Commands\NewFileCommandDefinition.cs" />
+    <Compile Include="Commands\OpenFileCommandDefinition.cs" />
+    <Compile Include="Commands\SaveFileCommandDefinition.cs" />
     <Compile Include="Commands\UndoCommandDefinition.cs" />
     <Compile Include="Controls\Document.cs" />
     <Compile Include="Controls\MenuDefinitions\MenuDefinitions.cs" />
@@ -62,12 +65,14 @@
     </Compile>
     <Compile Include="Controls\Toolbars\StandardToolbarModel.cs" />
     <Compile Include="Controls\Toolbars\ToolDefinitions.cs" />
-    <Compile Include="Core\EditorFileType.cs" />
+    <Compile Include="Core\EditorProvider.cs" />
     <Compile Include="Core\LayoutItemBase.cs" />
     <Compile Include="Core\ModuleBase.cs" />
+    <Compile Include="Core\NewFileCommandArguments.cs" />
     <Compile Include="Core\PaneLocation.cs" />
     <Compile Include="Core\PanesStyleSelector.cs" />
     <Compile Include="Core\PanesTemplateSelector.cs" />
+    <Compile Include="Core\TextFileDefinition.cs" />
     <Compile Include="Core\Utilities\LayoutInitializer.cs" />
     <Compile Include="Core\Utilities\LayoutItemStatePersister.cs" />
     <Compile Include="Core\Utilities\LayoutUtilities.cs" />
@@ -85,11 +90,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\DockingHostViewModel.cs" />
     <Compile Include="ViewModels\DockingMainWindowViewModel.cs" />
+    <Compile Include="ViewModels\SimpleTextEditorViewModel.cs" />
     <Compile Include="Views\DockingHostView.xaml.cs">
       <DependentUpon>DockingHostView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DockingMainWindowView.xaml.cs">
       <DependentUpon>DockingMainWindowView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SimpleTextEditorView.xaml.cs">
+      <DependentUpon>SimpleTextEditorView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -103,11 +112,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Resources\Icons\NewFile_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\Icons\Redo_16x.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\Icons\Undo_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Icons\Save_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Icons\OpenFile_16x.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -118,6 +139,10 @@
     <Page Include="Views\DockingMainWindowView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SimpleTextEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -114,7 +114,7 @@
                         SnapsToDevicePixels="True">
                 <DockPanel>
                     <Thumb x:Name="ToolBarThumb" Style="{StaticResource HorizontalToolBarThumbStyle}"/>
-                    <ToolBarPanel x:Name="PART_ToolBarPanel" IsItemsHost="true"/>
+                    <ToolBarPanel x:Name="PART_ToolBarPanel" IsItemsHost="true" Margin="3,0,3,0"/>
                     <Button IsEnabled="True" Style="{StaticResource ToolBarHorizontalOverflowButtonStyle}" Width="10" 
                                 HorizontalAlignment="Right"/>
                 </DockPanel>

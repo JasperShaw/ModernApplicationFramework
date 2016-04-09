@@ -1,17 +1,17 @@
-﻿namespace ModernApplicationFramework.MVVM.Core
+﻿namespace ModernApplicationFramework.Utilities
 {
-    public class EditorFileType
+    public class FileType
     {
         public string Name { get; set; }
         public string FileExtension { get; set; }
 
-        public EditorFileType(string name, string fileExtension)
+        public FileType(string name, string fileExtension)
         {
             Name = name;
             FileExtension = fileExtension;
         }
 
-        public EditorFileType()
+        public FileType()
         {
 
         }

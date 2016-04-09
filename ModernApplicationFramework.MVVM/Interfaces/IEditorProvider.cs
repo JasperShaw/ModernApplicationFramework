@@ -1,18 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using ModernApplicationFramework.MVVM.Core;
+using ModernApplicationFramework.Interfaces.Utilities;
 
 namespace ModernApplicationFramework.MVVM.Interfaces
 {
     public interface IEditorProvider
     {
-        IEnumerable<EditorFileType> FileTypes { get; }
+        IEnumerable<ISupportedFileDefinition> SupportedFileDefinitions { get; }
 
         bool Handles(string path);
 
-        IDocument Create();
+        IDocument Create(Type editorType);
 
-        Task New(IDocument document, string name);
-        Task Open(IDocument document, string path);
+        Task New(IStorableDocument document, string name);
+        Task Open(IStorableDocument document, string path);
     }
 }

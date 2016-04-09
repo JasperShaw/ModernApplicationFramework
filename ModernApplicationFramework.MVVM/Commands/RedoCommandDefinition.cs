@@ -16,25 +16,26 @@ namespace ModernApplicationFramework.MVVM.Commands
 
         public RedoCommandDefinition()
         {
-            Command = new GestureCommandWrapper(Test, CanTest, new KeyGesture(Key.Y, ModifierKeys.Control));
+            Command = new GestureCommandWrapper(Redo, CanRedo, new KeyGesture(Key.Y, ModifierKeys.Control));
         }
 
+        public override string IconId => "RedoIcon";
         public override bool CanShowInMenu => true;
         public override bool CanShowInToolbar => true;
         public override ICommand Command { get; }
-        public override Uri IconSource { get; }
+        public override Uri IconSource => new Uri("/ModernApplicationFramework.MVVM;component/Resources/Icons/Redo_16x.xaml", UriKind.RelativeOrAbsolute);
 
         public override string Name => "Redo";
         public override string Text => Name;
         public override string ToolTip => Name;
 
-        private bool CanTest()
+        private bool CanRedo()
         {
             return _shell?.DockingHost.ActiveItem != null &&
                    _shell.DockingHost.ActiveItem.UndoRedoManager.RedoStack.Any();
         }
 
-        private void Test()
+        private void Redo()
         {
             _shell.DockingHost.ActiveItem.RedoCommand.Execute(null);
         }

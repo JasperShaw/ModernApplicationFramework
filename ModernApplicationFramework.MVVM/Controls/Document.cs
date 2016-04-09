@@ -42,10 +42,10 @@ namespace ModernApplicationFramework.MVVM.Controls
             var fileExtension = Path.GetExtension(storableDocument.FileName);
             var fileType =
                 IoC.GetAll<IEditorProvider>()
-                    .SelectMany(x => x.FileTypes)
-                    .SingleOrDefault(x => x.FileExtension == fileExtension);
+                    .SelectMany(x => x.SupportedFileDefinitions)
+                    .SingleOrDefault(x => x.FileType.FileExtension == fileExtension);
             if (fileType != null)
-                filter = fileType.Name + "|*" + fileType.FileExtension + "|";
+                filter = fileType.Name + "|*" + fileType.FileType.FileExtension + "|";
 
             filter += "All Files|*.*";
             dialog.Filter = filter;

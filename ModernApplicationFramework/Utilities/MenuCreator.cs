@@ -6,13 +6,14 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Commands.Service;
+using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using MenuItem = ModernApplicationFramework.Controls.MenuItem;
 
 namespace ModernApplicationFramework.Utilities
 {
-    [Export(typeof (IMenuCreator))]
+    [Export(typeof(IMenuCreator))]
     public class MenuCreator : IMenuCreator
     {
         private readonly MenuItemDefinition[] _menuItems;
@@ -31,8 +32,8 @@ namespace ModernApplicationFramework.Utilities
 
             var topLevelMenus =
                 menuDefinitions.Where(x => x.HasItems == false)
-                    .Where(x => x.HasParent == false)
-                    .OrderBy(x => x.Priority);
+                               .Where(x => x.HasParent == false)
+                               .OrderBy(x => x.Priority);
 
             foreach (var topLevel in topLevelMenus)
             {
@@ -50,16 +51,25 @@ namespace ModernApplicationFramework.Utilities
         }
 
         /// <summary>
-        /// Creates a MenuItem from CommandDefinition. If the Attached Command is Type GestureCommand the Item will bind the Gesture text
+        ///     Creates a MenuItem from CommandDefinition. If the Attached Command is Type GestureCommand the Item will bind the
+        ///     Gesture text
         /// </summary>
         /// <param name="definition"></param>
         /// <returns></returns>
         protected virtual MenuItem CreateItem(CommandDefinition definition)
         {
+            object vb = null;
+            if (!string.IsNullOrEmpty(definition.IconSource?.OriginalString))
+            {
+                var myResourceDictionary = new ResourceDictionary {Source = definition.IconSource};
+                vb = myResourceDictionary[definition.IconId];
+            }
+
+
             var menuItem = new MenuItem
             {
                 Header = definition.Name,
-                Icon = definition.IconSource
+                Icon = vb
             };
 
 
@@ -90,21 +100,32 @@ namespace ModernApplicationFramework.Utilities
 
 
         private void CreateItemsRecursive(MenuItemDefinition topLevel, ItemsControl topItem,
-            ICollection<MenuItemDefinition> list)
+                                          ICollection<MenuItemDefinition> list)
         {
             //MenuDefinitions which are parent of top
-            var menuItems = list.Where(x => x.HasItems).Where(x => x.Parent == topLevel).OrderBy(x => x.Priority);
+            var menuItems = list.Where(x => x.Parent == topLevel).OrderBy(x => x.Priority);
+
+            //For some reason 'list' has FixedSize
+            var tempList = new List<MenuItemDefinition>(list);
+
             foreach (var menusItem in menuItems)
             {
                 //SubMenuDefinitions which are parent of currnet
                 var subDefinitonItems =
-                    list.Where(x => x.HasItems == false).Where(x => x.Parent == topLevel).OrderBy(x => x.Priority);
+                    tempList.Where(x => x.HasItems == false).Where(x => x.Parent == topLevel).OrderBy(x => x.Priority);
                 foreach (var subDefinitonItem in subDefinitonItems)
                 {
-                    list.Remove(subDefinitonItem);
-                    var subItem = CreateItem(subDefinitonItem);
-                    CreateItemsRecursive(subDefinitonItem, subItem, list);
-                    topItem.Items.Add(subItem);
+                    tempList.Remove(subDefinitonItem);
+                    if (subDefinitonItem.Name == "Separator")
+                    {
+                        topItem.Items.Add(new Controls.Separator());
+                    }
+                    else
+                    {
+                        var subItem = CreateItem(subDefinitonItem);
+                        CreateItemsRecursive(subDefinitonItem, subItem, list);
+                        topItem.Items.Add(subItem);
+                    }                    
                 }
 
                 //Normal Items which can be added directly

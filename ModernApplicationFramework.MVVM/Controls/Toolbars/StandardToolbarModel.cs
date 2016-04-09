@@ -19,5 +19,14 @@ namespace ModernApplicationFramework.MVVM.Controls.Toolbars
 
         public ICommand RedoCommand
             => IoC.Get<ICommandService>().GetCommandDefinition(typeof(RedoCommandDefinition)).Command;
+
+        public ICommand NewFileCommand
+            => IoC.Get<ICommandService>().GetCommandDefinition(typeof(NewFileCommandDefinition)).Command;
+
+        public ICommand OpenFileCommand
+            => IoC.Get<ICommandService>().GetCommandDefinition(typeof(OpenFileCommandDefinition)).Command;
+
+        public ICommand SaveFileCommand
+            => IoC.Get<ICommandService>().GetCommandDefinition(typeof(SaveFileCommandDefinition)).Command;
     }
 }

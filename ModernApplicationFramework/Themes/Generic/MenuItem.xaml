@@ -149,6 +149,7 @@
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemForegroundDisabled}}"/>
+                            <Setter TargetName="Icon" Property="Opacity" Value=".5"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

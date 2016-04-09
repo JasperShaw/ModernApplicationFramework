@@ -217,6 +217,7 @@
     <Compile Include="Controls\ImageTabButton.cs" />
     <Compile Include="Controls\ImageRadioButton.cs" />
     <Compile Include="Controls\ImageToggleButton.cs" />
+    <Compile Include="Controls\Utilities\PanelMarginSetter.cs" />
     <Compile Include="Interfaces\Controls\INonClientArea.cs" />
     <Compile Include="Controls\Internals\SelectionDelegatingCheckBox.cs" />
     <Compile Include="Controls\MainWindowAutomationPeer.cs" />
@@ -292,7 +293,7 @@
     <Compile Include="Core\Themes\EnvironmentColors.cs" />
     <Compile Include="Core\Themes\IHasTheme.cs" />
     <Compile Include="Core\Themes\Theme.cs" />
-    <Compile Include="Core\Utilities\BooleanOrConverter.cs" />
+    <Compile Include="Core\Converters\BooleanOrConverter.cs" />
     <Compile Include="Core\Utilities\Cache.cs" />
     <Compile Include="Core\Utilities\DpiHelper.cs" />
     <Compile Include="Core\Utilities\ExtensionMethods.cs" />
@@ -431,6 +432,7 @@
     <Compile Include="Docking\MathHelper.cs" />
     <Compile Include="Docking\Win32Helper.cs" />
     <Compile Include="Docking\WindowHelper.cs" />
+    <Compile Include="Interfaces\Utilities\ISupportedFileDefinition.cs" />
     <Compile Include="Interfaces\Utilities\IToolbarCreator.cs" />
     <Compile Include="Interfaces\Utilities\IMenuCreator.cs" />
     <Compile Include="Interfaces\Utilities\IKeyGestureHandler.cs" />
@@ -439,6 +441,8 @@
     <Compile Include="Interfaces\ViewModels\IToolBarHostViewModel.cs" />
     <Compile Include="Interfaces\ViewModels\IWindowViewModel.cs" />
     <Compile Include="Properties\Annotations1.cs" />
+    <Compile Include="Utilities\FileDefinitionManager.cs" />
+    <Compile Include="Utilities\FileType.cs" />
     <Compile Include="Utilities\KeyGestureHandler.cs" />
     <Compile Include="Utilities\Service\ToolbarService.cs" />
     <Compile Include="Utilities\Service\IToolbarService.cs" />

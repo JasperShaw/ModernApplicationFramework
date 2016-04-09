@@ -16,13 +16,14 @@ namespace ModernApplicationFramework.MVVM.Commands
 
         public UndoCommandDefinition()
         {
-            Command = new GestureCommandWrapper(Test, CanTest, new KeyGesture(Key.Z, ModifierKeys.Control));
+            Command = new GestureCommandWrapper(Undo, CanUndo, new KeyGesture(Key.Z, ModifierKeys.Control));
         }
 
+        public override string IconId => "UndoIcon";
         public override bool CanShowInMenu => true;
         public override bool CanShowInToolbar => true;
         public override ICommand Command { get; }
-        public override Uri IconSource { get; }
+        public override Uri IconSource => new Uri("/ModernApplicationFramework.MVVM;component/Resources/Icons/Undo_16x.xaml", UriKind.RelativeOrAbsolute);
 
         public string MyText { get; set; }
 
@@ -30,13 +31,13 @@ namespace ModernApplicationFramework.MVVM.Commands
         public override string Text => Name;
         public override string ToolTip => Name;
 
-        private bool CanTest()
+        private bool CanUndo()
         {
             return _shell?.DockingHost.ActiveItem != null &&
                    _shell.DockingHost.ActiveItem.UndoRedoManager.UndoStack.Any();
         }
 
-        private void Test()
+        private void Undo()
         {
             _shell.DockingHost.ActiveItem.UndoCommand.Execute(null);
         }
