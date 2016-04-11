@@ -4,10 +4,17 @@
              xmlns:mafc="http://modern.framework.com/controls"
              MinWidth="800" MinHeight="450" Background="#F4F4F4"
                    HasMaximizeButton="false" HasMinimizeButton="false" ResizeMode="CanResize" ShowInTaskbar="false"
-                    SnapsToDevicePixels="true" WindowStartupLocation="Manual" Width="900" Height="600">
+                    SnapsToDevicePixels="true" WindowStartupLocation="Manual" Width="900" Height="600" Icon="{x:Null}"
+                   FocusManager.FocusedElement="{Binding ElementName=OkButton}">
     <mafc:DialogWindow.Resources>
-        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/ModernApplicationFramework;component/Themes/Generic/Button.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        </ResourceDictionary>
     </mafc:DialogWindow.Resources>
+    
     <Grid SnapsToDevicePixels="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -55,8 +62,10 @@
             </Grid>
         </Grid>
         <StackPanel Background="#F4F4F4" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-            <Button MinWidth="75" MinHeight="23" Margin="0,3,6,6" IsDefault="true" Command="{Binding ApplyCommand}">OK</Button>
-            <Button MinWidth="75" MinHeight="23" Margin="0,3,12,6" Padding="6,2,6,2" IsCancel="true">Cancel</Button>
+            <Button x:Name="OkButton" MinWidth="75" MinHeight="23" Margin="0,3,6,6" IsDefault="true" TabIndex="-1" Command="{Binding ApplyCommand}" 
+                    Template="{StaticResource NormalButtonWithFocusStyle}">OK</Button>
+            <Button MinWidth="75" MinHeight="23" Margin="0,3,12,6" Padding="6,2,6,2" IsCancel="true"
+                    Template="{StaticResource NormalButtonWithFocusStyle}">Cancel</Button>
         </StackPanel>
     </Grid>
 </mafc:DialogWindow>

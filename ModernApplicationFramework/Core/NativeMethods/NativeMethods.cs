@@ -1,8 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
+using System.Windows;
+using System.Windows.Interop;
 using ModernApplicationFramework.Core.Platform;
 using ModernApplicationFramework.Core.Shell;
+using Point = ModernApplicationFramework.Core.Platform.Point;
 
 namespace ModernApplicationFramework.Core.NativeMethods
 {
@@ -1431,7 +1434,7 @@ namespace ModernApplicationFramework.Core.NativeMethods
     internal enum Fdap
     {
         FdapBottom = 0x00000000,
-        FdapTop = 0x00000001,
+        FdapTop = 0x00000001
     }
 
     [Flags]
@@ -1475,88 +1478,14 @@ namespace ModernApplicationFramework.Core.NativeMethods
 
     internal class NativeMethods
     {
-
-        [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
-        public static extern int SHCreateItemFromParsingName([MarshalAs(UnmanagedType.LPWStr)] string pszPath, IntPtr pbc, ref Guid riid, [MarshalAs(UnmanagedType.Interface)] out object ppv);
-
-        public static IShellItem CreateItemFromParsingName(string path)
-        {
-            object item;
-            Guid guid = new Guid("43826d1e-e718-42ee-bc55-a1e261c37bfe"); // IID_IShellItem
-            int hr = SHCreateItemFromParsingName(path, IntPtr.Zero, ref guid, out item);
-            if (hr != 0)
-                throw new Win32Exception(hr);
-            return (IShellItem)item;
-        }
+        private const int WsExDlgmodalframe = 0x0001;
+        private const int SwpNosize = 0x0001;
+        private const int SwpNomove = 0x0002;
+        private const int SwpNozorder = 0x0004;
+        private const int SwpFramechanged = 0x0020;
 
 
         private static int _vsmNotifyOwnerActivate;
-
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 4)]
-        internal struct KnownfolderDefinition
-        {
-            internal KfCategory category;
-            [MarshalAs(UnmanagedType.LPWStr)]
-            internal string pszName;
-            [MarshalAs(UnmanagedType.LPWStr)]
-            internal string pszCreator;
-            [MarshalAs(UnmanagedType.LPWStr)]
-            internal string pszDescription;
-            internal Guid fidParent;
-            [MarshalAs(UnmanagedType.LPWStr)]
-            internal string pszRelativePath;
-            [MarshalAs(UnmanagedType.LPWStr)]
-            internal string pszParsingName;
-            [MarshalAs(UnmanagedType.LPWStr)]
-            internal string pszToolTip;
-            [MarshalAs(UnmanagedType.LPWStr)]
-            internal string pszLocalizedName;
-            [MarshalAs(UnmanagedType.LPWStr)]
-            internal string pszIcon;
-            [MarshalAs(UnmanagedType.LPWStr)]
-            internal string pszSecurity;
-            internal uint dwAttributes;
-            internal KfDefinitionFlags kfdFlags;
-            internal Guid ftidType;
-        }
-
-        internal enum Cdcontrolstate
-        {
-            CdcsInactive = 0x00000000,
-            CdcsEnabled = 0x00000001,
-            CdcsVisible = 0x00000002
-        }
-
-        [Flags]
-        internal enum KfDefinitionFlags
-        {
-            KfdfPersonalize = 0x00000001,
-            KfdfLocalRedirectOnly = 0x00000002,
-            KfdfRoamable = 0x00000004,
-        }
-
-
-        internal enum FffpMode
-        {
-            FffpExactmatch,
-            FffpNearestparentmatch
-        }
-
-        internal enum KfCategory
-        {
-            KfCategoryVirtual = 0x00000001,
-            KfCategoryFixed = 0x00000002,
-            KfCategoryCommon = 0x00000003,
-            KfCategoryPeruser = 0x00000004
-        }
-
-        // Property System structs and consts
-        [StructLayout(LayoutKind.Sequential, Pack = 4)]
-        internal struct Propertykey
-        {
-            internal Guid fmtid;
-            internal uint pid;
-        }
 
         public delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
 
@@ -1575,6 +1504,36 @@ namespace ModernApplicationFramework.Core.NativeMethods
             RgnMax = 5
         }
 
+        internal enum Cdcontrolstate
+        {
+            CdcsInactive = 0x00000000,
+            CdcsEnabled = 0x00000001,
+            CdcsVisible = 0x00000002
+        }
+
+
+        internal enum FffpMode
+        {
+            FffpExactmatch,
+            FffpNearestparentmatch
+        }
+
+        internal enum KfCategory
+        {
+            KfCategoryVirtual = 0x00000001,
+            KfCategoryFixed = 0x00000002,
+            KfCategoryCommon = 0x00000003,
+            KfCategoryPeruser = 0x00000004
+        }
+
+        [Flags]
+        internal enum KfDefinitionFlags
+        {
+            KfdfPersonalize = 0x00000001,
+            KfdfLocalRedirectOnly = 0x00000002,
+            KfdfRoamable = 0x00000004
+        }
+
         public static int Notifyowneractivate
         {
             get
@@ -1584,6 +1543,16 @@ namespace ModernApplicationFramework.Core.NativeMethods
                         RegisterWindowMessage("NOTIFYOWNERACTIVATE{A982313C-756C-4da9-8BD0-0C375A45784B}");
                 return _vsmNotifyOwnerActivate;
             }
+        }
+
+        public static IShellItem CreateItemFromParsingName(string path)
+        {
+            object item;
+            var guid = new Guid("43826d1e-e718-42ee-bc55-a1e261c37bfe"); // IID_IShellItem
+            var hr = SHCreateItemFromParsingName(path, IntPtr.Zero, ref guid, out item);
+            if (hr != 0)
+                throw new Win32Exception(hr);
+            return (IShellItem) item;
         }
 
         [DllImport("gdi32.dll")]
@@ -1612,6 +1581,9 @@ namespace ModernApplicationFramework.Core.NativeMethods
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool FillRect(IntPtr hDc, ref RECT rect, IntPtr hbrush);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
+        public static extern IntPtr GetActiveWindow();
 
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -1671,6 +1643,14 @@ namespace ModernApplicationFramework.Core.NativeMethods
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         public static extern int RegisterWindowMessage(string lpString);
+
+        public static void RemoveIcon(Window window)
+        {
+            var hwnd = new WindowInteropHelper(window).Handle;
+            var extendedStyle = GetWindowLong(hwnd, Gwl.Exstyle);
+            SetWindowLong(hwnd, Gwl.Exstyle, extendedStyle | WsExDlgmodalframe);
+            SetWindowPos(hwnd, IntPtr.Zero, 0, 0, 0, 0, SwpNomove | SwpNosize | SwpNozorder | SwpFramechanged);
+        }
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         public static extern IntPtr SendMessage(IntPtr hWnd, int nMsg, IntPtr wParam, IntPtr lParam);
@@ -1747,6 +1727,11 @@ namespace ModernApplicationFramework.Core.NativeMethods
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy,
                                                int flags);
+
+        [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
+        public static extern int SHCreateItemFromParsingName([MarshalAs(UnmanagedType.LPWStr)] string pszPath,
+                                                             IntPtr pbc, ref Guid riid,
+                                                             [MarshalAs(UnmanagedType.Interface)] out object ppv);
 
 
         [DllImport("user32.dll")]
@@ -1830,6 +1815,9 @@ namespace ModernApplicationFramework.Core.NativeMethods
         [DllImport("Gdi32.dll", CallingConvention = CallingConvention.StdCall)]
         internal static extern int GetDeviceCaps(IntPtr hdc, int nIndex);
 
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        internal static extern int GetDriveTypeW(string nDrive);
+
         [DllImport("user32.dll")]
         internal static extern short GetKeyState(int vKey);
 
@@ -1886,9 +1874,6 @@ namespace ModernApplicationFramework.Core.NativeMethods
         {
             return new IntPtr(lowWord & ushort.MaxValue | highWord << 16);
         }
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
-        public static extern IntPtr GetActiveWindow();
 
 
         [DllImport("user32.dll")]
@@ -1961,6 +1946,33 @@ namespace ModernApplicationFramework.Core.NativeMethods
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         private static extern IntPtr SetWindowLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
 
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 4)]
+        internal struct KnownfolderDefinition
+        {
+            internal KfCategory category;
+            [MarshalAs(UnmanagedType.LPWStr)] internal string pszName;
+            [MarshalAs(UnmanagedType.LPWStr)] internal string pszCreator;
+            [MarshalAs(UnmanagedType.LPWStr)] internal string pszDescription;
+            internal Guid fidParent;
+            [MarshalAs(UnmanagedType.LPWStr)] internal string pszRelativePath;
+            [MarshalAs(UnmanagedType.LPWStr)] internal string pszParsingName;
+            [MarshalAs(UnmanagedType.LPWStr)] internal string pszToolTip;
+            [MarshalAs(UnmanagedType.LPWStr)] internal string pszLocalizedName;
+            [MarshalAs(UnmanagedType.LPWStr)] internal string pszIcon;
+            [MarshalAs(UnmanagedType.LPWStr)] internal string pszSecurity;
+            internal uint dwAttributes;
+            internal KfDefinitionFlags kfdFlags;
+            internal Guid ftidType;
+        }
+
+        // Property System structs and consts
+        [StructLayout(LayoutKind.Sequential, Pack = 4)]
+        internal struct Propertykey
+        {
+            internal Guid fmtid;
+            internal uint pid;
+        }
+
         internal struct Blendfunction
         {
             public byte BlendOp;
@@ -1972,13 +1984,8 @@ namespace ModernApplicationFramework.Core.NativeMethods
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 4)]
         internal struct ComdlgFilterspec
         {
-            [MarshalAs(UnmanagedType.LPWStr)]
-            internal string pszName;
-            [MarshalAs(UnmanagedType.LPWStr)]
-            internal string pszSpec;
+            [MarshalAs(UnmanagedType.LPWStr)] internal string pszName;
+            [MarshalAs(UnmanagedType.LPWStr)] internal string pszSpec;
         }
-
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-        internal static extern int GetDriveTypeW(string nDrive);
     }
 }

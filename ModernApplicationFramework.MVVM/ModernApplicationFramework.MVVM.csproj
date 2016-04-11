@@ -69,6 +69,7 @@
     <Compile Include="Core\EditorProvider.cs" />
     <Compile Include="Core\LayoutItemBase.cs" />
     <Compile Include="Core\ModuleBase.cs" />
+    <Compile Include="Core\NativeMethods\NativeMethods.cs" />
     <Compile Include="Core\NewFileCommandArguments.cs" />
     <Compile Include="Core\PaneLocation.cs" />
     <Compile Include="Core\PanesStyleSelector.cs" />

@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using ModernApplicationFramework.MVVM.Core;
+using ModernApplicationFramework.MVVM.Core.NativeMethods;
 using ModernApplicationFramework.MVVM.Interfaces;
 
 namespace ModernApplicationFramework.MVVM.Views
@@ -10,6 +12,12 @@ namespace ModernApplicationFramework.MVVM.Views
         public SaveDirtyDocumentsDialog()
         {
             InitializeComponent();
+        }
+
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+            NativeMethods.RemoveIcon(this);
         }
 
         public SaveDirtyDocumentsDialog(IEnumerable<SaveDirtyDocumentItem> items)

@@ -6,7 +6,13 @@
              xmlns:core="clr-namespace:ModernApplicationFramework.MVVM.Core"
              mc:Ignorable="d" ResizeMode="NoResize" WindowStartupLocation="CenterOwner"
              Height="325" Width="425" Background="{x:Static SystemColors.ControlBrush}"
-        DataContext="{Binding RelativeSource={RelativeSource Self}}">
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        FocusManager.FocusedElement="{Binding ElementName=YesButton}">
+    
+    <Window.Resources>
+            <ResourceDictionary Source="pack://application:,,,/ModernApplicationFramework;component/Themes/Generic/Button.xaml"/>
+    </Window.Resources>
+    
     <Grid>
         <Grid.Resources>
             <DataTemplate x:Key="ItemTemplate" DataType="{x:Type core:SaveDirtyDocumentItem}">
@@ -18,15 +24,18 @@
             <RowDefinition Height="1*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Margin="12,12,12,6">Save changes to the following items ?</TextBlock>
+        <TextBlock Margin="12,12,12,6" Focusable="False">Save changes to the following items ?</TextBlock>
         <ItemsControl Grid.Row="1" Margin="12, 0, 12, 36" ItemsSource="{Binding ItemSource}"
-                      Background="{x:Static SystemColors.WindowBrush}" 
+                      Background="{x:Static SystemColors.WindowBrush}" Focusable="False"
                       BorderThickness="1" BorderBrush="{x:Static SystemColors.ActiveBorderBrush}"
                       ItemTemplate="{DynamicResource ItemTemplate}"/>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-            <Button MinWidth="75" MinHeight="23" Margin="0,3,6,6" IsDefault="true" Click="Button_ClickedYes">Yes</Button>
-            <Button MinWidth="75" MinHeight="23" Margin="0,3,6,6" Padding="6,2,6,2" Click="Button_ClickedNo">No</Button>
-           <Button MinWidth="75" MinHeight="23" Margin="0,3,12,6" Padding="6,2,6,2" Click="Button_ClickedCancel">Cancel</Button>
+            <Button x:Name="YesButton" MinWidth="75" MinHeight="23" Margin="0,3,6,6" IsDefault="true" TabIndex="0" 
+                    Template="{StaticResource NormalButtonWithFocusStyle}" Click="Button_ClickedYes">Yes</Button>
+            <Button MinWidth="75" MinHeight="23" Margin="0,3,6,6" Padding="6,2,6,2" TabIndex="1" 
+                    Template="{StaticResource NormalButtonWithFocusStyle}" Click="Button_ClickedNo">No</Button>
+           <Button MinWidth="75" MinHeight="23" Margin="0,3,12,6" Padding="6,2,6,2" TabIndex="2" 
+                   Template="{StaticResource NormalButtonWithFocusStyle}" Click="Button_ClickedCancel">Cancel</Button>
        </StackPanel>
     </Grid>
 </Window>

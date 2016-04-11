@@ -6,6 +6,18 @@
 	<ResourceDictionary.MergedDictionaries>
 		<ResourceDictionary Source="Brushes.xaml"/>
 	</ResourceDictionary.MergedDictionaries>
+    
+    <ControlTemplate TargetType="{x:Type Button}" x:Key="NormalButtonWithFocusStyle">
+            <Border Name="Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" Margin="{TemplateBinding Padding}" 
+                                  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="Button.IsFocused" Value="True">
+                    <Setter TargetName="Border" Property="BorderBrush" Value="#007ACB" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
 
 	<Style TargetType="{x:Type this:Button}">
         <Setter Property="Visibility" Value="Visible"/>
