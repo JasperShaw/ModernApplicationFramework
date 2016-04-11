@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Data;
 using System.Linq;
@@ -11,7 +12,10 @@ using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Interfaces.ViewModels;
+using ModernApplicationFramework.MVVM.Controls;
+using ModernApplicationFramework.MVVM.Core;
 using ModernApplicationFramework.MVVM.Interfaces;
+using ModernApplicationFramework.MVVM.Views;
 
 namespace ModernApplicationFramework.MVVM.ViewModels
 {
@@ -285,7 +289,26 @@ namespace ModernApplicationFramework.MVVM.ViewModels
 
         protected virtual bool CanClose()
         {
-            return true;
+            var items = DockingHost.Documents.OfType<StorableDocument>().Where(x => x.IsDirty);
+            var storableDocuments = items as IList<StorableDocument> ?? items.ToList();
+            if (!storableDocuments.Any())
+                return true;
+
+            var saveList = storableDocuments.Select(item => new SaveDirtyDocumentItem(item.DisplayName)).ToList();
+
+            var result = SaveDirtyDocumentsDialog.Show(saveList);
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    foreach (var item in storableDocuments)
+                        item.SaveFileCommand.Execute(null);
+                    return true;
+                case MessageBoxResult.No:
+                    Application.Current.Shutdown(0);
+                    return true;
+            }
+            return false;
+
         }
 
         protected virtual bool CanMaximizeResize()

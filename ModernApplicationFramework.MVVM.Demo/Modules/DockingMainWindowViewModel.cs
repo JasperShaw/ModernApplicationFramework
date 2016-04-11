@@ -41,6 +41,8 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules
             Theme = new LightTheme();
 
             Instance = this;
+
+            Window.Title = "Demo-Tool";
         }
     }
 }

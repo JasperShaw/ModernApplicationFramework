@@ -34,6 +34,7 @@ namespace ModernApplicationFramework.MVVM.Views
                     return;
                 _itemSource = value;
                 OnPropertyChanged();
+                ListView.SelectedIndex = 0;
             }
         }
 
@@ -87,6 +88,8 @@ namespace ModernApplicationFramework.MVVM.Views
             switch (SortComboBox.SelectedIndex)
             {
                 case 0:
+                    newList = ItemSource.OrderBy(x => x.SortOrder);
+                    break;
                 case 1:
                     newList = ItemSource.OrderBy(x => x.Name);
                     break;

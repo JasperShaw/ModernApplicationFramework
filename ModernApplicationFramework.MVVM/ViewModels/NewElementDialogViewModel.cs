@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using System.Linq;
 using System.Windows.Input;
 using ModernApplicationFramework.Caliburn;
 using ModernApplicationFramework.Commands;
@@ -39,7 +40,24 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             }
         }
 
-        public IExtensionDialogItemPresenter ItemPresenter { get; set; }
+        private IExtensionDialogItemPresenter _itemPresenter;
+
+        public IExtensionDialogItemPresenter ItemPresenter
+        {
+            get
+            {
+                return _itemPresenter;
+            }
+            set
+            {
+                if (value == _itemPresenter)
+                    return;
+                _itemPresenter = value;
+                var firstOrDefault = _itemPresenter.ItemSource.FirstOrDefault();
+                if (firstOrDefault != null)
+                    Name = firstOrDefault.PresetElementName;
+            }
+        }
 
         public ICommand ApplyCommand => new CommandWrapper(Apply, CanApply);
 

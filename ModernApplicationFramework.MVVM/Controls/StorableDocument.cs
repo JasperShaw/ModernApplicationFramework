@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using System.Windows;
+using ModernApplicationFramework.MVVM.Core;
 using ModernApplicationFramework.MVVM.Interfaces;
+using ModernApplicationFramework.MVVM.Views;
 
 namespace ModernApplicationFramework.MVVM.Controls
 {
@@ -64,8 +68,27 @@ namespace ModernApplicationFramework.MVVM.Controls
 
         public override void CanClose(Action<bool> callback)
         {
-            callback(!IsDirty);
+            callback(AskForClose);
         }
+
+        public bool AskForClose
+        {
+            get
+            {
+                if (!IsDirty)
+                    return true;
+                var result = SaveDirtyDocumentsDialog.Show(new List<SaveDirtyDocumentItem> {new SaveDirtyDocumentItem(DisplayName) });
+                switch (result) {
+                    case MessageBoxResult.Yes:
+                        SaveFileCommand.Execute(null);
+                        return true;
+                    case MessageBoxResult.No:
+                        return true;
+                }
+                return false;
+            }
+        }
+
 
         protected abstract Task CreateNewFile();
 

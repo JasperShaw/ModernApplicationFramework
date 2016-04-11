@@ -73,6 +73,7 @@
     <Compile Include="Core\PaneLocation.cs" />
     <Compile Include="Core\PanesStyleSelector.cs" />
     <Compile Include="Core\PanesTemplateSelector.cs" />
+    <Compile Include="Core\SaveDirtyDocumentItem.cs" />
     <Compile Include="Core\TextFileDefinition.cs" />
     <Compile Include="Core\Utilities\LayoutInitializer.cs" />
     <Compile Include="Core\Utilities\LayoutItemStatePersister.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="Interfaces\ILayoutItemStatePersister.cs" />
     <Compile Include="Interfaces\IModule.cs" />
     <Compile Include="Interfaces\INewElementDialogModel.cs" />
+    <Compile Include="Interfaces\ISaveDirtyDocumentsDialog.cs" />
     <Compile Include="Interfaces\IStorableDocument.cs" />
     <Compile Include="Interfaces\ITool.cs" />
     <Compile Include="Interfaces\IUseDockingHost.cs" />
@@ -107,6 +109,9 @@
     </Compile>
     <Compile Include="Views\FileExtensionItemPresenter.xaml.cs">
       <DependentUpon>FileExtensionItemPresenter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SaveDirtyDocumentsDialog.xaml.cs">
+      <DependentUpon>SaveDirtyDocumentsDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SimpleTextEditorView.xaml.cs">
       <DependentUpon>SimpleTextEditorView.xaml</DependentUpon>
@@ -156,6 +161,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FileExtensionItemPresenter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SaveDirtyDocumentsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

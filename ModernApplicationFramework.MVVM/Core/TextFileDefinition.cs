@@ -10,6 +10,7 @@ namespace ModernApplicationFramework.MVVM.Core
     public class TextFileDefinition : ISupportedFileDefinition
     {
         public string Name => "Text File";
+        public string PresetElementName => "NewTextfile";
         public int SortOrder => 1;
         public string ApplicationContext => "General";
         public string Description => "Opens a plain text file";
