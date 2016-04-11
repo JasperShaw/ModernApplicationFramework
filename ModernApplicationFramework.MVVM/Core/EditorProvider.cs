@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ namespace ModernApplicationFramework.MVVM.Core
         }
 
         public IEnumerable<ISupportedFileDefinition> SupportedFileDefinitions
-            => _fileDefinitionManager.SupportedFileDefinitions;
+            => _fileDefinitionManager.SupportedFileDefinitions.OrderBy(x => x.SortOrder);
 
         public bool Handles(string path)
         {

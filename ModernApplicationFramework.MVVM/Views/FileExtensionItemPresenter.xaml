@@ -1,0 +1,113 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:utilities="clr-namespace:ModernApplicationFramework.Interfaces.Utilities;assembly=ModernApplicationFramework"
+             xmlns:mafc="http://modern.framework.com/controls"
+             xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="ModernApplicationFramework.MVVM.Views.FileExtensionItemPresenter"
+             mc:Ignorable="d" MinWidth="680" DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/ModernApplicationFramework;component/Themes/Generic/ListViewItem.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/ModernApplicationFramework;component/Themes/Generic/ListView.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="DetailPaneStyle" x:Uid="Style_4" TargetType="{x:Type ContentControl}">
+                <Setter Property="ContentTemplate"
+            		Value="{DynamicResource DetailViewDataTemplate}"/>
+            </Style>
+
+            <DataTemplate x:Key="DetailViewDataTemplate" x:Uid="DetailViewDataTemplateUid"
+                    DataType="{x:Type utilities:IExtensionDefinition}">
+                <DataTemplate.Resources>
+                    <Style x:Key="TileToolTipStyle" TargetType="{x:Type TextBlock}">
+                        <Setter Property="MaxWidth" Value="300"/>
+                        <Setter Property="TextWrapping" Value="Wrap"/>
+                    </Style>
+                </DataTemplate.Resources>
+                <ScrollViewer x:Uid="ScrollViewer_1" HorizontalScrollBarVisibility="Disabled" Focusable="false"
+            		VerticalScrollBarVisibility="Auto">
+                    <Grid x:Uid="DetailGridUid" Margin="4,0,4,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition x:Uid="RowDefinition_5" Height="Auto" MinHeight="135"/>
+                            <RowDefinition x:Uid="RowDefinition_6" Height="*"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel x:Uid="StackPanel_7" Grid.Row="0" VerticalAlignment="Top" Orientation="Vertical" Margin="8,3,8,0">
+                            <StackPanel x:Uid="StackPanel_12" Orientation="Horizontal" Margin="0,3,0,0">
+                                <TextBlock x:Uid="TextBlock_13" Text="Type:" FontWeight="Bold" Margin="0,0,0,0"/>
+                                <TextBlock x:Uid="TextBlock_ptype" Margin="8,0,0,0" AutomationProperties.AutomationId="TemplateProjectType"
+            						Text="{Binding Name}" AutomationProperties.Name="{Binding Name}">
+                                    <TextBlock.ToolTip>
+                                        <TextBlock x:Uid="TextBlock_1003" Style="{StaticResource TileToolTipStyle}" Text="{Binding Name}"/>
+                                    </TextBlock.ToolTip>
+            					</TextBlock>
+                            </StackPanel>
+                            <TextBlock x:Uid="TextBlock_15" TextWrapping="WrapWithOverflow" Margin="0,8,0,0" TextTrimming="WordEllipsis"
+            					Text="{Binding Description}">
+                                <TextBlock.ToolTip>
+                                    <TextBlock x:Uid="TextBlock_1004" Style="{StaticResource TileToolTipStyle}" Text="{Binding Description}"/>
+                                </TextBlock.ToolTip>
+            				</TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+            </DataTemplate>
+        </ResourceDictionary>
+
+    </UserControl.Resources>
+
+    <Grid DockPanel.Dock="Top" SnapsToDevicePixels="True" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="13*"/>
+            <RowDefinition Height="47*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="130"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="1" Margin="0" Grid.RowSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition MinHeight="34" Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="250"/>
+            </Grid.ColumnDefinitions>
+            <DockPanel Grid.Row="0" Grid.ColumnSpan="3">
+                <StackPanel  Orientation="Horizontal" DockPanel.Dock="Left" HorizontalAlignment="Stretch">
+                    <TextBlock VerticalAlignment="Center" Margin="4,0,4,0" DockPanel.Dock="Left"><Run Text="Sort by:"/></TextBlock>
+                    <mafc:ComboBox Width="160" x:Name="SortComboBox" VerticalAlignment="Center" DockPanel.Dock="Left" TabIndex="1" Margin="0,0,4,0"
+						SelectionChanged="Selector_OnSelectionChanged" SelectedIndex="0">
+                        <System:String>Default</System:String>
+                        <System:String>Name (Ascending)</System:String>
+                        <System:String>Name (Descending)</System:String>
+                    </mafc:ComboBox>
+                </StackPanel>
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.0001*"/>
+                        <ColumnDefinition Width="1*" MaxWidth="254"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Row="0" Grid.Column="1" Margin="4,0,4,0" HorizontalAlignment="Stretch" VerticalAlignment="Center" DockPanel.Dock="Right" Background="Red"/>
+                </Grid>
+            </DockPanel>
+            <Grid Grid.Row="1" Grid.Column="0">
+                <ListView Style="{DynamicResource ListViewStyle}" SelectionMode="Single" 
+					Loaded="FrameworkElement_OnLoaded" SizeChanged="_listView_OnSizeChanged" 
+					SelectionChanged="ListView_OnSelectionChanged" x:Name="ListView"
+					ItemContainerStyle="{DynamicResource ListViewItemStyle}"
+					FocusVisualStyle="{x:Null}" ItemsSource="{Binding ItemSource}"/>
+            </Grid>
+            <Border Grid.Row="1" Grid.Column="1" Background="#EDEDF1" Margin="1,0,0,0" BorderThickness="0">
+                <ContentControl Focusable="False" Style="{StaticResource DetailPaneStyle}"
+					Content="{Binding SelectedItem, ElementName=ListView, UpdateSourceTrigger=PropertyChanged}"/>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>
+

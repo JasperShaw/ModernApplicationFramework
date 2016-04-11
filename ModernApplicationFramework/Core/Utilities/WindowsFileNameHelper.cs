@@ -8,12 +8,35 @@ namespace ModernApplicationFramework.Core.Utilities
     public static class WindowsFileNameHelper
     {
         private static readonly Regex RegexInvalidname =
-                new Regex("^((\\..*)|COM\\d|CLOCK\\$|LPT\\d|AUX|NUL|CON|PRN|(.*[\\ud800-\\udfff]+.*))$",
-                    RegexOptions.IgnoreCase);
+            new Regex("^((\\..*)|COM\\d|CLOCK\\$|LPT\\d|AUX|NUL|CON|PRN|(.*[\\ud800-\\udfff]+.*))$",
+                RegexOptions.IgnoreCase);
+
         private static readonly Regex RegexInvalidpath =
             new Regex("(^|\\\\)(AUX|CLOCK\\$|LPT|NUL|CON|COM\\d{1}|LPT\\d{1}|(.*[\\ud800-\\udfff]+.*))(\\\\|$)",
                 RegexOptions.IgnoreCase);
+
         private static readonly char[] InvalidNamechars = "/?:&\\*\"<>|#%".ToCharArray();
+
+        public static bool IsValidDrive(string location)
+        {
+            if (!Path.IsPathRooted(location))
+                return true;
+            var nDrive = Path.GetPathRoot(location) ?? "";
+            if (
+                !nDrive.EndsWith(Path.DirectorySeparatorChar.ToString(CultureInfo.InvariantCulture),
+                    StringComparison.CurrentCultureIgnoreCase))
+                nDrive += Path.DirectorySeparatorChar;
+            switch ((DriveType) NativeMethods.NativeMethods.GetDriveTypeW(nDrive))
+            {
+                case DriveType.Fixed:
+                case DriveType.Removable:
+                case DriveType.Network:
+                    break;
+                default:
+                    return false;
+            }
+            return true;
+        }
 
         public static bool IsValidFileName(string strInput)
         {
@@ -43,27 +66,6 @@ namespace ModernApplicationFramework.Core.Utilities
             catch (System.Exception)
             {
                 return false;
-            }
-            return true;
-        }
-
-        public static bool IsValidDrive(string location)
-        {
-            if (!Path.IsPathRooted(location))
-                return true;
-            var nDrive = Path.GetPathRoot(location) ?? "";
-            if (
-                !nDrive.EndsWith(Path.DirectorySeparatorChar.ToString(CultureInfo.InvariantCulture),
-                    StringComparison.CurrentCultureIgnoreCase))
-                nDrive += Path.DirectorySeparatorChar;
-            switch ((DriveType)NativeMethods.NativeMethods.GetDriveTypeW(nDrive))
-            {
-                case DriveType.Fixed:
-                case DriveType.Removable:
-                case DriveType.Network:
-                    break;
-                default:
-                    return false;
             }
             return true;
         }

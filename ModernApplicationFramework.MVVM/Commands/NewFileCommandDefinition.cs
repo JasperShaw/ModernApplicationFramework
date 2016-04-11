@@ -9,7 +9,6 @@ using ModernApplicationFramework.Caliburn.Platform.Xaml;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.MVVM.Core;
 using ModernApplicationFramework.MVVM.Interfaces;
-using ModernApplicationFramework.MVVM.ViewModels;
 using ModernApplicationFramework.MVVM.Views;
 
 namespace ModernApplicationFramework.MVVM.Commands
@@ -45,10 +44,9 @@ namespace ModernApplicationFramework.MVVM.Commands
 
         private void CreateNewFile()
         {
-
             var vm = (INewElementDialogModel) IoC.GetInstance(typeof(INewElementDialogModel), null);
-            //TODO: Set Itemsource
-            vm.ItemPresenter = new NewFileItemPresenter();
+
+            vm.ItemPresenter = new FileExtensionItemPresenter {ItemSource = _editorProvider.SupportedFileDefinitions};
             vm.DisplayName = "New File";
 
             var windowManager = IoC.Get<IWindowManager>();

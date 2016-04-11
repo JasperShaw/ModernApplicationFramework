@@ -1,14 +1,19 @@
 ﻿using System.Collections.Generic;
+using ModernApplicationFramework.Interfaces.Utilities;
 
 namespace ModernApplicationFramework.MVVM.Interfaces
 {
-    public interface IElementDialogItemPresenter
+    public interface IExtensionDialogItemPresenter
     {
         bool UsesNameProperty { get; }
 
         bool UsesPathProperty { get; }
-        IEnumerable<object> ItemSource { get; set; }
+
+        IEnumerable<IExtensionDefinition> ItemSource { get; set; }
 
         object CreateResult(string name, string path);
+
+        IExtensionDefinition SelectedItem { get; }
+
     }
 }

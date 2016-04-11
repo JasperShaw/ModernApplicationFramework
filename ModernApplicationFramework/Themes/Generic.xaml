@@ -65,6 +65,9 @@
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/ImageRadioButton.xaml"/>
         
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/WaitDialog.xaml"/>
+        
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/ListViewItem.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/ListView.xaml"/>
 
     </ResourceDictionary.MergedDictionaries>
 

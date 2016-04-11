@@ -437,6 +437,7 @@
     <Compile Include="Docking\MathHelper.cs" />
     <Compile Include="Docking\Win32Helper.cs" />
     <Compile Include="Docking\WindowHelper.cs" />
+    <Compile Include="Interfaces\Utilities\IExtensionDefinition.cs" />
     <Compile Include="Interfaces\Utilities\ISupportedFileDefinition.cs" />
     <Compile Include="Interfaces\Utilities\IToolbarCreator.cs" />
     <Compile Include="Interfaces\Utilities\IMenuCreator.cs" />
@@ -490,6 +491,14 @@
     </Page>
     <Page Include="Themes\Generic\AnchorablePaneTitle.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic\ListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic\ListViewItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Generic\CheckableListBoxItem.xaml">
       <Generator>MSBuild:Compile</Generator>

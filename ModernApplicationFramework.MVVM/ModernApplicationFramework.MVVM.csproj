@@ -82,7 +82,7 @@
     <Compile Include="Interfaces\IDockingMainWindowViewModel.cs" />
     <Compile Include="Interfaces\IDocument.cs" />
     <Compile Include="Interfaces\IEditorProvider.cs" />
-    <Compile Include="Interfaces\IElementDialogItemPresenter.cs" />
+    <Compile Include="Interfaces\IExtensionDialogItemPresenter.cs" />
     <Compile Include="Interfaces\ILayoutItem.cs" />
     <Compile Include="Interfaces\ILayoutItemStatePersister.cs" />
     <Compile Include="Interfaces\IModule.cs" />
@@ -90,6 +90,7 @@
     <Compile Include="Interfaces\IStorableDocument.cs" />
     <Compile Include="Interfaces\ITool.cs" />
     <Compile Include="Interfaces\IUseDockingHost.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\DockingHostViewModel.cs" />
     <Compile Include="ViewModels\DockingMainWindowViewModel.cs" />
@@ -104,8 +105,8 @@
     <Compile Include="Views\NewElementDialogView.xaml.cs">
       <DependentUpon>NewElementDialogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NewFileItemPresenter.xaml.cs">
-      <DependentUpon>NewFileItemPresenter.xaml</DependentUpon>
+    <Compile Include="Views\FileExtensionItemPresenter.xaml.cs">
+      <DependentUpon>FileExtensionItemPresenter.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SimpleTextEditorView.xaml.cs">
       <DependentUpon>SimpleTextEditorView.xaml</DependentUpon>
@@ -154,7 +155,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\NewFileItemPresenter.xaml">
+    <Page Include="Views\FileExtensionItemPresenter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -162,6 +163,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\TextFile_32x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

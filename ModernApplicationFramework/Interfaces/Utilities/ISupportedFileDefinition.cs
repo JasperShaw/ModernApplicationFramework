@@ -3,13 +3,9 @@ using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Interfaces.Utilities
 {
-    public interface ISupportedFileDefinition
-    {
-        string Description { get; }
+    public interface ISupportedFileDefinition : IExtensionDefinition
+    {      
         FileType FileType { get; }
-        Uri IconSource { get; }
-        string Name { get; }
-        Type PrefferedEditor { get; }
-        int SortOrder { get; }
+        Type PrefferedEditor { get; }     
     }
 }

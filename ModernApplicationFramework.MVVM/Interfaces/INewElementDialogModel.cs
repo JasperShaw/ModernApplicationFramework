@@ -10,7 +10,8 @@ namespace ModernApplicationFramework.MVVM.Interfaces
         ICommand BrowseCommand { get; }
 
         object ResultData { get; }
-        IElementDialogItemPresenter ItemPresenter { get; set; }
+
+        IExtensionDialogItemPresenter ItemPresenter { get; set; }
 
         string Name { get; set; }
 
