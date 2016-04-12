@@ -27,7 +27,7 @@ namespace ModernApplicationFramework.MVVM.Commands
 
         public override bool CanShowInMenu => true;
         public override bool CanShowInToolbar => true;
-        public override ICommand Command { get; }
+        public override ICommand Command { get;}
 
         public override string IconId => "FullScreenIcon";
 

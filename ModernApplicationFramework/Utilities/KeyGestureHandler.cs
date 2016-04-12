@@ -22,8 +22,20 @@ namespace ModernApplicationFramework.Utilities
             _keyboardShortcuts = keyboardShortcuts;
         }
 
+
+        private UIElement _currentElement;
+
+        public void RestoreBindings()
+        {
+            if (_currentElement == null)
+                return;
+            _currentElement.InputBindings.Clear();
+            BindKeyGesture(_currentElement);
+        }
+
         public void BindKeyGesture(UIElement uiElement)
         {
+            _currentElement = uiElement;
             foreach (var gc in from definition in _keyboardShortcuts
                                where definition.Command is GestureCommandWrapper
                                select definition.Command as GestureCommandWrapper)
