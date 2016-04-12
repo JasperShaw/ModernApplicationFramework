@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using ModernApplicationFramework.MVVM.Commands;
 using ModernApplicationFramework.Utilities;
 
@@ -46,5 +45,14 @@ namespace ModernApplicationFramework.MVVM.Controls.MenuDefinitions
         [Export] public static MenuItemDefinition Undo = new MenuItemDefinition<UndoCommandDefinition>("Test", 0, EditMenu);
 
         [Export] public static MenuItemDefinition Redo = new MenuItemDefinition<RedoCommandDefinition>("Test", 1, EditMenu);
+
+
+
+
+        [Export] public static MenuItemDefinition ViewMenu = new MenuItemDefinition("View", 2);
+
+        [Export] public static MenuItemDefinition ToolsMenu = new MenuItemDefinition("Tools", 5);
+
+        [Export] public static MenuItemDefinition HelpMenu = new MenuItemDefinition("Help", int.MaxValue);
     }
 }

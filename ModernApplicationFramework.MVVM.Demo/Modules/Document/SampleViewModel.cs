@@ -3,6 +3,7 @@ using System.Windows;
 using ModernApplicationFramework.Caliburn;
 using ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest;
 using ModernApplicationFramework.MVVM.Interfaces;
+using ModernApplicationFramework.MVVM.Modules.OutputTool;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
 {
@@ -29,7 +30,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
         public void Activate(ISample sample)
         {
             _dockingHostViewModel.OpenDocument(IoC.Get<UndoRedoViewModel>());
-            _dockingHostViewModel.OpenDocument(IoC.Get<UndoRedoViewModel>());
+            _dockingHostViewModel.ShowTool<IOutput>();
         }
     }
 }

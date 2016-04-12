@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework", "ModernApplicationFramework\ModernApplicationFramework.csproj", "{74F6C6A1-64BB-47D4-9E7F-6CD5C4CA166C}"
 EndProject
@@ -20,6 +20,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.MVVM.Demo", "ModernApplicationFramework.MVVM.Demo\ModernApplicationFramework.MVVM.Demo.csproj", "{ACBF5195-D0C0-480D-84F0-C72F538830BA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.MVVM", "ModernApplicationFramework.MVVM\ModernApplicationFramework.MVVM.csproj", "{1F020157-699C-4E63-80CA-72D62191E063}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.MVVM.Modules", "ModernApplicationFramework.MVVM.Modules\ModernApplicationFramework.MVVM.Modules.csproj", "{96E6BB64-30EC-49DC-831A-C9D5E25AA46D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{1F020157-699C-4E63-80CA-72D62191E063}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F020157-699C-4E63-80CA-72D62191E063}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F020157-699C-4E63-80CA-72D62191E063}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96E6BB64-30EC-49DC-831A-C9D5E25AA46D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96E6BB64-30EC-49DC-831A-C9D5E25AA46D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96E6BB64-30EC-49DC-831A-C9D5E25AA46D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96E6BB64-30EC-49DC-831A-C9D5E25AA46D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{ACBF5195-D0C0-480D-84F0-C72F538830BA}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{96E6BB64-30EC-49DC-831A-C9D5E25AA46D}</ProjectGuid>
+    <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ModernApplicationFramework.MVVM.Demo</RootNamespace>
-    <AssemblyName>ModernApplicationFramework.MVVM.Demo</AssemblyName>
+    <RootNamespace>ModernApplicationFramework.MVVM.Modules</RootNamespace>
+    <AssemblyName>ModernApplicationFramework.MVVM.Modules</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -16,7 +16,6 @@
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -26,17 +25,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -56,37 +50,15 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="Modules\DockingMainWindowViewModel.cs" />
-    <Compile Include="Modules\Document\SampleView.xaml.cs">
-      <DependentUpon>SampleView.xaml</DependentUpon>
+    <Compile Include="OutputTool\IOutput.cs" />
+    <Compile Include="OutputTool\IOutputView.cs" />
+    <Compile Include="OutputTool\MenuDefinitions.cs" />
+    <Compile Include="OutputTool\OutputView.xaml.cs">
+      <DependentUpon>OutputView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Modules\Document\SampleViewModel.cs" />
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Modules\Document\ISample.cs" />
-    <Compile Include="Modules\Sample.cs" />
-    <Compile Include="Modules\UndoRedoTest\UndoRedoView.xaml.cs">
-      <DependentUpon>UndoRedoView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Modules\UndoRedoTest\UndoRedoViewModel.cs" />
-    <Page Include="Modules\Document\SampleView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Modules\UndoRedoTest\UndoRedoView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Modules\Document\Module.cs" />
-    <Compile Include="Modules\Startup\Module.cs" />
+    <Compile Include="OutputTool\OutputViewModel.cs" />
+    <Compile Include="OutputTool\OutputWriter.cs" />
+    <Compile Include="OutputTool\OpenOutputToolCommandDefinition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -111,20 +83,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Modules\App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ModernApplicationFramework.MVVM.Modules\ModernApplicationFramework.MVVM.Modules.csproj">
-      <Project>{96e6bb64-30ec-49dc-831a-c9d5e25aa46d}</Project>
-      <Name>ModernApplicationFramework.MVVM.Modules</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework.MVVM\ModernApplicationFramework.MVVM.csproj">
       <Project>{1f020157-699c-4e63-80ca-72d62191e063}</Project>
       <Name>ModernApplicationFramework.MVVM</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ModernApplicationFramework.Themes.LightIDE\ModernApplicationFramework.Themes.LightIDE.csproj">
-      <Project>{845de7c9-6217-479c-9f4f-d98e6a3b436b}</Project>
-      <Name>ModernApplicationFramework.Themes.LightIDE</Name>
     </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework\ModernApplicationFramework.csproj">
       <Project>{74f6c6a1-64bb-47d4-9e7f-6cd5c4ca166c}</Project>
@@ -132,8 +93,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Clone 4.ico" />
+    <Page Include="OutputTool\OutputView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Icons\Output_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

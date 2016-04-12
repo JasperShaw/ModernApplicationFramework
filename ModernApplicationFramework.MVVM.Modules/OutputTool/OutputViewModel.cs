@@ -5,7 +5,7 @@ using System.Text;
 using ModernApplicationFramework.Caliburn;
 using ModernApplicationFramework.MVVM.Core;
 
-namespace ModernApplicationFramework.MVVM.Demo.Modules.Tool
+namespace ModernApplicationFramework.MVVM.Modules.OutputTool
 {
     [Export(typeof(IOutput))]
     public sealed class OutputViewModel: Controls.Tool, IOutput

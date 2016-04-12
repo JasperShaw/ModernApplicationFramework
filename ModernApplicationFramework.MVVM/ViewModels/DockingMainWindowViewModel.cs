@@ -367,6 +367,8 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             window.SourceInitialized += _mainWindow_SourceInitialized;
             window.Activated += _mainWindow_Activated;
             window.Deactivated += _mainWindow_Deactivated;
+
+            StatusBar.ModeText = "Ready";
         }
 
         private async void _mainWindow_Activated(object sender, EventArgs e)

@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows;
-using ModernApplicationFramework.Caliburn;
 using ModernApplicationFramework.MVVM.Demo.Modules.Document;
-using ModernApplicationFramework.MVVM.Demo.Modules.Tool;
 using ModernApplicationFramework.MVVM.Interfaces;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules
@@ -16,7 +14,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules
         {
             if (shell == null)
                 MessageBox.Show("WTF");
-            shell?.ShowTool<IOutput>();
+            shell?.ShowTool<MVVM.Modules.OutputTool.IOutput>();
         }
     }
 }
