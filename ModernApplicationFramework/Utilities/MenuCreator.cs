@@ -26,6 +26,7 @@ namespace ModernApplicationFramework.Utilities
 
         public void CreateMenu(IMenuHostViewModel model)
         {
+            model.Items.Clear();
             var items = new List<MenuItem>();
 
             var menuDefinitions = _menuItems; //definitions.GetDefinitions();
@@ -132,6 +133,13 @@ namespace ModernApplicationFramework.Utilities
                 foreach (var definition in menusItem.Definitions)
                     topItem.Items.Add(CreateItem(definition));
             }
+        }
+
+
+        public void CreateMenu(IMenuHostViewModel model, MenuItem item)
+        {
+            CreateMenu(model);
+            model.Items.Add(item);
         }
     }
 }

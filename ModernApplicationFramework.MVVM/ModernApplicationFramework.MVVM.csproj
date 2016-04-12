@@ -59,6 +59,7 @@
     <Compile Include="Commands\SaveAllFilesCommandDefinition.cs" />
     <Compile Include="Commands\SaveFileCommandDefinition.cs" />
     <Compile Include="Commands\OpenSettingsCommandDefinition.cs" />
+    <Compile Include="Commands\FullScreenCommandDefinition.cs" />
     <Compile Include="Commands\UndoCommandDefinition.cs" />
     <Compile Include="Controls\Document.cs" />
     <Compile Include="Controls\MenuDefinitions\MenuDefinitions.cs" />
@@ -149,6 +150,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\Icons\CloseProgramm_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Icons\FitToScreen_16x.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

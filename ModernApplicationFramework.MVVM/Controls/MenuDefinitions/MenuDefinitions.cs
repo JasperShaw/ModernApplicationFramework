@@ -51,6 +51,13 @@ namespace ModernApplicationFramework.MVVM.Controls.MenuDefinitions
 
         [Export] public static MenuItemDefinition ViewMenu = new MenuItemDefinition("View", 2);
 
+        [Export]
+
+        public static MenuItemDefinition ViewMenuSeparator = new MenuItemDefinition("Separator", 9, ViewMenu);
+
+        [Export] public static MenuItemDefinition FullScreen =
+            new MenuItemDefinition<FullScreenCommandDefinition>("Full Screen", 10, ViewMenu);
+
         [Export] public static MenuItemDefinition ToolsMenu = new MenuItemDefinition("Tools", 5);
 
         [Export]
