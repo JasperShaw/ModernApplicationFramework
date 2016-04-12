@@ -12,7 +12,7 @@ namespace ModernApplicationFrameworkMVVMTestApp
     {
         protected override void OnTest()
         {
-            this.Theme = new LightTheme();
+            Theme = new LightTheme();
         }
 
         public MainWindowViewModel(ModernApplicationFramework.Controls.MainWindow mainWindow) : base(mainWindow)

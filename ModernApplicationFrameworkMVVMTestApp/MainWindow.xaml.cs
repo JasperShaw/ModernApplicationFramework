@@ -31,9 +31,7 @@ namespace ModernApplicationFrameworkMVVMTestApp
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            //FullScreen = !FullScreen;
-            ((IMainWindowViewModel)DataContext).ToolBarHostViewModel.AddToolBar(new ToolBar { IdentifierName = "Test1" }, true, Dock.Bottom);
-
+            FullScreen = !FullScreen;
 
             //if (((ModernApplicationFramework.ViewModels.UseDockingHost)DataContext).Theme is LightTheme)
             //    ((ModernApplicationFramework.ViewModels.UseDockingHost)DataContext).Theme = new GenericTheme();

@@ -12,7 +12,7 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Button Grid.Row="0" Command="{Binding TestCommand}">Theme</Button>
+        <Button Grid.Row="0" Command="{Binding TestCommand}" Click="ButtonBase_OnClick">Theme</Button>
         <mafc:DockingHost Grid.Row="1" x:Name="DockManager"/>
     </Grid>
     
