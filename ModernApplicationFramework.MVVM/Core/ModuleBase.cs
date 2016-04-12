@@ -10,7 +10,7 @@ namespace ModernApplicationFramework.MVVM.Core
     {
         protected IDockingHostViewModel DockingHostViewModel => _dockingHostViewModel;
 
-        protected IUseDockingHost MainWindow => _useDockingHost;
+        protected IDockingMainWindowViewModel MainWindow => _useDockingHost;
 
         public virtual IEnumerable<IDocument> DefaultDocuments
         {

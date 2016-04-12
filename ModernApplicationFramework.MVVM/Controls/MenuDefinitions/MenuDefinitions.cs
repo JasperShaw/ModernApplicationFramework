@@ -22,7 +22,7 @@ namespace ModernApplicationFramework.MVVM.Controls.MenuDefinitions
         public static MenuItemDefinition SubMenuItemOpenFile =
             new MenuItemDefinition<OpenFileCommandDefinition>("New File", 4, SubMenuOpen);
 
-        [Export] public static MenuItemDefinition FileMenuSeparator = new MenuItemDefinition("Separator", 2, FileMenu);
+        [Export] public static MenuItemDefinition FileMenuSeparator = new MenuItemDefinition("Separator", 2, FileMenu, true);
 
   
         [Export] public static MenuItemDefinition SubItemSave = new MenuItemDefinition<SaveFileCommandDefinition>(
@@ -34,6 +34,9 @@ namespace ModernApplicationFramework.MVVM.Controls.MenuDefinitions
 
         [Export]
         public static MenuItemDefinition SaveAll = new MenuItemDefinition<SaveAllFilesCommandDefinition>("Save All", 5, FileMenu);
+
+        [Export]
+        public static MenuItemDefinition FileMenuSeparator2 = new MenuItemDefinition("Separator2", 123, FileMenu, true);
 
         [Export]
         public static MenuItemDefinition CloseProgramm = new MenuItemDefinition<CloseProgammCommandDefinition>("Close", int.MaxValue, FileMenu);
@@ -53,7 +56,7 @@ namespace ModernApplicationFramework.MVVM.Controls.MenuDefinitions
 
         [Export]
 
-        public static MenuItemDefinition ViewMenuSeparator = new MenuItemDefinition("Separator", 9, ViewMenu);
+        public static MenuItemDefinition ViewMenuSeparator = new MenuItemDefinition("Separator", 9, ViewMenu, true);
 
         [Export] public static MenuItemDefinition FullScreen =
             new MenuItemDefinition<FullScreenCommandDefinition>("Full Screen", 10, ViewMenu);

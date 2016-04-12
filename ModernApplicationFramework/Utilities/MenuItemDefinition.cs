@@ -16,12 +16,13 @@ namespace ModernApplicationFramework.Utilities
             Definitions = new List<CommandDefinition>();
         }
 
-        public MenuItemDefinition(string name, int priority, MenuItemDefinition parent)
+        public MenuItemDefinition(string name, int priority, MenuItemDefinition parent, bool separator = false)
         {
             Name = name;
             Priority = priority;
             Parent = parent;
             Definitions = new List<CommandDefinition>();
+            IsSeparator = separator;
         }
 
         public MenuItemDefinition(string name, int priority, MenuItemDefinition parent,
@@ -38,6 +39,8 @@ namespace ModernApplicationFramework.Utilities
         public bool HasItems => Definitions.Any();
 
         public bool HasParent => Parent != null;
+
+        public bool IsSeparator { get; }
 
         public string Name { get; }
         public MenuItemDefinition Parent { get; }

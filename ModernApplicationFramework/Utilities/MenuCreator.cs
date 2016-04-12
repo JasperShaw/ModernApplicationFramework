@@ -117,10 +117,8 @@ namespace ModernApplicationFramework.Utilities
                 foreach (var subDefinitonItem in subDefinitonItems)
                 {
                     tempList.Remove(subDefinitonItem);
-                    if (subDefinitonItem.Name == "Separator")
-                    {
+                    if (subDefinitonItem.IsSeparator)
                         topItem.Items.Add(new Separator());
-                    }
                     else
                     {
                         var subItem = CreateItem(subDefinitonItem);

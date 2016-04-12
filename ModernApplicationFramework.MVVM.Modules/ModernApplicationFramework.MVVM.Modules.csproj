@@ -50,6 +50,52 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InspectorTool\BoundPropertyDescriptor.cs" />
+    <Compile Include="InspectorTool\Commands\OpenInstectorCommandDefinition.cs" />
+    <Compile Include="InspectorTool\Controls\InspectorGrid.cs" />
+    <Compile Include="InspectorTool\Controls\InspectorItemTemplateSelector.cs" />
+    <Compile Include="InspectorTool\Controls\SimpleGridSplitter.cs" />
+    <Compile Include="InspectorTool\Conventions\DefaultPropertyInspectors.cs" />
+    <Compile Include="InspectorTool\Conventions\EnumPropertyEditorBuilder.cs" />
+    <Compile Include="InspectorTool\Conventions\PropertyEditorBuilder.cs" />
+    <Compile Include="InspectorTool\Conventions\StandardPropertyEditorBuilder.cs" />
+    <Compile Include="InspectorTool\IInspectableObject.cs" />
+    <Compile Include="InspectorTool\InspectableObjectBuilder.cs" />
+    <Compile Include="InspectorTool\Inspectors\IInspector.cs" />
+    <Compile Include="InspectorTool\IInspectorTool.cs" />
+    <Compile Include="InspectorTool\InspectableObject.cs" />
+    <Compile Include="InspectorTool\InspectorBuilder.cs" />
+    <Compile Include="InspectorTool\Inspectors\BitmapSourceEditorView.xaml.cs">
+      <DependentUpon>BitmapSourceEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InspectorTool\Inspectors\BitmapSourceEditorViewModel.cs" />
+    <Compile Include="InspectorTool\Inspectors\CheckBoxEditorView.xaml.cs">
+      <DependentUpon>CheckBoxEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InspectorTool\Inspectors\CheckBoxEditorViewModel.cs" />
+    <Compile Include="InspectorTool\Inspectors\CollapsibleGroupBuilder.cs" />
+    <Compile Include="InspectorTool\Inspectors\CollapsibleGroupView.xaml.cs">
+      <DependentUpon>CollapsibleGroupView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InspectorTool\Inspectors\CollapsibleGroupViewModel.cs" />
+    <Compile Include="InspectorTool\Inspectors\EditorBase.cs" />
+    <Compile Include="InspectorTool\Inspectors\EnumEditorView.xaml.cs">
+      <DependentUpon>EnumEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InspectorTool\Inspectors\EnumEditorViewModel.cs" />
+    <Compile Include="InspectorTool\Inspectors\IEditor.cs" />
+    <Compile Include="InspectorTool\Inspectors\ILabelledInspector.cs" />
+    <Compile Include="InspectorTool\Inspectors\InspectorBase.cs" />
+    <Compile Include="InspectorTool\Inspectors\TextBoxEditorView.xaml.cs">
+      <DependentUpon>TextBoxEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InspectorTool\Inspectors\TextBoxEditorViewModel.cs" />
+    <Compile Include="InspectorTool\MenuDefinitions.cs" />
+    <Compile Include="InspectorTool\Util\ExpressionUtility.cs" />
+    <Compile Include="InspectorTool\ViewModels\InspectorViewModel.cs" />
+    <Compile Include="InspectorTool\Views\InspectorView.xaml.cs">
+      <DependentUpon>InspectorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="OutputTool\IOutput.cs" />
     <Compile Include="OutputTool\IOutputView.cs" />
     <Compile Include="OutputTool\MenuDefinitions.cs" />
@@ -93,6 +139,30 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="InspectorTool\Inspectors\BitmapSourceEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InspectorTool\Inspectors\CheckBoxEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InspectorTool\Inspectors\CollapsibleGroupView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InspectorTool\Inspectors\EnumEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InspectorTool\Inspectors\TextBoxEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InspectorTool\Views\InspectorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="OutputTool\OutputView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -101,8 +171,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Resources\Icons\Property_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Resources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

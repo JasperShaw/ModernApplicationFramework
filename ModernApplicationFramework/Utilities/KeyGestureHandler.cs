@@ -7,10 +7,6 @@ using ModernApplicationFramework.Interfaces.Utilities;
 
 namespace ModernApplicationFramework.Utilities
 {
-    /* TODO: Changeable Gestures
-     * So far you can not change a Keygesture. Make this possible at some time.
-     */
-
     [Export(typeof(IKeyGestureHandler))]
     public class KeyGestureHandler : IKeyGestureHandler
     {

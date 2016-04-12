@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.Composition;
+﻿using System.ComponentModel;
+using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Utilities.UndoRedoManager;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest
 {
+    [DisplayName("UndoRedoTest")]
     [Export(typeof(UndoRedoViewModel))]
     public sealed class UndoRedoViewModel : Controls.Document
     {
@@ -17,6 +19,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest
             DisplayName = "UndoRedoTest";
         }
 
+        [DisplayName("Text"), Description("Nothing special"), Category("Text")]
         public string Text
         {
             get { return _test; }
@@ -31,6 +34,8 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest
         }
 
         private string _test2;
+
+        [DisplayName("Text 2"), Description("Nothing special"), Category("Text")]
         public string Text2
         {
             get { return _test2; }
