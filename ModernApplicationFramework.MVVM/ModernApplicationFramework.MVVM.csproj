@@ -58,6 +58,7 @@
     <Compile Include="Commands\SaveFileAsCommandDefinition.cs" />
     <Compile Include="Commands\SaveAllFilesCommandDefinition.cs" />
     <Compile Include="Commands\SaveFileCommandDefinition.cs" />
+    <Compile Include="Commands\OpenSettingsCommandDefinition.cs" />
     <Compile Include="Commands\UndoCommandDefinition.cs" />
     <Compile Include="Controls\Document.cs" />
     <Compile Include="Controls\MenuDefinitions\MenuDefinitions.cs" />
@@ -68,6 +69,7 @@
     </Compile>
     <Compile Include="Controls\Toolbars\StandardToolbarModel.cs" />
     <Compile Include="Controls\Toolbars\ToolDefinitions.cs" />
+    <Compile Include="Core\Behaviours\BindableSelectedItemBehavior.cs" />
     <Compile Include="Core\EditorProvider.cs" />
     <Compile Include="Core\LayoutItemBase.cs" />
     <Compile Include="Core\ModuleBase.cs" />
@@ -92,20 +94,32 @@
     <Compile Include="Interfaces\IModule.cs" />
     <Compile Include="Interfaces\INewElementDialogModel.cs" />
     <Compile Include="Interfaces\ISaveDirtyDocumentsDialog.cs" />
+    <Compile Include="Interfaces\ISettingsPage.cs" />
     <Compile Include="Interfaces\IStorableDocument.cs" />
     <Compile Include="Interfaces\ITool.cs" />
     <Compile Include="Interfaces\IUseDockingHost.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\DockingHostViewModel.cs" />
     <Compile Include="ViewModels\DockingMainWindowViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowSettingsViewModel.cs" />
     <Compile Include="ViewModels\NewElementDialogViewModel.cs" />
+    <Compile Include="ViewModels\SettingsPageViewModel.cs" />
+    <Compile Include="ViewModels\SettingsWindowViewModel.cs" />
     <Compile Include="ViewModels\SimpleTextEditorViewModel.cs" />
     <Compile Include="Views\DockingHostView.xaml.cs">
       <DependentUpon>DockingHostView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DockingMainWindowView.xaml.cs">
       <DependentUpon>DockingMainWindowView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainWindowSettingsView.xaml.cs">
+      <DependentUpon>MainWindowSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NewElementDialogView.xaml.cs">
       <DependentUpon>NewElementDialogView.xaml</DependentUpon>
@@ -115,6 +129,9 @@
     </Compile>
     <Compile Include="Views\SaveDirtyDocumentsDialog.xaml.cs">
       <DependentUpon>SaveDirtyDocumentsDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsWindowView.xaml.cs">
+      <DependentUpon>SettingsWindowView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SimpleTextEditorView.xaml.cs">
       <DependentUpon>SimpleTextEditorView.xaml</DependentUpon>
@@ -159,6 +176,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Resources\Icons\Settings_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\DockingHostView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -166,6 +187,10 @@
     <Page Include="Views\DockingMainWindowView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MainWindowSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\NewElementDialogView.xaml">
       <SubType>Designer</SubType>
@@ -179,6 +204,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\SettingsWindowView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SimpleTextEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -186,6 +215,13 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icons\TextFile_32x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

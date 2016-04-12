@@ -25,9 +25,6 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules
                 typeof (DockingMainWindowView).Namespace);
         }
 
-
-        public static DockingMainWindowViewModel Instance { get; private set; }
-
         protected override void OnViewLoaded(object view)
         {
             base.OnViewLoaded(view);
@@ -37,10 +34,6 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules
             _commandKeyGestureService.BindKeyGesture((UIElement) view);
 
             _toolbarTrayCreator.CreateToolbarTray(ToolBarHostViewModel);
-
-            Theme = new LightTheme();
-
-            Instance = this;
 
             Window.Title = "Demo-Tool";
         }

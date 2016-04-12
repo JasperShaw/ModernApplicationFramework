@@ -221,6 +221,7 @@
     <Compile Include="Core\Interop\COMGuids.cs" />
     <Compile Include="Core\Shell\ShellComInterfaces.cs" />
     <Compile Include="Core\Shell\ShellWrapperDefinitions.cs" />
+    <Compile Include="Core\Themes\ThemeManager.cs" />
     <Compile Include="Core\Utilities\WindowsFileNameHelper.cs" />
     <Compile Include="Dialoges\FolderBrowserDialog.cs" />
     <Compile Include="Interfaces\Controls\INonClientArea.cs" />

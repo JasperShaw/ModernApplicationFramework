@@ -42,9 +42,9 @@ namespace ModernApplicationFramework.MVVM.Controls.MenuDefinitions
 
         [Export] public static MenuItemDefinition EditMenu = new MenuItemDefinition("Edit", 1);
 
-        [Export] public static MenuItemDefinition Undo = new MenuItemDefinition<UndoCommandDefinition>("Test", 0, EditMenu);
+        [Export] public static MenuItemDefinition Undo = new MenuItemDefinition<UndoCommandDefinition>("Undo", 0, EditMenu);
 
-        [Export] public static MenuItemDefinition Redo = new MenuItemDefinition<RedoCommandDefinition>("Test", 1, EditMenu);
+        [Export] public static MenuItemDefinition Redo = new MenuItemDefinition<RedoCommandDefinition>("Redo", 1, EditMenu);
 
 
 
@@ -52,6 +52,9 @@ namespace ModernApplicationFramework.MVVM.Controls.MenuDefinitions
         [Export] public static MenuItemDefinition ViewMenu = new MenuItemDefinition("View", 2);
 
         [Export] public static MenuItemDefinition ToolsMenu = new MenuItemDefinition("Tools", 5);
+
+        [Export]
+        public static MenuItemDefinition Settings = new MenuItemDefinition<OpenSettingsCommandDefinition>("Settings", int.MaxValue, ToolsMenu);
 
         [Export] public static MenuItemDefinition HelpMenu = new MenuItemDefinition("Help", int.MaxValue);
     }

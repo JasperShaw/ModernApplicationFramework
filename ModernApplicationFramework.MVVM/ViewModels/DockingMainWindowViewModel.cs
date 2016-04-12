@@ -15,6 +15,7 @@ using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.MVVM.Controls;
 using ModernApplicationFramework.MVVM.Core;
 using ModernApplicationFramework.MVVM.Interfaces;
+using ModernApplicationFramework.MVVM.Properties;
 using ModernApplicationFramework.MVVM.Views;
 
 namespace ModernApplicationFramework.MVVM.ViewModels
@@ -26,11 +27,6 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         protected bool MainWindowInitialized;
 
         private BitmapImage _activeIcon;
-#pragma warning disable 649
-
-        [Import] private IDockingHostViewModel _dockingHost;
-
-#pragma warning restore 649
         private BitmapImage _icon;
         private bool _isSimpleWindow;
 
@@ -308,7 +304,6 @@ namespace ModernApplicationFramework.MVVM.ViewModels
                     return true;
             }
             return false;
-
         }
 
         protected virtual bool CanMaximizeResize()
@@ -368,6 +363,8 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             window.Activated += _mainWindow_Activated;
             window.Deactivated += _mainWindow_Deactivated;
 
+            _themeManager.SetTheme(Settings.Default.CurrentTheme, this);
+
             StatusBar.ModeText = "Ready";
         }
 
@@ -423,5 +420,13 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             if (ToolBarHostViewModel != null)
                 ToolBarHostViewModel.Theme = newValue;
         }
+#pragma warning disable 649
+
+        [Import] private IDockingHostViewModel _dockingHost;
+
+        [Import] private ThemeManager _themeManager;
+
+
+#pragma warning restore 649
     }
 }
