@@ -51,10 +51,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Commands\CloseProgammCommandDefinition.cs" />
     <Compile Include="Commands\RedoCommandDefinition.cs" />
     <Compile Include="Commands\NewFileCommandDefinition.cs" />
     <Compile Include="Commands\OpenFileCommandDefinition.cs" />
     <Compile Include="Commands\SaveFileAsCommandDefinition.cs" />
+    <Compile Include="Commands\SaveAllFilesCommandDefinition.cs" />
     <Compile Include="Commands\SaveFileCommandDefinition.cs" />
     <Compile Include="Commands\UndoCommandDefinition.cs" />
     <Compile Include="Controls\Document.cs" />
@@ -129,6 +131,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Resources\Icons\CloseProgramm_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\Icons\NewFile_16x.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -146,6 +152,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\Icons\OpenFile_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Icons\SaveAll_16x.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
