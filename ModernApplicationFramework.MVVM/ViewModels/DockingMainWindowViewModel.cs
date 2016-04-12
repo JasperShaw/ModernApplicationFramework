@@ -17,6 +17,7 @@ using ModernApplicationFramework.MVVM.Core;
 using ModernApplicationFramework.MVVM.Interfaces;
 using ModernApplicationFramework.MVVM.Properties;
 using ModernApplicationFramework.MVVM.Views;
+using ModernApplicationFramework.Themes;
 
 namespace ModernApplicationFramework.MVVM.ViewModels
 {
@@ -363,7 +364,10 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             window.Activated += _mainWindow_Activated;
             window.Deactivated += _mainWindow_Deactivated;
 
-            _themeManager.SetTheme(Settings.Default.CurrentTheme, this);
+            if (!string.IsNullOrEmpty(Settings.Default.CurrentTheme))
+                _themeManager.SetTheme(Settings.Default.CurrentTheme, this);
+            else
+                _themeManager.SetTheme(new GenericTheme().Name, this);
 
             StatusBar.ModeText = "Ready";
         }
