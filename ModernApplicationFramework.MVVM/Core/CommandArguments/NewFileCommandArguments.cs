@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ModernApplicationFramework.MVVM.Core
+namespace ModernApplicationFramework.MVVM.Core.CommandArguments
 {
     public class NewFileCommandArguments
     {

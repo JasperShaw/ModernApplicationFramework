@@ -2,13 +2,10 @@
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 using Microsoft.Win32;
-using ModernApplicationFramework.Caliburn;
-using ModernApplicationFramework.Caliburn.Interfaces;
 using ModernApplicationFramework.Commands;
+using ModernApplicationFramework.MVVM.Core;
 using ModernApplicationFramework.MVVM.Interfaces;
 
 namespace ModernApplicationFramework.MVVM.Commands
@@ -35,33 +32,6 @@ namespace ModernApplicationFramework.MVVM.Commands
         public override string Name => "Open File";
         public override string Text => Name;
         public override string ToolTip => "Opens an File";
-
-        internal static Task<IDocument> GetEditor(string path, Type editorType)
-        {
-            var provider = IoC.GetAllInstances(typeof(IEditorProvider))
-                              .Cast<IEditorProvider>()
-                              .FirstOrDefault(p => p.Handles(path));
-            if (provider == null)
-                return null;
-
-            var editor = provider.Create(editorType);
-
-            var viewAware = (IViewAware) editor;
-            viewAware.ViewAttached += (sender, e) =>
-            {
-                var frameworkElement = (FrameworkElement) e.View;
-
-                RoutedEventHandler loadedHandler = null;
-                loadedHandler = async (sender2, e2) =>
-                {
-                    frameworkElement.Loaded -= loadedHandler;
-                    await provider.Open((IStorableDocument) editor, path);
-                };
-                frameworkElement.Loaded += loadedHandler;
-            };
-
-            return Task.FromResult(editor);
-        }
 
         private bool CanOpenFile()
         {
@@ -92,7 +62,7 @@ namespace ModernApplicationFramework.MVVM.Commands
                                                                  == Path.GetExtension(dialog.FileName));
             var editorType = supportedFileDefinition?.PrefferedEditor;
 
-            _shell.DockingHost.OpenDocument(await GetEditor(dialog.FileName, editorType));
+            _shell.DockingHost.OpenDocument(await EditorProviderHelper.GetEditor(dialog.FileName, editorType));
         }
 #pragma warning disable 649
         [Import] private IDockingMainWindowViewModel _shell;

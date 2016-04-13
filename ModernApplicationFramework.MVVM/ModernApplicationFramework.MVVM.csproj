@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Commands\CloseProgammCommandDefinition.cs" />
+    <Compile Include="Commands\OpenWithFileCommandDefinition.cs" />
     <Compile Include="Commands\RedoCommandDefinition.cs" />
     <Compile Include="Commands\NewFileCommandDefinition.cs" />
     <Compile Include="Commands\OpenFileCommandDefinition.cs" />
@@ -71,11 +72,13 @@
     <Compile Include="Controls\Toolbars\StandardToolbarModel.cs" />
     <Compile Include="Controls\Toolbars\ToolDefinitions.cs" />
     <Compile Include="Core\Behaviours\BindableSelectedItemBehavior.cs" />
+    <Compile Include="Core\CommandArguments\OpenFileWithCommandArguments.cs" />
     <Compile Include="Core\EditorProvider.cs" />
+    <Compile Include="Core\EditorProviderHelper.cs" />
     <Compile Include="Core\LayoutItemBase.cs" />
     <Compile Include="Core\ModuleBase.cs" />
     <Compile Include="Core\NativeMethods\NativeMethods.cs" />
-    <Compile Include="Core\NewFileCommandArguments.cs" />
+    <Compile Include="Core\CommandArguments\NewFileCommandArguments.cs" />
     <Compile Include="Core\OpenDocumentResult.cs" />
     <Compile Include="Core\OpenResultBase.cs" />
     <Compile Include="Core\PaneLocation.cs" />

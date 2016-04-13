@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.MVVM.Annotations;
-using ModernApplicationFramework.MVVM.Core;
+using ModernApplicationFramework.MVVM.Core.CommandArguments;
 using ModernApplicationFramework.MVVM.Interfaces;
 
 namespace ModernApplicationFramework.MVVM.Views

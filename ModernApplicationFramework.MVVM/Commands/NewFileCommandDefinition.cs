@@ -8,6 +8,7 @@ using ModernApplicationFramework.Caliburn.Interfaces;
 using ModernApplicationFramework.Caliburn.Platform.Xaml;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.MVVM.Core;
+using ModernApplicationFramework.MVVM.Core.CommandArguments;
 using ModernApplicationFramework.MVVM.Interfaces;
 using ModernApplicationFramework.MVVM.Views;
 

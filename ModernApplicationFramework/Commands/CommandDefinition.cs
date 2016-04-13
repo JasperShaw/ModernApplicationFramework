@@ -20,5 +20,7 @@ namespace ModernApplicationFramework.Commands
         public abstract string Text { get; }
         public abstract string ToolTip { get; }
         public virtual ICommand Command { get;}
+
+        public virtual object CommandParamenter { get; set; }
     }
 }

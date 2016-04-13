@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using ModernApplicationFramework.Annotations;
+using ModernApplicationFramework.Commands.Base;
 
 namespace ModernApplicationFramework.Commands
 {
