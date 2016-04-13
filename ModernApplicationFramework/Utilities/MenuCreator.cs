@@ -8,6 +8,7 @@ using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Commands.Service;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
+using Binding = System.Windows.Data.Binding;
 using MenuItem = ModernApplicationFramework.Controls.MenuItem;
 using Separator = ModernApplicationFramework.Controls.Separator;
 
@@ -109,27 +110,29 @@ namespace ModernApplicationFramework.Utilities
             //For some reason 'list' has FixedSize
             var tempList = new List<MenuItemDefinition>(list);
 
-            foreach (var menusItem in menuItems)
+            for (int i = 0; i < menuItems.Count(); i++)
             {
                 //SubMenuDefinitions which are parent of currnet
                 var subDefinitonItems =
-                    tempList.Where(x => x.HasItems == false).Where(x => x.Parent == topLevel).OrderBy(x => x.Priority);
+                    tempList.Where(x => x.Parent == topLevel).OrderBy(x => x.Priority);
                 foreach (var subDefinitonItem in subDefinitonItems)
                 {
                     tempList.Remove(subDefinitonItem);
                     if (subDefinitonItem.IsSeparator)
                         topItem.Items.Add(new Separator());
+                    if (subDefinitonItem.HasItems)
+                        foreach (var definition in subDefinitonItem.Definitions)
+                            topItem.Items.Add(CreateItem(definition));         
                     else
                     {
+                        if (subDefinitonItem.IsSeparator)
+                            continue;
                         var subItem = CreateItem(subDefinitonItem);
                         CreateItemsRecursive(subDefinitonItem, subItem, list);
                         topItem.Items.Add(subItem);
                     }
-                }
 
-                //Normal Items which can be added directly
-                foreach (var definition in menusItem.Definitions)
-                    topItem.Items.Add(CreateItem(definition));
+                }
             }
         }
 

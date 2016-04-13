@@ -13,6 +13,8 @@ using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.MVVM.Core
 {
+
+    //TODO: At some point add a FileSystemWatcher so we can edit a file in mulpile editor instances without risking data gets lost
     [Export(typeof(IEditorProvider))]
     public class EditorProvider : IEditorProvider
     {
@@ -50,6 +52,7 @@ namespace ModernApplicationFramework.MVVM.Core
         public async Task New(IStorableDocument document, string name)
         {
             await document.New(name);
+
         }
 
         public async Task Open(IStorableDocument document, string path)

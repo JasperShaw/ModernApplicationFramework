@@ -36,7 +36,7 @@ namespace ModernApplicationFramework.MVVM.Controls.MenuDefinitions
         public static MenuItemDefinition SaveAll = new MenuItemDefinition<SaveAllFilesCommandDefinition>("Save All", 5, FileMenu);
 
         [Export]
-        public static MenuItemDefinition FileMenuSeparator2 = new MenuItemDefinition("Separator2", 123, FileMenu, true);
+        public static MenuItemDefinition FileMenuSeparator2 = new MenuItemDefinition("Separator2", int.MaxValue, FileMenu, true);
 
         [Export]
         public static MenuItemDefinition CloseProgramm = new MenuItemDefinition<CloseProgammCommandDefinition>("Close", int.MaxValue, FileMenu);
@@ -48,6 +48,9 @@ namespace ModernApplicationFramework.MVVM.Controls.MenuDefinitions
         [Export] public static MenuItemDefinition Undo = new MenuItemDefinition<UndoCommandDefinition>("Undo", 0, EditMenu);
 
         [Export] public static MenuItemDefinition Redo = new MenuItemDefinition<RedoCommandDefinition>("Redo", 1, EditMenu);
+
+        [Export]
+        public static MenuItemDefinition EditMenuSeparator = new MenuItemDefinition("Separator2", 2, EditMenu, true);
 
 
 

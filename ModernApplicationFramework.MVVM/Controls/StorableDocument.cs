@@ -9,6 +9,8 @@ using ModernApplicationFramework.MVVM.Views;
 
 namespace ModernApplicationFramework.MVVM.Controls
 {
+
+    //TODO: At some point make it possible to change file properties (name/path/extesion) in inspector
     public abstract class StorableDocument : Document, IStorableDocument
     {
         private bool _isDirty;
@@ -88,7 +90,6 @@ namespace ModernApplicationFramework.MVVM.Controls
                 return false;
             }
         }
-
 
         protected abstract Task CreateNewFile();
 
