@@ -2,7 +2,7 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:mafc="http://modern.framework.com/controls"
 		x:Class="ModernApplicationFrameworkTestApp.MainWindow"
-		Title="MainWindow" Height="434" Width="687" Background="#FFEEEEf2" MouseRightButtonDown="MainWindow_OnMouseRightButtonDown">
+		Title="MainWindow" Height="434" Width="687" Background="#FF2D2D30" MouseRightButtonDown="MainWindow_OnMouseRightButtonDown">
 
     <Grid>
         <Grid.RowDefinitions>

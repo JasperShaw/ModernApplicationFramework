@@ -1,13 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:mafc="clr-namespace:ModernApplicationFramework.Controls">
+                    xmlns:mafc="clr-namespace:ModernApplicationFramework.Controls"
+                    xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes">
 
-
-    <SolidColorBrush x:Key="DisabledForegroundBrush" Color="#888" />
-    <SolidColorBrush x:Key="GlyphBrush" Color="#444" />
 
     <ControlTemplate x:Key="ExpanderToggleButton" TargetType="ToggleButton">
-        <Border Background="{StaticResource {x:Static SystemColors.ControlLightBrushKey}}">
+        <Border Background="{DynamicResource {x:Static themes:EnvironmentColors.ModernExpanderBackground}}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="20" />
@@ -15,7 +13,7 @@
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="0" CornerRadius="2,0,0,0">
                     <Path Name="Arrow"
-					      Fill="{StaticResource GlyphBrush}"
+					      Fill="{DynamicResource {x:Static themes:EnvironmentColors.ModernExpanderGlyph}}"
 					      HorizontalAlignment="Center"
 					      VerticalAlignment="Center"
 					      Data="M 0 0 L 0 8 L 4 4 Z"/>
@@ -23,7 +21,7 @@
                 <ContentPresenter Grid.Column="1"
 		                          Margin="4" 
 		                          ContentSource="Content" 
-		                          RecognizesAccessKey="True" />
+		                          RecognizesAccessKey="True" TextElement.Foreground="{DynamicResource {x:Static themes:EnvironmentColors.ModernExpanderForeground}}"/>
             </Grid>
         </Border>
         <ControlTemplate.Triggers>
@@ -33,9 +31,9 @@
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground"
-							Value="{StaticResource DisabledForegroundBrush}"/>
+							Value="{DynamicResource {x:Static themes:EnvironmentColors.ModernExpanderForegroundDisabled}}"/>
                 <Setter TargetName="Arrow" Property="Fill"
-							Value="{StaticResource DisabledForegroundBrush}" />
+							Value="{DynamicResource {x:Static themes:EnvironmentColors.ModernExpanderForegroundDisabled}}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -67,7 +65,7 @@
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground"
-                                    Value="{StaticResource DisabledForegroundBrush}"/>
+                                    Value="{DynamicResource {x:Static themes:EnvironmentColors.ModernExpanderForegroundDisabled}}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

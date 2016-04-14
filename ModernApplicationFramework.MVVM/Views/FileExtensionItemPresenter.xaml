@@ -29,8 +29,7 @@
                         <Setter Property="TextWrapping" Value="Wrap"/>
                     </Style>
                 </DataTemplate.Resources>
-                <ScrollViewer x:Uid="ScrollViewer_1" HorizontalScrollBarVisibility="Disabled" Focusable="false"
-            		VerticalScrollBarVisibility="Auto">
+                <mafc:ScrollViewer HorizontalScrollBarVisibility="Disabled" Focusable="false" VerticalScrollBarVisibility="Auto">
                     <Grid x:Uid="DetailGridUid" Margin="4,0,4,0">
                         <Grid.RowDefinitions>
                             <RowDefinition x:Uid="RowDefinition_5" Height="Auto" MinHeight="135"/>
@@ -54,7 +53,7 @@
             				</TextBlock>
                         </StackPanel>
                     </Grid>
-                </ScrollViewer>
+                </mafc:ScrollViewer>
             </DataTemplate>
         </ResourceDictionary>
 

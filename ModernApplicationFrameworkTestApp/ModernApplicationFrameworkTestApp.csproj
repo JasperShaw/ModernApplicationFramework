@@ -97,6 +97,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ModernApplicationFramework.Themes.DarkIDE\ModernApplicationFramework.Themes.DarkIDE.csproj">
+      <Project>{eb2b16ae-e6f6-4045-a578-d2c3e9a6652f}</Project>
+      <Name>ModernApplicationFramework.Themes.DarkIDE</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework.Themes.LightIDE\ModernApplicationFramework.Themes.LightIDE.csproj">
       <Project>{845de7c9-6217-479c-9f4f-d98e6a3b436b}</Project>
       <Name>ModernApplicationFramework.Themes.LightIDE</Name>

@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Data;
+using System.Linq;
 using System.Windows;
 using System.Windows.Interop;
+using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.NativeMethods;
 using ModernApplicationFramework.Core.Platform;
+using ModernApplicationFramework.Core.Themes;
 
 namespace ModernApplicationFramework.Controls
 {
-    public abstract class WindowBase : Window
+    public abstract class WindowBase : Window, IHasTheme
     {
         public static readonly DependencyProperty HasMaximizeButtonProperty = DependencyProperty.Register(
             "HasMaximizeButton", typeof(bool), typeof(WindowBase),
@@ -74,6 +78,10 @@ namespace ModernApplicationFramework.Controls
             _hwndSource?.AddHook(WndProcHook);
             UpdateWindowStyle();
             base.OnSourceInitialized(e);
+
+            var theme = Owner as IHasTheme;
+            if (theme != null)
+                Theme = theme.Theme;
         }
 
 
@@ -113,6 +121,48 @@ namespace ModernApplicationFramework.Controls
             OnDialogThemeChanged();
             handled = true;
             return IntPtr.Zero;
+        }
+
+        public event EventHandler<ThemeChangedEventArgs> OnThemeChanged;
+
+        private Theme _theme;
+
+        public Theme Theme
+        {
+            get { return _theme; }
+            set
+            {
+                if (value == null)
+                    throw new NoNullAllowedException();
+                if (Equals(value, _theme))
+                    return;
+                var oldTheme = _theme;
+                _theme = value;
+                ChangeTheme(oldTheme, _theme);
+                OnRaiseThemeChanged(new ThemeChangedEventArgs(value, oldTheme));
+            }
+        }
+
+        private void ChangeTheme(Theme oldValue, Theme newValue)
+        {
+            var resources = Resources;
+            resources.Clear();
+            resources.MergedDictionaries.Clear();
+            if (oldValue != null)
+            {
+                var resourceDictionaryToRemove =
+                    resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldValue.GetResourceUri());
+                if (resourceDictionaryToRemove != null)
+                    resources.MergedDictionaries.Remove(resourceDictionaryToRemove);
+            }
+            if (newValue != null)
+                resources.MergedDictionaries.Add(new ResourceDictionary { Source = newValue.GetResourceUri() });
+        }
+
+        protected virtual void OnRaiseThemeChanged(ThemeChangedEventArgs e)
+        {
+            var handler = OnThemeChanged;
+            handler?.Invoke(this, e);
         }
     }
 }

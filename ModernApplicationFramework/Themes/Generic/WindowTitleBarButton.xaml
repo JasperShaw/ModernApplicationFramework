@@ -14,13 +14,13 @@
         <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.WindowTitleBarButtonForeground}}"></Setter>
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.WindowTitleBarButtonBorder}}"></Setter>
         <Setter Property="Padding" Value="0,1,0,0"/>
-        <Setter Property="TextElement.Foreground" Value="{Binding Path=GlyphForeground, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="this:WindowTitleBarButton">
                     <Border x:Name="Border" Background="{TemplateBinding Control.Background}" BorderBrush="{TemplateBinding Control.BorderBrush}" 
-                            BorderThickness="{TemplateBinding Control.BorderThickness}" Padding="{TemplateBinding Control.Padding}">
-                            <ContentPresenter/>
+                            BorderThickness="{TemplateBinding Control.BorderThickness}" Padding="{TemplateBinding Control.Padding}"
+                            TextElement.Foreground="{TemplateBinding Foreground}">
+                        <ContentPresenter TextElement.Foreground="{TemplateBinding Foreground}"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">

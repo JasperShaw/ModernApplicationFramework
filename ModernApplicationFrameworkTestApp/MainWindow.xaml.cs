@@ -3,7 +3,7 @@ using System.Windows.Input;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Themes;
-using ModernApplicationFramework.Themes.LightIDE;
+using ModernApplicationFramework.Themes.DarkIDE;
 
 namespace ModernApplicationFrameworkTestApp
 {
@@ -17,7 +17,7 @@ namespace ModernApplicationFrameworkTestApp
             InitializeComponent();
             Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary
             {
-                Source = new LightTheme().GetResourceUri()
+                Source = new DarkTheme().GetResourceUri()
             });
         }
 

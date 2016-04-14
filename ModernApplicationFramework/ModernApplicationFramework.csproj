@@ -218,6 +218,7 @@
     <Compile Include="Controls\ImageRadioButton.cs" />
     <Compile Include="Controls\ImageToggleButton.cs" />
     <Compile Include="Controls\ModernExpander.cs" />
+    <Compile Include="Controls\ScrollViewer.cs" />
     <Compile Include="Controls\Utilities\PanelMarginSetter.cs" />
     <Compile Include="Core\Interop\COMGuids.cs" />
     <Compile Include="Core\Shell\ShellComInterfaces.cs" />
@@ -568,6 +569,10 @@
     </Page>
     <Page Include="Themes\Generic\OverlayWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic\ScrollViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Generic\WindowBase.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -7,9 +7,9 @@
         <ResourceDictionary Source="Brushes.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <Style TargetType="{x:Type this:ComboBoxItem}">
+    <Style TargetType="{x:Type this:ComboBoxItem}" x:Key="{x:Type this:ComboBoxItem}">
         <Setter Property="SnapsToDevicePixels" Value="true"/>
-        <Setter x:Uid="Setter_446" Property="Padding" Value="3,0,3,0"/>
+        <Setter Property="Padding" Value="3,0,3,0"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type this:ComboBoxItem}">
@@ -30,6 +30,37 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <ControlTemplate x:Key="ComboBoxItemTemplate" TargetType="{x:Type ComboBoxItem}">
+        <Border Name="Bd" Background="{TemplateBinding Panel.Background}"
+            BorderBrush="{TemplateBinding Border.BorderBrush}"
+            BorderThickness="{TemplateBinding Border.BorderThickness}"
+            Padding="{TemplateBinding Control.Padding}" SnapsToDevicePixels="true">
+            <ContentPresenter HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
+                              SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="ComboBoxItem.IsHighlighted" Value="true">
+                <Setter TargetName="Bd" Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxItemBackgroundHover}}" Property="Panel.Background"/>
+                <Setter TargetName="Bd" Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxItemBorderHover}}" Property="Border.BorderBrush"/>
+                <Setter TargetName="Bd" Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxItemForegroundHover}}" Property="TextElement.Foreground"/>
+            </Trigger>
+            <Trigger Property="UIElement.IsEnabled" Value="false">
+                <Setter Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxItemForegroundDisabled}}" Property="TextElement.Foreground"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type ComboBoxItem}" x:Key="ComboBoxItemStyle">
+        <Setter Property="Border.BorderThickness" Value="1"/>
+        <Setter Property="Border.BorderBrush" Value="Transparent"/>
+        <Setter Property="Panel.Background" Value="Transparent"/>
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxItemForeground}}"/>
+        <Setter Property="Template" Value="{StaticResource ComboBoxItemTemplate}"/>
+        <Setter Property="Margin" Value="2,0,2,0"/>
+        <Setter Property="InputMethod.IsInputMethodSuspended" Value="true"/>
     </Style>
 
 

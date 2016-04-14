@@ -10,6 +10,8 @@ namespace ModernApplicationFramework.Core.Themes
         private static ComponentResourceKey _dropDownGlyphDown;
         private static ComponentResourceKey _dropDownGlyphDisabled;
 
+        private static ComponentResourceKey _gloablForeground;
+
         //Button
         private static ComponentResourceKey _buttonBackground;
         private static ComponentResourceKey _buttonForeground;
@@ -493,6 +495,27 @@ namespace ModernApplicationFramework.Core.Themes
         private static ComponentResourceKey _waitDialogMessageForeground;
         private static ComponentResourceKey _waitDialogBackground;
 
+        //ModernExpander
+        private static ComponentResourceKey _modernExpanderBackground;
+        private static ComponentResourceKey _modernExpanderForeground;
+        private static ComponentResourceKey _modernExpanderForegroundDisabled;
+        private static ComponentResourceKey _modernExpanderGlyph;
+
+        #region ModernExpander
+        public static ComponentResourceKey ModernExpanderBackground => _modernExpanderBackground ??
+                                                            (_modernExpanderBackground = new ComponentResourceKey(typeof(EnvironmentColors), "ModernExpanderBackground"));
+
+        public static ComponentResourceKey ModernExpanderForeground => _modernExpanderForeground ??
+                                                           (_modernExpanderForeground = new ComponentResourceKey(typeof(EnvironmentColors), "ModernExpanderForeground"));
+
+        public static ComponentResourceKey ModernExpanderForegroundDisabled => _modernExpanderForegroundDisabled ??
+                                                           (_modernExpanderForegroundDisabled = new ComponentResourceKey(typeof(EnvironmentColors), "ModernExpanderForegroundDisabled"));
+
+        public static ComponentResourceKey ModernExpanderGlyph => _modernExpanderGlyph ??
+                                                           (_modernExpanderGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "ModernExpanderGlyph"));
+
+        #endregion
+
         #region WaitDialog
 
         public static ComponentResourceKey WaitDialogActiveShadowAndBorderColor => _waitDialogActiveShadowAndBorderColor ??
@@ -528,6 +551,9 @@ namespace ModernApplicationFramework.Core.Themes
 
         public static ComponentResourceKey DropDownGlyphDisabled => _dropDownGlyphDisabled ??
                                                                     (_dropDownGlyphDisabled = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownGlyphDisabled"));
+
+        public static ComponentResourceKey GloablForeground => _gloablForeground ??
+                                                               (_gloablForeground = new ComponentResourceKey(typeof(EnvironmentColors), "GloablForeground"));
 
         #endregion
 
