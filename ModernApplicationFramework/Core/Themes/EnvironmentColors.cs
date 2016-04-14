@@ -11,6 +11,13 @@ namespace ModernApplicationFramework.Core.Themes
         private static ComponentResourceKey _dropDownGlyphDisabled;
 
         private static ComponentResourceKey _gloablForeground;
+        private static ComponentResourceKey _globalBackgroundColor;
+        private static ComponentResourceKey _globalBackgroundColor2;
+
+        public static ComponentResourceKey GlobalBackgroundColor => _globalBackgroundColor ??
+                                                          (_globalBackgroundColor = new ComponentResourceKey(typeof(EnvironmentColors), "GlobalBackgroundColor"));
+        public static ComponentResourceKey GlobalBackgroundColor2 => _globalBackgroundColor2 ??
+                                                          (_globalBackgroundColor2 = new ComponentResourceKey(typeof(EnvironmentColors), "GlobalBackgroundColor2"));
 
         //Button
         private static ComponentResourceKey _buttonBackground;
@@ -500,6 +507,49 @@ namespace ModernApplicationFramework.Core.Themes
         private static ComponentResourceKey _modernExpanderForeground;
         private static ComponentResourceKey _modernExpanderForegroundDisabled;
         private static ComponentResourceKey _modernExpanderGlyph;
+
+
+        //ListViewItem
+        private static ComponentResourceKey _listViewItemBackground;
+        private static ComponentResourceKey _listViewItemBackgroundHover;
+        private static ComponentResourceKey _listViewItemBackgroundSelected;
+        private static ComponentResourceKey _listViewItemBackgroundSelectedInactive;
+        private static ComponentResourceKey _listViewItemForeground;
+        private static ComponentResourceKey _listViewItemForegroundHover;
+        private static ComponentResourceKey _listViewItemForegroundSelected;
+        private static ComponentResourceKey _listViewItemForegroundSelectedInactive;
+
+        //ListView
+        private static ComponentResourceKey _listViewBackground;
+
+        #region ListView
+        public static ComponentResourceKey ListViewBackground => _listViewBackground ??
+                                                            (_listViewBackground = new ComponentResourceKey(typeof(EnvironmentColors), "ListViewBackground"));
+        #endregion
+
+        #region ListViewItem
+        public static ComponentResourceKey ListViewItemBackground => _listViewItemBackground ??
+                                                            (_listViewItemBackground = new ComponentResourceKey(typeof(EnvironmentColors), "ListViewItemBackground"));
+        public static ComponentResourceKey ListViewItemBackgroundHover => _listViewItemBackgroundHover ??
+                                                            (_listViewItemBackgroundHover = new ComponentResourceKey(typeof(EnvironmentColors), "ListViewItemBackgroundHover"));
+        public static ComponentResourceKey ListViewItemBackgroundSelected => _listViewItemBackgroundSelected ??
+                                                                    (_listViewItemBackgroundSelected = new ComponentResourceKey(typeof(EnvironmentColors), "ListViewItemBackgroundSelected"));
+        public static ComponentResourceKey ListViewItemBackgroundSelectedInactive => _listViewItemBackgroundSelectedInactive ??
+                                                                    (_listViewItemBackgroundSelectedInactive = new ComponentResourceKey(typeof(EnvironmentColors), "ListViewItemBackgroundSelectedInactive"));
+
+        public static ComponentResourceKey ListViewItemForeground => _listViewItemForeground ??
+                                                                    (_listViewItemForeground = new ComponentResourceKey(typeof(EnvironmentColors), "ListViewItemForeground"));
+
+        public static ComponentResourceKey ListViewItemForegroundSelected => _listViewItemForegroundSelected ??
+                                                                    (_listViewItemForegroundSelected = new ComponentResourceKey(typeof(EnvironmentColors), "ListViewItemForegroundSelected"));
+
+        public static ComponentResourceKey ListViewItemForegroundHover => _listViewItemForegroundHover ??
+                                                                    (_listViewItemForegroundHover = new ComponentResourceKey(typeof(EnvironmentColors), "ListViewItemForegroundHover"));
+
+        public static ComponentResourceKey ListViewItemForegroundSelectedInactive => _listViewItemForegroundSelectedInactive ??
+                                                                    (_listViewItemForegroundSelectedInactive = new ComponentResourceKey(typeof(EnvironmentColors), "ListViewItemForegroundSelectedInactive"));
+
+        #endregion
 
         #region ModernExpander
         public static ComponentResourceKey ModernExpanderBackground => _modernExpanderBackground ??

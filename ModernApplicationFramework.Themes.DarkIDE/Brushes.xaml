@@ -6,6 +6,12 @@
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
                      ResourceId=GloablForeground}" Color="#FFF1F1F1"/>
 
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=GlobalBackgroundColor}" Color="#FF2D2D30"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=GlobalBackgroundColor2}" Color="#FF252526"/>
+
     <!-- MainWindow -->
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
                      ResourceId=MainWindowBackground}" Color="#FF2D2D30"/>
@@ -547,13 +553,13 @@
     
     <!--TextBox-->
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=TextBoxBorder}" Color="#FF3F3F46"/>
+                     ResourceId=TextBoxBorder}" Color="#434346"/>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
                      ResourceId=TextBoxSelection}" Color="#FF3399FF"/>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=TextBoxBackground}" Color="#FF3F3F46"/>
+                     ResourceId=TextBoxBackground}" Color="#FF333337"/>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
                      ResourceId=TextBoxForeground}" Color="#FFF1F1F1"/>
@@ -562,7 +568,7 @@
                      ResourceId=TextBoxBorderHover}" Color="#FF3F3F46"/>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=TextBoxBackgroundHover}" Color="#FF3F3F46"/>
+                     ResourceId=TextBoxBackgroundHover}" Color="#FF333337"/>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
                      ResourceId=TextBoxForegroundHover}" Color="#FFF1F1F1"/>
@@ -571,7 +577,7 @@
                      ResourceId=TextBoxBorderFocused}" Color="#FF007ACC"/>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=TextBoxBackgroundFocused}" Color="#FF3F3F46"/>
+                     ResourceId=TextBoxBackgroundFocused}" Color="#FF333337"/>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
                      ResourceId=TextBoxForegroundFocused}" Color="#FFF1F1F1"/>
@@ -1149,5 +1155,36 @@
 
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
                      ResourceId=ModernExpanderGlyph}" Color="#FF999999"/>
+
+    <!--ListViewItem-->
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=ListViewItemBackground}" Color="Transparent"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=ListViewItemBackgroundHover}" Color="#FF3F3F40"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=ListViewItemBackgroundSelected}" Color="#FF3399FF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=ListViewItemBackgroundSelectedInactive}" Color="#FF3F3F46"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=ListViewItemForeground}" Color="#FFF1F1F1"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=ListViewItemForegroundSelected}" Color="#FFFFFFFF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=ListViewItemForegroundHover}" Color="#FFF1F1F1"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=ListViewItemForegroundSelectedInactive}" Color="#FFF1F1F1"/>
+
+    <!--ListView-->
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=ListViewBackground}" Color="#FF252526"/>
 
 </ResourceDictionary>

@@ -5,7 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:utilities="clr-namespace:ModernApplicationFramework.Interfaces.Utilities;assembly=ModernApplicationFramework"
              xmlns:mafc="http://modern.framework.com/controls"
-             xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="ModernApplicationFramework.MVVM.Views.FileExtensionItemPresenter"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
+             x:Class="ModernApplicationFramework.MVVM.Views.FileExtensionItemPresenter"
              mc:Ignorable="d" MinWidth="680" DataContext="{Binding RelativeSource={RelativeSource Self}}"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
@@ -102,7 +104,7 @@
 					ItemContainerStyle="{DynamicResource ListViewItemStyle}"
 					FocusVisualStyle="{x:Null}" ItemsSource="{Binding ItemSource}"/>
             </Grid>
-            <Border Grid.Row="1" Grid.Column="1" Background="#EDEDF1" Margin="1,0,0,0" BorderThickness="0">
+            <Border Grid.Row="1" Grid.Column="1" Background="{DynamicResource {x:Static themes:EnvironmentColors.GlobalBackgroundColor}}" Margin="1,0,0,0" BorderThickness="0">
                 <ContentControl Focusable="False" Style="{StaticResource DetailPaneStyle}"
 					Content="{Binding SelectedItem, ElementName=ListView, UpdateSourceTrigger=PropertyChanged}"/>
             </Border>
