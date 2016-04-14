@@ -52,11 +52,20 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             {
                 if (value == _itemPresenter)
                     return;
+                if (_itemPresenter != null)
+                    _itemPresenter.OnSelectedItemChanged -= _itemPresenter_OnSelectedItemChanged;
                 _itemPresenter = value;
                 var firstOrDefault = _itemPresenter.ItemSource.FirstOrDefault();
                 if (firstOrDefault != null)
                     Name = firstOrDefault.PresetElementName;
+                _itemPresenter.OnSelectedItemChanged += _itemPresenter_OnSelectedItemChanged;
+
             }
+        }
+
+        private void _itemPresenter_OnSelectedItemChanged(object sender, System.Windows.Controls.Primitives.ItemsChangedEventArgs e)
+        {
+            Name = ItemPresenter.SelectedItem.PresetElementName;
         }
 
         public ICommand ApplyCommand => new CommandWrapper(Apply, CanApply);

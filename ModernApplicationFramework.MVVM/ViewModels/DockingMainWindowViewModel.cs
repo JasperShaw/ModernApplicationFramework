@@ -11,6 +11,7 @@ using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
+using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.MVVM.Controls;
 using ModernApplicationFramework.MVVM.Core;
@@ -369,7 +370,11 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             else
                 _themeManager.SetTheme(new GenericTheme().Name, this);
 
-            StatusBar.ModeText = "Ready";
+            _menuCreator.CreateMenu(MenuHostViewModel);
+
+            _commandKeyGestureService.BindKeyGesture((UIElement)view);
+
+            _toolbarTrayCreator.CreateToolbarTray(ToolBarHostViewModel);
         }
 
         private async void _mainWindow_Activated(object sender, EventArgs e)
@@ -430,6 +435,15 @@ namespace ModernApplicationFramework.MVVM.ViewModels
 
         [Import] private ThemeManager _themeManager;
 
+
+        [Import]
+        private IKeyGestureHandler _commandKeyGestureService;
+
+        [Import]
+        private IMenuCreator _menuCreator;
+
+        [Import]
+        private IToolbarTrayCreator _toolbarTrayCreator;
 
 #pragma warning restore 649
     }

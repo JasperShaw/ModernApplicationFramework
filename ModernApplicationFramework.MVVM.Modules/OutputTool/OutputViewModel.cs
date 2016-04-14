@@ -2,7 +2,9 @@
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Text;
+using System.Windows.Input;
 using ModernApplicationFramework.Caliburn;
+using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.MVVM.Core;
 
 namespace ModernApplicationFramework.MVVM.Modules.OutputTool
@@ -55,5 +57,7 @@ namespace ModernApplicationFramework.MVVM.Modules.OutputTool
             _view.SetText(_stringBuilder.ToString());
             _view.ScrollToEnd();
         }
+
+        public ICommand ClearCommand => new Command(Clear);
     }
 }

@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.MVVM.Annotations;
 using ModernApplicationFramework.MVVM.Core.CommandArguments;
@@ -24,6 +26,14 @@ namespace ModernApplicationFramework.MVVM.Views
         public ObservableCollection<object> MyObjectCollection { get; set; }
 
         public IExtensionDefinition SelectedItem { get; private set; }
+
+        public event EventHandler<ItemsChangedEventArgs> OnSelectedItemChanged;
+
+        protected virtual void OnRaiseSelectedItemChanged(ItemsChangedEventArgs e)
+        {
+            var handler = OnSelectedItemChanged;
+            handler?.Invoke(this, e);
+        }
 
         public IEnumerable<IExtensionDefinition> ItemSource
         {
@@ -70,6 +80,7 @@ namespace ModernApplicationFramework.MVVM.Views
         private void ListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SelectedItem = ListView.SelectedItem as IExtensionDefinition;
+            OnRaiseSelectedItemChanged(null);
         }
 
         private void ResizeColumn()
