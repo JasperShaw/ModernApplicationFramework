@@ -175,7 +175,7 @@ namespace ModernApplicationFramework.Controls
 
         private void TextReplace(RoutedEventArgs e, int startIndex, int count, string text)
         {
-            TextChange(e, TextChangedType.Replace, text.Remove(startIndex, count).Insert(startIndex, text));
+            TextChange(e, TextChangedType.Replace, Text.Remove(startIndex, count).Insert(startIndex, text));
         }
 
         private void TextChange(RoutedEventArgs e, TextChangedType type, string text)
