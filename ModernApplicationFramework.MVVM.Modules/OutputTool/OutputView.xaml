@@ -16,15 +16,10 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <mafc:ScrollViewer VerticalScrollBarVisibility="Visible">
-        <TextBox x:Name="outputText"
-             Background="Transparent"
-             IsReadOnly="True"
-             VerticalAlignment="Stretch"
-             HorizontalAlignment="Stretch"
-             AcceptsReturn="True" 
-			 FontFamily="Consolas"
-             Foreground="{DynamicResource {x:Static core:EnvironmentColors.GloablForeground}}"
-             BorderThickness="0" Cursor="{x:Static Cursors.Arrow}">
+        <TextBox x:Name="outputText" IsReadOnly="True" VerticalAlignment="Stretch"
+                      HorizontalAlignment="Stretch" AcceptsReturn="True" FontFamily="Consolas"
+                      Foreground="{DynamicResource {x:Static core:EnvironmentColors.GloablForeground}}"
+                      Cursor="{x:Static Cursors.Arrow}" BorderThickness="0" Background="{DynamicResource {x:Static core:EnvironmentColors.TextBoxBackground}}">
             <TextBox.ContextMenu>
                 <mafc:ContextMenu>
                     <mafc:ContextMenuItem Header="Clear" Command="{Binding ClearCommand}" Icon="{StaticResource ClearContentIcon}"/>

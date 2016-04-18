@@ -29,11 +29,14 @@ namespace ModernApplicationFramework.Controls
                 new FrameworkPropertyMetadata(typeof(MainWindow)));
         }
 
+        protected virtual bool ShouldAutoSize { get; set; } = true;
+
         protected MainWindow()
         {
             DataContext = new MainWindowViewModel(this);
             IsVisibleChanged += OnVisibilityChanged;
-            GetGoodStartingSize();
+            if (ShouldAutoSize)
+                GetGoodStartingSize();
 
             UIElementAutomationPeer.CreatePeerForElement(this);
 

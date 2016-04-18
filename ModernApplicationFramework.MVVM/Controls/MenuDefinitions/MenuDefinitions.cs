@@ -24,9 +24,15 @@ namespace ModernApplicationFramework.MVVM.Controls.MenuDefinitions
 
         [Export] public static MenuItemDefinition FileMenuSeparator = new MenuItemDefinition("Separator", 2, FileMenu, true);
 
-  
+
+        [Export]
+        public static MenuItemDefinition CloseActiveDocument = new MenuItemDefinition<CloseActiveDocumentCommandDefinition>("Close Document", 3, FileMenu);
+
+        [Export]
+        public static MenuItemDefinition FileMenuSeparator2 = new MenuItemDefinition("Separator2", 4, FileMenu, true);
+
         [Export] public static MenuItemDefinition SubItemSave = new MenuItemDefinition<SaveFileCommandDefinition>(
-            "Save", 3, FileMenu);
+            "Save", 4, FileMenu);
 
         [Export]
         public static MenuItemDefinition SubItemSaveAs = new MenuItemDefinition<SaveFileAsCommandDefinition>(
@@ -36,7 +42,7 @@ namespace ModernApplicationFramework.MVVM.Controls.MenuDefinitions
         public static MenuItemDefinition SaveAll = new MenuItemDefinition<SaveAllFilesCommandDefinition>("Save All", 5, FileMenu);
 
         [Export]
-        public static MenuItemDefinition FileMenuSeparator2 = new MenuItemDefinition("Separator2", int.MaxValue, FileMenu, true);
+        public static MenuItemDefinition FileMenuSeparatorLast = new MenuItemDefinition("SeparatorLast", int.MaxValue, FileMenu, true);
 
         [Export]
         public static MenuItemDefinition CloseProgramm = new MenuItemDefinition<CloseProgammCommandDefinition>("Close", int.MaxValue, FileMenu);
