@@ -11,7 +11,7 @@ namespace ModernApplicationFramework.MVVM.Views
         public SimpleTextEditorView()
         {
             InitializeComponent();
-            Loaded += (sender, e) => MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+            MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
         }
     }
 }

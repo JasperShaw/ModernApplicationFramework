@@ -10,7 +10,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.MyEditor
         public MyTextEditorView()
         {
             InitializeComponent();
-            Loaded += (sender, e) => MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+            MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
         }
     }
 }
