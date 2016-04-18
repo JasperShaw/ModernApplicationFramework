@@ -50,18 +50,17 @@ namespace ModernApplicationFramework.Core.Utilities
                 return false;
             try
             {
-                if (input[input.Length - 1] != Path.AltDirectorySeparatorChar)
-                    input = input + Path.DirectorySeparatorChar;
                 if (!IsValidDrive(input))
                     return false;
-                input = Path.GetDirectoryName(input);
-                if (!string.IsNullOrEmpty(input))
-                {
-                    if (RegexInvalidpath.IsMatch(input))
-                        return false;
-                    if (input.IndexOfAny(Path.GetInvalidPathChars()) >= 0)
-                        return false;
-                }
+                Regex driveCheck = new Regex(@"^[a-zA-Z]:\\$");
+                if (!driveCheck.IsMatch(input.Substring(0, 3))) return false;
+                string strTheseAreInvalidFileNameChars = new string(Path.GetInvalidPathChars());
+                strTheseAreInvalidFileNameChars += @":/?*" + "\"";
+                Regex containsABadCharacter = new Regex("[" + Regex.Escape(strTheseAreInvalidFileNameChars) + "]");
+                if (containsABadCharacter.IsMatch(input.Substring(3, input.Length - 3)))
+                    return false;
+                if (RegexInvalidpath.IsMatch(input))
+                    return false;
             }
             catch (System.Exception)
             {

@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Themes.DarkIDE", "ModernApplicationFramework.Themes.DarkIDE\ModernApplicationFramework.Themes.DarkIDE.csproj", "{EB2B16AE-E6F6-4045-A578-D2C3E9A6652F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "UnitTestProject1\UnitTestProject1.csproj", "{D6FCAEAB-9B8C-42E2-997D-CF3B1B5DD2A8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{EB2B16AE-E6F6-4045-A578-D2C3E9A6652F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB2B16AE-E6F6-4045-A578-D2C3E9A6652F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB2B16AE-E6F6-4045-A578-D2C3E9A6652F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6FCAEAB-9B8C-42E2-997D-CF3B1B5DD2A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6FCAEAB-9B8C-42E2-997D-CF3B1B5DD2A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6FCAEAB-9B8C-42E2-997D-CF3B1B5DD2A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6FCAEAB-9B8C-42E2-997D-CF3B1B5DD2A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

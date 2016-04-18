@@ -57,7 +57,7 @@
                     <ColumnDefinition Width="Auto" MinWidth="272"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Margin="7,0,0,0" Foreground="{DynamicResource {x:Static themes:EnvironmentColors.GloablForeground}}">Destination:</Label>
-                <mafc:TextBox Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{Binding Path, Mode=TwoWay}"/>
+                <mafc:TextBox Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{Binding Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <Button Grid.Column="2" MinWidth="85" Margin="14,0,6,0" Padding="6,2,6,2" 
                     VerticalAlignment="Center" HorizontalAlignment="Left" Command="{Binding BrowseCommand}">Browse...</Button>
