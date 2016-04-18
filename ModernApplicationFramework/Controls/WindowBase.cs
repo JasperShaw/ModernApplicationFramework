@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using System.Linq;
 using System.Windows;
 using System.Windows.Interop;
@@ -7,6 +6,7 @@ using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.NativeMethods;
 using ModernApplicationFramework.Core.Platform;
 using ModernApplicationFramework.Core.Themes;
+using ModernApplicationFramework.Themes;
 
 namespace ModernApplicationFramework.Controls
 {
@@ -133,7 +133,10 @@ namespace ModernApplicationFramework.Controls
             set
             {
                 if (value == null)
-                    throw new NoNullAllowedException();
+                {
+                    var m = Application.Current.MainWindow as IHasTheme;
+                    value = m != null ? m.Theme : new GenericTheme();
+                }
                 if (Equals(value, _theme))
                     return;
                 var oldTheme = _theme;
