@@ -51,5 +51,10 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             _manager.SaveTheme(SelectedTheme.Name);
             Settings.Default.Save();
         }
+
+        public bool CanApply()
+        {
+            return SelectedTheme != null;
+        }
     }
 }

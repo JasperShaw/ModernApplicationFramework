@@ -74,9 +74,11 @@ namespace ModernApplicationFramework.MVVM.ViewModels
 
         private void ApplyChanges()
         {
-            foreach (var settingsEditor in _settingPages)
+            if (_settingPages.Any(settingPage => !settingPage.CanApply()))
+                return;
+            foreach (var settingPage in _settingPages)
             {
-                settingsEditor.Apply();
+                settingPage.Apply();
             }
 
             TryClose(true);

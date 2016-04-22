@@ -6,5 +6,6 @@
         string Name { get; }
         string Path { get; }
         void Apply();
+        bool CanApply();
     }
 }
