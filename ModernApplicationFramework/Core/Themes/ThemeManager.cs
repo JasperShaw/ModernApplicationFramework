@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using ModernApplicationFramework.Properties;
 
 namespace ModernApplicationFramework.Core.Themes
 {
@@ -21,6 +22,17 @@ namespace ModernApplicationFramework.Core.Themes
         {
             var theme = _themes.FirstOrDefault(x => x.Name == currentTheme);
             element.Theme = theme;
+        }
+
+        public void SaveTheme(string name)
+        {
+            Settings.Default.CurrentTheme = name;
+            Settings.Default.Save();
+        }
+
+        public Theme GetCurrentTheme()
+        {
+            return _themes.FirstOrDefault(x => x.Name == Settings.Default.CurrentTheme);
         }
     }
 }

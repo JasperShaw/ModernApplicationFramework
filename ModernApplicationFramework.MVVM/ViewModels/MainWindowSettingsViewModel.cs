@@ -46,8 +46,8 @@ namespace ModernApplicationFramework.MVVM.ViewModels
 
         public void Apply()
         {
-            Settings.Default.CurrentTheme = SelectedTheme.Name;
-            _shell.Theme = SelectedTheme;
+            _manager.SetTheme(SelectedTheme.Name, _shell);
+            _manager.SaveTheme(SelectedTheme.Name);
             Settings.Default.Save();
         }
     }

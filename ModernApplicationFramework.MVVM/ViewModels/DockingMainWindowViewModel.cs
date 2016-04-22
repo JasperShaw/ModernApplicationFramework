@@ -16,7 +16,6 @@ using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.MVVM.Controls;
 using ModernApplicationFramework.MVVM.Core;
 using ModernApplicationFramework.MVVM.Interfaces;
-using ModernApplicationFramework.MVVM.Properties;
 using ModernApplicationFramework.MVVM.Views;
 using ModernApplicationFramework.Themes;
 
@@ -365,10 +364,10 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             window.Activated += _mainWindow_Activated;
             window.Deactivated += _mainWindow_Deactivated;
 
-            if (!string.IsNullOrEmpty(Settings.Default.CurrentTheme))
-                _themeManager.SetTheme(Settings.Default.CurrentTheme, this);
-            else
-                _themeManager.SetTheme(new GenericTheme().Name, this);
+            _themeManager.SetTheme(
+                !string.IsNullOrEmpty(_themeManager.GetCurrentTheme()?.Name)
+                    ? _themeManager.GetCurrentTheme().Name
+                    : new GenericTheme().Name, this);
 
             _menuCreator.CreateMenu(MenuHostViewModel);
 
