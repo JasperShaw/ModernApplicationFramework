@@ -10,7 +10,7 @@ using ModernApplicationFramework.MVVM.Interfaces;
 namespace ModernApplicationFramework.MVVM.ViewModels
 {
     [Export(typeof(SettingsWindowViewModel))]
-    public class SettingsWindowViewModel : Screen
+    public sealed class SettingsWindowViewModel : Screen
     {
         private SettingsPageViewModel _selectedPage;
         private IEnumerable<ISettingsPage> _settingPages;
@@ -40,7 +40,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         {
             base.OnInitialize();
             var pages = new List<SettingsPageViewModel>();
-            _settingPages = IoC.GetAll<ISettingsPage>();
+            _settingPages = IoC.GetAll<ISettingsPage>().OrderBy(x => x.SortOrder);
 
             foreach (var settingPage in _settingPages)
             {

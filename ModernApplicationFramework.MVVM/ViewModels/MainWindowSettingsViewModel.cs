@@ -41,6 +41,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             }
         }
 
+        public int SortOrder => 0;
         public string Name => "General";
         public string Path => "Environment";
 
