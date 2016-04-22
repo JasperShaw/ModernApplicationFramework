@@ -220,6 +220,7 @@
     <Compile Include="Controls\ModernExpander.cs" />
     <Compile Include="Controls\ScrollViewer.cs" />
     <Compile Include="Controls\Utilities\PanelMarginSetter.cs" />
+    <Compile Include="Core\Events\ItemDoubleClickedEventArgs.cs" />
     <Compile Include="Core\Interop\COMGuids.cs" />
     <Compile Include="Core\Shell\ShellComInterfaces.cs" />
     <Compile Include="Core\Shell\ShellWrapperDefinitions.cs" />

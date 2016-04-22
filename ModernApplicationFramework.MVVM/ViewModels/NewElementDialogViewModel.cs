@@ -53,14 +53,24 @@ namespace ModernApplicationFramework.MVVM.ViewModels
                 if (value == _itemPresenter)
                     return;
                 if (_itemPresenter != null)
+                {
                     _itemPresenter.OnSelectedItemChanged -= _itemPresenter_OnSelectedItemChanged;
+                    _itemPresenter.ItemDoubledClicked -= _itemPresenter_ItemDoubledClicked;
+                }
                 _itemPresenter = value;
                 var firstOrDefault = _itemPresenter.ItemSource.FirstOrDefault();
                 if (firstOrDefault != null)
                     Name = firstOrDefault.PresetElementName;
                 _itemPresenter.OnSelectedItemChanged += _itemPresenter_OnSelectedItemChanged;
-
+                _itemPresenter.ItemDoubledClicked += _itemPresenter_ItemDoubledClicked;
             }
+        }
+
+        private void _itemPresenter_ItemDoubledClicked(object sender, ModernApplicationFramework.Core.Events.ItemDoubleClickedEventArgs e)
+        {
+            if (!CanApply())
+                return;
+            Apply();
         }
 
         private void _itemPresenter_OnSelectedItemChanged(object sender, System.Windows.Controls.Primitives.ItemsChangedEventArgs e)

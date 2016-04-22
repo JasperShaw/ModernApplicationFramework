@@ -135,14 +135,15 @@
     <Compile Include="Views\DockingMainWindowView.xaml.cs">
       <DependentUpon>DockingMainWindowView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\FileExtensionItemPresenter.cs" />
+    <Compile Include="Controls\NewElementItemPresenter.xaml.cs">
+      <DependentUpon>NewElementItemPresenter.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainWindowSettingsView.xaml.cs">
       <DependentUpon>MainWindowSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NewElementDialogView.xaml.cs">
       <DependentUpon>NewElementDialogView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\FileExtensionItemPresenter.xaml.cs">
-      <DependentUpon>FileExtensionItemPresenter.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SaveDirtyDocumentsDialog.xaml.cs">
       <DependentUpon>SaveDirtyDocumentsDialog.xaml</DependentUpon>
@@ -209,15 +210,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Controls\NewElementItemPresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\MainWindowSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\NewElementDialogView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\FileExtensionItemPresenter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

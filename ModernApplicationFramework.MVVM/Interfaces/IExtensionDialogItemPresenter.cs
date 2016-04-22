@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Controls.Primitives;
+using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Interfaces.Utilities;
 
 namespace ModernApplicationFramework.MVVM.Interfaces
@@ -18,6 +19,8 @@ namespace ModernApplicationFramework.MVVM.Interfaces
         IExtensionDefinition SelectedItem { get; }
 
         event EventHandler<ItemsChangedEventArgs> OnSelectedItemChanged;
+
+        event EventHandler<ItemDoubleClickedEventArgs> ItemDoubledClicked;
 
     }
 }

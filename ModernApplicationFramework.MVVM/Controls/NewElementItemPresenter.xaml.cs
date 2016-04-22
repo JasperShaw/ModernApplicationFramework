@@ -4,21 +4,55 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
+using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.MVVM.Annotations;
-using ModernApplicationFramework.MVVM.Core.CommandArguments;
 using ModernApplicationFramework.MVVM.Interfaces;
 
-namespace ModernApplicationFramework.MVVM.Views
+namespace ModernApplicationFramework.MVVM.Controls
 {
-    public partial class FileExtensionItemPresenter : IExtensionDialogItemPresenter, INotifyPropertyChanged
+
+    public abstract partial class NewElementItemPresenter : IExtensionDialogItemPresenter, INotifyPropertyChanged
     {
         private IEnumerable<IExtensionDefinition> _itemSource;
 
-        public FileExtensionItemPresenter()
+        private EventHandler<ItemDoubleClickedEventArgs> _itemDoubleClicked;
+
+
+        public event EventHandler<ItemDoubleClickedEventArgs> ItemDoubledClicked
+        {
+            add
+            {
+                var eventHandler = _itemDoubleClicked;
+                EventHandler<ItemDoubleClickedEventArgs> comparand;
+                do
+                {
+                    comparand = eventHandler;
+                    eventHandler =
+                        Interlocked.CompareExchange(ref _itemDoubleClicked,
+                            (EventHandler<ItemDoubleClickedEventArgs>) Delegate.Combine(comparand, value), comparand);
+                } while (eventHandler != comparand);
+            }
+            remove
+            {
+                var eventHandler = _itemDoubleClicked;
+                EventHandler<ItemDoubleClickedEventArgs> comparand;
+                do
+                {
+                    comparand = eventHandler;
+                    eventHandler = Interlocked.CompareExchange(ref _itemDoubleClicked,
+                        (EventHandler<ItemDoubleClickedEventArgs>) Delegate.Remove(comparand, value), comparand);
+                }
+                while (eventHandler != comparand);
+            }
+        }
+
+        protected NewElementItemPresenter()
         {
             InitializeComponent();
         }
@@ -51,13 +85,7 @@ namespace ModernApplicationFramework.MVVM.Views
         public bool UsesNameProperty => true;
         public bool UsesPathProperty => false;
 
-        public object CreateResult(string name, string path)
-        {
-            var fileArgument = SelectedItem as ISupportedFileDefinition;
-            return fileArgument == null
-                ? null
-                : new NewFileCommandArguments(name, fileArgument.FileType.FileExtension, fileArgument.PrefferedEditor);
-        }
+        public abstract object CreateResult(string name, string path);
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -111,5 +139,37 @@ namespace ModernApplicationFramework.MVVM.Views
             ItemSource = null;
             ItemSource = newList;
         }
+
+        private void ListView_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton != MouseButton.Left || ListView.SelectedItems.Count == 0 || _itemDoubleClicked == null)
+                return;
+            _itemDoubleClicked(this, new ItemDoubleClickedEventArgs(SelectedItem));
+        }
     }
+
+    public class AbstractControlDescriptionProvider<TAbstract, TBase> : TypeDescriptionProvider
+    {
+        public AbstractControlDescriptionProvider()
+            : base(TypeDescriptor.GetProvider(typeof(TAbstract)))
+        {
+        }
+
+        public override Type GetReflectionType(Type objectType, object instance)
+        {
+            if (objectType == typeof(TAbstract))
+                return typeof(TBase);
+
+            return base.GetReflectionType(objectType, instance);
+        }
+
+        public override object CreateInstance(IServiceProvider provider, Type objectType, Type[] argTypes, object[] args)
+        {
+            if (objectType == typeof(TAbstract))
+                objectType = typeof(TBase);
+
+            return base.CreateInstance(provider, objectType, argTypes, args);
+        }
+    }
+
 }

@@ -7,7 +7,7 @@
              xmlns:mafc="http://modern.framework.com/controls"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
              xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
-             x:Class="ModernApplicationFramework.MVVM.Views.FileExtensionItemPresenter"
+             x:Class="ModernApplicationFramework.MVVM.Controls.NewElementItemPresenter"
              mc:Ignorable="d" MinWidth="680" DataContext="{Binding RelativeSource={RelativeSource Self}}"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
@@ -101,7 +101,7 @@
                 <ListView Style="{DynamicResource ListViewStyle}" SelectionMode="Single" 
 					Loaded="FrameworkElement_OnLoaded" SizeChanged="_listView_OnSizeChanged" 
 					SelectionChanged="ListView_OnSelectionChanged" x:Name="ListView"
-					ItemContainerStyle="{DynamicResource ListViewItemStyle}"
+					ItemContainerStyle="{DynamicResource ListViewItemStyle}" MouseDoubleClick="ListView_OnMouseDoubleClick"
 					FocusVisualStyle="{x:Null}" ItemsSource="{Binding ItemSource}"/>
             </Grid>
             <Border Grid.Row="1" Grid.Column="1" Background="{DynamicResource {x:Static themes:EnvironmentColors.GlobalBackgroundColor}}" Margin="1,0,0,0" BorderThickness="0">
