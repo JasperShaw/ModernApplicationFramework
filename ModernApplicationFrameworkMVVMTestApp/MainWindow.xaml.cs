@@ -1,12 +1,8 @@
 ﻿using System.IO;
 using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Docking.Layout.Serialization;
-using ModernApplicationFramework.Interfaces;
-using ModernApplicationFramework.Interfaces.ViewModels;
-using ToolBar = ModernApplicationFramework.Controls.ToolBar;
 
 namespace ModernApplicationFrameworkMVVMTestApp
 {
@@ -35,11 +31,14 @@ namespace ModernApplicationFrameworkMVVMTestApp
         {
             //FullScreen = !FullScreen;
 
-            new WaitDialog().ShowDialog(() =>
+            var wd = new WaitDialog();
+            wd.ShowDialog(() =>
             {
                 Thread.Sleep(5000);
                 MessageBox.Show("Test");
             });
+            MessageBox.Show(wd.ActionWasAborted.ToString());
+
 
             //if (((ModernApplicationFramework.ViewModels.UseDockingHost)DataContext).Theme is LightTheme)
             //    ((ModernApplicationFramework.ViewModels.UseDockingHost)DataContext).Theme = new GenericTheme();
@@ -47,7 +46,7 @@ namespace ModernApplicationFrameworkMVVMTestApp
             //    ((ModernApplicationFramework.ViewModels.UseDockingHost)DataContext).Theme = new LightTheme();
         }
 
-	    private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
+        private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
 	    {
             var serializer = new XmlLayoutSerializer(DockManager.DockingManager);
             serializer.LayoutSerializationCallback += (s, args) =>

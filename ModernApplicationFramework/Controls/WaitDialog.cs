@@ -25,6 +25,8 @@ namespace ModernApplicationFramework.Controls
             set { SetValue(MessageTextProperty, value); }
         }
 
+        public bool ActionWasAborted { get; private set; }
+
         public bool? ShowDialog(Action action)
         {
             bool? result = true;
@@ -70,6 +72,8 @@ namespace ModernApplicationFramework.Controls
 
         protected override void OnClosed(EventArgs e)
         {
+            if (_thread.IsAlive)
+                ActionWasAborted = true;
             _thread?.Abort();
             DoClose();
             base.OnClosed(e);
