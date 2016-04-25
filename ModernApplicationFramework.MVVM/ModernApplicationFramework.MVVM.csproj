@@ -135,9 +135,8 @@
     <Compile Include="Views\DockingMainWindowView.xaml.cs">
       <DependentUpon>DockingMainWindowView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\FileExtensionItemPresenter.cs" />
-    <Compile Include="Controls\NewElementItemPresenter.xaml.cs">
-      <DependentUpon>NewElementItemPresenter.xaml</DependentUpon>
+    <Compile Include="Controls\FileExtensionItemPresenter.xaml.cs">
+      <DependentUpon>FileExtensionItemPresenter.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainWindowSettingsView.xaml.cs">
       <DependentUpon>MainWindowSettingsView.xaml</DependentUpon>
@@ -210,7 +209,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\NewElementItemPresenter.xaml">
+    <Page Include="Controls\FileExtensionItemPresenter.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

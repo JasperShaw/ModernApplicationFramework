@@ -12,12 +12,13 @@ using System.Windows.Input;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.MVVM.Annotations;
+using ModernApplicationFramework.MVVM.Core.CommandArguments;
 using ModernApplicationFramework.MVVM.Interfaces;
 
 namespace ModernApplicationFramework.MVVM.Controls
 {
 
-    public abstract partial class NewElementItemPresenter : IExtensionDialogItemPresenter, INotifyPropertyChanged
+    public partial class FileExtensionItemPresenter : IExtensionDialogItemPresenter, INotifyPropertyChanged
     {
         private IEnumerable<IExtensionDefinition> _itemSource;
 
@@ -52,7 +53,7 @@ namespace ModernApplicationFramework.MVVM.Controls
             }
         }
 
-        protected NewElementItemPresenter()
+        public FileExtensionItemPresenter()
         {
             InitializeComponent();
         }
@@ -85,7 +86,13 @@ namespace ModernApplicationFramework.MVVM.Controls
         public bool UsesNameProperty => true;
         public bool UsesPathProperty => false;
 
-        public abstract object CreateResult(string name, string path);
+        public object CreateResult(string name, string path)
+        {
+            var fileArgument = SelectedItem as ISupportedFileDefinition;
+            return fileArgument == null
+                ? null
+                : new NewFileCommandArguments(name, fileArgument.FileType.FileExtension, fileArgument.PrefferedEditor);
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
