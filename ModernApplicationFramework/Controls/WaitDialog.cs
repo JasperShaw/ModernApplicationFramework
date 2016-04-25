@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Threading;
+using System.Windows;
+using System.Windows.Threading;
 
 namespace ModernApplicationFramework.Controls
 {
@@ -7,6 +10,8 @@ namespace ModernApplicationFramework.Controls
         public static readonly DependencyProperty MessageTextProperty =
             DependencyProperty.Register("MessageText", typeof(string), typeof(WaitDialog),
                 new FrameworkPropertyMetadata("Preparing..."));
+
+        private readonly Dispatcher _dispatcher;
 
         static WaitDialog()
         {
@@ -20,22 +25,61 @@ namespace ModernApplicationFramework.Controls
             set { SetValue(MessageTextProperty, value); }
         }
 
-        public static void EndWaitDialog(WaitDialog dialog)
+        public bool? ShowDialog(Action action)
         {
-            dialog.Close();
+            bool? result = true;
+            // start a new thread to start the submitted action
+            var t = new Thread(() =>
+            {
+                // start the submitted action
+                try
+                {
+                    action.Invoke();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    DoClose();
+                }
+            });
+            _thread = t;
+            t.Start();
+
+            if (t.ThreadState != ThreadState.Stopped)
+            {
+                result = ShowDialog();
+            }
+            return result;
         }
 
-        public static WaitDialog StartWaitDialog(string title, string message)
+        private Thread _thread;
+
+        private void DoClose()
         {
-            var dialog = new WaitDialog
-            {
-                Title = title,
-                MessageText = message,
-                Height = 130,
-                Width = 450
-            };
-            dialog.Show();
-            return dialog;
+            _dispatcher.BeginInvoke(new ThreadStart(Close));
+        }
+
+        private new bool? ShowDialog()
+        {
+            Topmost = true;
+            return base.ShowDialog();
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            _thread?.Abort();
+            DoClose();
+            base.OnClosed(e);
+        }
+
+        public WaitDialog()
+        {
+            _dispatcher = Dispatcher.CurrentDispatcher;
+            Height = 130;
+            Width = 450;
         }
     }
 }

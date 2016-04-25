@@ -1,6 +1,8 @@
 ﻿using System.IO;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Docking.Layout.Serialization;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.ViewModels;
@@ -31,7 +33,13 @@ namespace ModernApplicationFrameworkMVVMTestApp
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            FullScreen = !FullScreen;
+            //FullScreen = !FullScreen;
+
+            new WaitDialog().ShowDialog(() =>
+            {
+                Thread.Sleep(5000);
+                MessageBox.Show("Test");
+            });
 
             //if (((ModernApplicationFramework.ViewModels.UseDockingHost)DataContext).Theme is LightTheme)
             //    ((ModernApplicationFramework.ViewModels.UseDockingHost)DataContext).Theme = new GenericTheme();
