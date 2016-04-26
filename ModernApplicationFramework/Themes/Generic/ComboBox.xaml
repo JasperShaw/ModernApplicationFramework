@@ -85,7 +85,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasItems" Value="false">
-                            <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95"/>
+                            <Setter TargetName="DropDownBorder" Property="MinHeight" Value="25"/>
                         </Trigger>
                         <Trigger Property="IsGrouping" Value="true">
 							<Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
@@ -94,7 +94,10 @@
                             <Setter Property="IsTabStop" Value="false"/>
                             <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible"/>
                             <Setter TargetName="ContentSite" Property="Visibility" Value="Hidden"/>
-                             <Setter TargetName="ContentSite" Property="Focusable" Value="True"/>
+                            <Setter TargetName="ContentSite" Property="Focusable" Value="True"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.ComboBoxForegroundDisabled}}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
 				</ControlTemplate>

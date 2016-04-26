@@ -44,9 +44,8 @@
             </Grid.ColumnDefinitions>
 
             <mafc:Button Content="Button" Grid.Column="0" Grid.Row="0" Click="Button_Click_1"/>
-            <mafc:ComboBox Grid.Column="0" Grid.Row="1" SelectedIndex="0" IsEditable="False">
-                <mafc:ComboBoxItem Content="ComboBoxlkjaskldjasdjadjalj"/>
-                <mafc:ComboBoxItem Content="Test"/>
+            <mafc:ComboBox Grid.Column="0" Grid.Row="1" SelectedIndex="0" IsEditable="True">
+
             </mafc:ComboBox>
             <mafc:DropDownButton Grid.Column="0" Grid.Row="2" Content="DropDownButton">
                 <mafc:DropDownButton.DropDownContent>

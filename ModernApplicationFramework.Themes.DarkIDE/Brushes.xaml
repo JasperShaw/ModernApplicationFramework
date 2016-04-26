@@ -239,10 +239,10 @@
                      ResourceId=ComboBoxArrowDown}" Color="#FFFFFFFF"/>
     
      <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboBoxBorderDisabled}" Color="#FFCCCEDB"/>
+                     ResourceId=ComboBoxBorderDisabled}" Color="#FF434346"/>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboBoxBackgroundDisabled}" Color="#FF434346"/>
+                     ResourceId=ComboBoxBackgroundDisabled}" Color="#FF2D2D30"/>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
                      ResourceId=ComboboxButtonBackgroundDisabled}" Color="#FF2D2D30"/>
