@@ -213,6 +213,7 @@
       <DependentUpon>DockingHost.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\GlyphButton.cs" />
+    <Compile Include="Controls\IconTextButton.cs" />
     <Compile Include="Controls\ImageButton.cs" />
     <Compile Include="Controls\ImageTabButton.cs" />
     <Compile Include="Controls\ImageRadioButton.cs" />
@@ -500,6 +501,10 @@
     </Page>
     <Page Include="Themes\Generic\AnchorablePaneTitle.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic\IconTextButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Generic\ListView.xaml">
       <Generator>MSBuild:Compile</Generator>

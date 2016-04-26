@@ -4,7 +4,7 @@ using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.MVVM.Controls.Toolbars
 {
-    public static class ToolDefinitions
+    public static class ToolBarDefinitions
     {
         [Export]
         public static ToolbarDefinition Standard = new ToolbarDefinition<StandardToolbar>(0, true, Dock.Top);

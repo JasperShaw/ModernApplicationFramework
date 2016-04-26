@@ -72,6 +72,8 @@
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/ModernExpander.xaml"/>
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/ScrollViewer.xaml"/>
 
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/IconTextButton.xaml"/>
+
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

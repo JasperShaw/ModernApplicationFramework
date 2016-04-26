@@ -25,6 +25,9 @@
                                    TextWrapping="Wrap"/>
                     </Grid>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="FlowDirection" Value="RightToLeft">
+                            <Setter TargetName="CheckGlyph" Property="FlowDirection" Value="LeftToRight"/>
+                        </Trigger>
                         <Trigger Property="ToggleButton.IsChecked" Value="true">
                             <Setter TargetName="CheckGlyph" Property="UIElement.Visibility" Value="Visible"/>
                         </Trigger>

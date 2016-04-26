@@ -6,7 +6,7 @@
     <Grid>
         <mafc:Button Margin="51,97,152,118" Content="Click" Click="Button_Click" Height="50" Width="100"/>
         <TextBox Margin="51,207,176,52" TextChanged="TextBoxBase_OnTextChanged" Height="50" Width="100"/>
-        <mafc:CheckBox Margin="42,48,336,240" Content="test" Height="50" Width="100"></mafc:CheckBox>
+        <mafc:CheckBox Margin="42,48,336,240" Content="test" Height="50" Width="100" FlowDirection="RightToLeft"></mafc:CheckBox>
     </Grid>
     
 

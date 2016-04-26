@@ -44,8 +44,8 @@
             </Grid.ColumnDefinitions>
 
             <mafc:Button Content="Button" Grid.Column="0" Grid.Row="0" Click="Button_Click_1"/>
-            <mafc:ComboBox Grid.Column="0" Grid.Row="1" SelectedIndex="0" IsEnabled="True" IsEditable="True">
-                <mafc:ComboBoxItem Content="ComboBox"/>
+            <mafc:ComboBox Grid.Column="0" Grid.Row="1" SelectedIndex="0" IsEditable="False">
+                <mafc:ComboBoxItem Content="ComboBoxlkjaskldjasdjadjalj"/>
                 <mafc:ComboBoxItem Content="Test"/>
             </mafc:ComboBox>
             <mafc:DropDownButton Grid.Column="0" Grid.Row="2" Content="DropDownButton">
@@ -65,7 +65,12 @@
 
             <mafc:TextBox x:Name="TextBox" Grid.Column="1" Grid.Row="1" PrevieTextChanged="TextBox_OnPrevieTextChanged"/>
             <mafc:TitleBarButton Grid.Column="1" Grid.Row="2"/>
-            <mafc:CheckBox Grid.Column="1" Grid.Row="3" Content="test"/>
+            <mafc:CheckBox Grid.Column="1" Grid.Row="3" Content="test" FlowDirection="RightToLeft"/>
+            <mafc:IconTextButton Grid.Column="1" Grid.Row="4" Content="Test">
+                <mafc:IconTextButton.Icon>
+                    <Image Source="focProjectEmpty.png" Stretch="None"></Image>
+                </mafc:IconTextButton.Icon>
+            </mafc:IconTextButton>
 
         </Grid>
         <mafc:StatusBar Grid.Row="3" ModeText="Ready" Mode="3" StatusText="Add Information here" InformationTextA="Z 63" InformationTextB="S 132" InformationTextC="Zei 163"/>

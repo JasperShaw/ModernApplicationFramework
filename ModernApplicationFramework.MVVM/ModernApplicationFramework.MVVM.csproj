@@ -74,7 +74,7 @@
       <DependentUpon>StandardToolbar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Toolbars\StandardToolbarModel.cs" />
-    <Compile Include="Controls\Toolbars\ToolDefinitions.cs" />
+    <Compile Include="Controls\Toolbars\ToolBarDefinitions.cs" />
     <Compile Include="Core\Behaviours\BindableSelectedItemBehavior.cs" />
     <Compile Include="Core\CommandArguments\OpenFileWithCommandArguments.cs" />
     <Compile Include="Core\EditorProvider.cs" />
