@@ -102,7 +102,13 @@
 					Loaded="FrameworkElement_OnLoaded" SizeChanged="_listView_OnSizeChanged" 
 					SelectionChanged="ListView_OnSelectionChanged" x:Name="ListView"
 					ItemContainerStyle="{DynamicResource ListViewItemStyle}" MouseDoubleClick="ListView_OnMouseDoubleClick"
-					FocusVisualStyle="{x:Null}" ItemsSource="{Binding ItemSource}"/>
+					FocusVisualStyle="{x:Null}" ItemsSource="{Binding ItemSource}">
+                    <ListView.View>
+                        <GridView ColumnHeaderContainerStyle="{StaticResource NoGridViewHeader}">
+                            <GridViewColumn CellTemplate="{StaticResource IExtensionDefinitionViewTemplate}" Header="Name"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
             </Grid>
             <Border Grid.Row="1" Grid.Column="1" Background="{DynamicResource {x:Static themes:EnvironmentColors.GlobalBackgroundColor}}" Margin="1,0,0,0" BorderThickness="0">
                 <ContentControl Focusable="False" Style="{StaticResource DetailPaneStyle}"

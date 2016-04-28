@@ -228,6 +228,7 @@
     <Compile Include="Core\Themes\ThemeManager.cs" />
     <Compile Include="Core\Utilities\WindowsFileNameHelper.cs" />
     <Compile Include="Dialoges\FolderBrowserDialog.cs" />
+    <Compile Include="Interfaces\Controls\IListViewContainer.cs" />
     <Compile Include="Interfaces\Controls\INonClientArea.cs" />
     <Compile Include="Controls\Internals\SelectionDelegatingCheckBox.cs" />
     <Compile Include="Controls\MainWindowAutomationPeer.cs" />

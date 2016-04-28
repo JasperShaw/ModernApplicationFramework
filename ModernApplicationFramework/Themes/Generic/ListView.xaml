@@ -1,13 +1,14 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:utilities="clr-namespace:ModernApplicationFramework.Interfaces.Utilities"
-                    xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes">
+                    xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
+                    xmlns:mafc="clr-namespace:ModernApplicationFramework.Controls">
 
     <Style x:Key="NoGridViewHeader">
         <Setter Property="UIElement.Visibility" Value="Collapsed"/>
     </Style>
 
-    <DataTemplate x:Key="ViewTemplateSelector" DataType="{x:Type utilities:IExtensionDefinition}">
+    <DataTemplate x:Key="IExtensionDefinitionViewTemplate" DataType="{x:Type utilities:IExtensionDefinition}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="38"/>
@@ -26,11 +27,15 @@
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.ListViewBackground}}"/>
-        <Setter Property="View">
+        <Setter Property="Template">
             <Setter.Value>
-                <GridView ColumnHeaderContainerStyle="{StaticResource NoGridViewHeader}">
-                    <GridViewColumn CellTemplate="{StaticResource ViewTemplateSelector}" Header="Name"/>
-                </GridView>
+                <ControlTemplate TargetType="{x:Type ListView}">
+                    <Grid>
+                        <mafc:ScrollViewer Background="{TemplateBinding Background}">
+                            <ItemsPresenter/>
+                        </mafc:ScrollViewer>
+                    </Grid>
+                </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
