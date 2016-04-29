@@ -189,6 +189,9 @@
     <Compile Include="Commands\CommandWrapper.cs" />
     <Compile Include="Commands\GestureCommandWrapper.cs" />
     <Compile Include="Commands\CommandDefinition.cs" />
+    <Compile Include="Commands\MultiKeyGesture.cs" />
+    <Compile Include="Commands\MultiKeyGestureCommandWrapper.cs" />
+    <Compile Include="Commands\MultiKeyGestureConverter.cs" />
     <Compile Include="Commands\Service\CommandService.cs" />
     <Compile Include="Commands\Service\ICommandService.cs" />
     <Compile Include="Commands\RelayCommand.cs" />

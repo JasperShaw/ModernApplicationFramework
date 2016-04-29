@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using ModernApplicationFramework.Annotations;
-using ModernApplicationFramework.Commands.Base;
 
 namespace ModernApplicationFramework.Commands
 {
@@ -23,7 +22,7 @@ namespace ModernApplicationFramework.Commands
             KeyGesture = gesture;
         }
 
-        public string GestureText => KeyGesture.GetDisplayStringForCulture(CultureInfo.CurrentUICulture);
+        public virtual string GestureText => KeyGesture.GetDisplayStringForCulture(CultureInfo.CurrentUICulture);
 
         public KeyGesture KeyGesture
         {

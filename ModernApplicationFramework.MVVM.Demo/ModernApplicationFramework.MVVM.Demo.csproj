@@ -60,6 +60,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Modules\Commands\MenuDefinitions.cs" />
+    <Compile Include="Modules\Commands\TestCommandDefinition.cs" />
     <Compile Include="Modules\DockingMainWindowViewModel.cs" />
     <Compile Include="Modules\Document\SampleView.xaml.cs">
       <DependentUpon>SampleView.xaml</DependentUpon>

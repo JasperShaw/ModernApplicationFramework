@@ -12,6 +12,8 @@
 
         public void ScrollToEnd()
         {
+            outputText.Focus();
+            outputText.CaretIndex = outputText.Text.Length;
             outputText.ScrollToEnd();
         }
 
