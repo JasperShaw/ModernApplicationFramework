@@ -6,7 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
-using ModernApplicationFramework.Caliburn;
+using Caliburn.Micro;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.MVVM.Interfaces;
 using ModernApplicationFramework.Utilities;

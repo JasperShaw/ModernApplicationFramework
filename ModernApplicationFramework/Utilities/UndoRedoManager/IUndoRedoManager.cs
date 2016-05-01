@@ -1,4 +1,4 @@
-﻿using ModernApplicationFramework.Caliburn.Collections;
+﻿using Caliburn.Micro;
 
 namespace ModernApplicationFramework.Utilities.UndoRedoManager
 {

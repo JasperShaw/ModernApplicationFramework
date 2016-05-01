@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Reflection;
-using ModernApplicationFramework.Caliburn;
+using Caliburn.Micro;
 using ModernApplicationFramework.MVVM.Interfaces;
 
 namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Inspectors

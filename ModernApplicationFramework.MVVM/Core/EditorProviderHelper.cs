@@ -2,8 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using ModernApplicationFramework.Caliburn;
-using ModernApplicationFramework.Caliburn.Interfaces;
+using Caliburn.Micro;
 using ModernApplicationFramework.MVVM.Interfaces;
 
 namespace ModernApplicationFramework.MVVM.Core

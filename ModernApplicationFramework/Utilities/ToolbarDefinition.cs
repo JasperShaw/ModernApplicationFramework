@@ -1,5 +1,5 @@
 ﻿using System.Windows.Controls;
-using ModernApplicationFramework.Caliburn;
+using Caliburn.Micro;
 using ModernApplicationFramework.Utilities.Service;
 using ToolBar = ModernApplicationFramework.Controls.ToolBar;
 

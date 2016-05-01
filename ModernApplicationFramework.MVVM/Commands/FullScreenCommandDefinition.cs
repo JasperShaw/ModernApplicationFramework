@@ -2,7 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Input;
-using ModernApplicationFramework.Caliburn;
+using Caliburn.Micro;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Interfaces.Utilities;

@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Caliburn.Micro;
 using Microsoft.Win32;
-using ModernApplicationFramework.Caliburn;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.MVVM.Core;
 using ModernApplicationFramework.MVVM.Interfaces;

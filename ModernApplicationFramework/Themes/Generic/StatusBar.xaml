@@ -53,7 +53,7 @@
                         <Trigger Property="Mode" Value="2">
                             <Setter TargetName="Panel" Property="Background" Value="{StaticResource StatusBarMode2Background}"/>
                             <Setter Property="Background" Value="{StaticResource StatusBarMode2Background}"/>
-                            <Setter Property="Foreground" Value="{StaticResource StatusBarMode2Background}"/>
+                            <Setter Property="Foreground" Value="{StaticResource StatusBarMode2Foreground}"/>
                         </Trigger>
                         <Trigger Property="Mode" Value="3">
                             <Setter TargetName="Panel" Property="Background" Value="{StaticResource StatusBarMode3Background}"/>

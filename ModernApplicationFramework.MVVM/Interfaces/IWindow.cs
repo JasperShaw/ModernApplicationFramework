@@ -1,4 +1,4 @@
-﻿using ModernApplicationFramework.Caliburn.Interfaces;
+﻿using Caliburn.Micro;
 
 namespace ModernApplicationFramework.MVVM.Interfaces
 {

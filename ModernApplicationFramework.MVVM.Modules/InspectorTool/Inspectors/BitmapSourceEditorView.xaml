@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:platform="clr-namespace:ModernApplicationFramework.Caliburn.Platform;assembly=ModernApplicationFramework"
+             xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" d:DesignWidth="300">
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
 				Margin="0 3 0 0">
@@ -14,7 +14,7 @@
         <Button VerticalAlignment="Top" 
 				Margin="5 0 0 0" Padding="5 2 5 2"
 				Content="Change"
-				platform:Message.Attach="Choose" />
+				cal:Message.Attach="Choose" />
 
     </StackPanel>
 </UserControl>

@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.Composition;
-using ModernApplicationFramework.Caliburn.Platform.Xaml;
+using Caliburn.Micro;
 using ModernApplicationFramework.MVVM.Interfaces;
 using ModernApplicationFramework.MVVM.Views;
 

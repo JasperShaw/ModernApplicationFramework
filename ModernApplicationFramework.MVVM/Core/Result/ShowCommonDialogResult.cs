@@ -1,8 +1,6 @@
 ﻿using System;
+using Caliburn.Micro;
 using Microsoft.Win32;
-using ModernApplicationFramework.Caliburn;
-using ModernApplicationFramework.Caliburn.Extensions;
-using ModernApplicationFramework.Caliburn.Result;
 
 namespace ModernApplicationFramework.MVVM.Core.Result
 {

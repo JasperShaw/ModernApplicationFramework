@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Caliburn.Micro;
 
 namespace ModernApplicationFramework.Controls
 {
@@ -21,6 +22,8 @@ namespace ModernApplicationFramework.Controls
 
         public static readonly DependencyProperty InformationTextCProperty = DependencyProperty.Register(
             "InformationTextC", typeof(string), typeof(StatusBar), new PropertyMetadata(default(string)));
+
+        private int _lastMode;
 
         static StatusBar()
         {
@@ -48,7 +51,11 @@ namespace ModernApplicationFramework.Controls
         public int Mode
         {
             get { return (int) GetValue(ModeProperty); }
-            set { SetValue(ModeProperty, value); }
+            set
+            {
+                _lastMode = Mode;
+                SetValue(ModeProperty, value);
+            }
         }
 
         public string ModeText
@@ -61,6 +68,11 @@ namespace ModernApplicationFramework.Controls
         {
             get { return (string) GetValue(StatusTextProperty); }
             set { SetValue(StatusTextProperty, value); }
+        }
+
+        public void RestoreMode()
+        {
+            Execute.OnUIThread(() => SetValue(ModeProperty, _lastMode));
         }
     }
 }

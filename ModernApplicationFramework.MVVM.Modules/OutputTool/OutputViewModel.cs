@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Text;
 using System.Windows.Input;
-using ModernApplicationFramework.Caliburn;
+using Caliburn.Micro;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.MVVM.Core;
 
@@ -30,7 +30,7 @@ namespace ModernApplicationFramework.MVVM.Modules.OutputTool
         public void Clear()
         {
             if (_view != null)
-                Execute.OnUiThread(() => _view.Clear());
+                Execute.OnUIThread(() => _view.Clear());
             _stringBuilder.Clear();
         }
 
@@ -48,7 +48,7 @@ namespace ModernApplicationFramework.MVVM.Modules.OutputTool
         private void OnTextChanged()
         {
             if (_view != null)
-                Execute.OnUiThread(() => _view.SetText(_stringBuilder.ToString()));
+                Execute.OnUIThread(() => _view.SetText(_stringBuilder.ToString()));
         }
 
         protected override void OnViewLoaded(object view)

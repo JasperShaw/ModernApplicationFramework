@@ -5,11 +5,7 @@ using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.ReflectionModel;
 using System.Linq;
 using System.Reflection;
-using ModernApplicationFramework.Caliburn;
-using ModernApplicationFramework.Caliburn.Interfaces;
-using ModernApplicationFramework.Caliburn.Platform.Core;
-using ModernApplicationFramework.Caliburn.Platform.Utilities;
-using ModernApplicationFramework.Caliburn.Platform.Xaml;
+using Caliburn.Micro;
 using ModernApplicationFramework.MVVM.Interfaces;
 
 namespace ModernApplicationFramework.MVVM

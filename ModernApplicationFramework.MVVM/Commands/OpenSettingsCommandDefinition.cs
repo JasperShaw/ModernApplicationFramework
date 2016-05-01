@@ -1,8 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
-using ModernApplicationFramework.Caliburn;
-using ModernApplicationFramework.Caliburn.Platform.Xaml;
+using Caliburn.Micro;
 using ModernApplicationFramework.Commands;
 using ModernApplicationFramework.MVVM.ViewModels;
 

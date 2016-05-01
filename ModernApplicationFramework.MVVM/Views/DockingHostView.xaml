@@ -7,7 +7,7 @@
              xmlns:utilities1="clr-namespace:ModernApplicationFramework.MVVM.Core.Utilities"
              xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters;assembly=ModernApplicationFramework"
              xmlns:mafc="http://modern.framework.com/controls"
-             xmlns:xaml="clr-namespace:ModernApplicationFramework.Caliburn.Platform.Xaml;assembly=ModernApplicationFramework"
+             xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
@@ -25,14 +25,14 @@
                     <core1:PanesTemplateSelector.DocumentTemplate>
                         <DataTemplate>
                             <Grid>
-                                <ContentControl xaml:View.Model="{Binding}" IsTabStop="False" />
+                                <ContentControl cal:View.Model="{Binding}" IsTabStop="False" />
                             </Grid>
                         </DataTemplate>
                     </core1:PanesTemplateSelector.DocumentTemplate>
                     <core1:PanesTemplateSelector.ToolTemplate>
                         <DataTemplate>
                             <Grid>
-                                <ContentControl xaml:View.Model="{Binding}" IsTabStop="False" />
+                                <ContentControl cal:View.Model="{Binding}" IsTabStop="False" />
                             </Grid>
                         </DataTemplate>
                     </core1:PanesTemplateSelector.ToolTemplate>

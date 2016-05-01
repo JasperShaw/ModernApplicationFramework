@@ -1,5 +1,5 @@
 ﻿using System;
-using ModernApplicationFramework.Caliburn.Result;
+using Caliburn.Micro;
 
 namespace ModernApplicationFramework.MVVM.Interfaces
 {

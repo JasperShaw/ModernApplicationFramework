@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows;
-using ModernApplicationFramework.Caliburn;
+using Caliburn.Micro;
 using ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest;
 using ModernApplicationFramework.MVVM.Interfaces;
 using ModernApplicationFramework.MVVM.Modules.OutputTool;

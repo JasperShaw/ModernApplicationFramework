@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Media.Imaging;
+using Caliburn.Micro;
 using Microsoft.Win32;
-using ModernApplicationFramework.Caliburn.Result;
-using ModernApplicationFramework.MVVM.Core;
 using ModernApplicationFramework.MVVM.Core.Result;
 
 namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Inspectors

@@ -95,97 +95,6 @@
     <EmbeddedResource Include="Themes\Generic\Images\Checked.png" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Caliburn\Collections\BindableCollection.cs" />
-    <Compile Include="Caliburn\Conductor\Conductor.cs" />
-    <Compile Include="Caliburn\Conductor\ConductorBase.cs" />
-    <Compile Include="Caliburn\Conductor\ConductorBaseWithActiveItem.cs" />
-    <Compile Include="Caliburn\Conductor\ConductorWithCollectionAllActive.cs" />
-    <Compile Include="Caliburn\Conductor\ConductorWithCollectionOneActive.cs" />
-    <Compile Include="Caliburn\Extensions\ContainerExtensions.cs" />
-    <Compile Include="Caliburn\Result\ContinueResultDecorator.cs" />
-    <Compile Include="Caliburn\Coroutine.cs" />
-    <Compile Include="Caliburn\CoroutineExecutionContext.cs" />
-    <Compile Include="Caliburn\EventArgs\DeactivationEventArgs.cs" />
-    <Compile Include="Caliburn\Logger\DebugLog.cs" />
-    <Compile Include="Caliburn\DefaultCloseStrategy.cs" />
-    <Compile Include="Caliburn\PlatformProvider\DefaultPlatformProvider.cs" />
-    <Compile Include="Caliburn\Result\DelegateResult.cs" />
-    <Compile Include="Caliburn\Extensions\EnumerableExtensions.cs" />
-    <Compile Include="Caliburn\EventAggregator.cs" />
-    <Compile Include="Caliburn\Extensions\EventAggregatorExtensions.cs" />
-    <Compile Include="Caliburn\EventArgs\ActivationEventArgs.cs" />
-    <Compile Include="Caliburn\EventArgs\ActivationProcessedEventArgs.cs" />
-    <Compile Include="Caliburn\Execute.cs" />
-    <Compile Include="Caliburn\Extensions\ExpressionExtensions.cs" />
-    <Compile Include="Caliburn\Interfaces\IActivate.cs" />
-    <Compile Include="Caliburn\Interfaces\IChild.cs" />
-    <Compile Include="Caliburn\Interfaces\IClose.cs" />
-    <Compile Include="Caliburn\Interfaces\ICloseStrategy.cs" />
-    <Compile Include="Caliburn\Conductor\IConductor.cs" />
-    <Compile Include="Caliburn\Interfaces\IDeactivate.cs" />
-    <Compile Include="Caliburn\Interfaces\IEventAggregator.cs" />
-    <Compile Include="Caliburn\Interfaces\IGuardClose.cs" />
-    <Compile Include="Caliburn\Interfaces\IHandle.cs" />
-    <Compile Include="Caliburn\Interfaces\IHandleWithCoroutine.cs" />
-    <Compile Include="Caliburn\Interfaces\IHandleWithTask.cs" />
-    <Compile Include="Caliburn\Interfaces\IHaveActiveItem.cs" />
-    <Compile Include="Caliburn\Interfaces\IHaveDisplayName.cs" />
-    <Compile Include="Caliburn\Logger\ILog.cs" />
-    <Compile Include="Caliburn\Interfaces\INotifyPropertyChangedEx.cs" />
-    <Compile Include="Caliburn\Collections\IObservableCollection.cs" />
-    <Compile Include="Caliburn\IoC.cs" />
-    <Compile Include="Caliburn\Interfaces\IParent.cs" />
-    <Compile Include="Caliburn\PlatformProvider\IPlatformProvider.cs" />
-    <Compile Include="Caliburn\Result\IResult.cs" />
-    <Compile Include="Caliburn\Interfaces\IScreen.cs" />
-    <Compile Include="Caliburn\Interfaces\IViewAware.cs" />
-    <Compile Include="Caliburn\Logger\LogManager.cs" />
-    <Compile Include="Caliburn\Result\OverrideCancelResultDecorator.cs" />
-    <Compile Include="Caliburn\PlatformProvider\PlatformProvider.cs" />
-    <Compile Include="Caliburn\Platform\Action\Action.cs" />
-    <Compile Include="Caliburn\Platform\Action\ActionExecutionContext.cs" />
-    <Compile Include="Caliburn\Platform\Action\ActionMessage.cs" />
-    <Compile Include="Caliburn\Platform\Utilities\AttachedCollection.cs" />
-    <Compile Include="Caliburn\Platform\Bind.cs" />
-    <Compile Include="Caliburn\Platform\BindingScope.cs" />
-    <Compile Include="Caliburn\Platform\Utilities\Bootstrapper.cs" />
-    <Compile Include="Caliburn\Platform\Utilities\ChildResolver.cs" />
-    <Compile Include="Caliburn\Platform\Action\ConventionManager.cs" />
-    <Compile Include="Caliburn\Platform\Core\AssemblySource.cs" />
-    <Compile Include="Caliburn\Platform\Core\ExtensionMethods.cs" />
-    <Compile Include="Caliburn\Platform\Core\NameTransformer.cs" />
-    <Compile Include="Caliburn\Platform\Core\RegExHelper.cs" />
-    <Compile Include="Caliburn\Platform\Core\StringSplitter.cs" />
-    <Compile Include="Caliburn\Platform\Core\TypeMappingConfiguration.cs" />
-    <Compile Include="Caliburn\Platform\Utilities\DependencyPropertyHelper.cs" />
-    <Compile Include="Caliburn\Platform\ElementConvention.cs" />
-    <Compile Include="Caliburn\Platform\Interfaces\IHaveParameters.cs" />
-    <Compile Include="Caliburn\Platform\Message.cs" />
-    <Compile Include="Caliburn\Platform\Utilities\MessageBinder.cs" />
-    <Compile Include="Caliburn\Platform\Action\Parameter.cs" />
-    <Compile Include="Caliburn\Platform\Utilities\Parser.cs" />
-    <Compile Include="Caliburn\Platform\Xaml\View.cs" />
-    <Compile Include="Caliburn\Platform\Xaml\ViewLocator.cs" />
-    <Compile Include="Caliburn\Platform\Xaml\ViewModelBinder.cs" />
-    <Compile Include="Caliburn\Platform\Xaml\ViewModelLocator.cs" />
-    <Compile Include="Caliburn\Platform\Xaml\WindowManager.cs" />
-    <Compile Include="Caliburn\Platform\Xaml\XamlPlatformProvider.cs" />
-    <Compile Include="Caliburn\Extensions\PortableReflectionExtensions.cs" />
-    <Compile Include="Caliburn\PropertyChangedBase.cs" />
-    <Compile Include="Caliburn\Result\RescueResultDecorator.cs" />
-    <Compile Include="Caliburn\Extensions\ResultCompletionEventArgs.cs" />
-    <Compile Include="Caliburn\Result\ResultDecoratorBase.cs" />
-    <Compile Include="Caliburn\Extensions\ResultExtensions.cs" />
-    <Compile Include="Caliburn\Screen.cs" />
-    <Compile Include="Caliburn\Extensions\ScreenExtensions.cs" />
-    <Compile Include="Caliburn\Result\SequentialResult.cs" />
-    <Compile Include="Caliburn\SimpleContainer.cs" />
-    <Compile Include="Caliburn\Result\SimpleResult.cs" />
-    <Compile Include="Caliburn\Extensions\TaskExtensions.cs" />
-    <Compile Include="Caliburn\Result\TaskResult.cs" />
-    <Compile Include="Caliburn\Extensions\ViewAttachedEventArgs.cs" />
-    <Compile Include="Caliburn\ViewAware.cs" />
-    <Compile Include="Caliburn\Collections\WeakValueDictionary.cs" />
     <Compile Include="Commands\CommandWrapper.cs" />
     <Compile Include="Commands\GestureCommandWrapper.cs" />
     <Compile Include="Commands\CommandDefinition.cs" />
@@ -611,6 +520,18 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Caliburn.Micro, Version=2.0.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.Core.3.0.0\lib\net45\Caliburn.Micro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform, Version=2.0.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.3.0.0\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform.Core, Version=2.0.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.3.0.0\lib\net45\Caliburn.Micro.Platform.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -623,7 +544,10 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.3.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.XML" />
     <Reference Include="System.Xml.Linq" />
@@ -730,6 +654,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="ClassDiagram1.cd" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

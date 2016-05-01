@@ -4,10 +4,7 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using ModernApplicationFramework.Caliburn;
-using ModernApplicationFramework.Caliburn.Collections;
-using ModernApplicationFramework.Caliburn.Conductor;
-using ModernApplicationFramework.Caliburn.Interfaces;
+using Caliburn.Micro;
 using ModernApplicationFramework.MVVM.Interfaces;
 
 namespace ModernApplicationFramework.MVVM.ViewModels

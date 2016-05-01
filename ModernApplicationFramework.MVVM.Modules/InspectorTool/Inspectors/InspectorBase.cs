@@ -1,4 +1,4 @@
-﻿using ModernApplicationFramework.Caliburn;
+﻿using Caliburn.Micro;
 
 namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Inspectors
 {

@@ -2,9 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters;assembly=ModernApplicationFramework"
                     xmlns:controls="clr-namespace:ModernApplicationFramework.MVVM.Modules.InspectorTool.Controls"
-                    xmlns:xaml="clr-namespace:ModernApplicationFramework.Caliburn.Platform.Xaml;assembly=ModernApplicationFramework"
-                    xmlns:mafc="clr-namespace:ModernApplicationFramework.Controls;assembly=ModernApplicationFramework"
-                    xmlns:core="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework">
+                    xmlns:core="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
+                    xmlns:cal="http://www.caliburnproject.org">
 
     <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
 
@@ -26,14 +25,14 @@
                     </Label>
                     <controls:SimpleGridSplitter Grid.Column="1" Width="5" ResizeBehavior="PreviousAndNext" />
                     <Border Grid.Column="2" Padding="0 2 5 2" VerticalAlignment="Center">
-                        <ContentControl xaml:View.Model="{Binding}" IsTabStop="False" />
+                        <ContentControl cal:View.Model="{Binding}" IsTabStop="False" />
                     </Border>
                 </Grid>
             </DataTemplate>
         </controls:InspectorItemTemplateSelector.LabelledTemplate>
         <controls:InspectorItemTemplateSelector.DefaultTemplate>
             <DataTemplate>
-                <ContentControl xaml:View.Model="{Binding}"
+                <ContentControl cal:View.Model="{Binding}"
                                 IsEnabled="{Binding IsReadOnly, Converter={StaticResource InverseBoolConverter}}" />
             </DataTemplate>
         </controls:InspectorItemTemplateSelector.DefaultTemplate>
