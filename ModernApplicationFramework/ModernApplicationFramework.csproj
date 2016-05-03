@@ -138,6 +138,13 @@
     <Compile Include="Core\Shell\ShellComInterfaces.cs" />
     <Compile Include="Core\Shell\ShellWrapperDefinitions.cs" />
     <Compile Include="Core\Themes\ThemeManager.cs" />
+    <Compile Include="Core\TrinetCoreNtfs\AlternateDataStreamInfo.cs" />
+    <Compile Include="Core\TrinetCoreNtfs\FileStreamAttributes.cs" />
+    <Compile Include="Core\TrinetCoreNtfs\FileStreamType.cs" />
+    <Compile Include="Core\TrinetCoreNtfs\FileSystem.cs" />
+    <Compile Include="Core\TrinetCoreNtfs\SafeHGlobalHandle.cs" />
+    <Compile Include="Core\TrinetCoreNtfs\SafeNativeMethods.cs" />
+    <Compile Include="Core\TrinetCoreNtfs\StreamName.cs" />
     <Compile Include="Core\Utilities\WindowsFileNameHelper.cs" />
     <Compile Include="Dialoges\FolderBrowserDialog.cs" />
     <Compile Include="Interfaces\Controls\IListViewContainer.cs" />

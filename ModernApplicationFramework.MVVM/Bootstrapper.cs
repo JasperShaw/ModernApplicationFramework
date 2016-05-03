@@ -1,12 +1,16 @@
-﻿using System;
+﻿using Caliburn.Micro;
+using ModernApplicationFramework.MVVM.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.ReflectionModel;
+using System.IO;
 using System.Linq;
 using System.Reflection;
-using Caliburn.Micro;
-using ModernApplicationFramework.MVVM.Interfaces;
+using System.Security;
+using System.Security.Policy;
+using ModernApplicationFramework.Core.TrinetCoreNtfs;
 
 namespace ModernApplicationFramework.MVVM
 {
@@ -36,11 +40,28 @@ namespace ModernApplicationFramework.MVVM
             _container.SatisfyImportsOnce(instance);
         }
 
+        protected override void PrepareApplication()
+        {
+            base.PrepareApplication(); 
+            var exassemlby = Assembly.GetExecutingAssembly().Location;
+            var directory = Path.GetDirectoryName(exassemlby);
+
+            var blockedFiles = GetFilesWithUrlZonesInDirectory(directory);
+
+            if (!Directory.Exists(@"C:\Test\"))
+                Directory.CreateDirectory(@"C:\Test\");
+            foreach (var file in blockedFiles)
+                using (var writer = new StreamWriter(@"C:\Test\blockedFiles.txt", false))
+                    writer.WriteLine($"File Blocked: {file}");
+
+            //This makes sure we can share any applications through the Internet
+            ClearUrlZonesInDirectory(directory);
+        }
 
         protected override void Configure()
         {
             // Add all assemblies to AssemblySource (using a temporary DirectoryCatalog).
-            var directoryCatalog = new DirectoryCatalog(@"./");
+            var directoryCatalog = new DirectoryCatalog(@".");
             AssemblySource.Instance.AddRange(
                 directoryCatalog.Parts
                     .Select(part => ReflectionModelServices.GetPartType(part).Value.Assembly)
@@ -65,7 +86,35 @@ namespace ModernApplicationFramework.MVVM
             BindServices(batch);
             batch.AddExportedValue(mainCatalog);
 
+            if (!Directory.Exists(@"C:\Test\"))
+                Directory.CreateDirectory(@"C:\Test\");
+
+            foreach (var catalog in priorityCatalog.Catalogs)
+                using (var writer = new StreamWriter(@"C:\Test\catalog.txt", true))
+                    writer.WriteLine(catalog);
+
+            foreach (var catalog in mainCatalog.Catalogs)
+                using (var writer = new StreamWriter(@"C:\Test\catalog.txt", true))
+                    writer.WriteLine(catalog);
+
             _container.Compose(batch);
+        }
+
+        protected static IEnumerable<string> GetFilesWithUrlZonesInDirectory(string directoryPath)
+        {
+            return from filePath in Directory.EnumerateFiles(directoryPath)
+                   let zone = Zone.CreateFromUrl(filePath)
+                   where zone.SecurityZone != SecurityZone.MyComputer
+                   select Path.GetFileName(filePath);
+        }
+
+        protected static void ClearUrlZonesInDirectory(string directoryPath)
+        {
+            foreach (var filePath in Directory.EnumerateFiles(directoryPath))
+            {
+                var fileInfo = new FileInfo(filePath);
+                fileInfo.DeleteAlternateDataStream("Zone.Identifier");
+            }
         }
 
         protected override IEnumerable<object> GetAllInstances(Type serviceType)
@@ -75,13 +124,12 @@ namespace ModernApplicationFramework.MVVM
 
         protected override object GetInstance(Type serviceType, string key)
         {
-            string contract = string.IsNullOrEmpty(key) ? AttributedModelServices.GetContractName(serviceType) : key;
+            var contract = string.IsNullOrEmpty(key) ? AttributedModelServices.GetContractName(serviceType) : key;
             var exports = _container.GetExportedValues<object>(contract);
 
             var enumerable = exports as object[] ?? exports.ToArray();
             if (enumerable.Any())
                 return enumerable.First();
-
             throw new Exception($"Could not locate any instances of contract {contract}.");
         }
 
