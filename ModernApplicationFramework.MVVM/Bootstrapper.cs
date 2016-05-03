@@ -48,11 +48,16 @@ namespace ModernApplicationFramework.MVVM
 
             var blockedFiles = GetFilesWithUrlZonesInDirectory(directory);
 
-            if (!Directory.Exists(@"C:\Test\"))
-                Directory.CreateDirectory(@"C:\Test\");
-            foreach (var file in blockedFiles)
-                using (var writer = new StreamWriter(@"C:\Test\blockedFiles.txt", false))
+            if (!Directory.Exists(Configuration.ProductConfiguration.AppdataPath))
+                Directory.CreateDirectory(Configuration.ProductConfiguration.AppdataPath);
+
+            using (var writer = new StreamWriter(Path.Combine(Configuration.ProductConfiguration.AppdataPath, "BlockedFiles.txt"), true))
+            {
+                foreach (var file in blockedFiles)
                     writer.WriteLine($"File Blocked: {file}");
+                writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+            }
+
 
             //This makes sure we can share any applications through the Internet
             ClearUrlZonesInDirectory(directory);
@@ -86,15 +91,15 @@ namespace ModernApplicationFramework.MVVM
             BindServices(batch);
             batch.AddExportedValue(mainCatalog);
 
-            if (!Directory.Exists(@"C:\Test\"))
-                Directory.CreateDirectory(@"C:\Test\");
+            if (!Directory.Exists(Configuration.ProductConfiguration.AppdataPath))
+                Directory.CreateDirectory(Configuration.ProductConfiguration.AppdataPath);
 
-            foreach (var catalog in priorityCatalog.Catalogs)
-                using (var writer = new StreamWriter(@"C:\Test\catalog.txt", true))
+            using (var writer = new StreamWriter(Path.Combine(Configuration.ProductConfiguration.AppdataPath, "FoundCatalog.txt"), true))
+                foreach (var catalog in priorityCatalog.Catalogs)
                     writer.WriteLine(catalog);
 
-            foreach (var catalog in mainCatalog.Catalogs)
-                using (var writer = new StreamWriter(@"C:\Test\catalog.txt", true))
+            using (var writer = new StreamWriter(Path.Combine(Configuration.ProductConfiguration.AppdataPath, "FoundCatalog.txt"), true))
+                foreach (var catalog in mainCatalog.Catalogs)
                     writer.WriteLine(catalog);
 
             _container.Compose(batch);
@@ -110,7 +115,7 @@ namespace ModernApplicationFramework.MVVM
 
         protected static void ClearUrlZonesInDirectory(string directoryPath)
         {
-            foreach (var filePath in Directory.EnumerateFiles(directoryPath))
+            foreach (var filePath in Directory.EnumerateFiles(directoryPath, "*.dll", SearchOption.AllDirectories))
             {
                 var fileInfo = new FileInfo(filePath);
                 fileInfo.DeleteAlternateDataStream("Zone.Identifier");

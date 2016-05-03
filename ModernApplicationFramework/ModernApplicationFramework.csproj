@@ -108,6 +108,7 @@
     <Compile Include="Commands\Base\CommandBase.cs" />
     <Compile Include="Commands\CommandT.cs" />
     <Compile Include="Commands\Base\WeakEventHandlerManager.cs" />
+    <Compile Include="Configuration\ProductConfiguration.cs" />
     <Compile Include="Controls\Button.cs" />
     <Compile Include="Controls\CheckableListBox.cs" />
     <Compile Include="Controls\CheckableListBoxItem.cs" />
