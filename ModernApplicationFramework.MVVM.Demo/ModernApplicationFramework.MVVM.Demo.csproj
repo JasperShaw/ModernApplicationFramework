@@ -93,6 +93,7 @@
     </Compile>
     <Compile Include="Modules\MyEditor\MyTextEditorViewModel.cs" />
     <Compile Include="Modules\Sample.cs" />
+    <Compile Include="Modules\TestPanel\TestPanelViewModel.cs" />
     <Compile Include="Modules\UndoRedoTest\UndoRedoView.xaml.cs">
       <DependentUpon>UndoRedoView.xaml</DependentUpon>
     </Compile>

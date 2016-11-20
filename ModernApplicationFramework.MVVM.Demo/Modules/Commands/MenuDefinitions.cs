@@ -6,6 +6,9 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
     public static class MenuDefinitions
     {
         [Export]
-        public static MenuItemDefinition Test = new MenuItemDefinition<TestCommandDefinition>("Test", 1, Controls.MenuDefinitions.MenuDefinitions.FileMenu);
+        public static MenuItemDefinition TestMenu = new MenuItemDefinition("Test", 6);
+
+        [Export]
+        public static MenuItemDefinition MultiHotKey = new MenuItemDefinition<TestCommandDefinition>("MultiHotKey", 1, TestMenu);
     }
 }

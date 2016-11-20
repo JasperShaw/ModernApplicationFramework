@@ -28,7 +28,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
         public override bool CanShowInToolbar => false;
         public override string IconId => null;
         public override Uri IconSource => null;
-        public override string Name => "Test";
+        public override string Name => "MultiHotKey";
         public override string Text => Name;
         public override string ToolTip => Name;
 
