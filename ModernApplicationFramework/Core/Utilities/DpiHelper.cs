@@ -8,9 +8,6 @@ namespace ModernApplicationFramework.Core.Utilities
 {
     internal static class DpiHelper
     {
-        // ReSharper disable once InconsistentNaming
-        // ReSharper disable once InconsistentNaming
-
         static DpiHelper()
         {
             var x = GetApplicationsScalingFactor();
@@ -39,11 +36,15 @@ namespace ModernApplicationFramework.Core.Utilities
             TransformFromDevice.Freeze();
             TransformToDevice = new MatrixTransform(identity1);
             TransformToDevice.Freeze();
+
+            IsNormallyScaled = GetScalingFactor();
         }
 
         public static double DeviceDpiX { get; }
 
         public static double DeviceDpiY { get; }
+
+        public static bool IsNormallyScaled { get; }
 
         public static double DeviceToLogicalUnitsScalingFactorX => TransformFromDevice.Matrix.M11;
 
@@ -75,16 +76,17 @@ namespace ModernApplicationFramework.Core.Utilities
         }
 
 
-        public static float GetScalingFactor()
+        private static bool GetScalingFactor()
         {
             var g = Graphics.FromHwnd(IntPtr.Zero);
             var desktop = g.GetHdc();
             var logicalScreenHeight = NativeMethods.NativeMethods.GetDeviceCaps(desktop, (int)NativeMethods.NativeMethods.DeviceCap.Vertres);
             var physicalScreenHeight = NativeMethods.NativeMethods.GetDeviceCaps(desktop, (int)NativeMethods.NativeMethods.DeviceCap.Desktopvertres);
+            var logpixelsy = NativeMethods.NativeMethods.GetDeviceCaps(desktop, (int)NativeMethods.NativeMethods.DeviceCap.Logpixelsy);
+            var screenScalingFactor = (float)physicalScreenHeight / (float)logicalScreenHeight;
+            var dpiScalingFactor = (float)logpixelsy / (float)96;
 
-            var screenScalingFactor = (float)physicalScreenHeight / (float) logicalScreenHeight;
-
-            return screenScalingFactor; // 1.25 = 125%
+            return !(screenScalingFactor > 1) && !(dpiScalingFactor > 1);
         }
 
         public static Rect LogicalToDeviceUnits(this Rect logicalRect)

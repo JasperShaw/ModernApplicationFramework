@@ -143,19 +143,8 @@ namespace ModernApplicationFramework.Controls
                 }
 
 
-                Graphics g = Graphics.FromHwnd(IntPtr.Zero);
-                IntPtr desktop = g.GetHdc();
-                int LogicalScreenHeight = NativeMethods.GetDeviceCaps(desktop, (int)NativeMethods.DeviceCap.Vertres);
-                int PhysicalScreenHeight = NativeMethods.GetDeviceCaps(desktop, (int)NativeMethods.DeviceCap.Desktopvertres);
-                int logpixelsy = NativeMethods.GetDeviceCaps(desktop, (int)NativeMethods.DeviceCap.Logpixelsy);
-                float screenScalingFactor = (float)PhysicalScreenHeight / (float)LogicalScreenHeight;
-                float dpiScalingFactor = (float)logpixelsy / (float)96;
-
-                if (screenScalingFactor > 1 ||
-                    dpiScalingFactor > 1)
-                {
+                if (!DpiHelper.IsNormallyScaled)
                     return false;
-                }
 
 
                 var handle = new WindowInteropHelper(this).Handle;
