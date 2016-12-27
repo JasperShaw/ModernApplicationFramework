@@ -63,7 +63,9 @@ namespace ModernApplicationFramework.Commands.Base
             return CanExecuteMethod == null || CanExecuteMethod(parameter);
         }
 
+#pragma warning disable IDE1006
         protected async Task Execute(object parameter)
+#pragma warning restore IDE1006
         {
             await ExecuteMethod(parameter);
         }

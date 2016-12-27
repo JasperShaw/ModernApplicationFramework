@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows;
 using System.Windows.Media;
+using Size = System.Windows.Size;
 
 namespace ModernApplicationFramework.Core.Utilities
 {
@@ -11,7 +13,7 @@ namespace ModernApplicationFramework.Core.Utilities
 
         static DpiHelper()
         {
-            var x = GetScalingFactor();
+            var x = GetApplicationsScalingFactor();
 
             var dpiX = 96.0*x/100;
             var dpiY = 96.0*x/100;
@@ -62,7 +64,7 @@ namespace ModernApplicationFramework.Core.Utilities
             return rect;
         }
 
-        public static double GetScalingFactor()
+        public static double GetApplicationsScalingFactor()
         {
             var source = PresentationSource.FromVisual(Application.Current.MainWindow);
 
@@ -70,6 +72,19 @@ namespace ModernApplicationFramework.Core.Utilities
             if (source?.CompositionTarget != null)
                 dpiX = 96.0*source.CompositionTarget.TransformToDevice.M11;
             return dpiX;
+        }
+
+
+        public static float GetScalingFactor()
+        {
+            var g = Graphics.FromHwnd(IntPtr.Zero);
+            var desktop = g.GetHdc();
+            var logicalScreenHeight = NativeMethods.NativeMethods.GetDeviceCaps(desktop, (int)NativeMethods.NativeMethods.DeviceCap.Vertres);
+            var physicalScreenHeight = NativeMethods.NativeMethods.GetDeviceCaps(desktop, (int)NativeMethods.NativeMethods.DeviceCap.Desktopvertres);
+
+            var screenScalingFactor = (float)physicalScreenHeight / (float) logicalScreenHeight;
+
+            return screenScalingFactor; // 1.25 = 125%
         }
 
         public static Rect LogicalToDeviceUnits(this Rect logicalRect)

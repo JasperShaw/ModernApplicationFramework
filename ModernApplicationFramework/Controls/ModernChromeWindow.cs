@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -18,8 +19,11 @@ using ModernApplicationFramework.Core.Platform;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces.Controls;
+using Brush = System.Windows.Media.Brush;
+using Brushes = System.Windows.Media.Brushes;
 using Point = System.Windows.Point;
 using Screen = System.Windows.Forms.Screen;
+using Size = System.Windows.Size;
 
 namespace ModernApplicationFramework.Controls
 {
@@ -84,31 +88,31 @@ namespace ModernApplicationFramework.Controls
 
         public Brush ActiveShadowColor
         {
-            get { return (Brush) GetValue(ActiveShadowColorProperty); }
+            get { return (Brush)GetValue(ActiveShadowColorProperty); }
             set { SetValue(ActiveShadowColorProperty, value); }
         }
 
         public int CornerRadius
         {
-            get { return (int) GetValue(CornerRadiusProperty); }
+            get { return (int)GetValue(CornerRadiusProperty); }
             set { SetValue(CornerRadiusProperty, value); }
         }
 
         public bool FullScreen
         {
-            get { return (bool) GetValue(FullScreenProperty); }
+            get { return (bool)GetValue(FullScreenProperty); }
             set { SetValue(FullScreenProperty, value); }
         }
 
         public Brush InactiveShadowColor
         {
-            get { return (Brush) GetValue(InactiveShadowColorProperty); }
+            get { return (Brush)GetValue(InactiveShadowColorProperty); }
             set { SetValue(InactiveShadowColorProperty, value); }
         }
 
         public Brush NonClientFillColor
         {
-            get { return (Brush) GetValue(NonClientFillColorProperty); }
+            get { return (Brush)GetValue(NonClientFillColorProperty); }
             set { SetValue(NonClientFillColorProperty, value); }
         }
 
@@ -126,21 +130,40 @@ namespace ModernApplicationFramework.Controls
             }
         }
 
-        protected virtual bool ShouldShowShadow
+        internal virtual bool ShouldShowShadow
         {
             get
             {
-                //if (DpiHelper.GetScalingFactor() != 96)
-                //    return false;
-                var handle = new WindowInteropHelper(this).Handle;
-                if (NativeMethods.IsWindowVisible(handle) && !NativeMethods.IsIconic(handle) &&
-                    !NativeMethods.IsZoomed(handle))
+                var aeroEnabled = false;
+
+                if (NativeMethods.DwmIsCompositionEnabled(out aeroEnabled) == IntPtr.Zero)
                 {
-                    if (ResizeMode == ResizeMode.NoResize)
-                        return true;
-                    return true;
+                    if (!aeroEnabled)
+                        return false;
                 }
-                return false;
+
+
+                Graphics g = Graphics.FromHwnd(IntPtr.Zero);
+                IntPtr desktop = g.GetHdc();
+                int LogicalScreenHeight = NativeMethods.GetDeviceCaps(desktop, (int)NativeMethods.DeviceCap.Vertres);
+                int PhysicalScreenHeight = NativeMethods.GetDeviceCaps(desktop, (int)NativeMethods.DeviceCap.Desktopvertres);
+                int logpixelsy = NativeMethods.GetDeviceCaps(desktop, (int)NativeMethods.DeviceCap.Logpixelsy);
+                float screenScalingFactor = (float)PhysicalScreenHeight / (float)LogicalScreenHeight;
+                float dpiScalingFactor = (float)logpixelsy / (float)96;
+
+                if (screenScalingFactor > 1 ||
+                    dpiScalingFactor > 1)
+                {
+                    return false;
+                }
+
+
+                var handle = new WindowInteropHelper(this).Handle;
+                if (!NativeMethods.IsWindowVisible(handle) || NativeMethods.IsIconic(handle) ||  NativeMethods.IsZoomed(handle))
+                    return false;
+                //if (ResizeMode == ResizeMode.NoResize)
+                //    return true;
+                return true;
             }
         }
 
@@ -248,18 +271,18 @@ namespace ModernApplicationFramework.Controls
             }
             else
                 if (windowPlacement.showCmd == 3)
-                {
-                    NativeMethods.EnableMenuItem(systemMenu, 61728U, 0U);
-                    NativeMethods.EnableMenuItem(systemMenu, 61456U, 1U);
-                    NativeMethods.EnableMenuItem(systemMenu, 61440U, 1U);
-                    NativeMethods.EnableMenuItem(systemMenu, 61488U, 1U);
-                    NativeMethods.EnableMenuItem(systemMenu, 61472U, uEnable);
-                    NativeMethods.EnableMenuItem(systemMenu, 61536U, 0U);
-                }
+            {
+                NativeMethods.EnableMenuItem(systemMenu, 61728U, 0U);
+                NativeMethods.EnableMenuItem(systemMenu, 61456U, 1U);
+                NativeMethods.EnableMenuItem(systemMenu, 61440U, 1U);
+                NativeMethods.EnableMenuItem(systemMenu, 61488U, 1U);
+                NativeMethods.EnableMenuItem(systemMenu, 61472U, uEnable);
+                NativeMethods.EnableMenuItem(systemMenu, 61536U, 0U);
+            }
             if (flag)
                 VisualUtilities.ModifyStyle(source.Handle, 0, 268435456);
-            var fuFlags = (uint) (systemMetrics | 256 | 128 | 2);
-            var num = NativeMethods.TrackPopupMenuEx(systemMenu, fuFlags, (int) screenPoint.X, (int) screenPoint.Y,
+            var fuFlags = (uint)(systemMetrics | 256 | 128 | 2);
+            var num = NativeMethods.TrackPopupMenuEx(systemMenu, fuFlags, (int)screenPoint.X, (int)screenPoint.Y,
                 source.Handle, IntPtr.Zero);
             if (num == 0)
                 return;
@@ -272,7 +295,7 @@ namespace ModernApplicationFramework.Controls
             handler?.Invoke(this, e);
         }
 
-        protected virtual void OnWindowPosChanged(IntPtr hWnd, int showCmd, Int32Rect rcNormalPosition) {}
+        protected virtual void OnWindowPosChanged(IntPtr hWnd, int showCmd, Int32Rect rcNormalPosition) { }
 
         protected virtual bool UpdateClipRegionCore(IntPtr hWnd, int showCmd, ClipRegionChangeType changeType,
                                                     Int32Rect currentBounds)
@@ -339,7 +362,7 @@ namespace ModernApplicationFramework.Controls
         {
             if (cornerRadius.TopLeft == cornerRadius.TopRight && cornerRadius.TopLeft == cornerRadius.BottomLeft &&
                 cornerRadius.BottomLeft == cornerRadius.BottomRight)
-                return ComputeRoundRectRegion(rect.X, rect.Y, rect.Width, rect.Height, (int) cornerRadius.TopLeft);
+                return ComputeRoundRectRegion(rect.X, rect.Y, rect.Width, rect.Height, (int)cornerRadius.TopLeft);
             var num1 = IntPtr.Zero;
             var num2 = IntPtr.Zero;
             var num3 = IntPtr.Zero;
@@ -352,16 +375,16 @@ namespace ModernApplicationFramework.Controls
             var num10 = IntPtr.Zero;
             try
             {
-                num1 = ComputeRoundRectRegion(rect.X, rect.Y, rect.Width, rect.Height, (int) cornerRadius.TopLeft);
-                num2 = ComputeRoundRectRegion(rect.X, rect.Y, rect.Width, rect.Height, (int) cornerRadius.TopRight);
+                num1 = ComputeRoundRectRegion(rect.X, rect.Y, rect.Width, rect.Height, (int)cornerRadius.TopLeft);
+                num2 = ComputeRoundRectRegion(rect.X, rect.Y, rect.Width, rect.Height, (int)cornerRadius.TopRight);
                 num3 = ComputeRoundRectRegion(rect.X, rect.Y, rect.Width, rect.Height,
-                    (int) cornerRadius.BottomLeft);
+                    (int)cornerRadius.BottomLeft);
                 num4 = ComputeRoundRectRegion(rect.X, rect.Y, rect.Width, rect.Height,
-                    (int) cornerRadius.BottomRight);
+                    (int)cornerRadius.BottomRight);
                 var point = new Core.Platform.Point
                 {
-                    X = rect.X + rect.Width/2,
-                    Y = rect.Y + rect.Height/2
+                    X = rect.X + rect.Width / 2,
+                    Y = rect.Y + rect.Height / 2
                 };
                 num5 = NativeMethods.CreateRectRgn(rect.X, rect.Y, point.X + 1, point.Y + 1);
                 num6 = NativeMethods.CreateRectRgn(point.X - 1, rect.Y, rect.X + rect.Width, point.Y + 1);
@@ -469,7 +492,7 @@ namespace ModernApplicationFramework.Controls
 
         protected void UpdateClipRegion(ClipRegionChangeType regionChangeType = ClipRegionChangeType.FromPropertyChange)
         {
-            var hwndSource = (HwndSource) PresentationSource.FromVisual(this);
+            var hwndSource = (HwndSource)PresentationSource.FromVisual(this);
             if (hwndSource == null)
                 return;
             RECT lpRect;
@@ -487,30 +510,30 @@ namespace ModernApplicationFramework.Controls
             var abd = new Appbardata();
             abd.cbSize = Marshal.SizeOf(abd);
             abd.hWnd = hwnd;
-            NativeMethods.SHAppBarMessage((int) AbMsg.AbmGettaskbarpos, ref abd);
+            NativeMethods.SHAppBarMessage((int)AbMsg.AbmGettaskbarpos, ref abd);
             var uEdge = GetEdge(abd.rc);
-            var autoHide = Convert.ToBoolean(NativeMethods.SHAppBarMessage((int) AbMsg.AbmGetstate, ref abd));
+            var autoHide = Convert.ToBoolean(NativeMethods.SHAppBarMessage((int)AbMsg.AbmGetstate, ref abd));
 
             if (!autoHide)
                 return mmi;
 
             switch (uEdge)
             {
-                case (int) AbEdge.AbeLeft:
+                case (int)AbEdge.AbeLeft:
                     mmi.ptMaxPosition.X += 2;
                     mmi.ptMaxTrackSize.X -= 2;
                     mmi.ptMaxSize.X -= 2;
                     break;
-                case (int) AbEdge.AbeRight:
+                case (int)AbEdge.AbeRight:
                     mmi.ptMaxSize.X -= 2;
                     mmi.ptMaxTrackSize.X -= 2;
                     break;
-                case (int) AbEdge.AbeTop:
+                case (int)AbEdge.AbeTop:
                     mmi.ptMaxPosition.Y += 2;
                     mmi.ptMaxTrackSize.Y -= 2;
                     mmi.ptMaxSize.Y -= 2;
                     break;
-                case (int) AbEdge.AbeBottom:
+                case (int)AbEdge.AbeBottom:
                     mmi.ptMaxSize.Y -= 2;
                     mmi.ptMaxTrackSize.Y -= 2;
                     break;
@@ -535,8 +558,8 @@ namespace ModernApplicationFramework.Controls
 
         private static IntPtr ComputeRoundRectRegion(int left, int top, int width, int height, int cornerRadius)
         {
-            var nWidthEllipse = (int) (2*cornerRadius*DpiHelper.LogicalToDeviceUnitsScalingFactorX);
-            var nHeightEllipse = (int) (2*cornerRadius*DpiHelper.LogicalToDeviceUnitsScalingFactorY);
+            var nWidthEllipse = (int)(2 * cornerRadius * DpiHelper.LogicalToDeviceUnitsScalingFactorX);
+            var nHeightEllipse = (int)(2 * cornerRadius * DpiHelper.LogicalToDeviceUnitsScalingFactorY);
             return NativeMethods.CreateRoundRectRgn(left, top, left + width + 1, top + height + 1, nWidthEllipse,
                 nHeightEllipse);
         }
@@ -547,7 +570,7 @@ namespace ModernApplicationFramework.Controls
             NativeMethods.GetWindowRect(hwnd, out lpRect1);
             RECT lpRect2;
             NativeMethods.GetClientRect(hwnd, out lpRect2);
-            var point = new Core.Platform.Point {X = 0, Y = 0};
+            var point = new Core.Platform.Point { X = 0, Y = 0 };
             NativeMethods.ClientToScreen(hwnd, ref point);
             lpRect2.Offset(point.X - lpRect1.Left, point.Y - lpRect1.Top);
             return lpRect2;
@@ -557,39 +580,39 @@ namespace ModernApplicationFramework.Controls
         {
             int uEdge;
             if (rc.Top == rc.Left && rc.Bottom > rc.Right)
-                uEdge = (int) AbEdge.AbeLeft;
+                uEdge = (int)AbEdge.AbeLeft;
             else
                 if (rc.Top == rc.Left && rc.Bottom < rc.Right)
-                    uEdge = (int) AbEdge.AbeTop;
-                else
+                uEdge = (int)AbEdge.AbeTop;
+            else
                     if (rc.Top > rc.Left)
-                        uEdge = (int) AbEdge.AbeBottom;
-                    else
-                        uEdge = (int) AbEdge.AbeRight;
+                uEdge = (int)AbEdge.AbeBottom;
+            else
+                uEdge = (int)AbEdge.AbeRight;
             return uEdge;
         }
 
         private static Monitorinfo MonitorInfoFromWindow(IntPtr hWnd)
         {
             var hMonitor = NativeMethods.MonitorFromWindow(hWnd, 2);
-            var monitorInfo = new Monitorinfo {CbSize = (uint) Marshal.SizeOf(typeof(Monitorinfo))};
+            var monitorInfo = new Monitorinfo { CbSize = (uint)Marshal.SizeOf(typeof(Monitorinfo)) };
             NativeMethods.GetMonitorInfo(hMonitor, ref monitorInfo);
             return monitorInfo;
         }
 
         private static void OnCornerRadiusChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
-            ((ModernChromeWindow) obj).UpdateClipRegion();
+            ((ModernChromeWindow)obj).UpdateClipRegion();
         }
 
         private static void OnGlowColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((ModernChromeWindow) d).UpdateGlowColors();
+            ((ModernChromeWindow)d).UpdateGlowColors();
         }
 
         private static void OnResizeModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
-            ((ModernChromeWindow) obj).OnResizeModeChanged();
+            ((ModernChromeWindow)obj).OnResizeModeChanged();
         }
 
         private static void RaiseNonClientMouseMessageAsClient(IntPtr hwnd, int msg, IntPtr lparam)
@@ -667,7 +690,7 @@ namespace ModernApplicationFramework.Controls
 
         private void ChangeFullScreenApperance(object newValue)
         {
-            if ((bool) newValue)
+            if ((bool)newValue)
                 ChangeToFullScreen();
             else
                 RestoreToOldScreen();
@@ -709,7 +732,7 @@ namespace ModernApplicationFramework.Controls
         private ShadowWindow GetOrCreateShadowWindow(int direction)
         {
             return _shadowWindows[direction] ??
-                   (_shadowWindows[direction] = new ShadowWindow(this, (Dock) direction));
+                   (_shadowWindows[direction] = new ShadowWindow(this, (Dock)direction));
         }
 
         private bool IsAeroSnappedToMonitor(IntPtr hwnd)
@@ -803,7 +826,7 @@ namespace ModernApplicationFramework.Controls
                     _makeShadowVisibleTimer.Stop();
                 else
                 {
-                    _makeShadowVisibleTimer = new DispatcherTimer {Interval = TimeSpan.FromMilliseconds(200.0)};
+                    _makeShadowVisibleTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(200.0) };
                     _makeShadowVisibleTimer.Tick += OnDelayedShadowVisibilityTimerTick;
                 }
                 _makeShadowVisibleTimer.Start();
@@ -887,7 +910,7 @@ namespace ModernApplicationFramework.Controls
 
         private void WmSysCommand(IntPtr hwnd, IntPtr wparam)
         {
-            var scWparam = (int) wparam & 65520;
+            var scWparam = (int)wparam & 65520;
             _lastScwParam = scWparam;
             _lastState = WindowState;
             if (scWparam == 61456)
@@ -927,26 +950,26 @@ namespace ModernApplicationFramework.Controls
         {
             try
             {
-                var windowpos = (Windowpos) Marshal.PtrToStructure(lParam, typeof(Windowpos));
+                var windowpos = (Windowpos)Marshal.PtrToStructure(lParam, typeof(Windowpos));
                 var windowPlacement = NativeMethods.GetWindowPlacement(hWnd);
                 var currentBounds = new RECT(windowpos.x, windowpos.y, windowpos.x + windowpos.cx,
                     windowpos.y + windowpos.cy);
-                if (((int) windowpos.flags & 1) != 1)
+                if (((int)windowpos.flags & 1) != 1)
                     UpdateClipRegion(hWnd, windowPlacement, ClipRegionChangeType.FromSize, currentBounds);
                 else
-                    if (((int) windowpos.flags & 2) != 2)
-                        UpdateClipRegion(hWnd, windowPlacement, ClipRegionChangeType.FromPosition, currentBounds);
+                    if (((int)windowpos.flags & 2) != 2)
+                    UpdateClipRegion(hWnd, windowPlacement, ClipRegionChangeType.FromPosition, currentBounds);
                 OnWindowPosChanged(hWnd, windowPlacement.showCmd, windowPlacement.rcNormalPosition.ToInt32Rect());
                 UpdateGlowWindowPositions(true);
                 UpdateZOrderOfThisAndOwner();
             }
-            catch (Win32Exception) {}
+            catch (Win32Exception) { }
         }
 
         private void WmWindowPosChanging(IntPtr lParam)
         {
-            var windowpos = (Windowpos) Marshal.PtrToStructure(lParam, typeof(Windowpos));
-            if (((int) windowpos.flags & 2) != 0 || ((int) windowpos.flags & 1) != 0 || windowpos.cx <= 0
+            var windowpos = (Windowpos)Marshal.PtrToStructure(lParam, typeof(Windowpos));
+            if (((int)windowpos.flags & 2) != 0 || ((int)windowpos.flags & 1) != 0 || windowpos.cx <= 0
                 || windowpos.cy <= 0)
                 return;
             var floatRect = new Rect(windowpos.x, windowpos.y, windowpos.cx, windowpos.cy).DeviceToLogicalUnits();
@@ -957,14 +980,14 @@ namespace ModernApplicationFramework.Controls
                 _useLogicalSizeForRestore = false;
             }
             var rect = ViewSite.GetOnScreenPosition(floatRect).LogicalToDeviceUnits();
-            windowpos.x = (int) rect.X;
-            windowpos.y = (int) rect.Y;
-            Marshal.StructureToPtr((object) windowpos, lParam, true);
+            windowpos.x = (int)rect.X;
+            windowpos.y = (int)rect.Y;
+            Marshal.StructureToPtr((object)windowpos, lParam, true);
         }
 
         private void WnGetMinMaxInfo(IntPtr hwnd, IntPtr lparam)
         {
-            var mmi = (Minmaxinfo) Marshal.PtrToStructure(lparam, typeof(Minmaxinfo));
+            var mmi = (Minmaxinfo)Marshal.PtrToStructure(lparam, typeof(Minmaxinfo));
             var monitor = NativeMethods.MonitorFromWindow(hwnd, MonitorDefaulttonearest);
 
             if (monitor != IntPtr.Zero)
@@ -978,8 +1001,8 @@ namespace ModernApplicationFramework.Controls
                 mmi.ptMaxSize.X = Math.Abs(rcWorkArea.Right - rcWorkArea.Left);
                 mmi.ptMaxSize.Y = Math.Abs(rcWorkArea.Bottom - rcWorkArea.Top);
 
-                mmi.ptMinTrackSize.X = (int) MinWidth; //minimum drag X size for the window
-                mmi.ptMinTrackSize.Y = (int) MinHeight; //minimum drag Y size for the window 
+                mmi.ptMinTrackSize.X = (int)MinWidth; //minimum drag X size for the window
+                mmi.ptMinTrackSize.Y = (int)MinHeight; //minimum drag Y size for the window 
 
                 mmi = AdjustWorkingAreaForAutoHide(monitor, mmi);
                 //need to adjust sizing if taskbar is set to autohide   
@@ -1227,12 +1250,16 @@ namespace ModernApplicationFramework.Controls
 
             exStyle |= 0x00000080;
 
-            NativeMethods.SetWindowLongShadow(wndHelper.Handle, (int) Gwl.Exstyle, (IntPtr) exStyle);
+            NativeMethods.SetWindowLongShadow(wndHelper.Handle, (int)Gwl.Exstyle, (IntPtr)exStyle);
         }
 
         private void RenderLayeredWindow()
         {
             Foreground = _isActive ? ActiveBorderBrush : InactiveBorderBrush;
+
+            if (!_targetWindow.ShouldShowShadow)
+                return;
+
             Show();
         }
 
@@ -1250,8 +1277,8 @@ namespace ModernApplicationFramework.Controls
                 flags |= 64;
             else
                 flags |= 131;
-            NativeMethods.SetWindowPos(new WindowInteropHelper(this).Handle, IntPtr.Zero, (int) Left, (int) Top,
-                (int) Width, (int) Height,
+            NativeMethods.SetWindowPos(new WindowInteropHelper(this).Handle, IntPtr.Zero, (int)Left, (int)Top,
+                (int)Width, (int)Height,
                 flags);
         }
 
@@ -1284,16 +1311,16 @@ namespace ModernApplicationFramework.Controls
                 case 6:
                     return IntPtr.Zero;
                 case 70:
-                    var windowPos = (Windowpos) Marshal.PtrToStructure(lParam, typeof(Windowpos));
+                    var windowPos = (Windowpos)Marshal.PtrToStructure(lParam, typeof(Windowpos));
                     windowPos.flags |= 16U;
                     Marshal.StructureToPtr(windowPos, lParam, true);
                     break;
                 case 513:
                     if (!IsHitTestVisible)
                         break;
-                    var pt = new Point((int) lParam & 0xFFFF, ((int) lParam >> 16) & 0xFFFF);
+                    var pt = new Point((int)lParam & 0xFFFF, ((int)lParam >> 16) & 0xFFFF);
                     NativeMethods.PostMessage(TargetWindowHandle,
-                        161, (IntPtr) DecideResizeDirection(pt),
+                        161, (IntPtr)DecideResizeDirection(pt),
                         IntPtr.Zero);
                     break;
             }

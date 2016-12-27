@@ -1637,6 +1637,9 @@ namespace ModernApplicationFramework.Core.NativeMethods
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool IsZoomed(IntPtr hwnd);
 
+        [DllImport("dwmapi.dll")]
+        public static extern IntPtr DwmIsCompositionEnabled(out bool pfEnabled);
+
         [DllImport("user32.dll")]
         public static extern bool RedrawWindow(IntPtr hWnd, IntPtr lprcUpdate, IntPtr hrgnUpdate,
                                                RedrawWindowFlags flags);
@@ -1979,6 +1982,13 @@ namespace ModernApplicationFramework.Core.NativeMethods
             public byte BlendFlags;
             public byte SourceConstantAlpha;
             public byte AlphaFormat;
+        }
+
+        public enum DeviceCap
+        {
+            Vertres = 10,
+            Desktopvertres = 117,
+            Logpixelsy = 90,
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 4)]
