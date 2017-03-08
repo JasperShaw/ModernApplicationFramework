@@ -159,6 +159,14 @@ namespace ModernApplicationFramework.Docking.Controls
             return base.FilterMessage(hwnd, msg, wParam, lParam, ref handled);
         }
 
+        protected override void RedockWindow()
+        {
+           var list = _model.Descendents().OfType<LayoutAnchorablePane>().ToList();
+            foreach (var layoutAnchorablePane in list)
+                layoutAnchorablePane?.SelectedContent.Dock();
+
+        }
+
         protected override void OnClosed(EventArgs e)
         {
             var root = Model.Root;
@@ -173,9 +181,7 @@ namespace ModernApplicationFramework.Docking.Controls
             base.OnClosed(e);
 
             if (!CloseInitiatedByUser)
-            {
                 root.FloatingWindows.Remove(_model);
-            }
 
             _model.PropertyChanged -= _model_PropertyChanged;
         }
@@ -254,7 +260,7 @@ namespace ModernApplicationFramework.Docking.Controls
             if (manager == null)
                 return false;
 
-            bool canExecute = false;
+            var canExecute = false;
             foreach (var anchorable in Model.Descendents().OfType<LayoutAnchorable>().ToArray())
             {
                 if (!anchorable.CanHide)
@@ -280,7 +286,7 @@ namespace ModernApplicationFramework.Docking.Controls
         {
             if (_overlayWindow == null)
                 _overlayWindow = new OverlayWindow(this);
-            Rect rectWindow = new Rect(this.PointToScreenDpiWithoutFlowDirection(new Point()),
+            var rectWindow = new Rect(this.PointToScreenDpiWithoutFlowDirection(new Point()),
                 this.TransformActualSizeToAncestor());
             _overlayWindow.Left = rectWindow.Left;
             _overlayWindow.Top = rectWindow.Top;

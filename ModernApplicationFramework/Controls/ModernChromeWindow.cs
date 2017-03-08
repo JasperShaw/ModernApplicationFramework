@@ -247,14 +247,14 @@ namespace ModernApplicationFramework.Controls
             var systemMenu = NativeMethods.GetSystemMenu(source.Handle, false);
             var windowPlacement = NativeMethods.GetWindowPlacement(source.Handle);
             var flag = VisualUtilities.ModifyStyle(source.Handle, 268435456, 0);
-            var uEnable = canMinimize ? 0U : 1U;
+            uint num1 = canMinimize ? 0U : 1U;
             if (windowPlacement.showCmd == 1)
             {
                 NativeMethods.EnableMenuItem(systemMenu, 61728U, 1U);
                 NativeMethods.EnableMenuItem(systemMenu, 61456U, 0U);
                 NativeMethods.EnableMenuItem(systemMenu, 61440U, 0U);
                 NativeMethods.EnableMenuItem(systemMenu, 61488U, 0U);
-                NativeMethods.EnableMenuItem(systemMenu, 61472U, uEnable);
+                NativeMethods.EnableMenuItem(systemMenu, 61472U, 0U | num1);
                 NativeMethods.EnableMenuItem(systemMenu, 61536U, 0U);
             }
             else
@@ -264,7 +264,7 @@ namespace ModernApplicationFramework.Controls
                 NativeMethods.EnableMenuItem(systemMenu, 61456U, 1U);
                 NativeMethods.EnableMenuItem(systemMenu, 61440U, 1U);
                 NativeMethods.EnableMenuItem(systemMenu, 61488U, 1U);
-                NativeMethods.EnableMenuItem(systemMenu, 61472U, uEnable);
+                NativeMethods.EnableMenuItem(systemMenu, 61472U, 0U | num1);
                 NativeMethods.EnableMenuItem(systemMenu, 61536U, 0U);
             }
             if (flag)

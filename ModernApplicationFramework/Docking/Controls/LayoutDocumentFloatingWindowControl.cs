@@ -162,6 +162,11 @@ namespace ModernApplicationFramework.Docking.Controls
             return base.FilterMessage(hwnd, msg, wParam, lParam, ref handled);
         }
 
+        protected override void RedockWindow()
+        {
+            Model.Root.ActiveContent.Dock();
+        }
+
         protected override void OnClosed(EventArgs e)
         {
             var root = Model.Root;

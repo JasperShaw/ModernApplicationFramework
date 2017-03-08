@@ -28,6 +28,7 @@ using System.Windows.Media;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Layout;
+using NativeMethods = ModernApplicationFramework.Core.Standard.NativeMethods;
 using SystemCommands = ModernApplicationFramework.Core.Shell.SystemCommands;
 
 namespace ModernApplicationFramework.Docking.Controls
@@ -96,6 +97,15 @@ namespace ModernApplicationFramework.Docking.Controls
             Resources.MergedDictionaries.Add(new ResourceDictionary {Source = newValue.GetResourceUri()});
         }
 
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            var hwndSource = (HwndSource)PresentationSource.FromVisual(this);
+            var keyboardInputSink = (IKeyboardInputSink)hwndSource;
+            keyboardInputSink?.RegisterKeyboardInputSink(new MnemonicForwardingKeyboardInputSink(this));
+            UpdateClipRegion();
+            base.OnSourceInitialized(e);
+        }
+
         protected virtual IntPtr FilterMessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             handled = false;
@@ -151,11 +161,57 @@ namespace ModernApplicationFramework.Docking.Controls
                         UpdateMaximizedState(wParam == wMaximize);
                     }
                     break;
+                case Win32Helper.WmNclbuttondblclk:
+                    if (msg != 24)
+                    {
+                        if (msg == Win32Helper.WmNclbuttondblclk)
+                        {
+                            WmNcLButtonDblClk(wParam, ref handled);
+                            return IntPtr.Zero;
+                        }
+                    }
+                    else
+                    {
+                        WmShowWindow(hwnd, lParam);
+                        return IntPtr.Zero;
+                    }
+                    break;
             }
 
 
             return IntPtr.Zero;
         }
+
+        private void WmShowWindow(IntPtr hwnd, IntPtr lParam)
+        {
+            if (lParam.ToInt32() == 3)
+            {
+                if (WindowState == WindowState.Maximized)
+                {
+                    ShowActivated = true;
+                    NativeMethods.ShowWindow(hwnd, 3);
+                }
+                else
+                    NativeMethods.ShowWindow(hwnd, 9);
+            }
+            else
+            {
+                if (lParam.ToInt32() != 1)
+                    return;
+                NativeMethods.ShowWindow(hwnd, 6);
+            }
+        }
+
+        private void WmNcLButtonDblClk(IntPtr wParam, ref bool handled)
+        {
+            if (!NativeMethods.IsKeyPressed(17) || wParam.ToInt32() != 2)
+                return;
+            RedockWindow();
+            handled = true;
+
+        }
+
+        protected abstract void RedockWindow();
 
         protected override void OnClosed(EventArgs e)
         {
@@ -353,7 +409,7 @@ namespace ModernApplicationFramework.Docking.Controls
 
             protected override HandleRef BuildWindowCore(HandleRef hwndParent)
             {
-                _wpfContentHost = new HwndSource(new HwndSourceParameters()
+                _wpfContentHost = new HwndSource(new HwndSourceParameters
                 {
                     ParentWindow = hwndParent.Handle,
                     WindowStyle =
@@ -363,7 +419,7 @@ namespace ModernApplicationFramework.Docking.Controls
                     Height = 1
                 });
 
-                _rootPresenter = new Border() {Child = new AdornerDecorator() {Child = Content}, Focusable = true};
+                _rootPresenter = new Border {Child = new AdornerDecorator {Child = Content}, Focusable = true};
                 _rootPresenter.SetBinding(Border.BackgroundProperty, new Binding("Background") {Source = _owner});
                 _wpfContentHost.RootVisual = _rootPresenter;
                 _wpfContentHost.SizeToContent = SizeToContent.Manual;
@@ -421,6 +477,75 @@ namespace ModernApplicationFramework.Docking.Controls
             private static void OnContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
             {
                 ((FloatingWindowContentHost) d).OnContentChanged(e);
+            }
+        }
+
+        private class MnemonicForwardingKeyboardInputSink : UIElement, IKeyboardInputSink
+        {
+
+            private Window Window { get; }
+
+            IKeyboardInputSite IKeyboardInputSink.KeyboardInputSite { get; set; }
+
+            public MnemonicForwardingKeyboardInputSink(Window window)
+            {
+                Window = window;
+            }
+
+            bool IKeyboardInputSink.HasFocusWithin()
+            {
+                return false;
+            }
+
+            public IKeyboardInputSite RegisterKeyboardInputSink(IKeyboardInputSink sink)
+            {
+                throw new NotSupportedException();
+            }
+
+            public bool TranslateAccelerator(ref MSG msg, ModifierKeys modifiers)
+            {
+                return false;
+            }
+
+            public bool TabInto(TraversalRequest request)
+            {
+                return false;
+            }
+
+            public bool OnMnemonic(ref MSG msg, ModifierKeys modifiers)
+            {
+                switch (msg.message)
+                {
+                    case 262:
+                    case 263:
+                        string key = new string((char)(int)msg.wParam, 1);
+                        if (key.Length > 0)
+                        {
+                            IntPtr hwnd = new WindowInteropHelper(Window).Owner;
+                            if (hwnd == IntPtr.Zero)
+                            {
+                                var fromVisual = (HwndSource)PresentationSource.FromVisual(Application.Current.MainWindow);
+                                if (fromVisual != null)
+                                    hwnd =  fromVisual.Handle;
+                            }
+                            if (hwnd != IntPtr.Zero)
+                            {
+                                HwndSource hwndSource = HwndSource.FromHwnd(hwnd);
+                                if (hwndSource != null && AccessKeyManager.IsKeyRegistered(hwndSource, key))
+                                {
+                                    AccessKeyManager.ProcessKey(hwndSource, key, false);
+                                    return true;
+                                }
+                            }
+                        }
+                        break;
+                }
+                return false;
+            }
+
+            public bool TranslateChar(ref MSG msg, ModifierKeys modifiers)
+            {
+                return false;
             }
         }
     }
