@@ -17,9 +17,7 @@ namespace ModernApplicationFramework.Core.Utilities
         public Cache(int cacheSize, Func<TKey, TObject> objectCreationCallback, Action<TObject> objectRemovedCallback)
         {
             CommonInit(cacheSize, objectCreationCallback);
-            if (objectRemovedCallback == null)
-                throw new ArgumentNullException("objectRemovedCallback");
-            _objectRemovedCallback = objectRemovedCallback;
+            _objectRemovedCallback = objectRemovedCallback ?? throw new ArgumentNullException(nameof(objectRemovedCallback));
         }
 
         public void Clear()
@@ -70,10 +68,8 @@ namespace ModernApplicationFramework.Core.Utilities
         {
             if (cacheSize <= 0)
                 throw new ArgumentException("Cache Size must be greater than zero");
-            if (objectCreationCallback == null)
-                throw new ArgumentNullException("objectCreationCallback");
             _cache = new Tuple<TKey, TObject>[cacheSize];
-            _creationCallback = objectCreationCallback;
+            _creationCallback = objectCreationCallback ?? throw new ArgumentNullException(nameof(objectCreationCallback));
         }
     }
 }

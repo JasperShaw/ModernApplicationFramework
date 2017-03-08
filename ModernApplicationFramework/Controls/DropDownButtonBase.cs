@@ -38,8 +38,8 @@ namespace ModernApplicationFramework.Controls
 
         public bool RenderChecked
         {
-            get { return (bool) GetValue(RenderCheckedProperty); }
-            set { SetValue(RenderCheckedProperty, value); }
+            get => (bool) GetValue(RenderCheckedProperty);
+            set => SetValue(RenderCheckedProperty, value);
         }
 
         private static void OnRenderCheckedChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
@@ -56,8 +56,8 @@ namespace ModernApplicationFramework.Controls
 
         public bool RenderEnabled
         {
-            get { return (bool) GetValue(RenderEnabledProperty); }
-            set { SetValue(RenderEnabledProperty, value); }
+            get => (bool) GetValue(RenderEnabledProperty);
+            set => SetValue(RenderEnabledProperty, value);
         }
 
         private static void OnRenderEnabledChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
@@ -74,8 +74,8 @@ namespace ModernApplicationFramework.Controls
 
         public bool RenderFocused
         {
-            get { return (bool) GetValue(RenderFocusedProperty); }
-            set { SetValue(RenderFocusedProperty, value); }
+            get => (bool) GetValue(RenderFocusedProperty);
+            set => SetValue(RenderFocusedProperty, value);
         }
 
         private static void OnRenderFocusedChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
@@ -92,8 +92,8 @@ namespace ModernApplicationFramework.Controls
 
         public bool RenderMouseOver
         {
-            get { return (bool) GetValue(RenderMouseOverProperty); }
-            set { SetValue(RenderMouseOverProperty, value); }
+            get => (bool) GetValue(RenderMouseOverProperty);
+            set => SetValue(RenderMouseOverProperty, value);
         }
 
         private static void OnRenderMouseOverChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
@@ -110,8 +110,8 @@ namespace ModernApplicationFramework.Controls
 
         public bool RenderNormal
         {
-            get { return (bool) GetValue(RenderNormalProperty); }
-            set { SetValue(RenderNormalProperty, value); }
+            get => (bool) GetValue(RenderNormalProperty);
+            set => SetValue(RenderNormalProperty, value);
         }
 
         private static void OnRenderNormalChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
@@ -128,8 +128,8 @@ namespace ModernApplicationFramework.Controls
 
         public bool RenderPressed
         {
-            get { return (bool) GetValue(RenderPressedProperty); }
-            set { SetValue(RenderPressedProperty, value); }
+            get => (bool) GetValue(RenderPressedProperty);
+            set => SetValue(RenderPressedProperty, value);
         }
 
         private static void OnRenderPressedChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)

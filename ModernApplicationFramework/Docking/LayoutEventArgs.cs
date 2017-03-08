@@ -26,6 +26,6 @@ namespace ModernApplicationFramework.Docking
             LayoutRoot = layoutRoot;
         }
 
-        public LayoutRoot LayoutRoot { get; private set; }
+        public LayoutRoot LayoutRoot { get; }
     }
 }

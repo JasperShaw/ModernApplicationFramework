@@ -40,31 +40,31 @@ namespace ModernApplicationFramework.Controls
 
         public event RoutedEventHandler Checked
         {
-            add { AddHandler(CheckedEvent, value); }
-            remove { RemoveHandler(CheckedEvent, value); }
+            add => AddHandler(CheckedEvent, value);
+            remove => RemoveHandler(CheckedEvent, value);
         }
 
         public event RoutedEventHandler Unchecked
         {
-            add { AddHandler(UncheckedEvent, value); }
-            remove { RemoveHandler(UncheckedEvent, value); }
+            add => AddHandler(UncheckedEvent, value);
+            remove => RemoveHandler(UncheckedEvent, value);
         }
 
         public bool? IsChecked
         {
-            get { return (bool?) GetValue(IsCheckedProperty); }
-            set { SetValue(IsCheckedProperty, value); }
+            get => (bool?) GetValue(IsCheckedProperty);
+            set => SetValue(IsCheckedProperty, value);
         }
 
         public bool IsToggleEnabled
         {
-            get { return (bool) GetValue(IsToggleEnabledProperty); }
-            set { SetValue(IsToggleEnabledProperty, Boxes.Box(value)); }
+            get => (bool) GetValue(IsToggleEnabledProperty);
+            set => SetValue(IsToggleEnabledProperty, Boxes.Box(value));
         }
 
         private bool? InternalIsChecked
         {
-            set { SetValue(InternalIsCheckedProperty, value); }
+            set => SetValue(InternalIsCheckedProperty, value);
         }
 
         public void OnIsCheckedChanged(DependencyPropertyChangedEventArgs e)

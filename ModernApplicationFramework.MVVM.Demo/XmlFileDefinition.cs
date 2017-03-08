@@ -2,7 +2,6 @@
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.MVVM.Demo.Modules.MyEditor;
-using ModernApplicationFramework.MVVM.ViewModels;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.MVVM.Demo

@@ -27,26 +27,26 @@ namespace ModernApplicationFramework.Controls
 
         public ImageSource CheckedImage
         {
-            get { return (ImageSource) GetValue(CheckedImageProperty); }
-            set { SetValue(CheckedImageProperty, value); }
+            get => (ImageSource) GetValue(CheckedImageProperty);
+            set => SetValue(CheckedImageProperty, value);
         }
 
         public ImageSource HoverImage
         {
-            get { return (ImageSource) GetValue(HoverImageProperty); }
-            set { SetValue(HoverImageProperty, value); }
+            get => (ImageSource) GetValue(HoverImageProperty);
+            set => SetValue(HoverImageProperty, value);
         }
 
         public ImageSource NormalImage
         {
-            get { return (ImageSource) GetValue(NormalImageProperty); }
-            set { SetValue(NormalImageProperty, value); }
+            get => (ImageSource) GetValue(NormalImageProperty);
+            set => SetValue(NormalImageProperty, value);
         }
 
         public ImageSource PressedImage
         {
-            get { return (ImageSource) GetValue(PressedImageProperty); }
-            set { SetValue(PressedImageProperty, value); }
+            get => (ImageSource) GetValue(PressedImageProperty);
+            set => SetValue(PressedImageProperty, value);
         }
     }
 }

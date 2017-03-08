@@ -32,25 +32,25 @@ namespace ModernApplicationFramework.Controls
 
         public string InformationTextA
         {
-            get { return (string) GetValue(InformationTextAProperty); }
-            set { SetValue(InformationTextAProperty, value); }
+            get => (string) GetValue(InformationTextAProperty);
+            set => SetValue(InformationTextAProperty, value);
         }
 
         public string InformationTextB
         {
-            get { return (string) GetValue(InformationTextBProperty); }
-            set { SetValue(InformationTextBProperty, value); }
+            get => (string) GetValue(InformationTextBProperty);
+            set => SetValue(InformationTextBProperty, value);
         }
 
         public string InformationTextC
         {
-            get { return (string) GetValue(InformationTextCProperty); }
-            set { SetValue(InformationTextCProperty, value); }
+            get => (string) GetValue(InformationTextCProperty);
+            set => SetValue(InformationTextCProperty, value);
         }
 
         public int Mode
         {
-            get { return (int) GetValue(ModeProperty); }
+            get => (int) GetValue(ModeProperty);
             set
             {
                 _lastMode = Mode;
@@ -60,14 +60,14 @@ namespace ModernApplicationFramework.Controls
 
         public string ModeText
         {
-            get { return (string) GetValue(ModeTextProperty); }
-            set { SetValue(ModeTextProperty, value); }
+            get => (string) GetValue(ModeTextProperty);
+            set => SetValue(ModeTextProperty, value);
         }
 
         public string StatusText
         {
-            get { return (string) GetValue(StatusTextProperty); }
-            set { SetValue(StatusTextProperty, value); }
+            get => (string) GetValue(StatusTextProperty);
+            set => SetValue(StatusTextProperty, value);
         }
 
         public void RestoreMode()

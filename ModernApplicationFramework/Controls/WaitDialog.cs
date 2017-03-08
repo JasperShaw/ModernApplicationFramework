@@ -21,8 +21,8 @@ namespace ModernApplicationFramework.Controls
 
         public string MessageText
         {
-            get { return (string) GetValue(MessageTextProperty); }
-            set { SetValue(MessageTextProperty, value); }
+            get => (string) GetValue(MessageTextProperty);
+            set => SetValue(MessageTextProperty, value);
         }
 
         public bool ActionWasAborted { get; private set; }
@@ -37,10 +37,6 @@ namespace ModernApplicationFramework.Controls
                 try
                 {
                     action.Invoke();
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
                 }
                 finally
                 {

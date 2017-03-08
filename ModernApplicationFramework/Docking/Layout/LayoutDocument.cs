@@ -27,7 +27,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public string Description
         {
-            get { return _description; }
+            get => _description;
             set
             {
                 if (_description == value)

@@ -54,7 +54,6 @@ namespace ModernApplicationFramework.Docking.Controls
                     OnSelectedAnchorableChanged));
 
 
-        private readonly DockingManager _manager;
         private bool _internalSetSelectedDocument;
 
 
@@ -62,20 +61,20 @@ namespace ModernApplicationFramework.Docking.Controls
 
         internal NavigatorWindow(DockingManager manager)
         {
-            _manager = manager;
+            var manager1 = manager;
 
             _internalSetSelectedDocument = true;
             SetAnchorables(
-                _manager.Layout.Descendents()
+                manager1.Layout.Descendents()
                     .OfType<LayoutAnchorable>()
                     .Where(a => a.IsVisible)
-                    .Select(d => (LayoutAnchorableItem) _manager.GetLayoutItemFromModel(d))
+                    .Select(d => (LayoutAnchorableItem) manager1.GetLayoutItemFromModel(d))
                     .ToArray());
             SetDocuments(
-                _manager.Layout.Descendents()
+                manager1.Layout.Descendents()
                     .OfType<LayoutDocument>()
                     .OrderByDescending(d => d.LastActivationTimeStamp.GetValueOrDefault())
-                    .Select(d => (LayoutDocumentItem) _manager.GetLayoutItemFromModel(d))
+                    .Select(d => (LayoutDocumentItem) manager1.GetLayoutItemFromModel(d))
                     .ToArray());
             _internalSetSelectedDocument = false;
 
@@ -102,7 +101,7 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public Theme Theme
         {
-            get { return _theme; }
+            get => _theme;
             set
             {
                 if (value == null)
@@ -123,14 +122,14 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public LayoutAnchorableItem SelectedAnchorable
         {
-            get { return (LayoutAnchorableItem) GetValue(SelectedAnchorableProperty); }
-            set { SetValue(SelectedAnchorableProperty, value); }
+            get => (LayoutAnchorableItem) GetValue(SelectedAnchorableProperty);
+            set => SetValue(SelectedAnchorableProperty, value);
         }
 
         public LayoutDocumentItem SelectedDocument
         {
-            get { return (LayoutDocumentItem) GetValue(SelectedDocumentProperty); }
-            set { SetValue(SelectedDocumentProperty, value); }
+            get => (LayoutDocumentItem) GetValue(SelectedDocumentProperty);
+            set => SetValue(SelectedDocumentProperty, value);
         }
 
         public void ChangeTheme(Theme oldValue, Theme newValue)

@@ -30,9 +30,9 @@ namespace ModernApplicationFramework.Core.Standard
     internal sealed class MessageWindow : DispatcherObject, IDisposable
     {
         // Alias this to a static so the wrapper doesn't get GC'd
-        private static readonly WndProc s_WndProc = _WndProc;
+        private static readonly WndProc SWndProc = _WndProc;
 
-        private static readonly Dictionary<IntPtr, MessageWindow> s_windowLookup =
+        private static readonly Dictionary<IntPtr, MessageWindow> SWindowLookup =
             new Dictionary<IntPtr, MessageWindow>();
 
         private string _className;
@@ -51,7 +51,7 @@ namespace ModernApplicationFramework.Core.Standard
             {
                 cbSize = Marshal.SizeOf(typeof(WNDCLASSEX)),
                 style = classStyle,
-                lpfnWndProc = s_WndProc,
+                lpfnWndProc = SWndProc,
                 hInstance = NativeMethods.GetModuleHandle(null),
                 hbrBackground = NativeMethods.GetStockObject(StockObject.NULL_BRUSH),
                 lpszMenuName = "",
@@ -88,14 +88,14 @@ namespace ModernApplicationFramework.Core.Standard
 
         ~MessageWindow()
         {
-            _Dispose(false, false);
+            _Dispose(false);
         }
 
         public IntPtr Handle { get; private set; }
 
         public void Dispose()
         {
-            _Dispose(true, false);
+            _Dispose(false);
             GC.SuppressFinalize(this);
         }
 
@@ -109,19 +109,18 @@ namespace ModernApplicationFramework.Core.Standard
         [SuppressMessage("Microsoft.Usage", "CA1816:CallGCSuppressFinalizeCorrectly")]
         private static IntPtr _WndProc(IntPtr hwnd, WM msg, IntPtr wParam, IntPtr lParam)
         {
-            var ret = IntPtr.Zero;
-            MessageWindow hwndWrapper = null;
+            MessageWindow hwndWrapper;
 
             if (msg == WM.CREATE)
             {
                 var createStruct = (CREATESTRUCT) Marshal.PtrToStructure(lParam, typeof(CREATESTRUCT));
                 var gcHandle = GCHandle.FromIntPtr(createStruct.lpCreateParams);
                 hwndWrapper = (MessageWindow) gcHandle.Target;
-                s_windowLookup.Add(hwnd, hwndWrapper);
+                SWindowLookup.Add(hwnd, hwndWrapper);
             }
             else
             {
-                if (!s_windowLookup.TryGetValue(hwnd, out hwndWrapper))
+                if (!SWindowLookup.TryGetValue(hwnd, out hwndWrapper))
                 {
                     return NativeMethods.DefWindowProc(hwnd, msg, wParam, lParam);
                 }
@@ -129,20 +128,11 @@ namespace ModernApplicationFramework.Core.Standard
             Assert.IsNotNull(hwndWrapper);
 
             var callback = hwndWrapper._wndProcCallback;
-            if (callback != null)
-            {
-                ret = callback(hwnd, msg, wParam, lParam);
-            }
-            else
-            {
-                ret = NativeMethods.DefWindowProc(hwnd, msg, wParam, lParam);
-            }
+            var ret = callback?.Invoke(hwnd, msg, wParam, lParam) ?? NativeMethods.DefWindowProc(hwnd, msg, wParam, lParam);
 
-            if (msg == WM.NCDESTROY)
-            {
-                hwndWrapper._Dispose(true, true);
-                GC.SuppressFinalize(hwndWrapper);
-            }
+            if (msg != WM.NCDESTROY) return ret;
+            hwndWrapper._Dispose(true);
+            GC.SuppressFinalize(hwndWrapper);
 
             return ret;
         }
@@ -150,7 +140,7 @@ namespace ModernApplicationFramework.Core.Standard
         // This isn't right if the Dispatcher has already started shutting down.
         // It will wind up leaking the class ATOM...
         [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "disposing")]
-        private void _Dispose(bool disposing, bool isHwndBeingDestroyed)
+        private void _Dispose(bool isHwndBeingDestroyed)
         {
             if (_isDisposed)
             {
@@ -182,7 +172,7 @@ namespace ModernApplicationFramework.Core.Standard
                     }
                 }
 
-            s_windowLookup.Remove(hwnd);
+            SWindowLookup.Remove(hwnd);
 
             _className = null;
             Handle = IntPtr.Zero;

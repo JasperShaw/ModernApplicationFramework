@@ -33,20 +33,20 @@ namespace ModernApplicationFramework.Controls
 
         public ImageSource Source
         {
-            get { return (ImageSource) GetValue(SourceProperty); }
-            set { SetValue(SourceProperty, value); }
+            get => (ImageSource) GetValue(SourceProperty);
+            set => SetValue(SourceProperty, value);
         }
 
         public Brush VectorFill
         {
-            get { return (Brush) GetValue(VectorFillProperty); }
-            set { SetValue(VectorFillProperty, value); }
+            get => (Brush) GetValue(VectorFillProperty);
+            set => SetValue(VectorFillProperty, value);
         }
 
         public Geometry VectorIcon
         {
-            get { return (Geometry) GetValue(VectorIconProperty); }
-            set { SetValue(VectorIconProperty, value); }
+            get => (Geometry) GetValue(VectorIconProperty);
+            set => SetValue(VectorIconProperty, value);
         }
 
         public int HitTest(Point point)

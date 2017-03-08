@@ -28,14 +28,14 @@ namespace ModernApplicationFramework.Controls
 
         public Brush IconForeground
         {
-            get { return (Brush) GetValue(IconForegroundProperty); }
-            set { SetValue(IconForegroundProperty, value); }
+            get => (Brush) GetValue(IconForegroundProperty);
+            set => SetValue(IconForegroundProperty, value);
         }
 
         public Geometry IconGeometry
         {
-            get { return (Geometry) GetValue(IconGeometryProperty); }
-            set { SetValue(IconGeometryProperty, value); }
+            get => (Geometry) GetValue(IconGeometryProperty);
+            set => SetValue(IconGeometryProperty, value);
         }
     }
 }

@@ -31,7 +31,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
 
         public Theme SelectedTheme
         {
-            get { return _selectedTheme; }
+            get => _selectedTheme;
             set
             {
                 if (value.Equals(_selectedTheme))

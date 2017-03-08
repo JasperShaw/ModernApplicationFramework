@@ -61,11 +61,7 @@ namespace ModernApplicationFramework.Docking.Controls
 
         internal LayoutAnchorSideControl(LayoutAnchorSide model)
         {
-            if (model == null)
-                throw new ArgumentNullException("model");
-
-
-            _model = model;
+            _model = model ?? throw new ArgumentNullException(nameof(model));
 
             CreateChildrenViews();
 

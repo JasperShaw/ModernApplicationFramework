@@ -13,8 +13,8 @@ namespace ModernApplicationFramework.Utilities.UndoRedoManager
 
         public event EventHandler ValueChanged
         {
-            add { Property.AddValueChanged(Instance, value); }
-            remove { Property.RemoveValueChanged(Instance, value); }
+            add => Property.AddValueChanged(Instance, value);
+            remove => Property.RemoveValueChanged(Instance, value);
         }
 
         public object Instance { get; }
@@ -22,8 +22,8 @@ namespace ModernApplicationFramework.Utilities.UndoRedoManager
 
         public object Value
         {
-            get { return Property.GetValue(Instance); }
-            set { Property.SetValue(Instance, value); }
+            get => Property.GetValue(Instance);
+            set => Property.SetValue(Instance, value);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace ModernApplicationFramework.Docking.Controls
     {
         public static readonly DependencyProperty IsDraggingOverProperty =
             DependencyProperty.RegisterAttached("IsDraggingOver", typeof (bool), typeof (DropTargetBase),
-                new FrameworkPropertyMetadata((bool) false));
+                new FrameworkPropertyMetadata(false));
 
         public static bool GetIsDraggingOver(DependencyObject d)
         {

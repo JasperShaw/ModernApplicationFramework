@@ -60,26 +60,26 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public ICommand AutoHideCommand
         {
-            get { return (ICommand) GetValue(AutoHideCommandProperty); }
-            set { SetValue(AutoHideCommandProperty, value); }
+            get => (ICommand) GetValue(AutoHideCommandProperty);
+            set => SetValue(AutoHideCommandProperty, value);
         }
 
         public bool CanHide
         {
-            get { return (bool) GetValue(CanHideProperty); }
-            set { SetValue(CanHideProperty, value); }
+            get => (bool) GetValue(CanHideProperty);
+            set => SetValue(CanHideProperty, value);
         }
 
         public ICommand DockCommand
         {
-            get { return (ICommand) GetValue(DockCommandProperty); }
-            set { SetValue(DockCommandProperty, value); }
+            get => (ICommand) GetValue(DockCommandProperty);
+            set => SetValue(DockCommandProperty, value);
         }
 
         public ICommand HideCommand
         {
-            get { return (ICommand) GetValue(HideCommandProperty); }
-            set { SetValue(HideCommandProperty, value); }
+            get => (ICommand) GetValue(HideCommandProperty);
+            set => SetValue(HideCommandProperty, value);
         }
 
         protected override void ClearDefaultBindings()

@@ -1,5 +1,4 @@
 ﻿using System;
-using ModernApplicationFramework.Interfaces.Utilities;
 
 namespace ModernApplicationFramework.Core.Events
 {

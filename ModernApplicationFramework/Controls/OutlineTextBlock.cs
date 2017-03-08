@@ -91,61 +91,61 @@ namespace ModernApplicationFramework.Controls
 
         public bool Bold
         {
-            get { return (bool) GetValue(BoldProperty); }
+            get => (bool) GetValue(BoldProperty);
 
-            set { SetValue(BoldProperty, value); }
+            set => SetValue(BoldProperty, value);
         }
 
         [Bindable(true), Category("Appearance")]
         [Localizability(LocalizationCategory.Font)]
         public FontFamily FontFamily
         {
-            get { return (FontFamily) GetValue(FontFamilyProperty); }
+            get => (FontFamily) GetValue(FontFamilyProperty);
 
-            set { SetValue(FontFamilyProperty, value); }
+            set => SetValue(FontFamilyProperty, value);
         }
 
         public double FontSize
         {
-            get { return (double) GetValue(FontSizeProperty); }
+            get => (double) GetValue(FontSizeProperty);
 
-            set { SetValue(FontSizeProperty, value); }
+            set => SetValue(FontSizeProperty, value);
         }
 
         public Brush Foreground
         {
-            get { return (Brush) GetValue(ForegroundProperty); }
+            get => (Brush) GetValue(ForegroundProperty);
 
-            set { SetValue(ForegroundProperty, value); }
+            set => SetValue(ForegroundProperty, value);
         }
 
         public bool Italic
         {
-            get { return (bool) GetValue(ItalicProperty); }
+            get => (bool) GetValue(ItalicProperty);
 
-            set { SetValue(ItalicProperty, value); }
+            set => SetValue(ItalicProperty, value);
         }
 
         public Brush Stroke
         {
-            get { return (Brush) GetValue(StrokeProperty); }
+            get => (Brush) GetValue(StrokeProperty);
 
-            set { SetValue(StrokeProperty, value); }
+            set => SetValue(StrokeProperty, value);
         }
 
         public ushort StrokeThickness
         {
-            get { return (ushort) GetValue(StrokeThicknessProperty); }
+            get => (ushort) GetValue(StrokeThicknessProperty);
 
-            set { SetValue(StrokeThicknessProperty, value); }
+            set => SetValue(StrokeThicknessProperty, value);
         }
 
         [Bindable(true), Category("Appearance")]
         public string Text
         {
-            get { return (string) GetValue(TextProperty); }
+            get => (string) GetValue(TextProperty);
 
-            set { SetValue(TextProperty, value); }
+            set => SetValue(TextProperty, value);
         }
 
         public void CreateText()

@@ -26,6 +26,6 @@ namespace ModernApplicationFramework.Docking.Layout
         }
 
 
-        public LayoutElement Element { get; private set; }
+        public LayoutElement Element { get; }
     }
 }

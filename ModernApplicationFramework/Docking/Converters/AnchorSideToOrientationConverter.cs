@@ -26,7 +26,8 @@ namespace ModernApplicationFramework.Docking.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            AnchorSide side = (AnchorSide) value;
+            if (value == null) return Orientation.Horizontal;
+            var side = (AnchorSide) value;
             if (side == AnchorSide.Left ||
                 side == AnchorSide.Right)
                 return Orientation.Vertical;

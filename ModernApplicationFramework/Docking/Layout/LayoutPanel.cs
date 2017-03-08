@@ -38,7 +38,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public Orientation Orientation
         {
-            get { return _orientation; }
+            get => _orientation;
             set
             {
                 if (_orientation == value)
@@ -53,7 +53,7 @@ namespace ModernApplicationFramework.Docking.Layout
         public override void ConsoleDump(int tab)
         {
             System.Diagnostics.Trace.Write(new string(' ', tab*4));
-            System.Diagnostics.Trace.WriteLine(string.Format("Panel({0})", Orientation));
+            System.Diagnostics.Trace.WriteLine($"Panel({Orientation})");
 
             foreach (var layoutPanelElement in Children)
             {

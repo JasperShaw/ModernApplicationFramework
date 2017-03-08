@@ -18,7 +18,7 @@ namespace ModernApplicationFramework.MVVM.Core.Result
         public void Execute(CoroutineExecutionContext context)
         {
             var result = _commonDialog.ShowDialog().GetValueOrDefault(false);
-            Completed(this, new ResultCompletionEventArgs { WasCancelled = !result });
+            Completed?.Invoke(this, new ResultCompletionEventArgs { WasCancelled = !result });
         }
     }
 }

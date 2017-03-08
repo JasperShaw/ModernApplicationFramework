@@ -43,8 +43,8 @@ namespace ModernApplicationFramework.Commands.Base
 
         public virtual event EventHandler CanExecuteChanged
         {
-            add { WeakEventHandlerManager.AddWeakReferenceHandler(ref _canExecuteChangedHandlers, value, 2); }
-            remove { WeakEventHandlerManager.RemoveWeakReferenceHandler(_canExecuteChangedHandlers, value); }
+            add => WeakEventHandlerManager.AddWeakReferenceHandler(ref _canExecuteChangedHandlers, value, 2);
+            remove => WeakEventHandlerManager.RemoveWeakReferenceHandler(_canExecuteChangedHandlers, value);
         }
 
         [SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate")]

@@ -25,9 +25,9 @@ namespace ModernApplicationFramework.Core.Events
 
         #region Properties
 
-        public string Text { get; private set; }
+        public string Text { get; }
 
-        public TextChangedType Type { get; private set; }
+        public TextChangedType Type { get; }
 
         #endregion
     }

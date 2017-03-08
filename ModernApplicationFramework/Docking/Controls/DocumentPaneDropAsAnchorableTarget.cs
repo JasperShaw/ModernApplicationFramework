@@ -44,53 +44,52 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public override Geometry GetPreviewPath(OverlayWindow overlayWindow, LayoutFloatingWindow floatingWindowModel)
         {
-            ILayoutDocumentPane targetModel = _targetPane.Model as ILayoutDocumentPane;
-            if (targetModel != null)
-            {
-                var manager = targetModel.Root.Manager;
+            var targetModel = _targetPane.Model as ILayoutDocumentPane;
+            if (targetModel == null)
+                return null;
+            var manager = targetModel.Root.Manager;
 
-                //ILayoutDocumentPane targetModel = _targetPane.Model as ILayoutDocumentPane;
-                LayoutDocumentPaneGroup parentGroup;
-                LayoutPanel parentGroupPanel;
-                if (!FindParentLayoutDocumentPane(targetModel, out parentGroup, out parentGroupPanel))
-                    return null;
-                var documentPaneControl =
-                    manager.FindLogicalChildren<FrameworkElement>()
+            //ILayoutDocumentPane targetModel = _targetPane.Model as ILayoutDocumentPane;
+            LayoutDocumentPaneGroup parentGroup;
+            LayoutPanel parentGroupPanel;
+            if (!FindParentLayoutDocumentPane(targetModel, out parentGroup, out parentGroupPanel))
+                return null;
+            var documentPaneControl =
+                manager.FindLogicalChildren<FrameworkElement>()
                         .OfType<ILayoutControl>()
                         .First(
                             d => parentGroup != null ? Equals(d.Model, parentGroup) : Equals(d.Model, parentGroupPanel))
-                        as
-                        FrameworkElement;
-                var targetScreenRect = documentPaneControl.GetScreenArea();
+                    as
+                    FrameworkElement;
+            var targetScreenRect = documentPaneControl.GetScreenArea();
 
-                switch (Type)
+            switch (Type)
+            {
+                case DropTargetType.DocumentPaneDockAsAnchorableBottom:
                 {
-                    case DropTargetType.DocumentPaneDockAsAnchorableBottom:
-                    {
-                        targetScreenRect.Offset(-overlayWindow.Left, -overlayWindow.Top);
-                        targetScreenRect.Offset(0.0, targetScreenRect.Height - targetScreenRect.Height/3.0);
-                        targetScreenRect.Height /= 3.0;
-                        return new RectangleGeometry(targetScreenRect);
-                    }
-                    case DropTargetType.DocumentPaneDockAsAnchorableTop:
-                    {
-                        targetScreenRect.Offset(-overlayWindow.Left, -overlayWindow.Top);
-                        targetScreenRect.Height /= 3.0;
-                        return new RectangleGeometry(targetScreenRect);
-                    }
-                    case DropTargetType.DocumentPaneDockAsAnchorableRight:
-                    {
-                        targetScreenRect.Offset(-overlayWindow.Left, -overlayWindow.Top);
-                        targetScreenRect.Offset(targetScreenRect.Width - targetScreenRect.Width/3.0, 0.0);
-                        targetScreenRect.Width /= 3.0;
-                        return new RectangleGeometry(targetScreenRect);
-                    }
-                    case DropTargetType.DocumentPaneDockAsAnchorableLeft:
-                    {
-                        targetScreenRect.Offset(-overlayWindow.Left, -overlayWindow.Top);
-                        targetScreenRect.Width /= 3.0;
-                        return new RectangleGeometry(targetScreenRect);
-                    }
+                    targetScreenRect.Offset(-overlayWindow.Left, -overlayWindow.Top);
+                    targetScreenRect.Offset(0.0, targetScreenRect.Height - targetScreenRect.Height/3.0);
+                    targetScreenRect.Height /= 3.0;
+                    return new RectangleGeometry(targetScreenRect);
+                }
+                case DropTargetType.DocumentPaneDockAsAnchorableTop:
+                {
+                    targetScreenRect.Offset(-overlayWindow.Left, -overlayWindow.Top);
+                    targetScreenRect.Height /= 3.0;
+                    return new RectangleGeometry(targetScreenRect);
+                }
+                case DropTargetType.DocumentPaneDockAsAnchorableRight:
+                {
+                    targetScreenRect.Offset(-overlayWindow.Left, -overlayWindow.Top);
+                    targetScreenRect.Offset(targetScreenRect.Width - targetScreenRect.Width/3.0, 0.0);
+                    targetScreenRect.Width /= 3.0;
+                    return new RectangleGeometry(targetScreenRect);
+                }
+                case DropTargetType.DocumentPaneDockAsAnchorableLeft:
+                {
+                    targetScreenRect.Offset(-overlayWindow.Left, -overlayWindow.Top);
+                    targetScreenRect.Width /= 3.0;
+                    return new RectangleGeometry(targetScreenRect);
                 }
             }
 

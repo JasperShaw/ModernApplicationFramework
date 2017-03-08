@@ -22,22 +22,15 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Threading;
 using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
     internal static class FocusElementManager
     {
-        [ThreadStatic] private static WeakReference _lastFocusedElement;
-
-        [ThreadStatic] private static WeakReference _lastFocusedElementBeforeEnterMenuMode;
-
         [ThreadStatic] private static List<DockingManager> _managers;
         [ThreadStatic] private static FullWeakDictionary<ILayoutElement, IInputElement> _modelFocusedElement;
         [ThreadStatic] private static WeakDictionary<ILayoutElement, IntPtr> _modelFocusedWindowHandle;
-
-        [ThreadStatic] private static DispatcherOperation _setFocusAsyncOperation;
 
         [ThreadStatic] private static WindowHookHandler _windowHandler;
 
@@ -113,7 +106,7 @@ namespace ModernApplicationFramework.Docking.Controls
 
             if (focused)
             {
-                _lastFocusedElement = new WeakReference(model);
+                new WeakReference(model);
             }
         }
 
@@ -147,35 +140,6 @@ namespace ModernApplicationFramework.Docking.Controls
             _windowHandler = null;
         }
 
-        private static void InputManager_EnterMenuMode(object sender, EventArgs e)
-        {
-            if (Keyboard.FocusedElement == null)
-                return;
-
-            var lastfocusDepObj = Keyboard.FocusedElement as DependencyObject;
-            if (lastfocusDepObj.FindLogicalAncestor<DockingManager>() == null)
-            {
-                _lastFocusedElementBeforeEnterMenuMode = null;
-                return;
-            }
-
-            _lastFocusedElementBeforeEnterMenuMode = new WeakReference(Keyboard.FocusedElement);
-        }
-
-        private static void InputManager_LeaveMenuMode(object sender, EventArgs e)
-        {
-            if (_lastFocusedElementBeforeEnterMenuMode != null &&
-                _lastFocusedElementBeforeEnterMenuMode.IsAlive)
-            {
-                var lastFocusedInputElement = _lastFocusedElementBeforeEnterMenuMode.GetValueOrDefault<UIElement>();
-                if (lastFocusedInputElement != null)
-                {
-                    if (lastFocusedInputElement != Keyboard.Focus(lastFocusedInputElement))
-                        Debug.WriteLine("Unable to activate the element");
-                }
-            }
-        }
-
         private static void manager_PreviewGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             var focusedElement = e.NewFocus as Visual;
@@ -193,43 +157,6 @@ namespace ModernApplicationFramework.Docking.Controls
                 if (parentDocument != null)
                 {
                     ModelFocusedElement[parentDocument.Model] = e.NewFocus;
-                }
-            }
-        }
-
-        private static void WindowActivating(object sender, WindowActivateEventArgs e)
-        {
-            Trace.WriteLine("WindowActivating");
-
-            if (Keyboard.FocusedElement == null &&
-                _lastFocusedElement != null &&
-                _lastFocusedElement.IsAlive)
-            {
-                var elementToSetFocus = _lastFocusedElement.Target as ILayoutElement;
-                if (elementToSetFocus != null)
-                {
-                    var manager = elementToSetFocus.Root.Manager;
-                    if (manager == null)
-                        return;
-
-                    IntPtr parentHwnd;
-                    if (!manager.GetParentWindowHandle(out parentHwnd))
-                        return;
-
-                    if (e.HwndActivating != parentHwnd)
-                        return;
-
-                    _setFocusAsyncOperation = Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() =>
-                    {
-                        try
-                        {
-                            SetFocusOnLastElement(elementToSetFocus);
-                        }
-                        finally
-                        {
-                            _setFocusAsyncOperation = null;
-                        }
-                    }), DispatcherPriority.Background);
                 }
             }
         }

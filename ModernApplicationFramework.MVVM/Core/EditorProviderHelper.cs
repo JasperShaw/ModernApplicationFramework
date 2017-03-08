@@ -24,13 +24,13 @@ namespace ModernApplicationFramework.MVVM.Core
             {
                 var frameworkElement = (FrameworkElement)e.View;
 
-                RoutedEventHandler loadedHandler = null;
-                loadedHandler = async (sender2, e2) =>
+                async void LoadedHandler(object sender2, RoutedEventArgs e2)
                 {
-                    frameworkElement.Loaded -= loadedHandler;
-                    await provider.Open((IStorableDocument)editor, path);
-                };
-                frameworkElement.Loaded += loadedHandler;
+                    frameworkElement.Loaded -= LoadedHandler;
+                    await provider.Open((IStorableDocument) editor, path);
+                }
+
+                frameworkElement.Loaded += LoadedHandler;
             };
 
             return Task.FromResult(editor);

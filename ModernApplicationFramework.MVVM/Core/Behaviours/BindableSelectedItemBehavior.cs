@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interactivity;
 using System.Windows.Media;
@@ -13,8 +12,8 @@ namespace ModernApplicationFramework.MVVM.Core.Behaviours
 
         public object SelectedItem
         {
-            get { return GetValue(SelectedItemProperty); }
-            set { SetValue(SelectedItemProperty, value); }
+            get => GetValue(SelectedItemProperty);
+            set => SetValue(SelectedItemProperty, value);
         }
 
         public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(
@@ -23,14 +22,13 @@ namespace ModernApplicationFramework.MVVM.Core.Behaviours
 
         private static void OnSelectedItemChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            Action<TreeViewItem> selectTreeViewItem = tvi2 =>
+            void SelectTreeViewItem(TreeViewItem tvi2)
             {
-                if (tvi2 != null)
-                {
-                    tvi2.IsSelected = true;
-                    tvi2.Focus();
-                }
-            };
+                if (tvi2 == null)
+                    return;
+                tvi2.IsSelected = true;
+                tvi2.Focus();
+            }
 
             var tvi = e.NewValue as TreeViewItem;
 
@@ -39,21 +37,21 @@ namespace ModernApplicationFramework.MVVM.Core.Behaviours
                 var tree = ((BindableSelectedItemBehavior)sender).AssociatedObject;
                 if (!tree.IsLoaded)
                 {
-                    RoutedEventHandler handler = null;
-                    handler = (sender2, e2) =>
+                    void Handler(object sender2, RoutedEventArgs e2)
                     {
                         tvi = GetTreeViewItem(tree, e.NewValue);
-                        selectTreeViewItem(tvi);
-                        tree.Loaded -= handler;
-                    };
-                    tree.Loaded += handler;
+                        SelectTreeViewItem(tvi);
+                        tree.Loaded -= Handler;
+                    }
+
+                    tree.Loaded += Handler;
 
                     return;
                 }
                 tvi = GetTreeViewItem(tree, e.NewValue);
             }
 
-            selectTreeViewItem(tvi);
+            SelectTreeViewItem(tvi);
         }
 
         #endregion
@@ -109,9 +107,8 @@ namespace ModernApplicationFramework.MVVM.Core.Behaviours
                 var itemsHostPanel = (Panel)VisualTreeHelper.GetChild(itemsPresenter, 0);
 
                 // Ensure that the generator for this panel has been created.
-#pragma warning disable 168
+                // ReSharper disable once UnusedVariable
                 var children = itemsHostPanel.Children;
-#pragma warning restore 168
 
                 for (int i = 0, count = container.Items.Count; i < count; i++)
                 {

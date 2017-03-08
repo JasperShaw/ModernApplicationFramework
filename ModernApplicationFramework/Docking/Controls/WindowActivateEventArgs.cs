@@ -25,6 +25,6 @@ namespace ModernApplicationFramework.Docking.Controls
             HwndActivating = hwndActivating;
         }
 
-        public IntPtr HwndActivating { get; private set; }
+        public IntPtr HwndActivating { get; }
     }
 }

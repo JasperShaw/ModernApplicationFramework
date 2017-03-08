@@ -29,6 +29,6 @@ namespace ModernApplicationFramework.Docking.Layout.Serialization
 
         public object Content { get; set; }
 
-        public LayoutContent Model { get; private set; }
+        public LayoutContent Model { get; }
     }
 }

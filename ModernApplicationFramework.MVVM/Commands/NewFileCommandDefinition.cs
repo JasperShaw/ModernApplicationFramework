@@ -61,13 +61,14 @@ namespace ModernApplicationFramework.MVVM.Commands
                 viewAware.ViewAttached += (sender, e) =>
                 {
                     var frameworkElement = (FrameworkElement) e.View;
-                    RoutedEventHandler loadedHandler = null;
-                    loadedHandler = async (sender2, e2) =>
+
+                    async void LoadedHandler(object sender2, RoutedEventArgs e2)
                     {
-                        frameworkElement.Loaded -= loadedHandler;
+                        frameworkElement.Loaded -= LoadedHandler;
                         await _editorProvider.New((IStorableDocument) editor, ca.FileName + ca.FileExtension);
-                    };
-                    frameworkElement.Loaded += loadedHandler;
+                    }
+
+                    frameworkElement.Loaded += LoadedHandler;
                 };
             _shell.DockingHost.OpenDocument(editor);
         }

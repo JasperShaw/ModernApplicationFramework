@@ -28,7 +28,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
 
         public SettingsPageViewModel SelectedPage
         {
-            get { return _selectedPage; }
+            get => _selectedPage;
             set
             {
                 _selectedPage = value;
@@ -77,9 +77,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             if (_settingPages.Any(settingPage => !settingPage.CanApply()))
                 return;
             foreach (var settingPage in _settingPages)
-            {
                 settingPage.Apply();
-            }
 
             TryClose(true);
         }
@@ -89,7 +87,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             TryClose(false);
         }
 
-        private List<SettingsPageViewModel> GetParentCollection(ISettingsPage settingPage,
+        private static List<SettingsPageViewModel> GetParentCollection(ISettingsPage settingPage,
                                                                 List<SettingsPageViewModel> pages)
         {
             if (string.IsNullOrEmpty(settingPage.Path))

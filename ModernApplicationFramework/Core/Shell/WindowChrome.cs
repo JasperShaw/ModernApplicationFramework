@@ -77,25 +77,25 @@ namespace ModernApplicationFramework.Core.Shell
                 (d, e) => ((WindowChrome) d)._OnPropertyChangedThatRequiresRepaint()),
             value => Utility.IsCornerRadiusValid((CornerRadius) value));
 
-        private static readonly List<_SystemParameterBoundProperty> _BoundProperties = new List
-            <_SystemParameterBoundProperty>
+        private static readonly List<SystemParameterBoundProperty> BoundProperties = new List
+            <SystemParameterBoundProperty>
         {
-            new _SystemParameterBoundProperty
+            new SystemParameterBoundProperty
             {
                 DependencyProperty = CornerRadiusProperty,
                 SystemParameterPropertyName = "WindowCornerRadius"
             },
-            new _SystemParameterBoundProperty
+            new SystemParameterBoundProperty
             {
                 DependencyProperty = CaptionHeightProperty,
                 SystemParameterPropertyName = "WindowCaptionHeight"
             },
-            new _SystemParameterBoundProperty
+            new SystemParameterBoundProperty
             {
                 DependencyProperty = ResizeBorderThicknessProperty,
                 SystemParameterPropertyName = "WindowResizeBorderThickness"
             },
-            new _SystemParameterBoundProperty
+            new SystemParameterBoundProperty
             {
                 DependencyProperty = GlassFrameThicknessProperty,
                 SystemParameterPropertyName = "WindowNonClientFrameThickness"
@@ -109,7 +109,7 @@ namespace ModernApplicationFramework.Core.Shell
             // A more correct way to do this would be to Coerce the value iff the source of the DP was the default value.
             // Unfortunately with the current property system we can't detect whether the value being applied at the time
             // of the coersion is the default.
-            foreach (var bp in _BoundProperties)
+            foreach (var bp in BoundProperties)
             {
                 // This list must be declared after the DP's are assigned.
                 Assert.IsNotNull(bp.DependencyProperty);
@@ -129,10 +129,7 @@ namespace ModernApplicationFramework.Core.Shell
         internal event EventHandler PropertyChangedThatRequiresRepaint;
 
         // Named property available for fully extending the glass frame.
-        public static Thickness GlassFrameCompleteThickness
-        {
-            get { return new Thickness(-1); }
-        }
+        public static Thickness GlassFrameCompleteThickness => new Thickness(-1);
 
         protected override Freezable CreateInstanceCore()
         {
@@ -142,13 +139,10 @@ namespace ModernApplicationFramework.Core.Shell
         private void _OnPropertyChangedThatRequiresRepaint()
         {
             var handler = PropertyChangedThatRequiresRepaint;
-            if (handler != null)
-            {
-                handler(this, EventArgs.Empty);
-            }
+            handler?.Invoke(this, EventArgs.Empty);
         }
 
-        private struct _SystemParameterBoundProperty
+        private struct SystemParameterBoundProperty
         {
             public string SystemParameterPropertyName { get; set; }
             public DependencyProperty DependencyProperty { get; set; }
@@ -211,7 +205,7 @@ namespace ModernApplicationFramework.Core.Shell
             var dobj = inputElement as DependencyObject;
             if (dobj == null)
             {
-                throw new ArgumentException("The element must be a DependencyObject", "inputElement");
+                throw new ArgumentException("The element must be a DependencyObject", nameof(inputElement));
             }
             return (bool) dobj.GetValue(IsHitTestVisibleInChromeProperty);
         }
@@ -224,7 +218,7 @@ namespace ModernApplicationFramework.Core.Shell
             var dobj = inputElement as DependencyObject;
             if (dobj == null)
             {
-                throw new ArgumentException("The element must be a DependencyObject", "inputElement");
+                throw new ArgumentException("The element must be a DependencyObject", nameof(inputElement));
             }
             dobj.SetValue(IsHitTestVisibleInChromeProperty, hitTestVisible);
         }
@@ -236,15 +230,15 @@ namespace ModernApplicationFramework.Core.Shell
         /// <summary>The extent of the top of the window to treat as the caption.</summary>
         public double CaptionHeight
         {
-            get { return (double) GetValue(CaptionHeightProperty); }
-            set { SetValue(CaptionHeightProperty, value); }
+            get => (double) GetValue(CaptionHeightProperty);
+            set => SetValue(CaptionHeightProperty, value);
         }
 
 
         public Thickness ResizeBorderThickness
         {
-            get { return (Thickness) GetValue(ResizeBorderThicknessProperty); }
-            set { SetValue(ResizeBorderThicknessProperty, value); }
+            get => (Thickness) GetValue(ResizeBorderThicknessProperty);
+            set => SetValue(ResizeBorderThicknessProperty, value);
         }
 
 
@@ -252,25 +246,20 @@ namespace ModernApplicationFramework.Core.Shell
         {
             // If it's explicitly set, but set to a thickness with at least one negative side then 
             // coerce the value to the stock GlassFrameCompleteThickness.
-            if (!Utility.IsThicknessNonNegative(thickness))
-            {
-                return GlassFrameCompleteThickness;
-            }
-
-            return thickness;
+            return !Utility.IsThicknessNonNegative(thickness) ? GlassFrameCompleteThickness : thickness;
         }
 
         public Thickness GlassFrameThickness
         {
-            get { return (Thickness) GetValue(GlassFrameThicknessProperty); }
-            set { SetValue(GlassFrameThicknessProperty, value); }
+            get => (Thickness) GetValue(GlassFrameThicknessProperty);
+            set => SetValue(GlassFrameThicknessProperty, value);
         }
 
 
         public CornerRadius CornerRadius
         {
-            get { return (CornerRadius) GetValue(CornerRadiusProperty); }
-            set { SetValue(CornerRadiusProperty, value); }
+            get => (CornerRadius) GetValue(CornerRadiusProperty);
+            set => SetValue(CornerRadiusProperty, value);
         }
 
         #region ShowSystemMenu

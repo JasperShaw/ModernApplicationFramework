@@ -29,14 +29,14 @@ namespace ModernApplicationFramework.MVVM.Core.Result
 
             SetData?.Invoke(window);
 
-            _onConfigure?.Invoke(window);
+            OnConfigure?.Invoke(window);
 
             window.Deactivated += (s, e) =>
             {
                 if (!e.WasClosed)
                     return;
 
-                _onShutDown?.Invoke(window);
+                OnShutDown?.Invoke(window);
 
                 OnCompleted(null, false);
             };

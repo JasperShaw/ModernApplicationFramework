@@ -283,7 +283,7 @@ namespace ModernApplicationFramework.Core.Standard
                 _Break();
             }
 
-            if (value.Trim().Length == 0)
+            if (value != null && value.Trim().Length == 0)
             {
                 _Break();
             }

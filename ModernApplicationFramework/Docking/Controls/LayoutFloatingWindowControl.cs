@@ -34,6 +34,8 @@ namespace ModernApplicationFramework.Docking.Controls
 {
     public abstract class LayoutFloatingWindowControl : ModernChromeWindow, ILayoutControl
     {
+        private readonly ILayoutElement _model;
+
         private static readonly DependencyPropertyKey IsDraggingPropertyKey
             = DependencyProperty.RegisterReadOnly("IsDragging", typeof (bool), typeof (LayoutFloatingWindowControl),
                 new FrameworkPropertyMetadata(false,
@@ -50,7 +52,6 @@ namespace ModernApplicationFramework.Docking.Controls
             = IsMaximizedPropertyKey.DependencyProperty;
 
 
-        private readonly ILayoutElement _model;
         private bool _attachDrag;
         private DragService _dragService;
         private HwndSource _hwndSrc;
@@ -346,8 +347,8 @@ namespace ModernApplicationFramework.Docking.Controls
 
             public UIElement Content
             {
-                get { return (UIElement) GetValue(ContentProperty); }
-                set { SetValue(ContentProperty, value); }
+                get => (UIElement) GetValue(ContentProperty);
+                set => SetValue(ContentProperty, value);
             }
 
             protected override HandleRef BuildWindowCore(HandleRef hwndParent)

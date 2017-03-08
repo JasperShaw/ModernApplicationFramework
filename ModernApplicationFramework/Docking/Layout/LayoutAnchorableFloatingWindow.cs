@@ -75,7 +75,7 @@ namespace ModernApplicationFramework.Docking.Layout
         [XmlIgnore]
         public bool IsVisible
         {
-            get { return _isVisible; }
+            get => _isVisible;
             private set
             {
                 if (_isVisible == value)
@@ -89,7 +89,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public LayoutAnchorablePaneGroup RootPanel
         {
-            get { return _rootPanel; }
+            get => _rootPanel;
             set
             {
                 if (Equals(_rootPanel, value))
@@ -137,7 +137,7 @@ namespace ModernApplicationFramework.Docking.Layout
             RootPanel = newElement as LayoutAnchorablePaneGroup;
         }
 
-        protected virtual void XmlDeserializeElement(XmlReader xmlReader)
+        protected new virtual void XmlDeserializeElement(XmlReader xmlReader)
         {
             if (xmlReader.IsEmptyElement)
                 return;

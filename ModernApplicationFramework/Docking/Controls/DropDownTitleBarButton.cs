@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls.Primitives;
-using ModernApplicationFramework.Controls;
-using ModernApplicationFramework.Interfaces;
+﻿using System.Windows;
 using ModernApplicationFramework.Interfaces.Controls;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-    class DropDownTitleBarButton : DropDownButton, INonClientArea
+    internal class DropDownTitleBarButton : DropDownButton, INonClientArea
     {
         static DropDownTitleBarButton()
         {

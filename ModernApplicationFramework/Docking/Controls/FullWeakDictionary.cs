@@ -33,7 +33,7 @@ namespace ModernApplicationFramework.Docking.Controls
                     throw new ArgumentException();
                 return valueToReturn;
             }
-            set { SetValue(key, value); }
+            set => SetValue(key, value);
         }
 
         public bool ContainsKey(TK key)

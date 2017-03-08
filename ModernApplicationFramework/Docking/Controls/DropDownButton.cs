@@ -16,7 +16,6 @@
 
 using System.Windows;
 using System.Windows.Controls.Primitives;
-using ModernApplicationFramework.Controls;
 using ContextMenu = System.Windows.Controls.ContextMenu;
 
 namespace ModernApplicationFramework.Docking.Controls
@@ -46,14 +45,14 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public ContextMenu DropDownContextMenu
         {
-            get { return (ContextMenu) GetValue(DropDownContextMenuProperty); }
-            set { SetValue(DropDownContextMenuProperty, value); }
+            get => (ContextMenu) GetValue(DropDownContextMenuProperty);
+            set => SetValue(DropDownContextMenuProperty, value);
         }
 
         public object DropDownContextMenuDataContext
         {
-            get { return GetValue(DropDownContextMenuDataContextProperty); }
-            set { SetValue(DropDownContextMenuDataContextProperty, value); }
+            get => GetValue(DropDownContextMenuDataContextProperty);
+            set => SetValue(DropDownContextMenuDataContextProperty, value);
         }
 
         protected override void OnClick()

@@ -26,7 +26,7 @@ namespace ModernApplicationFramework.Commands
 
         public KeyGesture KeyGesture
         {
-            get { return _keyGesture; }
+            get => _keyGesture;
             set
             {
                 if (_keyGesture == value)

@@ -20,8 +20,7 @@ namespace ModernApplicationFramework.Core.Converters
             MultiValueHelper.CheckValue<TSource1>(values, 0);
             MultiValueHelper.CheckValue<TSource2>(values, 1);
             if (!targetType.IsAssignableFrom(typeof(TTarget)))
-                throw new InvalidOperationException(string.Format("Target is not from Type: {0}",
-                    typeof(TTarget).FullName));
+                throw new InvalidOperationException($"Target is not from Type: {typeof(TTarget).FullName}");
             return Convert((TSource1) values[0], (TSource2) values[1], parameter, culture);
         }
 
@@ -30,7 +29,7 @@ namespace ModernApplicationFramework.Core.Converters
             if (targetTypes.Length != 2)
                 throw new ArgumentException("Insufficient source parameters: 2");
             if (!(value is TTarget) && (value != null || typeof(TTarget).IsValueType))
-                throw new ArgumentException(string.Format("Value is not from Type: {0}", typeof(TTarget).FullName));
+                throw new ArgumentException($"Value is not from Type: {typeof(TTarget).FullName}");
             MultiValueHelper.CheckType<TSource1>(targetTypes, 0);
             MultiValueHelper.CheckType<TSource2>(targetTypes, 1);
             TSource1 out1;

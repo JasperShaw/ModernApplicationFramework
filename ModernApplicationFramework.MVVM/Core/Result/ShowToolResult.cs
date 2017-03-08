@@ -31,14 +31,14 @@ namespace ModernApplicationFramework.MVVM.Core.Result
 
             SetData?.Invoke(tool);
 
-            _onConfigure?.Invoke(tool);
+            OnConfigure?.Invoke(tool);
 
             tool.Deactivated += (s, e) =>
             {
                 if (!e.WasClosed)
                     return;
 
-                _onShutDown?.Invoke(tool);
+                OnShutDown?.Invoke(tool);
 
                 OnCompleted(null, false);
             };

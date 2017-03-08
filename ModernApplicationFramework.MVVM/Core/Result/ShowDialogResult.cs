@@ -28,11 +28,11 @@ namespace ModernApplicationFramework.MVVM.Core.Result
 
             SetData?.Invoke(window);
 
-            _onConfigure?.Invoke(window);
+            OnConfigure?.Invoke(window);
 
             bool result = WindowManager.ShowDialog(window).GetValueOrDefault();
 
-            _onShutDown?.Invoke(window);
+            OnShutDown?.Invoke(window);
 
             OnCompleted(null, !result);
         }

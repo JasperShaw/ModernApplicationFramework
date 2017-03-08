@@ -24,7 +24,7 @@ namespace ModernApplicationFramework.MVVM.Core
         [Browsable(false)]
         public bool IsSelected
         {
-            get { return _isSelected; }
+            get => _isSelected;
             set
             {
                 _isSelected = value;

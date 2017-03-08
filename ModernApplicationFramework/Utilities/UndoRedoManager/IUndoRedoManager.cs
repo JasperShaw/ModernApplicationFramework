@@ -8,7 +8,6 @@ namespace ModernApplicationFramework.Utilities.UndoRedoManager
         IObservableCollection<UndoRedoAction> UndoStack { get; }
         void Push(UndoRedoAction action);
         void Redo();
-
         void Undo();
     }
 }

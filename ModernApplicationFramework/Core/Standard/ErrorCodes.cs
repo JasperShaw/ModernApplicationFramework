@@ -161,7 +161,7 @@ namespace ModernApplicationFramework.Core.Standard
         {
             try
             {
-                return ((Win32Error) obj)._value == _value;
+                return obj != null && ((Win32Error) obj)._value == _value;
             }
             catch (InvalidCastException)
             {
@@ -440,7 +440,7 @@ namespace ModernApplicationFramework.Core.Standard
         {
             try
             {
-                return ((Hresult) obj)._value == _value;
+                return obj != null && ((Hresult) obj)._value == _value;
             }
             catch (InvalidCastException)
             {

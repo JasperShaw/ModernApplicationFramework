@@ -26,8 +26,8 @@ namespace ModernApplicationFramework.Docking.Controls
             LostFocusWinHandle = lostFocusWinHandle;
         }
 
-        public IntPtr GotFocusWinHandle { get; private set; }
-        public IntPtr LostFocusWinHandle { get; private set; }
+        public IntPtr GotFocusWinHandle { get; }
+        public IntPtr LostFocusWinHandle { get; }
     }
 
     internal class WindowHookHandler

@@ -303,7 +303,7 @@ namespace ModernApplicationFramework.Docking
 
         public Theme Theme
         {
-            get { return _theme; }
+            get => _theme;
             set
             {
                 if (value == null)
@@ -396,86 +396,86 @@ namespace ModernApplicationFramework.Docking
 
         public object ActiveContent
         {
-            get { return GetValue(ActiveContentProperty); }
-            set { SetValue(ActiveContentProperty, value); }
+            get => GetValue(ActiveContentProperty);
+            set => SetValue(ActiveContentProperty, value);
         }
 
         public bool AllowMixedOrientation
         {
-            get { return (bool) GetValue(AllowMixedOrientationProperty); }
-            set { SetValue(AllowMixedOrientationProperty, value); }
+            get => (bool) GetValue(AllowMixedOrientationProperty);
+            set => SetValue(AllowMixedOrientationProperty, value);
         }
 
         public ContextMenu AnchorableContextMenu
         {
-            get { return (ContextMenu) GetValue(AnchorableContextMenuProperty); }
-            set { SetValue(AnchorableContextMenuProperty, value); }
+            get => (ContextMenu) GetValue(AnchorableContextMenuProperty);
+            set => SetValue(AnchorableContextMenuProperty, value);
         }
 
         public DataTemplate AnchorableHeaderTemplate
         {
-            get { return (DataTemplate) GetValue(AnchorableHeaderTemplateProperty); }
-            set { SetValue(AnchorableHeaderTemplateProperty, value); }
+            get => (DataTemplate) GetValue(AnchorableHeaderTemplateProperty);
+            set => SetValue(AnchorableHeaderTemplateProperty, value);
         }
 
         public DataTemplateSelector AnchorableHeaderTemplateSelector
         {
-            get { return (DataTemplateSelector) GetValue(AnchorableHeaderTemplateSelectorProperty); }
-            set { SetValue(AnchorableHeaderTemplateSelectorProperty, value); }
+            get => (DataTemplateSelector) GetValue(AnchorableHeaderTemplateSelectorProperty);
+            set => SetValue(AnchorableHeaderTemplateSelectorProperty, value);
         }
 
         public Style AnchorablePaneControlStyle
         {
-            get { return (Style) GetValue(AnchorablePaneControlStyleProperty); }
-            set { SetValue(AnchorablePaneControlStyleProperty, value); }
+            get => (Style) GetValue(AnchorablePaneControlStyleProperty);
+            set => SetValue(AnchorablePaneControlStyleProperty, value);
         }
 
         public ControlTemplate AnchorablePaneTemplate
         {
-            get { return (ControlTemplate) GetValue(AnchorablePaneTemplateProperty); }
-            set { SetValue(AnchorablePaneTemplateProperty, value); }
+            get => (ControlTemplate) GetValue(AnchorablePaneTemplateProperty);
+            set => SetValue(AnchorablePaneTemplateProperty, value);
         }
 
         public IEnumerable AnchorablesSource
         {
-            get { return (IEnumerable) GetValue(AnchorablesSourceProperty); }
-            set { SetValue(AnchorablesSourceProperty, value); }
+            get => (IEnumerable) GetValue(AnchorablesSourceProperty);
+            set => SetValue(AnchorablesSourceProperty, value);
         }
 
         public DataTemplate AnchorableTitleTemplate
         {
-            get { return (DataTemplate) GetValue(AnchorableTitleTemplateProperty); }
-            set { SetValue(AnchorableTitleTemplateProperty, value); }
+            get => (DataTemplate) GetValue(AnchorableTitleTemplateProperty);
+            set => SetValue(AnchorableTitleTemplateProperty, value);
         }
 
         public DataTemplateSelector AnchorableTitleTemplateSelector
         {
-            get { return (DataTemplateSelector) GetValue(AnchorableTitleTemplateSelectorProperty); }
-            set { SetValue(AnchorableTitleTemplateSelectorProperty, value); }
+            get => (DataTemplateSelector) GetValue(AnchorableTitleTemplateSelectorProperty);
+            set => SetValue(AnchorableTitleTemplateSelectorProperty, value);
         }
 
         public ControlTemplate AnchorGroupTemplate
         {
-            get { return (ControlTemplate) GetValue(AnchorGroupTemplateProperty); }
-            set { SetValue(AnchorGroupTemplateProperty, value); }
+            get => (ControlTemplate) GetValue(AnchorGroupTemplateProperty);
+            set => SetValue(AnchorGroupTemplateProperty, value);
         }
 
         public ControlTemplate AnchorSideTemplate
         {
-            get { return (ControlTemplate) GetValue(AnchorSideTemplateProperty); }
-            set { SetValue(AnchorSideTemplateProperty, value); }
+            get => (ControlTemplate) GetValue(AnchorSideTemplateProperty);
+            set => SetValue(AnchorSideTemplateProperty, value);
         }
 
         public ControlTemplate AnchorTemplate
         {
-            get { return (ControlTemplate) GetValue(AnchorTemplateProperty); }
-            set { SetValue(AnchorTemplateProperty, value); }
+            get => (ControlTemplate) GetValue(AnchorTemplateProperty);
+            set => SetValue(AnchorTemplateProperty, value);
         }
 
         public LayoutAnchorSideControl BottomSidePanel
         {
-            get { return (LayoutAnchorSideControl) GetValue(BottomSidePanelProperty); }
-            set { SetValue(BottomSidePanelProperty, value); }
+            get => (LayoutAnchorSideControl) GetValue(BottomSidePanelProperty);
+            set => SetValue(BottomSidePanelProperty, value);
         }
 
         public bool CanAdd
@@ -501,152 +501,152 @@ namespace ModernApplicationFramework.Docking
 
         public ContextMenu DocumentContextMenu
         {
-            get { return (ContextMenu) GetValue(DocumentContextMenuProperty); }
-            set { SetValue(DocumentContextMenuProperty, value); }
+            get => (ContextMenu) GetValue(DocumentContextMenuProperty);
+            set => SetValue(DocumentContextMenuProperty, value);
         }
 
         public DataTemplate DocumentHeaderTemplate
         {
-            get { return (DataTemplate) GetValue(DocumentHeaderTemplateProperty); }
-            set { SetValue(DocumentHeaderTemplateProperty, value); }
+            get => (DataTemplate) GetValue(DocumentHeaderTemplateProperty);
+            set => SetValue(DocumentHeaderTemplateProperty, value);
         }
 
         public DataTemplateSelector DocumentHeaderTemplateSelector
         {
-            get { return (DataTemplateSelector) GetValue(DocumentHeaderTemplateSelectorProperty); }
-            set { SetValue(DocumentHeaderTemplateSelectorProperty, value); }
+            get => (DataTemplateSelector) GetValue(DocumentHeaderTemplateSelectorProperty);
+            set => SetValue(DocumentHeaderTemplateSelectorProperty, value);
         }
 
         public Style DocumentPaneControlStyle
         {
-            get { return (Style) GetValue(DocumentPaneControlStyleProperty); }
-            set { SetValue(DocumentPaneControlStyleProperty, value); }
+            get => (Style) GetValue(DocumentPaneControlStyleProperty);
+            set => SetValue(DocumentPaneControlStyleProperty, value);
         }
 
         public DataTemplate DocumentPaneMenuItemHeaderTemplate
         {
-            get { return (DataTemplate) GetValue(DocumentPaneMenuItemHeaderTemplateProperty); }
-            set { SetValue(DocumentPaneMenuItemHeaderTemplateProperty, value); }
+            get => (DataTemplate) GetValue(DocumentPaneMenuItemHeaderTemplateProperty);
+            set => SetValue(DocumentPaneMenuItemHeaderTemplateProperty, value);
         }
 
         public DataTemplateSelector DocumentPaneMenuItemHeaderTemplateSelector
         {
-            get { return (DataTemplateSelector) GetValue(DocumentPaneMenuItemHeaderTemplateSelectorProperty); }
-            set { SetValue(DocumentPaneMenuItemHeaderTemplateSelectorProperty, value); }
+            get => (DataTemplateSelector) GetValue(DocumentPaneMenuItemHeaderTemplateSelectorProperty);
+            set => SetValue(DocumentPaneMenuItemHeaderTemplateSelectorProperty, value);
         }
 
         public ControlTemplate DocumentPaneTemplate
         {
-            get { return (ControlTemplate) GetValue(DocumentPaneTemplateProperty); }
-            set { SetValue(DocumentPaneTemplateProperty, value); }
+            get => (ControlTemplate) GetValue(DocumentPaneTemplateProperty);
+            set => SetValue(DocumentPaneTemplateProperty, value);
         }
 
         public IEnumerable DocumentsSource
         {
-            get { return (IEnumerable) GetValue(DocumentsSourceProperty); }
-            set { SetValue(DocumentsSourceProperty, value); }
+            get => (IEnumerable) GetValue(DocumentsSourceProperty);
+            set => SetValue(DocumentsSourceProperty, value);
         }
 
         public DataTemplate DocumentTitleTemplate
         {
-            get { return (DataTemplate) GetValue(DocumentTitleTemplateProperty); }
-            set { SetValue(DocumentTitleTemplateProperty, value); }
+            get => (DataTemplate) GetValue(DocumentTitleTemplateProperty);
+            set => SetValue(DocumentTitleTemplateProperty, value);
         }
 
         public DataTemplateSelector DocumentTitleTemplateSelector
         {
-            get { return (DataTemplateSelector) GetValue(DocumentTitleTemplateSelectorProperty); }
-            set { SetValue(DocumentTitleTemplateSelectorProperty, value); }
+            get => (DataTemplateSelector) GetValue(DocumentTitleTemplateSelectorProperty);
+            set => SetValue(DocumentTitleTemplateSelectorProperty, value);
         }
 
         public double GridSplitterHeight
         {
-            get { return (double) GetValue(GridSplitterHeightProperty); }
-            set { SetValue(GridSplitterHeightProperty, value); }
+            get => (double) GetValue(GridSplitterHeightProperty);
+            set => SetValue(GridSplitterHeightProperty, value);
         }
 
         public double GridSplitterWidth
         {
-            get { return (double) GetValue(GridSplitterWidthProperty); }
-            set { SetValue(GridSplitterWidthProperty, value); }
+            get => (double) GetValue(GridSplitterWidthProperty);
+            set => SetValue(GridSplitterWidthProperty, value);
         }
 
         public DataTemplate IconContentTemplate
         {
-            get { return (DataTemplate) GetValue(IconContentTemplateProperty); }
-            set { SetValue(IconContentTemplateProperty, value); }
+            get => (DataTemplate) GetValue(IconContentTemplateProperty);
+            set => SetValue(IconContentTemplateProperty, value);
         }
 
         public DataTemplateSelector IconContentTemplateSelector
         {
-            get { return (DataTemplateSelector) GetValue(IconContentTemplateSelectorProperty); }
-            set { SetValue(IconContentTemplateSelectorProperty, value); }
+            get => (DataTemplateSelector) GetValue(IconContentTemplateSelectorProperty);
+            set => SetValue(IconContentTemplateSelectorProperty, value);
         }
 
         public LayoutRoot Layout
         {
-            get { return (LayoutRoot) GetValue(LayoutProperty); }
-            set { SetValue(LayoutProperty, value); }
+            get => (LayoutRoot) GetValue(LayoutProperty);
+            set => SetValue(LayoutProperty, value);
         }
 
         public Style LayoutItemContainerStyle
         {
-            get { return (Style) GetValue(LayoutItemContainerStyleProperty); }
-            set { SetValue(LayoutItemContainerStyleProperty, value); }
+            get => (Style) GetValue(LayoutItemContainerStyleProperty);
+            set => SetValue(LayoutItemContainerStyleProperty, value);
         }
 
         public StyleSelector LayoutItemContainerStyleSelector
         {
-            get { return (StyleSelector) GetValue(LayoutItemContainerStyleSelectorProperty); }
-            set { SetValue(LayoutItemContainerStyleSelectorProperty, value); }
+            get => (StyleSelector) GetValue(LayoutItemContainerStyleSelectorProperty);
+            set => SetValue(LayoutItemContainerStyleSelectorProperty, value);
         }
 
         public DataTemplate LayoutItemTemplate
         {
-            get { return (DataTemplate) GetValue(LayoutItemTemplateProperty); }
-            set { SetValue(LayoutItemTemplateProperty, value); }
+            get => (DataTemplate) GetValue(LayoutItemTemplateProperty);
+            set => SetValue(LayoutItemTemplateProperty, value);
         }
 
         public DataTemplateSelector LayoutItemTemplateSelector
         {
-            get { return (DataTemplateSelector) GetValue(LayoutItemTemplateSelectorProperty); }
-            set { SetValue(LayoutItemTemplateSelectorProperty, value); }
+            get => (DataTemplateSelector) GetValue(LayoutItemTemplateSelectorProperty);
+            set => SetValue(LayoutItemTemplateSelectorProperty, value);
         }
 
         public LayoutPanelControl LayoutRootPanel
         {
-            get { return (LayoutPanelControl) GetValue(LayoutRootPanelProperty); }
-            set { SetValue(LayoutRootPanelProperty, value); }
+            get => (LayoutPanelControl) GetValue(LayoutRootPanelProperty);
+            set => SetValue(LayoutRootPanelProperty, value);
         }
 
         public ILayoutUpdateStrategy LayoutUpdateStrategy
         {
-            get { return (ILayoutUpdateStrategy) GetValue(LayoutUpdateStrategyProperty); }
-            set { SetValue(LayoutUpdateStrategyProperty, value); }
+            get => (ILayoutUpdateStrategy) GetValue(LayoutUpdateStrategyProperty);
+            set => SetValue(LayoutUpdateStrategyProperty, value);
         }
 
         public LayoutAnchorSideControl LeftSidePanel
         {
-            get { return (LayoutAnchorSideControl) GetValue(LeftSidePanelProperty); }
-            set { SetValue(LeftSidePanelProperty, value); }
+            get => (LayoutAnchorSideControl) GetValue(LeftSidePanelProperty);
+            set => SetValue(LeftSidePanelProperty, value);
         }
 
         public LayoutAnchorSideControl RightSidePanel
         {
-            get { return (LayoutAnchorSideControl) GetValue(RightSidePanelProperty); }
-            set { SetValue(RightSidePanelProperty, value); }
+            get => (LayoutAnchorSideControl) GetValue(RightSidePanelProperty);
+            set => SetValue(RightSidePanelProperty, value);
         }
 
         public bool ShowSystemMenu
         {
-            get { return (bool) GetValue(ShowSystemMenuProperty); }
-            set { SetValue(ShowSystemMenuProperty, value); }
+            get => (bool) GetValue(ShowSystemMenuProperty);
+            set => SetValue(ShowSystemMenuProperty, value);
         }
 
         public LayoutAnchorSideControl TopSidePanel
         {
-            get { return (LayoutAnchorSideControl) GetValue(TopSidePanelProperty); }
-            set { SetValue(TopSidePanelProperty, value); }
+            get => (LayoutAnchorSideControl) GetValue(TopSidePanelProperty);
+            set => SetValue(TopSidePanelProperty, value);
         }
 
         protected override IEnumerator LogicalChildren
@@ -1115,9 +1115,9 @@ namespace ModernApplicationFramework.Docking
             var panel = model as LayoutPanel;
             if (panel != null)
                 return new LayoutPanelControl(panel);
-            var @group = model as LayoutAnchorablePaneGroup;
-            if (@group != null)
-                return new LayoutAnchorablePaneGroupControl(@group);
+            var group = model as LayoutAnchorablePaneGroup;
+            if (group != null)
+                return new LayoutAnchorablePaneGroupControl(group);
             var paneGroup = model as LayoutDocumentPaneGroup;
             if (paneGroup != null)
                 return new LayoutDocumentPaneGroupControl(paneGroup);

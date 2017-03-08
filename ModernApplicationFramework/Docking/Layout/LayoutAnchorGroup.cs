@@ -29,14 +29,14 @@ namespace ModernApplicationFramework.Docking.Layout
 
         string ILayoutPaneSerializable.Id
         {
-            get { return _id; }
-            set { _id = value; }
+            get => _id;
+            set => _id = value;
         }
 
         [XmlIgnore]
         ILayoutContainer ILayoutPreviousContainer.PreviousContainer
         {
-            get { return _previousContainer; }
+            get => _previousContainer;
             set
             {
                 if (_previousContainer == value)

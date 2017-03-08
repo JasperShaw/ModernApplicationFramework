@@ -9,7 +9,9 @@ namespace ModernApplicationFramework.Utilities
     [Export(typeof(FileDefinitionManager))]
     public class FileDefinitionManager
     {
+#pragma warning disable 649
         [ImportMany] private ISupportedFileDefinition[] _supportedFileDefinitions;
+#pragma warning restore 649
 
         public IEnumerable<ISupportedFileDefinition> SupportedFileDefinitions
         {

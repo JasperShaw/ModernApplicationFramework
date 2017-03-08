@@ -2164,7 +2164,7 @@ namespace ModernApplicationFramework.Core.Standard
 
         public override int GetHashCode()
         {
-            return (Left << 16 | Utility.LOWORD(Right)) ^ (Top << 16 | Utility.LOWORD(Bottom));
+            return (Left << 16 | Utility.Loword(Right)) ^ (Top << 16 | Utility.Loword(Bottom));
         }
     }
 
@@ -2404,7 +2404,7 @@ namespace ModernApplicationFramework.Core.Standard
 
             // This origins of this API were added for Vista.  The Ex version was added for Windows 7.
             // If we're not on either, then this message filter isolation doesn't exist.
-            if (!Utility.IsOSVistaOrNewer)
+            if (!Utility.IsOsVistaOrNewer)
             {
                 return Hresult.S_FALSE;
             }
@@ -2412,7 +2412,7 @@ namespace ModernApplicationFramework.Core.Standard
             // If we're on Vista rather than Win7 then we can't use the Ex version of this function.
             // The Ex version is preferred if possible because this results in process-wide modifications of the filter
             // and is deprecated as of Win7.
-            if (!Utility.IsOSWindows7OrNewer)
+            if (!Utility.IsOsWindows7OrNewer)
             {
                 // Note that the Win7 MSGFLT_ALLOW/DISALLOW enum values map to the Vista MSGFLT_ADD/REMOVE
                 ret = _ChangeWindowMessageFilter(message, action);
@@ -2445,7 +2445,7 @@ namespace ModernApplicationFramework.Core.Standard
             var argv = IntPtr.Zero;
             try
             {
-                var numArgs = 0;
+                int numArgs;
 
                 argv = _CommandLineToArgvW(cmdLine, out numArgs);
                 if (argv == IntPtr.Zero)
@@ -2471,11 +2471,11 @@ namespace ModernApplicationFramework.Core.Standard
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static SafeHBITMAP CreateDIBSection(SafeDC hdc, ref BITMAPINFO bitmapInfo, out IntPtr ppvBits,
+        public static SafeHBITMAP CreateDibSection(SafeDC hdc, ref BITMAPINFO bitmapInfo, out IntPtr ppvBits,
                                                    IntPtr hSection, int dwOffset)
         {
             const int DIB_RGB_COLORS = 0;
-            SafeHBITMAP hBitmap = null;
+            SafeHBITMAP hBitmap;
             if (hdc == null)
             {
                 hBitmap = _CreateDIBSectionIntPtr(IntPtr.Zero, ref bitmapInfo, DIB_RGB_COLORS, out ppvBits, hSection,
@@ -2559,7 +2559,7 @@ namespace ModernApplicationFramework.Core.Standard
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DefWindowProcW")]
-        public static extern IntPtr DefWindowProc(IntPtr hWnd, WM Msg, IntPtr wParam, IntPtr lParam);
+        public static extern IntPtr DefWindowProc(IntPtr hWnd, WM msg, IntPtr wParam, IntPtr lParam);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport("gdi32.dll")]
@@ -2598,7 +2598,7 @@ namespace ModernApplicationFramework.Core.Standard
         public static bool DwmGetColorizationColor(out uint pcrColorization, out bool pfOpaqueBlend)
         {
             // Make this call safe to make on downlevel OSes...
-            if (Utility.IsOSVistaOrNewer && IsThemeActive())
+            if (Utility.IsOsVistaOrNewer && IsThemeActive())
             {
                 var hr = _DwmGetColorizationColor(out pcrColorization, out pfOpaqueBlend);
                 if (hr.Succeeded)
@@ -2620,7 +2620,7 @@ namespace ModernApplicationFramework.Core.Standard
         public static bool DwmIsCompositionEnabled()
         {
             // Make this call safe to make on downlevel OSes...
-            if (!Utility.IsOSVistaOrNewer)
+            if (!Utility.IsOsVistaOrNewer)
             {
                 return false;
             }
@@ -2630,24 +2630,24 @@ namespace ModernApplicationFramework.Core.Standard
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         public static void DwmSetWindowAttributeDisallowPeek(IntPtr hwnd, bool disallowPeek)
         {
-            Assert.IsTrue(Utility.IsOSWindows7OrNewer);
+            Assert.IsTrue(Utility.IsOsWindows7OrNewer);
             var dwDisallow = (int) (disallowPeek ? Win32Value.TRUE : Win32Value.FALSE);
             _DwmSetWindowAttribute(hwnd, DWMWA.DISALLOW_PEEK, ref dwDisallow, sizeof(int));
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static void DwmSetWindowAttributeFlip3DPolicy(IntPtr hwnd, DWMFLIP3D flip3dPolicy)
+        public static void DwmSetWindowAttributeFlip3DPolicy(IntPtr hwnd, DWMFLIP3D flip3DPolicy)
         {
-            Assert.IsTrue(Utility.IsOSVistaOrNewer);
-            var dwPolicy = (int) flip3dPolicy;
+            Assert.IsTrue(Utility.IsOsVistaOrNewer);
+            var dwPolicy = (int) flip3DPolicy;
             _DwmSetWindowAttribute(hwnd, DWMWA.FLIP3D_POLICY, ref dwPolicy, sizeof(int));
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static MF EnableMenuItem(IntPtr hMenu, SC uIDEnableItem, MF uEnable)
+        public static MF EnableMenuItem(IntPtr hMenu, SC uIdEnableItem, MF uEnable)
         {
             // Returns the previous state of the menu item, or -1 if the menu item does not exist.
-            var iRet = _EnableMenuItem(hMenu, uIDEnableItem, uEnable);
+            var iRet = _EnableMenuItem(hMenu, uIdEnableItem, uEnable);
             return (MF) iRet;
         }
 
@@ -2731,7 +2731,7 @@ namespace ModernApplicationFramework.Core.Standard
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [Obsolete("Use SafeDC.GetDC instead.", true)]
-        public static void GetDC() {}
+        public static void GetDc() {}
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport("gdi32.dll")]
@@ -2786,10 +2786,6 @@ namespace ModernApplicationFramework.Core.Standard
         public static IntPtr GetStockObject(StockObject fnObject)
         {
             var retPtr = _GetStockObject(fnObject);
-            if (retPtr == null)
-            {
-                Hresult.ThrowLastError();
-            }
             return retPtr;
         }
 
@@ -2805,15 +2801,7 @@ namespace ModernApplicationFramework.Core.Standard
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         public static IntPtr GetWindowLongPtr(IntPtr hwnd, GWL nIndex)
         {
-            var ret = IntPtr.Zero;
-            if (8 == IntPtr.Size)
-            {
-                ret = GetWindowLongPtr64(hwnd, nIndex);
-            }
-            else
-            {
-                ret = new IntPtr(GetWindowLongPtr32(hwnd, nIndex));
-            }
+            var ret = 8 == IntPtr.Size ? GetWindowLongPtr64(hwnd, nIndex) : new IntPtr(GetWindowLongPtr32(hwnd, nIndex));
             if (IntPtr.Zero == ret)
             {
                 throw new Win32Exception();
@@ -2861,9 +2849,9 @@ namespace ModernApplicationFramework.Core.Standard
         public static extern IntPtr MonitorFromWindow(IntPtr hwnd, uint dwFlags);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static void PostMessage(IntPtr hWnd, WM Msg, IntPtr wParam, IntPtr lParam)
+        public static void PostMessage(IntPtr hWnd, WM msg, IntPtr wParam, IntPtr lParam)
         {
-            if (!_PostMessage(hWnd, Msg, wParam, lParam))
+            if (!_PostMessage(hWnd, msg, wParam, lParam))
             {
                 throw new Win32Exception();
             }
@@ -3055,7 +3043,7 @@ namespace ModernApplicationFramework.Core.Standard
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         public static NONCLIENTMETRICS SystemParameterInfo_GetNONCLIENTMETRICS()
         {
-            var metrics = Utility.IsOSVistaOrNewer
+            var metrics = Utility.IsOsVistaOrNewer
                 ? NONCLIENTMETRICS.VistaMetricsStruct
                 : NONCLIENTMETRICS.XPMetricsStruct;
 
@@ -3219,7 +3207,7 @@ namespace ModernApplicationFramework.Core.Standard
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport("user32.dll", EntryPoint = "EnableMenuItem")]
-        private static extern int _EnableMenuItem(IntPtr hMenu, SC uIDEnableItem, MF uEnable);
+        private static extern int _EnableMenuItem(IntPtr hMenu, SC uIdEnableItem, MF uEnable);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport("user32.dll", EntryPoint = "GetClientRect", SetLastError = true)]
@@ -3262,7 +3250,7 @@ namespace ModernApplicationFramework.Core.Standard
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport("user32.dll", EntryPoint = "PostMessage", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool _PostMessage(IntPtr hWnd, WM Msg, IntPtr wParam, IntPtr lParam);
+        private static extern bool _PostMessage(IntPtr hWnd, WM msg, IntPtr wParam, IntPtr lParam);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport("user32.dll", SetLastError = true, EntryPoint = "RegisterClassExW")]
@@ -3429,7 +3417,7 @@ namespace ModernApplicationFramework.Core.Standard
 
         public static DWM_TIMING_INFO? DwmGetCompositionTimingInfo(IntPtr hwnd)
         {
-            if (!Utility.IsOSVistaOrNewer)
+            if (!Utility.IsOsVistaOrNewer)
             {
                 // API was new to Vista.
                 return null;
@@ -3453,12 +3441,12 @@ namespace ModernApplicationFramework.Core.Standard
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport("dwmapi.dll", PreserveSig = false)]
-        public static extern void DwmSetIconicThumbnail(IntPtr hwnd, IntPtr hbmp, DWM_SIT dwSITFlags);
+        public static extern void DwmSetIconicThumbnail(IntPtr hwnd, IntPtr hbmp, DWM_SIT dwSitFlags);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport("dwmapi.dll", PreserveSig = false)]
         public static extern void DwmSetIconicLivePreviewBitmap(IntPtr hwnd, IntPtr hbmp, RefPOINT pptClient,
-                                                                DWM_SIT dwSITFlags);
+                                                                DWM_SIT dwSitFlags);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport("shell32.dll", PreserveSig = false)]
@@ -3480,20 +3468,20 @@ namespace ModernApplicationFramework.Core.Standard
         /// <summary>
         ///     Sets the User Model AppID for the current process, enabling Windows to retrieve this ID
         /// </summary>
-        /// <param name="AppID"></param>
+        /// <param name="appId"></param>
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport("shell32.dll", PreserveSig = false)]
-        public static extern void SetCurrentProcessExplicitAppUserModelID([MarshalAs(UnmanagedType.LPWStr)] string AppID);
+        public static extern void SetCurrentProcessExplicitAppUserModelID([MarshalAs(UnmanagedType.LPWStr)] string appId);
 
         /// <summary>
         ///     Retrieves the User Model AppID that has been explicitly set for the current process via
         ///     SetCurrentProcessExplicitAppUserModelID
         /// </summary>
-        /// <param name="AppID"></param>
+        /// <param name="appId"></param>
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DllImport("shell32.dll")]
         public static extern Hresult GetCurrentProcessExplicitAppUserModelID(
-            [Out, MarshalAs(UnmanagedType.LPWStr)] out string AppID);
+            [Out, MarshalAs(UnmanagedType.LPWStr)] out string appId);
 
         #endregion
     }

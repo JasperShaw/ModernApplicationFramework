@@ -34,7 +34,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
 
         public ILayoutItem ActiveLayoutItem
         {
-            get { return _activeLayoutItem; }
+            get => _activeLayoutItem;
             set
             {
                 if (ReferenceEquals(_activeLayoutItem, value))
@@ -69,7 +69,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
 
         public bool ShowFloatingWindowsInTaskbar
         {
-            get { return _showFloatingWindowsInTaskbar; }
+            get => _showFloatingWindowsInTaskbar;
             set
             {
                 _showFloatingWindowsInTaskbar = value;

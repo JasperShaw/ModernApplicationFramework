@@ -19,11 +19,8 @@ namespace ModernApplicationFramework.Docking.Layout
     public enum AnchorSide
     {
         Left,
-
         Top,
-
         Right,
-
         Bottom
     }
 }

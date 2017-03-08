@@ -45,8 +45,8 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public LayoutAnchorable Model
         {
-            get { return (LayoutAnchorable) GetValue(ModelProperty); }
-            set { SetValue(ModelProperty, value); }
+            get => (LayoutAnchorable) GetValue(ModelProperty);
+            set => SetValue(ModelProperty, value);
         }
 
         protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)

@@ -45,8 +45,8 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public LayoutContent Model
         {
-            get { return (LayoutContent) GetValue(ModelProperty); }
-            set { SetValue(ModelProperty, value); }
+            get => (LayoutContent) GetValue(ModelProperty);
+            set => SetValue(ModelProperty, value);
         }
 
         protected virtual void OnModelChanged(DependencyPropertyChangedEventArgs e)

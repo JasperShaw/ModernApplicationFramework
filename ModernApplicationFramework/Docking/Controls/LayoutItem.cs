@@ -180,74 +180,74 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public ICommand ActivateCommand
         {
-            get { return (ICommand) GetValue(ActivateCommandProperty); }
-            set { SetValue(ActivateCommandProperty, value); }
+            get => (ICommand) GetValue(ActivateCommandProperty);
+            set => SetValue(ActivateCommandProperty, value);
         }
 
         public ICommand AddCommand
         {
-            get { return (ICommand) GetValue(AddCommandProperty); }
-            set { SetValue(AddCommandProperty, value); }
+            get => (ICommand) GetValue(AddCommandProperty);
+            set => SetValue(AddCommandProperty, value);
         }
 
         public bool CanClose
         {
-            get { return (bool) GetValue(CanCloseProperty); }
-            set { SetValue(CanCloseProperty, value); }
+            get => (bool) GetValue(CanCloseProperty);
+            set => SetValue(CanCloseProperty, value);
         }
 
         public bool CanFloat
         {
-            get { return (bool) GetValue(CanFloatProperty); }
-            set { SetValue(CanFloatProperty, value); }
+            get => (bool) GetValue(CanFloatProperty);
+            set => SetValue(CanFloatProperty, value);
         }
 
         public ICommand CloseAllButThisCommand
         {
-            get { return (ICommand) GetValue(CloseAllButThisCommandProperty); }
-            set { SetValue(CloseAllButThisCommandProperty, value); }
+            get => (ICommand) GetValue(CloseAllButThisCommandProperty);
+            set => SetValue(CloseAllButThisCommandProperty, value);
         }
 
         public ICommand CloseAllCommand
         {
-            get { return (ICommand) GetValue(CloseAllCommandProperty); }
-            set { SetValue(CloseAllCommandProperty, value); }
+            get => (ICommand) GetValue(CloseAllCommandProperty);
+            set => SetValue(CloseAllCommandProperty, value);
         }
 
         public ICommand CloseCommand
         {
-            get { return (ICommand) GetValue(CloseCommandProperty); }
-            set { SetValue(CloseCommandProperty, value); }
+            get => (ICommand) GetValue(CloseCommandProperty);
+            set => SetValue(CloseCommandProperty, value);
         }
 
         public string ContentId
         {
-            get { return (string) GetValue(ContentIdProperty); }
-            set { SetValue(ContentIdProperty, value); }
+            get => (string) GetValue(ContentIdProperty);
+            set => SetValue(ContentIdProperty, value);
         }
 
         public ICommand DockAsDocumentCommand
         {
-            get { return (ICommand) GetValue(DockAsDocumentCommandProperty); }
-            set { SetValue(DockAsDocumentCommandProperty, value); }
+            get => (ICommand) GetValue(DockAsDocumentCommandProperty);
+            set => SetValue(DockAsDocumentCommandProperty, value);
         }
 
         public ICommand FloatCommand
         {
-            get { return (ICommand) GetValue(FloatCommandProperty); }
-            set { SetValue(FloatCommandProperty, value); }
+            get => (ICommand) GetValue(FloatCommandProperty);
+            set => SetValue(FloatCommandProperty, value);
         }
 
         public ImageSource IconSource
         {
-            get { return (ImageSource) GetValue(IconSourceProperty); }
-            set { SetValue(IconSourceProperty, value); }
+            get => (ImageSource) GetValue(IconSourceProperty);
+            set => SetValue(IconSourceProperty, value);
         }
 
         public bool IsActive
         {
-            get { return (bool) GetValue(IsActiveProperty); }
-            set { SetValue(IsActiveProperty, value); }
+            get => (bool) GetValue(IsActiveProperty);
+            set => SetValue(IsActiveProperty, value);
         }
 
         public bool IsFloating
@@ -259,8 +259,8 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public bool IsSelected
         {
-            get { return (bool) GetValue(IsSelectedProperty); }
-            set { SetValue(IsSelectedProperty, value); }
+            get => (bool) GetValue(IsSelectedProperty);
+            set => SetValue(IsSelectedProperty, value);
         }
 
         public LayoutContent LayoutElement { get; private set; }
@@ -268,32 +268,32 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public ICommand MoveToNextTabGroupCommand
         {
-            get { return (ICommand) GetValue(MoveToNextTabGroupCommandProperty); }
-            set { SetValue(MoveToNextTabGroupCommandProperty, value); }
+            get => (ICommand) GetValue(MoveToNextTabGroupCommandProperty);
+            set => SetValue(MoveToNextTabGroupCommandProperty, value);
         }
 
         public ICommand MoveToPreviousTabGroupCommand
         {
-            get { return (ICommand) GetValue(MoveToPreviousTabGroupCommandProperty); }
-            set { SetValue(MoveToPreviousTabGroupCommandProperty, value); }
+            get => (ICommand) GetValue(MoveToPreviousTabGroupCommandProperty);
+            set => SetValue(MoveToPreviousTabGroupCommandProperty, value);
         }
 
         public ICommand NewHorizontalTabGroupCommand
         {
-            get { return (ICommand) GetValue(NewHorizontalTabGroupCommandProperty); }
-            set { SetValue(NewHorizontalTabGroupCommandProperty, value); }
+            get => (ICommand) GetValue(NewHorizontalTabGroupCommandProperty);
+            set => SetValue(NewHorizontalTabGroupCommandProperty, value);
         }
 
         public ICommand NewVerticalTabGroupCommand
         {
-            get { return (ICommand) GetValue(NewVerticalTabGroupCommandProperty); }
-            set { SetValue(NewVerticalTabGroupCommandProperty, value); }
+            get => (ICommand) GetValue(NewVerticalTabGroupCommandProperty);
+            set => SetValue(NewVerticalTabGroupCommandProperty, value);
         }
 
         public string Title
         {
-            get { return (string) GetValue(TitleProperty); }
-            set { SetValue(TitleProperty, value); }
+            get => (string) GetValue(TitleProperty);
+            set => SetValue(TitleProperty, value);
         }
 
         protected virtual void ClearDefaultBindings()

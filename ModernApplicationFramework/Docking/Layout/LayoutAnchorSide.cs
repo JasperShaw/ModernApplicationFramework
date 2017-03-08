@@ -27,7 +27,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public AnchorSide Side
         {
-            get { return _side; }
+            get => _side;
             private set
             {
                 if (_side == value)

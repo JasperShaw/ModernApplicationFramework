@@ -35,7 +35,7 @@ namespace ModernApplicationFramework.Core.Shell
     {
         [ThreadStatic] private static SystemParameters2 _threadLocalSingleton;
 
-        private readonly Dictionary<WM, List<_SystemMetricUpdate>> _UpdateTable;
+        private readonly Dictionary<WM, List<SystemMetricUpdate>> _updateTable;
         private Rect _captionButtonLocation;
         private double _captionHeight;
         private Color _glassColor;
@@ -77,11 +77,11 @@ namespace ModernApplicationFramework.Core.Shell
             // WindowCornerRadius isn't exposed by true system parameters, so it requires the theme to be initialized first.
             _InitializeWindowCornerRadius();
 
-            _UpdateTable = new Dictionary<WM, List<_SystemMetricUpdate>>
+            _updateTable = new Dictionary<WM, List<SystemMetricUpdate>>
             {
                 {
                     WM.THEMECHANGED,
-                    new List<_SystemMetricUpdate>
+                    new List<SystemMetricUpdate>
                     {
                         _UpdateThemeInfo,
                         _UpdateHighContrast,
@@ -91,7 +91,7 @@ namespace ModernApplicationFramework.Core.Shell
                 },
                 {
                     WM.SETTINGCHANGE,
-                    new List<_SystemMetricUpdate>
+                    new List<SystemMetricUpdate>
                     {
                         _UpdateCaptionHeight,
                         _UpdateWindowResizeBorderThickness,
@@ -101,36 +101,25 @@ namespace ModernApplicationFramework.Core.Shell
                         _UpdateCaptionButtonLocation
                     }
                 },
-                {WM.DWMNCRENDERINGCHANGED, new List<_SystemMetricUpdate> {_UpdateIsGlassEnabled}},
-                {WM.DWMCOMPOSITIONCHANGED, new List<_SystemMetricUpdate> {_UpdateIsGlassEnabled}},
-                {WM.DWMCOLORIZATIONCOLORCHANGED, new List<_SystemMetricUpdate> {_UpdateGlassColor}}
+                {WM.DWMNCRENDERINGCHANGED, new List<SystemMetricUpdate> {_UpdateIsGlassEnabled}},
+                {WM.DWMCOMPOSITIONCHANGED, new List<SystemMetricUpdate> {_UpdateIsGlassEnabled}},
+                {WM.DWMCOLORIZATIONCOLORCHANGED, new List<SystemMetricUpdate> {_UpdateGlassColor}}
             };
         }
 
-        private delegate void _SystemMetricUpdate(IntPtr wParam, IntPtr lParam);
+        private delegate void SystemMetricUpdate(IntPtr wParam, IntPtr lParam);
 
-        public static SystemParameters2 Current
-        {
-            get
-            {
-                if (_threadLocalSingleton == null)
-                {
-                    _threadLocalSingleton = new SystemParameters2();
-                }
-                return _threadLocalSingleton;
-            }
-        }
+        public static SystemParameters2 Current => _threadLocalSingleton ?? (_threadLocalSingleton = new SystemParameters2());
 
         public bool HighContrast
         {
-            get { return _isHighContrast; }
+            get => _isHighContrast;
             private set
             {
-                if (value != _isHighContrast)
-                {
-                    _isHighContrast = value;
-                    _NotifyPropertyChanged("HighContrast");
-                }
+                if (value == _isHighContrast)
+                    return;
+                _isHighContrast = value;
+                _NotifyPropertyChanged("HighContrast");
             }
         }
 
@@ -211,33 +200,31 @@ namespace ModernApplicationFramework.Core.Shell
 
         public double WindowCaptionHeight
         {
-            get { return _captionHeight; }
+            get => _captionHeight;
             private set
             {
-                if (value != _captionHeight)
-                {
-                    _captionHeight = value;
-                    _NotifyPropertyChanged("WindowCaptionHeight");
-                }
+                if (value == _captionHeight)
+                    return;
+                _captionHeight = value;
+                _NotifyPropertyChanged("WindowCaptionHeight");
             }
         }
 
         public CornerRadius WindowCornerRadius
         {
-            get { return _windowCornerRadius; }
+            get => _windowCornerRadius;
             private set
             {
-                if (value != _windowCornerRadius)
-                {
-                    _windowCornerRadius = value;
-                    _NotifyPropertyChanged("WindowCornerRadius");
-                }
+                if (value == _windowCornerRadius)
+                    return;
+                _windowCornerRadius = value;
+                _NotifyPropertyChanged("WindowCornerRadius");
             }
         }
 
         public SolidColorBrush WindowGlassBrush
         {
-            get { return _glassColorBrush; }
+            get => _glassColorBrush;
             private set
             {
                 Assert.IsNotNull(value);
@@ -292,17 +279,14 @@ namespace ModernApplicationFramework.Core.Shell
         private IntPtr _WndProc(IntPtr hwnd, WM msg, IntPtr wParam, IntPtr lParam)
         {
             // Don't do this if called within the SystemParameters2 constructor
-            if (_UpdateTable != null)
+            if (_updateTable == null)
+                return Standard.NativeMethods.DefWindowProc(hwnd, msg, wParam, lParam);
+            if (!_updateTable.TryGetValue(msg, out List<SystemMetricUpdate> handlers))
+                return Standard.NativeMethods.DefWindowProc(hwnd, msg, wParam, lParam);
+            Assert.IsNotNull(handlers);
+            foreach (var handler in handlers)
             {
-                List<_SystemMetricUpdate> handlers;
-                if (_UpdateTable.TryGetValue(msg, out handlers))
-                {
-                    Assert.IsNotNull(handlers);
-                    foreach (var handler in handlers)
-                    {
-                        handler(wParam, lParam);
-                    }
-                }
+                handler(wParam, lParam);
             }
 
             return Standard.NativeMethods.DefWindowProc(hwnd, msg, wParam, lParam);
@@ -428,7 +412,7 @@ namespace ModernApplicationFramework.Core.Shell
         private void _InitializeCaptionButtonLocation()
         {
             // There is a completely different way to do this on XP.
-            if (!Utility.IsOSVistaOrNewer || !Standard.NativeMethods.IsThemeActive())
+            if (!Utility.IsOsVistaOrNewer || !Standard.NativeMethods.IsThemeActive())
             {
                 _LegacyInitializeCaptionButtonLocation();
                 return;
@@ -522,7 +506,7 @@ namespace ModernApplicationFramework.Core.Shell
             //     rounded-rectangle HRGNs are created, which is also different than the actual
             //     round corners on themed Windows.  For now we're not exposing anything to
             //     mitigate the differences.
-            var cornerRadius = default(CornerRadius);
+            CornerRadius cornerRadius;
 
             // This list is known to be incomplete and very much not future-proof.
             // On XP there are at least a couple of shipped themes that this won't catch,
@@ -536,18 +520,8 @@ namespace ModernApplicationFramework.Core.Shell
                     break;
                 case "AERO":
                     // Aero has two cases.  One with glass and one without...
-                    if (Standard.NativeMethods.DwmIsCompositionEnabled())
-                    {
-                        cornerRadius = new CornerRadius(8);
-                    }
-                    else
-                    {
-                        cornerRadius = new CornerRadius(6, 6, 0, 0);
-                    }
+                    cornerRadius = Standard.NativeMethods.DwmIsCompositionEnabled() ? new CornerRadius(8) : new CornerRadius(6, 6, 0, 0);
                     break;
-                case "CLASSIC":
-                case "ZUNE":
-                case "ROYALE":
                 default:
                     cornerRadius = new CornerRadius(0);
                     break;
@@ -570,10 +544,7 @@ namespace ModernApplicationFramework.Core.Shell
         {
             Assert.IsNeitherNullNorEmpty(propertyName);
             var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

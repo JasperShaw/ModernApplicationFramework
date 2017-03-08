@@ -21,11 +21,10 @@ namespace ModernApplicationFramework.Core.TrinetCoreNtfs
 		/// </summary>
 		public void Dispose()
         {
-            if (!MemoryBlock.IsInvalid)
-            {
-                MemoryBlock.Dispose();
-                MemoryBlock = InvalidBlock;
-            }
+            if (MemoryBlock.IsInvalid)
+                return;
+            MemoryBlock.Dispose();
+            MemoryBlock = InvalidBlock;
         }
 
         /// <summary>

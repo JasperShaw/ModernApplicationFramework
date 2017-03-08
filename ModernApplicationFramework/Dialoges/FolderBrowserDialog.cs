@@ -39,8 +39,8 @@ namespace ModernApplicationFramework.Dialoges
              )]
         public string Description
         {
-            get { return _description ?? string.Empty; }
-            set { _description = value; }
+            get => _description ?? string.Empty;
+            set => _description = value;
         }
 
         [Localizable(false),
@@ -57,8 +57,8 @@ namespace ModernApplicationFramework.Dialoges
          DefaultValue(""), Localizable(true), Category("Folder Browsing")]
         public string SelectedPath
         {
-            get { return _selectedPath ?? string.Empty; }
-            set { _selectedPath = value; }
+            get => _selectedPath ?? string.Empty;
+            set => _selectedPath = value;
         }
 
         [Browsable(true), Localizable(false),

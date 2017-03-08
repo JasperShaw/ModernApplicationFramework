@@ -14,8 +14,8 @@ namespace ModernApplicationFramework.Controls
 
         public string IdentifierName
         {
-            get { return (string) GetValue(IdentifierNameProperty); }
-            set { SetValue(IdentifierNameProperty, value); }
+            get => (string) GetValue(IdentifierNameProperty);
+            set => SetValue(IdentifierNameProperty, value);
         }
     }
 }

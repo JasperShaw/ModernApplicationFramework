@@ -17,7 +17,7 @@ namespace ModernApplicationFramework.MVVM.Controls
 
         public bool IsDirty
         {
-            get { return _isDirty; }
+            get => _isDirty;
             set
             {
                 if (value == _isDirty)

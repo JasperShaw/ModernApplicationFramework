@@ -10,9 +10,7 @@ namespace ModernApplicationFramework.Controls
         protected override string GetNameCore()
         {
             var mainWindow = Owner as MainWindow;
-            if (mainWindow?.Title == null)
-                return base.GetNameCore();
-            return mainWindow.Title;
+            return mainWindow?.Title ?? base.GetNameCore();
         }
     }
 }

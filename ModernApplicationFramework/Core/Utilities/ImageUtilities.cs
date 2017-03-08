@@ -12,11 +12,10 @@ namespace ModernApplicationFramework.Core.Utilities
             var image = new Image();
             var thisassembly = Assembly.GetExecutingAssembly();
             var imageStream = thisassembly.GetManifestResourceStream("ModernApplicationFramework." + path);
-            if (imageStream != null)
-            {
-                var bmp = BitmapFrame.Create(imageStream);
-                image.Source = bmp;
-            }
+            if (imageStream == null)
+                return image;
+            var bmp = BitmapFrame.Create(imageStream);
+            image.Source = bmp;
             return image;
         }
     }

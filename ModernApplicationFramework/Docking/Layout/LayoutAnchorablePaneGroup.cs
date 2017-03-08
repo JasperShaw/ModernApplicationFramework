@@ -39,7 +39,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public Orientation Orientation
         {
-            get { return _orientation; }
+            get => _orientation;
             set
             {
                 if (_orientation == value)

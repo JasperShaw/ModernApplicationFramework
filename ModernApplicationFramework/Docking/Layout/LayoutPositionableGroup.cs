@@ -39,7 +39,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public double FloatingHeight
         {
-            get { return _floatingHeight; }
+            get => _floatingHeight;
             set
             {
                 if (_floatingHeight == value)
@@ -52,7 +52,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public double FloatingLeft
         {
-            get { return _floatingLeft; }
+            get => _floatingLeft;
             set
             {
                 if (_floatingLeft == value)
@@ -122,7 +122,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public double DockMinHeight
         {
-            get { return _dockMinHeight; }
+            get => _dockMinHeight;
             set
             {
                 if (_dockMinHeight == value)
@@ -151,7 +151,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public GridLength DockWidth
         {
-            get { return _dockWidth; }
+            get => _dockWidth;
             set
             {
                 if (DockWidth == value)
@@ -166,22 +166,30 @@ namespace ModernApplicationFramework.Docking.Layout
 
         double ILayoutPositionableElementWithActualSize.ActualHeight
         {
-            get { return _actualHeight; }
-            set { _actualHeight = value; }
+            get => _actualHeight;
+            set => _actualHeight = value;
         }
 
         double ILayoutPositionableElementWithActualSize.ActualWidth
         {
-            get { return _actualWidth; }
-            set { _actualWidth = value; }
+            get => _actualWidth;
+            set => _actualWidth = value;
         }
 
         public override void ReadXml(System.Xml.XmlReader reader)
         {
             if (reader.MoveToAttribute("DockWidth"))
-                _dockWidth = (GridLength) _gridLengthConverter.ConvertFromInvariantString(reader.Value);
+            {
+                var convertFromInvariantString = _gridLengthConverter.ConvertFromInvariantString(reader.Value);
+                if (convertFromInvariantString != null)
+                    _dockWidth = (GridLength) convertFromInvariantString;
+            }
             if (reader.MoveToAttribute("DockHeight"))
-                _dockHeight = (GridLength) _gridLengthConverter.ConvertFromInvariantString(reader.Value);
+            {
+                var convertFromInvariantString = _gridLengthConverter.ConvertFromInvariantString(reader.Value);
+                if (convertFromInvariantString != null)
+                    _dockHeight = (GridLength) convertFromInvariantString;
+            }
 
             if (reader.MoveToAttribute("DocMinWidth"))
                 _dockMinWidth = double.Parse(reader.Value, CultureInfo.InvariantCulture);
@@ -236,15 +244,19 @@ namespace ModernApplicationFramework.Docking.Layout
         {
         }
 
-        protected virtual void SetXmlAttributeValue(string name, string valueString)
+        protected new virtual void SetXmlAttributeValue(string name, string valueString)
         {
             switch (name)
             {
                 case "DockWidth":
-                    _dockWidth = (GridLength) _gridLengthConverter.ConvertFromInvariantString(valueString);
+                    var convertFromInvariantString = _gridLengthConverter.ConvertFromInvariantString(valueString);
+                    if (convertFromInvariantString != null)
+                        _dockWidth = (GridLength) convertFromInvariantString;
                     break;
                 case "DockHeight":
-                    _dockHeight = (GridLength) _gridLengthConverter.ConvertFromInvariantString(valueString);
+                    var fromInvariantString = _gridLengthConverter.ConvertFromInvariantString(valueString);
+                    if (fromInvariantString != null)
+                        _dockHeight = (GridLength) fromInvariantString;
                     break;
                 case "DocMinWidth":
                     _dockMinWidth = double.Parse(valueString, CultureInfo.InvariantCulture);
@@ -263,9 +275,6 @@ namespace ModernApplicationFramework.Docking.Layout
                     break;
                 case "FloatingTop":
                     _floatingTop = double.Parse(valueString, CultureInfo.InvariantCulture);
-                    break;
-                default:
-                    //base.SetXmlAttributeValue(name, valueString);
                     break;
             }
         }

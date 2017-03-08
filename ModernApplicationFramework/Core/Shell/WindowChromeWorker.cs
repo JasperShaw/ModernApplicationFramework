@@ -46,7 +46,7 @@ namespace ModernApplicationFramework.Core.Shell
         ///     Matrix of the HT values to return when responding to NC window messages.
         /// </summary>
         [SuppressMessage("Microsoft.Performance", "CA1814:PreferJaggedArraysOverMultidimensional", MessageId = "Member")
-        ] private static readonly HT[,] _HitTestBorders =
+        ] private static readonly HT[,] HitTestBorders =
         {
             {HT.TOPLEFT, HT.TOP, HT.TOPRIGHT},
             {HT.LEFT, HT.CLIENT, HT.RIGHT},
@@ -88,7 +88,7 @@ namespace ModernApplicationFramework.Core.Shell
         // don't match the current window location and it's not in a maximized or minimized state.
         // Because this isn't doced or supported, it's also not incredibly consistent.  Sometimes some things get updated in
         // different orders, so this isn't absolutely reliable.
-        private bool _IsWindowDocked
+        private bool IsWindowDocked
         {
             get
             {
@@ -129,7 +129,7 @@ namespace ModernApplicationFramework.Core.Shell
             VerifyAccess();
             Assert.IsNotNull(_window);
 
-            if (newChrome == _chromeInfo)
+            if (Equals(newChrome, _chromeInfo))
             {
                 // Nothing's changed.
                 return;
@@ -251,7 +251,7 @@ namespace ModernApplicationFramework.Core.Shell
             _UpdateSystemMenu(_window.WindowState);
             _UpdateFrameState(true);
 
-            Standard.NativeMethods.SetWindowPos(_hwnd, IntPtr.Zero, 0, 0, 0, 0, _SwpFlags);
+            Standard.NativeMethods.SetWindowPos(_hwnd, IntPtr.Zero, 0, 0, 0, 0, SwpFlags);
         }
 
         private void _ClearRoundingRegion()
@@ -264,7 +264,7 @@ namespace ModernApplicationFramework.Core.Shell
             Assert.IsNotNull(_window);
 
             // Expect that this might be called on OSes other than Vista.
-            if (!Utility.IsOSVistaOrNewer)
+            if (!Utility.IsOsVistaOrNewer)
             {
                 // Not an error.  Just not on Vista so we're not going to get glass.
                 return;
@@ -279,7 +279,8 @@ namespace ModernApplicationFramework.Core.Shell
             // Ensure standard HWND background painting when DWM isn't enabled.
             if (!Standard.NativeMethods.DwmIsCompositionEnabled())
             {
-                _hwndSource.CompositionTarget.BackgroundColor = SystemColors.WindowColor;
+                if (_hwndSource.CompositionTarget != null)
+                    _hwndSource.CompositionTarget.BackgroundColor = SystemColors.WindowColor;
             }
             else
             {
@@ -287,7 +288,8 @@ namespace ModernApplicationFramework.Core.Shell
                 // The Window's Background needs to be changed independent of this.
 
                 // Apply the transparent background to the HWND
-                _hwndSource.CompositionTarget.BackgroundColor = Colors.Transparent;
+                if (_hwndSource.CompositionTarget != null)
+                    _hwndSource.CompositionTarget.BackgroundColor = Colors.Transparent;
 
                 // Thickness is going to be DIPs, need to convert to system coordinates.
                 var deviceTopLeft =
@@ -428,37 +430,36 @@ namespace ModernApplicationFramework.Core.Shell
                 return;
             }
 
-            if (Utility.IsOSWindows7OrNewer && Standard.NativeMethods.DwmIsCompositionEnabled())
+            if (!Utility.IsOsWindows7OrNewer || !Standard.NativeMethods.DwmIsCompositionEnabled())
+                return;
+            ++_blackGlassFixupAttemptCount;
+
+            var success = false;
+            try
             {
-                ++_blackGlassFixupAttemptCount;
+                var dti = Standard.NativeMethods.DwmGetCompositionTimingInfo(_hwnd);
+                success = dti != null;
+            }
+            catch (System.Exception)
+            {
+                // We aren't sure of all the reasons this could fail.
+                // If we find new ones we should consider making the NativeMethod swallow them as well.
+                // Since we have a limited number of retries and this method isn't actually critical, just repost.
 
-                var success = false;
-                try
-                {
-                    var dti = Standard.NativeMethods.DwmGetCompositionTimingInfo(_hwnd);
-                    success = dti != null;
-                }
-                catch (System.Exception)
-                {
-                    // We aren't sure of all the reasons this could fail.
-                    // If we find new ones we should consider making the NativeMethod swallow them as well.
-                    // Since we have a limited number of retries and this method isn't actually critical, just repost.
+                // Disabling this for the published code to reduce debug noise.  This will get compiled away for retail binaries anyways.
+                //Assert.Fail(e.Message);
+            }
 
-                    // Disabling this for the published code to reduce debug noise.  This will get compiled away for retail binaries anyways.
-                    //Assert.Fail(e.Message);
-                }
-
-                // NativeMethods.DwmGetCompositionTimingInfo swallows E_PENDING.
-                // If the call wasn't successful, try again later.
-                if (!success)
-                {
-                    Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (_Action) _FixupWindows7Issues);
-                }
-                else
-                {
-                    // Reset this.  We will want to force this again if DWM composition changes.
-                    _blackGlassFixupAttemptCount = 0;
-                }
+            // NativeMethods.DwmGetCompositionTimingInfo swallows E_PENDING.
+            // If the call wasn't successful, try again later.
+            if (!success)
+            {
+                Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (_Action) _FixupWindows7Issues);
+            }
+            else
+            {
+                // Reset this.  We will want to force this again if DWM composition changes.
+                _blackGlassFixupAttemptCount = 0;
             }
         }
 
@@ -542,7 +543,7 @@ namespace ModernApplicationFramework.Core.Shell
                 uRow = 1;
             }
 
-            var ht = _HitTestBorders[uRow, uCol];
+            var ht = HitTestBorders[uRow, uCol];
 
             if (ht == HT.TOP && !onResizeBorder)
             {
@@ -592,7 +593,7 @@ namespace ModernApplicationFramework.Core.Shell
 
         private void _SetRoundingRegion(WINDOWPOS? wp)
         {
-            const int MONITOR_DEFAULTTONEAREST = 0x00000002;
+            const int monitorDefaultTonearest = 0x00000002;
 
             // We're early - WPF hasn't necessarily updated the state of the window.
             // Need to query it ourselves.
@@ -615,7 +616,7 @@ namespace ModernApplicationFramework.Core.Shell
                     top = (int) r.Top;
                 }
 
-                var hMon = Standard.NativeMethods.MonitorFromWindow(_hwnd, MONITOR_DEFAULTTONEAREST);
+                var hMon = Standard.NativeMethods.MonitorFromWindow(_hwnd, monitorDefaultTonearest);
 
                 var mi = Standard.NativeMethods.GetMonitorInfo(hMon);
                 var rcMax = mi.rcWork;
@@ -825,7 +826,7 @@ namespace ModernApplicationFramework.Core.Shell
                     _FixupWindows7Issues();
                 }
 
-                Standard.NativeMethods.SetWindowPos(_hwnd, IntPtr.Zero, 0, 0, 0, 0, _SwpFlags);
+                Standard.NativeMethods.SetWindowPos(_hwnd, IntPtr.Zero, 0, 0, 0, 0, SwpFlags);
             }
         }
 
@@ -898,7 +899,7 @@ namespace ModernApplicationFramework.Core.Shell
 
         #region Fields
 
-        private const SWP _SwpFlags =
+        private const SWP SwpFlags =
             SWP.FRAMECHANGED | SWP.NOSIZE | SWP.NOMOVE | SWP.NOZORDER | SWP.NOOWNERZORDER | SWP.NOACTIVATE;
 
         private readonly List<HANDLE_MESSAGE> _messageTable;
@@ -999,7 +1000,7 @@ namespace ModernApplicationFramework.Core.Shell
             handled = false;
 
             // Give DWM a chance at this first.
-            if (Utility.IsOSVistaOrNewer && _chromeInfo.GlassFrameThickness != default(Thickness) && _isGlassEnabled)
+            if (Utility.IsOsVistaOrNewer && _chromeInfo.GlassFrameThickness != default(Thickness) && _isGlassEnabled)
             {
                 // If we're on Vista, give the DWM a chance to handle the message first.
                 handled = Standard.NativeMethods.DwmDefWindowProc(_hwnd, uMsg, wParam, lParam, out lRet);
@@ -1057,14 +1058,14 @@ namespace ModernApplicationFramework.Core.Shell
 
         private IntPtr _HandleSize(WM uMsg, IntPtr wParam, IntPtr lParam, out bool handled)
         {
-            const int SIZE_MAXIMIZED = 2;
+            const int sizeMaximized = 2;
 
             // Force when maximized.
             // We can tell what's happening right now, but the Window doesn't yet know it's
             // maximized.  Not forcing this update will eventually cause the
             // default caption to be drawn.
             WindowState? state = null;
-            if (wParam.ToInt32() == SIZE_MAXIMIZED)
+            if (wParam.ToInt32() == sizeMaximized)
             {
                 state = WindowState.Maximized;
             }
@@ -1127,12 +1128,12 @@ namespace ModernApplicationFramework.Core.Shell
 
             // On Win7 if the user is dragging the window out of the maximized state then we don't want to use that location
             // as a restore point.
-            Assert.Implies(_window.WindowState == WindowState.Maximized, Utility.IsOSWindows7OrNewer);
+            Assert.Implies(_window.WindowState == WindowState.Maximized, Utility.IsOsWindows7OrNewer);
             if (_window.WindowState != WindowState.Maximized)
             {
                 // Check for the docked window case.  The window can still be restored when it's in this position so 
                 // try to account for that and not update the start position.
-                if (!_IsWindowDocked)
+                if (!IsWindowDocked)
                 {
                     _windowPosAtStartOfUserMove = new Point(_window.Left, _window.Top);
                 }
@@ -1156,7 +1157,7 @@ namespace ModernApplicationFramework.Core.Shell
             // If they did that, then we need to try to update the restore bounds or else WPF will put the window at the maximized location (e.g. (-8,-8)).
             if (_window.WindowState == WindowState.Maximized)
             {
-                Assert.IsTrue(Utility.IsOSWindows7OrNewer);
+                Assert.IsTrue(Utility.IsOsWindows7OrNewer);
                 _window.Top = _windowPosAtStartOfUserMove.Y;
                 _window.Left = _windowPosAtStartOfUserMove.X;
             }
@@ -1235,12 +1236,13 @@ namespace ModernApplicationFramework.Core.Shell
 
             // Expect that this might be called on OSes other than Vista
             // and if the window hasn't yet been shown, then we don't need to undo anything.
-            if (!Utility.IsOSVistaOrNewer || _hwnd == IntPtr.Zero)
+            if (!Utility.IsOsVistaOrNewer || _hwnd == IntPtr.Zero)
             {
                 return;
             }
 
-            _hwndSource.CompositionTarget.BackgroundColor = SystemColors.WindowColor;
+            if (_hwndSource.CompositionTarget != null)
+                _hwndSource.CompositionTarget.BackgroundColor = SystemColors.WindowColor;
 
             if (Standard.NativeMethods.DwmIsCompositionEnabled())
             {
@@ -1253,7 +1255,7 @@ namespace ModernApplicationFramework.Core.Shell
         private void _RestoreHrgn()
         {
             _ClearRoundingRegion();
-            Standard.NativeMethods.SetWindowPos(_hwnd, IntPtr.Zero, 0, 0, 0, 0, _SwpFlags);
+            Standard.NativeMethods.SetWindowPos(_hwnd, IntPtr.Zero, 0, 0, 0, 0, SwpFlags);
         }
 
         #endregion

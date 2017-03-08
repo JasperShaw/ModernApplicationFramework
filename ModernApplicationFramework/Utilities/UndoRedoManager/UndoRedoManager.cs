@@ -49,7 +49,7 @@ namespace ModernApplicationFramework.Utilities.UndoRedoManager
             return item;
         }
 
-        private static void Push(IList<UndoRedoAction> stack, UndoRedoAction action)
+        private static void Push(ICollection<UndoRedoAction> stack, UndoRedoAction action)
         {
             stack.Add(action);
         }

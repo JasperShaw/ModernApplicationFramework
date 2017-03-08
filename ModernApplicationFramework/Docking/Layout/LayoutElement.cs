@@ -77,7 +77,7 @@ namespace ModernApplicationFramework.Docking.Layout
         [XmlIgnore]
         public ILayoutContainer Parent
         {
-            get { return _parent; }
+            get => _parent;
             set
             {
                 if (_parent == value)
@@ -117,10 +117,8 @@ namespace ModernApplicationFramework.Docking.Layout
 
         protected virtual void OnRootChanged(ILayoutRoot oldRoot, ILayoutRoot newRoot)
         {
-            if (oldRoot != null)
-                ((LayoutRoot) oldRoot).OnLayoutElementRemoved(this);
-            if (newRoot != null)
-                ((LayoutRoot) newRoot).OnLayoutElementAdded(this);
+            ((LayoutRoot) oldRoot)?.OnLayoutElementRemoved(this);
+            ((LayoutRoot) newRoot)?.OnLayoutElementAdded(this);
         }
 
         #endregion

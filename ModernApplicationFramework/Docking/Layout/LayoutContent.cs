@@ -91,7 +91,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public double FloatingHeight
         {
-            get { return _floatingHeight; }
+            get => _floatingHeight;
             set
             {
                 if (_floatingHeight == value)
@@ -104,7 +104,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public double FloatingLeft
         {
-            get { return _floatingLeft; }
+            get => _floatingLeft;
             set
             {
                 if (_floatingLeft == value)
@@ -117,7 +117,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public double FloatingTop
         {
-            get { return _floatingTop; }
+            get => _floatingTop;
             set
             {
                 if (_floatingTop == value)
@@ -130,7 +130,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public double FloatingWidth
         {
-            get { return _floatingWidth; }
+            get => _floatingWidth;
             set
             {
                 if (_floatingWidth == value)
@@ -143,7 +143,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public bool IsMaximized
         {
-            get { return _isMaximized; }
+            get => _isMaximized;
             set
             {
                 if (_isMaximized == value)
@@ -272,7 +272,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public bool CanClose
         {
-            get { return _canClose; }
+            get => _canClose;
             set
             {
                 if (_canClose == value)
@@ -284,7 +284,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public bool CanFloat
         {
-            get { return _canFloat; }
+            get => _canFloat;
             set
             {
                 if (_canFloat == value)
@@ -297,7 +297,7 @@ namespace ModernApplicationFramework.Docking.Layout
         [XmlIgnore]
         public object Content
         {
-            get { return _content; }
+            get => _content;
             set
             {
                 if (_content == value)
@@ -330,7 +330,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public ImageSource IconSource
         {
-            get { return _iconSource; }
+            get => _iconSource;
             set
             {
                 if (Equals(_iconSource, value))
@@ -343,7 +343,7 @@ namespace ModernApplicationFramework.Docking.Layout
         [XmlIgnore]
         public bool IsActive
         {
-            get { return _isActive; }
+            get => _isActive;
             set
             {
                 if (_isActive == value)
@@ -381,7 +381,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public bool IsSelected
         {
-            get { return _isSelected; }
+            get => _isSelected;
             set
             {
                 if (_isSelected == value)
@@ -399,7 +399,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public DateTime? LastActivationTimeStamp
         {
-            get { return _lastActivationTimeStamp; }
+            get => _lastActivationTimeStamp;
             set
             {
                 if (_lastActivationTimeStamp == value)
@@ -412,7 +412,7 @@ namespace ModernApplicationFramework.Docking.Layout
         [XmlIgnore]
         public int PreviousContainerIndex
         {
-            get { return _previousContainerIndex; }
+            get => _previousContainerIndex;
             set
             {
                 if (_previousContainerIndex == value)
@@ -424,13 +424,13 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public string Title
         {
-            get { return (string) GetValue(TitleProperty); }
-            set { SetValue(TitleProperty, value); }
+            get => (string) GetValue(TitleProperty);
+            set => SetValue(TitleProperty, value);
         }
 
         public object ToolTip
         {
-            get { return _toolTip; }
+            get => _toolTip;
             set
             {
                 if (_toolTip == value)
@@ -442,14 +442,14 @@ namespace ModernApplicationFramework.Docking.Layout
 
         protected ILayoutContainer PreviousContainer
         {
-            get { return ((ILayoutPreviousContainer) this).PreviousContainer; }
-            set { ((ILayoutPreviousContainer) this).PreviousContainer = value; }
+            get => ((ILayoutPreviousContainer) this).PreviousContainer;
+            set => ((ILayoutPreviousContainer) this).PreviousContainer = value;
         }
 
         protected string PreviousContainerId
         {
-            get { return ((ILayoutPreviousContainer) this).PreviousContainerId; }
-            set { ((ILayoutPreviousContainer) this).PreviousContainerId = value; }
+            get => ((ILayoutPreviousContainer) this).PreviousContainerId;
+            set => ((ILayoutPreviousContainer) this).PreviousContainerId = value;
         }
 
         /// <summary>

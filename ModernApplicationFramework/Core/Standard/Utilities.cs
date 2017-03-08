@@ -42,25 +42,19 @@ namespace ModernApplicationFramework.Core.Standard
 {
     internal static class Utility
     {
-        private static readonly Version _osVersion = Environment.OSVersion.Version;
+        private static readonly Version OsVersion = Environment.OSVersion.Version;
 
-        private static readonly Version _presentationFrameworkVersion =
+        private static readonly Version PresentationFrameworkVersion =
             Assembly.GetAssembly(typeof(Window)).GetName().Version;
 
         // This can be cached.  It's not going to change under reasonable circumstances.
-        private static int s_bitDepth; // = 0;
+        private static int _sBitDepth; // = 0;
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static bool IsOSVistaOrNewer
-        {
-            get { return _osVersion >= new Version(6, 0); }
-        }
+        public static bool IsOsVistaOrNewer => OsVersion >= new Version(6, 0);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static bool IsOSWindows7OrNewer
-        {
-            get { return _osVersion >= new Version(6, 1); }
-        }
+        public static bool IsOsWindows7OrNewer => OsVersion >= new Version(6, 1);
 
         /// <summary>
         ///     Is this using WPF4?
@@ -69,10 +63,7 @@ namespace ModernApplicationFramework.Core.Standard
         ///     There are a few specific bugs in Window in 3.5SP1 and below that require workarounds
         ///     when handling WM_NCCALCSIZE on the HWND.
         /// </remarks>
-        public static bool IsPresentationFrameworkVersionLessThan4
-        {
-            get { return _presentationFrameworkVersion < new Version(4, 0); }
-        }
+        public static bool IsPresentationFrameworkVersionLessThan4 => PresentationFrameworkVersion < new Version(4, 0);
 
         public static void AddDependencyPropertyChangeListener(object component, DependencyProperty property,
                                                                EventHandler listener)
@@ -233,7 +224,7 @@ namespace ModernApplicationFramework.Core.Standard
         // Caller is responsible to ensure that GDI+ has been initialized.
         [SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times")]
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static IntPtr GenerateHICON(ImageSource image, Size dimensions)
+        public static IntPtr GenerateHicon(ImageSource image, Size dimensions)
         {
             if (image == null)
             {
@@ -243,10 +234,11 @@ namespace ModernApplicationFramework.Core.Standard
             // If we're getting this from a ".ico" resource, then it comes through as a BitmapFrame.
             // We can use leverage this as a shortcut to get the right 16x16 representation
             // because DrawImage doesn't do that for us.
-            var bf = image as BitmapFrame;
+            BitmapFrame bf = image as BitmapFrame;
             if (bf != null)
             {
-                bf = GetBestMatch(bf.Decoder.Frames, (int) dimensions.Width, (int) dimensions.Height);
+                if (bf.Decoder != null)
+                    bf = GetBestMatch(bf.Decoder.Frames, (int) dimensions.Width, (int) dimensions.Height);
             }
             else
             {
@@ -390,13 +382,13 @@ namespace ModernApplicationFramework.Core.Standard
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         public static int GET_X_LPARAM(IntPtr lParam)
         {
-            return LOWORD(lParam.ToInt32());
+            return Loword(lParam.ToInt32());
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         public static int GET_Y_LPARAM(IntPtr lParam)
         {
-            return HIWORD(lParam.ToInt32());
+            return Hiword(lParam.ToInt32());
         }
 
         public static BitmapFrame GetBestMatch(IList<BitmapFrame> frames, int width, int height)
@@ -422,7 +414,7 @@ namespace ModernApplicationFramework.Core.Standard
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static string HashStreamMD5(Stream stm)
+        public static string HashStreamMd5(Stream stm)
         {
             stm.Position = 0;
             var hashBuilder = new StringBuilder();
@@ -438,7 +430,7 @@ namespace ModernApplicationFramework.Core.Standard
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static int HIWORD(int i)
+        public static int Hiword(int i)
         {
             return (short) (i >> 16);
         }
@@ -468,7 +460,7 @@ namespace ModernApplicationFramework.Core.Standard
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static int LOWORD(int i)
+        public static int Loword(int i)
         {
             return (short) (i & 0xFFFF);
         }
@@ -515,7 +507,7 @@ namespace ModernApplicationFramework.Core.Standard
         /// <param name="c"></param>
         /// <returns></returns>
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static int RGB(Color c)
+        public static int Rgb(Color c)
         {
             return c.R | (c.G << 8) | (c.B << 16);
         }
@@ -590,10 +582,7 @@ namespace ModernApplicationFramework.Core.Standard
             // Dispose can safely be called on an object multiple times.
             IDisposable t = disposable;
             disposable = default(T);
-            if (null != t)
-            {
-                t.Dispose();
-            }
+            t?.Dispose();
         }
 
         /// <summary>GDI+'s DisposeImage</summary>
@@ -642,7 +631,7 @@ namespace ModernApplicationFramework.Core.Standard
                 return null;
             }
 
-            var decoder = new _UrlDecoder(url.Length, Encoding.UTF8);
+            var decoder = new UrlDecoder(url.Length, Encoding.UTF8);
             var length = url.Length;
             for (var i = 0; i < length; ++i)
             {
@@ -814,15 +803,15 @@ namespace ModernApplicationFramework.Core.Standard
 
         private static int _GetBitDepth()
         {
-            if (s_bitDepth == 0)
+            if (_sBitDepth == 0)
             {
                 using (var dc = SafeDC.GetDesktop())
                 {
-                    s_bitDepth = NativeMethods.GetDeviceCaps(dc, DeviceCap.BITSPIXEL)
+                    _sBitDepth = NativeMethods.GetDeviceCaps(dc, DeviceCap.BITSPIXEL)
                                  *NativeMethods.GetDeviceCaps(dc, DeviceCap.PLANES);
                 }
             }
-            return s_bitDepth;
+            return _sBitDepth;
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
@@ -947,7 +936,7 @@ namespace ModernApplicationFramework.Core.Standard
             return diff;
         }
 
-        private class _UrlDecoder
+        private class UrlDecoder
         {
             private readonly byte[] _byteBuffer;
             private readonly char[] _charBuffer;
@@ -956,7 +945,7 @@ namespace ModernApplicationFramework.Core.Standard
             private int _charCount;
 
             [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-            public _UrlDecoder(int size, Encoding encoding)
+            public UrlDecoder(int size, Encoding encoding)
             {
                 _encoding = encoding;
                 _charBuffer = new char[size];

@@ -57,7 +57,7 @@ namespace ModernApplicationFramework.ViewModels
 
         public ToolBarTray BottomToolBarTay
         {
-            get { return _bottomToolBarTay; }
+            get => _bottomToolBarTay;
             set
             {
                 _bottomToolBarTay = value;
@@ -67,7 +67,7 @@ namespace ModernApplicationFramework.ViewModels
 
         public ToolBarTray LeftToolBarTay
         {
-            get { return _leftToolBarTay; }
+            get => _leftToolBarTay;
             set
             {
                 _leftToolBarTay = value;
@@ -77,7 +77,7 @@ namespace ModernApplicationFramework.ViewModels
 
         public ToolBarTray RightToolBarTay
         {
-            get { return _rightToolBarTay; }
+            get => _rightToolBarTay;
             set
             {
                 _rightToolBarTay = value;
@@ -87,7 +87,7 @@ namespace ModernApplicationFramework.ViewModels
 
         public ToolBarTray TopToolBarTay
         {
-            get { return _topToolBarTay; }
+            get => _topToolBarTay;
             set
             {
                 _topToolBarTay = value;
@@ -101,7 +101,7 @@ namespace ModernApplicationFramework.ViewModels
 
         public Theme Theme
         {
-            get { return _theme; }
+            get => _theme;
             set
             {
                 if (value == null)

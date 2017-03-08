@@ -51,8 +51,8 @@ namespace ModernApplicationFramework.Docking.Layout
 
         string ILayoutPaneSerializable.Id
         {
-            get { return _id; }
-            set { _id = value; }
+            get => _id;
+            set => _id = value;
         }
 
         public bool CanClose
@@ -191,7 +191,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public int SelectedContentIndex
         {
-            get { return _selectedIndex; }
+            get => _selectedIndex;
             set
             {
                 if (value < 0 ||
@@ -241,7 +241,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public string Name
         {
-            get { return _name; }
+            get => _name;
             set
             {
                 if (_name == value)

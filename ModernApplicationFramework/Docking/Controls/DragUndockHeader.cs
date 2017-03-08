@@ -5,7 +5,6 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using ModernApplicationFramework.Controls;
-using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Controls;
 
 namespace ModernApplicationFramework.Docking.Controls

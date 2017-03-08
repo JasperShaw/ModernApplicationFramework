@@ -38,26 +38,26 @@ namespace ModernApplicationFramework.Controls
 
         public bool HasDialogFrame
         {
-            get { return (bool) GetValue(HasDialogFrameProperty); }
-            set { SetValue(HasDialogFrameProperty, value); }
+            get => (bool) GetValue(HasDialogFrameProperty);
+            set => SetValue(HasDialogFrameProperty, value);
         }
 
         public bool HasMaximizeButton
         {
-            get { return (bool) GetValue(HasMaximizeButtonProperty); }
-            set { SetValue(HasMaximizeButtonProperty, value); }
+            get => (bool) GetValue(HasMaximizeButtonProperty);
+            set => SetValue(HasMaximizeButtonProperty, value);
         }
 
         public bool HasMinimizeButton
         {
-            get { return (bool) GetValue(HasMinimizeButtonProperty); }
-            set { SetValue(HasMinimizeButtonProperty, value); }
+            get => (bool) GetValue(HasMinimizeButtonProperty);
+            set => SetValue(HasMinimizeButtonProperty, value);
         }
 
         public bool IsCloseButtonEnabled
         {
-            get { return (bool) GetValue(IsCloseButtonEnabledProperty); }
-            set { SetValue(IsCloseButtonEnabledProperty, value); }
+            get => (bool) GetValue(IsCloseButtonEnabledProperty);
+            set => SetValue(IsCloseButtonEnabledProperty, value);
         }
 
         protected virtual void OnDialogThemeChanged() {}
@@ -129,7 +129,7 @@ namespace ModernApplicationFramework.Controls
 
         public Theme Theme
         {
-            get { return _theme; }
+            get => _theme;
             set
             {
                 if (value == null)

@@ -109,7 +109,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         internal static void KeepInsideNearestMonitor(this ILayoutElementForFloatingWindow paneInsideFloatingWindow)
         {
-            Win32Helper.RECT r = new Win32Helper.RECT
+            var r = new Win32Helper.RECT
             {
                 Left = (int) paneInsideFloatingWindow.FloatingLeft,
                 Top = (int) paneInsideFloatingWindow.FloatingTop

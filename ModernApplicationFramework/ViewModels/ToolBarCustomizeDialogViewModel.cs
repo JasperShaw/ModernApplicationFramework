@@ -26,7 +26,7 @@ namespace ModernApplicationFramework.ViewModels
 
         public IToolBarHostViewModel ToolBarHostViewModel
         {
-            get { return _toolBarHostViewModel; }
+            get => _toolBarHostViewModel;
             set
             {
                 _toolBarHostViewModel = value;

@@ -50,14 +50,14 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public Brush BackgroundWhileDragging
         {
-            get { return (Brush) GetValue(BackgroundWhileDraggingProperty); }
-            set { SetValue(BackgroundWhileDraggingProperty, value); }
+            get => (Brush) GetValue(BackgroundWhileDraggingProperty);
+            set => SetValue(BackgroundWhileDraggingProperty, value);
         }
 
         public double OpacityWhileDragging
         {
-            get { return (double) GetValue(OpacityWhileDraggingProperty); }
-            set { SetValue(OpacityWhileDraggingProperty, value); }
+            get => (double) GetValue(OpacityWhileDraggingProperty);
+            set => SetValue(OpacityWhileDraggingProperty, value);
         }
     }
 }

@@ -11,9 +11,9 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             Pages = new List<ISettingsPage>();
         }
 
-        public List<SettingsPageViewModel> Children { get; private set; }
+        public List<SettingsPageViewModel> Children { get; }
 
         public string Name { get; set; }
-        public List<ISettingsPage> Pages { get; private set; }
+        public List<ISettingsPage> Pages { get; }
     }
 }

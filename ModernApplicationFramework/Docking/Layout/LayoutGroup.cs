@@ -134,7 +134,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public bool IsVisible
         {
-            get { return _isVisible; }
+            get => _isVisible;
             protected set
             {
                 if (_isVisible == value)

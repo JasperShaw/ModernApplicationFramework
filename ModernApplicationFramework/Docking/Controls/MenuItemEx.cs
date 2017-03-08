@@ -41,8 +41,8 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public DataTemplate IconTemplate
         {
-            get { return (DataTemplate) GetValue(IconTemplateProperty); }
-            set { SetValue(IconTemplateProperty, value); }
+            get => (DataTemplate) GetValue(IconTemplateProperty);
+            set => SetValue(IconTemplateProperty, value);
         }
 
         /// <summary>
@@ -51,8 +51,8 @@ namespace ModernApplicationFramework.Docking.Controls
         /// </summary>
         public DataTemplateSelector IconTemplateSelector
         {
-            get { return (DataTemplateSelector) GetValue(IconTemplateSelectorProperty); }
-            set { SetValue(IconTemplateSelectorProperty, value); }
+            get => (DataTemplateSelector) GetValue(IconTemplateSelectorProperty);
+            set => SetValue(IconTemplateSelectorProperty, value);
         }
 
         protected virtual void OnIconTemplateChanged(DependencyPropertyChangedEventArgs e)

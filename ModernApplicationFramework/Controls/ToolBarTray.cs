@@ -19,14 +19,14 @@ namespace ModernApplicationFramework.Controls
 
         public bool ContainsVisibleToolBars
         {
-            get { return (bool) GetValue(ContainsVisibleToolBarsProperty); }
-            set { SetValue(ContainsVisibleToolBarsProperty, value); }
+            get => (bool) GetValue(ContainsVisibleToolBarsProperty);
+            set => SetValue(ContainsVisibleToolBarsProperty, value);
         }
 
         public bool IsMainToolBar
         {
-            get { return (bool) GetValue(IsMainToolBarProperty); }
-            set { SetValue(IsMainToolBarProperty, value); }
+            get => (bool) GetValue(IsMainToolBarProperty);
+            set => SetValue(IsMainToolBarProperty, value);
         }
 
         public void AddToolBar(ToolBar toolBar)

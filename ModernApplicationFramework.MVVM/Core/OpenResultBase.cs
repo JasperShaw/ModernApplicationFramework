@@ -7,19 +7,19 @@ namespace ModernApplicationFramework.MVVM.Core
     public abstract class OpenResultBase<TTarget> : IOpenResult<TTarget>
     {
         protected Action<TTarget> SetData;
-        protected Action<TTarget> _onConfigure;
-        protected Action<TTarget> _onShutDown;
+        protected Action<TTarget> OnConfigure;
+        protected Action<TTarget> OnShutDown;
 
         Action<TTarget> IOpenResult<TTarget>.OnConfigure
         {
-            get { return _onConfigure; }
-            set { _onConfigure = value; }
+            get => OnConfigure;
+            set => OnConfigure = value;
         }
 
         Action<TTarget> IOpenResult<TTarget>.OnShutDown
         {
-            get { return _onShutDown; }
-            set { _onShutDown = value; }
+            get => OnShutDown;
+            set => OnShutDown = value;
         }
 
         protected virtual void OnCompleted(Exception exception, bool wasCancelled)

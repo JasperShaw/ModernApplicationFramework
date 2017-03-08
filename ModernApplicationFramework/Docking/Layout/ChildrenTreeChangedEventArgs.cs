@@ -38,6 +38,6 @@ namespace ModernApplicationFramework.Docking.Layout
             Change = change;
         }
 
-        public ChildrenTreeChange Change { get; private set; }
+        public ChildrenTreeChange Change { get; }
     }
 }

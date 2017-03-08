@@ -10,6 +10,6 @@ namespace ModernApplicationFramework.Core.Events
             Change = change;
         }
 
-        public ChildrenTreeChange Change { get; private set; }
+        public ChildrenTreeChange Change { get; }
     }
 }

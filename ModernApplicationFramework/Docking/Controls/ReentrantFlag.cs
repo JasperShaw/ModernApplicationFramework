@@ -23,18 +23,18 @@ namespace ModernApplicationFramework.Docking.Controls
         private bool _flag;
         public bool CanEnter => !_flag;
 
-        public _ReentrantFlagHandler Enter()
+        public ReentrantFlagHandler Enter()
         {
             if (_flag)
                 throw new InvalidOperationException();
-            return new _ReentrantFlagHandler(this);
+            return new ReentrantFlagHandler(this);
         }
 
-        public class _ReentrantFlagHandler : IDisposable
+        public class ReentrantFlagHandler : IDisposable
         {
             private readonly ReentrantFlag _owner;
 
-            public _ReentrantFlagHandler(ReentrantFlag owner)
+            public ReentrantFlagHandler(ReentrantFlag owner)
             {
                 _owner = owner;
                 _owner._flag = true;

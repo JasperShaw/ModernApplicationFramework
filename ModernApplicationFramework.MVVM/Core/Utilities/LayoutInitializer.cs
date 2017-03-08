@@ -107,7 +107,7 @@ namespace ModernApplicationFramework.MVVM.Core.Utilities
                 case PaneLocation.Bottom:
                     return "BottomPane";
                 default:
-                    throw new ArgumentOutOfRangeException("location");
+                    throw new ArgumentOutOfRangeException(nameof(location));
             }
         }
     }

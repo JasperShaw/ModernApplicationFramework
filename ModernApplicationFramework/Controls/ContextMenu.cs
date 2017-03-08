@@ -21,7 +21,7 @@ namespace ModernApplicationFramework.Controls
 
         public Theme Theme
         {
-            get { return _theme; }
+            get => _theme;
             set
             {
                 if (value == null)

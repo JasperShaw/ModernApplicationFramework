@@ -87,32 +87,32 @@ namespace ModernApplicationFramework.Controls
 
         public Brush ActiveShadowColor
         {
-            get { return (Brush)GetValue(ActiveShadowColorProperty); }
-            set { SetValue(ActiveShadowColorProperty, value); }
+            get => (Brush)GetValue(ActiveShadowColorProperty);
+            set => SetValue(ActiveShadowColorProperty, value);
         }
 
         public int CornerRadius
         {
-            get { return (int)GetValue(CornerRadiusProperty); }
-            set { SetValue(CornerRadiusProperty, value); }
+            get => (int)GetValue(CornerRadiusProperty);
+            set => SetValue(CornerRadiusProperty, value);
         }
 
         public bool FullScreen
         {
-            get { return (bool)GetValue(FullScreenProperty); }
-            set { SetValue(FullScreenProperty, value); }
+            get => (bool)GetValue(FullScreenProperty);
+            set => SetValue(FullScreenProperty, value);
         }
 
         public Brush InactiveShadowColor
         {
-            get { return (Brush)GetValue(InactiveShadowColorProperty); }
-            set { SetValue(InactiveShadowColorProperty, value); }
+            get => (Brush)GetValue(InactiveShadowColorProperty);
+            set => SetValue(InactiveShadowColorProperty, value);
         }
 
         public Brush NonClientFillColor
         {
-            get { return (Brush)GetValue(NonClientFillColorProperty); }
-            set { SetValue(NonClientFillColorProperty, value); }
+            get => (Brush)GetValue(NonClientFillColorProperty);
+            set => SetValue(NonClientFillColorProperty, value);
         }
 
         protected virtual bool ShouldShowBorder
@@ -181,7 +181,7 @@ namespace ModernApplicationFramework.Controls
 
         private bool IsShadowVisible
         {
-            get { return _isShadowVisible; }
+            get => _isShadowVisible;
             set
             {
                 if (_isShadowVisible == value)
@@ -196,7 +196,7 @@ namespace ModernApplicationFramework.Controls
 
         public Theme Theme
         {
-            get { return _theme; }
+            get => _theme;
             set
             {
                 if (value == null)
@@ -1050,7 +1050,7 @@ namespace ModernApplicationFramework.Controls
 
         public new bool IsActive
         {
-            get { return _isActive; }
+            get => _isActive;
             set
             {
                 _isActive = value;
@@ -1060,7 +1060,7 @@ namespace ModernApplicationFramework.Controls
 
         public new bool IsVisible
         {
-            get { return _isVisible; }
+            get => _isVisible;
             set
             {
                 _isVisible = value;

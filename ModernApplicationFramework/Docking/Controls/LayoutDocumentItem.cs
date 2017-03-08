@@ -33,8 +33,8 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public string Description
         {
-            get { return (string) GetValue(DescriptionProperty); }
-            set { SetValue(DescriptionProperty, value); }
+            get => (string) GetValue(DescriptionProperty);
+            set => SetValue(DescriptionProperty, value);
         }
 
         protected override void Close()

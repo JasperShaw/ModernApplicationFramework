@@ -34,11 +34,11 @@ namespace ModernApplicationFramework.Core.Shell
             ShowSystemMenuCommand = new RoutedCommand("ShowSystemMenu", typeof(SystemCommands));
         }
 
-        public static RoutedCommand CloseWindowCommand { get; private set; }
-        public static RoutedCommand MaximizeWindowCommand { get; private set; }
-        public static RoutedCommand MinimizeWindowCommand { get; private set; }
-        public static RoutedCommand RestoreWindowCommand { get; private set; }
-        public static RoutedCommand ShowSystemMenuCommand { get; private set; }
+        public static RoutedCommand CloseWindowCommand { get; }
+        public static RoutedCommand MaximizeWindowCommand { get; }
+        public static RoutedCommand MinimizeWindowCommand { get; }
+        public static RoutedCommand RestoreWindowCommand { get; }
+        public static RoutedCommand ShowSystemMenuCommand { get; }
 
         public static void CloseWindow(Window window)
         {
@@ -65,6 +65,7 @@ namespace ModernApplicationFramework.Core.Shell
         }
 
         /// <summary>Display the system menu at a specified location.</summary>
+        /// <param name="window">window</param>
         /// <param name="screenLocation">The location to display the system menu, in logical screen coordinates.</param>
         public static void ShowSystemMenu(Window window, Point screenLocation)
         {
@@ -74,8 +75,8 @@ namespace ModernApplicationFramework.Core.Shell
 
         internal static void ShowSystemMenuPhysicalCoordinates(Window window, Point physicalScreenLocation)
         {
-            const uint TPM_RETURNCMD = 0x0100;
-            const uint TPM_LEFTBUTTON = 0x0;
+            const uint tpmReturncmd = 0x0100;
+            const uint tpmLeftbutton = 0x0;
 
             Verify.IsNotNull(window, "window");
             var hwnd = new WindowInteropHelper(window).EnsureHandle();
@@ -86,7 +87,7 @@ namespace ModernApplicationFramework.Core.Shell
 
             var hmenu = Standard.NativeMethods.GetSystemMenu(hwnd, false);
 
-            var cmd = Standard.NativeMethods.TrackPopupMenuEx(hmenu, TPM_LEFTBUTTON | TPM_RETURNCMD,
+            var cmd = Standard.NativeMethods.TrackPopupMenuEx(hmenu, tpmLeftbutton | tpmReturncmd,
                 (int) physicalScreenLocation.X, (int) physicalScreenLocation.Y, hwnd, IntPtr.Zero);
             if (0 != cmd)
             {

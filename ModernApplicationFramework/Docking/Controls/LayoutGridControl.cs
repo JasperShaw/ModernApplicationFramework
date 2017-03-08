@@ -37,10 +37,7 @@ namespace ModernApplicationFramework.Docking.Controls
 
         internal LayoutGridControl(LayoutPositionableGroup<T> model, Orientation orientation)
         {
-            if (model == null)
-                throw new ArgumentNullException(nameof(model));
-
-            _model = model;
+            _model = model ?? throw new ArgumentNullException(nameof(model));
 
             FlowDirection = FlowDirection.LeftToRight;
         }
@@ -469,7 +466,7 @@ namespace ModernApplicationFramework.Docking.Controls
                             childModel != null && childModel.IsVisible
                                 ? childModel.DockWidth
                                 : new GridLength(0.0, GridUnitType.Pixel),
-                        MinWidth = childModel.IsVisible ? childModel.DockMinWidth : 0.0
+                        MinWidth = childModel != null && childModel.IsVisible ? childModel.DockMinWidth : 0.0
                     });
                     SetColumn(InternalChildren[iChild], iColumn);
 
@@ -492,7 +489,7 @@ namespace ModernApplicationFramework.Docking.Controls
                     ColumnDefinitions.Add(new ColumnDefinition()
                     {
                         Width =
-                            childModel.IsVisible && nextChildModelVisibleExist
+                            childModel != null && (childModel.IsVisible && nextChildModelVisibleExist)
                                 ? new GridLength(manager.GridSplitterWidth)
                                 : new GridLength(0.0, GridUnitType.Pixel)
                     });

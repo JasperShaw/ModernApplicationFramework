@@ -11,8 +11,8 @@ namespace ModernApplicationFramework.Core.Events
             OldTheme = oldTheme;
         }
 
-        public Theme NewTheme { get; private set; }
+        public Theme NewTheme { get; }
 
-        public Theme OldTheme { get; private set; }
+        public Theme OldTheme { get; }
     }
 }

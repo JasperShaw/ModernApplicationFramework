@@ -114,12 +114,12 @@ namespace ModernApplicationFramework.Docking.Controls
         }
 
         public override ILayoutElement Model => _model;
-        public ICommand HideWindowCommand { get; private set; }
+        public ICommand HideWindowCommand { get; }
 
         public LayoutItem SingleContentLayoutItem
         {
-            get { return (LayoutItem) GetValue(SingleContentLayoutItemProperty); }
-            set { SetValue(SingleContentLayoutItemProperty, value); }
+            get => (LayoutItem) GetValue(SingleContentLayoutItemProperty);
+            set => SetValue(SingleContentLayoutItemProperty, value);
         }
 
         public override void ChangeTheme(Theme oldValue, Theme newValue)
@@ -286,17 +286,6 @@ namespace ModernApplicationFramework.Docking.Controls
             _overlayWindow.Top = rectWindow.Top;
             _overlayWindow.Width = rectWindow.Width;
             _overlayWindow.Height = rectWindow.Height;
-        }
-
-        private bool IsContextMenuOpen()
-        {
-            var ctxMenu = _model.Root.Manager.AnchorableContextMenu;
-            if (ctxMenu != null && SingleContentLayoutItem != null)
-            {
-                return ctxMenu.IsOpen;
-            }
-
-            return false;
         }
 
         private void KeepOnTop(object sender, EventArgs e)

@@ -25,15 +25,12 @@ namespace ModernApplicationFramework.Docking.Controls
 {
     public class LayoutDocumentPaneControl : TabControl, ILayoutControl //, ILogicalChildrenContainer
     {
-        private readonly List<object> _logicalChildren = new List<object>();
+        public readonly List<object> _logicalChildren = new List<object>();
         private readonly LayoutDocumentPane _model;
 
         internal LayoutDocumentPaneControl(LayoutDocumentPane model)
         {
-            if (model == null)
-                throw new ArgumentNullException("model");
-
-            _model = model;
+            _model = model ?? throw new ArgumentNullException(nameof(model));
             SetBinding(ItemsSourceProperty, new Binding("Model.Children") {Source = this});
             SetBinding(FlowDirectionProperty, new Binding("Model.Root.Manager.FlowDirection") {Source = this});
 
@@ -51,7 +48,7 @@ namespace ModernApplicationFramework.Docking.Controls
         protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
         {
             base.OnGotKeyboardFocus(e);
-            System.Diagnostics.Trace.WriteLine(string.Format("OnGotKeyboardFocus({0}, {1})", e.Source, e.NewFocus));
+            System.Diagnostics.Trace.WriteLine($"OnGotKeyboardFocus({e.Source}, {e.NewFocus})");
 
 
             //if (_model.SelectedContent != null)

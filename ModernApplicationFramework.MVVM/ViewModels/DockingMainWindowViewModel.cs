@@ -62,7 +62,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         /// </summary>
         public BitmapImage Icon
         {
-            get { return _icon; }
+            get => _icon;
             set
             {
                 if (Equals(value, _icon))
@@ -82,7 +82,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         /// </summary>
         public Theme Theme
         {
-            get { return _theme; }
+            get => _theme;
             set
             {
                 if (value == null)
@@ -103,7 +103,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         /// </summary>
         public IMenuHostViewModel MenuHostViewModel
         {
-            get { return _menuHostViewModel; }
+            get => _menuHostViewModel;
             set
             {
                 if (MenuHostViewModelSetted)
@@ -133,7 +133,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         /// </summary>
         public IToolBarHostViewModel ToolBarHostViewModel
         {
-            get { return _toolBarHostViewModel; }
+            get => _toolBarHostViewModel;
             set
             {
                 if (ToolbarHostViewModelSetted)
@@ -148,7 +148,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         /// </summary>
         public bool UseStatusBar
         {
-            get { return _useStatusbar; }
+            get => _useStatusbar;
             set
             {
                 if (Equals(value, _useStatusbar))
@@ -163,7 +163,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         /// </summary>
         public bool UseTitleBar
         {
-            get { return _useTitleBar; }
+            get => _useTitleBar;
             set
             {
                 if (Equals(value, _useTitleBar))
@@ -180,7 +180,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         /// </summary>
         public BitmapImage ActiveIcon
         {
-            get { return _activeIcon; }
+            get => _activeIcon;
             set
             {
                 if (Equals(value, _activeIcon))
@@ -202,7 +202,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         /// </summary>
         public bool IsSimpleWindow
         {
-            get { return _isSimpleWindow; }
+            get => _isSimpleWindow;
             set
             {
                 if (Equals(value, _isSimpleWindow))
@@ -221,7 +221,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         /// </summary>
         public BitmapImage PassiveIcon
         {
-            get { return _passiveIcon; }
+            get => _passiveIcon;
             set
             {
                 if (Equals(value, _passiveIcon))
@@ -240,7 +240,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         /// </summary>
         public bool UseSimpleMovement
         {
-            get { return _useSimpleMovement; }
+            get => _useSimpleMovement;
             set
             {
                 if (Equals(value, _useSimpleMovement))

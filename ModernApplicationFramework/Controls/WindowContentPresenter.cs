@@ -19,8 +19,7 @@ namespace ModernApplicationFramework.Controls
                 return base.MeasureOverride(constraint);
             if (NativeMethods.IsIconic(hwndSource.Handle))
                 return base.MeasureOverride(_lastClientSize);
-            RECT lpRect;
-            NativeMethods.GetClientRect(hwndSource.Handle, out lpRect);
+            NativeMethods.GetClientRect(hwndSource.Handle, out RECT lpRect);
             _lastClientSize = new Size(lpRect.Width*DpiHelper.DeviceToLogicalUnitsScalingFactorX,
                 lpRect.Height*DpiHelper.DeviceToLogicalUnitsScalingFactorY);
             return base.MeasureOverride(_lastClientSize);

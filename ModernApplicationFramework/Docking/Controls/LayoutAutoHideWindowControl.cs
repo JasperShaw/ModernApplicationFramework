@@ -72,14 +72,14 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public Style AnchorableStyle
         {
-            get { return (Style) GetValue(AnchorableStyleProperty); }
-            set { SetValue(AnchorableStyleProperty, value); }
+            get => (Style) GetValue(AnchorableStyleProperty);
+            set => SetValue(AnchorableStyleProperty, value);
         }
 
         public Brush Background
         {
-            get { return (Brush) GetValue(BackgroundProperty); }
-            set { SetValue(BackgroundProperty, value); }
+            get => (Brush) GetValue(BackgroundProperty);
+            set => SetValue(BackgroundProperty, value);
         }
 
         protected override System.Collections.IEnumerator LogicalChildren

@@ -83,8 +83,8 @@ namespace ModernApplicationFramework.Core.Utilities
             var logicalScreenHeight = NativeMethods.NativeMethods.GetDeviceCaps(desktop, (int)NativeMethods.NativeMethods.DeviceCap.Vertres);
             var physicalScreenHeight = NativeMethods.NativeMethods.GetDeviceCaps(desktop, (int)NativeMethods.NativeMethods.DeviceCap.Desktopvertres);
             var logpixelsy = NativeMethods.NativeMethods.GetDeviceCaps(desktop, (int)NativeMethods.NativeMethods.DeviceCap.Logpixelsy);
-            var screenScalingFactor = (float)physicalScreenHeight / (float)logicalScreenHeight;
-            var dpiScalingFactor = (float)logpixelsy / (float)96;
+            var screenScalingFactor = physicalScreenHeight / (float)logicalScreenHeight;
+            var dpiScalingFactor = logpixelsy / (float)96;
 
             return !(screenScalingFactor > 1) && !(dpiScalingFactor > 1);
         }

@@ -18,7 +18,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
 
         public string Name
         {
-            get { return _name; }
+            get => _name;
             set
             {
                 if (value == _name)
@@ -30,7 +30,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
 
         public string Path
         {
-            get { return _path; }
+            get => _path;
             set
             {
                 if (value == _path)
@@ -44,10 +44,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
 
         public IExtensionDialogItemPresenter ItemPresenter
         {
-            get
-            {
-                return _itemPresenter;
-            }
+            get => _itemPresenter;
             set
             {
                 if (value == _itemPresenter)

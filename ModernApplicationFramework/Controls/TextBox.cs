@@ -25,8 +25,8 @@ namespace ModernApplicationFramework.Controls
 
         public event PreviewTextChangedEventHandler PrevieTextChanged
         {
-            add { AddHandler(PreviewTextChangedEvent, value); }
-            remove { RemoveHandler(PreviewTextChangedEvent, value); }
+            add => AddHandler(PreviewTextChangedEvent, value);
+            remove => RemoveHandler(PreviewTextChangedEvent, value);
         }
 
         #endregion

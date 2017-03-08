@@ -30,14 +30,14 @@ namespace ModernApplicationFramework.Controls
 
         public Brush DefaultBackground
         {
-            get { return (Brush) GetValue(DefaultBackgroundProperty); }
-            set { SetValue(DefaultBackgroundProperty, value); }
+            get => (Brush) GetValue(DefaultBackgroundProperty);
+            set => SetValue(DefaultBackgroundProperty, value);
         }
 
         public Brush TopTrayBackground
         {
-            get { return (Brush) GetValue(TopTrayBackgroundProperty); }
-            set { SetValue(TopTrayBackgroundProperty, value); }
+            get => (Brush) GetValue(TopTrayBackgroundProperty);
+            set => SetValue(TopTrayBackgroundProperty, value);
         }
 
         private ToolBarHostViewModel ToolBarHostViewModel => DataContext as ToolBarHostViewModel;

@@ -15,8 +15,8 @@ namespace ModernApplicationFramework.Controls
 
         public object Icon
         {
-            get { return GetValue(IconProperty); }
-            set { SetValue(IconProperty, value); }
+            get => GetValue(IconProperty);
+            set => SetValue(IconProperty, value);
         }
     }
 }

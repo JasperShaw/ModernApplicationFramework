@@ -45,7 +45,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public LayoutDocument RootDocument
         {
-            get { return _rootDocument; }
+            get => _rootDocument;
             set
             {
                 if (Equals(_rootDocument, value))
@@ -82,7 +82,7 @@ namespace ModernApplicationFramework.Docking.Layout
             RootDocument = newElement as LayoutDocument;
         }
 
-        protected virtual void XmlDeserializeElement(XmlReader xmlReader)
+        protected new virtual void XmlDeserializeElement(XmlReader xmlReader)
         {
             if (xmlReader.Name != "RootDocument")
                 return;

@@ -46,14 +46,14 @@ namespace ModernApplicationFramework.MVVM.Core
 
             SetData?.Invoke(editor);
 
-            _onConfigure?.Invoke(editor);
+            OnConfigure?.Invoke(editor);
 
             editor.Deactivated += (s, e) =>
             {
                 if (!e.WasClosed)
                     return;
 
-                _onShutDown?.Invoke(editor);
+                OnShutDown?.Invoke(editor);
             };
 
             _shell.OpenDocument(editor);

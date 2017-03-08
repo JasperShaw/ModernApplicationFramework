@@ -16,8 +16,8 @@ namespace ModernApplicationFramework.Controls
 
         public Geometry GlyphData
         {
-            get { return (Geometry) GetValue(GlyphDataProperty); }
-            set { SetValue(GlyphDataProperty, value); }
+            get => (Geometry) GetValue(GlyphDataProperty);
+            set => SetValue(GlyphDataProperty, value);
         }
     }
 }

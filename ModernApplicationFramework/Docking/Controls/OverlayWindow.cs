@@ -21,7 +21,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shapes;
-using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Layout;
@@ -85,7 +84,7 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public Theme Theme
         {
-            get { return _theme; }
+            get => _theme;
             set
             {
                 if (value == null)

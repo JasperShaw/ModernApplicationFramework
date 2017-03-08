@@ -50,8 +50,8 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public LayoutAnchorable Model
         {
-            get { return (LayoutAnchorable) GetValue(ModelProperty); }
-            set { SetValue(ModelProperty, value); }
+            get => (LayoutAnchorable) GetValue(ModelProperty);
+            set => SetValue(ModelProperty, value);
         }
 
         protected virtual void OnModelChanged(DependencyPropertyChangedEventArgs e)

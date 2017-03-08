@@ -53,7 +53,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public double AutoHideHeight
         {
-            get { return _autohideHeight; }
+            get => _autohideHeight;
             set
             {
                 if (_autohideHeight == value)
@@ -67,7 +67,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public double AutoHideMinHeight
         {
-            get { return _autohideMinHeight; }
+            get => _autohideMinHeight;
             set
             {
                 if (_autohideMinHeight == value)
@@ -82,7 +82,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public double AutoHideMinWidth
         {
-            get { return _autohideMinWidth; }
+            get => _autohideMinWidth;
             set
             {
                 if (_autohideMinWidth == value)
@@ -97,7 +97,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public double AutoHideWidth
         {
-            get { return _autohideWidth; }
+            get => _autohideWidth;
             set
             {
                 if (_autohideWidth == value)
@@ -112,7 +112,7 @@ namespace ModernApplicationFramework.Docking.Layout
         [XmlIgnore]
         public bool IsVisible
         {
-            get { return Parent != null && !(Parent is LayoutRoot); }
+            get => Parent != null && !(Parent is LayoutRoot);
             set
             {
                 if (value)
@@ -130,7 +130,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public bool ShowOnMouseOver
         {
-            get { return _showOnMouseOver; }
+            get => _showOnMouseOver;
             set
             {
                 if (_showOnMouseOver == value)
@@ -551,14 +551,14 @@ namespace ModernApplicationFramework.Docking.Layout
             {
                 if (anchorablePane == null)
                 {
-                    var mainLayoutPanel = new LayoutPanel() {Orientation = Orientation.Horizontal};
+                    var mainLayoutPanel = new LayoutPanel {Orientation = Orientation.Horizontal};
                     if (root.RootPanel != null)
                     {
                         mainLayoutPanel.Children.Add(root.RootPanel);
                     }
 
                     root.RootPanel = mainLayoutPanel;
-                    anchorablePane = new LayoutAnchorablePane() {DockWidth = new GridLength(200.0, GridUnitType.Pixel)};
+                    anchorablePane = new LayoutAnchorablePane {DockWidth = new GridLength(200.0, GridUnitType.Pixel)};
                     mainLayoutPanel.Children.Add(anchorablePane);
                 }
 
@@ -633,7 +633,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public bool CanHide
         {
-            get { return _canHide; }
+            get => _canHide;
             set
             {
                 if (_canHide == value)
@@ -651,7 +651,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public bool CanAutoHide
         {
-            get { return _canAutoHide; }
+            get => _canAutoHide;
             set
             {
                 if (_canAutoHide == value)

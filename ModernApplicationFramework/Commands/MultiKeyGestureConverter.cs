@@ -31,14 +31,11 @@ namespace ModernApplicationFramework.Commands
             var firstKeyStrokeParts = firstKeyStroke.Split('+');
 
             var modifierKeys = (ModifierKeys)_modifierKeysConverter.ConvertFrom(firstKeyStrokeParts[0]);
-            var keys = new List<Key>();
+            var keys = new List<Key> {(Key) _keyConverter.ConvertFrom(firstKeyStrokeParts[1])};
 
-            keys.Add((Key)_keyConverter.ConvertFrom(firstKeyStrokeParts[1]));
 
             for (var i = 1; i < keyStrokes.Length; ++i)
-            {
                 keys.Add((Key)_keyConverter.ConvertFrom(keyStrokes[i]));
-            }
 
             return new MultiKeyGesture(keys, modifierKeys);
         }

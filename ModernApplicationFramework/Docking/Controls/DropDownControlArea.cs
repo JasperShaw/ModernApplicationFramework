@@ -32,14 +32,14 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public ContextMenu DropDownContextMenu
         {
-            get { return (ContextMenu) GetValue(DropDownContextMenuProperty); }
-            set { SetValue(DropDownContextMenuProperty, value); }
+            get => (ContextMenu) GetValue(DropDownContextMenuProperty);
+            set => SetValue(DropDownContextMenuProperty, value);
         }
 
         public object DropDownContextMenuDataContext
         {
-            get { return GetValue(DropDownContextMenuDataContextProperty); }
-            set { SetValue(DropDownContextMenuDataContextProperty, value); }
+            get => GetValue(DropDownContextMenuDataContextProperty);
+            set => SetValue(DropDownContextMenuDataContextProperty, value);
         }
 
         protected override void OnPreviewMouseRightButtonUp(System.Windows.Input.MouseButtonEventArgs e)

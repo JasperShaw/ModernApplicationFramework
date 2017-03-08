@@ -35,7 +35,6 @@ namespace ModernApplicationFramework.Docking.Layout
         private ObservableCollection<LayoutFloatingWindow> _floatingWindows;
         private ObservableCollection<LayoutAnchorable> _hiddenAnchorables;
         [field: NonSerialized] private WeakReference _lastFocusedDocument;
-        [field: NonSerialized] private bool _lastFocusedDocumentSet;
         private LayoutAnchorSide _leftSide;
         [NonSerialized] private DockingManager _manager;
         private LayoutAnchorSide _rightSide;
@@ -129,7 +128,7 @@ namespace ModernApplicationFramework.Docking.Layout
         [XmlIgnore]
         public LayoutContent ActiveContent
         {
-            get { return _activeContent.GetValueOrDefault<LayoutContent>(); }
+            get => _activeContent.GetValueOrDefault<LayoutContent>();
             set
             {
                 var currentValue = ActiveContent;
@@ -142,7 +141,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public LayoutAnchorSide BottomSide
         {
-            get { return _bottomSide; }
+            get => _bottomSide;
             set
             {
                 if (Equals(_bottomSide, value))
@@ -367,7 +366,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public LayoutAnchorSide LeftSide
         {
-            get { return _leftSide; }
+            get => _leftSide;
             set
             {
                 if (Equals(_leftSide, value))
@@ -383,7 +382,7 @@ namespace ModernApplicationFramework.Docking.Layout
         [XmlIgnore]
         public DockingManager Manager
         {
-            get { return _manager; }
+            get => _manager;
             internal set
             {
                 if (Equals(_manager, value))
@@ -412,7 +411,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public LayoutPanel RootPanel
         {
-            get { return _rootPanel; }
+            get => _rootPanel;
             set
             {
                 if (Equals(_rootPanel, value))
@@ -431,7 +430,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public LayoutAnchorSide TopSide
         {
-            get { return _topSide; }
+            get => _topSide;
             set
             {
                 if (Equals(_topSide, value))
@@ -447,7 +446,7 @@ namespace ModernApplicationFramework.Docking.Layout
         [XmlIgnore]
         public LayoutContent LastFocusedDocument
         {
-            get { return _lastFocusedDocument.GetValueOrDefault<LayoutContent>(); }
+            get => _lastFocusedDocument.GetValueOrDefault<LayoutContent>();
             private set
             {
                 var currentValue = LastFocusedDocument;
@@ -460,7 +459,6 @@ namespace ModernApplicationFramework.Docking.Layout
                 currentValue = LastFocusedDocument;
                 if (currentValue != null)
                     currentValue.IsLastFocusedDocument = true;
-                _lastFocusedDocumentSet = currentValue != null;
                 RaisePropertyChanged("LastFocusedDocument");
             }
         }

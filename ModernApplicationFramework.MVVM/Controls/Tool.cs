@@ -25,7 +25,7 @@ namespace ModernApplicationFramework.MVVM.Controls
 
         public bool IsVisible
         {
-            get { return _isVisible; }
+            get => _isVisible;
             set
             {
                 _isVisible = value;

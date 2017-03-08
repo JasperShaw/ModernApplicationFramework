@@ -49,7 +49,7 @@ namespace ModernApplicationFramework.Docking.Controls
             {
                 foreach (
                     var childModel in
-                        _model.Children.Select(t => t as ILayoutPositionableElement)
+                        _model.Children.OfType<ILayoutPositionableElement>()
                             .Where(childModel => !childModel.DockHeight.IsStar))
                 {
                     childModel.DockHeight = new GridLength(1.0, GridUnitType.Star);

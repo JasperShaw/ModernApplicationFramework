@@ -111,8 +111,8 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public LayoutItem SingleContentLayoutItem
         {
-            get { return (LayoutItem) GetValue(SingleContentLayoutItemProperty); }
-            set { SetValue(SingleContentLayoutItemProperty, value); }
+            get => (LayoutItem) GetValue(SingleContentLayoutItemProperty);
+            set => SetValue(SingleContentLayoutItemProperty, value);
         }
 
         public override void ChangeTheme(Theme oldValue, Theme newValue)

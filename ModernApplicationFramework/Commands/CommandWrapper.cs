@@ -18,10 +18,7 @@ namespace ModernApplicationFramework.Commands
 
         public CommandWrapper(ICommand wrappedCommand)
         {
-            if (wrappedCommand == null)
-                throw new ArgumentNullException(nameof(wrappedCommand));
-
-            WrappedCommand = wrappedCommand;
+            WrappedCommand = wrappedCommand ?? throw new ArgumentNullException(nameof(wrappedCommand));
         }
 
         public ICommand WrappedCommand { get; }
@@ -33,8 +30,8 @@ namespace ModernApplicationFramework.Commands
 
         public event EventHandler CanExecuteChanged
         {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
+            add => CommandManager.RequerySuggested += value;
+            remove => CommandManager.RequerySuggested -= value;
         }
 
         public void Execute(object parameter)

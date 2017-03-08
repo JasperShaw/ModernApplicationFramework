@@ -94,6 +94,7 @@ namespace ModernApplicationFramework.Core.Standard
         /// <param name="lowerBoundInclusive">The lower bound inclusive value.</param>
         /// <param name="value">The value to verify.</param>
         /// <param name="upperBoundExclusive">The upper bound exclusive value.</param>
+        /// <param name="parameterName"></param>
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         [DebuggerStepThrough]
         public static void BoundedInteger(int lowerBoundInclusive, int value, int upperBoundExclusive,
