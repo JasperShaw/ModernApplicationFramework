@@ -25,6 +25,7 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -40,6 +41,23 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Resource Include="Resources\bottom.png" />
+    <Resource Include="Resources\bottomleft.png" />
+    <Resource Include="Resources\bottomright.png" />
+    <Resource Include="Resources\cornerbottomleft.png" />
+    <Resource Include="Resources\cornerbottomright.png" />
+    <Resource Include="Resources\cornertopleft.png" />
+    <Resource Include="Resources\cornertopright.png" />
+    <Resource Include="Resources\left.png" />
+    <Resource Include="Resources\leftbottom.png" />
+    <Resource Include="Resources\lefttop.png" />
+    <Resource Include="Resources\right.png" />
+    <Resource Include="Resources\rightbottom.png" />
+    <Resource Include="Resources\righttop.png" />
+    <Resource Include="Resources\top.png" />
+    <Resource Include="Resources\topleft.png" />
+    <Resource Include="Resources\topright.png" />
+    <Content Include="TODO Liste.txt" />
     <Resource Include="Docking\Themes\Generic\Images\DockBottom.PNG" />
     <Resource Include="Docking\Themes\Generic\Images\DockLeft.PNG" />
     <Resource Include="Docking\Themes\Generic\Images\DockPane.PNG" />
@@ -136,6 +154,13 @@
     <Compile Include="Controls\Utilities\PanelMarginSetter.cs" />
     <Compile Include="Core\Events\ItemDoubleClickedEventArgs.cs" />
     <Compile Include="Core\Interop\COMGuids.cs" />
+    <Compile Include="Core\Platform\DisposableObject.cs" />
+    <Compile Include="Core\Platform\DpiHelper.cs" />
+    <Compile Include="Core\Platform\HwndWrapper.cs" />
+    <Compile Include="Core\Platform\ImageScalingMode.cs" />
+    <Compile Include="Core\Platform\Validate.cs" />
+    <Compile Include="Core\Platform\Win32SIZE.cs" />
+    <Compile Include="Core\Platform\WNDCLASS.cs" />
     <Compile Include="Core\Shell\ShellComInterfaces.cs" />
     <Compile Include="Core\Shell\ShellWrapperDefinitions.cs" />
     <Compile Include="Core\Themes\ThemeManager.cs" />
@@ -146,6 +171,12 @@
     <Compile Include="Core\TrinetCoreNtfs\SafeHGlobalHandle.cs" />
     <Compile Include="Core\TrinetCoreNtfs\SafeNativeMethods.cs" />
     <Compile Include="Core\TrinetCoreNtfs\StreamName.cs" />
+    <Compile Include="Core\Utilities\CommonUtilities.cs" />
+    <Compile Include="Core\Utilities\PathUtilities.cs" />
+    <Compile Include="Core\Utilities\ReusableResourceHolder.cs" />
+    <Compile Include="Core\Utilities\ReusableResourceStore.cs" />
+    <Compile Include="Core\Utilities\ReusableResourceStoreBase.cs" />
+    <Compile Include="Core\Utilities\ReusableStringBuilder.cs" />
     <Compile Include="Core\Utilities\WindowsFileNameHelper.cs" />
     <Compile Include="Dialoges\FolderBrowserDialog.cs" />
     <Compile Include="Interfaces\Controls\IListViewContainer.cs" />
@@ -225,7 +256,6 @@
     <Compile Include="Core\Themes\IHasTheme.cs" />
     <Compile Include="Core\Themes\Theme.cs" />
     <Compile Include="Core\Converters\BooleanOrConverter.cs" />
-    <Compile Include="Core\Utilities\Cache.cs" />
     <Compile Include="Core\Utilities\DpiHelper.cs" />
     <Compile Include="Core\Utilities\ExtensionMethods.cs" />
     <Compile Include="Core\Utilities\ImageUtilities.cs" />
@@ -603,10 +633,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Generic\MenuItem.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Generic\ModernChromeWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

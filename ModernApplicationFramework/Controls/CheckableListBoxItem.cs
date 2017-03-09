@@ -12,12 +12,12 @@ namespace ModernApplicationFramework.Controls
         private static readonly DependencyProperty InternalIsCheckedProperty =
             DependencyProperty.Register("InternalIsChecked",
                 typeof(bool?), typeof(CheckableListBoxItem),
-                new FrameworkPropertyMetadata(Boxes.BoolFalse, FrameworkPropertyMetadataOptions.AffectsRender,
+                new FrameworkPropertyMetadata(Boxes.BooleanFalse, FrameworkPropertyMetadataOptions.AffectsRender,
                     OnInternalIsCheckedChanged));
 
         public static DependencyProperty IsCheckedProperty = DependencyProperty.Register("IsChecked", typeof(bool?),
             typeof(CheckableListBoxItem),
-            new FrameworkPropertyMetadata(Boxes.BoolFalse, FrameworkPropertyMetadataOptions.AffectsRender,
+            new FrameworkPropertyMetadata(Boxes.BooleanFalse, FrameworkPropertyMetadataOptions.AffectsRender,
                 OnIsCheckedChanged));
 
         public static readonly RoutedEvent CheckedEvent =
@@ -28,7 +28,7 @@ namespace ModernApplicationFramework.Controls
 
 
         public static DependencyProperty IsToggleEnabledProperty = DependencyProperty.Register("IsToggleEnabled",
-            typeof(bool), typeof(CheckableListBoxItem), new FrameworkPropertyMetadata(Boxes.BoolTrue));
+            typeof(bool), typeof(CheckableListBoxItem), new FrameworkPropertyMetadata(Boxes.BooleanTrue));
 
 
         private bool _contentLoaded;

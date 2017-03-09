@@ -232,7 +232,7 @@ namespace ModernApplicationFramework.Docking.Controls
 
         private void LayoutDocumentFloatingWindowControl_Loaded(object sender, RoutedEventArgs e)
         {
-            Owner = null;
+           Owner = null;
         }
 
         private bool OpenContextMenu()

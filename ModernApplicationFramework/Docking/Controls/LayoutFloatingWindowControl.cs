@@ -15,6 +15,7 @@
   **********************************************************************/
 
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -64,6 +65,13 @@ namespace ModernApplicationFramework.Docking.Controls
             _model = model;
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
+        }
+
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            InputManager.Current.PushMenuMode(_hwndSrc);
+            base.OnKeyDown(e);  
         }
 
         static LayoutFloatingWindowControl()
@@ -177,8 +185,6 @@ namespace ModernApplicationFramework.Docking.Controls
                     }
                     break;
             }
-
-
             return IntPtr.Zero;
         }
 
@@ -206,12 +212,39 @@ namespace ModernApplicationFramework.Docking.Controls
         {
             if (!NativeMethods.IsKeyPressed(17) || wParam.ToInt32() != 2)
                 return;
-            RedockWindow();
+            RedockWindow();  
             handled = true;
-
         }
 
         protected abstract void RedockWindow();
+
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+            if (e.Cancel)
+                return;
+            TryActivateOwner();
+        }
+
+        private void TryActivateOwner()
+        {
+            WindowInteropHelper windowInteropHelper = new WindowInteropHelper(this);
+            if (!(windowInteropHelper.Owner != IntPtr.Zero))
+                return;
+            Window window = GetWindow(windowInteropHelper.Owner);
+            if (window != null)
+                window.Focus();
+            else
+                NativeMethods.SetActiveWindow(windowInteropHelper.Owner);
+        }
+
+        private static Window GetWindow(IntPtr hwnd)
+        {
+            var hwndSource = HwndSource.FromHwnd(hwnd);
+            return hwndSource?.RootVisual as Window;
+        }
+
 
         protected override void OnClosed(EventArgs e)
         {
@@ -241,7 +274,7 @@ namespace ModernApplicationFramework.Docking.Controls
                 (s, args) => SystemCommands.MinimizeWindow((Window) args.Parameter)));
             CommandBindings.Add(new CommandBinding(SystemCommands.RestoreWindowCommand,
                 (s, args) => SystemCommands.RestoreWindow((Window) args.Parameter)));
-            //Debug.Assert(this.Owner != null);
+
             base.OnInitialized(e);
         }
 
@@ -518,7 +551,7 @@ namespace ModernApplicationFramework.Docking.Controls
                 {
                     case 262:
                     case 263:
-                        string key = new string((char)(int)msg.wParam, 1);
+                        string key = new string((char) (int) msg.wParam, 1);
                         if (key.Length > 0)
                         {
                             IntPtr hwnd = new WindowInteropHelper(Window).Owner;

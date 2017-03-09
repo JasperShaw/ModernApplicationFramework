@@ -17,10 +17,10 @@ namespace ModernApplicationFramework.Core.Converters
                     flag = true;
                 else
                     if (!(bool) obj)
-                        return Boxes.BoolFalse;
+                        return Boxes.BooleanFalse;
             }
             if (!flag)
-                return Boxes.BoolTrue;
+                return Boxes.BooleanTrue;
             return DependencyProperty.UnsetValue;
         }
 

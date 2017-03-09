@@ -29,7 +29,7 @@ namespace ModernApplicationFramework.Controls
                 new FrameworkPropertyMetadata(typeof(MainWindow)));
         }
 
-        protected virtual bool ShouldAutoSize { get; set; } = true;
+        protected bool ShouldAutoSize { get; set; } = true;
 
         protected MainWindow()
         {
@@ -40,7 +40,9 @@ namespace ModernApplicationFramework.Controls
 
             UIElementAutomationPeer.CreatePeerForElement(this);
 
-            Application.Current.MainWindow = this;
+            if (!(Application.Current.MainWindow is MainWindow))
+                Application.Current.MainWindow = this;
+
         }
 
         public BitmapImage ActivatedFloatIcon { get; set; }
@@ -105,7 +107,7 @@ namespace ModernApplicationFramework.Controls
             return new MainWindowAutomationPeer(this);
         }
 
-        protected override IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam, ref bool handled)
+        protected override IntPtr HwndSourceHook(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam, ref bool handled)
         {
             switch (msg)
             {
@@ -113,7 +115,7 @@ namespace ModernApplicationFramework.Controls
                     handled = HandleInputProcessing((int) lparam);
                     break;
             }
-            return base.WindowProc(hwnd, msg, wparam, lparam, ref handled);
+            return base.HwndSourceHook(hwnd, msg, wparam, lparam, ref handled);
         }
 
         private static bool HandleInputProcessing(int timeoutMs)

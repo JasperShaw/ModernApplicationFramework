@@ -28,8 +28,8 @@
 		<Setter Property="Title" Value="{Binding Path=Caption}" />
 		<Setter Property="Background" Value="{DynamicResource {x:Static core:EnvironmentColors.MainWindowBackground}}" />
 		<Setter Property="TextOptions.TextFormattingMode" Value="Display" />
-		<Setter Property="ActiveShadowColor" Value="{DynamicResource {x:Static core:EnvironmentColors.MainWindowActiveShadowAndBorderColor}}" />
-		<Setter Property="InactiveShadowColor" Value="{DynamicResource {x:Static core:EnvironmentColors.MainWindowInactiveShadowAndBorderColor}}" />
+	    <Setter Property="ActiveGlowColor" Value="{DynamicResource {x:Static core:EnvironmentColors.MainWindowActiveShadowAndBorderColor}}" />
+	    <Setter Property="InactiveGlowColor" Value="{DynamicResource {x:Static core:EnvironmentColors.MainWindowInactiveShadowAndBorderColor}}" />
         <Setter Property="NonClientFillColor" Value="{Binding Path=Background, RelativeSource={RelativeSource Self}}" />
         <Setter Property="Theme" Value="{Binding RelativeSource={RelativeSource Self}, Path=DataContext.Theme}"></Setter>
         <Setter Property="Template">

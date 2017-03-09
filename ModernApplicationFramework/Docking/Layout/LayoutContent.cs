@@ -498,12 +498,23 @@ namespace ModernApplicationFramework.Docking.Layout
                 IsActive = true;
             }
             else
-            {
                 InternalDock();
-            }
-
-
+            ShowMainWindow();
             Root.CollectGarbage();
+        }
+
+        private void ShowMainWindow()
+        {
+            var owner = Application.Current.MainWindow;
+            if (owner != null)
+            {
+                if (owner.WindowState == WindowState.Minimized)
+                    SystemCommands.RestoreWindow(owner);
+                owner.Activate();
+                owner.Topmost = true;
+                owner.Topmost = false;
+                owner.Focus();
+            }
         }
 
         /// <summary>

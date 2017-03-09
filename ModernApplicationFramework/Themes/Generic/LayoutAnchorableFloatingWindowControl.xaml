@@ -33,8 +33,8 @@
         <Setter Property="Title" Value="{Binding Path=Caption}" />
         <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.MainWindowBackground}}" />
         <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
-        <Setter Property="ActiveShadowColor" Value="{DynamicResource {x:Static themes:EnvironmentColors.MainWindowActiveShadowAndBorderColor}}" />
-        <Setter Property="InactiveShadowColor" Value="{DynamicResource {x:Static themes:EnvironmentColors.MainWindowInactiveShadowAndBorderColor}}" />
+        <Setter Property="ActiveGlowColor" Value="{DynamicResource {x:Static themes:EnvironmentColors.MainWindowActiveShadowAndBorderColor}}" />
+        <Setter Property="InactiveGlowColor" Value="{DynamicResource {x:Static themes:EnvironmentColors.MainWindowInactiveShadowAndBorderColor}}" />
         <Setter Property="NonClientFillColor" Value="{Binding Path=Background, RelativeSource={RelativeSource Self}}" />
         <Setter Property="Template">
             <Setter.Value>

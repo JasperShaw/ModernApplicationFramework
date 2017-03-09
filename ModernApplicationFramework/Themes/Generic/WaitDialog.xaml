@@ -8,8 +8,8 @@
         <Setter Property="UseLayoutRounding" Value="True"/>
         <Setter Property="ResizeMode" Value="CanMinimize"/>
         <Setter Property="Background" Value="{DynamicResource {x:Static core:EnvironmentColors.WaitDialogBackground}}"/>
-        <Setter Property="ActiveShadowColor" Value="{DynamicResource {x:Static core:EnvironmentColors.WaitDialogActiveShadowAndBorderColor}}"/>
-        <Setter Property="InactiveShadowColor" Value="{DynamicResource {x:Static core:EnvironmentColors.WaitDialogInactiveShadowAndBorderColor}}"/>
+        <Setter Property="ActiveGlowColor" Value="{DynamicResource {x:Static core:EnvironmentColors.WaitDialogActiveShadowAndBorderColor}}"/>
+        <Setter Property="InactiveGlowColor" Value="{DynamicResource {x:Static core:EnvironmentColors.WaitDialogInactiveShadowAndBorderColor}}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type this:WaitDialog}">

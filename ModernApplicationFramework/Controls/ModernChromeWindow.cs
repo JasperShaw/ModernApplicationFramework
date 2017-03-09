@@ -2,31 +2,28 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using ModernApplicationFramework.Core.Events;
-using ModernApplicationFramework.Core.NativeMethods;
 using ModernApplicationFramework.Core.Platform;
+using ModernApplicationFramework.Core.Standard;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces.Controls;
-using Brush = System.Windows.Media.Brush;
-using Brushes = System.Windows.Media.Brushes;
+using DpiHelper = ModernApplicationFramework.Core.Utilities.DpiHelper;
+using NativeMethods = ModernApplicationFramework.Core.NativeMethods.NativeMethods;
 using Point = System.Windows.Point;
+using RECT = ModernApplicationFramework.Core.Platform.RECT;
 using Screen = System.Windows.Forms.Screen;
-using Size = System.Windows.Size;
 
 namespace ModernApplicationFramework.Controls
 {
-    [SuppressMessage("ReSharper", "RedundantAssignment")]
     public class ModernChromeWindow : Window, IHasTheme
     {
         private const int MonitorDefaulttonearest = 0x00000002;
@@ -34,42 +31,38 @@ namespace ModernApplicationFramework.Controls
         public static readonly DependencyProperty ThemeProperty = DependencyProperty.Register("Theme", typeof(Theme),
             typeof(ModernChromeWindow), new FrameworkPropertyMetadata(null));
 
-        public static readonly DependencyProperty ActiveShadowColorProperty =
-            DependencyProperty.Register("ActiveShadowColor", typeof(Brush), typeof(ModernChromeWindow),
-                new FrameworkPropertyMetadata(Brushes.Black, OnGlowColorChanged));
-
-        public static readonly DependencyProperty InactiveShadowColorProperty =
-            DependencyProperty.Register("InactiveShadowColor", typeof(Brush), typeof(ModernChromeWindow),
-                new FrameworkPropertyMetadata(Brushes.DarkGray, OnGlowColorChanged));
-
-        public static readonly DependencyProperty NonClientFillColorProperty =
-            DependencyProperty.Register("NonClientFillColor", typeof(Brush), typeof(ModernChromeWindow),
-                new FrameworkPropertyMetadata(Brushes.Black));
-
-        public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register("CornerRadius",
-            typeof(int), typeof(ModernChromeWindow), new FrameworkPropertyMetadata(0, OnCornerRadiusChanged));
-
         public static readonly DependencyProperty FullScreenProperty =
             DependencyProperty.Register("FullScreen", typeof(bool), typeof(ModernChromeWindow));
 
+        public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register("CornerRadius",
+            typeof(int), typeof(ModernChromeWindow),
+            new FrameworkPropertyMetadata(Boxes.Int32Zero, OnCornerRadiusChanged));
 
-        private readonly ShadowWindow[] _shadowWindows = new ShadowWindow[4];
-        private bool _isShadowVisible;
+        public static readonly DependencyProperty ActiveGlowColorProperty = DependencyProperty.Register(
+            "ActiveGlowColor", typeof(Color), typeof(ModernChromeWindow),
+            new FrameworkPropertyMetadata(Colors.Transparent, OnGlowColorChanged));
 
-        private int _lastScwParam;
+        public static readonly DependencyProperty InactiveGlowColorProperty = DependencyProperty.Register(
+            "InactiveGlowColor", typeof(Color), typeof(ModernChromeWindow),
+            new FrameworkPropertyMetadata(Colors.Transparent, OnGlowColorChanged));
+
+        public static readonly DependencyProperty NonClientFillColorProperty = DependencyProperty.Register(
+            "NonClientFillColor", typeof(Color), typeof(ModernChromeWindow),
+            new FrameworkPropertyMetadata(Colors.Black));
+
+        private readonly GlowWindow[] _glowWindows = new GlowWindow[4];
+        private bool _isGlowVisible;
+        private bool _isNonClientStripVisible;
         private WindowState _lastState;
         private int _lastWindowPlacement;
         private Rect _logicalSizeForRestore = Rect.Empty;
-        private DispatcherTimer _makeShadowVisibleTimer;
-
-
+        private DispatcherTimer _makeGlowVisibleTimer;
         private double _oldLeft, _oldTop, _oldWidth, _oldHeight;
         private IntPtr _ownerForActivate;
         private Theme _theme;
         private bool _updatingZOrder;
         private bool _useLogicalSizeForRestore;
-        private bool _wasMaximized;
-
+        internal int DeferGlowChangesCount;
 
         static ModernChromeWindow()
         {
@@ -77,82 +70,34 @@ namespace ModernApplicationFramework.Controls
                 new FrameworkPropertyMetadata(OnResizeModeChanged));
         }
 
-        protected enum ClipRegionChangeType
-        {
-            FromSize,
-            FromPosition,
-            FromPropertyChange,
-            FromUndockSingleTab
-        }
-
-        public Brush ActiveShadowColor
-        {
-            get => (Brush)GetValue(ActiveShadowColorProperty);
-            set => SetValue(ActiveShadowColorProperty, value);
-        }
-
         public int CornerRadius
         {
-            get => (int)GetValue(CornerRadiusProperty);
+            get => (int) GetValue(CornerRadiusProperty);
             set => SetValue(CornerRadiusProperty, value);
+        }
+
+        public Color ActiveGlowColor
+        {
+            get => (Color) GetValue(ActiveGlowColorProperty);
+            set => SetValue(ActiveGlowColorProperty, value);
+        }
+
+        public Color InactiveGlowColor
+        {
+            get => (Color) GetValue(InactiveGlowColorProperty);
+            set => SetValue(InactiveGlowColorProperty, value);
+        }
+
+        public Color NonClientFillColor
+        {
+            get => (Color) GetValue(NonClientFillColorProperty);
+            set => SetValue(NonClientFillColorProperty, value);
         }
 
         public bool FullScreen
         {
-            get => (bool)GetValue(FullScreenProperty);
+            get => (bool) GetValue(FullScreenProperty);
             set => SetValue(FullScreenProperty, value);
-        }
-
-        public Brush InactiveShadowColor
-        {
-            get => (Brush)GetValue(InactiveShadowColorProperty);
-            set => SetValue(InactiveShadowColorProperty, value);
-        }
-
-        public Brush NonClientFillColor
-        {
-            get => (Brush)GetValue(NonClientFillColorProperty);
-            set => SetValue(NonClientFillColorProperty, value);
-        }
-
-        protected virtual bool ShouldShowBorder
-        {
-            get
-            {
-                var handle = new WindowInteropHelper(this).Handle;
-                if (NativeMethods.IsWindowVisible(handle) && !NativeMethods.IsIconic(handle) &&
-                    !NativeMethods.IsZoomed(handle))
-                {
-                    return ResizeMode > 0U;
-                }
-                return false;
-            }
-        }
-
-        internal virtual bool ShouldShowShadow
-        {
-            get
-            {
-                var aeroEnabled = false;
-
-                if (NativeMethods.DwmIsCompositionEnabled(out aeroEnabled) == IntPtr.Zero)
-                {
-                    if (!aeroEnabled)
-                        return false;
-                }
-
-
-                if (!DpiHelper.IsNormallyScaled)
-                    return false;
-
-
-                var handle = new WindowInteropHelper(this).Handle;
-                if (!NativeMethods.IsWindowVisible(handle) || NativeMethods.IsIconic(handle) ||  NativeMethods.IsZoomed(handle))
-                    return false;
-                //if (ResizeMode == ResizeMode.NoResize)
-                //    return true;
-                return true;
-            }
         }
 
         private static int PressedMouseButtons
@@ -174,21 +119,33 @@ namespace ModernApplicationFramework.Controls
             }
         }
 
-        private IEnumerable<ShadowWindow> LoadedShadowWindows
+        private bool IsGlowVisible
         {
-            get { return _shadowWindows.Where(w => w != null); }
-        }
-
-        private bool IsShadowVisible
-        {
-            get => _isShadowVisible;
+            get => _isGlowVisible;
             set
             {
-                if (_isShadowVisible == value)
+                if (_isGlowVisible == value)
                     return;
-                _isShadowVisible = value;
-                for (var direction = 0; direction < _shadowWindows.Length; ++direction)
-                    GetOrCreateShadowWindow(direction).IsVisible = value;
+                _isGlowVisible = value;
+                for (var direction = 0; direction < _glowWindows.Length; ++direction)
+                    GetOrCreateGlowWindow(direction).IsVisible = value;
+            }
+        }
+
+        private IEnumerable<GlowWindow> LoadedGlowWindows
+        {
+            get { return _glowWindows.Where(w => w != null); }
+        }
+
+        protected virtual bool ShouldShowGlow
+        {
+            get
+            {
+                var handle = new WindowInteropHelper(this).Handle;
+                if (NativeMethods.IsWindowVisible(handle) && !NativeMethods.IsIconic(handle) &&
+                    !NativeMethods.IsZoomed(handle))
+                    return (uint) ResizeMode > 0U;
+                return false;
             }
         }
 
@@ -210,83 +167,488 @@ namespace ModernApplicationFramework.Controls
             }
         }
 
-        public static void ShowWindowMenu(HwndSource source, Visual element, Point elementPoint,
-                                          Size elementSize)
+        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            if (elementPoint.X < 0.0 || elementPoint.X > elementSize.Width || elementPoint.Y < 0.0
-                || elementPoint.Y > elementSize.Height)
-                return;
-            var screenPoint = element.PointToScreen(elementPoint);
-            ShowWindowMenu(source, screenPoint, true);
+            base.OnPropertyChanged(e);
+            if (e.Property == FullScreenProperty)
+                ChangeFullScreenApperance(e.NewValue);
         }
 
-        public virtual void ChangeTheme(Theme oldValue, Theme newValue)
+        private void ChangeFullScreenApperance(object newValue)
         {
-            UpdateGlowColors();
-            IsShadowVisible = false;
-            IsShadowVisible = true;
-            UpdateClipRegion();
-        }
-
-        public void ChangeOwner(IntPtr newOwner)
-        {
-            new WindowInteropHelper(this).Owner = newOwner;
-            foreach (var shadowWindow in LoadedShadowWindows)
-                shadowWindow.ChangeOwner(newOwner);
-            UpdateZOrderOfThisAndOwner();
-        }
-
-        public void ChangeOwnerForActivate(IntPtr newOwner)
-        {
-            _ownerForActivate = newOwner;
-        }
-
-        protected static void ShowWindowMenu(HwndSource source, Point screenPoint, bool canMinimize)
-        {
-            var systemMetrics = NativeMethods.GetSystemMetrics(40);
-            var systemMenu = NativeMethods.GetSystemMenu(source.Handle, false);
-            var windowPlacement = NativeMethods.GetWindowPlacement(source.Handle);
-            var flag = VisualUtilities.ModifyStyle(source.Handle, 268435456, 0);
-            uint num1 = canMinimize ? 0U : 1U;
-            if (windowPlacement.showCmd == 1)
-            {
-                NativeMethods.EnableMenuItem(systemMenu, 61728U, 1U);
-                NativeMethods.EnableMenuItem(systemMenu, 61456U, 0U);
-                NativeMethods.EnableMenuItem(systemMenu, 61440U, 0U);
-                NativeMethods.EnableMenuItem(systemMenu, 61488U, 0U);
-                NativeMethods.EnableMenuItem(systemMenu, 61472U, 0U | num1);
-                NativeMethods.EnableMenuItem(systemMenu, 61536U, 0U);
-            }
+            if ((bool) newValue)
+                ChangeToFullScreen();
             else
-                if (windowPlacement.showCmd == 3)
-            {
-                NativeMethods.EnableMenuItem(systemMenu, 61728U, 0U);
-                NativeMethods.EnableMenuItem(systemMenu, 61456U, 1U);
-                NativeMethods.EnableMenuItem(systemMenu, 61440U, 1U);
-                NativeMethods.EnableMenuItem(systemMenu, 61488U, 1U);
-                NativeMethods.EnableMenuItem(systemMenu, 61472U, 0U | num1);
-                NativeMethods.EnableMenuItem(systemMenu, 61536U, 0U);
-            }
-            if (flag)
-                VisualUtilities.ModifyStyle(source.Handle, 0, 268435456);
-            var fuFlags = (uint)(systemMetrics | 256 | 128 | 2);
-            var num = NativeMethods.TrackPopupMenuEx(systemMenu, fuFlags, (int)screenPoint.X, (int)screenPoint.Y,
-                source.Handle, IntPtr.Zero);
-            if (num == 0)
-                return;
-            NativeMethods.PostMessage(source.Handle, 274, new IntPtr(num), IntPtr.Zero);
+                RestoreToOldScreen();
         }
 
-        protected virtual void OnRaiseThemeChanged(ThemeChangedEventArgs e)
+        private void ChangeToFullScreen()
         {
-            var handler = OnThemeChanged;
-            handler?.Invoke(this, e);
+            if (WindowState == WindowState.Normal || WindowState == WindowState.Maximized)
+                _lastState = WindowState;
+            _oldLeft = Left;
+            _oldTop = Top;
+            _oldWidth = Width;
+            _oldHeight = Height;
+
+            var interop = new WindowInteropHelper(this);
+            interop.EnsureHandle();
+            var sc = Screen.FromHandle(interop.Handle);
+            var bounds = sc.Bounds.ToWpf().TransformFromDevice(this);
+
+            Left = bounds.Left;
+            Top = bounds.Top;
+            Width = bounds.Width;
+            Height = bounds.Height;
         }
 
-        protected virtual void OnWindowPosChanged(IntPtr hWnd, int showCmd, Int32Rect rcNormalPosition) { }
+        private void RestoreToOldScreen()
+        {
+            ClearValue(WindowStyleProperty);
+            ClearValue(ResizeModeProperty);
+            ClearValue(MaxWidthProperty);
+            ClearValue(MaxHeightProperty);
+            WindowState = _lastState;
+
+            Left = _oldLeft;
+            Top = _oldTop;
+            Width = _oldWidth;
+            Height = _oldHeight;
+        }
+
+        protected override void OnActivated(EventArgs e)
+        {
+            UpdateGlowActiveState();
+            base.OnActivated(e);
+        }
+
+        protected override void OnDeactivated(EventArgs e)
+        {
+            UpdateGlowActiveState();
+            base.OnDeactivated(e);
+        }
+
+        private static void OnResizeModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+            ((ModernChromeWindow) obj).UpdateGlowVisibility(false);
+        }
+
+        private static void OnCornerRadiusChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+        {
+            ((ModernChromeWindow) obj).UpdateClipRegion();
+        }
+
+        private static void OnGlowColorChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+        {
+            ((ModernChromeWindow) obj).UpdateGlowColors();
+        }
+
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            var hwndSource = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
+            hwndSource?.AddHook(HwndSourceHook);
+            CreateGlowWindowHandles();
+            base.OnSourceInitialized(e);
+        }
+
+        private void CreateGlowWindowHandles()
+        {
+            for (var direction = 0; direction < _glowWindows.Length; ++direction)
+                GetOrCreateGlowWindow(direction).EnsureHandle();
+        }
+
+        protected virtual IntPtr HwndSourceHook(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            switch (msg)
+            {
+                case 174:
+                case 175:
+                    handled = true;
+                    break;
+                case 274:
+                    WmSysCommand(hWnd, wParam);
+                    break;
+                case 128:
+                case 12:
+                    return CallDefWindowProcWithoutVisibleStyle(hWnd, msg, wParam, lParam, ref handled);
+                case 131:
+                    return WmNcCalcSize(hWnd, wParam, lParam, ref handled);
+                case 132:
+                    return WmNcHitTest(lParam, ref handled);
+                case 133:
+                    return WmNcPaint(hWnd, wParam, ref handled);
+                case 134:
+                    return WmNcActivate(hWnd, wParam, ref handled);
+                case 164:
+                case 165:
+                case 166:
+                    RaiseNonClientMouseMessageAsClient(hWnd, msg, lParam);
+                    handled = true;
+                    break;
+                case 70:
+                    WmWindowPosChanging(lParam);
+                    break;
+                case 71:
+                    WmWindowPosChanged(hWnd, lParam);
+                    break;
+                case 6:
+                    WmActivate(wParam, lParam);
+                    break;
+                case 36: // GetMinMaxInfo
+                    WnGetMinMaxInfo(hWnd, lParam);
+                    handled = true;
+                    break;
+            }
+            return IntPtr.Zero;
+        }
+
+        private void WnGetMinMaxInfo(IntPtr hwnd, IntPtr lparam)
+        {
+            var mmi = (Minmaxinfo) Marshal.PtrToStructure(lparam, typeof(Minmaxinfo));
+            var monitor = NativeMethods.MonitorFromWindow(hwnd, MonitorDefaulttonearest);
+
+            if (monitor != IntPtr.Zero)
+            {
+                var monitorInfo = new MonitorInfo();
+                NativeMethods.GetMonitorInfo(monitor, monitorInfo);
+                var rcWorkArea = monitorInfo.rcWork;
+                var rcMonitorArea = monitorInfo.rcMonitor;
+                mmi.ptMaxPosition.X = Math.Abs(rcWorkArea.Left - rcMonitorArea.Left);
+                mmi.ptMaxPosition.Y = Math.Abs(rcWorkArea.Top - rcMonitorArea.Top);
+                mmi.ptMaxSize.X = Math.Abs(rcWorkArea.Right - rcWorkArea.Left);
+                mmi.ptMaxSize.Y = Math.Abs(rcWorkArea.Bottom - rcWorkArea.Top);
+
+                mmi.ptMinTrackSize.X = (int) MinWidth; //minimum drag X size for the window
+                mmi.ptMinTrackSize.Y = (int) MinHeight; //minimum drag Y size for the window 
+
+                mmi = AdjustWorkingAreaForAutoHide(monitor, mmi);
+                //need to adjust sizing if taskbar is set to autohide   
+            }
+            Marshal.StructureToPtr(mmi, lparam, true);
+        }
+
+        private static Minmaxinfo AdjustWorkingAreaForAutoHide(IntPtr monitor, Minmaxinfo mmi)
+        {
+            var hwnd = NativeMethods.FindWindow("Shell_TrayWnd", null);
+            var monitorWithTaskBar = NativeMethods.MonitorFromWindow(hwnd, MonitorDefaulttonearest);
+            if (!monitor.Equals(monitorWithTaskBar))
+                return mmi;
+            var abd = new Appbardata();
+            abd.cbSize = Marshal.SizeOf(abd);
+            abd.hWnd = hwnd;
+            NativeMethods.SHAppBarMessage((int) AbMsg.AbmGettaskbarpos, ref abd);
+            var uEdge = GetEdge(abd.rc);
+            var autoHide = Convert.ToBoolean(NativeMethods.SHAppBarMessage((int) AbMsg.AbmGetstate, ref abd));
+
+            if (!autoHide)
+                return mmi;
+
+            switch (uEdge)
+            {
+                case (int) AbEdge.AbeLeft:
+                    mmi.ptMaxPosition.X += 2;
+                    mmi.ptMaxTrackSize.X -= 2;
+                    mmi.ptMaxSize.X -= 2;
+                    break;
+                case (int) AbEdge.AbeRight:
+                    mmi.ptMaxSize.X -= 2;
+                    mmi.ptMaxTrackSize.X -= 2;
+                    break;
+                case (int) AbEdge.AbeTop:
+                    mmi.ptMaxPosition.Y += 2;
+                    mmi.ptMaxTrackSize.Y -= 2;
+                    mmi.ptMaxSize.Y -= 2;
+                    break;
+                case (int) AbEdge.AbeBottom:
+                    mmi.ptMaxSize.Y -= 2;
+                    mmi.ptMaxTrackSize.Y -= 2;
+                    break;
+                default:
+                    return mmi;
+            }
+            return mmi;
+        }
+
+        private static int GetEdge(RECT rc)
+        {
+            int uEdge;
+            if (rc.Top == rc.Left && rc.Bottom > rc.Right)
+                uEdge = (int) AbEdge.AbeLeft;
+            else if (rc.Top == rc.Left && rc.Bottom < rc.Right)
+                uEdge = (int) AbEdge.AbeTop;
+            else if (rc.Top > rc.Left)
+                uEdge = (int) AbEdge.AbeBottom;
+            else
+                uEdge = (int) AbEdge.AbeRight;
+            return uEdge;
+        }
+
+        private static void RaiseNonClientMouseMessageAsClient(IntPtr hWnd, int msg, IntPtr lParam)
+        {
+            var point = new Core.Platform.Point
+            {
+                X = NativeMethods.GetXLParam(lParam.ToInt32()),
+                Y = NativeMethods.GetYLParam(lParam.ToInt32())
+            };
+            NativeMethods.ScreenToClient(hWnd, ref point);
+            NativeMethods.SendMessage(hWnd, msg + 513 - 161, new IntPtr(PressedMouseButtons),
+                NativeMethods.MakeParam(point.X, point.Y));
+        }
+
+        private IntPtr CallDefWindowProcWithoutVisibleStyle(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam,
+            ref bool handled)
+        {
+            var flag = VisualUtilities.ModifyStyle(hWnd, 268435456, 0);
+            var num = NativeMethods.DefWindowProc(hWnd, msg, wParam, lParam);
+            if (flag)
+                VisualUtilities.ModifyStyle(hWnd, 0, 268435456);
+            handled = true;
+            return num;
+        }
+
+        private void WmActivate(IntPtr wParam, IntPtr lParam)
+        {
+            if (!(_ownerForActivate != IntPtr.Zero))
+                return;
+            NativeMethods.SendMessage(_ownerForActivate, NativeMethods.NOTIFYOWNERACTIVATE, wParam, lParam);
+        }
+
+        private IntPtr WmNcActivate(IntPtr hWnd, IntPtr wParam, ref bool handled)
+        {
+            handled = true;
+            return NativeMethods.DefWindowProc(hWnd, 134, wParam, new IntPtr(-1));
+        }
+
+        private IntPtr WmNcPaint(IntPtr hWnd, IntPtr wParam, ref bool handled)
+        {
+            if (_isNonClientStripVisible)
+            {
+                var hrgnClip = wParam == new IntPtr(1) ? IntPtr.Zero : wParam;
+                var dcEx = NativeMethods.GetDCEx(hWnd, hrgnClip, 155);
+                if (dcEx != IntPtr.Zero)
+                    try
+                    {
+                        var nonClientFillColor = NonClientFillColor;
+                        var solidBrush =
+                            NativeMethods.CreateSolidBrush((nonClientFillColor.B << 16) | (nonClientFillColor.G << 8) |
+                                                           nonClientFillColor.R);
+                        try
+                        {
+                            var relativeToWindowRect = GetClientRectRelativeToWindowRect(hWnd);
+                            relativeToWindowRect.Top = relativeToWindowRect.Bottom;
+                            relativeToWindowRect.Bottom = relativeToWindowRect.Top + 1;
+                            NativeMethods.FillRect(dcEx, ref relativeToWindowRect, solidBrush);
+                        }
+                        finally
+                        {
+                            NativeMethods.DeleteObject(solidBrush);
+                        }
+                    }
+                    finally
+                    {
+                        NativeMethods.ReleaseDC(hWnd, dcEx);
+                    }
+            }
+            handled = true;
+            return IntPtr.Zero;
+        }
+
+        private static RECT GetClientRectRelativeToWindowRect(IntPtr hWnd)
+        {
+            RECT lpRect1;
+            NativeMethods.GetWindowRect(hWnd, out lpRect1);
+            RECT lpRect2;
+            NativeMethods.GetClientRect(hWnd, out lpRect2);
+            var point = new Core.Platform.Point {X = 0, Y = 0};
+            NativeMethods.ClientToScreen(hWnd, ref point);
+            lpRect2.Offset(point.X - lpRect1.Left, point.Y - lpRect1.Top);
+            return lpRect2;
+        }
+
+        private IntPtr WmNcCalcSize(IntPtr hWnd, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            _isNonClientStripVisible = false;
+            if (NativeMethods.GetWindowPlacement(hWnd).showCmd == 3)
+            {
+                var structure1 = (RECT) Marshal.PtrToStructure(lParam, typeof(RECT));
+                NativeMethods.DefWindowProc(hWnd, 131, wParam, lParam);
+                var structure2 = (RECT) Marshal.PtrToStructure(lParam, typeof(RECT));
+                var monitorinfo = MonitorInfoFromWindow(hWnd);
+                if (monitorinfo.RcMonitor.Height == monitorinfo.RcWork.Height &&
+                    monitorinfo.RcMonitor.Width == monitorinfo.RcWork.Width)
+                {
+                    _isNonClientStripVisible = true;
+                    --structure2.Bottom;
+                }
+                structure2.Top = structure1.Top + (int) GetWindowInfo(hWnd).CyWindowBorders;
+                Marshal.StructureToPtr((object) structure2, lParam, true);
+            }
+            handled = true;
+            return IntPtr.Zero;
+        }
+
+        private IntPtr WmNcHitTest(IntPtr lParam, ref bool handled)
+        {
+            if (!this.IsConnectedToPresentationSource())
+                return new IntPtr(0);
+            var point1 = new Point(NativeMethods.GetXLParam(lParam.ToInt32()),
+                NativeMethods.GetYLParam(lParam.ToInt32()));
+            var point2 = PointFromScreen(point1);
+            DependencyObject visualHit = null;
+            VisualUtilities.HitTestVisibleElements(this, target =>
+            {
+                visualHit = target.VisualHit;
+                return HitTestResultBehavior.Stop;
+            }, new PointHitTestParameters(point2));
+            var num = 0;
+            for (; visualHit != null; visualHit = visualHit.GetVisualOrLogicalParent())
+            {
+                var nonClientArea = visualHit as INonClientArea;
+                if (nonClientArea != null)
+                {
+                    num = nonClientArea.HitTest(point1);
+                    if (num != 0)
+                        break;
+                }
+            }
+            if (num == 0)
+                num = 1;
+            handled = true;
+            return new IntPtr(num);
+        }
+
+        private void WmSysCommand(IntPtr hWnd, IntPtr wParam)
+        {
+            var scWparam = NativeMethods.GET_SC_WPARAM(wParam);
+            if (scWparam == 61456)
+                NativeMethods.RedrawWindow(hWnd, IntPtr.Zero, IntPtr.Zero,
+                    RedrawWindowFlags.Invalidate | RedrawWindowFlags.NoChildren | RedrawWindowFlags.UpdateNow |
+                    RedrawWindowFlags.Frame);
+            if ((scWparam == 61488 || scWparam == 61472 || scWparam == 61456 || scWparam == 61440) &&
+                WindowState == WindowState.Normal && !IsAeroSnappedToMonitor(hWnd))
+                _logicalSizeForRestore = new Rect(Left, Top, Width, Height);
+            if (scWparam == 61456 && WindowState == WindowState.Maximized && _logicalSizeForRestore == Rect.Empty)
+                _logicalSizeForRestore = new Rect(Left, Top, Width, Height);
+            if (scWparam != 61728 || WindowState == WindowState.Minimized || _logicalSizeForRestore.Width <= 0.0 ||
+                _logicalSizeForRestore.Height <= 0.0)
+                return;
+            Left = _logicalSizeForRestore.Left;
+            Top = _logicalSizeForRestore.Top;
+            Width = _logicalSizeForRestore.Width;
+            Height = _logicalSizeForRestore.Height;
+            _useLogicalSizeForRestore = true;
+        }
+
+        private bool IsAeroSnappedToMonitor(IntPtr hWnd)
+        {
+            var monitorinfo = MonitorInfoFromWindow(hWnd);
+            var deviceUnits = new Rect(Left, Top, Width, Height).LogicalToDeviceUnits();
+            return monitorinfo.RcWork.Height == deviceUnits.Height && monitorinfo.RcWork.Top == deviceUnits.Top;
+        }
+
+        private void WmWindowPosChanging(IntPtr lParam)
+        {
+            var structure = (WINDOWPOS) Marshal.PtrToStructure(lParam, typeof(WINDOWPOS));
+            if ((structure.flags & 2) != 0 || (structure.flags & 1) != 0 || structure.cx <= 0 || structure.cy <= 0)
+                return;
+            var floatRect = new Rect(structure.x, structure.y, structure.cx, structure.cy).DeviceToLogicalUnits();
+            if (_useLogicalSizeForRestore)
+            {
+                floatRect = _logicalSizeForRestore;
+                _logicalSizeForRestore = Rect.Empty;
+                _useLogicalSizeForRestore = false;
+            }
+            var deviceUnits = ViewSite.GetOnScreenPosition(floatRect).LogicalToDeviceUnits();
+            structure.x = (int) deviceUnits.X;
+            structure.y = (int) deviceUnits.Y;
+            Marshal.StructureToPtr((object) structure, lParam, true);
+        }
+
+        private void WmWindowPosChanged(IntPtr hWnd, IntPtr lParam)
+        {
+            try
+            {
+                var structure = (Windowpos) Marshal.PtrToStructure(lParam, typeof(Windowpos));
+                var windowPlacement = NativeMethods.GetWindowPlacement(hWnd);
+                var currentBounds = new RECT(structure.x, structure.y, structure.x + structure.cx,
+                    structure.y + structure.cy);
+                if (((int) structure.flags & 1) != 1)
+                    UpdateClipRegion(hWnd, windowPlacement, ClipRegionChangeType.FromSize, currentBounds);
+                else if (((int) structure.flags & 2) != 2)
+                    UpdateClipRegion(hWnd, windowPlacement, ClipRegionChangeType.FromPosition, currentBounds);
+                OnWindowPosChanged(hWnd, windowPlacement.showCmd, windowPlacement.rcNormalPosition.ToInt32Rect());
+                UpdateGlowWindowPositions(((int) structure.flags & 64) == 0);
+                UpdateZOrderOfThisAndOwner();
+            }
+            catch (Win32Exception)
+            {
+            }
+        }
+
+        private void UpdateZOrderOfThisAndOwner()
+        {
+            if (_updatingZOrder)
+                return;
+            try
+            {
+                _updatingZOrder = true;
+                var windowInteropHelper = new WindowInteropHelper(this);
+                var handle = windowInteropHelper.Handle;
+                foreach (var loadedGlowWindow in LoadedGlowWindows)
+                {
+                    if (NativeMethods.GetWindow(loadedGlowWindow.Handle, 3) != handle)
+                        NativeMethods.SetWindowPos(loadedGlowWindow.Handle, handle, 0, 0, 0, 0, 19);
+                    handle = loadedGlowWindow.Handle;
+                }
+                var owner = windowInteropHelper.Owner;
+                if (!(owner != IntPtr.Zero))
+                    return;
+                UpdateZOrderOfOwner(owner);
+            }
+            finally
+            {
+                _updatingZOrder = false;
+            }
+        }
+
+        private void UpdateZOrderOfOwner(IntPtr hwndOwner)
+        {
+            var lastOwnedWindow = IntPtr.Zero;
+            NativeMethods.EnumThreadWindows(NativeMethods.GetCurrentThreadId(), (hwnd, lParam) =>
+            {
+                if (NativeMethods.GetWindow(hwnd, 4) == hwndOwner)
+                    lastOwnedWindow = hwnd;
+                return true;
+            }, IntPtr.Zero);
+            if (!(lastOwnedWindow != IntPtr.Zero) || !(NativeMethods.GetWindow(hwndOwner, 3) != lastOwnedWindow))
+                return;
+            NativeMethods.SetWindowPos(hwndOwner, lastOwnedWindow, 0, 0, 0, 0, 19);
+        }
+
+        protected virtual void OnWindowPosChanged(IntPtr hWnd, int showCmd, Int32Rect rcNormalPosition)
+        {
+        }
+
+        protected void UpdateClipRegion(ClipRegionChangeType regionChangeType = ClipRegionChangeType.FromPropertyChange)
+        {
+            var hwndSource = (HwndSource) PresentationSource.FromVisual(this);
+            if (hwndSource == null)
+                return;
+            RECT lpRect;
+            NativeMethods.GetWindowRect(hwndSource.Handle, out lpRect);
+            var windowPlacement = NativeMethods.GetWindowPlacement(hwndSource.Handle);
+            UpdateClipRegion(hwndSource.Handle, windowPlacement, regionChangeType, lpRect);
+        }
+
+        private void UpdateClipRegion(IntPtr hWnd, Windowplacement placement, ClipRegionChangeType changeType,
+            RECT currentBounds)
+        {
+            UpdateClipRegionCore(hWnd, placement.showCmd, changeType, currentBounds.ToInt32Rect());
+            _lastWindowPlacement = placement.showCmd;
+        }
 
         protected virtual bool UpdateClipRegionCore(IntPtr hWnd, int showCmd, ClipRegionChangeType changeType,
-                                                    Int32Rect currentBounds)
+            Int32Rect currentBounds)
         {
             if (showCmd == 3)
             {
@@ -303,54 +665,55 @@ namespace ModernApplicationFramework.Controls
             return true;
         }
 
-        protected virtual IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam, ref bool handled)
+        private Windowinfo GetWindowInfo(IntPtr hWnd)
         {
-            switch (msg)
-            {
-                case 174:
-                case 175:
-                    break;
-                case 274: // SysCommand
-                    WmSysCommand(hwnd, wparam);
-                    break;
-                case 128: // SetIcon
-                case 12: // SetTitle
-                    CallDefWindowProcWithoutVisibleStyle(hwnd, ref handled);
-                    break;
-                case 132: // HitTest
-                    return WmHcHitTest(lparam, ref handled);
-                case 133: // Paint
-                    return WmNcPaint(hwnd, wparam, ref handled);
-                case 134: // NCActivate
-                    return WmNcActivate(hwnd, wparam, ref handled);
-                case 164:
-                case 165:
-                case 166: // ButtonClicks
-                    RaiseNonClientMouseMessageAsClient(hwnd, msg, lparam);
-                    handled = true;
-                    break;
-                case 6:
-                    WmActivate(wparam, lparam);
-                    break;
-                case 70:
-                    WmWindowPosChanging(lparam);
-                    break;
-                case 71:
-                    WmWindowPosChanged(hwnd, lparam);
-                    break;
-                case 36: // GetMinMaxInfo
-                    WnGetMinMaxInfo(hwnd, lparam);
-                    handled = true;
-                    break;
-            }
-            return IntPtr.Zero;
+            var pwi = new Windowinfo();
+            pwi.CbSize = Marshal.SizeOf((object) pwi);
+            NativeMethods.GetWindowInfo(hWnd, ref pwi);
+            return pwi;
+        }
+
+        private void UpdateMaximizedClipRegion(IntPtr hWnd)
+        {
+            var relativeToWindowRect = GetClientRectRelativeToWindowRect(hWnd);
+            if (_isNonClientStripVisible)
+                ++relativeToWindowRect.Bottom;
+            var rectRgnIndirect = NativeMethods.CreateRectRgnIndirect(ref relativeToWindowRect);
+            NativeMethods.SetWindowRgn(hWnd, rectRgnIndirect, NativeMethods.IsWindowVisible(hWnd));
+        }
+
+        private static Monitorinfo MonitorInfoFromWindow(IntPtr hWnd)
+        {
+            var hMonitor = NativeMethods.MonitorFromWindow(hWnd, 2);
+            var monitorInfo = new Monitorinfo {CbSize = (uint) Marshal.SizeOf(typeof(MONITORINFO))};
+            NativeMethods.GetMonitorInfo(hMonitor, ref monitorInfo);
+            return monitorInfo;
+        }
+
+        private void ClearClipRegion(IntPtr hWnd)
+        {
+            NativeMethods.SetWindowRgn(hWnd, IntPtr.Zero, NativeMethods.IsWindowVisible(hWnd));
+        }
+
+        protected void SetRoundRect(IntPtr hWnd, int width, int height)
+        {
+            var roundRectRegion = ComputeRoundRectRegion(0, 0, width, height, CornerRadius);
+            NativeMethods.SetWindowRgn(hWnd, roundRectRegion, NativeMethods.IsWindowVisible(hWnd));
+        }
+
+        private IntPtr ComputeRoundRectRegion(int left, int top, int width, int height, int cornerRadius)
+        {
+            var nWidthEllipse = (int) (2 * cornerRadius * DpiHelper.LogicalToDeviceUnitsScalingFactorX);
+            var nHeightEllipse = (int) (2 * cornerRadius * DpiHelper.LogicalToDeviceUnitsScalingFactorY);
+            return NativeMethods.CreateRoundRectRgn(left, top, left + width + 1, top + height + 1, nWidthEllipse,
+                nHeightEllipse);
         }
 
         protected IntPtr ComputeCornerRadiusRectRegion(Int32Rect rect, CornerRadius cornerRadius)
         {
             if (cornerRadius.TopLeft == cornerRadius.TopRight && cornerRadius.TopLeft == cornerRadius.BottomLeft &&
                 cornerRadius.BottomLeft == cornerRadius.BottomRight)
-                return ComputeRoundRectRegion(rect.X, rect.Y, rect.Width, rect.Height, (int)cornerRadius.TopLeft);
+                return ComputeRoundRectRegion(rect.X, rect.Y, rect.Width, rect.Height, (int) cornerRadius.TopLeft);
             var num1 = IntPtr.Zero;
             var num2 = IntPtr.Zero;
             var num3 = IntPtr.Zero;
@@ -360,24 +723,22 @@ namespace ModernApplicationFramework.Controls
             var num7 = IntPtr.Zero;
             var num8 = IntPtr.Zero;
             var num9 = IntPtr.Zero;
-            var num10 = IntPtr.Zero;
+            IntPtr num10;
             try
             {
-                num1 = ComputeRoundRectRegion(rect.X, rect.Y, rect.Width, rect.Height, (int)cornerRadius.TopLeft);
-                num2 = ComputeRoundRectRegion(rect.X, rect.Y, rect.Width, rect.Height, (int)cornerRadius.TopRight);
-                num3 = ComputeRoundRectRegion(rect.X, rect.Y, rect.Width, rect.Height,
-                    (int)cornerRadius.BottomLeft);
-                num4 = ComputeRoundRectRegion(rect.X, rect.Y, rect.Width, rect.Height,
-                    (int)cornerRadius.BottomRight);
-                var point = new Core.Platform.Point
+                num1 = ComputeRoundRectRegion(rect.X, rect.Y, rect.Width, rect.Height, (int) cornerRadius.TopLeft);
+                num2 = ComputeRoundRectRegion(rect.X, rect.Y, rect.Width, rect.Height, (int) cornerRadius.TopRight);
+                num3 = ComputeRoundRectRegion(rect.X, rect.Y, rect.Width, rect.Height, (int) cornerRadius.BottomLeft);
+                num4 = ComputeRoundRectRegion(rect.X, rect.Y, rect.Width, rect.Height, (int) cornerRadius.BottomRight);
+                var point = new POINT
                 {
-                    X = rect.X + rect.Width / 2,
-                    Y = rect.Y + rect.Height / 2
+                    x = rect.X + rect.Width / 2,
+                    y = rect.Y + rect.Height / 2
                 };
-                num5 = NativeMethods.CreateRectRgn(rect.X, rect.Y, point.X + 1, point.Y + 1);
-                num6 = NativeMethods.CreateRectRgn(point.X - 1, rect.Y, rect.X + rect.Width, point.Y + 1);
-                num7 = NativeMethods.CreateRectRgn(rect.X, point.Y - 1, point.X + 1, rect.Y + rect.Height);
-                num8 = NativeMethods.CreateRectRgn(point.X - 1, point.Y - 1, rect.X + rect.Width, rect.Y + rect.Height);
+                num5 = NativeMethods.CreateRectRgn(rect.X, rect.Y, point.x + 1, point.y + 1);
+                num6 = NativeMethods.CreateRectRgn(point.x - 1, rect.Y, rect.X + rect.Width, point.y + 1);
+                num7 = NativeMethods.CreateRectRgn(rect.X, point.y - 1, point.x + 1, rect.Y + rect.Height);
+                num8 = NativeMethods.CreateRectRgn(point.x - 1, point.y - 1, rect.X + rect.Width, rect.Y + rect.Height);
                 num9 = NativeMethods.CreateRectRgn(0, 0, 1, 1);
                 num10 = NativeMethods.CreateRectRgn(0, 0, 1, 1);
                 NativeMethods.CombineRgn(num10, num1, num5, NativeMethods.CombineMode.RgnAnd);
@@ -412,865 +773,338 @@ namespace ModernApplicationFramework.Controls
             return num10;
         }
 
-        protected override void OnActivated(EventArgs e)
+        public static void ShowWindowMenu(HwndSource source, Visual element, Point elementPoint, Size elementSize)
         {
-            UpdateGlowActiveState();
-            base.OnActivated(e);
+            if (elementPoint.X < 0.0 || elementPoint.X > elementSize.Width || elementPoint.Y < 0.0 ||
+                elementPoint.Y > elementSize.Height)
+                return;
+            var screen = element.PointToScreen(elementPoint);
+            ShowWindowMenu(source, screen, true);
+        }
+
+        protected static void ShowWindowMenu(HwndSource source, Point screenPoint, bool canMinimize)
+        {
+            var systemMetrics = NativeMethods.GetSystemMetrics(40);
+            var systemMenu = NativeMethods.GetSystemMenu(source.Handle, false);
+            var windowPlacement = NativeMethods.GetWindowPlacement(source.Handle);
+            var flag = VisualUtilities.ModifyStyle(source.Handle, 268435456, 0);
+            var num1 = canMinimize ? 0U : 1U;
+            if (windowPlacement.showCmd == 1)
+            {
+                NativeMethods.EnableMenuItem(systemMenu, 61728U, 1U);
+                NativeMethods.EnableMenuItem(systemMenu, 61456U, 0U);
+                NativeMethods.EnableMenuItem(systemMenu, 61440U, 0U);
+                NativeMethods.EnableMenuItem(systemMenu, 61488U, 0U);
+                NativeMethods.EnableMenuItem(systemMenu, 61472U, 0U | num1);
+                NativeMethods.EnableMenuItem(systemMenu, 61536U, 0U);
+            }
+            else if (windowPlacement.showCmd == 3)
+            {
+                NativeMethods.EnableMenuItem(systemMenu, 61728U, 0U);
+                NativeMethods.EnableMenuItem(systemMenu, 61456U, 1U);
+                NativeMethods.EnableMenuItem(systemMenu, 61440U, 1U);
+                NativeMethods.EnableMenuItem(systemMenu, 61488U, 1U);
+                NativeMethods.EnableMenuItem(systemMenu, 61472U, 0U | num1);
+                NativeMethods.EnableMenuItem(systemMenu, 61536U, 0U);
+            }
+            if (flag)
+                VisualUtilities.ModifyStyle(source.Handle, 0, 268435456);
+            var fuFlags = (uint) (systemMetrics | 256 | 128 | 2);
+            var num2 = NativeMethods.TrackPopupMenuEx(systemMenu, fuFlags, (int) screenPoint.X, (int) screenPoint.Y,
+                source.Handle, IntPtr.Zero);
+            if (num2 == 0)
+                return;
+            NativeMethods.PostMessage(source.Handle, 274, new IntPtr(num2), IntPtr.Zero);
         }
 
         protected override void OnClosed(EventArgs e)
         {
-            StopShadowTimer();
-            DestroyShadowWindows();
+            StopTimer();
+            DestroyGlowWindows();
             base.OnClosed(e);
         }
 
-        protected override void OnContentRendered(EventArgs e)
+        private GlowWindow GetOrCreateGlowWindow(int direction)
         {
-            if (ResizeMode == ResizeMode.CanMinimize || ResizeMode == ResizeMode.NoResize)
+            return _glowWindows[direction] ?? (_glowWindows[direction] = new GlowWindow(this, (Dock) direction)
             {
-                foreach (var shadowWindow in LoadedShadowWindows)
-                    shadowWindow.IsHitTestVisible = false;
-            }
-
-            if (IsActive && WindowState == WindowState.Normal)
-            {
-                UpdateGlowWindowPositions(false);
-                UpdateGlowActiveState();
-            }
-            base.OnContentRendered(e);
+                ActiveGlowColor = ActiveGlowColor,
+                InactiveGlowColor = InactiveGlowColor,
+                IsActive = IsActive
+            });
         }
 
-        protected override void OnDeactivated(EventArgs e)
+        private void DestroyGlowWindows()
         {
-            UpdateGlowActiveState();
-            base.OnDeactivated(e);
-        }
-
-        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
-        {
-            base.OnPropertyChanged(e);
-            if (e.Property == FullScreenProperty)
-                ChangeFullScreenApperance(e.NewValue);
-        }
-
-        protected override void OnSourceInitialized(EventArgs e)
-        {
-            var hwndSource = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
-            hwndSource?.AddHook(WindowProc);
-            Loaded += OnLoaded;
-            base.OnSourceInitialized(e);
-        }
-
-        protected override void OnStateChanged(EventArgs e)
-        {
-            if (WindowState == WindowState.Normal)
-                WindowStyle = WindowStyle.None;
-            if (_lastScwParam == 61728 && _lastState == WindowState.Minimized && WindowState != WindowState.Maximized)
-                Thread.Sleep(200);
-            Topmost = WindowState == WindowState.Minimized;
-            base.OnStateChanged(e);
-        }
-
-        protected void SetRoundRect(IntPtr hWnd, int width, int height)
-        {
-            var roundRectRegion = ComputeRoundRectRegion(0, 0, width, height, CornerRadius);
-            NativeMethods.SetWindowRgn(hWnd, roundRectRegion, NativeMethods.IsWindowVisible(hWnd));
-        }
-
-        protected void UpdateClipRegion(ClipRegionChangeType regionChangeType = ClipRegionChangeType.FromPropertyChange)
-        {
-            var hwndSource = (HwndSource)PresentationSource.FromVisual(this);
-            if (hwndSource == null)
-                return;
-            RECT lpRect;
-            NativeMethods.GetWindowRect(hwndSource.Handle, out lpRect);
-            var windowPlacement = NativeMethods.GetWindowPlacement(hwndSource.Handle);
-            UpdateClipRegion(hwndSource.Handle, windowPlacement, regionChangeType, lpRect);
-        }
-
-        private static Minmaxinfo AdjustWorkingAreaForAutoHide(IntPtr monitor, Minmaxinfo mmi)
-        {
-            var hwnd = NativeMethods.FindWindow("Shell_TrayWnd", null);
-            var monitorWithTaskBar = NativeMethods.MonitorFromWindow(hwnd, MonitorDefaulttonearest);
-            if (!monitor.Equals(monitorWithTaskBar))
-                return mmi;
-            var abd = new Appbardata();
-            abd.cbSize = Marshal.SizeOf(abd);
-            abd.hWnd = hwnd;
-            NativeMethods.SHAppBarMessage((int)AbMsg.AbmGettaskbarpos, ref abd);
-            var uEdge = GetEdge(abd.rc);
-            var autoHide = Convert.ToBoolean(NativeMethods.SHAppBarMessage((int)AbMsg.AbmGetstate, ref abd));
-
-            if (!autoHide)
-                return mmi;
-
-            switch (uEdge)
-            {
-                case (int)AbEdge.AbeLeft:
-                    mmi.ptMaxPosition.X += 2;
-                    mmi.ptMaxTrackSize.X -= 2;
-                    mmi.ptMaxSize.X -= 2;
-                    break;
-                case (int)AbEdge.AbeRight:
-                    mmi.ptMaxSize.X -= 2;
-                    mmi.ptMaxTrackSize.X -= 2;
-                    break;
-                case (int)AbEdge.AbeTop:
-                    mmi.ptMaxPosition.Y += 2;
-                    mmi.ptMaxTrackSize.Y -= 2;
-                    mmi.ptMaxSize.Y -= 2;
-                    break;
-                case (int)AbEdge.AbeBottom:
-                    mmi.ptMaxSize.Y -= 2;
-                    mmi.ptMaxTrackSize.Y -= 2;
-                    break;
-                default:
-                    return mmi;
-            }
-            return mmi;
-        }
-
-        private static void CallDefWindowProcWithoutVisibleStyle(IntPtr hwnd, ref bool handled)
-        {
-            var flag = VisualUtilities.ModifyStyle(hwnd, 268435456, 0);
-            if (flag)
-                VisualUtilities.ModifyStyle(hwnd, 0, 268435456);
-            handled = true;
-        }
-
-        private static void ClearClipRegion(IntPtr hWnd)
-        {
-            NativeMethods.SetWindowRgn(hWnd, IntPtr.Zero, NativeMethods.IsWindowVisible(hWnd));
-        }
-
-        private static IntPtr ComputeRoundRectRegion(int left, int top, int width, int height, int cornerRadius)
-        {
-            var nWidthEllipse = (int)(2 * cornerRadius * DpiHelper.LogicalToDeviceUnitsScalingFactorX);
-            var nHeightEllipse = (int)(2 * cornerRadius * DpiHelper.LogicalToDeviceUnitsScalingFactorY);
-            return NativeMethods.CreateRoundRectRgn(left, top, left + width + 1, top + height + 1, nWidthEllipse,
-                nHeightEllipse);
-        }
-
-        private static RECT GetClientRectRelativeToWindowRect(IntPtr hwnd)
-        {
-            RECT lpRect1;
-            NativeMethods.GetWindowRect(hwnd, out lpRect1);
-            RECT lpRect2;
-            NativeMethods.GetClientRect(hwnd, out lpRect2);
-            var point = new Core.Platform.Point { X = 0, Y = 0 };
-            NativeMethods.ClientToScreen(hwnd, ref point);
-            lpRect2.Offset(point.X - lpRect1.Left, point.Y - lpRect1.Top);
-            return lpRect2;
-        }
-
-        private static int GetEdge(RECT rc)
-        {
-            int uEdge;
-            if (rc.Top == rc.Left && rc.Bottom > rc.Right)
-                uEdge = (int)AbEdge.AbeLeft;
-            else
-                if (rc.Top == rc.Left && rc.Bottom < rc.Right)
-                uEdge = (int)AbEdge.AbeTop;
-            else
-                    if (rc.Top > rc.Left)
-                uEdge = (int)AbEdge.AbeBottom;
-            else
-                uEdge = (int)AbEdge.AbeRight;
-            return uEdge;
-        }
-
-        private static Monitorinfo MonitorInfoFromWindow(IntPtr hWnd)
-        {
-            var hMonitor = NativeMethods.MonitorFromWindow(hWnd, 2);
-            var monitorInfo = new Monitorinfo { CbSize = (uint)Marshal.SizeOf(typeof(Monitorinfo)) };
-            NativeMethods.GetMonitorInfo(hMonitor, ref monitorInfo);
-            return monitorInfo;
-        }
-
-        private static void OnCornerRadiusChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
-        {
-            ((ModernChromeWindow)obj).UpdateClipRegion();
-        }
-
-        private static void OnGlowColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((ModernChromeWindow)d).UpdateGlowColors();
-        }
-
-        private static void OnResizeModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-        {
-            ((ModernChromeWindow)obj).OnResizeModeChanged();
-        }
-
-        private static void RaiseNonClientMouseMessageAsClient(IntPtr hwnd, int msg, IntPtr lparam)
-        {
-            var point = new Core.Platform.Point
-            {
-                X = NativeMethods.GetXlParam(lparam.ToInt32()),
-                Y = NativeMethods.GetYlParam(lparam.ToInt32())
-            };
-            NativeMethods.ScreenToClient(hwnd, ref point);
-            NativeMethods.SendMessage(hwnd, msg + 513 - 161, new IntPtr(PressedMouseButtons),
-                NativeMethods.MakeParam(point.X, point.Y));
-        }
-
-        private static void UpdateMaximizedClipRegion(IntPtr hWnd)
-        {
-            var relativeToWindowRect = GetClientRectRelativeToWindowRect(hWnd);
-            ++relativeToWindowRect.Bottom;
-            var rectRgnIndirect = NativeMethods.CreateRectRgnIndirect(ref relativeToWindowRect);
-            NativeMethods.SetWindowRgn(hWnd, rectRgnIndirect, NativeMethods.IsWindowVisible(hWnd));
-        }
-
-        private static void UpdateZOrderOfOwner(IntPtr hwndOwner)
-        {
-            var lastOwnedWindow = IntPtr.Zero;
-            NativeMethods.EnumThreadWindows(NativeMethods.GetCurrentThreadId(), (hwnd, lParam) =>
-            {
-                if (NativeMethods.GetWindow(hwnd, 4) == hwndOwner)
-                    lastOwnedWindow = hwnd;
-                return true;
-            }, IntPtr.Zero);
-            if (!(lastOwnedWindow != IntPtr.Zero) || !(NativeMethods.GetWindow(hwndOwner, 3) != lastOwnedWindow))
-                return;
-            NativeMethods.SetWindowPos(hwndOwner, lastOwnedWindow, 0, 0, 0, 0, 19);
-        }
-
-        private static IntPtr WmNcActivate(IntPtr hWnd, IntPtr wParam, ref bool handled)
-        {
-            handled = true;
-            return NativeMethods.DefWindowProc(hWnd, 134, wParam, new IntPtr(-1));
-        }
-
-        private static IntPtr WmNcPaint(IntPtr hwnd, IntPtr wparam, ref bool handled)
-        {
-            var hrgnClip = wparam == new IntPtr(1) ? IntPtr.Zero : wparam;
-            var dcEx = NativeMethods.GetDCEx(hwnd, hrgnClip, 155);
-            if (dcEx != IntPtr.Zero)
-            {
-                try
+            for (var index = 0; index < _glowWindows.Length; ++index)
+                using (_glowWindows[index])
                 {
-                    var nonClientFillColor = Colors.Black;
-                    var solidBrush =
-                        NativeMethods.CreateSolidBrush(nonClientFillColor.B << 16 | nonClientFillColor.G << 8 |
-                                                       nonClientFillColor.R);
-                    try
-                    {
-                        var relativeToWindowRect = GetClientRectRelativeToWindowRect(hwnd);
-                        relativeToWindowRect.Top = relativeToWindowRect.Bottom;
-                        relativeToWindowRect.Bottom = relativeToWindowRect.Top + 1;
-                        NativeMethods.FillRect(dcEx, ref relativeToWindowRect, solidBrush);
-                    }
-                    finally
-                    {
-                        NativeMethods.DeleteObject(solidBrush);
-                    }
+                    _glowWindows[index] = null;
                 }
-                finally
-                {
-                    NativeMethods.ReleaseDC(hwnd, dcEx);
-                }
-            }
-            handled = true;
-            return IntPtr.Zero;
-        }
-
-        private void ChangeFullScreenApperance(object newValue)
-        {
-            if ((bool)newValue)
-                ChangeToFullScreen();
-            else
-                RestoreToOldScreen();
-        }
-
-        private void ChangeToFullScreen()
-        {
-            if (WindowState == WindowState.Normal || WindowState == WindowState.Maximized)
-                _lastState = WindowState;
-            _oldLeft = Left;
-            _oldTop = Top;
-            _oldWidth = Width;
-            _oldHeight = Height;
-
-            var interop = new WindowInteropHelper(this);
-            interop.EnsureHandle();
-            var sc = Screen.FromHandle(interop.Handle);
-            var bounds = sc.Bounds.ToWpf().TransformFromDevice(this);
-
-            Left = bounds.Left;
-            Top = bounds.Top;
-            Width = bounds.Width;
-            Height = bounds.Height;
-        }
-
-        private void CreateShadowWindowHandles()
-        {
-            for (var direction = 0; direction < _shadowWindows.Length; ++direction)
-                GetOrCreateShadowWindow(direction);
-        }
-
-        private void DestroyShadowWindows()
-        {
-            for (var index = 0; index < _shadowWindows.Length; ++index)
-                using (_shadowWindows[index])
-                    _shadowWindows[index] = null;
-        }
-
-        private ShadowWindow GetOrCreateShadowWindow(int direction)
-        {
-            return _shadowWindows[direction] ??
-                   (_shadowWindows[direction] = new ShadowWindow(this, (Dock)direction));
-        }
-
-        private bool IsAeroSnappedToMonitor(IntPtr hwnd)
-        {
-            var monitorInfo = MonitorInfoFromWindow(hwnd);
-            var rect = new Rect(Left, Top, Width, Height).LogicalToDeviceUnits();
-            return Math.Abs(monitorInfo.RcWork.Height - rect.Height) < 0 &&
-                   Math.Abs(monitorInfo.RcWork.Top - rect.Top) < 0;
-        }
-
-        private void OnDelayedShadowVisibilityTimerTick(object sender, EventArgs e)
-        {
-            StopShadowTimer();
-            UpdateGlowWindowPositions(false);
-            UpdateClipRegion();
-        }
-
-        private void OnLoaded(object sender, RoutedEventArgs e)
-        {
-            CreateShadowWindowHandles();
-        }
-
-        private void OnResizeModeChanged()
-        {
-            if (ResizeMode == ResizeMode.CanMinimize || ResizeMode == ResizeMode.NoResize)
-            {
-                foreach (var shadowWindow in LoadedShadowWindows)
-                    shadowWindow.IsHitTestVisible = false;
-            }
-            else
-            {
-                foreach (var shadowWindow in LoadedShadowWindows)
-                    shadowWindow.IsHitTestVisible = true;
-            }
-            UpdateGlowVisibility(false);
-        }
-
-        private void RestoreToOldScreen()
-        {
-            ClearValue(WindowStyleProperty);
-            ClearValue(ResizeModeProperty);
-            ClearValue(MaxWidthProperty);
-            ClearValue(MaxHeightProperty);
-            WindowState = _lastState;
-
-            Left = _oldLeft;
-            Top = _oldTop;
-            Width = _oldWidth;
-            Height = _oldHeight;
-        }
-
-        private void StopShadowTimer()
-        {
-            if (_makeShadowVisibleTimer == null)
-                return;
-            _makeShadowVisibleTimer.Stop();
-            _makeShadowVisibleTimer.Tick -= OnDelayedShadowVisibilityTimerTick;
-            _makeShadowVisibleTimer = null;
-        }
-
-        private void UpdateClipRegion(IntPtr hWnd, Windowplacement placement, ClipRegionChangeType changeType,
-                                      RECT currentBounds)
-        {
-            UpdateClipRegionCore(hWnd, placement.showCmd, changeType, currentBounds.ToInt32Rect());
-            _lastWindowPlacement = placement.showCmd;
-        }
-
-        private void UpdateGlowActiveState()
-        {
-            foreach (var shadowWindow in LoadedShadowWindows)
-                shadowWindow.IsActive = IsActive;
-        }
-
-        private void UpdateGlowColors()
-        {
-            foreach (var shadowWindow in LoadedShadowWindows)
-            {
-                shadowWindow.ActiveBorderBrush = ActiveShadowColor;
-                shadowWindow.InactiveBorderBrush = InactiveShadowColor;
-            }
-        }
-
-        private void UpdateGlowVisibility(bool delayIfNecessary)
-        {
-            var shouldShowShadow = ShouldShowShadow;
-            if (shouldShowShadow == IsShadowVisible)
-                return;
-            if (SystemParameters.MinimizeAnimation & shouldShowShadow & delayIfNecessary)
-            {
-                if (_makeShadowVisibleTimer != null)
-                    _makeShadowVisibleTimer.Stop();
-                else
-                {
-                    _makeShadowVisibleTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(200.0) };
-                    _makeShadowVisibleTimer.Tick += OnDelayedShadowVisibilityTimerTick;
-                }
-                _makeShadowVisibleTimer.Start();
-            }
-            else
-            {
-                StopShadowTimer();
-                IsShadowVisible = shouldShowShadow;
-            }
         }
 
         private void UpdateGlowWindowPositions(bool delayIfNecessary)
         {
-            UpdateGlowVisibility(delayIfNecessary);
-            foreach (var shadowWindow in LoadedShadowWindows)
-                shadowWindow.UpdateWindowPos();
-        }
-
-        private void UpdateZOrderOfThisAndOwner()
-        {
-            if (_updatingZOrder)
-                return;
-            try
+            using (DeferGlowChanges())
             {
-                _updatingZOrder = true;
-                var windowInteropHelper = new WindowInteropHelper(this);
-                var handle = windowInteropHelper.Handle;
-                foreach (var shadowWindow in LoadedShadowWindows)
-                {
-                    if (NativeMethods.GetWindow(new WindowInteropHelper(shadowWindow).Handle, 3) != handle)
-                        NativeMethods.SetWindowPos(new WindowInteropHelper(shadowWindow).Handle, handle, 0, 0, 0, 0, 19);
-                    handle = new WindowInteropHelper(shadowWindow).Handle;
-                }
-                var owner = windowInteropHelper.Owner;
-                if (!(owner != IntPtr.Zero))
-                    return;
-                UpdateZOrderOfOwner(owner);
-            }
-            finally
-            {
-                _updatingZOrder = false;
+                UpdateGlowVisibility(delayIfNecessary);
+                foreach (var loadedGlowWindow in LoadedGlowWindows)
+                    loadedGlowWindow.UpdateWindowPos();
             }
         }
 
-        private void WmActivate(IntPtr wParam, IntPtr lParam)
+        private void UpdateGlowActiveState()
         {
-            if (!(_ownerForActivate != IntPtr.Zero))
-                return;
-            NativeMethods.SendMessage(_ownerForActivate, NativeMethods.Notifyowneractivate, wParam, lParam);
-        }
-
-        private IntPtr WmHcHitTest(IntPtr lparam, ref bool handled)
-        {
-            if (PresentationSource.FromDependencyObject(this) == null)
-                return new IntPtr(0);
-            var point1 = new Point(NativeMethods.GetXlParam(lparam.ToInt32()),
-                NativeMethods.GetYlParam(lparam.ToInt32()));
-            var point2 = PointFromScreen(point1);
-            DependencyObject visualHit = null;
-            VisualUtilities.HitTestVisibleElements(this,
-                target =>
-                {
-                    visualHit = target.VisualHit;
-                    return HitTestResultBehavior.Stop;
-                }, new PointHitTestParameters(point2));
-            var num = 0;
-            for (; visualHit != null; visualHit = visualHit.GetVisualOrLogicalParent1())
+            using (DeferGlowChanges())
             {
-                var nonClientArea = visualHit as INonClientArea;
-                if (nonClientArea == null)
-                    continue;
-                num = nonClientArea.HitTest(point1);
-                if (num != 0)
-                    break;
-            }
-            if (num == 0)
-                num = 1;
-            handled = true;
-            return new IntPtr(num);
-        }
-
-        private void WmSysCommand(IntPtr hwnd, IntPtr wparam)
-        {
-            var scWparam = (int)wparam & 65520;
-            _lastScwParam = scWparam;
-            _lastState = WindowState;
-            if (scWparam == 61456)
-            {
-                NativeMethods.RedrawWindow(hwnd, IntPtr.Zero, IntPtr.Zero,
-                    RedrawWindowFlags.Invalidate | RedrawWindowFlags.NoChildren | RedrawWindowFlags.UpdateNow |
-                    RedrawWindowFlags.Frame);
-            }
-            if (_wasMaximized)
-            {
-                WindowStyle = WindowStyle.None;
-                _wasMaximized = false;
-                return;
-            }
-            if (scWparam == 61472 || scWparam == 61728)
-                WindowStyle = WindowStyle.SingleBorderWindow;
-            else
-                WindowStyle = WindowStyle.None;
-            if (scWparam == 61472 && WindowState == WindowState.Maximized)
-                _wasMaximized = true;
-
-            if ((scWparam == 61488 || scWparam == 61472 || scWparam == 61456 || scWparam == 61440)
-                && WindowState == WindowState.Normal && !IsAeroSnappedToMonitor(hwnd))
-                _logicalSizeForRestore = new Rect(Left, Top, Width, Height);
-            if (scWparam == 61456 && WindowState == WindowState.Maximized && _logicalSizeForRestore == Rect.Empty)
-                _logicalSizeForRestore = new Rect(Left, Top, Width, Height);
-            if (scWparam != 61728 || WindowState == WindowState.Minimized || _logicalSizeForRestore.Width <= 0.0
-                || _logicalSizeForRestore.Height <= 0.0)
-                return;
-            Left = _logicalSizeForRestore.Left;
-            Top = _logicalSizeForRestore.Top;
-            Width = _logicalSizeForRestore.Width;
-            Height = _logicalSizeForRestore.Height;
-        }
-
-        private void WmWindowPosChanged(IntPtr hWnd, IntPtr lParam)
-        {
-            try
-            {
-                var windowpos = (Windowpos)Marshal.PtrToStructure(lParam, typeof(Windowpos));
-                var windowPlacement = NativeMethods.GetWindowPlacement(hWnd);
-                var currentBounds = new RECT(windowpos.x, windowpos.y, windowpos.x + windowpos.cx,
-                    windowpos.y + windowpos.cy);
-                if (((int)windowpos.flags & 1) != 1)
-                    UpdateClipRegion(hWnd, windowPlacement, ClipRegionChangeType.FromSize, currentBounds);
-                else
-                    if (((int)windowpos.flags & 2) != 2)
-                    UpdateClipRegion(hWnd, windowPlacement, ClipRegionChangeType.FromPosition, currentBounds);
-                OnWindowPosChanged(hWnd, windowPlacement.showCmd, windowPlacement.rcNormalPosition.ToInt32Rect());
-                UpdateGlowWindowPositions(true);
-                UpdateZOrderOfThisAndOwner();
-            }
-            catch (Win32Exception) { }
-        }
-
-        private void WmWindowPosChanging(IntPtr lParam)
-        {
-            var windowpos = (Windowpos)Marshal.PtrToStructure(lParam, typeof(Windowpos));
-            if (((int)windowpos.flags & 2) != 0 || ((int)windowpos.flags & 1) != 0 || windowpos.cx <= 0
-                || windowpos.cy <= 0)
-                return;
-            var floatRect = new Rect(windowpos.x, windowpos.y, windowpos.cx, windowpos.cy).DeviceToLogicalUnits();
-            if (_useLogicalSizeForRestore)
-            {
-                floatRect = _logicalSizeForRestore;
-                _logicalSizeForRestore = Rect.Empty;
-                _useLogicalSizeForRestore = false;
-            }
-            var rect = ViewSite.GetOnScreenPosition(floatRect).LogicalToDeviceUnits();
-            windowpos.x = (int)rect.X;
-            windowpos.y = (int)rect.Y;
-            Marshal.StructureToPtr((object)windowpos, lParam, true);
-        }
-
-        private void WnGetMinMaxInfo(IntPtr hwnd, IntPtr lparam)
-        {
-            var mmi = (Minmaxinfo)Marshal.PtrToStructure(lparam, typeof(Minmaxinfo));
-            var monitor = NativeMethods.MonitorFromWindow(hwnd, MonitorDefaulttonearest);
-
-            if (monitor != IntPtr.Zero)
-            {
-                var monitorInfo = new MonitorInfo();
-                NativeMethods.GetMonitorInfo(monitor, monitorInfo);
-                var rcWorkArea = monitorInfo.rcWork;
-                var rcMonitorArea = monitorInfo.rcMonitor;
-                mmi.ptMaxPosition.X = Math.Abs(rcWorkArea.Left - rcMonitorArea.Left);
-                mmi.ptMaxPosition.Y = Math.Abs(rcWorkArea.Top - rcMonitorArea.Top);
-                mmi.ptMaxSize.X = Math.Abs(rcWorkArea.Right - rcWorkArea.Left);
-                mmi.ptMaxSize.Y = Math.Abs(rcWorkArea.Bottom - rcWorkArea.Top);
-
-                mmi.ptMinTrackSize.X = (int)MinWidth; //minimum drag X size for the window
-                mmi.ptMinTrackSize.Y = (int)MinHeight; //minimum drag Y size for the window 
-
-                mmi = AdjustWorkingAreaForAutoHide(monitor, mmi);
-                //need to adjust sizing if taskbar is set to autohide   
-            }
-            Marshal.StructureToPtr(mmi, lparam, true);
-        }
-    }
-
-    [TemplatePart(Name = InnerBorder, Type = typeof(Border))]
-    [TemplatePart(Name = BorderName, Type = typeof(Border))]
-    internal sealed class ShadowWindow : Window, IDisposable
-    {
-        private const string BorderName = "PART_Border";
-        private const int CornerTolerance = 18;
-        private const string InnerBorder = "PART_Inner";
-        internal Border Border;
-        internal Border Shadow;
-        private readonly Dock _direction;
-        private readonly ModernChromeWindow _targetWindow;
-        private bool _isActive;
-        private bool _isVisible;
-
-        static ShadowWindow()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(ShadowWindow),
-                new FrameworkPropertyMetadata(typeof(ShadowWindow)));
-        }
-
-        public ShadowWindow(ModernChromeWindow owner, Dock direction)
-        {
-            if (owner == null)
-                throw new ArgumentNullException(nameof(owner));
-
-            ResizeMode = ResizeMode.NoResize;
-            WindowStyle = WindowStyle.None;
-            AllowsTransparency = true;
-
-            _targetWindow = owner;
-            Owner = owner;
-
-            ShowInTaskbar = false;
-
-            ActiveBorderBrush = _targetWindow.ActiveShadowColor ?? Brushes.Black;
-            InactiveBorderBrush = _targetWindow.InactiveShadowColor ?? Brushes.DarkGray;
-
-            Foreground = IsActive ? ActiveBorderBrush : InactiveBorderBrush;
-            _direction = direction;
-
-            Height = _targetWindow.Height;
-            Width = _targetWindow.Width;
-            Top = _targetWindow.Top;
-            Left = _targetWindow.Left;
-        }
-
-        public Brush ActiveBorderBrush { get; set; }
-        public Brush InactiveBorderBrush { get; set; }
-
-        public new bool IsActive
-        {
-            get => _isActive;
-            set
-            {
-                _isActive = value;
-                CommitChange();
+                foreach (var loadedGlowWindow in LoadedGlowWindows)
+                    loadedGlowWindow.IsActive = IsActive;
             }
         }
 
-        public new bool IsVisible
+        public void ChangeOwnerForActivate(IntPtr newOwner)
         {
-            get => _isVisible;
-            set
-            {
-                _isVisible = value;
-                CommitChange();
-            }
-        }
-
-        private IntPtr TargetWindowHandle => new WindowInteropHelper(_targetWindow).Handle;
-
-        public void Dispose()
-        {
-            Close();
+            _ownerForActivate = newOwner;
         }
 
         public void ChangeOwner(IntPtr newOwner)
         {
-            NativeMethods.SetWindowLongPtr(new WindowInteropHelper(this).Handle, Gwlp.Hwndparent, newOwner);
+            new WindowInteropHelper(this).Owner = newOwner;
+            foreach (var loadedGlowWindow in LoadedGlowWindows)
+                loadedGlowWindow.ChangeOwner(newOwner);
+            UpdateZOrderOfThisAndOwner();
         }
 
-        public void CommitChange()
+        private void UpdateGlowVisibility(bool delayIfNecessary)
         {
-            ClearWindow();
-            UpdateWindowPosCore();
-            UpdateWindowLayerCore();
-        }
-
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-
-            Shadow = GetTemplateChild(BorderName) as Border;
-            Border = GetTemplateChild(InnerBorder) as Border;
-            if (Shadow == null || Border == null)
+            var shouldShowGlow = ShouldShowGlow;
+            if (shouldShowGlow == IsGlowVisible)
                 return;
-
-            switch (_direction)
+            if (SystemParameters.MinimizeAnimation & shouldShowGlow & delayIfNecessary)
             {
-                case Dock.Left:
-                    Shadow.Margin = new Thickness(8, 8, -8, 8);
-                    Border.BorderThickness = new Thickness(0, 0, 1, 0);
-                    Border.Height = _targetWindow.Height;
-                    break;
-
-                case Dock.Top:
-                    Shadow.Margin = new Thickness(8, 8, 8, -8);
-                    Border.BorderThickness = new Thickness(0, 0, 0, 1);
-                    Border.Width = _targetWindow.Width + 2;
-                    break;
-                case Dock.Right:
-                    Shadow.Margin = new Thickness(-8, 8, 8, 8);
-                    Border.BorderThickness = new Thickness(1, 0, 0, 0);
-                    Border.Height = _targetWindow.Height;
-                    break;
-                default:
-                    Shadow.Margin = new Thickness(8, -8, 8, 8);
-                    Border.BorderThickness = new Thickness(0, 1, 0, 0);
-                    Border.Width = _targetWindow.Width + 2;
-                    break;
+                if (_makeGlowVisibleTimer != null)
+                {
+                    _makeGlowVisibleTimer.Stop();
+                }
+                else
+                {
+                    _makeGlowVisibleTimer = new DispatcherTimer {Interval = TimeSpan.FromMilliseconds(200.0)};
+                    _makeGlowVisibleTimer.Tick += OnDelayedVisibilityTimerTick;
+                }
+                _makeGlowVisibleTimer.Start();
             }
-        }
-
-        public void UpdateWindowPos()
-        {
-            var targetWindowHandle = TargetWindowHandle;
-            RECT lpRect;
-            NativeMethods.GetWindowRect(targetWindowHandle, out lpRect);
-            NativeMethods.GetWindowPlacement(targetWindowHandle);
-
-            if (!IsVisible)
-                return;
-            switch (_direction)
-            {
-                case Dock.Left:
-                    Border.Height = lpRect.Height;
-                    Left = lpRect.Left - 9;
-                    Top = lpRect.Top - 9;
-                    Width = 9;
-                    Height = lpRect.Height + 18;
-                    break;
-                case Dock.Top:
-                    Border.Width = lpRect.Width + 2;
-                    Left = lpRect.Left - 9;
-                    Top = lpRect.Top - 9;
-                    Width = lpRect.Width + 18;
-                    Height = 9;
-                    break;
-                case Dock.Right:
-                    Border.Height = lpRect.Height;
-                    Left = lpRect.Right;
-                    Top = lpRect.Top - 9;
-                    Width = 9;
-                    Height = lpRect.Height + 18;
-                    break;
-                default:
-                    Border.Width = lpRect.Width + 2;
-                    Left = lpRect.Left - 9;
-                    Top = lpRect.Bottom;
-                    Width = lpRect.Width + 18;
-                    Height = 9;
-                    break;
-            }
-        }
-
-        protected override void OnSourceInitialized(EventArgs e)
-        {
-            base.OnSourceInitialized(e);
-            var hwndSource = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
-            hwndSource?.AddHook(WndProc);
-
-            Loaded += OnLoaded;
-        }
-
-
-        private void ClearWindow()
-        {
-            Hide();
-        }
-
-        private int DecideResizeDirection(Point p)
-        {
-            switch (_direction)
-            {
-                case Dock.Left:
-                    if (p.Y < CornerTolerance)
-                        return 13;
-                    return p.Y > ActualHeight - CornerTolerance ? 16 : 10;
-                case Dock.Top:
-                    if (p.X < CornerTolerance)
-                        return 13;
-                    return p.X > ActualWidth - CornerTolerance ? 14 : 12;
-                case Dock.Right:
-                    if (p.Y < CornerTolerance)
-                        return 14;
-                    return p.Y > ActualHeight - CornerTolerance ? 17 : 11;
-                default:
-                    if (p.X < CornerTolerance)
-                        return 16;
-                    return p.X > ActualWidth - CornerTolerance ? 17 : 15;
-            }
-        }
-
-        private Cursor GetCursor(IntPtr lParam)
-        {
-            var xlParam = NativeMethods.GetXlParam(lParam.ToInt32());
-            var ylParam = NativeMethods.GetYlParam(lParam.ToInt32());
-            RECT lpRect;
-            NativeMethods.GetWindowRect(new WindowInteropHelper(this).Handle, out lpRect);
-
-            switch (_direction)
-            {
-                case Dock.Left:
-                    if (ylParam - 18 < lpRect.Top)
-                        return Cursors.SizeNWSE;
-                    return ylParam + 18 > lpRect.Bottom ? Cursors.SizeNESW : Cursors.SizeWE;
-                case Dock.Top:
-                    if (xlParam - 18 < lpRect.Left)
-                        return Cursors.SizeNWSE;
-                    return xlParam + 18 > lpRect.Right ? Cursors.SizeNESW : Cursors.SizeNS;
-                case Dock.Right:
-                    if (ylParam - 18 < lpRect.Top)
-                        return Cursors.SizeNESW;
-                    return ylParam + 18 > lpRect.Bottom ? Cursors.SizeNWSE : Cursors.SizeWE;
-                default:
-                    if (xlParam - 18 < lpRect.Left)
-                        return Cursors.SizeNESW;
-                    return xlParam + 18 > lpRect.Right ? Cursors.SizeNWSE : Cursors.SizeNS;
-            }
-        }
-
-        //Makes window not show in App-Switcher (Alt+Tab)
-        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
-        {
-            var wndHelper = new WindowInteropHelper(this);
-            var exStyle = NativeMethods.GetWindowLong(wndHelper.Handle, Gwl.Exstyle);
-
-            exStyle |= 0x00000080;
-
-            NativeMethods.SetWindowLongShadow(wndHelper.Handle, (int)Gwl.Exstyle, (IntPtr)exStyle);
-        }
-
-        private void RenderLayeredWindow()
-        {
-            Foreground = _isActive ? ActiveBorderBrush : InactiveBorderBrush;
-
-            if (!_targetWindow.ShouldShowShadow)
-                return;
-
-            Show();
-        }
-
-        private void UpdateWindowLayerCore()
-        {
-            if (!IsVisible)
-                return;
-            RenderLayeredWindow();
-        }
-
-        private void UpdateWindowPosCore()
-        {
-            var flags = 532;
-            if (IsVisible)
-                flags |= 64;
             else
-                flags |= 131;
-            NativeMethods.SetWindowPos(new WindowInteropHelper(this).Handle, IntPtr.Zero, (int)Left, (int)Top,
-                (int)Width, (int)Height,
-                flags);
+            {
+                StopTimer();
+                IsGlowVisible = shouldShowGlow;
+            }
         }
 
-        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        private void StopTimer()
+        {
+            if (_makeGlowVisibleTimer == null)
+                return;
+            _makeGlowVisibleTimer.Stop();
+            _makeGlowVisibleTimer.Tick -= OnDelayedVisibilityTimerTick;
+            _makeGlowVisibleTimer = null;
+        }
+
+        private void OnDelayedVisibilityTimerTick(object sender, EventArgs e)
+        {
+            StopTimer();
+            UpdateGlowWindowPositions(false);
+        }
+
+        private void UpdateGlowColors()
+        {
+            using (DeferGlowChanges())
+            {
+                foreach (var loadedGlowWindow in LoadedGlowWindows)
+                {
+                    loadedGlowWindow.ActiveGlowColor = ActiveGlowColor;
+                    loadedGlowWindow.InactiveGlowColor = InactiveGlowColor;
+                }
+            }
+        }
+
+        private IDisposable DeferGlowChanges()
+        {
+            return new ChangeScope(this);
+        }
+
+        internal void EndDeferGlowChanges()
+        {
+            foreach (var loadedGlowWindow in LoadedGlowWindows)
+                loadedGlowWindow.CommitChanges();
+        }
+
+        public virtual void ChangeTheme(Theme oldValue, Theme newValue)
+        {
+            UpdateGlowColors();
+            IsGlowVisible = false;
+            IsGlowVisible = true;
+            UpdateClipRegion();
+        }
+
+        protected virtual void OnRaiseThemeChanged(ThemeChangedEventArgs e)
+        {
+            var handler = OnThemeChanged;
+            handler?.Invoke(this, e);
+        }
+
+        protected enum ClipRegionChangeType
+        {
+            FromSize,
+            FromPosition,
+            FromPropertyChange,
+            FromUndockSingleTab
+        }
+    }
+
+    internal sealed class GlowWindow : HwndWrapper
+    {
+        private static ushort _sharedWindowClassAtom;
+        private static NativeMethods.WndProc _sharedWndProc;
+        private static long _createdGlowWindows;
+        private static long _disposedGlowWindows;
+        private readonly GlowBitmap[] _activeGlowBitmaps = new GlowBitmap[16];
+        private readonly GlowBitmap[] _inactiveGlowBitmaps = new GlowBitmap[16];
+        private readonly Dock _orientation;
+        private readonly ModernChromeWindow _targetWindow;
+        private Color _activeGlowColor = Colors.Transparent;
+        private int _height;
+        private Color _inactiveGlowColor = Colors.Transparent;
+        private FieldInvalidationTypes _invalidatedValues;
+        private bool _isActive;
+        private bool _isVisible;
+        private int _left;
+        private bool _pendingDelayRender;
+        private int _top;
+        private int _width;
+
+        public GlowWindow(ModernChromeWindow owner, Dock orientation)
+        {
+            Validate.IsNotNull(owner, "owner");
+            _targetWindow = owner;
+            _orientation = orientation;
+            ++_createdGlowWindows;
+        }
+
+        private bool IsDeferringChanges => _targetWindow.DeferGlowChangesCount > 0;
+
+        private static ushort SharedWindowClassAtom
+        {
+            get
+            {
+                if (_sharedWindowClassAtom != 0)
+                    return _sharedWindowClassAtom;
+                var lpWndClass = new WNDCLASS
+                {
+                    cbClsExtra = 0,
+                    cbWndExtra = 0,
+                    hbrBackground = IntPtr.Zero,
+                    hCursor = IntPtr.Zero,
+                    hIcon = IntPtr.Zero,
+                    lpfnWndProc = _sharedWndProc = NativeMethods.DefWindowProc,
+                    lpszClassName = "ModernApplicationGlowWindow",
+                    lpszMenuName = null,
+                    style = 0U
+                };
+                _sharedWindowClassAtom = NativeMethods.RegisterClass(ref lpWndClass);
+                return _sharedWindowClassAtom;
+            }
+        }
+
+        public bool IsVisible
+        {
+            get => _isVisible;
+            set => UpdateProperty(ref _isVisible, value,
+                FieldInvalidationTypes.Render | FieldInvalidationTypes.Visibility);
+        }
+
+        public int Left
+        {
+            get => _left;
+            set => UpdateProperty(ref _left, value, FieldInvalidationTypes.Location);
+        }
+
+        public int Top
+        {
+            get => _top;
+            set => UpdateProperty(ref _top, value, FieldInvalidationTypes.Location);
+        }
+
+        public int Width
+        {
+            get => _width;
+            set => UpdateProperty(ref _width, value, FieldInvalidationTypes.Size | FieldInvalidationTypes.Render);
+        }
+
+        public int Height
+        {
+            get => _height;
+            set => UpdateProperty(ref _height, value, FieldInvalidationTypes.Size | FieldInvalidationTypes.Render);
+        }
+
+        public bool IsActive
+        {
+            get => _isActive;
+            set => UpdateProperty(ref _isActive, value, FieldInvalidationTypes.Render);
+        }
+
+        public Color ActiveGlowColor
+        {
+            get => _activeGlowColor;
+            set => UpdateProperty(ref _activeGlowColor, value,
+                FieldInvalidationTypes.ActiveColor | FieldInvalidationTypes.Render);
+        }
+
+        public Color InactiveGlowColor
+        {
+            get => _inactiveGlowColor;
+            set => UpdateProperty(ref _inactiveGlowColor, value,
+                FieldInvalidationTypes.InactiveColor | FieldInvalidationTypes.Render);
+        }
+
+        private IntPtr TargetWindowHandle => new WindowInteropHelper(_targetWindow).Handle;
+
+        protected override bool IsWindowSubclassed => true;
+
+        private bool IsPositionValid => !InvalidatedValuesHasFlag(
+            FieldInvalidationTypes.Location | FieldInvalidationTypes.Size | FieldInvalidationTypes.Visibility);
+
+        private void UpdateProperty<T>(ref T field, T value, FieldInvalidationTypes invalidatedValues) where T : struct
+        {
+            if (field.Equals(value))
+                return;
+            field = value;
+            _invalidatedValues = _invalidatedValues | invalidatedValues;
+            if (IsDeferringChanges)
+                return;
+            CommitChanges();
+        }
+
+        protected override ushort CreateWindowClassCore()
+        {
+            return SharedWindowClassAtom;
+        }
+
+        protected override void DestroyWindowClassCore()
+        {
+        }
+
+        protected override IntPtr CreateWindowCore()
+        {
+            return NativeMethods.CreateWindowEx(524416, new IntPtr(GetWindowClassAtom()), string.Empty, -2046820352, 0,
+                0, 0, 0, new WindowInteropHelper(_targetWindow).Owner, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
+        }
+
+        public void ChangeOwner(IntPtr newOwner)
+        {
+            NativeMethods.SetWindowLongPtrGWLP(Handle, Gwlp.Hwndparent, newOwner);
+        }
+
+        protected override IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam)
         {
             switch (msg)
             {
@@ -1278,12 +1112,8 @@ namespace ModernApplicationFramework.Controls
                     if (IsVisible)
                         RenderLayeredWindow();
                     break;
-                case 33:
-                    handled = true;
-                    return new IntPtr(3);
                 case 132:
-                    Cursor = GetCursor(lParam) ?? Cursors.None;
-                    break;
+                    return new IntPtr(WmNcHitTest(lParam));
                 case 161:
                 case 163:
                 case 164:
@@ -1295,24 +1125,545 @@ namespace ModernApplicationFramework.Controls
                     var targetWindowHandle = TargetWindowHandle;
                     NativeMethods.SendMessage(targetWindowHandle, 6, new IntPtr(2), IntPtr.Zero);
                     NativeMethods.SendMessage(targetWindowHandle, msg, wParam, IntPtr.Zero);
-                    break;
+                    return IntPtr.Zero;
                 case 6:
                     return IntPtr.Zero;
                 case 70:
-                    var windowPos = (Windowpos)Marshal.PtrToStructure(lParam, typeof(Windowpos));
-                    windowPos.flags |= 16U;
-                    Marshal.StructureToPtr(windowPos, lParam, true);
-                    break;
-                case 513:
-                    if (!IsHitTestVisible)
-                        break;
-                    var pt = new Point((int)lParam & 0xFFFF, ((int)lParam >> 16) & 0xFFFF);
-                    NativeMethods.PostMessage(TargetWindowHandle,
-                        161, (IntPtr)DecideResizeDirection(pt),
-                        IntPtr.Zero);
+                    var structure = (Windowpos) Marshal.PtrToStructure(lParam, typeof(Windowpos));
+                    structure.flags |= 16U;
+                    Marshal.StructureToPtr((object) structure, lParam, true);
                     break;
             }
-            return NativeMethods.DefWindowProc(hwnd, msg, wParam, lParam);
+            return base.WndProc(hwnd, msg, wParam, lParam);
+        }
+
+        private int WmNcHitTest(IntPtr lParam)
+        {
+            var xlParam = NativeMethods.GetXLParam(lParam.ToInt32());
+            var ylParam = NativeMethods.GetYLParam(lParam.ToInt32());
+            RECT lpRect;
+            NativeMethods.GetWindowRect(Handle, out lpRect);
+            switch (_orientation)
+            {
+                case Dock.Left:
+                    if (ylParam - 18 < lpRect.Top)
+                        return 13;
+                    return ylParam + 18 > lpRect.Bottom ? 16 : 10;
+                case Dock.Top:
+                    if (xlParam - 18 < lpRect.Left)
+                        return 13;
+                    return xlParam + 18 > lpRect.Right ? 14 : 12;
+                case Dock.Right:
+                    if (ylParam - 18 < lpRect.Top)
+                        return 14;
+                    return ylParam + 18 > lpRect.Bottom ? 17 : 11;
+                default:
+                    if (xlParam - 18 < lpRect.Left)
+                        return 16;
+                    return xlParam + 18 > lpRect.Right ? 17 : 15;
+            }
+        }
+
+        public void CommitChanges()
+        {
+            InvalidateCachedBitmaps();
+            UpdateWindowPosCore();
+            UpdateLayeredWindowCore();
+            _invalidatedValues = FieldInvalidationTypes.None;
+        }
+
+        private bool InvalidatedValuesHasFlag(FieldInvalidationTypes flag)
+        {
+            return (uint) (_invalidatedValues & flag) > 0U;
+        }
+
+        private void InvalidateCachedBitmaps()
+        {
+            if (InvalidatedValuesHasFlag(FieldInvalidationTypes.ActiveColor))
+                ClearCache(_activeGlowBitmaps);
+            if (!InvalidatedValuesHasFlag(FieldInvalidationTypes.InactiveColor))
+                return;
+            ClearCache(_inactiveGlowBitmaps);
+        }
+
+        private void UpdateWindowPosCore()
+        {
+            if (!InvalidatedValuesHasFlag(FieldInvalidationTypes.Location | FieldInvalidationTypes.Size |
+                                          FieldInvalidationTypes.Visibility))
+                return;
+            var flags = 532;
+            if (InvalidatedValuesHasFlag(FieldInvalidationTypes.Visibility))
+                if (IsVisible)
+                    flags |= 64;
+                else
+                    flags |= 131;
+            if (!InvalidatedValuesHasFlag(FieldInvalidationTypes.Location))
+                flags |= 2;
+            if (!InvalidatedValuesHasFlag(FieldInvalidationTypes.Size))
+                flags |= 1;
+            NativeMethods.SetWindowPos(Handle, IntPtr.Zero, Left, Top, Width, Height, flags);
+        }
+
+        private void UpdateLayeredWindowCore()
+        {
+            if (!IsVisible || !InvalidatedValuesHasFlag(FieldInvalidationTypes.Render))
+                return;
+            if (IsPositionValid)
+            {
+                BeginDelayedRender();
+            }
+            else
+            {
+                CancelDelayedRender();
+                RenderLayeredWindow();
+            }
+        }
+
+        private void BeginDelayedRender()
+        {
+            if (_pendingDelayRender)
+                return;
+            _pendingDelayRender = true;
+            CompositionTarget.Rendering += CommitDelayedRender;
+        }
+
+        private void CancelDelayedRender()
+        {
+            if (!_pendingDelayRender)
+                return;
+            _pendingDelayRender = false;
+            CompositionTarget.Rendering -= CommitDelayedRender;
+        }
+
+        private void CommitDelayedRender(object sender, EventArgs e)
+        {
+            CancelDelayedRender();
+            if (!IsVisible)
+                return;
+            RenderLayeredWindow();
+        }
+
+        private void RenderLayeredWindow()
+        {
+            using (var drawingContext = new GlowDrawingContext(Width, Height))
+            {
+                if (!drawingContext.IsInitialized)
+                    return;
+                switch (_orientation)
+                {
+                    case Dock.Left:
+                        DrawLeft(drawingContext);
+                        break;
+                    case Dock.Top:
+                        DrawTop(drawingContext);
+                        break;
+                    case Dock.Right:
+                        DrawRight(drawingContext);
+                        break;
+                    default:
+                        DrawBottom(drawingContext);
+                        break;
+                }
+                var pptDest = new Core.Platform.Point
+                {
+                    X = Left,
+                    Y = Top
+                };
+                var psize = new Win32SIZE
+                {
+                    cx = Width,
+                    cy = Height
+                };
+                var pptSrc = new Core.Platform.Point {X = 0, Y = 0};
+                NativeMethods.UpdateLayeredWindow(Handle, drawingContext.ScreenDc, ref pptDest, ref psize,
+                    drawingContext.WindowDc, ref pptSrc, 0U, ref drawingContext.Blend, 2U);
+            }
+        }
+
+        private GlowBitmap GetOrCreateBitmap(GlowDrawingContext drawingContext, GlowBitmapPart bitmapPart)
+        {
+            GlowBitmap[] glowBitmapArray;
+            Color color;
+            if (IsActive)
+            {
+                glowBitmapArray = _activeGlowBitmaps;
+                color = ActiveGlowColor;
+            }
+            else
+            {
+                glowBitmapArray = _inactiveGlowBitmaps;
+                color = InactiveGlowColor;
+            }
+            var index = (int) bitmapPart;
+            return glowBitmapArray[index] ?? (glowBitmapArray[index] =
+                       GlowBitmap.Create(drawingContext, bitmapPart, color));
+        }
+
+        private void ClearCache(GlowBitmap[] cache)
+        {
+            for (var index = 0; index < cache.Length; ++index)
+                using (cache[index])
+                {
+                    cache[index] = null;
+                }
+        }
+
+        protected override void DisposeManagedResources()
+        {
+            ClearCache(_activeGlowBitmaps);
+            ClearCache(_inactiveGlowBitmaps);
+        }
+
+        protected override void DisposeNativeResources()
+        {
+            base.DisposeNativeResources();
+            ++_disposedGlowWindows;
+        }
+
+        private void DrawLeft(GlowDrawingContext drawingContext)
+        {
+            var bitmap1 = GetOrCreateBitmap(drawingContext, GlowBitmapPart.CornerTopLeft);
+            var bitmap2 = GetOrCreateBitmap(drawingContext, GlowBitmapPart.LeftTop);
+            var bitmap3 = GetOrCreateBitmap(drawingContext, GlowBitmapPart.Left);
+            var bitmap4 = GetOrCreateBitmap(drawingContext, GlowBitmapPart.LeftBottom);
+            var bitmap5 = GetOrCreateBitmap(drawingContext, GlowBitmapPart.CornerBottomLeft);
+            var height = bitmap1.Height;
+            var yoriginDest1 = height + bitmap2.Height;
+            var yoriginDest2 = drawingContext.Height - bitmap5.Height;
+            var yoriginDest3 = yoriginDest2 - bitmap4.Height;
+            var hDest = yoriginDest3 - yoriginDest1;
+            NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap1.Handle);
+            NativeMethods.AlphaBlend(drawingContext.WindowDc, 0, 0, bitmap1.Width, bitmap1.Height,
+                drawingContext.BackgroundDc, 0, 0, bitmap1.Width, bitmap1.Height, drawingContext.Blend);
+            NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap2.Handle);
+            NativeMethods.AlphaBlend(drawingContext.WindowDc, 0, height, bitmap2.Width, bitmap2.Height,
+                drawingContext.BackgroundDc, 0, 0, bitmap2.Width, bitmap2.Height, drawingContext.Blend);
+            if (hDest > 0)
+            {
+                NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap3.Handle);
+                NativeMethods.AlphaBlend(drawingContext.WindowDc, 0, yoriginDest1, bitmap3.Width, hDest,
+                    drawingContext.BackgroundDc, 0, 0, bitmap3.Width, bitmap3.Height, drawingContext.Blend);
+            }
+            NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap4.Handle);
+            NativeMethods.AlphaBlend(drawingContext.WindowDc, 0, yoriginDest3, bitmap4.Width, bitmap4.Height,
+                drawingContext.BackgroundDc, 0, 0, bitmap4.Width, bitmap4.Height, drawingContext.Blend);
+            NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap5.Handle);
+            NativeMethods.AlphaBlend(drawingContext.WindowDc, 0, yoriginDest2, bitmap5.Width, bitmap5.Height,
+                drawingContext.BackgroundDc, 0, 0, bitmap5.Width, bitmap5.Height, drawingContext.Blend);
+        }
+
+        private void DrawRight(GlowDrawingContext drawingContext)
+        {
+            var bitmap1 = GetOrCreateBitmap(drawingContext, GlowBitmapPart.CornerTopRight);
+            var bitmap2 = GetOrCreateBitmap(drawingContext, GlowBitmapPart.RightTop);
+            var bitmap3 = GetOrCreateBitmap(drawingContext, GlowBitmapPart.Right);
+            var bitmap4 = GetOrCreateBitmap(drawingContext, GlowBitmapPart.RightBottom);
+            var bitmap5 = GetOrCreateBitmap(drawingContext, GlowBitmapPart.CornerBottomRight);
+            var height = bitmap1.Height;
+            var yoriginDest1 = height + bitmap2.Height;
+            var yoriginDest2 = drawingContext.Height - bitmap5.Height;
+            var yoriginDest3 = yoriginDest2 - bitmap4.Height;
+            var hDest = yoriginDest3 - yoriginDest1;
+            NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap1.Handle);
+            NativeMethods.AlphaBlend(drawingContext.WindowDc, 0, 0, bitmap1.Width, bitmap1.Height,
+                drawingContext.BackgroundDc, 0, 0, bitmap1.Width, bitmap1.Height, drawingContext.Blend);
+            NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap2.Handle);
+            NativeMethods.AlphaBlend(drawingContext.WindowDc, 0, height, bitmap2.Width, bitmap2.Height,
+                drawingContext.BackgroundDc, 0, 0, bitmap2.Width, bitmap2.Height, drawingContext.Blend);
+            if (hDest > 0)
+            {
+                NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap3.Handle);
+                NativeMethods.AlphaBlend(drawingContext.WindowDc, 0, yoriginDest1, bitmap3.Width, hDest,
+                    drawingContext.BackgroundDc, 0, 0, bitmap3.Width, bitmap3.Height, drawingContext.Blend);
+            }
+            NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap4.Handle);
+            NativeMethods.AlphaBlend(drawingContext.WindowDc, 0, yoriginDest3, bitmap4.Width, bitmap4.Height,
+                drawingContext.BackgroundDc, 0, 0, bitmap4.Width, bitmap4.Height, drawingContext.Blend);
+            NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap5.Handle);
+            NativeMethods.AlphaBlend(drawingContext.WindowDc, 0, yoriginDest2, bitmap5.Width, bitmap5.Height,
+                drawingContext.BackgroundDc, 0, 0, bitmap5.Width, bitmap5.Height, drawingContext.Blend);
+        }
+
+        private void DrawTop(GlowDrawingContext drawingContext)
+        {
+            var bitmap1 = GetOrCreateBitmap(drawingContext, GlowBitmapPart.TopLeft);
+            var bitmap2 = GetOrCreateBitmap(drawingContext, GlowBitmapPart.Top);
+            var bitmap3 = GetOrCreateBitmap(drawingContext, GlowBitmapPart.TopRight);
+            var xoriginDest1 = 9;
+            var xoriginDest2 = xoriginDest1 + bitmap1.Width;
+            var xoriginDest3 = drawingContext.Width - 9 - bitmap3.Width;
+            var wDest = xoriginDest3 - xoriginDest2;
+            NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap1.Handle);
+            NativeMethods.AlphaBlend(drawingContext.WindowDc, xoriginDest1, 0, bitmap1.Width, bitmap1.Height,
+                drawingContext.BackgroundDc, 0, 0, bitmap1.Width, bitmap1.Height, drawingContext.Blend);
+            if (wDest > 0)
+            {
+                NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap2.Handle);
+                NativeMethods.AlphaBlend(drawingContext.WindowDc, xoriginDest2, 0, wDest, bitmap2.Height,
+                    drawingContext.BackgroundDc, 0, 0, bitmap2.Width, bitmap2.Height, drawingContext.Blend);
+            }
+            NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap3.Handle);
+            NativeMethods.AlphaBlend(drawingContext.WindowDc, xoriginDest3, 0, bitmap3.Width, bitmap3.Height,
+                drawingContext.BackgroundDc, 0, 0, bitmap3.Width, bitmap3.Height, drawingContext.Blend);
+        }
+
+        private void DrawBottom(GlowDrawingContext drawingContext)
+        {
+            var bitmap1 = GetOrCreateBitmap(drawingContext, GlowBitmapPart.BottomLeft);
+            var bitmap2 = GetOrCreateBitmap(drawingContext, GlowBitmapPart.Bottom);
+            var bitmap3 = GetOrCreateBitmap(drawingContext, GlowBitmapPart.BottomRight);
+            var xoriginDest1 = 9;
+            var xoriginDest2 = xoriginDest1 + bitmap1.Width;
+            var xoriginDest3 = drawingContext.Width - 9 - bitmap3.Width;
+            var wDest = xoriginDest3 - xoriginDest2;
+            NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap1.Handle);
+            NativeMethods.AlphaBlend(drawingContext.WindowDc, xoriginDest1, 0, bitmap1.Width, bitmap1.Height,
+                drawingContext.BackgroundDc, 0, 0, bitmap1.Width, bitmap1.Height, drawingContext.Blend);
+            if (wDest > 0)
+            {
+                NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap2.Handle);
+                NativeMethods.AlphaBlend(drawingContext.WindowDc, xoriginDest2, 0, wDest, bitmap2.Height,
+                    drawingContext.BackgroundDc, 0, 0, bitmap2.Width, bitmap2.Height, drawingContext.Blend);
+            }
+            NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap3.Handle);
+            NativeMethods.AlphaBlend(drawingContext.WindowDc, xoriginDest3, 0, bitmap3.Width, bitmap3.Height,
+                drawingContext.BackgroundDc, 0, 0, bitmap3.Width, bitmap3.Height, drawingContext.Blend);
+        }
+
+        public void UpdateWindowPos()
+        {
+            var targetWindowHandle = TargetWindowHandle;
+            RECT lpRect;
+            NativeMethods.GetWindowRect(targetWindowHandle, out lpRect);
+            NativeMethods.GetWindowPlacement(targetWindowHandle);
+            if (!IsVisible)
+                return;
+            switch (_orientation)
+            {
+                case Dock.Left:
+                    Left = lpRect.Left - 9;
+                    Top = lpRect.Top - 9;
+                    Width = 9;
+                    Height = lpRect.Height + 18;
+                    break;
+                case Dock.Top:
+                    Left = lpRect.Left - 9;
+                    Top = lpRect.Top - 9;
+                    Width = lpRect.Width + 18;
+                    Height = 9;
+                    break;
+                case Dock.Right:
+                    Left = lpRect.Right;
+                    Top = lpRect.Top - 9;
+                    Width = 9;
+                    Height = lpRect.Height + 18;
+                    break;
+                default:
+                    Left = lpRect.Left - 9;
+                    Top = lpRect.Bottom;
+                    Width = lpRect.Width + 18;
+                    Height = 9;
+                    break;
+            }
+        }
+
+        [Flags]
+        private enum FieldInvalidationTypes
+        {
+            None = 0,
+            Location = 1,
+            Size = 2,
+            ActiveColor = 4,
+            InactiveColor = 8,
+            Render = 16,
+            Visibility = 32
+        }
+    }
+
+    internal sealed class GlowBitmap : DisposableObject
+    {
+        public const int GlowBitmapPartCount = 16;
+        private static readonly CachedBitmapInfo[] TransparencyMasks = new CachedBitmapInfo[16];
+        private readonly NativeMethods.BITMAPINFO _bitmapInfo;
+        private readonly IntPtr _pbits;
+
+        public GlowBitmap(IntPtr hdcScreen, int width, int height)
+        {
+            _bitmapInfo.biSize = Marshal.SizeOf(typeof(NativeMethods.BITMAPINFOHEADER));
+            _bitmapInfo.biPlanes = 1;
+            _bitmapInfo.biBitCount = 32;
+            _bitmapInfo.biCompression = 0;
+            _bitmapInfo.biXPelsPerMeter = 0;
+            _bitmapInfo.biYPelsPerMeter = 0;
+            _bitmapInfo.biWidth = width;
+            _bitmapInfo.biHeight = -height;
+            Handle = NativeMethods.CreateDIBSection(hdcScreen, ref _bitmapInfo, 0U, out _pbits, IntPtr.Zero, 0U);
+        }
+
+        public IntPtr Handle { get; }
+
+        public IntPtr DiBits => _pbits;
+
+        public int Width => _bitmapInfo.biWidth;
+
+        public int Height => -_bitmapInfo.biHeight;
+
+        protected override void DisposeNativeResources()
+        {
+            NativeMethods.DeleteObject(Handle);
+        }
+
+        private static byte PremultiplyAlpha(byte channel, byte alpha)
+        {
+            return (byte) (channel * alpha / (double) byte.MaxValue);
+        }
+
+        public static GlowBitmap Create(GlowDrawingContext drawingContext, GlowBitmapPart bitmapPart, Color color)
+        {
+            var alphaMask = GetOrCreateAlphaMask(bitmapPart);
+            var glowBitmap = new GlowBitmap(drawingContext.ScreenDc, alphaMask.Width, alphaMask.Height);
+            var ofs = 0;
+            while (ofs < alphaMask.DiBits.Length)
+            {
+                var diBit = alphaMask.DiBits[ofs + 3];
+                var val1 = PremultiplyAlpha(color.R, diBit);
+                var val2 = PremultiplyAlpha(color.G, diBit);
+                var val3 = PremultiplyAlpha(color.B, diBit);
+                Marshal.WriteByte(glowBitmap.DiBits, ofs, val3);
+                Marshal.WriteByte(glowBitmap.DiBits, ofs + 1, val2);
+                Marshal.WriteByte(glowBitmap.DiBits, ofs + 2, val1);
+                Marshal.WriteByte(glowBitmap.DiBits, ofs + 3, diBit);
+                ofs += 4;
+            }
+            return glowBitmap;
+        }
+
+        private static CachedBitmapInfo GetOrCreateAlphaMask(GlowBitmapPart bitmapPart)
+        {
+            var index = (int) bitmapPart;
+            if (TransparencyMasks[index] != null)
+                return TransparencyMasks[index];
+            var bitmapImage = new BitmapImage(
+                CommonUtilities.MakePackUri(typeof(GlowBitmap).Assembly, "Resources/" + bitmapPart + ".png"));
+            var diBits = new byte[4 * bitmapImage.PixelWidth * bitmapImage.PixelHeight];
+            var stride = 4 * bitmapImage.PixelWidth;
+            bitmapImage.CopyPixels(diBits, stride, 0);
+            TransparencyMasks[index] = new CachedBitmapInfo(diBits, bitmapImage.PixelWidth, bitmapImage.PixelHeight);
+            return TransparencyMasks[index];
+        }
+
+        private sealed class CachedBitmapInfo
+        {
+            public readonly byte[] DiBits;
+            public readonly int Height;
+            public readonly int Width;
+
+            public CachedBitmapInfo(byte[] diBits, int width, int height)
+            {
+                Width = width;
+                Height = height;
+                DiBits = diBits;
+            }
+        }
+    }
+
+    internal enum GlowBitmapPart
+    {
+        CornerTopLeft,
+        CornerTopRight,
+        CornerBottomLeft,
+        CornerBottomRight,
+        TopLeft,
+        Top,
+        TopRight,
+        LeftTop,
+        Left,
+        LeftBottom,
+        BottomLeft,
+        Bottom,
+        BottomRight,
+        RightTop,
+        Right,
+        RightBottom
+    }
+
+    internal sealed class GlowDrawingContext : DisposableObject
+    {
+        private readonly GlowBitmap _windowBitmap;
+        public NativeMethods.BLENDFUNCTION Blend;
+
+        public GlowDrawingContext(int width, int height)
+        {
+            ScreenDc = NativeMethods.GetDC(IntPtr.Zero);
+            if (ScreenDc == IntPtr.Zero)
+                return;
+            WindowDc = NativeMethods.CreateCompatibleDC(ScreenDc);
+            if (WindowDc == IntPtr.Zero)
+                return;
+            BackgroundDc = NativeMethods.CreateCompatibleDC(ScreenDc);
+            if (BackgroundDc == IntPtr.Zero)
+                return;
+            Blend.BlendOp = 0;
+            Blend.BlendFlags = 0;
+            Blend.SourceConstantAlpha = byte.MaxValue;
+            Blend.AlphaFormat = 1;
+            _windowBitmap = new GlowBitmap(ScreenDc, width, height);
+            NativeMethods.SelectObject(WindowDc, _windowBitmap.Handle);
+        }
+
+        public bool IsInitialized
+        {
+            get
+            {
+                if (ScreenDc != IntPtr.Zero && WindowDc != IntPtr.Zero && BackgroundDc != IntPtr.Zero)
+                    return _windowBitmap != null;
+                return false;
+            }
+        }
+
+        public IntPtr ScreenDc { get; }
+
+        public IntPtr WindowDc { get; }
+
+        public IntPtr BackgroundDc { get; }
+
+        public int Width => _windowBitmap.Width;
+
+        public int Height => _windowBitmap.Height;
+
+        protected override void DisposeManagedResources()
+        {
+            _windowBitmap.Dispose();
+        }
+
+        protected override void DisposeNativeResources()
+        {
+            if (ScreenDc != IntPtr.Zero)
+                NativeMethods.ReleaseDC(IntPtr.Zero, ScreenDc);
+            if (WindowDc != IntPtr.Zero)
+                NativeMethods.DeleteDC(WindowDc);
+            if (!(BackgroundDc != IntPtr.Zero))
+                return;
+            NativeMethods.DeleteDC(BackgroundDc);
+        }
+    }
+
+    internal class ChangeScope : DisposableObject
+    {
+        private readonly ModernChromeWindow _window;
+
+        public ChangeScope(ModernChromeWindow window)
+        {
+            _window = window;
+            ++_window.DeferGlowChangesCount;
+        }
+
+        protected override void DisposeManagedResources()
+        {
+            --_window.DeferGlowChangesCount;
+            if (_window.DeferGlowChangesCount != 0)
+                return;
+            _window.EndDeferGlowChanges();
         }
     }
 }

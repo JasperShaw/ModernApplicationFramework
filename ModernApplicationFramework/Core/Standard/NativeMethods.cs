@@ -27,6 +27,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Security.Permissions;
 using System.Text;
+using System.Windows.Input;
 using Microsoft.Win32.SafeHandles;
 using FILETIME = System.Runtime.InteropServices.ComTypes.FILETIME;
 
@@ -2922,6 +2923,19 @@ namespace ModernApplicationFramework.Core.Standard
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr SendMessage(IntPtr hWnd, WM Msg, IntPtr wParam, IntPtr lParam);
 
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        public static extern IntPtr SendMessage(IntPtr hWnd, int nMsg, IntPtr wParam, IntPtr lParam);
+        internal static IntPtr SendMessage(IntPtr hwnd, int msg, IntPtr wParam)
+        {
+            return SendMessage(hwnd, msg, wParam, IntPtr.Zero);
+        }
+
+        internal static IntPtr MakeParam(int lowWord, int highWord)
+        {
+            return new IntPtr(lowWord & ushort.MaxValue | highWord << 16);
+        }
+
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         public static IntPtr SetActiveWindow(IntPtr hwnd)
         {
@@ -2985,6 +2999,10 @@ namespace ModernApplicationFramework.Core.Standard
             return true;
         }
 
+        [DllImport("User32", CharSet = CharSet.Auto)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, int flags);
+
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         public static void SetWindowRgn(IntPtr hWnd, IntPtr hRgn, bool bRedraw)
         {
@@ -3026,6 +3044,10 @@ namespace ModernApplicationFramework.Core.Standard
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool ShowWindow(IntPtr hwnd, SW nCmdShow);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool ShowWindow(IntPtr hwnd, int code);
 
         [SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")]
         public static HIGHCONTRAST SystemParameterInfo_GetHIGHCONTRAST()
@@ -3484,5 +3506,37 @@ namespace ModernApplicationFramework.Core.Standard
             [Out, MarshalAs(UnmanagedType.LPWStr)] out string appId);
 
         #endregion
+
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern unsafe bool GetKeyboardState(byte* lpKeyState);
+
+        internal static unsafe ModifierKeys ModifierKeys
+        {
+            get
+            {
+                byte* lpKeyState = stackalloc byte[256];
+                GetKeyboardState(lpKeyState);
+                ModifierKeys modifierKeys = ModifierKeys.None;
+                if (((int)lpKeyState[16] & 128) == 128)
+                    modifierKeys |= ModifierKeys.Shift;
+                if (((int)lpKeyState[17] & 128) == 128)
+                    modifierKeys |= ModifierKeys.Control;
+                if (((int)lpKeyState[18] & 128) == 128)
+                    modifierKeys |= ModifierKeys.Alt;
+                if (((int)lpKeyState[91] & 128) == 128 || ((int)lpKeyState[92] & 128) == 128)
+                    modifierKeys |= ModifierKeys.Windows;
+                return modifierKeys;
+            }
+        }
+
+        [DllImport("user32.dll")]
+        internal static extern short GetKeyState(int vKey);
+
+        internal static bool IsKeyPressed(int vKey)
+        {
+            return GetKeyState(vKey) < 0;
+        }
     }
 }

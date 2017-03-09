@@ -32,8 +32,7 @@
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/ToolBar.xaml"/>
 
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/CheckBox.xaml"/>
-
-        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/ModernChromeWindow.xaml"/>
+        
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/MainWindow.xaml"/>
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/SystemMenu.xaml"/>
 

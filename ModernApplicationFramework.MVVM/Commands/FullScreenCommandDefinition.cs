@@ -50,10 +50,20 @@ namespace ModernApplicationFramework.MVVM.Commands
             var menuBuilder = IoC.Get<IMenuCreator>();
             if (!_isFullScreen)
             {
+
+                object vb = null;
+                if (!string.IsNullOrEmpty(IconSource?.OriginalString))
+                {
+                    var myResourceDictionary = new ResourceDictionary { Source = IconSource };
+                    vb = myResourceDictionary[IconId];
+                }
+
+
                 var item = new MenuItem
                 {
                     Command = Command,
-                    Header = "Restore to nomal size"
+                    Header = "Restore to nomal size",
+                    Icon = vb
                 };
 
                 ((MenuCreator)menuBuilder).CreateMenu(_shell.MenuHostViewModel, item);

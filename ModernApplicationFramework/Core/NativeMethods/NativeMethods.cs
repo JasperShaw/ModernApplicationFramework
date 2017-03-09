@@ -1476,8 +1476,49 @@ namespace ModernApplicationFramework.Core.NativeMethods
         FdeorRefuse = 0x00000002
     }
 
+    public enum SizeStyle
+    {
+        SIZENORMAL = 0,
+        SIZE_RESTORED = 0,
+        SIZEICONIC = 1,
+        SIZE_MINIMIZED = 1,
+        SIZEFULLSCREEN = 2,
+        SIZE_MAXIMIZED = 2,
+        SIZEZOOMSHOW = 3,
+        SIZE_MAXSHOW = 3,
+        SIZEZOOMHIDE = 4,
+        SIZE_MAXHIDE = 4,
+    }
+
     internal class NativeMethods
     {
+
+        public delegate IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
+
+        private static int vsmNotifyOwnerActivate;
+        private static int vsmProcessUIBackgroundPriorityTaskQueue;
+
+        public static int NOTIFYOWNERACTIVATE
+        {
+            get
+            {
+                if (NativeMethods.vsmNotifyOwnerActivate == 0)
+                    NativeMethods.vsmNotifyOwnerActivate = NativeMethods.RegisterWindowMessage("NOTIFYOWNERACTIVATE{A982313C-756C-4da9-8BD0-0C375A45784B}");
+                return NativeMethods.vsmNotifyOwnerActivate;
+            }
+        }
+
+        public static int PROCESSUIBACKGROUNDTASKS
+        {
+            get
+            {
+                if (NativeMethods.vsmProcessUIBackgroundPriorityTaskQueue == 0)
+                    NativeMethods.vsmProcessUIBackgroundPriorityTaskQueue = NativeMethods.RegisterWindowMessage("PROCESSUIBACKGROUNDTASKS{A982313C-756C-4da9-8BD0-0C375A45784B}");
+                return NativeMethods.vsmProcessUIBackgroundPriorityTaskQueue;
+            }
+        }
+
+
         private const int WsExDlgmodalframe = 0x0001;
         private const int SwpNosize = 0x0001;
         private const int SwpNomove = 0x0002;
@@ -1746,9 +1787,9 @@ namespace ModernApplicationFramework.Core.NativeMethods
 
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool UpdateLayeredWindow(IntPtr hwnd, IntPtr hdcDest, ref Point pptDest, ref SIZE psize,
+        public static extern bool UpdateLayeredWindow(IntPtr hwnd, IntPtr hdcDest, ref Point pptDest, ref Win32SIZE psize,
                                                       IntPtr hdcSrc, ref Point pptSrc, uint crKey,
-                                                      [In] ref Blendfunction pblend, uint dwFlags);
+                                                      [In] ref BLENDFUNCTION pblend, uint dwFlags);
 
 
         [DllImport("user32.dll")]
@@ -1997,5 +2038,135 @@ namespace ModernApplicationFramework.Core.NativeMethods
             [MarshalAs(UnmanagedType.LPWStr)] internal string pszName;
             [MarshalAs(UnmanagedType.LPWStr)] internal string pszSpec;
         }
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern int GetMessagePos();
+
+
+        internal static int GetXLParam(int lParam)
+        {
+            return LoWord(lParam);
+        }
+
+        internal static int GetYLParam(int lParam)
+        {
+            return HiWord(lParam);
+        }
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool UnregisterClass(IntPtr classAtom, IntPtr hInstance);
+
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
+        public static extern IntPtr GetModuleHandle(string moduleName);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        public static extern ushort RegisterClass(ref WNDCLASS lpWndClass);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DestroyWindow(IntPtr hwnd);
+
+        [DllImport("gdi32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool DeleteDC(IntPtr hdc);
+
+        internal static bool DeleteDC(HandleRef hdc)
+        {
+            return DeleteDC(hdc.Handle);
+        }
+
+        [DllImport("gdi32.dll", SetLastError = true)]
+        internal static extern IntPtr SelectObject(IntPtr hdc, IntPtr hgdiobj);
+
+        internal static IntPtr SelectObject(HandleRef hdc, IntPtr hgdiobj)
+        {
+            return SelectObject(hdc.Handle, hgdiobj);
+        }
+
+        [DllImport("gdi32.dll", SetLastError = true)]
+        internal static extern IntPtr CreateCompatibleDC(IntPtr hdc);
+
+        internal static IntPtr CreateCompatibleDC(HandleRef hdc)
+        {
+            return CreateCompatibleDC(hdc.Handle);
+        }
+
+        internal struct BLENDFUNCTION
+        {
+            public byte BlendOp;
+            public byte BlendFlags;
+            public byte SourceConstantAlpha;
+            public byte AlphaFormat;
+        }
+
+        internal struct BITMAPINFO
+        {
+            internal int biSize;
+            internal int biWidth;
+            internal int biHeight;
+            internal short biPlanes;
+            internal short biBitCount;
+            internal int biCompression;
+            internal int biSizeImage;
+            internal int biXPelsPerMeter;
+            internal int biYPelsPerMeter;
+            internal int biClrUsed;
+            internal int biClrImportant;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 1024)]
+            internal byte[] bmiColors;
+
+            internal static BITMAPINFO Default => new BITMAPINFO
+            {
+                biSize = 40,
+                biPlanes = 1
+            };
+        }
+
+        internal struct BITMAPINFOHEADER
+        {
+            internal uint biSize;
+            internal int biWidth;
+            internal int biHeight;
+            internal ushort biPlanes;
+            internal ushort biBitCount;
+            internal uint biCompression;
+            internal uint biSizeImage;
+            internal int biXPelsPerMeter;
+            internal int biYPelsPerMeter;
+            internal uint biClrUsed;
+            internal uint biClrImportant;
+
+            internal static NativeMethods.BITMAPINFOHEADER Default => new BITMAPINFOHEADER
+            {
+                biSize = 40,
+                biPlanes = 1
+            };
+        }
+
+        [DllImport("gdi32.dll", SetLastError = true)]
+        internal static extern IntPtr CreateDIBSection(IntPtr hdc, ref BITMAPINFO pbmi, uint iUsage, out IntPtr ppvBits, IntPtr hSection, uint dwOffset);
+
+        public static IntPtr SetWindowLongPtrGWLP(IntPtr hWnd, Gwlp nIndex, IntPtr dwNewLong)
+        {
+            if (IntPtr.Size == 8)
+                return SetWindowLongPtr(hWnd, (int)nIndex, dwNewLong);
+            return new IntPtr(SetWindowLong(hWnd, (int)nIndex, dwNewLong.ToInt32()));
+        }
+
+        [DllImport("msimg32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool AlphaBlend(IntPtr hdcDest, int xoriginDest, int yoriginDest, int wDest, int hDest, IntPtr hdcSrc, int xoriginSrc, int yoriginSrc, int wSrc, int hSrc, NativeMethods.BLENDFUNCTION pfn);
+
+        public static int GET_SC_WPARAM(IntPtr wParam)
+        {
+            return (int)wParam & 65520;
+        }
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DestroyIcon(IntPtr hIcon);
+
     }
 }

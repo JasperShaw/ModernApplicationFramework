@@ -14,19 +14,19 @@ namespace ModernApplicationFramework.Controls
     {
         public static readonly DependencyProperty HasMaximizeButtonProperty = DependencyProperty.Register(
             "HasMaximizeButton", typeof(bool), typeof(WindowBase),
-            new PropertyMetadata(Boxes.BoolFalse, OnWindowStyleChanged));
+            new PropertyMetadata(Boxes.BooleanFalse, OnWindowStyleChanged));
 
         public static readonly DependencyProperty HasMinimizeButtonProperty = DependencyProperty.Register(
             "HasMinimizeButton", typeof(bool), typeof(WindowBase),
-            new PropertyMetadata(Boxes.BoolFalse, OnWindowStyleChanged));
+            new PropertyMetadata(Boxes.BooleanFalse, OnWindowStyleChanged));
 
         public static readonly DependencyProperty HasDialogFrameProperty = DependencyProperty.Register(
             "HasDialogFrame", typeof(bool), typeof(WindowBase),
-            new PropertyMetadata(Boxes.BoolTrue, OnWindowStyleChanged));
+            new PropertyMetadata(Boxes.BooleanTrue, OnWindowStyleChanged));
 
         public static readonly DependencyProperty IsCloseButtonEnabledProperty = DependencyProperty.Register(
             "IsCloseButtonEnabled", typeof(bool), typeof(WindowBase),
-            new PropertyMetadata(Boxes.BoolTrue, OnWindowStyleChanged));
+            new PropertyMetadata(Boxes.BooleanTrue, OnWindowStyleChanged));
 
         private HwndSource _hwndSource;
 

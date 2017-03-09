@@ -9,11 +9,11 @@ namespace ModernApplicationFramework.Core.Utilities
     {
         public static readonly DependencyProperty HasMaximizeButtonProperty =
             DependencyProperty.RegisterAttached("HasMaximizeButton", typeof(bool), typeof(WindowStyleHelper),
-                new FrameworkPropertyMetadata(Boxes.BoolFalse, OnWindowStyleChanged));
+                new FrameworkPropertyMetadata(Boxes.BooleanFalse, OnWindowStyleChanged));
 
         public static readonly DependencyProperty HasMinimizeButtonProperty =
             DependencyProperty.RegisterAttached("HasMinimizeButton", typeof(bool), typeof(WindowStyleHelper),
-                new FrameworkPropertyMetadata(Boxes.BoolFalse, OnWindowStyleChanged));
+                new FrameworkPropertyMetadata(Boxes.BooleanFalse, OnWindowStyleChanged));
 
         public static bool GetHasMaximizeButton(Window window)
         {
