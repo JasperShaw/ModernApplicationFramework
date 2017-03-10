@@ -36,6 +36,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -172,6 +173,7 @@
     <Compile Include="Core\TrinetCoreNtfs\SafeNativeMethods.cs" />
     <Compile Include="Core\TrinetCoreNtfs\StreamName.cs" />
     <Compile Include="Core\Utilities\CommonUtilities.cs" />
+    <Compile Include="Core\Utilities\FocusBehavior.cs" />
     <Compile Include="Core\Utilities\PathUtilities.cs" />
     <Compile Include="Core\Utilities\ReusableResourceHolder.cs" />
     <Compile Include="Core\Utilities\ReusableResourceStore.cs" />

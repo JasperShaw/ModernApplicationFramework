@@ -71,7 +71,7 @@ namespace ModernApplicationFramework.Docking.Controls
         protected override void OnKeyDown(KeyEventArgs e)
         {
             InputManager.Current.PushMenuMode(_hwndSrc);
-            base.OnKeyDown(e);  
+            base.OnKeyDown(e);
         }
 
         static LayoutFloatingWindowControl()

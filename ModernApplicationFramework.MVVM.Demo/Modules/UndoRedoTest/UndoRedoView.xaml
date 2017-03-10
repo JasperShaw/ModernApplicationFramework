@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mafc="http://modern.framework.com/controls"
+             xmlns:utilities="clr-namespace:ModernApplicationFramework.Core.Utilities;assembly=ModernApplicationFramework"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
@@ -15,7 +16,7 @@
             <RowDefinition Height="58*"/>
         </Grid.RowDefinitions>
 
-        <mafc:TextBox Text="{Binding Text, Mode=TwoWay}"/>
+        <mafc:TextBox Text="{Binding Text, Mode=TwoWay}" utilities:FocusBehavior.FocusFirst="true"/>
         <mafc:TextBox Grid.Row="1" Margin="0,5,0,0" Text="{Binding Text2, Mode=TwoWay}"/>
         <mafc:Button Margin="0,22.345,0,0" Grid.Row="2" Command="{Binding SetValueCommand}">SetValue</mafc:Button>
         <mafc:Button Margin="0,50,0,0" Grid.Row="3" Command="{Binding UndoCommand}">Undo</mafc:Button>
