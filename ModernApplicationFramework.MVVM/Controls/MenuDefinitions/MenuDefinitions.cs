@@ -6,7 +6,7 @@ namespace ModernApplicationFramework.MVVM.Controls.MenuDefinitions
 {
     public static class MenuDefinitions
     {
-        [Export] public static MenuItemDefinition FileMenu = new MenuItemDefinition("File", 0);
+        [Export] public static MenuItemDefinition FileMenu = new MenuItemDefinition("_File", 0);
 
 
         [Export] public static MenuItemDefinition SubMenuNew = new MenuItemDefinition("New", 0, FileMenu);
@@ -49,7 +49,7 @@ namespace ModernApplicationFramework.MVVM.Controls.MenuDefinitions
 
 
 
-        [Export] public static MenuItemDefinition EditMenu = new MenuItemDefinition("Edit", 1);
+        [Export] public static MenuItemDefinition EditMenu = new MenuItemDefinition("_Edit", 1);
 
         [Export] public static MenuItemDefinition Undo = new MenuItemDefinition<UndoCommandDefinition>("Undo", 0, EditMenu);
 
@@ -61,7 +61,7 @@ namespace ModernApplicationFramework.MVVM.Controls.MenuDefinitions
 
 
 
-        [Export] public static MenuItemDefinition ViewMenu = new MenuItemDefinition("View", 2);
+        [Export] public static MenuItemDefinition ViewMenu = new MenuItemDefinition("_View", 2);
 
         [Export]
 
@@ -70,11 +70,11 @@ namespace ModernApplicationFramework.MVVM.Controls.MenuDefinitions
         [Export] public static MenuItemDefinition FullScreen =
             new MenuItemDefinition<FullScreenCommandDefinition>("Full Screen", 10, ViewMenu);
 
-        [Export] public static MenuItemDefinition ToolsMenu = new MenuItemDefinition("Tools", 5);
+        [Export] public static MenuItemDefinition ToolsMenu = new MenuItemDefinition("_Tools", 5);
 
         [Export]
         public static MenuItemDefinition Settings = new MenuItemDefinition<OpenSettingsCommandDefinition>("Settings", int.MaxValue, ToolsMenu);
 
-        [Export] public static MenuItemDefinition HelpMenu = new MenuItemDefinition("Help", int.MaxValue);
+        [Export] public static MenuItemDefinition HelpMenu = new MenuItemDefinition("_Help", int.MaxValue);
     }
 }
