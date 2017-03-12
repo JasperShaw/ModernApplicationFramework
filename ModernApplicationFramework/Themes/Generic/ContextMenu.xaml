@@ -8,6 +8,8 @@
         <ResourceDictionary Source="Brushes.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
+    <BooleanToVisibilityConverter x:Key="VisibilityOfBool" />
+
     <Style TargetType="{x:Type this:ContextMenu}">
         <Style.Resources>  
            <Style x:Key="{x:Static this:ContextMenuGlyphItem.SeparatorStyleKey}" TargetType="this:Separator">
@@ -23,6 +25,7 @@
         </Style.Resources>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
 		<Setter Property="Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.ContextMenuForeground}}"/>
+        <Setter Property="Visibility" Value="{Binding HasItems, RelativeSource={RelativeSource Self}, Converter={StaticResource VisibilityOfBool}}"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type this:ContextMenu}">
