@@ -274,15 +274,7 @@ namespace ModernApplicationFramework.Docking.Controls
                 (s, args) => SystemCommands.MinimizeWindow((Window) args.Parameter)));
             CommandBindings.Add(new CommandBinding(SystemCommands.RestoreWindowCommand,
                 (s, args) => SystemCommands.RestoreWindow((Window) args.Parameter)));
-
             base.OnInitialized(e);
-        }
-
-        protected override void OnActivated(EventArgs e)
-        {
-            base.OnActivated(e);
-            // Sice they should not be used as a MainWindow we can do this in order to provide the Inputbindings from the MainWindow working
-            Keyboard.Focus(Application.Current.MainWindow);
         }
 
         protected virtual void OnIsDraggingChanged(DependencyPropertyChangedEventArgs e)
