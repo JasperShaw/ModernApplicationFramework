@@ -20,6 +20,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using ModernApplicationFramework.Core.NativeMethods;
 using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.Controls
@@ -94,10 +95,17 @@ namespace ModernApplicationFramework.Docking.Controls
 
             Model.IsActive = true;
 
-            if (e.ClickCount != 1)
-                return;
-            _mouseDownPoint = this.PointToScreenDpi(e.GetPosition(this));
-            _isMouseDown = true;
+            if (e.ClickCount == 2)
+            {
+                if (NativeMethods.IsKeyPressed(17))
+                    Model.Float();
+            }
+            else if (e.ClickCount == 1)
+            {
+                _mouseDownPoint = this.PointToScreenDpi(e.GetPosition(this));
+                _isMouseDown = true;
+            }
+           
         }
 
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)

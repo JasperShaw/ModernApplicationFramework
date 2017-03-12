@@ -36,8 +36,6 @@ namespace ModernApplicationFramework.Docking.Controls
 {
     public abstract class LayoutFloatingWindowControl : ModernChromeWindow, ILayoutControl
     {
-        private readonly ILayoutElement _model;
-
         private static readonly DependencyPropertyKey IsDraggingPropertyKey
             = DependencyProperty.RegisterReadOnly("IsDragging", typeof (bool), typeof (LayoutFloatingWindowControl),
                 new FrameworkPropertyMetadata(false,
@@ -62,7 +60,6 @@ namespace ModernApplicationFramework.Docking.Controls
 
         protected LayoutFloatingWindowControl(ILayoutElement model)
         {
-            _model = model;
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
         }

@@ -18,6 +18,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using ModernApplicationFramework.Core.NativeMethods;
 using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.Controls
@@ -88,6 +89,14 @@ namespace ModernApplicationFramework.Docking.Controls
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
+
+
+            if (e.ClickCount == 2)
+            {
+                if (NativeMethods.IsKeyPressed(17))
+                    Model.Float();
+            }
+
 
             _isMouseDown = true;
             _draggingItem = this;
