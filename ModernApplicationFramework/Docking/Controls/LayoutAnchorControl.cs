@@ -60,8 +60,17 @@ namespace ModernApplicationFramework.Docking.Controls
 
             if (e.Handled)
                 return;
-            _model.Root.Manager.ShowAutoHideWindow(this);
-            _model.IsActive = true;
+
+            if (_model.IsActive)
+            {
+                _model.Root.Manager.HideAutoHideWindow(this);
+                _model.IsActive = false;
+            }
+            else
+            {
+                _model.Root.Manager.ShowAutoHideWindow(this);
+                _model.IsActive = true;
+            }
         }
 
         protected override void OnMouseEnter(System.Windows.Input.MouseEventArgs e)
