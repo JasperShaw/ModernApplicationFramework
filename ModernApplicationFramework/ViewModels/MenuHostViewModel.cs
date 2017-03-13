@@ -17,6 +17,9 @@ namespace ModernApplicationFramework.ViewModels
             MenuHostControl = control;
             MenuHostControl.MouseRightButtonDown += _control_MouseRightButtonDown;
             Items = new BindableCollection<MenuItem>();
+
+            if (MainWindowViewModel.ToolBarHostViewModel == null)
+                CanOpenToolBarContextMenu = false;
         }
 
         /// <summary>

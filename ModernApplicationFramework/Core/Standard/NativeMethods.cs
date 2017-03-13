@@ -3518,14 +3518,14 @@ namespace ModernApplicationFramework.Core.Standard
             {
                 byte* lpKeyState = stackalloc byte[256];
                 GetKeyboardState(lpKeyState);
-                ModifierKeys modifierKeys = ModifierKeys.None;
-                if (((int)lpKeyState[16] & 128) == 128)
+                var modifierKeys = ModifierKeys.None;
+                if ((lpKeyState[16] & 128) == 128)
                     modifierKeys |= ModifierKeys.Shift;
-                if (((int)lpKeyState[17] & 128) == 128)
+                if ((lpKeyState[17] & 128) == 128)
                     modifierKeys |= ModifierKeys.Control;
-                if (((int)lpKeyState[18] & 128) == 128)
+                if ((lpKeyState[18] & 128) == 128)
                     modifierKeys |= ModifierKeys.Alt;
-                if (((int)lpKeyState[91] & 128) == 128 || ((int)lpKeyState[92] & 128) == 128)
+                if ((lpKeyState[91] & 128) == 128 || (lpKeyState[92] & 128) == 128)
                     modifierKeys |= ModifierKeys.Windows;
                 return modifierKeys;
             }

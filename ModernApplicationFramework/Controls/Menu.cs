@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -20,9 +21,9 @@ namespace ModernApplicationFramework.Controls
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
-            if (!this.IsShiftF10(e))
+            if (!IsShiftF10(e))
                 base.OnKeyDown(e);
-            ProcessForDirectionalNavigation(e, (ItemsControl)this, Orientation.Horizontal);
+            ProcessForDirectionalNavigation(e, this, Orientation.Horizontal);
         }
 
         private bool IsShiftF10(KeyEventArgs e)
@@ -41,7 +42,7 @@ namespace ModernApplicationFramework.Controls
             switch (CorrectKeysForNavigation(e.Key, itemsControl.FlowDirection, orientation))
             {
                 case Key.Back:
-                    FrameworkElement focusedElement1 = FocusManager.GetFocusedElement((DependencyObject)itemsControl) as FrameworkElement;
+                    FrameworkElement focusedElement1 = FocusManager.GetFocusedElement(itemsControl) as FrameworkElement;
                     if (focusedElement1 == null)
                         break;
                     e.Handled = focusedElement1.MoveFocus(new TraversalRequest(FocusNavigationDirection.Previous));
@@ -55,7 +56,7 @@ namespace ModernApplicationFramework.Controls
                 case Key.Left:
                     if (orientation != Orientation.Horizontal)
                         break;
-                    FrameworkElement focusedElement2 = FocusManager.GetFocusedElement((DependencyObject)itemsControl) as FrameworkElement;
+                    FrameworkElement focusedElement2 = FocusManager.GetFocusedElement(itemsControl) as FrameworkElement;
                     if (focusedElement2 == null)
                         break;
                     e.Handled = focusedElement2.MoveFocus(new TraversalRequest(FocusNavigationDirection.Previous));
@@ -63,7 +64,7 @@ namespace ModernApplicationFramework.Controls
                 case Key.Right:
                     if (orientation != Orientation.Horizontal)
                         break;
-                    FrameworkElement focusedElement3 = FocusManager.GetFocusedElement((DependencyObject)itemsControl) as FrameworkElement;
+                    FrameworkElement focusedElement3 = FocusManager.GetFocusedElement(itemsControl) as FrameworkElement;
                     if (focusedElement3 == null)
                         break;
                     e.Handled = focusedElement3.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
@@ -93,32 +94,29 @@ namespace ModernApplicationFramework.Controls
         private static UIElement GetNavigationContainer(ItemsControl itemsControl)
         {
             MenuItem menuItem = itemsControl as MenuItem;
-            if (menuItem != null)
-            {
-                Popup name = menuItem.Template.FindName("PART_Popup", (FrameworkElement)menuItem) as Popup;
-                if (name != null && name.Child != null)
-                    return name.Child;
-            }
-            return (UIElement)itemsControl;
+            Popup name = menuItem?.Template.FindName("PART_Popup", menuItem) as Popup;
+            if (name?.Child != null)
+                return name.Child;
+            return itemsControl;
         }
 
         protected override void OnContextMenuOpening(ContextMenuEventArgs e)
         {
-            //Utility.HandleOnContextMenuOpening(e, new Action<ContextMenuEventArgs>(((FrameworkElement)this).OnContextMenuOpening));
+            Utility.HandleOnContextMenuOpening(e, base.OnContextMenuOpening);
         }
 
         protected override void OnPreviewGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
         {
-            Application current = Application.Current;
-            if (current != null && current.MainWindow != null)
+            var current = Application.Current;
+            if (current?.MainWindow != null)
             {
                 Window mainWindow = current.MainWindow;
                 if (mainWindow.WindowState == WindowState.Minimized)
                     mainWindow.WindowState = WindowState.Normal;
                 if (!mainWindow.IsActive)
                 {
-                    this._priorActiveWindow = this.FindActiveWindow();
-                    this.BringToTop(mainWindow);
+                    _priorActiveWindow = FindActiveWindow();
+                    BringToTop(mainWindow);
                 }
             }
             base.OnPreviewGotKeyboardFocus(e);
@@ -126,33 +124,26 @@ namespace ModernApplicationFramework.Controls
 
         protected override void OnLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
         {
-            if (this._priorActiveWindow != null && !(e.NewFocus is MenuItem))
+            if (_priorActiveWindow != null && !(e.NewFocus is MenuItem))
             {
-                this.BringToTop(this._priorActiveWindow);
-                this._priorActiveWindow = (Window)null;
+                BringToTop(_priorActiveWindow);
+                _priorActiveWindow = null;
             }
             base.OnLostKeyboardFocus(e);
         }
 
-        private void BringToTop(Window window)
+        private static void BringToTop(Window window)
         {
             IntPtr handle = new WindowInteropHelper(window).Handle;
             int flags = 19;
             NativeMethods.SetWindowPos(handle, IntPtr.Zero, 0, 0, 0, 0, flags);
+            NativeMethods.SetActiveWindow(handle);
         }
 
-        private Window FindActiveWindow()
+        private static Window FindActiveWindow()
         {
-            foreach (Window window in Application.Current.Windows)
-            {
-                if (window.IsActive)
-                    return window;
-            }
-            return (Window)null;
+            return Application.Current.Windows.Cast<Window>().FirstOrDefault(window => window.IsActive);
         }
-
-
-
     }
 
 
@@ -160,15 +151,13 @@ namespace ModernApplicationFramework.Controls
     {
         internal static void HandleOnContextMenuOpening(ContextMenuEventArgs args, Action<ContextMenuEventArgs> baseHandler)
         {
-            DependencyObject originalSource = args.OriginalSource as DependencyObject;
-            if (originalSource != null && originalSource.FindAncestor<Popup, DependencyObject>(new Func<DependencyObject, DependencyObject>(ExtensionMethods.GetVisualOrLogicalParent)) != null)
-            {
+            var originalSource = args.OriginalSource as DependencyObject;
+            if (originalSource?.FindAncestor<Popup, DependencyObject>(ExtensionMethods.GetVisualOrLogicalParent) != null)
                 args.Handled = true;
-            }
             else
             {
                 if (InputManager.Current.IsInMenuMode)
-                    Keyboard.Focus((IInputElement)null);
+                    Keyboard.Focus(null);
                 baseHandler(args);
             }
         }
