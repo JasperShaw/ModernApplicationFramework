@@ -152,7 +152,7 @@ namespace ModernApplicationFramework.Controls
         internal static void HandleOnContextMenuOpening(ContextMenuEventArgs args, Action<ContextMenuEventArgs> baseHandler)
         {
             var originalSource = args.OriginalSource as DependencyObject;
-            if (originalSource?.FindAncestor<Popup, DependencyObject>(ExtensionMethods.GetVisualOrLogicalParent) != null)
+            if (originalSource?.FindAncestor<MenuHostControl, DependencyObject>(ExtensionMethods.GetVisualOrLogicalParent) != null)
                 args.Handled = true;
             else
             {
