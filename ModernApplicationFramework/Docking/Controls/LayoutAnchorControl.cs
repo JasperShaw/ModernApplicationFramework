@@ -17,6 +17,7 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Threading;
 using ModernApplicationFramework.Docking.Layout;
 
@@ -54,10 +55,10 @@ namespace ModernApplicationFramework.Docking.Controls
         public ILayoutElement Model => _model;
         public AnchorSide Side => (AnchorSide) GetValue(SideProperty);
 
-        protected override void OnMouseDown(System.Windows.Input.MouseButtonEventArgs e)
-        {
-            base.OnMouseDown(e);
 
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
             if (e.Handled)
                 return;
 
@@ -73,7 +74,7 @@ namespace ModernApplicationFramework.Docking.Controls
             }
         }
 
-        protected override void OnMouseEnter(System.Windows.Input.MouseEventArgs e)
+        protected override void OnMouseEnter(MouseEventArgs e)
         {
             base.OnMouseEnter(e);
             if (!_model.ShowOnMouseOver)
@@ -88,7 +89,7 @@ namespace ModernApplicationFramework.Docking.Controls
             _openUpTimer.Start();
         }
 
-        protected override void OnMouseLeave(System.Windows.Input.MouseEventArgs e)
+        protected override void OnMouseLeave(MouseEventArgs e)
         {
             if (!_model.ShowOnMouseOver)
                 return;
