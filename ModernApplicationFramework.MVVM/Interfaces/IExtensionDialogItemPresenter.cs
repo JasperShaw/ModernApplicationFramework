@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Controls.Primitives;
-using ModernApplicationFramework.Core.Events;
+﻿using System.Collections.Generic;
 using ModernApplicationFramework.Interfaces.Controls;
 using ModernApplicationFramework.Interfaces.Utilities;
 

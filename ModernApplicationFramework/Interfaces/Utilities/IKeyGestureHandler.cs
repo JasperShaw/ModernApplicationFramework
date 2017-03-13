@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using ModernApplicationFramework.Commands;
+using ModernApplicationFramework.CommandBase;
 
 namespace ModernApplicationFramework.Interfaces.Utilities
 {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 
-namespace ModernApplicationFramework.Commands.Base
+namespace ModernApplicationFramework.CommandBase.Base
 {
     public static class WeakEventHandlerManager
     {

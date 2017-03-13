@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using ModernApplicationFramework.Annotations;
 
-namespace ModernApplicationFramework.Commands
+namespace ModernApplicationFramework.CommandBase
 {
     public class GestureCommandWrapper : CommandWrapper, INotifyPropertyChanged
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ModernApplicationFramework.Commands.Service
+namespace ModernApplicationFramework.CommandBase.Service
 {
     public interface ICommandService
     {

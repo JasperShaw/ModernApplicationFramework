@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace ModernApplicationFramework.Commands
+namespace ModernApplicationFramework.CommandBase
 {
     public abstract class CommandDefinition
     {

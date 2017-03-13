@@ -2,7 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Input;
-using ModernApplicationFramework.Commands;
+using ModernApplicationFramework.CommandBase;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
 {

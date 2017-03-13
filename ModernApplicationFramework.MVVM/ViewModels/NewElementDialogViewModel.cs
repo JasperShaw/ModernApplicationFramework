@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Windows.Input;
 using Caliburn.Micro;
-using ModernApplicationFramework.Commands;
+using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Dialoges;
 using ModernApplicationFramework.MVVM.Interfaces;
 using static ModernApplicationFramework.Core.Utilities.WindowsFileNameHelper;

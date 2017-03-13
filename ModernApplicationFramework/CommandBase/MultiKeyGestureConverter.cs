@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Input;
 
-namespace ModernApplicationFramework.Commands
+namespace ModernApplicationFramework.CommandBase
 {
     //http://kent-boogaart.com/blog/multikeygesture
     public class MultiKeyGestureConverter : TypeConverter

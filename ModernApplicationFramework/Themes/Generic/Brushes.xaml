@@ -16,10 +16,10 @@
                      ResourceId=MainWindowBackground}" Color="#FF293955"/>
     
     <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
-                     ResourceId=MainWindowActiveShadowAndBorderColor}" A="72" R="0" G="0" B="0"/>
+                     ResourceId=MainWindowActiveShadowAndBorderColor}" A="255" R="41" G="57" B="85"/>
 
     <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
-                     ResourceId=MainWindowInactiveShadowAndBorderColor}" A="72" R="0" G="0" B="0"/>
+                     ResourceId=MainWindowInactiveShadowAndBorderColor}" A="255" R="82" G="82" B="82"/>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
                      ResourceId=MainWindowTitleBarBackground}" Color="#FFD6DBE9"/>
@@ -1138,11 +1138,11 @@
     
     <!--WaitDialog-->
     
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
-                     ResourceId=WaitDialogActiveShadowAndBorderColor}" Color="#FF0D202D"/>
+    <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=WaitDialogActiveShadowAndBorderColor}" A="255" R="41" G="57" B="85"/>
     
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
-                     ResourceId=WaitDialogInactiveShadowAndBorderColor}" Color="#FF525252"/>
+    <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=WaitDialogInactiveShadowAndBorderColor}" A="255" R="82" G="82" B="82"/>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
                      ResourceId=WaitDialogTitleBarBackground}" Color="#FFD6DBE9"/>

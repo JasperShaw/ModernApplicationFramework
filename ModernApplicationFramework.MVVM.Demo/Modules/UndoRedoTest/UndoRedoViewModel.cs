@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
-using ModernApplicationFramework.Commands;
+using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Utilities.UndoRedoManager;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest

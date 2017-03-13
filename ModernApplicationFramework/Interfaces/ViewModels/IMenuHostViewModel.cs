@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using ModernApplicationFramework.Commands;
+using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Interfaces.Utilities;
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace ModernApplicationFramework.Commands
+namespace ModernApplicationFramework.CommandBase
 {
     /*This class is doing some magic since the CanExecuteChanged in the base Command was not fired correctly*/
 

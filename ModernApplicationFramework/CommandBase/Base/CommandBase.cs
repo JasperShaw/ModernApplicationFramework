@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace ModernApplicationFramework.Commands.Base
+namespace ModernApplicationFramework.CommandBase.Base
 {
     public abstract class CommandBase : ICommand
     {

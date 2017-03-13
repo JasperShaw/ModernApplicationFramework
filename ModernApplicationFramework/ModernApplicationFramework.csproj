@@ -118,19 +118,19 @@
     <EmbeddedResource Include="Themes\Generic\Images\Checked.png" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\CommandWrapper.cs" />
-    <Compile Include="Commands\GestureCommandWrapper.cs" />
-    <Compile Include="Commands\CommandDefinition.cs" />
-    <Compile Include="Commands\MultiKeyGesture.cs" />
-    <Compile Include="Commands\MultiKeyGestureCommandWrapper.cs" />
-    <Compile Include="Commands\MultiKeyGestureConverter.cs" />
-    <Compile Include="Commands\Service\CommandService.cs" />
-    <Compile Include="Commands\Service\ICommandService.cs" />
-    <Compile Include="Commands\RelayCommand.cs" />
-    <Compile Include="Commands\Command.cs" />
-    <Compile Include="Commands\Base\CommandBase.cs" />
-    <Compile Include="Commands\CommandT.cs" />
-    <Compile Include="Commands\Base\WeakEventHandlerManager.cs" />
+    <Compile Include="CommandBase\CommandWrapper.cs" />
+    <Compile Include="CommandBase\GestureCommandWrapper.cs" />
+    <Compile Include="CommandBase\CommandDefinition.cs" />
+    <Compile Include="CommandBase\MultiKeyGesture.cs" />
+    <Compile Include="CommandBase\MultiKeyGestureCommandWrapper.cs" />
+    <Compile Include="CommandBase\MultiKeyGestureConverter.cs" />
+    <Compile Include="CommandBase\Service\CommandService.cs" />
+    <Compile Include="CommandBase\Service\ICommandService.cs" />
+    <Compile Include="CommandBase\RelayCommand.cs" />
+    <Compile Include="CommandBase\Command.cs" />
+    <Compile Include="CommandBase\Base\CommandBase.cs" />
+    <Compile Include="CommandBase\CommandT.cs" />
+    <Compile Include="CommandBase\Base\WeakEventHandlerManager.cs" />
     <Compile Include="Configuration\ProductConfiguration.cs" />
     <Compile Include="Controls\Button.cs" />
     <Compile Include="Controls\CheckableListBox.cs" />

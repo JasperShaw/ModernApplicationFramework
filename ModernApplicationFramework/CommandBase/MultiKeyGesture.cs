@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
 
-namespace ModernApplicationFramework.Commands
+namespace ModernApplicationFramework.CommandBase
 {
     //http://kent-boogaart.com/blog/multikeygesture
 

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Reflection;
 using System.Threading.Tasks;
-using ModernApplicationFramework.Commands.Base;
 
-namespace ModernApplicationFramework.Commands
+namespace ModernApplicationFramework.CommandBase
 {
-    public class Command<T> : CommandBase
+    public class Command<T> : Base.CommandBase
     {
         public Command(Action<T> executeMethod, Func<T, bool> canExecuteMethod)
             : base(o => executeMethod((T) o), o => canExecuteMethod((T) o))

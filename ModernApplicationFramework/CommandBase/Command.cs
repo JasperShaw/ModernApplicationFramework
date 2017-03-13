@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using ModernApplicationFramework.Commands.Base;
 
-namespace ModernApplicationFramework.Commands
+namespace ModernApplicationFramework.CommandBase
 {
-    public class Command : CommandBase
+    public class Command : Base.CommandBase
     {
         public Command(Action executeMethod) : this(executeMethod, () => true) {}
 

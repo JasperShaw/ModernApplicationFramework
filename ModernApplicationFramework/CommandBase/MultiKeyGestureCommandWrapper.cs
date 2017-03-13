@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Input;
 
-namespace ModernApplicationFramework.Commands
+namespace ModernApplicationFramework.CommandBase
 {
     public class MultiKeyGestureCommandWrapper : GestureCommandWrapper
     {

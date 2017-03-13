@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using System.Linq;
-using ModernApplicationFramework.Commands.Service;
+using ModernApplicationFramework.CommandBase.Service;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
 

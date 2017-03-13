@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 
-namespace ModernApplicationFramework.Commands.Service
+namespace ModernApplicationFramework.CommandBase.Service
 {
     [Export(typeof(ICommandService))]
     public class CommandService : ICommandService

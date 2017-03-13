@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Input;
 using Caliburn.Micro;
-using ModernApplicationFramework.Commands;
+using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.MVVM.Core;
 
 namespace ModernApplicationFramework.MVVM.Modules.OutputTool
