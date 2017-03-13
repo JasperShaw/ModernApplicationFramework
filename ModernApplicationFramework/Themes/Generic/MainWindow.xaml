@@ -11,6 +11,7 @@
             <converters:WindowStateConverter x:Key="WindowStateConverter" />
             <converters:BooleanToFlowDirectionConverter x:Key="FlowDirectionConverter" />
         </Style.Resources>
+        <Setter Property="WindowStyle" Value="None" />
         <Setter Property="AllowDrop" Value="True" />
 		<Setter Property="UseLayoutRounding" Value="True" />
 		<Setter Property="InputMethod.IsInputMethodSuspended" Value="True" />
