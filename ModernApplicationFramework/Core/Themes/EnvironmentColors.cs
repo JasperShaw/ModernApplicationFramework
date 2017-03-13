@@ -1236,7 +1236,7 @@ namespace ModernApplicationFramework.Core.Themes
                                                                         (_checkBoxBackgroundFocused = new ComponentResourceKey(typeof(EnvironmentColors), "CheckBoxBackgroundFocused"));
 
         public static ComponentResourceKey CheckBoxBorderFocused => _checkBoxBorderFocused ??
-                                                                    (_checkBoxBorderFocused = new ComponentResourceKey(typeof(EnvironmentColors), "CheckBoxBoderFocused"));
+                                                                    (_checkBoxBorderFocused = new ComponentResourceKey(typeof(EnvironmentColors), "CheckBoxBorderFocused"));
 
         public static ComponentResourceKey CheckBoxGlyphFocused => _checkBoxGlyphFocused ??
                                                                    (_checkBoxGlyphFocused = new ComponentResourceKey(typeof(EnvironmentColors), "CheckBoxGlyphFocused"));

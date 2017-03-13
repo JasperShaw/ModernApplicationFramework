@@ -58,6 +58,10 @@
     <Resource Include="Resources\top.png" />
     <Resource Include="Resources\topleft.png" />
     <Resource Include="Resources\topright.png" />
+    <Page Include="Themes\Generic\MenuScrollViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Content Include="TODO Liste.txt" />
     <Resource Include="Docking\Themes\Generic\Images\DockBottom.PNG" />
     <Resource Include="Docking\Themes\Generic\Images\DockLeft.PNG" />
@@ -150,8 +154,10 @@
     <Compile Include="Controls\ImageTabButton.cs" />
     <Compile Include="Controls\ImageRadioButton.cs" />
     <Compile Include="Controls\ImageToggleButton.cs" />
+    <Compile Include="Controls\MenuScrollViewer.cs" />
     <Compile Include="Controls\ModernExpander.cs" />
     <Compile Include="Controls\ScrollViewer.cs" />
+    <Compile Include="Controls\SystemDropShadowChrome.cs" />
     <Compile Include="Controls\Utilities\PanelMarginSetter.cs" />
     <Compile Include="Core\Events\ItemDoubleClickedEventArgs.cs" />
     <Compile Include="Core\Interop\COMGuids.cs" />

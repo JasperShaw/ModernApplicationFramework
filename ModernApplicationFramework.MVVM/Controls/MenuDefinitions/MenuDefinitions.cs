@@ -74,7 +74,5 @@ namespace ModernApplicationFramework.MVVM.Controls.MenuDefinitions
 
         [Export]
         public static MenuItemDefinition Settings = new MenuItemDefinition<OpenSettingsCommandDefinition>("Settings", int.MaxValue, ToolsMenu);
-
-        [Export] public static MenuItemDefinition HelpMenu = new MenuItemDefinition("_Help", int.MaxValue);
     }
 }

@@ -66,6 +66,8 @@ namespace ModernApplicationFramework.MVVM.Commands
                     Icon = vb
                 };
 
+                item.IsChecked = true;
+
                 ((MenuCreator)menuBuilder).CreateMenu(_shell.MenuHostViewModel, item);
             }
             else
