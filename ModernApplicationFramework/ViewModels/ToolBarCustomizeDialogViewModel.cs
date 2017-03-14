@@ -8,11 +8,11 @@ using ToolBar = ModernApplicationFramework.Controls.ToolBar;
 
 namespace ModernApplicationFramework.ViewModels
 {
-    public class ToolBarCustomizeDialogViewModel : ViewModelBase
+    internal sealed class ToolBarCustomizeDialogViewModel : ViewModelBase
     {
         private IToolBarHostViewModel _toolBarHostViewModel;
 
-        public ToolBarCustomizeDialogViewModel(ToolBarsPage toolBarsPage)
+        internal ToolBarCustomizeDialogViewModel(ToolBarsPage toolBarsPage)
         {
             ToolBarsPage = toolBarsPage;
             ToolBarsPage.Loaded += ToolBarsPage_Loaded;
@@ -127,7 +127,7 @@ namespace ModernApplicationFramework.ViewModels
         public Command<RadioButton> RadioButtonCheckedCommand
             => new Command<RadioButton>(RadioButtonChecked, CanRadioButtonChecked);
 
-        protected virtual void RadioButtonChecked(RadioButton button)
+        private void RadioButtonChecked(RadioButton button)
         {
             if (button == null)
                 return;
@@ -140,7 +140,7 @@ namespace ModernApplicationFramework.ViewModels
             ToolBarHostViewModel.ChangeToolBarPosition(toolBar.IdentifierName, dock);
         }
 
-        protected virtual bool CanRadioButtonChecked(RadioButton button)
+        private bool CanRadioButtonChecked(RadioButton button)
         {
             return true;
         }

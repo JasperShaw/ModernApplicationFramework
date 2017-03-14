@@ -8,7 +8,7 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
 {
     public interface IToolBarHostViewModel : IHasTheme
     {
-        IMainWindowViewModel MainWindowViewModel { get; }
+        IMainWindowViewModel MainWindowViewModel { get; set; }
 
         Command OpenContextMenuCommand { get; }
 

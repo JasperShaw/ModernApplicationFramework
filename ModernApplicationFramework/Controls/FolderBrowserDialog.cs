@@ -9,11 +9,11 @@ using ModernApplicationFramework.Core.Standard;
 using IShellItem = ModernApplicationFramework.Core.Shell.IShellItem;
 using NativeMethods = ModernApplicationFramework.Core.NativeMethods.NativeMethods;
 
-namespace ModernApplicationFramework.Dialoges
+namespace ModernApplicationFramework.Controls
 {
     /// <summary>
     /// Microsoft seems not to realize developers might need at some point a proper Dialog to choose folders from explorer. 
-    /// They accomplished that in they own tools by using the WindowsAPI but did not create an .NET version. 
+    /// They accomplished that in their own tools by using the WindowsAPI but did not create an .NET version. 
     /// 
     /// This sollution is based on Ookii's source code avaiable here: https://www.nuget.org/packages/Ookii.Dialogs/
     /// </summary>

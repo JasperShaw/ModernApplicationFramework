@@ -113,9 +113,6 @@
     <Resource Include="Docking\Themes\Generic\Images\PinRestore_Black.png" />
     <Resource Include="Docking\Themes\Generic\Images\PinRestore_Dark.png" />
     <Content Include="Info.txt" />
-    <Resource Include="Themes\Generic\Images\test.jpg" />
-    <Resource Include="Themes\Generic\Images\Build.png" />
-    <EmbeddedResource Include="Themes\Generic\Images\Checked.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandBase\CommandWrapper.cs" />
@@ -186,7 +183,7 @@
     <Compile Include="Core\Utilities\ReusableResourceStoreBase.cs" />
     <Compile Include="Core\Utilities\ReusableStringBuilder.cs" />
     <Compile Include="Core\Utilities\WindowsFileNameHelper.cs" />
-    <Compile Include="Dialoges\FolderBrowserDialog.cs" />
+    <Compile Include="Controls\FolderBrowserDialog.cs" />
     <Compile Include="Interfaces\Controls\IListViewContainer.cs" />
     <Compile Include="Interfaces\Controls\INonClientArea.cs" />
     <Compile Include="Controls\Internals\SelectionDelegatingCheckBox.cs" />
