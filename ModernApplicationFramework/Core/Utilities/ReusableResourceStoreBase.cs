@@ -2,7 +2,7 @@
 
 namespace ModernApplicationFramework.Core.Utilities
 {
-    public abstract class ReusableResourceStoreBase<TResource> where TResource : class
+    internal abstract class ReusableResourceStoreBase<TResource> where TResource : class
     {
         private TResource _resource;
 

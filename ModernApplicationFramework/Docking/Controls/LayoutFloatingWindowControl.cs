@@ -27,10 +27,9 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Core.NativeMethods;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Layout;
-using NativeMethods = ModernApplicationFramework.Core.Standard.NativeMethods;
-using SystemCommands = ModernApplicationFramework.Core.Shell.SystemCommands;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
@@ -192,16 +191,16 @@ namespace ModernApplicationFramework.Docking.Controls
                 if (WindowState == WindowState.Maximized)
                 {
                     ShowActivated = true;
-                    NativeMethods.ShowWindow(hwnd, 3);
+                    User32.ShowWindow(hwnd, 3);
                 }
                 else
-                    NativeMethods.ShowWindow(hwnd, 9);
+                    User32.ShowWindow(hwnd, 9);
             }
             else
             {
                 if (lParam.ToInt32() != 1)
                     return;
-                NativeMethods.ShowWindow(hwnd, 6);
+                User32.ShowWindow(hwnd, 6);
             }
         }
 
@@ -263,14 +262,12 @@ namespace ModernApplicationFramework.Docking.Controls
 
         protected override void OnInitialized(EventArgs e)
         {
-            CommandBindings.Add(new CommandBinding(SystemCommands.CloseWindowCommand,
-                (s, args) => SystemCommands.CloseWindow((Window) args.Parameter)));
-            CommandBindings.Add(new CommandBinding(SystemCommands.MaximizeWindowCommand,
-                (s, args) => SystemCommands.MaximizeWindow((Window) args.Parameter)));
             CommandBindings.Add(new CommandBinding(SystemCommands.MinimizeWindowCommand,
-                (s, args) => SystemCommands.MinimizeWindow((Window) args.Parameter)));
+                (sender, args) => SystemCommands.MinimizeWindow((Window)args.Parameter)));
             CommandBindings.Add(new CommandBinding(SystemCommands.RestoreWindowCommand,
-                (s, args) => SystemCommands.RestoreWindow((Window) args.Parameter)));
+                (sender, args) => SystemCommands.RestoreWindow((Window)args.Parameter)));
+            CommandBindings.Add(new CommandBinding(SystemCommands.MaximizeWindowCommand,
+                (sender, args) => SystemCommands.MaximizeWindow((Window)args.Parameter)));
             base.OnInitialized(e);
         }
 

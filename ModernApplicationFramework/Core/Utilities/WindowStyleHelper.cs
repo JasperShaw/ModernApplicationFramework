@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Interop;
-using ModernApplicationFramework.Core.Platform;
+using ModernApplicationFramework.Core.Standard;
 
 namespace ModernApplicationFramework.Core.Utilities
 {
@@ -54,10 +54,10 @@ namespace ModernApplicationFramework.Core.Utilities
 
         private static void UpdateWindowStyle(Window window, IntPtr handle)
         {
-            var windowLong = NativeMethods.NativeMethods.GetWindowLong2(handle, -16);
+            var windowLong = NativeMethods.User32.GetWindowLong32(handle, -16);
             var num1 = !GetHasMaximizeButton(window) ? windowLong & -65537 : windowLong | 65536;
             var num2 = !GetHasMinimizeButton(window) ? num1 & -131073 : num1 | 131072;
-            NativeMethods.NativeMethods.SetWindowLong(handle, -16, num2);
+            NativeMethods.User32.SetWindowLong(handle, -16, num2);
         }
     }
 }

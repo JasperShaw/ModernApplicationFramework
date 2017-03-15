@@ -27,9 +27,7 @@ using System.Runtime.InteropServices;
 
 namespace ModernApplicationFramework.Core.Standard
 {
-    /// <summary>
-    ///     Wrapper for common Win32 status codes.
-    /// </summary>
+
     [StructLayout(LayoutKind.Explicit)]
     internal struct Win32Error
     {
@@ -230,7 +228,6 @@ namespace ModernApplicationFramework.Core.Standard
         WinCodec = 0x898
     }
 
-    /// <summary>Wrapper for HRESULT status codes.</summary>
     [StructLayout(LayoutKind.Explicit)]
     internal struct Hresult
     {

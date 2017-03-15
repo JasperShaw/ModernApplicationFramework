@@ -30,9 +30,7 @@ namespace ModernApplicationFramework.Core.Utilities
         {
             Control control = obj as Control;
             if (control == null || !(args.NewValue is bool))
-            {
                 return;
-            }
 
             var uc = control.FindAncestor<UserControl>();
 

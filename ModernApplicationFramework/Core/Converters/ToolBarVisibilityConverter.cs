@@ -1,5 +1,5 @@
 ﻿using System.Globalization;
-using ModernApplicationFramework.Core.Platform;
+using ModernApplicationFramework.Core.Platform.Enums;
 
 namespace ModernApplicationFramework.Core.Converters
 {

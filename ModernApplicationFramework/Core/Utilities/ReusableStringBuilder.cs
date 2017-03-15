@@ -1,9 +1,9 @@
 ﻿using System.Text;
-using ModernApplicationFramework.Core.Platform;
+using ModernApplicationFramework.Core.Standard;
 
 namespace ModernApplicationFramework.Core.Utilities
 {
-    public sealed class ReusableStringBuilder : ReusableResourceStore<StringBuilder, int>
+    internal sealed class ReusableStringBuilder : ReusableResourceStore<StringBuilder, int>
     {
         private static readonly ReusableStringBuilder DefaultInstance = new ReusableStringBuilder();
         private readonly int _maximumCacheCapacity;

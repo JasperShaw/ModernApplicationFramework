@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using ModernApplicationFramework.Core.Platform;
+using ModernApplicationFramework.Core.Standard;
 
 namespace ModernApplicationFramework.Core.Utilities
 {

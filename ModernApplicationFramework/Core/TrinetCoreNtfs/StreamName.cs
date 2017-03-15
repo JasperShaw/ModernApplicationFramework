@@ -80,7 +80,7 @@ namespace ModernApplicationFramework.Core.TrinetCoreNtfs
             if (string.IsNullOrEmpty(name))
                 return name;
             // Name is of the format ":NAME:$DATA\0"
-            var separatorIndex = name.IndexOf(SafeNativeMethods.StreamSeparator, 1);
+            var separatorIndex = name.IndexOf(NativeMethods.NativeMethods.StreamSeparator, 1);
             if (-1 != separatorIndex)
                 name = name.Substring(1, separatorIndex - 1);
             else

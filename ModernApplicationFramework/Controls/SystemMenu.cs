@@ -7,7 +7,6 @@ using System.Windows.Media.Imaging;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces.Controls;
 using ModernApplicationFramework.Interfaces.ViewModels;
-using SystemCommands = ModernApplicationFramework.Core.Shell.SystemCommands;
 
 namespace ModernApplicationFramework.Controls
 {

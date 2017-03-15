@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Interop;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.NativeMethods;
-using ModernApplicationFramework.Core.Platform;
+using ModernApplicationFramework.Core.Standard;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Themes;
 
@@ -98,20 +98,20 @@ namespace ModernApplicationFramework.Controls
             var handle = _hwndSource.Handle;
             if (handle == IntPtr.Zero)
                 return;
-            var windowLong1 = NativeMethods.GetWindowLong2(handle, -16);
+            var windowLong1 = User32.GetWindowLong32(handle, -16);
             var num1 = !HasMaximizeButton ? windowLong1 & -65537 : windowLong1 | 65536;
             var num2 = !HasMinimizeButton ? num1 & -131073 : num1 | 131072;
-            NativeMethods.SetWindowLong(handle, -16, num2);
-            NativeMethods.GetWindowLong2(handle, -20);
-            NativeMethods.SendMessage(handle, 128, new IntPtr(1), IntPtr.Zero);
-            NativeMethods.SendMessage(handle, 128, new IntPtr(0), IntPtr.Zero);
-            var systemMenu = NativeMethods.GetSystemMenu(handle, false);
+            User32.SetWindowLong(handle, -16, num2);
+            User32.GetWindowLong32(handle, -20);
+            User32.SendMessage(handle, 128, new IntPtr(1), IntPtr.Zero);
+            User32.SendMessage(handle, 128, new IntPtr(0), IntPtr.Zero);
+            var systemMenu = User32.GetSystemMenu(handle, false);
             if (systemMenu != IntPtr.Zero)
             {
                 var num5 = IsCloseButtonEnabled ? 0U : 1U;
-                NativeMethods.EnableMenuItem(systemMenu, 61536U, 0U | num5);
+                User32.EnableMenuItem(systemMenu, 61536U, 0U | num5);
             }
-            NativeMethods.SetWindowPos(handle, IntPtr.Zero, 0, 0, 0, 0, 35);
+            User32.SetWindowPos(handle, IntPtr.Zero, 0, 0, 0, 0, 35);
         }
 
         private IntPtr WndProcHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)

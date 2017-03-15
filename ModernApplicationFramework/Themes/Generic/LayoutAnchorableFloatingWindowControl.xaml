@@ -2,7 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Docking.Converters"
                     xmlns:avalonDockControls="clr-namespace:ModernApplicationFramework.Docking.Controls"
-                    xmlns:shell="clr-namespace:ModernApplicationFramework.Core.Shell"
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:utilities="clr-namespace:ModernApplicationFramework.Core.Utilities"
                     xmlns:mafc="clr-namespace:ModernApplicationFramework.Controls">
@@ -65,8 +64,10 @@
                                         <mafc:WindowTitleBarButton x:Name="MaximizeRestoreButton" WindowChrome.IsHitTestVisibleInChrome="True"
                                                                    Focusable="False" Height="15" Width="15" BorderThickness="1" Margin="0,0,2,0"
                                                                    Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}" 
-                                                                   Command="{x:Static shell:SystemCommands.MaximizeWindowCommand}"
-                                                                   CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}" 
+                                                                   AutomationProperties.AutomationId="Maximize"
+                                                                   AutomationProperties.Name="Maximize"
+                                                                   Command="{x:Static SystemCommands.MaximizeWindowCommand}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}"
                                                                    ToolTip="Maximize" VerticalAlignment="Center" HorizontalAlignment="Center"
                                                                    VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
                                                                    Background="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBackground}}"
@@ -115,8 +116,10 @@
 
                                         <mafc:WindowTitleBarButton x:Name="MaximizeRestoreButtonL" Width="34" Height="26" VerticalAlignment="Top" 
                                                                    BorderThickness="1,0,1,1" Padding="0,3,0,0"
-                                                                   Command="{x:Static shell:SystemCommands.MaximizeWindowCommand}"
-                                                                   CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}" 
+                                                                   AutomationProperties.AutomationId="Maximize"
+                                                                   AutomationProperties.Name="Maximize"
+                                                                   Command="{x:Static SystemCommands.MaximizeWindowCommand}"
+                                                                   CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}"
                                                                    Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InverseBoolToVisibilityConverter}}" 
                                                                    ToolTip="Maximize"  WindowChrome.IsHitTestVisibleInChrome="True">
                                             <Path x:Name="MaximizeRestoreButtonPathL" Width="9" Height="9"
@@ -151,16 +154,16 @@
                             <Setter TargetName="MaximizeRestoreButtonPathL" Property="Data" Value="F1 M 0,10 L 0,3 3,3 3,0 10,0 10,2 4,2 4,3 7,3 7,6 6,6 6,5 1,5 1,10 M 1,10 L 7,10 7,7 10,7 10,2 9,2 9,6 6,6 6,9 1,9 Z" />
                             <Setter TargetName="MaximizeRestoreButtonPathL" Property="Height" Value="10" />
                             <Setter TargetName="MaximizeRestoreButtonPathL" Property="Width" Value="10" />
-                            <Setter TargetName="MaximizeRestoreButtonL" Property="Command" Value="{x:Static shell:SystemCommands.RestoreWindowCommand}"/>
-                            <Setter TargetName="MaximizeRestoreButtonL" Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource TemplatedParent}}"/>
                             <Setter TargetName="MaximizeRestoreButtonL" Property="ToolTip" Value="Restore" />
                             <Setter TargetName="MaximizeRestoreButtonL" Property="AutomationProperties.Name" Value="Restore" />
                             <Setter TargetName="MaximizeRestoreButtonL" Property="AutomationProperties.AutomationId" Value="Restore"/>
+                            <Setter TargetName="MaximizeRestoreButtonL" Property="Command" Value="{x:Static SystemCommands.RestoreWindowCommand}"/>
 
                             <Setter TargetName="MaximizeRestoreButtonPath" Property="Data" Value="F1 M 0,10 L 0,3 3,3 3,0 10,0 10,2 4,2 4,3 7,3 7,6 6,6 6,5 1,5 1,10 M 1,10 L 7,10 7,7 10,7 10,2 9,2 9,6 6,6 6,9 1,9 Z" />
-                            <Setter TargetName="MaximizeRestoreButton" Property="Command" Value="{x:Static shell:SystemCommands.RestoreWindowCommand}"/>
-                            <Setter TargetName="MaximizeRestoreButton" Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource TemplatedParent}}"/>
                             <Setter TargetName="MaximizeRestoreButton" Property="ToolTip" Value="Restore" />
+                            <Setter TargetName="MaximizeRestoreButton" Property="AutomationProperties.Name" Value="Restore" />
+                            <Setter TargetName="MaximizeRestoreButton" Property="AutomationProperties.AutomationId" Value="Restore"/>
+                            <Setter TargetName="MaximizeRestoreButton" Property="Command" Value="{x:Static SystemCommands.RestoreWindowCommand}"/>
                         </Trigger>
                         <Trigger Property="IsActive" Value="True">
                             <Setter TargetName="TitleBar" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarBackgroundActive}}"/>

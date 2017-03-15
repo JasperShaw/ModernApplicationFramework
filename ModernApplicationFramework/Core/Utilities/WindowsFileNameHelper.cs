@@ -26,7 +26,7 @@ namespace ModernApplicationFramework.Core.Utilities
                 !nDrive.EndsWith(Path.DirectorySeparatorChar.ToString(CultureInfo.InvariantCulture),
                     StringComparison.CurrentCultureIgnoreCase))
                 nDrive += Path.DirectorySeparatorChar;
-            switch ((DriveType) NativeMethods.NativeMethods.GetDriveTypeW(nDrive))
+            switch ((DriveType) NativeMethods.Kernel32.GetDriveTypeW(nDrive))
             {
                 case DriveType.Fixed:
                 case DriveType.Removable:

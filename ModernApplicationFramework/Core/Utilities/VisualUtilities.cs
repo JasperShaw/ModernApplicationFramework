@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Media;
-using ModernApplicationFramework.Core.Platform;
+using ModernApplicationFramework.Core.Platform.Enums;
 
 namespace ModernApplicationFramework.Core.Utilities
 {
@@ -9,7 +9,7 @@ namespace ModernApplicationFramework.Core.Utilities
     {
         public static TAncestorType FindAncestor<TAncestorType>(this Visual obj) where TAncestorType : DependencyObject
         {
-            return FindAncestor<TAncestorType, DependencyObject>(obj, GetVisualOrLogicalParent1);
+            return FindAncestor<TAncestorType, DependencyObject>(obj, GetVisualOrLogicalParent);
         }
 
         public static TAncestorType FindAncestor<TAncestorType, TElementType>(this TElementType obj,
@@ -58,7 +58,7 @@ namespace ModernApplicationFramework.Core.Utilities
             return null;
         }
 
-        public static DependencyObject GetVisualOrLogicalParent1(this DependencyObject sourceElement)
+        public static DependencyObject GetVisualOrLogicalParent(this DependencyObject sourceElement)
         {
             if (sourceElement == null)
                 return null;
@@ -75,7 +75,7 @@ namespace ModernApplicationFramework.Core.Utilities
 
         internal static bool ModifyStyle(IntPtr hWnd, int styleToRemove, int styleToAdd)
         {
-            var windowLong = NativeMethods.NativeMethods.GetWindowLong(hWnd, Gwl.Style);
+            var windowLong = NativeMethods.User32.GetWindowLong(hWnd, (int) Gwl.Style);
             var dwNewLong = windowLong & ~styleToRemove | styleToAdd;
             if (dwNewLong == windowLong)
                 return false;

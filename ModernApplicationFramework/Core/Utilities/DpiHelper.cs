@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Media;
-using ModernApplicationFramework.Core.Platform;
+using ModernApplicationFramework.Core.Platform.Enums;
 using Size = System.Windows.Size;
 
 namespace ModernApplicationFramework.Core.Utilities

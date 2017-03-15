@@ -3,6 +3,9 @@ using System.ComponentModel;
 using System.IO;
 using System.Security;
 using System.Security.Permissions;
+using ModernApplicationFramework.Core.NativeMethods;
+using ModernApplicationFramework.Core.Platform.Enums;
+using ModernApplicationFramework.Core.Platform.Structs;
 
 namespace ModernApplicationFramework.Core.TrinetCoreNtfs
 {
@@ -19,9 +22,9 @@ namespace ModernApplicationFramework.Core.TrinetCoreNtfs
 		/// This argument must not be <see langword="null"/>.
 		/// </param>
 		/// <param name="info">
-		/// The <see cref="SafeNativeMethods.Win32StreamInfo"/> containing the stream information.
+		/// The <see cref="Win32StreamInfo"/> containing the stream information.
 		/// </param>
-		internal AlternateDataStreamInfo(string filePath, SafeNativeMethods.Win32StreamInfo info)
+		internal AlternateDataStreamInfo(string filePath, Win32StreamInfo info)
         {
             FilePath = filePath;
             Name = info.StreamName;
@@ -30,7 +33,7 @@ namespace ModernApplicationFramework.Core.TrinetCoreNtfs
             Size = info.StreamSize;
             Exists = true;
 
-            FullPath = SafeNativeMethods.BuildStreamPath(FilePath, Name);
+            FullPath = NativeMethods.NativeMethods.BuildStreamPath(FilePath, Name);
         }
 
         /// <summary>
@@ -55,7 +58,7 @@ namespace ModernApplicationFramework.Core.TrinetCoreNtfs
         /// </param>
         internal AlternateDataStreamInfo(string filePath, string streamName, string fullPath, bool exists)
         {
-            if (string.IsNullOrEmpty(fullPath)) fullPath = SafeNativeMethods.BuildStreamPath(filePath, streamName);
+            if (string.IsNullOrEmpty(fullPath)) fullPath = NativeMethods.NativeMethods.BuildStreamPath(filePath, streamName);
             StreamType = FileStreamType.AlternateDataStream;
 
             FilePath = filePath;
@@ -65,7 +68,7 @@ namespace ModernApplicationFramework.Core.TrinetCoreNtfs
 
             if (Exists)
             {
-                Size = SafeNativeMethods.GetFileSize(FullPath);
+                Size = NativeMethods.NativeMethods.GetFileSize(FullPath);
             }
         }
 
@@ -265,7 +268,7 @@ namespace ModernApplicationFramework.Core.TrinetCoreNtfs
         {
             const FileIOPermissionAccess permAccess = FileIOPermissionAccess.Write;
             new FileIOPermission(permAccess, FilePath).Demand();
-            return SafeNativeMethods.SafeDeleteFile(FullPath);
+            return NativeMethods.NativeMethods.SafeDeleteFile(FullPath);
         }
 
         /// <summary>
@@ -367,9 +370,9 @@ namespace ModernApplicationFramework.Core.TrinetCoreNtfs
             var permAccess = CalculateAccess(mode, access);
             new FileIOPermission(permAccess, FilePath).Demand();
 
-            var flags = useAsync ? SafeNativeMethods.NativeFileFlags.Overlapped : 0;
-            var handle = SafeNativeMethods.SafeCreateFile(FullPath, access.ToNative(), share, IntPtr.Zero, mode, flags, IntPtr.Zero);
-            if (handle.IsInvalid) SafeNativeMethods.ThrowLastIoError(FullPath);
+            var flags = useAsync ? NativeFileFlags.Overlapped : 0;
+            var handle = NativeMethods.NativeMethods.SafeCreateFile(FullPath, access.ToNative(), share, IntPtr.Zero, mode, flags, IntPtr.Zero);
+            if (handle.IsInvalid) NativeMethods.NativeMethods.ThrowLastIoError(FullPath);
             return new FileStream(handle, access, bufferSize, useAsync);
         }
 
@@ -448,7 +451,7 @@ namespace ModernApplicationFramework.Core.TrinetCoreNtfs
         /// </exception>
         public FileStream Open(FileMode mode, FileAccess access, FileShare share)
         {
-            return Open(mode, access, share, SafeNativeMethods.DefaultBufferSize, false);
+            return Open(mode, access, share, NativeMethods.NativeMethods.DefaultBufferSize, false);
         }
 
         /// <summary>
@@ -481,7 +484,7 @@ namespace ModernApplicationFramework.Core.TrinetCoreNtfs
         /// </exception>
         public FileStream Open(FileMode mode, FileAccess access)
         {
-            return Open(mode, access, FileShare.None, SafeNativeMethods.DefaultBufferSize, false);
+            return Open(mode, access, FileShare.None, NativeMethods.NativeMethods.DefaultBufferSize, false);
         }
 
         /// <summary>
@@ -512,7 +515,7 @@ namespace ModernApplicationFramework.Core.TrinetCoreNtfs
         public FileStream Open(FileMode mode)
         {
             FileAccess access = (FileMode.Append == mode) ? FileAccess.Write : FileAccess.ReadWrite;
-            return Open(mode, access, FileShare.None, SafeNativeMethods.DefaultBufferSize, false);
+            return Open(mode, access, FileShare.None, NativeMethods.NativeMethods.DefaultBufferSize, false);
         }
 
         /// <summary>

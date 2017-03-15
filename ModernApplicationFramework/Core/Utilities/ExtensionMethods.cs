@@ -1,20 +1,10 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Media;
 
 namespace ModernApplicationFramework.Core.Utilities
 {
     public static class ExtensionMethods
     {
-        public static DependencyObject GetVisualOrLogicalParent(this DependencyObject sourceElement)
-        {
-            if (sourceElement == null)
-                return null;
-            if (sourceElement is Visual)
-                return VisualTreeHelper.GetParent(sourceElement) ?? LogicalTreeHelper.GetParent(sourceElement);
-            return LogicalTreeHelper.GetParent(sourceElement);
-        }
-
         public static bool IsConnectedToPresentationSource(this DependencyObject obj)
         {
             return PresentationSource.FromDependencyObject(obj) != null;

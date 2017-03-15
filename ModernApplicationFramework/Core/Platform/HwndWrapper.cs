@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using ModernApplicationFramework.Core.NativeMethods;
+using ModernApplicationFramework.Core.Platform.Structs;
 
 namespace ModernApplicationFramework.Core.Platform
 {
@@ -40,14 +42,14 @@ namespace ModernApplicationFramework.Core.Platform
         {
             if (_wndClassAtom == 0)
                 return;
-            NativeMethods.NativeMethods.UnregisterClass(new IntPtr(_wndClassAtom), NativeMethods.NativeMethods.GetModuleHandle(null));
+            User32.UnregisterClass(new IntPtr(_wndClassAtom), Kernel32.GetModuleHandle(null));
             _wndClassAtom = 0;
         }
 
         [CLSCompliant(false)]
         protected ushort RegisterClass(string className)
         {
-            var lpWndClass = new WNDCLASS
+            var lpWndClass = new WndClass
             {
                 cbClsExtra = 0,
                 cbWndExtra = 0,
@@ -59,7 +61,7 @@ namespace ModernApplicationFramework.Core.Platform
                 lpszMenuName = null,
                 style = 0U
             };
-            return NativeMethods.NativeMethods.RegisterClass(ref lpWndClass);
+            return User32.RegisterClass(ref lpWndClass);
         }
 
         private void SubclassWndProc()
@@ -74,7 +76,7 @@ namespace ModernApplicationFramework.Core.Platform
         {
             if (!(_handle != IntPtr.Zero))
                 return;
-            if (!NativeMethods.NativeMethods.DestroyWindow(_handle))
+            if (!User32.DestroyWindow(_handle))
             {
                 _lastDestroyWindowError = Marshal.GetLastWin32Error();
                 ++_failedDestroyWindows;
@@ -84,7 +86,7 @@ namespace ModernApplicationFramework.Core.Platform
 
         protected virtual IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam)
         {
-            return NativeMethods.NativeMethods.DefWindowProc(hwnd, msg, wParam, lParam);
+            return User32.DefWindowProc(hwnd, msg, wParam, lParam);
         }
 
         public void EnsureHandle()
@@ -95,14 +97,11 @@ namespace ModernApplicationFramework.Core.Platform
             {
                 throw new NotSupportedException();
             }
-            else
-            {
-                _isHandleCreationAllowed = false;
-                _handle = CreateWindowCore();
-                if (!IsWindowSubclassed)
-                    return;
-                SubclassWndProc();
-            }
+            _isHandleCreationAllowed = false;
+            _handle = CreateWindowCore();
+            if (!IsWindowSubclassed)
+                return;
+            SubclassWndProc();
         }
 
         protected override void DisposeNativeResources()

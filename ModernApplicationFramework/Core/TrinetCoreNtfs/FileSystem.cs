@@ -65,7 +65,7 @@ namespace ModernApplicationFramework.Core.TrinetCoreNtfs
             string path = file.FullName;
             new FileIOPermission(FileIOPermissionAccess.Read, path).Demand();
 
-            return SafeNativeMethods.ListStreams(path)
+            return NativeMethods.NativeMethods.ListStreams(path)
                 .Select(s => new AlternateDataStreamInfo(path, s))
                 .ToList().AsReadOnly();
         }
@@ -124,10 +124,10 @@ namespace ModernApplicationFramework.Core.TrinetCoreNtfs
         public static bool AlternateDataStreamExists(this FileSystemInfo file, string streamName)
         {
             if (null == file) throw new ArgumentNullException(nameof(file));
-            SafeNativeMethods.ValidateStreamName(streamName);
+            NativeMethods.NativeMethods.ValidateStreamName(streamName);
 
-            string path = SafeNativeMethods.BuildStreamPath(file.FullName, streamName);
-            return -1 != SafeNativeMethods.SafeGetFileAttributes(path);
+            string path = NativeMethods.NativeMethods.BuildStreamPath(file.FullName, streamName);
+            return -1 != NativeMethods.NativeMethods.SafeGetFileAttributes(path);
         }
 
         /// <summary>
@@ -200,7 +200,7 @@ namespace ModernApplicationFramework.Core.TrinetCoreNtfs
         {
             if (null == file) throw new ArgumentNullException(nameof(file));
             if (!file.Exists) throw new FileNotFoundException(null, file.FullName);
-            SafeNativeMethods.ValidateStreamName(streamName);
+            NativeMethods.NativeMethods.ValidateStreamName(streamName);
 
             if (FileMode.Truncate == mode || FileMode.Append == mode)
             {
@@ -210,8 +210,8 @@ namespace ModernApplicationFramework.Core.TrinetCoreNtfs
             FileIOPermissionAccess permAccess = (FileMode.Open == mode) ? FileIOPermissionAccess.Read : FileIOPermissionAccess.Read | FileIOPermissionAccess.Write;
             new FileIOPermission(permAccess, file.FullName).Demand();
 
-            string path = SafeNativeMethods.BuildStreamPath(file.FullName, streamName);
-            bool exists = -1 != SafeNativeMethods.SafeGetFileAttributes(path);
+            string path = NativeMethods.NativeMethods.BuildStreamPath(file.FullName, streamName);
+            bool exists = -1 != NativeMethods.NativeMethods.SafeGetFileAttributes(path);
 
             if (!exists && FileMode.Open == mode)
             {
@@ -371,7 +371,7 @@ namespace ModernApplicationFramework.Core.TrinetCoreNtfs
         {
             if (null == file)
                 throw new ArgumentNullException(nameof(file));
-            SafeNativeMethods.ValidateStreamName(streamName);
+            NativeMethods.NativeMethods.ValidateStreamName(streamName);
 
             const FileIOPermissionAccess permAccess = FileIOPermissionAccess.Write;
             new FileIOPermission(permAccess, file.FullName).Demand();
@@ -379,10 +379,10 @@ namespace ModernApplicationFramework.Core.TrinetCoreNtfs
             var result = false;
             if (!file.Exists)
                 return false;
-            var path = SafeNativeMethods.BuildStreamPath(file.FullName, streamName);
-            if (-1 != SafeNativeMethods.SafeGetFileAttributes(path))
+            var path = NativeMethods.NativeMethods.BuildStreamPath(file.FullName, streamName);
+            if (-1 != NativeMethods.NativeMethods.SafeGetFileAttributes(path))
             {
-                result = SafeNativeMethods.SafeDeleteFile(path);
+                result = NativeMethods.NativeMethods.SafeDeleteFile(path);
             }
 
             return result;

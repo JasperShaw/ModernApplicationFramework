@@ -11,7 +11,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using ModernApplicationFramework.Core.Events;
+using ModernApplicationFramework.Core.NativeMethods;
 using ModernApplicationFramework.Core.Platform;
+using ModernApplicationFramework.Core.Platform.Enums;
+using ModernApplicationFramework.Core.Platform.Structs;
 using ModernApplicationFramework.Core.Standard;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
@@ -19,7 +22,7 @@ using ModernApplicationFramework.Interfaces.Controls;
 using DpiHelper = ModernApplicationFramework.Core.Utilities.DpiHelper;
 using NativeMethods = ModernApplicationFramework.Core.NativeMethods.NativeMethods;
 using Point = System.Windows.Point;
-using RECT = ModernApplicationFramework.Core.Platform.RECT;
+using RECT = ModernApplicationFramework.Core.Platform.Structs.RECT;
 using Screen = System.Windows.Forms.Screen;
 
 namespace ModernApplicationFramework.Controls
@@ -63,6 +66,7 @@ namespace ModernApplicationFramework.Controls
         private bool _updatingZOrder;
         private bool _useLogicalSizeForRestore;
         internal int DeferGlowChangesCount;
+        private bool _wasMaximized;
 
         static ModernChromeWindow()
         {
@@ -142,8 +146,8 @@ namespace ModernApplicationFramework.Controls
             get
             {
                 var handle = new WindowInteropHelper(this).Handle;
-                if (NativeMethods.IsWindowVisible(handle) && !NativeMethods.IsIconic(handle) &&
-                    !NativeMethods.IsZoomed(handle))
+                if (User32.IsWindowVisible(handle) && !User32.IsIconic(handle) &&
+                    !User32.IsZoomed(handle))
                     return (uint) ResizeMode > 0U;
                 return false;
             }
@@ -305,12 +309,12 @@ namespace ModernApplicationFramework.Controls
         private void WnGetMinMaxInfo(IntPtr hwnd, IntPtr lparam)
         {
             var mmi = (Minmaxinfo) Marshal.PtrToStructure(lparam, typeof(Minmaxinfo));
-            var monitor = NativeMethods.MonitorFromWindow(hwnd, MonitorDefaulttonearest);
+            var monitor = User32.MonitorFromWindow(hwnd, MonitorDefaulttonearest);
 
             if (monitor != IntPtr.Zero)
             {
                 var monitorInfo = new MonitorInfo();
-                NativeMethods.GetMonitorInfo(monitor, monitorInfo);
+                User32.GetMonitorInfo(monitor, monitorInfo);
                 var rcWorkArea = monitorInfo.rcWork;
                 var rcMonitorArea = monitorInfo.rcMonitor;
                 mmi.ptMaxPosition.X = Math.Abs(rcWorkArea.Left - rcMonitorArea.Left);
@@ -329,16 +333,16 @@ namespace ModernApplicationFramework.Controls
 
         private static Minmaxinfo AdjustWorkingAreaForAutoHide(IntPtr monitor, Minmaxinfo mmi)
         {
-            var hwnd = NativeMethods.FindWindow("Shell_TrayWnd", null);
-            var monitorWithTaskBar = NativeMethods.MonitorFromWindow(hwnd, MonitorDefaulttonearest);
+            var hwnd = User32.FindWindow("Shell_TrayWnd", null);
+            var monitorWithTaskBar = User32.MonitorFromWindow(hwnd, MonitorDefaulttonearest);
             if (!monitor.Equals(monitorWithTaskBar))
                 return mmi;
             var abd = new Appbardata();
             abd.cbSize = Marshal.SizeOf(abd);
             abd.hWnd = hwnd;
-            NativeMethods.SHAppBarMessage((int) AbMsg.AbmGettaskbarpos, ref abd);
+            Shell32.SHAppBarMessage((int) AbMsg.AbmGettaskbarpos, ref abd);
             var uEdge = GetEdge(abd.rc);
-            var autoHide = Convert.ToBoolean(NativeMethods.SHAppBarMessage((int) AbMsg.AbmGetstate, ref abd));
+            var autoHide = Convert.ToBoolean(Shell32.SHAppBarMessage((int) AbMsg.AbmGetstate, ref abd));
 
             if (!autoHide)
                 return mmi;
@@ -385,13 +389,13 @@ namespace ModernApplicationFramework.Controls
 
         private static void RaiseNonClientMouseMessageAsClient(IntPtr hWnd, int msg, IntPtr lParam)
         {
-            var point = new Core.Platform.Point
+            var point = new Core.Platform.Structs.Point
             {
-                X = NativeMethods.GetXLParam(lParam.ToInt32()),
-                Y = NativeMethods.GetYLParam(lParam.ToInt32())
+                X = NativeMethods.GetXlParam(lParam.ToInt32()),
+                Y = NativeMethods.GetYlParam(lParam.ToInt32())
             };
-            NativeMethods.ScreenToClient(hWnd, ref point);
-            NativeMethods.SendMessage(hWnd, msg + 513 - 161, new IntPtr(PressedMouseButtons),
+            User32.ScreenToClient(hWnd, ref point);
+            User32.SendMessage(hWnd, msg + 513 - 161, new IntPtr(PressedMouseButtons),
                 NativeMethods.MakeParam(point.X, point.Y));
         }
 
@@ -399,7 +403,7 @@ namespace ModernApplicationFramework.Controls
             ref bool handled)
         {
             var flag = VisualUtilities.ModifyStyle(hWnd, 268435456, 0);
-            var num = NativeMethods.DefWindowProc(hWnd, msg, wParam, lParam);
+            var num = User32.DefWindowProc(hWnd, msg, wParam, lParam);
             if (flag)
                 VisualUtilities.ModifyStyle(hWnd, 0, 268435456);
             handled = true;
@@ -410,13 +414,13 @@ namespace ModernApplicationFramework.Controls
         {
             if (!(_ownerForActivate != IntPtr.Zero))
                 return;
-            NativeMethods.SendMessage(_ownerForActivate, NativeMethods.NOTIFYOWNERACTIVATE, wParam, lParam);
+            User32.SendMessage(_ownerForActivate, NativeMethods.NotifyOwnerActivate, wParam, lParam);
         }
 
         private IntPtr WmNcActivate(IntPtr hWnd, IntPtr wParam, ref bool handled)
         {
             handled = true;
-            return NativeMethods.DefWindowProc(hWnd, 134, wParam, new IntPtr(-1));
+            return User32.DefWindowProc(hWnd, 134, wParam, new IntPtr(-1));
         }
 
         private IntPtr WmNcPaint(IntPtr hWnd, IntPtr wParam, ref bool handled)
@@ -424,29 +428,29 @@ namespace ModernApplicationFramework.Controls
             if (_isNonClientStripVisible)
             {
                 var hrgnClip = wParam == new IntPtr(1) ? IntPtr.Zero : wParam;
-                var dcEx = NativeMethods.GetDCEx(hWnd, hrgnClip, 155);
+                var dcEx = User32.GetDCEx(hWnd, hrgnClip, 155);
                 if (dcEx != IntPtr.Zero)
                     try
                     {
                         var nonClientFillColor = NonClientFillColor;
                         var solidBrush =
-                            NativeMethods.CreateSolidBrush((nonClientFillColor.B << 16) | (nonClientFillColor.G << 8) |
+                            Gdi32.CreateSolidBrush((nonClientFillColor.B << 16) | (nonClientFillColor.G << 8) |
                                                            nonClientFillColor.R);
                         try
                         {
                             var relativeToWindowRect = GetClientRectRelativeToWindowRect(hWnd);
                             relativeToWindowRect.Top = relativeToWindowRect.Bottom;
                             relativeToWindowRect.Bottom = relativeToWindowRect.Top + 1;
-                            NativeMethods.FillRect(dcEx, ref relativeToWindowRect, solidBrush);
+                            User32.FillRect(dcEx, ref relativeToWindowRect, solidBrush);
                         }
                         finally
                         {
-                            NativeMethods.DeleteObject(solidBrush);
+                            Gdi32.DeleteObject(solidBrush);
                         }
                     }
                     finally
                     {
-                        NativeMethods.ReleaseDC(hWnd, dcEx);
+                        User32.ReleaseDC(hWnd, dcEx);
                     }
             }
             handled = true;
@@ -456,11 +460,11 @@ namespace ModernApplicationFramework.Controls
         private static RECT GetClientRectRelativeToWindowRect(IntPtr hWnd)
         {
             RECT lpRect1;
-            NativeMethods.GetWindowRect(hWnd, out lpRect1);
+            User32.GetWindowRect(hWnd, out lpRect1);
             RECT lpRect2;
-            NativeMethods.GetClientRect(hWnd, out lpRect2);
-            var point = new Core.Platform.Point {X = 0, Y = 0};
-            NativeMethods.ClientToScreen(hWnd, ref point);
+            User32.GetClientRect(hWnd, out lpRect2);
+            var point = new Core.Platform.Structs.Point {X = 0, Y = 0};
+            User32.ClientToScreen(hWnd, ref point);
             lpRect2.Offset(point.X - lpRect1.Left, point.Y - lpRect1.Top);
             return lpRect2;
         }
@@ -471,7 +475,7 @@ namespace ModernApplicationFramework.Controls
             if (NativeMethods.GetWindowPlacement(hWnd).showCmd == 3)
             {
                 var structure1 = (RECT) Marshal.PtrToStructure(lParam, typeof(RECT));
-                NativeMethods.DefWindowProc(hWnd, 131, wParam, lParam);
+                User32.DefWindowProc(hWnd, 131, wParam, lParam);
                 var structure2 = (RECT) Marshal.PtrToStructure(lParam, typeof(RECT));
                 var monitorinfo = MonitorInfoFromWindow(hWnd);
                 if (monitorinfo.RcMonitor.Height == monitorinfo.RcWork.Height &&
@@ -491,8 +495,8 @@ namespace ModernApplicationFramework.Controls
         {
             if (!this.IsConnectedToPresentationSource())
                 return new IntPtr(0);
-            var point1 = new Point(NativeMethods.GetXLParam(lParam.ToInt32()),
-                NativeMethods.GetYLParam(lParam.ToInt32()));
+            var point1 = new Point(NativeMethods.GetXlParam(lParam.ToInt32()),
+                NativeMethods.GetYlParam(lParam.ToInt32()));
             var point2 = PointFromScreen(point1);
             DependencyObject visualHit = null;
             VisualUtilities.HitTestVisibleElements(this, target =>
@@ -519,24 +523,66 @@ namespace ModernApplicationFramework.Controls
 
         private void WmSysCommand(IntPtr hWnd, IntPtr wParam)
         {
-            var scWparam = NativeMethods.GET_SC_WPARAM(wParam);
+            var scWparam = NativeMethods.GetScWparam(wParam);
+            //if (scWparam == 61456)
+            //    User32.RedrawWindow(hWnd, IntPtr.Zero, IntPtr.Zero,
+            //        RedrawWindowFlags.Invalidate | RedrawWindowFlags.NoChildren | RedrawWindowFlags.UpdateNow |
+            //        RedrawWindowFlags.Frame);
+            //if ((scWparam == 61488 || scWparam == 61472 || scWparam == 61456 || scWparam == 61440) &&
+            //    WindowState == WindowState.Normal && !IsAeroSnappedToMonitor(hWnd))
+            //    _logicalSizeForRestore = new Rect(Left, Top, Width, Height);
+            //if (scWparam == 61456 && WindowState == WindowState.Maximized && _logicalSizeForRestore == Rect.Empty)
+            //    _logicalSizeForRestore = new Rect(Left, Top, Width, Height);
+            //if (scWparam != 61728 || WindowState == WindowState.Minimized || _logicalSizeForRestore.Width <= 0.0 ||
+            //    _logicalSizeForRestore.Height <= 0.0)
+            //    return;
+            //Left = _logicalSizeForRestore.Left;
+            //Top = _logicalSizeForRestore.Top;
+            //Width = _logicalSizeForRestore.Width;
+            //Height = _logicalSizeForRestore.Height;
+            //_useLogicalSizeForRestore = true;
+
+
+            _lastState = WindowState;
             if (scWparam == 61456)
-                NativeMethods.RedrawWindow(hWnd, IntPtr.Zero, IntPtr.Zero,
+            {
+                User32.RedrawWindow(hWnd, IntPtr.Zero, IntPtr.Zero,
                     RedrawWindowFlags.Invalidate | RedrawWindowFlags.NoChildren | RedrawWindowFlags.UpdateNow |
                     RedrawWindowFlags.Frame);
+            }
+            if (_wasMaximized)
+            {
+                WindowStyle = WindowStyle.None;
+                _wasMaximized = false;
+                return;
+            }
+            if (scWparam == 61472 || scWparam == 61728)
+                WindowStyle = WindowStyle.SingleBorderWindow;
+            else
+                WindowStyle = WindowStyle.None;
+            if (scWparam == 61472 && WindowState == WindowState.Maximized)
+                _wasMaximized = true;
+
             if ((scWparam == 61488 || scWparam == 61472 || scWparam == 61456 || scWparam == 61440) &&
                 WindowState == WindowState.Normal && !IsAeroSnappedToMonitor(hWnd))
                 _logicalSizeForRestore = new Rect(Left, Top, Width, Height);
             if (scWparam == 61456 && WindowState == WindowState.Maximized && _logicalSizeForRestore == Rect.Empty)
                 _logicalSizeForRestore = new Rect(Left, Top, Width, Height);
-            if (scWparam != 61728 || WindowState == WindowState.Minimized || _logicalSizeForRestore.Width <= 0.0 ||
-                _logicalSizeForRestore.Height <= 0.0)
+            if (scWparam != 61728 || WindowState == WindowState.Minimized ||
+                (_logicalSizeForRestore.Width <= 0.0 || _logicalSizeForRestore.Height <= 0.0))
                 return;
             Left = _logicalSizeForRestore.Left;
             Top = _logicalSizeForRestore.Top;
             Width = _logicalSizeForRestore.Width;
             Height = _logicalSizeForRestore.Height;
             _useLogicalSizeForRestore = true;
+        }
+
+        protected override void OnStateChanged(EventArgs e)
+        {
+            if (WindowState == WindowState.Normal)
+                WindowStyle = WindowStyle.None;
+            base.OnStateChanged(e);
         }
 
         private bool IsAeroSnappedToMonitor(IntPtr hWnd)
@@ -548,7 +594,7 @@ namespace ModernApplicationFramework.Controls
 
         private void WmWindowPosChanging(IntPtr lParam)
         {
-            var structure = (WINDOWPOS) Marshal.PtrToStructure(lParam, typeof(WINDOWPOS));
+            var structure = (Windowpos) Marshal.PtrToStructure(lParam, typeof(Windowpos));
             if ((structure.flags & 2) != 0 || (structure.flags & 1) != 0 || structure.cx <= 0 || structure.cy <= 0)
                 return;
             var floatRect = new Rect(structure.x, structure.y, structure.cx, structure.cy).DeviceToLogicalUnits();
@@ -596,8 +642,8 @@ namespace ModernApplicationFramework.Controls
                 var handle = windowInteropHelper.Handle;
                 foreach (var loadedGlowWindow in LoadedGlowWindows)
                 {
-                    if (NativeMethods.GetWindow(loadedGlowWindow.Handle, 3) != handle)
-                        NativeMethods.SetWindowPos(loadedGlowWindow.Handle, handle, 0, 0, 0, 0, 19);
+                    if (User32.GetWindow(loadedGlowWindow.Handle, 3) != handle)
+                        User32.SetWindowPos(loadedGlowWindow.Handle, handle, 0, 0, 0, 0, 19);
                     handle = loadedGlowWindow.Handle;
                 }
                 var owner = windowInteropHelper.Owner;
@@ -614,15 +660,15 @@ namespace ModernApplicationFramework.Controls
         private void UpdateZOrderOfOwner(IntPtr hwndOwner)
         {
             var lastOwnedWindow = IntPtr.Zero;
-            NativeMethods.EnumThreadWindows(NativeMethods.GetCurrentThreadId(), (hwnd, lParam) =>
+            User32.EnumThreadWindows(Kernel32.GetCurrentThreadId(), (hwnd, lParam) =>
             {
-                if (NativeMethods.GetWindow(hwnd, 4) == hwndOwner)
+                if (User32.GetWindow(hwnd, 4) == hwndOwner)
                     lastOwnedWindow = hwnd;
                 return true;
             }, IntPtr.Zero);
-            if (!(lastOwnedWindow != IntPtr.Zero) || !(NativeMethods.GetWindow(hwndOwner, 3) != lastOwnedWindow))
+            if (!(lastOwnedWindow != IntPtr.Zero) || !(User32.GetWindow(hwndOwner, 3) != lastOwnedWindow))
                 return;
-            NativeMethods.SetWindowPos(hwndOwner, lastOwnedWindow, 0, 0, 0, 0, 19);
+            User32.SetWindowPos(hwndOwner, lastOwnedWindow, 0, 0, 0, 0, 19);
         }
 
         protected virtual void OnWindowPosChanged(IntPtr hWnd, int showCmd, Int32Rect rcNormalPosition)
@@ -635,7 +681,7 @@ namespace ModernApplicationFramework.Controls
             if (hwndSource == null)
                 return;
             RECT lpRect;
-            NativeMethods.GetWindowRect(hwndSource.Handle, out lpRect);
+            User32.GetWindowRect(hwndSource.Handle, out lpRect);
             var windowPlacement = NativeMethods.GetWindowPlacement(hwndSource.Handle);
             UpdateClipRegion(hwndSource.Handle, windowPlacement, regionChangeType, lpRect);
         }
@@ -669,7 +715,7 @@ namespace ModernApplicationFramework.Controls
         {
             var pwi = new Windowinfo();
             pwi.CbSize = Marshal.SizeOf((object) pwi);
-            NativeMethods.GetWindowInfo(hWnd, ref pwi);
+            User32.GetWindowInfo(hWnd, ref pwi);
             return pwi;
         }
 
@@ -678,34 +724,34 @@ namespace ModernApplicationFramework.Controls
             var relativeToWindowRect = GetClientRectRelativeToWindowRect(hWnd);
             if (_isNonClientStripVisible)
                 ++relativeToWindowRect.Bottom;
-            var rectRgnIndirect = NativeMethods.CreateRectRgnIndirect(ref relativeToWindowRect);
-            NativeMethods.SetWindowRgn(hWnd, rectRgnIndirect, NativeMethods.IsWindowVisible(hWnd));
+            var rectRgnIndirect = Gdi32.CreateRectRgnIndirect(ref relativeToWindowRect);
+            User32.SetWindowRgn(hWnd, rectRgnIndirect, User32.IsWindowVisible(hWnd));
         }
 
         private static Monitorinfo MonitorInfoFromWindow(IntPtr hWnd)
         {
-            var hMonitor = NativeMethods.MonitorFromWindow(hWnd, 2);
-            var monitorInfo = new Monitorinfo {CbSize = (uint) Marshal.SizeOf(typeof(MONITORINFO))};
-            NativeMethods.GetMonitorInfo(hMonitor, ref monitorInfo);
+            var hMonitor = User32.MonitorFromWindow(hWnd, 2);
+            var monitorInfo = new Monitorinfo {CbSize = (uint) Marshal.SizeOf(typeof(Monitorinfo))};
+            User32.GetMonitorInfo(hMonitor, ref monitorInfo);
             return monitorInfo;
         }
 
         private void ClearClipRegion(IntPtr hWnd)
         {
-            NativeMethods.SetWindowRgn(hWnd, IntPtr.Zero, NativeMethods.IsWindowVisible(hWnd));
+            User32.SetWindowRgn(hWnd, IntPtr.Zero, User32.IsWindowVisible(hWnd));
         }
 
         protected void SetRoundRect(IntPtr hWnd, int width, int height)
         {
             var roundRectRegion = ComputeRoundRectRegion(0, 0, width, height, CornerRadius);
-            NativeMethods.SetWindowRgn(hWnd, roundRectRegion, NativeMethods.IsWindowVisible(hWnd));
+            User32.SetWindowRgn(hWnd, roundRectRegion, User32.IsWindowVisible(hWnd));
         }
 
         private IntPtr ComputeRoundRectRegion(int left, int top, int width, int height, int cornerRadius)
         {
             var nWidthEllipse = (int) (2 * cornerRadius * DpiHelper.LogicalToDeviceUnitsScalingFactorX);
             var nHeightEllipse = (int) (2 * cornerRadius * DpiHelper.LogicalToDeviceUnitsScalingFactorY);
-            return NativeMethods.CreateRoundRectRgn(left, top, left + width + 1, top + height + 1, nWidthEllipse,
+            return Gdi32.CreateRoundRectRgn(left, top, left + width + 1, top + height + 1, nWidthEllipse,
                 nHeightEllipse);
         }
 
@@ -730,45 +776,45 @@ namespace ModernApplicationFramework.Controls
                 num2 = ComputeRoundRectRegion(rect.X, rect.Y, rect.Width, rect.Height, (int) cornerRadius.TopRight);
                 num3 = ComputeRoundRectRegion(rect.X, rect.Y, rect.Width, rect.Height, (int) cornerRadius.BottomLeft);
                 num4 = ComputeRoundRectRegion(rect.X, rect.Y, rect.Width, rect.Height, (int) cornerRadius.BottomRight);
-                var point = new POINT
+                var point = new Core.Platform.Structs.Point()
                 {
-                    x = rect.X + rect.Width / 2,
-                    y = rect.Y + rect.Height / 2
+                    X = rect.X + rect.Width / 2,
+                    Y = rect.Y + rect.Height / 2
                 };
-                num5 = NativeMethods.CreateRectRgn(rect.X, rect.Y, point.x + 1, point.y + 1);
-                num6 = NativeMethods.CreateRectRgn(point.x - 1, rect.Y, rect.X + rect.Width, point.y + 1);
-                num7 = NativeMethods.CreateRectRgn(rect.X, point.y - 1, point.x + 1, rect.Y + rect.Height);
-                num8 = NativeMethods.CreateRectRgn(point.x - 1, point.y - 1, rect.X + rect.Width, rect.Y + rect.Height);
-                num9 = NativeMethods.CreateRectRgn(0, 0, 1, 1);
-                num10 = NativeMethods.CreateRectRgn(0, 0, 1, 1);
-                NativeMethods.CombineRgn(num10, num1, num5, NativeMethods.CombineMode.RgnAnd);
-                NativeMethods.CombineRgn(num9, num2, num6, NativeMethods.CombineMode.RgnAnd);
-                NativeMethods.CombineRgn(num10, num10, num9, NativeMethods.CombineMode.RgnOr);
-                NativeMethods.CombineRgn(num9, num3, num7, NativeMethods.CombineMode.RgnAnd);
-                NativeMethods.CombineRgn(num10, num10, num9, NativeMethods.CombineMode.RgnOr);
-                NativeMethods.CombineRgn(num9, num4, num8, NativeMethods.CombineMode.RgnAnd);
-                NativeMethods.CombineRgn(num10, num10, num9, NativeMethods.CombineMode.RgnOr);
+                num5 = Gdi32.CreateRectRgn(rect.X, rect.Y, point.X + 1, point.Y + 1);
+                num6 = Gdi32.CreateRectRgn(point.X - 1, rect.Y, rect.X + rect.Width, point.Y + 1);
+                num7 = Gdi32.CreateRectRgn(rect.X, point.Y - 1, point.X + 1, rect.Y + rect.Height);
+                num8 = Gdi32.CreateRectRgn(point.X - 1, point.Y - 1, rect.X + rect.Width, rect.Y + rect.Height);
+                num9 = Gdi32.CreateRectRgn(0, 0, 1, 1);
+                num10 = Gdi32.CreateRectRgn(0, 0, 1, 1);
+                NativeMethods.CombineRgn(num10, num1, num5, CombineMode.RgnAnd);
+                NativeMethods.CombineRgn(num9, num2, num6, CombineMode.RgnAnd);
+                NativeMethods.CombineRgn(num10, num10, num9, CombineMode.RgnOr);
+                NativeMethods.CombineRgn(num9, num3, num7, CombineMode.RgnAnd);
+                NativeMethods.CombineRgn(num10, num10, num9, CombineMode.RgnOr);
+                NativeMethods.CombineRgn(num9, num4, num8, CombineMode.RgnAnd);
+                NativeMethods.CombineRgn(num10, num10, num9, CombineMode.RgnOr);
             }
             finally
             {
                 if (num1 != IntPtr.Zero)
-                    NativeMethods.DeleteObject(num1);
+                    Gdi32.DeleteObject(num1);
                 if (num2 != IntPtr.Zero)
-                    NativeMethods.DeleteObject(num2);
+                    Gdi32.DeleteObject(num2);
                 if (num3 != IntPtr.Zero)
-                    NativeMethods.DeleteObject(num3);
+                    Gdi32.DeleteObject(num3);
                 if (num4 != IntPtr.Zero)
-                    NativeMethods.DeleteObject(num4);
+                    Gdi32.DeleteObject(num4);
                 if (num5 != IntPtr.Zero)
-                    NativeMethods.DeleteObject(num5);
+                    Gdi32.DeleteObject(num5);
                 if (num6 != IntPtr.Zero)
-                    NativeMethods.DeleteObject(num6);
+                    Gdi32.DeleteObject(num6);
                 if (num7 != IntPtr.Zero)
-                    NativeMethods.DeleteObject(num7);
+                    Gdi32.DeleteObject(num7);
                 if (num8 != IntPtr.Zero)
-                    NativeMethods.DeleteObject(num8);
+                    Gdi32.DeleteObject(num8);
                 if (num9 != IntPtr.Zero)
-                    NativeMethods.DeleteObject(num9);
+                    Gdi32.DeleteObject(num9);
             }
             return num10;
         }
@@ -784,37 +830,37 @@ namespace ModernApplicationFramework.Controls
 
         protected static void ShowWindowMenu(HwndSource source, Point screenPoint, bool canMinimize)
         {
-            var systemMetrics = NativeMethods.GetSystemMetrics(40);
-            var systemMenu = NativeMethods.GetSystemMenu(source.Handle, false);
+            var systemMetrics = User32.GetSystemMetrics(40);
+            var systemMenu = User32.GetSystemMenu(source.Handle, false);
             var windowPlacement = NativeMethods.GetWindowPlacement(source.Handle);
             var flag = VisualUtilities.ModifyStyle(source.Handle, 268435456, 0);
             var num1 = canMinimize ? 0U : 1U;
             if (windowPlacement.showCmd == 1)
             {
-                NativeMethods.EnableMenuItem(systemMenu, 61728U, 1U);
-                NativeMethods.EnableMenuItem(systemMenu, 61456U, 0U);
-                NativeMethods.EnableMenuItem(systemMenu, 61440U, 0U);
-                NativeMethods.EnableMenuItem(systemMenu, 61488U, 0U);
-                NativeMethods.EnableMenuItem(systemMenu, 61472U, 0U | num1);
-                NativeMethods.EnableMenuItem(systemMenu, 61536U, 0U);
+                User32.EnableMenuItem(systemMenu, 61728U, 1U);
+                User32.EnableMenuItem(systemMenu, 61456U, 0U);
+                User32.EnableMenuItem(systemMenu, 61440U, 0U);
+                User32.EnableMenuItem(systemMenu, 61488U, 0U);
+                User32.EnableMenuItem(systemMenu, 61472U, 0U | num1);
+                User32.EnableMenuItem(systemMenu, 61536U, 0U);
             }
             else if (windowPlacement.showCmd == 3)
             {
-                NativeMethods.EnableMenuItem(systemMenu, 61728U, 0U);
-                NativeMethods.EnableMenuItem(systemMenu, 61456U, 1U);
-                NativeMethods.EnableMenuItem(systemMenu, 61440U, 1U);
-                NativeMethods.EnableMenuItem(systemMenu, 61488U, 1U);
-                NativeMethods.EnableMenuItem(systemMenu, 61472U, 0U | num1);
-                NativeMethods.EnableMenuItem(systemMenu, 61536U, 0U);
+                User32.EnableMenuItem(systemMenu, 61728U, 0U);
+                User32.EnableMenuItem(systemMenu, 61456U, 1U);
+                User32.EnableMenuItem(systemMenu, 61440U, 1U);
+                User32.EnableMenuItem(systemMenu, 61488U, 1U);
+                User32.EnableMenuItem(systemMenu, 61472U, 0U | num1);
+                User32.EnableMenuItem(systemMenu, 61536U, 0U);
             }
             if (flag)
                 VisualUtilities.ModifyStyle(source.Handle, 0, 268435456);
             var fuFlags = (uint) (systemMetrics | 256 | 128 | 2);
-            var num2 = NativeMethods.TrackPopupMenuEx(systemMenu, fuFlags, (int) screenPoint.X, (int) screenPoint.Y,
+            var num2 = User32.TrackPopupMenuEx(systemMenu, fuFlags, (int) screenPoint.X, (int) screenPoint.Y,
                 source.Handle, IntPtr.Zero);
             if (num2 == 0)
                 return;
-            NativeMethods.PostMessage(source.Handle, 274, new IntPtr(num2), IntPtr.Zero);
+            User32.PostMessage(source.Handle, 274, new IntPtr(num2), IntPtr.Zero);
         }
 
         protected override void OnClosed(EventArgs e)
@@ -998,19 +1044,19 @@ namespace ModernApplicationFramework.Controls
             {
                 if (_sharedWindowClassAtom != 0)
                     return _sharedWindowClassAtom;
-                var lpWndClass = new WNDCLASS
+                var lpWndClass = new WndClass
                 {
                     cbClsExtra = 0,
                     cbWndExtra = 0,
                     hbrBackground = IntPtr.Zero,
                     hCursor = IntPtr.Zero,
                     hIcon = IntPtr.Zero,
-                    lpfnWndProc = _sharedWndProc = NativeMethods.DefWindowProc,
+                    lpfnWndProc = _sharedWndProc = User32.DefWindowProc,
                     lpszClassName = "ModernApplicationGlowWindow",
                     lpszMenuName = null,
                     style = 0U
                 };
-                _sharedWindowClassAtom = NativeMethods.RegisterClass(ref lpWndClass);
+                _sharedWindowClassAtom = User32.RegisterClass(ref lpWndClass);
                 return _sharedWindowClassAtom;
             }
         }
@@ -1095,13 +1141,13 @@ namespace ModernApplicationFramework.Controls
 
         protected override IntPtr CreateWindowCore()
         {
-            return NativeMethods.CreateWindowEx(524416, new IntPtr(GetWindowClassAtom()), string.Empty, -2046820352, 0,
+            return User32.CreateWindowEx(524416, new IntPtr(GetWindowClassAtom()), string.Empty, -2046820352, 0,
                 0, 0, 0, new WindowInteropHelper(_targetWindow).Owner, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
         }
 
         public void ChangeOwner(IntPtr newOwner)
         {
-            NativeMethods.SetWindowLongPtrGWLP(Handle, Gwlp.Hwndparent, newOwner);
+            NativeMethods.SetWindowLongPtrGwlp(Handle, Gwlp.Hwndparent, newOwner);
         }
 
         protected override IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam)
@@ -1123,8 +1169,8 @@ namespace ModernApplicationFramework.Controls
                 case 171:
                 case 173:
                     var targetWindowHandle = TargetWindowHandle;
-                    NativeMethods.SendMessage(targetWindowHandle, 6, new IntPtr(2), IntPtr.Zero);
-                    NativeMethods.SendMessage(targetWindowHandle, msg, wParam, IntPtr.Zero);
+                    User32.SendMessage(targetWindowHandle, 6, new IntPtr(2), IntPtr.Zero);
+                    User32.SendMessage(targetWindowHandle, msg, wParam, IntPtr.Zero);
                     return IntPtr.Zero;
                 case 6:
                     return IntPtr.Zero;
@@ -1139,10 +1185,10 @@ namespace ModernApplicationFramework.Controls
 
         private int WmNcHitTest(IntPtr lParam)
         {
-            var xlParam = NativeMethods.GetXLParam(lParam.ToInt32());
-            var ylParam = NativeMethods.GetYLParam(lParam.ToInt32());
+            var xlParam = NativeMethods.GetXlParam(lParam.ToInt32());
+            var ylParam = NativeMethods.GetYlParam(lParam.ToInt32());
             RECT lpRect;
-            NativeMethods.GetWindowRect(Handle, out lpRect);
+            User32.GetWindowRect(Handle, out lpRect);
             switch (_orientation)
             {
                 case Dock.Left:
@@ -1201,7 +1247,7 @@ namespace ModernApplicationFramework.Controls
                 flags |= 2;
             if (!InvalidatedValuesHasFlag(FieldInvalidationTypes.Size))
                 flags |= 1;
-            NativeMethods.SetWindowPos(Handle, IntPtr.Zero, Left, Top, Width, Height, flags);
+            User32.SetWindowPos(Handle, IntPtr.Zero, Left, Top, Width, Height, flags);
         }
 
         private void UpdateLayeredWindowCore()
@@ -1264,18 +1310,18 @@ namespace ModernApplicationFramework.Controls
                         DrawBottom(drawingContext);
                         break;
                 }
-                var pptDest = new Core.Platform.Point
+                var pptDest = new Core.Platform.Structs.Point
                 {
                     X = Left,
                     Y = Top
                 };
-                var psize = new Win32SIZE
+                var psize = new Win32Size
                 {
-                    cx = Width,
-                    cy = Height
+                    Cx = Width,
+                    Cy = Height
                 };
-                var pptSrc = new Core.Platform.Point {X = 0, Y = 0};
-                NativeMethods.UpdateLayeredWindow(Handle, drawingContext.ScreenDc, ref pptDest, ref psize,
+                var pptSrc = new Core.Platform.Structs.Point {X = 0, Y = 0};
+                User32.UpdateLayeredWindow(Handle, drawingContext.ScreenDc, ref pptDest, ref psize,
                     drawingContext.WindowDc, ref pptSrc, 0U, ref drawingContext.Blend, 2U);
             }
         }
@@ -1332,23 +1378,23 @@ namespace ModernApplicationFramework.Controls
             var yoriginDest2 = drawingContext.Height - bitmap5.Height;
             var yoriginDest3 = yoriginDest2 - bitmap4.Height;
             var hDest = yoriginDest3 - yoriginDest1;
-            NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap1.Handle);
-            NativeMethods.AlphaBlend(drawingContext.WindowDc, 0, 0, bitmap1.Width, bitmap1.Height,
+            Gdi32.SelectObject(drawingContext.BackgroundDc, bitmap1.Handle);
+            Msimg32.AlphaBlend(drawingContext.WindowDc, 0, 0, bitmap1.Width, bitmap1.Height,
                 drawingContext.BackgroundDc, 0, 0, bitmap1.Width, bitmap1.Height, drawingContext.Blend);
-            NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap2.Handle);
-            NativeMethods.AlphaBlend(drawingContext.WindowDc, 0, height, bitmap2.Width, bitmap2.Height,
+            Gdi32.SelectObject(drawingContext.BackgroundDc, bitmap2.Handle);
+            Msimg32.AlphaBlend(drawingContext.WindowDc, 0, height, bitmap2.Width, bitmap2.Height,
                 drawingContext.BackgroundDc, 0, 0, bitmap2.Width, bitmap2.Height, drawingContext.Blend);
             if (hDest > 0)
             {
-                NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap3.Handle);
-                NativeMethods.AlphaBlend(drawingContext.WindowDc, 0, yoriginDest1, bitmap3.Width, hDest,
+                Gdi32.SelectObject(drawingContext.BackgroundDc, bitmap3.Handle);
+                Msimg32.AlphaBlend(drawingContext.WindowDc, 0, yoriginDest1, bitmap3.Width, hDest,
                     drawingContext.BackgroundDc, 0, 0, bitmap3.Width, bitmap3.Height, drawingContext.Blend);
             }
-            NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap4.Handle);
-            NativeMethods.AlphaBlend(drawingContext.WindowDc, 0, yoriginDest3, bitmap4.Width, bitmap4.Height,
+            Gdi32.SelectObject(drawingContext.BackgroundDc, bitmap4.Handle);
+            Msimg32.AlphaBlend(drawingContext.WindowDc, 0, yoriginDest3, bitmap4.Width, bitmap4.Height,
                 drawingContext.BackgroundDc, 0, 0, bitmap4.Width, bitmap4.Height, drawingContext.Blend);
-            NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap5.Handle);
-            NativeMethods.AlphaBlend(drawingContext.WindowDc, 0, yoriginDest2, bitmap5.Width, bitmap5.Height,
+            Gdi32.SelectObject(drawingContext.BackgroundDc, bitmap5.Handle);
+            Msimg32.AlphaBlend(drawingContext.WindowDc, 0, yoriginDest2, bitmap5.Width, bitmap5.Height,
                 drawingContext.BackgroundDc, 0, 0, bitmap5.Width, bitmap5.Height, drawingContext.Blend);
         }
 
@@ -1364,23 +1410,23 @@ namespace ModernApplicationFramework.Controls
             var yoriginDest2 = drawingContext.Height - bitmap5.Height;
             var yoriginDest3 = yoriginDest2 - bitmap4.Height;
             var hDest = yoriginDest3 - yoriginDest1;
-            NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap1.Handle);
-            NativeMethods.AlphaBlend(drawingContext.WindowDc, 0, 0, bitmap1.Width, bitmap1.Height,
+            Gdi32.SelectObject(drawingContext.BackgroundDc, bitmap1.Handle);
+            Msimg32.AlphaBlend(drawingContext.WindowDc, 0, 0, bitmap1.Width, bitmap1.Height,
                 drawingContext.BackgroundDc, 0, 0, bitmap1.Width, bitmap1.Height, drawingContext.Blend);
-            NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap2.Handle);
-            NativeMethods.AlphaBlend(drawingContext.WindowDc, 0, height, bitmap2.Width, bitmap2.Height,
+            Gdi32.SelectObject(drawingContext.BackgroundDc, bitmap2.Handle);
+            Msimg32.AlphaBlend(drawingContext.WindowDc, 0, height, bitmap2.Width, bitmap2.Height,
                 drawingContext.BackgroundDc, 0, 0, bitmap2.Width, bitmap2.Height, drawingContext.Blend);
             if (hDest > 0)
             {
-                NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap3.Handle);
-                NativeMethods.AlphaBlend(drawingContext.WindowDc, 0, yoriginDest1, bitmap3.Width, hDest,
+                Gdi32.SelectObject(drawingContext.BackgroundDc, bitmap3.Handle);
+                Msimg32.AlphaBlend(drawingContext.WindowDc, 0, yoriginDest1, bitmap3.Width, hDest,
                     drawingContext.BackgroundDc, 0, 0, bitmap3.Width, bitmap3.Height, drawingContext.Blend);
             }
-            NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap4.Handle);
-            NativeMethods.AlphaBlend(drawingContext.WindowDc, 0, yoriginDest3, bitmap4.Width, bitmap4.Height,
+            Gdi32.SelectObject(drawingContext.BackgroundDc, bitmap4.Handle);
+            Msimg32.AlphaBlend(drawingContext.WindowDc, 0, yoriginDest3, bitmap4.Width, bitmap4.Height,
                 drawingContext.BackgroundDc, 0, 0, bitmap4.Width, bitmap4.Height, drawingContext.Blend);
-            NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap5.Handle);
-            NativeMethods.AlphaBlend(drawingContext.WindowDc, 0, yoriginDest2, bitmap5.Width, bitmap5.Height,
+            Gdi32.SelectObject(drawingContext.BackgroundDc, bitmap5.Handle);
+            Msimg32.AlphaBlend(drawingContext.WindowDc, 0, yoriginDest2, bitmap5.Width, bitmap5.Height,
                 drawingContext.BackgroundDc, 0, 0, bitmap5.Width, bitmap5.Height, drawingContext.Blend);
         }
 
@@ -1393,17 +1439,17 @@ namespace ModernApplicationFramework.Controls
             var xoriginDest2 = xoriginDest1 + bitmap1.Width;
             var xoriginDest3 = drawingContext.Width - 9 - bitmap3.Width;
             var wDest = xoriginDest3 - xoriginDest2;
-            NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap1.Handle);
-            NativeMethods.AlphaBlend(drawingContext.WindowDc, xoriginDest1, 0, bitmap1.Width, bitmap1.Height,
+            Gdi32.SelectObject(drawingContext.BackgroundDc, bitmap1.Handle);
+            Msimg32.AlphaBlend(drawingContext.WindowDc, xoriginDest1, 0, bitmap1.Width, bitmap1.Height,
                 drawingContext.BackgroundDc, 0, 0, bitmap1.Width, bitmap1.Height, drawingContext.Blend);
             if (wDest > 0)
             {
-                NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap2.Handle);
-                NativeMethods.AlphaBlend(drawingContext.WindowDc, xoriginDest2, 0, wDest, bitmap2.Height,
+                Gdi32.SelectObject(drawingContext.BackgroundDc, bitmap2.Handle);
+                Msimg32.AlphaBlend(drawingContext.WindowDc, xoriginDest2, 0, wDest, bitmap2.Height,
                     drawingContext.BackgroundDc, 0, 0, bitmap2.Width, bitmap2.Height, drawingContext.Blend);
             }
-            NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap3.Handle);
-            NativeMethods.AlphaBlend(drawingContext.WindowDc, xoriginDest3, 0, bitmap3.Width, bitmap3.Height,
+            Gdi32.SelectObject(drawingContext.BackgroundDc, bitmap3.Handle);
+            Msimg32.AlphaBlend(drawingContext.WindowDc, xoriginDest3, 0, bitmap3.Width, bitmap3.Height,
                 drawingContext.BackgroundDc, 0, 0, bitmap3.Width, bitmap3.Height, drawingContext.Blend);
         }
 
@@ -1416,17 +1462,17 @@ namespace ModernApplicationFramework.Controls
             var xoriginDest2 = xoriginDest1 + bitmap1.Width;
             var xoriginDest3 = drawingContext.Width - 9 - bitmap3.Width;
             var wDest = xoriginDest3 - xoriginDest2;
-            NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap1.Handle);
-            NativeMethods.AlphaBlend(drawingContext.WindowDc, xoriginDest1, 0, bitmap1.Width, bitmap1.Height,
+            Gdi32.SelectObject(drawingContext.BackgroundDc, bitmap1.Handle);
+            Msimg32.AlphaBlend(drawingContext.WindowDc, xoriginDest1, 0, bitmap1.Width, bitmap1.Height,
                 drawingContext.BackgroundDc, 0, 0, bitmap1.Width, bitmap1.Height, drawingContext.Blend);
             if (wDest > 0)
             {
-                NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap2.Handle);
-                NativeMethods.AlphaBlend(drawingContext.WindowDc, xoriginDest2, 0, wDest, bitmap2.Height,
+                Gdi32.SelectObject(drawingContext.BackgroundDc, bitmap2.Handle);
+                Msimg32.AlphaBlend(drawingContext.WindowDc, xoriginDest2, 0, wDest, bitmap2.Height,
                     drawingContext.BackgroundDc, 0, 0, bitmap2.Width, bitmap2.Height, drawingContext.Blend);
             }
-            NativeMethods.SelectObject(drawingContext.BackgroundDc, bitmap3.Handle);
-            NativeMethods.AlphaBlend(drawingContext.WindowDc, xoriginDest3, 0, bitmap3.Width, bitmap3.Height,
+            Gdi32.SelectObject(drawingContext.BackgroundDc, bitmap3.Handle);
+            Msimg32.AlphaBlend(drawingContext.WindowDc, xoriginDest3, 0, bitmap3.Width, bitmap3.Height,
                 drawingContext.BackgroundDc, 0, 0, bitmap3.Width, bitmap3.Height, drawingContext.Blend);
         }
 
@@ -1434,7 +1480,7 @@ namespace ModernApplicationFramework.Controls
         {
             var targetWindowHandle = TargetWindowHandle;
             RECT lpRect;
-            NativeMethods.GetWindowRect(targetWindowHandle, out lpRect);
+            User32.GetWindowRect(targetWindowHandle, out lpRect);
             NativeMethods.GetWindowPlacement(targetWindowHandle);
             if (!IsVisible)
                 return;
@@ -1484,33 +1530,33 @@ namespace ModernApplicationFramework.Controls
     {
         public const int GlowBitmapPartCount = 16;
         private static readonly CachedBitmapInfo[] TransparencyMasks = new CachedBitmapInfo[16];
-        private readonly NativeMethods.BITMAPINFO _bitmapInfo;
+        private readonly BitmapInfo _bitmapInfo;
         private readonly IntPtr _pbits;
 
         public GlowBitmap(IntPtr hdcScreen, int width, int height)
         {
-            _bitmapInfo.biSize = Marshal.SizeOf(typeof(NativeMethods.BITMAPINFOHEADER));
-            _bitmapInfo.biPlanes = 1;
-            _bitmapInfo.biBitCount = 32;
-            _bitmapInfo.biCompression = 0;
-            _bitmapInfo.biXPelsPerMeter = 0;
-            _bitmapInfo.biYPelsPerMeter = 0;
-            _bitmapInfo.biWidth = width;
-            _bitmapInfo.biHeight = -height;
-            Handle = NativeMethods.CreateDIBSection(hdcScreen, ref _bitmapInfo, 0U, out _pbits, IntPtr.Zero, 0U);
+            _bitmapInfo.BiSize = Marshal.SizeOf(typeof(Bitmapinfoheader));
+            _bitmapInfo.BiPlanes = 1;
+            _bitmapInfo.BiBitCount = 32;
+            _bitmapInfo.BiCompression = 0;
+            _bitmapInfo.BiXPelsPerMeter = 0;
+            _bitmapInfo.BiYPelsPerMeter = 0;
+            _bitmapInfo.BiWidth = width;
+            _bitmapInfo.BiHeight = -height;
+            Handle = Gdi32.CreateDIBSection(hdcScreen, ref _bitmapInfo, 0U, out _pbits, IntPtr.Zero, 0U);
         }
 
         public IntPtr Handle { get; }
 
         public IntPtr DiBits => _pbits;
 
-        public int Width => _bitmapInfo.biWidth;
+        public int Width => _bitmapInfo.BiWidth;
 
-        public int Height => -_bitmapInfo.biHeight;
+        public int Height => -_bitmapInfo.BiHeight;
 
         protected override void DisposeNativeResources()
         {
-            NativeMethods.DeleteObject(Handle);
+            Gdi32.DeleteObject(Handle);
         }
 
         private static byte PremultiplyAlpha(byte channel, byte alpha)
@@ -1590,17 +1636,17 @@ namespace ModernApplicationFramework.Controls
     internal sealed class GlowDrawingContext : DisposableObject
     {
         private readonly GlowBitmap _windowBitmap;
-        public NativeMethods.BLENDFUNCTION Blend;
+        public BlendFunction Blend;
 
         public GlowDrawingContext(int width, int height)
         {
-            ScreenDc = NativeMethods.GetDC(IntPtr.Zero);
+            ScreenDc = User32.GetDC(IntPtr.Zero);
             if (ScreenDc == IntPtr.Zero)
                 return;
-            WindowDc = NativeMethods.CreateCompatibleDC(ScreenDc);
+            WindowDc = Gdi32.CreateCompatibleDC(ScreenDc);
             if (WindowDc == IntPtr.Zero)
                 return;
-            BackgroundDc = NativeMethods.CreateCompatibleDC(ScreenDc);
+            BackgroundDc = Gdi32.CreateCompatibleDC(ScreenDc);
             if (BackgroundDc == IntPtr.Zero)
                 return;
             Blend.BlendOp = 0;
@@ -1608,7 +1654,7 @@ namespace ModernApplicationFramework.Controls
             Blend.SourceConstantAlpha = byte.MaxValue;
             Blend.AlphaFormat = 1;
             _windowBitmap = new GlowBitmap(ScreenDc, width, height);
-            NativeMethods.SelectObject(WindowDc, _windowBitmap.Handle);
+            Gdi32.SelectObject(WindowDc, _windowBitmap.Handle);
         }
 
         public bool IsInitialized
@@ -1639,12 +1685,12 @@ namespace ModernApplicationFramework.Controls
         protected override void DisposeNativeResources()
         {
             if (ScreenDc != IntPtr.Zero)
-                NativeMethods.ReleaseDC(IntPtr.Zero, ScreenDc);
+                User32.ReleaseDC(IntPtr.Zero, ScreenDc);
             if (WindowDc != IntPtr.Zero)
-                NativeMethods.DeleteDC(WindowDc);
+                Gdi32.DeleteDC(WindowDc);
             if (!(BackgroundDc != IntPtr.Zero))
                 return;
-            NativeMethods.DeleteDC(BackgroundDc);
+            Gdi32.DeleteDC(BackgroundDc);
         }
     }
 

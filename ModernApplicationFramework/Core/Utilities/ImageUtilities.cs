@@ -11,7 +11,7 @@ namespace ModernApplicationFramework.Core.Utilities
         {
             var image = new Image();
             var thisassembly = Assembly.GetExecutingAssembly();
-            var imageStream = thisassembly.GetManifestResourceStream("ModernApplicationFramework." + path);
+            var imageStream = thisassembly.GetManifestResourceStream(thisassembly.FullName + "." + path);
             if (imageStream == null)
                 return image;
             var bmp = BitmapFrame.Create(imageStream);

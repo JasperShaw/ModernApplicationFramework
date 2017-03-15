@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using ModernApplicationFramework.Core.Platform;
+using ModernApplicationFramework.Core.Standard;
 
 namespace ModernApplicationFramework.Core.Converters
 {

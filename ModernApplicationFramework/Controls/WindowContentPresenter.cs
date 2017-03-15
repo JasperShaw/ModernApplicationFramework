@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Interop;
 using ModernApplicationFramework.Core.NativeMethods;
-using ModernApplicationFramework.Core.Platform;
+using ModernApplicationFramework.Core.Platform.Structs;
 
 namespace ModernApplicationFramework.Controls
 {
@@ -16,9 +16,9 @@ namespace ModernApplicationFramework.Controls
 
             if (hwndSource == null)
                 return base.MeasureOverride(constraint);
-            if (NativeMethods.IsIconic(hwndSource.Handle))
+            if (User32.IsIconic(hwndSource.Handle))
                 return base.MeasureOverride(_lastClientSize);
-            NativeMethods.GetClientRect(hwndSource.Handle, out RECT lpRect);
+            User32.GetClientRect(hwndSource.Handle, out RECT lpRect);
             _lastClientSize = new Size(lpRect.Width*Core.Utilities.DpiHelper.DeviceToLogicalUnitsScalingFactorX,
                 lpRect.Height* Core.Utilities.DpiHelper.DeviceToLogicalUnitsScalingFactorY);
             return base.MeasureOverride(_lastClientSize);

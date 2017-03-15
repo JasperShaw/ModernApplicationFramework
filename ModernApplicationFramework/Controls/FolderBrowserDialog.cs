@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Interop;
 using ModernApplicationFramework.Core.NativeMethods;
+using ModernApplicationFramework.Core.Platform.Enums;
 using ModernApplicationFramework.Core.Shell;
 using ModernApplicationFramework.Core.Standard;
 using IShellItem = ModernApplicationFramework.Core.Shell.IShellItem;
@@ -89,7 +90,7 @@ namespace ModernApplicationFramework.Controls
 
         public bool? ShowDialog(Window owner)
         {
-            IntPtr ownerHandle = owner == null ? NativeMethods.GetActiveWindow() : new WindowInteropHelper(owner).Handle;
+            IntPtr ownerHandle = owner == null ? User32.GetActiveWindow() : new WindowInteropHelper(owner).Handle;
             return RunDialog(ownerHandle);
         }
 
@@ -122,7 +123,7 @@ namespace ModernApplicationFramework.Controls
         {
             IShellItem item;
             dialog.GetResult(out item);
-            item.GetDisplayName(SIGDN.FILESYSPATH, out _selectedPath);
+            item.GetDisplayName(SIGDN.FileSysPath, out _selectedPath);
         }
 
         private void SetDialogProperties(IFileDialog dialog)

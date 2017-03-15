@@ -1,6 +1,6 @@
 ﻿namespace ModernApplicationFramework.Core.Utilities
 {
-    public abstract class ReusableResourceStore<TResource, TConstructorParameter> : ReusableResourceStoreBase<TResource> where TResource : class
+    internal abstract class ReusableResourceStore<TResource, TConstructorParameter> : ReusableResourceStoreBase<TResource> where TResource : class
     {
         public ReusableResourceHolder<TResource> Acquire(TConstructorParameter constructorParameter)
         {

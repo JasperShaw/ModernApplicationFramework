@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Input;
 using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Controls;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
 {
@@ -21,7 +22,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
 
         private void Test()
         {
-            MessageBox.Show("Test");
+            new FolderBrowserDialog().ShowDialog();
         }
 
         public override bool CanShowInMenu => false;

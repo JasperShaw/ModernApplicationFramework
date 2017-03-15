@@ -18,7 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls.Primitives;
-using ModernApplicationFramework.Core.Shell;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Layout;
 
@@ -124,7 +123,7 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public virtual void MaximizeRestoreButtonClick(object sender, RoutedEventArgs e)
         {
-            WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+            //WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
         }
 
         public override void OnApplyTemplate()
@@ -144,17 +143,6 @@ namespace ModernApplicationFramework.Docking.Controls
                     {
                         if (_model.RootDocument != null)
                             _model.RootDocument.IsActive = true;
-                    }
-                    break;
-                case Win32Helper.WmNcrbuttonup:
-                    if (wParam.ToInt32() == Win32Helper.HtCaption)
-                    {
-                        if (OpenContextMenu())
-                            handled = true;
-                        if (_model.Root.Manager.ShowSystemMenu)
-                            WindowChrome.GetWindowChrome(this).ShowSystemMenu = !handled;
-                        else
-                            WindowChrome.GetWindowChrome(this).ShowSystemMenu = false;
                     }
                     break;
             }

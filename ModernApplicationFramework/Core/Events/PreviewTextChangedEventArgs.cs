@@ -1,11 +1,10 @@
 ﻿using System.Windows;
-using ModernApplicationFramework.Core.Input;
+using ModernApplicationFramework.Core.Platform.Enums;
 
 namespace ModernApplicationFramework.Core.Events
 {
     public class PreviewTextChangedEventArgs : RoutedEventArgs
     {
-        #region Constructors
 
         public PreviewTextChangedEventArgs(RoutedEvent routedEvent, TextChangedType type, string text)
             : base(routedEvent)
@@ -21,14 +20,9 @@ namespace ModernApplicationFramework.Core.Events
             Text = text;
         }
 
-        #endregion
-
-        #region Properties
-
         public string Text { get; }
 
         public TextChangedType Type { get; }
 
-        #endregion
     }
 }

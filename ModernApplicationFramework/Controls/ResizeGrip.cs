@@ -23,7 +23,7 @@ namespace ModernApplicationFramework.Controls
             var hwndSource = (HwndSource) PresentationSource.FromVisual(this);
             if (hwndSource == null)
                 return;
-            NativeMethods.SendMessage(hwndSource.Handle, 274, (IntPtr) (61440 + num), IntPtr.Zero);
+            User32.SendMessage(hwndSource.Handle, 274, (IntPtr) (61440 + num), IntPtr.Zero);
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
 using ModernApplicationFramework.Core.Events;
-using ModernApplicationFramework.Core.Input;
+using ModernApplicationFramework.Core.Platform.Enums;
 
 namespace ModernApplicationFramework.Controls
 {
@@ -17,8 +17,6 @@ namespace ModernApplicationFramework.Controls
 
         public bool PreviewUndoEnabled { get; set; }
 
-        #region Event
-
         public static readonly RoutedEvent PreviewTextChangedEvent =
             EventManager.RegisterRoutedEvent("PreviewTextChanged", RoutingStrategy.Tunnel,
                 typeof(PreviewTextChangedEventHandler), typeof(TextBox));
@@ -29,9 +27,6 @@ namespace ModernApplicationFramework.Controls
             remove => RemoveHandler(PreviewTextChangedEvent, value);
         }
 
-        #endregion
-
-        #region Protected Methods
 
         protected override void OnInitialized(EventArgs e)
         {
@@ -56,10 +51,6 @@ namespace ModernApplicationFramework.Controls
         {
             RaiseEvent(e);
         }
-
-        #endregion
-
-        #region Private Methods
 
         private void PreviewExecutedEvent(object sender, ExecutedRoutedEventArgs e)
         {
@@ -192,7 +183,5 @@ namespace ModernApplicationFramework.Controls
             OnPreviewTextChanged(e);
             return e.Handled;
         }
-
-        #endregion
     }
 }

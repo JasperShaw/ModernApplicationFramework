@@ -8,6 +8,9 @@ using System.Windows.Forms;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using ModernApplicationFramework.Core.Platform.Enums;
+using ModernApplicationFramework.Core.Platform.Structs;
+using ModernApplicationFramework.Core.Standard;
 
 namespace ModernApplicationFramework.Core.Platform
 {
@@ -145,12 +148,12 @@ namespace ModernApplicationFramework.Core.Platform
         {
             LogicalDpiX = logicalDpi;
             LogicalDpiY = logicalDpi;
-            IntPtr dc = NativeMethods.NativeMethods.GetDC(IntPtr.Zero);
+            IntPtr dc = NativeMethods.User32.GetDC(IntPtr.Zero);
             if (dc != IntPtr.Zero)
             {
-                DeviceDpiX = NativeMethods.NativeMethods.GetDeviceCaps(dc, 88);
-                DeviceDpiY = NativeMethods.NativeMethods.GetDeviceCaps(dc, 90);
-                NativeMethods.NativeMethods.ReleaseDC(IntPtr.Zero, dc);
+                DeviceDpiX = NativeMethods.Gdi32.GetDeviceCaps(dc, 88);
+                DeviceDpiY = NativeMethods.Gdi32.GetDeviceCaps(dc, 90);
+                NativeMethods.User32.ReleaseDC(IntPtr.Zero, dc);
             }
             else
             {
@@ -385,7 +388,7 @@ namespace ModernApplicationFramework.Core.Platform
         public Rect GetDeviceRect(Window window)
         {
             RECT lpRect;
-            NativeMethods.NativeMethods.GetWindowRect(new WindowInteropHelper(window).Handle, out lpRect);
+            NativeMethods.User32.GetWindowRect(new WindowInteropHelper(window).Handle, out lpRect);
             return new Rect(new System.Windows.Point(lpRect.Left, lpRect.Top), new System.Windows.Size(lpRect.Width, lpRect.Height));
         }
 
@@ -593,14 +596,14 @@ namespace ModernApplicationFramework.Core.Platform
             {
                 if (!(logicalImage is Metafile))
                     throw new ArgumentException("Unsupported image type for High DPI conversion", nameof(logicalImage));
-                IntPtr dc = NativeMethods.NativeMethods.GetDC(IntPtr.Zero);
+                IntPtr dc = NativeMethods.User32.GetDC(IntPtr.Zero);
                 try
                 {
                     image2 = new Metafile(dc, EmfType.EmfPlusDual);
                 }
                 finally
                 {
-                    NativeMethods.NativeMethods.ReleaseDC(IntPtr.Zero, dc);
+                    NativeMethods.User32.ReleaseDC(IntPtr.Zero, dc);
                 }
             }
             using (Graphics graphics = Graphics.FromImage(image2))
@@ -711,7 +714,7 @@ namespace ModernApplicationFramework.Core.Platform
             {
                 IntPtr hicon = ((Bitmap)CreateDeviceFromLogicalImage(icon.ToBitmap(), System.Drawing.Color.Transparent, scalingMode)).GetHicon();
                 icon = Icon.FromHandle(hicon).Clone() as Icon;
-                NativeMethods.NativeMethods.DestroyIcon(hicon);
+                NativeMethods.User32.DestroyIcon(hicon);
             }
             return icon;
         }

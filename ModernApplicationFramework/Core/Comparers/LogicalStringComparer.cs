@@ -26,7 +26,7 @@ namespace ModernApplicationFramework.Core.Comparers
                 return 1*_order;
             if (emptyY)
                 return -1*_order;
-            return NativeMethods.NativeMethods.StrCmpLogicalW(x, y)*_order;
+            return NativeMethods.Shlwapi.StrCmpLogicalW(x, y)*_order;
         }
     }
 }

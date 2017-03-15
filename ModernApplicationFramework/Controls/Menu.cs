@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
-using ModernApplicationFramework.Core.Standard;
+using ModernApplicationFramework.Core.NativeMethods;
 using ModernApplicationFramework.Core.Utilities;
 
 namespace ModernApplicationFramework.Controls
@@ -136,7 +136,7 @@ namespace ModernApplicationFramework.Controls
         {
             IntPtr handle = new WindowInteropHelper(window).Handle;
             int flags = 19;
-            NativeMethods.SetWindowPos(handle, IntPtr.Zero, 0, 0, 0, 0, flags);
+            User32.SetWindowPos(handle, IntPtr.Zero, 0, 0, 0, 0, flags);
             NativeMethods.SetActiveWindow(handle);
         }
 
@@ -152,7 +152,7 @@ namespace ModernApplicationFramework.Controls
         internal static void HandleOnContextMenuOpening(ContextMenuEventArgs args, Action<ContextMenuEventArgs> baseHandler)
         {
             var originalSource = args.OriginalSource as DependencyObject;
-            if (originalSource?.FindAncestor<MenuHostControl, DependencyObject>(ExtensionMethods.GetVisualOrLogicalParent) != null)
+            if (originalSource?.FindAncestor<MenuHostControl, DependencyObject>(VisualUtilities.GetVisualOrLogicalParent) != null)
                 args.Handled = true;
             else
             {

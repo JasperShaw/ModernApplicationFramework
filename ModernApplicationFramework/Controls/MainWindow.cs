@@ -168,9 +168,9 @@ namespace ModernApplicationFramework.Controls
         private void OnVisibilityChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             var handle = new WindowInteropHelper(this).Handle;
-            if (!NativeMethods.IsWindow(handle))
+            if (!User32.IsWindow(handle))
                 return;
-            NativeMethods.ShowOwnedPopups(handle, IsVisible);
+            User32.ShowOwnedPopups(handle, IsVisible);
         }
 
         private class DeviceToLogicalXConverter : ValueConverter<int, double>

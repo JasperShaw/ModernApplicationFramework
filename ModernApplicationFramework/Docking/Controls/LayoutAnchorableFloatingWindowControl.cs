@@ -23,7 +23,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
 using ModernApplicationFramework.CommandBase;
-using ModernApplicationFramework.Core.Shell;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Converters;
 using ModernApplicationFramework.Docking.Layout;
@@ -141,18 +140,6 @@ namespace ModernApplicationFramework.Docking.Controls
                             .First(p => p.ChildrenCount > 0 && p.SelectedContent != null)
                             .SelectedContent.IsActive = true;
                         handled = true;
-                    }
-                    break;
-                case Win32Helper.WmNcrbuttonup:
-                    if (wParam.ToInt32() == Win32Helper.HtCaption)
-                    {
-                        if (OpenContextMenu())
-                            handled = true;
-
-                        if (_model.Root.Manager.ShowSystemMenu)
-                            WindowChrome.GetWindowChrome(this).ShowSystemMenu = !handled;
-                        else
-                            WindowChrome.GetWindowChrome(this).ShowSystemMenu = false;
                     }
                     break;
             }

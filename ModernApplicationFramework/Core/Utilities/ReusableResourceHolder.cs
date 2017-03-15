@@ -2,7 +2,7 @@
 
 namespace ModernApplicationFramework.Core.Utilities
 {
-    public struct ReusableResourceHolder<TResource> : IDisposable where TResource : class
+    internal struct ReusableResourceHolder<TResource> : IDisposable where TResource : class
     {
         private readonly ReusableResourceStoreBase<TResource> _store;
         private TResource _resource;
