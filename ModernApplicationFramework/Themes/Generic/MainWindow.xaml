@@ -5,7 +5,7 @@
                     xmlns:this="clr-namespace:ModernApplicationFramework.Controls"
                     xmlns:utilities="clr-namespace:ModernApplicationFramework.Core.Utilities">
 
-	<Style TargetType="{x:Type this:MainWindow}">
+    <Style TargetType="{x:Type this:MainWindow}">
         <Style.Resources>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
             <converters:WindowStateConverter x:Key="WindowStateConverter" />
@@ -90,7 +90,7 @@
 									           TextOptions.TextFormattingMode="Display" />
                                 </DockPanel>
                             </this:MainWindowTitleBar>
-                            <DockPanel Grid.Row="1">
+                            <DockPanel Grid.Row="1" MinHeight="20" x:Name="MenuPanel">
                                 <this:MenuHostControl x:Name="MenuHostControl"/>
                             </DockPanel>
                             <this:ToolBarHostControl x:Name="ToolbarHostControl" Grid.Row="2" />
@@ -132,6 +132,9 @@
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=DataContext.UseStatusBar}" Value="False">
                             <Setter TargetName="StatusBarPanel" Property="Visibility" Value="Collapsed"/>
                         </DataTrigger>
+					    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=DataContext.UseMenu}" Value="False">
+					        <Setter TargetName="MenuPanel" Property="Visibility" Value="Collapsed"/>
+					    </DataTrigger>
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=DataContext.UseTitleBar}" Value="False">
                             <Setter TargetName="MainWindowTitleBar" Property="Visibility" Value="Collapsed"/>
                             <Setter Property="WindowChrome.WindowChrome">

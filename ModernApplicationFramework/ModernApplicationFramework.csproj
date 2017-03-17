@@ -58,6 +58,29 @@
     <Resource Include="Resources\top.png" />
     <Resource Include="Resources\topleft.png" />
     <Resource Include="Resources\topright.png" />
+    <Page Include="Test\CustomizeDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Test\TabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Test\ToolBarsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic\EditableMenuItem.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic\DropDownDialogButton.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </Page>
+    <Page Include="Themes\Generic\CheckedMenuItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\Generic\MenuScrollViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -133,6 +156,7 @@
     <Compile Include="Controls\CheckableListBox.cs" />
     <Compile Include="Controls\CheckableListBoxItem.cs" />
     <Compile Include="Controls\CheckBox.cs" />
+    <Compile Include="Controls\CheckedMenuItem.cs" />
     <Compile Include="Controls\ComboBox.cs" />
     <Compile Include="Controls\ComboBoxItem.cs" />
     <Compile Include="Controls\ContextMenu.cs" />
@@ -141,21 +165,31 @@
     <Compile Include="Controls\Customize\ToolBarsPage.xaml.cs">
       <DependentUpon>ToolBarsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\DialogButton.cs" />
     <Compile Include="Controls\DialogWindow.cs" />
     <Compile Include="Controls\DockingHost.xaml.cs">
       <DependentUpon>DockingHost.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\DropDownDialogButton.cs" />
+    <Compile Include="Controls\DummyParentMenuItem.cs" />
     <Compile Include="Controls\GlyphButton.cs" />
     <Compile Include="Controls\IconTextButton.cs" />
     <Compile Include="Controls\ImageButton.cs" />
     <Compile Include="Controls\ImageTabButton.cs" />
     <Compile Include="Controls\ImageRadioButton.cs" />
     <Compile Include="Controls\ImageToggleButton.cs" />
+    <Compile Include="Controls\Internals\QuickCustomizeButton.cs" />
     <Compile Include="Controls\MenuScrollViewer.cs" />
     <Compile Include="Controls\ModernExpander.cs" />
     <Compile Include="Controls\ScrollViewer.cs" />
     <Compile Include="Controls\SystemDropShadowChrome.cs" />
+    <Compile Include="Controls\ToolBarOverflowPanel.cs" />
+    <Compile Include="Controls\ToolBarOverflowPopup.cs" />
+    <Compile Include="Controls\ToolBarOverflowToggleButton.cs" />
+    <Compile Include="Controls\ToolBarPanel.cs" />
     <Compile Include="Controls\Utilities\PanelMarginSetter.cs" />
+    <Compile Include="Core\Converters\AreEqualConverter.cs" />
+    <Compile Include="Core\Converters\NotNullConverter.cs" />
     <Compile Include="Core\Events\ItemDoubleClickedEventArgs.cs" />
     <Compile Include="Core\Platform\Enums\Cdcontrolstate.cs" />
     <Compile Include="Core\Platform\Enums\CombineMode.cs" />
@@ -200,6 +234,7 @@
     <Compile Include="Core\TrinetCoreNtfs\StreamName.cs" />
     <Compile Include="Core\Utilities\CommonUtilities.cs" />
     <Compile Include="Core\Utilities\FocusBehavior.cs" />
+    <Compile Include="Core\Utilities\ObservableCollectionEx.cs" />
     <Compile Include="Core\Utilities\PathUtilities.cs" />
     <Compile Include="Core\Utilities\ReusableResourceHolder.cs" />
     <Compile Include="Core\Utilities\ReusableResourceStore.cs" />
@@ -207,6 +242,9 @@
     <Compile Include="Core\Utilities\ReusableStringBuilder.cs" />
     <Compile Include="Core\Utilities\WindowsFileNameHelper.cs" />
     <Compile Include="Controls\FolderBrowserDialog.cs" />
+    <Compile Include="Core\ValidationRules\ToolbarNameNotEmptyValidationRule.cs" />
+    <Compile Include="Core\ValidationRules\ToolbarNameUniqueValidationRule.cs" />
+    <Compile Include="Core\ValidationRules\ToolbarNameUniqueValidationRuleDataContext.cs" />
     <Compile Include="Interfaces\Controls\IListViewContainer.cs" />
     <Compile Include="Interfaces\Controls\INonClientArea.cs" />
     <Compile Include="Controls\Internals\SelectionDelegatingCheckBox.cs" />
@@ -418,6 +456,20 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Test\CustomizeDialogView.xaml.cs">
+      <DependentUpon>CustomizeDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Test\CustomizeDialogViewModel.cs" />
+    <Compile Include="Test\EditableMenuItem.cs" />
+    <Compile Include="Test\TabView.xaml.cs">
+      <DependentUpon>TabView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Test\TabViewModel.cs" />
+    <Compile Include="Test\ToolBarsPage.xaml.cs">
+      <DependentUpon>ToolBarsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\MenuHostViewModel.cs" />
+    <Compile Include="ViewModels\ToolbarHostViewModel.cs" />
     <Compile Include="Utilities\FileDefinitionManager.cs" />
     <Compile Include="Utilities\FileType.cs" />
     <Compile Include="Utilities\KeyGestureHandler.cs" />
@@ -432,9 +484,7 @@
     <Compile Include="Utilities\UndoRedoManager\UndoRedoAction.cs" />
     <Compile Include="Utilities\UndoRedoManager\UndoRedoManager.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="ViewModels\MenuHostViewModel.cs" />
     <Compile Include="ViewModels\ToolBarCustomizeDialogViewModel.cs" />
-    <Compile Include="ViewModels\ToolBarHostViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

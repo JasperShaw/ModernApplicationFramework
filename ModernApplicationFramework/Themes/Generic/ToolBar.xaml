@@ -1,7 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:this="clr-namespace:ModernApplicationFramework.Controls"
-                    xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes">
+                    xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
+                    xmlns:vsui="clr-namespace:ModernApplicationFramework.Core.Utilities"
+                    xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals">
+
+    <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
 
     <Style x:Key="HorizontalToolBarThumbStyle" TargetType="{x:Type Thumb}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
@@ -76,78 +80,345 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ToolBarHorizontalOverflowButtonStyle" TargetType="Button">
+    <Style x:Key="ToolBarHorizontalOverflowButtonStyle" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarButtonBackground}}"/>
+        <Setter Property="MinHeight" Value="0"/>
+        <Setter Property="MinWidth" Value="0"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Border Background="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarButtonBackgroundDisabled}}">
-                        <Grid SnapsToDevicePixels="True">
-                            <Rectangle Fill="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarButtonBackgroundGlyphDisabled}}" Height="1" HorizontalAlignment="Center" Margin="1,6,1,0" Width="8"/>
-                            <Path x:Name="Arrow" Margin="1,0,1,3" Fill="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarButtonBackgroundGlyphDisabled}}" HorizontalAlignment="Center" 
-                                  VerticalAlignment="Bottom" Data="M 0 0 L 4 4 L 8 0 Z"/>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border x:Name="Bd" Background="{TemplateBinding Background}" 
+                            TextElement.Foreground="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarButtonBackgroundGlyph}}">
+                        <Grid Margin="7,0,2,0">
+                            <Grid x:Name="Overflow" Width="6" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,4,0,0">
+                                <Path Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Center" Width="2" Height="4" Grid.Row="0"
+                                      Data="M 0,0 L 2,2 0,4 Z">
+                                    <Shape.Fill>
+                                        <Binding Path="(TextElement.Foreground)" ElementName="Bd"/>
+                                    </Shape.Fill>
+                                </Path>
+                                <Path Stretch="Fill" HorizontalAlignment="Right" VerticalAlignment="Center" Width="2"
+                                      Height="4" Grid.Row="0" Data="M 0,0 L 2,2 0,4 Z">
+                                    <Shape.Fill>
+                                        <Binding Path="(TextElement.Foreground)" ElementName="Bd"/>
+                                    </Shape.Fill>
+                                </Path>
+                            </Grid>
+                            <Grid x:Name="Options" Width="6" Height="6" HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                                  Margin="0,0,0,4">
+                                <Rectangle VerticalAlignment="Top" Width="Auto" Height="1">
+                                    <Shape.Fill>
+                                        <Binding Path="(TextElement.Foreground)" ElementName="Bd"/>
+                                    </Shape.Fill>
+                                </Rectangle>
+                                <Path Stretch="Fill" Margin="0,3,0,0" Data="M 0,0 L 6,0 3,3 Z" VerticalAlignment="Top"
+                                      Width="6" Height="3">
+                                    <Shape.Fill>
+                                        <Binding Path="(TextElement.Foreground)" ElementName="Bd"/>
+                                    </Shape.Fill>
+                                </Path>
+                            </Grid>
                         </Grid>
                     </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    
-    <Style x:Key="ToolBarVerticalOverflowButtonStyle" TargetType="Button">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Border Background="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarButtonBackgroundDisabled}}">
-                        <Grid SnapsToDevicePixels="True" Margin="0,0,4,0">  
-                            <Rectangle Fill="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarButtonBackgroundGlyphDisabled}}" Width="1" Height="6" HorizontalAlignment="Right" Margin="0,0,4,0"/>  
-                            <Path x:Name="Arrow" Fill="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarButtonBackgroundGlyphDisabled}}" HorizontalAlignment="Right" 
-                                  VerticalAlignment="Center" Data="M 0 0 L 0 6 3 3 z"/>   
-                        </Grid>
-                    </Border>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Value="False">
+                            <DataTrigger.Binding>
+                                <Binding Path="HasOverflowItems">
+                                    <Binding.RelativeSource>
+                                        <RelativeSource Mode="FindAncestor" AncestorType="{x:Type this:ToolBar}"/>
+                                    </Binding.RelativeSource>
+                                </Binding>
+                            </DataTrigger.Binding>
+                            <Setter Property="Visibility" Value="Hidden" TargetName="Overflow"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Value="False">
+                            <DataTrigger.Binding>
+                                <Binding Path="IsQuickCustomizeEnabled">
+                                    <Binding.RelativeSource>
+                                        <RelativeSource Mode="FindAncestor" AncestorType="{x:Type this:ToolBar}"/>
+                                    </Binding.RelativeSource>
+                                </Binding>
+                            </DataTrigger.Binding>
+                            <Setter TargetName="Options" Property="UIElement.Visibility" Value="Hidden"/>
+                        </DataTrigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarButtonBackgroundMouseOver}}"></Setter>
+                            <Setter TargetName="Bd" Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarButtonBackgroundGlyphMouseOver}}"></Setter>
+                        </Trigger>
+                        <Trigger Property="ToggleButton.IsChecked" Value="true">
+                            <Setter TargetName="Bd"
+                                    Value="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarButtonBackgroundIsChecked}}"
+                                    Property="Border.Background"/>
+                            <Setter TargetName="Bd"
+                                    Value="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarButtonBackgroundGlyphIsChecked}}"
+                                    Property="TextElement.Foreground"/>
+                        </Trigger>
+                        <Trigger Property="UIElement.IsKeyboardFocused" Value="true">
+                            <Setter TargetName="Bd"
+                                    Value="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarButtonBackgroundFocused}}"
+                                    Property="Border.Background"/>
+                            <Setter TargetName="Bd"
+                                    Value="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarButtonBackgroundGlyphFocused}}"
+                                    Property="TextElement.Foreground"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <ControlTemplate x:Key="HorizontalToolBar" TargetType="{x:Type this:ToolBar}">
-        <Grid>
-            <Border x:Name="Border" BorderThickness="1" Background="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarBackground}}" BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarBorder}}" 
-                        SnapsToDevicePixels="True">
-                <DockPanel>
-                    <Thumb x:Name="ToolBarThumb" Style="{StaticResource HorizontalToolBarThumbStyle}"/>
-                    <ToolBarPanel x:Name="PART_ToolBarPanel" IsItemsHost="true" Margin="3,0,3,0"/>
-                    <Button IsEnabled="True" Style="{StaticResource ToolBarHorizontalOverflowButtonStyle}" Width="10" 
-                                HorizontalAlignment="Right"/>
-                </DockPanel>
-            </Border>
-        </Grid>
-    </ControlTemplate>
-    
-    <ControlTemplate x:Key="VerticalToolBar" TargetType="{x:Type this:ToolBar}">
-        <Grid>
-            <Border x:Name="Border" BorderThickness="1" Background="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarBackground}}" BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarBorder}}"
-                        SnapsToDevicePixels="True">
-                <StackPanel>
-                    <Thumb x:Name="ToolBarThumb" Style="{StaticResource VerticalToolBarThumbStyle}"/>
-                    <ToolBarPanel x:Name="PART_ToolBarPanel" IsItemsHost="true"/>
-                    <Button IsEnabled="True" Style="{StaticResource ToolBarVerticalOverflowButtonStyle}" Height="10"/>
-                </StackPanel>
-            </Border>
-        </Grid> 
-    </ControlTemplate>
-    
-    <Style TargetType="{x:Type this:ToolBar}" x:Key="{x:Type this:ToolBar}">
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Style.Triggers>
-            <Trigger Property="Orientation" Value="Horizontal">
-                <Setter Property="Height" Value="26"/>
-                <Setter Property="Width" Value="Auto"/>
-                <Setter Property="Template" Value="{StaticResource HorizontalToolBar}"/>
-            </Trigger>
-             <Trigger Property="Orientation" Value="Vertical">
-                <Setter Property="Height" Value="Auto"/>
-                <Setter Property="Width" Value="27"/>
-                <Setter Property="Template" Value="{StaticResource VerticalToolBar}"/>
-            </Trigger>
-        </Style.Triggers>
+    <Style x:Key="ToolBarVerticalOverflowButtonStyle" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Background"
+                Value="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarButtonBackground}}"/>
+        <Setter Property="MinHeight" Value="0"/>
+        <Setter Property="MinWidth" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate x:Uid="ControlTemplate_13" TargetType="{x:Type ToggleButton}">
+                    <Border x:Name="Bd" x:Uid="Border_10" Background="{TemplateBinding Control.Background}"
+                            TextElement.Foreground="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarButtonBackgroundGlyph}}">
+                        <Grid x:Uid="Grid_14" Margin="0,7,0,2">
+                            <Grid x:Name="Overflow" x:Uid="Grid_15" Width="Auto" Height="6" HorizontalAlignment="Left"
+                                  VerticalAlignment="Center" Margin="4,0,0,0">
+                                <Path x:Uid="Path_6" Stretch="Fill" HorizontalAlignment="Center" VerticalAlignment="Top" Width="4"
+                                      Height="2" Grid.Row="0" Data="M 0,0 L 4,0 2,2 Z">
+                                    <Shape.Fill>
+                                        <Binding Path="(TextElement.Foreground)" ElementName="Bd"/>
+                                    </Shape.Fill>
+                                </Path>
+                                <Path x:Uid="Path_7" Stretch="Fill" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="4"
+                                      Height="2" Grid.Row="0" Data="M 0,0 L 4,0 2,2 Z">
+                                    <Shape.Fill>
+                                        <Binding Path="(TextElement.Foreground)" ElementName="Bd"/>
+                                    </Shape.Fill>
+                                </Path>
+                            </Grid>
+                            <Grid x:Name="Options" x:Uid="Grid_16" Width="6" Height="6" HorizontalAlignment="Right"
+                                  VerticalAlignment="Center" Margin="0,0,4,0">
+                                <Rectangle x:Uid="Rectangle_9" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="1" Height="Auto">
+                                    <Shape.Fill>
+                                        <Binding Path="(TextElement.Foreground)" ElementName="Bd"/>
+                                    </Shape.Fill>
+                                </Rectangle>
+                                <Path x:Uid="Path_8" Stretch="Fill" Data="M 0,0 L 0,6 3,3 Z" VerticalAlignment="Center"
+                                      HorizontalAlignment="Right" Width="3" Height="6">
+                                    <Shape.Fill>
+                                        <Binding Path="(TextElement.Foreground)" ElementName="Bd"/>
+                                    </Shape.Fill>
+                                </Path>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger x:Uid="DataTrigger_11" Value="False">
+                            <DataTrigger.Binding>
+                                <Binding Path="HasOverflowItems">
+                                    <Binding.RelativeSource>
+                                        <RelativeSource Mode="FindAncestor" AncestorType="{x:Type this:ToolBar}"/>
+                                    </Binding.RelativeSource>
+                                </Binding>
+                            </DataTrigger.Binding>
+                            <Setter x:Uid="Setter_155" TargetName="Overflow" Property="UIElement.Visibility" Value="Hidden"/>
+                        </DataTrigger>
+                        <DataTrigger x:Uid="DataTrigger_12" Value="False">
+                            <DataTrigger.Binding>
+                                <Binding Path="IsQuickCustomizeEnabled">
+                                    <Binding.RelativeSource>
+                                        <RelativeSource Mode="FindAncestor" AncestorType="{x:Type this:ToolBar}"/>
+                                    </Binding.RelativeSource>
+                                </Binding>
+                            </DataTrigger.Binding>
+                            <Setter x:Uid="Setter_156" TargetName="Options" Property="UIElement.Visibility" Value="Hidden"/>
+                        </DataTrigger>
+                        <Trigger x:Uid="Trigger_24" Property="UIElement.IsMouseOver" Value="true">
+                            <Setter x:Uid="Setter_157" TargetName="Bd"
+                                    Value="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarButtonBackgroundMouseOver}}"
+                                    Property="Border.Background"/>
+                            <Setter x:Uid="Setter_950" TargetName="Bd"
+                                    Value="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarButtonBackgroundGlyphMouseOver}}"
+                                    Property="TextElement.Foreground"/>
+                        </Trigger>
+                        <Trigger x:Uid="Trigger_25" Property="ToggleButton.IsChecked" Value="true">
+                            <Setter x:Uid="Setter_158" TargetName="Bd"
+                                    Value="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarButtonBackgroundIsChecked}}"
+                                    Property="Border.Background"/>
+                            <Setter x:Uid="Setter_951" TargetName="Bd"
+                                    Value="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarButtonBackgroundGlyphIsChecked}}"
+                                    Property="TextElement.Foreground"/>
+                        </Trigger>
+                        <Trigger x:Uid="Trigger_352" Property="UIElement.IsKeyboardFocused" Value="true">
+                            <Setter x:Uid="Setter_952" TargetName="Bd"
+                                    Value="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarButtonBackgroundFocused}}"
+                                    Property="Border.Background"/>
+                            <Setter x:Uid="Setter_953" TargetName="Bd"
+                                    Value="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarButtonBackgroundGlyphFocused}}"
+                                    Property="TextElement.Foreground"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
+
+    <Style TargetType="this:ToolBar" BasedOn="{StaticResource {x:Type ToolBar}}">
+        <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarBackground}}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarBorder}}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Height" Value="26"/>
+        <Setter Property="Width" Value="Auto"/>
+        <Setter Property="ItemsSource">
+            <Setter.Value>
+                <Binding Path="Items"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Band">
+            <Setter.Value>
+                <Binding Path="BandIndex" Mode="TwoWay"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Visibility">
+            <Setter.Value>
+                <Binding Path="IsVisible" Converter="{StaticResource BoolToVisConverter}"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type this:ToolBar}">
+                    <Grid SnapsToDevicePixels="True">
+                        <Grid x:Name="OverflowGrid" HorizontalAlignment="Right">
+                            <this:ToolBarOverflowToggleButton x:Name="OverflowButton" Style="{StaticResource ToolBarHorizontalOverflowButtonStyle}"
+                                          ClickMode="Press" InputMethod.IsInputMethodSuspended="true">
+                                <UIElement.Visibility>
+                                    <TemplateBindingExtension Property="this:ToolBar.IsOverflowToggleButtonVisible"
+                                                              Converter="{StaticResource BoolToVisConverter}"/>
+                                </UIElement.Visibility>
+                                <ToggleButton.IsChecked>
+                                    <Binding Path="IsOverflowOpen" Mode="TwoWay" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                </ToggleButton.IsChecked>
+                            </this:ToolBarOverflowToggleButton>
+                            <this:ToolBarOverflowPopup x:Name="OverflowPopup" AllowsTransparency="True" Placement="Bottom" 
+                                                       StaysOpen="False" Focusable="False">
+                                <Popup.IsOpen>
+                                    <Binding Path="IsOverflowOpen" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                </Popup.IsOpen>
+                                <this:SystemDropShadowChrome Name="Shdw" Color="Transparent">
+                                    <Border Background="{DynamicResource {x:Static themes:EnvironmentColors.ContextMenuBackground}}" BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.ContextMenuBorder}}" BorderThickness="1" 
+                                            RenderOptions.BitmapScalingMode="{x:Static vsui:DpiHelper.BitmapScalingMode}" RenderOptions.ClearTypeHint="Enabled">
+                                        <StackPanel Orientation="Vertical" KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.DirectionalNavigation="Cycle">
+                                            <this:ToolBarOverflowPanel x:Name="PART_ToolBarOverflowPanel" Margin="2" WrapWidth="200"
+                                                                  HorizontalAlignment="Left" Focusable="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                                  Visibility="{TemplateBinding HasOverflowItems, Converter={StaticResource BoolToVisConverter}}">
+                                                <FrameworkElement.FocusVisualStyle>
+                                                    <x:NullExtension/>
+                                                </FrameworkElement.FocusVisualStyle>
+                                            </this:ToolBarOverflowPanel>
+                                            <StackPanel Orientation="Vertical"
+                                                        Visibility="{TemplateBinding IsQuickCustomizeEnabled, Converter={StaticResource BoolToVisConverter}}">
+                                                <this:Separator Margin="2,2,2,0"
+                                                                Visibility="{TemplateBinding HasOverflowItems, Converter={StaticResource BoolToVisConverter}}"/>
+                                                <this:DummyParentMenuItem>
+                                                    <internals:QuickCustomizeButton Header="_Add or Remove Buttons" this:ToolBar.IsToolBarHostedMenuItem="true"
+                                                                                    QuickCustomizeDataSource="{Binding Path=Items, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"/>
+                                                </this:DummyParentMenuItem>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Border>
+                                </this:SystemDropShadowChrome>
+                            </this:ToolBarOverflowPopup>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition x:Name="ShifterColumn" Width="10"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition x:Name="ShifterRow" Height="10"/>
+                            </Grid.RowDefinitions>
+                            <Border x:Name="MainPanelBorder" Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    Padding="{TemplateBinding Padding}">
+                                <DockPanel KeyboardNavigation.TabIndex="1" KeyboardNavigation.TabNavigation="Local">
+                                    <Thumb x:Name="ToolBarThumb" Style="{StaticResource HorizontalToolBarThumbStyle}"/>
+                                    <ContentPresenter x:Name="ToolBarHeader" ContentSource="Header" HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center" Margin="4,0,4,0" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                    <this:ToolBarPanel x:Name="PART_ToolBarPanel" IsItemsHost="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                </DockPanel>
+                            </Border>
+                        </Grid>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="ToolBar.IsOverflowOpen" Value="true">
+                            <Setter TargetName="ToolBarThumb" Property="UIElement.IsEnabled" Value="false"/>
+                        </Trigger>
+                        <Trigger Property="HeaderedItemsControl.Header">
+                            <Trigger.Value>
+                                <x:NullExtension/>
+                            </Trigger.Value>
+                            <Setter TargetName="ToolBarHeader" Property="UIElement.Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="ToolBarTray.IsLocked" Value="true">
+                            <Setter TargetName="ToolBarThumb" Property="UIElement.Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Value="True">
+                                    <Condition.Binding>
+                                        <Binding ElementName="OverflowPopup" Path="(Popup.HasDropShadow)"/>
+                                    </Condition.Binding>
+                                </Condition>
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="Shdw" Property="FrameworkElement.Margin" Value="0,0,5,5"/>
+                            <Setter TargetName="Shdw" Property="UIElement.SnapsToDevicePixels" Value="true"/>
+                            <Setter TargetName="Shdw" Property="this:SystemDropShadowChrome.Color"
+                                    Value="{DynamicResource {x:Static themes:EnvironmentColors.ContextMenuShadow}}" />
+                        </MultiDataTrigger>
+                        <Trigger Property="ToolBar.Orientation" Value="Vertical">
+                            <Setter TargetName="OverflowButton"
+                                    Value="{StaticResource ToolBarVerticalOverflowButtonStyle}" Property="FrameworkElement.Style"/>
+                            <Setter TargetName="ToolBarThumb" Property="FrameworkElement.Height" Value="8"/>
+                            <Setter TargetName="ToolBarThumb" Property="FrameworkElement.Width" Value="Auto"/>
+                            <Setter TargetName="ToolBarThumb" Property="Control.Padding" Value="3,2,3,1"/>
+                            <Setter TargetName="ToolBarThumb" Property="DockPanel.Dock" Value="Top"/>
+                            <Setter TargetName="ToolBarThumb" Value="{StaticResource VerticalToolBarThumbStyle}" Property="FrameworkElement.Style"/>
+                            <Setter TargetName="ToolBarHeader" Property="FrameworkElement.Margin" Value="0,0,0,4"/>
+                            <Setter TargetName="ToolBarHeader" Property="DockPanel.Dock" Value="Top"/>
+                            <Setter TargetName="PART_ToolBarPanel" Property="FrameworkElement.Margin" Value="1,0,2,2"/>
+                            <Setter TargetName="OverflowGrid" Property="FrameworkElement.HorizontalAlignment" Value="Stretch"/>
+                            <Setter TargetName="OverflowGrid" Property="FrameworkElement.VerticalAlignment" Value="Bottom"/>
+                            <Setter TargetName="OverflowPopup" Property="Popup.Placement" Value="Right"/>
+                            <Setter Property="FrameworkElement.MinWidth" Value="24"/>
+                            <Setter Property="FrameworkElement.MinHeight" Value="0"/>
+                            <Setter Property="Height" Value="Auto"/>
+                            <Setter Property="Width" Value="27"/>
+                        </Trigger>
+                        <Trigger Property="ToolBar.Orientation" Value="Horizontal">
+                            <Setter Property="FrameworkElement.MinWidth" Value="0"/>
+                            <Setter Property="FrameworkElement.MinHeight" Value="24"/>
+                        </Trigger>
+                        <Trigger Property="ToolBar.Orientation" Value="Horizontal">
+                            <Setter TargetName="ShifterRow" Property="RowDefinition.Height" Value="0"/>
+                        </Trigger>
+                        <Trigger Property="ToolBar.Orientation" Value="Vertical">
+                            <Setter TargetName="ShifterColumn" Property="ColumnDefinition.Width" Value="0"/>
+                        </Trigger>
+                        <DataTrigger Value="Collapsed">
+                            <DataTrigger.Binding>
+                                <Binding ElementName="OverflowButton" Path="Visibility"/>
+                            </DataTrigger.Binding>
+                            <Setter TargetName="ShifterRow" Property="RowDefinition.Height" Value="0"/>
+                            <Setter TargetName="ShifterColumn" Property="ColumnDefinition.Width" Value="0"/>
+                        </DataTrigger>
+                        <Trigger Property="UIElement.IsEnabled" Value="false">
+                            <Setter Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemForegroundDisabled}}" Property="Control.Foreground"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    
 </ResourceDictionary>

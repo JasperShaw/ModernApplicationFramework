@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Windows;
 using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.ViewModels;
 
 namespace ModernApplicationFramework.Controls.Customize
 {
     public class CustomizeDialog : DialogWindow
     {
-        private readonly ToolBarHostViewModel _toolBarHostViewModel;
+        private readonly IToolBarHostViewModel _toolBarHostViewModel;
         private bool _contentLoaded;
 
-        public CustomizeDialog(ToolBarHostViewModel toolBarViewModel)
+        public CustomizeDialog(IToolBarHostViewModel toolBarViewModel)
         {
             InitializeComponent();
             _toolBarHostViewModel = toolBarViewModel;

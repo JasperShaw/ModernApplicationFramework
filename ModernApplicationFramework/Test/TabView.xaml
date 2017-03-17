@@ -1,0 +1,112 @@
+﻿<UserControl x:Class="ModernApplicationFramework.Test.TabView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
+             xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
+             xmlns:test="clr-namespace:ModernApplicationFramework.Test"
+             xmlns:validationRules="clr-namespace:ModernApplicationFramework.Core.ValidationRules">
+    <UserControl.Resources>
+        <converters:ToolBarVisibilityConverter x:Key="ToolBarVisibilityConverter" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
+        <controls:ContextMenu x:Key="ModifySelectionToolBarsMenu">
+
+            <FrameworkElement.Resources>
+                <converters:TrimSpacesConverter x:Key="TrimSpacesConverter"/>
+                <converters:DockLocationConverter x:Key="DockLocationConverter"/>
+            </FrameworkElement.Resources>
+
+            <test:EditableMenuItem AfterMenuItemTextChange="HandleToolbarNameChanged"  Header="_Name:">
+                <test:EditableMenuItem.Edit>
+                    <Binding Path="Name" Mode="TwoWay" UpdateSourceTrigger="LostFocus"
+                             Converter="{StaticResource TrimSpacesConverter}"/>
+                </test:EditableMenuItem.Edit>
+                <UIElement.Visibility>
+                    <Binding Mode="OneWay" Path="IsCustom" Converter="{StaticResource BooleanToVisibilityConverter}"/>
+                </UIElement.Visibility>
+                <test:EditableMenuItem.ValidationRules>
+                    <validationRules:ToolbarNameNotEmptyValidationRule/>
+                    <!--<validationRules:ToolbarNameUniqueValidationRule>
+                        <validationRules:ToolbarNameUniqueValidationRule.DataContext>
+                            <validationRules:ToolbarNameUniqueValidationRuleDataContext>
+                                <validationRules:ToolbarNameUniqueValidationRuleDataContext.Toolbars>
+                                    <Binding Source="{StaticResource ToolBarsView}"/>
+                                </validationRules:ToolbarNameUniqueValidationRuleDataContext.Toolbars>
+                            </validationRules:ToolbarNameUniqueValidationRuleDataContext>
+                        </validationRules:ToolbarNameUniqueValidationRule.DataContext>
+                    </validationRules:ToolbarNameUniqueValidationRule>-->
+                </test:EditableMenuItem.ValidationRules>
+            </test:EditableMenuItem>
+            
+            
+            <controls:Separator>
+                <UIElement.Visibility>
+                    <Binding Mode="OneWay" Path="IsCustom" Converter="{StaticResource BooleanToVisibilityConverter}"/>
+                </UIElement.Visibility>
+            </controls:Separator>
+            <controls:CheckedMenuItem Header="Dock location: _Top" Value="{x:Static Dock.Top}">
+                <controls:CheckedMenuItem.Link>
+                    <Binding Path="Position" Converter="{StaticResource DockLocationConverter}"/>
+                </controls:CheckedMenuItem.Link>
+            </controls:CheckedMenuItem>
+            <controls:CheckedMenuItem Header="Dock location: _Left" Value="{x:Static Dock.Left}">
+                <controls:CheckedMenuItem.Link>
+                    <Binding Path="Position" Converter="{StaticResource DockLocationConverter}"/>
+                </controls:CheckedMenuItem.Link>
+            </controls:CheckedMenuItem>
+            <controls:CheckedMenuItem Header="Dock location: _Right" Value="{x:Static Dock.Right}">
+                <controls:CheckedMenuItem.Link>
+                    <Binding Path="Position" Converter="{StaticResource DockLocationConverter}"/>
+                </controls:CheckedMenuItem.Link>
+            </controls:CheckedMenuItem>
+            <controls:CheckedMenuItem Header="Dock location: _Bottom" Value="{x:Static Dock.Bottom}">
+                <controls:CheckedMenuItem.Link>
+                    <Binding Path="Position" Converter="{StaticResource DockLocationConverter}"/>
+                </controls:CheckedMenuItem.Link>
+            </controls:CheckedMenuItem>
+        </controls:ContextMenu>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition x:Uid="RowDefinition_1" Height="Auto"/>
+            <RowDefinition x:Uid="RowDefinition_2" Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Uid="ColumnDefinition_1" Width="*"/>
+            <ColumnDefinition x:Uid="ColumnDefinition_2" Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Label x:Name="ToolBarsLabel" Margin="10,0,10,5" Padding="0" Content="Toolb_ars:" x:Uid="ToolBarsLabel"
+               Grid.Row="0"/>
+        <controls:CheckableListBox x:Name="ToolBarListBox" Margin="10,0,10,10" IsSynchronizedWithCurrentItem="True"
+                                   IsTextSearchEnabled="True"
+                                   TextSearch.TextPath="Text" Grid.Row="1" Grid.Column="0" SelectedIndex="0"
+                                   ScrollViewer.CanContentScroll="False" ItemsSource="{Binding Toolbars}">
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="{x:Type controls:CheckableListBoxItem}">
+                    <Setter Property="IsChecked" 
+                            Value="{Binding Mode=TwoWay, Path=Visible}" />
+                    <Setter Property="Content" Value="{Binding Mode=OneWay, Path=Name}" />
+                    <Setter Property="Padding" Value="5,2,5,2" />
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </controls:CheckableListBox>
+        <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch">
+            <FrameworkElement.Resources>
+                <converters:AndBooleanConverter x:Key="AndBooleanConverter"/>
+                <converters:NotNullConverter x:Key="NotNullConverter"/>
+            </FrameworkElement.Resources>
+            <controls:DialogButton x:Name="NewToolBarButton" Content="_New..."/>
+            <controls:DialogButton Content="_Delete">
+                <UIElement.IsEnabled>
+                    <MultiBinding x:Uid="MultiBinding_1" Converter="{StaticResource AndBooleanConverter}">
+                        <Binding x:Uid="Binding_1" ElementName="ToolBarListBox" Path="SelectedItem"
+                                 Converter="{StaticResource NotNullConverter}"/>
+                        <Binding x:Uid="Binding_2" ElementName="ToolBarListBox" Path="SelectedItem.IsCustom" Mode="OneWay"/>
+                    </MultiBinding>
+                </UIElement.IsEnabled>
+            </controls:DialogButton>
+            <controls:DropDownDialogButton x:Name="ModifySelectionButton" Content="_Modify Selection" DropDownMenu="{DynamicResource ModifySelectionToolBarsMenu}"
+                                           Click="ModifySelectionButton_OnClick"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

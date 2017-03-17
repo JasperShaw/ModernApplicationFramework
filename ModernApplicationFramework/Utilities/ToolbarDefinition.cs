@@ -1,33 +1,87 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Controls;
 using Caliburn.Micro;
+using ModernApplicationFramework.Properties;
 using ModernApplicationFramework.Utilities.Service;
 using ToolBar = ModernApplicationFramework.Controls.ToolBar;
 
 namespace ModernApplicationFramework.Utilities
 {
-    public class ToolbarDefinition
+    public class ToolbarDefinition : INotifyPropertyChanged
     {
-        public ToolbarDefinition(ToolBar toolBar, int sortOrder, bool visibleOnLoad, Dock position)
+        private bool _visible;
+        private Dock _position;
+        private string _name;
+
+        public ToolbarDefinition(ToolBar toolBar, string name, int sortOrder, bool visible, Dock position, bool isCustom = false)
         {
             ToolBar = toolBar;
+            Name = name;
             SortOrder = sortOrder;
-            VisibleOnLoad = visibleOnLoad;
+            Visible = visible;
             Position = position;
+            IsCustom = isCustom;
         }
 
-        public Dock Position { get; }
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                if (string.Equals(_name, value, StringComparison.Ordinal))
+                    return;
+                _name = value; 
+                OnPropertyChanged();            
+            }
+        }
 
-        public int SortOrder { get; }
+        public bool IsCustom { get; set; }
 
-        public bool VisibleOnLoad { get; }
+        public Dock LastPosition { get; private set; }
+
+        public Dock Position
+        {
+            get => _position;
+            set
+            {
+                if (Equals(value, _position))
+                    return;
+                LastPosition = _position;
+                _position = value;
+                OnPropertyChanged();         
+            }
+        }
+
+        public int SortOrder { get; set; }
+
+        public bool Visible
+        {
+            get => _visible;
+            set
+            {
+                if (Equals(value, _visible))
+                    return;
+                _visible = value;
+                OnPropertyChanged();
+            }
+        }
 
         public ToolBar ToolBar { get; protected set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 
     public class ToolbarDefinition<T> : ToolbarDefinition where T : ToolBar
     {
-        public ToolbarDefinition(int sortOrder, bool visibleOnLoad, Dock position)
-            : base(null, sortOrder, visibleOnLoad, position)
+        public ToolbarDefinition(string name, int sortOrder, bool visible, Dock position, bool isCustom = false)
+            : base(null, name, sortOrder, visible, position, isCustom)
         {
             var t = IoC.Get<IToolbarService>().GetToolbar(typeof(T));
             ToolBar = t;

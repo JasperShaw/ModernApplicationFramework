@@ -10,5 +10,6 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         IToolBarHostViewModel ToolBarHostViewModel { get; set; }
         bool UseStatusBar { get; set; }
         bool UseTitleBar { get; set; }
+        bool UseMenu { get; set; }
     }
 }

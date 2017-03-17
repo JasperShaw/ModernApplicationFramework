@@ -29,7 +29,7 @@ namespace ModernApplicationFramework.Controls
                 new FrameworkPropertyMetadata(typeof(MainWindow)));
         }
 
-        protected bool ShouldAutoSize { get; set; } = true;
+        protected virtual bool ShouldAutoSize { get; set; } = true;
 
         protected MainWindow()
         {
@@ -42,7 +42,6 @@ namespace ModernApplicationFramework.Controls
 
             if (!(Application.Current.MainWindow is MainWindow))
                 Application.Current.MainWindow = this;
-
         }
 
         public BitmapImage ActivatedFloatIcon { get; set; }
@@ -73,7 +72,7 @@ namespace ModernApplicationFramework.Controls
             var menuHostControl = GetTemplateChild("MenuHostControl") as MenuHostControl;
             if (menuHostControl != null)
             {
-                var dataContext = menuHostControl.DataContext as MenuHostViewModel;
+                var dataContext = menuHostControl.DataContext as IMenuHostViewModel;
                 viewModel.MenuHostViewModel = dataContext;
                 if (dataContext != null)
                     dataContext.MainWindowViewModel = viewModel;
@@ -82,7 +81,7 @@ namespace ModernApplicationFramework.Controls
             var toolbarHostControl = GetTemplateChild("ToolbarHostControl") as ToolBarHostControl;
             if (toolbarHostControl != null)
             {
-                var dataContext = toolbarHostControl.DataContext as ToolBarHostViewModel;
+                var dataContext = toolbarHostControl.DataContext as IToolBarHostViewModel;
                 viewModel.ToolBarHostViewModel = dataContext;
                 if (dataContext != null)
                     dataContext.MainWindowViewModel = viewModel;

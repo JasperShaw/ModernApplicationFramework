@@ -1,0 +1,90 @@
+﻿<mafc:EditableMenuItem xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                       xmlns:mafc="clr-namespace:ModernApplicationFramework.Test"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                       xmlns:ui="clr-namespace:ModernApplicationFramework.Core.Themes">
+
+    <FrameworkElement.Resources>
+        <ResourceDictionary x:Uid="ResourceDictionary_1">
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/TextBox.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </FrameworkElement.Resources>
+
+    <Control.Template>
+        <ControlTemplate TargetType="{x:Type mafc:EditableMenuItem}">
+            <Grid SnapsToDevicePixels="True" Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="26" SharedSizeGroup="MenuItemIconColumnGroup"/>
+                    <ColumnDefinition MinWidth="48" Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Rectangle x:Name="Bg" Stroke="Transparent" Fill="Transparent" StrokeThickness="0" Grid.ColumnSpan="3"/>
+                <AccessText x:Name="Label" Grid.Column="1" VerticalAlignment="Center"
+                                        Text="{TemplateBinding HeaderedItemsControl.Header}" Margin="8,1,3,1"/>
+                <Border x:Name="EditBoxBorder" Grid.Column="2" Margin="2" Background="Transparent"
+                                    BorderBrush="Transparent" BorderThickness="1">
+                    <Grid>
+                        <Validation.ErrorTemplate>
+                            <x:NullExtension/>
+                        </Validation.ErrorTemplate>
+                        <FrameworkElement.BindingGroup>
+                            <BindingGroup Name="EditableTextBoxBindingGroup"/>
+                        </FrameworkElement.BindingGroup>
+                        <Border x:Name="LimitedEditBoxWith"/>
+                        <TextBox x:Name="PART_EditableTextBox" MinWidth="{TemplateBinding mafc:EditableMenuItem.EditMinWidth}" SnapsToDevicePixels="true"
+                                             BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Style="{StaticResource ErrorTextBoxStyleKey}"
+                                             BorderBrush="{DynamicResource {x:Static ui:EnvironmentColors.TextBoxBorder}}">
+                            <FrameworkElement.Width>
+                                <Binding ElementName="LimitEditBoxWidth" Path="ActualWidth"/>
+                            </FrameworkElement.Width>
+                            <TextBox.Text>
+                                <Binding Path="Edit" RelativeSource="{RelativeSource TemplatedParent}" Mode="TwoWay"
+                                                     UpdateSourceTrigger="LostFocus" BindingGroupName="EditableTextBoxBindingGroup"/>
+                            </TextBox.Text>
+                        </TextBox>
+                    </Grid>
+                </Border>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="MenuItem.IsHighlighted" Value="true">
+                    <Setter TargetName="Bg"
+                                        Value="{DynamicResource {x:Static ui:EnvironmentColors.TextBoxBorder}}"
+                                        Property="Shape.Stroke"/>
+                    <Setter TargetName="Bg"
+                                        Value="{DynamicResource {x:Static ui:EnvironmentColors.TextBoxBackgroundHover}}"
+                                        Property="Shape.Fill"/>
+                    <Setter  Value="{DynamicResource {x:Static ui:EnvironmentColors.TextBoxForegroundHover}}"
+                                         Property="TextElement.Foreground"/>
+                </Trigger>
+                <Trigger Property="UIElement.IsKeyboardFocused" Value="true">
+                    <Setter TargetName="Bg"
+                                        Value="{DynamicResource {x:Static ui:EnvironmentColors.MenuItemBorderHover}}"
+                                        Property="Shape.Stroke"/>
+                    <Setter TargetName="Bg"
+                                        Value="{DynamicResource {x:Static ui:EnvironmentColors.MenuItemBackgroundHover}}"
+                                        Property="Shape.Fill"/>
+                    <Setter Value="{DynamicResource {x:Static ui:EnvironmentColors.MenuItemForegroundHover}}"
+                                        Property="TextElement.Foreground"/>
+                </Trigger>
+                <Trigger Property="UIElement.IsEnabled" Value="false">
+                    <Setter Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"
+                                        Property="Control.Foreground"/>
+                </Trigger>
+                <DataTrigger Value="true">
+                    <DataTrigger.Binding>
+                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="EditableTextBox.IsKeyboardFocused"/>
+                    </DataTrigger.Binding>
+                    <Setter TargetName="Bg" Value="{DynamicResource {x:Static ui:EnvironmentColors.MenuItemBackgroundHover}}"
+                                        Property="Shape.Stroke"/>
+                    <Setter TargetName="Bg" Value="{DynamicResource {x:Static ui:EnvironmentColors.MenuItemBackgroundHover}}"
+                                        Property="Shape.Fill"/>
+                    <Setter Value="{DynamicResource {x:Static ui:EnvironmentColors.MenuItemForegroundHover}}"
+                                        Property="TextElement.Foreground"/>
+                    <Setter TargetName="EditBoxBorder" Value="{DynamicResource {x:Static ui:EnvironmentColors.MenuItemBorderHover}}"
+                                        Property="Border.BorderBrush"/>
+                </DataTrigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </Control.Template>
+</mafc:EditableMenuItem>

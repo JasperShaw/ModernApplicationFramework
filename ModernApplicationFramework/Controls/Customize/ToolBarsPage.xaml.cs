@@ -12,7 +12,5 @@ namespace ModernApplicationFramework.Controls.Customize
             InitializeComponent();
             DataContext = new ToolBarCustomizeDialogViewModel(this);
         }
-
-        public void Connect(int connectionId, object target) {}
     }
 }

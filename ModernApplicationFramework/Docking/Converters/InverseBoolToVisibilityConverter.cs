@@ -39,7 +39,7 @@ namespace ModernApplicationFramework.Docking.Converters
         {
             if (!(value is bool) || targetType != typeof (Visibility))
                 throw new ArgumentException(
-                    "Invalid argument/return type. Expected argument: bool and return type: Visibility");
+                    "Invalid argument/return type. Expected argument: bool and return type: Visible");
             bool val = !(bool) value;
             if (val)
                 return Visibility.Visible;
@@ -63,7 +63,7 @@ namespace ModernApplicationFramework.Docking.Converters
         {
             if (!(value is Visibility) || targetType != typeof (bool))
                 throw new ArgumentException(
-                    "Invalid argument/return type. Expected argument: Visibility and return type: bool");
+                    "Invalid argument/return type. Expected argument: Visible and return type: bool");
             Visibility val = (Visibility) value;
             return val != Visibility.Visible;
         }

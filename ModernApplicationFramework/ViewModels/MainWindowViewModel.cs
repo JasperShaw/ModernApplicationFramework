@@ -30,11 +30,13 @@ namespace ModernApplicationFramework.ViewModels
         private bool _useSimpleMovement;
         private bool _useStatusbar;
         private bool _useTitleBar;
+        private bool _useMenu;
 
         public MainWindowViewModel(MainWindow mainWindow)
         {
             UseStatusBar = true;
             UseTitleBar = true;
+            UseMenu = true;
             _mainWindow = mainWindow;
             _mainWindow.SourceInitialized += _mainWindow_SourceInitialized;
             _mainWindow.Activated += _mainWindow_Activated;
@@ -77,7 +79,6 @@ namespace ModernApplicationFramework.ViewModels
                 var oldTheme = _theme;
                 _theme = value;
                 OnPropertyChanged();
-                //NotifyOfPropertyChange(() => Theme);
                 ChangeTheme(oldTheme, _theme);
                 OnRaiseThemeChanged(new ThemeChangedEventArgs(value, oldTheme));
             }
@@ -157,6 +158,18 @@ namespace ModernApplicationFramework.ViewModels
                 _useTitleBar = value;
                 OnPropertyChanged();
                 //NotifyOfPropertyChange(() => UseTitleBar);
+            }
+        }
+
+        public bool UseMenu
+        {
+            get => _useMenu;
+            set
+            {
+                if (Equals(value, _useMenu))
+                    return;
+                _useMenu = value;
+                OnPropertyChanged();
             }
         }
 

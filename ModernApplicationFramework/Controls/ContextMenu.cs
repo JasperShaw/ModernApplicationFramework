@@ -2,6 +2,8 @@
 using System.Data;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
 
@@ -11,13 +13,42 @@ namespace ModernApplicationFramework.Controls
     {
         private Theme _theme;
 
+        public static readonly DependencyProperty PopupAnimationProperty;
+
+
         static ContextMenu()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ContextMenu),
                 new FrameworkPropertyMetadata(typeof(ContextMenu)));
+            PopupAnimationProperty = Popup.PopupAnimationProperty.AddOwner(typeof(ContextMenu));
+        }
+
+        public ContextMenu()
+        {
+            PresentationSource.AddSourceChangedHandler(this, OnSourceChanged);
+        }
+
+        private void OnSourceChanged(object sender, SourceChangedEventArgs e)
+        {
+            if (e.NewSource == null)
+                return;
+            Popup parent = LogicalTreeHelper.GetParent(this) as Popup;
+            if (parent == null)
+                return;
+            Binding binding1 = new Binding {Source = this};
+            PropertyPath propertyPath = new PropertyPath(PopupAnimationProperty);
+            binding1.Path = propertyPath;
+            Binding binding2 = binding1;
+            parent.SetBinding(Popup.PopupAnimationProperty, binding2);
         }
 
         public event EventHandler<ThemeChangedEventArgs> OnThemeChanged;
+
+        public PopupAnimation PopupAnimation
+        {
+            get => (PopupAnimation)GetValue(PopupAnimationProperty);
+            set => SetValue(PopupAnimationProperty, value);
+        }
 
         public Theme Theme
         {

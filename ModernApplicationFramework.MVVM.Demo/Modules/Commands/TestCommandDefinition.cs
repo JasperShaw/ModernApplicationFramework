@@ -2,8 +2,10 @@
 using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Input;
+using Caliburn.Micro;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
 {

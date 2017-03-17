@@ -3,7 +3,8 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using ModernApplicationFramework.ViewModels;
+using Caliburn.Micro;
+using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Controls
 {
@@ -22,11 +23,8 @@ namespace ModernApplicationFramework.Controls
         public ToolBarHostControl()
         {
             InitializeComponent();
-            Instance = this;
-            DataContext = new ToolBarHostViewModel(this);
+            DataContext = IoC.Get<IToolBarHostViewModel>();
         }
-
-        public static ToolBarHostControl Instance { get; private set; }
 
         public Brush DefaultBackground
         {
@@ -40,7 +38,7 @@ namespace ModernApplicationFramework.Controls
             set => SetValue(TopTrayBackgroundProperty, value);
         }
 
-        private ToolBarHostViewModel ToolBarHostViewModel => DataContext as ToolBarHostViewModel;
+        private IToolBarHostViewModel ToolBarHostViewModel => DataContext as IToolBarHostViewModel;
 
         public void Connect(int connectionId, object target)
         {
@@ -55,20 +53,15 @@ namespace ModernApplicationFramework.Controls
             _contentLoaded = true;
             Application.LoadComponent(this,
                 new Uri("/ModernApplicationFramework;component/Themes/Generic/ToolbarHostControl.xaml", UriKind.Relative));
-
-
-            //var editItem = new ContextMenuItem {Header = "Edit..."};
-            //editItem.Click += EditItem_Click;
-            //_contextMenu.Items.Add(new Separator());
-            //_contextMenu.Items.Add(editItem);
         }
 
         public override void OnApplyTemplate()
         {
-            ToolBarHostViewModel.TopToolBarTay = GetTemplateChild("TopDockTray") as ToolBarTray;
-            ToolBarHostViewModel.LeftToolBarTay = GetTemplateChild("LeftDockTray") as ToolBarTray;
-            ToolBarHostViewModel.RightToolBarTay = GetTemplateChild("RightDockTray") as ToolBarTray;
-            ToolBarHostViewModel.BottomToolBarTay = GetTemplateChild("BottomDockTray") as ToolBarTray;
+            ToolBarHostViewModel.TopToolBarTray = GetTemplateChild("TopDockTray") as ToolBarTray;
+            ToolBarHostViewModel.LeftToolBarTray = GetTemplateChild("LeftDockTray") as ToolBarTray;
+            ToolBarHostViewModel.RightToolBarTray = GetTemplateChild("RightDockTray") as ToolBarTray;
+            ToolBarHostViewModel.BottomToolBarTray = GetTemplateChild("BottomDockTray") as ToolBarTray;
+            ToolBarHostViewModel.SetupToolbars();
             base.OnApplyTemplate();
         }
     }

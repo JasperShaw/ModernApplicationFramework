@@ -200,5 +200,11 @@ namespace ModernApplicationFramework.Core.NativeMethods
 
         [DllImport("user32.dll", EntryPoint = "SetActiveWindow", SetLastError = true)]
         internal static extern IntPtr SetActiveWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetFocus();
+
+        [DllImport("user32.dll")]
+        public static extern void SetFocus(IntPtr hwnd);
     }
 }

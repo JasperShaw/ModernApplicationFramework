@@ -1,0 +1,17 @@
+﻿<mafc:DropDownDialogButton xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                            xmlns:mafc="clr-namespace:ModernApplicationFramework.Controls">
+    
+    <ContentControl.ContentTemplate>
+        <DataTemplate>
+            <StackPanel Orientation="Horizontal">
+                <AccessText Name="Text" >
+                    <AccessText.Text>
+                        <Binding/>
+                    </AccessText.Text>
+                </AccessText>
+                <Polygon Points="0,0 8,0 4,4" SnapsToDevicePixels="true"
+                         Fill="{TemplateBinding TextElement.Foreground}" VerticalAlignment="Center" Margin="5"/>
+            </StackPanel>
+        </DataTemplate>
+    </ContentControl.ContentTemplate>
+</mafc:DropDownDialogButton>

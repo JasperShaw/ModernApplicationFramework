@@ -25,18 +25,19 @@
         </Style.Resources>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
 		<Setter Property="Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.ContextMenuForeground}}"/>
-        <Setter Property="Visibility" Value="{Binding HasItems, RelativeSource={RelativeSource Self}, Converter={StaticResource VisibilityOfBool}}"></Setter>
+        <Setter Property="Visibility" Value="{Binding HasItems, RelativeSource={RelativeSource Self}, Converter={StaticResource VisibilityOfBool}}"/>
+        <Setter Property="PopupAnimation" Value="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type this:ContextMenu}">
                     <themes:SystemDropShadowChrome x:Name="Shadow" Color="Transparent">
-                        <Grid>
-                            <Decorator Name="PART_ScrollViewer">
+                        <Grid Background="{DynamicResource {x:Static colors:EnvironmentColors.ContextMenuIconBackground}}">
+                            <this:MenuScrollViewer x:Name="PART_ScrollViewer">
                                 <Grid Background="{DynamicResource {x:Static colors:EnvironmentColors.ContextMenuBackground}}" RenderOptions.ClearTypeHint="Enabled">
-                                    <Border x:Name="IconBackground" Width="21" Background="{DynamicResource {x:Static colors:EnvironmentColors.ContextMenuIconBackground}}" HorizontalAlignment="Left"/>
+                                    <Border x:Name="IconBackground" Width="28" Background="{DynamicResource {x:Static colors:EnvironmentColors.ContextMenuIconBackground}}" HorizontalAlignment="Left"/>
                                     <ItemsPresenter KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.DirectionalNavigation="Cycle" Margin="3" Grid.IsSharedSizeScope="True"/>
                                 </Grid>
-                            </Decorator>
+                            </this:MenuScrollViewer>
                             <Border BorderBrush="{DynamicResource {x:Static colors:EnvironmentColors.ContextMenuBorder}}" BorderThickness="1"/>
                         </Grid>
                     </themes:SystemDropShadowChrome>
@@ -61,20 +62,21 @@
                                     BorderThickness="1" SnapsToDevicePixels="False">
                         <Grid x:Name="Grid">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition x:Name="Col0" MinWidth="17" Width="Auto" SharedSizeGroup="MenuItemIconColumnGroup"/>
-                                <ColumnDefinition Width="Auto" SharedSizeGroup="MenuTextColumnGroup"/>
+                                <ColumnDefinition x:Name="Col0" Width="26" SharedSizeGroup="MenuItemIconColumnGroup"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition x:Name="Col2" Width="37" SharedSizeGroup="MenuTextColumnGroup"/>
                                 <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIGTColumnGroup"/>
-                                <ColumnDefinition x:Name="Col3" Width="14"/>
+                                <ColumnDefinition x:Name="Col3" Width="17"/>
                             </Grid.ColumnDefinitions>
                             <Border x:Name="IconBorder" Background="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemPopupIconBackground}}" Grid.Column="0">
                                 <ContentPresenter x:Name="Icon" VerticalAlignment="Center" ContentSource="Icon"/>
                             </Border>
-                            <ContentPresenter Grid.Column="1" Margin="{TemplateBinding Padding}" 
+                            <ContentPresenter Grid.Column="2" Margin="{TemplateBinding Padding}" 
                                                       x:Name="HeaderHost" RecognizesAccessKey="True" 
                                                       ContentSource="Header" VerticalAlignment="Center"/>
-                            <ContentPresenter Grid.Column="2" Margin="8,1,8,1" x:Name="IGTHost" 
+                            <ContentPresenter Grid.Column="3" Margin="8,1,8,1" x:Name="IGTHost" 
                                                       ContentSource="InputGestureText" VerticalAlignment="Center"/>
-                            <Grid Grid.Column="3" Margin="4,0,6,0" x:Name="ArrowPanel" VerticalAlignment="Center">
+                            <Grid Grid.Column="4" Margin="4,0,6,0" x:Name="ArrowPanel" VerticalAlignment="Center">
                                 <Path x:Name="ArrowPanelPath" HorizontalAlignment="Right" VerticalAlignment="Center" 
                                               Fill="{DynamicResource {x:Static colors:EnvironmentColors.MenuSubItemGlyph}}" Data="M0,0 L0,8 L4,4 z"/>
                             </Grid>

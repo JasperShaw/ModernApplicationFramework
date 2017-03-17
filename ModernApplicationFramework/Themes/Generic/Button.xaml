@@ -33,40 +33,47 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-	<Style TargetType="{x:Type this:Button}">
+    <Style TargetType="{x:Type this:Button}">
         <Setter Property="Visibility" Value="Visible"/>
         <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.ButtonBackground}}"/>
-		<Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.ButtonBorder}}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.ButtonBorder}}"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.ButtonForeground}}"/>
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="{x:Type this:Button}">
-					<Border SnapsToDevicePixels="True"
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type this:Button}">
+                    <Border SnapsToDevicePixels="True"
 							BorderThickness="1"
 							BorderBrush="{TemplateBinding BorderBrush}" 
 							Background="{TemplateBinding Background}">
-						<Grid SnapsToDevicePixels="True">
-							<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" TextElement.Foreground="{TemplateBinding Foreground}"/>
-						</Grid>
-					</Border>
-					<ControlTemplate.Triggers>
-						<Trigger Property="IsMouseOver" Value="True">
-							<Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.ButtonBackgroundHover}}"/>
-							<Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.ButtonBorderHover}}"/>
+                        <Grid SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" TextElement.Foreground="{TemplateBinding Foreground}"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.ButtonBackgroundHover}}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.ButtonBorderHover}}"/>
                             <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.ButtonForegroundHover}}"/>
-						</Trigger>
-						<Trigger Property="IsPressed" Value="True">
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.ButtonForegroundDown}}"/>
-							<Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.ButtonBackgroundDown}}"/>
-							<Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.ButtonBorderDown}}"/>
-						</Trigger>
-						<Trigger Property="IsEnabled" Value="False">
-							<Setter Property="Opacity" Value=".5"/>
-						</Trigger>
-					</ControlTemplate.Triggers>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-	</Style>
+                            <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.ButtonBackgroundDown}}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.ButtonBorderDown}}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value=".5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type this:DialogButton}" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="MinWidth" Value="75"/>
+        <Setter Property="MinHeight" Value="23"/>
+        <Setter Property="Margin" Value="0,0,10,10"/>
+        <Setter Property="Padding" Value="10,1,10,1"/>
+    </Style>
 
 </ResourceDictionary>

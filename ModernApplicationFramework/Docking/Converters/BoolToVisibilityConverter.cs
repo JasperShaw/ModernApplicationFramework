@@ -71,7 +71,7 @@ namespace ModernApplicationFramework.Docking.Converters
                 return val == Visibility.Visible;
             }
             throw new ArgumentException(
-                "Invalid argument/return type. Expected argument: Visibility and return type: bool");
+                "Invalid argument/return type. Expected argument: Visible and return type: bool");
         }
 
         #endregion

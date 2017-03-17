@@ -19,9 +19,9 @@ namespace ModernApplicationFramework.Utilities
 
         public void CreateToolbarTray(IToolBarHostViewModel model)
         {
-            var toolBars = _toolbarDefinitions.OrderBy(x => x.SortOrder);
-            foreach (var toolbar in toolBars)
-                model.AddToolBar(toolbar.ToolBar, toolbar.VisibleOnLoad, toolbar.Position);
+            var definitions = _toolbarDefinitions.OrderBy(x => x.SortOrder);
+            foreach (var definition in definitions)
+                model.AddToolbarDefinition(definition);
         }
     }
 }

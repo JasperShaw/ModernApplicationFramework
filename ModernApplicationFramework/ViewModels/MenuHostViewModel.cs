@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.CommandBase;
@@ -8,14 +9,14 @@ using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.ViewModels
 {
+    [Export(typeof(IMenuHostViewModel))]
     public class MenuHostViewModel : ViewModelBase, IMenuHostViewModel
     {
         private IMainWindowViewModel _mainWindowViewModel;
+        private MenuHostControl _menuHostControl;
 
-        public MenuHostViewModel(MenuHostControl control)
+        public MenuHostViewModel()
         {
-            MenuHostControl = control;
-            MenuHostControl.MouseRightButtonDown += _control_MouseRightButtonDown;
             Items = new BindableCollection<MenuItem>();
         }
 
@@ -25,9 +26,17 @@ namespace ModernApplicationFramework.ViewModels
         /// </summary>
         public bool CanOpenToolBarContextMenu { get; set; } = true;
 
-        public void CreateMenu(IMenuCreator creator)
+        public MenuHostControl MenuHostControl
         {
-            creator.CreateMenu(this);
+            get => _menuHostControl;
+            set
+            {
+                if (_menuHostControl != null)
+                    _menuHostControl.MouseRightButtonDown -= _control_MouseRightButtonDown;
+                _menuHostControl = value;
+                _menuHostControl.MouseRightButtonDown += _control_MouseRightButtonDown;
+                OnPropertyChanged();
+            }
         }
 
         /// <summary>
@@ -48,23 +57,22 @@ namespace ModernApplicationFramework.ViewModels
             }
         }
 
-        public MenuHostControl MenuHostControl { get; }
+        public void CreateMenu(IMenuCreator creator)
+        {
+            creator.CreateMenu(this);
+        }
+
+        public Command RightClickCommand => new Command(ExecuteRightClick);
 
         private async void _control_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             await RightClickCommand.Execute();
         }
 
-        #region Commands
-
-        public Command RightClickCommand => new Command(ExecuteRightClick);
-
         protected virtual async void ExecuteRightClick()
         {
             if (CanOpenToolBarContextMenu)
                 await MainWindowViewModel.ToolBarHostViewModel.OpenContextMenuCommand.Execute();
         }
-
-        #endregion
     }
 }

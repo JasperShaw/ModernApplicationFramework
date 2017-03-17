@@ -55,7 +55,7 @@
 								<Binding RelativeSource="{RelativeSource TemplatedParent}"/>
 							</ButtonBase.CommandTarget>
 							<UIElement.Visibility>
-								<MultiBinding FallbackValue="Visibility.Collapsed"
+								<MultiBinding FallbackValue="Visible.Collapsed"
                                           Converter="{StaticResource MenuScrollingVisibilityConverter}" ConverterParameter="0">
 									<Binding Path="ComputedVerticalScrollBarVisibility"
                                          RelativeSource="{RelativeSource TemplatedParent}"/>
@@ -74,7 +74,7 @@
 								<Binding RelativeSource="{RelativeSource TemplatedParent}"/>
 							</ButtonBase.CommandTarget>
 							<UIElement.Visibility>
-								<MultiBinding FallbackValue="Visibility.Collapsed"
+								<MultiBinding FallbackValue="Visible.Collapsed"
                                           Converter="{StaticResource MenuScrollingVisibilityConverter}" ConverterParameter="100">
 									<Binding Path="ComputedVerticalScrollBarVisibility"
                                          RelativeSource="{RelativeSource TemplatedParent}"/>

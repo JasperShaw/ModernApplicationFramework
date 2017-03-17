@@ -7,7 +7,7 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
 {
     public interface IMenuHostViewModel
     {
-        MenuHostControl MenuHostControl { get; }
+        MenuHostControl MenuHostControl { get; set; }
 
         Command RightClickCommand { get; }
 

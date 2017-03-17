@@ -12,7 +12,6 @@ namespace ModernApplicationFramework.MVVM.Controls.Toolbars
         public StandardToolbar()
         {
             InitializeComponent();
-            IdentifierName = "Standard";
             DataContext = new StandardToolbarModel();
         }
     }

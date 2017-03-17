@@ -51,6 +51,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         {
             UseStatusBar = true;
             UseTitleBar = true;
+            UseMenu = true;
         }
 
 
@@ -169,6 +170,17 @@ namespace ModernApplicationFramework.MVVM.ViewModels
                 if (Equals(value, _useTitleBar))
                     return;
                 _useTitleBar = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public bool UseMenu
+        {
+            get => _useMenu;
+            set
+            {
+                if (value == _useMenu) return;
+                _useMenu = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -372,8 +384,6 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             _menuCreator.CreateMenu(MenuHostViewModel);
 
             _commandKeyGestureService.BindKeyGesture((UIElement)view);
-
-            _toolbarTrayCreator.CreateToolbarTray(ToolBarHostViewModel);
         }
 
         private async void _mainWindow_Activated(object sender, EventArgs e)
@@ -441,9 +451,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         [Import]
         private IMenuCreator _menuCreator;
 
-        [Import]
-        private IToolbarTrayCreator _toolbarTrayCreator;
-
+        private bool _useMenu;
 #pragma warning restore 649
     }
 }

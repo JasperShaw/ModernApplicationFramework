@@ -227,6 +227,16 @@ namespace ModernApplicationFramework.Core.Themes
         private static ComponentResourceKey _toolBarBackground;
         private static ComponentResourceKey _toolBarBorder;
         private static ComponentResourceKey _toolBarGrip;
+
+
+        private static ComponentResourceKey _toolBarButtonBackground;
+        private static ComponentResourceKey _toolBarButtonBackgroundGlyph;
+        private static ComponentResourceKey _toolBarButtonBackgroundMouseOver;
+        private static ComponentResourceKey _toolBarButtonBackgroundGlyphMouseOver;
+        private static ComponentResourceKey _toolBarButtonBackgroundIsChecked;
+        private static ComponentResourceKey _toolBarButtonBackgroundGlyphIsChecked;
+        private static ComponentResourceKey _toolBarButtonBackgroundFocused;
+        private static ComponentResourceKey _toolBarButtonBackgroundGlyphFocused;
         private static ComponentResourceKey _toolBarButtonBackgroundDisabled;
         private static ComponentResourceKey _toolBarButtonBackgroundGlyphDisabled;
 
@@ -521,6 +531,52 @@ namespace ModernApplicationFramework.Core.Themes
 
         //ListView
         private static ComponentResourceKey _listViewBackground;
+
+        //CommandBar
+        private static ComponentResourceKey _commandBarSelectedIcon;
+        private static ComponentResourceKey _commandBarCheckBox;
+        private static ComponentResourceKey _commandBarMenuItemMouseOver;
+        private static ComponentResourceKey _commandBarMenuItemMouseOverBorder;
+        private static ComponentResourceKey _commandBarMenuItemMouseOverText;
+        private static ComponentResourceKey _commandBarHoverOverSelectedIcon;
+        private static ComponentResourceKey _commandBarCheckBoxMouseOver;
+        private static ComponentResourceKey _commandBarTextInactive;
+        private static ComponentResourceKey _commandBarSelectedIconDisabled;
+        private static ComponentResourceKey _commandBarCheckBoxDisabled;
+
+        #region CommandBar
+
+        public static ComponentResourceKey CommandBarSelectedIcon => _commandBarSelectedIcon ??
+                                                                     (_commandBarSelectedIcon = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarSelectedIcon"));
+
+        public static ComponentResourceKey CommandBarCheckBox => _commandBarCheckBox ??
+                                                                 (_commandBarCheckBox = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarCheckBox"));
+
+        public static ComponentResourceKey CommandBarMenuItemMouseOver => _commandBarMenuItemMouseOver ??
+                                                                          (_commandBarMenuItemMouseOver = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMenuItemMouseOver"));
+
+        public static ComponentResourceKey CommandBarMenuItemMouseOverBorder => _commandBarMenuItemMouseOverBorder ??
+                                                                                (_commandBarMenuItemMouseOverBorder = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMenuItemMouseOverBorder"));
+
+        public static ComponentResourceKey CommandBarMenuItemMouseOverText => _commandBarMenuItemMouseOverText ??
+                                                                              (_commandBarMenuItemMouseOverText = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMenuItemMouseOverText"));
+
+        public static ComponentResourceKey CommandBarHoverOverSelectedIcon => _commandBarHoverOverSelectedIcon ??
+                                                                              (_commandBarHoverOverSelectedIcon = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarHoverOverSelectedIcon"));
+
+        public static ComponentResourceKey CommandBarCheckBoxMouseOver => _commandBarCheckBoxMouseOver ??
+                                                                          (_commandBarCheckBoxMouseOver = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarCheckBoxMouseOver"));
+
+        public static ComponentResourceKey CommandBarTextInactive => _commandBarTextInactive ??
+                                                                     (_commandBarTextInactive = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarTextInactive"));
+
+        public static ComponentResourceKey CommandBarSelectedIconDisabled => _commandBarSelectedIconDisabled ??
+                                                                             (_commandBarSelectedIconDisabled = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarSelectedIconDisabled"));
+
+        public static ComponentResourceKey CommandBarCheckBoxDisabled => _commandBarCheckBoxDisabled ??
+                                                                         (_commandBarCheckBoxDisabled = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarCheckBoxDisabled"));
+
+        #endregion
 
         #region ListView
         public static ComponentResourceKey ListViewBackground => _listViewBackground ??
@@ -1187,6 +1243,29 @@ namespace ModernApplicationFramework.Core.Themes
         public static ComponentResourceKey ToolBarGrip => _toolBarGrip ??
                                                           (_toolBarGrip = new ComponentResourceKey(typeof(EnvironmentColors), "ToolBarGrip"));
 
+        public static ComponentResourceKey ToolBarButtonBackground => _toolBarButtonBackground ??
+                                                                      (_toolBarButtonBackground = new ComponentResourceKey(typeof(EnvironmentColors), "ToolBarButtonBackground"));
+
+        public static ComponentResourceKey ToolBarButtonBackgroundGlyph => _toolBarButtonBackgroundGlyph ??
+                                                                           (_toolBarButtonBackgroundGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "ToolBarButtonBackgroundGlyph"));
+
+        public static ComponentResourceKey ToolBarButtonBackgroundMouseOver => _toolBarButtonBackgroundMouseOver ??
+                                                                               (_toolBarButtonBackgroundMouseOver = new ComponentResourceKey(typeof(EnvironmentColors), "ToolBarButtonBackgroundMouseOver"));
+
+        public static ComponentResourceKey ToolBarButtonBackgroundGlyphMouseOver => _toolBarButtonBackgroundGlyphMouseOver ??
+                                                                                    (_toolBarButtonBackgroundGlyphMouseOver = new ComponentResourceKey(typeof(EnvironmentColors), "ToolBarButtonBackgroundGlyphMouseOver"));
+
+        public static ComponentResourceKey ToolBarButtonBackgroundIsChecked => _toolBarButtonBackgroundIsChecked ??
+                                                                               (_toolBarButtonBackgroundIsChecked = new ComponentResourceKey(typeof(EnvironmentColors), "ToolBarButtonBackgroundIsChecked"));
+
+        public static ComponentResourceKey ToolBarButtonBackgroundGlyphIsChecked => _toolBarButtonBackgroundGlyphIsChecked ??
+                                                                                    (_toolBarButtonBackgroundGlyphIsChecked = new ComponentResourceKey(typeof(EnvironmentColors), "ToolBarButtonBackgroundGlyphIsChecked"));
+
+        public static ComponentResourceKey ToolBarButtonBackgroundFocused => _toolBarButtonBackgroundFocused ??
+                                                                             (_toolBarButtonBackgroundFocused = new ComponentResourceKey(typeof(EnvironmentColors), "ToolBarButtonBackgroundFocused"));
+
+        public static ComponentResourceKey ToolBarButtonBackgroundGlyphFocused => _toolBarButtonBackgroundGlyphFocused ??
+                                                                                  (_toolBarButtonBackgroundGlyphFocused = new ComponentResourceKey(typeof(EnvironmentColors), "ToolBarButtonBackgroundGlyphFocused"));
         public static ComponentResourceKey ToolBarButtonBackgroundDisabled => _toolBarButtonBackgroundDisabled ??
                                                                               (_toolBarButtonBackgroundDisabled = new ComponentResourceKey(typeof(EnvironmentColors), "ToolBarButtonBackgroundDisabled"));
 

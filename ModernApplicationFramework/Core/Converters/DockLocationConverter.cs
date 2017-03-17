@@ -1,18 +1,20 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace ModernApplicationFramework.Core.Converters
 {
-    internal class DockLocationConverter : ValueConverter<uint, Dock>
+    internal class DockLocationConverter : IValueConverter
     {
-        protected override Dock Convert(uint value, object parameter, CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (Dock) value;
+            return (Dock)value;
         }
 
-        protected override uint ConvertBack(Dock value, object parameter, CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (uint) value;
+            return (Dock)value;
         }
     }
 }

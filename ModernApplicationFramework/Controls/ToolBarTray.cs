@@ -36,6 +36,11 @@ namespace ModernApplicationFramework.Controls
             ToolBars.Add(toolBar);
         }
 
+        public bool ToolBarExists(ToolBar toolBar)
+        {
+            return Enumerable.Contains(ToolBars, toolBar);
+        }
+
         public void RemoveToolBar(ToolBar toolBar)
         {
             if (!ToolBars.Contains(toolBar))

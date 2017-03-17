@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using ModernApplicationFramework.ViewModels;
+using Caliburn.Micro;
+using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Controls
 {
@@ -12,13 +13,16 @@ namespace ModernApplicationFramework.Controls
         public MenuHostControl()
         {
             InitializeComponent();
-            DataContext = new MenuHostViewModel(this);
+            DataContext = IoC.Get<IMenuHostViewModel>();
+            MenuHostViewModel.MenuHostControl = this;
         }
 
         public void Connect(int connectionId, object target)
         {
             _contentLoaded = true;
         }
+
+        private IMenuHostViewModel MenuHostViewModel => DataContext as IMenuHostViewModel;
 
         private void InitializeComponent()
         {

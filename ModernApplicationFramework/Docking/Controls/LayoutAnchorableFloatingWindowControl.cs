@@ -192,7 +192,7 @@ namespace ModernApplicationFramework.Docking.Controls
 
             Content = manager.CreateUIElementForModel(_model.RootPanel);
 
-            //SetBinding(VisibilityProperty, new Binding("IsVisible") { Source = _model, Converter = new BoolToVisibilityConverter(), Mode = BindingMode.OneWay, ConverterParameter = Visibility.Hidden });
+            //SetBinding(VisibilityProperty, new Binding("IsVisible") { Source = _model, Converter = new BoolToVisibilityConverter(), Mode = BindingMode.OneWay, ConverterParameter = Visible.Hidden });
 
             //Issue: http://avalondock.codeplex.com/workitem/15036
             IsVisibleChanged += (s, args) =>
