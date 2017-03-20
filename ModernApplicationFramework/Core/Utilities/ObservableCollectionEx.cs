@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
 
 namespace ModernApplicationFramework.Core.Utilities
 {
-    public class ObservableCollectionEx<T> : ObservableCollection<T> where T : INotifyPropertyChanged
+    public sealed class ObservableCollectionEx<T> : ObservableCollection<T> where T : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler ItemPropertyChanged;
 
@@ -14,29 +16,53 @@ namespace ModernApplicationFramework.Core.Utilities
             CollectionChanged += TrulyObservableCollection_CollectionChanged;
         }
 
-        void TrulyObservableCollection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void TrulyObservableCollection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.NewItems != null)
             {
                 foreach (Object item in e.NewItems)
                 {
-                    (item as INotifyPropertyChanged).PropertyChanged += item_PropertyChanged;
+                    var notifyPropertyChanged = item as INotifyPropertyChanged;
+                    if (notifyPropertyChanged != null)
+                        notifyPropertyChanged.PropertyChanged += Item_PropertyChanged;
                 }
             }
             if (e.OldItems != null)
             {
                 foreach (Object item in e.OldItems)
                 {
-                    (item as INotifyPropertyChanged).PropertyChanged -= item_PropertyChanged;
+                    var notifyPropertyChanged = item as INotifyPropertyChanged;
+                    if (notifyPropertyChanged != null)
+                        notifyPropertyChanged.PropertyChanged -= Item_PropertyChanged;
                 }
             }
         }
 
-        void item_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void Item_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             NotifyCollectionChangedEventArgs a = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
             OnCollectionChanged(a);
             ItemPropertyChanged?.Invoke(sender, e);
+        }
+
+        public void Sort<TKey>(Func<T, TKey> keySelector)
+        {
+            InternalSort(Items.OrderBy(keySelector));
+        }
+
+        public void SortDescending<TKey>(Func<T, TKey> keySelector)
+        {
+            InternalSort(Items.OrderByDescending(keySelector));
+        }
+
+        private void InternalSort(IEnumerable<T> sortedItems)
+        {
+            var sortedItemsList = sortedItems.ToList();
+
+            foreach (var item in sortedItemsList)
+            {
+                Move(IndexOf(item), sortedItemsList.IndexOf(item));
+            }
         }
     }
 }

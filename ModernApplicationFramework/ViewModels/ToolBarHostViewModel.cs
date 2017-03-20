@@ -145,7 +145,7 @@ namespace ModernApplicationFramework.ViewModels
         {
             ContextMenu.Items.Clear();
 
-            foreach (var definition in _toolbarDefinitions)
+            foreach (var definition in _toolbarDefinitions.OrderBy(x => x.Name))
             {
                 var item = new ContextMenuGlyphItem
                 {

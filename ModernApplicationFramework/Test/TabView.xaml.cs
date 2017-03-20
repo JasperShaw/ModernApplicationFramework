@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using ModernApplicationFramework.Utilities;
 
@@ -7,7 +8,7 @@ namespace ModernApplicationFramework.Test
     /// <summary>
     /// Interaktionslogik für TabView.xaml
     /// </summary>
-    public partial class TabView 
+    public partial class TabView
     {
         public TabView()
         {
@@ -19,18 +20,10 @@ namespace ModernApplicationFramework.Test
         {
             ToolBarListBox.Focus();
             Loaded -= OnLoaded;
-        }
 
-        private void ModifySelectionButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            var d = (ToolbarDefinition) ToolBarListBox.SelectedItem;
-            ContextMenu dropDownMenu = ModifySelectionButton.DropDownMenu;
-            dropDownMenu.DataContext = d;
-            dropDownMenu.IsOpen = true;
-        }
-
-        private void HandleToolbarNameChanged(object sender, RoutedEventArgs e)
-        {
+            ToolBarListBox.Items.SortDescriptions.Add(
+                new System.ComponentModel.SortDescription("Content",
+                    System.ComponentModel.ListSortDirection.Ascending));
         }
     }
 }

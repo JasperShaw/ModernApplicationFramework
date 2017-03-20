@@ -1,15 +1,11 @@
 ﻿using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Markup;
 using ModernApplicationFramework.Core.NativeMethods;
 using ModernApplicationFramework.Core.Utilities;
 using MenuItem = ModernApplicationFramework.Controls.MenuItem;
@@ -18,12 +14,13 @@ using TextBox = System.Windows.Controls.TextBox;
 namespace ModernApplicationFramework.Test
 {
     [TemplatePart(Name = "PART_EditableTextBox", Type = typeof(TextBox))]
-    public class EditableMenuItem : MenuItem, IStyleConnector//, IComponentConnector, IStyleConnector
+    public class EditableMenuItem : MenuItem //, IComponentConnector, IStyleConnector
     {
-        private IntPtr previousHwndFocus = IntPtr.Zero;
-        public static readonly DependencyProperty EditProperty = DependencyProperty.Register("Edit", typeof(object), typeof(EditableMenuItem), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, null, null));
-        public static readonly DependencyProperty EditMinWidthProperty = DependencyProperty.Register("EditMinWidth", typeof(double), typeof(EditableMenuItem), new FrameworkPropertyMetadata(200.0));
+        private IntPtr previousHwndFocus;
+        public static readonly DependencyProperty EditProperty;
+        public static readonly DependencyProperty EditMinWidthProperty;
         private TextBox editableTextBoxPart;
+        private RoutedEventHandler _AfterMenuItemTextChange;
         private string textInGotFocus;
         private Collection<ValidationRule> _validationRules;
         private bool _contentLoaded;
@@ -45,15 +42,42 @@ namespace ModernApplicationFramework.Test
             set => SetValue(EditMinWidthProperty, value);
         }
 
-        public event RoutedEventHandler AfterMenuItemTextChange;
+        public event RoutedEventHandler AfterMenuItemTextChange
+        {
+            add
+            {
+                RoutedEventHandler routedEventHandler = _AfterMenuItemTextChange;
+                RoutedEventHandler comparand;
+                do
+                {
+                    comparand = routedEventHandler;
+                    routedEventHandler = Interlocked.CompareExchange(ref _AfterMenuItemTextChange, (RoutedEventHandler)Delegate.Combine(comparand, value), comparand);
+                }
+                while (routedEventHandler != comparand);
+            }
+            remove
+            {
+                RoutedEventHandler routedEventHandler = _AfterMenuItemTextChange;
+                RoutedEventHandler comparand;
+                do
+                {
+                    comparand = routedEventHandler;
+                    routedEventHandler = Interlocked.CompareExchange(ref _AfterMenuItemTextChange, (RoutedEventHandler)Delegate.Remove(comparand, value), comparand);
+                }
+                while (routedEventHandler != comparand);
+            }
+        }
 
         static EditableMenuItem()
         {
+            EditProperty = DependencyProperty.Register("Edit", typeof(object), typeof(EditableMenuItem), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, null, null));
+            EditMinWidthProperty = DependencyProperty.Register("EditMinWidth", typeof(double), typeof(EditableMenuItem), new FrameworkPropertyMetadata(200.0));
             DefaultStyleKeyProperty.OverrideMetadata(typeof(EditableMenuItem), new FrameworkPropertyMetadata(typeof(EditableMenuItem)));
         }
 
         public EditableMenuItem()
         {
+            previousHwndFocus = IntPtr.Zero;
             InitializeComponent();
             Loaded += OnLoaded;
         }
@@ -68,6 +92,12 @@ namespace ModernApplicationFramework.Test
             binding.ValidationRules.Clear();
             foreach (ValidationRule validationRule in ValidationRules)
                 binding.ValidationRules.Add(validationRule);
+
+            EditableTextBox.GotKeyboardFocus += OnEditGotKeyboardFocus;
+            EditableTextBox.LostKeyboardFocus += OnEditLostKeyboardFocus;
+            EditableTextBox.PreviewGotKeyboardFocus += OnEditPreviewGotKeyboardFocus;
+            EditableTextBox.PreviewMouseUp += OnEditPreviewMouseUp;
+            EditableTextBox.TextChanged += OnEditTextChanged;
         }
 
         private void FocusEditBox()
@@ -120,7 +150,7 @@ namespace ModernApplicationFramework.Test
 
         private void OnEditLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            if (Mouse.Captured == EditableTextBox)
+            if (Equals(Mouse.Captured, EditableTextBox))
             {
                 Mouse.RemovePreviewMouseDownOutsideCapturedElementHandler(EditableTextBox, OnPreviewMouseDownOutsideCapturedElementHandler);
                 FocusManager.SetFocusedElement(Parent, null);
@@ -134,9 +164,9 @@ namespace ModernApplicationFramework.Test
             }
             else
             {
-                if (string.Equals(textInGotFocus, EditableTextBox.Text, StringComparison.CurrentCulture) || AfterMenuItemTextChange == null)
+                if (string.Equals(textInGotFocus, EditableTextBox.Text, StringComparison.CurrentCulture) || _AfterMenuItemTextChange == null)
                     return;
-                AfterMenuItemTextChange(this, new RoutedEventArgs(e.RoutedEvent, EditableTextBox));
+               _AfterMenuItemTextChange(this, new RoutedEventArgs(e.RoutedEvent, EditableTextBox));
             }
         }
 
@@ -149,7 +179,8 @@ namespace ModernApplicationFramework.Test
 
         private void OnEditTextChanged(object sender, EventArgs e)
         {
-            (EditableTextBox.Parent as FrameworkElement).BindingGroup.ValidateWithoutUpdate();
+            var frameworkElement = EditableTextBox.Parent as FrameworkElement;
+            frameworkElement?.BindingGroup.ValidateWithoutUpdate();
         }
 
         private void OnPreviewMouseDownOutsideCapturedElementHandler(object sender, MouseButtonEventArgs e)
@@ -165,11 +196,11 @@ namespace ModernApplicationFramework.Test
 
         private void RestorePreviousHwndFocus()
         {
-            if (!(this.previousHwndFocus != IntPtr.Zero))
+            if (!(previousHwndFocus != IntPtr.Zero))
                 return;
-            IntPtr previousHwndFocus = this.previousHwndFocus;
-            this.previousHwndFocus = IntPtr.Zero;
-            User32.SetFocus(previousHwndFocus);
+            var previousFocus = previousHwndFocus;
+            previousHwndFocus = IntPtr.Zero;
+            User32.SetFocus(previousFocus);
         }
 
 
@@ -179,25 +210,6 @@ namespace ModernApplicationFramework.Test
                 return;
             _contentLoaded = true;
             Application.LoadComponent(this, new Uri("/ModernApplicationFramework;component/Themes/Generic/EditableMenuItem.xaml", UriKind.Relative));
-        }
-
-
-        void Connect(int connectionId, object target)
-        {
-            _contentLoaded = true;
-        }
-
-
-        [DebuggerNonUserCode]
-        void IStyleConnector.Connect(int connectionId, object target)
-        {
-            if (connectionId != 1)
-                return;
-            ((UIElement)target).GotKeyboardFocus += OnEditGotKeyboardFocus;
-            ((UIElement)target).LostKeyboardFocus += OnEditLostKeyboardFocus;
-            ((UIElement)target).PreviewGotKeyboardFocus += OnEditPreviewGotKeyboardFocus;
-            ((UIElement)target).PreviewMouseUp += OnEditPreviewMouseUp;
-            ((TextBoxBase)target).TextChanged += OnEditTextChanged;
         }
     }
 }

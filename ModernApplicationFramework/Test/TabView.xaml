@@ -16,7 +16,7 @@
                 <converters:DockLocationConverter x:Key="DockLocationConverter"/>
             </FrameworkElement.Resources>
 
-            <test:EditableMenuItem AfterMenuItemTextChange="HandleToolbarNameChanged"  Header="_Name:">
+            <test:EditableMenuItem Header="_Name:">
                 <test:EditableMenuItem.Edit>
                     <Binding Path="Name" Mode="TwoWay" UpdateSourceTrigger="LostFocus"
                              Converter="{StaticResource TrimSpacesConverter}"/>
@@ -80,7 +80,7 @@
         <controls:CheckableListBox x:Name="ToolBarListBox" Margin="10,0,10,10" IsSynchronizedWithCurrentItem="True"
                                    IsTextSearchEnabled="True"
                                    TextSearch.TextPath="Text" Grid.Row="1" Grid.Column="0" SelectedIndex="0"
-                                   ScrollViewer.CanContentScroll="False" ItemsSource="{Binding Toolbars}">
+                                   ScrollViewer.CanContentScroll="False" ItemsSource="{Binding Toolbars}" SelectedItem="{Binding SelectedToolbarDefinition}">
             <ItemsControl.ItemContainerStyle>
                 <Style TargetType="{x:Type controls:CheckableListBoxItem}">
                     <Setter Property="IsChecked" 
@@ -106,7 +106,7 @@
                 </UIElement.IsEnabled>
             </controls:DialogButton>
             <controls:DropDownDialogButton x:Name="ModifySelectionButton" Content="_Modify Selection" DropDownMenu="{DynamicResource ModifySelectionToolBarsMenu}"
-                                           Click="ModifySelectionButton_OnClick"/>
+                                           Command="{Binding DropDownClickCommand}"/>
         </StackPanel>
     </Grid>
 </UserControl>

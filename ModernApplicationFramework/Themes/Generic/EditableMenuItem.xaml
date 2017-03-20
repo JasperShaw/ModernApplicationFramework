@@ -48,28 +48,17 @@
             </Grid>
             <ControlTemplate.Triggers>
                 <Trigger Property="MenuItem.IsHighlighted" Value="true">
-                    <Setter TargetName="Bg"
-                                        Value="{DynamicResource {x:Static ui:EnvironmentColors.TextBoxBorder}}"
-                                        Property="Shape.Stroke"/>
-                    <Setter TargetName="Bg"
-                                        Value="{DynamicResource {x:Static ui:EnvironmentColors.TextBoxBackgroundHover}}"
-                                        Property="Shape.Fill"/>
-                    <Setter  Value="{DynamicResource {x:Static ui:EnvironmentColors.TextBoxForegroundHover}}"
-                                         Property="TextElement.Foreground"/>
+                    <Setter TargetName="Bg" Value="{DynamicResource {x:Static ui:EnvironmentColors.MenuItemBorderHover}}" Property="Shape.Stroke"/>
+                    <Setter TargetName="Bg" Value="{DynamicResource {x:Static ui:EnvironmentColors.MenuItemBackgroundHover}}" Property="Shape.Fill"/>
+                    <Setter Value="{DynamicResource {x:Static ui:EnvironmentColors.TextBoxForegroundHover}}" Property="TextElement.Foreground"/>
                 </Trigger>
                 <Trigger Property="UIElement.IsKeyboardFocused" Value="true">
-                    <Setter TargetName="Bg"
-                                        Value="{DynamicResource {x:Static ui:EnvironmentColors.MenuItemBorderHover}}"
-                                        Property="Shape.Stroke"/>
-                    <Setter TargetName="Bg"
-                                        Value="{DynamicResource {x:Static ui:EnvironmentColors.MenuItemBackgroundHover}}"
-                                        Property="Shape.Fill"/>
-                    <Setter Value="{DynamicResource {x:Static ui:EnvironmentColors.MenuItemForegroundHover}}"
-                                        Property="TextElement.Foreground"/>
+                    <Setter TargetName="Bg" Value="{DynamicResource {x:Static ui:EnvironmentColors.MenuItemBackgroundHover}}" Property="Shape.Stroke"/>
+                    <Setter TargetName="Bg" Value="{DynamicResource {x:Static ui:EnvironmentColors.MenuItemBackgroundHover}}" Property="Shape.Fill"/>
+                    <Setter Value="{DynamicResource {x:Static ui:EnvironmentColors.MenuItemForegroundHover}}" Property="TextElement.Foreground"/>
                 </Trigger>
                 <Trigger Property="UIElement.IsEnabled" Value="false">
-                    <Setter Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"
-                                        Property="Control.Foreground"/>
+                    <Setter Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" Property="Control.Foreground"/>
                 </Trigger>
                 <DataTrigger Value="true">
                     <DataTrigger.Binding>
