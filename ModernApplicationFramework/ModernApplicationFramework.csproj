@@ -58,6 +58,9 @@
     <Resource Include="Resources\top.png" />
     <Resource Include="Resources\topleft.png" />
     <Resource Include="Resources\topright.png" />
+    <Page Include="Resources\Icons\StatusError.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </Page>
     <Page Include="Test\CustomizeDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -236,10 +239,12 @@
     <Compile Include="Core\Utilities\FocusBehavior.cs" />
     <Compile Include="Core\Utilities\ObservableCollectionEx.cs" />
     <Compile Include="Core\Utilities\PathUtilities.cs" />
+    <Compile Include="Core\ViewSources\PropertyBoundFilteringCollectionViewSource.cs" />
     <Compile Include="Core\Utilities\ReusableResourceHolder.cs" />
     <Compile Include="Core\Utilities\ReusableResourceStore.cs" />
     <Compile Include="Core\Utilities\ReusableResourceStoreBase.cs" />
     <Compile Include="Core\Utilities\ReusableStringBuilder.cs" />
+    <Compile Include="Core\ViewSources\ToolbarsCollectionViewSource.cs" />
     <Compile Include="Core\Utilities\WindowsFileNameHelper.cs" />
     <Compile Include="Controls\FolderBrowserDialog.cs" />
     <Compile Include="Core\ValidationRules\ToolbarNameNotEmptyValidationRule.cs" />

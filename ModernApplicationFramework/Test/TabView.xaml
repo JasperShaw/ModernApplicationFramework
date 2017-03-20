@@ -4,10 +4,17 @@
              xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
              xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
              xmlns:test="clr-namespace:ModernApplicationFramework.Test"
-             xmlns:validationRules="clr-namespace:ModernApplicationFramework.Core.ValidationRules">
+             xmlns:validationRules="clr-namespace:ModernApplicationFramework.Core.ValidationRules"
+             xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             xmlns:viewSources="clr-namespace:ModernApplicationFramework.Core.ViewSources">
     <UserControl.Resources>
-        <converters:ToolBarVisibilityConverter x:Key="ToolBarVisibilityConverter" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
+        <viewSources:ToolbarsCollectionViewSource x:Key="ToolBarsView" BoundPropertyName="Name" Source="{Binding Toolbars}">
+            <CollectionViewSource.SortDescriptions>
+                <componentModel:SortDescription PropertyName="Name"/>
+            </CollectionViewSource.SortDescriptions>
+        </viewSources:ToolbarsCollectionViewSource>
 
         <controls:ContextMenu x:Key="ModifySelectionToolBarsMenu">
 
@@ -26,7 +33,7 @@
                 </UIElement.Visibility>
                 <test:EditableMenuItem.ValidationRules>
                     <validationRules:ToolbarNameNotEmptyValidationRule/>
-                    <!--<validationRules:ToolbarNameUniqueValidationRule>
+                    <validationRules:ToolbarNameUniqueValidationRule>
                         <validationRules:ToolbarNameUniqueValidationRule.DataContext>
                             <validationRules:ToolbarNameUniqueValidationRuleDataContext>
                                 <validationRules:ToolbarNameUniqueValidationRuleDataContext.Toolbars>
@@ -34,7 +41,7 @@
                                 </validationRules:ToolbarNameUniqueValidationRuleDataContext.Toolbars>
                             </validationRules:ToolbarNameUniqueValidationRuleDataContext>
                         </validationRules:ToolbarNameUniqueValidationRule.DataContext>
-                    </validationRules:ToolbarNameUniqueValidationRule>-->
+                    </validationRules:ToolbarNameUniqueValidationRule>
                 </test:EditableMenuItem.ValidationRules>
             </test:EditableMenuItem>
             
@@ -80,7 +87,13 @@
         <controls:CheckableListBox x:Name="ToolBarListBox" Margin="10,0,10,10" IsSynchronizedWithCurrentItem="True"
                                    IsTextSearchEnabled="True"
                                    TextSearch.TextPath="Text" Grid.Row="1" Grid.Column="0" SelectedIndex="0"
-                                   ScrollViewer.CanContentScroll="False" ItemsSource="{Binding Toolbars}" SelectedItem="{Binding SelectedToolbarDefinition}">
+                                   ScrollViewer.CanContentScroll="False" SelectedItem="{Binding SelectedToolbarDefinition, Mode=TwoWay}">
+            <ItemsControl.ItemsSource>
+                <Binding Source="{StaticResource ToolBarsView}"/>
+            </ItemsControl.ItemsSource>
+            <controls:CheckableListBox.ToggleKeys>
+                <x:StaticExtension Member="Key.Space"/>
+            </controls:CheckableListBox.ToggleKeys>
             <ItemsControl.ItemContainerStyle>
                 <Style TargetType="{x:Type controls:CheckableListBoxItem}">
                     <Setter Property="IsChecked" 
@@ -98,10 +111,10 @@
             <controls:DialogButton x:Name="NewToolBarButton" Content="_New..."/>
             <controls:DialogButton Content="_Delete">
                 <UIElement.IsEnabled>
-                    <MultiBinding x:Uid="MultiBinding_1" Converter="{StaticResource AndBooleanConverter}">
-                        <Binding x:Uid="Binding_1" ElementName="ToolBarListBox" Path="SelectedItem"
+                    <MultiBinding Converter="{StaticResource AndBooleanConverter}">
+                        <Binding ElementName="ToolBarListBox" Path="SelectedItem"
                                  Converter="{StaticResource NotNullConverter}"/>
-                        <Binding x:Uid="Binding_2" ElementName="ToolBarListBox" Path="SelectedItem.IsCustom" Mode="OneWay"/>
+                        <Binding ElementName="ToolBarListBox" Path="SelectedItem.IsCustom" Mode="OneWay"/>
                     </MultiBinding>
                 </UIElement.IsEnabled>
             </controls:DialogButton>
@@ -110,3 +123,10 @@
         </StackPanel>
     </Grid>
 </UserControl>
+
+
+
+
+
+
+

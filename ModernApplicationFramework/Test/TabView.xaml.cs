@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using ModernApplicationFramework.Utilities;
+﻿using System.Windows;
 
 namespace ModernApplicationFramework.Test
 {
@@ -20,10 +17,6 @@ namespace ModernApplicationFramework.Test
         {
             ToolBarListBox.Focus();
             Loaded -= OnLoaded;
-
-            ToolBarListBox.Items.SortDescriptions.Add(
-                new System.ComponentModel.SortDescription("Content",
-                    System.ComponentModel.ListSortDirection.Ascending));
         }
     }
 }

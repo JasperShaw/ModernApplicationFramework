@@ -16,17 +16,17 @@ namespace ModernApplicationFramework.Test
     [TemplatePart(Name = "PART_EditableTextBox", Type = typeof(TextBox))]
     public class EditableMenuItem : MenuItem //, IComponentConnector, IStyleConnector
     {
-        private IntPtr previousHwndFocus;
+        private IntPtr _previousHwndFocus;
         public static readonly DependencyProperty EditProperty;
         public static readonly DependencyProperty EditMinWidthProperty;
-        private TextBox editableTextBoxPart;
-        private RoutedEventHandler _AfterMenuItemTextChange;
-        private string textInGotFocus;
+        private TextBox _editableTextBoxPart;
+        private RoutedEventHandler _afterMenuItemTextChange;
+        private string _textInGotFocus;
         private Collection<ValidationRule> _validationRules;
         private bool _contentLoaded;
 
-        internal TextBox EditableTextBox => editableTextBoxPart ??
-                                            (editableTextBoxPart = GetTemplateChild("PART_EditableTextBox") as TextBox);
+        internal TextBox EditableTextBox => _editableTextBoxPart ??
+                                            (_editableTextBoxPart = GetTemplateChild("PART_EditableTextBox") as TextBox);
 
         public Collection<ValidationRule> ValidationRules => _validationRules ?? (_validationRules = new Collection<ValidationRule>());
 
@@ -46,23 +46,23 @@ namespace ModernApplicationFramework.Test
         {
             add
             {
-                RoutedEventHandler routedEventHandler = _AfterMenuItemTextChange;
+                RoutedEventHandler routedEventHandler = _afterMenuItemTextChange;
                 RoutedEventHandler comparand;
                 do
                 {
                     comparand = routedEventHandler;
-                    routedEventHandler = Interlocked.CompareExchange(ref _AfterMenuItemTextChange, (RoutedEventHandler)Delegate.Combine(comparand, value), comparand);
+                    routedEventHandler = Interlocked.CompareExchange(ref _afterMenuItemTextChange, (RoutedEventHandler)Delegate.Combine(comparand, value), comparand);
                 }
                 while (routedEventHandler != comparand);
             }
             remove
             {
-                RoutedEventHandler routedEventHandler = _AfterMenuItemTextChange;
+                RoutedEventHandler routedEventHandler = _afterMenuItemTextChange;
                 RoutedEventHandler comparand;
                 do
                 {
                     comparand = routedEventHandler;
-                    routedEventHandler = Interlocked.CompareExchange(ref _AfterMenuItemTextChange, (RoutedEventHandler)Delegate.Remove(comparand, value), comparand);
+                    routedEventHandler = Interlocked.CompareExchange(ref _afterMenuItemTextChange, (RoutedEventHandler)Delegate.Remove(comparand, value), comparand);
                 }
                 while (routedEventHandler != comparand);
             }
@@ -77,7 +77,7 @@ namespace ModernApplicationFramework.Test
 
         public EditableMenuItem()
         {
-            previousHwndFocus = IntPtr.Zero;
+            _previousHwndFocus = IntPtr.Zero;
             InitializeComponent();
             Loaded += OnLoaded;
         }
@@ -88,10 +88,13 @@ namespace ModernApplicationFramework.Test
             ApplyTemplate();
             if (EditableTextBox == null)
                 return;
-            Binding binding = BindingOperations.GetBinding(EditableTextBox, TextBox.TextProperty);
-            binding.ValidationRules.Clear();
-            foreach (ValidationRule validationRule in ValidationRules)
-                binding.ValidationRules.Add(validationRule);
+            var binding = BindingOperations.GetBinding(EditableTextBox, TextBox.TextProperty);
+            if (binding != null)
+            {
+                binding.ValidationRules.Clear();
+                foreach (ValidationRule validationRule in ValidationRules)
+                    binding.ValidationRules.Add(validationRule);
+            }
 
             EditableTextBox.GotKeyboardFocus += OnEditGotKeyboardFocus;
             EditableTextBox.LostKeyboardFocus += OnEditLostKeyboardFocus;
@@ -145,7 +148,7 @@ namespace ModernApplicationFramework.Test
         {
             Mouse.Capture(EditableTextBox, CaptureMode.SubTree);
             Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(EditableTextBox, OnPreviewMouseDownOutsideCapturedElementHandler);
-            textInGotFocus = EditableTextBox.Text;
+            _textInGotFocus = EditableTextBox.Text;
         }
 
         private void OnEditLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
@@ -164,15 +167,15 @@ namespace ModernApplicationFramework.Test
             }
             else
             {
-                if (string.Equals(textInGotFocus, EditableTextBox.Text, StringComparison.CurrentCulture) || _AfterMenuItemTextChange == null)
+                if (string.Equals(_textInGotFocus, EditableTextBox.Text, StringComparison.CurrentCulture) || _afterMenuItemTextChange == null)
                     return;
-               _AfterMenuItemTextChange(this, new RoutedEventArgs(e.RoutedEvent, EditableTextBox));
+               _afterMenuItemTextChange(this, new RoutedEventArgs(e.RoutedEvent, EditableTextBox));
             }
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
-            if (e.OriginalSource == EditableTextBox && (NativeMethods.ModifierKeys & ModifierKeys.Alt) > ModifierKeys.None)
+            if (Equals(e.OriginalSource, EditableTextBox) && (NativeMethods.ModifierKeys & ModifierKeys.Alt) > ModifierKeys.None)
                 e.Handled = true;
             base.OnKeyDown(e);
         }
@@ -191,15 +194,15 @@ namespace ModernApplicationFramework.Test
 
         private void OnEditPreviewGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            this.AcquireWin32Focus(out previousHwndFocus);
+            this.AcquireWin32Focus(out _previousHwndFocus);
         }
 
         private void RestorePreviousHwndFocus()
         {
-            if (!(previousHwndFocus != IntPtr.Zero))
+            if (!(_previousHwndFocus != IntPtr.Zero))
                 return;
-            var previousFocus = previousHwndFocus;
-            previousHwndFocus = IntPtr.Zero;
+            var previousFocus = _previousHwndFocus;
+            _previousHwndFocus = IntPtr.Zero;
             User32.SetFocus(previousFocus);
         }
 

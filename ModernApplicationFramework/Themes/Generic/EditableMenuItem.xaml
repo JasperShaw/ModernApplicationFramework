@@ -34,7 +34,8 @@
                         <Border x:Name="LimitedEditBoxWith"/>
                         <TextBox x:Name="PART_EditableTextBox" MinWidth="{TemplateBinding mafc:EditableMenuItem.EditMinWidth}" SnapsToDevicePixels="true"
                                              BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Style="{StaticResource ErrorTextBoxStyleKey}"
-                                             BorderBrush="{DynamicResource {x:Static ui:EnvironmentColors.TextBoxBorder}}">
+                                             BorderBrush="{DynamicResource {x:Static ui:EnvironmentColors.TextBoxBorder}}"
+                                 Validation.ErrorTemplate="{StaticResource ErrorTextBoxTemplateKey}">
                             <FrameworkElement.Width>
                                 <Binding ElementName="LimitEditBoxWidth" Path="ActualWidth"/>
                             </FrameworkElement.Width>

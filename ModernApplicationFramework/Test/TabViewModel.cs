@@ -1,11 +1,8 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using ModernApplicationFramework.Utilities;
 using ModernApplicationFramework.CommandBase;
 using System.Linq;
 using System.Windows.Controls;
-using System.Windows.Data;
 using ModernApplicationFramework.Core.Utilities;
 using Screen = Caliburn.Micro.Screen;
 
@@ -43,7 +40,6 @@ namespace ModernApplicationFramework.Test
         {
             base.OnViewLoaded(view);
             _control = view as TabView;;
-            SelectedToolbarDefinition = _toolbarDefinitions.FirstOrDefault();
         }
 
         public void HandleToolbarNameChanged()
@@ -63,14 +59,6 @@ namespace ModernApplicationFramework.Test
             Toolbars = new ObservableCollectionEx<ToolbarDefinition>();
             foreach (var definition in _toolbarDefinitions)
                 Toolbars.Add(definition);
-            Toolbars.Sort(d => d.Name);
-            Toolbars.ItemPropertyChanged += Toolbars_ItemPropertyChanged;
-        }
-
-        private void Toolbars_ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(ToolbarDefinition.Name))
-                HandleToolbarNameChanged();
         }
 
         public Command DropDownClickCommand => new Command(ExecuteDropDownClick);
