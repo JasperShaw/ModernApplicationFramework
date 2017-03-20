@@ -1,10 +1,13 @@
 ﻿using System.ComponentModel.Composition;
 using ModernApplicationFramework.Utilities;
 using ModernApplicationFramework.CommandBase;
-using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
+using Caliburn.Micro;
 using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Interfaces.ViewModels;
 using Screen = Caliburn.Micro.Screen;
+using ToolBar = ModernApplicationFramework.Controls.ToolBar;
 
 namespace ModernApplicationFramework.Test
 {
@@ -12,8 +15,6 @@ namespace ModernApplicationFramework.Test
     [Export(typeof(TabViewModel))]
     public sealed class TabViewModel: Screen
     {
-
-        private readonly ToolbarDefinition[] _toolbarDefinitions;
         private ToolbarDefinition _selectedToolbarDefinition;
 
         private TabView _control;
@@ -39,33 +40,51 @@ namespace ModernApplicationFramework.Test
         protected override void OnViewLoaded(object view)
         {
             base.OnViewLoaded(view);
-            _control = view as TabView;;
-        }
-
-        public void HandleToolbarNameChanged()
-        {
-            Toolbars.Clear();
-            foreach (var definition in _toolbarDefinitions.OrderByDescending(x => x.Name))
-                Toolbars.Add(definition);
+            _control = view as TabView;
         }
 
 
         [ImportingConstructor]
-        public TabViewModel([ImportMany] ToolbarDefinition[] toolbarDefinitions)
+        public TabViewModel()
         {
             DisplayName = "Toolbars";
-            _toolbarDefinitions = toolbarDefinitions;
-
-            Toolbars = new ObservableCollectionEx<ToolbarDefinition>();
-            foreach (var definition in _toolbarDefinitions)
-                Toolbars.Add(definition);
+            Toolbars = IoC.Get<IToolBarHostViewModel>().ToolbarDefinitions;
         }
 
         public Command DropDownClickCommand => new Command(ExecuteDropDownClick);
+        public Command DeleteSelectedToolbarCommand => new Command(ExecuteDeleteSelectedToolbar);
+        public Command CreateNewToolbarCommand => new Command(ExecuteCreateNewToolbar);
+
+        private void ExecuteCreateNewToolbar()
+        {
+            var windowManager = new WindowManager();
+            var customizeDialog = new NewToolBarDialogViewModel();
+            var result = windowManager.ShowDialog(customizeDialog);
+            if (!result.HasValue || !result.Value)
+                return;
+            var def = new ToolbarDefinition(new ToolBar(), customizeDialog.ToolbarName, int.MaxValue, true, Dock.Top, true);
+            IoC.Get<IToolBarHostViewModel>().AddToolbarDefinition(def);
+            SelectedToolbarDefinition = def;
+            _control.ToolBarListBox.ScrollIntoView(def);
+            _control.ToolBarListBox.Focus();
+        }
+
+
+        private void ExecuteDeleteSelectedToolbar()
+        {
+            if (!SelectedToolbarDefinition.IsCustom)
+                return;
+            var result = MessageBox.Show(
+                $"Are you sure you want to delete the '{SelectedToolbarDefinition.Name}' toolbar?",
+                Application.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.No)
+                return;
+            IoC.Get<IToolBarHostViewModel>().RemoveToolbarDefinition(SelectedToolbarDefinition);
+        }
 
         private void ExecuteDropDownClick()
         {
-            ContextMenu dropDownMenu = _control.ModifySelectionButton.DropDownMenu;
+            var dropDownMenu = _control.ModifySelectionButton.DropDownMenu;
             dropDownMenu.DataContext = SelectedToolbarDefinition;
             dropDownMenu.IsOpen = true;
         }

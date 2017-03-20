@@ -162,9 +162,7 @@ namespace ModernApplicationFramework.Test
             RestorePreviousHwndFocus();
             IList<ValidationError> errors = Validation.GetErrors(EditableTextBox);
             if (errors.Count != 0)
-            {
-                
-            }
+                MessageBox.Show(errors[0].ErrorContent.ToString(), Application.Current.MainWindow.Title, MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
             else
             {
                 if (string.Equals(_textInGotFocus, EditableTextBox.Text, StringComparison.CurrentCulture) || _afterMenuItemTextChange == null)

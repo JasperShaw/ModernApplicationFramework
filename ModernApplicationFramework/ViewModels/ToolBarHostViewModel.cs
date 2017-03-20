@@ -40,8 +40,7 @@ namespace ModernApplicationFramework.ViewModels
         //private readonly Dictionary<string, Tuple<ToolBar, Dock, bool>> _contextList =
         //    new Dictionary<string, Tuple<ToolBar, Dock, bool>>();
 
-
-        private readonly ObservableCollectionEx<ToolbarDefinition> _toolbarDefinitions;
+        public ObservableCollectionEx<ToolbarDefinition> ToolbarDefinitions { get; set; }
 
 
         private ToolBarTray _bottomToolBarTay;
@@ -53,11 +52,11 @@ namespace ModernApplicationFramework.ViewModels
         [ImportingConstructor]
         public ToolbarHostViewModel([ImportMany] ToolbarDefinition[] toolbarDefinitions)
         {
-            _toolbarDefinitions = new ObservableCollectionEx<ToolbarDefinition>();
+            ToolbarDefinitions = new ObservableCollectionEx<ToolbarDefinition>();
             foreach (var definition in toolbarDefinitions)
-                _toolbarDefinitions.Add(definition);
-            _toolbarDefinitions.CollectionChanged += _toolbarDefinitions_CollectionChanged;
-            _toolbarDefinitions.ItemPropertyChanged += _toolbarDefinitions_ItemPropertyChanged;
+                ToolbarDefinitions.Add(definition);
+            ToolbarDefinitions.CollectionChanged += _toolbarDefinitions_CollectionChanged;
+            ToolbarDefinitions.ItemPropertyChanged += _toolbarDefinitions_ItemPropertyChanged;
             ContextMenu = new ContextMenu();
             BuildContextMenu();
         }
@@ -101,6 +100,18 @@ namespace ModernApplicationFramework.ViewModels
             }
         }
 
+        public string GetUniqueToolBarName()
+        {
+            return InternalGetUniqueToolBarName(1);
+        }
+
+        private string InternalGetUniqueToolBarName(int index)
+        {
+            var i = index;
+            var uniqueName = $"{i} (custom)";
+            return ToolbarDefinitions.Any(toolbarDefinition => uniqueName.Equals(toolbarDefinition.Name)) ? InternalGetUniqueToolBarName(++i) : uniqueName;
+        }
+
         public ToolBarTray LeftToolBarTray
         {
             get => _leftToolBarTay;
@@ -131,21 +142,16 @@ namespace ModernApplicationFramework.ViewModels
             }
         }
 
-
-
-
-        #region Done
-
         private async void ToolBarTay_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             await OpenContextMenuCommand.Execute();
         }
 
-        public void BuildContextMenu()
+        private void BuildContextMenu()
         {
             ContextMenu.Items.Clear();
 
-            foreach (var definition in _toolbarDefinitions.OrderBy(x => x.Name))
+            foreach (var definition in ToolbarDefinitions.OrderBy(x => x.Name))
             {
                 var item = new ContextMenuGlyphItem
                 {
@@ -220,22 +226,22 @@ namespace ModernApplicationFramework.ViewModels
         {
             if (definition == null)
                 throw new ArgumentNullException();
-            if (_toolbarDefinitions.Contains(definition))
+            if (ToolbarDefinitions.Contains(definition))
                 throw new ArgumentException();
             if (string.IsNullOrEmpty(definition.Name))
                 throw new NullReferenceException("Toolbar Id must not be null");
-            if (_toolbarDefinitions.Any(item => item.ToolBar.Name == definition.ToolBar.Name))
+            if (ToolbarDefinitions.Any(toolbarDefinition => toolbarDefinition.Name.Equals(definition.Name)))
                 throw new ToolBarAlreadyExistsException();
-            _toolbarDefinitions.Add(definition);
+            ToolbarDefinitions.Add(definition);
         }
 
         public void RemoveToolbarDefinition(ToolbarDefinition definition)
         {
             if (definition == null)
                 throw new ArgumentNullException();
-            if (!_toolbarDefinitions.Contains(definition))
+            if (!ToolbarDefinitions.Contains(definition))
                 throw new ArgumentException();
-            _toolbarDefinitions.Remove(definition);
+            ToolbarDefinitions.Remove(definition);
         }
 
         protected virtual bool CanClickContextMenuItem(ContextMenuGlyphItem item)
@@ -245,7 +251,7 @@ namespace ModernApplicationFramework.ViewModels
 
         public ToolbarDefinition GeToolbarDefinitionByName(string name)
         {
-            foreach (var definition in _toolbarDefinitions)
+            foreach (var definition in ToolbarDefinitions)
             {
                 if (definition.ToolBar.Name == name)
                     return definition;
@@ -352,7 +358,7 @@ namespace ModernApplicationFramework.ViewModels
             if (TopToolBarTray == null || LeftToolBarTray == null || RightToolBarTray == null ||
                 BottomToolBarTray == null)
                 throw new NullReferenceException("Could not find all 4 ToolbarTrays");
-            if (!_toolbarDefinitions.Contains(definition))
+            if (!ToolbarDefinitions.Contains(definition))
                 throw new ToolBarNotFoundException();
             if (string.IsNullOrEmpty(definition.Name))
                 throw new ArgumentNullException(nameof(definition.ToolBar.Name));
@@ -367,7 +373,7 @@ namespace ModernApplicationFramework.ViewModels
             if (TopToolBarTray == null || LeftToolBarTray == null || RightToolBarTray == null ||
                 BottomToolBarTray == null)
                 throw new NullReferenceException("Could not find all 4 ToolbarTrays");
-            if (!_toolbarDefinitions.Contains(definition))
+            if (!ToolbarDefinitions.Contains(definition))
                 throw new ToolBarNotFoundException();
             if (string.IsNullOrEmpty(definition.Name))
                 throw new ArgumentNullException(nameof(definition.ToolBar.Name));
@@ -415,429 +421,11 @@ namespace ModernApplicationFramework.ViewModels
             }
         }
 
-        #endregion
-
         public void SetupToolbars()
         {
-            var definitions = _toolbarDefinitions.OrderBy(x => x.SortOrder);
+            var definitions = ToolbarDefinitions.OrderBy(x => x.SortOrder);
             foreach (var definition in definitions)
                 ChangeToolBarVisibility(definition);
         }
-
-
-
-
-
-
-        // /*
-        //    This adds a new toolbar by:
-        //        Checking for:
-        //            Not Null Object
-        //            ObjectID not null
-        //            Not Existing already
-        //        Creating a new ContextMenuItem for it
-        //        Adds to Dictionary
-        //        If visible param is true
-        //            Show Toolbar on screen
-        //*/
-        // /// <summary>
-        // ///     Adds new Toolbar to HostControl
-        // /// </summary>
-        // /// <param name="toolBar">Toolbar object</param>
-        // /// <param name="visible">Toolbar visibility</param>
-        // /// <param name="dock">Toolbar orientation</param>
-        // public void AddToolBar(ToolBar toolBar, bool visible, Dock dock)
-        // {
-        //     if (toolBar == null)
-        //         throw new ArgumentNullException(nameof(toolBar));
-        //     if (string.IsNullOrEmpty(toolBar.IdentifierName))
-        //         throw new NullReferenceException("Toolbar Id must not be null");
-        //     if (_contextList.ContainsKey(toolBar.IdentifierName))
-        //         throw new ToolBarAlreadyExistsException();
-        //     _contextList.Add(toolBar.IdentifierName,
-        //         new Tuple<ToolBar, Dock, bool>(toolBar, dock, visible));
-        //     if (!visible)
-        //         return;
-        //     ShowToolBarByName(toolBar.IdentifierName);
-        // }
-
-        //public void AddToolBar(ToolbarDefinition definition)
-        //{
-        //    if (definition == null)
-        //        throw new ArgumentNullException(nameof(definition));
-        //    if (string.IsNullOrEmpty(definition.ToolBar.IdentifierName))
-        //        throw new NullReferenceException("Toolbar Id must not be null");
-        //    if (_toolbarDefinitions.Contains(definition))
-        //        throw new ToolBarAlreadyExistsException();
-
-
-        //    //TODO
-
-        //}
-
-
-        //public void RemoveToolBar(ToolbarDefinition definition)
-        //{
-        //    if (definition == null)
-        //        throw new ArgumentNullException(nameof(definition));
-        //    if (!_toolbarDefinitions.Contains(definition))
-        //        throw new ToolBarNotFoundException();
-
-        //    //TODO
-
-        //}
-
-
-        //public ToolbarDefinition GetToolbarDefinition(string name)
-        //{
-        //    if (string.IsNullOrEmpty(name))
-        //        throw new ArgumentNullException();
-        //}
-
-
-        // /*
-        //     Change Orientation of Toolbar by:
-        //         Checking for:
-        //             At least one Tray exists
-        //             IdName not null
-        //             Toolbar exists
-        //         Save visibility
-        //         HideToolbar
-        //         Change Dock
-        //         If was Visible
-        //             Show Again
-        // */
-        // /// <summary>
-        // ///     Change Orientation of Toolbar
-        // /// </summary>
-        // /// <param name="name">IdentifierName of Toolbar</param>
-        // /// <param name="newValue">New Orientation Value</param>
-        // public void ChangeToolBarPosition(string name, Dock newValue)
-        // {
-        //     if (TopToolBarTray == null || LeftToolBarTray == null || RightToolBarTray == null ||
-        //         BottomToolBarTray == null)
-        //         throw new NullReferenceException("Could not find all 4 ToolbarTrays");
-        //     if (string.IsNullOrEmpty(name))
-        //         throw new ArgumentNullException(nameof(name));
-        //     if (!_contextList.ContainsKey(name))
-        //         throw new ToolBarNotFoundException();
-        //     var wasVisible = _contextList[name].Item3;
-        //     HideToolBarByName(name);
-        //     UpdateDock(name, newValue);
-        //     if (wasVisible)
-        //         ShowToolBarByName(name);
-        // }
-
-        // /*
-        //     Change Visible of Toolbar by:
-        //          Checking for:
-        //             At least one Tray exists
-        //             IdName not null
-        //             Toolbar exists
-        //         If newValue true
-        //             Show Toolbar
-        //         Else
-        //             Hide Toolbar  
-        // */
-        // /// <summary>
-        // ///     Change Visible of Toolbar
-        // /// </summary>
-        // /// <param name="name">IdentifierName of Toolbar</param>
-        // /// <param name="newValue">New Visible Value</param>
-
-
-
-        // public void ChangeToolBarVisibility(ToolbarDefinition definition)
-        // {
-        //     if (TopToolBarTray == null || LeftToolBarTray == null || RightToolBarTray == null ||
-        //         BottomToolBarTray == null)
-        //         throw new NullReferenceException("Could not find all 4 ToolbarTrays");
-        //     if (!_toolbarDefinitions.Contains(definition))
-        //         throw new ToolBarNotFoundException();
-        //     if (string.IsNullOrEmpty(definition.ToolBar.IdentifierName))
-        //         throw new ArgumentNullException(nameof(definition.ToolBar.IdentifierName));
-        //     if (definition.Visible)
-        //         InternalShowToolBar(definition);
-        //     else
-        //         InternalHideToolBar(definition);
-        // }
-
-
-        // public void ChangeToolBarVisibility(ToolBar toolBar, bool visible)
-        // {
-        //     if (TopToolBarTray == null || LeftToolBarTray == null || RightToolBarTray == null ||
-        //         BottomToolBarTray == null)
-        //         throw new NullReferenceException("Could not find all 4 ToolbarTrays");
-
-
-        //     var toolbar = GetToolBar()
-
-        //     if (!_toolbarDefinitions.Contains(definition))
-        //         throw new ToolBarNotFoundException();
-        //     if (string.IsNullOrEmpty(definition.ToolBar.IdentifierName))
-        //         throw new ArgumentNullException(nameof(definition.ToolBar.IdentifierName));
-        //     if (definition.Visible)
-        //         InternalShowToolBar(definition);
-        //     else
-        //         InternalHideToolBar(definition);
-        // }
-
-
-
-        // /// <summary>
-        // ///     Get a Toolbar by Name
-        // /// </summary>
-        // /// <param name="name">IdentifierName of Toolbar</param>
-        // /// <returns>Found Toolbar Object</returns>
-        // public ToolBar GetToolBar(string name)
-        // {
-        //     if (string.IsNullOrEmpty(name))
-        //         throw new ArgumentNullException(nameof(name));
-
-        //     foreach (var definition in _toolbarDefinitions)
-        //     {
-        //         if (definition.ToolBar.IdentifierName == name)
-        //             return definition.ToolBar;
-        //     }
-        //     throw new ToolBarNotFoundException();
-        // }
-
-
-        // public void GetDefinition(ToolBar toolBar)
-        // {
-
-        // }
-
-
-        // /// <summary>
-        // ///     Get Orientation of Toolbar
-        // /// </summary>
-        // /// <param name="name">Identifier Name of Toolbar</param>
-        // /// <returns>Orientation</returns>
-        // public Dock GetToolBarPosition(string name)
-        // {
-        //     if (string.IsNullOrEmpty(name))
-        //         throw new ArgumentNullException(nameof(name));
-        //     if (!_contextList.ContainsKey(name))
-        //         throw new ToolBarNotFoundException();
-        //     return _contextList[name].Item2;
-        // }
-
-        // /// <summary>
-        // ///     Returns a list of Toolbar Objects
-        // /// </summary>
-        // /// <returns>List with Toolsbars</returns>
-        // public List<ToolBar> GetToolBars()
-        // {
-        //     return _toolbarDefinitions.Select(definition => definition.ToolBar).ToList();
-        // }
-
-        // /// <summary>
-        // ///     Get Toolbar Visible
-        // /// </summary>
-        // /// <param name="name">Identifier Name of Toolbar</param>
-        // /// <returns>Bool of visibility</returns>
-        // public bool GetToolBarVisibility(string name)
-        // {
-        //     if (string.IsNullOrEmpty(name))
-        //         throw new ArgumentNullException(nameof(name));
-        //     if (!_contextList.ContainsKey(name))
-        //         throw new ToolBarNotFoundException();
-        //     return _contextList[name].Item3;
-        // }
-
-        // /*
-        //    Hides Toolbar by:
-        //        Check for:
-        //            At least one tray exists
-        //        Decide Dock
-        //        Remove From Tray
-        //*/
-        // /// <summary>
-        // ///     Hides toolbar
-        // /// </summary>
-        // /// <param name="toolBar">Toolbar</param>
-        // /// <param name="dock">Orientation</param>
-        // public void HideToolBar(ToolBar toolBar, Dock dock)
-        // {
-        //     if (TopToolBarTray == null || LeftToolBarTray == null || RightToolBarTray == null ||
-        //         BottomToolBarTray == null)
-        //         throw new NullReferenceException("Could not find all 4 ToolbarTrays");
-        //     switch (dock)
-        //     {
-        //         case Dock.Top:
-        //             TopToolBarTray.RemoveToolBar(toolBar);
-        //             break;
-        //         case Dock.Left:
-        //             LeftToolBarTray.RemoveToolBar(toolBar);
-        //             break;
-        //         case Dock.Right:
-        //             RightToolBarTray.RemoveToolBar(toolBar);
-        //             break;
-        //         default:
-        //             BottomToolBarTray.RemoveToolBar(toolBar);
-        //             break;
-        //     }
-        // }
-
-        // /*
-        //     Hides Toolbar from IdName by:
-        //         Check for:
-        //             name not null/empty
-        //         UpdateVisibility
-        //         Hide ( Object and Orientation)
-        //         Remove Checkmark from MenuItem
-        // */
-        // /// <summary>
-        // ///     Hides Toolbar by name
-        // /// </summary>
-        // /// <param name="name">Name</param>
-        // public void HideToolBarByName(string name)
-        // {
-        //     if (string.IsNullOrEmpty(name))
-        //         return;
-        //     UpdateVisibility(name, false);
-        //     HideToolBar(_contextList[name].Item1, _contextList[name].Item2);
-        // }
-
-
-
-
-
-        // public ToolbarDefinition GeToolbarDefinition(string idName)
-        // {
-        //     if (string.IsNullOrEmpty(idName))
-        //         throw new ArgumentNullException(nameof(idName));
-        //     return _toolbarDefinitions.FirstOrDefault(d => d.ToolBar.IdentifierName == idName);
-        // }
-
-        // /*
-        //    Show Toolbar by:
-        //        Check for:
-        //            At least one tray exists
-        //        Decide Dock
-        //        Add Toolbar to tray
-        //*/
-        // public void ShowToolBar(ToolBar toolBar, Dock dock)
-        // {
-        //     if (TopToolBarTray == null || LeftToolBarTray == null || RightToolBarTray == null ||
-        //         BottomToolBarTray == null)
-        //         throw new NullReferenceException("Could not find all 4 ToolbarTrays");
-        //     switch (dock)
-        //     {
-        //         case Dock.Top:
-        //             TopToolBarTray.AddToolBar(toolBar);
-        //             break;
-        //         case Dock.Left:
-        //             LeftToolBarTray.AddToolBar(toolBar);
-        //             break;
-        //         case Dock.Right:
-        //             RightToolBarTray.AddToolBar(toolBar);
-        //             break;
-        //         default:
-        //             BottomToolBarTray.AddToolBar(toolBar);
-        //             break;
-        //     }
-        // }
-
-        // private void InternalShowToolBar(ToolbarDefinition definition)
-        // {
-        //     if (TopToolBarTray == null || LeftToolBarTray == null || RightToolBarTray == null ||
-        //         BottomToolBarTray == null)
-        //         throw new NullReferenceException("Could not find all 4 ToolbarTrays");
-        //     switch (definition.Position)
-        //     {
-        //         case Dock.Top:
-        //             TopToolBarTray.AddToolBar(definition.ToolBar);
-        //             break;
-        //         case Dock.Left:
-        //             LeftToolBarTray.AddToolBar(definition.ToolBar);
-        //             break;
-        //         case Dock.Right:
-        //             RightToolBarTray.AddToolBar(definition.ToolBar);
-        //             break;
-        //         default:
-        //             BottomToolBarTray.AddToolBar(definition.ToolBar);
-        //             break;
-        //     }
-        // }
-
-
-
-        // /*
-        //     Show Toolbar with IdName by:
-        //         Check for: 
-        //             name not null/empty
-        //         UpdateVisibility
-        //         Show Toolbar (Object Orientation)
-        //         Set Checkmark for MenuItem
-        // */
-        // public void ShowToolBarByName(string name)
-        // {
-        //     if (string.IsNullOrEmpty(name))
-        //         throw new ArgumentNullException(nameof(name));
-        //     UpdateVisibility(name, true);
-        //     ShowToolBar(_contextList[name].Item1, _contextList[name].Item2);
-        // }
-
-        // /*
-        //     Update Dock by:
-        //         Check for:
-        //             Name not null/empty
-        //             Toolbar exists
-        //         Save Toolbar Object, Visible, MenuItem
-        //         Remove toolbar from Dictionary
-        //         Add new Entry to Dictionary by using:
-        //             just saved values 
-        //             new Dock value (param)
-        // */
-        // public void UpdateDock(string name, Dock newValue)
-        // {
-        //     if (string.IsNullOrEmpty(name))
-        //         throw new ArgumentNullException(nameof(name));
-        //     if (!_contextList.ContainsKey(name))
-        //         throw new ToolBarNotFoundException();
-
-        //     var oldToolbar = _contextList[name].Item1;
-        //     var oldVibility = _contextList[name].Item3;
-
-        //     _contextList.Remove(name);
-        //     _contextList.Add(name,
-        //         new Tuple<ToolBar, Dock, bool>(oldToolbar, newValue, oldVibility));
-        // }
-
-        // /*
-        //    Update Visible by:
-        //        Check for:
-        //            Name not null/empty
-        //            Toolbar exists
-        //        Save Toolbar Object, Dock, MenuItem
-        //        Remove toolbar from Dictionary
-        //        Add new Entry to Dictionary by using:
-        //            just saved values 
-        //            new Visible value (param)
-        //*/
-        // public void UpdateVisibility(string name, bool newValue)
-        // {
-        //     if (string.IsNullOrEmpty(name))
-        //         throw new ArgumentNullException(nameof(name));
-        //     if (!_contextList.ContainsKey(name))
-        //         throw new ToolBarNotFoundException();
-
-        //     var oldToolbar = _contextList[name].Item1;
-        //     var oldDock = _contextList[name].Item2;
-
-        //     _contextList.Remove(name);
-        //     _contextList.Add(name,
-        //         new Tuple<ToolBar, Dock, bool>(oldToolbar, oldDock, newValue));
-        // }
-
-
-        // public void SetupToolbars()
-        // {
-        //     var definitions = _toolbarDefinitions.OrderBy(x => x.SortOrder);
-        //     foreach (var definition in definitions)
-        //         AddToolBar(definition);
-        // }
     }
 }

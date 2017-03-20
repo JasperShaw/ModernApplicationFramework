@@ -65,6 +65,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Test\NewToolBarDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Test\TabView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -466,6 +470,11 @@
     </Compile>
     <Compile Include="Test\CustomizeDialogViewModel.cs" />
     <Compile Include="Test\EditableMenuItem.cs" />
+    <Compile Include="Test\INewToolBarView.cs" />
+    <Compile Include="Test\NewToolBarDialogView.xaml.cs">
+      <DependentUpon>NewToolBarDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Test\NewToolBarDialogViewModel.cs" />
     <Compile Include="Test\TabView.xaml.cs">
       <DependentUpon>TabView.xaml</DependentUpon>
     </Compile>

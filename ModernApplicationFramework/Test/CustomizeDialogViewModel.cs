@@ -6,9 +6,6 @@ namespace ModernApplicationFramework.Test
     [Export(typeof(CustomizeDialogViewModel))]
     public sealed class CustomizeDialogViewModel : Conductor<IScreen>.Collection.OneActive
     {
-
-
-
         public CustomizeDialogViewModel()
         {
             var toolbarsViewModel = IoC.Get<TabViewModel>();

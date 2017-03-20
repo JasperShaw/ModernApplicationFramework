@@ -82,8 +82,7 @@
             <ColumnDefinition x:Uid="ColumnDefinition_1" Width="*"/>
             <ColumnDefinition x:Uid="ColumnDefinition_2" Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <Label x:Name="ToolBarsLabel" Margin="10,0,10,5" Padding="0" Content="Toolb_ars:" x:Uid="ToolBarsLabel"
-               Grid.Row="0"/>
+        <Label x:Name="ToolBarsLabel" Margin="10,0,10,5" Padding="0" Content="Toolb_ars:" Grid.Row="0"/>
         <controls:CheckableListBox x:Name="ToolBarListBox" Margin="10,0,10,10" IsSynchronizedWithCurrentItem="True"
                                    IsTextSearchEnabled="True"
                                    TextSearch.TextPath="Text" Grid.Row="1" Grid.Column="0" SelectedIndex="0"
@@ -108,8 +107,8 @@
                 <converters:AndBooleanConverter x:Key="AndBooleanConverter"/>
                 <converters:NotNullConverter x:Key="NotNullConverter"/>
             </FrameworkElement.Resources>
-            <controls:DialogButton x:Name="NewToolBarButton" Content="_New..."/>
-            <controls:DialogButton Content="_Delete">
+            <controls:DialogButton x:Name="NewToolBarButton" Content="_New..." Command="{Binding CreateNewToolbarCommand}"/>
+            <controls:DialogButton Content="_Delete" Command="{Binding DeleteSelectedToolbarCommand}">
                 <UIElement.IsEnabled>
                     <MultiBinding Converter="{StaticResource AndBooleanConverter}">
                         <Binding ElementName="ToolBarListBox" Path="SelectedItem"

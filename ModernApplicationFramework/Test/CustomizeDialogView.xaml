@@ -20,8 +20,7 @@
             </TabControl.ItemTemplate>
         </TabControl>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,2,0">
-            <Button MinHeight="23" MinWidth="75" Margin="0,0,10,10" Padding="10,1,10,1" Content="Close" IsCancel="True"
-                    IsDefault="True" x:Name="Button" />
+            <controls:DialogButton Content="Close" IsCancel="True" IsDefault="True" x:Name="Button" />
         </StackPanel>
     </Grid>
 </controls:DialogWindow>

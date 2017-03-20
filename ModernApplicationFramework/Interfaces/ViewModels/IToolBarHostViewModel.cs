@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Windows.Controls;
-using ModernApplicationFramework.CommandBase;
+﻿using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Core.Themes;
+using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Utilities;
-using ToolBar = ModernApplicationFramework.Controls.ToolBar;
 
 namespace ModernApplicationFramework.Interfaces.ViewModels
 {
@@ -15,6 +13,9 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
 
 
         void AddToolbarDefinition(ToolbarDefinition definition);
+        void RemoveToolbarDefinition(ToolbarDefinition definition);
+
+        ObservableCollectionEx<ToolbarDefinition> ToolbarDefinitions { get; }
 
         ///// <summary>
         /////     Adds new Toolbar to HostControl
@@ -90,5 +91,6 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         ModernApplicationFramework.Controls.ToolBarTray LeftToolBarTray { get; set; }
         ModernApplicationFramework.Controls.ToolBarTray RightToolBarTray { get; set; }
         ModernApplicationFramework.Controls.ToolBarTray BottomToolBarTray { get; set; }
+        string GetUniqueToolBarName();
     }
 }
