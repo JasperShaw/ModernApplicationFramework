@@ -18,23 +18,16 @@ using System;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
+using ModernApplicationFramework.Core.NativeMethods;
 
 namespace ModernApplicationFramework.Docking
 {
     static class WindowHelper
     {
-        public static IntPtr GetParentWindowHandle(this Window window)
-        {
-            return window.Owner != null
-                ? new WindowInteropHelper(window.Owner).EnsureHandle()
-                : Win32Helper.GetOwner(new WindowInteropHelper(window).Handle);
-        }
-
-
         public static bool GetParentWindowHandle(this Visual element, out IntPtr hwnd)
         {
             hwnd = IntPtr.Zero;
-            HwndSource wpfHandle = PresentationSource.FromVisual(element) as HwndSource;
+            var wpfHandle = PresentationSource.FromVisual(element) as HwndSource;
 
             if (wpfHandle == null)
                 return false;
@@ -43,11 +36,6 @@ namespace ModernApplicationFramework.Docking
             if (hwnd == IntPtr.Zero)
                 hwnd = wpfHandle.Handle;
             return true;
-        }
-
-        public static bool IsAttachedToPresentationSource(this Visual element)
-        {
-            return PresentationSource.FromVisual(element) != null;
         }
 
         public static void SetParentToMainWindowOf(this Window window, Visual element)

@@ -338,8 +338,8 @@ namespace ModernApplicationFramework.Docking.Controls
                 return;
             IntPtr windowHandle = new WindowInteropHelper(this).EnsureHandle();
             var mousePosition = this.PointToScreenDpi(Mouse.GetPosition(this));
-            var clientArea = Win32Helper.GetClientRect(windowHandle);
-            var windowArea = Win32Helper.GetWindowRect(windowHandle);
+            var clientArea = NativeMethods.GetClientRect(windowHandle);
+            var windowArea = NativeMethods.GetWindowRect(windowHandle);
 
             Left = mousePosition.X - windowArea.Width/2.0;
             Top = mousePosition.Y - (windowArea.Height - clientArea.Height)/2.0;

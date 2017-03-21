@@ -445,6 +445,7 @@ namespace ModernApplicationFramework.Docking.Layout
                     }
 
                     parentSide?.Children.Remove(parentGroup);
+                    IsActive = true;
                 }
             }
                 #endregion

@@ -17,6 +17,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Windows;
+using ModernApplicationFramework.Core.NativeMethods;
 
 namespace ModernApplicationFramework.Docking
 {
@@ -209,76 +210,17 @@ namespace ModernApplicationFramework.Docking
             ShowWindow = 0x0040,
         }
 
-        [DllImport("user32.dll")]
-        public static extern int CallNextHookEx(IntPtr hhook,
-            int code, IntPtr wParam, IntPtr lParam);
 
-        [DllImport("kernel32.dll")]
-        public static extern uint GetCurrentThreadId();
-
-        /// <summary>
-        /// The GetMonitorInfo function retrieves information about a display monitor. 
-        /// </summary>
-        /// <param name="hMonitor">Handle to the display monitor of interest.</param>
-        /// <param name="lpmi">Pointer to a MONITORINFO or MONITORINFOEX structure that receives 
-        /// information about the specified display monitor</param>
-        /// <returns>If the function succeeds, the return value is nonzero.
-        /// If the function fails, the return value is zero.</returns>
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetMonitorInfo(IntPtr hMonitor, [In, Out] MonitorInfo lpmi);
-
-        public static IntPtr GetOwner(IntPtr childHandle)
-        {
-            return new IntPtr(GetWindowLong(childHandle, -8));
-        }
-
-
-        //Monitor Patch #13440
-
-        /// <summary>
-        /// The MonitorFromRect function retrieves a handle to the display monitor that 
-        /// has the largest area of intersection with a specified rectangle.
-        /// </summary>
-        /// <param name="lprc">Pointer to a RECT structure that specifies the rectangle of interest in 
-        /// virtual-screen coordinates</param>
-        /// <param name="dwFlags">Determines the function's return value if the rectangle does not intersect 
-        /// any display monitor</param>
-        /// <returns>
-        /// If the rectangle intersects one or more display monitor rectangles, the return value 
-        /// is an HMONITOR handle to the display monitor that has the largest area of intersection with the rectangle.
-        /// If the rectangle does not intersect a display monitor, the return value depends on the value of dwFlags.
-        /// </returns>
-        [DllImport("user32.dll")]
-        public static extern IntPtr MonitorFromRect([In] ref RECT lprc, uint dwFlags);
-
-        /// <summary>
-        /// The MonitorFromWindow function retrieves a handle to the display monitor that has the largest area of intersection with the bounding rectangle of a specified window. 
-        /// </summary>
-        /// <param name="hwnd">A handle to the window of interest.</param>
-        /// <param name="dwFlags">Determines the function's return value if the window does not intersect any display monitor.</param>
-        /// <returns>If the window intersects one or more display monitor rectangles, the return value is an HMONITOR handle to the display monitor that has the largest area of intersection with the window. 
-        /// If the window does not intersect a display monitor, the return value depends on the value of dwFlags.
-        /// </returns>
-        [DllImport("user32.dll")]
-        public static extern IntPtr MonitorFromWindow(IntPtr hwnd, uint dwFlags);
-
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern IntPtr SetActiveWindow(IntPtr hWnd);
 
         public static void SetOwner(IntPtr childHandle, IntPtr ownerHandle)
         {
-            SetWindowLong(
+            User32.SetWindowLong(
                 childHandle,
-                -8, // GWL_HWNDPARENT
+                -8,
                 ownerHandle.ToInt32());
         }
 
-        [DllImport("user32.dll")]
-        public static extern IntPtr SetWindowsHookEx(HookType code,
-            HookProc func,
-            IntPtr hInstance,
-            int threadId);
+
 
         [DllImport("user32.dll")]
         public static extern int UnhookWindowsHookEx(IntPtr hhook);
@@ -287,35 +229,10 @@ namespace ModernApplicationFramework.Docking
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool BringWindowToTop(IntPtr hWnd);
 
-        [DllImport("user32.dll", EntryPoint = "CreateWindowEx", CharSet = CharSet.Unicode)]
-        internal static extern IntPtr CreateWindowEx(int dwExStyle,
-            string lpszClassName,
-            string lpszWindowName,
-            int style,
-            int x, int y,
-            int width, int height,
-            IntPtr hwndParent,
-            IntPtr hMenu,
-            IntPtr hInst,
-            [MarshalAs(UnmanagedType.AsAny)] object pvParam);
-
-        [DllImport("user32.dll", EntryPoint = "DestroyWindow", CharSet = CharSet.Unicode)]
-        internal static extern bool DestroyWindow(IntPtr hwnd);
-
-        internal static RECT GetClientRect(IntPtr hWnd)
-        {
-            RECT result;
-            GetClientRect(hWnd, out result);
-            return result;
-        }
-
 
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool GetCursorPos(ref Win32Point pt);
-
-        [DllImport("user32.dll")]
-        internal static extern IntPtr GetFocus();
 
         internal static Point GetMousePosition()
         {
@@ -327,42 +244,13 @@ namespace ModernApplicationFramework.Docking
         [DllImport("user32.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
         internal static extern IntPtr GetParent(IntPtr hWnd);
 
-        [DllImport("user32.dll")]
-        internal static extern IntPtr GetTopWindow(IntPtr hWnd);
-
 
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern IntPtr GetWindow(IntPtr hWnd, uint uCmd);
 
-        [DllImport("user32.dll")]
-        internal static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
-
-        internal static RECT GetWindowRect(IntPtr hWnd)
-        {
-            RECT result;
-            GetWindowRect(hWnd, out result);
-            return result;
-        }
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
         internal static extern bool IsChild(IntPtr hWndParent, IntPtr hwnd);
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool IsWindowEnabled(IntPtr hWnd);
-
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool IsWindowVisible(IntPtr hWnd);
-
-        internal static int MakeLParam(int loWord, int hiWord)
-        {
-            return ((hiWord << 16) | (loWord & 0xffff));
-        }
-
-        [DllImport("user32.dll")]
-        internal static extern int PostMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
 
         [DllImport("user32.dll")]
         internal static extern int SendMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
@@ -370,136 +258,17 @@ namespace ModernApplicationFramework.Docking
         [DllImport("user32.dll")]
         internal static extern IntPtr SetFocus(IntPtr hWnd);
 
-        [DllImport("user32.dll", SetLastError = true)]
-        internal static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
-
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy,
             SetWindowPosFlags uFlags);
 
 
-        [DllImport("user32.dll")]
-        static extern bool GetClientRect(IntPtr hWnd, out RECT lpRect);
-
-        [DllImport("user32.dll", SetLastError = true)]
-        static extern int GetWindowLong(IntPtr hWnd, int nIndex);
-
-        /// <summary>
-        /// Changes an attribute of the specified window. The function also sets the 32-bit (long) value at the specified offset into the extra window memory.
-        /// </summary>
-        /// <param name="hWnd">A handle to the window and, indirectly, the class to which the window belongs..</param>
-        /// <param name="nIndex">The zero-based offset to the value to be set. Valid values are in the range zero through the number of bytes of extra window memory, minus the size of an integer. To set any other value, specify one of the following values: GWL_EXSTYLE, GWL_HINSTANCE, GWL_ID, GWL_STYLE, GWL_USERDATA, GWL_WNDPROC </param>
-        /// <param name="dwNewLong">The replacement value.</param>
-        /// <returns>If the function succeeds, the return value is the previous value of the specified 32-bit integer.
-        /// If the function fails, the return value is zero. To get extended error information, call GetLastError. </returns>
-        [DllImport("user32.dll")]
-        static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
-
-        [StructLayout(LayoutKind.Sequential)]
-        internal class Windowpos
-        {
-            public int cx;
-            public int cy;
-            public int flags;
-            public IntPtr hwnd;
-            public IntPtr hwndInsertAfter;
-            public int x;
-            public int y;
-        };
-
-        [Serializable, StructLayout(LayoutKind.Sequential)]
-
-        // ReSharper disable once InconsistentNaming
-        internal struct RECT
-        {
-            public int Left;
-            public int Top;
-            public int Right;
-            public int Bottom;
-
-            public RECT(int left, int top, int right, int bottom)
-            {
-                Left = left;
-                Top = top;
-                Right = right;
-                Bottom = bottom;
-            }
-
-            public int Height => Bottom - Top;
-
-            public int Width => Right - Left;
-            public Size Size => new Size(Width, Height);
-            public Point Location => new Point(Left, Top);
-            // Handy method for converting to a System.Drawing.Rectangle  
-            public Rect ToRectangle()
-            {
-                return new Rect(Left, Top, Right, Bottom);
-            }
-
-            public static RECT FromRectangle(Rect rectangle)
-            {
-                return new Rect(rectangle.Left, rectangle.Top, rectangle.Right, rectangle.Bottom);
-            }
-
-            public override int GetHashCode()
-                =>
-                    Left ^ ((Top << 13) | (Top >> 0x13)) ^ ((Width << 0x1a) | (Width >> 6)) ^
-                    ((Height << 7) | (Height >> 0x19));
-
-            #region Operator overloads
-
-            public static implicit operator Rect(RECT rect)
-            {
-                return rect.ToRectangle();
-            }
-
-            public static implicit operator RECT(Rect rect)
-            {
-                return FromRectangle(rect);
-            }
-
-            #endregion
-        }
-
         [StructLayout(LayoutKind.Sequential)]
         internal struct Win32Point
         {
             public int X;
             public int Y;
-        };
-
-
-        /// <summary>
-        /// The MONITORINFO structure contains information about a display monitor.
-        /// </summary>
-        [StructLayout(LayoutKind.Sequential)]
-        public class MonitorInfo
-        {
-            /// <summary>
-            /// A set of flags that represent attributes of the display monitor. 
-            /// </summary>
-            public uint Flags;
-
-            /// <summary>
-            /// A RECT structure that specifies the display monitor rectangle, expressed 
-            /// in virtual-screen coordinates. 
-            /// Note that if the monitor is not the primary display monitor, 
-            /// some of the rectangle's coordinates may be negative values. 
-            /// </summary>
-            public RECT Monitor;
-
-            /// <summary>
-            /// The size of the structure, in bytes. 
-            /// </summary>
-            public int Size = Marshal.SizeOf(typeof (MonitorInfo));
-
-            /// <summary>
-            /// A RECT structure that specifies the work area rectangle of the display monitor, 
-            /// expressed in virtual-screen coordinates. Note that if the monitor is not the primary 
-            /// display monitor, some of the rectangle's coordinates may be negative values.
-            /// </summary>
-            public RECT Work;
         }
     }
 }

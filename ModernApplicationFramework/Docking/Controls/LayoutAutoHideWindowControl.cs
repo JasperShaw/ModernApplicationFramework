@@ -189,6 +189,7 @@ namespace ModernApplicationFramework.Docking.Controls
 
             RemoveInternalGrid();
             _anchor = null;
+            _model.IsActive = false;
             _model = null;
             _manager = null;
             Visibility = Visibility.Hidden;

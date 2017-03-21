@@ -38,7 +38,11 @@ namespace ModernApplicationFramework.Docking.Controls
                 Equals(anchor, _currentAutohiddenAnchor.GetValueOrDefault<LayoutAnchorControl>()))
                 StopCloseTimer();
             else
-                System.Diagnostics.Debug.Assert(false);
+            {
+                ShowAutoHideWindow(anchor);
+                if (anchor.Model is LayoutAnchorable model)
+                    model.IsActive = true;
+            }
         }
 
         public void ShowAutoHideWindow(LayoutAnchorControl anchor)

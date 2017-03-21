@@ -1,4 +1,4 @@
-﻿namespace ModernApplicationFramework.Customize
+﻿namespace ModernApplicationFramework.Interfaces.Views
 {
     internal interface INewToolBarView
     {

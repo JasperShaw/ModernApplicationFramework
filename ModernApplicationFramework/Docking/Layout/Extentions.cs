@@ -18,6 +18,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
+using ModernApplicationFramework.Core.NativeMethods;
+using ModernApplicationFramework.Core.Platform.Structs;
 
 namespace ModernApplicationFramework.Docking.Layout
 {
@@ -109,7 +111,7 @@ namespace ModernApplicationFramework.Docking.Layout
 
         internal static void KeepInsideNearestMonitor(this ILayoutElementForFloatingWindow paneInsideFloatingWindow)
         {
-            var r = new Win32Helper.RECT
+            var r = new RECT
             {
                 Left = (int) paneInsideFloatingWindow.FloatingLeft,
                 Top = (int) paneInsideFloatingWindow.FloatingTop
@@ -120,37 +122,37 @@ namespace ModernApplicationFramework.Docking.Layout
             const uint monitorDefaulttonearest = 0x00000002;
             const uint monitorDefaulttonull = 0x00000000;
 
-            System.IntPtr monitor = Win32Helper.MonitorFromRect(ref r, monitorDefaulttonull);
+            System.IntPtr monitor = User32.MonitorFromRect(ref r, monitorDefaulttonull);
             if (monitor == System.IntPtr.Zero)
             {
-                System.IntPtr nearestmonitor = Win32Helper.MonitorFromRect(ref r, monitorDefaulttonearest);
+                System.IntPtr nearestmonitor = User32.MonitorFromRect(ref r, monitorDefaulttonearest);
                 if (nearestmonitor != System.IntPtr.Zero)
                 {
-                    Win32Helper.MonitorInfo monitorInfo = new Win32Helper.MonitorInfo();
-                    monitorInfo.Size = Marshal.SizeOf(monitorInfo);
-                    Win32Helper.GetMonitorInfo(nearestmonitor, monitorInfo);
+                    MonitorInfo monitorInfo = new MonitorInfo();
+                    monitorInfo.cbSize = Marshal.SizeOf(monitorInfo);
+                    User32.GetMonitorInfo(nearestmonitor, monitorInfo);
 
-                    if (paneInsideFloatingWindow.FloatingLeft < monitorInfo.Work.Left)
+                    if (paneInsideFloatingWindow.FloatingLeft < monitorInfo.rcWork.Left)
                     {
-                        paneInsideFloatingWindow.FloatingLeft = monitorInfo.Work.Left + 10;
+                        paneInsideFloatingWindow.FloatingLeft = monitorInfo.rcWork.Left + 10;
                     }
 
                     if (paneInsideFloatingWindow.FloatingLeft + paneInsideFloatingWindow.FloatingWidth >
-                        monitorInfo.Work.Right)
+                        monitorInfo.rcWork.Right)
                     {
-                        paneInsideFloatingWindow.FloatingLeft = monitorInfo.Work.Right -
+                        paneInsideFloatingWindow.FloatingLeft = monitorInfo.rcWork.Right -
                                                                 (paneInsideFloatingWindow.FloatingWidth + 10);
                     }
 
-                    if (paneInsideFloatingWindow.FloatingTop < monitorInfo.Work.Top)
+                    if (paneInsideFloatingWindow.FloatingTop < monitorInfo.rcWork.Top)
                     {
-                        paneInsideFloatingWindow.FloatingTop = monitorInfo.Work.Top + 10;
+                        paneInsideFloatingWindow.FloatingTop = monitorInfo.rcWork.Top + 10;
                     }
 
                     if (paneInsideFloatingWindow.FloatingTop + paneInsideFloatingWindow.FloatingHeight >
-                        monitorInfo.Work.Bottom)
+                        monitorInfo.rcWork.Bottom)
                     {
-                        paneInsideFloatingWindow.FloatingTop = monitorInfo.Work.Bottom -
+                        paneInsideFloatingWindow.FloatingTop = monitorInfo.rcWork.Bottom -
                                                                (paneInsideFloatingWindow.FloatingHeight + 10);
                     }
                 }

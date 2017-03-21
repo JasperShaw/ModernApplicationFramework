@@ -8,25 +8,23 @@ using System.Windows.Data;
 using System.Windows.Input;
 using ModernApplicationFramework.Core.NativeMethods;
 using ModernApplicationFramework.Core.Utilities;
-using MenuItem = ModernApplicationFramework.Controls.MenuItem;
-using TextBox = System.Windows.Controls.TextBox;
 
-namespace ModernApplicationFramework.Customize
+namespace ModernApplicationFramework.Controls
 {
-    [TemplatePart(Name = "PART_EditableTextBox", Type = typeof(TextBox))]
+    [TemplatePart(Name = "PART_EditableTextBox", Type = typeof(System.Windows.Controls.TextBox))]
     internal class EditableMenuItem : MenuItem
     {
         private IntPtr _previousHwndFocus;
         public static readonly DependencyProperty EditProperty;
         public static readonly DependencyProperty EditMinWidthProperty;
-        private TextBox _editableTextBoxPart;
+        private System.Windows.Controls.TextBox _editableTextBoxPart;
         private RoutedEventHandler _afterMenuItemTextChange;
         private string _textInGotFocus;
         private Collection<ValidationRule> _validationRules;
         private bool _contentLoaded;
 
-        internal TextBox EditableTextBox => _editableTextBoxPart ??
-                                            (_editableTextBoxPart = GetTemplateChild("PART_EditableTextBox") as TextBox);
+        internal System.Windows.Controls.TextBox EditableTextBox => _editableTextBoxPart ??
+                                            (_editableTextBoxPart = GetTemplateChild("PART_EditableTextBox") as System.Windows.Controls.TextBox);
 
         public Collection<ValidationRule> ValidationRules => _validationRules ?? (_validationRules = new Collection<ValidationRule>());
 
@@ -88,7 +86,7 @@ namespace ModernApplicationFramework.Customize
             ApplyTemplate();
             if (EditableTextBox == null)
                 return;
-            var binding = BindingOperations.GetBinding(EditableTextBox, TextBox.TextProperty);
+            var binding = BindingOperations.GetBinding(EditableTextBox, System.Windows.Controls.TextBox.TextProperty);
             if (binding != null)
             {
                 binding.ValidationRules.Clear();

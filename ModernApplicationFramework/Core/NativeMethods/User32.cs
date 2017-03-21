@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using ModernApplicationFramework.Core.Platform.Enums;
 using ModernApplicationFramework.Core.Platform.Structs;
+using ModernApplicationFramework.Docking;
 using RECT = ModernApplicationFramework.Core.Platform.Structs.RECT;
 
 namespace ModernApplicationFramework.Core.NativeMethods
@@ -206,5 +207,19 @@ namespace ModernApplicationFramework.Core.NativeMethods
 
         [DllImport("user32.dll")]
         public static extern void SetFocus(IntPtr hwnd);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr SetWindowsHookEx(Win32Helper.HookType code,
+            Win32Helper.HookProc func,
+            IntPtr hInstance,
+            int threadId);
+
+        [DllImport("user32.dll")]
+        public static extern int CallNextHookEx(IntPtr hhook,
+            int code, IntPtr wParam, IntPtr lParam);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr MonitorFromRect([In] ref RECT lprc, uint dwFlags);
+
     }
 }

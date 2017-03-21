@@ -3,7 +3,7 @@ using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Customize
+namespace ModernApplicationFramework.Interfaces.ViewModels
 {
     internal interface IToolBarsPageViewModel : IScreen
     {

@@ -19,7 +19,7 @@ using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking
 {
-    class LayoutEventArgs : EventArgs
+    public class LayoutEventArgs : EventArgs
     {
         public LayoutEventArgs(LayoutRoot layoutRoot)
         {

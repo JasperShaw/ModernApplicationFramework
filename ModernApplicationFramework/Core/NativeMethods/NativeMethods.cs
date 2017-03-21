@@ -58,6 +58,12 @@ namespace ModernApplicationFramework.Core.NativeMethods
             }
         }
 
+        internal static RECT GetClientRect(IntPtr hWnd)
+        {
+            User32.GetClientRect(hWnd, out RECT result);
+            return result;
+        }
+
         public static IShellItem CreateItemFromParsingName(string path)
         {
             object item;
@@ -138,12 +144,12 @@ namespace ModernApplicationFramework.Core.NativeMethods
 
         private static int LoWord(int value)
         {
-            return (short) (value & ushort.MaxValue);
+            return (short) (value & UInt16.MaxValue);
         }
 
         internal static IntPtr MakeParam(int lowWord, int highWord)
         {
-            return new IntPtr((lowWord & ushort.MaxValue) | (highWord << 16));
+            return new IntPtr((lowWord & UInt16.MaxValue) | (highWord << 16));
         }
 
         internal static IntPtr SetWindowLongPtrGwlp(IntPtr hWnd, Gwlp nIndex, IntPtr dwNewLong)
@@ -191,39 +197,39 @@ namespace ModernApplicationFramework.Core.NativeMethods
                 }
                 case 2: // File not found
                 {
-                    if (string.IsNullOrEmpty(path))
+                    if (String.IsNullOrEmpty(path))
                         throw new FileNotFoundException();
                     throw new FileNotFoundException(null, path);
                 }
                 case 3: // Directory not found
                 {
-                    if (string.IsNullOrEmpty(path))
+                    if (String.IsNullOrEmpty(path))
                         throw new DirectoryNotFoundException();
                     throw new DirectoryNotFoundException($"Could not find a part of the path {path}");
                 }
                 case 5: // Access denied
                 {
-                    if (string.IsNullOrEmpty(path))
+                    if (String.IsNullOrEmpty(path))
                         throw new UnauthorizedAccessException();
                     throw new UnauthorizedAccessException($"Access to the path '{path}' was denied.");
                 }
                 case 15: // Drive not found
                 {
-                    if (string.IsNullOrEmpty(path))
+                    if (String.IsNullOrEmpty(path))
                         throw new DriveNotFoundException();
                     throw new DriveNotFoundException(
                         $"Could not find the drive '{path}'. The drive might not be ready or might not be mapped.");
                 }
                 case 32: // Sharing violation
                 {
-                    if (string.IsNullOrEmpty(path))
+                    if (String.IsNullOrEmpty(path))
                         throw new IOException(GetErrorMessage(errorCode), MakeHrFromErrorCode(errorCode));
                     throw new IOException(
                         $"The process cannot access the file '{path}' because it is being used by another process.");
                 }
                 case 80: // File already exists
                 {
-                    if (!string.IsNullOrEmpty(path))
+                    if (!String.IsNullOrEmpty(path))
                         throw new IOException($"The file '{path}' already exists.");
                     break;
                 }
@@ -233,7 +239,7 @@ namespace ModernApplicationFramework.Core.NativeMethods
                 }
                 case 183: // File or directory already exists
                 {
-                    if (!string.IsNullOrEmpty(path))
+                    if (!String.IsNullOrEmpty(path))
                         throw new IOException(
                             $"Cannot create '{path}' because a file or directory with the same name already exists.");
                     break;
@@ -279,7 +285,7 @@ namespace ModernApplicationFramework.Core.NativeMethods
         public static string BuildStreamPath(string filePath, string streamName)
         {
             var result = filePath;
-            if (!string.IsNullOrEmpty(filePath))
+            if (!String.IsNullOrEmpty(filePath))
             {
                 if (1 == result.Length)
                     result = ".\\" + result;
@@ -292,13 +298,13 @@ namespace ModernApplicationFramework.Core.NativeMethods
 
         public static void ValidateStreamName(string streamName)
         {
-            if (!string.IsNullOrEmpty(streamName) && -1 != streamName.IndexOfAny(InvalidStreamNameChars))
+            if (!String.IsNullOrEmpty(streamName) && -1 != streamName.IndexOfAny(InvalidStreamNameChars))
                 throw new ArgumentException("The specified stream name contains invalid characters.");
         }
 
         public static int SafeGetFileAttributes(string name)
         {
-            if (string.IsNullOrEmpty(name))
+            if (String.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));
 
             var result = Kernel32.GetFileAttributes(name);
@@ -314,7 +320,7 @@ namespace ModernApplicationFramework.Core.NativeMethods
 
         public static bool SafeDeleteFile(string name)
         {
-            if (string.IsNullOrEmpty(name))
+            if (String.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));
 
             var result = Kernel32.DeleteFile(name);
@@ -360,7 +366,7 @@ namespace ModernApplicationFramework.Core.NativeMethods
         public static long GetFileSize(string path)
         {
             var result = 0L;
-            if (!string.IsNullOrEmpty(path))
+            if (!String.IsNullOrEmpty(path))
                 using (
                     var handle = SafeCreateFile(path, NativeFileAccess.GenericRead, FileShare.Read,
                         IntPtr.Zero, FileMode.Open, 0, IntPtr.Zero))
@@ -373,7 +379,7 @@ namespace ModernApplicationFramework.Core.NativeMethods
 
         public static IList<Win32StreamInfo> ListStreams(string filePath)
         {
-            if (string.IsNullOrEmpty(filePath))
+            if (String.IsNullOrEmpty(filePath))
                 throw new ArgumentNullException(nameof(filePath));
             if (-1 != filePath.IndexOfAny(Path.GetInvalidPathChars()))
                 throw new ArgumentException("The specified stream name contains invalid characters.", nameof(filePath));
@@ -434,7 +440,7 @@ namespace ModernApplicationFramework.Core.NativeMethods
                                 }
 
                                 // Add the stream info to the result:
-                                if (!string.IsNullOrEmpty(name))
+                                if (!String.IsNullOrEmpty(name))
                                     result.Add(new Win32StreamInfo
                                     {
                                         StreamType = (FileStreamType) streamId.StreamId,
@@ -462,6 +468,17 @@ namespace ModernApplicationFramework.Core.NativeMethods
             return result;
         }
 
+        public static IntPtr GetOwner(IntPtr childHandle)
+        {
+            return new IntPtr(User32.GetWindowLong(childHandle, -8));
+        }
+
+        internal static RECT GetWindowRect(IntPtr hWnd)
+        {
+            User32.GetWindowRect(hWnd, out RECT result);
+            return result;
+        }
+
 
         [return: MarshalAs(UnmanagedType.Bool)]
         internal delegate bool EnumMonitorsDelegate(
@@ -470,7 +487,5 @@ namespace ModernApplicationFramework.Core.NativeMethods
         internal delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
 
         internal delegate IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
-
-
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using Caliburn.Micro;
+using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Customize
 {

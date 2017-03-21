@@ -4,6 +4,7 @@ using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Interfaces.ViewModels;
+using ModernApplicationFramework.Interfaces.Views;
 
 namespace ModernApplicationFramework.Customize
 {

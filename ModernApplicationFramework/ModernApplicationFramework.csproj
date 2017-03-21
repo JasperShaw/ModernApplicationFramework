@@ -461,9 +461,9 @@
       <DependentUpon>CustomizeDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Customize\CustomizeDialogViewModel.cs" />
-    <Compile Include="Customize\EditableMenuItem.cs" />
-    <Compile Include="Customize\INewToolBarView.cs" />
-    <Compile Include="Customize\IToolBarsPageViewModel.cs" />
+    <Compile Include="Controls\EditableMenuItem.cs" />
+    <Compile Include="Interfaces\Views\INewToolBarView.cs" />
+    <Compile Include="Interfaces\ViewModels\IToolBarsPageViewModel.cs" />
     <Compile Include="Customize\NewToolBarDialogView.xaml.cs">
       <DependentUpon>NewToolBarDialogView.xaml</DependentUpon>
     </Compile>

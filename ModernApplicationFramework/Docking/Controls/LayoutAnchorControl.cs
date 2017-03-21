@@ -62,11 +62,8 @@ namespace ModernApplicationFramework.Docking.Controls
             if (e.Handled)
                 return;
 
-            if (_model.IsActive)
-            {
+            if (_model.IsActive && IsVisible)
                 _model.Root.Manager.HideAutoHideWindow(this);
-                _model.IsActive = false;
-            }
             else
             {
                 _model.Root.Manager.ShowAutoHideWindow(this);

@@ -5,8 +5,7 @@
              xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
              xmlns:viewSources="clr-namespace:ModernApplicationFramework.Core.ViewSources"
              xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-             xmlns:validationRules="clr-namespace:ModernApplicationFramework.Core.ValidationRules"
-             xmlns:customize="clr-namespace:ModernApplicationFramework.Customize">
+             xmlns:validationRules="clr-namespace:ModernApplicationFramework.Core.ValidationRules">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
@@ -23,15 +22,15 @@
                 <converters:DockLocationConverter x:Key="DockLocationConverter"/>
             </FrameworkElement.Resources>
 
-            <customize:EditableMenuItem Header="_Name:">
-                <customize:EditableMenuItem.Edit>
+            <controls:EditableMenuItem Header="_Name:">
+                <controls:EditableMenuItem.Edit>
                     <Binding Path="Name" Mode="TwoWay" UpdateSourceTrigger="LostFocus"
                              Converter="{StaticResource TrimSpacesConverter}"/>
-                </customize:EditableMenuItem.Edit>
+                </controls:EditableMenuItem.Edit>
                 <UIElement.Visibility>
                     <Binding Mode="OneWay" Path="IsCustom" Converter="{StaticResource BooleanToVisibilityConverter}"/>
                 </UIElement.Visibility>
-                <customize:EditableMenuItem.ValidationRules>
+                <controls:EditableMenuItem.ValidationRules>
                     <validationRules:ToolbarNameNotEmptyValidationRule/>
                     <validationRules:ToolbarNameUniqueValidationRule>
                         <validationRules:ToolbarNameUniqueValidationRule.DataContext>
@@ -42,8 +41,8 @@
                             </validationRules:ToolbarNameUniqueValidationRuleDataContext>
                         </validationRules:ToolbarNameUniqueValidationRule.DataContext>
                     </validationRules:ToolbarNameUniqueValidationRule>
-                </customize:EditableMenuItem.ValidationRules>
-            </customize:EditableMenuItem>
+                </controls:EditableMenuItem.ValidationRules>
+            </controls:EditableMenuItem>
 
 
             <controls:Separator>
@@ -122,6 +121,118 @@
         </StackPanel>
     </Grid>
 </UserControl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

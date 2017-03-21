@@ -1,4 +1,6 @@
-﻿namespace ModernApplicationFramework.Customize
+﻿using ModernApplicationFramework.Interfaces.Views;
+
+namespace ModernApplicationFramework.Customize
 {
     public partial class NewToolBarDialogView : INewToolBarView
     {

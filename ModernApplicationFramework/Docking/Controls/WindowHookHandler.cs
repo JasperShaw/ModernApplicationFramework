@@ -15,6 +15,7 @@
   **********************************************************************/
 
 using System;
+using ModernApplicationFramework.Core.NativeMethods;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
@@ -42,11 +43,11 @@ namespace ModernApplicationFramework.Docking.Controls
         public void Attach()
         {
             _hookProc = HookProc;
-            _windowHook = Win32Helper.SetWindowsHookEx(
+            _windowHook = User32.SetWindowsHookEx(
                 Win32Helper.HookType.WhCbt,
                 _hookProc,
                 IntPtr.Zero,
-                (int) Win32Helper.GetCurrentThreadId());
+                (int) Kernel32.GetCurrentThreadId());
         }
 
         public void Detach()
@@ -73,7 +74,7 @@ namespace ModernApplicationFramework.Docking.Controls
             }
 
 
-            return Win32Helper.CallNextHookEx(_windowHook, code, wParam, lParam);
+            return User32.CallNextHookEx(_windowHook, code, wParam, lParam);
         }
     }
 }
