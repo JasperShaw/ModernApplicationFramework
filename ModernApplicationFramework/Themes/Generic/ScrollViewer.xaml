@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:this="clr-namespace:ModernApplicationFramework.Controls">
+                    xmlns:this="clr-namespace:ModernApplicationFramework.Controls"
+                    xmlns:primitives="clr-namespace:ModernApplicationFramework.Controls.Primitives">
 
     <Style TargetType="{x:Type this:ScrollViewer}" x:Key="{x:Type this:ScrollViewer}">
         <Setter Property="IsTabStop" Value="False" />
@@ -29,7 +30,7 @@
                               Grid.ColumnSpan="2"
                               ContentTemplate="{TemplateBinding ContentTemplate}"
                               Margin="{TemplateBinding Padding}" />
-                            <this:ScrollBar x:Name="VerticalScrollBar"
+                            <primitives:ScrollBar x:Name="VerticalScrollBar"
                  Grid.Column="1"
                  IsTabStop="False"
                  Maximum="{TemplateBinding ScrollableHeight}"
@@ -38,7 +39,7 @@
                  Value="{TemplateBinding VerticalOffset}"
                  ViewportSize="{TemplateBinding ViewportHeight}"
                  HorizontalAlignment="Right" />
-                            <this:ScrollBar x:Name="HorizontalScrollBar"
+                            <primitives:ScrollBar x:Name="HorizontalScrollBar"
                  IsTabStop="False"
                  Maximum="{TemplateBinding ScrollableWidth}"
                  Orientation="Horizontal"

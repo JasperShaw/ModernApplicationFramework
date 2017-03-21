@@ -1,18 +1,17 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:this="clr-namespace:ModernApplicationFramework.Controls"
-                    xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes">
+                    xmlns:primitives="clr-namespace:ModernApplicationFramework.Controls.Primitives">
     
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Brushes.xaml"/>
     </ResourceDictionary.MergedDictionaries>
        
-    <Style TargetType="{x:Type this:StatusBar}">
+    <Style TargetType="{x:Type primitives:StatusBar}">
         <Setter Property="Foreground" Value="{StaticResource StatusBarMode1Foreground}"/>
         <Setter Property="Background" Value="{StaticResource StatusBarMode1Background}"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type this:StatusBar}">
+                <ControlTemplate TargetType="{x:Type primitives:StatusBar}">
                     <DockPanel x:Name="Panel" Background="{StaticResource StatusBarMode1Background}" 
                                LastChildFill="False" VerticalAlignment="Top" HorizontalAlignment="Stretch">
                         <DockPanel Dock="Left">

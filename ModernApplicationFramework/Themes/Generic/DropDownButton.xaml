@@ -3,7 +3,8 @@
                     xmlns:this="clr-namespace:ModernApplicationFramework.Controls"
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
-                    xmlns:dock="clr-namespace:ModernApplicationFramework.Docking.Controls">
+                    xmlns:dock="clr-namespace:ModernApplicationFramework.Docking.Controls"
+                    xmlns:primitives="clr-namespace:ModernApplicationFramework.Controls.Primitives">
     
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Brushes.xaml"/>
@@ -29,7 +30,7 @@
                                 </ControlTemplate>
                             </ToggleButton.Template>
                             <Grid>
-                               <this:DropDownButtonBase x:Name="ButtonBase" RenderChecked="{TemplateBinding IsOpen}" 
+                               <primitives:DropDownButtonBase x:Name="ButtonBase" RenderChecked="{TemplateBinding IsOpen}" 
                                                         RenderEnabled="{TemplateBinding IsEnabled}" 
                                                         RenderMouseOver="{Binding IsMouseOver, ElementName=PART_DropDownButton}"
                                                         RenderPressed="{Binding IsPressed, ElementName=PART_DropDownButton}">
@@ -49,7 +50,7 @@
                                             </Path>
                                         </Grid>
                                     </Grid>
-                                </this:DropDownButtonBase>
+                                </primitives:DropDownButtonBase>
                                 <!-- Button Base-->                
                             </Grid>
                         </ToggleButton>

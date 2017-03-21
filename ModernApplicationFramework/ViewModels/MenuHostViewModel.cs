@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Controls.Internals;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
 
@@ -26,7 +27,7 @@ namespace ModernApplicationFramework.ViewModels
         /// </summary>
         public bool CanOpenToolBarContextMenu { get; set; } = true;
 
-        public MenuHostControl MenuHostControl
+        internal MenuHostControl MenuHostControl
         {
             get => _menuHostControl;
             set

@@ -5,11 +5,12 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Controls.Utilities;
 using ModernApplicationFramework.Interfaces.Controls;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-    sealed class DragUndockHeader : Border, INonClientArea
+    internal sealed class DragUndockHeader : Border, INonClientArea
     {
         int INonClientArea.HitTest(Point point)
         {

@@ -1,24 +1,17 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using ModernApplicationFramework.Controls.Utilities;
 
 namespace ModernApplicationFramework.Controls.Internals
 {
-
-
-
     internal class QuickCustomizeButton : MenuItem
     {
         public static readonly DependencyProperty QuickCustomizeDataSourceProperty;
 
 
-        private readonly MenuItem customizeMenuItem;
-        private readonly MenuItem resetToolbarMenuItem;
-        private CollectionContainer boundItems;
-
-        private ItemCollection quickCustomizeDataSource;
+        private readonly MenuItem _customizeMenuItem;
+        private readonly MenuItem _resetToolbarMenuItem;
 
 
         public ItemCollection QuickCustomizeDataSource
@@ -35,12 +28,12 @@ namespace ModernApplicationFramework.Controls.Internals
 
         public QuickCustomizeButton()
         {
-            customizeMenuItem = new MenuItem();
-            resetToolbarMenuItem = new MenuItem();
-            customizeMenuItem.Click += CustomizeMenuItem_Click;
-            customizeMenuItem.Header = "Customize...";
-            resetToolbarMenuItem.Click += ResetToolbarMenuItem_Click;
-            resetToolbarMenuItem.Header = "Reset Toolbar";
+            _customizeMenuItem = new MenuItem();
+            _resetToolbarMenuItem = new MenuItem();
+            _customizeMenuItem.Click += CustomizeMenuItem_Click;
+            _customizeMenuItem.Header = "Customize...";
+            _resetToolbarMenuItem.Click += ResetToolbarMenuItem_Click;
+            _resetToolbarMenuItem.Header = "Reset Toolbar";
 
 
             CreateMenu();
@@ -69,16 +62,13 @@ namespace ModernApplicationFramework.Controls.Internals
                 compositeCollection.Add(mi);
             }
 
-           
-
-
             Separator separator3 = new Separator();
 
 
             compositeCollection.Add(separator3);
-            MenuItem customizeMenuItem3 = customizeMenuItem;
+            MenuItem customizeMenuItem3 = _customizeMenuItem;
             compositeCollection.Add(customizeMenuItem3);
-            MenuItem resetToolbarMenuItem3 = resetToolbarMenuItem;
+            MenuItem resetToolbarMenuItem3 = _resetToolbarMenuItem;
             compositeCollection.Add(resetToolbarMenuItem3);
 
             ItemsSource = compositeCollection;

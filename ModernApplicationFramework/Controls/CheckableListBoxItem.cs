@@ -75,40 +75,39 @@ namespace ModernApplicationFramework.Controls
         protected override void OnKeyDown(KeyEventArgs e)
         {
             base.OnKeyDown(e);
-            switch (e.Key)
+            if (e.Key == Key.OemPlus || e.Key == Key.Add)
             {
-                case Key.OemPlus:
-                case Key.Add:
-                    e.Handled = true;
-                    if (!IsToggleEnabled)
-                        return;
-                    IsChecked = true;
-                    break;
-                case Key.OemMinus:
-                case Key.Subtract:
-                    e.Handled = true;
-                    if (!IsToggleEnabled)
-                        return;
-                    IsChecked = false;
-                    break;
-                default:
-                    var checkableListBox = ItemsControl.ItemsControlFromItemContainer(this) as CheckableListBox;
-                    if (checkableListBox == null || !checkableListBox.ToggleKeys.Contains(e.Key))
-                        return;
-                    e.Handled = true;
-                    if (!IsToggleEnabled)
-                        return;
-                    bool? nullable;
-                    if (!IsChecked.HasValue)
-                        nullable = true;
-                    else
-                    {
-                        var isChecked = IsChecked;
-                        // ReSharper disable once MergeConditionalExpression
-                        nullable = !isChecked.GetValueOrDefault();
-                    }
-                    IsChecked = nullable;
-                    break;
+                e.Handled = true;
+                if (!IsToggleEnabled)
+                    return;
+                IsChecked = true;
+            }
+            else if (e.Key == Key.OemMinus || e.Key == Key.Subtract)
+            {
+                e.Handled = true;
+                if (!IsToggleEnabled)
+                    return;
+                IsChecked = false;
+            }
+            else
+            {
+                var checkableListBox = ItemsControl.ItemsControlFromItemContainer(this) as CheckableListBox;
+                if (checkableListBox == null || !checkableListBox.ToggleKeys.Contains(e.Key))
+                    return;
+                e.Handled = true;
+                if (!IsToggleEnabled)
+                    return;
+                bool? nullable;
+                if (!IsChecked.HasValue)
+                {
+                    nullable = true;
+                }
+                else
+                {
+                    var isChecked = IsChecked;
+                    nullable = !isChecked.GetValueOrDefault();
+                }
+                IsChecked = nullable;
             }
         }
 

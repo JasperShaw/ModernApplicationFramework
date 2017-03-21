@@ -2,6 +2,7 @@
 using System.Windows.Automation.Peers;
 using System.Windows.Controls;
 using System.Windows.Media;
+using ModernApplicationFramework.Controls.Utilities;
 using ModernApplicationFramework.Interfaces.Controls;
 
 namespace ModernApplicationFramework.Controls

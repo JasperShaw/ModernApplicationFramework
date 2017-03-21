@@ -234,6 +234,8 @@ namespace ModernApplicationFramework.Controls
 
         private static void OnResizeModeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
+            ((ModernChromeWindow) obj).DestroyGlowWindows();
+            ((ModernChromeWindow) obj).CreateGlowWindowHandlesNoResize();
             ((ModernChromeWindow) obj).UpdateGlowVisibility(false);
         }
 
@@ -259,6 +261,12 @@ namespace ModernApplicationFramework.Controls
         {
             for (var direction = 0; direction < _glowWindows.Length; ++direction)
                 GetOrCreateGlowWindow(direction).EnsureHandle();
+        }
+
+        private void CreateGlowWindowHandlesNoResize()
+        {
+            for (var direction = 0; direction < _glowWindows.Length; ++direction)
+                GetOrCreateGlowWindow(direction, false).EnsureHandle();
         }
 
         protected virtual IntPtr HwndSourceHook(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -870,13 +878,14 @@ namespace ModernApplicationFramework.Controls
             base.OnClosed(e);
         }
 
-        private GlowWindow GetOrCreateGlowWindow(int direction)
+        private GlowWindow GetOrCreateGlowWindow(int direction, bool isSubclass = true)
         {
             return _glowWindows[direction] ?? (_glowWindows[direction] = new GlowWindow(this, (Dock) direction)
             {
                 ActiveGlowColor = ActiveGlowColor,
                 InactiveGlowColor = InactiveGlowColor,
-                IsActive = IsActive
+                IsActive = IsActive,
+                IsWindowSubclassed = isSubclass
             });
         }
 
@@ -1034,6 +1043,7 @@ namespace ModernApplicationFramework.Controls
             _targetWindow = owner;
             _orientation = orientation;
             ++_createdGlowWindows;
+            IsWindowSubclassed = true;
         }
 
         private bool IsDeferringChanges => _targetWindow.DeferGlowChangesCount > 0;
@@ -1113,8 +1123,6 @@ namespace ModernApplicationFramework.Controls
         }
 
         private IntPtr TargetWindowHandle => new WindowInteropHelper(_targetWindow).Handle;
-
-        protected override bool IsWindowSubclassed => true;
 
         private bool IsPositionValid => !InvalidatedValuesHasFlag(
             FieldInvalidationTypes.Location | FieldInvalidationTypes.Size | FieldInvalidationTypes.Visibility);

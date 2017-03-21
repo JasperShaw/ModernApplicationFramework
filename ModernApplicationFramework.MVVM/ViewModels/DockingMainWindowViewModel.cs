@@ -8,7 +8,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using ModernApplicationFramework.CommandBase;
-using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Controls.Primitives;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Interfaces.Utilities;

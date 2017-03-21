@@ -15,8 +15,8 @@ using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Exception;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Customize;
 using ModernApplicationFramework.Interfaces.ViewModels;
-using ModernApplicationFramework.Test;
 using ModernApplicationFramework.Utilities;
 using ContextMenu = ModernApplicationFramework.Controls.ContextMenu;
 using Separator = ModernApplicationFramework.Controls.Separator;
@@ -27,19 +27,6 @@ namespace ModernApplicationFramework.ViewModels
     [Export(typeof(IToolBarHostViewModel))]
     public class ToolbarHostViewModel : ViewModelBase, IToolBarHostViewModel
     {
-        /*
-            This Dictionary contains all the information needed to interact with the toolbar across classes
-            This Dictionary contains as Key:
-                IdName of toolbar
-            And as Value
-                a Tuple with 4 Items:
-                    Item1: Toolbar-Object
-                    Item2: Toolbar-Dock orientation
-                    Item3: Toolbar-Visible
-        */
-        //private readonly Dictionary<string, Tuple<ToolBar, Dock, bool>> _contextList =
-        //    new Dictionary<string, Tuple<ToolBar, Dock, bool>>();
-
         public ObservableCollectionEx<ToolbarDefinition> ToolbarDefinitions { get; set; }
 
 
@@ -88,6 +75,7 @@ namespace ModernApplicationFramework.ViewModels
         }
 
         public IMainWindowViewModel MainWindowViewModel { get; set; }
+
         public Command OpenContextMenuCommand => new Command(OpenContextMenu, CanOpenContextMenu);
 
         public ToolBarTray BottomToolBarTray

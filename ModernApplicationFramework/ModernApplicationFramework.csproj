@@ -61,19 +61,15 @@
     <Page Include="Resources\Icons\StatusError.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </Page>
-    <Page Include="Test\CustomizeDialogView.xaml">
+    <Page Include="Customize\CustomizeDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Test\NewToolBarDialogView.xaml">
+    <Page Include="Customize\NewToolBarDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Test\TabView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Test\ToolBarsPage.xaml">
+    <Page Include="Customize\ToolBarsPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -168,17 +164,13 @@
     <Compile Include="Controls\ComboBoxItem.cs" />
     <Compile Include="Controls\ContextMenu.cs" />
     <Compile Include="Controls\ContextMenuItem.cs" />
-    <Compile Include="Controls\Customize\CustomizeDialog.cs" />
-    <Compile Include="Controls\Customize\ToolBarsPage.xaml.cs">
-      <DependentUpon>ToolBarsPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\DialogButton.cs" />
     <Compile Include="Controls\DialogWindow.cs" />
     <Compile Include="Controls\DockingHost.xaml.cs">
       <DependentUpon>DockingHost.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\DropDownDialogButton.cs" />
-    <Compile Include="Controls\DummyParentMenuItem.cs" />
+    <Compile Include="Controls\Internals\DummyParentMenuItem.cs" />
     <Compile Include="Controls\GlyphButton.cs" />
     <Compile Include="Controls\IconTextButton.cs" />
     <Compile Include="Controls\ImageButton.cs" />
@@ -190,10 +182,10 @@
     <Compile Include="Controls\ModernExpander.cs" />
     <Compile Include="Controls\ScrollViewer.cs" />
     <Compile Include="Controls\SystemDropShadowChrome.cs" />
-    <Compile Include="Controls\ToolBarOverflowPanel.cs" />
-    <Compile Include="Controls\ToolBarOverflowPopup.cs" />
-    <Compile Include="Controls\ToolBarOverflowToggleButton.cs" />
-    <Compile Include="Controls\ToolBarPanel.cs" />
+    <Compile Include="Controls\Internals\ToolBarOverflowPanel.cs" />
+    <Compile Include="Controls\Internals\ToolBarOverflowPopup.cs" />
+    <Compile Include="Controls\Internals\ToolBarOverflowToggleButton.cs" />
+    <Compile Include="Controls\Internals\ToolBarPanel.cs" />
     <Compile Include="Controls\Utilities\PanelMarginSetter.cs" />
     <Compile Include="Core\Converters\AreEqualConverter.cs" />
     <Compile Include="Core\Converters\NotNullConverter.cs" />
@@ -257,20 +249,20 @@
     <Compile Include="Interfaces\Controls\IListViewContainer.cs" />
     <Compile Include="Interfaces\Controls\INonClientArea.cs" />
     <Compile Include="Controls\Internals\SelectionDelegatingCheckBox.cs" />
-    <Compile Include="Controls\MainWindowAutomationPeer.cs" />
-    <Compile Include="Controls\MainWindowTitleBarAutomationPeer.cs" />
-    <Compile Include="Controls\MenuHostControl.cs" />
+    <Compile Include="Controls\Utilities\MainWindowAutomationPeer.cs" />
+    <Compile Include="Controls\Utilities\MainWindowTitleBarAutomationPeer.cs" />
+    <Compile Include="Controls\Internals\MenuHostControl.cs" />
     <Compile Include="Controls\OutlineTextBlock.cs" />
-    <Compile Include="Controls\ResizeGrip.cs" />
+    <Compile Include="Controls\Primitives\ResizeGrip.cs" />
     <Compile Include="Controls\SystemMenu.cs" />
-    <Compile Include="Controls\ToolBarHostControl.cs" />
+    <Compile Include="Controls\Internals\ToolBarHostControl.cs" />
     <Compile Include="Controls\Utilities\ContextMenuGlyphItemUtilities.cs" />
     <Compile Include="Controls\WaitDialog.cs" />
-    <Compile Include="Controls\WindowBase.cs" />
-    <Compile Include="Controls\WindowContentPresenter.cs" />
-    <Compile Include="Controls\WindowTitleBarButton.cs" />
+    <Compile Include="Controls\Primitives\WindowBase.cs" />
+    <Compile Include="Controls\Internals\WindowContentPresenter.cs" />
+    <Compile Include="Controls\Internals\WindowTitleBarButton.cs" />
     <Compile Include="Controls\DropDownButton.cs" />
-    <Compile Include="Controls\DropDownButtonBase.cs" />
+    <Compile Include="Controls\Primitives\DropDownButtonBase.cs" />
     <Compile Include="Controls\GridSplitter.cs" />
     <Compile Include="Controls\MainWindow.cs" />
     <Compile Include="Controls\MainWindowTitleBar.cs" />
@@ -465,23 +457,21 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Test\CustomizeDialogView.xaml.cs">
+    <Compile Include="Customize\CustomizeDialogView.xaml.cs">
       <DependentUpon>CustomizeDialogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Test\CustomizeDialogViewModel.cs" />
-    <Compile Include="Test\EditableMenuItem.cs" />
-    <Compile Include="Test\INewToolBarView.cs" />
-    <Compile Include="Test\NewToolBarDialogView.xaml.cs">
+    <Compile Include="Customize\CustomizeDialogViewModel.cs" />
+    <Compile Include="Customize\EditableMenuItem.cs" />
+    <Compile Include="Customize\INewToolBarView.cs" />
+    <Compile Include="Customize\IToolBarsPageViewModel.cs" />
+    <Compile Include="Customize\NewToolBarDialogView.xaml.cs">
       <DependentUpon>NewToolBarDialogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Test\NewToolBarDialogViewModel.cs" />
-    <Compile Include="Test\TabView.xaml.cs">
-      <DependentUpon>TabView.xaml</DependentUpon>
+    <Compile Include="Customize\NewToolBarDialogViewModel.cs" />
+    <Compile Include="Customize\ToolBarsPageView.xaml.cs">
+      <DependentUpon>ToolBarsPageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Test\TabViewModel.cs" />
-    <Compile Include="Test\ToolBarsPage.xaml.cs">
-      <DependentUpon>ToolBarsPage.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Customize\ToolBarsPageViewModel.cs" />
     <Compile Include="ViewModels\MenuHostViewModel.cs" />
     <Compile Include="ViewModels\ToolbarHostViewModel.cs" />
     <Compile Include="Utilities\FileDefinitionManager.cs" />
@@ -498,28 +488,19 @@
     <Compile Include="Utilities\UndoRedoManager\UndoRedoAction.cs" />
     <Compile Include="Utilities\UndoRedoManager\UndoRedoManager.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="ViewModels\ToolBarCustomizeDialogViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controls\ScrollBar.cs" />
+    <Compile Include="Controls\Primitives\ScrollBar.cs" />
     <Compile Include="Controls\Separator.cs" />
     <Compile Include="Controls\SplittButton.cs" />
-    <Compile Include="Controls\StatusBar.cs" />
+    <Compile Include="Controls\Primitives\StatusBar.cs" />
     <Compile Include="Controls\TextBox.cs" />
     <Compile Include="Controls\TitleBarButton.cs" />
     <Compile Include="Controls\ToolBar.cs" />
     <Compile Include="Controls\ToolBarTray.cs" />
     <Compile Include="Controls\ModernChromeWindow.cs" />
     <Compile Include="Themes\GenericTheme.cs" />
-    <Page Include="Controls\Customize\CustomizeDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Controls\Customize\ToolBarsPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Controls\DockingHost.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

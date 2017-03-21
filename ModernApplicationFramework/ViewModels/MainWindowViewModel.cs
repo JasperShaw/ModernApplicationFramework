@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Controls.Primitives;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Interfaces.ViewModels;
@@ -202,7 +203,6 @@ namespace ModernApplicationFramework.ViewModels
                     return;
                 _isSimpleWindow = value;
                 OnPropertyChanged();
-                //NotifyOfPropertyChange(() => IsSimpleWindow);
             }
         }
 

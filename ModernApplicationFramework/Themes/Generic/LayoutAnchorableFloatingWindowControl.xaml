@@ -4,7 +4,8 @@
                     xmlns:avalonDockControls="clr-namespace:ModernApplicationFramework.Docking.Controls"
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:utilities="clr-namespace:ModernApplicationFramework.Core.Utilities"
-                    xmlns:mafc="clr-namespace:ModernApplicationFramework.Controls">
+                    xmlns:mafc="clr-namespace:ModernApplicationFramework.Controls"
+                    xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals">
     
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"/>
@@ -38,7 +39,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type avalonDockControls:LayoutAnchorableFloatingWindowControl}">
-                    <mafc:WindowContentPresenter>
+                    <internals:WindowContentPresenter>
                         <Grid Background="{TemplateBinding Control.Background}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -61,7 +62,7 @@
                                             <Path x:Name="MenuButtonPath" Fill="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarGlyph}}" Width="8" Height="4" Stretch="Uniform" Data="F1 M 0,0 L 4,4 8,0 0,0 z"/>
                                         </avalonDockControls:DropDownTitleBarButton>
 
-                                        <mafc:WindowTitleBarButton x:Name="MaximizeRestoreButton" WindowChrome.IsHitTestVisibleInChrome="True"
+                                        <internals:WindowTitleBarButton x:Name="MaximizeRestoreButton" WindowChrome.IsHitTestVisibleInChrome="True"
                                                                    Focusable="False" Height="15" Width="15" BorderThickness="1" Margin="0,0,2,0"
                                                                    Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}" 
                                                                    AutomationProperties.AutomationId="Maximize"
@@ -75,9 +76,9 @@
                                             <Path x:Name="MaximizeRestoreButtonPath" Width="9" Height="9" Fill="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarGlyph}}"
 											      Data="F1 M 0,0 L 0,9 9,9 9,0 0,0 0,3 8,3 8,8 1,8 1,3 Z" Stretch="Uniform">
                                             </Path>
-                                        </mafc:WindowTitleBarButton>
+                                        </internals:WindowTitleBarButton>
 
-                                        <mafc:WindowTitleBarButton x:Name="CloseButton" WindowChrome.IsHitTestVisibleInChrome="True"
+                                        <internals:WindowTitleBarButton x:Name="CloseButton" WindowChrome.IsHitTestVisibleInChrome="True"
                                                                    Focusable="False" BorderThickness="1" Margin="0,0,2,0"
                                                                    Command="{Binding HideWindowCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                                    VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center"
@@ -87,7 +88,7 @@
                                                 BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBorder}}">
                                             <Path Fill="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarGlyph}}" Width="10" Height="8" Stretch="Uniform" x:Name="CloseButtonPath"
                                                   Data="F1 M 0,0 L 2,0 5,3 8,0 10,0 6,4 10,8 8,8 5,5 2,8 0,8 4,4 0,0 Z"/>
-                                        </mafc:WindowTitleBarButton>
+                                        </internals:WindowTitleBarButton>
 
                                     </StackPanel>
                                     <avalonDockControls:DropDownControlArea x:Name="TextBlock" Margin="2,0,0,0" Foreground="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarForeground}}"
@@ -114,7 +115,7 @@
 
                                     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
 
-                                        <mafc:WindowTitleBarButton x:Name="MaximizeRestoreButtonL" Width="34" Height="26" VerticalAlignment="Top" 
+                                        <internals:WindowTitleBarButton x:Name="MaximizeRestoreButtonL" Width="34" Height="26" VerticalAlignment="Top" 
                                                                    BorderThickness="1,0,1,1" Padding="0,3,0,0"
                                                                    AutomationProperties.AutomationId="Maximize"
                                                                    AutomationProperties.Name="Maximize"
@@ -126,17 +127,17 @@
                                                   Data="F1 M 0,0 L 0,9 9,9 9,0 0,0 0,3 8,3 8,8 1,8 1,3 Z" Stretch="Uniform"
                                                   Fill="{DynamicResource {x:Static themes:EnvironmentColors.FloatingWindowTitleBarGlyph}}">
                                             </Path>
-                                        </mafc:WindowTitleBarButton>
+                                        </internals:WindowTitleBarButton>
 
 
-                                        <mafc:WindowTitleBarButton x:Name="CloseButtonL" WindowChrome.IsHitTestVisibleInChrome="True" VerticalAlignment="Top"
+                                        <internals:WindowTitleBarButton x:Name="CloseButtonL" WindowChrome.IsHitTestVisibleInChrome="True" VerticalAlignment="Top"
                                                                    Focusable="False" BorderThickness="1,0,1,1" Margin="0,0,0,0"
                                                                    Command="{Binding HideWindowCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                                    ToolTip="Close" Height="26" Width="34"
                                                                    Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InverseBoolToVisibilityConverter}}">
                                             <Path Fill="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarGlyph}}" Width="10" Height="8" Stretch="Uniform"
                                                   Data="F1 M 0,0 L 2,0 5,3 8,0 10,0 6,4 10,8 8,8 5,5 2,8 0,8 4,4 0,0 Z"/>
-                                        </mafc:WindowTitleBarButton>
+                                        </internals:WindowTitleBarButton>
                                     </StackPanel>
                                     <TextBlock x:Name="TitleBarTextL" VerticalAlignment="Center" Margin="4,0,0,0"
                                                TextTrimming="CharacterEllipsis" Foreground="{DynamicResource {x:Static themes:EnvironmentColors.FloatingWindowTitleBarForegroundActive}}"
@@ -147,7 +148,7 @@
                             </avalonDockControls:DragUndockHeader>
                             <ContentPresenter Grid.Row="1"/>
                         </Grid>
-                    </mafc:WindowContentPresenter>
+                    </internals:WindowContentPresenter>
                     <ControlTemplate.Triggers>
                         <Trigger Property="WindowState" Value="Maximized">
                             <Setter Property="Margin" Value="0,0,0,4" TargetName="TitleBar"/>

@@ -1,9 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
-                    xmlns:core="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:this="clr-namespace:ModernApplicationFramework.Controls"
-                    xmlns:utilities="clr-namespace:ModernApplicationFramework.Core.Utilities">
+                    xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
+                    xmlns:utilities="clr-namespace:ModernApplicationFramework.Core.Utilities"
+                    xmlns:core="clr-namespace:ModernApplicationFramework.Core.Themes"
+                    xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals"
+                    xmlns:primitives="clr-namespace:ModernApplicationFramework.Controls.Primitives">
 
     <Style TargetType="{x:Type this:MainWindow}">
         <Style.Resources>
@@ -36,7 +38,7 @@
         <Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type this:MainWindow}">
-					<this:WindowContentPresenter>
+					<internals:WindowContentPresenter>
 						<Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
 							<Grid.RowDefinitions>
 								<RowDefinition Height="Auto" />
@@ -54,7 +56,7 @@
                                     <StackPanel x:Name="WindowTitleBarButtons"
 									            DockPanel.Dock="Right"
 									            Orientation="Horizontal">
-                                        <this:WindowTitleBarButton x:Name="MinimizeButton" Width="34" Height="26"  VerticalAlignment="Top"
+                                        <internals:WindowTitleBarButton x:Name="MinimizeButton" Width="34" Height="26"  VerticalAlignment="Top"
 										                           AutomationProperties.AutomationId="Minimize" AutomationProperties.Name="Minimize"
 										                           BorderThickness="1,0,1,1" Padding="0,3,0,0" ToolTip="Minimize" WindowChrome.IsHitTestVisibleInChrome="True">
                                             <Path x:Name="MinimizeButtonPath" Width="9"  Height="9"  Data="F1 M 0,6 L 0,9 9,9 9,6 0,6 Z" Stretch="None">
@@ -62,8 +64,8 @@
                                                     <Binding Path="(TextElement.Foreground)" RelativeSource="{RelativeSource Self}" />
                                                 </Shape.Fill>
                                             </Path>
-                                        </this:WindowTitleBarButton>
-                                        <this:WindowTitleBarButton x:Name="MaximizeRestoreButton" Width="34" Height="26" VerticalAlignment="Top" AutomationProperties.AutomationId="Maximize"
+                                        </internals:WindowTitleBarButton>
+                                        <internals:WindowTitleBarButton x:Name="MaximizeRestoreButton" Width="34" Height="26" VerticalAlignment="Top" AutomationProperties.AutomationId="Maximize"
 										                           AutomationProperties.Name="Maximize" BorderThickness="1,0,1,1" Padding="0,3,0,0"
 										                           ToolTip="Maximize"  WindowChrome.IsHitTestVisibleInChrome="True">
                                             <Path x:Name="MaximizeRestoreButtonPath" Width="9" Height="9"
@@ -72,8 +74,8 @@
                                                     <Binding Path="(TextElement.Foreground)" RelativeSource="{RelativeSource Self}" />
                                                 </Shape.Fill>
                                             </Path>
-                                        </this:WindowTitleBarButton>
-                                        <this:WindowTitleBarButton x:Name="CloseButton" Width="34" Height="26" VerticalAlignment="Top" AutomationProperties.AutomationId="Close"
+                                        </internals:WindowTitleBarButton>
+                                        <internals:WindowTitleBarButton x:Name="CloseButton" Width="34" Height="26" VerticalAlignment="Top" AutomationProperties.AutomationId="Close"
 										                           AutomationProperties.Name="Close" BorderThickness="1,0,1,1" Padding="0,3,0,0"
 										                           ToolTip="Close" WindowChrome.IsHitTestVisibleInChrome="True">
                                             <Path x:Name="CloseButtonPath" Width="10" Height="8"
@@ -82,7 +84,7 @@
                                                     <Binding Path="(TextElement.Foreground)" RelativeSource="{RelativeSource Self}" />
                                                 </Shape.Fill>
                                             </Path>
-                                        </this:WindowTitleBarButton>
+                                        </internals:WindowTitleBarButton>
                                     </StackPanel>
                                     <TextBlock Margin="0,7,0,4"
 									           VerticalAlignment="Center"
@@ -91,17 +93,17 @@
                                 </DockPanel>
                             </this:MainWindowTitleBar>
                             <DockPanel Grid.Row="1" MinHeight="20" x:Name="MenuPanel">
-                                <this:MenuHostControl x:Name="MenuHostControl"/>
+                                <internals:MenuHostControl x:Name="MenuHostControl"/>
                             </DockPanel>
-                            <this:ToolBarHostControl x:Name="ToolbarHostControl" Grid.Row="2" />
+                            <internals:ToolBarHostControl x:Name="ToolbarHostControl" Grid.Row="2" />
                             <DockPanel x:Name="StatusBarPanel"
 							           Grid.Row="3"
 							           Background="{Binding ElementName=StatusBar, Path=Background}">
-								<this:ResizeGrip x:Name="ResizeGrip" VerticalAlignment="Bottom" Cursor="SizeNWSE" DockPanel.Dock="Right" Padding="0" />
-								<this:StatusBar x:Name="StatusBar" Mode="3" />
+								<primitives:ResizeGrip x:Name="ResizeGrip" VerticalAlignment="Bottom" Cursor="SizeNWSE" DockPanel.Dock="Right" Padding="0" />
+								<primitives:StatusBar x:Name="StatusBar" Mode="3" />
 							</DockPanel>
 						</Grid>
-					</this:WindowContentPresenter>
+					</internals:WindowContentPresenter>
 					<ControlTemplate.Triggers>
 						<Trigger Property="FlowDirection" Value="RightToLeft">
 							<Setter TargetName="ResizeGrip" Property="Cursor" Value="SizeNESW" />

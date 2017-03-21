@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:modernApplicationFrameworkTestAppDock="clr-namespace:ModernApplicationFrameworkTestAppDock"
                  xmlns:mafc="http://modern.framework.com/controls"
+                 xmlns:primitives="clr-namespace:ModernApplicationFramework.Controls.Primitives;assembly=ModernApplicationFramework"
                  Title="MainWindow" Height="350" Width="525">
     <Grid>
         <Grid.RowDefinitions>
@@ -25,7 +26,7 @@
                             <mafc:LayoutDocument Title="Test">
                                 <Grid Background="White">
                                     <TextBox x:Name="TextBox"/>
-                                    <mafc:ScrollBar></mafc:ScrollBar>
+                                    <primitives:ScrollBar></primitives:ScrollBar>
                                 </Grid>
                             </mafc:LayoutDocument>
                             <mafc:LayoutDocument Title="Test2">

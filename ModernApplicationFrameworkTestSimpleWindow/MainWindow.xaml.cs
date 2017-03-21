@@ -14,6 +14,7 @@ namespace ModernApplicationFrameworkTestSimpleWindow
             ((MainWindowViewModel) DataContext).UseTitleBar = false;
             ((MainWindowViewModel) DataContext).IsSimpleWindow = true;
             ((MainWindowViewModel) DataContext).UseSimpleMovement = true;
+            ((MainWindowViewModel) DataContext).UseMenu = false;
         }
     }
 }

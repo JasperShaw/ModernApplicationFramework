@@ -30,7 +30,7 @@ namespace ModernApplicationFramework.Core.Platform
             }
         }
 
-        protected virtual bool IsWindowSubclassed => false;
+        public bool IsWindowSubclassed { get; set; }
 
         [CLSCompliant(false)]
         protected virtual ushort CreateWindowClassCore()
