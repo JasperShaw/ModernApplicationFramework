@@ -30,8 +30,8 @@
                                               ContentSource="Header" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                             <ContentPresenter Grid.Column="3" Margin="8,1,8,1" x:Name="IGTHost" 
                                               ContentSource="InputGestureText" VerticalAlignment="Center"/>
-                            <Grid Grid.Column="4" Margin="4,0,6,0" x:Name="ArrowPanel" VerticalAlignment="Center">
-                                <Path x:Name="ArrowPanelPath" HorizontalAlignment="Right" VerticalAlignment="Center" 
+                            <Grid Grid.Column="4" Margin="4,0,0,0" x:Name="ArrowPanel" VerticalAlignment="Center">
+                                <Path x:Name="ArrowPanelPath" VerticalAlignment="Center" 
                                       Fill="{DynamicResource {x:Static colors:EnvironmentColors.MenuSubItemGlyph}}" Data="M0,0 L0,8 L4,4 z"/>
                             </Grid>
                             <Popup Grid.Column="0" IsOpen="{Binding Path=IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" 
@@ -73,7 +73,7 @@
                         </Trigger>
                         <Trigger Property="Role" Value="TopLevelItem">
                             <Setter Property="Padding" Value="6,0,6,2"/>
-                            <Setter TargetName="Col0" Property="Width" Value="0"/>
+                            <Setter TargetName="Col0" Property="Width" Value="26"/>
                             <Setter TargetName="Col2" Property="Width" Value="0"/>
                             <Setter TargetName="Col3" Property="Width" Value="Auto"/>
                             <Setter TargetName="Icon" Property="Visibility" Value="Visible"/>
@@ -83,6 +83,7 @@
                         <Trigger Property="IsChecked" Value="True">
                             <Setter Property="BorderThickness" Value="1" TargetName="Border"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource {x:Static colors:EnvironmentColors.CheckBoxBorderFocused}}" TargetName="Border"/>
+                            <Setter Property="Background" Value="{DynamicResource {x:Static colors:EnvironmentColors.CheckBoxBackgroundFocused}}" TargetName="IconBorder"/>
                             <Setter Property="Background" Value="{DynamicResource {x:Static colors:EnvironmentColors.CheckBoxBackgroundFocused}}" TargetName="Border"/>
                         </Trigger>
                         <Trigger Property="Role" Value="SubmenuHeader">

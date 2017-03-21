@@ -166,7 +166,7 @@
                      ResourceId=CheckBoxBorderDown}" Color="#FF007ACC"/>
     
    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=CheckBoxBackgroundFocused}" Color="#FF1F1F20"/>
+                     ResourceId=CheckBoxBackgroundFocused}" Color="#FF2D2D30"/>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
                      ResourceId=CheckBoxGlyphFocused}" Color="#FFF1F1F1"/>
@@ -297,7 +297,7 @@
                      ResourceId=MenuItemForeground}" Color="#FFF1F1F1"/>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuItemBackgroundHover}" Color="#FF333334"/>
+                     ResourceId=MenuItemBackgroundHover}" Color="#FF3E3E40"/>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
                      ResourceId=MenuItemBorderHover}" Color="#FF333334"/>
@@ -306,10 +306,10 @@
                      ResourceId=MenuItemForegroundHover}" Color="#FFF1F1F1"/>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuItemBackgroundDown}" Color="#FF333334"/>
+                     ResourceId=MenuItemBackgroundDown}" Color="#FF1B1B1C"/>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuItemBorderDown}" Color="#FF333334"/>
+                     ResourceId=MenuItemBorderDown}" Color="#FF1B1B1C"/>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
                      ResourceId=MenuItemForegroundDown}" Color="#FFF1F1F1"/>

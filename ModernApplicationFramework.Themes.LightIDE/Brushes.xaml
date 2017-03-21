@@ -180,7 +180,7 @@
                      ResourceId=CheckBoxBorderDown}" Color="#FF007ACC"/>
     
    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=CheckBoxBackgroundFocused}" Color="#FFF3F9FF"/>
+                     ResourceId=CheckBoxBackgroundFocused}" Color="#FFEEEEF2"/>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
                      ResourceId=CheckBoxGlyphFocused}" Color="#FF1E1E1E"/>
