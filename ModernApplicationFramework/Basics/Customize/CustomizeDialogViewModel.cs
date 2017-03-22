@@ -9,6 +9,7 @@ namespace ModernApplicationFramework.Basics.Customize
     {
         public CustomizeDialogViewModel()
         {
+            DisplayName = "Customize";
             var toolbarsViewModel = IoC.Get<IToolBarsPageViewModel>();
             ActivateItem(toolbarsViewModel);
         }
