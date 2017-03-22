@@ -71,7 +71,7 @@
                             <Border x:Name="IconBorder" Background="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemPopupIconBackground}}" Grid.Column="0">
                                 <ContentPresenter x:Name="Icon" VerticalAlignment="Center" ContentSource="Icon"/>
                             </Border>
-                            <ContentPresenter Grid.Column="2" Margin="{TemplateBinding Padding}" 
+                            <ContentPresenter Grid.Column="1" Margin="{TemplateBinding Padding}" 
                                                       x:Name="HeaderHost" RecognizesAccessKey="True" 
                                                       ContentSource="Header" VerticalAlignment="Center"/>
                             <ContentPresenter Grid.Column="3" Margin="8,1,8,1" x:Name="IGTHost" 
