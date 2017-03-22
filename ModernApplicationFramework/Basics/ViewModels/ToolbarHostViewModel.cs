@@ -169,7 +169,7 @@ namespace ModernApplicationFramework.Basics.ViewModels
 
         protected virtual bool CanOpenContextMenu()
         {
-            return true;
+            return ToolbarDefinitions.Count != 0;
         }
 
         protected virtual void OpenCostumizeDialog()
@@ -302,6 +302,7 @@ namespace ModernApplicationFramework.Basics.ViewModels
             if (e.OldItems != null)
                 foreach (ToolbarDefinition item in e.OldItems)
                     InternalHideToolBar(item);
+            OpenContextMenuCommand.RaiseCanExecuteChanged();
             BuildContextMenu();
         }
 

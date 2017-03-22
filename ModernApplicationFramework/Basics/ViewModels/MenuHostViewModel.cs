@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.CommandBase;
@@ -15,17 +16,19 @@ namespace ModernApplicationFramework.Basics.ViewModels
     {
         private IMainWindowViewModel _mainWindowViewModel;
         private MenuHostControl _menuHostControl;
+        private readonly IToolBarHostViewModel _toolBarHost;
 
         public MenuHostViewModel()
         {
             Items = new BindableCollection<MenuItem>();
+            _toolBarHost = IoC.Get<IToolBarHostViewModel>();
         }
 
         /// <summary>
         ///     Tells if you can open the ToolbarHostContextMenu
         ///     Default is true
         /// </summary>
-        public bool CanOpenToolBarContextMenu { get; set; } = true;
+        public bool AllowOpenToolBarContextMenu { get; set; } = true;
 
         internal MenuHostControl MenuHostControl
         {
@@ -72,8 +75,11 @@ namespace ModernApplicationFramework.Basics.ViewModels
 
         protected virtual async void ExecuteRightClick()
         {
-            if (CanOpenToolBarContextMenu)
-                await MainWindowViewModel.ToolBarHostViewModel.OpenContextMenuCommand.Execute();
+            if (_toolBarHost == null)
+                return;
+
+            if (AllowOpenToolBarContextMenu && _toolBarHost.ToolbarDefinitions.Any())
+                await _toolBarHost.OpenContextMenuCommand.Execute();
         }
     }
 }

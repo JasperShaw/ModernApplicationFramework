@@ -12,7 +12,7 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         /// <summary>
         ///     Tells if you can open the ToolbarHostContextMenu
         /// </summary>
-        bool CanOpenToolBarContextMenu { get; set; }
+        bool AllowOpenToolBarContextMenu { get; set; }
 
         /// <summary>
         ///     Contains the MenuItems of the MenuHostControl
