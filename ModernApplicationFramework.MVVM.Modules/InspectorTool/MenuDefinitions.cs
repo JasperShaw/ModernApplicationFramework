@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.Composition;
+using ModernApplicationFramework.Basics.Definitions;
 using ModernApplicationFramework.MVVM.Modules.InspectorTool.Commands;
-using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.MVVM.Modules.InspectorTool
 {

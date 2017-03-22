@@ -1,7 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using ModernApplicationFramework.Core.Standard;
+using ModernApplicationFramework.Native;
+using ModernApplicationFramework.Native.Standard;
 
 namespace ModernApplicationFramework.Core.Utilities
 {

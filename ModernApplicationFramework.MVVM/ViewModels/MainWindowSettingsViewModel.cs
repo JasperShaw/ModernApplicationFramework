@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using ModernApplicationFramework.Basics.ViewModels;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.MVVM.Interfaces;
 using ModernApplicationFramework.MVVM.Properties;
-using ModernApplicationFramework.ViewModels;
 
 namespace ModernApplicationFramework.MVVM.ViewModels
 {

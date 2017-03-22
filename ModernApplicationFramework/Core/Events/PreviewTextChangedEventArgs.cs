@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using ModernApplicationFramework.Core.Platform.Enums;
+using ModernApplicationFramework.Native.Platform.Enums;
 
 namespace ModernApplicationFramework.Core.Events
 {

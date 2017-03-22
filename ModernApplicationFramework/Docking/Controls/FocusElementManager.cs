@@ -23,6 +23,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using ModernApplicationFramework.Docking.Layout;
+using ModernApplicationFramework.Native.NativeMethods;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
@@ -99,7 +100,7 @@ namespace ModernApplicationFramework.Docking.Controls
 
             IntPtr handleToFocus;
             if (ModelFocusedWindowHandle.GetValue(model, out handleToFocus))
-                focused = IntPtr.Zero != Win32Helper.SetFocus(handleToFocus);
+                focused = IntPtr.Zero != User32.SetFocus(handleToFocus);
 
             Trace.WriteLine(
                 $"SetFocusOnLastElement(focused={focused}, model={model}, element={(handleToFocus == IntPtr.Zero ? (objectToFocus?.ToString() ?? "") : handleToFocus.ToString())})");
@@ -167,7 +168,7 @@ namespace ModernApplicationFramework.Docking.Controls
             {
                 var hostContainingFocusedHandle =
                     manager.FindLogicalChildren<HwndHost>()
-                        .FirstOrDefault(hw => Win32Helper.IsChild(hw.Handle, e.GotFocusWinHandle));
+                        .FirstOrDefault(hw => User32.IsChild(hw.Handle, e.GotFocusWinHandle));
 
                 if (hostContainingFocusedHandle != null)
                 {

@@ -16,6 +16,7 @@
 
 using System;
 using System.Windows.Threading;
+using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.Controls

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using ModernApplicationFramework.Controls.Primitives;
-using ModernApplicationFramework.Core.NativeMethods;
+using ModernApplicationFramework.Native.NativeMethods;
 
 namespace ModernApplicationFramework.Controls
 {

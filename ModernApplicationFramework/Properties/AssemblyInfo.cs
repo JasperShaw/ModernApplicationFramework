@@ -41,14 +41,16 @@ using System.Windows.Markup;
 [assembly: XmlnsPrefix("http://modern.framework.com/controls", "mafc")]
 [assembly: XmlnsDefinition("http://modern.framework.com/controls", "ModernApplicationFramework.Controls")]
 [assembly: XmlnsDefinition("http://modern.framework.com/controls", "ModernApplicationFramework.Controls.Utilities")]
-[assembly: XmlnsDefinition("http://modern.framework.com/controls", "ModernApplicationFramework.Docking")]
-[assembly: XmlnsDefinition("http://modern.framework.com/controls", "ModernApplicationFramework.Docking.Controls")]
-[assembly: XmlnsDefinition("http://modern.framework.com/controls", "ModernApplicationFramework.Docking.Converters")]
-[assembly: XmlnsDefinition("http://modern.framework.com/controls", "ModernApplicationFramework.Docking.Layout")]
-[assembly: XmlnsDefinition("http://modern.framework.com/controls", "ModernApplicationFramework.ViewModels")]
-[assembly: XmlnsDefinition("http://modern.framework.com/controls", "ModernApplicationFramework.CommandBase")]
-[assembly: XmlnsDefinition("http://modern.framework.com/controls", "ModernApplicationFramework.CommandBase.Base")]
-
-
+[assembly: XmlnsPrefix("http://modern.framework.com/command", "mafcb")]
+[assembly: XmlnsDefinition("http://modern.framework.com/command", "ModernApplicationFramework.CommandBase")]
+[assembly: XmlnsDefinition("http://modern.framework.com/command", "ModernApplicationFramework.CommandBase.Base")]
+[assembly: XmlnsPrefix("http://modern.framework.com/basics", "mafb")]
+[assembly: XmlnsDefinition("http://modern.framework.com/basics", "ModernApplicationFramework.Basics")]
+[assembly: XmlnsDefinition("http://modern.framework.com/basics", "ModernApplicationFramework.Basics.ViewModels")]
+[assembly: XmlnsPrefix("http://modern.framework.com/docking", "mafd")]
+[assembly: XmlnsDefinition("http://modern.framework.com/docking", "ModernApplicationFramework.Docking")]
+[assembly: XmlnsDefinition("http://modern.framework.com/docking", "ModernApplicationFramework.Docking.Controls")]
+[assembly: XmlnsDefinition("http://modern.framework.com/docking", "ModernApplicationFramework.Docking.Converters")]
+[assembly: XmlnsDefinition("http://modern.framework.com/docking", "ModernApplicationFramework.Docking.Layout")]
 
 

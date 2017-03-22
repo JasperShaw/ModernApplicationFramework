@@ -2,7 +2,6 @@
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.CommandBase;
-using ModernApplicationFramework.Utilities.UndoRedoManager;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest
 {
@@ -22,12 +21,12 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest
         [DisplayName("Text"), Description("Nothing special"), Category("Text")]
         public string Text
         {
-            get { return _test; }
+            get => _test;
             set
             {
                 if (value == _test)
                     return;
-                UndoRedoManager.Push(new UndoRedoAction(this, nameof(Text), value));
+                PushUndoRedoManager(nameof(Text), value);
                 _test = value;
                 NotifyOfPropertyChange();  
             }
@@ -38,12 +37,12 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest
         [DisplayName("Text 2"), Description("Nothing special"), Category("Text")]
         public string Text2
         {
-            get { return _test2; }
+            get => _test2;
             set
             {
                 if (value == _test2)
                     return;
-                UndoRedoManager.Push(new UndoRedoAction(this, nameof(Text2), value));
+                PushUndoRedoManager(nameof(Text2), value);
                 _test2 = value;
                 NotifyOfPropertyChange();
             }

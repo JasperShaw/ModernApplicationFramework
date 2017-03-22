@@ -1,7 +1,7 @@
 ﻿using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Definitions;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Core.Utilities;
-using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Interfaces.ViewModels
 {

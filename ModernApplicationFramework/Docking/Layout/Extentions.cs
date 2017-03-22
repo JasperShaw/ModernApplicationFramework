@@ -18,8 +18,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
-using ModernApplicationFramework.Core.NativeMethods;
-using ModernApplicationFramework.Core.Platform.Structs;
+using ModernApplicationFramework.Native.NativeMethods;
+using ModernApplicationFramework.Native.Platform.Structs;
 
 namespace ModernApplicationFramework.Docking.Layout
 {

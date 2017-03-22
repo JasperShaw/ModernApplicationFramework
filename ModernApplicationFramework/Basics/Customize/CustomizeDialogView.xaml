@@ -1,0 +1,27 @@
+﻿<controls:DialogWindow x:Class="ModernApplicationFramework.Basics.Customize.CustomizeDialogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
+             ShowInTaskbar="False" Title="Customize" ResizeMode="CanResizeWithGrip" Height="550"
+                       Width="535" MinHeight="490" MinWidth="375" Padding="12" WindowStartupLocation="CenterOwner">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition x:Uid="RowDefinition_1" Height="*" />
+            <RowDefinition x:Uid="RowDefinition_2" Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TabControl Grid.Row="0" Margin="12,12,12,10" x:Name="Items">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding DisplayName}" />
+                    </StackPanel>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+        </TabControl>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,2,0">
+            <controls:DialogButton Content="Close" IsCancel="True" IsDefault="True" x:Name="Button" />
+        </StackPanel>
+    </Grid>
+</controls:DialogWindow>
+

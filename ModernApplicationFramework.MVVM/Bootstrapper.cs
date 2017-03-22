@@ -10,7 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security;
 using System.Security.Policy;
-using ModernApplicationFramework.Core.TrinetCoreNtfs;
+using ModernApplicationFramework.Native.TrinetCoreNtfs;
 
 namespace ModernApplicationFramework.MVVM
 {

@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
 using ModernApplicationFramework.Core.Events;
-using ModernApplicationFramework.Core.Platform.Enums;
+using ModernApplicationFramework.Native.Platform.Enums;
 
 namespace ModernApplicationFramework.Controls
 {

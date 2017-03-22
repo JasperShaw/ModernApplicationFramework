@@ -27,9 +27,13 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using ModernApplicationFramework.Controls;
-using ModernApplicationFramework.Core.NativeMethods;
 using ModernApplicationFramework.Core.Themes;
+using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Docking.Layout;
+using ModernApplicationFramework.Native;
+using ModernApplicationFramework.Native.NativeMethods;
+using ModernApplicationFramework.Native.Platform.Enums;
+using SystemCommands = System.Windows.SystemCommands;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
@@ -117,8 +121,8 @@ namespace ModernApplicationFramework.Docking.Controls
             switch (msg)
             {
                 //VS Does not behave like this, so commented out
-                case Win32Helper.WmActivate:
-                    if (((int) wParam & 0xFFFF) == Win32Helper.WaInactive)
+                case (int) WindowsMessage.WmActivate:
+                    if (((int) wParam & 0xFFFF) == 0)
                     {
                         //if (lParam == this.GetParentWindowHandle())
                         //{
@@ -127,13 +131,13 @@ namespace ModernApplicationFramework.Docking.Controls
                         //}
                     }
                     break;
-                case Win32Helper.WmExitsizemove:
+                case (int)WindowsMessage.WmExitsizemove:
                     UpdatePositionAndSizeOfPanes();
 
                     if (_dragService != null)
                     {
                         bool dropFlag;
-                        var mousePosition = this.TransformToDeviceDpi(Win32Helper.GetMousePosition());
+                        var mousePosition = this.TransformToDeviceDpi(NativeMethods.GetMousePosition());
                         _dragService.Drop(mousePosition, out dropFlag);
                         _dragService = null;
                         SetIsDragging(false);
@@ -143,12 +147,12 @@ namespace ModernApplicationFramework.Docking.Controls
                     }
 
                     break;
-                case Win32Helper.WmMoving:
+                case (int)WindowsMessage.WmMoving:
                 {
                     UpdateDragPosition();
                 }
                     break;
-                case Win32Helper.WmLbuttonup:
+                case (int)WindowsMessage.WmLbuttonup:
                     //set as handled right button click on title area (after showing context menu)
                     if (_dragService != null && Mouse.LeftButton == MouseButtonState.Released)
                     {
@@ -157,18 +161,18 @@ namespace ModernApplicationFramework.Docking.Controls
                         SetIsDragging(false);
                     }
                     break;
-                case Win32Helper.WmSyscommand:
-                    IntPtr wMaximize = new IntPtr(Win32Helper.ScMaximize);
-                    IntPtr wRestore = new IntPtr(Win32Helper.ScRestore);
+                case (int)WindowsMessage.WmSyscommand:
+                    IntPtr wMaximize = new IntPtr((int)Native.Platform.Enums.SystemCommands.ScMaximize);
+                    IntPtr wRestore = new IntPtr((int)Native.Platform.Enums.SystemCommands.ScRestore);
                     if (wParam == wMaximize || wParam == wRestore)
                     {
                         UpdateMaximizedState(wParam == wMaximize);
                     }
                     break;
-                case Win32Helper.WmNclbuttondblclk:
+                case (int)WindowsMessage.WmNclbuttondblclk:
                     if (msg != 24)
                     {
-                        if (msg == Win32Helper.WmNclbuttondblclk)
+                        if (msg == (int)WindowsMessage.WmNclbuttondblclk)
                         {
                             WmNcLButtonDblClk(wParam, ref handled);
                             return IntPtr.Zero;
@@ -309,7 +313,7 @@ namespace ModernApplicationFramework.Docking.Controls
             {
                 IntPtr windowHandle = new WindowInteropHelper(this).EnsureHandle();
                 IntPtr lParam = new IntPtr(((int) Left & 0xFFFF) | (((int) Top) << 16));
-                Win32Helper.SendMessage(windowHandle, Win32Helper.WmNclbuttondown, new IntPtr(Win32Helper.HtCaption),
+                User32.SendMessage(windowHandle, (int)WindowsMessage.WmNclbuttondown, new IntPtr((int)HitTestValues.Htcaption),
                     lParam);
             }
         }
@@ -346,7 +350,7 @@ namespace ModernApplicationFramework.Docking.Controls
             _attachDrag = false;
 
             IntPtr lParam = new IntPtr(((int) mousePosition.X & 0xFFFF) | (((int) mousePosition.Y) << 16));
-            Win32Helper.SendMessage(windowHandle, Win32Helper.WmNclbuttondown, new IntPtr(Win32Helper.HtCaption), lParam);
+            User32.SendMessage(windowHandle, (int)WindowsMessage.WmNclbuttondown, new IntPtr((int)HitTestValues.Htcaption), lParam);
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
@@ -378,7 +382,7 @@ namespace ModernApplicationFramework.Docking.Controls
                 SetIsDragging(true);
             }
 
-            var mousePosition = this.TransformToDeviceDpi(Win32Helper.GetMousePosition());
+            var mousePosition = this.TransformToDeviceDpi(NativeMethods.GetMousePosition());
             _dragService.UpdateMouseLocation(mousePosition);
         }
 
@@ -432,8 +436,8 @@ namespace ModernApplicationFramework.Docking.Controls
                 {
                     ParentWindow = hwndParent.Handle,
                     WindowStyle =
-                        Win32Helper.WsChild | Win32Helper.WsVisible | Win32Helper.WsClipsiblings |
-                        Win32Helper.WsClipchildren,
+                        (int) (WindowStyles.WsChild | WindowStyles.WsVisible | WindowStyles.WsClipsiblings |
+                               WindowStyles.WsClipchildren),
                     Width = 1,
                     Height = 1
                 });
@@ -483,10 +487,10 @@ namespace ModernApplicationFramework.Docking.Controls
             {
                 switch (msg)
                 {
-                    case Win32Helper.WmSetfocus:
+                    case (int)WindowsMessage.WmSetfocus:
                         Trace.WriteLine("FloatingWindowContentHost.WM_SETFOCUS");
                         break;
-                    case Win32Helper.WmKillfocus:
+                    case (int)WindowsMessage.WmKillfocus:
                         Trace.WriteLine("FloatingWindowContentHost.WM_KILLFOCUS");
                         break;
                 }

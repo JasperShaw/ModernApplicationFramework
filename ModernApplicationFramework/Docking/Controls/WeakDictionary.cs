@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using ModernApplicationFramework.Core.Utilities;
 
 namespace ModernApplicationFramework.Docking.Controls
 {

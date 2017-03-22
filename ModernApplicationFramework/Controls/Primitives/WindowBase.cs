@@ -3,9 +3,10 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Interop;
 using ModernApplicationFramework.Core.Events;
-using ModernApplicationFramework.Core.NativeMethods;
-using ModernApplicationFramework.Core.Standard;
 using ModernApplicationFramework.Core.Themes;
+using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Native.NativeMethods;
+using ModernApplicationFramework.Native.Standard;
 using ModernApplicationFramework.Themes;
 
 namespace ModernApplicationFramework.Controls.Primitives

@@ -6,6 +6,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
+using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Controls
 {

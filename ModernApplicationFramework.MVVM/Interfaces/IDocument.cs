@@ -1,5 +1,5 @@
 ﻿using System.Windows.Input;
-using ModernApplicationFramework.Utilities.UndoRedoManager;
+using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.MVVM.Interfaces
 {
@@ -12,6 +12,7 @@ namespace ModernApplicationFramework.MVVM.Interfaces
         ICommand SaveFileCommand { get; }
 
         ICommand UndoCommand { get; }
+
         IUndoRedoManager UndoRedoManager { get; }
     }
 }

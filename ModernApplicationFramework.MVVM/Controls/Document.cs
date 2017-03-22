@@ -4,10 +4,11 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Caliburn.Micro;
 using Microsoft.Win32;
+using ModernApplicationFramework.Basics.UndoRedoManager;
 using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.MVVM.Core;
 using ModernApplicationFramework.MVVM.Interfaces;
-using ModernApplicationFramework.Utilities.UndoRedoManager;
 
 namespace ModernApplicationFramework.MVVM.Controls
 {
@@ -113,6 +114,11 @@ namespace ModernApplicationFramework.MVVM.Controls
         private async void Undo()
         {
             await Task.Run(() => UndoRedoManager.Undo());
+        }
+
+        protected virtual void PushUndoRedoManager(string sender, object value)
+        {
+            UndoRedoManager.Push(new UndoRedoAction(this, sender, value));
         }
     }
 }

@@ -22,6 +22,7 @@ using System.Linq;
 using System.Windows.Markup;
 using System.Xml;
 using System.Xml.Serialization;
+using ModernApplicationFramework.Core.Utilities;
 
 namespace ModernApplicationFramework.Docking.Layout
 {

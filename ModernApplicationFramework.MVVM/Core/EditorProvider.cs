@@ -7,9 +7,9 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.MVVM.Interfaces;
-using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.MVVM.Core
 {

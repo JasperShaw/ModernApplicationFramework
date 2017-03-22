@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.Composition;
+using ModernApplicationFramework.Basics.Definitions;
 using ModernApplicationFramework.MVVM.Commands;
-using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.MVVM.Controls.MenuDefinitions
 {

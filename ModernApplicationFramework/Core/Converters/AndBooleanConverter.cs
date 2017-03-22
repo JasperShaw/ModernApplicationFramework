@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using ModernApplicationFramework.Core.Standard;
+using ModernApplicationFramework.Native.Standard;
 
 namespace ModernApplicationFramework.Core.Converters
 {

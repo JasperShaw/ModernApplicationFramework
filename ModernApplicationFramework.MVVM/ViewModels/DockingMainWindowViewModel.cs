@@ -11,6 +11,7 @@ using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls.Primitives;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.MVVM.Controls;

@@ -2,8 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:this="clr-namespace:ModernApplicationFramework.Controls"
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
-                    xmlns:vsui="clr-namespace:ModernApplicationFramework.Core.Utilities"
-                    xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals">
+                    xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals"
+                    xmlns:native="clr-namespace:ModernApplicationFramework.Native">
 
     <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
 
@@ -304,7 +304,7 @@
                                 </Popup.IsOpen>
                                 <this:SystemDropShadowChrome Name="Shdw" Color="Transparent">
                                     <Border Background="{DynamicResource {x:Static themes:EnvironmentColors.ContextMenuBackground}}" BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.ContextMenuBorder}}" BorderThickness="1" 
-                                            RenderOptions.BitmapScalingMode="{x:Static vsui:DpiHelper.BitmapScalingMode}" RenderOptions.ClearTypeHint="Enabled">
+                                            RenderOptions.BitmapScalingMode="{x:Static native:DpiHelper.BitmapScalingMode}" RenderOptions.ClearTypeHint="Enabled">
                                         <StackPanel Orientation="Vertical" KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.DirectionalNavigation="Cycle">
                                             <internals:ToolBarOverflowPanel x:Name="PART_ToolBarOverflowPanel" Margin="2" WrapWidth="200"
                                                                   HorizontalAlignment="Left" Focusable="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"

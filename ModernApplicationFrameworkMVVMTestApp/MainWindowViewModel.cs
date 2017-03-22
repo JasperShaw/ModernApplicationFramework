@@ -2,13 +2,11 @@
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using ModernApplicationFramework.Themes.LightIDE;
-using Menu = ModernApplicationFramework.Controls.Menu;
-using MenuItem = ModernApplicationFramework.Controls.MenuItem;
 using ToolBar = ModernApplicationFramework.Controls.ToolBar;
 
 namespace ModernApplicationFrameworkMVVMTestApp
 {
-    public sealed class MainWindowViewModel : ModernApplicationFramework.ViewModels.MainWindowViewModel
+    public sealed class MainWindowViewModel : ModernApplicationFramework.Basics.ViewModels.MainWindowViewModel
     {
         protected override void OnTest()
         {

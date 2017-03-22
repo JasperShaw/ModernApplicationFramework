@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
+using ModernApplicationFramework.Native.NativeMethods;
 
 namespace ModernApplicationFramework.Core.Utilities
 {
@@ -26,7 +27,7 @@ namespace ModernApplicationFramework.Core.Utilities
                 !nDrive.EndsWith(Path.DirectorySeparatorChar.ToString(CultureInfo.InvariantCulture),
                     StringComparison.CurrentCultureIgnoreCase))
                 nDrive += Path.DirectorySeparatorChar;
-            switch ((DriveType) NativeMethods.Kernel32.GetDriveTypeW(nDrive))
+            switch ((DriveType) Kernel32.GetDriveTypeW(nDrive))
             {
                 case DriveType.Fixed:
                 case DriveType.Removable:

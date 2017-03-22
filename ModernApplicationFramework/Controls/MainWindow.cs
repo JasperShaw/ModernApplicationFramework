@@ -10,14 +10,14 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using ModernApplicationFramework.Basics.ViewModels;
 using ModernApplicationFramework.Controls.Internals;
 using ModernApplicationFramework.Controls.Primitives;
 using ModernApplicationFramework.Controls.Utilities;
 using ModernApplicationFramework.Core.Converters;
-using ModernApplicationFramework.Core.NativeMethods;
-using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
-using ModernApplicationFramework.ViewModels;
+using ModernApplicationFramework.Native;
+using ModernApplicationFramework.Native.NativeMethods;
 
 namespace ModernApplicationFramework.Controls
 {

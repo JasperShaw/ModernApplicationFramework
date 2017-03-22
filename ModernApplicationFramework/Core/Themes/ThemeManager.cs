@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Properties;
 
 namespace ModernApplicationFramework.Core.Themes

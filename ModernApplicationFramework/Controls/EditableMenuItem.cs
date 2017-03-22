@@ -6,8 +6,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using ModernApplicationFramework.Core.NativeMethods;
 using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Native.NativeMethods;
 
 namespace ModernApplicationFramework.Controls
 {

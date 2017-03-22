@@ -32,8 +32,13 @@ using System.Windows.Markup;
 using System.Windows.Threading;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
+using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Docking.Controls;
 using ModernApplicationFramework.Docking.Layout;
+using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Native;
+using ModernApplicationFramework.Native.NativeMethods;
+using ModernApplicationFramework.Native.Platform.Enums;
 using ContextMenu = System.Windows.Controls.ContextMenu;
 
 namespace ModernApplicationFramework.Docking
@@ -1238,8 +1243,8 @@ namespace ModernApplicationFramework.Docking
 
             var windowParentHanlde = new WindowInteropHelper(parentWindow).EnsureHandle();
 
-            var currentHandle = Win32Helper.GetWindow(windowParentHanlde,
-                (uint) Win32Helper.GetWindowCmd.GwHwndfirst);
+            var currentHandle = User32.GetWindow(windowParentHanlde,
+                (int) GetWindowCmd.GwHwndfirst);
             while (currentHandle != IntPtr.Zero)
             {
                 LayoutFloatingWindowControl ctrl =
@@ -1247,7 +1252,7 @@ namespace ModernApplicationFramework.Docking
                 if (ctrl != null && Equals(ctrl.Model.Root.Manager, this))
                     yield return ctrl;
 
-                currentHandle = Win32Helper.GetWindow(currentHandle, (uint) Win32Helper.GetWindowCmd.GwHwndnext);
+                currentHandle = User32.GetWindow(currentHandle, (int)GetWindowCmd.GwHwndnext);
             }
         }
 

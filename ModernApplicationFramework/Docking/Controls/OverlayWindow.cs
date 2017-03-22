@@ -24,6 +24,7 @@ using System.Windows.Shapes;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Layout;
+using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Docking.Controls
 {

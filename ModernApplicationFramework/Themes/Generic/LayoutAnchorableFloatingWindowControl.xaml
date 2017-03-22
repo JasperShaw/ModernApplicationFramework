@@ -3,9 +3,9 @@
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Docking.Converters"
                     xmlns:avalonDockControls="clr-namespace:ModernApplicationFramework.Docking.Controls"
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
-                    xmlns:utilities="clr-namespace:ModernApplicationFramework.Core.Utilities"
                     xmlns:mafc="clr-namespace:ModernApplicationFramework.Controls"
-                    xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals">
+                    xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals"
+                    xmlns:utilities1="clr-namespace:ModernApplicationFramework.Controls.Utilities">
     
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"/>
@@ -26,8 +26,8 @@
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="InputMethod.IsInputMethodSuspended" Value="True" />
         <Setter Property="FlowDirection" Value="LeftToRight" />
-        <Setter Property="utilities:WindowStyleHelper.HasMaximizeButton" Value="True" />
-        <Setter Property="utilities:WindowStyleHelper.HasMinimizeButton" Value="True" />
+        <Setter Property="utilities1:WindowStyleHelper.HasMaximizeButton" Value="True" />
+        <Setter Property="utilities1:WindowStyleHelper.HasMinimizeButton" Value="True" />
         <Setter Property="MinWidth" Value="50" />
         <Setter Property="MinHeight" Value="50" />
         <Setter Property="Title" Value="{Binding Path=Caption}" />

@@ -6,21 +6,21 @@
              xmlns:core1="clr-namespace:ModernApplicationFramework.MVVM.Core"
              xmlns:utilities1="clr-namespace:ModernApplicationFramework.MVVM.Core.Utilities"
              xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters;assembly=ModernApplicationFramework"
-             xmlns:mafc="http://modern.framework.com/controls"
              xmlns:cal="http://www.caliburnproject.org"
+             xmlns:mafd="http://modern.framework.com/docking"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <ResourceDictionary>
             <converters:NullableValueConverter x:Key="NullableValueConverter" />
-            <mafc:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            <mafd:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
     <DockPanel>
-        <mafc:DockingManager x:Name="DockingManager" DocumentsSource="{Binding Items}"
+        <mafd:DockingManager x:Name="DockingManager" DocumentsSource="{Binding Items}"
                          AnchorablesSource="{Binding Tools}" ActiveContent="{Binding ActiveLayoutItem, Mode=TwoWay}"
                          LayoutUpdated="DockingManager_OnLayoutUpdated">
-            <mafc:DockingManager.LayoutItemTemplateSelector>
+            <mafd:DockingManager.LayoutItemTemplateSelector>
                 <core1:PanesTemplateSelector>
                     <core1:PanesTemplateSelector.DocumentTemplate>
                         <DataTemplate>
@@ -37,12 +37,12 @@
                         </DataTemplate>
                     </core1:PanesTemplateSelector.ToolTemplate>
                 </core1:PanesTemplateSelector>
-            </mafc:DockingManager.LayoutItemTemplateSelector>
+            </mafd:DockingManager.LayoutItemTemplateSelector>
 
-            <mafc:DockingManager.LayoutItemContainerStyleSelector>
+            <mafd:DockingManager.LayoutItemContainerStyleSelector>
                 <core1:PanesStyleSelector>
                     <core1:PanesStyleSelector.DocumentStyle>
-                        <Style TargetType="{x:Type mafc:LayoutItem}">
+                        <Style TargetType="{x:Type mafd:LayoutItem}">
                             <Setter Property="ContentId" Value="{Binding Model.ContentId}" />
                             <Setter Property="Title" Value="{Binding Model.DisplayName, Mode=OneWay}" />
                             <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}" />
@@ -51,7 +51,7 @@
                         </Style>
                     </core1:PanesStyleSelector.DocumentStyle>
                     <core1:PanesStyleSelector.ToolStyle>
-                        <Style TargetType="{x:Type mafc:LayoutAnchorableItem}">
+                        <Style TargetType="{x:Type mafd:LayoutAnchorableItem}">
                             <Setter Property="ContentId" Value="{Binding Model.ContentId}" />
                             <Setter Property="Title" Value="{Binding Model.DisplayName, Mode=OneWay}" />
                             <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}" />
@@ -61,22 +61,22 @@
                         </Style>
                     </core1:PanesStyleSelector.ToolStyle>
                 </core1:PanesStyleSelector>
-            </mafc:DockingManager.LayoutItemContainerStyleSelector>
+            </mafd:DockingManager.LayoutItemContainerStyleSelector>
 
-            <mafc:DockingManager.LayoutUpdateStrategy>
+            <mafd:DockingManager.LayoutUpdateStrategy>
                 <utilities1:LayoutInitializer/>
-            </mafc:DockingManager.LayoutUpdateStrategy>
+            </mafd:DockingManager.LayoutUpdateStrategy>
 
-            <mafc:LayoutRoot>
-                <mafc:LayoutPanel x:Name="VerticalPanel" Orientation="Vertical">
-                    <mafc:LayoutAnchorablePane DockWidth="100" Name="LeftPane"/>
-                    <mafc:LayoutPanel x:Name="HorizontalPanel" Orientation="Horizontal">
-                        <mafc:LayoutDocumentPaneGroup Orientation="Horizontal">
-                            <mafc:LayoutDocumentPane/>
-                        </mafc:LayoutDocumentPaneGroup>
-                    </mafc:LayoutPanel>
-                </mafc:LayoutPanel>
-            </mafc:LayoutRoot>
-        </mafc:DockingManager>
+            <mafd:LayoutRoot>
+                <mafd:LayoutPanel x:Name="VerticalPanel" Orientation="Vertical">
+                    <mafd:LayoutAnchorablePane DockWidth="100" Name="LeftPane"/>
+                    <mafd:LayoutPanel x:Name="HorizontalPanel" Orientation="Horizontal">
+                        <mafd:LayoutDocumentPaneGroup Orientation="Horizontal">
+                            <mafd:LayoutDocumentPane/>
+                        </mafd:LayoutDocumentPaneGroup>
+                    </mafd:LayoutPanel>
+                </mafd:LayoutPanel>
+            </mafd:LayoutRoot>
+        </mafd:DockingManager>
     </DockPanel>
 </UserControl>

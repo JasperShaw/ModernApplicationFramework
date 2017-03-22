@@ -2,8 +2,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.ViewModels;
 using ModernApplicationFramework.Interfaces.ViewModels;
-using ModernApplicationFramework.ViewModels;
 
 namespace ModernApplicationFramework.Controls.Internals
 {

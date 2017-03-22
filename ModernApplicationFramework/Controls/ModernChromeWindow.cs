@@ -11,18 +11,20 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using ModernApplicationFramework.Core.Events;
-using ModernApplicationFramework.Core.NativeMethods;
-using ModernApplicationFramework.Core.Platform;
-using ModernApplicationFramework.Core.Platform.Enums;
-using ModernApplicationFramework.Core.Platform.Structs;
-using ModernApplicationFramework.Core.Standard;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Controls;
-using DpiHelper = ModernApplicationFramework.Core.Utilities.DpiHelper;
-using NativeMethods = ModernApplicationFramework.Core.NativeMethods.NativeMethods;
+using ModernApplicationFramework.Native;
+using ModernApplicationFramework.Native.NativeMethods;
+using ModernApplicationFramework.Native.Platform;
+using ModernApplicationFramework.Native.Platform.Enums;
+using ModernApplicationFramework.Native.Platform.Structs;
+using ModernApplicationFramework.Native.Standard;
+using DpiHelper = ModernApplicationFramework.Native.DpiHelper;
+using NativeMethods = ModernApplicationFramework.Native.NativeMethods.NativeMethods;
 using Point = System.Windows.Point;
-using RECT = ModernApplicationFramework.Core.Platform.Structs.RECT;
+using RECT = ModernApplicationFramework.Native.Platform.Structs.RECT;
 using Screen = System.Windows.Forms.Screen;
 
 namespace ModernApplicationFramework.Controls
@@ -397,7 +399,7 @@ namespace ModernApplicationFramework.Controls
 
         private static void RaiseNonClientMouseMessageAsClient(IntPtr hWnd, int msg, IntPtr lParam)
         {
-            var point = new Core.Platform.Structs.Point
+            var point = new Native.Platform.Structs.Point
             {
                 X = NativeMethods.GetXlParam(lParam.ToInt32()),
                 Y = NativeMethods.GetYlParam(lParam.ToInt32())
@@ -471,7 +473,7 @@ namespace ModernApplicationFramework.Controls
             User32.GetWindowRect(hWnd, out lpRect1);
             RECT lpRect2;
             User32.GetClientRect(hWnd, out lpRect2);
-            var point = new Core.Platform.Structs.Point {X = 0, Y = 0};
+            var point = new Native.Platform.Structs.Point {X = 0, Y = 0};
             User32.ClientToScreen(hWnd, ref point);
             lpRect2.Offset(point.X - lpRect1.Left, point.Y - lpRect1.Top);
             return lpRect2;
@@ -612,7 +614,7 @@ namespace ModernApplicationFramework.Controls
                 _logicalSizeForRestore = Rect.Empty;
                 _useLogicalSizeForRestore = false;
             }
-            var deviceUnits = ViewSite.GetOnScreenPosition(floatRect).LogicalToDeviceUnits();
+            var deviceUnits = Native.Screen.GetOnScreenPosition(floatRect).LogicalToDeviceUnits();
             structure.x = (int) deviceUnits.X;
             structure.y = (int) deviceUnits.Y;
             Marshal.StructureToPtr((object) structure, lParam, true);
@@ -784,7 +786,7 @@ namespace ModernApplicationFramework.Controls
                 num2 = ComputeRoundRectRegion(rect.X, rect.Y, rect.Width, rect.Height, (int) cornerRadius.TopRight);
                 num3 = ComputeRoundRectRegion(rect.X, rect.Y, rect.Width, rect.Height, (int) cornerRadius.BottomLeft);
                 num4 = ComputeRoundRectRegion(rect.X, rect.Y, rect.Width, rect.Height, (int) cornerRadius.BottomRight);
-                var point = new Core.Platform.Structs.Point()
+                var point = new Native.Platform.Structs.Point()
                 {
                     X = rect.X + rect.Width / 2,
                     Y = rect.Y + rect.Height / 2
@@ -1318,7 +1320,7 @@ namespace ModernApplicationFramework.Controls
                         DrawBottom(drawingContext);
                         break;
                 }
-                var pptDest = new Core.Platform.Structs.Point
+                var pptDest = new Native.Platform.Structs.Point
                 {
                     X = Left,
                     Y = Top
@@ -1328,7 +1330,7 @@ namespace ModernApplicationFramework.Controls
                     Cx = Width,
                     Cy = Height
                 };
-                var pptSrc = new Core.Platform.Structs.Point {X = 0, Y = 0};
+                var pptSrc = new Native.Platform.Structs.Point {X = 0, Y = 0};
                 User32.UpdateLayeredWindow(Handle, drawingContext.ScreenDc, ref pptDest, ref psize,
                     drawingContext.WindowDc, ref pptSrc, 0U, ref drawingContext.Blend, 2U);
             }

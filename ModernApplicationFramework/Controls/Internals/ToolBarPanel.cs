@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using ModernApplicationFramework.Core.Standard;
+using ModernApplicationFramework.Native.Standard;
 
 namespace ModernApplicationFramework.Controls.Internals
 {

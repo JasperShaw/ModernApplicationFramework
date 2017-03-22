@@ -24,7 +24,10 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Docking.Layout;
+using ModernApplicationFramework.Native.NativeMethods;
+using ModernApplicationFramework.Native.Platform.Enums;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
@@ -92,8 +95,8 @@ namespace ModernApplicationFramework.Docking.Controls
         {
             get
             {
-                var ptMouse = new Win32Helper.Win32Point();
-                if (!Win32Helper.GetCursorPos(ref ptMouse))
+                var ptMouse = new Native.Platform.Structs.Point();
+                if (!User32.GetCursorPos(ref ptMouse))
                     return false;
 
                 this.PointToScreenDpi(new Point());
@@ -135,8 +138,8 @@ namespace ModernApplicationFramework.Docking.Controls
             {
                 ParentWindow = hwndParent.Handle,
                 WindowStyle =
-                    Win32Helper.WsChild | Win32Helper.WsVisible | Win32Helper.WsClipsiblings |
-                    Win32Helper.WsClipchildren,
+                    (int) (WindowStyles.WsChild | WindowStyles.WsVisible | WindowStyles.WsClipsiblings |
+                    WindowStyles.WsClipchildren),
                 Width = 0,
                 Height = 0,
             });
@@ -145,7 +148,7 @@ namespace ModernApplicationFramework.Docking.Controls
             _internalHwndSource.ContentRendered += _internalHwndSource_ContentRendered;
             _internalHwndSource.RootVisual = _internalHostPresenter;
             AddLogicalChild(_internalHostPresenter);
-            Win32Helper.BringWindowToTop(_internalHwndSource.Handle);
+            User32.BringWindowToTop(_internalHwndSource.Handle);
             return new HandleRef(this, _internalHwndSource.Handle);
         }
 
@@ -171,11 +174,10 @@ namespace ModernApplicationFramework.Docking.Controls
 
         protected override IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            if (msg == Win32Helper.WmWindowposchanging)
+            if (msg == (int)WindowsMessage.WmWindowposchanging)
             {
                 if (_internalHostContentRendered)
-                    Win32Helper.SetWindowPos(_internalHwndSource.Handle, Win32Helper.HwndTop, 0, 0, 0, 0,
-                        Win32Helper.SetWindowPosFlags.IgnoreMove | Win32Helper.SetWindowPosFlags.IgnoreResize);
+                    User32.SetWindowPos(_internalHwndSource.Handle, IntPtr.Zero, 0, 0, 0, 0, 3);
             }
             return base.WndProc(hwnd, msg, wParam, lParam, ref handled);
         }

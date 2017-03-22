@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.Composition;
-using ModernApplicationFramework.Utilities;
+using ModernApplicationFramework.Basics.Definitions;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
 {

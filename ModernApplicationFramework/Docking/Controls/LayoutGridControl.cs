@@ -21,7 +21,9 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Docking.Layout;
+using ModernApplicationFramework.Native;
 
 namespace ModernApplicationFramework.Docking.Controls
 {

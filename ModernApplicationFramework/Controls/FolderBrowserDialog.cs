@@ -3,12 +3,12 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Interop;
-using ModernApplicationFramework.Core.NativeMethods;
-using ModernApplicationFramework.Core.Platform.Enums;
-using ModernApplicationFramework.Core.Shell;
-using ModernApplicationFramework.Core.Standard;
-using IShellItem = ModernApplicationFramework.Core.Shell.IShellItem;
-using NativeMethods = ModernApplicationFramework.Core.NativeMethods.NativeMethods;
+using ModernApplicationFramework.Native.NativeMethods;
+using ModernApplicationFramework.Native.Platform.Enums;
+using ModernApplicationFramework.Native.Shell;
+using ModernApplicationFramework.Native.Standard;
+using IShellItem = ModernApplicationFramework.Native.Shell.IShellItem;
+using NativeMethods = ModernApplicationFramework.Native.NativeMethods.NativeMethods;
 
 namespace ModernApplicationFramework.Controls
 {

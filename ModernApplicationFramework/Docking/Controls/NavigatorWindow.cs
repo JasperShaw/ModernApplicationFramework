@@ -21,7 +21,9 @@ using System.Linq;
 using System.Windows;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
+using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Docking.Layout;
+using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Docking.Controls
 {

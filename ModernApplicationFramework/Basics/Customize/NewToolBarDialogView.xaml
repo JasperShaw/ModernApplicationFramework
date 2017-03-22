@@ -1,0 +1,30 @@
+﻿<controls:DialogWindow x:Class="ModernApplicationFramework.Basics.Customize.NewToolBarDialogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:ModernApplicationFramework.Controls" Title="New Toolbar" ShowInTaskbar="False"
+                       ResizeMode="NoResize" WindowStartupLocation="CenterOwner" SizeToContent="WidthAndHeight">
+    <FocusManager.FocusedElement>
+        <Binding ElementName="ToolBarNameTextBox"/>
+    </FocusManager.FocusedElement>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Label x:Name="ToolBarNameLabel" Margin="10,10,10,6" Content="Toolbar _name:" Padding="0" Grid.Row="0"/>
+        <Grid Grid.Row="1" Margin="10,0,10,10" MinWidth="290">
+            <Border x:Name="LimitedEditBoxWith"/>
+            <TextBox x:Name="ToolBarNameTextBox" Text="{Binding ToolbarName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}">
+                <FrameworkElement.Width>
+                    <Binding ElementName="LimitedEditBoxWith" Path="ActualWidth"/>
+                </FrameworkElement.Width>
+            </TextBox>
+        </Grid>
+        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Grid.Row="2">
+            <controls:DialogButton x:Name="OkButton" Content="OK" IsDefault="True" Command="{Binding OkClickCommand}"/>
+            <controls:DialogButton x:Name="Cancel" Content="Cancel" IsCancel="True"/>
+        </StackPanel>
+    </Grid>
+</controls:DialogWindow>
+

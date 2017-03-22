@@ -20,6 +20,7 @@ using System.Windows;
 using System.Windows.Controls.Primitives;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Layout;
+using ModernApplicationFramework.Native.Platform.Enums;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
@@ -138,8 +139,8 @@ namespace ModernApplicationFramework.Docking.Controls
         {
             switch (msg)
             {
-                case Win32Helper.WmNclbuttondown: //Left button down on title -> start dragging over docking manager
-                    if (wParam.ToInt32() == Win32Helper.HtCaption)
+                case (int)WindowsMessage.WmNclbuttondown: //Left button down on title -> start dragging over docking manager
+                    if (wParam.ToInt32() == (int)HitTestValues.Htcaption)
                     {
                         if (_model.RootDocument != null)
                             _model.RootDocument.IsActive = true;

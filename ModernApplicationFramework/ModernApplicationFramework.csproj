@@ -61,15 +61,15 @@
     <Page Include="Resources\Icons\StatusError.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </Page>
-    <Page Include="Customize\CustomizeDialogView.xaml">
+    <Page Include="Basics\Customize\CustomizeDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Customize\NewToolBarDialogView.xaml">
+    <Page Include="Basics\Customize\NewToolBarDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Customize\ToolBarsPageView.xaml">
+    <Page Include="Basics\Customize\ToolBarsPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -141,14 +141,15 @@
     <Content Include="Info.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Basics\Bootstrapper.cs" />
     <Compile Include="CommandBase\CommandWrapper.cs" />
     <Compile Include="CommandBase\GestureCommandWrapper.cs" />
     <Compile Include="CommandBase\CommandDefinition.cs" />
     <Compile Include="CommandBase\MultiKeyGesture.cs" />
     <Compile Include="CommandBase\MultiKeyGestureCommandWrapper.cs" />
     <Compile Include="CommandBase\MultiKeyGestureConverter.cs" />
-    <Compile Include="CommandBase\Service\CommandService.cs" />
-    <Compile Include="CommandBase\Service\ICommandService.cs" />
+    <Compile Include="Basics\Services\CommandService.cs" />
+    <Compile Include="Interfaces\ICommandService.cs" />
     <Compile Include="CommandBase\RelayCommand.cs" />
     <Compile Include="CommandBase\Command.cs" />
     <Compile Include="CommandBase\Base\CommandBase.cs" />
@@ -186,61 +187,68 @@
     <Compile Include="Controls\Internals\ToolBarOverflowPopup.cs" />
     <Compile Include="Controls\Internals\ToolBarOverflowToggleButton.cs" />
     <Compile Include="Controls\Internals\ToolBarPanel.cs" />
+    <Compile Include="Controls\Utilities\MenuUtilities.cs" />
     <Compile Include="Controls\Utilities\PanelMarginSetter.cs" />
     <Compile Include="Core\Converters\AreEqualConverter.cs" />
     <Compile Include="Core\Converters\NotNullConverter.cs" />
     <Compile Include="Core\Events\ItemDoubleClickedEventArgs.cs" />
-    <Compile Include="Core\Platform\Enums\Cdcontrolstate.cs" />
-    <Compile Include="Core\Platform\Enums\CombineMode.cs" />
-    <Compile Include="Core\Platform\Enums\Fdap.cs" />
-    <Compile Include="Core\Platform\Enums\FdeOverwriteResponse.cs" />
-    <Compile Include="Core\Platform\Enums\FdeShareviolationResponse.cs" />
-    <Compile Include="Core\Platform\Enums\Fos.cs" />
-    <Compile Include="Core\Platform\Enums\NativeFileAccess.cs" />
-    <Compile Include="Core\Platform\Enums\NativeFileFlags.cs" />
-    <Compile Include="Core\Platform\Structs\ComdlgFilterspec.cs" />
-    <Compile Include="Core\Platform\Structs\LargeInteger.cs" />
-    <Compile Include="Core\Platform\Structs\Propertykey.cs" />
-    <Compile Include="Core\Platform\Structs\Win32StreamId.cs" />
-    <Compile Include="Core\Platform\Structs\Win32StreamInfo.cs" />
-    <Compile Include="Core\Shell\COMGuids.cs" />
-    <Compile Include="Core\NativeMethods\Gdi32.cs" />
-    <Compile Include="Core\NativeMethods\Kernel32.cs" />
-    <Compile Include="Core\NativeMethods\Msimg32.cs" />
-    <Compile Include="Core\NativeMethods\Shell32.cs" />
-    <Compile Include="Core\NativeMethods\Shlwapi.cs" />
-    <Compile Include="Core\NativeMethods\User32.cs" />
-    <Compile Include="Core\Platform\Structs\BitmapInfo.cs" />
-    <Compile Include="Core\Platform\Structs\BitmapInfoHeader.cs" />
-    <Compile Include="Core\Platform\Structs\BlendFunction.cs" />
-    <Compile Include="Core\Platform\DisposableObject.cs" />
-    <Compile Include="Core\Platform\DpiHelper.cs" />
-    <Compile Include="Core\Platform\HwndWrapper.cs" />
-    <Compile Include="Core\Platform\Enums\ImageScalingMode.cs" />
-    <Compile Include="Core\Platform\Enums\TextChangedType.cs" />
-    <Compile Include="Core\Standard\Validate.cs" />
-    <Compile Include="Core\Platform\Structs\Win32Size.cs" />
-    <Compile Include="Core\Platform\Structs\WndClass.cs" />
-    <Compile Include="Core\Shell\ShellComInterfaces.cs" />
-    <Compile Include="Core\Shell\ShellWrapperDefinitions.cs" />
-    <Compile Include="Core\Standard\ErrorCodes.cs" />
+    <Compile Include="Native\Platform\Enums\Cdcontrolstate.cs" />
+    <Compile Include="Native\Platform\Enums\CombineMode.cs" />
+    <Compile Include="Native\Platform\Enums\Fdap.cs" />
+    <Compile Include="Native\Platform\Enums\FdeOverwriteResponse.cs" />
+    <Compile Include="Native\Platform\Enums\FdeShareviolationResponse.cs" />
+    <Compile Include="Native\Platform\Enums\Fos.cs" />
+    <Compile Include="Native\Platform\Enums\GetWindowCmd.cs" />
+    <Compile Include="Native\Platform\Enums\HitTestValues.cs" />
+    <Compile Include="Native\Platform\Enums\HookType.cs" />
+    <Compile Include="Native\Platform\Enums\NativeFileAccess.cs" />
+    <Compile Include="Native\Platform\Enums\NativeFileFlags.cs" />
+    <Compile Include="Native\Platform\Enums\SystemCommands.cs" />
+    <Compile Include="Native\Platform\Enums\WindowsMessage.cs" />
+    <Compile Include="Native\Platform\Enums\WindowStyles.cs" />
+    <Compile Include="Native\Platform\Structs\ComdlgFilterspec.cs" />
+    <Compile Include="Native\Platform\Structs\LargeInteger.cs" />
+    <Compile Include="Native\Platform\Structs\Propertykey.cs" />
+    <Compile Include="Native\Platform\Structs\Win32StreamId.cs" />
+    <Compile Include="Native\Platform\Structs\Win32StreamInfo.cs" />
+    <Compile Include="Native\Shell\COMGuids.cs" />
+    <Compile Include="Native\NativeMethods\Gdi32.cs" />
+    <Compile Include="Native\NativeMethods\Kernel32.cs" />
+    <Compile Include="Native\NativeMethods\Msimg32.cs" />
+    <Compile Include="Native\NativeMethods\Shell32.cs" />
+    <Compile Include="Native\NativeMethods\Shlwapi.cs" />
+    <Compile Include="Native\NativeMethods\User32.cs" />
+    <Compile Include="Native\Platform\Structs\BitmapInfo.cs" />
+    <Compile Include="Native\Platform\Structs\BitmapInfoHeader.cs" />
+    <Compile Include="Native\Platform\Structs\BlendFunction.cs" />
+    <Compile Include="Native\Platform\DisposableObject.cs" />
+    <Compile Include="Native\Platform\DpiHelper.cs" />
+    <Compile Include="Native\Platform\HwndWrapper.cs" />
+    <Compile Include="Native\Platform\Enums\ImageScalingMode.cs" />
+    <Compile Include="Native\Platform\Enums\TextChangedType.cs" />
+    <Compile Include="Native\Standard\Validate.cs" />
+    <Compile Include="Native\Platform\Structs\Win32Size.cs" />
+    <Compile Include="Native\Platform\Structs\WndClass.cs" />
+    <Compile Include="Native\Shell\ShellComInterfaces.cs" />
+    <Compile Include="Native\Shell\ShellWrapperDefinitions.cs" />
+    <Compile Include="Native\Standard\ErrorCodes.cs" />
     <Compile Include="Core\Themes\ThemeManager.cs" />
-    <Compile Include="Core\TrinetCoreNtfs\AlternateDataStreamInfo.cs" />
-    <Compile Include="Core\TrinetCoreNtfs\FileStreamAttributes.cs" />
-    <Compile Include="Core\TrinetCoreNtfs\FileStreamType.cs" />
-    <Compile Include="Core\TrinetCoreNtfs\FileSystem.cs" />
-    <Compile Include="Core\TrinetCoreNtfs\SafeHGlobalHandle.cs" />
-    <Compile Include="Core\TrinetCoreNtfs\StreamName.cs" />
+    <Compile Include="Native\TrinetCoreNtfs\AlternateDataStreamInfo.cs" />
+    <Compile Include="Native\TrinetCoreNtfs\FileStreamAttributes.cs" />
+    <Compile Include="Native\TrinetCoreNtfs\FileStreamType.cs" />
+    <Compile Include="Native\TrinetCoreNtfs\FileSystem.cs" />
+    <Compile Include="Native\TrinetCoreNtfs\SafeHGlobalHandle.cs" />
+    <Compile Include="Native\TrinetCoreNtfs\StreamName.cs" />
     <Compile Include="Core\Utilities\CommonUtilities.cs" />
-    <Compile Include="Core\Utilities\FocusBehavior.cs" />
+    <Compile Include="Controls\Utilities\FocusBehavior.cs" />
     <Compile Include="Core\Utilities\ObservableCollectionEx.cs" />
     <Compile Include="Core\Utilities\PathUtilities.cs" />
-    <Compile Include="Core\ViewSources\PropertyBoundFilteringCollectionViewSource.cs" />
-    <Compile Include="Core\Utilities\ReusableResourceHolder.cs" />
-    <Compile Include="Core\Utilities\ReusableResourceStore.cs" />
-    <Compile Include="Core\Utilities\ReusableResourceStoreBase.cs" />
-    <Compile Include="Core\Utilities\ReusableStringBuilder.cs" />
-    <Compile Include="Core\ViewSources\ToolbarsCollectionViewSource.cs" />
+    <Compile Include="Controls\Utilities\PropertyBoundFilteringCollectionViewSource.cs" />
+    <Compile Include="Native\ReusableResourceHolder.cs" />
+    <Compile Include="Native\ReusableResourceStore.cs" />
+    <Compile Include="Native\ReusableResourceStoreBase.cs" />
+    <Compile Include="Native\ReusableStringBuilder.cs" />
+    <Compile Include="Controls\Utilities\ToolbarsCollectionViewSource.cs" />
     <Compile Include="Core\Utilities\WindowsFileNameHelper.cs" />
     <Compile Include="Controls\FolderBrowserDialog.cs" />
     <Compile Include="Core\ValidationRules\ToolbarNameNotEmptyValidationRule.cs" />
@@ -287,38 +295,37 @@
     <Compile Include="Core\Events\ThemeChangedEventArgs.cs" />
     <Compile Include="Core\Exception\ToolBarAlreadyExistsException.cs" />
     <Compile Include="Core\Exception\ToolBarNotFoundException.cs" />
-    <Compile Include="Core\NativeMethods\NativeMethods.cs" />
-    <Compile Include="Core\Platform\Enums\AbEdge.cs" />
-    <Compile Include="Core\Platform\Enums\AbMsg.cs" />
-    <Compile Include="Core\Platform\Structs\Appbardata.cs" />
-    <Compile Include="Core\Standard\Boxes.cs" />
-    <Compile Include="Core\Platform\Enums\Gwl.cs" />
-    <Compile Include="Core\Platform\Enums\Gwpl.cs" />
-    <Compile Include="Core\Platform\Structs\Minmaxinfo.cs" />
-    <Compile Include="Core\Platform\Structs\MonitorInfo.cs" />
-    <Compile Include="Core\Platform\Structs\Point.cs" />
-    <Compile Include="Core\Platform\Structs\RECT.cs" />
-    <Compile Include="Core\Platform\Enums\RedrawWindowFlags.cs" />
-    <Compile Include="Core\Platform\Enums\ToolBarVisibilityState.cs" />
-    <Compile Include="Core\Platform\Structs\WindowInfo.cs" />
-    <Compile Include="Core\Platform\Structs\Windowplacement.cs" />
-    <Compile Include="Core\Platform\Structs\Windowpos.cs" />
-    <Compile Include="Core\Standard\Debug.cs" />
-    <Compile Include="Core\Shell\ShellProvider.cs" />
-    <Compile Include="Core\Standard\Verify.cs" />
+    <Compile Include="Native\NativeMethods\NativeMethods.cs" />
+    <Compile Include="Native\Platform\Enums\AbEdge.cs" />
+    <Compile Include="Native\Platform\Enums\AbMsg.cs" />
+    <Compile Include="Native\Platform\Structs\Appbardata.cs" />
+    <Compile Include="Native\Standard\Boxes.cs" />
+    <Compile Include="Native\Platform\Enums\Gwl.cs" />
+    <Compile Include="Native\Platform\Enums\Gwpl.cs" />
+    <Compile Include="Native\Platform\Structs\Minmaxinfo.cs" />
+    <Compile Include="Native\Platform\Structs\MonitorInfo.cs" />
+    <Compile Include="Native\Platform\Structs\Point.cs" />
+    <Compile Include="Native\Platform\Structs\RECT.cs" />
+    <Compile Include="Native\Platform\Enums\RedrawWindowFlags.cs" />
+    <Compile Include="Native\Platform\Enums\ToolBarVisibilityState.cs" />
+    <Compile Include="Native\Platform\Structs\WindowInfo.cs" />
+    <Compile Include="Native\Platform\Structs\Windowplacement.cs" />
+    <Compile Include="Native\Platform\Structs\Windowpos.cs" />
+    <Compile Include="Native\Standard\Debug.cs" />
+    <Compile Include="Native\Shell\ShellProvider.cs" />
+    <Compile Include="Native\Standard\Verify.cs" />
     <Compile Include="Core\Themes\EnvironmentColors.cs" />
-    <Compile Include="Core\Themes\IHasTheme.cs" />
+    <Compile Include="Interfaces\IHasTheme.cs" />
     <Compile Include="Core\Themes\Theme.cs" />
     <Compile Include="Core\Converters\BooleanOrConverter.cs" />
-    <Compile Include="Core\Utilities\DpiHelper.cs" />
+    <Compile Include="Native\DpiHelper.cs" />
     <Compile Include="Core\Utilities\ExtensionMethods.cs" />
     <Compile Include="Core\Utilities\ImageUtilities.cs" />
     <Compile Include="Core\Utilities\KeyboardUtilities.cs" />
     <Compile Include="Core\Utilities\MultiValueHelper.cs" />
-    <Compile Include="Core\Utilities\Screen.cs" />
-    <Compile Include="Core\Utilities\ViewSite.cs" />
+    <Compile Include="Native\Screen.cs" />
     <Compile Include="Core\Utilities\VisualUtilities.cs" />
-    <Compile Include="Core\Utilities\WindowStyleHelper.cs" />
+    <Compile Include="Controls\Utilities\WindowStyleHelper.cs" />
     <Compile Include="Docking\Controls\AnchorablePaneControlOverlayArea.cs" />
     <Compile Include="Docking\Controls\AnchorablePaneDropTarget.cs" />
     <Compile Include="Docking\Controls\AnchorablePaneTabPanel.cs" />
@@ -395,7 +402,6 @@
     <Compile Include="Docking\DockingManager.cs" />
     <Compile Include="Docking\DocumentClosedEventArgs.cs" />
     <Compile Include="Docking\DocumentClosingEventArgs.cs" />
-    <Compile Include="Docking\Extentions.cs" />
     <Compile Include="Docking\LayoutEventArgs.cs" />
     <Compile Include="Docking\Layout\AnchorableShowStrategy.cs" />
     <Compile Include="Docking\Layout\AnchorSide.cs" />
@@ -439,9 +445,8 @@
     <Compile Include="Docking\Layout\Serialization\LayoutSerializationCallbackEventArgs.cs" />
     <Compile Include="Docking\Layout\Serialization\LayoutSerializer.cs" />
     <Compile Include="Docking\Layout\Serialization\XmlLayoutSerializer.cs" />
-    <Compile Include="Docking\MathHelper.cs" />
-    <Compile Include="Docking\Win32Helper.cs" />
-    <Compile Include="Docking\WindowHelper.cs" />
+    <Compile Include="Core\Utilities\MathHelper.cs" />
+    <Compile Include="Native\WindowHelper.cs" />
     <Compile Include="Interfaces\Utilities\IExtensionDefinition.cs" />
     <Compile Include="Interfaces\Utilities\ISupportedFileDefinition.cs" />
     <Compile Include="Interfaces\Utilities\IToolbarCreator.cs" />
@@ -457,38 +462,38 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Customize\CustomizeDialogView.xaml.cs">
+    <Compile Include="Basics\Customize\CustomizeDialogView.xaml.cs">
       <DependentUpon>CustomizeDialogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Customize\CustomizeDialogViewModel.cs" />
+    <Compile Include="Basics\Customize\CustomizeDialogViewModel.cs" />
     <Compile Include="Controls\EditableMenuItem.cs" />
     <Compile Include="Interfaces\Views\INewToolBarView.cs" />
     <Compile Include="Interfaces\ViewModels\IToolBarsPageViewModel.cs" />
-    <Compile Include="Customize\NewToolBarDialogView.xaml.cs">
+    <Compile Include="Basics\Customize\NewToolBarDialogView.xaml.cs">
       <DependentUpon>NewToolBarDialogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Customize\NewToolBarDialogViewModel.cs" />
-    <Compile Include="Customize\ToolBarsPageView.xaml.cs">
+    <Compile Include="Basics\Customize\NewToolBarDialogViewModel.cs" />
+    <Compile Include="Basics\Customize\ToolBarsPageView.xaml.cs">
       <DependentUpon>ToolBarsPageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Customize\ToolBarsPageViewModel.cs" />
-    <Compile Include="ViewModels\MenuHostViewModel.cs" />
-    <Compile Include="ViewModels\ToolbarHostViewModel.cs" />
-    <Compile Include="Utilities\FileDefinitionManager.cs" />
-    <Compile Include="Utilities\FileType.cs" />
-    <Compile Include="Utilities\KeyGestureHandler.cs" />
-    <Compile Include="Utilities\Service\ToolbarService.cs" />
-    <Compile Include="Utilities\Service\IToolbarService.cs" />
-    <Compile Include="Utilities\ToolbarTrayCreator.cs" />
-    <Compile Include="Utilities\MenuCreator.cs" />
-    <Compile Include="Utilities\MenuItemDefinition.cs" />
-    <Compile Include="Utilities\ToolbarDefinition.cs" />
-    <Compile Include="Utilities\UndoRedoManager\InstancePropertyHandler.cs" />
-    <Compile Include="Utilities\UndoRedoManager\IUndoRedoManager.cs" />
-    <Compile Include="Utilities\UndoRedoManager\UndoRedoAction.cs" />
-    <Compile Include="Utilities\UndoRedoManager\UndoRedoManager.cs" />
-    <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Basics\Customize\ToolBarsPageViewModel.cs" />
+    <Compile Include="Basics\ViewModels\MenuHostViewModel.cs" />
+    <Compile Include="Basics\ViewModels\ToolbarHostViewModel.cs" />
+    <Compile Include="Basics\FileDefinitionManager.cs" />
+    <Compile Include="Basics\FileType.cs" />
+    <Compile Include="Basics\KeyGestureHandler\KeyGestureHandler.cs" />
+    <Compile Include="Basics\Services\ToolbarService.cs" />
+    <Compile Include="Interfaces\IToolbarService.cs" />
+    <Compile Include="Basics\Creators\ToolbarTrayCreator.cs" />
+    <Compile Include="Basics\Creators\MenuCreator.cs" />
+    <Compile Include="Basics\Definitions\MenuItemDefinition.cs" />
+    <Compile Include="Basics\Definitions\ToolbarDefinition.cs" />
+    <Compile Include="Basics\UndoRedoManager\InstancePropertyHandler.cs" />
+    <Compile Include="Interfaces\IUndoRedoManager.cs" />
+    <Compile Include="Basics\UndoRedoManager\UndoRedoAction.cs" />
+    <Compile Include="Basics\UndoRedoManager\UndoRedoManager.cs" />
+    <Compile Include="Basics\ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="Basics\ViewModels\ViewModelBase.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controls\Primitives\ScrollBar.cs" />

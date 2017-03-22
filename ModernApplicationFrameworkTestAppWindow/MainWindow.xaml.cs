@@ -2,8 +2,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using ModernApplicationFramework.Basics.ViewModels;
 using ModernApplicationFramework.Themes.LightIDE;
-using ModernApplicationFramework.ViewModels;
 using ToolBar = ModernApplicationFramework.Controls.ToolBar;
 
 namespace ModernApplicationFrameworkTestAppWindow

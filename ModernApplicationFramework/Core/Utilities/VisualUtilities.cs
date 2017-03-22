@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Media;
-using ModernApplicationFramework.Core.Platform.Enums;
+using ModernApplicationFramework.Native.NativeMethods;
+using ModernApplicationFramework.Native.Platform.Enums;
 
 namespace ModernApplicationFramework.Core.Utilities
 {
@@ -75,14 +76,13 @@ namespace ModernApplicationFramework.Core.Utilities
 
         internal static bool ModifyStyle(IntPtr hWnd, int styleToRemove, int styleToAdd)
         {
-            var windowLong = NativeMethods.User32.GetWindowLong(hWnd, (int) Gwl.Style);
+            var windowLong = User32.GetWindowLong(hWnd, (int) Gwl.Style);
             var dwNewLong = windowLong & ~styleToRemove | styleToAdd;
             if (dwNewLong == windowLong)
                 return false;
-            NativeMethods.NativeMethods.SetWindowLong(hWnd, Gwl.Style, dwNewLong);
+            NativeMethods.SetWindowLong(hWnd, Gwl.Style, dwNewLong);
             return true;
         }
-
 
         public static TAncestorType FindAncestorOrSelf<TAncestorType, TElementType>(this TElementType obj, Func<TElementType, TElementType> parentEvaluator) where TAncestorType : DependencyObject
         {
@@ -91,7 +91,6 @@ namespace ModernApplicationFramework.Core.Utilities
                 return ancestorType;
             return obj.FindAncestor<TAncestorType, TElementType>(parentEvaluator);
         }
-
 
         private static HitTestFilterBehavior ExcludeNonVisualElements(DependencyObject potentialHitTestTarget)
         {

@@ -24,8 +24,10 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Core.Themes;
+using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Docking.Converters;
 using ModernApplicationFramework.Docking.Layout;
+using ModernApplicationFramework.Native.Platform.Enums;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
@@ -132,8 +134,8 @@ namespace ModernApplicationFramework.Docking.Controls
         {
             switch (msg)
             {
-                case Win32Helper.WmNclbuttondown: //Left button down on title -> start dragging over docking manager
-                    if (wParam.ToInt32() == Win32Helper.HtCaption)
+                case (int)WindowsMessage.WmNclbuttondown: //Left button down on title -> start dragging over docking manager
+                    if (wParam.ToInt32() == (int) HitTestValues.Htcaption)
                     {
                         _model.Descendents()
                             .OfType<LayoutAnchorablePane>()

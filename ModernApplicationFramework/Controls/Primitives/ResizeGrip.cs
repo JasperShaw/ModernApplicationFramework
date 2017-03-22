@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
-using ModernApplicationFramework.Core.NativeMethods;
+using ModernApplicationFramework.Native.NativeMethods;
 
 namespace ModernApplicationFramework.Controls.Primitives
 {

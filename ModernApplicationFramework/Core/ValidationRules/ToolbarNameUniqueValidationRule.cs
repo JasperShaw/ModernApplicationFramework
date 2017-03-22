@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Controls;
 using System.Windows.Data;
-using ModernApplicationFramework.Utilities;
+using ModernApplicationFramework.Basics.Definitions;
 
 namespace ModernApplicationFramework.Core.ValidationRules
 {

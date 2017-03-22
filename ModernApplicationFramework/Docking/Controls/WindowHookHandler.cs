@@ -15,7 +15,8 @@
   **********************************************************************/
 
 using System;
-using ModernApplicationFramework.Core.NativeMethods;
+using ModernApplicationFramework.Native.NativeMethods;
+using ModernApplicationFramework.Native.Platform.Enums;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
@@ -36,7 +37,7 @@ namespace ModernApplicationFramework.Docking.Controls
         //public event EventHandler<WindowActivateEventArgs> Activate;
 
         private readonly ReentrantFlag _insideActivateEvent = new ReentrantFlag();
-        private Win32Helper.HookProc _hookProc;
+        private NativeMethods.HookProc _hookProc;
         private IntPtr _windowHook;
         public event EventHandler<FocusChangeEventArgs> FocusChanged;
 
@@ -44,7 +45,7 @@ namespace ModernApplicationFramework.Docking.Controls
         {
             _hookProc = HookProc;
             _windowHook = User32.SetWindowsHookEx(
-                Win32Helper.HookType.WhCbt,
+                HookType.WhCbt,
                 _hookProc,
                 IntPtr.Zero,
                 (int) Kernel32.GetCurrentThreadId());
@@ -52,25 +53,26 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public void Detach()
         {
-            Win32Helper.UnhookWindowsHookEx(_windowHook);
+            User32.UnhookWindowsHookEx(_windowHook);
         }
 
         public int HookProc(int code, IntPtr wParam, IntPtr lParam)
         {
-            if (code == Win32Helper.HcbtSetfocus)
+            switch (code)
             {
-                FocusChanged?.Invoke(this, new FocusChangeEventArgs(wParam, lParam));
-            }
-            else if (code == Win32Helper.HcbtActivate)
-            {
-                if (_insideActivateEvent.CanEnter)
-                {
-                    using (_insideActivateEvent.Enter())
+                case 9:
+                    FocusChanged?.Invoke(this, new FocusChangeEventArgs(wParam, lParam));
+                    break;
+                case 5:
+                    if (_insideActivateEvent.CanEnter)
                     {
-                        //if (Activate != null)
-                        //    Activate(this, new WindowActivateEventArgs(wParam));
+                        using (_insideActivateEvent.Enter())
+                        {
+                            //if (Activate != null)
+                            //    Activate(this, new WindowActivateEventArgs(wParam));
+                        }
                     }
-                }
+                    break;
             }
 
 

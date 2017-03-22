@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Interop;
-using ModernApplicationFramework.Core.NativeMethods;
+using ModernApplicationFramework.Native.NativeMethods;
 
 namespace ModernApplicationFramework.Core.Utilities
 {
@@ -39,6 +39,35 @@ namespace ModernApplicationFramework.Core.Utilities
             }
             previousFocus = IntPtr.Zero;
             return false;
+        }
+
+        public static bool Contains(this IEnumerable collection, object item)
+        {
+            return collection.Cast<object>().Any(o => o == item);
+        }
+
+
+        public static void ForEach<T>(this IEnumerable<T> collection, Action<T> action)
+        {
+            foreach (T v in collection)
+                action(v);
+        }
+
+        public static TV GetValueOrDefault<TV>(this WeakReference wr)
+        {
+            if (wr == null || !wr.IsAlive)
+                return default(TV);
+            return (TV)wr.Target;
+        }
+
+
+        public static int IndexOf<T>(this T[] array, T value) where T : class
+        {
+            for (var i = 0; i < array.Length; i++)
+                if (array[i] == value)
+                    return i;
+
+            return -1;
         }
     }
 }

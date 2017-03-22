@@ -1,7 +1,7 @@
-﻿using ModernApplicationFramework.CommandBase;
-using ModernApplicationFramework.Core.Themes;
+﻿using ModernApplicationFramework.Basics.Definitions;
+using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Core.Utilities;
-using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Interfaces.ViewModels
 {
@@ -10,6 +10,8 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         IMainWindowViewModel MainWindowViewModel { get; set; }
 
         Command OpenContextMenuCommand { get; }
+
+        ContextMenu ContextMenu { get; }
 
 
         void AddToolbarDefinition(ToolbarDefinition definition);

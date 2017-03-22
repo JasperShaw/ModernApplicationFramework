@@ -1,5 +1,5 @@
 ﻿using System;
-using ModernApplicationFramework.Utilities;
+using ModernApplicationFramework.Basics;
 
 namespace ModernApplicationFramework.Interfaces.Utilities
 {

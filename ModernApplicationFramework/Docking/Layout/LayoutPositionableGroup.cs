@@ -17,6 +17,7 @@
 using System;
 using System.Globalization;
 using System.Windows;
+using ModernApplicationFramework.Core.Utilities;
 
 namespace ModernApplicationFramework.Docking.Layout
 {
