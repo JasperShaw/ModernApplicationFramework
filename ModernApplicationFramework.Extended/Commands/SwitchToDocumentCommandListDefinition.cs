@@ -1,6 +1,5 @@
-﻿using System;
-using System.ComponentModel.Composition;
-using ModernApplicationFramework.CommandBase;
+﻿using System.ComponentModel.Composition;
+using ModernApplicationFramework.Basics.Definitions;
 
 namespace ModernApplicationFramework.Extended.Commands
 {

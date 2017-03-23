@@ -2,8 +2,9 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using ModernApplicationFramework.Basics.Definitions;
 using ModernApplicationFramework.CommandBase;
-using DefinitionBase = ModernApplicationFramework.CommandBase.DefinitionBase;
+using DefinitionBase = ModernApplicationFramework.Basics.Definitions.DefinitionBase;
 
 namespace ModernApplicationFramework.Controls
 {

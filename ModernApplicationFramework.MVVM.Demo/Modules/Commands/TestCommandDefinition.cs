@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
+using ModernApplicationFramework.Basics.Definitions;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls;
 

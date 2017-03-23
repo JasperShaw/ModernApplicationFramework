@@ -153,11 +153,11 @@
       <DependentUpon>SettingsWindowView.xaml</DependentUpon>
     </Compile>
     <Compile Include="CommandBase\CommandHandlerWrapper.cs" />
-    <Compile Include="CommandBase\CommandListDefintion.cs" />
+    <Compile Include="Basics\Definitions\CommandListDefintion.cs" />
     <Compile Include="CommandBase\CommandWrapper.cs" />
-    <Compile Include="CommandBase\DefinitionBase.cs" />
+    <Compile Include="Basics\Definitions\DefinitionBase.cs" />
     <Compile Include="CommandBase\GestureCommandWrapper.cs" />
-    <Compile Include="CommandBase\CommandDefinition.cs" />
+    <Compile Include="Basics\Definitions\CommandDefinition.cs" />
     <Compile Include="CommandBase\MultiKeyGesture.cs" />
     <Compile Include="CommandBase\MultiKeyGestureCommandWrapper.cs" />
     <Compile Include="CommandBase\MultiKeyGestureConverter.cs" />

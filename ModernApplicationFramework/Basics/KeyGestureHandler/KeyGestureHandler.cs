@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using ModernApplicationFramework.Basics.Definitions;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Interfaces.Utilities;
 

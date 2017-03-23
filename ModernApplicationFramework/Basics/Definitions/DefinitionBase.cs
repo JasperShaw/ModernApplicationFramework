@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ModernApplicationFramework.CommandBase
+namespace ModernApplicationFramework.Basics.Definitions
 {
     public abstract class DefinitionBase
     {

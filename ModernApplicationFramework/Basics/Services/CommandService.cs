@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Basics.Definitions;
 using ModernApplicationFramework.Interfaces.Command;
 
 namespace ModernApplicationFramework.Basics.Services

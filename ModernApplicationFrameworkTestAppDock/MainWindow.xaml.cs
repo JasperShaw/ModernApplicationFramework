@@ -11,8 +11,6 @@ using ModernApplicationFramework.Docking;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Themes;
 using ModernApplicationFramework.Themes.LightIDE;
-using Menu = ModernApplicationFramework.Controls.Menu;
-using MenuItem = ModernApplicationFramework.Controls.MenuItem;
 using ToolBar = ModernApplicationFramework.Controls.ToolBar;
 
 namespace ModernApplicationFrameworkTestAppDock

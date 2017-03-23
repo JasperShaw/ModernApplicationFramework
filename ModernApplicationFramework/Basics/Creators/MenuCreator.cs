@@ -11,7 +11,7 @@ using ModernApplicationFramework.Interfaces.Command;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using Binding = System.Windows.Data.Binding;
-using DefinitionBase = ModernApplicationFramework.CommandBase.DefinitionBase;
+using DefinitionBase = ModernApplicationFramework.Basics.Definitions.DefinitionBase;
 using MenuItem = ModernApplicationFramework.Controls.MenuItem;
 using Separator = ModernApplicationFramework.Controls.Separator;
 

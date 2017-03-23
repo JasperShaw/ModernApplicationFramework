@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Definitions;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.MVVM.ViewModels;
 

@@ -28,7 +28,6 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Core.Themes;
-using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Native;
 using ModernApplicationFramework.Native.NativeMethods;

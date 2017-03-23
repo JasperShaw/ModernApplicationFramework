@@ -1,4 +1,4 @@
-﻿using ModernApplicationFramework.CommandBase;
+﻿using ModernApplicationFramework.Basics.Definitions;
 
 namespace ModernApplicationFramework.Interfaces.Command
 {

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.Composition;
-using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.Extended.DockingMainWindow.Views;
 using ModernApplicationFramework.Extended.Interfaces;

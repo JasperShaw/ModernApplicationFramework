@@ -1,5 +1,4 @@
 ﻿using ModernApplicationFramework.Controls.Primitives;
-using ModernApplicationFramework.Core.Themes;
 
 namespace ModernApplicationFramework.Interfaces.ViewModels
 {
