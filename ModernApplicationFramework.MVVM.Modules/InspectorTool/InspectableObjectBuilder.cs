@@ -1,4 +1,4 @@
-﻿namespace ModernApplicationFramework.MVVM.Modules.InspectorTool
+﻿namespace ModernApplicationFramework.Extended.Modules.InspectorTool
 {
     public class InspectableObjectBuilder : InspectorBuilder<InspectableObjectBuilder>
     {

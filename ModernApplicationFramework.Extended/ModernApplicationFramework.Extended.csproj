@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{51911695-6CDB-4833-9782-06C8821D1C4E}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <RootNamespace>ModernApplicationFramework.Extended</RootNamespace>
+    <AssemblyName>ModernApplicationFramework.Extended</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Caliburn.Micro, Version=3.0.1.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.Core.3.0.1\lib\net45\Caliburn.Micro.dll</HintPath>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform, Version=3.0.1.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.3.0.1\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform.Core, Version=3.0.1.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.3.0.1\lib\net45\Caliburn.Micro.Platform.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.3.0.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Commands\CloseActiveDocumentCommandDefinition.cs" />
+    <Compile Include="Commands\CloseProgammCommandDefinition.cs" />
+    <Compile Include="Commands\FullScreenCommandDefinition.cs" />
+    <Compile Include="Commands\OpenSettingsCommandDefinition.cs" />
+    <Compile Include="Commands\RedoCommandDefinition.cs" />
+    <Compile Include="Commands\SwitchToDocumentCommandListDefinition.cs" />
+    <Compile Include="Commands\SwitchToDocumentListCommandHandler.cs" />
+    <Compile Include="Commands\UndoCommandDefinition.cs" />
+    <Compile Include="Core\CommandRouter.cs" />
+    <Compile Include="Core\LayoutItems\Document.cs" />
+    <Compile Include="Core\LayoutItems\LayoutItem.cs" />
+    <Compile Include="Core\LayoutItems\LayoutItemBase.cs" />
+    <Compile Include="Core\LayoutUtilities\LayoutInitializer.cs" />
+    <Compile Include="Core\LayoutUtilities\LayoutItemStatePersister.cs" />
+    <Compile Include="Core\LayoutUtilities\LayoutUtilities.cs" />
+    <Compile Include="Core\Pane\PaneLocation.cs" />
+    <Compile Include="Core\Pane\PanesStyleSelector.cs" />
+    <Compile Include="Core\Pane\PanesTemplateSelector.cs" />
+    <Compile Include="Core\LayoutItems\StorableDocument.cs" />
+    <Compile Include="Core\LayoutItems\Tool.cs" />
+    <Compile Include="DockingHost\ViewModels\DockingHostViewModel.cs" />
+    <Compile Include="DockingHost\Views\DockingHostView.xaml.cs">
+      <DependentUpon>DockingHostView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DockingMainWindow\ViewModels\DockingMainWindowViewModel.cs" />
+    <Compile Include="DockingMainWindow\Views\DockingMainWindowView.xaml.cs">
+      <DependentUpon>DockingMainWindowView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\IDockingHost.cs" />
+    <Compile Include="Interfaces\IDockingHostViewModel.cs" />
+    <Compile Include="Interfaces\IDockingMainWindowViewModel.cs" />
+    <Compile Include="Interfaces\IDocument.cs" />
+    <Compile Include="Interfaces\ILayoutItem.cs" />
+    <Compile Include="Interfaces\ILayoutItemBase.cs" />
+    <Compile Include="Interfaces\ILayoutItemStatePersister.cs" />
+    <Compile Include="Interfaces\IModule.cs" />
+    <Compile Include="Interfaces\IOpenResult.cs" />
+    <Compile Include="Interfaces\IStorableDocument.cs" />
+    <Compile Include="Interfaces\ITool.cs" />
+    <Compile Include="Interfaces\IUseDockingHost.cs" />
+    <Compile Include="Interfaces\IWindow.cs" />
+    <Compile Include="MenuDefinitions\EditMenuDefinitions.cs" />
+    <Compile Include="MenuDefinitions\FileMenuDefinitions.cs" />
+    <Compile Include="MenuDefinitions\ToolsMenuDefinitions.cs" />
+    <Compile Include="MenuDefinitions\ViewMenuDefinitions.cs" />
+    <Compile Include="MenuDefinitions\WindowMenuDefinitions.cs" />
+    <Compile Include="ModuleBase\ModuleBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="ResultDialogs\OpenDocumentResult.cs" />
+    <Compile Include="ResultDialogs\OpenResultBase.cs" />
+    <Compile Include="ResultDialogs\Show.cs" />
+    <Compile Include="ResultDialogs\ShowCommonDialogResult.cs" />
+    <Compile Include="ResultDialogs\ShowDialogResult.cs" />
+    <Compile Include="ResultDialogs\ShowToolResult.cs" />
+    <Compile Include="ResultDialogs\ShowWindowResult.cs" />
+    <Compile Include="Settings\Views\MainWindowSettingsView.xaml.cs">
+      <DependentUpon>MainWindowSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\ViewModels\MainWindowSettingsViewModel.cs" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ModernApplicationFramework\ModernApplicationFramework.csproj">
+      <Project>{74f6c6a1-64bb-47d4-9e7f-6cd5c4ca166c}</Project>
+      <Name>ModernApplicationFramework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Page Include="DockingHost\Views\DockingHostView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DockingMainWindow\Views\DockingMainWindowView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Icons\CloseProgramm_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Icons\FitToScreen_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Icons\Redo_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Icons\Settings_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Icons\Undo_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Settings\Views\MainWindowSettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

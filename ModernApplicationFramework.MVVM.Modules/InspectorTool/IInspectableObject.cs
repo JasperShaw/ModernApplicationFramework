@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using ModernApplicationFramework.MVVM.Modules.InspectorTool.Inspectors;
+using ModernApplicationFramework.Extended.Modules.InspectorTool.Inspectors;
 
-namespace ModernApplicationFramework.MVVM.Modules.InspectorTool
+namespace ModernApplicationFramework.Extended.Modules.InspectorTool
 {
     public interface IInspectableObject
     {

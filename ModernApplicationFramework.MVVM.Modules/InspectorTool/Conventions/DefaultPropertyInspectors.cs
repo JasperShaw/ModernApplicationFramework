@@ -1,20 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Media.Imaging;
-using ModernApplicationFramework.MVVM.Modules.InspectorTool.Inspectors;
+using ModernApplicationFramework.Extended.Modules.InspectorTool.Inspectors;
 
-namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Conventions
+namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Conventions
 {
     public static class DefaultPropertyInspectors
     {
         // ReSharper disable once InconsistentNaming
-        private static readonly List<PropertyEditorBuilder> _inspectorBuilders;
 
-        public static List<PropertyEditorBuilder> InspectorBuilders => _inspectorBuilders;
+        public static List<PropertyEditorBuilder> InspectorBuilders { get; }
 
         static DefaultPropertyInspectors()
         {
-            _inspectorBuilders = new List<PropertyEditorBuilder>
+            InspectorBuilders = new List<PropertyEditorBuilder>
             {
                 new EnumPropertyEditorBuilder(),
 
@@ -33,11 +32,9 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Conventions
 
         public static IEditor CreateEditor(PropertyDescriptor propertyDescriptor)
         {
-            foreach (var inspectorBuilder in _inspectorBuilders)
-            {
+            foreach (var inspectorBuilder in InspectorBuilders)
                 if (inspectorBuilder.IsApplicable(propertyDescriptor))
                     return inspectorBuilder.BuildEditor(propertyDescriptor);
-            }
             return null;
         }
     }

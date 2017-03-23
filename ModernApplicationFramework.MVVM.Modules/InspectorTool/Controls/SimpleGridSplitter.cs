@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
-namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Controls
+namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Controls
 {
     public class SimpleGridSplitter : Thumb
     {
@@ -52,19 +52,13 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Controls
         private GridResizeBehavior DetermineEffectiveResizeBehavior()
         {
             if (ResizeBehavior == GridResizeBehavior.CurrentAndNext)
-            {
                 return GridResizeBehavior.CurrentAndNext;
-            }
 
             if (ResizeBehavior == GridResizeBehavior.PreviousAndCurrent)
-            {
                 return GridResizeBehavior.PreviousAndCurrent;
-            }
 
             if (ResizeBehavior == GridResizeBehavior.PreviousAndNext)
-            {
                 return GridResizeBehavior.PreviousAndNext;
-            }
 
             // Based on GridResizeBehavior Enumeration documentation from
             // http://msdn.microsoft.com/en-us/library/system.windows.controls.gridresizebehavior(v=VS.110).aspx
@@ -85,17 +79,13 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Controls
                 //   space is redistributed between the row that is specified
                 //   for the GridSplitter and the row that is above that row.
                 if (VerticalAlignment == VerticalAlignment.Top)
-                {
                     return GridResizeBehavior.PreviousAndCurrent;
-                }
 
                 // * When the VerticalAlignment property is set to Bottom,
                 //   space is redistributed between the row that is specified
                 //   for the GridSplitter and the row that is below that row.
                 if (VerticalAlignment == VerticalAlignment.Bottom)
-                {
                     return GridResizeBehavior.CurrentAndNext;
-                }
 
                 // * When the VerticalAlignment property is set to Center,
                 //   space is redistributed between the row that is above and
@@ -116,17 +106,13 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Controls
             //   space is redistributed between the column that is specified
             //   for the GridSplitter and the column that is to the left.
             if (HorizontalAlignment == HorizontalAlignment.Left)
-            {
                 return GridResizeBehavior.PreviousAndCurrent;
-            }
 
             // * When the HorizontalAlignment property is set to Right,
             //   space is redistributed between the column that is specified
             //   for the GridSplitter and the column that is to the right.
             if (HorizontalAlignment == HorizontalAlignment.Right)
-            {
                 return GridResizeBehavior.CurrentAndNext;
-            }
 
             // * When the HorizontalAlignment property is set to Center,
             //   space is redistributed between the columns that are to the left
@@ -144,14 +130,10 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Controls
         private GridResizeDirection DetermineEffectiveResizeDirection()
         {
             if (ResizeDirection == GridResizeDirection.Columns)
-            {
                 return GridResizeDirection.Columns;
-            }
 
             if (ResizeDirection == GridResizeDirection.Rows)
-            {
                 return GridResizeDirection.Rows;
-            }
 
             // Based on GridResizeDirection Enumeration documentation from
             // http://msdn.microsoft.com/en-us/library/system.windows.controls.gridresizedirection(v=VS.110).aspx
@@ -160,16 +142,12 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Controls
 
             // * If the HorizontalAlignment is not set to Stretch, space is redistributed between columns.
             if (HorizontalAlignment != HorizontalAlignment.Stretch)
-            {
                 return GridResizeDirection.Columns;
-            }
 
             // * If the HorizontalAlignment is set to Stretch and the VerticalAlignment is not set to Stretch, space is redistributed between rows.
             if (HorizontalAlignment == HorizontalAlignment.Stretch &&
                 VerticalAlignment != VerticalAlignment.Stretch)
-            {
                 return GridResizeDirection.Rows;
-            }
 
             // * If the following conditions are true, space is redistributed between columns:
             //   * The HorizontalAlignment is set to Stretch.
@@ -178,9 +156,7 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Controls
             if (HorizontalAlignment == HorizontalAlignment.Stretch &&
                 VerticalAlignment == VerticalAlignment.Stretch &&
                 ActualWidth <= ActualHeight)
-            {
                 return GridResizeDirection.Columns;
-            }
 
             // * If the following conditions are true, space is redistributed between rows:
             //   * HorizontalAlignment is set to Stretch.
@@ -215,10 +191,8 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Controls
             var grid = Parent as Grid;
 
             if (grid == null)
-            {
                 throw new InvalidOperationException(
                     "SimpleGridSplitter only works when hosted in a Grid.");
-            }
             return grid;
         }
 
@@ -252,9 +226,7 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Controls
             }
 
             if (rightColumn >= grid.ColumnDefinitions.Count)
-            {
                 return;
-            }
 
             var leftColumnDefinition = grid.ColumnDefinitions[leftColumn];
             var rightColumnDefinition = grid.ColumnDefinitions[rightColumn];
@@ -269,32 +241,24 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Controls
 
             //deltaX = 200;
             if (leftColumnActualWidth + deltaX > leftColumnMaxWidth)
-            {
                 deltaX = Math.Max(
                     0,
                     leftColumnDefinition.MaxWidth - leftColumnActualWidth);
-            }
 
             if (leftColumnActualWidth + deltaX < leftColumnMinWidth)
-            {
                 deltaX = Math.Min(
                     0,
                     leftColumnDefinition.MinWidth - leftColumnActualWidth);
-            }
 
             if (rightColumnActualWidth - deltaX > rightColumnMaxWidth)
-            {
                 deltaX = -Math.Max(
                     0,
                     rightColumnDefinition.MaxWidth - rightColumnActualWidth);
-            }
 
             if (rightColumnActualWidth - deltaX < rightColumnMinWidth)
-            {
                 deltaX = -Math.Min(
                     0,
                     rightColumnDefinition.MinWidth - rightColumnActualWidth);
-            }
 
             var newLeftColumnActualWidth = leftColumnActualWidth + deltaX;
             var newRightColumnActualWidth = rightColumnActualWidth - deltaX;
@@ -308,25 +272,16 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Controls
                 GridUnitType.Star ||
                 rightColumnGridUnitType ==
                 GridUnitType.Star)
-            {
                 foreach (var columnDefinition in grid.ColumnDefinitions)
-                {
                     if (columnDefinition.Width.GridUnitType ==
                         GridUnitType.Star)
-                    {
                         totalStarColumnsWidth +=
                             columnDefinition.Width.Value;
-                    }
                     else
-                    {
                         starColumnsAvailableWidth -=
                             columnDefinition.ActualWidth;
-                    }
-                }
-            }
 
             if (leftColumnGridUnitType == GridUnitType.Star)
-            {
                 if (rightColumnGridUnitType == GridUnitType.Star)
                 {
                     // If both columns are star columns
@@ -337,14 +292,12 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Controls
                     // If there is no width available to star columns
                     // - we can't resize two of them.
                     if (starColumnsAvailableWidth < 1)
-                    {
                         return;
-                    }
 
                     var oldStarWidth = leftColumnDefinition.Width.Value;
                     var newStarWidth = Math.Max(
                         0,
-                        totalStarColumnsWidth*newLeftColumnActualWidth/
+                        totalStarColumnsWidth * newLeftColumnActualWidth /
                         starColumnsAvailableWidth);
                     leftColumnDefinition.Width =
                         new GridLength(newStarWidth, GridUnitType.Star);
@@ -369,21 +322,18 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Controls
                         var newStarWidth = Math.Max(
                             0,
                             (totalStarColumnsWidth -
-                             leftColumnDefinition.Width.Value)*
-                            newLeftColumnActualWidth/
+                             leftColumnDefinition.Width.Value) *
+                            newLeftColumnActualWidth /
                             (newStarColumnsAvailableWidth - newLeftColumnActualWidth));
 
                         leftColumnDefinition.Width =
                             new GridLength(newStarWidth, GridUnitType.Star);
                     }
                 }
-            }
             else
-            {
                 leftColumnDefinition.Width =
                     new GridLength(
                         newLeftColumnActualWidth, GridUnitType.Pixel);
-            }
 
             if (rightColumnGridUnitType ==
                 GridUnitType.Star)
@@ -401,8 +351,8 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Controls
                         var newStarWidth = Math.Max(
                             0,
                             (totalStarColumnsWidth -
-                             rightColumnDefinition.Width.Value)*
-                            newRightColumnActualWidth/
+                             rightColumnDefinition.Width.Value) *
+                            newRightColumnActualWidth /
                             (newStarColumnsAvailableWidth - newRightColumnActualWidth));
                         rightColumnDefinition.Width =
                             new GridLength(newStarWidth, GridUnitType.Star);
@@ -450,9 +400,7 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Controls
             }
 
             if (lowerRow >= grid.RowDefinitions.Count)
-            {
                 return;
-            }
 
             var upperRowDefinition = grid.RowDefinitions[upperRow];
             var lowerRowDefinition = grid.RowDefinitions[lowerRow];
@@ -467,32 +415,24 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Controls
 
             //deltaX = 200;
             if (upperRowActualHeight + deltaX > upperRowMaxHeight)
-            {
                 deltaX = Math.Max(
                     0,
                     upperRowDefinition.MaxHeight - upperRowActualHeight);
-            }
 
             if (upperRowActualHeight + deltaX < upperRowMinHeight)
-            {
                 deltaX = Math.Min(
                     0,
                     upperRowDefinition.MinHeight - upperRowActualHeight);
-            }
 
             if (lowerRowActualHeight - deltaX > lowerRowMaxHeight)
-            {
                 deltaX = -Math.Max(
                     0,
                     lowerRowDefinition.MaxHeight - lowerRowActualHeight);
-            }
 
             if (lowerRowActualHeight - deltaX < lowerRowMinHeight)
-            {
                 deltaX = -Math.Min(
                     0,
                     lowerRowDefinition.MinHeight - lowerRowActualHeight);
-            }
 
             var newUpperRowActualHeight = upperRowActualHeight + deltaX;
             var newLowerRowActualHeight = lowerRowActualHeight - deltaX;
@@ -506,25 +446,16 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Controls
                 GridUnitType.Star ||
                 lowerRowGridUnitType ==
                 GridUnitType.Star)
-            {
                 foreach (var rowDefinition in grid.RowDefinitions)
-                {
                     if (rowDefinition.Height.GridUnitType ==
                         GridUnitType.Star)
-                    {
                         totalStarRowsHeight +=
                             rowDefinition.Height.Value;
-                    }
                     else
-                    {
                         starRowsAvailableHeight -=
                             rowDefinition.ActualHeight;
-                    }
-                }
-            }
 
             if (upperRowGridUnitType == GridUnitType.Star)
-            {
                 if (lowerRowGridUnitType == GridUnitType.Star)
                 {
                     // If both rows are star rows
@@ -535,14 +466,12 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Controls
                     // If there is no width available to star rows
                     // - we can't resize two of them.
                     if (starRowsAvailableHeight < 1)
-                    {
                         return;
-                    }
 
                     var oldStarHeight = upperRowDefinition.Height.Value;
                     var newStarHeight = Math.Max(
                         0,
-                        totalStarRowsHeight*newUpperRowActualHeight/
+                        totalStarRowsHeight * newUpperRowActualHeight /
                         starRowsAvailableHeight);
                     upperRowDefinition.Height =
                         new GridLength(newStarHeight, GridUnitType.Star);
@@ -567,21 +496,18 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Controls
                         var newStarHeight = Math.Max(
                             0,
                             (totalStarRowsHeight -
-                             upperRowDefinition.Height.Value)*
-                            newUpperRowActualHeight/
+                             upperRowDefinition.Height.Value) *
+                            newUpperRowActualHeight /
                             (newStarRowsAvailableHeight - newUpperRowActualHeight));
 
                         upperRowDefinition.Height =
                             new GridLength(newStarHeight, GridUnitType.Star);
                     }
                 }
-            }
             else
-            {
                 upperRowDefinition.Height =
                     new GridLength(
                         newUpperRowActualHeight, GridUnitType.Pixel);
-            }
 
             if (lowerRowGridUnitType ==
                 GridUnitType.Star)
@@ -599,8 +525,8 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Controls
                         var newStarHeight = Math.Max(
                             0,
                             (totalStarRowsHeight -
-                             lowerRowDefinition.Height.Value)*
-                            newLowerRowActualHeight/
+                             lowerRowDefinition.Height.Value) *
+                            newLowerRowActualHeight /
                             (newStarRowsAvailableHeight - newLowerRowActualHeight));
                         lowerRowDefinition.Height =
                             new GridLength(newStarHeight, GridUnitType.Star);
@@ -639,8 +565,8 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Controls
         /// </summary>
         public GridResizeBehavior ResizeBehavior
         {
-            get { return (GridResizeBehavior) GetValue(ResizeBehaviorProperty); }
-            set { SetValue(ResizeBehaviorProperty, value); }
+            get => (GridResizeBehavior) GetValue(ResizeBehaviorProperty);
+            set => SetValue(ResizeBehaviorProperty, value);
         }
 
         #endregion
@@ -663,8 +589,8 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Controls
         /// </summary>
         public GridResizeDirection ResizeDirection
         {
-            get { return (GridResizeDirection) GetValue(ResizeDirectionProperty); }
-            set { SetValue(ResizeDirectionProperty, value); }
+            get => (GridResizeDirection) GetValue(ResizeDirectionProperty);
+            set => SetValue(ResizeDirectionProperty, value);
         }
 
         /// <summary>
@@ -720,8 +646,8 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Controls
         /// </summary>
         public double KeyboardIncrement
         {
-            get { return (double) GetValue(KeyboardIncrementProperty); }
-            set { SetValue(KeyboardIncrementProperty, value); }
+            get => (double) GetValue(KeyboardIncrementProperty);
+            set => SetValue(KeyboardIncrementProperty, value);
         }
 
         #endregion
@@ -752,9 +678,7 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Controls
         private void OnDragDelta(DragDeltaEventArgs e)
         {
             if (!_dragging)
-            {
                 return;
-            }
 
             var effectiveResizeDirection =
                 DetermineEffectiveResizeDirection();
@@ -797,12 +721,11 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Controls
                     ResizeColumns(GetGrid(), -KeyboardIncrement);
                     e.Handled = true;
                 }
-                else
-                    if (e.Key == Key.Right)
-                    {
-                        ResizeColumns(GetGrid(), KeyboardIncrement);
-                        e.Handled = true;
-                    }
+                else if (e.Key == Key.Right)
+                {
+                    ResizeColumns(GetGrid(), KeyboardIncrement);
+                    e.Handled = true;
+                }
             }
             else
             {
@@ -811,12 +734,11 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Controls
                     ResizeRows(GetGrid(), -KeyboardIncrement);
                     e.Handled = true;
                 }
-                else
-                    if (e.Key == Key.Down)
-                    {
-                        ResizeRows(GetGrid(), KeyboardIncrement);
-                        e.Handled = true;
-                    }
+                else if (e.Key == Key.Down)
+                {
+                    ResizeRows(GetGrid(), KeyboardIncrement);
+                    e.Handled = true;
+                }
             }
         }
 

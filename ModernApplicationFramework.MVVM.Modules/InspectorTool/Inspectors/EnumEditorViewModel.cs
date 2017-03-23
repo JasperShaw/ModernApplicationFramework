@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Inspectors
+namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Inspectors
 {
     public class EnumValueViewModel<TEnum>
     {
@@ -17,11 +17,14 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Inspectors
 
         public EnumEditorViewModel()
         {
-            _items = Enum.GetValues(typeof(TEnum)).Cast<TEnum>().Select(x => new EnumValueViewModel<TEnum>
-            {
-                Value = x,
-                Text = Enum.GetName(typeof(TEnum), x)
-            }).ToList();
+            _items = Enum.GetValues(typeof(TEnum))
+                .Cast<TEnum>()
+                .Select(x => new EnumValueViewModel<TEnum>
+                {
+                    Value = x,
+                    Text = Enum.GetName(typeof(TEnum), x)
+                })
+                .ToList();
         }
     }
 
@@ -38,11 +41,14 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Inspectors
 
         public EnumEditorViewModel(Type enumType)
         {
-            _items = Enum.GetValues(enumType).Cast<object>().Select(x => new EnumValueViewModel
-            {
-                Value = x,
-                Text = Enum.GetName(enumType, x)
-            }).ToList();
+            _items = Enum.GetValues(enumType)
+                .Cast<object>()
+                .Select(x => new EnumValueViewModel
+                {
+                    Value = x,
+                    Text = Enum.GetName(enumType, x)
+                })
+                .ToList();
         }
     }
 }

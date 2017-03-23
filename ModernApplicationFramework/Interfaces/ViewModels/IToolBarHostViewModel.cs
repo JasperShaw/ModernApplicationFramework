@@ -1,5 +1,4 @@
 ﻿using ModernApplicationFramework.Basics.Definitions;
-using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Core.Utilities;
 
@@ -9,7 +8,7 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
     {
         IMainWindowViewModel MainWindowViewModel { get; set; }
 
-        Command OpenContextMenuCommand { get; }
+        CommandBase.Command OpenContextMenuCommand { get; }
 
         ContextMenu ContextMenu { get; }
 

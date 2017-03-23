@@ -1,7 +1,7 @@
 ﻿using System;
-using ModernApplicationFramework.MVVM.Interfaces;
+using ModernApplicationFramework.Extended.Interfaces;
 
-namespace ModernApplicationFramework.MVVM.Modules.InspectorTool
+namespace ModernApplicationFramework.Extended.Modules.InspectorTool
 {
     public interface IInspectorTool : ITool
     {

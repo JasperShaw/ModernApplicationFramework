@@ -2,7 +2,7 @@
 using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.CommandBase;
-using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Command;
 
 namespace ModernApplicationFramework.Basics.Definitions
 {

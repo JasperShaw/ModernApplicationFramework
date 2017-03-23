@@ -1,14 +1,13 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows;
 using Caliburn.Micro;
+using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest;
-using ModernApplicationFramework.MVVM.Interfaces;
-using ModernApplicationFramework.MVVM.Modules.OutputTool;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
 {
     [Export(typeof(SampleViewModel))]
-    public class SampleViewModel : Controls.Document
+    public class SampleViewModel : Extended.Core.LayoutItems.LayoutItem
     {
         private readonly IDockingHostViewModel _dockingHostViewModel;
 
@@ -30,7 +29,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
         public void Activate(ISample sample)
         {
             _dockingHostViewModel.OpenDocument(IoC.Get<UndoRedoViewModel>());
-            _dockingHostViewModel.ShowTool<IOutput>();
+            //_dockingHostViewModel.ShowTool<IOutput>();
         }
     }
 }

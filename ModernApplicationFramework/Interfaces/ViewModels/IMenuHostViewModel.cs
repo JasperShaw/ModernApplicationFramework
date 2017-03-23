@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Interfaces.Utilities;
 
@@ -7,7 +6,7 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
 {
     public interface IMenuHostViewModel
     {
-        Command RightClickCommand { get; }
+        CommandBase.Command RightClickCommand { get; }
 
         /// <summary>
         ///     Tells if you can open the ToolbarHostContextMenu

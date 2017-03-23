@@ -1,0 +1,86 @@
+﻿<UserControl x:Class="ModernApplicationFramework.Extended.DockingHost.Views.DockingHostView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters;assembly=ModernApplicationFramework"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:mafd="http://modern.framework.com/docking"
+             xmlns:layoutUtilities="clr-namespace:ModernApplicationFramework.Extended.Core.LayoutUtilities"
+             xmlns:pane="clr-namespace:ModernApplicationFramework.Extended.Core.Pane"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <converters:NullableValueConverter x:Key="NullableValueConverter" />
+            <mafd:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <DockPanel>
+        <mafd:DockingManager x:Name="DockingManager" DocumentsSource="{Binding Items}"
+                             AnchorablesSource="{Binding Tools}"
+                             ActiveContent="{Binding ActiveLayoutItemBase, Mode=TwoWay}"
+                             LayoutUpdated="DockingManager_OnLayoutUpdated">
+            <mafd:DockingManager.LayoutItemTemplateSelector>
+                <pane:PanesTemplateSelector>
+                    <pane:PanesTemplateSelector.DocumentTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <ContentControl cal:View.Model="{Binding}" IsTabStop="False" />
+                            </Grid>
+                        </DataTemplate>
+                    </pane:PanesTemplateSelector.DocumentTemplate>
+                    <pane:PanesTemplateSelector.ToolTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <ContentControl cal:View.Model="{Binding}" IsTabStop="False" />
+                            </Grid>
+                        </DataTemplate>
+                    </pane:PanesTemplateSelector.ToolTemplate>
+                </pane:PanesTemplateSelector>
+            </mafd:DockingManager.LayoutItemTemplateSelector>
+
+            <mafd:DockingManager.LayoutItemContainerStyleSelector>
+                <pane:PanesStyleSelector>
+                    <pane:PanesStyleSelector.DocumentStyle>
+                        <Style TargetType="{x:Type mafd:LayoutItem}">
+                            <Setter Property="ContentId" Value="{Binding Model.ContentId}" />
+                            <Setter Property="Title" Value="{Binding Model.DisplayName, Mode=OneWay}" />
+                            <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}" />
+                            <Setter Property="IconSource"
+                                    Value="{Binding Model.IconSource, Converter={StaticResource NullableValueConverter}}" />
+                            <Setter Property="IsSelected" Value="{Binding Model.IsSelected, Mode=TwoWay}" />
+                        </Style>
+                    </pane:PanesStyleSelector.DocumentStyle>
+                    <pane:PanesStyleSelector.ToolStyle>
+                        <Style TargetType="{x:Type mafd:LayoutAnchorableItem}">
+                            <Setter Property="ContentId" Value="{Binding Model.ContentId}" />
+                            <Setter Property="Title" Value="{Binding Model.DisplayName, Mode=OneWay}" />
+                            <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}" />
+                            <Setter Property="IconSource"
+                                    Value="{Binding Model.IconSource, Converter={StaticResource NullableValueConverter}}" />
+                            <Setter Property="IsSelected" Value="{Binding Model.IsSelected, Mode=TwoWay}" />
+                            <Setter Property="Visibility"
+                                    Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}" />
+                        </Style>
+                    </pane:PanesStyleSelector.ToolStyle>
+                </pane:PanesStyleSelector>
+            </mafd:DockingManager.LayoutItemContainerStyleSelector>
+
+            <mafd:DockingManager.LayoutUpdateStrategy>
+                <layoutUtilities:LayoutInitializer />
+            </mafd:DockingManager.LayoutUpdateStrategy>
+
+            <mafd:LayoutRoot>
+                <mafd:LayoutPanel x:Name="VerticalPanel" Orientation="Vertical">
+                    <mafd:LayoutAnchorablePane DockWidth="100" Name="LeftPane" />
+                    <mafd:LayoutPanel x:Name="HorizontalPanel" Orientation="Horizontal">
+                        <mafd:LayoutDocumentPaneGroup Orientation="Horizontal">
+                            <mafd:LayoutDocumentPane />
+                        </mafd:LayoutDocumentPaneGroup>
+                    </mafd:LayoutPanel>
+                </mafd:LayoutPanel>
+            </mafd:LayoutRoot>
+        </mafd:DockingManager>
+    </DockPanel>
+</UserControl>

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Inspectors
+namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Inspectors
 {
     public class CollapsibleGroupViewModel : InspectorBase
     {
@@ -8,20 +8,22 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Inspectors
 
         private readonly string _name;
 
+        private bool _isExpanded;
+
         public override string Name => _name;
 
         public override bool IsReadOnly => false;
 
         public IEnumerable<IInspector> Children { get; }
 
-        private bool _isExpanded;
         public bool IsExpanded
         {
-            get { return _isExpanded; }
+            get => _isExpanded;
             set
             {
                 _isExpanded = value;
-                PersistedExpandCollapseStates[_name] = value; // TODO: Key should be full path to this group, not just the name.
+                PersistedExpandCollapseStates[_name] =
+                    value; // TODO: Key should be full path to this group, not just the name.
                 NotifyOfPropertyChange();
             }
         }

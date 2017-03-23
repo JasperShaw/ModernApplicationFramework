@@ -5,7 +5,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.TestPanel
 {
     [DisplayName("TestPanel")]
     [Export(typeof(TestPanelViewModel))]
-    public sealed class TestPanelViewModel : Controls.Document
+    public sealed class TestPanelViewModel : Extended.Core.LayoutItems.Document
     {
     }
 }

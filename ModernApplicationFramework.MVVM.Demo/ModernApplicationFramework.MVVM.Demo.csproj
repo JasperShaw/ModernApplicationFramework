@@ -156,13 +156,17 @@
     <None Include="Modules\App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ModernApplicationFramework.MVVM.Modules\ModernApplicationFramework.MVVM.Modules.csproj">
-      <Project>{96e6bb64-30ec-49dc-831a-c9d5e25aa46d}</Project>
-      <Name>ModernApplicationFramework.MVVM.Modules</Name>
+    <ProjectReference Include="..\ModernApplicationFramework.EditorBase\ModernApplicationFramework.EditorBase.csproj">
+      <Project>{c5f062e8-48c1-425e-831f-511a541e18d8}</Project>
+      <Name>ModernApplicationFramework.EditorBase</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ModernApplicationFramework.MVVM\ModernApplicationFramework.MVVM.csproj">
-      <Project>{1f020157-699c-4e63-80ca-72d62191e063}</Project>
-      <Name>ModernApplicationFramework.MVVM</Name>
+    <ProjectReference Include="..\ModernApplicationFramework.Extended\ModernApplicationFramework.Extended.csproj">
+      <Project>{51911695-6cdb-4833-9782-06c8821d1c4e}</Project>
+      <Name>ModernApplicationFramework.Extended</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework.MVVM.Modules\ModernApplicationFramework.Extended.Modules.csproj">
+      <Project>{96e6bb64-30ec-49dc-831a-c9d5e25aa46d}</Project>
+      <Name>ModernApplicationFramework.Extended.Modules</Name>
     </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework.Themes.DarkIDE\ModernApplicationFramework.Themes.DarkIDE.csproj">
       <Project>{eb2b16ae-e6f6-4045-a578-d2c3e9a6652f}</Project>

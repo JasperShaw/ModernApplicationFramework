@@ -1,7 +1,7 @@
 ﻿using System.IO;
-using ModernApplicationFramework.MVVM.Interfaces;
+using ModernApplicationFramework.Extended.Interfaces;
 
-namespace ModernApplicationFramework.MVVM.Modules.OutputTool
+namespace ModernApplicationFramework.Extended.Modules.OutputTool
 {
     public interface IOutput : ITool
     {

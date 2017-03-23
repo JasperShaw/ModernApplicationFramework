@@ -7,7 +7,8 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest
 {
     [DisplayName("UndoRedoTest")]
     [Export(typeof(UndoRedoViewModel))]
-    public sealed class UndoRedoViewModel : Controls.Document
+    [PartCreationPolicy(CreationPolicy.NonShared)]
+    public sealed class UndoRedoViewModel : Extended.Core.LayoutItems.LayoutItem
     {
         public override bool ShouldReopenOnStart => true;
 

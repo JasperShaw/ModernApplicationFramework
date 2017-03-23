@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.Customize;
+using ModernApplicationFramework.Basics.CustomizeDialog.ViewModels;
 using ModernApplicationFramework.Basics.Definitions;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls;

@@ -1,9 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters;assembly=ModernApplicationFramework"
-                    xmlns:controls="clr-namespace:ModernApplicationFramework.MVVM.Modules.InspectorTool.Controls"
                     xmlns:core="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
-                    xmlns:cal="http://www.caliburnproject.org">
+                    xmlns:cal="http://www.caliburnproject.org"
+                    xmlns:controls="clr-namespace:ModernApplicationFramework.Extended.Modules.InspectorTool.Controls">
 
     <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
 
@@ -13,15 +13,20 @@
             <DataTemplate>
                 <Grid IsEnabled="{Binding IsReadOnly, Converter={StaticResource InverseBoolConverter}}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="{Binding Path=(controls:InspectorGrid.PropertyNameColumnWidth), Mode=TwoWay}" MinWidth="50" />
+                        <ColumnDefinition
+                            Width="{Binding Path=(controls:InspectorGrid.PropertyNameColumnWidth), Mode=TwoWay}"
+                            MinWidth="50" />
                         <ColumnDefinition Width="5" />
-                        <ColumnDefinition Width="{Binding Path=(controls:InspectorGrid.PropertyValueColumnWidth), Mode=TwoWay}" MinWidth="50" />
+                        <ColumnDefinition
+                            Width="{Binding Path=(controls:InspectorGrid.PropertyValueColumnWidth), Mode=TwoWay}"
+                            MinWidth="50" />
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" 
+                    <Label Grid.Column="0"
                            ToolTip="{Binding Description}"
                            HorizontalContentAlignment="Left"
                            VerticalAlignment="Center">
-                        <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource {x:Static core:EnvironmentColors.GloablForeground}}"/>
+                        <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis"
+                                   Foreground="{DynamicResource {x:Static core:EnvironmentColors.GloablForeground}}" />
                     </Label>
                     <controls:SimpleGridSplitter Grid.Column="1" Width="5" ResizeBehavior="PreviousAndNext" />
                     <Border Grid.Column="2" Padding="0 2 5 2" VerticalAlignment="Center">

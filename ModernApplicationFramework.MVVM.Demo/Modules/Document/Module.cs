@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
-using ModernApplicationFramework.MVVM.Core;
-using ModernApplicationFramework.MVVM.Interfaces;
+using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Extended.ModuleBase;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
 {
@@ -10,7 +10,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
     public class Module : ModuleBase
     {
 
-        public override IEnumerable<IDocument> DefaultDocuments
+        public override IEnumerable<ILayoutItem> DefaultDocuments
         {
             get
             {

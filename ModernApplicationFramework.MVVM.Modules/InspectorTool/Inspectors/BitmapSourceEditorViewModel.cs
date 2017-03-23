@@ -2,9 +2,9 @@
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using Microsoft.Win32;
-using ModernApplicationFramework.MVVM.Core.Result;
+using ModernApplicationFramework.Extended.ResultDialogs;
 
-namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Inspectors
+namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Inspectors
 {
     public class BitmapSourceEditorViewModel : EditorBase<BitmapSource>, ILabelledInspector
     {

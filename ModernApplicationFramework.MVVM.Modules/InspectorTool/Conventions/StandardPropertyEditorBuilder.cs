@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
-using ModernApplicationFramework.MVVM.Modules.InspectorTool.Inspectors;
+using ModernApplicationFramework.Extended.Modules.InspectorTool.Inspectors;
 
-namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Conventions
+namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Conventions
 {
     public class StandardPropertyEditorBuilder<T, TEditor> : PropertyEditorBuilder
         where TEditor : IEditor, new()

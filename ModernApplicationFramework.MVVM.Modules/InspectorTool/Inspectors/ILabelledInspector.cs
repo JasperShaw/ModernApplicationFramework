@@ -1,4 +1,4 @@
-﻿namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Inspectors
+﻿namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Inspectors
 {
     public interface ILabelledInspector
     {

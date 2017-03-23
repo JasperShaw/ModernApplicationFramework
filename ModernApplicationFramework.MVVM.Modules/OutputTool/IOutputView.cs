@@ -1,4 +1,4 @@
-﻿namespace ModernApplicationFramework.MVVM.Modules.OutputTool
+﻿namespace ModernApplicationFramework.Extended.Modules.OutputTool
 {
     public interface IOutputView
     {

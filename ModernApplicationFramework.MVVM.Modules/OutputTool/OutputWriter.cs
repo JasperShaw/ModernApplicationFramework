@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Text;
 
-namespace ModernApplicationFramework.MVVM.Modules.OutputTool
+namespace ModernApplicationFramework.Extended.Modules.OutputTool
 {
     internal class OutputWriter : TextWriter
     {

@@ -1,8 +1,5 @@
-﻿namespace ModernApplicationFramework.MVVM.Modules.OutputTool
+﻿namespace ModernApplicationFramework.Extended.Modules.OutputTool
 {
-    /// <summary>
-    /// Interaktionslogik für OutputView.xaml
-    /// </summary>
     public partial class OutputView : IOutputView
     {
         public OutputView()

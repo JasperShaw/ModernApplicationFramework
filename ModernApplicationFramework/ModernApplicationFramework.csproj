@@ -58,18 +58,22 @@
     <Resource Include="Resources\top.png" />
     <Resource Include="Resources\topleft.png" />
     <Resource Include="Resources\topright.png" />
+    <Page Include="Basics\SettingsDialog\Views\SettingsWindowView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\Icons\StatusError.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </Page>
-    <Page Include="Basics\Customize\CustomizeDialogView.xaml">
+    <Page Include="Basics\CustomizeDialog\Views\CustomizeDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Basics\Customize\NewToolBarDialogView.xaml">
+    <Page Include="Basics\CustomizeDialog\Views\NewToolBarDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Basics\Customize\ToolBarsPageView.xaml">
+    <Page Include="Basics\CustomizeDialog\Views\ToolBarsPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -142,6 +146,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Basics\Bootstrapper.cs" />
+    <Compile Include="Basics\Definitions\ExcludeMenuDefinition.cs" />
+    <Compile Include="Basics\SettingsDialog\ViewModels\SettingsPageViewModel.cs" />
+    <Compile Include="Basics\SettingsDialog\ViewModels\SettingsWindowViewModel.cs" />
+    <Compile Include="Basics\SettingsDialog\Views\SettingsWindowView.xaml.cs">
+      <DependentUpon>SettingsWindowView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CommandBase\CommandHandlerWrapper.cs" />
+    <Compile Include="CommandBase\CommandListDefintion.cs" />
     <Compile Include="CommandBase\CommandWrapper.cs" />
     <Compile Include="CommandBase\GestureCommandWrapper.cs" />
     <Compile Include="CommandBase\CommandDefinition.cs" />
@@ -149,7 +161,12 @@
     <Compile Include="CommandBase\MultiKeyGestureCommandWrapper.cs" />
     <Compile Include="CommandBase\MultiKeyGestureConverter.cs" />
     <Compile Include="Basics\Services\CommandService.cs" />
-    <Compile Include="Interfaces\ICommandService.cs" />
+    <Compile Include="Controls\Utilities\BindableSelectedItemBehavior.cs" />
+    <Compile Include="Controls\Utilities\MenuBehavior.cs" />
+    <Compile Include="Interfaces\Command\ICommandHandler.cs" />
+    <Compile Include="Interfaces\Command\ICommandListHandler.cs" />
+    <Compile Include="Interfaces\Command\ICommandRouter.cs" />
+    <Compile Include="Interfaces\Command\ICommandService.cs" />
     <Compile Include="CommandBase\RelayCommand.cs" />
     <Compile Include="CommandBase\Command.cs" />
     <Compile Include="CommandBase\Base\CommandBase.cs" />
@@ -192,6 +209,7 @@
     <Compile Include="Core\Converters\AreEqualConverter.cs" />
     <Compile Include="Core\Converters\NotNullConverter.cs" />
     <Compile Include="Core\Events\ItemDoubleClickedEventArgs.cs" />
+    <Compile Include="Interfaces\ISettingsPage.cs" />
     <Compile Include="Native\Platform\Enums\Cdcontrolstate.cs" />
     <Compile Include="Native\Platform\Enums\CombineMode.cs" />
     <Compile Include="Native\Platform\Enums\Fdap.cs" />
@@ -462,21 +480,21 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Basics\Customize\CustomizeDialogView.xaml.cs">
+    <Compile Include="Basics\CustomizeDialog\Views\CustomizeDialogView.xaml.cs">
       <DependentUpon>CustomizeDialogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Basics\Customize\CustomizeDialogViewModel.cs" />
+    <Compile Include="Basics\CustomizeDialog\ViewModels\CustomizeDialogViewModel.cs" />
     <Compile Include="Controls\EditableMenuItem.cs" />
     <Compile Include="Interfaces\Views\INewToolBarView.cs" />
     <Compile Include="Interfaces\ViewModels\IToolBarsPageViewModel.cs" />
-    <Compile Include="Basics\Customize\NewToolBarDialogView.xaml.cs">
+    <Compile Include="Basics\CustomizeDialog\Views\NewToolBarDialogView.xaml.cs">
       <DependentUpon>NewToolBarDialogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Basics\Customize\NewToolBarDialogViewModel.cs" />
-    <Compile Include="Basics\Customize\ToolBarsPageView.xaml.cs">
+    <Compile Include="Basics\CustomizeDialog\ViewModels\NewToolBarDialogViewModel.cs" />
+    <Compile Include="Basics\CustomizeDialog\Views\ToolBarsPageView.xaml.cs">
       <DependentUpon>ToolBarsPageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Basics\Customize\ToolBarsPageViewModel.cs" />
+    <Compile Include="Basics\CustomizeDialog\ViewModels\ToolBarsPageViewModel.cs" />
     <Compile Include="Basics\ViewModels\MenuHostViewModel.cs" />
     <Compile Include="Basics\ViewModels\ToolbarHostViewModel.cs" />
     <Compile Include="Basics\FileDefinitionManager.cs" />

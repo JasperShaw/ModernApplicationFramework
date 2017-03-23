@@ -14,13 +14,13 @@ namespace ModernApplicationFramework.CommandBase
 
         public abstract bool CanShowInMenu { get; }
         public abstract bool CanShowInToolbar { get; }
-        public abstract string IconId { get; }
-        public abstract Uri IconSource { get; }
+        public virtual ICommand Command { get;}
+        public virtual object CommandParamenter { get; set; }
+
         public abstract string Name { get; }
         public abstract string Text { get; }
         public abstract string ToolTip { get; }
-        public virtual ICommand Command { get;}
-
-        public virtual object CommandParamenter { get; set; }
+        public abstract Uri IconSource { get; }
+        public abstract string IconId { get; }
     }
 }

@@ -4,66 +4,67 @@
                  xmlns:modernApplicationFrameworkTestAppDock="clr-namespace:ModernApplicationFrameworkTestAppDock"
                  xmlns:mafc="http://modern.framework.com/controls"
                  xmlns:primitives="clr-namespace:ModernApplicationFramework.Controls.Primitives;assembly=ModernApplicationFramework"
+                 xmlns:mafd="http://modern.framework.com/docking"
                  Title="MainWindow" Height="350" Width="525">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <mafc:DockingManager x:Name="Manager" AllowMixedOrientation="True" DocumentClosing="DockingManager_OnDocumentClosing" Grid.Row="1">
-            <mafc:LayoutRoot PropertyChanged="LayoutElement_OnPropertyChanged">
-                <mafc:LayoutPanel Orientation="Horizontal">
-                    <mafc:LayoutAnchorablePane DockWidth="100">
-                        <mafc:LayoutAnchorable x:Name="WinFormsWindow"  ContentId="WinFormsWindow" Title="WinForms Window" ToolTip="My WinForms Tool" CanHide="False" CanClose="False" >
+        <mafd:DockingManager x:Name="Manager" AllowMixedOrientation="True" DocumentClosing="DockingManager_OnDocumentClosing" Grid.Row="1">
+            <mafd:LayoutRoot PropertyChanged="LayoutElement_OnPropertyChanged">
+                <mafd:LayoutPanel Orientation="Horizontal">
+                    <mafd:LayoutAnchorablePane DockWidth="100">
+                        <mafd:LayoutAnchorable x:Name="WinFormsWindow"  ContentId="WinFormsWindow" Title="WinForms Window" ToolTip="My WinForms Tool" CanHide="False" CanClose="False" >
                             <StackPanel>
                                 <Button Click="Button_Click_1">Theme</Button>
                                 <Button Click="ButtonBase_OnClick">Add Pane</Button>
                             </StackPanel>
-                        </mafc:LayoutAnchorable>
-                    </mafc:LayoutAnchorablePane>
-                    <mafc:LayoutDocumentPaneGroup>
-                        <mafc:LayoutDocumentPane>
-                            <mafc:LayoutDocument Title="Test">
+                        </mafd:LayoutAnchorable>
+                    </mafd:LayoutAnchorablePane>
+                    <mafd:LayoutDocumentPaneGroup>
+                        <mafd:LayoutDocumentPane>
+                            <mafd:LayoutDocument Title="Test">
                                 <Grid Background="White">
                                     <TextBox x:Name="TextBox"/>
                                     <primitives:ScrollBar></primitives:ScrollBar>
                                 </Grid>
-                            </mafc:LayoutDocument>
-                            <mafc:LayoutDocument Title="Test2">
+                            </mafd:LayoutDocument>
+                            <mafd:LayoutDocument Title="Test2">
                                 <modernApplicationFrameworkTestAppDock:ColorEditor/>
-                            </mafc:LayoutDocument>
-                        </mafc:LayoutDocumentPane>
-                    </mafc:LayoutDocumentPaneGroup>
-                    <mafc:LayoutAnchorablePaneGroup DockWidth="150">
-                        <mafc:LayoutAnchorablePane>
-                            <mafc:LayoutAnchorable ContentId="toolWindow1" Title="Tool Window 1" Hiding="LayoutAnchorable_OnHiding" CanClose="False">
+                            </mafd:LayoutDocument>
+                        </mafd:LayoutDocumentPane>
+                    </mafd:LayoutDocumentPaneGroup>
+                    <mafd:LayoutAnchorablePaneGroup DockWidth="150">
+                        <mafd:LayoutAnchorablePane>
+                            <mafd:LayoutAnchorable ContentId="toolWindow1" Title="Tool Window 1" Hiding="LayoutAnchorable_OnHiding" CanClose="False">
                                 <StackPanel>
                                     <TextBox Text="Test"/>
                                 </StackPanel>
-                            </mafc:LayoutAnchorable>
-                            <mafc:LayoutAnchorable ContentId="toolWindow2" Title="Tool Window 2">
+                            </mafd:LayoutAnchorable>
+                            <mafd:LayoutAnchorable ContentId="toolWindow2" Title="Tool Window 2">
                                 <TextBlock Text="Testing1"/>
-                            </mafc:LayoutAnchorable>
-                        </mafc:LayoutAnchorablePane>
-                    </mafc:LayoutAnchorablePaneGroup>
-                </mafc:LayoutPanel>
-                <mafc:LayoutRoot.LeftSide>
-                    <mafc:LayoutAnchorSide>
-                        <mafc:LayoutAnchorGroup>
-                            <mafc:LayoutAnchorable Title="AutoHide1 Content" ContentId="AutoHide1Content" >
+                            </mafd:LayoutAnchorable>
+                        </mafd:LayoutAnchorablePane>
+                    </mafd:LayoutAnchorablePaneGroup>
+                </mafd:LayoutPanel>
+                <mafd:LayoutRoot.LeftSide>
+                    <mafd:LayoutAnchorSide>
+                        <mafd:LayoutAnchorGroup>
+                            <mafd:LayoutAnchorable Title="AutoHide1 Content" ContentId="AutoHide1Content" >
 								<Grid>
 								</Grid>
-                            </mafc:LayoutAnchorable>
-                            <mafc:LayoutAnchorable Title="AutoHide2 Content" ContentId="AutoHide2Content">
+                            </mafd:LayoutAnchorable>
+                            <mafd:LayoutAnchorable Title="AutoHide2 Content" ContentId="AutoHide2Content">
                                 <StackPanel Orientation="Vertical">
                                     <TextBox/>
                                     <TextBox/>
                                 </StackPanel>
-                            </mafc:LayoutAnchorable>
-                        </mafc:LayoutAnchorGroup>
-                    </mafc:LayoutAnchorSide>
-                </mafc:LayoutRoot.LeftSide>
-            </mafc:LayoutRoot>
-        </mafc:DockingManager>
+                            </mafd:LayoutAnchorable>
+                        </mafd:LayoutAnchorGroup>
+                    </mafd:LayoutAnchorSide>
+                </mafd:LayoutRoot.LeftSide>
+            </mafd:LayoutRoot>
+        </mafd:DockingManager>
     </Grid>
 </mafc:MainWindow>

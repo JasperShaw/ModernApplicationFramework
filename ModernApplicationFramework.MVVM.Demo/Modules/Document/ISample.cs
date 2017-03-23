@@ -1,4 +1,4 @@
-﻿using ModernApplicationFramework.MVVM.Interfaces;
+﻿using ModernApplicationFramework.Extended.Interfaces;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
 {

@@ -1,6 +1,5 @@
 ﻿using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions;
-using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Core.Utilities;
 
 namespace ModernApplicationFramework.Interfaces.ViewModels
@@ -11,10 +10,10 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
 
         ToolbarDefinition SelectedToolbarDefinition { get; }
 
-        Command DropDownClickCommand { get; }
+        CommandBase.Command DropDownClickCommand { get; }
 
-        Command DeleteSelectedToolbarCommand { get; }
+        CommandBase.Command DeleteSelectedToolbarCommand { get; }
 
-        Command CreateNewToolbarCommand { get; }
+        CommandBase.Command CreateNewToolbarCommand { get; }
     }
 }

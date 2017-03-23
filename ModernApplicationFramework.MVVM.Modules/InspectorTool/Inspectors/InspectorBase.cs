@@ -1,6 +1,6 @@
 ﻿using Caliburn.Micro;
 
-namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Inspectors
+namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Inspectors
 {
     public abstract class InspectorBase : PropertyChangedBase, IInspector
     {

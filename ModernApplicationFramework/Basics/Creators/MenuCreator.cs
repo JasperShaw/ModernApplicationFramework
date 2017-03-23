@@ -6,7 +6,8 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using ModernApplicationFramework.Basics.Definitions;
 using ModernApplicationFramework.CommandBase;
-using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Interfaces.Command;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using Binding = System.Windows.Data.Binding;
@@ -19,11 +20,13 @@ namespace ModernApplicationFramework.Basics.Creators
     public class MenuCreator : IMenuCreator
     {
         private readonly MenuItemDefinition[] _menuItems;
+        private readonly MenuItemDefinition[] _exludedMenus;
 
         [ImportingConstructor]
-        public MenuCreator(ICommandService commandService, [ImportMany] MenuItemDefinition[] menuItems)
+        public MenuCreator(ICommandService commandService, [ImportMany] MenuItemDefinition[] menuItems, [ImportMany] ExcludeMenuDefinition[] excludedItems)
         {
             _menuItems = menuItems;
+            _exludedMenus = excludedItems.Select(x => x.ExludedMenuItemDefinition).ToArray();
         }
 
         public void CreateMenu(IMenuHostViewModel model)
@@ -36,12 +39,13 @@ namespace ModernApplicationFramework.Basics.Creators
             var topLevelMenus =
                 menuDefinitions.Where(x => x.HasItems == false)
                                .Where(x => x.HasParent == false)
+                               .Where(x => !_exludedMenus.Contains(x))
                                .OrderBy(x => x.Priority);
 
-            foreach (var topLevel in topLevelMenus)
+            foreach (var topLevelMenu in topLevelMenus)
             {
-                var topItem = CreateItem(topLevel);
-                CreateItemsRecursive(topLevel, topItem, menuDefinitions);
+                var topItem = CreateItem(topLevelMenu);
+                CreateItemsRecursive(topLevelMenu, topItem, menuDefinitions);
                 items.Add(topItem);
             }
             foreach (var menuItem in items)
@@ -106,7 +110,9 @@ namespace ModernApplicationFramework.Basics.Creators
                                           ICollection<MenuItemDefinition> list)
         {
             //MenuDefinitions which are parent of top
-            var menuItems = list.Where(x => x.Parent == topLevel).OrderBy(x => x.Priority);
+            var menuItems = list.Where(x => x.Parent == topLevel)
+                .Where(x => !_exludedMenus.Contains(x))
+                .OrderBy(x => x.Priority);
 
             //For some reason 'list' has FixedSize
             var tempList = new List<MenuItemDefinition>(list);
@@ -115,7 +121,9 @@ namespace ModernApplicationFramework.Basics.Creators
             {
                 //SubMenuDefinitions which are parent of currnet
                 var subDefinitonItems =
-                    tempList.Where(x => x.Parent == topLevel).OrderBy(x => x.Priority);
+                    tempList.Where(x => x.Parent == topLevel)
+                    .Where(x => !_exludedMenus.Contains(x))
+                    .OrderBy(x => x.Priority);
                 foreach (var subDefinitonItem in subDefinitonItems)
                 {
                     tempList.Remove(subDefinitonItem);
@@ -123,7 +131,17 @@ namespace ModernApplicationFramework.Basics.Creators
                         topItem.Items.Add(new Separator());
                     if (subDefinitonItem.HasItems)
                         foreach (var definition in subDefinitonItem.Definitions)
-                            topItem.Items.Add(CreateItem(definition));         
+                        {
+                            if (definition is CommandListDefinition)
+                            {
+                                topItem.Items.Add(new CommandMenuItem(definition ,topItem));
+
+                            }
+                            else
+                            {
+                                topItem.Items.Add(CreateItem(definition));
+                            }                           
+                        }         
                     else
                     {
                         if (subDefinitonItem.IsSeparator)

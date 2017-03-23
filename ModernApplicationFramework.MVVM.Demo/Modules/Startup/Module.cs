@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using ModernApplicationFramework.MVVM.Core;
-using ModernApplicationFramework.MVVM.Interfaces;
-using ModernApplicationFramework.MVVM.Modules.InspectorTool;
-using ModernApplicationFramework.MVVM.Modules.OutputTool;
+using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Extended.ModuleBase;
+using ModernApplicationFramework.Extended.Modules.InspectorTool;
+using ModernApplicationFramework.Extended.Modules.OutputTool;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.Startup
 {

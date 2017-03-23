@@ -2,9 +2,9 @@
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.CommandBase;
-using ModernApplicationFramework.MVVM.Interfaces;
+using ModernApplicationFramework.Extended.Interfaces;
 
-namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Commands
+namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Commands
 {
     [Export(typeof(CommandDefinition))]
     public sealed class OpenInstectorCommandDefinition : CommandDefinition
@@ -13,11 +13,6 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Commands
         [Import] private IDockingMainWindowViewModel _shell;
 #pragma warning restore 649
 
-        public OpenInstectorCommandDefinition()
-        {
-            Command = new GestureCommandWrapper(Open, CanOpen, new KeyGesture(Key.F4));
-        }
-
         public override bool CanShowInMenu => true;
         public override bool CanShowInToolbar => true;
         public override ICommand Command { get; }
@@ -25,14 +20,19 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Commands
         public override string IconId => "PropertyIcon";
 
         public override Uri IconSource =>
-                new Uri("/ModernApplicationFramework.MVVM.Modules;component/Resources/Icons/Property_16x.xaml",
-                    UriKind.RelativeOrAbsolute);
+            new Uri("/ModernApplicationFramework.MVVM.Modules;component/Resources/Icons/Property_16x.xaml",
+                UriKind.RelativeOrAbsolute);
 
         public override string Name => "Inspector";
         public override string Text => Name;
         public override string ToolTip => Name;
 
         public string MyText { get; set; }
+
+        public OpenInstectorCommandDefinition()
+        {
+            Command = new GestureCommandWrapper(Open, CanOpen, new KeyGesture(Key.F4));
+        }
 
         private bool CanOpen()
         {

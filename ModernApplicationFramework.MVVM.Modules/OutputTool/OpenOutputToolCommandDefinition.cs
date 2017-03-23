@@ -2,9 +2,9 @@
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.CommandBase;
-using ModernApplicationFramework.MVVM.Interfaces;
+using ModernApplicationFramework.Extended.Interfaces;
 
-namespace ModernApplicationFramework.MVVM.Modules.OutputTool
+namespace ModernApplicationFramework.Extended.Modules.OutputTool
 {
     [Export(typeof(CommandDefinition))]
     public sealed class OpenOutputToolCommandDefinition : CommandDefinition
@@ -12,11 +12,6 @@ namespace ModernApplicationFramework.MVVM.Modules.OutputTool
 #pragma warning disable 649
         [Import] private IDockingMainWindowViewModel _shell;
 #pragma warning restore 649
-
-        public OpenOutputToolCommandDefinition()
-        {
-            Command = new GestureCommandWrapper(Open, CanOpen, new KeyGesture(Key.O, ModifierKeys.Control | ModifierKeys.Alt));
-        }
 
         public override bool CanShowInMenu => true;
         public override bool CanShowInToolbar => true;
@@ -34,6 +29,12 @@ namespace ModernApplicationFramework.MVVM.Modules.OutputTool
         public override string ToolTip => Name;
 
         public string MyText { get; set; }
+
+        public OpenOutputToolCommandDefinition()
+        {
+            Command = new GestureCommandWrapper(Open, CanOpen,
+                new KeyGesture(Key.O, ModifierKeys.Control | ModifierKeys.Alt));
+        }
 
         private bool CanOpen()
         {

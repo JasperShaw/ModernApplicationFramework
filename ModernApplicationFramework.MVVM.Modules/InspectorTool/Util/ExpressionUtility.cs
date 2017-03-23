@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Util
+namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Util
 {
     internal static class ExpressionUtility
     {

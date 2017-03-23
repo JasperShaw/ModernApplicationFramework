@@ -5,20 +5,19 @@ using System.Text;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.CommandBase;
-using ModernApplicationFramework.MVVM.Core;
+using ModernApplicationFramework.Extended.Core.LayoutItems;
+using ModernApplicationFramework.Extended.Core.Pane;
 
-namespace ModernApplicationFramework.MVVM.Modules.OutputTool
+namespace ModernApplicationFramework.Extended.Modules.OutputTool
 {
     [Export(typeof(IOutput))]
-    public sealed class OutputViewModel: Controls.Tool, IOutput
+    public sealed class OutputViewModel : Tool, IOutput
     {
         private readonly StringBuilder _stringBuilder;
         private readonly OutputWriter _writer;
         private IOutputView _view;
 
-        public override PaneLocation PreferredLocation => PaneLocation.Bottom;
-
-        public TextWriter Writer => _writer;
+        public ICommand ClearCommand => new Command(Clear);
 
         public OutputViewModel()
         {
@@ -26,6 +25,10 @@ namespace ModernApplicationFramework.MVVM.Modules.OutputTool
             _stringBuilder = new StringBuilder();
             _writer = new OutputWriter(this);
         }
+
+        public override PaneLocation PreferredLocation => PaneLocation.Bottom;
+
+        public TextWriter Writer => _writer;
 
         public void Clear()
         {
@@ -45,19 +48,17 @@ namespace ModernApplicationFramework.MVVM.Modules.OutputTool
             OnTextChanged();
         }
 
+        protected override void OnViewLoaded(object view)
+        {
+            _view = (IOutputView) view;
+            _view.SetText(_stringBuilder.ToString());
+            _view.ScrollToEnd();
+        }
+
         private void OnTextChanged()
         {
             if (_view != null)
                 Execute.OnUIThread(() => _view.SetText(_stringBuilder.ToString()));
         }
-
-        protected override void OnViewLoaded(object view)
-        {
-            _view = (IOutputView)view;
-            _view.SetText(_stringBuilder.ToString());
-            _view.ScrollToEnd();
-        }
-
-        public ICommand ClearCommand => new Command(Clear);
     }
 }

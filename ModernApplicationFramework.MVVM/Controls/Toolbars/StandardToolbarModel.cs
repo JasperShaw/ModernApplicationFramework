@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 using Caliburn.Micro;
-using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Command;
 using ModernApplicationFramework.MVVM.Commands;
 
 namespace ModernApplicationFramework.MVVM.Controls.Toolbars

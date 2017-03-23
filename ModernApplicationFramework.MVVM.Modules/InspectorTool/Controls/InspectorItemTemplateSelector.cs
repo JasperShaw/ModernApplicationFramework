@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using ModernApplicationFramework.MVVM.Modules.InspectorTool.Inspectors;
+using ModernApplicationFramework.Extended.Modules.InspectorTool.Inspectors;
 
-namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Controls
+namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Controls
 {
     public class InspectorItemTemplateSelector : DataTemplateSelector
     {

@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Reflection;
 using Caliburn.Micro;
-using ModernApplicationFramework.MVVM.Interfaces;
+using ModernApplicationFramework.Extended.Interfaces;
 
-namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Inspectors
+namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Inspectors
 {
     public abstract class EditorBase<TValue> : InspectorBase, IEditor, IDisposable
     {
         private BoundPropertyDescriptor _boundPropertyDescriptor;
-
-        public override string Name => BoundPropertyDescriptor.PropertyDescriptor.DisplayName;
 
         public string Description
         {
@@ -21,9 +18,29 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Inspectors
             }
         }
 
+        public TValue Value
+        {
+            get => (TValue) BoundPropertyDescriptor.Value;
+            set
+            {
+                var type = IoC.Get<IDockingHostViewModel>().ActiveItem.GetType();
+                var prop = type.GetProperty(BoundPropertyDescriptor.PropertyDescriptor.Name);
+                if (prop.CanWrite)
+                    prop.SetValue(IoC.Get<IDockingHostViewModel>().ActiveItem, value, null);
+            }
+        }
+
+        public void Dispose()
+        {
+            if (_boundPropertyDescriptor != null)
+                _boundPropertyDescriptor.ValueChanged -= OnValueChanged;
+        }
+
+        public override string Name => BoundPropertyDescriptor.PropertyDescriptor.DisplayName;
+
         public BoundPropertyDescriptor BoundPropertyDescriptor
         {
-            get { return _boundPropertyDescriptor; }
+            get => _boundPropertyDescriptor;
             set
             {
                 if (_boundPropertyDescriptor != null)
@@ -38,24 +55,6 @@ namespace ModernApplicationFramework.MVVM.Modules.InspectorTool.Inspectors
         private void OnValueChanged(object sender, EventArgs e)
         {
             NotifyOfPropertyChange(() => Value);
-        }
-
-        public TValue Value
-        {
-            get { return (TValue)BoundPropertyDescriptor.Value; }
-            set
-            {
-                Type type = IoC.Get<IDockingHostViewModel>().ActiveItem.GetType();
-                PropertyInfo prop = type.GetProperty(BoundPropertyDescriptor.PropertyDescriptor.Name);
-                if (prop.CanWrite)
-                    prop.SetValue(IoC.Get<IDockingHostViewModel>().ActiveItem, value, null);
-            }
-        }
-
-        public void Dispose()
-        {
-            if (_boundPropertyDescriptor != null)
-                _boundPropertyDescriptor.ValueChanged -= OnValueChanged;
         }
     }
 }
