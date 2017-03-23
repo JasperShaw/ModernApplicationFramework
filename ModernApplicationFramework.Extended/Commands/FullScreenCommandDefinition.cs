@@ -37,9 +37,9 @@ namespace ModernApplicationFramework.Extended.Commands
                 new Uri("/ModernApplicationFramework.Extended;component/Resources/Icons/FitToScreen_16x.xaml",
                     UriKind.RelativeOrAbsolute);
 
-        public override string Name => "Fit to Screen";
-        public override string Text => Name;
-        public override string ToolTip => Name;
+        public override string Name => "View.FullScreen";
+        public override string Text => "Fit to Screen";
+        public override string ToolTip => Text;
 
         private bool CanTriggerFullScreen()
         {

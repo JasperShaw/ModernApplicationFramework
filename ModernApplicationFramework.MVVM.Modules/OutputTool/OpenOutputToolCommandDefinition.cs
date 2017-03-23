@@ -22,12 +22,12 @@ namespace ModernApplicationFramework.Extended.Modules.OutputTool
 
         public override Uri IconSource
             =>
-                new Uri("/ModernApplicationFramework.MVVM.Modules;component/Resources/Icons/Output_16x.xaml",
+                new Uri("/ModernApplicationFramework.Extended.Modules;component/Resources/Icons/Output_16x.xaml",
                     UriKind.RelativeOrAbsolute);
 
-        public override string Name => "Output";
-        public override string Text => Name;
-        public override string ToolTip => Name;
+        public override string Name => "View.Output";
+        public override string Text => "Output";
+        public override string ToolTip => "Output";
 
         public string MyText { get; set; }
 

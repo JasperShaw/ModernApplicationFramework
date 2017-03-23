@@ -31,9 +31,9 @@ namespace ModernApplicationFramework.Extended.Commands
                 new Uri("/ModernApplicationFramework.Extended;component/Resources/Icons/Redo_16x.xaml",
                     UriKind.RelativeOrAbsolute);
 
-        public override string Name => "Redo";
-        public override string Text => Name;
-        public override string ToolTip => Name;
+        public override string Name => "Edit.Redo";
+        public override string Text => "Redo";
+        public override string ToolTip => "Redo";
 
         private bool CanRedo()
         {

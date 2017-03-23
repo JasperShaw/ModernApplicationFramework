@@ -209,10 +209,11 @@
                                     BorderThickness="1" SnapsToDevicePixels="False">
                         <Grid x:Name="Grid">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition x:Name="Col0" MinWidth="17" Width="Auto" SharedSizeGroup="MenuItemIconColumnGroup"/>
-                                <ColumnDefinition Width="Auto" SharedSizeGroup="MenuTextColumnGroup"/>
+                                <ColumnDefinition x:Name="Col0" MinWidth="26" Width="Auto" SharedSizeGroup="MenuItemIconColumnGroup"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="37" SharedSizeGroup="MenuTextColumnGroup"/>
                                 <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIGTColumnGroup"/>
-                                <ColumnDefinition x:Name="Col3" Width="14"/>
+                                <ColumnDefinition x:Name="Col3" Width="17"/>
                             </Grid.ColumnDefinitions>
                             <Border x:Name="IconBorder" Background="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemPopupIconBackground}}" Grid.Column="0">
                                 <Path Height="16" Width="16" Data="{Binding Path=IconGeometry, RelativeSource={RelativeSource TemplatedParent}}" 
@@ -221,9 +222,9 @@
                             <ContentPresenter Grid.Column="1" Margin="{TemplateBinding Padding}" 
                                                       x:Name="HeaderHost" RecognizesAccessKey="True" 
                                                       ContentSource="Header" VerticalAlignment="Center"/>
-                            <ContentPresenter Grid.Column="2" Margin="8,1,8,1" x:Name="IGTHost" 
+                            <ContentPresenter Grid.Column="3" Margin="8,1,8,1" x:Name="IGTHost" 
                                                       ContentSource="InputGestureText" VerticalAlignment="Center"/>
-                            <Grid Grid.Column="3" Margin="4,0,6,0" x:Name="ArrowPanel" VerticalAlignment="Center">
+                            <Grid Grid.Column="4" Margin="4,0,6,0" x:Name="ArrowPanel" VerticalAlignment="Center">
                                 <Path x:Name="ArrowPanelPath" HorizontalAlignment="Right" VerticalAlignment="Center" 
                                               Fill="{DynamicResource {x:Static colors:EnvironmentColors.MenuSubItemGlyph}}" Data="M0,0 L0,8 L4,4 z"/>
                             </Grid>

@@ -30,8 +30,8 @@ namespace ModernApplicationFramework.Extended.Commands
                 new Uri("/ModernApplicationFramework.Extended;component/Resources/Icons/CloseProgramm_16x.xaml",
                     UriKind.RelativeOrAbsolute);
 
-        public override string Name => "Close";
-        public override string Text => Name;
+        public override string Name => "File.Exit";
+        public override string Text => "Exit";
         public override string ToolTip => "Closes the Programm";
 
         private bool CanClose()

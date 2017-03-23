@@ -162,6 +162,7 @@
     <Compile Include="CommandBase\MultiKeyGestureCommandWrapper.cs" />
     <Compile Include="CommandBase\MultiKeyGestureConverter.cs" />
     <Compile Include="Basics\Services\CommandService.cs" />
+    <Compile Include="Controls\DummyListMenuItem.cs" />
     <Compile Include="Controls\Utilities\BindableSelectedItemBehavior.cs" />
     <Compile Include="Controls\Utilities\MenuBehavior.cs" />
     <Compile Include="Interfaces\Command\ICommandHandler.cs" />
@@ -210,6 +211,7 @@
     <Compile Include="Core\Converters\AreEqualConverter.cs" />
     <Compile Include="Core\Converters\NotNullConverter.cs" />
     <Compile Include="Core\Events\ItemDoubleClickedEventArgs.cs" />
+    <Compile Include="Interfaces\Controls\IDummyListMenuItem.cs" />
     <Compile Include="Interfaces\ISettingsPage.cs" />
     <Compile Include="Native\Platform\Enums\Cdcontrolstate.cs" />
     <Compile Include="Native\Platform\Enums\CombineMode.cs" />

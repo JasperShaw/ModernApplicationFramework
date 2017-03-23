@@ -2,6 +2,7 @@
 using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.Interfaces.Command;
+using ModernApplicationFramework.Interfaces.Controls;
 
 namespace ModernApplicationFramework.Controls.Utilities
 {
@@ -30,9 +31,14 @@ namespace ModernApplicationFramework.Controls.Utilities
 
         private static void OnSubmenuOpened(object sender, RoutedEventArgs e)
         {
-            var commandRouter = IoC.Get<ICommandRouter>();
             var menuItem = (MenuItem)sender;
-            foreach (var item in menuItem.Items.OfType<ICommandMenuItem>().ToList())
+            if (sender == null)
+                return;
+            var menuItems = menuItem.Items.OfType<IDummyListMenuItem>().ToList();
+            if (menuItems.Count == 0)
+                return;
+            var commandRouter = IoC.Get<ICommandRouter>();
+            foreach (var item in menuItems)
                 item.Update(commandRouter.GetCommandHandler(item.CommandDefinition));
         }
     }

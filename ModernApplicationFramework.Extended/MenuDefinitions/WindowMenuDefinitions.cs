@@ -8,6 +8,6 @@ namespace ModernApplicationFramework.Extended.MenuDefinitions
     {
         [Export] public static MenuItemDefinition WindowMenu = new MenuItemDefinition("_Window", 10);
 
-        [Export] public static MenuItemDefinition FullScreen = new MenuItemDefinition<SwitchToDocumentCommandListDefinition>("Full Screen", 10, WindowMenu);
+        [Export] public static MenuItemDefinition FullScreen = new MenuItemDefinition<SwitchToDocumentCommandListDefinition>("Test", 10, WindowMenu);
     }
 }

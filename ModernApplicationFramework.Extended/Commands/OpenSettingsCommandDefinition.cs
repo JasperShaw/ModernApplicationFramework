@@ -31,9 +31,9 @@ namespace ModernApplicationFramework.Extended.Commands
                 new Uri("/ModernApplicationFramework.Extended;component/Resources/Icons/Settings_16x.xaml",
                     UriKind.RelativeOrAbsolute);
 
-        public override string Name => "Settings";
-        public override string Text => Name;
-        public override string ToolTip => Name;
+        public override string Name => "Tools.Settings";
+        public override string Text => "Settings";
+        public override string ToolTip => "Settings";
 
         public string MyText { get; set; }
 

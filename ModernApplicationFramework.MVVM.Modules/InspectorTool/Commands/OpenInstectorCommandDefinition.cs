@@ -21,12 +21,12 @@ namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Commands
         public override string IconId => "PropertyIcon";
 
         public override Uri IconSource =>
-            new Uri("/ModernApplicationFramework.MVVM.Modules;component/Resources/Icons/Property_16x.xaml",
+            new Uri("/ModernApplicationFramework.Extended.Modules;component/Resources/Icons/Property_16x.xaml",
                 UriKind.RelativeOrAbsolute);
 
-        public override string Name => "Inspector";
-        public override string Text => Name;
-        public override string ToolTip => Name;
+        public override string Name => "View.Inspector";
+        public override string Text => "Inspector";
+        public override string ToolTip => "Inspector";
 
         public string MyText { get; set; }
 

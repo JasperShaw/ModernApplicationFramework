@@ -31,9 +31,9 @@ namespace ModernApplicationFramework.Extended.Commands
                 new Uri("/ModernApplicationFramework.Extended;component/Resources/Icons/Undo_16x.xaml",
                     UriKind.RelativeOrAbsolute);
 
-        public override string Name => "Undo";
-        public override string Text => Name;
-        public override string ToolTip => Name;
+        public override string Name => "Edit.Undo";
+        public override string Text => "Undo";
+        public override string ToolTip => "Undo";
 
         public string MyText { get; set; }
 

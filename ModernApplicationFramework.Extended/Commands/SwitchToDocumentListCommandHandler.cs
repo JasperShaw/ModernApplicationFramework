@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions;
@@ -23,60 +24,51 @@ namespace ModernApplicationFramework.Extended.Commands
 
         public void Populate(Command command, List<DefinitionBase> commands)
         {
-            for (var i = 0; i < _shell.Documents.Count; i++)
+
+            for (int i = 0; i < _shell.Documents.Count; i++)
             {
                 var document = _shell.Documents[i];
 
-                var c = new Command<ILayoutItem>(Test, CanTest);
+                var definition =
+                    new ShowSelectedDocumentCommandDefinition($"_{i + 1} {document.DisplayName}")
+                    {
+                        CommandParamenter = document
+                    };
+                if (document.IsActive)
+                    definition.IsChecked = true;
 
-                c.Execute(document);
+                commands.Add(definition);
+            } 
+        }
 
-                var d = new SimpleCommandDefinition($"_{i + 1} {document.DisplayName}") {CommandParamenter = document};
-
-                commands.Add(d);
+        private class ShowSelectedDocumentCommandDefinition : CommandDefinition
+        {
+            public ShowSelectedDocumentCommandDefinition(string name)
+            {
+                Text = name;
+                Command = new CommandWrapper(ShowSelectedItem, CanShowSelectedItem);
             }
+
+            public override bool CanShowInMenu => false;
+            public override bool CanShowInToolbar => false;
+            public override ICommand Command { get; }
+
+            private bool CanShowSelectedItem()
+            {
+                return CommandParamenter is ILayoutItem;
+            }
+
+            private void ShowSelectedItem()
+            {
+                IoC.Get<IDockingHostViewModel>().OpenDocument((ILayoutItem)CommandParamenter);
+            }
+
+            public override string Name => string.Empty;
+            public override string Text { get; }
+            public override string ToolTip => string.Empty;
+            public override Uri IconSource => null;
+            public override string IconId => null;
         }
 
-        private bool CanTest(ILayoutItem item)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void Test(ILayoutItem item)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-
-
-    public class SimpleCommandDefinition : CommandDefinition
-    {
-
-        public SimpleCommandDefinition(string name)
-        {
-            Name = name;
-            Command = new CommandWrapper(Test, CanTest);
-        }
-
-        public override bool CanShowInMenu { get; }
-        public override bool CanShowInToolbar { get; }
-        public override ICommand Command { get; }
-
-        private bool CanTest()
-        {
-            return true;
-        }
-
-        private void Test()
-        {
-            IoC.Get<IDockingHostViewModel>().OpenDocument((ILayoutItem)CommandParamenter);
-        }
-
-        public override string Name { get; }
-        public override string Text { get; }
-        public override string ToolTip { get; }
-        public override Uri IconSource { get; }
-        public override string IconId { get; }
     }
 }

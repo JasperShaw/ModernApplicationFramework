@@ -16,9 +16,9 @@ namespace ModernApplicationFramework.Extended.Commands
         public override bool CanShowInToolbar => false;
         public override string IconId => null;
         public override Uri IconSource => null;
-        public override string Name => "Close File";
-        public override string Text => Name;
-        public override string ToolTip => Name;
+        public override string Name => "File.CloseFile";
+        public override string Text => "Close File";
+        public override string ToolTip => Text;
 
         public override ICommand Command { get; }
 

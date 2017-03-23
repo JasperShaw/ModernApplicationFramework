@@ -63,8 +63,8 @@ namespace ModernApplicationFramework.Basics.Creators
         ///     Gesture text
         /// </summary>
         /// <param name="definition"></param>
-        /// <returns></returns>
-        protected virtual MenuItem CreateItem(DefinitionBase definition)
+        /// <returns>MenuItem</returns>
+        public static MenuItem CreateItemFromDefinition(DefinitionBase definition)
         {
             object vb = null;
             if (!string.IsNullOrEmpty(definition.IconSource?.OriginalString))
@@ -72,41 +72,35 @@ namespace ModernApplicationFramework.Basics.Creators
                 var myResourceDictionary = new ResourceDictionary {Source = definition.IconSource};
                 vb = myResourceDictionary[definition.IconId];
             }
-
-
             var menuItem = new MenuItem
             {
-                Header = definition.Name,
+                Header = definition.Text,
                 Icon = vb
             };
-
-
-            if (definition is CommandDefinition commandDefinition)
+            if (!(definition is CommandDefinition commandDefinition))
+                return menuItem;
+            var myBindingC = new Binding
             {
-                var myBindingC = new Binding
-                {
-                    Source = definition,
-                    Path = new PropertyPath(nameof(commandDefinition.Command)),
-                    Mode = BindingMode.OneWay,
-                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-                };
-                BindingOperations.SetBinding(menuItem, System.Windows.Controls.MenuItem.CommandProperty, myBindingC);
+                Source = definition,
+                Path = new PropertyPath(nameof(commandDefinition.Command)),
+                Mode = BindingMode.OneWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            };
+            BindingOperations.SetBinding(menuItem, System.Windows.Controls.MenuItem.CommandProperty, myBindingC);
 
-                var c = commandDefinition.Command as GestureCommandWrapper;
-                if (c == null)
-                    return menuItem;
+            var c = commandDefinition.Command as GestureCommandWrapper;
+            if (c == null)
+                return menuItem;
 
-                var myBinding = new Binding
-                {
-                    Source = c,
-                    Path = new PropertyPath(nameof(c.GestureText)),
-                    Mode = BindingMode.OneWay,
-                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-                };
-                BindingOperations.SetBinding(menuItem, System.Windows.Controls.MenuItem.InputGestureTextProperty,
-                    myBinding);
-
-            }       
+            var myBinding = new Binding
+            {
+                Source = c,
+                Path = new PropertyPath(nameof(c.GestureText)),
+                Mode = BindingMode.OneWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            };
+            BindingOperations.SetBinding(menuItem, System.Windows.Controls.MenuItem.InputGestureTextProperty,
+                myBinding);
             return menuItem;
         }
 
@@ -138,14 +132,13 @@ namespace ModernApplicationFramework.Basics.Creators
                         foreach (var definition in subDefinitonItem.Definitions)
                         {
                             if (definition is CommandListDefinition)
+                                topItem.Items.Add(new DummyListMenuItem(definition ,topItem));
+                            else if (definition is CommandDefinition commandDefinition)
                             {
-                                topItem.Items.Add(new CommandMenuItem(definition ,topItem));
-
+                                if (commandDefinition.CanShowInMenu)
+                                    topItem.Items.Add(CreateItemFromDefinition(commandDefinition));
                             }
-                            else
-                            {
-                                topItem.Items.Add(CreateItem(definition));
-                            }                           
+                                                
                         }         
                     else
                     {

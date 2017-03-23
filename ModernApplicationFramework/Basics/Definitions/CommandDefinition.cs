@@ -16,5 +16,6 @@ namespace ModernApplicationFramework.Basics.Definitions
         public virtual ICommand Command { get;}
         public virtual object CommandParamenter { get; set; }
         public sealed override bool IsList => false;
+        public virtual bool IsChecked { get; set; }
     }
 }
