@@ -7,7 +7,7 @@ using ModernApplicationFramework.MVVM.Interfaces;
 
 namespace ModernApplicationFramework.MVVM.Commands
 {
-    [Export(typeof(CommandDefinition))]
+    [Export(typeof(DefinitionBase))]
     public sealed class RedoCommandDefinition : CommandDefinition
     {
 #pragma warning disable 649

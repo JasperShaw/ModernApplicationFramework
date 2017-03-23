@@ -7,7 +7,7 @@ using ModernApplicationFramework.MVVM.ViewModels;
 
 namespace ModernApplicationFramework.MVVM.Commands
 {
-    [Export(typeof(CommandDefinition))]
+    [Export(typeof(DefinitionBase))]
     public sealed class OpenSettingsCommandDefinition : CommandDefinition
     {
 #pragma warning disable 649

@@ -4,11 +4,9 @@ using ModernApplicationFramework.CommandBase;
 
 namespace ModernApplicationFramework.Extended.Commands
 {
-    [Export(typeof(CommandDefinition))]
+    [Export(typeof(DefinitionBase))]
     public class SwitchToDocumentCommandListDefinition : CommandListDefinition
     {
-        public override bool CanShowInMenu => false;
-        public override bool CanShowInToolbar => false;
         public override string Name => "Window.SwitchToDocument";
     }
 }

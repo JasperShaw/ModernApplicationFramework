@@ -11,7 +11,7 @@ using ModernApplicationFramework.MVVM.Interfaces;
 
 namespace ModernApplicationFramework.MVVM.Commands
 {
-    [Export(typeof(CommandDefinition))]
+    [Export(typeof(DefinitionBase))]
     public sealed class FullScreenCommandDefinition : CommandDefinition
     {
 #pragma warning disable 649

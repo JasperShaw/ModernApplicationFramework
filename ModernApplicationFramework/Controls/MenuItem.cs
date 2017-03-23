@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using ModernApplicationFramework.CommandBase;
+using DefinitionBase = ModernApplicationFramework.CommandBase.DefinitionBase;
 
 namespace ModernApplicationFramework.Controls
 {
@@ -18,7 +20,7 @@ namespace ModernApplicationFramework.Controls
         private readonly ItemsControl _parent;
         private List<ItemsControl> _listItems;
 
-        public CommandMenuItem(CommandDefinition commandDefinition, ItemsControl parent)
+        public CommandMenuItem(DefinitionBase commandDefinition, ItemsControl parent)
         {
             _parent = parent;
             CommandDefinition = commandDefinition;
@@ -26,7 +28,7 @@ namespace ModernApplicationFramework.Controls
             SetValue(VisibilityProperty, Visibility.Collapsed);
         }
 
-        public CommandDefinition CommandDefinition { get; }
+        public DefinitionBase CommandDefinition { get; }
 
 
         public void Update(CommandHandlerWrapper commandHandler)
@@ -39,14 +41,14 @@ namespace ModernApplicationFramework.Controls
 
             
 
-            var listCommands = new List<CommandDefinition>();
+            var listCommands = new List<DefinitionBase>();
             commandHandler.Populate(null, listCommands);
 
             int startIndex = _parent.Items.IndexOf(this) + 1;
 
             foreach (var command in listCommands)
             {
-                var newMenuItem = CreateItem(command);
+                var newMenuItem = CreateItem((CommandDefinition)command);
 
                 _parent.Items.Insert(startIndex++, newMenuItem);
                 _listItems.Add(newMenuItem);
@@ -62,54 +64,38 @@ namespace ModernApplicationFramework.Controls
                 var myResourceDictionary = new ResourceDictionary { Source = definition.IconSource };
                 vb = myResourceDictionary[definition.IconId];
             }
-
-
             var menuItem = new MenuItem
             {
                 Header = definition.Name,
                 Icon = vb
             };
+            var myBindingC = new Binding
+            {
+                Source = definition,
+                Path = new PropertyPath(nameof(definition.Command)),
+                Mode = BindingMode.OneWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            };
+            BindingOperations.SetBinding(menuItem, CommandProperty, myBindingC);
+            var c = definition.Command as GestureCommandWrapper;
+            if (c == null)
+                return menuItem;
 
-
-            //var myBindingC = new Binding
-            //{
-            //    Source = definition,
-            //    Path = new PropertyPath(nameof(definition.Command)),
-            //    Mode = BindingMode.OneWay,
-            //    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-            //};
-            //BindingOperations.SetBinding(menuItem, CommandProperty, myBindingC);
-
-
-            //var c = definition.Command as GestureCommandWrapper;
-            //if (c == null)
-            //    return menuItem;
-
-            //var myBinding = new Binding
-            //{
-            //    Source = c,
-            //    Path = new PropertyPath(nameof(c.GestureText)),
-            //    Mode = BindingMode.OneWay,
-            //    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-            //};
-            //BindingOperations.SetBinding(menuItem, InputGestureTextProperty, myBinding);
+            var myBinding = new Binding
+            {
+                Source = c,
+                Path = new PropertyPath(nameof(c.GestureText)),
+                Mode = BindingMode.OneWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            };
+            BindingOperations.SetBinding(menuItem, InputGestureTextProperty, myBinding);
             return menuItem;
         }
-
-
-
-
-
-
-
-
-
-
     }
 
     public interface ICommandMenuItem
     {
-        CommandDefinition CommandDefinition { get; }
+        DefinitionBase CommandDefinition { get; }
         void Update(CommandHandlerWrapper commandHandler);
     }
 }

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 namespace ModernApplicationFramework.CommandBase
 {
-    public abstract class CommandDefinition
+    public abstract class CommandDefinition : DefinitionBase
     {
         protected CommandDefinition() {}
 
@@ -16,11 +15,6 @@ namespace ModernApplicationFramework.CommandBase
         public abstract bool CanShowInToolbar { get; }
         public virtual ICommand Command { get;}
         public virtual object CommandParamenter { get; set; }
-
-        public abstract string Name { get; }
-        public abstract string Text { get; }
-        public abstract string ToolTip { get; }
-        public abstract Uri IconSource { get; }
-        public abstract string IconId { get; }
+        public sealed override bool IsList => false;
     }
 }

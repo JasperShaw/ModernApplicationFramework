@@ -11,6 +11,7 @@ using ModernApplicationFramework.Interfaces.Command;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using Binding = System.Windows.Data.Binding;
+using DefinitionBase = ModernApplicationFramework.CommandBase.DefinitionBase;
 using MenuItem = ModernApplicationFramework.Controls.MenuItem;
 using Separator = ModernApplicationFramework.Controls.Separator;
 
@@ -63,7 +64,7 @@ namespace ModernApplicationFramework.Basics.Creators
         /// </summary>
         /// <param name="definition"></param>
         /// <returns></returns>
-        protected virtual MenuItem CreateItem(CommandDefinition definition)
+        protected virtual MenuItem CreateItem(DefinitionBase definition)
         {
             object vb = null;
             if (!string.IsNullOrEmpty(definition.IconSource?.OriginalString))
@@ -80,28 +81,32 @@ namespace ModernApplicationFramework.Basics.Creators
             };
 
 
-            var myBindingC = new Binding
+            if (definition is CommandDefinition commandDefinition)
             {
-                Source = definition,
-                Path = new PropertyPath(nameof(definition.Command)),
-                Mode = BindingMode.OneWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-            };
-            BindingOperations.SetBinding(menuItem, System.Windows.Controls.MenuItem.CommandProperty, myBindingC);
+                var myBindingC = new Binding
+                {
+                    Source = definition,
+                    Path = new PropertyPath(nameof(commandDefinition.Command)),
+                    Mode = BindingMode.OneWay,
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                };
+                BindingOperations.SetBinding(menuItem, System.Windows.Controls.MenuItem.CommandProperty, myBindingC);
 
+                var c = commandDefinition.Command as GestureCommandWrapper;
+                if (c == null)
+                    return menuItem;
 
-            var c = definition.Command as GestureCommandWrapper;
-            if (c == null)
-                return menuItem;
+                var myBinding = new Binding
+                {
+                    Source = c,
+                    Path = new PropertyPath(nameof(c.GestureText)),
+                    Mode = BindingMode.OneWay,
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                };
+                BindingOperations.SetBinding(menuItem, System.Windows.Controls.MenuItem.InputGestureTextProperty,
+                    myBinding);
 
-            var myBinding = new Binding
-            {
-                Source = c,
-                Path = new PropertyPath(nameof(c.GestureText)),
-                Mode = BindingMode.OneWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-            };
-            BindingOperations.SetBinding(menuItem, System.Windows.Controls.MenuItem.InputGestureTextProperty, myBinding);
+            }       
             return menuItem;
         }
 

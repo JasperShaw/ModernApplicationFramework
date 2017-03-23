@@ -13,7 +13,7 @@ namespace ModernApplicationFramework.Basics.Definitions
             Name = name;
             Priority = priority;
             Parent = null;
-            Definitions = new List<CommandDefinition>();
+            Definitions = new List<DefinitionBase>();
         }
 
         public MenuItemDefinition(string name, int priority, MenuItemDefinition parent, bool separator = false)
@@ -21,12 +21,12 @@ namespace ModernApplicationFramework.Basics.Definitions
             Name = name;
             Priority = priority;
             Parent = parent;
-            Definitions = new List<CommandDefinition>();
+            Definitions = new List<DefinitionBase>();
             IsSeparator = separator;
         }
 
         public MenuItemDefinition(string name, int priority, MenuItemDefinition parent,
-                                  IList<CommandDefinition> definitions)
+                                  IList<DefinitionBase> definitions)
         {
             Name = name;
             Priority = priority;
@@ -34,7 +34,7 @@ namespace ModernApplicationFramework.Basics.Definitions
             Parent = parent;
         }
 
-        public IList<CommandDefinition> Definitions { get; }
+        public IList<DefinitionBase> Definitions { get; }
 
         public bool HasItems => Definitions.Any();
 
@@ -48,7 +48,7 @@ namespace ModernApplicationFramework.Basics.Definitions
         public int Priority { get; }
     }
 
-    public class MenuItemDefinition<T> : MenuItemDefinition where T : CommandDefinition
+    public class MenuItemDefinition<T> : MenuItemDefinition where T : DefinitionBase
     {
         public MenuItemDefinition(string name, int priority, MenuItemDefinition parent) : base(name, priority, parent)
         {

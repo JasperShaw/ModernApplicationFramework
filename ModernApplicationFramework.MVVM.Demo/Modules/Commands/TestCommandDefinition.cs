@@ -6,7 +6,7 @@ using ModernApplicationFramework.Controls;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
 {
-    [Export(typeof(CommandDefinition))]
+    [Export(typeof(DefinitionBase))]
     public class TestCommandDefinition : CommandDefinition
     {
         public TestCommandDefinition()

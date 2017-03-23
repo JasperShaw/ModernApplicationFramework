@@ -10,7 +10,7 @@ using ModernApplicationFramework.MVVM.Interfaces;
 
 namespace ModernApplicationFramework.MVVM.Commands
 {
-    [Export(typeof(CommandDefinition))]
+    [Export(typeof(DefinitionBase))]
     public class OpenWithFileCommandDefinition : CommandDefinition
     {
         public OpenWithFileCommandDefinition()

@@ -62,7 +62,7 @@ namespace ModernApplicationFramework.Extended.Core
                 .ToList();
         }
 
-        public CommandHandlerWrapper GetCommandHandler(CommandDefinition commandDefinition)
+        public CommandHandlerWrapper GetCommandHandler(DefinitionBase commandDefinition)
         {
             CommandHandlerWrapper commandHandler;
 
@@ -92,7 +92,7 @@ namespace ModernApplicationFramework.Extended.Core
             return commandHandler;
         }
 
-        private CommandHandlerWrapper GetCommandHandlerForLayoutItem(CommandDefinition commandDefinition, object activeItemViewModel)
+        private CommandHandlerWrapper GetCommandHandlerForLayoutItem(DefinitionBase commandDefinition, object activeItemViewModel)
         {
             var activeItemView = ViewLocator.LocateForModel(activeItemViewModel, null, null);
             var activeItemWindow = Window.GetWindow(activeItemView);
@@ -106,7 +106,7 @@ namespace ModernApplicationFramework.Extended.Core
             return FindCommandHandlerInVisualTree(commandDefinition, startElement);
         }
 
-        private CommandHandlerWrapper FindCommandHandlerInVisualTree(CommandDefinition commandDefinition, IInputElement target)
+        private CommandHandlerWrapper FindCommandHandlerInVisualTree(DefinitionBase commandDefinition, IInputElement target)
         {
             var visualObject = target as DependencyObject;
             if (visualObject == null)

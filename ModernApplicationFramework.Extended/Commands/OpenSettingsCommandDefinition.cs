@@ -7,7 +7,7 @@ using ModernApplicationFramework.CommandBase;
 
 namespace ModernApplicationFramework.Extended.Commands
 {
-    [Export(typeof(CommandDefinition))]
+    [Export(typeof(DefinitionBase))]
     public sealed class OpenSettingsCommandDefinition : CommandDefinition
     {
 #pragma warning disable 649

@@ -9,7 +9,7 @@ using ModernApplicationFramework.MVVM.Interfaces;
 
 namespace ModernApplicationFramework.MVVM.Commands
 {
-    [Export(typeof(CommandDefinition))]
+    [Export(typeof(DefinitionBase))]
     public class SaveAllFilesCommandDefinition : CommandDefinition
     {
 #pragma warning disable 649

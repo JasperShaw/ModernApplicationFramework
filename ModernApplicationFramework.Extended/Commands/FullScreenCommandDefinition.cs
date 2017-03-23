@@ -11,7 +11,7 @@ using ModernApplicationFramework.Interfaces.Utilities;
 
 namespace ModernApplicationFramework.Extended.Commands
 {
-    [Export(typeof(CommandDefinition))]
+    [Export(typeof(DefinitionBase))]
     public sealed class FullScreenCommandDefinition : CommandDefinition
     {
 #pragma warning disable 649

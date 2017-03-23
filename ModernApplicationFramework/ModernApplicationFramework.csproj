@@ -155,6 +155,7 @@
     <Compile Include="CommandBase\CommandHandlerWrapper.cs" />
     <Compile Include="CommandBase\CommandListDefintion.cs" />
     <Compile Include="CommandBase\CommandWrapper.cs" />
+    <Compile Include="CommandBase\DefinitionBase.cs" />
     <Compile Include="CommandBase\GestureCommandWrapper.cs" />
     <Compile Include="CommandBase\CommandDefinition.cs" />
     <Compile Include="CommandBase\MultiKeyGesture.cs" />

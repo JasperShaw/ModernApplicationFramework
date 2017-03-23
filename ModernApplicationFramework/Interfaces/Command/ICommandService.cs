@@ -5,6 +5,6 @@ namespace ModernApplicationFramework.Interfaces.Command
 {
     public interface ICommandService
     {
-        CommandDefinition GetCommandDefinition(Type definitionType);
+        DefinitionBase GetCommandDefinition(Type definitionType);
     }
 }
