@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 using ModernApplicationFramework.Basics.Definitions;
+using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Interfaces.Command;
@@ -21,41 +20,88 @@ namespace ModernApplicationFramework.Basics.Creators
     public class MenuCreator : IMenuCreator
     {
         private readonly MenuItemDefinition[] _menuItems;
-        private readonly MenuItemDefinition[] _exludedMenus;
+        private readonly MenuDefinition[] _menus;
+        private readonly MenuItemGroupDefinition[] _menuItemGroups;
 
         [ImportingConstructor]
-        public MenuCreator(ICommandService commandService, [ImportMany] MenuItemDefinition[] menuItems, [ImportMany] ExcludeMenuDefinition[] excludedItems)
+        public MenuCreator(
+            ICommandService commandService, 
+            [ImportMany] MenuItemDefinition[] menuItems, 
+            [ImportMany] ExcludeMenuDefinition[] excludedItems,
+            [ImportMany] MenuItemGroupDefinition[] menuItemGroups,
+            [ImportMany] MenuDefinition[] menus)
         {
             _menuItems = menuItems;
-            _exludedMenus = excludedItems.Select(x => x.ExludedMenuItemDefinition).ToArray();
+            _menus = menus;
+            _menuItemGroups = menuItemGroups;
         }
+
 
         public void CreateMenu(IMenuHostViewModel model)
         {
-            model.Items.Clear();
-            var items = new List<MenuItem>();
+            var menus = _menus.OrderBy(x => x.SortOrder);
 
-            var menuDefinitions = _menuItems; //definitions.GetDefinitions();
-
-            var topLevelMenus =
-                menuDefinitions.Where(x => x.HasItems == false)
-                               .Where(x => x.HasParent == false)
-                               .Where(x => !_exludedMenus.Contains(x))
-                               .OrderBy(x => x.Priority);
-
-            foreach (var topLevelMenu in topLevelMenus)
+            foreach (var menu in menus)
             {
-                var topItem = CreateItem(topLevelMenu);
-                CreateItemsRecursive(topLevelMenu, topItem, menuDefinitions);
-                items.Add(topItem);
-            }
-            foreach (var menuItem in items)
+                var menuItem = CreateItem(menu);
+                AddGroupsRecursive(menu, menuItem);
                 model.Items.Add(menuItem);
+            }
         }
 
-        public MenuItem CreateItem(MenuItemDefinition definition)
+        private void AddGroupsRecursive(MenuDefinitionBase menu, MenuItem menuItem)
         {
-            return new MenuItem {Header = definition.Name};
+            var groups = _menuItemGroups.Where(x => x.Parent == menu)
+                .OrderBy(x => x.SortOrder)
+                .ToList();
+
+            for (var i = 0; i < groups.Count; i++)
+            {
+                var group = groups[i];
+                var menuItems = _menuItems.Where(x => x.Group == group)
+                    .OrderBy(x => x.SortOrder);
+
+                foreach (var menuItemDefinition in menuItems)
+                {
+                    MenuItem menuItemControl;
+                    if (menuItemDefinition.CommandDefinition is CommandListDefinition)
+                        menuItemControl = new DummyListMenuItem(menuItemDefinition.CommandDefinition, menuItem);
+                    else
+                        menuItemControl = CreateItemFromDefinition(menuItemDefinition.CommandDefinition);
+                    AddGroupsRecursive(menuItemDefinition, menuItemControl);
+                    menuItem.Items.Add(menuItemControl);
+                }
+                if (i < groups.Count - 1 && menuItems.Any())
+                    menuItem.Items.Add(new Separator());
+            }
+        }
+
+        //public void CreateMenu(IMenuHostViewModel model)
+        //{
+        //    model.Items.Clear();
+        //    var items = new List<MenuItem>();
+
+        //    var menuDefinitions = _menuItems; //definitions.GetDefinitions();
+
+        //    var topLevelMenus =
+        //        menuDefinitions.Where(x => x.HasItems == false)
+        //                       .Where(x => x.HasParent == false)
+        //                       .Where(x => !_exludedMenus.Contains(x))
+        //                       .OrderBy(x => x.Priority);
+
+        //    foreach (var topLevelMenu in topLevelMenus)
+        //    {
+        //        var topItem = CreateItem(topLevelMenu);
+        //        CreateItemsRecursive(topLevelMenu, topItem, menuDefinitions);
+        //        items.Add(topItem);
+        //    }
+        //    foreach (var menuItem in items)
+        //        model.Items.Add(menuItem);
+        //}
+
+        public MenuItem CreateItem(MenuDefinition definitionOld)
+        {
+            return new MenuItem { Header = definitionOld.DisplayName };
         }
 
         /// <summary>
@@ -105,54 +151,53 @@ namespace ModernApplicationFramework.Basics.Creators
         }
 
 
-        private void CreateItemsRecursive(MenuItemDefinition topLevel, ItemsControl topItem,
-                                          ICollection<MenuItemDefinition> list)
-        {
-            //MenuDefinitions which are parent of top
-            var menuItems = list.Where(x => x.Parent == topLevel)
-                .Where(x => !_exludedMenus.Contains(x))
-                .OrderBy(x => x.Priority);
+        //private void CreateItemsRecursive(MenuItemDefinitionOld topLevel, ItemsControl topItem,
+        //                                  ICollection<MenuItemDefinitionOld> list)
+        //{
+        //    //MenuDefinitions which are parent of top
+        //    var menuItems = list.Where(x => x.Parent == topLevel)
+        //        .Where(x => !_exludedMenus.Contains(x))
+        //        .OrderBy(x => x.Priority);
 
-            //For some reason 'list' has FixedSize
-            var tempList = new List<MenuItemDefinition>(list);
+        //    //For some reason 'list' has FixedSize
+        //    var tempList = new List<MenuItemDefinitionOld>(list);
 
-            for (int i = 0; i < menuItems.Count(); i++)
-            {
-                //SubMenuDefinitions which are parent of currnet
-                var subDefinitonItems =
-                    tempList.Where(x => x.Parent == topLevel)
-                    .Where(x => !_exludedMenus.Contains(x))
-                    .OrderBy(x => x.Priority);
-                foreach (var subDefinitonItem in subDefinitonItems)
-                {
-                    tempList.Remove(subDefinitonItem);
-                    if (subDefinitonItem.IsSeparator)
-                        topItem.Items.Add(new Separator());
-                    if (subDefinitonItem.HasItems)
-                        foreach (var definition in subDefinitonItem.Definitions)
-                        {
-                            if (definition is CommandListDefinition)
-                                topItem.Items.Add(new DummyListMenuItem(definition ,topItem));
-                            else if (definition is CommandDefinition commandDefinition)
-                            {
-                                if (commandDefinition.CanShowInMenu)
-                                    topItem.Items.Add(CreateItemFromDefinition(commandDefinition));
-                            }
+        //    for (int i = 0; i < menuItems.Count(); i++)
+        //    {
+        //        //SubMenuDefinitions which are parent of currnet
+        //        var subDefinitonItems =
+        //            tempList.Where(x => x.Parent == topLevel)
+        //            .Where(x => !_exludedMenus.Contains(x))
+        //            .OrderBy(x => x.Priority);
+        //        foreach (var subDefinitonItem in subDefinitonItems)
+        //        {
+        //            tempList.Remove(subDefinitonItem);
+        //            if (subDefinitonItem.IsSeparator)
+        //                topItem.Items.Add(new Separator());
+        //            if (subDefinitonItem.HasItems)
+        //                foreach (var definition in subDefinitonItem.Definitions)
+        //                {
+        //                    if (definition is CommandListDefinition)
+        //                        topItem.Items.Add(new DummyListMenuItem(definition ,topItem));
+        //                    else if (definition is CommandDefinition commandDefinition)
+        //                    {
+        //                        if (commandDefinition.CanShowInMenu)
+        //                            topItem.Items.Add(CreateItemFromDefinition(commandDefinition));
+        //                    }
                                                 
-                        }         
-                    else
-                    {
-                        if (subDefinitonItem.IsSeparator)
-                            continue;
-                        var subItem = CreateItem(subDefinitonItem);
-                        CreateItemsRecursive(subDefinitonItem, subItem, list);
-                        topItem.Items.Add(subItem);
-                    }
+        //                }         
+        //            else
+        //            {
+        //                if (subDefinitonItem.IsSeparator)
+        //                    continue;
+        //                var subItem = CreateItem(subDefinitonItem);
+        //                CreateItemsRecursive(subDefinitonItem, subItem, list);
+        //                topItem.Items.Add(subItem);
+        //            }
 
-                }
-            }
-        }
-
+        //        }
+        //    }
+        //}
 
         public void CreateMenu(IMenuHostViewModel model, MenuItem item)
         {

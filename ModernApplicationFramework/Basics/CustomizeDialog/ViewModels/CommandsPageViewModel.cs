@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
@@ -19,13 +18,13 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             DisplayName = "Commands";
             CustomizableToolBars = IoC.Get<IToolBarHostViewModel>().ToolbarDefinitions;
 
-            var topLevelMenuItems = IoC.GetAll<MenuItemDefinition>().Where(x => !x.HasParent);
+            //var topLevelMenuItems = IoC.GetAll<MenuItemDefinitionOld>().Where(x => !x.HasParent);
 
-            CustomizableMenuBars = new ObservableCollection<MenuItemDefinition>(topLevelMenuItems);
+            //CustomizableMenuBars = new ObservableCollection<MenuItemDefinitionOld>(topLevelMenuItems);
         }
 
 
         public ObservableCollectionEx<ToolbarDefinition> CustomizableToolBars { get; set; }
-        public ObservableCollection<MenuItemDefinition> CustomizableMenuBars { get; set; }
+        //public ObservableCollection<MenuItemDefinitionOld> CustomizableMenuBars { get; set; }
     }
 }

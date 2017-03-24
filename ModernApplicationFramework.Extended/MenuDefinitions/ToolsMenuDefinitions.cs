@@ -1,13 +1,15 @@
 ﻿using System.ComponentModel.Composition;
-using ModernApplicationFramework.Basics.Definitions;
+using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Extended.Commands;
 
 namespace ModernApplicationFramework.Extended.MenuDefinitions
 {
     public static class ToolsMenuDefinitions
     {
-        [Export] public static MenuItemDefinition ToolsMenu = new MenuItemDefinition("_Tools", 5);
+        [Export] public static MenuDefinition ToolsMenu = new MenuDefinition(8, "ToolsMenu", "_Tools");
 
-        [Export] public static MenuItemDefinition Settings = new MenuItemDefinition<OpenSettingsCommandDefinition>("Settings", int.MaxValue, ToolsMenu);
+        [Export] public static MenuItemGroupDefinition SettingsGroup = new MenuItemGroupDefinition(ToolsMenu, int.MaxValue);
+
+        [Export] public static MenuItemDefinition Settings = new CommandMenuItemDefinition<OpenSettingsCommandDefinition>(SettingsGroup, int.MaxValue);
     }
 }

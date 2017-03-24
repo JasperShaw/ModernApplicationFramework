@@ -1,78 +1,78 @@
 ﻿using System.ComponentModel.Composition;
-using ModernApplicationFramework.Basics.Definitions;
+using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.MVVM.Commands;
 
 namespace ModernApplicationFramework.MVVM.Controls.MenuDefinitions
 {
     public static class MenuDefinitions
     {
-        [Export] public static MenuItemDefinition FileMenu = new MenuItemDefinition("_File", 0);
+        [Export] public static MenuItemDefinitionOld FileMenu = new MenuItemDefinitionOld("_File", 0);
 
 
-        [Export] public static MenuItemDefinition SubMenuNew = new MenuItemDefinition("New", 0, FileMenu);
-
-        [Export]
-        public static MenuItemDefinition SubMenuItemNewFile =
-            new MenuItemDefinition<NewFileCommandDefinition>("New File", 4, SubMenuNew);
+        [Export] public static MenuItemDefinitionOld SubMenuNew = new MenuItemDefinitionOld("New", 0, FileMenu);
 
         [Export]
-        public static MenuItemDefinition SubMenuOpen = new MenuItemDefinition("Open", 1, FileMenu);
+        public static MenuItemDefinitionOld SubMenuItemNewFile =
+            new MenuItemDefinitionOld<NewFileCommandDefinition>("New File", 4, SubMenuNew);
 
         [Export]
-        public static MenuItemDefinition SubMenuItemOpenFile =
-            new MenuItemDefinition<OpenFileCommandDefinition>("New File", 4, SubMenuOpen);
+        public static MenuItemDefinitionOld SubMenuOpen = new MenuItemDefinitionOld("Open", 1, FileMenu);
 
-        [Export] public static MenuItemDefinition FileMenuSeparator = new MenuItemDefinition("Separator", 2, FileMenu, true);
+        [Export]
+        public static MenuItemDefinitionOld SubMenuItemOpenFile =
+            new MenuItemDefinitionOld<OpenFileCommandDefinition>("New File", 4, SubMenuOpen);
+
+        [Export] public static MenuItemDefinitionOld FileMenuSeparator = new MenuItemDefinitionOld("Separator", 2, FileMenu, true);
 
 
         [Export]
-        public static MenuItemDefinition CloseActiveDocument = new MenuItemDefinition<CloseActiveDocumentCommandDefinition>("Close Document", 3, FileMenu);
+        public static MenuItemDefinitionOld CloseActiveDocument = new MenuItemDefinitionOld<CloseActiveDocumentCommandDefinition>("Close Document", 3, FileMenu);
 
         [Export]
-        public static MenuItemDefinition FileMenuSeparator2 = new MenuItemDefinition("Separator2", 4, FileMenu, true);
+        public static MenuItemDefinitionOld FileMenuSeparator2 = new MenuItemDefinitionOld("Separator2", 4, FileMenu, true);
 
-        [Export] public static MenuItemDefinition SubItemSave = new MenuItemDefinition<SaveFileCommandDefinition>(
+        [Export] public static MenuItemDefinitionOld SubItemSave = new MenuItemDefinitionOld<SaveFileCommandDefinition>(
             "Save", 4, FileMenu);
 
         [Export]
-        public static MenuItemDefinition SubItemSaveAs = new MenuItemDefinition<SaveFileAsCommandDefinition>(
+        public static MenuItemDefinitionOld SubItemSaveAs = new MenuItemDefinitionOld<SaveFileAsCommandDefinition>(
             "Save As", 4, FileMenu);
 
         [Export]
-        public static MenuItemDefinition SaveAll = new MenuItemDefinition<SaveAllFilesCommandDefinition>("Save All", 5, FileMenu);
+        public static MenuItemDefinitionOld SaveAll = new MenuItemDefinitionOld<SaveAllFilesCommandDefinition>("Save All", 5, FileMenu);
 
         [Export]
-        public static MenuItemDefinition FileMenuSeparatorLast = new MenuItemDefinition("SeparatorLast", int.MaxValue, FileMenu, true);
+        public static MenuItemDefinitionOld FileMenuSeparatorLast = new MenuItemDefinitionOld("SeparatorLast", int.MaxValue, FileMenu, true);
 
         [Export]
-        public static MenuItemDefinition CloseProgramm = new MenuItemDefinition<CloseProgammCommandDefinition>("Close", int.MaxValue, FileMenu);
+        public static MenuItemDefinitionOld CloseProgramm = new MenuItemDefinitionOld<CloseProgammCommandDefinition>("Close", int.MaxValue, FileMenu);
 
 
 
-        [Export] public static MenuItemDefinition EditMenu = new MenuItemDefinition("_Edit", 1);
+        [Export] public static MenuItemDefinitionOld EditMenu = new MenuItemDefinitionOld("_Edit", 1);
 
-        [Export] public static MenuItemDefinition Undo = new MenuItemDefinition<UndoCommandDefinition>("Undo", 0, EditMenu);
+        [Export] public static MenuItemDefinitionOld Undo = new MenuItemDefinitionOld<UndoCommandDefinition>("Undo", 0, EditMenu);
 
-        [Export] public static MenuItemDefinition Redo = new MenuItemDefinition<RedoCommandDefinition>("Redo", 1, EditMenu);
-
-        [Export]
-        public static MenuItemDefinition EditMenuSeparator = new MenuItemDefinition("Separator2", 2, EditMenu, true);
-
-
-
-
-        [Export] public static MenuItemDefinition ViewMenu = new MenuItemDefinition("_View", 2);
+        [Export] public static MenuItemDefinitionOld Redo = new MenuItemDefinitionOld<RedoCommandDefinition>("Redo", 1, EditMenu);
 
         [Export]
+        public static MenuItemDefinitionOld EditMenuSeparator = new MenuItemDefinitionOld("Separator2", 2, EditMenu, true);
 
-        public static MenuItemDefinition ViewMenuSeparator = new MenuItemDefinition("Separator", 9, ViewMenu, true);
 
-        [Export] public static MenuItemDefinition FullScreen =
-            new MenuItemDefinition<FullScreenCommandDefinition>("Full Screen", 10, ViewMenu);
 
-        [Export] public static MenuItemDefinition ToolsMenu = new MenuItemDefinition("_Tools", 5);
+
+        [Export] public static MenuItemDefinitionOld ViewMenu = new MenuItemDefinitionOld("_View", 2);
 
         [Export]
-        public static MenuItemDefinition Settings = new MenuItemDefinition<OpenSettingsCommandDefinition>("Settings", int.MaxValue, ToolsMenu);
+
+        public static MenuItemDefinitionOld ViewMenuSeparator = new MenuItemDefinitionOld("Separator", 9, ViewMenu, true);
+
+        [Export] public static MenuItemDefinitionOld FullScreen =
+            new MenuItemDefinitionOld<FullScreenCommandDefinition>("Full Screen", 10, ViewMenu);
+
+        [Export] public static MenuItemDefinitionOld ToolsMenu = new MenuItemDefinitionOld("_Tools", 5);
+
+        [Export]
+        public static MenuItemDefinitionOld Settings = new MenuItemDefinitionOld<OpenSettingsCommandDefinition>("Settings", int.MaxValue, ToolsMenu);
     }
 }

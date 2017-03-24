@@ -31,7 +31,7 @@ namespace ModernApplicationFramework.Extended.Commands
                     UriKind.RelativeOrAbsolute);
 
         public override string Name => "File.Exit";
-        public override string Text => "Exit";
+        public override string Text => "_Exit";
         public override string ToolTip => "Closes the Programm";
 
         private bool CanClose()

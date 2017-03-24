@@ -162,7 +162,13 @@
     <Compile Include="Basics\CustomizeDialog\Views\CommandsPageView.xaml.cs">
       <DependentUpon>CommandsPageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Basics\Definitions\ExcludeMenuDefinition.cs" />
+    <Compile Include="Basics\Definitions\Menu\ExcludeMenuDefinition.cs" />
+    <Compile Include="Basics\Definitions\Menu\ExcludeMenuItemDefinition.cs" />
+    <Compile Include="Basics\Definitions\Menu\ExcludeMenuItemGroupDefinition.cs" />
+    <Compile Include="Basics\Definitions\Menu\MenuDefinition.cs" />
+    <Compile Include="Basics\Definitions\Menu\MenuDefinitionBase.cs" />
+    <Compile Include="Basics\Definitions\Menu\MenuItemDefinition.cs" />
+    <Compile Include="Basics\Definitions\Menu\MenuItemGroupDefinition.cs" />
     <Compile Include="Basics\SettingsDialog\ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="Basics\SettingsDialog\ViewModels\SettingsWindowViewModel.cs" />
     <Compile Include="Basics\SettingsDialog\Views\SettingsWindowView.xaml.cs">
@@ -536,7 +542,6 @@
     <Compile Include="Interfaces\IToolbarService.cs" />
     <Compile Include="Basics\Creators\ToolbarTrayCreator.cs" />
     <Compile Include="Basics\Creators\MenuCreator.cs" />
-    <Compile Include="Basics\Definitions\MenuItemDefinition.cs" />
     <Compile Include="Basics\Definitions\ToolbarDefinition.cs" />
     <Compile Include="Basics\UndoRedoManager\InstancePropertyHandler.cs" />
     <Compile Include="Interfaces\IUndoRedoManager.cs" />
