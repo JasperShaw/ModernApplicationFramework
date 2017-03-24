@@ -18,10 +18,10 @@ namespace ModernApplicationFramework.Core.ValidationRules
             var str = s.Trim();
             var toolbars = (CollectionView)DataContext.Toolbars;
 
-            if (((ToolbarDefinition)toolbars.CurrentItem).Name.Equals(str, StringComparison.CurrentCultureIgnoreCase))
+            if (((ToolbarDefinitionOld)toolbars.CurrentItem).Name.Equals(str, StringComparison.CurrentCultureIgnoreCase))
                 return ValidationResult.ValidResult;
 
-            foreach (ToolbarDefinition definition in toolbars)
+            foreach (ToolbarDefinitionOld definition in toolbars)
                 if (definition.Name.Equals(str, StringComparison.CurrentCultureIgnoreCase))
                     return new ValidationResult(false, $"A toolbar named '{definition.Name}' already exists. Type another name.");
             return ValidationResult.ValidResult;

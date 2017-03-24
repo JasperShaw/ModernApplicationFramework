@@ -11,13 +11,13 @@ using ToolBar = ModernApplicationFramework.Controls.ToolBar;
 
 namespace ModernApplicationFramework.Basics.Definitions.Toolbar
 {
-    public class ToolbarDefinition : INotifyPropertyChanged
+    public class ToolbarDefinitionOld : INotifyPropertyChanged
     {
         private bool _visible;
         private Dock _position;
         private string _name;
 
-        public ToolbarDefinition(ToolBar toolBar, string name, int sortOrder, bool visible, Dock position, bool isCustom = false)
+        public ToolbarDefinitionOld(ToolBar toolBar, string name, int sortOrder, bool visible, Dock position, bool isCustom = false)
         {
             ToolBar = toolBar;
             Name = name;
@@ -87,9 +87,9 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
         }
     }
 
-    public class ToolbarDefinition<T> : ToolbarDefinition where T : ToolBar
+    public class ToolbarDefinitionOld<T> : ToolbarDefinitionOld where T : ToolBar
     {
-        public ToolbarDefinition(string name, int sortOrder, bool visible, Dock position, bool isCustom = false)
+        public ToolbarDefinitionOld(string name, int sortOrder, bool visible, Dock position, bool isCustom = false)
             : base(null, name, sortOrder, visible, position, isCustom)
         {
             var t = IoC.Get<IToolbarService>().GetToolbar(typeof(T));

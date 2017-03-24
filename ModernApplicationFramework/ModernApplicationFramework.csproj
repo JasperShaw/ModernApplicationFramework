@@ -543,7 +543,7 @@
     <Compile Include="Interfaces\IToolbarService.cs" />
     <Compile Include="Basics\Creators\ToolbarTrayCreator.cs" />
     <Compile Include="Basics\Creators\MenuCreator.cs" />
-    <Compile Include="Basics\Definitions\Toolbar\ToolbarDefinition.cs" />
+    <Compile Include="Basics\Definitions\Toolbar\ToolbarDefinitionOld.cs" />
     <Compile Include="Basics\UndoRedoManager\InstancePropertyHandler.cs" />
     <Compile Include="Interfaces\IUndoRedoManager.cs" />
     <Compile Include="Basics\UndoRedoManager\UndoRedoAction.cs" />

@@ -7,6 +7,6 @@ namespace ModernApplicationFramework.MVVM.Controls.Toolbars
     public static class ToolBarDefinitions
     {
         [Export]
-        public static ToolbarDefinition Standard = new ToolbarDefinition<StandardToolbar>("Standard", 0, true, Dock.Top);
+        public static ToolbarDefinitionOld Standard = new ToolbarDefinitionOld<StandardToolbar>("Standard", 0, true, Dock.Top);
     }
 }

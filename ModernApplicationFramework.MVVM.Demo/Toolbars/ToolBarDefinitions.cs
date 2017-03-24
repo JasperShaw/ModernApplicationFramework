@@ -7,6 +7,6 @@ namespace ModernApplicationFramework.MVVM.Demo.Toolbars
     public static class ToolBarDefinitions
     {
         [Export]
-        public static ToolbarDefinition Demo = new ToolbarDefinition<DemoToolbar>("Demos", 0, true, Dock.Left);
+        public static ToolbarDefinitionOld Demo = new ToolbarDefinitionOld<DemoToolbar>("Demos", 0, true, Dock.Left);
     }
 }
