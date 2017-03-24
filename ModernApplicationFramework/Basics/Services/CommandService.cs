@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using ModernApplicationFramework.Basics.Definitions;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Interfaces.Command;
 

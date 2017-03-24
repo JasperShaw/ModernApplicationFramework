@@ -3,7 +3,6 @@ using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.Definitions;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.CommandBase;

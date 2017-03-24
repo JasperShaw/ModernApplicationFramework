@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Controls;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.Definitions;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls;

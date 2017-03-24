@@ -162,6 +162,7 @@
     <Compile Include="Basics\CustomizeDialog\Views\CommandsPageView.xaml.cs">
       <DependentUpon>CommandsPageView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Basics\Definitions\Command\CommandControlTypes.cs" />
     <Compile Include="Basics\Definitions\Menu\ExcludeMenuDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\ExcludeMenuItemDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\ExcludeMenuItemGroupDefinition.cs" />

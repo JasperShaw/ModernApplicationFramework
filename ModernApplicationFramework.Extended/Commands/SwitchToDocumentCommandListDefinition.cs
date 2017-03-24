@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.Composition;
-using ModernApplicationFramework.Basics.Definitions;
 using ModernApplicationFramework.Basics.Definitions.Command;
 
 namespace ModernApplicationFramework.Extended.Commands

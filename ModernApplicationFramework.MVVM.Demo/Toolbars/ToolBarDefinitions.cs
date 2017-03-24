@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows.Controls;
-using ModernApplicationFramework.Basics.Definitions;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 
 namespace ModernApplicationFramework.MVVM.Demo.Toolbars

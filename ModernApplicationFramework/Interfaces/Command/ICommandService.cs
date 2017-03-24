@@ -1,5 +1,4 @@
 ﻿using System;
-using ModernApplicationFramework.Basics.Definitions;
 using ModernApplicationFramework.Basics.Definitions.Command;
 
 namespace ModernApplicationFramework.Interfaces.Command

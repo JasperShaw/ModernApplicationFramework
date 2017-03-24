@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Data;
-using ModernApplicationFramework.Basics.Definitions;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.CommandBase;

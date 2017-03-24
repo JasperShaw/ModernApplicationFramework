@@ -1,5 +1,4 @@
-﻿using ModernApplicationFramework.Basics.Definitions;
-using ModernApplicationFramework.Basics.Definitions.Command;
+﻿using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
 
 namespace ModernApplicationFramework.Interfaces.Command

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using ModernApplicationFramework.Basics.Definitions;
 using ModernApplicationFramework.Basics.Definitions.Command;
 
 namespace ModernApplicationFramework.Interfaces.Command
