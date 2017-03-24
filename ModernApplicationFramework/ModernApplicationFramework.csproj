@@ -58,6 +58,10 @@
     <Resource Include="Resources\top.png" />
     <Resource Include="Resources\topleft.png" />
     <Resource Include="Resources\topright.png" />
+    <Page Include="Basics\CustomizeDialog\Views\CommandsPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Basics\SettingsDialog\Views\SettingsWindowView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -74,6 +78,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Basics\CustomizeDialog\Views\ToolBarsPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic\CustomizeControlsListBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic\CustomizeControlsListBoxItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -146,6 +158,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Basics\Bootstrapper.cs" />
+    <Compile Include="Basics\CustomizeDialog\ViewModels\CommandsPageViewModel.cs" />
+    <Compile Include="Basics\CustomizeDialog\Views\CommandsPageView.xaml.cs">
+      <DependentUpon>CommandsPageView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Basics\Definitions\ExcludeMenuDefinition.cs" />
     <Compile Include="Basics\SettingsDialog\ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="Basics\SettingsDialog\ViewModels\SettingsWindowViewModel.cs" />
@@ -162,9 +178,22 @@
     <Compile Include="CommandBase\MultiKeyGestureCommandWrapper.cs" />
     <Compile Include="CommandBase\MultiKeyGestureConverter.cs" />
     <Compile Include="Basics\Services\CommandService.cs" />
+    <Compile Include="Controls\CustomizeControlsListBox.cs" />
+    <Compile Include="Controls\CustomizeControlsListBoxItem.cs" />
+    <Compile Include="Controls\CustomSortListBox.cs" />
     <Compile Include="Controls\DummyListMenuItem.cs" />
     <Compile Include="Controls\Utilities\BindableSelectedItemBehavior.cs" />
     <Compile Include="Controls\Utilities\MenuBehavior.cs" />
+    <Compile Include="Core\Converters\AccessKeyRemovingConverter.cs" />
+    <Compile Include="Core\Converters\AccessKeyUnderliningConverter.cs" />
+    <Compile Include="Core\Converters\EnabledFilteringMultiConverter.cs" />
+    <Compile Include="Core\Converters\NegateBooleanConverter.cs" />
+    <Compile Include="Core\Converters\OrBooleanConverter.cs" />
+    <Compile Include="Core\Converters\VisibleIfNotNullConverter.cs" />
+    <Compile Include="Core\Themes\StyleKey.cs" />
+    <Compile Include="Core\Utilities\Accelerator.cs" />
+    <Compile Include="Core\ValidationRules\ComboBoxWidthValidationRule.cs" />
+    <Compile Include="Core\ValidationRules\CommandNameNotEmptyValidationRule.cs" />
     <Compile Include="Interfaces\Command\ICommandHandler.cs" />
     <Compile Include="Interfaces\Command\ICommandListHandler.cs" />
     <Compile Include="Interfaces\Command\ICommandRouter.cs" />

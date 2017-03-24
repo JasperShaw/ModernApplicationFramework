@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Primitives;
 using System.Linq;
@@ -114,6 +115,11 @@ namespace ModernApplicationFramework.Core.Utilities
             }
 
             return exception; // Fuck it, couldn't find the real deal. Throw the original.
+        }
+
+        public static void RaiseEvent(this PropertyChangedEventHandler eventHandler, object source, string propertyName)
+        {
+            eventHandler?.Invoke(source, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -1,0 +1,33 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
+                    xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes">
+
+    <Style TargetType="{x:Type controls:CustomizeControlsListBox}">
+        <Setter Property="BorderBrush" Value="#828790"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:CustomizeControlsListBox}">
+                    <Border x:Name="Bd" SnapsToDevicePixels="True" Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="1">
+                        <ScrollViewer Padding="{TemplateBinding Padding}" Focusable="False">
+                            <Grid>
+                                <Border x:Name="BackgroundBorder" Background="{DynamicResource {x:Static themes:EnvironmentColors.MenuBackground}}">
+                                    <Border Width="28" Background="{DynamicResource {x:Static themes:EnvironmentColors.MenuBackground}}"
+                                            HorizontalAlignment="Left"/>
+                                </Border>
+                                <ItemsPresenter Margin="3,0,3,0" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Grid.IsSharedSizeScope="True"/>
+                            </Grid>
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+</ResourceDictionary>

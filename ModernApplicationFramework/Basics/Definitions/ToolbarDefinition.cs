@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
@@ -23,6 +25,11 @@ namespace ModernApplicationFramework.Basics.Definitions
             Visible = visible;
             Position = position;
             IsCustom = isCustom;
+
+            Items = new List<string>
+            {
+                "Test", "Test2"
+            };
         }
 
         public string Name
@@ -40,6 +47,8 @@ namespace ModernApplicationFramework.Basics.Definitions
         public bool IsCustom { get; set; }
 
         public Dock LastPosition { get; private set; }
+
+        public IEnumerable Items { get; set; }
 
         public Dock Position
         {

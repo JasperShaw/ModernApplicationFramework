@@ -10,14 +10,17 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         public CustomizeDialogViewModel()
         {
             DisplayName = "Customize";
-            var toolbarsViewModel = IoC.Get<IToolBarsPageViewModel>();
-            ActivateItem(toolbarsViewModel);
         }
 
 
         protected override void OnViewLoaded(object view)
         {
             base.OnViewLoaded(view);
+            var toolbarsViewModel = IoC.Get<IToolBarsPageViewModel>();
+            Items.Add(toolbarsViewModel);
+            var commandsPageViewModel = IoC.Get<CommandsPageViewModel>();
+            Items.Add(commandsPageViewModel);
+            ActiveItem = toolbarsViewModel;
         }
     }
 }
