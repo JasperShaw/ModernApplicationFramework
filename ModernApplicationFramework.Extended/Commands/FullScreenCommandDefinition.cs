@@ -3,12 +3,12 @@ using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.Creators;
 using ModernApplicationFramework.Basics.Definitions;
+using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Extended.Interfaces;
-using ModernApplicationFramework.Interfaces.Utilities;
+using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Extended.Commands
 {
@@ -19,9 +19,12 @@ namespace ModernApplicationFramework.Extended.Commands
         [Import] private IDockingMainWindowViewModel _shell;
 #pragma warning restore 649
 
+        private readonly MenuItemDefinition _itemDefinition;
+
         public FullScreenCommandDefinition()
         {
             Command = new GestureCommandWrapper(TriggerFullScreen, CanTriggerFullScreen, new KeyGesture(Key.Enter, ModifierKeys.Shift | ModifierKeys.Alt));
+            _itemDefinition = new MenuItemDefinition(null, int.MaxValue) {CommandDefinition = this};
         }
 
         private bool _isFullScreen;
@@ -41,6 +44,8 @@ namespace ModernApplicationFramework.Extended.Commands
         public override string Text => "Fit to Screen";
         public override string ToolTip => Text;
 
+        public override bool IsChecked { get; set; } = true;
+
         private bool CanTriggerFullScreen()
         {
             return _shell != null;
@@ -48,33 +53,11 @@ namespace ModernApplicationFramework.Extended.Commands
 
         private void TriggerFullScreen()
         {
-            var menuBuilder = IoC.Get<IMenuCreator>();
+            var vm = IoC.Get<IMenuHostViewModel>();
             if (!_isFullScreen)
-            {
-
-                object vb = null;
-                if (!string.IsNullOrEmpty(IconSource?.OriginalString))
-                {
-                    var myResourceDictionary = new ResourceDictionary { Source = IconSource };
-                    vb = myResourceDictionary[IconId];
-                }
-
-
-                var item = new MenuItem
-                {
-                    Command = Command,
-                    Header = "Restore to nomal size",
-                    Icon = vb
-                };
-
-                item.IsChecked = true;
-
-                ((MenuCreator)menuBuilder).CreateMenu(_shell.MenuHostViewModel, item);
-            }
+                vm.MenuItemDefinitions.Add(_itemDefinition);
             else
-                menuBuilder.CreateMenu(_shell.MenuHostViewModel);
-
-
+                vm.MenuItemDefinitions.Remove(_itemDefinition);
             ((ModernChromeWindow) Application.Current.MainWindow).FullScreen = !_isFullScreen;
             _isFullScreen = !_isFullScreen;
         }

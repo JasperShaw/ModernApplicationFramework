@@ -2,7 +2,7 @@
 {
     public class ExcludeMenuItemDefinition
     {
-        public MenuItemDefinition MenuItemDefinitionToExclude { get; set; }
+        public MenuItemDefinition MenuItemDefinitionToExclude { get; }
 
         public ExcludeMenuItemDefinition(MenuItemDefinition menuItemDefinition)
         {

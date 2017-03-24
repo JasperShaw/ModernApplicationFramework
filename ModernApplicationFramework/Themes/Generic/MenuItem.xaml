@@ -99,7 +99,7 @@
                             <Setter TargetName="Col0" Property="Width" Value="26"/>
                             <Setter TargetName="Col2" Property="Width" Value="0"/>
                             <Setter TargetName="Icon" Property="Visibility" Value="Visible"/>
-                            <Setter TargetName="IGTHost" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="IGTHost" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="ArrowPanel" Property="Visibility" Value="Collapsed"/>
                             <Setter Property="BorderThickness" Value="1" TargetName="Border"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource {x:Static colors:EnvironmentColors.CheckBoxBorderFocused}}" TargetName="Border"/>

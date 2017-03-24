@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
-using ModernApplicationFramework.Basics.Creators;
 using ModernApplicationFramework.Basics.Definitions;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Interfaces.Controls;
@@ -36,7 +33,7 @@ namespace ModernApplicationFramework.Controls
             var startIndex = _parent.Items.IndexOf(this) + 1;
             foreach (var command in listCommands)
             {
-                var newMenuItem = MenuCreator.CreateItemFromDefinition(command);
+                var newMenuItem = CreateItemFromDefinition(command);
                 if (command is CommandDefinition commandDefinition && commandDefinition.IsChecked)
                     newMenuItem.IsChecked = true;
                 _parent.Items.Insert(startIndex++, newMenuItem);

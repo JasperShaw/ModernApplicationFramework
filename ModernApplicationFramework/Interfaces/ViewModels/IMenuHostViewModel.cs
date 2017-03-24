@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
+using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Controls;
-using ModernApplicationFramework.Interfaces.Utilities;
+using ModernApplicationFramework.Core.Utilities;
 
 namespace ModernApplicationFramework.Interfaces.ViewModels
 {
@@ -16,17 +17,25 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         /// <summary>
         ///     Contains the MenuItems of the MenuHostControl
         /// </summary>
-        ObservableCollection<MenuItem> Items { get; set; }
+        ObservableCollection<MenuItem> Items { get; }
 
         /// <summary>
         ///     Contains the UseDockingHost shall not be changed after setted up
         /// </summary>
         IMainWindowViewModel MainWindowViewModel { get; set; }
 
+
+        ObservableCollectionEx<MenuDefinition> MenuDefinitions { get; }
+        ObservableCollectionEx<MenuItemGroupDefinition> MenuItemGroupDefinitions { get; }
+        ObservableCollectionEx<MenuItemDefinition> MenuItemDefinitions { get; }
+        ObservableCollection<ExcludeMenuDefinition> ExcludedMenuDefinitions { get; }
+        ObservableCollection<ExcludeMenuItemGroupDefinition> ExcludedMenuItemGroupDefinitions { get; }
+        ObservableCollection<ExcludeMenuItemDefinition> ExcludedMenuItemDefinitions { get; }
+
+
         /// <summary>
-        ///     Create Menus
+        /// Builds/Rebuilds the Menu
         /// </summary>
-        /// <param name="creator"></param>
-        void CreateMenu(IMenuCreator creator);
+        void BuildMenu();
     }
 }

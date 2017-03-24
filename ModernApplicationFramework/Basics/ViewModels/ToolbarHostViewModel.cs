@@ -27,7 +27,7 @@ namespace ModernApplicationFramework.Basics.ViewModels
     [Export(typeof(IToolBarHostViewModel))]
     public class ToolbarHostViewModel : ViewModelBase, IToolBarHostViewModel
     {
-        public ObservableCollectionEx<ToolbarDefinition> ToolbarDefinitions { get; set; }
+        public ObservableCollectionEx<ToolbarDefinition> ToolbarDefinitions { get; }
 
 
         private ToolBarTray _bottomToolBarTay;

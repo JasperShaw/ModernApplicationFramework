@@ -2,11 +2,11 @@
 {
     public class ExcludeMenuDefinition
     {
-        public ExcludeMenuDefinition ExludedMenuItemDefinitionOld { get; set; }
+        public MenuDefinition ExludedMenuItemDefinition { get; }
 
-        public ExcludeMenuDefinition(ExcludeMenuDefinition definitionOld)
+        public ExcludeMenuDefinition(MenuDefinition definition)
         {
-            ExludedMenuItemDefinitionOld = definitionOld;
+            ExludedMenuItemDefinition = definition;
         }
     }
 }

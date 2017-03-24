@@ -381,9 +381,6 @@ namespace ModernApplicationFramework.MVVM.ViewModels
                 !string.IsNullOrEmpty(_themeManager.GetCurrentTheme()?.Name)
                     ? _themeManager.GetCurrentTheme().Name
                     : new GenericTheme().Name, this);
-
-            _menuCreator.CreateMenu(MenuHostViewModel);
-
             _commandKeyGestureService.BindKeyGesture((UIElement)view);
         }
 
@@ -440,18 +437,10 @@ namespace ModernApplicationFramework.MVVM.ViewModels
                 ToolBarHostViewModel.Theme = newValue;
         }
 #pragma warning disable 649
-
         [Import] private IDockingHostViewModel _dockingHost;
-
         [Import] private ThemeManager _themeManager;
-
-
         [Import]
         private IKeyGestureHandler _commandKeyGestureService;
-
-        [Import]
-        private IMenuCreator _menuCreator;
-
         private bool _useMenu;
 #pragma warning restore 649
     }
