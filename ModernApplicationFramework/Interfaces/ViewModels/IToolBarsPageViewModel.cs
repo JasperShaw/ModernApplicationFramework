@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions;
+using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Core.Utilities;
 
 namespace ModernApplicationFramework.Interfaces.ViewModels

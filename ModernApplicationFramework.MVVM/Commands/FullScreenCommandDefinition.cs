@@ -5,6 +5,7 @@ using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Creators;
 using ModernApplicationFramework.Basics.Definitions;
+using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Interfaces.Utilities;

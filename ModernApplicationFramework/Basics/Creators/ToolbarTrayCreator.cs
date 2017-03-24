@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.Linq;
 using ModernApplicationFramework.Basics.Definitions;
+using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Interfaces.Command;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;

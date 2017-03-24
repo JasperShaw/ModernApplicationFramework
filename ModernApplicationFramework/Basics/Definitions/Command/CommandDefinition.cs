@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace ModernApplicationFramework.Basics.Definitions
+namespace ModernApplicationFramework.Basics.Definitions.Command
 {
     public abstract class CommandDefinition : DefinitionBase
     {

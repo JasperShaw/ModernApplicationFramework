@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Interfaces.Command;
 
 namespace ModernApplicationFramework.Basics.Definitions.Menu

@@ -9,7 +9,7 @@ using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Properties;
 using ToolBar = ModernApplicationFramework.Controls.ToolBar;
 
-namespace ModernApplicationFramework.Basics.Definitions
+namespace ModernApplicationFramework.Basics.Definitions.Toolbar
 {
     public class ToolbarDefinition : INotifyPropertyChanged
     {

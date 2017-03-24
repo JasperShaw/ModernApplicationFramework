@@ -175,11 +175,11 @@
       <DependentUpon>SettingsWindowView.xaml</DependentUpon>
     </Compile>
     <Compile Include="CommandBase\CommandHandlerWrapper.cs" />
-    <Compile Include="Basics\Definitions\CommandListDefintion.cs" />
+    <Compile Include="Basics\Definitions\Command\CommandListDefintion.cs" />
     <Compile Include="CommandBase\CommandWrapper.cs" />
-    <Compile Include="Basics\Definitions\DefinitionBase.cs" />
+    <Compile Include="Basics\Definitions\Command\DefinitionBase.cs" />
     <Compile Include="CommandBase\GestureCommandWrapper.cs" />
-    <Compile Include="Basics\Definitions\CommandDefinition.cs" />
+    <Compile Include="Basics\Definitions\Command\CommandDefinition.cs" />
     <Compile Include="CommandBase\MultiKeyGesture.cs" />
     <Compile Include="CommandBase\MultiKeyGestureCommandWrapper.cs" />
     <Compile Include="CommandBase\MultiKeyGestureConverter.cs" />
@@ -542,7 +542,7 @@
     <Compile Include="Interfaces\IToolbarService.cs" />
     <Compile Include="Basics\Creators\ToolbarTrayCreator.cs" />
     <Compile Include="Basics\Creators\MenuCreator.cs" />
-    <Compile Include="Basics\Definitions\ToolbarDefinition.cs" />
+    <Compile Include="Basics\Definitions\Toolbar\ToolbarDefinition.cs" />
     <Compile Include="Basics\UndoRedoManager\InstancePropertyHandler.cs" />
     <Compile Include="Interfaces\IUndoRedoManager.cs" />
     <Compile Include="Basics\UndoRedoManager\UndoRedoAction.cs" />

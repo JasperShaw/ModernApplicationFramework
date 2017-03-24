@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions;
+using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
 

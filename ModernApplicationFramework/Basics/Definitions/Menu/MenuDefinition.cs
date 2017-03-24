@@ -1,4 +1,6 @@
-﻿namespace ModernApplicationFramework.Basics.Definitions.Menu
+﻿using ModernApplicationFramework.Basics.Definitions.Command;
+
+namespace ModernApplicationFramework.Basics.Definitions.Menu
 {
     public class MenuDefinition : MenuDefinitionBase
     {

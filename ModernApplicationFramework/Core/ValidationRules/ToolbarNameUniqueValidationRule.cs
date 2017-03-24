@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Windows.Controls;
 using System.Windows.Data;
 using ModernApplicationFramework.Basics.Definitions;
+using ModernApplicationFramework.Basics.Definitions.Toolbar;
 
 namespace ModernApplicationFramework.Core.ValidationRules
 {
