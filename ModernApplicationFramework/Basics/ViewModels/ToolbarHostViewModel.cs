@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Data;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.CustomizeDialog.ViewModels;
@@ -35,6 +37,8 @@ namespace ModernApplicationFramework.Basics.ViewModels
 
         public event EventHandler<ThemeChangedEventArgs> OnThemeChanged;
 
+        private readonly Dictionary<ToolbarDefinition,ToolBar> _toolbars;
+
         public Command<ContextMenuGlyphItem> ClickContextMenuItemCommand
             => new Command<ContextMenuGlyphItem>(ClickContextMenuItem, CanClickContextMenuItem);
 
@@ -45,6 +49,8 @@ namespace ModernApplicationFramework.Basics.ViewModels
             [ImportMany] ToolbarItemGroupDefinition[] toolbarItemGroupDefinitions,
             [ImportMany] ToolbarItemDefinition[] toolbarItemDefinitions)
         {
+            _toolbars = new Dictionary<ToolbarDefinition, ToolBar>();
+
             ToolbarDefinitions = new ObservableCollectionEx<ToolbarDefinition>();
             foreach (var definition in toolbarDefinitions)
                 ToolbarDefinitions.Add(definition);
@@ -160,17 +166,15 @@ namespace ModernApplicationFramework.Basics.ViewModels
 
         public void SetupToolbars()
         {
+            _toolbars.Clear();
             var definitions = ToolbarDefinitions.OrderBy(x => x.SortOrder);
             foreach (var definition in definitions)
             {
                 var toolBar = new ToolBar();
                 BuildToolBar(definition, toolBar);
-
-                LeftToolBarTray.AddToolBar(toolBar);
-                //ChangeToolBarVisibility(definition);
+                _toolbars.Add(definition, toolBar);
+                ChangeToolBarVisibility(definition);
             }
-
-
             BuildContextMenu();
         }
 
@@ -326,15 +330,27 @@ namespace ModernApplicationFramework.Basics.ViewModels
 
         private void _toolbarDefinitions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (e.NewItems != null)
-                foreach (ToolbarDefinition item in e.NewItems)
-                    if (item.IsVisible)
-                        InternalShowToolBar(item);
-            if (e.OldItems != null)
-                foreach (ToolbarDefinition item in e.OldItems)
-                    InternalHideToolBar(item);
-            OpenContextMenuCommand.RaiseCanExecuteChanged();
-            BuildContextMenu();
+            if (e.NewItems == null && e.OldItems == null)
+                return;
+            InternalHideAllToolbars();
+            SetupToolbars();
+            //if (e.NewItems != null)
+            //    foreach (ToolbarDefinition item in e.NewItems)
+            //        if (item.IsVisible)
+            //            InternalShowToolBar(item);
+            //if (e.OldItems != null)
+            //    foreach (ToolbarDefinition item in e.OldItems)
+            //        InternalHideToolBar(item);
+            //OpenContextMenuCommand.RaiseCanExecuteChanged();
+            //BuildContextMenu();
+        }
+
+        private void InternalHideAllToolbars()
+        {
+            TopToolBarTray.RemoveAllToolbars();
+            LeftToolBarTray.RemoveAllToolbars();
+            BottomToolBarTray.RemoveAllToolbars();
+            RightToolBarTray.RemoveAllToolbars();
         }
 
         private void _toolbarDefinitions_ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -379,89 +395,94 @@ namespace ModernApplicationFramework.Basics.ViewModels
 
         private void InternalHideToolBar(ToolbarDefinition definition)
         {
-            //if (TopToolBarTray == null || LeftToolBarTray == null || RightToolBarTray == null ||
-            //    BottomToolBarTray == null)
-            //    throw new NullReferenceException("Could not find all 4 ToolbarTrays");
-            //switch (definition.Position)
-            //{
-            //    case Dock.Top:
-            //        TopToolBarTray.RemoveToolBar(definition.ToolBar);
-            //        break;
-            //    case Dock.Left:
-            //        LeftToolBarTray.RemoveToolBar(definition.ToolBar);
-            //        break;
-            //    case Dock.Right:
-            //        RightToolBarTray.RemoveToolBar(definition.ToolBar);
-            //        break;
-            //    default:
-            //        BottomToolBarTray.RemoveToolBar(definition.ToolBar);
-            //        break;
-            //}
+            if (TopToolBarTray == null || LeftToolBarTray == null || RightToolBarTray == null ||
+                BottomToolBarTray == null)
+                throw new NullReferenceException("Could not find all 4 ToolbarTrays");
+            if (!_toolbars.ContainsKey(definition))
+                throw new ToolBarNotFoundException(definition.Text);
+            switch (definition.Position)
+            {
+                case Dock.Top:
+                    TopToolBarTray.RemoveToolBar(_toolbars[definition]);
+                    break;
+                case Dock.Left:
+                    LeftToolBarTray.RemoveToolBar(_toolbars[definition]);
+                    break;
+                case Dock.Right:
+                    RightToolBarTray.RemoveToolBar(_toolbars[definition]);
+                    break;
+                default:
+                    BottomToolBarTray.RemoveToolBar(_toolbars[definition]);
+                    break;
+            }
         }
 
         private void InternalShowToolBar(ToolbarDefinition definition)
         {
-            //if (TopToolBarTray == null || LeftToolBarTray == null || RightToolBarTray == null ||
-            //    BottomToolBarTray == null)
-            //    throw new NullReferenceException("Could not find all 4 ToolbarTrays");
-            //if (!definition.IsVisible)
-            //    return;
-            //switch (definition.Position)
-            //{
-            //    case Dock.Top:
-            //        TopToolBarTray.AddToolBar(definition.ToolBar);
-            //        break;
-            //    case Dock.Left:
-            //        LeftToolBarTray.AddToolBar(definition.ToolBar);
-            //        break;
-            //    case Dock.Right:
-            //        RightToolBarTray.AddToolBar(definition.ToolBar);
-            //        break;
-            //    default:
-            //        BottomToolBarTray.AddToolBar(definition.ToolBar);
-            //        break;
-            //}
+            if (TopToolBarTray == null || LeftToolBarTray == null || RightToolBarTray == null ||
+                BottomToolBarTray == null)
+                throw new NullReferenceException("Could not find all 4 ToolbarTrays");
+            if (!_toolbars.ContainsKey(definition))
+                throw new ToolBarNotFoundException(definition.Text);
+            if (!definition.IsVisible)
+                return;
+            switch (definition.Position)
+            {
+                case Dock.Top:
+                    TopToolBarTray.AddToolBar(_toolbars[definition]);
+                    break;
+                case Dock.Left:
+                    LeftToolBarTray.AddToolBar(_toolbars[definition]);
+                    break;
+                case Dock.Right:
+                    RightToolBarTray.AddToolBar(_toolbars[definition]);
+                    break;
+                default:
+                    BottomToolBarTray.AddToolBar(_toolbars[definition]);
+                    break;
+            }
         }
 
         private void InternalChangePosition(ToolbarDefinition definition)
         {
-            //if (TopToolBarTray == null || LeftToolBarTray == null || RightToolBarTray == null ||
-            //    BottomToolBarTray == null)
-            //    throw new NullReferenceException("Could not find all 4 ToolbarTrays");
+            if (TopToolBarTray == null || LeftToolBarTray == null || RightToolBarTray == null ||
+                BottomToolBarTray == null)
+                throw new NullReferenceException("Could not find all 4 ToolbarTrays");
+            if (!_toolbars.ContainsKey(definition))
+                throw new ToolBarNotFoundException(definition.Text);
+            if (!definition.IsVisible)
+                return;
 
-            //if (!definition.IsVisible)
-            //    return;
-
-            //switch (definition.LastPosition)
-            //{
-            //    case Dock.Left:
-            //        LeftToolBarTray.RemoveToolBar(definition.ToolBar);
-            //        break;
-            //    case Dock.Top:
-            //        TopToolBarTray.RemoveToolBar(definition.ToolBar);
-            //        break;
-            //    case Dock.Right:
-            //        RightToolBarTray.RemoveToolBar(definition.ToolBar);
-            //        break;
-            //    case Dock.Bottom:
-            //        BottomToolBarTray.RemoveToolBar(definition.ToolBar);
-            //        break;
-            //}
-            //switch (definition.Position)
-            //{
-            //    case Dock.Top:
-            //        TopToolBarTray.AddToolBar(definition.ToolBar);
-            //        break;
-            //    case Dock.Left:
-            //        LeftToolBarTray.AddToolBar(definition.ToolBar);
-            //        break;
-            //    case Dock.Right:
-            //        RightToolBarTray.AddToolBar(definition.ToolBar);
-            //        break;
-            //    default:
-            //        BottomToolBarTray.AddToolBar(definition.ToolBar);
-            //        break;
-            //}
+            switch (definition.LastPosition)
+            {
+                case Dock.Left:
+                    LeftToolBarTray.RemoveToolBar(_toolbars[definition]);
+                    break;
+                case Dock.Top:
+                    TopToolBarTray.RemoveToolBar(_toolbars[definition]);
+                    break;
+                case Dock.Right:
+                    RightToolBarTray.RemoveToolBar(_toolbars[definition]);
+                    break;
+                case Dock.Bottom:
+                    BottomToolBarTray.RemoveToolBar(_toolbars[definition]);
+                    break;
+            }
+            switch (definition.Position)
+            {
+                case Dock.Top:
+                    TopToolBarTray.AddToolBar(_toolbars[definition]);
+                    break;
+                case Dock.Left:
+                    LeftToolBarTray.AddToolBar(_toolbars[definition]);
+                    break;
+                case Dock.Right:
+                    RightToolBarTray.AddToolBar(_toolbars[definition]);
+                    break;
+                default:
+                    BottomToolBarTray.AddToolBar(_toolbars[definition]);
+                    break;
+            }
         }
     }
 }

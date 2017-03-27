@@ -48,6 +48,11 @@ namespace ModernApplicationFramework.Controls
             ToolBars.Remove(toolBar);
         }
 
+        public void RemoveAllToolbars()
+        {
+            ToolBars.Clear();
+        }
+
         #region Override Methods 
 
         protected override Size ArrangeOverride(Size arrangeSize)

@@ -38,12 +38,15 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
             set
             {
                 if (value == _position) return;
+                LastPosition = _position;
                 _position = value;
                 OnPropertyChanged();
             }
         }
 
         public bool IsCustom { get; }
+
+        public Dock LastPosition { get; private set; }
 
         public bool IsVisible
         {
