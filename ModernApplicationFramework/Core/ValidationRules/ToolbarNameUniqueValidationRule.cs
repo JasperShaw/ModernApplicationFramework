@@ -18,12 +18,12 @@ namespace ModernApplicationFramework.Core.ValidationRules
             var str = s.Trim();
             var toolbars = (CollectionView)DataContext.Toolbars;
 
-            if (((ToolbarDefinitionOld)toolbars.CurrentItem).Name.Equals(str, StringComparison.CurrentCultureIgnoreCase))
+            if (((ToolbarDefinition)toolbars.CurrentItem).Text.Equals(str, StringComparison.CurrentCultureIgnoreCase))
                 return ValidationResult.ValidResult;
 
-            foreach (ToolbarDefinitionOld definition in toolbars)
-                if (definition.Name.Equals(str, StringComparison.CurrentCultureIgnoreCase))
-                    return new ValidationResult(false, $"A toolbar named '{definition.Name}' already exists. Type another name.");
+            foreach (ToolbarDefinition definition in toolbars)
+                if (definition.Text.Equals(str, StringComparison.CurrentCultureIgnoreCase))
+                    return new ValidationResult(false, $"A toolbar named '{definition.Text}' already exists. Type another name.");
             return ValidationResult.ValidResult;
         }
     }

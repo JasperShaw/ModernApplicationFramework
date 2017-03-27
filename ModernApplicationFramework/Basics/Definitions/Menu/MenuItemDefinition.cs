@@ -1,18 +1,19 @@
 ﻿using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Interfaces.Command;
 
 namespace ModernApplicationFramework.Basics.Definitions.Menu
 {
-    public class MenuItemDefinition : MenuDefinitionBase
+    public class MenuItemDefinition : CommandBarItemDefinitionBase
     {
-        private int _sortOrder;
+        private uint _sortOrder;
         private string _text;
         private string _displayName;
         private DefinitionBase _commandDefinition;
         private MenuItemGroupDefinition _group;
 
-        public override int SortOrder
+        public override uint SortOrder
         {
             get => _sortOrder;
             set
@@ -34,7 +35,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
             }
         }
 
-        public override string DisplayName
+        public virtual string DisplayName
         {
             get => _displayName;
             set
@@ -67,7 +68,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
             }
         }
 
-        public MenuItemDefinition(MenuItemGroupDefinition group, int sortOrder)
+        public MenuItemDefinition(MenuItemGroupDefinition group, uint sortOrder)
         {
             _group = group;
             _sortOrder = sortOrder;
@@ -76,7 +77,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
 
     public sealed class CommandMenuItemDefinition<T> : MenuItemDefinition where T : DefinitionBase
     {
-        public CommandMenuItemDefinition(MenuItemGroupDefinition group, int sortOrder) : base(group, sortOrder)
+        public CommandMenuItemDefinition(MenuItemGroupDefinition group, uint sortOrder) : base(group, sortOrder)
         {
             CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
         }

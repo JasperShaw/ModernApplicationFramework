@@ -13,9 +13,9 @@ namespace ModernApplicationFramework.Controls
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MenuItem), new FrameworkPropertyMetadata(typeof(MenuItem)));
         }
 
-        public static MenuItem CreateItem(MenuDefinition definitionOld)
+        public static MenuItem CreateItem(MenuDefinition definition)
         {
-            return new MenuItem { Header = definitionOld.DisplayName };
+            return new MenuItem { Header = definition.DisplayName };
         }
 
         /// <summary>

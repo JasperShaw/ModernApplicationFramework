@@ -10,17 +10,17 @@ namespace ModernApplicationFramework.Basics.Creators
     [Export(typeof(IToolbarTrayCreator))]
     public class ToolbarTrayCreator : IToolbarTrayCreator
     {
-        private readonly ToolbarDefinitionOld[] _toolbarDefinitionsOld;
+        private readonly ToolbarDefinition[] _toolbarDefinitions;
 
         [ImportingConstructor]
-        public ToolbarTrayCreator(ICommandService commandService, [ImportMany] ToolbarDefinitionOld[] toolbarDefinitionsOld)
+        public ToolbarTrayCreator(ICommandService commandService, [ImportMany] ToolbarDefinition[] toolbarDefinitions)
         {
-            _toolbarDefinitionsOld = toolbarDefinitionsOld;
+            _toolbarDefinitions = toolbarDefinitions;
         }
 
         public void CreateToolbarTray(IToolBarHostViewModel model)
         {
-            var definitions = _toolbarDefinitionsOld.OrderBy(x => x.SortOrder);
+            var definitions = _toolbarDefinitions.OrderBy(x => x.SortOrder);
             foreach (var definition in definitions)
                 model.AddToolbarDefinition(definition);
         }

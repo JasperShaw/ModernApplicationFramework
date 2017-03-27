@@ -22,7 +22,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         }
 
 
-        public ObservableCollectionEx<ToolbarDefinitionOld> CustomizableToolBars { get; set; }
+        public ObservableCollectionEx<ToolbarDefinition> CustomizableToolBars { get; set; }
         //public ObservableCollection<MenuItemDefinitionOld> CustomizableMenuBars { get; set; }
     }
 }

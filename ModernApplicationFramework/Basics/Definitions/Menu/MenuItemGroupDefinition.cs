@@ -6,12 +6,12 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
 {
     public class MenuItemGroupDefinition : INotifyPropertyChanged
     {
-        private MenuDefinitionBase _parent;
-        private int _sortOrder;
+        private MenuDefinition _parent;
+        private uint _sortOrder;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public MenuDefinitionBase Parent
+        public MenuDefinition Parent
         {
             get => _parent;
             set
@@ -22,7 +22,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
             }
         }
 
-        public int SortOrder
+        public uint SortOrder
         {
             get => _sortOrder;
             set
@@ -33,7 +33,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
             }
         }
 
-        public MenuItemGroupDefinition(MenuDefinitionBase parent, int sortOrder)
+        public MenuItemGroupDefinition(MenuDefinition parent, uint sortOrder)
         {
             _parent = parent;
             _sortOrder = sortOrder;

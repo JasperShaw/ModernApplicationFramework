@@ -13,10 +13,10 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         ContextMenu ContextMenu { get; }
 
 
-        void AddToolbarDefinition(ToolbarDefinitionOld definitionOld);
-        void RemoveToolbarDefinition(ToolbarDefinitionOld definitionOld);
+        void AddToolbarDefinition(ToolbarDefinition definitionOld);
+        void RemoveToolbarDefinition(ToolbarDefinition definitionOld);
 
-        ObservableCollectionEx<ToolbarDefinitionOld> ToolbarDefinitions { get; }
+        ObservableCollectionEx<ToolbarDefinition> ToolbarDefinitions { get; }
 
         void SetupToolbars();
 

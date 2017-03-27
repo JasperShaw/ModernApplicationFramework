@@ -5,13 +5,14 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Threading;
 using ModernApplicationFramework.Controls.Utilities;
+using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Native.Standard;
 
 namespace ModernApplicationFramework.Controls
 {
-    public class ToolBar : System.Windows.Controls.ToolBar
+    public class ToolBar : System.Windows.Controls.ToolBar, IExposeStyleKeys
     {
         private static readonly DependencyPropertyKey IsOverflowToggleButtonVisiblePropertyKey;
         public static readonly DependencyProperty IsOverflowToggleButtonVisibleProperty;
@@ -177,6 +178,37 @@ namespace ModernApplicationFramework.Controls
 
             foreach (var bar in ancetor.ToolBars)
                 bar.ClearValue(bar.Orientation == Orientation.Vertical ? HeightProperty : WidthProperty);
+        }
+
+
+
+        private static ResourceKey buttonStyleKey;
+        private static ResourceKey menuControllerStyleKey;
+        private static ResourceKey comboBoxStyleKey;
+        private static ResourceKey menuStyleKey;
+        private static ResourceKey separatorStyleKey;
+
+
+        public new static ResourceKey ButtonStyleKey => buttonStyleKey ?? (buttonStyleKey = new StyleKey<ToolBar>());
+        ResourceKey IExposeStyleKeys.MenuControllerStyleKey => MenuControllerStyleKey;
+        ResourceKey IExposeStyleKeys.ComboBoxStyleKey => ComboBoxStyleKey;
+        ResourceKey IExposeStyleKeys.MenuStyleKey => MenuStyleKey;
+        ResourceKey IExposeStyleKeys.SeparatorStyleKey => SeparatorStyleKey;
+        ResourceKey IExposeStyleKeys.ButtonStyleKey => ButtonStyleKey;
+
+        public static ResourceKey MenuControllerStyleKey => menuControllerStyleKey ?? (menuControllerStyleKey = new StyleKey<ToolBar>());
+        public new static ResourceKey ComboBoxStyleKey => comboBoxStyleKey ?? (comboBoxStyleKey = new StyleKey<ToolBar>());
+        public new static ResourceKey MenuStyleKey => menuStyleKey ?? (menuStyleKey = new StyleKey<ToolBar>());
+        public new static ResourceKey SeparatorStyleKey => separatorStyleKey ?? (separatorStyleKey = new StyleKey<ToolBar>());
+
+        protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+        {
+            SelectStyleForItem(element as FrameworkElement, item, (IExposeStyleKeys)this);
+        }
+
+        internal static void SelectStyleForItem(FrameworkElement element, object item, IExposeStyleKeys styleKeySource)
+        {
+            element.SetResourceReference(StyleProperty, ButtonStyleKey);
         }
     }
 }

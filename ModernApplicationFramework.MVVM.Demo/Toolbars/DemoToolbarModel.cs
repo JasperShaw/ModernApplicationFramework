@@ -1,26 +1,30 @@
-﻿namespace ModernApplicationFramework.MVVM.Demo.Toolbars
+﻿using System.Collections.ObjectModel;
+using Caliburn.Micro;
+using Button = System.Windows.Controls.Button;
+
+namespace ModernApplicationFramework.MVVM.Demo.Toolbars
 {
     public class DemoToolbarModel
     {
-        //static DemoToolbarModel()
-        //{
-        //    ViewLocator.AddNamespaceMapping(typeof(DemoToolbarModel).Namespace,
-        //        typeof(DemoToolbarModel).Namespace);
-        //}
+        static DemoToolbarModel()
+        {
+            ViewLocator.AddNamespaceMapping(typeof(DemoToolbarModel).Namespace,
+                typeof(DemoToolbarModel).Namespace);
+        }
 
-        //public ICommand NewFileCommand
-        //    => IoC.Get<ICommandService>().GetCommandDefinition(typeof(NewFileCommandDefinition)).Command;
+        public DemoToolbarModel()
+        {
+            //Items = new ObservableCollection<Button>();
 
-        //public ICommand OpenFileCommand
-        //    => IoC.Get<ICommandService>().GetCommandDefinition(typeof(OpenFileCommandDefinition)).Command;
+            //var b = new CommandDefinitionButton<RedoCommandDefinition>();
+            //var bc = new CommandDefinitionButton<UndoCommandDefinition>();
 
-        //public ICommand RedoCommand
-        //    => IoC.Get<ICommandService>().GetCommandDefinition(typeof(RedoCommandDefinition)).Command;
+            //Items.Add(b);
+            //Items.Add(bc);
+        }
 
-        //public ICommand SaveFileCommand
-        //    => IoC.Get<ICommandService>().GetCommandDefinition(typeof(SaveFileCommandDefinition)).Command;
+        public ObservableCollection<Button> Items { get; set; }
 
-        //public ICommand UndoCommand
-        //    => IoC.Get<ICommandService>().GetCommandDefinition(typeof(UndoCommandDefinition)).Command;
+
     }
 }

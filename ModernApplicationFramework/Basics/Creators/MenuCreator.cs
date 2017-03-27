@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.Linq;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Interfaces.Command;
@@ -53,7 +54,7 @@ namespace ModernApplicationFramework.Basics.Creators
             }
         }
 
-        private void AddGroupsRecursive(MenuDefinitionBase menu, MenuItem menuItem)
+        private void AddGroupsRecursive(CommandBarDefinitionBase menu, MenuItem menuItem)
         {
             var groups = _menuItemGroups.Where(x => x.Parent == menu)
                 .Where(x => !_excludeMenuItemGroups.Contains(x))

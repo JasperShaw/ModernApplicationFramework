@@ -6,9 +6,9 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
 {
     internal interface IToolBarsPageViewModel : IScreen
     {
-        ObservableCollectionEx<ToolbarDefinitionOld> Toolbars { get; }
+        ObservableCollectionEx<ToolbarDefinition> Toolbars { get; }
 
-        ToolbarDefinitionOld SelectedToolbarDefinitionOld { get; }
+        ToolbarDefinition SelectedToolbarDefinition { get; }
 
         CommandBase.Command DropDownClickCommand { get; }
 

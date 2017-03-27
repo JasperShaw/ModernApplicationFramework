@@ -9,9 +9,9 @@
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
-        <utilities:ToolbarsCollectionViewSource x:Key="ToolBarsView" BoundPropertyName="Name" Source="{Binding Toolbars}">
+        <utilities:ToolbarsCollectionViewSource x:Key="ToolBarsView" BoundPropertyName="Text" Source="{Binding Toolbars}">
             <CollectionViewSource.SortDescriptions>
-                <componentModel:SortDescription PropertyName="Name"/>
+                <componentModel:SortDescription PropertyName="Text"/>
             </CollectionViewSource.SortDescriptions>
         </utilities:ToolbarsCollectionViewSource>
 
@@ -24,7 +24,7 @@
 
             <controls:EditableMenuItem Header="_Name:">
                 <controls:EditableMenuItem.Edit>
-                    <Binding Path="Name" Mode="TwoWay" UpdateSourceTrigger="LostFocus"
+                    <Binding Path="Text" Mode="TwoWay" UpdateSourceTrigger="LostFocus"
                              Converter="{StaticResource TrimSpacesConverter}"/>
                 </controls:EditableMenuItem.Edit>
                 <UIElement.Visibility>
@@ -74,12 +74,12 @@
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition x:Uid="RowDefinition_1" Height="Auto"/>
-            <RowDefinition x:Uid="RowDefinition_2" Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition x:Uid="ColumnDefinition_1" Width="*"/>
-            <ColumnDefinition x:Uid="ColumnDefinition_2" Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Label x:Name="ToolBarsLabel" Margin="10,0,10,5" Padding="0" Content="Toolb_ars:" Grid.Row="0"/>
         <controls:CheckableListBox x:Name="ListBox" Margin="10,0,10,10" IsSynchronizedWithCurrentItem="True"
@@ -95,8 +95,8 @@
             <ItemsControl.ItemContainerStyle>
                 <Style TargetType="{x:Type controls:CheckableListBoxItem}">
                     <Setter Property="IsChecked" 
-                            Value="{Binding Mode=TwoWay, Path=Visible}" />
-                    <Setter Property="Content" Value="{Binding Mode=OneWay, Path=Name}" />
+                            Value="{Binding Mode=TwoWay, Path=IsVisible}" />
+                    <Setter Property="Content" Value="{Binding Mode=OneWay, Path=Text}" />
                     <Setter Property="Padding" Value="5,2,5,2" />
                 </Style>
             </ItemsControl.ItemContainerStyle>

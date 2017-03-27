@@ -2,9 +2,9 @@
 
 namespace ModernApplicationFramework.Controls.Utilities
 {
-    public class ToolbarsCollectionViewSource : PropertyBoundFilteringCollectionViewSource<ToolbarDefinitionOld>
+    public class ToolbarsCollectionViewSource : PropertyBoundFilteringCollectionViewSource<ToolbarDefinition>
     {
-        protected override bool AcceptItem(ToolbarDefinitionOld item)
+        protected override bool AcceptItem(ToolbarDefinition item)
         {
             return true;
         }

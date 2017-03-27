@@ -51,7 +51,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             {
                 foreach (var definition in IoC.Get<IToolBarHostViewModel>().ToolbarDefinitions)
                 {
-                    var defName = definition.Name;
+                    var defName = definition.Text;
                     if (!name.Equals(defName, StringComparison.CurrentCultureIgnoreCase))
                         continue;
                     errorMessage = $"A toolbar named '{defName}' already exists. Type another name.";

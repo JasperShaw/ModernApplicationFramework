@@ -162,14 +162,18 @@
     <Compile Include="Basics\CustomizeDialog\Views\CommandsPageView.xaml.cs">
       <DependentUpon>CommandsPageView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Basics\Definitions\CommandBar\CommandBarDefinitionBase.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\CommandBarItemDefinitionBase.cs" />
     <Compile Include="Basics\Definitions\Command\CommandControlTypes.cs" />
     <Compile Include="Basics\Definitions\Menu\ExcludeMenuDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\ExcludeMenuItemDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\ExcludeMenuItemGroupDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuDefinition.cs" />
-    <Compile Include="Basics\Definitions\Menu\MenuDefinitionBase.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuItemDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuItemGroupDefinition.cs" />
+    <Compile Include="Basics\Definitions\Toolbar\ToolbarDefinition.cs" />
+    <Compile Include="Basics\Definitions\Toolbar\ToolbarItemDefinition.cs" />
+    <Compile Include="Basics\Definitions\Toolbar\ToolbarItemGroupDefinition.cs" />
     <Compile Include="Basics\SettingsDialog\ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="Basics\SettingsDialog\ViewModels\SettingsWindowViewModel.cs" />
     <Compile Include="Basics\SettingsDialog\Views\SettingsWindowView.xaml.cs">
@@ -185,18 +189,23 @@
     <Compile Include="CommandBase\MultiKeyGestureCommandWrapper.cs" />
     <Compile Include="CommandBase\MultiKeyGestureConverter.cs" />
     <Compile Include="Basics\Services\CommandService.cs" />
+    <Compile Include="Controls\CommandDefinitionButton.cs" />
     <Compile Include="Controls\CustomizeControlsListBox.cs" />
     <Compile Include="Controls\CustomizeControlsListBoxItem.cs" />
     <Compile Include="Controls\CustomSortListBox.cs" />
     <Compile Include="Controls\DummyListMenuItem.cs" />
     <Compile Include="Controls\Utilities\BindableSelectedItemBehavior.cs" />
     <Compile Include="Controls\Utilities\MenuBehavior.cs" />
+    <Compile Include="Core\Converters\AccessKeyConverter.cs" />
     <Compile Include="Core\Converters\AccessKeyRemovingConverter.cs" />
     <Compile Include="Core\Converters\AccessKeyUnderliningConverter.cs" />
+    <Compile Include="Core\Converters\CommandConverter.cs" />
     <Compile Include="Core\Converters\EnabledFilteringMultiConverter.cs" />
     <Compile Include="Core\Converters\NegateBooleanConverter.cs" />
     <Compile Include="Core\Converters\OrBooleanConverter.cs" />
+    <Compile Include="Core\Converters\ToolTipMultiConverter.cs" />
     <Compile Include="Core\Converters\VisibleIfNotNullConverter.cs" />
+    <Compile Include="Core\Converters\DockToOrienationConverter.cs" />
     <Compile Include="Core\Themes\StyleKey.cs" />
     <Compile Include="Core\Utilities\Accelerator.cs" />
     <Compile Include="Core\ValidationRules\ComboBoxWidthValidationRule.cs" />

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls;
@@ -109,10 +110,10 @@ namespace ModernApplicationFramework.Basics.ViewModels
         {
             Items.Clear();
             var menus = MenuDefinitions.Where(x => !ExcludedMenuDefinitions.Contains(x)).OrderBy(x => x.SortOrder);
-            foreach (var menu in menus)
+            foreach (var menuDefinition in menus)
             {
-                var menuItem = MenuItem.CreateItem(menu);
-                AddGroupsRecursive(menu, menuItem);
+                var menuItem = MenuItem.CreateItem(menuDefinition);
+                AddGroupsRecursive(menuDefinition, menuItem);
                 Items.Add(menuItem);
             }
             foreach (var noGroupMenuItem in MenuItemDefinitions.Where(x => x.Group == null).OrderBy(x => x.SortOrder))
@@ -123,7 +124,7 @@ namespace ModernApplicationFramework.Basics.ViewModels
 
         }
 
-        private void AddGroupsRecursive(MenuDefinitionBase menu, MenuItem menuItem)
+        private void AddGroupsRecursive(CommandBarDefinitionBase menu, MenuItem menuItem)
         {
             var groups = MenuItemGroupDefinitions.Where(x => x.Parent == menu)
                 .Where(x => !ExcludedMenuItemGroupDefinitions.Contains(x))
