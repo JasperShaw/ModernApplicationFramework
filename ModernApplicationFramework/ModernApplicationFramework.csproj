@@ -383,7 +383,7 @@
     <Compile Include="Native\Shell\ShellProvider.cs" />
     <Compile Include="Native\Standard\Verify.cs" />
     <Compile Include="Core\Themes\EnvironmentColors.cs" />
-    <Compile Include="Interfaces\IHasTheme.cs" />
+    <Compile Include="Interfaces\IThemeManager.cs" />
     <Compile Include="Core\Themes\Theme.cs" />
     <Compile Include="Core\Converters\BooleanOrConverter.cs" />
     <Compile Include="Native\DpiHelper.cs" />

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Data;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -9,7 +8,6 @@ using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls.Primitives;
-using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Utilities;
@@ -18,7 +16,6 @@ using ModernApplicationFramework.MVVM.Controls;
 using ModernApplicationFramework.MVVM.Core;
 using ModernApplicationFramework.MVVM.Interfaces;
 using ModernApplicationFramework.MVVM.Views;
-using ModernApplicationFramework.Themes;
 
 namespace ModernApplicationFramework.MVVM.ViewModels
 {
@@ -39,8 +36,6 @@ namespace ModernApplicationFramework.MVVM.ViewModels
 
         private StatusBar _statusBar;
 
-
-        private Theme _theme;
 
         private IToolBarHostViewModel _toolBarHostViewModel;
         private bool _useSimpleMovement;
@@ -76,28 +71,6 @@ namespace ModernApplicationFramework.MVVM.ViewModels
 
         public Window Window { get; private set; }
         public WindowState WindowState { get; set; }
-
-        public event EventHandler<ThemeChangedEventArgs> OnThemeChanged;
-
-        /// <summary>
-        ///     Contains the current Theme of the Application.
-        /// </summary>
-        public Theme Theme
-        {
-            get => _theme;
-            set
-            {
-                if (value == null)
-                    throw new NoNullAllowedException();
-                if (Equals(value, _theme))
-                    return;
-                var oldTheme = _theme;
-                _theme = value;
-                NotifyOfPropertyChange();
-                ChangeTheme(oldTheme, _theme);
-                OnRaiseThemeChanged(new ThemeChangedEventArgs(value, oldTheme));
-            }
-        }
 
         /// <summary>
         ///     Contains the ViewModel of the MainWindows MenuHostControl
@@ -348,11 +321,6 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             SystemCommands.MinimizeWindow(Window);
         }
 
-        protected virtual void OnRaiseThemeChanged(ThemeChangedEventArgs e)
-        {
-            var handler = OnThemeChanged;
-            handler?.Invoke(this, e);
-        }
 
         /// <summary>
         ///     Handles what happens after UseSimpleMovement was changed
@@ -377,10 +345,6 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             window.Activated += _mainWindow_Activated;
             window.Deactivated += _mainWindow_Deactivated;
 
-            _themeManager.SetTheme(
-                !string.IsNullOrEmpty(_themeManager.GetCurrentTheme()?.Name)
-                    ? _themeManager.GetCurrentTheme().Name
-                    : new GenericTheme().Name, this);
             _commandKeyGestureService.BindKeyGesture((UIElement)view);
         }
 
@@ -409,36 +373,9 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             return ActiveIcon != null && PassiveIcon != null;
         }
 
-        /// <summary>
-        ///     Called Theme property when changed.
-        ///     Implements the logic that applys the new Theme
-        /// </summary>
-        /// <param name="oldValue"></param>
-        /// <param name="newValue"></param>
-        private void ChangeTheme(Theme oldValue, Theme newValue)
-        {
-            var resources = Application.Current.Resources;
-            resources.Clear();
-            resources.MergedDictionaries.Clear();
-            if (oldValue != null)
-            {
-                var resourceDictionaryToRemove =
-                    resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldValue.GetResourceUri());
-                if (resourceDictionaryToRemove != null)
-                    resources.MergedDictionaries.Remove(resourceDictionaryToRemove);
-            }
-            if (newValue != null)
-                resources.MergedDictionaries.Add(new ResourceDictionary {Source = newValue.GetResourceUri()});
-
-            var theme = Window as IHasTheme;
-            if (theme != null)
-                theme.Theme = newValue;
-            if (ToolBarHostViewModel != null)
-                ToolBarHostViewModel.Theme = newValue;
-        }
-#pragma warning disable 649
+        #pragma warning disable 649
         [Import] private IDockingHostViewModel _dockingHost;
-        [Import] private ThemeManager _themeManager;
+        [Import] private IThemeManager _themeManager;
         [Import]
         private IKeyGestureHandler _commandKeyGestureService;
         private bool _useMenu;

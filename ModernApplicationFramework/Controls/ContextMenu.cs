@@ -1,19 +1,13 @@
-﻿using System;
-using System.Data;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
-using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Controls
 {
-    public class ContextMenu : System.Windows.Controls.ContextMenu, IHasTheme
+    public class ContextMenu : System.Windows.Controls.ContextMenu
     {
-        private Theme _theme;
-
         public static readonly DependencyProperty PopupAnimationProperty;
 
 
@@ -43,31 +37,13 @@ namespace ModernApplicationFramework.Controls
             parent.SetBinding(Popup.PopupAnimationProperty, binding2);
         }
 
-        public event EventHandler<ThemeChangedEventArgs> OnThemeChanged;
-
         public PopupAnimation PopupAnimation
         {
             get => (PopupAnimation)GetValue(PopupAnimationProperty);
             set => SetValue(PopupAnimationProperty, value);
         }
 
-        public Theme Theme
-        {
-            get => _theme;
-            set
-            {
-                if (value == null)
-                    throw new NoNullAllowedException();
-                if (Equals(value, _theme))
-                    return;
-                var oldTheme = _theme;
-                _theme = value;
-                ChangeTheme(oldTheme, _theme);
-                OnRaiseThemeChanged(new ThemeChangedEventArgs(value, oldTheme));
-            }
-        }
-
-        public void ChangeTheme(Theme oldValue, Theme newValue)
+        private void ChangeTheme(Theme oldValue, Theme newValue)
         {
             var oldTheme = oldValue;
             var newTheme = newValue;
@@ -85,12 +61,6 @@ namespace ModernApplicationFramework.Controls
             {
                 resources.MergedDictionaries.Add(new ResourceDictionary {Source = newTheme.GetResourceUri()});
             }
-        }
-
-        protected virtual void OnRaiseThemeChanged(ThemeChangedEventArgs e)
-        {
-            var handler = OnThemeChanged;
-            handler?.Invoke(this, e);
         }
     }
 }

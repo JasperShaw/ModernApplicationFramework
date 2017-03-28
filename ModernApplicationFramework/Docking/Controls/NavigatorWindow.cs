@@ -14,20 +14,16 @@
 
   **********************************************************************/
 
-using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Windows;
-using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Docking.Layout;
-using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-    public class NavigatorWindow : Window, IHasTheme
+    public class NavigatorWindow : Window
     {
         private static readonly DependencyPropertyKey AnchorablesPropertyKey
             = DependencyProperty.RegisterReadOnly("Anchorables", typeof (IEnumerable<LayoutAnchorableItem>),
@@ -58,8 +54,6 @@ namespace ModernApplicationFramework.Docking.Controls
 
         private bool _internalSetSelectedDocument;
 
-
-        private Theme _theme;
 
         internal NavigatorWindow(DockingManager manager)
         {
@@ -97,24 +91,6 @@ namespace ModernApplicationFramework.Docking.Controls
                 new FrameworkPropertyMetadata(typeof (NavigatorWindow)));
             ShowActivatedProperty.OverrideMetadata(typeof (NavigatorWindow), new FrameworkPropertyMetadata(false));
             ShowInTaskbarProperty.OverrideMetadata(typeof (NavigatorWindow), new FrameworkPropertyMetadata(false));
-        }
-
-        public event EventHandler<ThemeChangedEventArgs> OnThemeChanged;
-
-        public Theme Theme
-        {
-            get => _theme;
-            set
-            {
-                if (value == null)
-                    throw new NoNullAllowedException();
-                if (Equals(value, _theme))
-                    return;
-                var oldTheme = _theme;
-                _theme = value;
-                ChangeTheme(oldTheme, _theme);
-                OnRaiseThemeChanged(new ThemeChangedEventArgs(value, oldTheme));
-            }
         }
 
         public IEnumerable<LayoutAnchorableItem> Anchorables
@@ -178,12 +154,6 @@ namespace ModernApplicationFramework.Docking.Controls
 
 
             base.OnPreviewKeyUp(e);
-        }
-
-        protected virtual void OnRaiseThemeChanged(ThemeChangedEventArgs e)
-        {
-            var handler = OnThemeChanged;
-            handler?.Invoke(this, e);
         }
 
         protected virtual void OnSelectedAnchorableChanged(DependencyPropertyChangedEventArgs e)

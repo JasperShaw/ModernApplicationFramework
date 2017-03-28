@@ -4,7 +4,7 @@ using ModernApplicationFramework.Core.Utilities;
 
 namespace ModernApplicationFramework.Interfaces.ViewModels
 {
-    public interface IToolBarHostViewModel : IHasTheme
+    public interface IToolBarHostViewModel
     {
         IMainWindowViewModel MainWindowViewModel { get; set; }
 

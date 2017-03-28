@@ -24,7 +24,6 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         {
             _shell = shell;
             _manager = manager;
-            SelectedTheme = Themes.FirstOrDefault(x => x.GetType() == _shell.Theme?.GetType());
         }
 
         public IEnumerable<Theme> Themes => _manager.Themes;
@@ -47,7 +46,6 @@ namespace ModernApplicationFramework.MVVM.ViewModels
 
         public void Apply()
         {
-            _manager.SetTheme(SelectedTheme.Name, _shell);
             _manager.SaveTheme(SelectedTheme.Name);
             Settings.Default.Save();
         }

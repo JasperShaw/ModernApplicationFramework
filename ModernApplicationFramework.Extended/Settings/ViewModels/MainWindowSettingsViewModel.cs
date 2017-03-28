@@ -3,7 +3,6 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using ModernApplicationFramework.Basics.ViewModels;
 using ModernApplicationFramework.Core.Themes;
-using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Extended.Settings.ViewModels
@@ -12,19 +11,16 @@ namespace ModernApplicationFramework.Extended.Settings.ViewModels
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class MainWindowSettingsViewModel : ViewModelBase, ISettingsPage
     {
-        private readonly ThemeManager _manager;
-
-        private readonly IDockingMainWindowViewModel _shell;
+        private readonly IThemeManager _manager;
 
         private Theme _selectedTheme;
 
 
         [ImportingConstructor]
-        public MainWindowSettingsViewModel(IDockingMainWindowViewModel shell, ThemeManager manager)
+        public MainWindowSettingsViewModel(IThemeManager manager)
         {
-            _shell = shell;
             _manager = manager;
-            SelectedTheme = Themes.FirstOrDefault(x => x.GetType() == _shell.Theme?.GetType());
+            SelectedTheme = Themes.FirstOrDefault(x => x.GetType() == _manager.Theme?.GetType());
         }
 
         public IEnumerable<Theme> Themes => _manager.Themes;
@@ -47,8 +43,8 @@ namespace ModernApplicationFramework.Extended.Settings.ViewModels
 
         public void Apply()
         {
-            _manager.SetTheme(SelectedTheme.Name, _shell);
-            _manager.SaveTheme(SelectedTheme.Name);
+            _manager.Theme = SelectedTheme;
+            _manager.SaveTheme(SelectedTheme);
             Properties.Settings.Default.Save();
         }
 

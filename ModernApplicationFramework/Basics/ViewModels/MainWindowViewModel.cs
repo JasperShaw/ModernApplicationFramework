@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data;
-using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -60,28 +59,6 @@ namespace ModernApplicationFramework.Basics.ViewModels
                 _icon = value;
                 OnPropertyChanged();
                 //NotifyOfPropertyChange(() => Icon);
-            }
-        }
-
-        public event EventHandler<ThemeChangedEventArgs> OnThemeChanged;
-
-        /// <summary>
-        ///     Contains the current Theme of the Application.
-        /// </summary>
-        public Theme Theme
-        {
-            get => _theme;
-            set
-            {
-                if (value == null)
-                    throw new NoNullAllowedException();
-                if (Equals(value, _theme))
-                    return;
-                var oldTheme = _theme;
-                _theme = value;
-                OnPropertyChanged();
-                ChangeTheme(oldTheme, _theme);
-                OnRaiseThemeChanged(new ThemeChangedEventArgs(value, oldTheme));
             }
         }
 
@@ -259,11 +236,6 @@ namespace ModernApplicationFramework.Basics.ViewModels
                 throw new Exception("You can not run this Operation until the MainWindow is not initialized");
         }
 
-        protected virtual void OnRaiseThemeChanged(ThemeChangedEventArgs e)
-        {
-            var handler = OnThemeChanged;
-            handler?.Invoke(this, e);
-        }
 
         /// <summary>
         ///     Handles what happens after UseSimpleMovement was changed
@@ -297,32 +269,6 @@ namespace ModernApplicationFramework.Basics.ViewModels
         {
             MainWindowInitialized = true;
             InitializeMainWindow();
-        }
-
-        /// <summary>
-        ///     Called Theme property when changed.
-        ///     Implements the logic that applys the new Theme
-        /// </summary>
-        /// <param name="oldValue"></param>
-        /// <param name="newValue"></param>
-        private void ChangeTheme(Theme oldValue, Theme newValue)
-        {
-            var resources = Application.Current.Resources;
-            resources.Clear();
-            resources.MergedDictionaries.Clear();
-            if (oldValue != null)
-            {
-                var resourceDictionaryToRemove =
-                    resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldValue.GetResourceUri());
-                if (resourceDictionaryToRemove != null)
-                    resources.MergedDictionaries.Remove(resourceDictionaryToRemove);
-            }
-            if (newValue != null)
-                resources.MergedDictionaries.Add(new ResourceDictionary {Source = newValue.GetResourceUri()});
-
-            _mainWindow.Theme = newValue;
-            if (ToolBarHostViewModel != null)
-                ToolBarHostViewModel.Theme = newValue;
         }
 
         #region Commands

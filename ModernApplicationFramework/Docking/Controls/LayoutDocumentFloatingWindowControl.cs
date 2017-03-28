@@ -115,13 +115,6 @@ namespace ModernApplicationFramework.Docking.Controls
             set => SetValue(SingleContentLayoutItemProperty, value);
         }
 
-        public override void ChangeTheme(Theme oldValue, Theme newValue)
-        {
-            base.ChangeTheme(oldValue, newValue);
-            if (_overlayWindow != null)
-                _overlayWindow.Theme = newValue;
-        }
-
         public virtual void MaximizeRestoreButtonClick(object sender, RoutedEventArgs e)
         {
             //WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;

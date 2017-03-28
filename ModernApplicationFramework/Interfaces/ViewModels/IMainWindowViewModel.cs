@@ -2,7 +2,7 @@
 
 namespace ModernApplicationFramework.Interfaces.ViewModels
 {
-    public interface IMainWindowViewModel : IWindowViewModel, IHasTheme
+    public interface IMainWindowViewModel : IWindowViewModel
     {
         IMenuHostViewModel MenuHostViewModel { get; set; }
         StatusBar StatusBar { get; set; }

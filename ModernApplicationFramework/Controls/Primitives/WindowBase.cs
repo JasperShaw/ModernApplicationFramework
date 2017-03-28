@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Linq;
 using System.Windows;
 using System.Windows.Interop;
-using ModernApplicationFramework.Core.Events;
-using ModernApplicationFramework.Core.Themes;
-using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Native.Standard;
-using ModernApplicationFramework.Themes;
 
 namespace ModernApplicationFramework.Controls.Primitives
 {
-    public abstract class WindowBase : Window, IHasTheme
+    public abstract class WindowBase : Window
     {
         public static readonly DependencyProperty HasMaximizeButtonProperty = DependencyProperty.Register(
             "HasMaximizeButton", typeof(bool), typeof(WindowBase),
@@ -79,10 +74,6 @@ namespace ModernApplicationFramework.Controls.Primitives
             _hwndSource?.AddHook(WndProcHook);
             UpdateWindowStyle();
             base.OnSourceInitialized(e);
-
-            var theme = Owner as IHasTheme;
-            if (theme != null)
-                Theme = theme.Theme;
         }
 
 
@@ -122,51 +113,6 @@ namespace ModernApplicationFramework.Controls.Primitives
             OnDialogThemeChanged();
             handled = true;
             return IntPtr.Zero;
-        }
-
-        public event EventHandler<ThemeChangedEventArgs> OnThemeChanged;
-
-        private Theme _theme;
-
-        public Theme Theme
-        {
-            get => _theme;
-            set
-            {
-                if (value == null)
-                {
-                    var m = Application.Current.MainWindow as IHasTheme;
-                    value = m != null ? m.Theme : new GenericTheme();
-                }
-                if (Equals(value, _theme))
-                    return;
-                var oldTheme = _theme;
-                _theme = value;
-                ChangeTheme(oldTheme, _theme);
-                OnRaiseThemeChanged(new ThemeChangedEventArgs(value, oldTheme));
-            }
-        }
-
-        private void ChangeTheme(Theme oldValue, Theme newValue)
-        {
-            var resources = Resources;
-            resources.Clear();
-            resources.MergedDictionaries.Clear();
-            if (oldValue != null)
-            {
-                var resourceDictionaryToRemove =
-                    resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldValue.GetResourceUri());
-                if (resourceDictionaryToRemove != null)
-                    resources.MergedDictionaries.Remove(resourceDictionaryToRemove);
-            }
-            if (newValue != null)
-                resources.MergedDictionaries.Add(new ResourceDictionary { Source = newValue.GetResourceUri() });
-        }
-
-        protected virtual void OnRaiseThemeChanged(ThemeChangedEventArgs e)
-        {
-            var handler = OnThemeChanged;
-            handler?.Invoke(this, e);
         }
     }
 }

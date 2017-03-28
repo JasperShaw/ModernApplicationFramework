@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
-using System.Data;
 using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Caliburn.Micro;
@@ -14,9 +12,7 @@ using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Controls.Utilities;
-using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Exception;
-using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ContextMenu = ModernApplicationFramework.Controls.ContextMenu;
@@ -32,10 +28,7 @@ namespace ModernApplicationFramework.Basics.ViewModels
         private ToolBarTray _bottomToolBarTay;
         private ToolBarTray _leftToolBarTay;
         private ToolBarTray _rightToolBarTay;
-        private Theme _theme;
         private ToolBarTray _topToolBarTay;
-
-        public event EventHandler<ThemeChangedEventArgs> OnThemeChanged;
 
         private readonly Dictionary<ToolbarDefinition,ToolBar> _toolbars;
 
@@ -75,23 +68,6 @@ namespace ModernApplicationFramework.Basics.ViewModels
         public ObservableCollectionEx<ToolbarItemDefinition> ToolbarItemDefinitions { get; }
 
         public ContextMenu ContextMenu { get; }
-
-        public Theme Theme
-        {
-            get => _theme;
-            set
-            {
-                if (value == null)
-                    throw new NoNullAllowedException();
-                if (Equals(value, _theme))
-                    return;
-                var oldTheme = _theme;
-                _theme = value;
-                OnPropertyChanged();
-                ChangeTheme(oldTheme, _theme);
-                OnRaiseThemeChanged(new ThemeChangedEventArgs(value, oldTheme));
-            }
-        }
 
         public IMainWindowViewModel MainWindowViewModel { get; set; }
 
@@ -204,26 +180,6 @@ namespace ModernApplicationFramework.Basics.ViewModels
             }
         }
 
-        public void ChangeTheme(Theme oldValue, Theme newValue)
-        {
-            var oldTheme = oldValue;
-            var newTheme = newValue;
-            var resources = ContextMenu.Resources;
-            if (oldTheme != null)
-            {
-                var resourceDictionaryToRemove =
-                    resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldTheme.GetResourceUri());
-                if (resourceDictionaryToRemove != null)
-                    resources.MergedDictionaries.Remove(
-                        resourceDictionaryToRemove);
-            }
-
-            if (newTheme != null)
-                resources.MergedDictionaries.Add(new ResourceDictionary {Source = newTheme.GetResourceUri()});
-
-            ContextMenu.ChangeTheme(oldValue, newValue);
-        }
-
         public ToolbarDefinition GeToolbarDefinitionByName(string name)
         {
             foreach (var definition in ToolbarDefinitions)
@@ -259,12 +215,6 @@ namespace ModernApplicationFramework.Basics.ViewModels
         protected virtual bool CanOpenCostumizeDialog()
         {
             return true;
-        }
-
-        protected virtual void OnRaiseThemeChanged(ThemeChangedEventArgs e)
-        {
-            var handler = OnThemeChanged;
-            handler?.Invoke(this, e);
         }
 
         protected virtual bool CanClickContextMenuItem(ContextMenuGlyphItem item)

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -10,10 +9,8 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
-using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Controls;
 using ModernApplicationFramework.Native;
 using ModernApplicationFramework.Native.NativeMethods;
@@ -29,12 +26,9 @@ using Screen = System.Windows.Forms.Screen;
 
 namespace ModernApplicationFramework.Controls
 {
-    public class ModernChromeWindow : Window, IHasTheme
+    public class ModernChromeWindow : Window
     {
         private const int MonitorDefaulttonearest = 0x00000002;
-
-        public static readonly DependencyProperty ThemeProperty = DependencyProperty.Register("Theme", typeof(Theme),
-            typeof(ModernChromeWindow), new FrameworkPropertyMetadata(null));
 
         public static readonly DependencyProperty FullScreenProperty =
             DependencyProperty.Register("FullScreen", typeof(bool), typeof(ModernChromeWindow));
@@ -64,7 +58,6 @@ namespace ModernApplicationFramework.Controls
         private DispatcherTimer _makeGlowVisibleTimer;
         private double _oldLeft, _oldTop, _oldWidth, _oldHeight;
         private IntPtr _ownerForActivate;
-        private Theme _theme;
         private bool _updatingZOrder;
         private bool _useLogicalSizeForRestore;
         internal int DeferGlowChangesCount;
@@ -152,24 +145,6 @@ namespace ModernApplicationFramework.Controls
                     !User32.IsZoomed(handle))
                     return (uint) ResizeMode > 0U;
                 return false;
-            }
-        }
-
-        public event EventHandler<ThemeChangedEventArgs> OnThemeChanged;
-
-        public Theme Theme
-        {
-            get => _theme;
-            set
-            {
-                if (value == null)
-                    throw new NoNullAllowedException();
-                if (Equals(value, _theme))
-                    return;
-                var oldTheme = _theme;
-                _theme = value;
-                ChangeTheme(oldTheme, _theme);
-                OnRaiseThemeChanged(new ThemeChangedEventArgs(value, oldTheme));
             }
         }
 
@@ -1001,12 +976,6 @@ namespace ModernApplicationFramework.Controls
             IsGlowVisible = false;
             IsGlowVisible = true;
             UpdateClipRegion();
-        }
-
-        protected virtual void OnRaiseThemeChanged(ThemeChangedEventArgs e)
-        {
-            var handler = OnThemeChanged;
-            handler?.Invoke(this, e);
         }
 
         protected enum ClipRegionChangeType

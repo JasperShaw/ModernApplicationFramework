@@ -23,7 +23,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
 using ModernApplicationFramework.CommandBase;
-using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Docking.Converters;
 using ModernApplicationFramework.Docking.Layout;
@@ -121,13 +120,6 @@ namespace ModernApplicationFramework.Docking.Controls
         {
             get => (LayoutItem) GetValue(SingleContentLayoutItemProperty);
             set => SetValue(SingleContentLayoutItemProperty, value);
-        }
-
-        public override void ChangeTheme(Theme oldValue, Theme newValue)
-        {
-            base.ChangeTheme(oldValue, newValue);
-            if (_overlayWindow != null)
-                _overlayWindow.Theme = newValue;
         }
 
         protected override IntPtr FilterMessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)

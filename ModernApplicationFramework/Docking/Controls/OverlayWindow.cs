@@ -28,7 +28,7 @@ using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-    public class OverlayWindow : Window, IOverlayWindow, IHasTheme
+    public class OverlayWindow : Window, IOverlayWindow
     {
         private readonly List<IDropArea> _visibleAreas = new List<IDropArea>();
         private FrameworkElement _anchorablePaneDropTargetBottom;
@@ -62,11 +62,8 @@ namespace ModernApplicationFramework.Docking.Controls
         private Canvas _mainCanvasPanel;
         private Path _previewBox;
 
-        private Theme _theme;
-
         internal OverlayWindow(IOverlayWindowHost host)
         {
-            ChangeTheme(null, null);
         }
 
         static OverlayWindow()
@@ -79,24 +76,6 @@ namespace ModernApplicationFramework.Docking.Controls
             ShowInTaskbarProperty.OverrideMetadata(typeof (OverlayWindow), new FrameworkPropertyMetadata(false));
             ShowActivatedProperty.OverrideMetadata(typeof (OverlayWindow), new FrameworkPropertyMetadata(false));
             VisibilityProperty.OverrideMetadata(typeof (OverlayWindow), new FrameworkPropertyMetadata(Visibility.Hidden));
-        }
-
-        public event EventHandler<ThemeChangedEventArgs> OnThemeChanged;
-
-        public Theme Theme
-        {
-            get => _theme;
-            set
-            {
-                if (value == null)
-                    throw new NoNullAllowedException();
-                if (Equals(value, _theme))
-                    return;
-                var oldTheme = _theme;
-                _theme = value;
-                ChangeTheme(oldTheme, _theme);
-                OnRaiseThemeChanged(new ThemeChangedEventArgs(value, oldTheme));
-            }
         }
 
         void IOverlayWindow.DragDrop(IDropTarget target)
@@ -628,21 +607,6 @@ namespace ModernApplicationFramework.Docking.Controls
             }
         }
 
-        public void ChangeTheme(Theme oldValue, Theme newValue)
-        {
-            if (oldValue != null)
-            {
-                var resourceDictionaryToRemove =
-                    Resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldValue.GetResourceUri());
-                if (resourceDictionaryToRemove != null)
-                    Resources.MergedDictionaries.Remove(
-                        resourceDictionaryToRemove);
-            }
-
-            if (newValue != null)
-                Resources.MergedDictionaries.Add(new ResourceDictionary() {Source = newValue.GetResourceUri()});
-        }
-
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -701,12 +665,6 @@ namespace ModernApplicationFramework.Docking.Controls
                 GetTemplateChild("PART_DocumentPaneFullDropTargetInto") as FrameworkElement;
 
             _previewBox = GetTemplateChild("PART_PreviewBox") as Path;
-        }
-
-        protected virtual void OnRaiseThemeChanged(ThemeChangedEventArgs e)
-        {
-            var handler = OnThemeChanged;
-            handler?.Invoke(this, e);
         }
 
         internal void EnableDropTargets()

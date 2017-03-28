@@ -19,7 +19,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -31,11 +30,9 @@ using System.Windows.Interop;
 using System.Windows.Markup;
 using System.Windows.Threading;
 using ModernApplicationFramework.Core.Events;
-using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Docking.Controls;
 using ModernApplicationFramework.Docking.Layout;
-using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Native;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Native.Platform.Enums;
@@ -45,7 +42,7 @@ namespace ModernApplicationFramework.Docking
 {
     [ContentProperty("Layout")]
     [TemplatePart(Name = "PART_AutoHideArea")]
-    public class DockingManager : Control, IOverlayWindowHost, IHasTheme //, ILogicalChildrenContainer
+    public class DockingManager : Control, IOverlayWindowHost //, ILogicalChildrenContainer
     {
         public static readonly DependencyProperty LayoutProperty =
             DependencyProperty.Register("Layout", typeof (LayoutRoot), typeof (DockingManager),
@@ -272,7 +269,6 @@ namespace ModernApplicationFramework.Docking
 
         private bool _suspendLayoutItemCreation;
 
-        private Theme _theme;
 
         public DockingManager()
         {
@@ -306,21 +302,6 @@ namespace ModernApplicationFramework.Docking
 
         public event EventHandler<ThemeChangedEventArgs> OnThemeChanged;
 
-        public Theme Theme
-        {
-            get => _theme;
-            set
-            {
-                if (value == null)
-                    throw new NoNullAllowedException();
-                if (Equals(value, _theme))
-                    return;
-                var oldTheme = _theme;
-                _theme = value;
-                ChangeTheme(oldTheme, _theme);
-                OnRaiseThemeChanged(new ThemeChangedEventArgs(value, oldTheme));
-            }
-        }
 
         IEnumerable<IDropArea> IOverlayWindowHost.GetDropAreas(LayoutFloatingWindowControl draggingWindow)
         {
@@ -661,35 +642,6 @@ namespace ModernApplicationFramework.Docking
 
         private bool IsNavigatorWindowActive => _navigatorWindow != null;
 
-        public virtual void ChangeTheme(Theme oldValue, Theme newValue)
-        {
-            var oldTheme = oldValue;
-            var newTheme = newValue;
-            var resources = Resources;
-            if (oldTheme != null)
-            {
-                var resourceDictionaryToRemove =
-                    resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldTheme.GetResourceUri());
-                if (resourceDictionaryToRemove != null)
-                    resources.MergedDictionaries.Remove(
-                        resourceDictionaryToRemove);
-            }
-
-            if (newTheme != null)
-            {
-                resources.MergedDictionaries.Add(new ResourceDictionary {Source = newTheme.GetResourceUri()});
-            }
-
-            foreach (var fwc in _fwList)
-                fwc.Theme = newValue;
-
-            if (_overlayWindow != null)
-                _overlayWindow.Theme = newValue;
-            if (_navigatorWindow != null)
-                _navigatorWindow.Theme = newValue;
-            ((ModernApplicationFramework.Controls.ContextMenu) DocumentContextMenu).Theme = newValue;
-            ((ModernApplicationFramework.Controls.ContextMenu) AnchorableContextMenu).Theme = newValue;
-        }
 
         public LayoutItem GetLayoutItemFromModel(LayoutContent content)
         {
