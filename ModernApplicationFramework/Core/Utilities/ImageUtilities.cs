@@ -1,6 +1,7 @@
-﻿using System.Reflection;
-using System.Windows.Controls;
+﻿using System.Drawing;
+using System.Reflection;
 using System.Windows.Media.Imaging;
+using Image = System.Windows.Controls.Image;
 
 namespace ModernApplicationFramework.Core.Utilities
 {
@@ -17,6 +18,11 @@ namespace ModernApplicationFramework.Core.Utilities
             var bmp = BitmapFrame.Create(imageStream);
             image.Source = bmp;
             return image;
+        }
+
+        public static Bitmap BitmapFromBitmapSource(BitmapSource bitmapSource)
+        {
+            return ImageConverter.BitmapFromBitmapSource(bitmapSource);
         }
     }
 }

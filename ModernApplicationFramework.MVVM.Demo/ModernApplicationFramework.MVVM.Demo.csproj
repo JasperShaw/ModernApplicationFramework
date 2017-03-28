@@ -56,17 +56,13 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.3.0.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -81,6 +77,9 @@
     </ApplicationDefinition>
     <Compile Include="Modules\Commands\MenuDefinitions.cs" />
     <Compile Include="Modules\Commands\TestCommandDefinition.cs" />
+    <Compile Include="Modules\Commands\TestWindw.xaml.cs">
+      <DependentUpon>TestWindw.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Modules\DockingMainWindowViewModel.cs" />
     <Compile Include="Modules\Document\SampleView.xaml.cs">
       <DependentUpon>SampleView.xaml</DependentUpon>
@@ -107,6 +106,10 @@
     <Compile Include="Toolbars\DemoToolbarModel.cs" />
     <Compile Include="Toolbars\ToolBarDefinitions.cs" />
     <Compile Include="XmlFileDefinition.cs" />
+    <Page Include="Modules\Commands\TestWindw.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Modules\Document\SampleView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -116,6 +119,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Modules\UndoRedoTest\UndoRedoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Undo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -156,10 +163,6 @@
     <None Include="Modules\App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ModernApplicationFramework.EditorBase\ModernApplicationFramework.EditorBase.csproj">
-      <Project>{c5f062e8-48c1-425e-831f-511a541e18d8}</Project>
-      <Name>ModernApplicationFramework.EditorBase</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework.Extended\ModernApplicationFramework.Extended.csproj">
       <Project>{51911695-6cdb-4833-9782-06c8821d1c4e}</Project>
       <Name>ModernApplicationFramework.Extended</Name>
@@ -181,7 +184,9 @@
       <Name>ModernApplicationFramework</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\png_undo.16.16.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

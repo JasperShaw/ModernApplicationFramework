@@ -6,13 +6,15 @@
                     xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals"
                     xmlns:primitives="clr-namespace:ModernApplicationFramework.Controls.Primitives"
                     xmlns:utilities1="clr-namespace:ModernApplicationFramework.Controls.Utilities"
-                    xmlns:native="clr-namespace:ModernApplicationFramework.Native">
+                    xmlns:native="clr-namespace:ModernApplicationFramework.Native"
+                    xmlns:test="clr-namespace:ModernApplicationFramework.Test">
 
     <Style TargetType="{x:Type this:MainWindow}">
         <Style.Resources>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
             <converters:WindowStateConverter x:Key="WindowStateConverter" />
             <converters:BooleanToFlowDirectionConverter x:Key="FlowDirectionConverter" />
+            <test:BrushToColorConverter x:Key="BrushToColorConverter"/>
         </Style.Resources>
 	    <Setter Property="WindowChrome.WindowChrome">
 	        <Setter.Value>
@@ -28,8 +30,14 @@
 		<Setter Property="utilities1:WindowStyleHelper.HasMinimizeButton" Value="True" />
 		<Setter Property="MinWidth" Value="200" />
 		<Setter Property="MinHeight" Value="200" />
-		<Setter Property="Title" Value="{Binding Path=Caption}" />
-		<Setter Property="Background" Value="{DynamicResource {x:Static core:EnvironmentColors.MainWindowBackground}}" />
+		<Setter Property="Title" Value="{Binding Path=Caption}"/>
+        <Setter Property="test:ImageThemingUtilities.ImageBackgroundColor">
+            <Setter.Value>
+                <Binding Path="Background" RelativeSource="{RelativeSource Self}"
+                         Converter="{StaticResource BrushToColorConverter}"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Background" Value="{DynamicResource {x:Static core:EnvironmentColors.MainWindowBackground}}" />
 		<Setter Property="TextOptions.TextFormattingMode" Value="Display" />
         <Setter Property="RenderOptions.BitmapScalingMode" Value="{x:Static native:DpiHelper.BitmapScalingMode}"/>
 	    <Setter Property="ActiveGlowColor" Value="{DynamicResource {x:Static core:EnvironmentColors.MainWindowActiveShadowAndBorderColor}}" />

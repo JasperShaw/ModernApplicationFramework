@@ -20,7 +20,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NET;NET45</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -208,6 +208,8 @@
     <Compile Include="Core\Converters\DockToOrienationConverter.cs" />
     <Compile Include="Core\Themes\StyleKey.cs" />
     <Compile Include="Core\Utilities\Accelerator.cs" />
+    <Compile Include="Core\Utilities\BitmapLocker.cs" />
+    <Compile Include="Core\Utilities\ImageConverter.cs" />
     <Compile Include="Core\ValidationRules\ComboBoxWidthValidationRule.cs" />
     <Compile Include="Core\ValidationRules\CommandNameNotEmptyValidationRule.cs" />
     <Compile Include="Interfaces\Command\ICommandHandler.cs" />
@@ -552,7 +554,6 @@
     <Compile Include="Interfaces\IToolbarService.cs" />
     <Compile Include="Basics\Creators\ToolbarTrayCreator.cs" />
     <Compile Include="Basics\Creators\MenuCreator.cs" />
-    <Compile Include="Basics\Definitions\Toolbar\ToolbarDefinitionOld.cs" />
     <Compile Include="Basics\UndoRedoManager\InstancePropertyHandler.cs" />
     <Compile Include="Interfaces\IUndoRedoManager.cs" />
     <Compile Include="Basics\UndoRedoManager\UndoRedoAction.cs" />
@@ -570,6 +571,13 @@
     <Compile Include="Controls\ToolBar.cs" />
     <Compile Include="Controls\ToolBarTray.cs" />
     <Compile Include="Controls\ModernChromeWindow.cs" />
+    <Compile Include="Test\BitRotator.cs" />
+    <Compile Include="Test\BrushToColorConverter.cs" />
+    <Compile Include="Test\Extensions.cs" />
+    <Compile Include="Test\HashHelpers.cs" />
+    <Compile Include="Test\HslColor.cs" />
+    <Compile Include="Test\ImageThemingUtilities.cs" />
+    <Compile Include="Test\ReusableArray.cs" />
     <Compile Include="Themes\GenericTheme.cs" />
     <Page Include="Controls\DockingHost.xaml">
       <SubType>Designer</SubType>

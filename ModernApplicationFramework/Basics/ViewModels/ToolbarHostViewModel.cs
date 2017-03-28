@@ -334,15 +334,6 @@ namespace ModernApplicationFramework.Basics.ViewModels
                 return;
             InternalHideAllToolbars();
             SetupToolbars();
-            //if (e.NewItems != null)
-            //    foreach (ToolbarDefinition item in e.NewItems)
-            //        if (item.IsVisible)
-            //            InternalShowToolBar(item);
-            //if (e.OldItems != null)
-            //    foreach (ToolbarDefinition item in e.OldItems)
-            //        InternalHideToolBar(item);
-            //OpenContextMenuCommand.RaiseCanExecuteChanged();
-            //BuildContextMenu();
         }
 
         private void InternalHideAllToolbars()

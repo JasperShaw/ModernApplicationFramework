@@ -4,7 +4,12 @@
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals"
                     xmlns:native="clr-namespace:ModernApplicationFramework.Native"
-                    xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters">
+                    xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
+                    xmlns:test="clr-namespace:ModernApplicationFramework.Test">
+    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../../Resources/Icons/StatusError.xaml"></ResourceDictionary>
+    </ResourceDictionary.MergedDictionaries>
 
     <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
     <converters:AccessKeyRemovingConverter x:Key="AccessKeyRemovingConverter"/>
@@ -13,6 +18,7 @@
     <converters:NotNullConverter x:Key="NotNullConverter"/>
     <converters:ToolbarItemCommandConverter x:Key="ToolbarItemCommandConverter"/>
     <converters:DockToOrienationConverter x:Key="DockToOrienationConverter"/>
+    <test:BrushToColorConverter x:Key="BrushToColorConverter"/>
 
     <Style x:Key="HorizontalToolBarThumbStyle" TargetType="{x:Type Thumb}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
@@ -273,6 +279,12 @@
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Height" Value="26"/>
         <Setter Property="Width" Value="Auto"/>
+        <Setter Property="test:ImageThemingUtilities.ImageBackgroundColor">
+            <Setter.Value>
+                <Binding Path="Background" RelativeSource="{RelativeSource Self}"
+                         Converter="{StaticResource BrushToColorConverter}"/>
+            </Setter.Value>
+        </Setter>
         <Setter Property="ItemsSource">
             <Setter.Value>
                 <Binding Path="Items"/>
@@ -448,7 +460,7 @@
         <Setter Property="ToolTip">
             <Setter.Value>
                 <MultiBinding Converter="{StaticResource ToolTipMultiConverter}">
-                    <Binding Mode="OneWay" Path="ToolTip" Converter="{StaticResource AccessKeyRemovingConverter}"/>
+                    <Binding Mode="OneWay" Path="CommandDefinition.ToolTip" Converter="{StaticResource AccessKeyRemovingConverter}"/>
                     <Binding Mode="OneWay" Path="ShortcutText"/>
                 </MultiBinding>
             </Setter.Value>
@@ -470,7 +482,7 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <ContentPresenter x:Name="Image" Margin="2" Grid.Column="0" HorizontalAlignment="Center"
-                                              VerticalAlignment="Center" Visibility="Collapsed" RecognizesAccessKey="True"/>
+                                              VerticalAlignment="Center" Visibility="Visible" RecognizesAccessKey="True"/>
                             <AccessText x:Name="Text" Margin="2,0,7,0" Grid.Column="1" VerticalAlignment="Center"
                                         HorizontalAlignment="Center" Visibility="Visible" Text="{Binding Text, Converter={StaticResource AccessKeyConverter}}"/>
                         </Grid>
@@ -593,6 +605,7 @@
                 <Binding Path="IsVisible" Converter="{StaticResource BoolToVisConverter}"/>
             </Setter.Value>
         </Setter>
+        <Setter Property="Content" Value="{Binding Icon, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="InputMethod.IsInputMethodSuspended" Value="true"/>
         <Style.Triggers>
             <DataTrigger Value="True">

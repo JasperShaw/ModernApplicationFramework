@@ -59,5 +59,15 @@ namespace ModernApplicationFramework.MVVM.Demo.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap png_undo_16_16 {
+            get {
+                object obj = ResourceManager.GetObject("png_undo_16_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
