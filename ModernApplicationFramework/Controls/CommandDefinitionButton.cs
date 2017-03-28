@@ -1,37 +1,46 @@
-﻿using System.IO;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using ModernApplicationFramework.Basics.Definitions.Toolbar;
+using Caliburn.Micro;
+using ModernApplicationFramework.Annotations;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Test;
-using Image = System.Windows.Controls.Image;
-using Size = System.Windows.Size;
 
 namespace ModernApplicationFramework.Controls
 {
-    public class CommandDefinitionButton : System.Windows.Controls.Button
+    public class CommandDefinitionButton : System.Windows.Controls.Button, INotifyPropertyChanged
     {
-        public CommandDefinitionButton(ToolbarItemDefinition definition)
+        private object _icon;
+        private readonly object _iconSource;
+
+        public CommandDefinitionButton(CommandBarItemDefinitionBase definition)
         {
+            var themeManager = IoC.Get<IThemeManager>();
+            themeManager.OnThemeChanged += ThemeManager_OnThemeChanged;
             DataContext = definition;
+
+            if (string.IsNullOrEmpty(definition.CommandDefinition.IconSource?.OriginalString))
+                return;
+            var myResourceDictionary = new ResourceDictionary { Source = definition.CommandDefinition.IconSource };
+            _iconSource = myResourceDictionary[definition.CommandDefinition.IconId];
+        }
+
+        private void ThemeManager_OnThemeChanged(object sender, Core.Events.ThemeChangedEventArgs e)
+        {
             SetIcon();
         }
 
         public void SetIcon()
         {
-            var def = DataContext as ToolbarItemDefinition;
-            if (def == null)
+            if (_iconSource == null)
                 return;
-            object vb = null;
-            if (!string.IsNullOrEmpty(def.CommandDefinition.IconSource?.OriginalString))
-            {
-                var myResourceDictionary = new ResourceDictionary { Source = def.CommandDefinition.IconSource };
-                vb = myResourceDictionary[def.CommandDefinition.IconId];
-            }
-            var vbr = vb as Viewbox;
-            var i = ImageFromFrameworkElement(vbr);
+            var vb = _iconSource as Viewbox;
+            var i = ImageUtilities.IconImageFromFrameworkElement(vb);
             RenderOptions.SetBitmapScalingMode(i, BitmapScalingMode.Fant);
 
             var b = ImageUtilities.BitmapFromBitmapSource((BitmapSource)i.Source);
@@ -41,33 +50,23 @@ namespace ModernApplicationFramework.Controls
             Icon = i;
         }
 
-        
-
-
-        public static Image ImageFromFrameworkElement(FrameworkElement e)
+        public object Icon
         {
-            var size = new Size(16, 16);
-            e.Measure(size);
-            e.Arrange(new Rect(size));
-
-            RenderTargetBitmap targetBitmap = new RenderTargetBitmap(16, 16, 96, 96, PixelFormats.Pbgra32);
-            targetBitmap.Render(e);
-
-            var encoder = new PngBitmapEncoder();
-            encoder.Frames.Add(BitmapFrame.Create(targetBitmap));
-
-            var stream = new MemoryStream();
-            encoder.Save(stream);
-            var bmp = new BitmapImage();
-            bmp.BeginInit();
-            bmp.StreamSource = new MemoryStream(stream.ToArray());
-            bmp.EndInit();
-
-            var i = new Image {Source = bmp};
-            RenderOptions.SetBitmapScalingMode(i, BitmapScalingMode.Fant);
-            return i;
+            get => _icon;
+            set
+            {
+                if (Equals(value, _icon)) return;
+                _icon = value;
+                OnPropertyChanged();
+            }
         }
 
-        public object Icon { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

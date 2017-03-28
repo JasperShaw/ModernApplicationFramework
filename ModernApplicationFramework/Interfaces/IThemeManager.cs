@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
-using ModernApplicationFramework.Properties;
 
 namespace ModernApplicationFramework.Interfaces
 {

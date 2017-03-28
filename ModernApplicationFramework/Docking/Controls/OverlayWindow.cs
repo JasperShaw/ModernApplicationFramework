@@ -14,14 +14,12 @@
 
   **********************************************************************/
 
-using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shapes;
-using ModernApplicationFramework.Core.Events;
+using Caliburn.Micro;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Interfaces;
@@ -64,6 +62,27 @@ namespace ModernApplicationFramework.Docking.Controls
 
         internal OverlayWindow(IOverlayWindowHost host)
         {
+            ChangeTheme(null, null);
+            var themeManager = IoC.Get<IThemeManager>();
+            themeManager.OnThemeChanged += ThemeManager_OnThemeChanged;
+        }
+
+        private void ThemeManager_OnThemeChanged(object sender, Core.Events.ThemeChangedEventArgs e)
+        {
+            ChangeTheme(e.OldTheme, e.NewTheme);
+        }
+
+        public void ChangeTheme(Theme oldValue, Theme newValue)
+        {
+            if (oldValue != null)
+            {
+                var resourceDictionaryToRemove =
+                    Resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldValue.GetResourceUri());
+                if (resourceDictionaryToRemove != null)
+                    Resources.MergedDictionaries.Remove(resourceDictionaryToRemove);
+            }
+            if (newValue != null)
+                Resources.MergedDictionaries.Add(new ResourceDictionary { Source = newValue.GetResourceUri() });
         }
 
         static OverlayWindow()

@@ -2,14 +2,15 @@
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using Caliburn.Micro;
 using ModernApplicationFramework.Core.Themes;
+using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Controls
 {
     public class ContextMenu : System.Windows.Controls.ContextMenu
     {
         public static readonly DependencyProperty PopupAnimationProperty;
-
 
         static ContextMenu()
         {
@@ -21,6 +22,13 @@ namespace ModernApplicationFramework.Controls
         public ContextMenu()
         {
             PresentationSource.AddSourceChangedHandler(this, OnSourceChanged);
+            var themeManager = IoC.Get<IThemeManager>();
+            themeManager.OnThemeChanged += _themeManager_OnThemeChanged;
+        }
+
+        private void _themeManager_OnThemeChanged(object sender, Core.Events.ThemeChangedEventArgs e)
+        {
+            ChangeTheme(e.OldTheme, e.NewTheme);
         }
 
         private void OnSourceChanged(object sender, SourceChangedEventArgs e)
@@ -43,7 +51,7 @@ namespace ModernApplicationFramework.Controls
             set => SetValue(PopupAnimationProperty, value);
         }
 
-        private void ChangeTheme(Theme oldValue, Theme newValue)
+        public void ChangeTheme(Theme oldValue, Theme newValue)
         {
             var oldTheme = oldValue;
             var newTheme = newValue;

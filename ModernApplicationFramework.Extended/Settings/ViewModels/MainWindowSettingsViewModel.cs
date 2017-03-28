@@ -44,8 +44,6 @@ namespace ModernApplicationFramework.Extended.Settings.ViewModels
         public void Apply()
         {
             _manager.Theme = SelectedTheme;
-            _manager.SaveTheme(SelectedTheme);
-            Properties.Settings.Default.Save();
         }
 
         public bool CanApply()

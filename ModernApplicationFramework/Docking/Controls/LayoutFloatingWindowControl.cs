@@ -102,6 +102,7 @@ namespace ModernApplicationFramework.Docking.Controls
             if (newValue == null)
                 return;
             Resources.MergedDictionaries.Add(new ResourceDictionary {Source = newValue.GetResourceUri()});
+            base.ChangeTheme(oldValue, newValue);
         }
 
         protected override void OnSourceInitialized(EventArgs e)

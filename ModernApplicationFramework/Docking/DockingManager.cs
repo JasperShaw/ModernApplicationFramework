@@ -29,13 +29,17 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Markup;
 using System.Windows.Threading;
+using Caliburn.Micro;
 using ModernApplicationFramework.Core.Events;
+using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Docking.Controls;
 using ModernApplicationFramework.Docking.Layout;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Native;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Native.Platform.Enums;
+using Action = System.Action;
 using ContextMenu = System.Windows.Controls.ContextMenu;
 
 namespace ModernApplicationFramework.Docking
@@ -278,6 +282,43 @@ namespace ModernApplicationFramework.Docking
             };
             Loaded += DockingManager_Loaded;
             Unloaded += DockingManager_Unloaded;
+            var themeManager = IoC.Get<IThemeManager>();
+            themeManager.OnThemeChanged += ThemeManager_OnThemeChanged;
+        }
+
+        private void ThemeManager_OnThemeChanged(object sender, ThemeChangedEventArgs e)
+        {
+            ChangeTheme(e.OldTheme, e.NewTheme);
+        }
+
+        private void ChangeTheme(Theme oldValue, Theme newValue)
+        {
+            var oldTheme = oldValue;
+            var newTheme = newValue;
+            var resources = Resources;
+            if (oldTheme != null)
+            {
+                var resourceDictionaryToRemove =
+                    resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldTheme.GetResourceUri());
+                if (resourceDictionaryToRemove != null)
+                    resources.MergedDictionaries.Remove(
+                        resourceDictionaryToRemove);
+            }
+
+            if (newTheme != null)
+            {
+                resources.MergedDictionaries.Add(new ResourceDictionary { Source = newTheme.GetResourceUri() });
+            }
+
+            foreach (var floatingWindowControl in _fwList)
+            {
+                floatingWindowControl.ChangeTheme(oldValue, newValue);
+            }
+
+            _overlayWindow?.ChangeTheme(oldValue, newValue);
+            _navigatorWindow?.ChangeTheme(oldValue, newValue);
+            ((ModernApplicationFramework.Controls.ContextMenu)DocumentContextMenu).ChangeTheme(oldValue, newValue);
+            ((ModernApplicationFramework.Controls.ContextMenu)AnchorableContextMenu).ChangeTheme(oldValue, newValue);
         }
 
         static DockingManager()

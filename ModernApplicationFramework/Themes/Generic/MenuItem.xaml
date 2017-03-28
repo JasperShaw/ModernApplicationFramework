@@ -29,8 +29,9 @@
                                 <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIGTColumnGroup"/>
                                 <ColumnDefinition x:Name="Col3" Width="17"/>
                             </Grid.ColumnDefinitions>
-                            <Border x:Name="IconBorder" Background="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemPopupIconBackground}}" Grid.Column="0">
-                                <ContentPresenter x:Name="Icon" VerticalAlignment="Center" ContentSource="Icon"/>
+                            <Border x:Name="IconBorder" Background="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemPopupIconBackground}}" Grid.Column="0"
+                                    VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <ContentPresenter Width="16" Height="16" x:Name="Icon" VerticalAlignment="Center" ContentSource="Icon"/>
                             </Border>
                             <Border Grid.Column="0" x:Name="GlyphPanel" BorderThickness="0" Margin="2,0,2,0" Visibility="Collapsed" Width="18" Height="18">
                                 <Path x:Name="Glyph" Fill="{DynamicResource {x:Static colors:EnvironmentColors.ContextMenuGlyphItemIconForeground}}" Width="16" Height="16" FlowDirection="LeftToRight" Data="{StaticResource Checkmark}"/>

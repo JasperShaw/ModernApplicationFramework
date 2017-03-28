@@ -17,9 +17,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using Caliburn.Micro;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Docking.Layout;
+using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
@@ -82,7 +84,14 @@ namespace ModernApplicationFramework.Docking.Controls
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
 
+            var themeManager = IoC.Get<IThemeManager>();
+            themeManager.OnThemeChanged += ThemeManager_OnThemeChanged;
             ChangeTheme(null, null);
+        }
+
+        private void ThemeManager_OnThemeChanged(object sender, Core.Events.ThemeChangedEventArgs e)
+        {
+            ChangeTheme(e.OldTheme, e.NewTheme);
         }
 
         static NavigatorWindow()
@@ -117,8 +126,7 @@ namespace ModernApplicationFramework.Docking.Controls
                 var resourceDictionaryToRemove =
                     Resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldValue.GetResourceUri());
                 if (resourceDictionaryToRemove != null)
-                    Resources.MergedDictionaries.Remove(
-                        resourceDictionaryToRemove);
+                    Resources.MergedDictionaries.Remove(resourceDictionaryToRemove);
             }
             if (newValue != null)
                 Resources.MergedDictionaries.Add(new ResourceDictionary {Source = newValue.GetResourceUri()});
@@ -131,8 +139,6 @@ namespace ModernApplicationFramework.Docking.Controls
                 SelectNextDocument();
                 e.Handled = true;
             }
-
-
             base.OnPreviewKeyDown(e);
         }
 
