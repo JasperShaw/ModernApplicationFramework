@@ -5,13 +5,13 @@ using ModernApplicationFramework.Controls.Utilities;
 
 namespace ModernApplicationFramework.Controls.Internals
 {
-    internal class QuickCustomizeButton : MenuItem
+    internal class QuickCustomizeButton : System.Windows.Controls.MenuItem
     {
         public static readonly DependencyProperty QuickCustomizeDataSourceProperty;
 
 
-        private readonly MenuItem _customizeMenuItem;
-        private readonly MenuItem _resetToolbarMenuItem;
+        private readonly System.Windows.Controls.MenuItem _customizeMenuItem;
+        private readonly System.Windows.Controls.MenuItem _resetToolbarMenuItem;
 
 
         public ItemCollection QuickCustomizeDataSource
@@ -28,8 +28,8 @@ namespace ModernApplicationFramework.Controls.Internals
 
         public QuickCustomizeButton()
         {
-            _customizeMenuItem = new MenuItem();
-            _resetToolbarMenuItem = new MenuItem();
+            _customizeMenuItem = new System.Windows.Controls.MenuItem();
+            _resetToolbarMenuItem = new System.Windows.Controls.MenuItem();
             _customizeMenuItem.Click += CustomizeMenuItem_Click;
             _customizeMenuItem.Header = "Customize...";
             _resetToolbarMenuItem.Click += ResetToolbarMenuItem_Click;
@@ -66,9 +66,9 @@ namespace ModernApplicationFramework.Controls.Internals
 
 
             compositeCollection.Add(separator3);
-            MenuItem customizeMenuItem3 = _customizeMenuItem;
+            System.Windows.Controls.MenuItem customizeMenuItem3 = _customizeMenuItem;
             compositeCollection.Add(customizeMenuItem3);
-            MenuItem resetToolbarMenuItem3 = _resetToolbarMenuItem;
+            System.Windows.Controls.MenuItem resetToolbarMenuItem3 = _resetToolbarMenuItem;
             compositeCollection.Add(resetToolbarMenuItem3);
 
             ItemsSource = compositeCollection;

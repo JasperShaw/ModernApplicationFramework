@@ -53,7 +53,7 @@ namespace ModernApplicationFramework.Core.Themes
                 _theme = value;
                 ChangeTheme(oldTheme, _theme);
                 OnRaiseThemeChanged(new ThemeChangedEventArgs(value, oldTheme));
-                //SaveTheme(_theme);
+                SaveTheme(_theme);
             }
         }
 

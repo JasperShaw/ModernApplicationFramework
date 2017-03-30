@@ -29,7 +29,7 @@ namespace ModernApplicationFramework.Extended.Commands
                 var document = _shell.Documents[i];
 
                 var definition =
-                    new ShowSelectedDocumentCommandDefinition($"_{i + 1} {document.DisplayName}")
+                    new ShowSelectedDocumentCommandDefinition($"&{i + 1} {document.DisplayName}")
                     {
                         CommandParamenter = document
                     };

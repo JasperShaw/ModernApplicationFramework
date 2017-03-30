@@ -112,13 +112,13 @@ namespace ModernApplicationFramework.Basics.ViewModels
             var menus = MenuDefinitions.Where(x => !ExcludedMenuDefinitions.Contains(x)).OrderBy(x => x.SortOrder);
             foreach (var menuDefinition in menus)
             {
-                var menuItem = MenuItem.CreateItem(menuDefinition);
+                var menuItem = new MenuItem(menuDefinition);
                 AddGroupsRecursive(menuDefinition, menuItem);
                 Items.Add(menuItem);
             }
             foreach (var noGroupMenuItem in MenuItemDefinitions.Where(x => x.Group == null).OrderBy(x => x.SortOrder))
             {
-                var item = MenuItem.CreateItemFromDefinition(noGroupMenuItem.CommandDefinition);
+                var item = new MenuItem(noGroupMenuItem);
                 Items.Add(item);
             }
 
@@ -142,14 +142,16 @@ namespace ModernApplicationFramework.Basics.ViewModels
                 {
                     MenuItem menuItemControl;
                     if (menuItemDefinition.CommandDefinition is CommandListDefinition)
-                        menuItemControl = new DummyListMenuItem(menuItemDefinition.CommandDefinition, menuItem);
-                    else
-                        menuItemControl = MenuItem.CreateItemFromDefinition(menuItemDefinition.CommandDefinition);
+                        menuItemControl = new DummyListMenuItem(menuItemDefinition, menuItem);
+                    else 
+                        menuItemControl = new MenuItem(menuItemDefinition);
                     AddGroupsRecursive(menuItemDefinition, menuItemControl);
                     menuItem.Items.Add(menuItemControl);
                 }
-                if (i < groups.Count - 1 && menuItems.Any())
-                    menuItem.Items.Add(new Separator());
+                if (i >= groups.Count - 1 || !menuItems.Any())
+                    continue;
+                var separator = new MenuItem(new CommandBarSeparatorDefinition());
+                menuItem.Items.Add(separator);
             }
         }
 

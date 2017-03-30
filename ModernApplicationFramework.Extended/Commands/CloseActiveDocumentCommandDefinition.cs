@@ -8,7 +8,7 @@ using ModernApplicationFramework.Extended.Interfaces;
 namespace ModernApplicationFramework.Extended.Commands
 {
     [Export(typeof(DefinitionBase))]
-    public class CloseActiveDocumentCommandDefinition : CommandDefinition
+    public sealed class CloseActiveDocumentCommandDefinition : CommandDefinition
     {
         [Import] private IDockingMainWindowViewModel _shell;
 

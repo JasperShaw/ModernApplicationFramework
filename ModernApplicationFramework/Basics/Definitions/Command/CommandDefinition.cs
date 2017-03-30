@@ -17,5 +17,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         public virtual object CommandParamenter { get; set; }
         public sealed override bool IsList => false;
         public virtual bool IsChecked { get; set; }
+
+        public override CommandControlTypes ControlType => CommandControlTypes.Button;
     }
 }

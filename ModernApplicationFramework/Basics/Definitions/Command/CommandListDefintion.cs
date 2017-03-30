@@ -1,4 +1,5 @@
 ﻿using System;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
 
 namespace ModernApplicationFramework.Basics.Definitions.Command
 {
@@ -6,6 +7,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
     {
         public override string IconId => null;
         public override bool IsList => true;
+        public override CommandControlTypes ControlType => CommandControlTypes.Button;
         public override Uri IconSource => null;
         public override string Name => string.Empty;
         public override string Text => Name;

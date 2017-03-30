@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Image = System.Windows.Controls.Image;
-using Size = System.Drawing.Size;
 
 namespace ModernApplicationFramework.Core.Utilities
 {

@@ -3,7 +3,7 @@
     public enum CommandControlTypes
     {
         Separator,
-        MenuButton,
+        Button,
         SplitDropDown,
         Combobox,
         Menu,

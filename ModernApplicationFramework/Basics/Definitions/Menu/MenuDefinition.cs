@@ -1,4 +1,6 @@
-﻿using ModernApplicationFramework.Basics.Definitions.CommandBar;
+﻿using System;
+using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
 
 namespace ModernApplicationFramework.Basics.Definitions.Menu
 {
@@ -41,11 +43,17 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
             }
         }
 
-        public MenuDefinition(uint sortOrder, string text, string displayName)
+        public override bool IsCustom { get; }
+        public override DefinitionBase CommandDefinition { get; }
+
+
+        public MenuDefinition(uint sortOrder, string text, string displayName, bool isCustom = false)
         {
             _sortOrder = sortOrder;
             _text = text;
             _displayName = displayName;
+            IsCustom = isCustom;
+            CommandDefinition = new MenuItemCommandDefinition();
         }
     }
 }

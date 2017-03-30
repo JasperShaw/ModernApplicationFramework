@@ -182,24 +182,24 @@ namespace ModernApplicationFramework.Controls
 
 
 
-        private static ResourceKey buttonStyleKey;
-        private static ResourceKey menuControllerStyleKey;
-        private static ResourceKey comboBoxStyleKey;
-        private static ResourceKey menuStyleKey;
-        private static ResourceKey separatorStyleKey;
+        private static ResourceKey _buttonStyleKey;
+        private static ResourceKey _menuControllerStyleKey;
+        private static ResourceKey _comboBoxStyleKey;
+        private static ResourceKey _menuStyleKey;
+        private static ResourceKey _separatorStyleKey;
 
 
-        public new static ResourceKey ButtonStyleKey => buttonStyleKey ?? (buttonStyleKey = new StyleKey<ToolBar>());
+        public new static ResourceKey ButtonStyleKey => _buttonStyleKey ?? (_buttonStyleKey = new StyleKey<ToolBar>());
         ResourceKey IExposeStyleKeys.MenuControllerStyleKey => MenuControllerStyleKey;
         ResourceKey IExposeStyleKeys.ComboBoxStyleKey => ComboBoxStyleKey;
         ResourceKey IExposeStyleKeys.MenuStyleKey => MenuStyleKey;
         ResourceKey IExposeStyleKeys.SeparatorStyleKey => SeparatorStyleKey;
         ResourceKey IExposeStyleKeys.ButtonStyleKey => ButtonStyleKey;
 
-        public static ResourceKey MenuControllerStyleKey => menuControllerStyleKey ?? (menuControllerStyleKey = new StyleKey<ToolBar>());
-        public new static ResourceKey ComboBoxStyleKey => comboBoxStyleKey ?? (comboBoxStyleKey = new StyleKey<ToolBar>());
-        public new static ResourceKey MenuStyleKey => menuStyleKey ?? (menuStyleKey = new StyleKey<ToolBar>());
-        public new static ResourceKey SeparatorStyleKey => separatorStyleKey ?? (separatorStyleKey = new StyleKey<ToolBar>());
+        public static ResourceKey MenuControllerStyleKey => _menuControllerStyleKey ?? (_menuControllerStyleKey = new StyleKey<ToolBar>());
+        public new static ResourceKey ComboBoxStyleKey => _comboBoxStyleKey ?? (_comboBoxStyleKey = new StyleKey<ToolBar>());
+        public new static ResourceKey MenuStyleKey => _menuStyleKey ?? (_menuStyleKey = new StyleKey<ToolBar>());
+        public new static ResourceKey SeparatorStyleKey => _separatorStyleKey ?? (_separatorStyleKey = new StyleKey<ToolBar>());
 
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
         {

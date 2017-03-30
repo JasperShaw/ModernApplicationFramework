@@ -2,6 +2,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Interfaces.Controls;
 using DefinitionBase = ModernApplicationFramework.Basics.Definitions.Command.DefinitionBase;
@@ -13,15 +15,15 @@ namespace ModernApplicationFramework.Controls
         private readonly ItemsControl _parent;
         private readonly List<ItemsControl> _listItems;
 
-        public DummyListMenuItem(DefinitionBase commandDefinition, ItemsControl parent)
+        public DummyListMenuItem(CommandBarDefinitionBase commandDefinition, ItemsControl parent)
         {
             _parent = parent;
-            CommandDefinition = commandDefinition;
+            CommandBarItemDefinition = commandDefinition;
             _listItems = new List<ItemsControl>();
             SetValue(VisibilityProperty, Visibility.Collapsed);
         }
 
-        public DefinitionBase CommandDefinition { get; }
+        public CommandBarDefinitionBase CommandBarItemDefinition { get; }
 
         public void Update(CommandHandlerWrapper commandHandler)
         {
@@ -33,7 +35,8 @@ namespace ModernApplicationFramework.Controls
             var startIndex = _parent.Items.IndexOf(this) + 1;
             foreach (var command in listCommands)
             {
-                var newMenuItem = CreateItemFromDefinition(command);
+                var id = new CommandMenuItemDefinition(command);
+                var newMenuItem = new MenuItem(id);
                 if (command is CommandDefinition commandDefinition && commandDefinition.IsChecked)
                     newMenuItem.IsChecked = true;
                 _parent.Items.Insert(startIndex++, newMenuItem);

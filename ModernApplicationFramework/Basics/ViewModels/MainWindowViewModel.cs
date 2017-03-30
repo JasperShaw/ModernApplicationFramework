@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Data;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Controls.Primitives;
-using ModernApplicationFramework.Core.Events;
-using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Basics.ViewModels
@@ -25,7 +22,6 @@ namespace ModernApplicationFramework.Basics.ViewModels
         private IMenuHostViewModel _menuHostViewModel;
         private BitmapImage _passiveIcon;
         private StatusBar _statusBar;
-        private Theme _theme;
         private IToolBarHostViewModel _toolBarHostViewModel;
         private bool _useSimpleMovement;
         private bool _useStatusbar;

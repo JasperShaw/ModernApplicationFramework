@@ -105,6 +105,7 @@
     </Compile>
     <Compile Include="Toolbars\DemoToolbarModel.cs" />
     <Compile Include="Toolbars\ToolBarDefinitions.cs" />
+    <Compile Include="TestMenuDefinitions.cs" />
     <Compile Include="XmlFileDefinition.cs" />
     <Page Include="Modules\Commands\TestWindw.xaml">
       <SubType>Designer</SubType>

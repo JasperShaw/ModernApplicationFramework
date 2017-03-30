@@ -81,6 +81,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\BlueTheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\Generic\CustomizeControlsListBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -163,12 +167,13 @@
       <DependentUpon>CommandsPageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Basics\Definitions\CommandBar\CommandBarDefinitionBase.cs" />
-    <Compile Include="Basics\Definitions\CommandBar\CommandBarItemDefinitionBase.cs" />
     <Compile Include="Basics\Definitions\Command\CommandControlTypes.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\CommandBarSeparatorDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\ExcludeMenuDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\ExcludeMenuItemDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\ExcludeMenuItemGroupDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuDefinition.cs" />
+    <Compile Include="Basics\Definitions\Menu\MenuItemCommandDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuItemDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuItemGroupDefinition.cs" />
     <Compile Include="Basics\Definitions\Toolbar\ToolbarDefinition.cs" />
@@ -199,8 +204,9 @@
     <Compile Include="Core\Converters\AccessKeyConverter.cs" />
     <Compile Include="Core\Converters\AccessKeyRemovingConverter.cs" />
     <Compile Include="Core\Converters\AccessKeyUnderliningConverter.cs" />
-    <Compile Include="Core\Converters\CommandConverter.cs" />
+    <Compile Include="Core\Converters\CommandBarItemCommandConverter.cs" />
     <Compile Include="Core\Converters\EnabledFilteringMultiConverter.cs" />
+    <Compile Include="Core\Converters\IsCustomMenuConverter.cs" />
     <Compile Include="Core\Converters\NegateBooleanConverter.cs" />
     <Compile Include="Core\Converters\OrBooleanConverter.cs" />
     <Compile Include="Core\Converters\ToolTipMultiConverter.cs" />
@@ -210,6 +216,7 @@
     <Compile Include="Core\Utilities\Accelerator.cs" />
     <Compile Include="Core\Utilities\BitmapLocker.cs" />
     <Compile Include="Core\Utilities\ImageConverter.cs" />
+    <Compile Include="Core\Utilities\StyleUtilities.cs" />
     <Compile Include="Core\ValidationRules\ComboBoxWidthValidationRule.cs" />
     <Compile Include="Core\ValidationRules\CommandNameNotEmptyValidationRule.cs" />
     <Compile Include="Interfaces\Command\ICommandHandler.cs" />
@@ -259,6 +266,7 @@
     <Compile Include="Core\Converters\NotNullConverter.cs" />
     <Compile Include="Core\Events\ItemDoubleClickedEventArgs.cs" />
     <Compile Include="Interfaces\Controls\IDummyListMenuItem.cs" />
+    <Compile Include="Interfaces\Controls\IThemableIconContainer.cs" />
     <Compile Include="Interfaces\ISettingsPage.cs" />
     <Compile Include="Native\Platform\Enums\Cdcontrolstate.cs" />
     <Compile Include="Native\Platform\Enums\CombineMode.cs" />
@@ -578,6 +586,7 @@
     <Compile Include="Test\HslColor.cs" />
     <Compile Include="Test\ImageThemingUtilities.cs" />
     <Compile Include="Test\ReusableArray.cs" />
+    <Compile Include="Themes\BlueTheme.cs" />
     <Compile Include="Themes\GenericTheme.cs" />
     <Page Include="Controls\DockingHost.xaml">
       <SubType>Designer</SubType>

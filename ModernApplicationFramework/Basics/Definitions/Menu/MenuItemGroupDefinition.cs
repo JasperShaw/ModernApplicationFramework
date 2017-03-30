@@ -1,17 +1,18 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using ModernApplicationFramework.Annotations;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
 
 namespace ModernApplicationFramework.Basics.Definitions.Menu
 {
     public class MenuItemGroupDefinition : INotifyPropertyChanged
     {
-        private MenuDefinition _parent;
+        private CommandBarDefinitionBase _parent;
         private uint _sortOrder;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public MenuDefinition Parent
+        public CommandBarDefinitionBase Parent
         {
             get => _parent;
             set
@@ -33,7 +34,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
             }
         }
 
-        public MenuItemGroupDefinition(MenuDefinition parent, uint sortOrder)
+        public MenuItemGroupDefinition(CommandBarDefinitionBase parent, uint sortOrder)
         {
             _parent = parent;
             _sortOrder = sortOrder;

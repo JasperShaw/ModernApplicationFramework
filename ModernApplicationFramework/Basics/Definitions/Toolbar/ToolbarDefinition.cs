@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using DefinitionBase = ModernApplicationFramework.Basics.Definitions.Command.DefinitionBase;
 
 namespace ModernApplicationFramework.Basics.Definitions.Toolbar
 {
@@ -44,7 +45,8 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
             }
         }
 
-        public bool IsCustom { get; }
+        public override bool IsCustom { get; }
+        public override DefinitionBase CommandDefinition { get; }
 
         public Dock LastPosition { get; private set; }
 

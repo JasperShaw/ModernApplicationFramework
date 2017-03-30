@@ -16,7 +16,7 @@
     <converters:AccessKeyConverter x:Key="AccessKeyConverter"/>
     <converters:ToolTipMultiConverter x:Key="ToolTipMultiConverter"/>
     <converters:NotNullConverter x:Key="NotNullConverter"/>
-    <converters:ToolbarItemCommandConverter x:Key="ToolbarItemCommandConverter"/>
+    <converters:CommandBarItemCommandConverter x:Key="CommandBarItemCommandConverter"/>
     <converters:DockToOrienationConverter x:Key="DockToOrienationConverter"/>
     <test:BrushToColorConverter x:Key="BrushToColorConverter"/>
 
@@ -614,7 +614,7 @@
                 </DataTrigger.Binding>
                 <Setter Property="ButtonBase.Command">
                     <Setter.Value>
-                        <Binding Converter="{StaticResource ToolbarItemCommandConverter}"/>
+                        <Binding Converter="{StaticResource CommandBarItemCommandConverter}"/>
                     </Setter.Value>
                 </Setter>
             </DataTrigger>

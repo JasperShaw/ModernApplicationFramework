@@ -8,7 +8,6 @@ using ModernApplicationFramework.Interfaces.Command;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using MenuItem = ModernApplicationFramework.Controls.MenuItem;
-using Separator = ModernApplicationFramework.Controls.Separator;
 
 namespace ModernApplicationFramework.Basics.Creators
 {
@@ -45,12 +44,16 @@ namespace ModernApplicationFramework.Basics.Creators
         public void CreateMenu(IMenuHostViewModel model)
         {
             var menus = _menus.Where(x => !_excludeMenus.Contains(x)).OrderBy(x => x.SortOrder);
-
-            foreach (var menu in menus)
+            foreach (var menuDefinition in menus)
             {
-                var menuItem = MenuItem.CreateItem(menu);
-                AddGroupsRecursive(menu, menuItem);
+                var menuItem = new MenuItem(menuDefinition);
+                AddGroupsRecursive(menuDefinition, menuItem);
                 model.Items.Add(menuItem);
+            }
+            foreach (var noGroupMenuItem in _menuItems.Where(x => x.Group == null).OrderBy(x => x.SortOrder))
+            {
+                var item = new MenuItem(noGroupMenuItem);
+                model.Items.Add(item);
             }
         }
 
@@ -72,14 +75,16 @@ namespace ModernApplicationFramework.Basics.Creators
                 {
                     MenuItem menuItemControl;
                     if (menuItemDefinition.CommandDefinition is CommandListDefinition)
-                        menuItemControl = new DummyListMenuItem(menuItemDefinition.CommandDefinition, menuItem);
+                        menuItemControl = new DummyListMenuItem(menuItemDefinition, menuItem);
                     else
-                        menuItemControl = MenuItem.CreateItemFromDefinition(menuItemDefinition.CommandDefinition);
+                        menuItemControl = new MenuItem(menuItemDefinition);
                     AddGroupsRecursive(menuItemDefinition, menuItemControl);
                     menuItem.Items.Add(menuItemControl);
                 }
-                if (i < groups.Count - 1 && menuItems.Any())
-                    menuItem.Items.Add(new Separator());
+                if (i >= groups.Count - 1 || !menuItems.Any())
+                    continue;
+                var separator = new MenuItem(new CommandBarSeparatorDefinition());
+                menuItem.Items.Add(separator);
             }
         }
 

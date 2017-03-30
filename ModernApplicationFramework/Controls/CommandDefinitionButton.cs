@@ -1,24 +1,22 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using ModernApplicationFramework.Annotations;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces;
-using ModernApplicationFramework.Test;
+using ModernApplicationFramework.Interfaces.Controls;
 
 namespace ModernApplicationFramework.Controls
 {
-    public class CommandDefinitionButton : System.Windows.Controls.Button, INotifyPropertyChanged
+    public class CommandDefinitionButton : System.Windows.Controls.Button, INotifyPropertyChanged, IThemableIconContainer
     {
         private object _icon;
-        private readonly object _iconSource;
+        public object IconSource { get; }
 
-        public CommandDefinitionButton(CommandBarItemDefinitionBase definition)
+        public CommandDefinitionButton(CommandBarDefinitionBase definition)
         {
             var themeManager = IoC.Get<IThemeManager>();
             themeManager.OnThemeChanged += ThemeManager_OnThemeChanged;
@@ -27,28 +25,20 @@ namespace ModernApplicationFramework.Controls
             if (string.IsNullOrEmpty(definition.CommandDefinition.IconSource?.OriginalString))
                 return;
             var myResourceDictionary = new ResourceDictionary { Source = definition.CommandDefinition.IconSource };
-            _iconSource = myResourceDictionary[definition.CommandDefinition.IconId];
+            IconSource = myResourceDictionary[definition.CommandDefinition.IconId];
+        }
+
+        protected override void OnRender(DrawingContext drawingContext)
+        {
+            base.OnRender(drawingContext);
+            this.SetThemedIcon();
         }
 
         private void ThemeManager_OnThemeChanged(object sender, Core.Events.ThemeChangedEventArgs e)
         {
-            SetIcon();
+            this.SetThemedIcon();
         }
 
-        public void SetIcon()
-        {
-            if (_iconSource == null)
-                return;
-            var vb = _iconSource as Viewbox;
-            var i = ImageUtilities.IconImageFromFrameworkElement(vb);
-            RenderOptions.SetBitmapScalingMode(i, BitmapScalingMode.Fant);
-
-            var b = ImageUtilities.BitmapFromBitmapSource((BitmapSource)i.Source);
-            var bi = ImageThemingUtilities.GetThemedBitmap(b, ImageThemingUtilities.GetImageBackgroundColor(this).ToRgba());
-            var bs = ImageConverter.BitmapSourceFromBitmap(bi);
-            i.Source = bs;
-            Icon = i;
-        }
 
         public object Icon
         {

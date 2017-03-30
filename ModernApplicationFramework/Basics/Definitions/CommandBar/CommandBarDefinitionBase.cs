@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using ModernApplicationFramework.Annotations;
+using ModernApplicationFramework.Basics.Definitions.Command;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
@@ -8,6 +9,10 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     {
         public abstract uint SortOrder { get; set; }
         public abstract string Text { get; set; }
+
+        public abstract bool IsCustom { get; }
+
+        public abstract DefinitionBase CommandDefinition { get; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

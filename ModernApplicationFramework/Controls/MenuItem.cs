@@ -1,45 +1,49 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Caliburn.Micro;
+using ModernApplicationFramework.Annotations;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Core.Events;
+using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces;
-using ModernApplicationFramework.Test;
-using DefinitionBase = ModernApplicationFramework.Basics.Definitions.Command.DefinitionBase;
+using ModernApplicationFramework.Interfaces.Controls;
+using ModernApplicationFramework.Native.Standard;
 
 namespace ModernApplicationFramework.Controls
 {
-    public class MenuItem : System.Windows.Controls.MenuItem
+    public class MenuItem : System.Windows.Controls.MenuItem, IThemableIconContainer, IExposeStyleKeys, INotifyPropertyChanged
     {
+        public object IconSource { get; }
+        public static DependencyProperty IsUserCreatedMenuProperty;
 
-        private readonly object _iconSource;
+        public bool IsUserCreatedMenu
+        {
+            get => (bool)GetValue(IsUserCreatedMenuProperty);
+            set => SetValue(IsUserCreatedMenuProperty, Boxes.Box(value));
+        }
+
+        public static double MaxMenuWidth => 660.0;
 
         static MenuItem()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MenuItem), new FrameworkPropertyMetadata(typeof(MenuItem)));
+            IsUserCreatedMenuProperty = DependencyProperty.Register("IsUserCreatedMenu", typeof(bool), typeof(MenuItem), new FrameworkPropertyMetadata(Boxes.BooleanFalse));
         }
 
-        public MenuItem(DefinitionBase definition)
+        public MenuItem(CommandBarDefinitionBase definitionBase) : this()
         {
-            var themeManager = IoC.Get<IThemeManager>();
-            themeManager.OnThemeChanged += ThemeManager_OnThemeChanged;
-            DataContext = definition;
-            if (string.IsNullOrEmpty(definition.IconSource?.OriginalString))
+            DataContext = definitionBase;
+            if (string.IsNullOrEmpty(definitionBase.CommandDefinition?.IconSource?.OriginalString))
                 return;
-            var myResourceDictionary = new ResourceDictionary { Source = definition.IconSource };
-            _iconSource = myResourceDictionary[definition.IconId];
-        }
-
-        private void ThemeManager_OnThemeChanged(object sender, ThemeChangedEventArgs e)
-        {
-            SetIcon();
+            var myResourceDictionary = new ResourceDictionary { Source = definitionBase.CommandDefinition.IconSource };
+            IconSource = myResourceDictionary[definitionBase.CommandDefinition.IconId];
         }
 
         public MenuItem()
@@ -49,72 +53,67 @@ namespace ModernApplicationFramework.Controls
         }
 
 
+        protected override void OnRender(DrawingContext drawingContext)
+        {
+            base.OnRender(drawingContext);
+            this.SetThemedIcon();
+        }
+
+
         public static MenuItem CreateItem(MenuDefinition definition)
         {
-            return new MenuItem { Header = definition.DisplayName };
+            return new MenuItem {DataContext = definition};
         }
 
-        public void SetIcon()
+
+        private void ThemeManager_OnThemeChanged(object sender, ThemeChangedEventArgs e)
         {
-            if (_iconSource == null)
-                return;
-            var vb = _iconSource as Viewbox;
-            var i = ImageUtilities.IconImageFromFrameworkElement(vb);
-            RenderOptions.SetBitmapScalingMode(i, BitmapScalingMode.Fant);
-
-            var b = ImageUtilities.BitmapFromBitmapSource((BitmapSource)i.Source);
-            var bi = ImageThemingUtilities.GetThemedBitmap(b, ImageThemingUtilities.GetImageBackgroundColor(this).ToRgba());
-            var bs = ImageConverter.BitmapSourceFromBitmap(bi);
-            i.Source = bs;
-
-            //var viewBox = new Viewbox();
-            //viewBox.Height = 16;
-            //viewBox.Width = 16;
-            //viewBox.Child = i;
-
-            Icon = i;
+            this.SetThemedIcon();
         }
 
-        /// <summary>
-        ///     Creates a MenuItem from CommandDefinition. If the Attached Command is Type GestureCommand the Item will bind the
-        ///     Gesture text
-        /// </summary>
-        /// <param name="definition"></param>
-        /// <returns>MenuItem</returns>
-        public static MenuItem CreateItemFromDefinition(DefinitionBase definition)
+
+        private static ResourceKey _buttonStyleKey;
+        private static ResourceKey _menuControllerStyleKey;
+        private static ResourceKey _comboBoxStyleKey;
+        private static ResourceKey _menuStyleKey;
+        private static ResourceKey _separatorStyleKey;
+
+        protected override DependencyObject GetContainerForItemOverride()
         {
-            var menuItem = new MenuItem(definition)
-            {
-                Header = definition.Text,
-            };
-            if (!(definition is CommandDefinition commandDefinition))
-                return menuItem;
-            var myBindingC = new Binding
-            {
-                Source = definition,
-                Path = new PropertyPath(nameof(commandDefinition.Command)),
-                Mode = BindingMode.OneWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-            };
-            BindingOperations.SetBinding(menuItem, CommandProperty, myBindingC);
-
-            var c = commandDefinition.Command as GestureCommandWrapper;
-            if (c == null)
-                return menuItem;
-
-            var myBinding = new Binding
-            {
-                Source = c,
-                Path = new PropertyPath(nameof(c.GestureText)),
-                Mode = BindingMode.OneWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-            };
-            BindingOperations.SetBinding(menuItem, InputGestureTextProperty,
-                myBinding);
-            if (commandDefinition.IsChecked)
-                menuItem.IsChecked = true;
-            menuItem.SetIcon();
-            return menuItem;
+            return new MenuItem();
         }
-    } 
+
+        protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+        {
+            StyleUtilities.SelectStyleForItem(element as FrameworkElement, item, this);
+        }
+
+        ResourceKey IExposeStyleKeys.MenuControllerStyleKey => MenuControllerStyleKey;
+
+        ResourceKey IExposeStyleKeys.ComboBoxStyleKey => ComboBoxStyleKey;
+
+        ResourceKey IExposeStyleKeys.MenuStyleKey => MenuStyleKey;
+
+        ResourceKey IExposeStyleKeys.SeparatorStyleKey => SeparatorStyleKey;
+
+        ResourceKey IExposeStyleKeys.ButtonStyleKey => ButtonStyleKey;
+
+        public static ResourceKey ButtonStyleKey => _buttonStyleKey ?? (_buttonStyleKey = new StyleKey<MenuItem>());
+
+        public static ResourceKey MenuControllerStyleKey => _menuControllerStyleKey ?? (_menuControllerStyleKey = new StyleKey<MenuItem>());
+
+        public static ResourceKey ComboBoxStyleKey => _comboBoxStyleKey ?? (_comboBoxStyleKey = new StyleKey<MenuItem>());
+
+        public static ResourceKey MenuStyleKey => _menuStyleKey ?? (_menuStyleKey = new StyleKey<MenuItem>());
+
+        public new static ResourceKey SeparatorStyleKey => _separatorStyleKey ?? (_separatorStyleKey = new StyleKey<MenuItem>());
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
 }

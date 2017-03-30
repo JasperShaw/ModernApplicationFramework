@@ -39,7 +39,7 @@ namespace ModernApplicationFramework.Controls.Utilities
                 return;
             var commandRouter = IoC.Get<ICommandRouter>();
             foreach (var item in menuItems)
-                item.Update(commandRouter.GetCommandHandler(item.CommandDefinition));
+                item.Update(commandRouter.GetCommandHandler(item.CommandBarItemDefinition.CommandDefinition));
         }
     }
 }

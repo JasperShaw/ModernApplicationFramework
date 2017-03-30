@@ -1,16 +1,18 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:this="clr-namespace:ModernApplicationFramework.Controls"
-                    xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
-                    xmlns:test="clr-namespace:ModernApplicationFramework.Test">
+                    xmlns:test="clr-namespace:ModernApplicationFramework.Test"
+                    xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters">
     
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Brushes.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <test:BrushToColorConverter x:Key="BrushToColorConverter"/>
+    <converters:AccessKeyConverter x:Key="AccessKeyConverter"/>
+    <converters:AccessKeyRemovingConverter x:Key="AccessKeyRemovingConverter"/>
+    <converters:IsCustomMenuConverter x:Key="IsCustomMenuConverter"/>
 
-    <Style TargetType="{x:Type this:Menu}">
+    <!--<Style TargetType="{x:Type this:Menu}">
         <Style.Resources>  
            <Style x:Key="{x:Static this:MenuItem.SeparatorStyleKey}" TargetType="this:Separator">
                 <Setter Property="Height" Value="1"/>
@@ -41,6 +43,7 @@
                          Converter="{StaticResource BrushToColorConverter}"/>
             </Setter.Value>
         </Setter>
-    </Style>
-
+    </Style>-->
+    
+   
 </ResourceDictionary>

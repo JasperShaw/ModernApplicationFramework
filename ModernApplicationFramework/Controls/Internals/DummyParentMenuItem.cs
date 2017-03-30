@@ -12,15 +12,15 @@ namespace ModernApplicationFramework.Controls.Internals
         public static readonly DependencyProperty ChildProperty;
         private static readonly ControlTemplate ControlTemplate;
 
-        public MenuItem Child
+        public System.Windows.Controls.MenuItem Child
         {
-            get => (MenuItem)GetValue(ChildProperty);
+            get => (System.Windows.Controls.MenuItem)GetValue(ChildProperty);
             set => SetValue(ChildProperty, value);
         }
 
         static DummyParentMenuItem()
         {
-            ChildProperty = DependencyProperty.Register("Child", typeof(MenuItem), typeof(DummyParentMenuItem), new FrameworkPropertyMetadata(ChildPropertyChanged));
+            ChildProperty = DependencyProperty.Register("Child", typeof(System.Windows.Controls.MenuItem), typeof(DummyParentMenuItem), new FrameworkPropertyMetadata(ChildPropertyChanged));
             FrameworkElementFactory frameworkElementFactory = new FrameworkElementFactory(typeof(ContentPresenter));
             frameworkElementFactory.SetValue(ContentPresenter.ContentProperty, new TemplateBindingExtension(ChildProperty));
             ControlTemplate controlTemplate = new ControlTemplate
@@ -59,7 +59,7 @@ namespace ModernApplicationFramework.Controls.Internals
             }
             else
             {
-                MenuItem menuItem = Items[0] as MenuItem;
+                System.Windows.Controls.MenuItem menuItem = Items[0] as System.Windows.Controls.MenuItem;
                 if (Items.Count == 1 && menuItem != null)
                 {
                     if (Equals(Child, menuItem))
@@ -83,7 +83,7 @@ namespace ModernApplicationFramework.Controls.Internals
             try
             {
                 dummyParentMenuItem.Items.Clear();
-                MenuItem child = dummyParentMenuItem.Child;
+                System.Windows.Controls.MenuItem child = dummyParentMenuItem.Child;
                 if (child == null)
                     return;
                 dummyParentMenuItem.Items.Add(child);

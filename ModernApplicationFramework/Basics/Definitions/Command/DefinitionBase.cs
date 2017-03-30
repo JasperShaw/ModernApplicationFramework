@@ -10,5 +10,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         public abstract Uri IconSource { get; }
         public abstract string IconId { get; }
         public abstract bool IsList { get; }
+
+        public abstract CommandControlTypes ControlType { get; }
     }
 }

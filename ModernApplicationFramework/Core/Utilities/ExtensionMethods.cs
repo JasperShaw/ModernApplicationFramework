@@ -6,8 +6,13 @@ using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Primitives;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Interop;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using ModernApplicationFramework.Interfaces.Controls;
 using ModernApplicationFramework.Native.NativeMethods;
+using ModernApplicationFramework.Test;
 
 namespace ModernApplicationFramework.Core.Utilities
 {
@@ -73,8 +78,6 @@ namespace ModernApplicationFramework.Core.Utilities
             return -1;
         }
 
-
-
         public static System.Exception UnwrapCompositionException(this System.Exception exception)
         {
             var compositionException = exception as CompositionException;
@@ -87,11 +90,7 @@ namespace ModernApplicationFramework.Core.Utilities
             while (unwrapped != null)
             {
                 var firstError = unwrapped.Errors.FirstOrDefault();
-                if (firstError == null)
-                {
-                    break;
-                }
-                var currentException = firstError.Exception;
+                var currentException = firstError?.Exception;
 
                 if (currentException == null)
                 {
@@ -100,8 +99,7 @@ namespace ModernApplicationFramework.Core.Utilities
 
                 var composablePartException = currentException as ComposablePartException;
 
-                if (composablePartException != null
-                    && composablePartException.InnerException != null)
+                if (composablePartException?.InnerException != null)
                 {
                     var innerCompositionException = composablePartException.InnerException as CompositionException;
                     if (innerCompositionException == null)
@@ -114,12 +112,27 @@ namespace ModernApplicationFramework.Core.Utilities
                 unwrapped = currentException as CompositionException;
             }
 
-            return exception; // Fuck it, couldn't find the real deal. Throw the original.
+            return exception;
         }
 
         public static void RaiseEvent(this PropertyChangedEventHandler eventHandler, object source, string propertyName)
         {
             eventHandler?.Invoke(source, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public static void SetThemedIcon(this IThemableIconContainer element)
+        {
+            if (element.IconSource == null)
+                return;
+            var vb = element.IconSource as Viewbox;
+            var i = ImageUtilities.IconImageFromFrameworkElement(vb);
+            RenderOptions.SetBitmapScalingMode(i, BitmapScalingMode.Linear);
+
+            var b = ImageUtilities.BitmapFromBitmapSource((BitmapSource)i.Source);
+            var bi = ImageThemingUtilities.GetThemedBitmap(b, ImageThemingUtilities.GetImageBackgroundColor(element as DependencyObject).ToRgba());
+            var bs = ImageConverter.BitmapSourceFromBitmap(bi);
+            i.Source = bs;
+            element.Icon = i;
         }
     }
 }

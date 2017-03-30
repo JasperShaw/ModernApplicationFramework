@@ -6,7 +6,6 @@ using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls.Primitives;
-using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Utilities;

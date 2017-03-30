@@ -1,13 +1,11 @@
 ﻿using System;
-using System.ComponentModel.Composition;
 using ModernApplicationFramework.Core.Themes;
 
 namespace ModernApplicationFramework.Themes
 {
-    [Export(typeof(Theme))]
     public class GenericTheme : Theme
     {
-        public override string Name => "Blue";
+        public override string Name => "Generic";
 
         public override Uri GetResourceUri()
         {

@@ -2,19 +2,47 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using ModernApplicationFramework.Controls.Utilities;
+using ModernApplicationFramework.Core.Themes;
+using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Native;
 using ModernApplicationFramework.Native.NativeMethods;
 
 namespace ModernApplicationFramework.Controls
 {
-    public class Menu : System.Windows.Controls.Menu
+    public class Menu : System.Windows.Controls.Menu, IExposeStyleKeys
     {
         private Window _priorActiveWindow;
+        private static ResourceKey _buttonStyleKey;
+        private static ResourceKey _menuControllerStyleKey;
+        private static ResourceKey _comboBoxStyleKey;
+        private static ResourceKey _menuStyleKey;
+        private static ResourceKey _separatorStyleKey;
 
         static Menu()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Menu), new FrameworkPropertyMetadata(typeof(Menu)));
         }
+
+
+        public static ResourceKey ButtonStyleKey => _buttonStyleKey ?? (_buttonStyleKey = new StyleKey<Menu>());
+        ResourceKey IExposeStyleKeys.MenuControllerStyleKey => MenuControllerStyleKey;
+
+        ResourceKey IExposeStyleKeys.ComboBoxStyleKey => ComboBoxStyleKey;
+
+        ResourceKey IExposeStyleKeys.MenuStyleKey => MenuStyleKey;
+
+        ResourceKey IExposeStyleKeys.SeparatorStyleKey => SeparatorStyleKey;
+
+        ResourceKey IExposeStyleKeys.ButtonStyleKey => ButtonStyleKey;
+
+        public static ResourceKey MenuControllerStyleKey => _menuControllerStyleKey ?? (_menuControllerStyleKey = new StyleKey<Menu>());
+
+        public static ResourceKey ComboBoxStyleKey => _comboBoxStyleKey ?? (_comboBoxStyleKey = new StyleKey<Menu>());
+
+        public static ResourceKey MenuStyleKey => _menuStyleKey ?? (_menuStyleKey = new StyleKey<Menu>());
+
+        public static ResourceKey SeparatorStyleKey => _separatorStyleKey ?? (_separatorStyleKey = new StyleKey<Menu>());
+
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
@@ -60,6 +88,11 @@ namespace ModernApplicationFramework.Controls
                 _priorActiveWindow = null;
             }
             base.OnLostKeyboardFocus(e);
+        }
+
+        protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+        {
+            StyleUtilities.SelectStyleForItem(element as FrameworkElement, item, this);
         }
     }
 }

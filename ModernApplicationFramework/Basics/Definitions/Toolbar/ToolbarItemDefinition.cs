@@ -5,7 +5,7 @@ using DefinitionBase = ModernApplicationFramework.Basics.Definitions.Command.Def
 
 namespace ModernApplicationFramework.Basics.Definitions.Toolbar
 {
-    public abstract class ToolbarItemDefinition : CommandBarItemDefinitionBase
+    public abstract class ToolbarItemDefinition : CommandBarDefinitionBase
     {
         public ToolbarItemGroupDefinition Group { get; set; }
 
@@ -20,14 +20,16 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
 
     public sealed class CommandToolBarItemDefinition<T> : ToolbarItemDefinition where T : DefinitionBase
     {
-        public CommandToolBarItemDefinition(ToolbarItemGroupDefinition group, uint sortOrder) : base(group, sortOrder)
+        public CommandToolBarItemDefinition(ToolbarItemGroupDefinition group, uint sortOrder, bool isCustom = false) : base(group, sortOrder)
         {
             CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
             Text = CommandDefinition.Text;
+            IsCustom = isCustom;
         }
 
         public override string Text { get; set; }
+        public override bool IsCustom { get; }
 
-        public override DefinitionBase CommandDefinition { get; set; }
+        public override DefinitionBase CommandDefinition { get; }
     }
 }
