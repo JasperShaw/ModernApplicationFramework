@@ -24,7 +24,7 @@ namespace ModernApplicationFramework.Extended.Commands
         public FullScreenCommandDefinition()
         {
             Command = new GestureCommandWrapper(TriggerFullScreen, CanTriggerFullScreen, new KeyGesture(Key.Enter, ModifierKeys.Shift | ModifierKeys.Alt));
-            _itemDefinition = new MenuItemDefinition(null, int.MaxValue, this);
+            _itemDefinition = new MenuItemDefinition(Text, null, int.MaxValue, this);
         }
 
         private bool _isFullScreen;
