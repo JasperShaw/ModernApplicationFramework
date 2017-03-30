@@ -30,7 +30,7 @@ namespace ModernApplicationFramework.Extended.Settings.ViewModels
             get => _selectedTheme;
             set
             {
-                if (value.Equals(_selectedTheme))
+                if (_selectedTheme != null && value.Equals(_selectedTheme))
                     return;
                 _selectedTheme = value;
                 OnPropertyChanged();

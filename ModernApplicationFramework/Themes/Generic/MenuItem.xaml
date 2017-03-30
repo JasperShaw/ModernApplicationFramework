@@ -301,6 +301,9 @@
                 </this:SystemDropShadowChrome>
             </Popup>
         </Grid>
+        <ControlTemplate.Triggers>
+
+        </ControlTemplate.Triggers>
     </ControlTemplate>
     <ControlTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type this:MenuItem}, ResourceId=SubmenuHeaderTemplateKey}" TargetType="{x:Type this:MenuItem}">
         <Grid SnapsToDevicePixels="True" Background="Transparent">

@@ -184,6 +184,7 @@
     <Compile Include="Basics\SettingsDialog\Views\SettingsWindowView.xaml.cs">
       <DependentUpon>SettingsWindowView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Basics\SettingsManager.cs" />
     <Compile Include="CommandBase\CommandHandlerWrapper.cs" />
     <Compile Include="Basics\Definitions\Command\CommandListDefintion.cs" />
     <Compile Include="CommandBase\CommandWrapper.cs" />
