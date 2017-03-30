@@ -342,7 +342,7 @@ namespace ModernApplicationFramework.Extended.DockingMainWindow.ViewModels
             window.Activated += _mainWindow_Activated;
             window.Deactivated += _mainWindow_Deactivated;
 
-            //_themeManager.Theme = !string.IsNullOrEmpty(_themeManager.StartUpTheme?.Name) ? _themeManager.StartUpTheme : new GenericTheme();  
+            _themeManager.Theme = !string.IsNullOrEmpty(_themeManager.StartUpTheme?.Name) ? _themeManager.StartUpTheme : new GenericTheme();  
 
             _commandKeyGestureService.BindKeyGesture((UIElement) view);
         }
