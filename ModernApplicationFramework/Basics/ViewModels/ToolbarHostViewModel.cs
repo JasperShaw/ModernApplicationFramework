@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.CustomizeDialog.ViewModels;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls;
@@ -176,7 +177,7 @@ namespace ModernApplicationFramework.Basics.ViewModels
                 }
 
                 if (i < groups.Count - 1 && toolBarItems.Any())
-                    toolBar.Items.Add(new Separator());
+                    toolBar.Items.Add(new CommandDefinitionButton(new CommandBarSeparatorDefinition()));
             }
         }
 

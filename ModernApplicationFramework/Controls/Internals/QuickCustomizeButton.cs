@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Core.Converters;
 
@@ -11,14 +12,11 @@ namespace ModernApplicationFramework.Controls.Internals
     {
         public static readonly DependencyProperty QuickCustomizeDataSourceProperty;
         private static readonly Lazy<ResourceKey> boundMenuItemStyleKey;
-        private static CombineVisibilityConverter _highestVisConverter;
         private static readonly IfElseConverter negBoolToVisConverter;
 
 
         private readonly System.Windows.Controls.MenuItem _customizeMenuItem;
         private readonly System.Windows.Controls.MenuItem _resetToolbarMenuItem;
-        private static NegateBooleanConverter _negBoolConverter;
-        private static BooleanToVisibilityConverter _boolToVisConverter;
 
 
         public static ResourceKey BoundMenuItemStyleKey => boundMenuItemStyleKey.Value;
@@ -40,9 +38,6 @@ namespace ModernApplicationFramework.Controls.Internals
         {
             QuickCustomizeDataSourceProperty = DependencyProperty.Register("QuickCustomizeDataSource", typeof(ItemCollection), typeof(QuickCustomizeButton), new PropertyMetadata(OnQuickCustomizeDataSourceChanged));
             boundMenuItemStyleKey = new Lazy<ResourceKey>(InitializeResourcekey);
-            _negBoolConverter = new NegateBooleanConverter();
-            _boolToVisConverter = new BooleanToVisibilityConverter();
-            _highestVisConverter = new CombineVisibilityConverter { CombineVisibility = CombineVisibility.PickHighestVisibility };
             var ifElseConverter = new IfElseConverter
             {
                 TrueValue = Visibility.Collapsed,
@@ -66,17 +61,12 @@ namespace ModernApplicationFramework.Controls.Internals
             _resetToolbarMenuItem = new System.Windows.Controls.MenuItem();
             _customizeMenuItem.Click += CustomizeMenuItem_Click;
             _resetToolbarMenuItem.Click += ResetToolbarMenuItem_Click;
-
-
-            var visibilityProperty2 = VisibilityProperty;
-            var binding2 = new Binding("DataContext.IsCustom")
+            var binding = new Binding("DataContext.IsCustom")
             {
                 Source = this,
                 Converter = negBoolToVisConverter
             };
-            _resetToolbarMenuItem.SetBinding(visibilityProperty2, binding2);
-
-
+            _resetToolbarMenuItem.SetBinding(VisibilityProperty, binding);
             CreateMenu();
 
         }
@@ -86,7 +76,7 @@ namespace ModernApplicationFramework.Controls.Internals
         private void CreateMenu()
         {
             ItemsSource = null;
-            CompositeCollection compositeCollection = new CompositeCollection();
+            var compositeCollection = new CompositeCollection();
 
             if (QuickCustomizeDataSource == null)
                 return;
@@ -96,27 +86,23 @@ namespace ModernApplicationFramework.Controls.Internals
                 var item = data as CommandDefinitionButton;
                 if (item == null)
                     continue;
-
-
+                if (item.DataContext is CommandBarDefinitionBase definition && definition.CommandDefinition.ControlType == CommandControlTypes.Separator)
+                    continue;
                 var mi = new MenuItem(item.DataContext as CommandBarDefinitionBase);
                 compositeCollection.Add(mi);
             }
 
-            var separator3 = new System.Windows.Controls.Separator();
-
-
-            compositeCollection.Add(separator3);
-            System.Windows.Controls.MenuItem customizeMenuItem3 = _customizeMenuItem;
-            compositeCollection.Add(customizeMenuItem3);
-            System.Windows.Controls.MenuItem resetToolbarMenuItem3 = _resetToolbarMenuItem;
-            compositeCollection.Add(resetToolbarMenuItem3);
+            var separator = new System.Windows.Controls.Separator();
+            compositeCollection.Add(separator);
+            compositeCollection.Add(_customizeMenuItem);
+            compositeCollection.Add(_resetToolbarMenuItem);
 
             ItemsSource = compositeCollection;
         }
 
         private void ResetToolbarMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Todo");
+            MessageBox.Show("This feature will be added sometime later when the framework can load/store current settings");
         }
 
         private void CustomizeMenuItem_Click(object sender, RoutedEventArgs e)
@@ -146,9 +132,7 @@ namespace ModernApplicationFramework.Controls.Internals
             else
             {
                 if (item is Control c && c.DataContext is CommandBarDefinitionBase)
-                {
                     frameworkElement.SetResourceReference(StyleProperty, BoundMenuItemStyleKey);
-                }
             }
             base.PrepareContainerForItemOverride(element, item);
         }

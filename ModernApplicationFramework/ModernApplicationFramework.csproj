@@ -222,6 +222,7 @@
     <Compile Include="Core\Converters\CombineVisibilityConverter.cs" />
     <Compile Include="Core\Converters\CommandBarItemCommandConverter.cs" />
     <Compile Include="Core\Converters\EnabledFilteringMultiConverter.cs" />
+    <Compile Include="Core\Converters\FormattedStringConverter.cs" />
     <Compile Include="Core\Converters\IfElseConverter.cs" />
     <Compile Include="Core\Converters\IsCustomMenuConverter.cs" />
     <Compile Include="Core\Converters\NegateBooleanConverter.cs" />
@@ -232,6 +233,7 @@
     <Compile Include="Core\Themes\StyleKey.cs" />
     <Compile Include="Core\Utilities\Accelerator.cs" />
     <Compile Include="Core\Utilities\BitmapLocker.cs" />
+    <Compile Include="Core\Utilities\DteFocusHelper.cs" />
     <Compile Include="Core\Utilities\ImageConverter.cs" />
     <Compile Include="Core\Utilities\StyleUtilities.cs" />
     <Compile Include="Core\ValidationRules\ComboBoxWidthValidationRule.cs" />
@@ -550,6 +552,11 @@
     <Compile Include="Interfaces\ViewModels\IToolBarHostViewModel.cs" />
     <Compile Include="Interfaces\ViewModels\IWindowViewModel.cs" />
     <Compile Include="Properties\Annotations1.cs" />
+    <Compile Include="Properties\CommonUI.Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CommonUI.Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -849,7 +856,12 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\CommonUI.Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonUI.Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

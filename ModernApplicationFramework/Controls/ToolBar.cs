@@ -209,12 +209,7 @@ namespace ModernApplicationFramework.Controls
 
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
         {
-            SelectStyleForItem(element as FrameworkElement, item, (IExposeStyleKeys)this);
-        }
-
-        internal static void SelectStyleForItem(FrameworkElement element, object item, IExposeStyleKeys styleKeySource)
-        {
-            element.SetResourceReference(StyleProperty, ButtonStyleKey);
+            StyleUtilities.SelectStyleForItem(element as FrameworkElement, item, this);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Controls;
@@ -9,7 +10,7 @@ namespace ModernApplicationFramework.Core.Utilities
     {
         internal static void SelectStyleForItem(FrameworkElement element, object item, IExposeStyleKeys styleKeySource)
         {
-            var control = item as MenuItem;
+            var control = item as Control;
             var context = control?.DataContext as CommandBarDefinitionBase;
             if (context == null)
                 return;

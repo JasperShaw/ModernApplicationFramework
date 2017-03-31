@@ -16,6 +16,8 @@ namespace ModernApplicationFramework.Controls
         private object _icon;
         public object IconSource { get; }
 
+        public ToolBar ParentToolBar => this.FindAncestor<ToolBar>();
+
         public CommandDefinitionButton(CommandBarDefinitionBase definition)
         {
             var themeManager = IoC.Get<IThemeManager>();

@@ -148,7 +148,7 @@ namespace ModernApplicationFramework.Controls.Internals
                 UIElement visualChild = (UIElement)GetVisualChild(index);
                 if (visualChild != null)
                 {
-                    if (uiElement == null && IsStretchingComboBox())
+                    if (uiElement == null && IsStretchingComboBox(visualChild))
                         uiElement = visualChild;
                     else if (Orientation == Orientation.Horizontal)
                         num1 += visualChild.DesiredSize.Width;
@@ -164,9 +164,13 @@ namespace ModernApplicationFramework.Controls.Internals
                 : new Size(constraint.Width, num2));
         }
 
-        private bool IsStretchingComboBox()
+        private bool IsStretchingComboBox(UIElement uiElement)
         {
+            FrameworkElement frameworkElement = uiElement as FrameworkElement;
+            if (frameworkElement == null)
                 return false;
+
+            return true;
         }
 
     }
