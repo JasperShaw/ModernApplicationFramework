@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.Menu;
+using ModernApplicationFramework.Basics.Definitions.Menu.MenuItems;
 using ModernApplicationFramework.Extended.Commands;
 
 namespace ModernApplicationFramework.Extended.MenuDefinitions

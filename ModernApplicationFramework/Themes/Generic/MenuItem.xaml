@@ -221,7 +221,7 @@
             <Border x:Name="IconBorder" VerticalAlignment="Center" HorizontalAlignment="Center" BorderThickness="1" Padding="1"
                     Margin="2,0,2,0" Grid.Column="0">
                 <ContentPresenter x:Name="Icon" Width="16" Height="16" VerticalAlignment="Center" ContentSource="Icon"
-                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Visibility="Visible"/>
+                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Visibility="Collapsed"/>
             </Border>
             <Border x:Name="GlyphPanel" Background="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarSelectedIcon}}" 
                     BorderBrush="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarCheckBox}}" BorderThickness="0" 
@@ -246,7 +246,7 @@
                     <Condition Binding="{Binding Flags.Pict}" Value="True"/>
                     <Condition Binding="{Binding Flags.TextOnly}" Value="True"/>
                 </MultiDataTrigger.Conditions>
-                <Setter x:Uid="Setter_30" TargetName="Icon" Property="UIElement.Visibility" Value="Visible"/>
+                <Setter TargetName="Icon" Property="UIElement.Visibility" Value="Visible"/>
             </MultiDataTrigger>
             <Trigger Property="MenuItem.Icon">
                 <Trigger.Value>
@@ -405,9 +405,9 @@
                             <Rectangle x:Name="Bg" Fill="Transparent" Stroke="Transparent" StrokeThickness="0"
                                        Grid.ColumnSpan="2"/>
                             <ContentPresenter x:Name="Image" Content="{TemplateBinding Icon}" Margin="2" Grid.Column="0"
-                                              HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Visible"/>
+                                              HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                             <AccessText x:Name="Text" Margin="2" Grid.Column="1" VerticalAlignment="Center"
-                                        HorizontalAlignment="Center" Visibility="Visible" Text="{Binding DisplayName, Converter={StaticResource AccessKeyConverter}}"/>
+                                        HorizontalAlignment="Center" Visibility="Collapsed" Text="{Binding DisplayName, Converter={StaticResource AccessKeyConverter}}"/>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -426,6 +426,7 @@
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Icon, RelativeSource={RelativeSource Self}}" Value="{x:Null}">
                             <Setter TargetName="Image" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="Text" Property="Visibility" Value="Visible"/>
                         </DataTrigger>
                         <Trigger Property="UIElement.IsEnabled" Value="false">
                             <Setter TargetName="Text" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemForegroundDisabled}}" Property="AccessText.Foreground"/>

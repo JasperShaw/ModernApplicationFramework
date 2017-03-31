@@ -1,6 +1,6 @@
-﻿using System;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.Menu;
+using ModernApplicationFramework.Basics.Definitions.Menu.MenuItems;
 using ModernApplicationFramework.Extended.Modules.InspectorTool.Commands;
 
 namespace ModernApplicationFramework.Extended.Modules.InspectorTool

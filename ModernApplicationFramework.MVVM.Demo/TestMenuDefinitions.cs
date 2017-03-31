@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.Menu;
+using ModernApplicationFramework.Basics.Definitions.Menu.MenuItems;
 using ModernApplicationFramework.Extended.Commands;
 
 namespace ModernApplicationFramework.MVVM.Demo
@@ -10,7 +11,7 @@ namespace ModernApplicationFramework.MVVM.Demo
 
         [Export] public static MenuItemGroupDefinition TestGroup1 = new MenuItemGroupDefinition(TestMenu, int.MaxValue);
 
-        [Export] public static MenuItemDefinition TestSub = new MenuItemDefinition("Test", TestGroup1, 0, null, true);
+        [Export] public static MenuItemDefinition TestSub = new CustomSubHeaderMenuItemDefinition("Test", TestGroup1, 0);
 
         [Export] public static MenuItemGroupDefinition TestGroup2 = new MenuItemGroupDefinition(TestSub, int.MaxValue);
 

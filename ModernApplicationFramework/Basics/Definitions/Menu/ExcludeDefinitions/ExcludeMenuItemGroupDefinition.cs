@@ -1,4 +1,4 @@
-﻿namespace ModernApplicationFramework.Basics.Definitions.Menu
+﻿namespace ModernApplicationFramework.Basics.Definitions.Menu.ExcludeDefinitions
 {
     public class ExcludeMenuItemGroupDefinition
     {

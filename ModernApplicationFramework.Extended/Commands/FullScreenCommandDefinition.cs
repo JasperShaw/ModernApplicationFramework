@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Basics.Definitions.Menu;
+using ModernApplicationFramework.Basics.Definitions.Menu.MenuItems;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Extended.Interfaces;
@@ -24,7 +24,7 @@ namespace ModernApplicationFramework.Extended.Commands
         public FullScreenCommandDefinition()
         {
             Command = new GestureCommandWrapper(TriggerFullScreen, CanTriggerFullScreen, new KeyGesture(Key.Enter, ModifierKeys.Shift | ModifierKeys.Alt));
-            _itemDefinition = new MenuItemDefinition(Text, null, int.MaxValue, this) {IsChecked = true};
+            _itemDefinition = new CommandTopLevelMenuItemDefinition(Text, null, int.MaxValue, this) {IsChecked = true};
         }
 
         private bool _isFullScreen;

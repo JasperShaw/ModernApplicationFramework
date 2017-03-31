@@ -5,7 +5,7 @@ using DefinitionBase = ModernApplicationFramework.Basics.Definitions.Command.Def
 
 namespace ModernApplicationFramework.Basics.Definitions.Toolbar
 {
-    public abstract class ToolbarItemDefinition : CommandBarDefinitionBase
+    public abstract class ToolbarItemDefinition : CommandBarItemDefinition
     {
         public ToolbarItemGroupDefinition Group { get; set; }
 

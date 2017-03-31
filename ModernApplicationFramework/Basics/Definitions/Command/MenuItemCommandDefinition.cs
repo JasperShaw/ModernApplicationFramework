@@ -1,7 +1,6 @@
 ﻿using System;
-using ModernApplicationFramework.Basics.Definitions.Command;
 
-namespace ModernApplicationFramework.Basics.Definitions.Menu
+namespace ModernApplicationFramework.Basics.Definitions.Command
 {
     public sealed class MenuItemCommandDefinition : DefinitionBase
     {

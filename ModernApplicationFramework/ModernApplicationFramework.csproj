@@ -167,15 +167,24 @@
       <DependentUpon>CommandsPageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Basics\Definitions\CommandBar\CommandBarDefinitionBase.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\CommandBarFlags.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\CommandBarItemDefinition.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\FlagStorage.cs" />
     <Compile Include="Basics\Definitions\Command\CommandControlTypes.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarSeparatorDefinition.cs" />
-    <Compile Include="Basics\Definitions\Menu\ExcludeMenuDefinition.cs" />
-    <Compile Include="Basics\Definitions\Menu\ExcludeMenuItemDefinition.cs" />
-    <Compile Include="Basics\Definitions\Menu\ExcludeMenuItemGroupDefinition.cs" />
+    <Compile Include="Basics\Definitions\Menu\CustomMenuDefinition.cs" />
+    <Compile Include="Basics\Definitions\Menu\ExcludeDefinitions\ExcludeMenuDefinition.cs" />
+    <Compile Include="Basics\Definitions\Menu\ExcludeDefinitions\ExcludeMenuItemDefinition.cs" />
+    <Compile Include="Basics\Definitions\Menu\ExcludeDefinitions\ExcludeMenuItemGroupDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuDefinition.cs" />
-    <Compile Include="Basics\Definitions\Menu\MenuItemCommandDefinition.cs" />
-    <Compile Include="Basics\Definitions\Menu\MenuItemDefinition.cs" />
+    <Compile Include="Basics\Definitions\Command\MenuItemCommandDefinition.cs" />
+    <Compile Include="Basics\Definitions\Menu\MenuItems\CommandMenuItemDefinition.cs" />
+    <Compile Include="Basics\Definitions\Menu\MenuItems\CommandMenuItemDefinitionT.cs" />
+    <Compile Include="Basics\Definitions\Menu\MenuItems\CommandTopLevelMenuItemDefinition.cs" />
+    <Compile Include="Basics\Definitions\Menu\MenuItems\CustomSubHeaderMenuItemDefinition.cs" />
+    <Compile Include="Basics\Definitions\Menu\MenuItems\MenuItemDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuItemGroupDefinition.cs" />
+    <Compile Include="Basics\Definitions\Menu\MenuItems\SubHeaderMenuItemDefinition.cs" />
     <Compile Include="Basics\Definitions\Toolbar\ToolbarDefinition.cs" />
     <Compile Include="Basics\Definitions\Toolbar\ToolbarItemDefinition.cs" />
     <Compile Include="Basics\Definitions\Toolbar\ToolbarItemGroupDefinition.cs" />

@@ -43,7 +43,6 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
         }
 
         public override bool IsCustom { get; }
-        public sealed override bool IsChecked { get; set; }
         public override DefinitionBase CommandDefinition { get; }
 
 
