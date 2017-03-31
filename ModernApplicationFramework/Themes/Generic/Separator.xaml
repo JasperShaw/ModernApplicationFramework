@@ -1,12 +1,17 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:this="clr-namespace:ModernApplicationFramework.Controls">
+                    xmlns:this="clr-namespace:ModernApplicationFramework.Controls"
+                    xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes">
     
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="Brushes.xaml"/>
-    </ResourceDictionary.MergedDictionaries>
     
     <Style TargetType="{x:Type this:Separator}">
-        <Setter Property="Background" Value="{StaticResource SeparatorBackground}"/>
+        <Setter Property="Height" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Separator">
+                    <Border BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.MenuSeparator}}" BorderThickness="1" Margin="26,0,0,0"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>

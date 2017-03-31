@@ -37,11 +37,11 @@ namespace ModernApplicationFramework.Controls
             DefaultStyleKeyProperty.OverrideMetadata(typeof(CustomizeControlsListBox), new FrameworkPropertyMetadata(typeof(CustomizeControlsListBox)));
         }
 
-
         protected override DependencyObject GetContainerForItemOverride()
         {
             return new CustomizeControlsListBoxItem();
         }
+
 
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
         {

@@ -45,7 +45,7 @@ namespace ModernApplicationFramework.Controls.Internals
                 double val2 = 0.0;
                 for (int index = 0; index < templatedParent.Items.Count; ++index)
                 {
-                    FrameworkElement frameworkElement = templatedParent.ItemContainerGenerator.ContainerFromIndex(index) as FrameworkElement;
+                    var frameworkElement = templatedParent.ItemContainerGenerator.ContainerFromIndex(index) as FrameworkElement;
                     if (frameworkElement != null && !System.Windows.Controls.ToolBar.GetIsOverflowItem(frameworkElement))
                         val2 = Math.Max(frameworkElement.DesiredSize.Width, val2);
                     else

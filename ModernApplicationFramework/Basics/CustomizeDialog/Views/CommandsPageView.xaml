@@ -9,140 +9,133 @@
              xmlns:validationRules="clr-namespace:ModernApplicationFramework.Core.ValidationRules"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="360">
-    <FrameworkElement.Resources>
-
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../../Themes/Generic/MenuItem.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-
-            <converters:EnabledFilteringMultiConverter x:Key="EnabledFilteringMultiConverter"/>
-            <converters:OrBooleanConverter x:Key="OrBooleanConverter"/>
-            <converters:NegateBooleanConverter x:Key="NegateBooleanConverter"/>
-            <converters:VisibleIfNotNullConverter x:Key="VisibleIfNotNullConverter"/>
-            <converters:TrimSpacesConverter x:Key="TrimSpacesConverter"/>
-            <CollectionViewSource x:Key="ToolBarsView" Source="{Binding CustomizableToolBars}">
-                <CollectionViewSource.SortDescriptions>
-                    <componentModel:SortDescription PropertyName="Name"/>
-                </CollectionViewSource.SortDescriptions>
-            </CollectionViewSource>
-            <controls:ContextMenu x:Key="ModifySelectionCommandsMenu">
-                <controls:MenuItem Header="_Reset">
-                    <UIElement.IsEnabled>
-                        <!-- TODO-->
-                        <Binding Mode="OneWay" Path="Item"/>
-                    </UIElement.IsEnabled>
-                </controls:MenuItem>
-                <controls:EditableMenuItem Header="_Name:">
-                    <controls:EditableMenuItem.Edit>
-                        <Binding Path="Item.Text" Mode="TwoWay" UpdateSourceTrigger="LostFocus" Converter="{StaticResource TrimSpacesConverter}"/>
-                    </controls:EditableMenuItem.Edit>
-                    <controls:EditableMenuItem.IsEnabled>
-                        <!-- TODO-->
-                        <Binding Mode="OneWay" Path="Item"/>
-                    </controls:EditableMenuItem.IsEnabled>
-                    <controls:EditableMenuItem.ValidationRules>
-                        <validationRules:CommandNameNotEmptyValidationRule/>
-                    </controls:EditableMenuItem.ValidationRules>
-                </controls:EditableMenuItem>
-                <controls:EditableMenuItem Header="_Width:" EditMinWidth="100">
-                    <!--TODO-->
-                    <UIElement.IsEnabled>
-                        <Binding Mode="OneWay" Path="Item"/>
-                    </UIElement.IsEnabled>
-                    <!-- TODO -->
-                    <UIElement.Visibility>
-                        <Binding Mode="OneWay" Path="Item" />
-                    </UIElement.Visibility>
-                    <controls:EditableMenuItem.ValidationRules>
-                        <validationRules:ComboBoxWidthValidationRule/>
-                    </controls:EditableMenuItem.ValidationRules>
-                    <FrameworkElement.Style>
-                        <Style TargetType="{x:Type controls:EditableMenuItem}" BasedOn="{StaticResource {x:Type controls:MenuItem}}">
-                            <Style.Triggers>
-                                <Trigger Property="IsVisible" Value="True">
-                                    <Setter Property="Edit">
-                                        <Setter.Value>
-                                            <Binding Path="Item.DropDownWidth" Mode="TwoWay"></Binding>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </FrameworkElement.Style>
-                </controls:EditableMenuItem>
-                <controls:Separator/>
-                <controls:CheckedMenuItem Header="Defa_ult style" Click="HandleStylingFlagsChange">
+    <UserControl.Resources>
+        <converters:EnabledFilteringMultiConverter x:Key="EnabledFilteringMultiConverter"/>
+        <converters:OrBooleanConverter x:Key="OrBooleanConverter"/>
+        <converters:NegateBooleanConverter x:Key="NegateBooleanConverter"/>
+        <converters:VisibleIfNotNullConverter x:Key="VisibleIfNotNullConverter"/>
+        <converters:TrimSpacesConverter x:Key="TrimSpacesConverter"/>
+        <CollectionViewSource x:Key="ToolBarsView" Source="{Binding CustomizableToolBars}">
+            <CollectionViewSource.SortDescriptions>
+                <componentModel:SortDescription PropertyName="Name"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+        <controls:ContextMenu x:Key="ModifySelectionCommandsMenu">
+            <controls:MenuItem Header="_Reset">
+                <UIElement.IsEnabled>
+                    <!-- TODO-->
+                    <Binding Mode="OneWay" Path="Item"/>
+                </UIElement.IsEnabled>
+            </controls:MenuItem>
+            <controls:EditableMenuItem Header="_Name:">
+                <controls:EditableMenuItem.Edit>
+                    <Binding Path="Item.Text" Mode="TwoWay" UpdateSourceTrigger="LostFocus" Converter="{StaticResource TrimSpacesConverter}"/>
+                </controls:EditableMenuItem.Edit>
+                <controls:EditableMenuItem.IsEnabled>
+                    <!-- TODO-->
+                    <Binding Mode="OneWay" Path="Item"/>
+                </controls:EditableMenuItem.IsEnabled>
+                <controls:EditableMenuItem.ValidationRules>
+                    <validationRules:CommandNameNotEmptyValidationRule/>
+                </controls:EditableMenuItem.ValidationRules>
+            </controls:EditableMenuItem>
+            <controls:EditableMenuItem Header="_Width:" EditMinWidth="100">
+                <!--TODO-->
+                <UIElement.IsEnabled>
+                    <Binding Mode="OneWay" Path="Item"/>
+                </UIElement.IsEnabled>
+                <!-- TODO -->
+                <UIElement.Visibility>
+                    <Binding Mode="OneWay" Path="Item" />
+                </UIElement.Visibility>
+                <controls:EditableMenuItem.ValidationRules>
+                    <validationRules:ComboBoxWidthValidationRule/>
+                </controls:EditableMenuItem.ValidationRules>
+                <FrameworkElement.Style>
+                    <Style TargetType="{x:Type controls:EditableMenuItem}" BasedOn="{StaticResource {x:Type controls:MenuItem}}">
+                        <Style.Triggers>
+                            <Trigger Property="IsVisible" Value="True">
+                                <Setter Property="Edit">
+                                    <Setter.Value>
+                                        <Binding Path="Item.DropDownWidth" Mode="TwoWay"></Binding>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </FrameworkElement.Style>
+            </controls:EditableMenuItem>
+            <controls:Separator/>
+            <controls:CheckedMenuItem Header="Defa_ult style" Click="HandleStylingFlagsChange">
                 <controls:CheckedMenuItem.Link>
                     <Binding Path="Item.Flags.AllFlags" Mode="OneWay"/>
                 </controls:CheckedMenuItem.Link>
-                
-                 <!--TODO
+
+                <!--TODO
                 <UIElement.IsEnabled>
                     <MultiBinding Converter="{StaticResource AndBooleanConverter}">
                         <Binding Path="Item" Converter="{StaticResource IsButtonModelConverter}"/>
                         <Binding Path="Item" Converter="{StaticResource IsCustomizableModelConverter}"/>
                     </MultiBinding>
                 </UIElement.IsEnabled>-->
-                
+
             </controls:CheckedMenuItem>
             <controls:CheckedMenuItem Header="_Text Only (Always)" Click="HandleStylingFlagsChange">
                 <controls:CheckedMenuItem.Link>
                     <Binding Path="Item.Flags.AllFlags" Mode="OneWay"/>
                 </controls:CheckedMenuItem.Link>
-                
-                 <!--TODO
+
+                <!--TODO
                 <UIElement.IsEnabled>
                     <MultiBinding Converter="{StaticResource AndBooleanConverter}">
                         <Binding Path="Item" Converter="{StaticResource IsButtonModelConverter}"/>
                         <Binding Path="Item" Converter="{StaticResource IsCustomizableModelConverter}"/>
                     </MultiBinding>
                 </UIElement.IsEnabled>-->
-                
+
             </controls:CheckedMenuItem>
             <controls:CheckedMenuItem Header="Text _Only (in Menus)" Click="HandleStylingFlagsChange">
                 <controls:CheckedMenuItem.Link>
                     <Binding Path="Item.Flags.AllFlags" Mode="OneWay"/>
                 </controls:CheckedMenuItem.Link>
-                
-                 <!--TODO
+
+                <!--TODO
                 <UIElement.IsEnabled>
                     <MultiBinding Converter="{StaticResource AndBooleanConverter}">
                         <Binding Path="Item" Converter="{StaticResource IsButtonModelConverter}"/>
                         <Binding Path="Item" Converter="{StaticResource IsCustomizableModelConverter}"/>
                     </MultiBinding>
                 </UIElement.IsEnabled>-->
-                
+
             </controls:CheckedMenuItem>
             <controls:CheckedMenuItem Header="Image _and Text" Click="HandleStylingFlagsChange">
                 <controls:CheckedMenuItem.Link>
                     <Binding Path="Item.Flags.AllFlags" Mode="OneWay"/>
                 </controls:CheckedMenuItem.Link>
-                
-                 <!--TODO
+
+                <!--TODO
                 <UIElement.IsEnabled>
                     <MultiBinding Converter="{StaticResource AndBooleanConverter}">
                         <Binding Path="Item" Converter="{StaticResource IsButtonModelConverter}"/>
                         <Binding Path="Item" Converter="{StaticResource IsCustomizableModelConverter}"/>
                     </MultiBinding>
                 </UIElement.IsEnabled>-->
-                
+
             </controls:CheckedMenuItem>
             <controls:Separator/>
             <controls:CheckedMenuItem Header="Begin a _Group" IsCheckable="True" IsChecked="{Binding Item.PrecededBySeparator}">
-                
-                 <!--TODO
+
+                <!--TODO
                 <UIElement.IsEnabled>
                     <Binding Path="Index"/>
                 </UIElement.IsEnabled>-->
-                
+
             </controls:CheckedMenuItem>
-            </controls:ContextMenu>
-            <Style x:Key="CollectionComboBoxItemStyle" TargetType="{x:Type ComboBoxItem}">
-                <Setter Property="AutomationProperties.Name" Value="{Binding Name}"/>
-            </Style>
-        </ResourceDictionary>
-    </FrameworkElement.Resources>
+        </controls:ContextMenu>
+        <Style x:Key="CollectionComboBoxItemStyle" TargetType="{x:Type ComboBoxItem}">
+            <Setter Property="AutomationProperties.Name" Value="{Binding Name}"/>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -204,7 +197,8 @@
             </Grid.ColumnDefinitions>
             <Label x:Name="ControlsLabel" Content="_Controls" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,0,10,5" IsTabStop="False"
                    HorizontalAlignment="Left" VerticalAlignment="Center"/>
-            <controls:CustomizeControlsListBox x:Name="ControlsListBox" Grid.Row="1" Grid.Column="0" Margin="10,0,10,10" SelectedIndex="0">
+            <controls:CustomizeControlsListBox x:Name="ControlsListBox" Grid.Row="1" Grid.Column="0" Margin="10,0,10,10" SelectedIndex="0"
+                                               IsSynchronizedWithCurrentItem="True">
                 <ItemsControl.ItemsSource>
                     <MultiBinding Converter="{StaticResource EnabledFilteringMultiConverter}">
                         <Binding ElementName="MenuBarCombo" Path="IsEnabled"/>

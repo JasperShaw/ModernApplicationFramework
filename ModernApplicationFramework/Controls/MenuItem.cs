@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 using Caliburn.Micro;
 using ModernApplicationFramework.Annotations;
@@ -82,6 +83,14 @@ namespace ModernApplicationFramework.Controls
         protected override DependencyObject GetContainerForItemOverride()
         {
             return new MenuItem();
+        }
+
+        protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
+        {
+            if (!Equals(e.NewFocus, this))
+                return;
+            var templateChild = GetTemplateChild("PART_FocusTarget") as UIElement;
+            templateChild?.MoveFocus(new TraversalRequest(FocusNavigationDirection.First));
         }
 
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
