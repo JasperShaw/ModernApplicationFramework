@@ -202,6 +202,7 @@
     <Compile Include="Controls\DummyListMenuItem.cs" />
     <Compile Include="Controls\Utilities\BindableSelectedItemBehavior.cs" />
     <Compile Include="Controls\Utilities\MenuBehavior.cs" />
+    <Compile Include="Controls\Utilities\MenuPopupPositionerExtension.cs" />
     <Compile Include="Core\Converters\AccessKeyConverter.cs" />
     <Compile Include="Core\Converters\AccessKeyRemovingConverter.cs" />
     <Compile Include="Core\Converters\AccessKeyUnderliningConverter.cs" />

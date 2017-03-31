@@ -94,7 +94,7 @@
                                 <test:ImageThemingUtilities.ImageBackgroundColor>
                                     <Binding Path="Background" ElementName="IconBackground" Converter="{StaticResource BrushToColorConverter}"/>
                                 </test:ImageThemingUtilities.ImageBackgroundColor>
-                                <Border x:Name="IconBackgroun" Width="28"
+                                <Border x:Name="IconBackground" Width="28"
                                         Background="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemPopupIconBackground}}"
                                         HorizontalAlignment="Left"/>
                                 <ItemsPresenter Margin="3" KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.DirectionalNavigation="Cycle"
@@ -103,7 +103,11 @@
                         </this:MenuScrollViewer>
                         <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemPopupBorder}}"/>
                         <Border Background="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemPopupBackground}}"
-                                VerticalAlignment="Top" HorizontalAlignment="Left" Height="2"/>
+                                VerticalAlignment="Top" HorizontalAlignment="Left" Height="2">
+                            <FrameworkElement.Margin>
+                                <utilities:MenuPopupPositionerExtension ElementName="Bg"/>
+                            </FrameworkElement.Margin>
+                        </Border>
                     </Grid>
                 </this:SystemDropShadowChrome>
             </Popup>
