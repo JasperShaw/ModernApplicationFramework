@@ -5,14 +5,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
     public sealed class CommandBarSeparatorDefinition : CommandBarDefinitionBase
     {
-        public override uint SortOrder { get; set; }
-        public override string Text { get; set; } = null;
-        public override bool IsCustom => false;
-        public override DefinitionBase CommandDefinition { get; }
-
-        public CommandBarSeparatorDefinition()
+        public CommandBarSeparatorDefinition() : base(null, uint.MinValue, new SeparatorCommandDefinition(), false)
         {
-            CommandDefinition = new SeparatorCommandDefinition();
         }
 
         private class SeparatorCommandDefinition : DefinitionBase

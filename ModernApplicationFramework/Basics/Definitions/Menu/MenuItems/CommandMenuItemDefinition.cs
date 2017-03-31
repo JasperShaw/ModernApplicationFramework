@@ -1,16 +1,14 @@
-﻿using ModernApplicationFramework.Basics.Definitions.Command;
+﻿using System;
+using ModernApplicationFramework.Basics.Definitions.Command;
 
 namespace ModernApplicationFramework.Basics.Definitions.Menu.MenuItems
 {
     public sealed class CommandMenuItemDefinition : MenuItemDefinition
     {
         public CommandMenuItemDefinition(DefinitionBase commandDefinition, bool isCustom = false)
-            : base(commandDefinition, isCustom)
+            : base(null, UInt32.MinValue, null, commandDefinition, true, false, isCustom)
         {
-            CommandDefinition = commandDefinition;
             DisplayName = CommandDefinition.Text;
         }
-
-        public override DefinitionBase CommandDefinition { get; }
     }
 }

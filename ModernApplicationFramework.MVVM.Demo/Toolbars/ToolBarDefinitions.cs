@@ -11,7 +11,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Toolbars
 
         [Export] public static ToolbarItemGroupDefinition StandardUndoRedoGroup = new ToolbarItemGroupDefinition(Standard, 0);
 
-        [Export] public static ToolbarItemDefinition UndoToolBarItem = new CommandToolBarItemDefinition<UndoCommandDefinition>(StandardUndoRedoGroup, 0);
+        [Export] public static ToolbarItemDefinition UndoToolBarItem = new CommandToolBarItemDefinition<UndoCommandDefinition>(StandardUndoRedoGroup, 0, false);
 
         [Export] public static ToolbarItemDefinition RedoToolBarItem = new CommandToolBarItemDefinition<RedoCommandDefinition>(StandardUndoRedoGroup, 1);
     }

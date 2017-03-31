@@ -1,37 +1,13 @@
 ﻿using System.Windows.Controls;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using DefinitionBase = ModernApplicationFramework.Basics.Definitions.Command.DefinitionBase;
 
 namespace ModernApplicationFramework.Basics.Definitions.Toolbar
 {
     public class ToolbarDefinition : CommandBarDefinitionBase
     {
-        private uint _sortOrder;
-        private string _text;
         private Dock _position;
         private bool _isVisible;
 
-        public override uint SortOrder
-        {
-            get => _sortOrder;
-            set
-            {
-                if (value == _sortOrder) return;
-                _sortOrder = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public override string Text
-        {
-            get => _text;
-            set
-            {
-                if (value == _text) return;
-                _text = value;
-                OnPropertyChanged();
-            }
-        }
 
         public Dock Position
         {
@@ -44,9 +20,6 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
                 OnPropertyChanged();
             }
         }
-
-        public override bool IsCustom { get; }
-        public sealed override DefinitionBase CommandDefinition => null;
 
         public Dock LastPosition { get; private set; }
 
@@ -61,12 +34,10 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
             }
         }
 
-        public ToolbarDefinition(string text, uint sortOrder, bool visible, Dock position, bool isCustom = false)
+        public ToolbarDefinition(string text, uint sortOrder, bool visible, Dock position,
+            bool isCustom = false) : base(text, sortOrder, null, isCustom)
         {
-            _text = text;
-            _sortOrder = sortOrder;
             _position = position;
-            IsCustom = isCustom;
             _isVisible = visible;
         }
     }

@@ -6,6 +6,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
 {
     public class ToolbarItemGroupDefinition : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
         public ToolbarDefinition ParentToolbar { get; set; }
 
         public uint SortOrder { get; set; }
@@ -15,8 +16,6 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
             ParentToolbar = toolbar;
             SortOrder = sortOrder;
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

@@ -5,20 +5,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
 {
     public class MenuDefinition : CommandBarDefinitionBase
     {
-        private uint _sortOrder;
-        private string _text;
         private string _displayName;
-
-        public override uint SortOrder
-        {
-            get => _sortOrder;
-            set
-            {
-                if (value == _sortOrder) return;
-                _sortOrder = value;
-                OnPropertyChanged();
-            }
-        }
 
         public string DisplayName
         {
@@ -31,28 +18,10 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
             }
         }
 
-        public override string Text
+        public MenuDefinition(uint sortOrder, string text, string displayName, bool isCustom = false) : base(text,
+            sortOrder, new MenuItemCommandDefinition(), isCustom)
         {
-            get => _text;
-            set
-            {
-                if (value == _text) return;
-                _text = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public override bool IsCustom { get; }
-        public override DefinitionBase CommandDefinition { get; }
-
-
-        public MenuDefinition(uint sortOrder, string text, string displayName, bool isCustom = false)
-        {
-            _sortOrder = sortOrder;
-            _text = text;
             _displayName = displayName;
-            IsCustom = isCustom;
-            CommandDefinition = new MenuItemCommandDefinition();
         }
     }
 }

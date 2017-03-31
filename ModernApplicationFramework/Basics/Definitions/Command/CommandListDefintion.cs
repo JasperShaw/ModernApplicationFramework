@@ -1,5 +1,4 @@
 ﻿using System;
-using ModernApplicationFramework.Basics.Definitions.CommandBar;
 
 namespace ModernApplicationFramework.Basics.Definitions.Command
 {

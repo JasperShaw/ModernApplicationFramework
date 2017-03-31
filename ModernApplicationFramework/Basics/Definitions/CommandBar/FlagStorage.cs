@@ -11,6 +11,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         private bool _textOnly;
         private CommandBarFlags _allFlags;
 
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public CommandBarFlags AllFlags
         {
             get => _allFlags;
@@ -58,22 +61,17 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         private void SetFlag(CommandBarFlags flag, bool value)
         {
             var allFlags = AllFlags;
             var vscommandflags = !value ? allFlags & ~flag : allFlags | flag;
             AllFlags = vscommandflags;
-        }
-
-
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
