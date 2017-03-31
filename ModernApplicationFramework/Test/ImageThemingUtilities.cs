@@ -3,7 +3,11 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using ModernApplicationFramework.Native;
+using ModernApplicationFramework.Native.Standard;
 using Color = System.Windows.Media.Color;
 
 namespace ModernApplicationFramework.Test
@@ -16,6 +20,7 @@ namespace ModernApplicationFramework.Test
         {
             ImageBackgroundColorProperty = DependencyProperty.RegisterAttached("ImageBackgroundColor", typeof(Color), typeof(ImageThemingUtilities), new FrameworkPropertyMetadata(Colors.Transparent, FrameworkPropertyMetadataOptions.Inherits));
             IsImageThemingEnabled  = true;
+            conversionBuffer = new ReusableArray<byte>(false);
         }
 
         public static Color GetImageBackgroundColor(DependencyObject obj)
@@ -166,5 +171,50 @@ namespace ModernApplicationFramework.Test
             return (1.0 - backgroundLuminosity) * (luminosity - 1.0) / (3.0 / 85.0) + 1.0;
         }
 
+
+        public static BitmapSource CreateThemedBitmapSource(BitmapSource inputImage, Color backgroundColor, bool isEnabled, Color grayscaleBiasColor, bool isHighContrast)
+        {
+            if (inputImage.Format != PixelFormats.Bgra32)
+                inputImage = new FormatConvertedBitmap(inputImage, PixelFormats.Bgra32, null, 0.0);
+            int stride = inputImage.PixelWidth * 4;
+            int num = inputImage.PixelWidth * inputImage.PixelHeight * 4;
+            using (ReusableResourceHolder<byte[]> reusableResourceHolder = AcquireConversionBuffer(num))
+            {
+                byte[] resource = reusableResourceHolder.Resource;
+                inputImage.CopyPixels(resource, stride, 0);
+                uint backgroundRgba = (uint)(backgroundColor.B << 16 | backgroundColor.G << 8) | backgroundColor.R;
+                ThemeDIBits(num, resource, inputImage.PixelWidth, inputImage.PixelHeight, true, backgroundRgba, isHighContrast);
+                if (!isEnabled)
+                    GrayscaleDIBits(resource, num, grayscaleBiasColor);
+                BitmapSource bitmapSource = BitmapSource.Create(inputImage.PixelWidth, inputImage.PixelHeight, inputImage.DpiX, inputImage.DpiY, PixelFormats.Bgra32, inputImage.Palette, resource, stride);
+                bitmapSource.Freeze();
+                return bitmapSource;
+            }
+        }
+
+        private static readonly ReusableArray<byte> conversionBuffer;
+
+        internal static ReusableResourceHolder<byte[]> AcquireConversionBuffer(int size)
+        {
+            return conversionBuffer.Acquire(size);
+        }
+
+        public static void GrayscaleDIBits(byte[] pixels, int pixelLength, Color biasColor)
+        {
+            Validate.IsNotNull(pixels, "pixels");
+            if (pixelLength % 4 != 0)
+                throw new ArgumentException("pixels");
+            float num1 = biasColor.A / 256f;
+            int index = 0;
+            while (index + 4 <= pixelLength)
+            {
+                float num2 = (float)(pixels[index] * 0.000429687497671694 + pixels[index + 1] * 0.00230468739755452 + pixels[index + 2] * 0.00117187504656613);
+                pixels[index] = (byte)(num2 * (double)biasColor.B);
+                pixels[index + 1] = (byte)(num2 * (double)biasColor.G);
+                pixels[index + 2] = (byte)(num2 * (double)biasColor.R);
+                pixels[index + 3] = (byte)(num1 * (double)pixels[index + 3]);
+                index += 4;
+            }
+        }
     }
 }

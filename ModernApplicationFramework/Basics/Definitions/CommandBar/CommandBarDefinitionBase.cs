@@ -11,6 +11,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         public abstract string Text { get; set; }
 
         public abstract bool IsCustom { get; }
+        public abstract bool IsChecked { get; set; }
 
         public abstract DefinitionBase CommandDefinition { get; }
 

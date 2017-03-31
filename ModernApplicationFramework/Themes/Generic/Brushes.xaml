@@ -334,7 +334,7 @@
                      ResourceId=MenuItemIconForeground}" Color="#FFBEC3CB"/>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuItemIconForegroundHover}" Color="#FFBEC3CB"/>
+                     ResourceId=MenuItemIconForegroundHover}" Color="#FFF2F4FE"/>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
                      ResourceId=MenuItemPopupBackground}" Color="#FFEAF0FF"/>

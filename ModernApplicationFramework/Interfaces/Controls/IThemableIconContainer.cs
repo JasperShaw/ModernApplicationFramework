@@ -7,5 +7,7 @@ namespace ModernApplicationFramework.Interfaces.Controls
         object IconSource { get; }
 
         object Icon { get; set; }
+
+        bool IsEnabled { get; }
     }
 }

@@ -24,7 +24,7 @@ namespace ModernApplicationFramework.Extended.Commands
         public FullScreenCommandDefinition()
         {
             Command = new GestureCommandWrapper(TriggerFullScreen, CanTriggerFullScreen, new KeyGesture(Key.Enter, ModifierKeys.Shift | ModifierKeys.Alt));
-            _itemDefinition = new MenuItemDefinition(Text, null, int.MaxValue, this);
+            _itemDefinition = new MenuItemDefinition(Text, null, int.MaxValue, this) {IsChecked = true};
         }
 
         private bool _isFullScreen;
@@ -44,7 +44,7 @@ namespace ModernApplicationFramework.Extended.Commands
         public override string Text => "Fit to Screen";
         public override string ToolTip => Text;
 
-        public override bool IsChecked { get; set; } = true;
+        public override bool IsChecked { get; set; }
 
         private bool CanTriggerFullScreen()
         {
@@ -55,9 +55,13 @@ namespace ModernApplicationFramework.Extended.Commands
         {
             var vm = IoC.Get<IMenuHostViewModel>();
             if (!_isFullScreen)
+            {
                 vm.MenuItemDefinitions.Add(_itemDefinition);
+            }
             else
+            {
                 vm.MenuItemDefinitions.Remove(_itemDefinition);
+            }
             ((ModernChromeWindow) Application.Current.MainWindow).FullScreen = !_isFullScreen;
             _isFullScreen = !_isFullScreen;
         }

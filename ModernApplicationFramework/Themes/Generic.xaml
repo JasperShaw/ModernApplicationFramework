@@ -13,7 +13,6 @@
 
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/GridSplitter.xaml"/>
 
-        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/Menu.xaml"/>
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/MenuItem.xaml"/>
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/CheckedMenuItem.xaml"/>
 

@@ -1,5 +1,4 @@
-﻿using System;
-using ModernApplicationFramework.Basics.Definitions.Command;
+﻿using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 
 namespace ModernApplicationFramework.Basics.Definitions.Menu
@@ -44,6 +43,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
         }
 
         public override bool IsCustom { get; }
+        public sealed override bool IsChecked { get; set; }
         public override DefinitionBase CommandDefinition { get; }
 
 

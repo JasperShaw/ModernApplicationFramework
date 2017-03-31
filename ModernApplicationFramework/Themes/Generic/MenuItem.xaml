@@ -5,12 +5,10 @@
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
                     xmlns:native="clr-namespace:ModernApplicationFramework.Native"
                     xmlns:test="clr-namespace:ModernApplicationFramework.Test"
-                    xmlns:utilities="clr-namespace:ModernApplicationFramework.Controls.Utilities"
-                    xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals">
+                    xmlns:utilities="clr-namespace:ModernApplicationFramework.Controls.Utilities">
     
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Brushes.xaml"/>
-        <ResourceDictionary Source="Menu.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <converters:AccessKeyConverter x:Key="AccessKeyConverter"/>
@@ -18,13 +16,14 @@
     <converters:IsCustomMenuConverter x:Key="IsCustomMenuConverter"/>
     <test:BrushToColorConverter x:Key="BrushToColorConverter"/>
     <converters:CommandBarItemCommandConverter x:Key="CommandBarItemCommandConverter"/>
+    <converters:NotNullConverter x:Key="NotNullConverter"/>
 
     <Geometry x:Key="Checkmark">
         F1 M 5,11 L 3,7 L 5,7 L 6,9 L 9,3 L 11,3 L 7,11 L 5,11 Z
     </Geometry>
-    
-    <Geometry x:Key="DownArrowGeometry">M 0 0 L 3 3 L 6 0 Z</Geometry>
-
+    <Geometry x:Key="DownArrowGeometry">
+        M 0 0 L 3 3 L 6 0 Z
+    </Geometry>
     <Geometry x:Key="RightArrow" x:Uid="Geometry_1">
         M 0,0 L 4,3.5 L 0,7 Z
     </Geometry>
@@ -302,7 +301,32 @@
             </Popup>
         </Grid>
         <ControlTemplate.Triggers>
-
+            <!--TODO: Add Upper Case stuff-->
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemForegroundDisabled}}"/>
+            </Trigger>
+            <Trigger Property="IsSuspendingPopupAnimation" Value="True">
+                <Setter TargetName="PART_Popup" Property="PopupAnimation" Value="None"/>
+            </Trigger>
+            <DataTrigger Value="true">
+                <DataTrigger.Binding>
+                    <Binding ElementName="PART_Popup" Path="(Popup.HasDropShadow)"/>
+                </DataTrigger.Binding>
+                <Setter TargetName="Shdw" Property="Margin" Value="0,0,5,5"/>
+                <Setter TargetName="Shdw" Property="Color" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemPopupShadow}}"></Setter>
+            </DataTrigger>
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter TargetName="Bg" Property="BorderBrush" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemBorderHover}}"/>
+                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemBackgroundHover}}"/>
+                <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemForegroundHover}}"/>
+                <Setter TargetName="Arrow" Property="TextElement.Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuSubItemGlyphHover}}"/>
+            </Trigger>
+            <Trigger Property="IsSubmenuOpen" Value="True">
+                <Setter TargetName="Bg" Property="BorderBrush" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemBorderDown}}"/>
+                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemBackgroundDown}}"/>
+                <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemForegroundDown}}"/>
+                <Setter TargetName="Arrow" Property="Fill" Value="{DynamicResource {x:Static colors:EnvironmentColors.CheckBoxGlyphDown}}"/>
+            </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
     <ControlTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type this:MenuItem}, ResourceId=SubmenuHeaderTemplateKey}" TargetType="{x:Type this:MenuItem}">
@@ -349,7 +373,170 @@
                 </this:SystemDropShadowChrome>
             </Popup>
         </Grid>
-        
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsSuspendingPopupAnimation" Value="true">
+                <Setter TargetName="PART_Popup" Property="Popup.PopupAnimation" Value="None"/>
+            </Trigger>
+            <DataTrigger Value="true">
+                <DataTrigger.Binding>
+                    <Binding ElementName="PART_Popup" Path="(Popup.HasDropShadow)"/>
+                </DataTrigger.Binding>
+                <Setter TargetName="Shdw" Property="Margin" Value="0,0,5,5"/>
+                <Setter TargetName="Shdw" Property="Color" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemPopupShadow}}"></Setter>
+            </DataTrigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemForegroundDisabled}}"/>
+                <Setter TargetName="Arrow" Property="Fill" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuSubItemGlyphDisabled}}"/>
+            </Trigger>
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter TargetName="Bg" Property="Fill" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuSubItemBackgroundHover}}"/>
+                <Setter TargetName="Bg" Property="Stroke" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemBorderHover}}"/>
+                <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuSubItemForegroundHover}}"/>
+                <Setter TargetName="Arrow" Property="Fill" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuSubItemGlyphHover}}"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <ControlTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type this:MenuItem}, ResourceId=SubmenuItemTemplateKey}" TargetType="{x:Type this:MenuItem}">
+        <Grid SnapsToDevicePixels="True" Background="Transparent" MinHeight="22" MaxWidth="{x:Static this:MenuItem.MaxMenuWidth}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="26" SharedSizeGroup="MenuItemIconColumnGroup"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="37"/>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIGTColumnGroup"/>
+                <ColumnDefinition Width="17"/>
+            </Grid.ColumnDefinitions>
+            <Rectangle x:Name="Bg" Stroke="Transparent" Fill="Transparent" StrokeThickness="0" Grid.ColumnSpan="5"/>
+            <Border x:Name="IconBorder" VerticalAlignment="Center" HorizontalAlignment="Center" BorderThickness="1" Padding="1"
+                    Margin="2,0,2,0" Grid.Column="0">
+                <ContentPresenter x:Name="Icon" Width="16" Height="16" VerticalAlignment="Center" ContentSource="Icon"
+                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Visibility="Visible"/>
+            </Border>
+            <Border x:Name="GlyphPanel" Background="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarSelectedIcon}}" 
+                    BorderBrush="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarCheckBox}}" BorderThickness="0" 
+                    Margin="2,0,2,0" Visibility="Collapsed" Width="18" Height="18" Grid.Column="0">
+                <Path x:Name="Glyph" Width="16" Height="16" Fill="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarCheckBox}}"
+                      FlowDirection="LeftToRight" Data="{StaticResource Checkmark}"/>
+            </Border>
+            <ContentPresenter Grid.Column="1" ContentSource="Header" Margin="8,1,0,1" VerticalAlignment="Center"
+                              RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+            <TextBlock Grid.Column="3" Text="{TemplateBinding InputGestureText}" Margin="{TemplateBinding Padding}" VerticalAlignment="Center"/>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Flags.Pict}" Value="False"/>
+                    <Condition Binding="{Binding Flags.TextOnly}" Value="False"/>
+                </MultiDataTrigger.Conditions>
+                <Setter TargetName="Icon" Property="UIElement.Visibility" Value="Visible"/>
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Flags.Pict}" Value="True"/>
+                    <Condition Binding="{Binding Flags.TextOnly}" Value="True"/>
+                </MultiDataTrigger.Conditions>
+                <Setter x:Uid="Setter_30" TargetName="Icon" Property="UIElement.Visibility" Value="Visible"/>
+            </MultiDataTrigger>
+            <Trigger Property="MenuItem.Icon">
+                <Trigger.Value>
+                    <x:NullExtension/>
+                </Trigger.Value>
+                <Setter TargetName="Icon" Property="UIElement.Visibility" Value="Collapsed"/>
+            </Trigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="MenuItem.Icon">
+                        <Condition.Value>
+                            <x:NullExtension/>
+                        </Condition.Value>
+                    </Condition>
+                    <Condition Property="MenuItem.IsChecked" Value="true"/>
+                </MultiTrigger.Conditions>
+                <Setter TargetName="GlyphPanel" Property="UIElement.Visibility" Value="Visible"/>
+                <Setter TargetName="Icon" Property="UIElement.Visibility" Value="Collapsed"/>
+            </MultiTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Value="True">
+                        <Condition.Binding>
+                            <Binding Path="Icon" RelativeSource="{RelativeSource Self}" Converter="{StaticResource NotNullConverter}"/>
+                        </Condition.Binding>
+                    </Condition>
+                    <Condition Value="True">
+                        <Condition.Binding>
+                            <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                        </Condition.Binding>
+                    </Condition>
+                    <Condition Value="False">
+                        <Condition.Binding>
+                            <Binding Path="IsHighlighted" RelativeSource="{RelativeSource Self}"/>
+                        </Condition.Binding>
+                    </Condition>
+                </MultiDataTrigger.Conditions>
+                <Setter TargetName="IconBorder"
+                        Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemBackgroundDown}}"
+                        Property="Border.Background"/>
+                <Setter TargetName="IconBorder"
+                        Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemBorderDown}}"
+                        Property="Border.BorderBrush"/>
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Value="True">
+                        <Condition.Binding>
+                            <Binding Path="Icon" RelativeSource="{RelativeSource Self}" Converter="{StaticResource NotNullConverter}"/>
+                        </Condition.Binding>
+                    </Condition>
+                    <Condition Value="True">
+                        <Condition.Binding>
+                            <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                        </Condition.Binding>
+                    </Condition>
+                    <Condition Value="True">
+                        <Condition.Binding>
+                            <Binding Path="IsHighlighted" RelativeSource="{RelativeSource Self}"/>
+                        </Condition.Binding>
+                    </Condition>
+                </MultiDataTrigger.Conditions>
+                <Setter TargetName="IconBorder"
+                        Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemBackgroundHover}}"
+                        Property="Border.Background"/>
+                <Setter TargetName="IconBorder"
+                        Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemBorderHover}}"
+                        Property="Border.BorderBrush"/>
+            </MultiDataTrigger>
+            <Trigger Property="MenuItem.IsHighlighted" Value="true">
+                <Setter TargetName="Bg"
+                        Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuSubItemBackgroundHover}}"
+                        Property="Shape.Fill"/>
+                <Setter TargetName="Bg"
+                        Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemBorderHover}}"
+                        Property="Shape.Stroke"/>
+                <Setter Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuSubItemForegroundHover}}"
+                        Property="TextElement.Foreground"/>
+                <Setter TargetName="GlyphPanel"
+                        Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemIconForegroundHover}}"
+                        Property="Border.Background"/>
+                <Setter TargetName="GlyphPanel"
+                        Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarCheckBoxMouseOver}}"
+                        Property="Border.BorderBrush"/>
+                <Setter TargetName="Glyph"
+                        Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarCheckBoxMouseOver}}"
+                        Property="Shape.Fill"/>
+            </Trigger>
+            <Trigger Property="UIElement.IsEnabled" Value="false">
+                <Setter Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemForegroundDisabled}}"
+                        Property="Control.Foreground"/>
+                <Setter TargetName="GlyphPanel"
+                        Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuSubItemGlyphDisabled}}"
+                        Property="Border.Background"/>
+                <Setter TargetName="GlyphPanel"
+                        Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarCheckBoxDisabled}}"
+                        Property="Border.BorderBrush"/>
+                <Setter TargetName="Glyph"
+                        Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarCheckBoxDisabled}}"
+                        Property="Shape.Fill"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
     </ControlTemplate>
 
    
@@ -411,9 +598,52 @@
                                         HorizontalAlignment="Center" Visibility="Visible" Text="{Binding DisplayName, Converter={StaticResource AccessKeyConverter}}"/>
                         </Grid>
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Value="True" Binding="{Binding Flags.Pict}">
+                            <Setter TargetName="Image" Property="UIElement.Visibility" Value="Visible"/>
+                        </DataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Flags.Pict}" Value="False"/>
+                                <Condition Binding="{Binding Flags.TextOnly}" Value="False"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="Image" Property="UIElement.Visibility" Value="Visible"/>
+                        </MultiDataTrigger>
+                        <DataTrigger Value="True" Binding="{Binding Flags.TextOnly}">
+                            <Setter TargetName="Text" Property="UIElement.Visibility" Value="Visible"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Icon, RelativeSource={RelativeSource Self}}" Value="{x:Null}">
+                            <Setter TargetName="Image" Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                        <Trigger Property="UIElement.IsEnabled" Value="false">
+                            <Setter TargetName="Text" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemForegroundDisabled}}" Property="AccessText.Foreground"/>
+                        </Trigger>
+                        <Trigger Property="UIElement.IsKeyboardFocused" Value="true">
+                            <Setter TargetName="Bg" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemBorderHover}}"
+                                    Property="Shape.Stroke"/>
+                            <Setter TargetName="Bg" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemBackgroundHover}}"
+                                    Property="Shape.Fill"/>
+                            <Setter Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemForegroundHover}}"
+                                    Property="TextElement.Foreground"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="Bg" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemBorderHover}}"
+                                    Property="Shape.Stroke"/>
+                            <Setter TargetName="Bg" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemBackgroundHover}}"
+                                    Property="Shape.Fill"/>
+                            <Setter Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemForegroundHover}}"
+                                    Property="TextElement.Foreground"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static colors:EnvironmentColors.CheckBoxBorderFocused}}" TargetName="Border"/>
+                            <Setter Property="Background" Value="{DynamicResource {x:Static colors:EnvironmentColors.CheckBoxBackgroundFocused}}" TargetName="Border"/>
+                            <Setter Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemForegroundDown}}" Property="TextElement.Foreground"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <!-- TODO Splitbutton  trigger-->
     </Style>
     <Style x:Key="{x:Static this:Menu.MenuStyleKey}" TargetType="{x:Type this:MenuItem}">
         <Setter Property="Background" Value="Transparent"/>
@@ -473,7 +703,7 @@
                 <Setter Property="Control.Padding" Value="2,0,2,3"/>
                 <Setter Property="Control.Template" Value="{DynamicResource {ComponentResourceKey  TypeInTargetAssembly={x:Type this:MenuItem}, ResourceId=SubmenuHeaderTemplateKey}}"/>
             </MultiTrigger>
-            <MultiTrigger x:Uid="Trigger_351">
+            <MultiTrigger>
                 <MultiTrigger.Conditions>
                     <Condition Property="UIElement.IsEnabled" Value="false"/>
                     <Condition Property="this:MenuItem.IsUserCreatedMenu" Value="true"/>
@@ -496,8 +726,8 @@
                 <Binding Path="ShortcutText"/>
             </Setter.Value>
         </Setter>
-        <Setter x:Uid="Setter_343" Property="Template" Value="{StaticResource ComboTemplate}"/>
-        <Setter x:Uid="Setter_964" Property="TextElement.Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuForeground}}"/>
+        <Setter Property="Template" Value="{StaticResource ComboTemplate}"/>
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuForeground}}"/>
     </Style>
 
 
@@ -551,6 +781,7 @@
                 <Binding Path="ShortcutText" Mode="OneWay"/>
             </Setter.Value>
         </Setter>
+        <Setter Property="IsChecked" Value="{Binding IsChecked}"/>
         <Setter Property="Template"
                 Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type this:MenuItem}, ResourceId=SubmenuItemTemplateKey}}"/>
         <Setter Property="Padding" Value="2,3,2,3"/>
@@ -559,11 +790,67 @@
                 <Binding Converter="{StaticResource CommandBarItemCommandConverter}"/>
             </Setter.Value>
         </Setter>
-
+        <!-- TODO Splitbutton  trigger-->
     </Style>
-
-
-
+    <Style x:Key="{x:Static this:MenuItem.ComboBoxStyleKey}" TargetType="{x:Type this:MenuItem}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="AutomationProperties.Name">
+            <Setter.Value>
+                <Binding Path="DisplayName" Converter="{StaticResource AccessKeyRemovingConverter}"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Header">
+            <Setter.Value>
+                <Binding Path="DisplayName" Mode="OneWay" Converter="{StaticResource AccessKeyConverter}"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="StaysOpenOnClick" Value="true"/>
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemForeground}}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type this:MenuItem}">
+                    <Grid SnapsToDevicePixels="True" Background="Transparent" MaxWidth="{x:Static this:MenuItem.MaxMenuWidth}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="26" SharedSizeGroup="MenuItemIconColumnGroup"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Rectangle x:Name="Bg" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="0" Grid.ColumnSpan="3"/>
+                        <ContentPresenter Grid.Column="0" x:Name="Icon" Margin="2,1,4,1" Width="16" Height="16" VerticalAlignment="Center" ContentSource="Icon"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        <ContentPresenter Grid.Column="1" ContentSource="Header" Margin="8,1,0,1" VerticalAlignment="Center" RecognizesAccessKey="True"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        <this:ComboBox x:Name="PART_FocusTarget" Margin="7,2,2,2" Grid.Column="2"
+                                       IsEnabled="{TemplateBinding IsEnabled}" ShouldPreserveUserEnteredPrefix="True">
+                            <!-- TODO Items -->
+                        </this:ComboBox>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="MenuItem.Icon">
+                            <Trigger.Value>
+                                <x:NullExtension/>
+                            </Trigger.Value>
+                            <Setter TargetName="Icon" Property="UIElement.Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="MenuItem.IsHighlighted" Value="true">
+                            <Setter TargetName="Bg"
+                                    Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuItemMouseOver}}"
+                                    Property="Shape.Fill"/>
+                            <Setter TargetName="Bg"
+                                    Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuItemMouseOverBorder}}"
+                                    Property="Shape.Stroke"/>
+                            <Setter Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuItemMouseOverText}}"
+                                    Property="TextElement.Foreground"/>
+                        </Trigger>
+                        <Trigger Property="UIElement.IsEnabled" Value="false">
+                            <Setter Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarTextInactive}}"
+                                    Property="Control.Foreground"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <Style TargetType="{x:Type this:Menu}" BasedOn="{StaticResource {x:Type Menu}}">
         <Setter Property="Background" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuBackground}}"/>
@@ -575,7 +862,5 @@
         </Setter>
         <Setter Property="KeyboardNavigation.TabNavigation" Value="Cycle"/>
     </Style>
-
-
 
 </ResourceDictionary>

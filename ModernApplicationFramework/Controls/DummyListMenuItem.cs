@@ -38,7 +38,7 @@ namespace ModernApplicationFramework.Controls
                 var id = new CommandMenuItemDefinition(command);
                 var newMenuItem = new MenuItem(id);
                 if (command is CommandDefinition commandDefinition && commandDefinition.IsChecked)
-                    newMenuItem.IsChecked = true;
+                    id.IsChecked = true;
                 _parent.Items.Insert(startIndex++, newMenuItem);
                 _listItems.Add(newMenuItem);
             }

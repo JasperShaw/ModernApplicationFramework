@@ -8,6 +8,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         public override uint SortOrder { get; set; }
         public override string Text { get; set; } = null;
         public override bool IsCustom => false;
+        public override bool IsChecked { get; set; }
         public override DefinitionBase CommandDefinition { get; }
 
         public CommandBarSeparatorDefinition()

@@ -11,6 +11,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
         private string _text;
         private string _displayName;
         private MenuItemGroupDefinition _group;
+        private bool _isChecked;
 
         public override uint SortOrder
         {
@@ -35,6 +36,17 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
         }
 
         public override bool IsCustom { get; }
+
+        public override bool IsChecked
+        {
+            get => _isChecked;
+            set
+            {
+                if (value == _isChecked) return;
+                _isChecked = value;
+                OnPropertyChanged();
+            }
+        }
 
         public virtual string DisplayName
         {

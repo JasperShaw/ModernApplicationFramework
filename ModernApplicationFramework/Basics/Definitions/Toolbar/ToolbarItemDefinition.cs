@@ -29,6 +29,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
 
         public override string Text { get; set; }
         public override bool IsCustom { get; }
+        public override bool IsChecked { get; set; }
 
         public override DefinitionBase CommandDefinition { get; }
     }

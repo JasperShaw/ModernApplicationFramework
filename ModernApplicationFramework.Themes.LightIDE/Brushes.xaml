@@ -332,10 +332,10 @@
                      ResourceId=MenuItemForegroundDisabled}" Color="#FF808080"/>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuItemIconForeground}" Color="Green"/>
+                     ResourceId=MenuItemIconForeground}" Color="#FFC9DEF5"/>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuItemIconForegroundHover}" Color="Green"/>
+                     ResourceId=MenuItemIconForegroundHover}" Color="#FFC9DEF5"/>
     
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
                      ResourceId=MenuItemPopupBackground}" Color="#FFF6F6F6"/>

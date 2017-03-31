@@ -68,12 +68,12 @@ namespace ModernApplicationFramework.Controls
             private set => SetValue(IsOverflowToggleButtonVisiblePropertyKey, Boxes.Box(value));
         }
 
-        public static bool GetIsToolBarHostedMenuItem(MenuItem menuItem)
+        public static bool GetIsToolBarHostedMenuItem(System.Windows.Controls.MenuItem menuItem)
         {
             return (bool) menuItem.GetValue(IsToolBarHostedMenuItemProperty);
         }
 
-        public static void SetIsToolBarHostedMenuItem(MenuItem menuItem, bool value)
+        public static void SetIsToolBarHostedMenuItem(System.Windows.Controls.MenuItem menuItem, bool value)
         {
             menuItem.SetValue(IsToolBarHostedMenuItemProperty, Boxes.Box(value));
         }

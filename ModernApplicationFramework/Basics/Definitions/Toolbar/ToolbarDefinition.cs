@@ -46,7 +46,8 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
         }
 
         public override bool IsCustom { get; }
-        public override DefinitionBase CommandDefinition { get; }
+        public sealed override bool IsChecked { get; set; }
+        public sealed override DefinitionBase CommandDefinition => null;
 
         public Dock LastPosition { get; private set; }
 

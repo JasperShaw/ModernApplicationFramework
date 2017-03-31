@@ -1,14 +1,11 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Media;
 using Caliburn.Micro;
 using ModernApplicationFramework.Annotations;
-using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
-using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
@@ -50,15 +47,19 @@ namespace ModernApplicationFramework.Controls
         {
             var themeManager = IoC.Get<IThemeManager>();
             themeManager.OnThemeChanged += ThemeManager_OnThemeChanged;
+            IsEnabledChanged += MenuItem_IsEnabledChanged;
         }
 
+        private void MenuItem_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            this.SetThemedIcon();
+        }
 
         protected override void OnRender(DrawingContext drawingContext)
         {
             base.OnRender(drawingContext);
             this.SetThemedIcon();
         }
-
 
         public static MenuItem CreateItem(MenuDefinition definition)
         {

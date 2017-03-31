@@ -20,12 +20,18 @@ namespace ModernApplicationFramework.Controls
         {
             var themeManager = IoC.Get<IThemeManager>();
             themeManager.OnThemeChanged += ThemeManager_OnThemeChanged;
+            IsEnabledChanged += CommandDefinitionButton_IsEnabledChanged;
             DataContext = definition;
 
             if (string.IsNullOrEmpty(definition.CommandDefinition.IconSource?.OriginalString))
                 return;
             var myResourceDictionary = new ResourceDictionary { Source = definition.CommandDefinition.IconSource };
             IconSource = myResourceDictionary[definition.CommandDefinition.IconId];
+        }
+
+        private void CommandDefinitionButton_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            this.SetThemedIcon();
         }
 
         protected override void OnRender(DrawingContext drawingContext)

@@ -4,15 +4,21 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Primitives;
+using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ModernApplicationFramework.Interfaces.Controls;
+using ModernApplicationFramework.Native;
 using ModernApplicationFramework.Native.NativeMethods;
+using ModernApplicationFramework.Native.Standard;
 using ModernApplicationFramework.Test;
+using Color = System.Windows.Media.Color;
 
 namespace ModernApplicationFramework.Core.Utilities
 {
@@ -129,9 +135,23 @@ namespace ModernApplicationFramework.Core.Utilities
             RenderOptions.SetBitmapScalingMode(i, BitmapScalingMode.Linear);
 
             var b = ImageUtilities.BitmapFromBitmapSource((BitmapSource)i.Source);
-            var bi = ImageThemingUtilities.GetThemedBitmap(b, ImageThemingUtilities.GetImageBackgroundColor(element as DependencyObject).ToRgba());
-            var bs = ImageConverter.BitmapSourceFromBitmap(bi);
-            i.Source = bs;
+
+            var backgroundColor = ImageThemingUtilities.GetImageBackgroundColor(element as DependencyObject);
+
+
+            BitmapSource bitmapSource;
+            if (element.IsEnabled)
+            {
+                var bitmap = ImageThemingUtilities.GetThemedBitmap(b, backgroundColor.ToRgba());
+                bitmapSource = ImageConverter.BitmapSourceFromBitmap(bitmap);
+            }
+            else
+            {
+                var bitmaptSourceOrg = ImageConverter.BitmapSourceFromBitmap(b);
+                bitmapSource = ImageThemingUtilities.CreateThemedBitmapSource(bitmaptSourceOrg, backgroundColor, element.IsEnabled, Color.FromArgb(64, 255, 255, 255), SystemParameters.HighContrast);
+            }
+
+            i.Source = bitmapSource;
             element.Icon = i;
         }
     }
