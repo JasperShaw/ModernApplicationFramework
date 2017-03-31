@@ -17,7 +17,7 @@ namespace ModernApplicationFramework.Test
                 return gradientBrush.GradientStops[0].Color;
             if (value == null)
                 return Colors.Transparent;
-            throw new ArgumentException("value");
+            return Colors.Transparent;
         }
     }
 }
