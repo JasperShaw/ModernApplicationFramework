@@ -10,11 +10,11 @@ namespace ModernApplicationFramework.MVVM.Demo
 
         [Export] public static MenuItemGroupDefinition TestGroup1 = new MenuItemGroupDefinition(TestMenu, int.MaxValue);
 
-        [Export] public static MenuItemDefinition TestSub = new MenuItemDefinition("Test", TestGroup1, 0);
+        [Export] public static MenuItemDefinition TestSub = new MenuItemDefinition("Test", TestGroup1, 0, null, true);
 
         [Export] public static MenuItemGroupDefinition TestGroup2 = new MenuItemGroupDefinition(TestSub, int.MaxValue);
 
-        [Export] public static MenuItemDefinition TestSub1 = new CommandMenuItemDefinition<UndoCommandDefinition>(TestGroup2, 0, true);
+        [Export] public static MenuItemDefinition TestSub1 = new CommandMenuItemDefinition<UndoCommandDefinition>(TestGroup2, 0);
 
     }
 }
