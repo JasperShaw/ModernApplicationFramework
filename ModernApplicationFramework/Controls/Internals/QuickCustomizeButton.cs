@@ -1,17 +1,33 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using ModernApplicationFramework.Controls.Utilities;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Core.Converters;
 
 namespace ModernApplicationFramework.Controls.Internals
 {
     internal class QuickCustomizeButton : System.Windows.Controls.MenuItem
     {
         public static readonly DependencyProperty QuickCustomizeDataSourceProperty;
+        private static readonly Lazy<ResourceKey> boundMenuItemStyleKey;
+        private static CombineVisibilityConverter _highestVisConverter;
+        private static readonly IfElseConverter negBoolToVisConverter;
 
 
         private readonly System.Windows.Controls.MenuItem _customizeMenuItem;
         private readonly System.Windows.Controls.MenuItem _resetToolbarMenuItem;
+        private static NegateBooleanConverter _negBoolConverter;
+        private static BooleanToVisibilityConverter _boolToVisConverter;
+
+
+        public static ResourceKey BoundMenuItemStyleKey => boundMenuItemStyleKey.Value;
+
+        public new static ResourceKey SeparatorStyleKey { get; set; }
+
+        public static ResourceKey CustomizeMenuItemStyleKey { get; set; }
+
+        public static ResourceKey ResetToolbarMenuItemStyleKey { get; set; }
 
 
         public ItemCollection QuickCustomizeDataSource
@@ -23,6 +39,24 @@ namespace ModernApplicationFramework.Controls.Internals
         static QuickCustomizeButton()
         {
             QuickCustomizeDataSourceProperty = DependencyProperty.Register("QuickCustomizeDataSource", typeof(ItemCollection), typeof(QuickCustomizeButton), new PropertyMetadata(OnQuickCustomizeDataSourceChanged));
+            boundMenuItemStyleKey = new Lazy<ResourceKey>(InitializeResourcekey);
+            _negBoolConverter = new NegateBooleanConverter();
+            _boolToVisConverter = new BooleanToVisibilityConverter();
+            _highestVisConverter = new CombineVisibilityConverter { CombineVisibility = CombineVisibility.PickHighestVisibility };
+            var ifElseConverter = new IfElseConverter
+            {
+                TrueValue = Visibility.Collapsed,
+                FalseValue = Visibility.Visible
+            };
+            negBoolToVisConverter = ifElseConverter;
+            SeparatorStyleKey = new ComponentResourceKey(typeof(QuickCustomizeButton), "SeparatorStyleKey");
+            CustomizeMenuItemStyleKey = new ComponentResourceKey(typeof(QuickCustomizeButton), "CustomizeMenuItemStyleKey");
+            ResetToolbarMenuItemStyleKey = new ComponentResourceKey(typeof(QuickCustomizeButton), "ResetToolbarMenuItemStyleKey");
+        }
+
+        private static ResourceKey InitializeResourcekey()
+        {
+            return new ComponentResourceKey(typeof(QuickCustomizeButton), "BoundMenuItemStyleKey");
         }
 
 
@@ -31,14 +65,23 @@ namespace ModernApplicationFramework.Controls.Internals
             _customizeMenuItem = new System.Windows.Controls.MenuItem();
             _resetToolbarMenuItem = new System.Windows.Controls.MenuItem();
             _customizeMenuItem.Click += CustomizeMenuItem_Click;
-            _customizeMenuItem.Header = "Customize...";
             _resetToolbarMenuItem.Click += ResetToolbarMenuItem_Click;
-            _resetToolbarMenuItem.Header = "Reset Toolbar";
+
+
+            var visibilityProperty2 = VisibilityProperty;
+            var binding2 = new Binding("DataContext.IsCustom")
+            {
+                Source = this,
+                Converter = negBoolToVisConverter
+            };
+            _resetToolbarMenuItem.SetBinding(visibilityProperty2, binding2);
 
 
             CreateMenu();
 
         }
+
+
 
         private void CreateMenu()
         {
@@ -50,19 +93,16 @@ namespace ModernApplicationFramework.Controls.Internals
 
             foreach (var data in QuickCustomizeDataSource)
             {
-                var item = data as ContentControl;
-
+                var item = data as CommandDefinitionButton;
                 if (item == null)
                     continue;
 
 
-                var mi = new ContextMenuGlyphItem {Header = item.Name};
-                if (item.IsVisible)
-                    ContextMenuGlyphItemUtilities.SetCheckMark(mi);
+                var mi = new MenuItem(item.DataContext as CommandBarDefinitionBase);
                 compositeCollection.Add(mi);
             }
 
-            Separator separator3 = new Separator();
+            var separator3 = new System.Windows.Controls.Separator();
 
 
             compositeCollection.Add(separator3);
@@ -91,10 +131,34 @@ namespace ModernApplicationFramework.Controls.Internals
             IsSubmenuOpen = false;
         }
 
+
+        protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+        {
+            var frameworkElement = element as FrameworkElement;
+            if (frameworkElement == null)
+                throw new ArgumentException();
+            if (Equals(frameworkElement, _customizeMenuItem))
+                frameworkElement.SetResourceReference(StyleProperty, CustomizeMenuItemStyleKey);
+            else if (Equals(frameworkElement, _resetToolbarMenuItem))
+                frameworkElement.SetResourceReference(StyleProperty, ResetToolbarMenuItemStyleKey);
+            else if (frameworkElement is System.Windows.Controls.Separator)
+                frameworkElement.SetResourceReference(StyleProperty, SeparatorStyleKey);
+            else
+            {
+                if (item is Control c && c.DataContext is CommandBarDefinitionBase)
+                {
+                    frameworkElement.SetResourceReference(StyleProperty, BoundMenuItemStyleKey);
+                }
+            }
+            base.PrepareContainerForItemOverride(element, item);
+        }
+
+
         private static void OnQuickCustomizeDataSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var quickCustomizeButton = (QuickCustomizeButton)d;
             quickCustomizeButton.QuickCustomizeDataSource = (ItemCollection) e.NewValue;
+
             quickCustomizeButton.CreateMenu();
         }
     }

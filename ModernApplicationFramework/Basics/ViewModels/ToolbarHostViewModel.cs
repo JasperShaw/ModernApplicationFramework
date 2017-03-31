@@ -146,7 +146,7 @@ namespace ModernApplicationFramework.Basics.ViewModels
             var definitions = ToolbarDefinitions.OrderBy(x => x.SortOrder);
             foreach (var definition in definitions)
             {
-                var toolBar = new ToolBar();
+                var toolBar = new ToolBar(definition);
                 BuildToolBar(definition, toolBar);
                 _toolbars.Add(definition, toolBar);
                 ChangeToolBarVisibility(definition);

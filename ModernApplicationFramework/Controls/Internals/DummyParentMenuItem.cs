@@ -77,8 +77,6 @@ namespace ModernApplicationFramework.Controls.Internals
         private static void ChildPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var dummyParentMenuItem = (DummyParentMenuItem)d;
-
-
             ((INotifyCollectionChanged) dummyParentMenuItem.Items).CollectionChanged -= dummyParentMenuItem.ItemsCollectionChanged;
             try
             {

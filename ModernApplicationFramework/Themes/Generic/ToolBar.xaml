@@ -142,7 +142,7 @@
                                     </Binding.RelativeSource>
                                 </Binding>
                             </DataTrigger.Binding>
-                            <Setter Property="Visibility" Value="Hidden" TargetName="Overflow"></Setter>
+                            <Setter Property="Visibility" Value="Hidden" TargetName="Overflow"/>
                         </DataTrigger>
                         <DataTrigger Value="False">
                             <DataTrigger.Binding>
@@ -273,7 +273,15 @@
         </Setter>
     </Style>
 
-    <Style TargetType="this:ToolBar" BasedOn="{StaticResource {x:Type ToolBar}}">
+    <Style TargetType="{x:Type this:ToolBar}" BasedOn="{StaticResource {x:Type ToolBar}}">
+        <Style.Resources>
+            <ResourceDictionary Source="QuickCustomizeButton.xaml"/>
+        </Style.Resources>
+        <Setter Property="AutomationProperties.Name">
+            <Setter.Value>
+                <Binding Path="Text" Converter="{StaticResource AccessKeyRemovingConverter}"/>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarBackground}}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarBorder}}"/>
         <Setter Property="BorderThickness" Value="1"/>
@@ -293,11 +301,6 @@
         <Setter Property="Band">
             <Setter.Value>
                 <Binding Path="BandIndex" Mode="TwoWay"/>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="Visibility">
-            <Setter.Value>
-                <Binding Path="IsVisible" Converter="{StaticResource BoolToVisConverter}"/>
             </Setter.Value>
         </Setter>
         <Setter Property="Margin" Value="0"/>
@@ -333,12 +336,14 @@
                                                 </FrameworkElement.FocusVisualStyle>
                                             </internals:ToolBarOverflowPanel>
                                             <StackPanel Orientation="Vertical"
-                                                        Visibility="{TemplateBinding IsQuickCustomizeEnabled, Converter={StaticResource BoolToVisConverter}}">
+                                                           Visibility="{TemplateBinding IsQuickCustomizeEnabled, Converter={StaticResource BoolToVisConverter}}">
                                                 <this:Separator Margin="2,2,2,0"
                                                                 Visibility="{TemplateBinding HasOverflowItems, Converter={StaticResource BoolToVisConverter}}"/>
                                                 <internals:DummyParentMenuItem>
                                                     <internals:QuickCustomizeButton Header="_Add or Remove Buttons" this:ToolBar.IsToolBarHostedMenuItem="true"
-                                                                                    QuickCustomizeDataSource="{Binding Path=Items, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"/>
+                                                                                    Foreground="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemForeground}}"
+                                                                                    QuickCustomizeDataSource="{Binding Path=Items, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                                                                    DataContext="{TemplateBinding this:ToolBar.DataContext}"/>
                                                 </internals:DummyParentMenuItem>
                                             </StackPanel>
                                         </StackPanel>

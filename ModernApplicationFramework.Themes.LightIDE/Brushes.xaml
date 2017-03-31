@@ -1258,4 +1258,23 @@
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
                      ResourceId=CommandBarCheckBoxDisabled}" Color="#FFA2A4A5"/>
 
+    <!--QuickCustomizeButton-->
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=QuickCustomizeButtonText}" Color="#FF1E1E1E"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=QuickCustomizeButtonGlyph}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=QuickCustomizeButtonBorder}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=QuickCustomizeButton}" Color="#FFFCFCFC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=QuickCustomizeButtonTextHover}" Color="#FF1E1E1E"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=QuickCustomizeButtonGlyphHover}" Color="#FF007ACC"/>
+
 </ResourceDictionary>

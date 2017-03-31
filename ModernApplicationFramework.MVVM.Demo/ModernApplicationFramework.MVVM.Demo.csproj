@@ -100,10 +100,6 @@
       <DependentUpon>UndoRedoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\UndoRedoTest\UndoRedoViewModel.cs" />
-    <Compile Include="Toolbars\DemoToolbar.xaml.cs">
-      <DependentUpon>DemoToolbar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Toolbars\DemoToolbarModel.cs" />
     <Compile Include="Toolbars\ToolBarDefinitions.cs" />
     <Compile Include="TestMenuDefinitions.cs" />
     <Compile Include="XmlFileDefinition.cs" />
@@ -126,10 +122,6 @@
     <Page Include="Resources\Undo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Toolbars\DemoToolbar.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

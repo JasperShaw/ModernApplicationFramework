@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Threading;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Controls.Utilities;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
@@ -39,6 +40,11 @@ namespace ModernApplicationFramework.Controls
         public ToolBar()
         {
             IsVisibleChanged += ToolBar_IsVisibleChanged;
+        }
+
+        public ToolBar(CommandBarDefinitionBase definition) : this()
+        {
+            DataContext = definition;
         }
 
         internal ToggleButton OverflowWidget { get; private set; }

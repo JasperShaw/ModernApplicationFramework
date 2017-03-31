@@ -85,6 +85,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\Generic\QuickCustomizeButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\Generic\CustomizeControlsListBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -215,8 +219,10 @@
     <Compile Include="Core\Converters\AccessKeyConverter.cs" />
     <Compile Include="Core\Converters\AccessKeyRemovingConverter.cs" />
     <Compile Include="Core\Converters\AccessKeyUnderliningConverter.cs" />
+    <Compile Include="Core\Converters\CombineVisibilityConverter.cs" />
     <Compile Include="Core\Converters\CommandBarItemCommandConverter.cs" />
     <Compile Include="Core\Converters\EnabledFilteringMultiConverter.cs" />
+    <Compile Include="Core\Converters\IfElseConverter.cs" />
     <Compile Include="Core\Converters\IsCustomMenuConverter.cs" />
     <Compile Include="Core\Converters\NegateBooleanConverter.cs" />
     <Compile Include="Core\Converters\OrBooleanConverter.cs" />

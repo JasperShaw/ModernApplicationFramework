@@ -544,6 +544,36 @@ namespace ModernApplicationFramework.Core.Themes
         private static ComponentResourceKey _commandBarSelectedIconDisabled;
         private static ComponentResourceKey _commandBarCheckBoxDisabled;
 
+        //QuickCustomizeButton
+        private static ComponentResourceKey _qickCustomizeButtonText;
+        private static ComponentResourceKey _qickCustomizeButtonGlyph;
+        private static ComponentResourceKey _quickCustomizeButtonBorder;
+        private static ComponentResourceKey _quickCustomizeButton;
+        private static ComponentResourceKey _quickCustomizeButtonTextHover;
+        private static ComponentResourceKey _quickCustomizeButtonGlyphHover;
+
+        #region QuickCustomizeButton
+
+        public static ComponentResourceKey QuickCustomizeButtonText => _qickCustomizeButtonText ??
+                                                                             (_qickCustomizeButtonText = new ComponentResourceKey(typeof(EnvironmentColors), "QuickCustomizeButtonText"));
+
+        public static ComponentResourceKey QuickCustomizeButtonGlyph => _qickCustomizeButtonGlyph ??
+                                                                             (_qickCustomizeButtonGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "QuickCustomizeButtonGlyph"));
+
+        public static ComponentResourceKey QuickCustomizeButtonBorder => _quickCustomizeButtonBorder ??
+                                                                     (_quickCustomizeButtonBorder = new ComponentResourceKey(typeof(EnvironmentColors), "QuickCustomizeButtonBorder"));
+
+        public static ComponentResourceKey QuickCustomizeButton => _quickCustomizeButton ??
+                                                                     (_quickCustomizeButton = new ComponentResourceKey(typeof(EnvironmentColors), "QuickCustomizeButton"));
+
+        public static ComponentResourceKey QuickCustomizeButtonTextHover => _quickCustomizeButtonTextHover ??
+                                                                     (_quickCustomizeButtonTextHover = new ComponentResourceKey(typeof(EnvironmentColors), "QuickCustomizeButtonTextHover"));
+
+        public static ComponentResourceKey QuickCustomizeButtonGlyphHover => _quickCustomizeButtonGlyphHover ??
+                                                                     (_quickCustomizeButtonGlyphHover = new ComponentResourceKey(typeof(EnvironmentColors), "QuickCustomizeButtonGlyphHover"));
+
+        #endregion
+
         #region CommandBar
 
         public static ComponentResourceKey CommandBarSelectedIcon => _commandBarSelectedIcon ??

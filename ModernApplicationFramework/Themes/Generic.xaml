@@ -75,6 +75,9 @@
 
 
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/CustomizeControlsListBox.xaml"/>
+        
+        
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/QuickCustomizeButton.xaml"/>
 
     </ResourceDictionary.MergedDictionaries>
 
