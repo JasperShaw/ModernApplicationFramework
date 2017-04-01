@@ -1,7 +1,10 @@
-﻿using System.ComponentModel.Composition;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
+using System.Linq;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.Definitions.Toolbar;
-using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
@@ -16,13 +19,23 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             DisplayName = "Commands";
             CustomizableToolBars = IoC.Get<IToolBarHostViewModel>().ToolbarDefinitions;
 
-            //var topLevelMenuItems = IoC.GetAll<MenuItemDefinitionOld>().Where(x => !x.HasParent);
+            var menuHost = IoC.Get<IMenuHostViewModel>();
 
-            //CustomizableMenuBars = new ObservableCollection<MenuItemDefinitionOld>(topLevelMenuItems);
+            IEnumerable<CommandBarDefinitionBase> barDefinitions = menuHost.MenuBars.OrderBy(x => x.SortOrder).ToList();
+            IEnumerable<CommandBarDefinitionBase> menuDefinitions =
+                menuHost.MenuDefinitions.OrderBy(x => x.SortOrder).ToList();
+            IEnumerable<CommandBarDefinitionBase> submenus = menuHost.MenuItemDefinitions.Where(
+                x => x.CommandDefinition == null || x.CommandDefinition.ControlType == Definitions.Command.CommandControlTypes.Menu);
+
+
+            CustomizableMenuBars =
+                new ObservableCollection<CommandBarDefinitionBase>(barDefinitions.Concat(menuDefinitions.Concat(submenus)));
+
         }
 
 
-        public ObservableCollectionEx<ToolbarDefinition> CustomizableToolBars { get; set; }
-        //public ObservableCollection<MenuItemDefinitionOld> CustomizableMenuBars { get; set; }
+
+        public IEnumerable<CommandBarDefinitionBase> CustomizableToolBars { get; set; }
+        public IEnumerable<CommandBarDefinitionBase> CustomizableMenuBars { get; set; }
     }
 }

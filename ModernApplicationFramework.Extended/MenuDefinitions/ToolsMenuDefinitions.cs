@@ -7,7 +7,7 @@ namespace ModernApplicationFramework.Extended.MenuDefinitions
 {
     public static class ToolsMenuDefinitions
     {
-        [Export] public static MenuDefinition ToolsMenu = new MenuDefinition(8, "ToolsMenu", "&Tools");
+        [Export] public static MenuDefinition ToolsMenu = new MenuDefinition(MainMenuBarDefinition.MainMenuBar, 8, "Tools", "&Tools");
 
         [Export] public static MenuItemGroupDefinition SettingsGroup = new MenuItemGroupDefinition(ToolsMenu, int.MaxValue);
 

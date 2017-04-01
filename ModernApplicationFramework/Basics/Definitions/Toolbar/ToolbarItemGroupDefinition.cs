@@ -1,26 +1,14 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using ModernApplicationFramework.Annotations;
+﻿using ModernApplicationFramework.Basics.Definitions.CommandBar;
 
 namespace ModernApplicationFramework.Basics.Definitions.Toolbar
 {
-    public class ToolbarItemGroupDefinition : INotifyPropertyChanged
+    public class ToolbarItemGroupDefinition : CommandBarDefinitionBase
     {
-        public event PropertyChangedEventHandler PropertyChanged;
         public ToolbarDefinition ParentToolbar { get; set; }
 
-        public uint SortOrder { get; set; }
-
-        public ToolbarItemGroupDefinition(ToolbarDefinition toolbar, uint sortOrder)
+        public ToolbarItemGroupDefinition(ToolbarDefinition toolbar, uint sortOrder) : base(null, sortOrder, null, false, false)
         {
             ParentToolbar = toolbar;
-            SortOrder = sortOrder;
-        }
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

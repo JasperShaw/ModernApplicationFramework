@@ -18,10 +18,13 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
             }
         }
 
-        public MenuDefinition(uint sortOrder, string text, string displayName, bool isCustom = false) : base(text,
+        public MenuBarDefinition MenuBar { get; }
+
+        public MenuDefinition(MenuBarDefinition menuBar, uint sortOrder, string text, string displayName, bool isCustom = false) : base(text,
             sortOrder, new MenuItemCommandDefinition(), isCustom, false)
         {
             _displayName = displayName;
+            MenuBar = menuBar;
         }
     }
 }

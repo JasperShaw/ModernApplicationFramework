@@ -1,16 +1,10 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using ModernApplicationFramework.Annotations;
-using ModernApplicationFramework.Basics.Definitions.CommandBar;
+﻿using ModernApplicationFramework.Basics.Definitions.CommandBar;
 
 namespace ModernApplicationFramework.Basics.Definitions.Menu
 {
-    public class MenuItemGroupDefinition : INotifyPropertyChanged
+    public class MenuItemGroupDefinition : CommandBarDefinitionBase
     {
         private CommandBarDefinitionBase _parent;
-        private uint _sortOrder;
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public CommandBarDefinitionBase Parent
         {
@@ -23,27 +17,9 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
             }
         }
 
-        public uint SortOrder
-        {
-            get => _sortOrder;
-            set
-            {
-                if (value == _sortOrder) return;
-                _sortOrder = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public MenuItemGroupDefinition(CommandBarDefinitionBase parent, uint sortOrder)
+        public MenuItemGroupDefinition(CommandBarDefinitionBase parent, uint sortOrder) : base(null, sortOrder, null, false, false)
         {
             _parent = parent;
-            _sortOrder = sortOrder;
-        }
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

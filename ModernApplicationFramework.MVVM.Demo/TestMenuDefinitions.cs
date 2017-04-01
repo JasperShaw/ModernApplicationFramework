@@ -2,12 +2,13 @@
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Basics.Definitions.Menu.MenuItems;
 using ModernApplicationFramework.Extended.Commands;
+using ModernApplicationFramework.Extended.MenuDefinitions;
 
 namespace ModernApplicationFramework.MVVM.Demo
 {
     public static class WindowMenuDefinitions
     {
-        [Export] public static MenuDefinition TestMenu = new MenuDefinition(14, "TestMenu", "&Test");
+        [Export] public static MenuDefinition TestMenu = new MenuDefinition(MainMenuBarDefinition.MainMenuBar, 14, "Test", "&Test");
 
         [Export] public static MenuItemGroupDefinition TestGroup1 = new MenuItemGroupDefinition(TestMenu, int.MaxValue);
 
@@ -16,6 +17,14 @@ namespace ModernApplicationFramework.MVVM.Demo
         [Export] public static MenuItemGroupDefinition TestGroup2 = new MenuItemGroupDefinition(TestSub, int.MaxValue);
 
         [Export] public static MenuItemDefinition TestSub1 = new CommandMenuItemDefinition<UndoCommandDefinition>(TestGroup2, 0);
+
+
+
+        [Export] public static MenuItemDefinition TestSubSub = new CustomSubHeaderMenuItemDefinition("TestSub", TestGroup2, 0);
+
+        [Export] public static MenuItemGroupDefinition TestGroup4 = new MenuItemGroupDefinition(TestSubSub, int.MaxValue);
+
+        [Export] public static MenuItemDefinition TestSubSub1 = new CommandMenuItemDefinition<UndoCommandDefinition>(TestGroup4, 0);
 
     }
 }

@@ -22,7 +22,7 @@
             <converters:TrimSpacesConverter x:Key="TrimSpacesConverter"/>
             <CollectionViewSource x:Key="ToolBarsView" Source="{Binding CustomizableToolBars}">
                 <CollectionViewSource.SortDescriptions>
-                    <componentModel:SortDescription PropertyName="Name"/>
+                    <componentModel:SortDescription PropertyName="Text"/>
                 </CollectionViewSource.SortDescriptions>
             </CollectionViewSource>
             <controls:ContextMenu x:Key="ModifySelectionCommandsMenu">
@@ -138,7 +138,7 @@
                 </controls:CheckedMenuItem>
             </controls:ContextMenu>
             <Style x:Key="CollectionComboBoxItemStyle" TargetType="{x:Type ComboBoxItem}">
-                <Setter Property="AutomationProperties.Name" Value="{Binding Name}"/>
+                <Setter Property="AutomationProperties.Name" Value="{Binding Text}"/>
             </Style>
         </ResourceDictionary>
     </FrameworkElement.Resources>
@@ -164,7 +164,7 @@
                          VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,5"
                          Visibility="{Binding CustomizableMenuBars, Converter={StaticResource VisibleIfNotNullConverter}}"/>
             <ComboBox Name="MenuBarCombo" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"
-                      Margin="6,0,0,5" SelectedIndex="0" TextSearch.TextPath="Name" DisplayMemberPath="Name"
+                      Margin="6,0,0,5" SelectedIndex="0" TextSearch.TextPath="Text" DisplayMemberPath="Text"
                       ItemContainerStyle="{StaticResource CollectionComboBoxItemStyle}" ItemsSource="{Binding CustomizableMenuBars}"
                       Visibility="{Binding CustomizableMenuBars, Converter={StaticResource VisibleIfNotNullConverter}}">
                 <UIElement.IsEnabled>
@@ -174,7 +174,7 @@
             <RadioButton Name="ToolBarRadioButton" GroupName="CurrentlyEditingGroup" Content="_Toolbar:" Grid.Row="2" Grid.Column="0"
                          VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,5"/>
             <ComboBox Name="ToolBarCombo" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="6,0,0,5" SelectedIndex="0"
-                      TextSearch.TextPath="Name" DisplayMemberPath="Name" ItemContainerStyle="{StaticResource CollectionComboBoxItemStyle}">
+                      TextSearch.TextPath="Text" DisplayMemberPath="Text" ItemContainerStyle="{StaticResource CollectionComboBoxItemStyle}">
                 <UIElement.IsEnabled>
                     <Binding ElementName="ToolBarRadioButton" Path="IsChecked"/>
                 </UIElement.IsEnabled>
@@ -185,7 +185,7 @@
             <RadioButton Name="ContextMenuRadioButton" GroupName="CurrentlyEditingGroup" Content="Conte_xt menu:" Grid.Row="3" Grid.Column="0"
                          VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,5"/>
             <ComboBox Name="ContextMenuCombo" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="6,0,0,5" SelectedIndex="0"
-                      TextSearch.TextPath="Name" DisplayMemberPath="Name" ItemContainerStyle="{StaticResource CollectionComboBoxItemStyle}"
+                      TextSearch.TextPath="Text" DisplayMemberPath="Text" ItemContainerStyle="{StaticResource CollectionComboBoxItemStyle}"
                       ItemsSource="{Binding CustomizableContextMenus}">
                 <UIElement.IsEnabled>
                     <Binding ElementName="ContextMenuRadioButton" Path="IsChecked"/>

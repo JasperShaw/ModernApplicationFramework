@@ -177,13 +177,12 @@
     <Compile Include="Basics\Definitions\CommandBar\CommandBarDefinitionBase.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarFlags.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarItemDefinition.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\ExcludeCommandBarElementDefinition.cs" />
     <Compile Include="Basics\Definitions\CommandBar\FlagStorage.cs" />
     <Compile Include="Basics\Definitions\Command\CommandControlTypes.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarSeparatorDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\CustomMenuDefinition.cs" />
-    <Compile Include="Basics\Definitions\Menu\ExcludeDefinitions\ExcludeMenuDefinition.cs" />
-    <Compile Include="Basics\Definitions\Menu\ExcludeDefinitions\ExcludeMenuItemDefinition.cs" />
-    <Compile Include="Basics\Definitions\Menu\ExcludeDefinitions\ExcludeMenuItemGroupDefinition.cs" />
+    <Compile Include="Basics\Definitions\Menu\MenuBarDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuDefinition.cs" />
     <Compile Include="Basics\Definitions\Command\MenuItemCommandDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuItems\CommandMenuItemDefinition.cs" />

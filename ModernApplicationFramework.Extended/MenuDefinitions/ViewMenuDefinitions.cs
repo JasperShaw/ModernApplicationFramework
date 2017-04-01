@@ -7,7 +7,7 @@ namespace ModernApplicationFramework.Extended.MenuDefinitions
 {
     public static class ViewMenuDefinitions
     {
-        [Export] public static MenuDefinition ViewMenu = new MenuDefinition(2, "ViewMeu", "&View");
+        [Export] public static MenuDefinition ViewMenu = new MenuDefinition(MainMenuBarDefinition.MainMenuBar, 2, "View", "&View");
 
         [Export] public static MenuItemGroupDefinition ScreenViewGroup = new MenuItemGroupDefinition(ViewMenu, 5);
 

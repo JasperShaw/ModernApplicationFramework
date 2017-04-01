@@ -7,7 +7,6 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
-using ModernApplicationFramework.Basics.Definitions.Menu.ExcludeDefinitions;
 using ModernApplicationFramework.Basics.Definitions.Menu.MenuItems;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls;
@@ -24,13 +23,11 @@ namespace ModernApplicationFramework.Basics.ViewModels
         private IMainWindowViewModel _mainWindowViewModel;
         private MenuHostControl _menuHostControl;
 
-
+        public ObservableCollection<MenuBarDefinition> MenuBars { get; }
         public ObservableCollectionEx<MenuDefinition> MenuDefinitions { get; }
         public ObservableCollectionEx<MenuItemGroupDefinition> MenuItemGroupDefinitions { get; }
         public ObservableCollectionEx<MenuItemDefinition> MenuItemDefinitions { get; }
-        public ObservableCollection<ExcludeMenuDefinition> ExcludedMenuDefinitions { get; }
-        public ObservableCollection<ExcludeMenuItemGroupDefinition> ExcludedMenuItemGroupDefinitions { get; }
-        public ObservableCollection<ExcludeMenuItemDefinition> ExcludedMenuItemDefinitions { get; }
+        public ObservableCollection<CommandBarDefinitionBase> ExcludedMenuElementDefinitions { get; }
 
         internal MenuHostControl MenuHostControl
         {
@@ -48,15 +45,15 @@ namespace ModernApplicationFramework.Basics.ViewModels
 
         [ImportingConstructor]
         public MenuHostViewModel(
+            [ImportMany] MenuBarDefinition[] menubars,
             [ImportMany] MenuDefinition[] menus,
             [ImportMany] MenuItemGroupDefinition[] menuItemGroups,
             [ImportMany] MenuItemDefinition[] menuItems,
-            [ImportMany] ExcludeMenuDefinition[] excludeMenus,
-            [ImportMany] ExcludeMenuItemGroupDefinition[] excludeMenuItemGroups,
-            [ImportMany] ExcludeMenuItemDefinition[] excludeMenuItems)
+            [ImportMany] ExcludeCommandBarElementDefinition[] excludedItems)
         {
             Items = new BindableCollection<MenuItem>();
             _toolBarHost = IoC.Get<IToolBarHostViewModel>();
+            MenuBars = new ObservableCollection<MenuBarDefinition>(menubars);
             MenuDefinitions = new ObservableCollectionEx<MenuDefinition>();
             foreach (var menuDefinition in menus)
                 MenuDefinitions.Add(menuDefinition);
@@ -66,18 +63,16 @@ namespace ModernApplicationFramework.Basics.ViewModels
             MenuItemDefinitions = new ObservableCollectionEx<MenuItemDefinition>();
             foreach (var menuDefinition in menuItems)
                 MenuItemDefinitions.Add(menuDefinition);
-            ExcludedMenuDefinitions = new ObservableCollection<ExcludeMenuDefinition>(excludeMenus);
-            ExcludedMenuItemGroupDefinitions =
-                new ObservableCollection<ExcludeMenuItemGroupDefinition>(excludeMenuItemGroups);
-            ExcludedMenuItemDefinitions = new ObservableCollection<ExcludeMenuItemDefinition>(excludeMenuItems);
+            ExcludedMenuElementDefinitions = new ObservableCollection<CommandBarDefinitionBase>();
+            foreach (var item in excludedItems)
+                ExcludedMenuElementDefinitions.Add(item.ExcludedCommandBarDefinition);
+            
 
-
+            MenuBars.CollectionChanged += OnCollectionChanged;
             MenuDefinitions.CollectionChanged += OnCollectionChanged;
             MenuItemGroupDefinitions.CollectionChanged += OnCollectionChanged;
             MenuItemDefinitions.CollectionChanged += OnCollectionChanged;
-            ExcludedMenuDefinitions.CollectionChanged += OnCollectionChanged;
-            ExcludedMenuItemGroupDefinitions.CollectionChanged += OnCollectionChanged;
-            ExcludedMenuItemDefinitions.CollectionChanged += OnCollectionChanged;
+            ExcludedMenuElementDefinitions.CollectionChanged += OnCollectionChanged;
 
             BuildMenu();
         }
@@ -111,25 +106,33 @@ namespace ModernApplicationFramework.Basics.ViewModels
         public void BuildMenu()
         {
             Items.Clear();
-            var menus = MenuDefinitions.Where(x => !ExcludedMenuDefinitions.Contains(x)).OrderBy(x => x.SortOrder);
-            foreach (var menuDefinition in menus)
-            {
-                var menuItem = new MenuItem(menuDefinition);
-                AddGroupsRecursive(menuDefinition, menuItem);
-                Items.Add(menuItem);
-            }
-            foreach (var noGroupMenuItem in MenuItemDefinitions.Where(x => x.Group == null).OrderBy(x => x.SortOrder))
-            {
-                var item = new MenuItem(noGroupMenuItem);
-                Items.Add(item);
-            }
 
+            var bars = MenuBars.OrderBy(x => x.SortOrder);
+
+            foreach (var bar in bars)
+            {
+                var menus = MenuDefinitions.Where(x => !ExcludedMenuElementDefinitions.Contains(x))
+                    .Where(x => x.MenuBar == bar)
+                    .OrderBy(x => x.SortOrder);
+
+                foreach (var menuDefinition in menus)
+                {
+                    var menuItem = new MenuItem(menuDefinition);
+                    AddGroupsRecursive(menuDefinition, menuItem);
+                    Items.Add(menuItem);
+                }
+                foreach (var noGroupMenuItem in MenuItemDefinitions.Where(x => x.Group == null).OrderBy(x => x.SortOrder))
+                {
+                    var item = new MenuItem(noGroupMenuItem);
+                    Items.Add(item);
+                }
+            }
         }
 
         private void AddGroupsRecursive(CommandBarDefinitionBase menu, MenuItem menuItem)
         {
             var groups = MenuItemGroupDefinitions.Where(x => x.Parent == menu)
-                .Where(x => !ExcludedMenuItemGroupDefinitions.Contains(x))
+                .Where(x => !ExcludedMenuElementDefinitions.Contains(x))
                 .OrderBy(x => x.SortOrder)
                 .ToList();
 
@@ -137,7 +140,7 @@ namespace ModernApplicationFramework.Basics.ViewModels
             {
                 var group = groups[i];
                 var menuItems = MenuItemDefinitions.Where(x => x.Group == group)
-                    .Where(x => !ExcludedMenuItemDefinitions.Contains(x))
+                    .Where(x => !ExcludedMenuElementDefinitions.Contains(x))
                     .OrderBy(x => x.SortOrder);
 
                 foreach (var menuItemDefinition in menuItems)

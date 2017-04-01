@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
-using ModernApplicationFramework.Basics.Definitions.Menu.ExcludeDefinitions;
 using ModernApplicationFramework.Basics.Definitions.Menu.MenuItems;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Core.Utilities;
@@ -26,13 +26,11 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         /// </summary>
         IMainWindowViewModel MainWindowViewModel { get; set; }
 
-
+        ObservableCollection<MenuBarDefinition> MenuBars { get; }
         ObservableCollectionEx<MenuDefinition> MenuDefinitions { get; }
         ObservableCollectionEx<MenuItemGroupDefinition> MenuItemGroupDefinitions { get; }
         ObservableCollectionEx<MenuItemDefinition> MenuItemDefinitions { get; }
-        ObservableCollection<ExcludeMenuDefinition> ExcludedMenuDefinitions { get; }
-        ObservableCollection<ExcludeMenuItemGroupDefinition> ExcludedMenuItemGroupDefinitions { get; }
-        ObservableCollection<ExcludeMenuItemDefinition> ExcludedMenuItemDefinitions { get; }
+        ObservableCollection<CommandBarDefinitionBase> ExcludedMenuElementDefinitions { get; }
 
 
         /// <summary>

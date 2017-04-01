@@ -7,7 +7,7 @@ namespace ModernApplicationFramework.Extended.MenuDefinitions
 {
     public static class FileMenuDefinitions
     {
-        [Export] public static MenuDefinition FileMenu = new MenuDefinition(0, "FileMenu", "&File");
+        [Export] public static MenuDefinition FileMenu = new MenuDefinition(MainMenuBarDefinition.MainMenuBar, 0, "File", "&File");
 
         [Export] public static MenuItemGroupDefinition CloseProgramGroup = new MenuItemGroupDefinition(FileMenu, int.MaxValue);
 
