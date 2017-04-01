@@ -1,9 +1,7 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Windows.Media;
-using ModernApplicationFramework.Core.Converters;
 
-namespace ModernApplicationFramework.Test
+namespace ModernApplicationFramework.Core.Converters
 {
     public class BrushToColorConverter : ValueConverter<Brush, Color>
     {

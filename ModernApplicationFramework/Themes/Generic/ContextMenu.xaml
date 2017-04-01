@@ -3,9 +3,9 @@
                     xmlns:this="clr-namespace:ModernApplicationFramework.Controls"
                     xmlns:themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
                     xmlns:colors="clr-namespace:ModernApplicationFramework.Core.Themes"
-                    xmlns:test="clr-namespace:ModernApplicationFramework.Test">
+                    xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters">
 
-    <test:BrushToColorConverter x:Key="BrushToColorConverter"/>
+    <converters:BrushToColorConverter x:Key="BrushToColorConverter"/>
 
     <Geometry x:Key="Checkmark">
         F1 M 5,11 L 3,7 L 5,7 L 6,9 L 9,3 L 11,3 L 7,11 L 5,11 Z
@@ -73,9 +73,9 @@
                             <ScrollViewer x:Name="PART_ScrollViewer" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type FrameworkElement}, ResourceId=MenuScrollViewer}}">
                                 <Grid Background="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemPopupBackground}}"
                                       RenderOptions.ClearTypeHint="Enabled">
-                                    <test:ImageThemingUtilities.ImageBackgroundColor>
+                                    <colors:ImageThemingUtilities.ImageBackgroundColor>
                                         <Binding Path="Background" ElementName="IconBackground" Converter="{StaticResource BrushToColorConverter}"/>
-                                    </test:ImageThemingUtilities.ImageBackgroundColor>
+                                    </colors:ImageThemingUtilities.ImageBackgroundColor>
                                     <Border x:Name="IconBackground" Width="28"
                                             Background="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemPopupIconBackground}}"
                                             HorizontalAlignment="Left"/>

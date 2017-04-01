@@ -4,8 +4,7 @@
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals"
                     xmlns:native="clr-namespace:ModernApplicationFramework.Native"
-                    xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
-                    xmlns:test="clr-namespace:ModernApplicationFramework.Test">
+                    xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters">
     
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../../Resources/Icons/StatusError.xaml"></ResourceDictionary>
@@ -18,7 +17,7 @@
     <converters:NotNullConverter x:Key="NotNullConverter"/>
     <converters:CommandBarItemCommandConverter x:Key="CommandBarItemCommandConverter"/>
     <converters:DockToOrienationConverter x:Key="DockToOrienationConverter"/>
-    <test:BrushToColorConverter x:Key="BrushToColorConverter"/>
+    <converters:BrushToColorConverter x:Key="BrushToColorConverter"/>
     <converters:FormattedStringConverter x:Key="FormattedStringConverter"/>
 
     <ControlTemplate x:Key="ComboTemplate">
@@ -319,7 +318,7 @@
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Height" Value="26"/>
         <Setter Property="Width" Value="Auto"/>
-        <Setter Property="test:ImageThemingUtilities.ImageBackgroundColor">
+        <Setter Property="themes:ImageThemingUtilities.ImageBackgroundColor">
             <Setter.Value>
                 <Binding Path="Background" RelativeSource="{RelativeSource Self}"
                          Converter="{StaticResource BrushToColorConverter}"/>

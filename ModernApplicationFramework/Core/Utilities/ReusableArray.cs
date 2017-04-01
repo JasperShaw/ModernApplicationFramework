@@ -1,7 +1,7 @@
 ﻿using ModernApplicationFramework.Native;
 using ModernApplicationFramework.Native.Standard;
 
-namespace ModernApplicationFramework.Test
+namespace ModernApplicationFramework.Core.Utilities
 {
     internal class ReusableArray<T> : ReusableResourceStore<T[], int>
     {

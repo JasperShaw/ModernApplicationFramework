@@ -4,20 +4,15 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Primitives;
-using System.Drawing;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Forms;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Interfaces.Controls;
-using ModernApplicationFramework.Native;
 using ModernApplicationFramework.Native.NativeMethods;
-using ModernApplicationFramework.Native.Standard;
-using ModernApplicationFramework.Test;
 using Color = System.Windows.Media.Color;
 
 namespace ModernApplicationFramework.Core.Utilities

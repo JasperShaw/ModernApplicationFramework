@@ -2,10 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
-                    xmlns:test="clr-namespace:ModernApplicationFramework.Test">
-
-    <test:BrushToColorConverter x:Key="BrushToColorConverter"/>
-
+                    xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters">
+    <converters:BrushToColorConverter x:Key="BrushToColorConverter"/>
     <Style TargetType="{x:Type controls:CustomizeControlsListBox}">
         <Setter Property="BorderBrush" Value="#828790"/>
         <Setter Property="BorderThickness" Value="1"/>
@@ -20,9 +18,9 @@
                             Padding="1">
                         <ScrollViewer Padding="{TemplateBinding Padding}" Focusable="False">
                             <Grid>
-                                <test:ImageThemingUtilities.ImageBackgroundColor>
+                                <themes:ImageThemingUtilities.ImageBackgroundColor>
                                     <Binding ElementName="BackgroundBorder" Path="Background" Converter="{StaticResource BrushToColorConverter}"/>
-                                </test:ImageThemingUtilities.ImageBackgroundColor>
+                                </themes:ImageThemingUtilities.ImageBackgroundColor>
                                 <Border x:Name="BackgroundBorder" Background="{DynamicResource {x:Static themes:EnvironmentColors.MenuBackground}}">
                                     <Border Width="28" Background="{DynamicResource {x:Static themes:EnvironmentColors.MenuBackground}}"
                                             HorizontalAlignment="Left"/>
@@ -35,5 +33,4 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
 </ResourceDictionary>

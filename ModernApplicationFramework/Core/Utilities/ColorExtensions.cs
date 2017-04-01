@@ -1,8 +1,8 @@
 ﻿using System.Windows.Media;
 
-namespace ModernApplicationFramework.Test
+namespace ModernApplicationFramework.Core.Utilities
 {
-    public static class Extensions
+    public static class ColorExtensions
     {
         public static Color ToColorFromRgba(this uint colorValue)
         {

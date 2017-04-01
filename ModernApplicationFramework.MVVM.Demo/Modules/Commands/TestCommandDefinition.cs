@@ -8,7 +8,8 @@ using System.Windows.Media.Imaging;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls;
-using ModernApplicationFramework.Test;
+using ModernApplicationFramework.Core.Themes;
+using ModernApplicationFramework.Core.Utilities;
 using Brushes = System.Windows.Media.Brushes;
 using Color = System.Drawing.Color;
 

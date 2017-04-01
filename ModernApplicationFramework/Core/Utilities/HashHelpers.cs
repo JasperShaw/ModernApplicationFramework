@@ -1,4 +1,4 @@
-﻿namespace ModernApplicationFramework.Test
+﻿namespace ModernApplicationFramework.Core.Utilities
 {
     public static class HashHelpers
     {

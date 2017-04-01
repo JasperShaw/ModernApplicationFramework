@@ -3,15 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:test="clr-namespace:ModernApplicationFramework.Test;assembly=ModernApplicationFramework"
+        xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters;assembly=ModernApplicationFramework"
+        xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
         mc:Ignorable="d"
         Title="TestWindw" Height="300" Width="300">
     <Window.Resources>
-        <test:BrushToColorConverter x:Key="BrushToColorConverter"/>
+        <converters:BrushToColorConverter x:Key="BrushToColorConverter"/>
     </Window.Resources>
-    <test:ImageThemingUtilities.ImageBackgroundColor>
+    <themes:ImageThemingUtilities.ImageBackgroundColor>
         <Binding Path="Background" Converter="{StaticResource BrushToColorConverter}" RelativeSource="{RelativeSource Self}"/>
-    </test:ImageThemingUtilities.ImageBackgroundColor>
+    </themes:ImageThemingUtilities.ImageBackgroundColor>
     
     <Grid x:Name="Grid" x:FieldModifier="public">
         <Button Margin="50"></Button>
@@ -19,3 +20,4 @@
 
 
 </Window>
+

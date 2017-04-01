@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Media;
 
-namespace ModernApplicationFramework.Test
+namespace ModernApplicationFramework.Core.Utilities
 {
     public struct HslColor
     {

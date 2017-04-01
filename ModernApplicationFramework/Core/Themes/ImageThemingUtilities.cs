@@ -3,14 +3,14 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Native;
 using ModernApplicationFramework.Native.Standard;
 using Color = System.Windows.Media.Color;
 
-namespace ModernApplicationFramework.Test
+namespace ModernApplicationFramework.Core.Themes
 {
     public static class ImageThemingUtilities
     {

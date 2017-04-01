@@ -4,7 +4,6 @@
                     xmlns:colors="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
                     xmlns:native="clr-namespace:ModernApplicationFramework.Native"
-                    xmlns:test="clr-namespace:ModernApplicationFramework.Test"
                     xmlns:utilities="clr-namespace:ModernApplicationFramework.Controls.Utilities">
     
     <ResourceDictionary.MergedDictionaries>
@@ -14,7 +13,7 @@
     <converters:AccessKeyConverter x:Key="AccessKeyConverter"/>
     <converters:AccessKeyRemovingConverter x:Key="AccessKeyRemovingConverter"/>
     <converters:IsCustomMenuConverter x:Key="IsCustomMenuConverter"/>
-    <test:BrushToColorConverter x:Key="BrushToColorConverter"/>
+    <converters:BrushToColorConverter x:Key="BrushToColorConverter"/>
     <converters:CommandBarItemCommandConverter x:Key="CommandBarItemCommandConverter"/>
     <converters:NotNullConverter x:Key="NotNullConverter"/>
 
@@ -91,9 +90,9 @@
                     <Grid Background="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemPopupBackground}}">
                         <this:MenuScrollViewer>
                             <Grid Background="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemPopupBackground}}" RenderOptions.BitmapScalingMode="{x:Static native:DpiHelper.BitmapScalingMode}" RenderOptions.ClearTypeHint="Enabled">
-                                <test:ImageThemingUtilities.ImageBackgroundColor>
+                                <colors:ImageThemingUtilities.ImageBackgroundColor>
                                     <Binding Path="Background" ElementName="IconBackground" Converter="{StaticResource BrushToColorConverter}"/>
-                                </test:ImageThemingUtilities.ImageBackgroundColor>
+                                </colors:ImageThemingUtilities.ImageBackgroundColor>
                                 <Border x:Name="IconBackground" Width="28"
                                         Background="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemPopupIconBackground}}"
                                         HorizontalAlignment="Left"/>
@@ -170,9 +169,9 @@
                         <this:MenuScrollViewer>
                             <Grid Background="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemPopupBackground}}"
                                   RenderOptions.BitmapScalingMode="{x:Static native:DpiHelper.BitmapScalingMode}" RenderOptions.ClearTypeHint="Enabled">
-                                <test:ImageThemingUtilities.ImageBackgroundColor>
+                                <colors:ImageThemingUtilities.ImageBackgroundColor>
                                     <Binding Path="Background" ElementName="IconBackground" Converter="{StaticResource BrushToColorConverter}"/>
-                                </test:ImageThemingUtilities.ImageBackgroundColor>
+                                </colors:ImageThemingUtilities.ImageBackgroundColor>
                                 <Border x:Name="IconBackground" Width="28" HorizontalAlignment="Left"
                                         Background="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemPopupIconBackground}}"/>
                                 <ItemsPresenter KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.DirectionalNavigation="Cycle" Margin="3"
@@ -667,7 +666,7 @@
 
     <Style TargetType="{x:Type this:Menu}" BasedOn="{StaticResource {x:Type Menu}}">
         <Setter Property="Background" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuBackground}}"/>
-        <Setter Property="test:ImageThemingUtilities.ImageBackgroundColor">
+        <Setter Property="colors:ImageThemingUtilities.ImageBackgroundColor">
             <Setter.Value>
                 <Binding Path="Background" RelativeSource="{RelativeSource Self}"
                          Converter="{StaticResource BrushToColorConverter}"/>
