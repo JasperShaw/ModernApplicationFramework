@@ -4,7 +4,7 @@
     <ContentControl.ContentTemplate>
         <DataTemplate>
             <StackPanel Orientation="Horizontal">
-                <AccessText Name="Text" >
+                <AccessText Name="Text">
                     <AccessText.Text>
                         <Binding/>
                     </AccessText.Text>

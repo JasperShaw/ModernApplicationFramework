@@ -676,4 +676,15 @@
         <Setter Property="KeyboardNavigation.TabNavigation" Value="Cycle"/>
     </Style>
 
+
+
+    <Style x:Key="{x:Static this:ContextMenu.ButtonStyleKey}" BasedOn="{StaticResource {x:Static this:MenuItem.ButtonStyleKey}}"
+           TargetType="{x:Type this:MenuItem}"/>
+    <Style x:Key="{x:Static this:ContextMenu.MenuStyleKey}" BasedOn="{StaticResource {x:Static this:MenuItem.MenuStyleKey}}"
+           TargetType="{x:Type this:MenuItem}"/>
+    <Style x:Key="{x:Static this:ContextMenu.SeparatorStyleKey}" BasedOn="{StaticResource {x:Static this:MenuItem.SeparatorStyleKey}}"
+           TargetType="{x:Type this:MenuItem}"/>
+    <Style x:Key="{x:Static this:ContextMenu.ComboBoxStyleKey}" BasedOn="{StaticResource {x:Static this:MenuItem.ComboBoxStyleKey}}"
+           TargetType="{x:Type this:MenuItem}"/>
+
 </ResourceDictionary>

@@ -10,7 +10,7 @@ namespace ModernApplicationFramework.Core.Utilities
     {
         internal static void SelectStyleForItem(FrameworkElement element, object item, IExposeStyleKeys styleKeySource)
         {
-            var control = item as Control;
+            var control = element as Control;
             var context = control?.DataContext as CommandBarDefinitionBase;
             if (context == null)
                 return;

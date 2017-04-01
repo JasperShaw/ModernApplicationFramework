@@ -1,0 +1,102 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
+                    xmlns:controls="clr-namespace:ModernApplicationFramework.Controls">
+
+    <Geometry x:Key="Checkmark">
+        F1 M 5,11 L 3,7 L 5,7 L 6,9 L 9,3 L 11,3 L 7,11 L 5,11 Z
+    </Geometry>
+
+    <ControlTemplate x:Key="ContextMenuTemplate" TargetType="{x:Type ContextMenu}">
+        <Grid>
+            <Border Background="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemPopupBackground}}"
+                    BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemPopupBorder}}"
+                    BorderThickness="1">
+                <Border Width="28" Background="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemPopupIconBackground}}"
+                        HorizontalAlignment="Left"/>
+            </Border>
+            <controls:MenuScrollViewer Margin="3">
+                <ItemsPresenter KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.DirectionalNavigation="Cycle"
+                                SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" Grid.IsSharedSizeScope="true"/>
+            </controls:MenuScrollViewer>
+        </Grid>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="MenuItemTemplate" TargetType="{x:Type MenuItem}">
+        <Grid SnapsToDevicePixels="true" Background="{TemplateBinding Control.Background}"
+              MinHeight="22" MaxWidth="{x:Static controls:MenuItem.MaxMenuWidth}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="26" SharedSizeGroup="MenuItemIconColumnGroup"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="17"/>
+            </Grid.ColumnDefinitions>
+            <Rectangle x:Name="Bg" Stroke="Transparent" Fill="Transparent" StrokeThickness="0" Grid.ColumnSpan="3"/>
+            <Border Grid.Column="0" x:Name="GlyphPanel" Background="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarSelectedIcon}}"
+                    BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarCheckBox}}"
+                    BorderThickness="2" Margin="1" Visibility="Collapsed" Width="18" Height="18">
+                <Path x:Name="Glyph" Width="16" Height="16" Fill="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarCheckBox}}"
+                      FlowDirection="LeftToRight" Data="{StaticResource Checkmark}"/>
+            </Border>
+            <ContentPresenter Grid.Column="1" ContentSource="Header" Margin="8,1,0,1" VerticalAlignment="Center" RecognizesAccessKey="true"
+                              SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="MenuItem.IsChecked" Value="true">
+                <Setter TargetName="GlyphPanel" Property="UIElement.Visibility" Value="Visible"/>
+            </Trigger>
+            <Trigger Property="MenuItem.IsHighlighted" Value="true">
+                <Setter TargetName="Bg" Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuItemMouseOver}}"
+                        Property="Shape.Fill"/>
+                <Setter x:Uid="Setter_12" TargetName="Bg"
+                        Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuItemMouseOverBorder}}"
+                        Property="Shape.Stroke"/>
+                <Setter Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuItemMouseOverText}}"
+                        Property="TextElement.Foreground"/>
+                <Setter TargetName="GlyphPanel" Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarHoverOverSelectedIcon}}"
+                        Property="Border.Background"/>
+                <Setter TargetName="GlyphPanel" Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarCheckBoxMouseOver}}"
+                        Property="Border.BorderBrush"/>
+                <Setter TargetName="Glyph" Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarCheckBoxMouseOver}}"
+                        Property="Shape.Fill"/>
+            </Trigger>
+            <Trigger Property="UIElement.IsEnabled" Value="false">
+                <Setter Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarTextInactive}}"
+                        Property="Control.Foreground"/>
+                <Setter TargetName="GlyphPanel" Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarSelectedIconDisabled}}"
+                        Property="Border.Background"/>
+                <Setter TargetName="GlyphPanel" Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarCheckBoxDisabled}}"
+                        Property="Border.BorderBrush"/>
+                <Setter TargetName="Glyph" Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarCheckBoxDisabled}}"
+                        Property="Shape.Fill"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    
+    <ControlTemplate x:Key="SeparatorTemplate" TargetType="{x:Type Separator}">
+        <Grid SnapsToDevicePixels="true" Background="Transparent">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="26" SharedSizeGroup="MenuItemIconColumnGroup"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Rectangle Height="1" Margin="4,1,1,1" Fill="{DynamicResource {x:Static themes:EnvironmentColors.MenuSeparator}}" Grid.Column="1"/>
+        </Grid>
+    </ControlTemplate>
+
+
+    <Style TargetType="{x:Type ContextMenu}">
+        <Setter Property="Template" Value="{DynamicResource ContextMenuTemplate}"/>
+    </Style>
+    <Style TargetType="{x:Type MenuItem}">
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemForeground}}"/>
+        <Setter Property="Template" Value="{DynamicResource MenuItemTemplate}"/>
+    </Style>
+    <Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" TargetType="{x:Type Separator}">
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="Template" Value="{DynamicResource SeparatorTemplate}"/>
+    </Style>
+    <Style TargetType="{x:Type controls:CheckedMenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}"/>
+    <Style TargetType="{x:Type controls:EditableMenuItem}">
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemForeground}}"/>
+    </Style>
+
+</ResourceDictionary>

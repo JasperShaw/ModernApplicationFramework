@@ -19,9 +19,6 @@ namespace ModernApplicationFramework.Extended.Commands
         {
             Command = new GestureCommandWrapper(Redo, CanRedo, new KeyGesture(Key.Y, ModifierKeys.Control));
         }
-
-        public override bool CanShowInMenu => true;
-        public override bool CanShowInToolbar => true;
         public override ICommand Command { get; }
 
         public override string IconId => "RedoIcon";

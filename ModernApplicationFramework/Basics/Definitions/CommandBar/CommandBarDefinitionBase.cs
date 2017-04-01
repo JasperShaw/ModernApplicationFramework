@@ -9,6 +9,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     {
         private uint _sortOrder;
         private string _text;
+        private bool _isChecked;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -38,12 +39,24 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-        protected CommandBarDefinitionBase(string text, uint sortOrder, DefinitionBase definition, bool isCustom)
+        public virtual bool IsChecked
+        {
+            get => _isChecked;
+            set
+            {
+                if (value == _isChecked) return;
+                _isChecked = value;
+                OnPropertyChanged();
+            }
+        }
+
+        protected CommandBarDefinitionBase(string text, uint sortOrder, DefinitionBase definition, bool isCustom, bool isChecked)
         {
             _sortOrder = sortOrder;
             _text = text;
             CommandDefinition = definition;
             IsCustom = isCustom;
+            _isChecked = isChecked;
         }
 
         [NotifyPropertyChangedInvocator]

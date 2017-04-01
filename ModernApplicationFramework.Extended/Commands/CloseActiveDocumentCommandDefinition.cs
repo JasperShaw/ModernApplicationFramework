@@ -12,8 +12,6 @@ namespace ModernApplicationFramework.Extended.Commands
     {
         [Import] private IDockingMainWindowViewModel _shell;
 
-        public override bool CanShowInMenu => true;
-        public override bool CanShowInToolbar => false;
         public override string IconId => null;
         public override Uri IconSource => null;
         public override string Name => "File.CloseFile";

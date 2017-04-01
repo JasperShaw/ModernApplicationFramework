@@ -5,8 +5,19 @@
              xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
              xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:validationRules="clr-namespace:ModernApplicationFramework.Core.ValidationRules"
-             xmlns:utilities="clr-namespace:ModernApplicationFramework.Controls.Utilities">
-    <UserControl.Resources>
+             xmlns:utilities="clr-namespace:ModernApplicationFramework.Controls.Utilities"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="360">
+    <FrameworkElement.Resources>
+        
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../../Themes/Generic/CustomizeStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+        
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
         <utilities:ToolbarsCollectionViewSource x:Key="ToolBarsView" BoundPropertyName="Text" Source="{Binding Toolbars}">
@@ -15,7 +26,7 @@
             </CollectionViewSource.SortDescriptions>
         </utilities:ToolbarsCollectionViewSource>
 
-        <controls:ContextMenu x:Key="ModifySelectionToolBarsMenu">
+        <ContextMenu x:Key="ModifySelectionToolBarsMenu">
 
             <FrameworkElement.Resources>
                 <converters:TrimSpacesConverter x:Key="TrimSpacesConverter"/>
@@ -43,13 +54,11 @@
                     </validationRules:ToolbarNameUniqueValidationRule>
                 </controls:EditableMenuItem.ValidationRules>
             </controls:EditableMenuItem>
-
-
-            <controls:Separator>
+            <Separator>
                 <UIElement.Visibility>
                     <Binding Mode="OneWay" Path="IsCustom" Converter="{StaticResource BooleanToVisibilityConverter}"/>
                 </UIElement.Visibility>
-            </controls:Separator>
+            </Separator>
             <controls:CheckedMenuItem Header="Dock location: _Top" Value="{x:Static Dock.Top}">
                 <controls:CheckedMenuItem.Link>
                     <Binding Path="Position" Converter="{StaticResource DockLocationConverter}"/>
@@ -70,8 +79,9 @@
                     <Binding Path="Position" Converter="{StaticResource DockLocationConverter}"/>
                 </controls:CheckedMenuItem.Link>
             </controls:CheckedMenuItem>
-        </controls:ContextMenu>
-    </UserControl.Resources>
+        </ContextMenu>
+        </ResourceDictionary>
+    </FrameworkElement.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

@@ -7,12 +7,12 @@ namespace ModernApplicationFramework.Controls
 {
     public class DropDownDialogButton: DialogButton
     {
-        public static readonly DependencyProperty DropDownMenuProperty = DependencyProperty.Register("DropDownMenu", typeof(ContextMenu), typeof(DropDownDialogButton));
+        public static readonly DependencyProperty DropDownMenuProperty = DependencyProperty.Register("DropDownMenu", typeof(System.Windows.Controls.ContextMenu), typeof(DropDownDialogButton));
         private bool _contentLoaded;
 
-        public ContextMenu DropDownMenu
+        public System.Windows.Controls.ContextMenu DropDownMenu
         {
-            get => (ContextMenu)GetValue(DropDownMenuProperty);
+            get => (System.Windows.Controls.ContextMenu)GetValue(DropDownMenuProperty);
             set => SetValue(DropDownMenuProperty, value);
         }
 

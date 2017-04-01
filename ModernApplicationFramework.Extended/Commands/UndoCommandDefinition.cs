@@ -19,9 +19,6 @@ namespace ModernApplicationFramework.Extended.Commands
         {
             Command = new GestureCommandWrapper(Undo, CanUndo, new KeyGesture(Key.Z, ModifierKeys.Control));
         }
-
-        public override bool CanShowInMenu => true;
-        public override bool CanShowInToolbar => true;
         public override ICommand Command { get; }
 
         public override string IconId => "UndoIcon";

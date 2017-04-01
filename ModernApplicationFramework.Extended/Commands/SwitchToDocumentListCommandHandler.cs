@@ -48,8 +48,6 @@ namespace ModernApplicationFramework.Extended.Commands
                 Command = new CommandWrapper(ShowSelectedItem, CanShowSelectedItem);
             }
 
-            public override bool CanShowInMenu => false;
-            public override bool CanShowInToolbar => false;
             public override ICommand Command { get; }
 
             private bool CanShowSelectedItem()

@@ -12,7 +12,7 @@ using ModernApplicationFramework.Native.NativeMethods;
 namespace ModernApplicationFramework.Controls
 {
     [TemplatePart(Name = "PART_EditableTextBox", Type = typeof(System.Windows.Controls.TextBox))]
-    internal class EditableMenuItem : MenuItem
+    internal class EditableMenuItem : System.Windows.Controls.MenuItem
     {
         private IntPtr _previousHwndFocus;
         public static readonly DependencyProperty EditProperty;

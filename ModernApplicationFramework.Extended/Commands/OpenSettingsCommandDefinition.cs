@@ -19,9 +19,6 @@ namespace ModernApplicationFramework.Extended.Commands
         {
             Command = new CommandWrapper(OpenSettings, CanOpenSettings);
         }
-
-        public override bool CanShowInMenu => true;
-        public override bool CanShowInToolbar => true;
         public override ICommand Command { get; }
 
         public override string IconId => "SettingsIcon";

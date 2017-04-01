@@ -8,16 +8,17 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.CustomizeDialog.ViewModels;
+using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.Menu.MenuItems;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls;
-using ModernApplicationFramework.Controls.Utilities;
 using ModernApplicationFramework.Core.Exception;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ContextMenu = ModernApplicationFramework.Controls.ContextMenu;
-using Separator = ModernApplicationFramework.Controls.Separator;
+using MenuItem = ModernApplicationFramework.Controls.MenuItem;
 using ToolBar = ModernApplicationFramework.Controls.ToolBar;
 using ToolBarTray = ModernApplicationFramework.Controls.ToolBarTray;
 
@@ -26,17 +27,17 @@ namespace ModernApplicationFramework.Basics.ViewModels
     [Export(typeof(IToolBarHostViewModel))]
     public class ToolbarHostViewModel : ViewModelBase, IToolBarHostViewModel
     {
+        private readonly Dictionary<ToolbarDefinition, ToolBar> _toolbars;
         private ToolBarTray _bottomToolBarTay;
         private ToolBarTray _leftToolBarTay;
         private ToolBarTray _rightToolBarTay;
         private ToolBarTray _topToolBarTay;
 
-        private readonly Dictionary<ToolbarDefinition,ToolBar> _toolbars;
+        private readonly MenuItem _editContextMenuItem;
+        private readonly MenuItem _separatorItem;
 
-        public Command<ContextMenuGlyphItem> ClickContextMenuItemCommand
-            => new Command<ContextMenuGlyphItem>(ClickContextMenuItem, CanClickContextMenuItem);
-
-        public ICommand OpenCostumizeDialogCommand => new Command(OpenCostumizeDialog, CanOpenCostumizeDialog);
+        public ObservableCollectionEx<ToolbarItemGroupDefinition> ToolbarItemGroupDefinitions { get; }
+        public ObservableCollectionEx<ToolbarItemDefinition> ToolbarItemDefinitions { get; }
 
         [ImportingConstructor]
         public ToolbarHostViewModel([ImportMany] ToolbarDefinition[] toolbarDefinitions,
@@ -61,12 +62,15 @@ namespace ModernApplicationFramework.Basics.ViewModels
 
             ToolbarDefinitions.CollectionChanged += _toolbarDefinitions_CollectionChanged;
             ToolbarDefinitions.ItemPropertyChanged += _toolbarDefinitions_ItemPropertyChanged;
+
+            var editDefinition = new CommandMenuItemDefinition(new EditMenuCommandDefinition());
+            _editContextMenuItem = new MenuItem(editDefinition);
+            _separatorItem = new MenuItem(CommandBarSeparatorDefinition.MenuSeparatorDefinition);
+
             ContextMenu = new ContextMenu();
         }
 
         public ObservableCollectionEx<ToolbarDefinition> ToolbarDefinitions { get; }
-        public ObservableCollectionEx<ToolbarItemGroupDefinition> ToolbarItemGroupDefinitions { get; }
-        public ObservableCollectionEx<ToolbarItemDefinition> ToolbarItemDefinitions { get; }
 
         public ContextMenu ContextMenu { get; }
 
@@ -155,32 +159,6 @@ namespace ModernApplicationFramework.Basics.ViewModels
             BuildContextMenu();
         }
 
-        private void BuildToolBar(ToolbarDefinition definition, ToolBar toolBar)
-        {
-            var groups = ToolbarItemGroupDefinitions
-                .Where(x => x.ParentToolbar == definition)
-                .OrderBy(x => x.SortOrder)
-                .ToList();
-
-
-            for (int i = 0; i < groups.Count; i++)
-            {
-                var group = groups[i];
-                var toolBarItems = ToolbarItemDefinitions
-                    .Where(x => x.Group == group)
-                    .OrderBy(x => x.SortOrder);
-
-                foreach (var toolBarItem in toolBarItems)
-                {
-                    var button = new CommandDefinitionButton(toolBarItem);
-                    toolBar.Items.Add(button);
-                }
-
-                if (i < groups.Count - 1 && toolBarItems.Any())
-                    toolBar.Items.Add(new CommandDefinitionButton(new CommandBarSeparatorDefinition()));
-            }
-        }
-
         public ToolbarDefinition GeToolbarDefinitionByName(string name)
         {
             foreach (var definition in ToolbarDefinitions)
@@ -206,35 +184,29 @@ namespace ModernApplicationFramework.Basics.ViewModels
             return ToolbarDefinitions.Count != 0;
         }
 
-        protected virtual void OpenCostumizeDialog()
+        private void BuildToolBar(ToolbarDefinition definition, ItemsControl toolBar)
         {
-            var windowManager = new WindowManager();
-            var customizeDialog = new CustomizeDialogViewModel();
-            windowManager.ShowDialog(customizeDialog);
-        }
+            var groups = ToolbarItemGroupDefinitions
+                .Where(x => x.ParentToolbar == definition)
+                .OrderBy(x => x.SortOrder)
+                .ToList();
 
-        protected virtual bool CanOpenCostumizeDialog()
-        {
-            return true;
-        }
 
-        protected virtual bool CanClickContextMenuItem(ContextMenuGlyphItem item)
-        {
-            return true;
-        }
-
-        protected virtual void ClickContextMenuItem(ContextMenuGlyphItem contextMenuItem)
-        {
-            var dataContext = contextMenuItem.DataContext as ToolbarDefinition;
-            if (contextMenuItem.IconGeometry == null)
+            for (var i = 0; i < groups.Count; i++)
             {
-                ContextMenuGlyphItemUtilities.SetCheckMark(contextMenuItem);
-                ChangeToolBarVisibility(dataContext, true);
-            }
-            else
-            {
-                contextMenuItem.IconGeometry = null;
-                ChangeToolBarVisibility(dataContext, false);
+                var group = groups[i];
+                var toolBarItems = ToolbarItemDefinitions
+                    .Where(x => x.Group == group)
+                    .OrderBy(x => x.SortOrder);
+
+                foreach (var toolBarItem in toolBarItems)
+                {
+                    var button = new CommandDefinitionButton(toolBarItem);
+                    toolBar.Items.Add(button);
+                }
+
+                if (i < groups.Count - 1 && toolBarItems.Any())
+                    toolBar.Items.Add(new CommandDefinitionButton(CommandBarSeparatorDefinition.MenuSeparatorDefinition));
             }
         }
 
@@ -255,28 +227,15 @@ namespace ModernApplicationFramework.Basics.ViewModels
         private void BuildContextMenu()
         {
             ContextMenu.Items.Clear();
-
             foreach (var definition in ToolbarDefinitions.OrderBy(x => x.Text))
             {
-                var item = new ContextMenuGlyphItem
-                {
-                    Header = definition.Text,
-                    Command = ClickContextMenuItemCommand,
-                    DataContext = definition
-                };
-                if (definition.IsVisible)
-                    ContextMenuGlyphItemUtilities.SetCheckMark(item);
-                item.CommandParameter = item;
+                var def = new CommandMenuItemDefinition(new ToolBarVisibilityCommandDefinition(definition),
+                    definition.IsVisible, false);
+                var item = new MenuItem(def);
                 ContextMenu.Items.Add(item);
-            }
-
-            var editItem = new ContextMenuItem
-            {
-                Header = "Edit...",
-                Command = OpenCostumizeDialogCommand
-            };
-            ContextMenu.Items.Add(new Separator());
-            ContextMenu.Items.Add(editItem);
+            }         
+            ContextMenu.Items.Add(_separatorItem);
+            ContextMenu.Items.Add(_editContextMenuItem);
         }
 
         private void _toolbarDefinitions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -425,6 +384,53 @@ namespace ModernApplicationFramework.Basics.ViewModels
                     BottomToolBarTray.AddToolBar(_toolbars[definition]);
                     break;
             }
+        }
+
+        private sealed class ToolBarVisibilityCommandDefinition : CommandDefinition
+        {
+            private readonly ToolbarDefinition _definition;
+
+            public override string Name => null;
+            public override string Text { get; }
+            public override string ToolTip => null;
+            public override Uri IconSource => null;
+            public override string IconId => null;
+
+            public override ICommand Command { get; }
+
+            public ToolBarVisibilityCommandDefinition(ToolbarDefinition definition)
+            {
+                _definition = definition;
+                Text = definition.Text;
+                Command = new Command(ClickContextMenuItem, () => true);
+            }
+
+            private void ClickContextMenuItem()
+            {
+                _definition.IsVisible = !_definition.IsVisible;
+            }
+        }
+
+        private sealed class EditMenuCommandDefinition : CommandDefinition
+        {
+            public EditMenuCommandDefinition()
+            {
+                Command = new Command(OpenCustomizeDialog, ()=> true);
+            }
+
+            private void OpenCustomizeDialog()
+            {
+                var windowManager = new WindowManager();
+                var customizeDialog = new CustomizeDialogViewModel();
+                windowManager.ShowDialog(customizeDialog);
+            }
+
+            public override ICommand Command { get; }
+            public override string Name => null;
+            public override string Text => "&Customize...";
+            public override string ToolTip => null;
+            public override Uri IconSource => null;
+            public override string IconId => null;
         }
     }
 }

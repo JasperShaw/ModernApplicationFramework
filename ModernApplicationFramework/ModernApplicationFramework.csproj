@@ -85,6 +85,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\Generic\CustomizeStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\Generic\QuickCustomizeButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -359,7 +363,6 @@
     <Compile Include="Controls\Primitives\ResizeGrip.cs" />
     <Compile Include="Controls\SystemMenu.cs" />
     <Compile Include="Controls\Internals\ToolBarHostControl.cs" />
-    <Compile Include="Controls\Utilities\ContextMenuGlyphItemUtilities.cs" />
     <Compile Include="Controls\WaitDialog.cs" />
     <Compile Include="Controls\Primitives\WindowBase.cs" />
     <Compile Include="Controls\Internals\WindowContentPresenter.cs" />

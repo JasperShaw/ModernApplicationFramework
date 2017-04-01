@@ -7,7 +7,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Toolbars
 {
     public static class ToolBarDefinitions
     {
-        [Export] public static ToolbarDefinition Standard = new ToolbarDefinition("Standard", 0, true, Dock.Top, true);
+        [Export] public static ToolbarDefinition Standard = new ToolbarDefinition("Standard", 0, true, Dock.Top);
 
         [Export] public static ToolbarItemGroupDefinition StandardUndoRedoGroup = new ToolbarItemGroupDefinition(Standard, 0);
 

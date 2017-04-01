@@ -29,8 +29,6 @@ namespace ModernApplicationFramework.Extended.Commands
 
         private bool _isFullScreen;
 
-        public override bool CanShowInMenu => true;
-        public override bool CanShowInToolbar => true;
         public override ICommand Command { get;}
 
         public override string IconId => "FullScreenIcon";

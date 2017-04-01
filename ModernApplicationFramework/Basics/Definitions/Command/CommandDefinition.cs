@@ -6,12 +6,12 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
     {
         public virtual ICommand Command { get; }
 
-        public abstract bool CanShowInMenu { get; }
-        public abstract bool CanShowInToolbar { get; }
         public sealed override bool IsList => false;
 
         public override CommandControlTypes ControlType => CommandControlTypes.Button;
+
         public virtual object CommandParamenter { get; set; }
+
         public virtual bool IsChecked { get; set; }
 
         protected CommandDefinition()

@@ -71,9 +71,6 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
             bitmap.UnlockBits(bitmapData);
             return bitmapSource;
         }
-
-        public override bool CanShowInMenu => false;
-        public override bool CanShowInToolbar => false;
         public override string IconId => null;
         public override Uri IconSource => null;
         public override string Name => "MultiHotKey";

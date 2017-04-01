@@ -19,7 +19,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
         }
 
         public MenuDefinition(uint sortOrder, string text, string displayName, bool isCustom = false) : base(text,
-            sortOrder, new MenuItemCommandDefinition(), isCustom)
+            sortOrder, new MenuItemCommandDefinition(), isCustom, false)
         {
             _displayName = displayName;
         }

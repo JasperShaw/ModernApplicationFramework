@@ -13,9 +13,6 @@ namespace ModernApplicationFramework.Extended.Modules.OutputTool
 #pragma warning disable 649
         [Import] private IDockingMainWindowViewModel _shell;
 #pragma warning restore 649
-
-        public override bool CanShowInMenu => true;
-        public override bool CanShowInToolbar => true;
         public override ICommand Command { get; }
 
         public override string IconId => "OutputIcon";

@@ -152,7 +152,7 @@ namespace ModernApplicationFramework.Basics.ViewModels
                 }
                 if (i >= groups.Count - 1 || !menuItems.Any())
                     continue;
-                var separator = new MenuItem(new CommandBarSeparatorDefinition());
+                var separator = new MenuItem(CommandBarSeparatorDefinition.MenuSeparatorDefinition);
                 menuItem.Items.Add(separator);
             }
         }

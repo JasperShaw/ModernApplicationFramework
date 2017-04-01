@@ -6,7 +6,7 @@ using ModernApplicationFramework.Core.Converters;
 
 namespace ModernApplicationFramework.Controls
 {
-    public class CheckedMenuItem : MenuItem
+    public class CheckedMenuItem : System.Windows.Controls.MenuItem
     {
         public static readonly DependencyProperty ValueProperty;
         public static readonly DependencyProperty LinkProperty;

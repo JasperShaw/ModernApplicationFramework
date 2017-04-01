@@ -19,8 +19,6 @@ namespace ModernApplicationFramework.Extended.Commands
             Command = new GestureCommandWrapper(Close, CanClose, new KeyGesture(Key.F4, ModifierKeys.Alt));
         }
 
-        public override bool CanShowInMenu => true;
-        public override bool CanShowInToolbar => true;
         public override ICommand Command { get; }
 
         public override string IconId => "CloseProgrammIcon";
