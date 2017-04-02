@@ -4,7 +4,8 @@
                     xmlns:avalonDockControls="clr-namespace:ModernApplicationFramework.Docking.Controls"
                     xmlns:avalonDock="clr-namespace:ModernApplicationFramework.Docking"
                     xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
-                    xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes">
+                    xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
+                    xmlns:converters1="clr-namespace:ModernApplicationFramework.Core.Converters">
     
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="LayoutDocumentPaneControl.xaml"/>
@@ -18,6 +19,8 @@
     <converters:NullToDoNothingConverter x:Key="NullToDoNothingConverter"/>
     <converters:LayoutItemFromLayoutModelConverter x:Key="LayoutItemFromLayoutModelConverter"/>
     <converters:ActivateCommandLayoutItemFromLayoutModelConverter x:Key="ActivateCommandLayoutItemFromLayoutModelConverter"/>
+    <converters1:CommandToVisibilityConverter x:Key="CommandToVisibilityConverter"/>
+    <converters1:MultiVisibilityToVisibilityConverter x:Key="MultiVisibilityToVisibilityConverter"/>
 
     <ControlTemplate x:Key="AnchorSideTemplate" TargetType="{x:Type avalonDockControls:LayoutAnchorSideControl}">
         <ItemsControl ItemsSource="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Children}">
@@ -119,11 +122,11 @@
                 Command="{Binding Path=FloatCommand}"/>
         <controls:ContextMenuItem Header="Dock" 
                 Command="{Binding Path=DockCommand}"/>
-        <controls:ContextMenuItem Header="Dock as Document" 
+        <controls:ContextMenuItem Header="Dock as Tabbed Document" 
                 Command="{Binding Path=DockAsDocumentCommand}"/>
-        <controls:ContextMenuItem Header="Hide" 
+        <controls:ContextMenuItem Header="Auto Hide" 
                 Command="{Binding Path=AutoHideCommand}"/>
-        <controls:ContextMenuItem Header="Close" 
+        <controls:ContextMenuItem Header="Hide" 
                 Command="{Binding Path=HideCommand}"
                 Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"/>
     </controls:ContextMenu>
@@ -136,10 +139,22 @@
                 Command="{Binding Path=CloseAllCommand}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"/>
         <controls:ContextMenuItem Header="Close all but this" 
                 Command="{Binding Path=CloseAllButThisCommand}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"/>
+        <controls:Separator/>
         <controls:ContextMenuItem Header="Float" 
                 Command="{Binding Path=FloatCommand}"/>
         <controls:ContextMenuItem Header="Dock as Document" 
-                Command="{Binding Path=DockAsDocumentCommand}"/>
+                                  Command="{Binding Path=DockAsDocumentCommand}"
+                                  Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"/>
+        <controls:Separator>
+            <controls:Separator.Visibility>
+                <MultiBinding Converter="{StaticResource MultiVisibilityToVisibilityConverter}">
+                    <Binding Path="NewHorizontalTabGroupCommand" Converter="{StaticResource CommandToVisibilityConverter}"/>
+                    <Binding Path="NewVerticalTabGroupCommand" Converter="{StaticResource CommandToVisibilityConverter}"/>
+                    <Binding Path="MoveToNextTabGroupCommand" Converter="{StaticResource CommandToVisibilityConverter}"/>
+                    <Binding Path="MoveToPreviousTabGroupCommand" Converter="{StaticResource CommandToVisibilityConverter}"/>
+                </MultiBinding>
+            </controls:Separator.Visibility>
+        </controls:Separator>
         <controls:ContextMenuItem Header="New Horizontal Tab Group"
                 Command="{Binding Path=NewHorizontalTabGroupCommand}"
                 Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"/>

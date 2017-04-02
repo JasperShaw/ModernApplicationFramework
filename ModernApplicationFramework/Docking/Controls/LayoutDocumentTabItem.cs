@@ -108,6 +108,12 @@ namespace ModernApplicationFramework.Docking.Controls
            
         }
 
+        protected override void OnMouseRightButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseRightButtonDown(e);
+            LayoutItem.ActivateCommand.Execute(null);
+        }
+
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
         {
             if (IsMouseCaptured)

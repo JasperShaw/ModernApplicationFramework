@@ -223,10 +223,12 @@
     <Compile Include="Core\Converters\AccessKeyUnderliningConverter.cs" />
     <Compile Include="Core\Converters\CombineVisibilityConverter.cs" />
     <Compile Include="Core\Converters\CommandBarItemCommandConverter.cs" />
+    <Compile Include="Core\Converters\CommandToVisibilityConverter.cs" />
     <Compile Include="Core\Converters\EnabledFilteringMultiConverter.cs" />
     <Compile Include="Core\Converters\FormattedStringConverter.cs" />
     <Compile Include="Core\Converters\IfElseConverter.cs" />
     <Compile Include="Core\Converters\IsCustomMenuConverter.cs" />
+    <Compile Include="Core\Converters\MultiCommandToVisibilityConverter.cs" />
     <Compile Include="Core\Converters\NegateBooleanConverter.cs" />
     <Compile Include="Core\Converters\OrBooleanConverter.cs" />
     <Compile Include="Core\Converters\ToolTipMultiConverter.cs" />
