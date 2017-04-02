@@ -39,7 +39,7 @@ namespace ModernApplicationFramework.Extended.Commands
                     UriKind.RelativeOrAbsolute);
 
         public override string Name => "View.FullScreen";
-        public override string Text => "Fit to Screen";
+        public override string Text => "Full Screen";
         public override string ToolTip => Text;
 
         public override bool IsChecked { get; set; }

@@ -387,7 +387,7 @@
         <Setter Property="SnapsToDevicePixels" Value="true"/>
         <Setter Property="ToolTip">
             <Setter.Value>
-                <Binding Mode="OneWay" Path="ToolTip" Converter="{StaticResource AccessKeyRemovingConverter}"/>
+                <Binding Mode="OneWay" Path="CommandDefinition.ToolTip" Converter="{StaticResource AccessKeyRemovingConverter}"/>
             </Setter.Value>
         </Setter>
         <Setter Property="ToolTipService.ShowOnDisabled" Value="true"/>

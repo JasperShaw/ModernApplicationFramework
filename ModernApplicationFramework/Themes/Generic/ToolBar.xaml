@@ -490,12 +490,12 @@
         <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.ButtonForeground}}"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="ToolTip">
-            <Setter.Value>
-                <MultiBinding Converter="{StaticResource ToolTipMultiConverter}">
-                    <Binding Mode="OneWay" Path="CommandDefinition.ToolTip" Converter="{StaticResource AccessKeyRemovingConverter}"/>
-                    <Binding Mode="OneWay" Path="ShortcutText"/>
-                </MultiBinding>
-            </Setter.Value>
+        <Setter.Value>
+            <MultiBinding Converter="{StaticResource ToolTipMultiConverter}">
+                <Binding Mode="OneWay" Path="CommandDefinition.ToolTip" Converter="{StaticResource AccessKeyRemovingConverter}"/>
+                    <Binding Mode="OneWay" Path="CommandDefinition.ToolTip"/>
+            </MultiBinding>
+        </Setter.Value>
         </Setter>
         <Setter Property="ToolTipService.ShowOnDisabled" Value="true"/>
         <Setter Property="ToggleButton.IsChecked">
