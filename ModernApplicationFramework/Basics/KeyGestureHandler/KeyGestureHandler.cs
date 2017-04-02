@@ -34,11 +34,12 @@ namespace ModernApplicationFramework.Basics.KeyGestureHandler
         {
             _currentElement = uiElement;
             foreach (var gc in from definition in _keyboardShortcuts
-                               where definition.Command is GestureCommandWrapper
-                               select definition.Command as GestureCommandWrapper)
-                uiElement.InputBindings.Add(new InputBinding(gc, GetPrimaryKeyGesture(gc)));
+                               where definition.Command is MultiKeyGestureCommandWrapper
+                               select definition.Command as MultiKeyGestureCommandWrapper)
+                if (gc.KeyGesture != null)
+                    uiElement.InputBindings.Add(new InputBinding(gc, GetPrimaryKeyGesture(gc)));
         }
 
-        public KeyGesture GetPrimaryKeyGesture(GestureCommandWrapper command) => command.KeyGesture;
+        public KeyGesture GetPrimaryKeyGesture(MultiKeyGestureCommandWrapper command) => command.KeyGesture;
     }
 }

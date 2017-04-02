@@ -395,6 +395,7 @@ namespace ModernApplicationFramework.Basics.ViewModels
             public override string ToolTip => null;
             public override Uri IconSource => null;
             public override string IconId => null;
+            public override string ShortcutText => null;
 
             public override ICommand Command { get; }
 
@@ -431,6 +432,7 @@ namespace ModernApplicationFramework.Basics.ViewModels
             public override string ToolTip => null;
             public override Uri IconSource => null;
             public override string IconId => null;
+            public override string ShortcutText => null;
         }
     }
 }

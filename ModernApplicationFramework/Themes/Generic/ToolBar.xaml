@@ -484,7 +484,7 @@
         </Setter>
         <Setter Property="AutomationProperties.AcceleratorKey">
             <Setter.Value>
-                <Binding Path="ShortcutText" Mode="OneWay"/>
+                <Binding Path="CommandDefinition.ShortcutText" Mode="OneWay"/>
             </Setter.Value>
         </Setter>
         <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.ButtonForeground}}"/>
@@ -493,7 +493,7 @@
         <Setter.Value>
             <MultiBinding Converter="{StaticResource ToolTipMultiConverter}">
                 <Binding Mode="OneWay" Path="CommandDefinition.ToolTip" Converter="{StaticResource AccessKeyRemovingConverter}"/>
-                    <Binding Mode="OneWay" Path="CommandDefinition.ToolTip"/>
+                    <Binding Mode="OneWay" Path="CommandDefinition.ShortcutText"/>
             </MultiBinding>
         </Setter.Value>
         </Setter>

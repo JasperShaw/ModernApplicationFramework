@@ -30,8 +30,10 @@ namespace ModernApplicationFramework.Extended.Modules.OutputTool
 
         public OpenOutputToolCommandDefinition()
         {
-            Command = new GestureCommandWrapper(Open, CanOpen,
-                new KeyGesture(Key.O, ModifierKeys.Control | ModifierKeys.Alt));
+            var command = new MultiKeyGestureCommandWrapper(Open, CanOpen,
+                new MultiKeyGesture(new[] { Key.O }, ModifierKeys.Control | ModifierKeys.Alt));
+            Command = command;
+            ShortcutText = command.GestureText;
         }
 
         private bool CanOpen()

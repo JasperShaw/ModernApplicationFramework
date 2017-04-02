@@ -578,7 +578,7 @@
         </Setter>
         <Setter Property="AutomationProperties.AcceleratorKey">
             <Setter.Value>
-                <Binding Path="ShortcutText" Mode="OneWay"/>
+                <Binding Path="CommandDefinition.ShortcutText" Mode="OneWay"/>
             </Setter.Value>
         </Setter>
         <Setter Property="TextElement.Foreground"
@@ -590,7 +590,7 @@
         </Setter>
         <Setter Property="InputGestureText">
             <Setter.Value>
-                <Binding Path="ShortcutText" Mode="OneWay"/>
+                <Binding Path="CommandDefinition.ShortcutText" Mode="OneWay"/>
             </Setter.Value>
         </Setter>
         <Setter Property="IsChecked" Value="{Binding IsChecked}"/>

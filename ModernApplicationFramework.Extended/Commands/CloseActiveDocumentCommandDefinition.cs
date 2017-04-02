@@ -22,7 +22,7 @@ namespace ModernApplicationFramework.Extended.Commands
 
         public CloseActiveDocumentCommandDefinition()
         {
-            Command = new CommandWrapper(CloseFile, CanCloseFile);
+            Command = new MultiKeyGestureCommandWrapper(CloseFile, CanCloseFile);
         }
 
         private bool CanCloseFile()

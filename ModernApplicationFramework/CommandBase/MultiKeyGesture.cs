@@ -46,6 +46,10 @@ namespace ModernApplicationFramework.CommandBase
 
         public override bool Matches(object targetElement, InputEventArgs inputEventArgs)
         {
+
+            if (_keys == null || _keys.Count <= 0)
+                return base.Matches(targetElement, inputEventArgs);
+
             var args = inputEventArgs as KeyEventArgs;
 
             if ((args == null) || !IsDefinedKey(args.Key))

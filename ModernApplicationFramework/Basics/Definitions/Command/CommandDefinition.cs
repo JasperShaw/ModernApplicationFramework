@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 
 namespace ModernApplicationFramework.Basics.Definitions.Command
 {
@@ -16,6 +17,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
 
         protected CommandDefinition()
         {
+            
         }
 
         protected CommandDefinition(ICommand command)

@@ -17,7 +17,9 @@ namespace ModernApplicationFramework.Extended.Commands
 
         public UndoCommandDefinition()
         {
-            Command = new GestureCommandWrapper(Undo, CanUndo, new KeyGesture(Key.Z, ModifierKeys.Control));
+            var command = new MultiKeyGestureCommandWrapper(Undo, CanUndo, new MultiKeyGesture(new[] {Key.Z}, ModifierKeys.Control));
+            Command = command;
+            ShortcutText = command.GestureText;
         }
         public override ICommand Command { get; }
 

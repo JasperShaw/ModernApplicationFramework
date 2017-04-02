@@ -26,15 +26,15 @@ namespace ModernApplicationFramework.CommandBase
 
         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         {
-            var keyStrokes = (value as string).Split(',');
-            var firstKeyStroke = keyStrokes[0];
-            var firstKeyStrokeParts = firstKeyStroke.Split('+');
+            var keyStrokes = (value as string)?.Split(',');
+            var firstKeyStroke = keyStrokes?[0];
+            var firstKeyStrokeParts = firstKeyStroke?.Split('+');
 
             var modifierKeys = (ModifierKeys)_modifierKeysConverter.ConvertFrom(firstKeyStrokeParts[0]);
             var keys = new List<Key> {(Key) _keyConverter.ConvertFrom(firstKeyStrokeParts[1])};
 
 
-            for (var i = 1; i < keyStrokes.Length; ++i)
+            for (var i = 1; i < keyStrokes?.Length; ++i)
                 keys.Add((Key)_keyConverter.ConvertFrom(keyStrokes[i]));
 
             return new MultiKeyGesture(keys, modifierKeys);
@@ -48,11 +48,21 @@ namespace ModernApplicationFramework.CommandBase
             var gesture = value as MultiKeyGesture;
             if (gesture == null)
                 throw new InvalidCastException();
+
             var k =
                 (string)
                     new ModifierKeysConverter().ConvertTo(null, CultureInfo.CurrentUICulture, gesture.Modifiers,
                         typeof(string));
-            k += "+";
+
+            if (!string.IsNullOrEmpty(k))
+                k += "+";
+
+            if (gesture.Keys == null || gesture.Keys.Count <= 0)
+            {
+                k += gesture.Key.ToString();
+                return k;
+            }
+
             k = gesture.Keys.Aggregate(k, (current, key) => current + $"{key}, ");
             k = k.Remove(k.Length - 2, 2);
             return k;

@@ -45,7 +45,7 @@ namespace ModernApplicationFramework.Extended.Commands
             public ShowSelectedDocumentCommandDefinition(string name)
             {
                 Text = name;
-                Command = new CommandWrapper(ShowSelectedItem, CanShowSelectedItem);
+                Command = new MultiKeyGestureCommandWrapper(ShowSelectedItem, CanShowSelectedItem);
             }
 
             public override ICommand Command { get; }

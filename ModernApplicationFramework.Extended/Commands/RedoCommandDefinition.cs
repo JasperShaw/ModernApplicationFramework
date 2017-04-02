@@ -17,7 +17,9 @@ namespace ModernApplicationFramework.Extended.Commands
 
         public RedoCommandDefinition()
         {
-            Command = new GestureCommandWrapper(Redo, CanRedo, new KeyGesture(Key.Y, ModifierKeys.Control));
+            var command = new MultiKeyGestureCommandWrapper(Redo, CanRedo, new MultiKeyGesture(new[] { Key.Y }, ModifierKeys.Control));
+            Command = command;
+            ShortcutText = command.GestureText;
         }
         public override ICommand Command { get; }
 

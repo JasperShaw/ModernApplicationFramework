@@ -23,7 +23,9 @@ namespace ModernApplicationFramework.Extended.Commands
 
         public FullScreenCommandDefinition()
         {
-            Command = new GestureCommandWrapper(TriggerFullScreen, CanTriggerFullScreen, new KeyGesture(Key.Enter, ModifierKeys.Shift | ModifierKeys.Alt));
+            var command  = new MultiKeyGestureCommandWrapper(TriggerFullScreen, CanTriggerFullScreen, new MultiKeyGesture(Key.Enter, ModifierKeys.Shift | ModifierKeys.Alt));
+            Command = command;
+            ShortcutText = command.GestureText;
             _itemDefinition = new CommandTopLevelMenuItemDefinition(Text, null, int.MaxValue, this) {IsChecked = true};
         }
 

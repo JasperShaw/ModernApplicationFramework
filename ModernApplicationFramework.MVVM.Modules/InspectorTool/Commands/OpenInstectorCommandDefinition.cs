@@ -30,7 +30,9 @@ namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Commands
 
         public OpenInstectorCommandDefinition()
         {
-            Command = new GestureCommandWrapper(Open, CanOpen, new KeyGesture(Key.F4));
+            var command = new MultiKeyGestureCommandWrapper(Open, CanOpen, new MultiKeyGesture(Key.F4));
+            Command = command;
+            ShortcutText = command.GestureText;
         }
 
         private bool CanOpen()

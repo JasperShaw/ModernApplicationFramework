@@ -7,20 +7,20 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
-using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
 using Brushes = System.Windows.Media.Brushes;
-using Color = System.Drawing.Color;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
 {
     [Export(typeof(DefinitionBase))]
-    public class TestCommandDefinition : CommandDefinition
+    public sealed class TestCommandDefinition : CommandDefinition
     {
         public TestCommandDefinition()
         {
-            Command = new MultiKeyGestureCommandWrapper(Test, CanTest, new MultiKeyGesture(new[] { Key.K, Key.D }, ModifierKeys.Control));
+            var command = new MultiKeyGestureCommandWrapper(Test, CanTest, new MultiKeyGesture(new[] {Key.W, Key.K}, ModifierKeys.Control));
+            Command = command;
+            ShortcutText = command.GestureText;
         }
 
         private bool CanTest()

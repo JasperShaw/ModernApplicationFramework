@@ -17,7 +17,7 @@ namespace ModernApplicationFramework.Extended.Commands
 
         public OpenSettingsCommandDefinition()
         {
-            Command = new CommandWrapper(OpenSettings, CanOpenSettings);
+            Command = new MultiKeyGestureCommandWrapper(OpenSettings, CanOpenSettings);
         }
         public override ICommand Command { get; }
 

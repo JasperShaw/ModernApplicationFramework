@@ -16,7 +16,9 @@ namespace ModernApplicationFramework.Extended.Commands
 
         public CloseProgammCommandDefinition()
         {
-            Command = new GestureCommandWrapper(Close, CanClose, new KeyGesture(Key.F4, ModifierKeys.Alt));
+            var command = new MultiKeyGestureCommandWrapper(Close, CanClose, new MultiKeyGesture(new[] { Key.F4 }, ModifierKeys.Alt));
+            Command = command;
+            ShortcutText = command.GestureText;
         }
 
         public override ICommand Command { get; }

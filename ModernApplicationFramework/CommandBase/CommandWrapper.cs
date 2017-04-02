@@ -5,9 +5,9 @@ namespace ModernApplicationFramework.CommandBase
 {
     /*This class is doing some magic since the CanExecuteChanged in the base Command was not fired correctly*/
 
-    public class CommandWrapper : ICommand
+    public abstract class CommandWrapper : ICommand
     {
-        public CommandWrapper(Action executeAction, Func<bool> cantExectueFunc)
+        protected CommandWrapper(Action executeAction, Func<bool> cantExectueFunc)
         {
             if (executeAction == null)
                 throw new ArgumentNullException(nameof(executeAction));
@@ -16,7 +16,7 @@ namespace ModernApplicationFramework.CommandBase
             WrappedCommand = new Command(executeAction, cantExectueFunc);
         }
 
-        public CommandWrapper(ICommand wrappedCommand)
+        protected CommandWrapper(ICommand wrappedCommand)
         {
             WrappedCommand = wrappedCommand ?? throw new ArgumentNullException(nameof(wrappedCommand));
         }

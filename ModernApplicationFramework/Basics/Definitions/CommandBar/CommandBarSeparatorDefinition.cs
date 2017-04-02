@@ -19,6 +19,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             public override Uri IconSource => null;
             public override string IconId => null;
             public override bool IsList => false;
+            public sealed override string ShortcutText { get; set; }
             public override CommandControlTypes ControlType => CommandControlTypes.Separator;
         }
     }
