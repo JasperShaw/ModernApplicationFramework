@@ -166,7 +166,10 @@ namespace ModernApplicationFramework.Controls
         private void ChangeToFullScreen()
         {
             if (WindowState == WindowState.Normal || WindowState == WindowState.Maximized)
+            {
                 _lastState = WindowState;
+                WindowState = WindowState.Normal;
+            }
             _oldLeft = Left;
             _oldTop = Top;
             _oldWidth = Width;
