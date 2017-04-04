@@ -18,6 +18,9 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
 
         ObservableCollectionEx<ToolbarDefinition> ToolbarDefinitions { get; }
 
+        ObservableCollectionEx<ToolbarItemGroupDefinition> ToolbarItemGroupDefinitions { get; }
+        ObservableCollectionEx<ToolbarItemDefinition> ToolbarItemDefinitions { get; }
+
         void SetupToolbars();
 
         ToolBarTray TopToolBarTray { get; set; }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using ModernApplicationFramework.Basics.ViewModels;
+using ModernApplicationFramework.Core;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Interfaces;
 

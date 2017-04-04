@@ -5,7 +5,7 @@ using System.Linq;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Interfaces.Command;
 
-namespace ModernApplicationFramework.Basics.Services
+namespace ModernApplicationFramework.Basics
 {
     [Export(typeof(ICommandService))]
     public class CommandService : ICommandService
@@ -23,8 +23,7 @@ namespace ModernApplicationFramework.Basics.Services
 
         public DefinitionBase GetCommandDefinition(Type commandDefinitionType)
         {
-            DefinitionBase commandDefinition;
-            if (!_commandDefinitionsLookup.TryGetValue(commandDefinitionType, out commandDefinition))
+            if (!_commandDefinitionsLookup.TryGetValue(commandDefinitionType, out DefinitionBase commandDefinition))
                 commandDefinition = _commandDefinitionsLookup[commandDefinitionType] =
                     _commandDefinitions.First(x => x.GetType() == commandDefinitionType);
             return commandDefinition;

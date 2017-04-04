@@ -6,7 +6,7 @@ using ToolBar = ModernApplicationFramework.Controls.ToolBar;
 
 namespace ModernApplicationFrameworkMVVMTestApp
 {
-    public sealed class MainWindowViewModel : ModernApplicationFramework.Basics.ViewModels.MainWindowViewModel
+    public sealed class MainWindowViewModel : ModernApplicationFramework.Basics.MainWindowViewModel
     {
         protected override void OnTest()
         {

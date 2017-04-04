@@ -3,7 +3,8 @@
                     xmlns:this="clr-namespace:ModernApplicationFramework.Controls"
                     xmlns:themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
                     xmlns:colors="clr-namespace:ModernApplicationFramework.Core.Themes"
-                    xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters">
+                    xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
+                    xmlns:utilities="clr-namespace:ModernApplicationFramework.Controls.Utilities">
 
     <converters:BrushToColorConverter x:Key="BrushToColorConverter"/>
 
@@ -65,6 +66,7 @@
         <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.ContextMenuForeground}}"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="PopupAnimation" Value="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}"/>
+        <Setter Property="utilities:MenuBehavior.UpdateCommandUiItems" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type this:ContextMenu}">

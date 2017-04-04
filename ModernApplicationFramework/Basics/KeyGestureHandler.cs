@@ -6,7 +6,7 @@ using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Interfaces.Utilities;
 
-namespace ModernApplicationFramework.Basics.KeyGestureHandler
+namespace ModernApplicationFramework.Basics
 {
     [Export(typeof(IKeyGestureHandler))]
     public class KeyGestureHandler : IKeyGestureHandler

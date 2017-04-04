@@ -5,9 +5,10 @@ using System.Windows.Media.Imaging;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Controls.Primitives;
+using ModernApplicationFramework.Core;
 using ModernApplicationFramework.Interfaces.ViewModels;
 
-namespace ModernApplicationFramework.Basics.ViewModels
+namespace ModernApplicationFramework.Basics
 {
     /// <summary>
     ///     This contains the Logic for the MainWindow

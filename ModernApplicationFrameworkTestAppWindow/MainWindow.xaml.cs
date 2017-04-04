@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using ModernApplicationFramework.Basics.ViewModels;
+using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Themes.LightIDE;
 using ToolBar = ModernApplicationFramework.Controls.ToolBar;
 

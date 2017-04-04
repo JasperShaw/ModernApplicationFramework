@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using ModernApplicationFramework.Basics.ViewModels;
+using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking;
 using ModernApplicationFramework.Docking.Layout;

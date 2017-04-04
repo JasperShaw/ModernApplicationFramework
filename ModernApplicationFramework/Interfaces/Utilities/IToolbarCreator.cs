@@ -1,13 +1,15 @@
-﻿using ModernApplicationFramework.Interfaces.ViewModels;
+﻿using ModernApplicationFramework.Basics.Definitions.Toolbar;
+using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Interfaces.Utilities
 {
-    public interface IToolbarTrayCreator
+    public interface IToolbarCreator
     {
         /// <summary>
         ///     Populate a toolbartray with a ToolbarDefinitionsPopulator
         /// </summary>
         /// <param name="model"></param>
-        void CreateToolbarTray(IToolBarHostViewModel model);
+        ToolBar CreateToolbar(IToolBarHostViewModel model, ToolbarDefinition definition);
     }
 }

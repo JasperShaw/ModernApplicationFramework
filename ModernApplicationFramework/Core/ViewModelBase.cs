@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace ModernApplicationFramework.Basics.ViewModels
+namespace ModernApplicationFramework.Core
 {
     //Based on this: http://danrigby.com/2012/04/01/inotifypropertychanged-the-net-4-5-way-revisited/
     public abstract class ViewModelBase : INotifyPropertyChanged

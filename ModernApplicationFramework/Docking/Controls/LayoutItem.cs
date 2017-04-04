@@ -694,7 +694,8 @@ namespace ModernApplicationFramework.Docking.Controls
                 .OfType<LayoutContent>()
                 .Any(
                     d =>
-                        !Equals(d, LayoutElement) &&
+                        // I know this does not make much sense but VS behaves like this...
+                        //!Equals(d, LayoutElement) &&
                         (d.Parent is LayoutDocumentPane || d.Parent is LayoutDocumentFloatingWindow));
         }
 

@@ -123,9 +123,9 @@ namespace ModernApplicationFramework.Core.Utilities
 
         public static void SetThemedIcon(this IThemableIconContainer element)
         {
-            if (element.IconSource == null)
-                return;
             var vb = element.IconSource as Viewbox;
+            if (vb == null)
+                return;
             var i = ImageUtilities.IconImageFromFrameworkElement(vb);
             RenderOptions.SetBitmapScalingMode(i, BitmapScalingMode.Linear);
 

@@ -66,6 +66,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Resources\Icons\CloseDocumentGroup.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\Icons\StatusError.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </Page>
@@ -170,6 +174,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Basics\Bootstrapper.cs" />
+    <Compile Include="Basics\ContextMenuHost.cs" />
+    <Compile Include="Basics\Creators\ContextMenuCreator.cs" />
     <Compile Include="Basics\CustomizeDialog\ViewModels\CommandsPageViewModel.cs" />
     <Compile Include="Basics\CustomizeDialog\Views\CommandsPageView.xaml.cs">
       <DependentUpon>CommandsPageView.xaml</DependentUpon>
@@ -181,6 +187,8 @@
     <Compile Include="Basics\Definitions\CommandBar\FlagStorage.cs" />
     <Compile Include="Basics\Definitions\Command\CommandControlTypes.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarSeparatorDefinition.cs" />
+    <Compile Include="Basics\Definitions\ContextMenu\ContextMenuCategory.cs" />
+    <Compile Include="Basics\Definitions\ContextMenu\ContextMenuDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\CustomMenuDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuBarDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuDefinition.cs" />
@@ -201,6 +209,10 @@
       <DependentUpon>SettingsWindowView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Basics\SettingsManager.cs" />
+    <Compile Include="Basics\ToolbarHostViewModel\ContextMenuDefinition.cs" />
+    <Compile Include="Basics\ToolbarHostViewModel\CustomizeMenuCommandDefinition.cs" />
+    <Compile Include="Basics\ToolbarHostViewModel\ListToolBarsCommandListDefinition.cs" />
+    <Compile Include="Basics\ToolbarHostViewModel\ShowToolBarListCommandHandler.cs" />
     <Compile Include="CommandBase\CommandHandlerWrapper.cs" />
     <Compile Include="Basics\Definitions\Command\CommandListDefintion.cs" />
     <Compile Include="CommandBase\CommandWrapper.cs" />
@@ -209,7 +221,7 @@
     <Compile Include="CommandBase\MultiKeyGesture.cs" />
     <Compile Include="CommandBase\MultiKeyGestureCommandWrapper.cs" />
     <Compile Include="CommandBase\MultiKeyGestureConverter.cs" />
-    <Compile Include="Basics\Services\CommandService.cs" />
+    <Compile Include="Basics\CommandService.cs" />
     <Compile Include="Controls\CommandDefinitionButton.cs" />
     <Compile Include="Controls\CustomizeControlsListBox.cs" />
     <Compile Include="Controls\CustomizeControlsListBoxItem.cs" />
@@ -290,6 +302,7 @@
     <Compile Include="Core\Events\ItemDoubleClickedEventArgs.cs" />
     <Compile Include="Interfaces\Controls\IDummyListMenuItem.cs" />
     <Compile Include="Interfaces\Controls\IThemableIconContainer.cs" />
+    <Compile Include="Interfaces\IContextMenuHost.cs" />
     <Compile Include="Interfaces\ISettingsPage.cs" />
     <Compile Include="Native\Platform\Enums\Cdcontrolstate.cs" />
     <Compile Include="Native\Platform\Enums\CombineMode.cs" />
@@ -580,21 +593,20 @@
       <DependentUpon>ToolBarsPageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Basics\CustomizeDialog\ViewModels\ToolBarsPageViewModel.cs" />
-    <Compile Include="Basics\ViewModels\MenuHostViewModel.cs" />
-    <Compile Include="Basics\ViewModels\ToolbarHostViewModel.cs" />
+    <Compile Include="Basics\MenuHostViewModel.cs" />
+    <Compile Include="Basics\ToolbarHostViewModel\ToolbarHostViewModel.cs" />
     <Compile Include="Basics\FileDefinitionManager.cs" />
     <Compile Include="Basics\FileType.cs" />
-    <Compile Include="Basics\KeyGestureHandler\KeyGestureHandler.cs" />
-    <Compile Include="Basics\Services\ToolbarService.cs" />
+    <Compile Include="Basics\KeyGestureHandler.cs" />
     <Compile Include="Interfaces\IToolbarService.cs" />
-    <Compile Include="Basics\Creators\ToolbarTrayCreator.cs" />
+    <Compile Include="Basics\Creators\ToolbarCreator.cs" />
     <Compile Include="Basics\Creators\MenuCreator.cs" />
     <Compile Include="Basics\UndoRedoManager\InstancePropertyHandler.cs" />
     <Compile Include="Interfaces\IUndoRedoManager.cs" />
     <Compile Include="Basics\UndoRedoManager\UndoRedoAction.cs" />
     <Compile Include="Basics\UndoRedoManager\UndoRedoManager.cs" />
-    <Compile Include="Basics\ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="Basics\ViewModels\ViewModelBase.cs" />
+    <Compile Include="Basics\MainWindowViewModel.cs" />
+    <Compile Include="Core\ViewModelBase.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controls\Primitives\ScrollBar.cs" />
@@ -865,6 +877,7 @@
       <LastGenOutput>CommonUI.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

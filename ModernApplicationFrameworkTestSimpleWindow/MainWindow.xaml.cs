@@ -1,4 +1,4 @@
-﻿using ModernApplicationFramework.Basics.ViewModels;
+﻿using ModernApplicationFramework.Basics;
 
 namespace ModernApplicationFrameworkTestSimpleWindow
 {
