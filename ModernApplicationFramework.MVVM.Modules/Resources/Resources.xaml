@@ -7,7 +7,6 @@
 
     <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
 
-
     <controls:InspectorItemTemplateSelector x:Key="InspectorItemTemplateSelector">
         <controls:InspectorItemTemplateSelector.LabelledTemplate>
             <DataTemplate>

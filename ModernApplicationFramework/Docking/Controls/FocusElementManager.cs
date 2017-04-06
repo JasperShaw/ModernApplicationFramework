@@ -19,9 +19,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Native.NativeMethods;
 
@@ -97,6 +99,16 @@ namespace ModernApplicationFramework.Docking.Controls
             {
                 focused = objectToFocus == Keyboard.Focus(objectToFocus);
             }
+            else
+            {
+                //Nasty Hack that focuses the first ContentControl if it does not select one element itself. This happes for some strange reasons.
+                var layout = model as LayoutContent;
+                if (layout == null || Managers == null || Managers.Count <= 0)
+                    return;
+                var view = Managers.FirstOrDefault()?.GetLayoutItemFromModel(layout).View;
+                var e = view.FindVisualChildren<ContentControl>();
+                Keyboard.Focus(e.FirstOrDefault());
+            }
 
             IntPtr handleToFocus;
             if (ModelFocusedWindowHandle.GetValue(model, out handleToFocus))
@@ -107,9 +119,11 @@ namespace ModernApplicationFramework.Docking.Controls
 
             if (focused)
             {
-                new WeakReference(model);
+                _lastFocusedElement = new WeakReference(model);
             }
         }
+
+        static WeakReference _lastFocusedElement;
 
         internal static void SetupFocusManagement(DockingManager manager)
         {

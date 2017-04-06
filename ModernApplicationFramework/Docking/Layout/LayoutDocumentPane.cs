@@ -75,6 +75,18 @@ namespace ModernApplicationFramework.Docking.Layout
             }
         }
 
+        internal void SetNextSelectedIndex()
+        {
+            SelectedContentIndex = -1;
+            for (int i = 0; i < Children.Count; ++i)
+            {
+                if (!Children[i].IsEnabled)
+                    continue;
+                SelectedContentIndex = i;
+                return;
+            }
+        }
+
         string ILayoutPaneSerializable.Id
         {
             get => _id;

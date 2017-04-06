@@ -3,16 +3,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:viewModels="clr-namespace:ModernApplicationFramework.Extended.Modules.InspectorTool.ViewModels"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance viewModels:InspectorViewModel}"
+             xmlns:mafc="http://modern.framework.com/controls"
+             xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
+             mc:Ignorable="d" Focusable="True" FocusManager.FocusedElement="{Binding ElementName=Border}"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <ResourceDictionary Source="../../Resources/Resources.xaml" />
     </UserControl.Resources>
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <mafc:ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid SnapsToDevicePixels="True" UseLayoutRounding="True">
-            <ItemsControl ItemsSource="{Binding SelectedObject.Inspectors}"
+            <Border x:Name="Border" Background="{DynamicResource {x:Static themes:EnvironmentColors.GlobalBackgroundColor}}">
+                <ItemsControl ItemsSource="{Binding SelectedObject.Inspectors}"
                           ItemTemplateSelector="{StaticResource InspectorItemTemplateSelector}" />
+            </Border>
         </Grid>
-    </ScrollViewer>
+    </mafc:ScrollViewer>
 </UserControl>

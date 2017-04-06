@@ -28,7 +28,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <Border Grid.ColumnSpan="2" Background="Transparent"/>
-                                <DockPanel>
+                                <DockPanel Grid.Column="0">
                                     <controls:Button x:Name="DocumentCloseButton" DockPanel.Dock="Right" Margin="5,0,0,0" Visibility="Hidden" BorderThickness="1"
                                                  Command="{Binding Path=LayoutItem.CloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                  ToolTip="Close" Height="15" Width="15"

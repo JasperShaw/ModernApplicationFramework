@@ -14,6 +14,7 @@
 
   **********************************************************************/
 
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using ModernApplicationFramework.Docking.Layout;
@@ -51,7 +52,31 @@ namespace ModernApplicationFramework.Docking.Controls
 
         protected virtual void OnModelChanged(DependencyPropertyChangedEventArgs e)
         {
-            SetLayoutItem(Model?.Root.Manager.GetLayoutItemFromModel(Model));
+            if (e.OldValue != null)
+            {
+                ((LayoutContent)e.OldValue).PropertyChanged -= Model_PropertyChanged;
+            }
+
+            if (Model != null)
+            {
+                Model.PropertyChanged += Model_PropertyChanged;
+                SetLayoutItem(Model.Root.Manager.GetLayoutItemFromModel(Model));
+            }
+            else
+                SetLayoutItem(null);
+        }
+
+        private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName != "IsEnabled")
+                return;
+            if (Model == null)
+                return;
+            IsEnabled = Model.IsEnabled;
+            if (!IsEnabled && Model.IsActive)
+            {
+                (Model.Parent as LayoutDocumentPane)?.SetNextSelectedIndex();
+            }
         }
 
         protected override void OnPreviewGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)

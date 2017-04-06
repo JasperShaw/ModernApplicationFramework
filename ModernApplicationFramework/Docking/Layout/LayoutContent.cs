@@ -757,5 +757,22 @@ namespace ModernApplicationFramework.Docking.Layout
         {
             ((LayoutContent) obj).RaisePropertyChanged(TitleProperty.Name);
         }
+
+        private bool _isEnabled = true;
+        public bool IsEnabled
+        {
+            get
+            {
+                return _isEnabled;
+            }
+            set
+            {
+                if (_isEnabled != value)
+                {
+                    _isEnabled = value;
+                    RaisePropertyChanged("IsEnabled");
+                }
+            }
+        }
     }
 }

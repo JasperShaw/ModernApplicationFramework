@@ -84,6 +84,10 @@ namespace ModernApplicationFramework.Docking.Controls
             base.OnMouseLeftButtonDown(e);
             if (e.Handled)
                 return;
+
+            Model.IsActive = true;
+            Model.IsSelected = true;
+
             bool attachFloatingWindow = false;
             var parentFloatingWindow = Model.FindParent<LayoutAnchorableFloatingWindow>();
             if (parentFloatingWindow != null)
@@ -112,12 +116,10 @@ namespace ModernApplicationFramework.Docking.Controls
             {
                 _isMouseDown = true; //normal drag
 
-                if (e.ClickCount == 2)
-                {
-                    if (NativeMethods.IsKeyPressed(17))
-                        Model.Float();
-                }
-
+                if (e.ClickCount != 2)
+                    return;
+                if (NativeMethods.IsKeyPressed(17))
+                    Model.Float();
             }
         }
 
@@ -133,9 +135,7 @@ namespace ModernApplicationFramework.Docking.Controls
         protected override void OnMouseMove(MouseEventArgs e)
         {
             if (e.LeftButton != MouseButtonState.Pressed)
-            {
                 _isMouseDown = false;
-            }
 
             base.OnMouseMove(e);
         }

@@ -6,7 +6,7 @@ using ModernApplicationFramework.Extended.Core.Pane;
 namespace ModernApplicationFramework.Extended.Modules.InspectorTool.ViewModels
 {
     [Export(typeof(IInspectorTool))]
-    public class InspectorViewModel : Tool, IInspectorTool
+    public sealed class InspectorViewModel : Tool, IInspectorTool
     {
         private IInspectableObject _selectedObject;
         public event EventHandler SelectedObjectChanged;

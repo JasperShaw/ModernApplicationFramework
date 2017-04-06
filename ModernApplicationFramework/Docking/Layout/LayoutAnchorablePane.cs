@@ -169,6 +169,20 @@ namespace ModernApplicationFramework.Docking.Layout
             RaisePropertyChanged("IsDirectlyHostedInFloatingWindow");
         }
 
+        internal void SetNextSelectedIndex()
+        {
+            SelectedContentIndex = -1;
+            for (int i = 0; i < Children.Count; ++i)
+            {
+                if (Children[i].IsEnabled)
+                {
+                    SelectedContentIndex = i;
+                    return;
+                }
+            }
+        }
+
+
         private void AutoFixSelectedContent()
         {
             if (!_autoFixSelectedContent)

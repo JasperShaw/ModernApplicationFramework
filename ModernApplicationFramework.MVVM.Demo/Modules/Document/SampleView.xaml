@@ -38,7 +38,7 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <mafc:TextBox mafc:FocusBehavior.FocusFirst="true"></mafc:TextBox>
+            <mafc:TextBox mafc:FocusBehavior.FocusFirst="true"/>
         </StackPanel>
     </Border>
 </UserControl>

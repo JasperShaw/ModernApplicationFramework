@@ -269,7 +269,7 @@ namespace ModernApplicationFramework.Docking
 
         private OverlayWindow _overlayWindow;
 
-        private DispatcherOperation _setFocusAsyncOperation;
+        //private DispatcherOperation _setFocusAsyncOperation;
 
         private bool _suspendLayoutItemCreation;
 
@@ -1062,7 +1062,7 @@ namespace ModernApplicationFramework.Docking
                 return;
             if (model.IsAutoHidden)
                 model.ToggleAutoHide();
-
+            RemoveViewFromLogicalChild(anchorable);
             model.Close();
         }
 
@@ -1080,12 +1080,25 @@ namespace ModernApplicationFramework.Docking
                 return;
 
             document.Close();
+            RemoveViewFromLogicalChild(document);
 
             if (DocumentClosed != null)
             {
                 var evargs = new DocumentClosedEventArgs(document);
                 DocumentClosed(this, evargs);
             }
+        }
+
+        private void RemoveViewFromLogicalChild(LayoutContent layoutContent)
+        {
+            if (layoutContent == null)
+                return;
+
+            var layoutItem = GetLayoutItemFromModel(layoutContent);
+            if (layoutItem?.Parent == null)
+                return;
+            var view = layoutItem.View;
+            InternalRemoveLogicalChild(view);
         }
 
         internal void _ExecuteContentActivateCommand(LayoutContent content)
@@ -1785,6 +1798,7 @@ namespace ModernApplicationFramework.Docking
                     {
                         anchorableToRemove.Parent.RemoveChild(
                             anchorableToRemove);
+                        RemoveViewFromLogicalChild(anchorableToRemove);
                     }
                 }
             }
@@ -1878,6 +1892,7 @@ namespace ModernApplicationFramework.Docking
                 {
                     anchorableToRemove.Parent.RemoveChild(
                         anchorableToRemove);
+                    RemoveViewFromLogicalChild(anchorableToRemove);
                 }
             }
             Layout?.CollectGarbage();
@@ -2161,6 +2176,7 @@ namespace ModernApplicationFramework.Docking
             {
                 anchorableToRemove.Parent.RemoveChild(
                     anchorableToRemove);
+                RemoveViewFromLogicalChild(anchorableToRemove);
             }
 
             var anchorablesSourceAsNotifier = anchorablesSource as INotifyCollectionChanged;
@@ -2183,6 +2199,7 @@ namespace ModernApplicationFramework.Docking
             {
                 documentToRemove.Parent.RemoveChild(
                     documentToRemove);
+                RemoveViewFromLogicalChild(documentToRemove);
             }
 
             var documentsSourceAsNotifier = documentsSource as INotifyCollectionChanged;
@@ -2256,8 +2273,9 @@ namespace ModernApplicationFramework.Docking
                             .ToArray();
                     foreach (var documentToRemove in documentsToRemove)
                     {
-                        documentToRemove.Parent.RemoveChild(
-                            documentToRemove);
+                        documentToRemove.Parent.RemoveChild(documentToRemove);
+                        RemoveViewFromLogicalChild(documentToRemove);
+
                     }
                 }
             }
@@ -2326,6 +2344,7 @@ namespace ModernApplicationFramework.Docking
                 {
                     documentToRemove.Parent.RemoveChild(
                         documentToRemove);
+                    RemoveViewFromLogicalChild(documentToRemove);
                 }
             }
             Layout?.CollectGarbage();
@@ -2388,22 +2407,24 @@ namespace ModernApplicationFramework.Docking
                 case "ActiveContent":
                     if (Layout.ActiveContent != null)
                     {
-                        //Debug.WriteLine(new StackTrace().ToString());
+                        ////Debug.WriteLine(new StackTrace().ToString());
 
-                        //set focus on active element only after a layout pass is completed
-                        //it's possible that it is not yet visible in the visual tree
-                        if (_setFocusAsyncOperation == null)
-                        {
-                            _setFocusAsyncOperation = Dispatcher.BeginInvoke(new Action(() =>
-                            {
-                                if (Layout.ActiveContent != null)
-                                    FocusElementManager.SetFocusOnLastElement(Layout.ActiveContent);
-                                _setFocusAsyncOperation = null;
-                            }), DispatcherPriority.Input);
-                        }
+                        ////set focus on active element only after a layout pass is completed
+                        ////it's possible that it is not yet visible in the visual tree
+                        //if (_setFocusAsyncOperation == null)
+                        //{
+                        //    _setFocusAsyncOperation = Dispatcher.BeginInvoke(new Action(() =>
+                        //    {
+                        //        //if (Layout.ActiveContent != null)
+                        //        //    FocusElementManager.SetFocusOnLastElement(Layout.ActiveContent);
+                        //        //_setFocusAsyncOperation = null;
+                        //    }), DispatcherPriority.Input);
+                        //}
+                        if (Layout.ActiveContent != null)
+                            FocusElementManager.SetFocusOnLastElement(Layout.ActiveContent);
                     }
 
-                    if (!_insideInternalSetActiveContent)
+                    if (!_insideInternalSetActiveContent && Layout.ActiveContent != null)
                         ActiveContent = Layout.ActiveContent?.Content;
                     break;
             }

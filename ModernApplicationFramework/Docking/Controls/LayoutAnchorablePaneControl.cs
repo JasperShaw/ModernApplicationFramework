@@ -28,10 +28,7 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public LayoutAnchorablePaneControl(LayoutAnchorablePane model)
         {
-            if (model == null)
-                throw new ArgumentNullException(nameof(model));
-
-            _model = model;
+            _model = model ?? throw new ArgumentNullException(nameof(model));
 
             SetBinding(ItemsSourceProperty, new Binding("Model.Children") {Source = this});
             SetBinding(FlowDirectionProperty, new Binding("Model.Root.Manager.FlowDirection") {Source = this});
