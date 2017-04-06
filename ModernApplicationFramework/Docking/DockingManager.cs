@@ -273,6 +273,8 @@ namespace ModernApplicationFramework.Docking
 
         private bool _suspendLayoutItemCreation;
 
+        private readonly LinkedList<LayoutContent> _lastLayoutContentElements = new LinkedList<LayoutContent>();
+
 
         public DockingManager()
         {
@@ -287,7 +289,10 @@ namespace ModernApplicationFramework.Docking
 
             AnchorableContextMenu = IoC.Get<IContextMenuHost>()
                 .GetContextMenu(ContextMenuDefinitions.AnchorableContextMenuDefinition.AnchorableContextMenu);
+            Instace = this;
         }
+
+        public static DockingManager Instace { get; private set; }
 
         private void ThemeManager_OnThemeChanged(object sender, ThemeChangedEventArgs e)
         {
@@ -1108,6 +1113,18 @@ namespace ModernApplicationFramework.Docking
             var model = anchorable;
             //by default hide the anchorable
             model?.Hide();
+
+            foreach (var layoutContent in _lastLayoutContentElements)
+            {
+                if (layoutContent == null)
+                    continue;
+                if (layoutContent is LayoutAnchorable layoutAnchorable && (layoutAnchorable.IsHidden || !layoutAnchorable.IsVisible))
+                    continue;
+                if (layoutContent is LayoutDocument layoutDocument && !layoutDocument.IsVisible)
+                    continue;
+                InternalSetActiveContent(layoutContent);
+                break;
+            }
         }
 
         // ReSharper disable once InconsistentNaming
@@ -1572,8 +1589,22 @@ namespace ModernApplicationFramework.Docking
 
         private static void OnActiveContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            ((DockingManager) d).SetLastActiveContent(e.OldValue);
             ((DockingManager) d).InternalSetActiveContent(e.NewValue);
             ((DockingManager) d).OnActiveContentChanged(e);
+        }
+
+        internal void SetLastActiveContent(object oldValue)
+        {
+            var lastLayoutContent =
+                Layout.Descendents()
+                    .OfType<LayoutContent>()
+                    .OrderBy(lc => lc.LastActivationTimeStamp)
+                    .FirstOrDefault(lc => Equals(lc, oldValue) || lc.Content == oldValue);
+
+            if (_lastLayoutContentElements.Contains(lastLayoutContent))
+                _lastLayoutContentElements.Remove(lastLayoutContent);
+            _lastLayoutContentElements.AddFirst(lastLayoutContent);
         }
 
         private static void OnAnchorableHeaderTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

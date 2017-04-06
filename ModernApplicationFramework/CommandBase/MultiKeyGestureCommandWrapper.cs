@@ -15,6 +15,10 @@ namespace ModernApplicationFramework.CommandBase
         {    
         }
 
+        public MultiKeyGestureCommandWrapper(ICommand wrappedCommand) : this(wrappedCommand, null)
+        {
+        }
+
         public MultiKeyGestureCommandWrapper(ICommand wrappedCommand, MultiKeyGesture gesture) : base(wrappedCommand)
         {
             if (gesture == null)
