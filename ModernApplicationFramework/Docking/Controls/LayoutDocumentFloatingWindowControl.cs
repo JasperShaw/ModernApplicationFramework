@@ -18,7 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls.Primitives;
-using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Native.Platform.Enums;
 

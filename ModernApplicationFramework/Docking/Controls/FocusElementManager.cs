@@ -23,7 +23,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
-using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Native.NativeMethods;
 
@@ -119,11 +118,10 @@ namespace ModernApplicationFramework.Docking.Controls
 
             if (focused)
             {
-                _lastFocusedElement = new WeakReference(model);
+                new WeakReference(model);
             }
         }
 
-        static WeakReference _lastFocusedElement;
 
         internal static void SetupFocusManagement(DockingManager manager)
         {
