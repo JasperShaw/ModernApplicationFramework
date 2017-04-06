@@ -20,6 +20,8 @@ namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
 
         [Export] public static MenuItemGroupDefinition AnchorableContextMenuGroup = new MenuItemGroupDefinition(AnchorableContextMenu, uint.MinValue);
   
+        [Export] public static MenuItemDefinition FloatCommandItemDefinition = new CommandMenuItemDefinition<FloatDockedWindowCommandDefinition>(AnchorableContextMenuGroup, 0)
+            ;
         [Export] public static MenuItemDefinition DockCommandItemDefinition = new CommandMenuItemDefinition<DockDockedWindowCommandDefinition>(AnchorableContextMenuGroup, 1);
 
         [Export] public static MenuItemDefinition HideCommandItemDefinition = new CommandMenuItemDefinition<HideDockedWindowCommandDefinition>(AnchorableContextMenuGroup, 4);
@@ -88,6 +90,42 @@ namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
 
         public override string Name => "Dock";
         public override string Text => "Dock";
+        public override string ToolTip => null;
+        public override Uri IconSource => null;
+
+        public override string IconId => null;
+    }
+
+    [Export(typeof(DefinitionBase))]
+    public sealed class FloatDockedWindowCommandDefinition : CommandDefinition
+    {
+        public FloatDockedWindowCommandDefinition()
+        {
+            Command = new MultiKeyGestureCommandWrapper(Test, CanTest);
+        }
+
+        private bool CanTest()
+        {
+            var dc = IoC.Get<IContextMenuHost>()
+                .GetContextMenu(AnchorableContextMenuDefinition.AnchorableContextMenu)
+                .DataContext as LayoutItem;
+
+            return dc?.LayoutElement?.FindParent<LayoutAnchorableFloatingWindow>() == null;
+        }
+
+        private void Test()
+        {
+            var dc = IoC.Get<IContextMenuHost>()
+                .GetContextMenu(AnchorableContextMenuDefinition.AnchorableContextMenu)
+                .DataContext as LayoutAnchorableItem;
+
+            dc?.FloatCommand.Execute(null);
+        }
+
+        public override ICommand Command { get; }
+
+        public override string Name => "Float";
+        public override string Text => "Float";
         public override string ToolTip => null;
         public override Uri IconSource => null;
 
