@@ -37,7 +37,7 @@
             <Trigger Property="MenuItem.IsHighlighted" Value="true">
                 <Setter TargetName="Bg" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuItemMouseOver}}"
                         Property="Shape.Fill"/>
-                <Setter x:Uid="Setter_12" TargetName="Bg"
+                <Setter TargetName="Bg"
                         Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuItemMouseOverBorder}}"
                         Property="Shape.Stroke"/>
                 <Setter Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuItemMouseOverText}}"
@@ -76,16 +76,16 @@
                                 <Grid Background="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemPopupBackground}}"
                                       RenderOptions.ClearTypeHint="Enabled">
                                     <colors:ImageThemingUtilities.ImageBackgroundColor>
-                                        <Binding Path="Background" ElementName="IconBackground" Converter="{StaticResource BrushToColorConverter}"/>
+                                        <Binding Path="Background" ElementName="PART_IconBackground" Converter="{StaticResource BrushToColorConverter}"/>
                                     </colors:ImageThemingUtilities.ImageBackgroundColor>
-                                    <Border x:Name="IconBackground" Width="28"
+                                    <Border x:Name="PART_IconBackground" Width="28"
                                             Background="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemPopupIconBackground}}"
                                             HorizontalAlignment="Left"/>
                                     <ItemsPresenter KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.DirectionalNavigation="Cycle"
                                                     Margin="3" Grid.IsSharedSizeScope="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                                 </Grid>
                             </ScrollViewer>
-                            <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemPopupBorder}}"></Border>
+                            <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemPopupBorder}}"/>
                         </Grid>
                     </themes:SystemDropShadowChrome>
                     <ControlTemplate.Triggers>

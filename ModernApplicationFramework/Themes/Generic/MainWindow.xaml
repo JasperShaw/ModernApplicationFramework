@@ -29,15 +29,15 @@
 		<Setter Property="utilities1:WindowStyleHelper.HasMinimizeButton" Value="True" />
 		<Setter Property="MinWidth" Value="200" />
 		<Setter Property="MinHeight" Value="200" />
-		<Setter Property="Title" Value="{Binding Path=Caption}"/>
+        <Setter Property="Title" Value="{Binding Path=Caption}"/>
+        <Setter Property="Background" Value="{DynamicResource {x:Static core:EnvironmentColors.MainWindowBackground}}" />
         <Setter Property="core:ImageThemingUtilities.ImageBackgroundColor">
             <Setter.Value>
                 <Binding Path="Background" RelativeSource="{RelativeSource Self}"
                          Converter="{StaticResource BrushToColorConverter}"/>
             </Setter.Value>
         </Setter>
-        <Setter Property="Background" Value="{DynamicResource {x:Static core:EnvironmentColors.MainWindowBackground}}" />
-		<Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+        <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
         <Setter Property="RenderOptions.BitmapScalingMode" Value="{x:Static native:DpiHelper.BitmapScalingMode}"/>
 	    <Setter Property="ActiveGlowColor" Value="{DynamicResource {x:Static core:EnvironmentColors.MainWindowActiveShadowAndBorderColor}}" />
 	    <Setter Property="InactiveGlowColor" Value="{DynamicResource {x:Static core:EnvironmentColors.MainWindowInactiveShadowAndBorderColor}}" />

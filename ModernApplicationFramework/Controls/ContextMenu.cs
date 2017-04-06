@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 using Caliburn.Micro;
 using ModernApplicationFramework.Controls.Utilities;
 using ModernApplicationFramework.Core.Events;
@@ -69,6 +70,9 @@ namespace ModernApplicationFramework.Controls
             CustomPopupPlacementCallback = GetPopupPlacements;
         }
 
+        private Border _iconBorder;
+
+
         ResourceKey IExposeStyleKeys.MenuControllerStyleKey => MenuControllerStyleKey;
 
         ResourceKey IExposeStyleKeys.ComboBoxStyleKey => ComboBoxStyleKey;
@@ -83,6 +87,16 @@ namespace ModernApplicationFramework.Controls
         {
             base.OnApplyTemplate();
             _scrollViewer = GetTemplateChild("PART_ScrollViewer") as ScrollViewer;
+
+            _iconBorder = GetTemplateChild("PART_IconBackground") as Border;
+        }
+
+        private Color GetIconBackgroundColor()
+        {
+            if (_iconBorder == null)
+                return Colors.Transparent;
+            var b = _iconBorder.Background;
+            return ((SolidColorBrush) b).Color;
         }
 
         public void ChangeTheme(Theme oldValue, Theme newValue)
@@ -112,8 +126,12 @@ namespace ModernApplicationFramework.Controls
         protected override void OnOpened(RoutedEventArgs e)
         {
             _scrollViewer?.ScrollToVerticalOffset(0.0);
+            foreach (var item in Items)
+            {
+                if (item is MenuItem menuItem)
+                    menuItem.SetThemedIcon();
+            }
             base.OnOpened(e);
-            ProcessShowOptions();
         }
 
         protected override DependencyObject GetContainerForItemOverride()
@@ -133,6 +151,12 @@ namespace ModernApplicationFramework.Controls
             if (field == null)
                 return null;
             return field.GetValue(null) as DependencyProperty;
+        }
+
+        public static bool GetIsInsideContextMenu(DependencyObject element)
+        {
+            Validate.IsNotNull(element, "element");
+            return (bool)element.GetValue(IsInsideContextMenuProperty);
         }
 
         private static void SetIsInsideContextMenu(DependencyObject element, bool value)
@@ -155,6 +179,13 @@ namespace ModernApplicationFramework.Controls
         private void _themeManager_OnThemeChanged(object sender, ThemeChangedEventArgs e)
         {
             ChangeTheme(e.OldTheme, e.NewTheme);
+            ImageThemingUtilities.SetImageBackgroundColor(this, GetIconBackgroundColor());
+        }
+
+        protected override void OnRender(DrawingContext drawingContext)
+        {
+            base.OnRender(drawingContext);
+            ImageThemingUtilities.SetImageBackgroundColor(this, GetIconBackgroundColor());
         }
 
         private void OnSourceChanged(object sender, SourceChangedEventArgs e)
@@ -171,26 +202,20 @@ namespace ModernApplicationFramework.Controls
             parent.SetBinding(Popup.PopupAnimationProperty, binding2);
         }
 
-        private void ProcessShowOptions()
+        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            //if (IsFirstItemSelected)
-            //{
-            //    for (int index = 0; index < Items.Count; ++index)
-            //    {
-            //        UIElement uiElement = ItemContainerGenerator.ContainerFromIndex(index) as UIElement;
-            //        if (uiElement != null && uiElement.Visibility == Visibility.Visible && uiElement.IsEnabled && uiElement.Focusable)
-            //        {
-            //            Keyboard.Focus(uiElement);
-            //            break;
-            //        }
-            //    }
-            //}
-            //IsTextSearchEnabled = this.IsTypeAheadSupported;
-            //if (!this.AreUnderlinesShown || ShowKeyboardCuesProperty == null)
-            //    return;
-            //this.SetValue(ShowKeyboardCuesProperty, Boxes.BooleanTrue);
+            if (e.Property == ItemsSourceProperty && e.NewValue != null)
+            {
+                foreach (var item in Items)
+                {
+                    if (item is MenuItem menuItem)
+                        menuItem.SetThemedIcon();
+                }
+            }
+            base.OnPropertyChanged(e);
+            if (e.Property != ShowKeyboardCuesProperty || (bool)e.NewValue)
+                return;
+            SetValue(ShowKeyboardCuesProperty, Boxes.BooleanTrue);
         }
-
-
     }
 }

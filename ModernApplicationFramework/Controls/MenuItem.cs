@@ -6,7 +6,6 @@ using System.Windows.Media;
 using Caliburn.Micro;
 using ModernApplicationFramework.Annotations;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
@@ -62,17 +61,10 @@ namespace ModernApplicationFramework.Controls
             this.SetThemedIcon();
         }
 
-        public static MenuItem CreateItem(MenuDefinition definition)
-        {
-            return new MenuItem {DataContext = definition};
-        }
-
-
         private void ThemeManager_OnThemeChanged(object sender, ThemeChangedEventArgs e)
         {
             this.SetThemedIcon();
         }
-
 
         private static ResourceKey _buttonStyleKey;
         private static ResourceKey _menuControllerStyleKey;

@@ -6,10 +6,6 @@
                     xmlns:native="clr-namespace:ModernApplicationFramework.Native"
                     xmlns:utilities="clr-namespace:ModernApplicationFramework.Controls.Utilities">
     
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="Brushes.xaml"/>
-    </ResourceDictionary.MergedDictionaries>
-
     <converters:AccessKeyConverter x:Key="AccessKeyConverter"/>
     <converters:AccessKeyRemovingConverter x:Key="AccessKeyRemovingConverter"/>
     <converters:IsCustomMenuConverter x:Key="IsCustomMenuConverter"/>
@@ -23,7 +19,7 @@
     <Geometry x:Key="DownArrowGeometry">
         M 0 0 L 3 3 L 6 0 Z
     </Geometry>
-    <Geometry x:Key="RightArrow" x:Uid="Geometry_1">
+    <Geometry x:Key="RightArrow">
         M 0,0 L 4,3.5 L 0,7 Z
     </Geometry>
 

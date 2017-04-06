@@ -284,6 +284,9 @@ namespace ModernApplicationFramework.Docking
             Unloaded += DockingManager_Unloaded;
             var themeManager = IoC.Get<IThemeManager>();
             themeManager.OnThemeChanged += ThemeManager_OnThemeChanged;
+
+            AnchorableContextMenu = IoC.Get<IContextMenuHost>()
+                .GetContextMenu(ContextMenuDefinitions.AnchorableContextMenuDefinition.AnchorableContextMenu);
         }
 
         private void ThemeManager_OnThemeChanged(object sender, ThemeChangedEventArgs e)
@@ -317,8 +320,8 @@ namespace ModernApplicationFramework.Docking
 
             _overlayWindow?.ChangeTheme(oldValue, newValue);
             _navigatorWindow?.ChangeTheme(oldValue, newValue);
-            ((ModernApplicationFramework.Controls.ContextMenu)DocumentContextMenu).ChangeTheme(oldValue, newValue);
-            ((ModernApplicationFramework.Controls.ContextMenu)AnchorableContextMenu).ChangeTheme(oldValue, newValue);
+            ((ModernApplicationFramework.Controls.ContextMenu)DocumentContextMenu)?.ChangeTheme(oldValue, newValue);
+            ((ModernApplicationFramework.Controls.ContextMenu)AnchorableContextMenu)?.ChangeTheme(oldValue, newValue);
         }
 
         static DockingManager()

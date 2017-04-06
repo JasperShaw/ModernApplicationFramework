@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;

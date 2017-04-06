@@ -66,6 +66,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Resources\Icons\HideToolWindow.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\Icons\CloseDocumentGroup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
@@ -254,6 +258,7 @@
     <Compile Include="Core\Utilities\StyleUtilities.cs" />
     <Compile Include="Core\ValidationRules\ComboBoxWidthValidationRule.cs" />
     <Compile Include="Core\ValidationRules\CommandNameNotEmptyValidationRule.cs" />
+    <Compile Include="Docking\ContextMenuDefinitions\AnchorableContextMenuDefinition.cs" />
     <Compile Include="Interfaces\Command\ICommandHandler.cs" />
     <Compile Include="Interfaces\Command\ICommandListHandler.cs" />
     <Compile Include="Interfaces\Command\ICommandRouter.cs" />
