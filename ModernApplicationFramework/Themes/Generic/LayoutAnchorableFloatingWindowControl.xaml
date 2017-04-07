@@ -119,13 +119,16 @@
                                                                    BorderThickness="1,0,1,1" Padding="0,3,0,0"
                                                                    AutomationProperties.AutomationId="Maximize"
                                                                    AutomationProperties.Name="Maximize"
+                                                                        IsAnchroableFloatingWindowTitleBarButton="True"
                                                                    Command="{x:Static SystemCommands.MaximizeWindowCommand}"
                                                                    CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}"
                                                                    Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InverseBoolToVisibilityConverter}}" 
                                                                    ToolTip="Maximize"  WindowChrome.IsHitTestVisibleInChrome="True">
                                             <Path x:Name="MaximizeRestoreButtonPathL" Width="9" Height="9"
-                                                  Data="F1 M 0,0 L 0,9 9,9 9,0 0,0 0,3 8,3 8,8 1,8 1,3 Z" Stretch="Uniform"
-                                                  Fill="{DynamicResource {x:Static themes:EnvironmentColors.FloatingWindowTitleBarGlyph}}">
+                                                  Data="F1 M 0,0 L 0,9 9,9 9,0 0,0 0,3 8,3 8,8 1,8 1,3 Z" Stretch="Uniform">
+                                                <Shape.Fill>
+                                                    <Binding Path="(TextElement.Foreground)" RelativeSource="{RelativeSource Self}" />
+                                                </Shape.Fill>
                                             </Path>
                                         </internals:WindowTitleBarButton>
 
@@ -133,10 +136,14 @@
                                         <internals:WindowTitleBarButton x:Name="CloseButtonL" WindowChrome.IsHitTestVisibleInChrome="True" VerticalAlignment="Top"
                                                                    Focusable="False" BorderThickness="1,0,1,1" Margin="0,0,0,0"
                                                                    Command="{Binding HideWindowCommand, RelativeSource={RelativeSource TemplatedParent}}"
-                                                                   ToolTip="Close" Height="26" Width="34"
+                                                                   ToolTip="Close" Height="26" Width="34" IsAnchroableFloatingWindowTitleBarButton="True"
                                                                    Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InverseBoolToVisibilityConverter}}">
-                                            <Path Fill="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarGlyph}}" Width="10" Height="8" Stretch="Uniform"
-                                                  Data="F1 M 0,0 L 2,0 5,3 8,0 10,0 6,4 10,8 8,8 5,5 2,8 0,8 4,4 0,0 Z"/>
+                                            <Path Width="10" Height="8" Stretch="Uniform"
+                                                  Data="F1 M 0,0 L 2,0 5,3 8,0 10,0 6,4 10,8 8,8 5,5 2,8 0,8 4,4 0,0 Z">
+                                                <Shape.Fill>
+                                                    <Binding Path="(TextElement.Foreground)" RelativeSource="{RelativeSource Self}" />
+                                                </Shape.Fill>
+                                            </Path>
                                         </internals:WindowTitleBarButton>
                                     </StackPanel>
                                     <TextBlock x:Name="TitleBarTextL" VerticalAlignment="Center" Margin="4,0,0,0"
@@ -213,7 +220,7 @@
                             <Setter TargetName="MenuButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarGlyphDown}}"/>
                             <Setter TargetName="SinglePaneContextMenu" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBackgroundDown}}"/>
                             <Setter TargetName="SinglePaneContextMenu" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarButtonBorderDown}}"/>
-                        </Trigger>                     
+                        </Trigger> 
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsActive" Value="True"/>

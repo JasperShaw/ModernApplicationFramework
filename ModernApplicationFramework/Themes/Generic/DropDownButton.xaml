@@ -89,7 +89,6 @@
         <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.WindowTitleBarButtonForeground}}"></Setter>
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.WindowTitleBarButtonBorder}}"></Setter>
         <Setter Property="Padding" Value="0,1,0,0"/>
-        <Setter Property="TextElement.Foreground" Value="{Binding Path=GlyphForeground, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="dock:DropDownButton">

@@ -26,9 +26,11 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using Caliburn.Micro;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Layout;
+using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Native;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Native.Platform.Enums;
@@ -59,6 +61,7 @@ namespace ModernApplicationFramework.Docking.Controls
         private HwndSource _hwndSrc;
         private HwndSourceHook _hwndSrcHook;
         private bool _internalCloseFlag;
+        PresentationSource _menuSite;
 
         protected LayoutFloatingWindowControl(ILayoutElement model)
         {
@@ -67,10 +70,17 @@ namespace ModernApplicationFramework.Docking.Controls
         }
 
 
-        protected override void OnKeyDown(KeyEventArgs e)
+        protected override void OnPreviewGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
         {
-            InputManager.Current.PushMenuMode(_hwndSrc);
-            base.OnKeyDown(e);
+            _menuSite = PresentationSource.FromVisual(this);
+            if(_menuSite != null)
+                InputManager.Current.PushMenuMode(_hwndSrc);
+        }
+
+        protected override void OnPreviewLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
+        {
+            InputManager.Current.PopMenuMode(_menuSite);
+            _menuSite = null;
         }
 
         static LayoutFloatingWindowControl()
@@ -110,8 +120,19 @@ namespace ModernApplicationFramework.Docking.Controls
             var hwndSource = (HwndSource)PresentationSource.FromVisual(this);
             var keyboardInputSink = (IKeyboardInputSink)hwndSource;
             keyboardInputSink?.RegisterKeyboardInputSink(new MnemonicForwardingKeyboardInputSink(this));
+            ModifyStyle(hwndSource.Handle, 0, int.MinValue);
             UpdateClipRegion();
             base.OnSourceInitialized(e);
+        }
+
+        internal static bool ModifyStyle(IntPtr hWnd, int styleToRemove, int styleToAdd)
+        {
+            int windowLong = User32.GetWindowLong(hWnd, -16);
+            int dwNewLong = windowLong & ~styleToRemove | styleToAdd;
+            if (dwNewLong == windowLong)
+                return false;
+            User32.SetWindowLong(hWnd, -16, dwNewLong);
+            return true;
         }
 
         protected virtual IntPtr FilterMessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -214,6 +235,7 @@ namespace ModernApplicationFramework.Docking.Controls
                 return;
             RedockWindow();  
             handled = true;
+            IoC.Get<IKeyGestureHandler>().RestoreBindings();
         }
 
         protected abstract void RedockWindow();

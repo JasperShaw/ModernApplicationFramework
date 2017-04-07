@@ -24,22 +24,22 @@
                 </Grid.ColumnDefinitions>
                 <Border Name="TopDockBorder" Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}, Path=FullScreen, Converter={StaticResource BooleanToVisibilityConverter}}"
                         Grid.Row="0" Grid.ColumnSpan="3" Padding="9,1,6,1" Background="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarHostControlTopDockBackground}}">
-                    <local:ToolBarTray IsMainToolBar="True" Background="Transparent" x:Name="TopDockTray"/>
+                    <local:ToolBarTray IsMainToolBarTray="True" Background="Transparent" x:Name="TopDockTray"/>
                 </Border>
                 <Border Name="LeftDockBorder" Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}, Path=FullScreen, Converter={StaticResource BooleanToVisibilityConverter}}"
                         Grid.Row="1" Grid.Column="0" Padding="2,0,1,0" Background="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarHostControlDefaultDockBackground}}">
-                    <local:ToolBarTray IsMainToolBar="True" Background="Transparent" x:Name="LeftDockTray" Orientation="Vertical"/>
+                    <local:ToolBarTray IsMainToolBarTray="True" Background="Transparent" x:Name="LeftDockTray" Orientation="Vertical"/>
                 </Border>
                 <AdornerDecorator Grid.Row="1" Grid.Column="1">
                     <ContentPresenter Content="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}, Path=Content}"/>
                 </AdornerDecorator>
                 <Border Name="RightDockBorder" Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}, Path=FullScreen, Converter={StaticResource BooleanToVisibilityConverter}}"
                         Grid.Row="1" Grid.Column="2" Padding="2,0,1,0" Background="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarHostControlDefaultDockBackground}}">
-                    <local:ToolBarTray x:Name="RightDockTray" Orientation="Vertical" IsMainToolBar="True" Background="Transparent"/>
+                    <local:ToolBarTray x:Name="RightDockTray" Orientation="Vertical" IsMainToolBarTray="True" Background="Transparent"/>
                 </Border>
                 <Border Name="BottomDockBorder" Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}, Path=FullScreen, Converter={StaticResource BooleanToVisibilityConverter}}"
                         Grid.Row="2" Grid.ColumnSpan="3" Padding="9,2,6,1" Background="{DynamicResource {x:Static themes:EnvironmentColors.ToolBarHostControlDefaultDockBackground}}">
-                    <local:ToolBarTray x:Name="BottomDockTray" IsMainToolBar="True" Background="Transparent"/>
+                    <local:ToolBarTray x:Name="BottomDockTray" IsMainToolBarTray="True" Background="Transparent"/>
                 </Border>
             </Grid>
             <ControlTemplate.Triggers>

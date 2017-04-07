@@ -104,7 +104,10 @@ namespace ModernApplicationFramework.Docking.Controls
                 var layout = model as LayoutContent;
                 if (layout == null || Managers == null || Managers.Count <= 0)
                     return;
-                var view = Managers.FirstOrDefault()?.GetLayoutItemFromModel(layout).View;
+                var item = Managers.FirstOrDefault()?.GetLayoutItemFromModel(layout);
+                if (item == null)
+                    return;
+                var view = item.View;
                 var e = view.FindVisualChildren<ContentControl>();
                 Keyboard.Focus(e.FirstOrDefault());
             }

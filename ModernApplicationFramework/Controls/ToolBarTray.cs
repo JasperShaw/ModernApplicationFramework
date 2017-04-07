@@ -5,7 +5,7 @@ namespace ModernApplicationFramework.Controls
 {
     public class ToolBarTray : System.Windows.Controls.ToolBarTray
     {
-        public static readonly DependencyProperty IsMainToolBarProperty = DependencyProperty.Register(
+        public static readonly DependencyProperty IsMainToolBarTrayProperty = DependencyProperty.Register(
             "IsMainToolBarTray", typeof(bool), typeof(ToolBarTray), new PropertyMetadata(default(bool)));
 
         public static readonly DependencyProperty ContainsVisibleToolBarsProperty = DependencyProperty.Register(
@@ -23,10 +23,10 @@ namespace ModernApplicationFramework.Controls
             set => SetValue(ContainsVisibleToolBarsProperty, value);
         }
 
-        public bool IsMainToolBar
+        public bool IsMainToolBarTray
         {
-            get => (bool) GetValue(IsMainToolBarProperty);
-            set => SetValue(IsMainToolBarProperty, value);
+            get => (bool) GetValue(IsMainToolBarTrayProperty);
+            set => SetValue(IsMainToolBarTrayProperty, value);
         }
 
         public void AddToolBar(ToolBar toolBar)

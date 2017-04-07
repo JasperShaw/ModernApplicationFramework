@@ -145,7 +145,6 @@ namespace ModernApplicationFramework.Docking.Controls
            var list = _model.Descendents().OfType<LayoutAnchorablePane>().ToList();
             foreach (var layoutAnchorablePane in list)
                 layoutAnchorablePane?.SelectedContent.Dock();
-
         }
 
         protected override void OnClosed(EventArgs e)

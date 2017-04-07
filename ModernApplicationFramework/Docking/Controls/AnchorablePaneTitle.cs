@@ -99,7 +99,7 @@ namespace ModernApplicationFramework.Docking.Controls
                 if (e.ClickCount == 2)
                 {
                     if (NativeMethods.IsKeyPressed(17))
-                        Model.Dock();
+                        Model.Root.Manager.GetLayoutItemFromModel(Model).DockAsDocumentCommand.Execute(null);
                     return;
                 }
 

@@ -43,7 +43,7 @@ namespace ModernApplicationFramework.Core.Utilities
 
         private static void SetFocus(object sender, RoutedEventArgs e)
         {
-            Keyboard.Focus((IInputElement) sender);
+            Keyboard.Focus((IInputElement)sender);
         }
     }
 }

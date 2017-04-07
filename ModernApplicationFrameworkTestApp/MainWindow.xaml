@@ -26,7 +26,7 @@
             </mafc:MenuItem>
         </mafc:Menu>
 
-        <mafc:ToolBarTray Grid.Row="1" x:Name="ToolBarTray" IsMainToolBar="True"/>
+        <mafc:ToolBarTray Grid.Row="1" x:Name="ToolBarTray" IsMainToolBarTray="True"/>
 
         <Grid Grid.Row="2">
             <Grid.RowDefinitions>
