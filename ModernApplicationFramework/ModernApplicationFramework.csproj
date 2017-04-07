@@ -258,6 +258,11 @@
     <Compile Include="Core\Utilities\StyleUtilities.cs" />
     <Compile Include="Core\ValidationRules\ComboBoxWidthValidationRule.cs" />
     <Compile Include="Core\ValidationRules\CommandNameNotEmptyValidationRule.cs" />
+    <Compile Include="Docking\CommandDefinitions\AutoHideWindowCommandDefinition.cs" />
+    <Compile Include="Docking\CommandDefinitions\DockAsTabbedDocumentCommandDefinition.cs" />
+    <Compile Include="Docking\CommandDefinitions\DockWindowCommandDefinition.cs" />
+    <Compile Include="Docking\CommandDefinitions\FloatDockedWindowCommandDefinition.cs" />
+    <Compile Include="Docking\CommandDefinitions\HideDockedWindowCommandDefinition.cs" />
     <Compile Include="Docking\ContextMenuDefinitions\AnchorableContextMenuDefinition.cs" />
     <Compile Include="Interfaces\Command\ICommandHandler.cs" />
     <Compile Include="Interfaces\Command\ICommandListHandler.cs" />
