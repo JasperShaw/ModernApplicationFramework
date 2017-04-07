@@ -16,6 +16,7 @@
 
 using System.Windows;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using ContextMenu = System.Windows.Controls.ContextMenu;
 
 namespace ModernApplicationFramework.Docking.Controls
@@ -58,16 +59,14 @@ namespace ModernApplicationFramework.Docking.Controls
         protected override void OnClick()
         {
             if (DropDownContextMenu != null)
-            {
-                //IsChecked = true;
+            {     
                 DropDownContextMenu.PlacementTarget = this;
                 DropDownContextMenu.Placement = PlacementMode.Bottom;
                 DropDownContextMenu.DataContext = DropDownContextMenuDataContext;
-                DropDownContextMenu.Closed += OnContextMenuClosed;
                 DropDownContextMenu.IsOpen = true;
-                IsChecked = false;
+                DropDownContextMenu.Closed += OnContextMenuClosed;
+                IsChecked = true;
             }
-
             base.OnClick();
         }
 
@@ -86,14 +85,21 @@ namespace ModernApplicationFramework.Docking.Controls
         private void DropDownButton_Unloaded(object sender, RoutedEventArgs e)
         {
             DropDownContextMenu = null;
+            IsChecked = false;
         }
 
         private void OnContextMenuClosed(object sender, RoutedEventArgs e)
         {
-            //Debug.Assert(IsChecked.GetValueOrDefault());
             var ctxMenu = sender as ContextMenu;
             if (ctxMenu != null)
                 ctxMenu.Closed -= OnContextMenuClosed;
+        }
+
+        protected override void OnLostMouseCapture(MouseEventArgs e)
+        {
+            base.OnLostMouseCapture(e);
+            if (e.Handled)
+                return;
             IsChecked = false;
         }
     }

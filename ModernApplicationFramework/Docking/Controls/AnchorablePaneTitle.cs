@@ -82,6 +82,8 @@ namespace ModernApplicationFramework.Docking.Controls
         protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnPreviewMouseLeftButtonDown(e);
+            if (e.Handled)
+                return;
             Model.IsActive = true;
             Model.IsSelected = true;
         }
