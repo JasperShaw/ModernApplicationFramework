@@ -79,14 +79,18 @@ namespace ModernApplicationFramework.Docking.Controls
             _isMouseDown = false;
         }
 
+        protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnPreviewMouseLeftButtonDown(e);
+            Model.IsActive = true;
+            Model.IsSelected = true;
+        }
+
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
             if (e.Handled)
                 return;
-
-            Model.IsActive = true;
-            Model.IsSelected = true;
 
             bool attachFloatingWindow = false;
             var parentFloatingWindow = Model.FindParent<LayoutAnchorableFloatingWindow>();
