@@ -244,6 +244,7 @@
     <Compile Include="Core\Converters\FormattedStringConverter.cs" />
     <Compile Include="Core\Converters\IfElseConverter.cs" />
     <Compile Include="Core\Converters\IsCustomMenuConverter.cs" />
+    <Compile Include="Core\Converters\ModelIsAnchorableToBoolConverter.cs" />
     <Compile Include="Core\Converters\MultiCommandToVisibilityConverter.cs" />
     <Compile Include="Core\Converters\NegateBooleanConverter.cs" />
     <Compile Include="Core\Converters\OrBooleanConverter.cs" />
