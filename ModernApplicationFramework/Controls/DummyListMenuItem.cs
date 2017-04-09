@@ -15,7 +15,7 @@ namespace ModernApplicationFramework.Controls
         private readonly ItemsControl _parent;
         private readonly List<ItemsControl> _listItems;
 
-        public DummyListMenuItem(CommandBarDefinitionBase commandDefinition, ItemsControl parent)
+        public DummyListMenuItem(CommandBarDefinitionBase commandDefinition, ItemsControl parent) : base(commandDefinition)
         {
             _parent = parent;
             CommandBarItemDefinition = commandDefinition;

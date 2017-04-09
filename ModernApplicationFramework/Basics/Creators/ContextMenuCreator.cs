@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Controls;
+using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Controls;
@@ -15,9 +16,49 @@ namespace ModernApplicationFramework.Basics.Creators
     {
         public ContextMenu CreateContextMenu(IContextMenuHost model, CommandBarDefinitionBase contextMenuDefinition)
         {
-            var contextMenu = new ContextMenu();
+            var contextMenu = new ContextMenu(contextMenuDefinition);
             AddGroupsRecursive(model, contextMenuDefinition, contextMenu);
             return contextMenu;
+        }
+
+        public void CreateContextMenuTree(CommandBarDefinitionBase definition, ItemsControl contextMenu)
+        {
+            var host = IoC.Get<IContextMenuHost>();
+            contextMenu.Items.Clear();
+
+            var groups = host.MenuItemGroupDefinitions.Where(x => x.Parent == definition)
+                .Where(x => !host.ExcludedContextMenuElementDefinitions.Contains(x))
+                .OrderBy(x => x.SortOrder)
+                .ToList();
+            for (var i = 0; i < groups.Count; i++)
+            {
+                var group = groups[i];
+                var menuItems = host.MenuItemDefinitions.Where(x => x.Group == group)
+                    .Where(x => !host.ExcludedContextMenuElementDefinitions.Contains(x))
+                    .OrderBy(x => x.SortOrder);
+
+
+                if (i > 0 && i <= groups.Count - 1 && menuItems.Any())
+                {
+                    if (menuItems.Any(menuItemDefinition => menuItemDefinition.IsVisible))
+                    {
+                        var separator = new MenuItem(CommandBarSeparatorDefinition.MenuSeparatorDefinition);
+                        contextMenu.Items.Add(separator);
+                    }
+                }
+            
+
+                foreach (var menuItemDefinition in menuItems)
+                {
+                    MenuItem menuItemControl;
+                    if (menuItemDefinition.CommandDefinition is CommandListDefinition)
+                        menuItemControl = new DummyListMenuItem(menuItemDefinition, contextMenu);
+                    else
+                        menuItemControl = new MenuItem(menuItemDefinition);
+                    CreateContextMenuTree(menuItemDefinition, menuItemControl);
+                    contextMenu.Items.Add(menuItemControl);
+                }
+            }
         }
 
         private void AddGroupsRecursive(IContextMenuHost model, CommandBarDefinitionBase contextMenuDefinition, ItemsControl contextMenu)
@@ -54,5 +95,6 @@ namespace ModernApplicationFramework.Basics.Creators
     public interface IContextMenuCreator
     {
         ContextMenu CreateContextMenu(IContextMenuHost model, CommandBarDefinitionBase contextMenuDefinition);
+        void CreateContextMenuTree(CommandBarDefinitionBase definition, ItemsControl contextMenu);
     }
 }

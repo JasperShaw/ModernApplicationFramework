@@ -7,6 +7,9 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Creators;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.ContextMenu;
 using ModernApplicationFramework.Controls.Utilities;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
@@ -70,6 +73,11 @@ namespace ModernApplicationFramework.Controls
             CustomPopupPlacementCallback = GetPopupPlacements;
         }
 
+        public ContextMenu(CommandBarDefinitionBase definitionBase) :this()
+        {
+            DataContext = definitionBase;
+        }
+
         private Border _iconBorder;
 
 
@@ -126,6 +134,13 @@ namespace ModernApplicationFramework.Controls
         protected override void OnOpened(RoutedEventArgs e)
         {
             _scrollViewer?.ScrollToVerticalOffset(0.0);
+
+            if (DataContext is ContextMenuDefinition definition)
+            {
+                var menuCreator = IoC.Get<IContextMenuCreator>();
+                menuCreator.CreateContextMenuTree(definition, this);
+            }
+
             foreach (var item in Items)
             {
                 if (item is MenuItem menuItem)
@@ -213,7 +228,7 @@ namespace ModernApplicationFramework.Controls
                 }
             }
             base.OnPropertyChanged(e);
-            if (e.Property != ShowKeyboardCuesProperty || (bool)e.NewValue)
+            if (e.NewValue != null && (e.Property != ShowKeyboardCuesProperty || (bool)e.NewValue))
                 return;
             SetValue(ShowKeyboardCuesProperty, Boxes.BooleanTrue);
         }

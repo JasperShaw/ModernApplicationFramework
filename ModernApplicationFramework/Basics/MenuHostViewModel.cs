@@ -105,7 +105,7 @@ namespace ModernApplicationFramework.Basics
 
         public void BuildMenu()
         {
-            IoC.Get<IMenuCreator>().CreateMenu(this);
+            IoC.Get<IMenuCreator>().CreateMenuBar(this);
         }
 
         protected virtual async void ExecuteRightClick()

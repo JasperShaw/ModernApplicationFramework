@@ -69,10 +69,10 @@ namespace ModernApplicationFramework.MVVM.Commands
 
                 item.IsChecked = true;
 
-                ((MenuCreator)menuBuilder).CreateMenu(_shell.MenuHostViewModel, item);
+                ((MenuCreator)menuBuilder).CreateMenuBar(_shell.MenuHostViewModel, item);
             }
             else
-                menuBuilder.CreateMenu(_shell.MenuHostViewModel);
+                menuBuilder.CreateMenuBar(_shell.MenuHostViewModel);
 
 
             ((ModernChromeWindow) Application.Current.MainWindow).FullScreen = !_isFullScreen;

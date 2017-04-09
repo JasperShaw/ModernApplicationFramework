@@ -28,10 +28,6 @@ namespace ModernApplicationFramework.Docking.Controls
                 new FrameworkPropertyMetadata(null,
                     OnDropDownContextMenuChanged));
 
-        public static readonly DependencyProperty DropDownContextMenuDataContextProperty =
-            DependencyProperty.Register("DropDownContextMenuDataContext", typeof (object), typeof (DropDownButton),
-                new FrameworkPropertyMetadata((object) null));
-
 
         public DropDownButton()
         {
@@ -50,19 +46,12 @@ namespace ModernApplicationFramework.Docking.Controls
             set => SetValue(DropDownContextMenuProperty, value);
         }
 
-        public object DropDownContextMenuDataContext
-        {
-            get => GetValue(DropDownContextMenuDataContextProperty);
-            set => SetValue(DropDownContextMenuDataContextProperty, value);
-        }
-
         protected override void OnClick()
         {
             if (DropDownContextMenu != null)
             {     
                 DropDownContextMenu.PlacementTarget = this;
                 DropDownContextMenu.Placement = PlacementMode.Bottom;
-                DropDownContextMenu.DataContext = DropDownContextMenuDataContext;
                 DropDownContextMenu.IsOpen = true;
                 DropDownContextMenu.Closed += OnContextMenuClosed;
                 IsChecked = true;

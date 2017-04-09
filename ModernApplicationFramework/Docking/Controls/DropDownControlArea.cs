@@ -22,10 +22,6 @@ namespace ModernApplicationFramework.Docking.Controls
 {
     public class DropDownControlArea : UserControl
     {
-        public static readonly DependencyProperty DropDownContextMenuDataContextProperty =
-            DependencyProperty.Register("DropDownContextMenuDataContext", typeof (object), typeof (DropDownControlArea),
-                new FrameworkPropertyMetadata((object) null));
-
         public static readonly DependencyProperty DropDownContextMenuProperty =
             DependencyProperty.Register("DropDownContextMenu", typeof (ContextMenu), typeof (DropDownControlArea),
                 new FrameworkPropertyMetadata((ContextMenu) null));
@@ -34,12 +30,6 @@ namespace ModernApplicationFramework.Docking.Controls
         {
             get => (ContextMenu) GetValue(DropDownContextMenuProperty);
             set => SetValue(DropDownContextMenuProperty, value);
-        }
-
-        public object DropDownContextMenuDataContext
-        {
-            get => GetValue(DropDownContextMenuDataContextProperty);
-            set => SetValue(DropDownContextMenuDataContextProperty, value);
         }
 
         protected override void OnPreviewMouseRightButtonUp(System.Windows.Input.MouseButtonEventArgs e)
@@ -52,7 +42,6 @@ namespace ModernApplicationFramework.Docking.Controls
                 return;
             DropDownContextMenu.PlacementTarget = null;
             DropDownContextMenu.Placement = PlacementMode.MousePoint;
-            DropDownContextMenu.DataContext = DropDownContextMenuDataContext;
             DropDownContextMenu.IsOpen = true;
         }
     }

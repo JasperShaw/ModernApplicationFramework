@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using System.Linq;
+using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Controls;
@@ -12,7 +13,7 @@ namespace ModernApplicationFramework.Basics.Creators
     [Export(typeof(IMenuCreator))]
     public class MenuCreator : IMenuCreator
     {
-        public void CreateMenu(IMenuHostViewModel model)
+        public void CreateMenuBar(IMenuHostViewModel model)
         {
             model.Items.Clear();
 
@@ -26,7 +27,7 @@ namespace ModernApplicationFramework.Basics.Creators
                 foreach (var menuDefinition in menus)
                 {
                     var menuItem = new MenuItem(menuDefinition);
-                    AddGroupsRecursive(model, menuDefinition, menuItem);
+                    menuItem.Items.Add(new MenuItem());
                     model.Items.Add(menuItem);
                 }
                 foreach (var noGroupMenuItem in model.MenuItemDefinitions.Where(x => x.Group == null).OrderBy(x => x.SortOrder))
@@ -37,19 +38,32 @@ namespace ModernApplicationFramework.Basics.Creators
             }
         }
 
-        private void AddGroupsRecursive(IMenuHostViewModel model,CommandBarDefinitionBase menu, MenuItem menuItem)
+        public void CreateMenuTree(CommandBarDefinitionBase definition, MenuItem menuItem)
         {
-            var groups = model.MenuItemGroupDefinitions.Where(x => x.Parent == menu)
-                .Where(x => !model.ExcludedMenuElementDefinitions.Contains(x))
+            var host = IoC.Get<IMenuHostViewModel>();
+            menuItem.Items.Clear();
+
+            var groups = host.MenuItemGroupDefinitions.Where(x => x.Parent == definition)
+                .Where(x => !host.ExcludedMenuElementDefinitions.Contains(x))
                 .OrderBy(x => x.SortOrder)
                 .ToList();
 
             for (var i = 0; i < groups.Count; i++)
             {
                 var group = groups[i];
-                var menuItems = model.MenuItemDefinitions.Where(x => x.Group == group)
-                    .Where(x => !model.ExcludedMenuElementDefinitions.Contains(x))
+                var menuItems = host.MenuItemDefinitions.Where(x => x.Group == group)
+                    .Where(x => !host.ExcludedMenuElementDefinitions.Contains(x))
                     .OrderBy(x => x.SortOrder);
+
+
+                if (i > 0 && i <= groups.Count - 1 && menuItems.Any())
+                {
+                    if (menuItems.Any(menuItemDefinition => menuItemDefinition.IsVisible))
+                    {
+                        var separator = new MenuItem(CommandBarSeparatorDefinition.MenuSeparatorDefinition);
+                        menuItem.Items.Add(separator);
+                    }
+                }
 
                 foreach (var menuItemDefinition in menuItems)
                 {
@@ -58,19 +72,15 @@ namespace ModernApplicationFramework.Basics.Creators
                         menuItemControl = new DummyListMenuItem(menuItemDefinition, menuItem);
                     else
                         menuItemControl = new MenuItem(menuItemDefinition);
-                    AddGroupsRecursive(model, menuItemDefinition, menuItemControl);
+                    CreateMenuTree(menuItemDefinition, menuItemControl);
                     menuItem.Items.Add(menuItemControl);
                 }
-                if (i >= groups.Count - 1 || !menuItems.Any())
-                    continue;
-                var separator = new MenuItem(CommandBarSeparatorDefinition.MenuSeparatorDefinition);
-                menuItem.Items.Add(separator);
             }
         }
 
-        public void CreateMenu(IMenuHostViewModel model, MenuItem item)
+        public void CreateMenuBar(IMenuHostViewModel model, MenuItem item)
         {
-            CreateMenu(model);
+            CreateMenuBar(model);
             model.Items.Add(item);
         }
     }

@@ -9,7 +9,10 @@ namespace ModernApplicationFramework.Core.Converters
     {
         protected override ICommand Convert(CommandBarDefinitionBase value, object parameter, CultureInfo culture)
         {
-            return ((CommandDefinition) value.CommandDefinition)?.Command;
+
+            var c = value.CommandDefinition as CommandDefinition;
+
+            return c?.Command;
         }
     }
 }
