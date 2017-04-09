@@ -33,6 +33,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Docking.ContextMenuDefinitions;
 using ModernApplicationFramework.Docking.Controls;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Interfaces;
@@ -183,6 +184,10 @@ namespace ModernApplicationFramework.Docking
             DependencyProperty.Register("AnchorableContextMenu", typeof (ContextMenu), typeof (DockingManager),
                 new FrameworkPropertyMetadata((ContextMenu) null));
 
+        public static readonly DependencyProperty AnchorableAsDocumentContextMenuProperty =
+            DependencyProperty.Register("AnchorableAsDocumentContextMenu", typeof(ContextMenu), typeof(DockingManager),
+                new FrameworkPropertyMetadata((ContextMenu)null));
+
         public static readonly DependencyProperty GridSplitterHeightProperty =
             DependencyProperty.Register("GridSplitterHeight", typeof (double), typeof (DockingManager),
                 new FrameworkPropertyMetadata(6.0));
@@ -287,8 +292,12 @@ namespace ModernApplicationFramework.Docking
             var themeManager = IoC.Get<IThemeManager>();
             themeManager.OnThemeChanged += ThemeManager_OnThemeChanged;
 
-            AnchorableContextMenu = IoC.Get<IContextMenuHost>()
-                .GetContextMenu(ContextMenuDefinitions.AnchorableContextMenuDefinition.AnchorableContextMenu);
+
+            var contextMenuHost = IoC.Get<IContextMenuHost>();
+            AnchorableContextMenu = contextMenuHost.GetContextMenu(AnchorableContextMenuDefinition.AnchorableContextMenu);
+            AnchorableAsDocumentContextMenu = contextMenuHost.GetContextMenu(AnchorableAsDocumentContextMenuDefinition.AnchorableAsDocumentContextMenu);
+            DocumentContextMenu = contextMenuHost.GetContextMenu(DocumentContextMenuDefinition.DocumentContextMenu);
+
             Instace = this;
         }
 
@@ -327,6 +336,7 @@ namespace ModernApplicationFramework.Docking
             _navigatorWindow?.ChangeTheme(oldValue, newValue);
             ((ModernApplicationFramework.Controls.ContextMenu)DocumentContextMenu)?.ChangeTheme(oldValue, newValue);
             ((ModernApplicationFramework.Controls.ContextMenu)AnchorableContextMenu)?.ChangeTheme(oldValue, newValue);
+            ((ModernApplicationFramework.Controls.ContextMenu)AnchorableAsDocumentContextMenu)?.ChangeTheme(oldValue, newValue);
         }
 
         static DockingManager()
@@ -445,6 +455,12 @@ namespace ModernApplicationFramework.Docking
         {
             get => (ContextMenu) GetValue(AnchorableContextMenuProperty);
             set => SetValue(AnchorableContextMenuProperty, value);
+        }
+
+        public ContextMenu AnchorableAsDocumentContextMenu
+        {
+            get => (ContextMenu)GetValue(AnchorableAsDocumentContextMenuProperty);
+            set => SetValue(AnchorableAsDocumentContextMenuProperty, value);
         }
 
         public DataTemplate AnchorableHeaderTemplate

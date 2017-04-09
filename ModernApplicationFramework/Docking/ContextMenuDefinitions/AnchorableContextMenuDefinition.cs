@@ -4,7 +4,6 @@ using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Basics.Definitions.Menu.MenuItems;
 using ModernApplicationFramework.Docking.CommandDefinitions;
 
-
 namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
 {
     public class AnchorableContextMenuDefinition

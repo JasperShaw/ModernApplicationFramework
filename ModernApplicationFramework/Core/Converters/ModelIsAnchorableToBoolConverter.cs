@@ -10,7 +10,7 @@ namespace ModernApplicationFramework.Core.Converters
         protected override ContextMenu Convert(object value, object parameter, CultureInfo culture)
         {
             if (value is LayoutAnchorable)
-                return DockingManager.Instace.AnchorableContextMenu;
+                return DockingManager.Instace.AnchorableAsDocumentContextMenu;
             return DockingManager.Instace.DocumentContextMenu;
         }
     }

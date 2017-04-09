@@ -260,11 +260,16 @@
     <Compile Include="Core\ValidationRules\ComboBoxWidthValidationRule.cs" />
     <Compile Include="Core\ValidationRules\CommandNameNotEmptyValidationRule.cs" />
     <Compile Include="Docking\CommandDefinitions\AutoHideWindowCommandDefinition.cs" />
+    <Compile Include="Docking\CommandDefinitions\CloseAllButThisDockedWindowCommandDefinition.cs" />
+    <Compile Include="Docking\CommandDefinitions\CloseAllDockedWindowCommandDefinition.cs" />
     <Compile Include="Docking\CommandDefinitions\DockAsTabbedDocumentCommandDefinition.cs" />
     <Compile Include="Docking\CommandDefinitions\DockWindowCommandDefinition.cs" />
     <Compile Include="Docking\CommandDefinitions\FloatDockedWindowCommandDefinition.cs" />
+    <Compile Include="Docking\CommandDefinitions\CloseDockedWindowCommandDefinition.cs" />
     <Compile Include="Docking\CommandDefinitions\HideDockedWindowCommandDefinition.cs" />
     <Compile Include="Docking\ContextMenuDefinitions\AnchorableContextMenuDefinition.cs" />
+    <Compile Include="Docking\ContextMenuDefinitions\AnchorableAsDocumentContextMenuDefinition.cs" />
+    <Compile Include="Docking\ContextMenuDefinitions\DocumentContextMenuDefinition.cs" />
     <Compile Include="Interfaces\Command\ICommandHandler.cs" />
     <Compile Include="Interfaces\Command\ICommandListHandler.cs" />
     <Compile Include="Interfaces\Command\ICommandRouter.cs" />

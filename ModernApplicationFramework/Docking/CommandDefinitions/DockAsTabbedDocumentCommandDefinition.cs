@@ -1,17 +1,12 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
-using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
-using ModernApplicationFramework.Docking.ContextMenuDefinitions;
-using ModernApplicationFramework.Docking.Controls;
 using ModernApplicationFramework.Docking.Layout;
-using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Docking.CommandDefinitions
 {
-
     [Export(typeof(DefinitionBase))]
     public sealed class DockAsTabbedDocumentCommandDefinition : CommandDefinition
     {
@@ -22,20 +17,22 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         private bool CanDockAsTabbedDocument()
         {
-            var dc = IoC.Get<IContextMenuHost>()
-                .GetContextMenu(AnchorableContextMenuDefinition.AnchorableContextMenu)
-                .DataContext as LayoutItem;
 
-            return dc?.LayoutElement != null && dc.LayoutElement.FindParent<LayoutDocumentPane>() == null;
+            var dc = DockingManager.Instace.Layout.ActiveContent;
+            if (dc == null)
+                return false;
+
+            var di = DockingManager.Instace.GetLayoutItemFromModel(dc);
+            return di?.LayoutElement != null && di.LayoutElement.FindParent<LayoutDocumentPane>() == null;
         }
 
         private void DockAsTabbedDocument()
         {
-            var dc = IoC.Get<IContextMenuHost>()
-                .GetContextMenu(AnchorableContextMenuDefinition.AnchorableContextMenu)
-                .DataContext as LayoutAnchorableItem;
-
-            dc?.DockAsDocumentCommand.Execute(null);
+            var dc = DockingManager.Instace.Layout.ActiveContent;
+            if (dc == null)
+                return;
+            var di = DockingManager.Instace.GetLayoutItemFromModel(dc);
+            di?.DockAsDocumentCommand.Execute(null);
         }
 
         public override ICommand Command { get; }

@@ -12,6 +12,7 @@
     <converters:BrushToColorConverter x:Key="BrushToColorConverter"/>
     <converters:CommandBarItemCommandConverter x:Key="CommandBarItemCommandConverter"/>
     <converters:NotNullConverter x:Key="NotNullConverter"/>
+    <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
 
     <Geometry x:Key="Checkmark">
         F1 M 5,11 L 3,7 L 5,7 L 6,9 L 9,3 L 11,3 L 7,11 L 5,11 Z
@@ -371,10 +372,12 @@
         </Setter>
         <Setter Property="AutomationProperties.AcceleratorKey">
             <Setter.Value>
-                <Binding Path="ShortcutText" Mode="OneWay"/>
+                <Binding Path="CommandDefinition.ShortcutText" Mode="OneWay"/>
             </Setter.Value>
         </Setter>
         <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemForeground}}"/>
+        <Setter Property="Visibility"
+                Value="{Binding IsVisible, Converter={StaticResource BoolToVisConverter}}"/>
         <Setter Property="Command">
             <Setter.Value>
                 <Binding Converter="{StaticResource CommandBarItemCommandConverter}"/>
@@ -466,6 +469,11 @@
                 <Binding Path="DisplayName" Mode="OneWay" Converter="{StaticResource AccessKeyConverter}"/>
             </Setter.Value>
         </Setter>
+        <Setter Property="Visibility">
+            <Setter.Value>
+                <Binding Path="IsVisible" Converter="{StaticResource BoolToVisConverter}"/>
+            </Setter.Value>
+        </Setter>
         <Setter Property="HorizontalContentAlignment">
             <Setter.Value>
                 <Binding Path="HorizontalContentAlignment">
@@ -531,7 +539,7 @@
         </Setter>
         <Setter Property="AutomationProperties.AcceleratorKey">
             <Setter.Value>
-                <Binding Path="ShortcutText"/>
+                <Binding Path="CommandDefinition.ShortcutText"/>
             </Setter.Value>
         </Setter>
         <Setter Property="Template" Value="{StaticResource ComboTemplate}"/>
