@@ -6,10 +6,11 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Input;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
-using Screen = Caliburn.Micro.Screen;
 
 namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 {
@@ -21,32 +22,10 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         private CommandBarDefinitionBase _selectedToolBarItem;
         private CommandBarDefinitionBase _selectedContextBarItem;
         private CustomizeRadioButtonOptions _selectedOption;
-
-        [ImportingConstructor]
-        public CommandsPageViewModel()
-        {
-            DisplayName = "Commands";
-            CustomizableToolBars = IoC.Get<IToolBarHostViewModel>().ToolbarDefinitions;
-
-            var menuHost = IoC.Get<IMenuHostViewModel>();
-
-            IEnumerable<CommandBarDefinitionBase> barDefinitions = menuHost.MenuBars.OrderBy(x => x.SortOrder).ToList();
-            IEnumerable<CommandBarDefinitionBase> menuDefinitions =
-                menuHost.MenuDefinitions.OrderBy(x => x.SortOrder).ToList();
-            IEnumerable<CommandBarDefinitionBase> submenus = menuHost.MenuItemDefinitions.Where(
-                x => x.CommandDefinition == null || x.CommandDefinition.ControlType == Definitions.Command.CommandControlTypes.Menu);
+        private IEnumerable _items;
 
 
-            CustomizableMenuBars =
-                new ObservableCollection<CommandBarDefinitionBase>(barDefinitions.Concat(menuDefinitions.Concat(submenus)));
-
-            Items = new List<CommandBarDefinitionBase>();
-
-
-            SelectedMenuItem = CustomizableMenuBars.FirstOrDefault();
-            SelectedToolBarItem = CustomizableToolBars.FirstOrDefault();
-
-        }
+        public ICommand HandleAddCommand => new Command(HandleCommandAdd);
 
         public IEnumerable<CommandBarDefinitionBase> CustomizableToolBars { get; set; }
         public IEnumerable<CommandBarDefinitionBase> CustomizableMenuBars { get; set; }
@@ -60,6 +39,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
                     return;
                 _selectedMenuItem = value;
                 NotifyOfPropertyChange();
+                SetupListBoxItems(SelectedOption);
             }
         }
 
@@ -72,6 +52,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
                     return;
                 _selectedToolBarItem = value;
                 NotifyOfPropertyChange();
+                SetupListBoxItems(SelectedOption);
             }
         }
 
@@ -84,6 +65,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
                     return;
                 _selectedContextBarItem = value;
                 NotifyOfPropertyChange();
+                SetupListBoxItems(SelectedOption);
             }
         }
 
@@ -100,25 +82,63 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             }
         }
 
+        public IEnumerable Items
+        {
+            get => _items;
+            set
+            {
+                if (Equals(value, _items)) return;
+                _items = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        [ImportingConstructor]
+        public CommandsPageViewModel()
+        {
+            DisplayName = "Commands";
+            CustomizableToolBars = IoC.Get<IToolBarHostViewModel>().ToolbarDefinitions;
+
+            var menuHost = IoC.Get<IMenuHostViewModel>();
+
+            IEnumerable<CommandBarDefinitionBase> barDefinitions = menuHost.MenuBars.OrderBy(x => x.SortOrder).ToList();
+            IEnumerable<CommandBarDefinitionBase> menuDefinitions =
+                menuHost.MenuDefinitions.OrderBy(x => x.SortOrder).ToList();
+            IEnumerable<CommandBarDefinitionBase> submenus = menuHost.MenuItemDefinitions.Where(
+                x => x.CommandDefinition == null || x.CommandDefinition.ControlType == CommandControlTypes.Menu);
+
+
+            CustomizableMenuBars =
+                new ObservableCollection<CommandBarDefinitionBase>(
+                    barDefinitions.Concat(menuDefinitions.Concat(submenus)));
+
+            Items = new List<CommandBarDefinitionBase>();
+
+
+            SelectedMenuItem = CustomizableMenuBars.FirstOrDefault();
+            SelectedToolBarItem = CustomizableToolBars.FirstOrDefault();
+
+            SetupListBoxItems(SelectedOption);
+        }
+
         private void SetupListBoxItems(CustomizeRadioButtonOptions value)
         {
             switch (value)
             {
                 case CustomizeRadioButtonOptions.Menu:
+                    var menuCreator = IoC.Get<IMenuCreator>();
+                    Items = menuCreator.GetSingleSubDefinitions(SelectedMenuItem);
                     break;
                 case CustomizeRadioButtonOptions.Toolbar:
+                    Items = null;
                     break;
                 case CustomizeRadioButtonOptions.ContextMenu:
+                    Items = null;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(value), value, null);
             }
         }
-
-        public IEnumerable Items { get; set; }
-
-
-        public ICommand HandleAddCommand => new Command(HandleCommandAdd);
 
         private void HandleCommandAdd()
         {

@@ -1,8 +1,11 @@
-﻿using System.ComponentModel.Composition;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
@@ -85,10 +88,27 @@ namespace ModernApplicationFramework.Basics.Creators
             }
         }
 
-        public void CreateMenuBar(IMenuHostViewModel model, MenuItem item)
+
+        public IEnumerable GetSingleSubDefinitions(CommandBarDefinitionBase definition)
         {
-            CreateMenuBar(model);
-            model.Items.Add(item);
+            var list = new List<CommandBarDefinitionBase>();
+            var host = IoC.Get<IMenuHostViewModel>();
+
+            if (definition is MenuBarDefinition barDefinition)
+            {
+                var menus = host.MenuDefinitions
+                    .Where(x => x.MenuBar == barDefinition)
+                    .OrderBy(x => x.SortOrder);
+                list.AddRange(menus);
+                foreach (var noGroupMenuItem in host.MenuItemGroupDefinitions.Where(x => x.Parent == barDefinition))
+                {
+                    var menuItems = host.MenuItemDefinitions.Where(x => x.Group == noGroupMenuItem)
+                        .OrderBy(x => x.SortOrder);
+
+                    list.AddRange(menuItems);
+                }
+            }
+            return list;
         }
     }
 }
