@@ -23,7 +23,8 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
                 return false;
             var di = DockingManager.Instace?.GetLayoutItemFromModel(dc);
 
-            return di?.LayoutElement?.FindParent<LayoutFloatingWindow>() != null || di?.LayoutElement is LayoutAnchorable layoutItem && layoutItem.IsAutoHidden;
+            return di?.LayoutElement?.FindParent<LayoutFloatingWindow>() != null || di?.LayoutElement?.FindParent<LayoutDocumentPane>() != null ||
+                di?.LayoutElement is LayoutAnchorable layoutItem && layoutItem.IsAutoHidden;
         }
 
         private void DockWindow()
