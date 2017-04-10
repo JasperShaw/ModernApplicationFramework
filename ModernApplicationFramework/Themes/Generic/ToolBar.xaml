@@ -30,8 +30,7 @@
                     Visibility="Visible" IsTabStop="False">
                 <Control.Template>
                     <ControlTemplate>
-                        <AccessText Name="LabelText"
-                                    Text="{Binding Text, Converter={StaticResource AccessKeyConverter}}"/>
+                        <AccessText x:Name="LabelText" Text="{Binding Text, Converter={StaticResource AccessKeyConverter}}"/>
                     </ControlTemplate>
                 </Control.Template>
             </Button>
@@ -323,12 +322,7 @@
                 <Binding Path="Background" RelativeSource="{RelativeSource Self}"
                          Converter="{StaticResource BrushToColorConverter}"/>
             </Setter.Value>
-        </Setter>
-        <Setter Property="ItemsSource">
-            <Setter.Value>
-                <Binding Path="Items"/>
-            </Setter.Value>
-        </Setter>
+        </Setter>       
         <Setter Property="Band">
             <Setter.Value>
                 <Binding Path="BandIndex" Mode="TwoWay"/>

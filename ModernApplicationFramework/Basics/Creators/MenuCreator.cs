@@ -30,10 +30,17 @@ namespace ModernApplicationFramework.Basics.Creators
                     menuItem.Items.Add(new MenuItem());
                     model.Items.Add(menuItem);
                 }
-                foreach (var noGroupMenuItem in model.MenuItemDefinitions.Where(x => x.Group == null).OrderBy(x => x.SortOrder))
+                foreach (var noGroupMenuItem in model.MenuItemGroupDefinitions.Where(x => x.Parent == bar))
                 {
-                    var item = new MenuItem(noGroupMenuItem);
-                    model.Items.Add(item);
+                    var menuItems = model.MenuItemDefinitions.Where(x => x.Group == noGroupMenuItem)
+                        .Where(x => !model.ExcludedMenuElementDefinitions.Contains(x))
+                        .OrderBy(x => x.SortOrder);
+
+                    foreach (var menuItem in menuItems)
+                    {
+                        var item = new MenuItem(menuItem);
+                        model.Items.Add(item);
+                    }
                 }
             }
         }

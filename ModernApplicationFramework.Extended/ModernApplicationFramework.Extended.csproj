@@ -106,6 +106,7 @@
     <Compile Include="MenuDefinitions\EditMenuDefinitions.cs" />
     <Compile Include="MenuDefinitions\FileMenuDefinitions.cs" />
     <Compile Include="MenuDefinitions\MainMenuBarDefinition.cs" />
+    <Compile Include="MenuDefinitions\MenuBarItemDefinitions.cs" />
     <Compile Include="MenuDefinitions\ToolsMenuDefinitions.cs" />
     <Compile Include="MenuDefinitions\ViewMenuDefinitions.cs" />
     <Compile Include="MenuDefinitions\WindowMenuDefinitions.cs" />

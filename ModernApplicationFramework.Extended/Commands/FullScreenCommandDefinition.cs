@@ -2,13 +2,10 @@
 using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Input;
-using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Basics.Definitions.Menu.MenuItems;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Extended.Interfaces;
-using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Extended.Commands
 {
@@ -19,17 +16,12 @@ namespace ModernApplicationFramework.Extended.Commands
         [Import] private IDockingMainWindowViewModel _shell;
 #pragma warning restore 649
 
-        private readonly MenuItemDefinition _itemDefinition;
-
         public FullScreenCommandDefinition()
         {
             var command  = new MultiKeyGestureCommandWrapper(TriggerFullScreen, CanTriggerFullScreen, new MultiKeyGesture(Key.Enter, ModifierKeys.Shift | ModifierKeys.Alt));
             Command = command;
             ShortcutText = command.GestureText;
-            _itemDefinition = new CommandTopLevelMenuItemDefinition(Text, null, int.MaxValue, this) {IsChecked = true};
         }
-
-        private bool _isFullScreen;
 
         public override ICommand Command { get;}
 
@@ -53,17 +45,7 @@ namespace ModernApplicationFramework.Extended.Commands
 
         private void TriggerFullScreen()
         {
-            var vm = IoC.Get<IMenuHostViewModel>();
-            if (!_isFullScreen)
-            {
-                vm.MenuItemDefinitions.Add(_itemDefinition);
-            }
-            else
-            {
-                vm.MenuItemDefinitions.Remove(_itemDefinition);
-            }
-            ((ModernChromeWindow) Application.Current.MainWindow).FullScreen = !_isFullScreen;
-            _isFullScreen = !_isFullScreen;
+            ((ModernChromeWindow) Application.Current.MainWindow).FullScreen = !((ModernChromeWindow)Application.Current.MainWindow).FullScreen;
         }
     }
 }

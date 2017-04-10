@@ -215,6 +215,7 @@
     <Compile Include="Basics\Definitions\Command\MenuItemCommandDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuItems\CommandMenuItemDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuItems\CommandMenuItemDefinitionT.cs" />
+    <Compile Include="Basics\Definitions\Menu\MenuItems\CommandTopLevelMenuItemDefinitionT.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuItems\CommandTopLevelMenuItemDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuItems\CustomSubHeaderMenuItemDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuItems\MenuItemDefinition.cs" />
@@ -250,6 +251,7 @@
     <Compile Include="Controls\Utilities\BindableSelectedItemBehavior.cs" />
     <Compile Include="Controls\Utilities\MenuBehavior.cs" />
     <Compile Include="Controls\Utilities\MenuPopupPositionerExtension.cs" />
+    <Compile Include="Core\Comparers\CommandTextComparer.cs" />
     <Compile Include="Core\Converters\AccessKeyConverter.cs" />
     <Compile Include="Core\Converters\AccessKeyRemovingConverter.cs" />
     <Compile Include="Core\Converters\AccessKeyUnderliningConverter.cs" />
@@ -257,6 +259,7 @@
     <Compile Include="Core\Converters\CommandBarItemCommandConverter.cs" />
     <Compile Include="Core\Converters\CommandToVisibilityConverter.cs" />
     <Compile Include="Core\Converters\EnabledFilteringMultiConverter.cs" />
+    <Compile Include="Core\Converters\EnumBooleanConverter.cs" />
     <Compile Include="Core\Converters\FormattedStringConverter.cs" />
     <Compile Include="Core\Converters\IfElseConverter.cs" />
     <Compile Include="Core\Converters\IsCustomMenuConverter.cs" />

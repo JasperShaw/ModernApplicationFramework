@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
@@ -16,6 +17,11 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
     [Export(typeof(CommandsPageViewModel))]
     public sealed class CommandsPageViewModel : Screen
     {
+        private CommandBarDefinitionBase _selectedMenuItem;
+        private CommandBarDefinitionBase _selectedToolBarItem;
+        private CommandBarDefinitionBase _selectedContextBarItem;
+        private CustomizeRadioButtonOptions _selectedOption;
+
         [ImportingConstructor]
         public CommandsPageViewModel()
         {
@@ -34,10 +40,83 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             CustomizableMenuBars =
                 new ObservableCollection<CommandBarDefinitionBase>(barDefinitions.Concat(menuDefinitions.Concat(submenus)));
 
+            Items = new List<CommandBarDefinitionBase>();
+
+
+            SelectedMenuItem = CustomizableMenuBars.FirstOrDefault();
+            SelectedToolBarItem = CustomizableToolBars.FirstOrDefault();
+
         }
 
         public IEnumerable<CommandBarDefinitionBase> CustomizableToolBars { get; set; }
         public IEnumerable<CommandBarDefinitionBase> CustomizableMenuBars { get; set; }
+
+        public CommandBarDefinitionBase SelectedMenuItem
+        {
+            get => _selectedMenuItem;
+            set
+            {
+                if (Equals(value, _selectedMenuItem))
+                    return;
+                _selectedMenuItem = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public CommandBarDefinitionBase SelectedToolBarItem
+        {
+            get => _selectedToolBarItem;
+            set
+            {
+                if (Equals(value, _selectedToolBarItem))
+                    return;
+                _selectedToolBarItem = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public CommandBarDefinitionBase SelectedContextBarItem
+        {
+            get => _selectedContextBarItem;
+            set
+            {
+                if (Equals(value, _selectedContextBarItem))
+                    return;
+                _selectedContextBarItem = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public CustomizeRadioButtonOptions SelectedOption
+        {
+            get => _selectedOption;
+            set
+            {
+                if (value == _selectedOption)
+                    return;
+                _selectedOption = value;
+                NotifyOfPropertyChange();
+                SetupListBoxItems(value);
+            }
+        }
+
+        private void SetupListBoxItems(CustomizeRadioButtonOptions value)
+        {
+            switch (value)
+            {
+                case CustomizeRadioButtonOptions.Menu:
+                    break;
+                case CustomizeRadioButtonOptions.Toolbar:
+                    break;
+                case CustomizeRadioButtonOptions.ContextMenu:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(value), value, null);
+            }
+        }
+
+        public IEnumerable Items { get; set; }
+
 
         public ICommand HandleAddCommand => new Command(HandleCommandAdd);
 
@@ -47,5 +126,12 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             var addCommandDialog = new AddCommandDialogViewModel();
             windowManager.ShowDialog(addCommandDialog);
         }
+    }
+
+    public enum CustomizeRadioButtonOptions
+    {
+        Menu,
+        Toolbar,
+        ContextMenu
     }
 }

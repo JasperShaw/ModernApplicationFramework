@@ -50,7 +50,7 @@ namespace ModernApplicationFramework.Controls
 
         private void SelectStyleForItem(FrameworkElement frameworkElement, object item, IExposeStyleKeys styleKeySource, bool deferIfInvisible)
         {
-            frameworkElement.SetResourceReference(StyleProperty, ComboBoxStyleKey);
+            frameworkElement.SetResourceReference(StyleProperty, MenuStyleKey);
         }
     }
 
