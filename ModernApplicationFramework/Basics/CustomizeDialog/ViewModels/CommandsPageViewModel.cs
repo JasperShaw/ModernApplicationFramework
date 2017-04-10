@@ -2,10 +2,13 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Windows;
+using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Basics.Definitions.Menu;
+using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Interfaces.ViewModels;
+using Screen = Caliburn.Micro.Screen;
 
 namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 {
@@ -33,9 +36,16 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 
         }
 
-
-
         public IEnumerable<CommandBarDefinitionBase> CustomizableToolBars { get; set; }
         public IEnumerable<CommandBarDefinitionBase> CustomizableMenuBars { get; set; }
+
+        public ICommand HandleAddCommand => new Command(HandleCommandAdd);
+
+        private void HandleCommandAdd()
+        {
+            var windowManager = new WindowManager();
+            var addCommandDialog = new AddCommandDialogViewModel();
+            windowManager.ShowDialog(addCommandDialog);
+        }
     }
 }

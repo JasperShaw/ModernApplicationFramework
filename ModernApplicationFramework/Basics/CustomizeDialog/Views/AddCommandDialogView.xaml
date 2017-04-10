@@ -1,0 +1,75 @@
+﻿<controls:DialogWindow x:Class="ModernApplicationFramework.Basics.CustomizeDialog.Views.AddCommandDialogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
+             ShowInTaskbar="False" Title="Add Command" ResizeMode="CanResizeWithGrip"
+                       Height="370" Width="585" MinHeight="250" MinWidth="500" WindowStartupLocation="CenterOwner">
+    <FocusManager.FocusedElement>
+        <Binding ElementName="CategoriesListView"/>
+    </FocusManager.FocusedElement>
+    <FrameworkElement.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../../Themes/Generic/CustomizeStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <DataTemplate x:Key="ItemDataTemplate">
+                <TextBlock>
+                    <TextBlock.Text>
+                        <Binding Path="Text"/>
+                    </TextBlock.Text>
+                </TextBlock>
+            </DataTemplate>
+            <Style x:Key="CategoryItemStyle">
+                <Setter Property="AutomationProperties.Name">
+                    <Setter.Value>
+                        <Binding Path="Text" Converter="{StaticResource AccessKeyRemovingConverter}"/>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </FrameworkElement.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2.5*"/>
+        </Grid.ColumnDefinitions>
+        <Label x:Name="TitleLabel" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="12,12,12,6" Padding="0"
+               HorizontalAlignment="Left" VerticalAlignment="Center">
+            <TextBlock TextWrapping="Wrap" Text="Choose the command to add and click OK."></TextBlock>
+        </Label>
+        <Label x:Name="CategoriesLabel" Padding="0" Grid.Row="1" Grid.Column="0" Content="Cate_gories"
+               HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="12,0,0,5">
+            <Label.Target>
+                <Binding ElementName="CommandsListView" Path="FocusableElement" Mode="OneWay"/>
+            </Label.Target>
+        </Label>
+        <controls:CustomSortListBox x:Name="CategoriesListView" Grid.Row="2" Grid.Column="0"
+                                    Margin="12,0,0,10" ItemTemplate="{StaticResource ItemDataTemplate}"
+                                    ItemContainerStyle="{StaticResource CategoryItemStyle}" VirtualizingStackPanel.IsVirtualizing="False"
+                                    TextSearch.TextPath="Text" ItemsSource="{Binding Categories}"/>
+        <controls:CustomizeControlsListBox x:Name="CommandsListView" Grid.Row="2" Grid.Column="1" Margin="10,0,12,10" SelectedIndex="0"
+                                           IsSynchronizedWithCurrentItem="True" TextSearch.TextPath="Text" ItemsSource="{Binding Items}">
+            <FrameworkElement.DataContext>
+                <Binding ElementName="CategoriesListView" Path="SelectedItem"/>
+            </FrameworkElement.DataContext>
+        </controls:CustomizeControlsListBox>
+        
+        <StackPanel Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"
+                    Orientation="Horizontal" Margin="0,0,2,0">
+            <controls:DialogButton x:Name="OKButton" IsDefault="True" Content="OK" VerticalAlignment="Center"
+                                   Command="{Binding OkClickCommand}">
+                <UIElement.IsEnabled>
+                    <Binding Path="SelectedItem" ElementName="CommandsListView" Converter="{StaticResource NotNullConverter}"/>
+                </UIElement.IsEnabled>
+            </controls:DialogButton>
+            <controls:DialogButton x:Name="CancelButton" IsCancel="True" Content="Cancel" VerticalAlignment="Center"/>
+        </StackPanel>
+    </Grid>
+</controls:DialogWindow>
+
