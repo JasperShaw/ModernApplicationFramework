@@ -193,7 +193,7 @@
                          IsChecked="{Binding SelectedOption, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:CustomizeRadioButtonOptions.ContextMenu}, Mode=TwoWay}"/>
             <ComboBox Name="ContextMenuCombo" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="6,0,0,5" SelectedIndex="0"
                       TextSearch.TextPath="Text" DisplayMemberPath="Text" ItemContainerStyle="{StaticResource CollectionComboBoxItemStyle}"
-                      ItemsSource="{Binding CustomizableContextMenus}">
+                      ItemsSource="{Binding CustomizableContextMenus}" SelectedItem="{Binding SelectedContextMenuItem, Mode=TwoWay}">
                 <UIElement.IsEnabled>
                     <Binding ElementName="ContextMenuRadioButton" Path="IsChecked"/>
                 </UIElement.IsEnabled>

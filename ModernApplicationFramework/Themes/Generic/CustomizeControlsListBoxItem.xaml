@@ -73,6 +73,7 @@
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
+        
         <ControlTemplate x:Key="CustomizeControlsListBoxItem.SeparatorTemplate" TargetType="{x:Type controls:CustomizeControlsListBoxItem}">
             <Grid SnapsToDevicePixels="True" Background="{TemplateBinding Background}" MinHeight="22">
                 <Grid.ColumnDefinitions>
@@ -81,7 +82,7 @@
                 </Grid.ColumnDefinitions>
                 <Rectangle x:Name="Bg" Stroke=" Transparent" Fill="Transparent" StrokeThickness="0"
                            Grid.ColumnSpan="2"/>
-                <Rectangle Height="1" Margin="4,1,1,1" Fill="{DynamicResource {x:Static themes:EnvironmentColors.SeparatorBackground}}" Grid.Column="1"/>
+                <Rectangle Height="1" Margin="4,1,1,1" Fill="{DynamicResource {x:Static themes:EnvironmentColors.MenuSeparator}}" Grid.Column="1"/>
             </Grid>
             <ControlTemplate.Triggers>
                 <Trigger Property="ListBoxItem.IsSelected" Value="True">

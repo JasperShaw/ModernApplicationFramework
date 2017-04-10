@@ -6,6 +6,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
+using ModernApplicationFramework.Basics.Definitions.Menu.MenuItems;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
@@ -105,6 +106,24 @@ namespace ModernApplicationFramework.Basics.Creators
                     var menuItems = host.MenuItemDefinitions.Where(x => x.Group == noGroupMenuItem)
                         .OrderBy(x => x.SortOrder);
 
+                    list.AddRange(menuItems);
+                }
+            }
+            else if (definition is MenuDefinition || definition is MenuItemDefinition)
+            {
+                var groups = host.MenuItemGroupDefinitions.Where(x => x.Parent == definition)
+                    .OrderBy(x => x.SortOrder)
+                    .ToList();
+
+
+                for (var i = 0; i < groups.Count; i++)
+                {
+                    var group = groups[i];
+                    var menuItems = host.MenuItemDefinitions.Where(x => x.Group == group)
+                        .OrderBy(x => x.SortOrder);
+                    if (i > 0 && i <= groups.Count - 1 && menuItems.Any())
+                        if (menuItems.Any(menuItemDefinition => menuItemDefinition.IsVisible))
+                            list.Add(CommandBarSeparatorDefinition.MenuSeparatorDefinition);
                     list.AddRange(menuItems);
                 }
             }

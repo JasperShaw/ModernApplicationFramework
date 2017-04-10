@@ -1,5 +1,8 @@
-﻿using System.ComponentModel.Composition;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
+using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Controls;
@@ -27,16 +30,50 @@ namespace ModernApplicationFramework.Basics.Creators
                     .Where(x => x.Group == group)
                     .OrderBy(x => x.SortOrder);
 
+                if (i > 0 && i <= groups.Count - 1 && toolBarItems.Any())
+                {
+                    if (toolBarItems.Any(toolbarItemDefinition => toolbarItemDefinition.IsVisible))
+                    {
+                        var separator = new CommandDefinitionButton(CommandBarSeparatorDefinition.MenuSeparatorDefinition);
+                        toolBar.Items.Add(separator);
+                    }
+                }
+
                 foreach (var toolBarItem in toolBarItems)
                 {
                     var button = new CommandDefinitionButton(toolBarItem);
                     toolBar.Items.Add(button);
                 }
-
-                if (i < groups.Count - 1 && toolBarItems.Any())
-                    toolBar.Items.Add(new CommandDefinitionButton(CommandBarSeparatorDefinition.MenuSeparatorDefinition));
             }
             return toolBar;
+        }
+
+        public IEnumerable GetToolBarItemDefinitions(CommandBarDefinitionBase toolbarDefinition)
+        {
+            var list = new List<CommandBarDefinitionBase>();
+
+            var model = IoC.Get<IToolBarHostViewModel>();
+            var groups = model.ToolbarItemGroupDefinitions
+                .Where(x => x.ParentToolbar == toolbarDefinition)
+                .OrderBy(x => x.SortOrder)
+                .ToList();
+
+            for (var i = 0; i < groups.Count; i++)
+            {
+                var group = groups[i];
+                var toolBarItems = model.ToolbarItemDefinitions
+                    .Where(x => x.Group == group)
+                    .OrderBy(x => x.SortOrder);
+
+                if (i > 0 && i <= groups.Count - 1 && toolBarItems.Any())
+                    if (toolBarItems.Any(toolbarItemDefinition => toolbarItemDefinition.IsVisible))
+                        list.Add(CommandBarSeparatorDefinition.MenuSeparatorDefinition);
+
+                list.AddRange(toolBarItems);
+            }
+
+
+            return list;
         }
     }
 }

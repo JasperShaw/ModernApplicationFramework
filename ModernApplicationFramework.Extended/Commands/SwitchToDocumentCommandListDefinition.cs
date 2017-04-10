@@ -6,6 +6,6 @@ namespace ModernApplicationFramework.Extended.Commands
     [Export(typeof(DefinitionBase))]
     public class SwitchToDocumentCommandListDefinition : CommandListDefinition
     {
-        public override string Name => "Window.SwitchToDocument";
+        public override string Name => "Window List";
     }
 }

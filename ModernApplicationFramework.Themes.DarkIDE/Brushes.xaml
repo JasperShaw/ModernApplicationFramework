@@ -283,7 +283,7 @@
     
     <!--MenuSeperator-->
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuSeparator}" Color="#FF333337"/>
+                     ResourceId=MenuSeparator}" Color="#FF222222"/>
     
     <!--Menu-->
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 

@@ -1,4 +1,6 @@
-﻿using ModernApplicationFramework.Basics.Definitions.Toolbar;
+﻿using System.Collections;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Interfaces.ViewModels;
 
@@ -11,5 +13,7 @@ namespace ModernApplicationFramework.Interfaces.Utilities
         /// </summary>
         /// <param name="model"></param>
         ToolBar CreateToolbar(IToolBarHostViewModel model, ToolbarDefinition definition);
+
+        IEnumerable GetToolBarItemDefinitions(CommandBarDefinitionBase selectedToolBarItem);
     }
 }

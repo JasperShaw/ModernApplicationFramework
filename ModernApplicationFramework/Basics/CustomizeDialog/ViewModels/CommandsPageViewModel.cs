@@ -6,9 +6,11 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Input;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Creators;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
 
@@ -20,7 +22,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
     {
         private CommandBarDefinitionBase _selectedMenuItem;
         private CommandBarDefinitionBase _selectedToolBarItem;
-        private CommandBarDefinitionBase _selectedContextBarItem;
+        private CommandBarDefinitionBase _selectedContextMenuItem;
         private CustomizeRadioButtonOptions _selectedOption;
         private IEnumerable _items;
 
@@ -29,6 +31,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 
         public IEnumerable<CommandBarDefinitionBase> CustomizableToolBars { get; set; }
         public IEnumerable<CommandBarDefinitionBase> CustomizableMenuBars { get; set; }
+        public IEnumerable<CommandBarDefinitionBase> CustomizableContextMenus { get; set; }
 
         public CommandBarDefinitionBase SelectedMenuItem
         {
@@ -56,14 +59,14 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             }
         }
 
-        public CommandBarDefinitionBase SelectedContextBarItem
+        public CommandBarDefinitionBase SelectedContextMenuItem
         {
-            get => _selectedContextBarItem;
+            get => _selectedContextMenuItem;
             set
             {
-                if (Equals(value, _selectedContextBarItem))
+                if (Equals(value, _selectedContextMenuItem))
                     return;
-                _selectedContextBarItem = value;
+                _selectedContextMenuItem = value;
                 NotifyOfPropertyChange();
                 SetupListBoxItems(SelectedOption);
             }
@@ -112,11 +115,15 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
                 new ObservableCollection<CommandBarDefinitionBase>(
                     barDefinitions.Concat(menuDefinitions.Concat(submenus)));
 
+            CustomizableContextMenus = IoC.Get<IContextMenuHost>().ContextMenuDefinitions;
+
+
             Items = new List<CommandBarDefinitionBase>();
 
 
             SelectedMenuItem = CustomizableMenuBars.FirstOrDefault();
             SelectedToolBarItem = CustomizableToolBars.FirstOrDefault();
+            SelectedContextMenuItem = CustomizableContextMenus.FirstOrDefault();
 
             SetupListBoxItems(SelectedOption);
         }
@@ -130,10 +137,12 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
                     Items = menuCreator.GetSingleSubDefinitions(SelectedMenuItem);
                     break;
                 case CustomizeRadioButtonOptions.Toolbar:
-                    Items = null;
+                    var toolbarCreator = IoC.Get<IToolbarCreator>();
+                    Items = toolbarCreator.GetToolBarItemDefinitions(SelectedToolBarItem);
                     break;
                 case CustomizeRadioButtonOptions.ContextMenu:
-                    Items = null;
+                    var contextMenuCreator = IoC.Get<IContextMenuCreator>();
+                    Items = contextMenuCreator.GetContextMenuItemDefinitions(SelectedContextMenuItem);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(value), value, null);
