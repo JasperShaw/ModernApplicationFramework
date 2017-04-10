@@ -141,7 +141,7 @@
         <Grid SnapsToDevicePixels="True" Background="Transparent">
             <Grid MinHeight="22" MaxWidth="{x:Static this:MenuItem.MaxMenuWidth}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="26" SharedSizeGroup="MenuItemIconColumnGroup"/>
+                    <ColumnDefinition Width="26" SharedSizeGroup="MenuItemicoColumnGroup"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="37"/>
                     <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIGTColumnGroup"/>

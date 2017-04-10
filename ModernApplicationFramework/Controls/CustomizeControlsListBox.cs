@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using ModernApplicationFramework.Core.Themes;
+using ModernApplicationFramework.Core.Utilities;
 
 namespace ModernApplicationFramework.Controls
 {
@@ -45,12 +46,7 @@ namespace ModernApplicationFramework.Controls
 
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
         {
-            SelectStyleForItem(element as FrameworkElement, item, this, false);
-        }
-
-        private void SelectStyleForItem(FrameworkElement frameworkElement, object item, IExposeStyleKeys styleKeySource, bool deferIfInvisible)
-        {
-            frameworkElement.SetResourceReference(StyleProperty, MenuStyleKey);
+            StyleUtilities.SelectStyleForItem(element as FrameworkElement, item, this);
         }
     }
 

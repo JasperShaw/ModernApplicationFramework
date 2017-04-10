@@ -39,7 +39,7 @@
         <ControlTemplate x:Key="CustomizeControlsComboBoxTemplate" TargetType="{x:Type ComboBox}">
             <Border x:Name="Border" BorderThickness="1" BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxBorder}}"
                     Background="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxBackground}}">
-                <Grid Name="Placement" SnapsToDevicePixels="True">
+                <Grid x:Name="Placement" SnapsToDevicePixels="True">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
@@ -92,232 +92,226 @@
         </ControlTemplate>
 
 
-        <ControlTemplate x:Key="CustomizeControlsListBoxItem.ButtonTemplate" x:Uid="ControlTemplate_8"
+        <ControlTemplate x:Key="CustomizeControlsListBoxItem.ButtonTemplate"
                          TargetType="{x:Type controls:CustomizeControlsListBoxItem}">
-            <Grid x:Uid="Grid_7" SnapsToDevicePixels="true" Background="{TemplateBinding Control.Background}"
+            <Grid SnapsToDevicePixels="true" Background="{TemplateBinding Control.Background}"
                   MinHeight="22" MaxWidth="660">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition x:Uid="ColumnDefinition_10" Width="26" SharedSizeGroup="MenuItemIconColumnGroup"/>
-                    <ColumnDefinition x:Uid="ColumnDefinition_11" Width="*"/>
+                    <ColumnDefinition Width="26" SharedSizeGroup="MenuItemIconColumnGroup"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Rectangle x:Name="Bg" x:Uid="Rectangle_4" Stroke="Transparent" Fill="Transparent" StrokeThickness="0"
+                <Rectangle x:Name="Bg" Stroke="Transparent" Fill="Transparent" StrokeThickness="0"
                            Grid.ColumnSpan="2"/>
-                <ContentPresenter x:Name="Icon" x:Uid="Icon" Margin="2,1,4,1" Width="16" Height="16" VerticalAlignment="Center"
+                <ContentPresenter Grid.Column="0" x:Name="Icon" Margin="2,1,4,1" Width="16" Height="16" VerticalAlignment="Center"
                                   ContentSource="Icon" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"
                                   Visibility="Collapsed"/>
-                <Border x:Name="GlyphPanel" x:Uid="Border_6"
+                <Border Grid.Column="0" x:Name="GlyphPanel" x:Uid="Border_6"
                         Background="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarSelectedIcon}}"
                         BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarCheckBox}}"
                         BorderThickness="2" Margin="1" Visibility="Collapsed" Width="18" Height="18">
-                    <Path x:Name="Glyph" x:Uid="Path_1" Width="16" Height="16"
+                    <Path x:Name="Glyph" Width="16" Height="16"
                           Fill="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarCheckBox}}"
                           FlowDirection="LeftToRight" Data="{StaticResource Checkmark}"/>
                 </Border>
-                <ContentPresenter x:Uid="ContentPresenter_2" Grid.Column="1" ContentSource="Content" Margin="8,1,0,1"
+                <ContentPresenter Grid.Column="1" ContentSource="Content" Margin="8,1,0,1"
                                   VerticalAlignment="Center" RecognizesAccessKey="true"
                                   SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
             </Grid>
             <ControlTemplate.Triggers>
-                <MultiDataTrigger x:Uid="MultiDataTrigger_1">
+                <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
-                        <Condition x:Uid="Condition_1" Binding="{Binding Flags.Pict}" Value="False"/>
-                        <Condition x:Uid="Condition_2" Binding="{Binding Flags.TextOnly}" Value="False"/>
+                        <Condition Binding="{Binding Flags.Pict}" Value="False"/>
+                        <Condition Binding="{Binding Flags.TextOnly}" Value="False"/>
                     </MultiDataTrigger.Conditions>
-                    <Setter x:Uid="Setter_28" TargetName="Icon" Property="UIElement.Visibility" Value="Visible"/>
+                    <Setter TargetName="Icon" Property="UIElement.Visibility" Value="Visible"/>
                 </MultiDataTrigger>
-                <MultiDataTrigger x:Uid="MultiDataTrigger_2">
+                <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
-                        <Condition x:Uid="Condition_3" Binding="{Binding Flags.Pict}" Value="True"/>
-                        <Condition x:Uid="Condition_4" Binding="{Binding Flags.TextOnly}" Value="True"/>
+                        <Condition Binding="{Binding Flags.Pict}" Value="True"/>
+                        <Condition Binding="{Binding Flags.TextOnly}" Value="True"/>
                     </MultiDataTrigger.Conditions>
-                    <Setter x:Uid="Setter_29" TargetName="Icon" Property="UIElement.Visibility" Value="Visible"/>
+                    <Setter TargetName="Icon" Property="UIElement.Visibility" Value="Visible"/>
                 </MultiDataTrigger>
-                <Trigger x:Uid="Trigger_6" Property="controls:CustomizeControlsListBoxItem.Icon">
+                <Trigger Property="controls:CustomizeControlsListBoxItem.Icon">
                     <Trigger.Value>
                         <x:NullExtension/>
                     </Trigger.Value>
-                    <Setter x:Uid="Setter_30" TargetName="Icon" Property="UIElement.Visibility" Value="Collapsed"/>
+                    <Setter TargetName="Icon" Property="UIElement.Visibility" Value="Collapsed"/>
                 </Trigger>
-                <Trigger x:Uid="Trigger_7" Property="controls:CustomizeControlsListBoxItem.IsChecked" Value="true">
-                    <Setter x:Uid="Setter_31" TargetName="GlyphPanel" Property="UIElement.Visibility" Value="Visible"/>
-                    <Setter x:Uid="Setter_32" TargetName="Icon" Property="UIElement.Visibility" Value="Collapsed"/>
+                <Trigger Property="controls:CustomizeControlsListBoxItem.IsChecked" Value="true">
+                    <Setter TargetName="GlyphPanel" Property="UIElement.Visibility" Value="Visible"/>
+                    <Setter TargetName="Icon" Property="UIElement.Visibility" Value="Collapsed"/>
                 </Trigger>
-                <Trigger x:Uid="Trigger_8" Property="ListBoxItem.IsSelected" Value="true">
-                    <Setter x:Uid="Setter_33" TargetName="Bg"
-                            Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuItemMouseOver}}"
+                <Trigger Property="ListBoxItem.IsSelected" Value="true">
+                    <Setter TargetName="Bg"
+                            Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemBackgroundHover}}"
                             Property="Shape.Fill"/>
-                    <Setter x:Uid="Setter_34" TargetName="Bg"
+                    <Setter TargetName="Bg"
                             Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuItemMouseOverBorder}}"
                             Property="Shape.Stroke"/>
-                    <Setter x:Uid="Setter_35"
-                            Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuItemMouseOverText}}"
+                    <Setter Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuItemMouseOverText}}"
                             Property="TextElement.Foreground"/>
-                    <Setter x:Uid="Setter_36" TargetName="GlyphPanel"
+                    <Setter TargetName="GlyphPanel"
                             Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarSelectedIcon}}"
                             Property="Border.Background"/>
-                    <Setter x:Uid="Setter_37" TargetName="GlyphPanel"
+                    <Setter TargetName="GlyphPanel"
                             Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarSelectedIcon}}"
                             Property="Border.BorderBrush"/>
-                    <Setter x:Uid="Setter_69" TargetName="Glyph"
+                    <Setter TargetName="Glyph"
                             Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarSelectedIcon}}"
                             Property="Shape.Fill"/>
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
 
-        <ControlTemplate x:Key="CustomizeControlsListBoxItem.MenuTemplate" x:Uid="ControlTemplate_9"
-                         TargetType="{x:Type controls:CustomizeControlsListBoxItem}">
-            <Grid x:Uid="Grid_8" SnapsToDevicePixels="true" Background="{TemplateBinding Control.Background}"
+        <ControlTemplate x:Key="CustomizeControlsListBoxItem.MenuTemplate" TargetType="{x:Type controls:CustomizeControlsListBoxItem}">
+            <Grid SnapsToDevicePixels="true" Background="{TemplateBinding Control.Background}"
                   MinHeight="22" MaxWidth="660">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition x:Uid="ColumnDefinition_12" Width="26" SharedSizeGroup="MenuItemIconColumnGroup"/>
-                    <ColumnDefinition x:Uid="ColumnDefinition_13" Width="*"/>
-                    <ColumnDefinition x:Uid="ColumnDefinition_14" Width="17"/>
+                    <ColumnDefinition Width="26" SharedSizeGroup="MenuItemIconColumnGroup"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="17"/>
                 </Grid.ColumnDefinitions>
-                <Rectangle x:Name="Bg" x:Uid="Rectangle_5" Stroke="Transparent" Fill="Transparent" StrokeThickness="0"
+                <Rectangle x:Name="Bg" Stroke="Transparent" Fill="Transparent" StrokeThickness="0"
                            Grid.ColumnSpan="3"/>
-                <ContentPresenter x:Name="Icon" x:Uid="ContentPresenter_3" Margin="2,1,4,1" Width="16" Height="16"
+                <ContentPresenter Grid.Column="0" x:Name="Icon" Margin="2,1,4,1" Width="16" Height="16"
                                   VerticalAlignment="Center" ContentSource="Icon"
                                   SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
-                <ContentPresenter x:Uid="ContentPresenter_4" Grid.Column="1" ContentSource="Content" Margin="8,1,0,1"
+                <ContentPresenter Grid.Column="1" ContentSource="Content" Margin="8,1,0,1"
                                   VerticalAlignment="Center" RecognizesAccessKey="true"
                                   SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
-                <Path x:Uid="Path_2" Grid.Column="2" VerticalAlignment="Center" Margin="4,0,0,0"
+                <Path Grid.Column="2" VerticalAlignment="Center" Margin="4,0,0,0"
                       Fill="{DynamicResource {x:Static themes:EnvironmentColors.MenuSubItemGlyph}}"
                       Data="{StaticResource RightArrow}"/>
             </Grid>
             <ControlTemplate.Triggers>
-                <Trigger x:Uid="Trigger_9" Property="controls:CustomizeControlsListBoxItem.Icon">
+                <Trigger Property="controls:CustomizeControlsListBoxItem.Icon">
                     <Trigger.Value>
                         <x:NullExtension/>
                     </Trigger.Value>
-                    <Setter x:Uid="Setter_38" TargetName="Icon" Property="UIElement.Visibility" Value="Collapsed"/>
+                    <Setter TargetName="Icon" Property="UIElement.Visibility" Value="Collapsed"/>
                 </Trigger>
-                <Trigger x:Uid="Trigger_10" Property="ListBoxItem.IsSelected" Value="true">
-                    <Setter x:Uid="Setter_39" TargetName="Bg"
+                <Trigger Property="ListBoxItem.IsSelected" Value="true">
+                    <Setter TargetName="Bg"
                             Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemBackgroundHover}}"
                             Property="Shape.Fill"/>
-                    <Setter x:Uid="Setter_40" TargetName="Bg"
+                    <Setter TargetName="Bg"
                             Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemBorderHover}}"
                             Property="Shape.Stroke"/>
-                    <Setter x:Uid="Setter_41"
-                            Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemForegroundHover}}"
+                    <Setter Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemForegroundHover}}"
                             Property="TextElement.Foreground"/>
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
 
-        <ControlTemplate x:Key="CustomizeControlsListBoxItem.MenuControllerTemplate" x:Uid="ControlTemplate_10"
+        <ControlTemplate x:Key="CustomizeControlsListBoxItem.MenuControllerTemplate"
                          TargetType="{x:Type controls:CustomizeControlsListBoxItem}">
-            <Grid x:Uid="Grid_9" SnapsToDevicePixels="true" Background="{TemplateBinding Control.Background}"
+            <Grid SnapsToDevicePixels="true" Background="{TemplateBinding Control.Background}"
                   MinHeight="22" MaxWidth="660">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition x:Uid="ColumnDefinition_15" Width="26" SharedSizeGroup="MenuItemIconColumnGroup"/>
-                    <ColumnDefinition x:Uid="ColumnDefinition_16" Width="*"/>
-                    <ColumnDefinition x:Uid="ColumnDefinition_17" Width="1"/>
-                    <ColumnDefinition x:Uid="ColumnDefinition_18" Width="17"/>
+                    <ColumnDefinition Width="26" SharedSizeGroup="MenuItemIconColumnGroup"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1"/>
+                    <ColumnDefinition Width="17"/>
                 </Grid.ColumnDefinitions>
-                <Rectangle x:Name="Bg" x:Uid="Rectangle_6" Stroke="Transparent" Fill="Transparent" StrokeThickness="0"
+                <Rectangle x:Name="Bg" Stroke="Transparent" Fill="Transparent" StrokeThickness="0"
                            Grid.ColumnSpan="4"/>
-                <ContentPresenter x:Name="Icon" x:Uid="ContentPresenter_5" Margin="2,1,4,1" Width="16" Height="16"
+                <ContentPresenter x:Name="Icon" Margin="2,1,4,1" Width="16" Height="16"
                                   VerticalAlignment="Center" ContentSource="Icon"
                                   SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
-                <ContentPresenter x:Uid="ContentPresenter_6" Grid.Column="1" ContentSource="Content" Margin="8,1,0,1"
+                <ContentPresenter Grid.Column="1" ContentSource="Content" Margin="8,1,0,1"
                                   VerticalAlignment="Center" RecognizesAccessKey="true"
                                   SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
-                <Rectangle x:Name="DropDownSep" x:Uid="DropDownSep" Grid.Column="2" HorizontalAlignment="Left" Width="1"
+                <Rectangle x:Name="DropDownSep" Grid.Column="2" HorizontalAlignment="Left" Width="1"
                            Fill="{DynamicResource {x:Static themes:EnvironmentColors.SplitButtonSeparator}}"/>
-                <Path x:Name="Arrow" x:Uid="Path_3" Grid.Column="3" VerticalAlignment="Center" Margin="4,0,0,0"
+                <Path x:Name="Arrow" Grid.Column="3" VerticalAlignment="Center" Margin="4,0,0,0"
                       Fill="{DynamicResource {x:Static themes:EnvironmentColors.MenuSubItemGlyph}}"
                       Data="{StaticResource DownArrow}"/>
             </Grid>
             <ControlTemplate.Triggers>
-                <Trigger x:Uid="Trigger_11" Property="controls:CustomizeControlsListBoxItem.Icon">
+                <Trigger Property="controls:CustomizeControlsListBoxItem.Icon">
                     <Trigger.Value>
                         <x:NullExtension/>
                     </Trigger.Value>
-                    <Setter x:Uid="Setter_42" TargetName="Icon" Property="UIElement.Visibility" Value="Collapsed"/>
+                    <Setter TargetName="Icon" Property="UIElement.Visibility" Value="Collapsed"/>
                 </Trigger>
-                <Trigger x:Uid="Trigger_12" Property="ListBoxItem.IsSelected" Value="true">
-                    <Setter x:Uid="Setter_43" TargetName="Bg"
+                <Trigger Property="ListBoxItem.IsSelected" Value="true">
+                    <Setter TargetName="Bg"
                             Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemBackgroundHover}}"
                             Property="Shape.Fill"/>
-                    <Setter x:Uid="Setter_44" TargetName="Bg"
+                    <Setter TargetName="Bg"
                             Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemBorderHover}}"
                             Property="Shape.Stroke"/>
-                    <Setter x:Uid="Setter_46"
-                            Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemForegroundHover}}"
+                    <Setter Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemForegroundHover}}"
                             Property="TextElement.Foreground"/>
-                    <Setter x:Uid="Setter_74" TargetName="DropDownSep"
+                    <Setter TargetName="DropDownSep"
                             Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownGlyphHover}}"
                             Property="Shape.Fill"/>
-                    <Setter x:Uid="Setter_73" TargetName="Arrow"
+                    <Setter TargetName="Arrow"
                             Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownGlyphHover}}"
                             Property="Shape.Fill"/>
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
 
-        <ControlTemplate x:Key="CustomizeControlsListBoxItem.ComboBoxTemplate" x:Uid="ControlTemplate_11"
-                         TargetType="{x:Type controls:CustomizeControlsListBoxItem}">
-            <Grid x:Uid="Grid_10" SnapsToDevicePixels="true" Background="{TemplateBinding Control.Background}"
+        <ControlTemplate x:Key="CustomizeControlsListBoxItem.ComboBoxTemplate" TargetType="{x:Type controls:CustomizeControlsListBoxItem}">
+            <Grid SnapsToDevicePixels="true" Background="{TemplateBinding Control.Background}"
                   MinHeight="22" MaxWidth="660">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition x:Uid="ColumnDefinition_19" Width="26" SharedSizeGroup="MenuItemIconColumnGroup"/>
-                    <ColumnDefinition x:Uid="ColumnDefinition_20" Width="Auto"/>
-                    <ColumnDefinition x:Uid="ColumnDefinition_21" Width="*"/>
+                    <ColumnDefinition Width="26" SharedSizeGroup="MenuItemIconColumnGroup"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Rectangle x:Name="Bg" x:Uid="Rectangle_7" Stroke="Transparent" Fill="Transparent" StrokeThickness="0"
+                <Rectangle x:Name="Bg" Stroke="Transparent" Fill="Transparent" StrokeThickness="0"
                            Grid.ColumnSpan="3"/>
-                <ContentPresenter x:Name="Icon" x:Uid="ContentPresenter_7" Margin="2,1,4,1" Width="16" Height="16"
+                <ContentPresenter x:Name="Icon" Margin="2,1,4,1" Width="16" Height="16"
                                   VerticalAlignment="Center" ContentSource="Icon"
                                   SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
-                <Border x:Name="GlyphPanel" x:Uid="Border_7"
+                <Border x:Name="GlyphPanel"
                         Background="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarSelectedIcon}}"
                         BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarCheckBox}}"
                         BorderThickness="2" Margin="1" Visibility="Collapsed" Width="18" Height="18">
-                    <Path x:Name="Glyph" x:Uid="Path_4" Width="16" Height="16"
+                    <Path x:Name="Glyph" Width="16" Height="16"
                           Fill="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarCheckBox}}"
                           FlowDirection="LeftToRight" Data="{StaticResource Checkmark}"/>
                 </Border>
-                <ContentPresenter x:Uid="ContentPresenter_8" Grid.Column="1" ContentSource="Content" Margin="8,1,0,1"
+                <ContentPresenter Grid.Column="1" ContentSource="Content" Margin="8,1,0,1"
                                   VerticalAlignment="Center" RecognizesAccessKey="true"
                                   SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
-                <ComboBox x:Name="ComboBox" x:Uid="ComboBox" Margin="7,2,2,2" Grid.Column="2" IsEditable="false" IsTabStop="false"
+                <ComboBox x:Name="ComboBox" Margin="7,2,2,2" Grid.Column="2" IsEditable="false" IsTabStop="false"
                           MaxDropDownHeight="0" IsEnabled="false"
                           Template="{DynamicResource CustomizeControlsComboBoxTemplate}"/>
             </Grid>
             <ControlTemplate.Triggers>
-                <Trigger x:Uid="Trigger_13" Property="controls:CustomizeControlsListBoxItem.Icon">
+                <Trigger Property="controls:CustomizeControlsListBoxItem.Icon">
                     <Trigger.Value>
                         <x:NullExtension/>
                     </Trigger.Value>
-                    <Setter x:Uid="Setter_47" TargetName="Icon" Property="UIElement.Visibility" Value="Collapsed"/>
+                    <Setter TargetName="Icon" Property="UIElement.Visibility" Value="Collapsed"/>
                 </Trigger>
-                <Trigger x:Uid="Trigger_14" Property="controls:CustomizeControlsListBoxItem.IsChecked" Value="true">
-                    <Setter x:Uid="Setter_48" TargetName="GlyphPanel" Property="UIElement.Visibility" Value="Visible"/>
-                    <Setter x:Uid="Setter_49" TargetName="Icon" Property="UIElement.Visibility" Value="Collapsed"/>
+                <Trigger Property="controls:CustomizeControlsListBoxItem.IsChecked" Value="true">
+                    <Setter TargetName="GlyphPanel" Property="UIElement.Visibility" Value="Visible"/>
+                    <Setter TargetName="Icon" Property="UIElement.Visibility" Value="Collapsed"/>
                 </Trigger>
-                <Trigger x:Uid="Trigger_15" Property="ListBoxItem.IsSelected" Value="true">
-                    <Setter x:Uid="Setter_50" TargetName="Bg"
+                <Trigger Property="ListBoxItem.IsSelected" Value="true">
+                    <Setter TargetName="Bg"
                             Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemBackgroundHover}}"
                             Property="Shape.Fill"/>
-                    <Setter x:Uid="Setter_51" TargetName="Bg"
+                    <Setter TargetName="Bg"
                             Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemBorderHover}}"
                             Property="Shape.Stroke"/>
-                    <Setter x:Uid="Setter_52"
-                            Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemForegroundHover}}"
+                    <Setter Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemForegroundHover}}"
                             Property="TextElement.Foreground"/>
-                    <Setter x:Uid="Setter_53" TargetName="GlyphPanel"
+                    <Setter TargetName="GlyphPanel"
                             Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemBackgroundDown}}"
                             Property="Border.Background"/>
-                    <Setter x:Uid="Setter_54" TargetName="GlyphPanel"
+                    <Setter TargetName="GlyphPanel"
                             Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarCheckBoxMouseOver}}"
                             Property="Border.BorderBrush"/>
-                    <Setter x:Uid="Setter_70" TargetName="Glyph"
+                    <Setter TargetName="Glyph"
                             Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarCheckBoxMouseOver}}"
                             Property="Shape.Fill"/>
-                    <Setter x:Uid="Setter_55" TargetName="ComboBox" Property="UIElement.IsEnabled" Value="true"/>
+                    <Setter TargetName="ComboBox" Property="UIElement.IsEnabled" Value="true"/>
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
@@ -341,15 +335,18 @@
                     <Binding Path="Text" Converter="{StaticResource AccessKeyRemovingConverter}"/>
                 </Setter.Value>
             </Setter>
+            <Setter Property="TextElement.Foreground"
+                    Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemForeground}}"/>
         </Style>
 
         <Style x:Key="CommonCustomizeControlsListBoxItemWithImageStyleKey" 
                BasedOn="{StaticResource CommonCustomizeControlsListBoxItemStyleKey}"
-               TargetType="{x:Type controls:CustomizeControlsListBoxItem}"/>
+               TargetType="{x:Type controls:CustomizeControlsListBoxItem}">
+        </Style>
 
 
 
-        <Style x:Key="{x:Static controls:CustomizeControlsListBox.ButtonStyleKey}" x:Uid="Style_9"
+        <Style x:Key="{x:Static controls:CustomizeControlsListBox.ButtonStyleKey}"
                BasedOn="{StaticResource CommonCustomizeControlsListBoxItemWithImageStyleKey}"
                TargetType="{x:Type controls:CustomizeControlsListBoxItem}">
             <Setter Property="Template"
@@ -371,23 +368,23 @@
             <Setter Property="Template" Value="{DynamicResource CustomizeControlsListBoxItem.MenuTemplate}"/>
         </Style>
 
-        <Style x:Key="{x:Static controls:CustomizeControlsListBox.MenuControllerStyleKey}" x:Uid="Style_11"
+        <Style x:Key="{x:Static controls:CustomizeControlsListBox.MenuControllerStyleKey}"
                BasedOn="{StaticResource CommonCustomizeControlsListBoxItemStyleKey}"
                TargetType="{x:Type controls:CustomizeControlsListBoxItem}">
-            <Setter x:Uid="Setter_65" Property="Control.Template"
+            <Setter Property="Control.Template"
                     Value="{DynamicResource CustomizeControlsListBoxItem.MenuControllerTemplate}"/>
         </Style>
 
 
-        <Style x:Key="{x:Static controls:CustomizeControlsListBox.ComboBoxStyleKey}" x:Uid="Style_12"
+        <Style x:Key="{x:Static controls:CustomizeControlsListBox.ComboBoxStyleKey}" 
                BasedOn="{StaticResource CommonCustomizeControlsListBoxItemStyleKey}"
                TargetType="{x:Type controls:CustomizeControlsListBoxItem}">
-            <Setter x:Uid="Setter_66" Property="Template"
+            <Setter Property="Template"
                     Value="{DynamicResource CustomizeControlsListBoxItem.ComboBoxTemplate}"/>
         </Style>
 
 
-        <Style x:Key="{x:Static controls:CustomizeControlsListBox.SeparatorStyleKey}" x:Uid="Style_13"
+        <Style x:Key="{x:Static controls:CustomizeControlsListBox.SeparatorStyleKey}"
                TargetType="{x:Type controls:CustomizeControlsListBoxItem}">
             <Setter Property="Template"
                     Value="{DynamicResource CustomizeControlsListBoxItem.SeparatorTemplate}"/>
