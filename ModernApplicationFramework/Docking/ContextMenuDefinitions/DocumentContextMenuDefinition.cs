@@ -44,7 +44,15 @@ namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
             new CommandMenuItemDefinition<MoveToNextTabGroupCommandDefinition>(DocumentTabGroupContextMenuGroup, 2, true);
 
         [Export]
+        public static MenuItemDefinition MoveAllToNextTabGroupItemDefinition =
+            new CommandMenuItemDefinition<MoveAllToNextTabGroupCommandDefinition>(DocumentTabGroupContextMenuGroup, 3, true);
+
+        [Export]
         public static MenuItemDefinition MoveToPreviousTabGroupItemDefinition =
-            new CommandMenuItemDefinition<MoveToPreviousTabGroupCommandDefinition>(DocumentTabGroupContextMenuGroup, 3, true);
+            new CommandMenuItemDefinition<MoveToPreviousTabGroupCommandDefinition>(DocumentTabGroupContextMenuGroup, 4, true);
+
+        [Export]
+        public static MenuItemDefinition MoveAllToPreviousTabGroupItemDefinition =
+            new CommandMenuItemDefinition<MoveAllToPreviousTabGroupCommandDefinition>(DocumentTabGroupContextMenuGroup, 5, true);
     }
 }

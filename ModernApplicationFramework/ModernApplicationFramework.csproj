@@ -271,6 +271,8 @@
     <Compile Include="Docking\CommandDefinitions\CloseAllButThisDockedWindowCommandDefinition.cs" />
     <Compile Include="Docking\CommandDefinitions\CloseAllDockedWindowCommandDefinition.cs" />
     <Compile Include="Docking\CommandDefinitions\DockAsTabbedDocumentCommandDefinition.cs" />
+    <Compile Include="Docking\CommandDefinitions\MoveAllToNextTabGroupCommandDefinition.cs" />
+    <Compile Include="Docking\CommandDefinitions\MoveAllToPreviousTabGroupCommandDefinition.cs" />
     <Compile Include="Docking\CommandDefinitions\MoveToPreviousTabGroupCommandDefinition.cs" />
     <Compile Include="Docking\CommandDefinitions\MoveToNextTabGroupCommandDefinition.cs" />
     <Compile Include="Docking\CommandDefinitions\NewVerticalTabGroupCommandDefinition.cs" />
