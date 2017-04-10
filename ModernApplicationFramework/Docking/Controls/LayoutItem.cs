@@ -774,12 +774,12 @@ namespace ModernApplicationFramework.Docking.Controls
                 return false;
             var parentDocumentGroup = LayoutElement.FindParent<LayoutDocumentPaneGroup>();
             var parentDocumentPane = LayoutElement.Parent as LayoutDocumentPane;
-            return ((parentDocumentGroup == null ||
-                     parentDocumentGroup.ChildrenCount == 1 ||
-                     parentDocumentGroup.Root.Manager.AllowMixedOrientation ||
-                     parentDocumentGroup.Orientation == Orientation.Vertical) &&
-                    parentDocumentPane != null &&
-                    parentDocumentPane.ChildrenCount > 1);
+            return (parentDocumentGroup == null ||
+                    parentDocumentGroup.ChildrenCount == 1 ||
+                    parentDocumentGroup.Root.Manager.AllowMixedOrientation ||
+                    parentDocumentGroup.Orientation == Orientation.Vertical) &&
+                   parentDocumentPane != null &&
+                   parentDocumentPane.ChildrenCount > 1;
         }
 
         private bool CanExecuteNewVerticalTabGroupCommand(object parameter)

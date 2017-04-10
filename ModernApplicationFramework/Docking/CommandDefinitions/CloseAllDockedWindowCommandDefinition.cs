@@ -17,7 +17,9 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
         }
 
         private bool CanCloseAllDockedWindows()
-        {       
+        {
+            if (DockingManager.Instace == null)
+                return false;
             var root = DockingManager.Instace.Layout.ActiveContent?.Root;
             if (root == null)
                 return false;
@@ -33,7 +35,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         private void CloseAllDockedWindows()
         {
-            DockingManager.Instace._ExecuteCloseAllCommand();
+            DockingManager.Instace?._ExecuteCloseAllCommand();
         }
 
         public override ICommand Command { get; }

@@ -66,6 +66,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Resources\Icons\SplitScreenVertical.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Icons\SplitScreenHorizontal.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\Icons\HideToolWindow.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
@@ -263,6 +271,10 @@
     <Compile Include="Docking\CommandDefinitions\CloseAllButThisDockedWindowCommandDefinition.cs" />
     <Compile Include="Docking\CommandDefinitions\CloseAllDockedWindowCommandDefinition.cs" />
     <Compile Include="Docking\CommandDefinitions\DockAsTabbedDocumentCommandDefinition.cs" />
+    <Compile Include="Docking\CommandDefinitions\MoveToPreviousTabGroupCommandDefinition.cs" />
+    <Compile Include="Docking\CommandDefinitions\MoveToNextTabGroupCommandDefinition.cs" />
+    <Compile Include="Docking\CommandDefinitions\NewVerticalTabGroupCommandDefinition.cs" />
+    <Compile Include="Docking\CommandDefinitions\NewHorizontalTabGroupCommandDefinition.cs" />
     <Compile Include="Docking\CommandDefinitions\DockWindowCommandDefinition.cs" />
     <Compile Include="Docking\CommandDefinitions\FloatDockedWindowCommandDefinition.cs" />
     <Compile Include="Docking\CommandDefinitions\CloseDockedWindowCommandDefinition.cs" />

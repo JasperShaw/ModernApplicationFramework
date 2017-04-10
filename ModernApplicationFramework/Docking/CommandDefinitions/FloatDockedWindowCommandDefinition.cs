@@ -17,19 +17,19 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         private bool CanFloatDockedWindow()
         {
-            var dc = DockingManager.Instace.Layout.ActiveContent;
+            var dc = DockingManager.Instace?.Layout.ActiveContent;
             if (dc == null)
                 return false;
-            var di = DockingManager.Instace.GetLayoutItemFromModel(dc);
+            var di = DockingManager.Instace?.GetLayoutItemFromModel(dc);
             return di?.LayoutElement?.FindParent<LayoutAnchorableFloatingWindow>() == null;
         }
 
         private void FloatDockedWindow()
         {
-            var dc = DockingManager.Instace.Layout.ActiveContent;
+            var dc = DockingManager.Instace?.Layout.ActiveContent;
             if (dc == null)
                 return;
-            var di = DockingManager.Instace.GetLayoutItemFromModel(dc);
+            var di = DockingManager.Instace?.GetLayoutItemFromModel(dc);
             di?.FloatCommand.Execute(null);
         }
 

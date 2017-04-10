@@ -18,20 +18,20 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         private bool CanDockWindow()
         {
-            var dc = DockingManager.Instace.Layout.ActiveContent;
+            var dc = DockingManager.Instace?.Layout.ActiveContent;
             if (dc == null)
                 return false;
-            var di = DockingManager.Instace.GetLayoutItemFromModel(dc);
+            var di = DockingManager.Instace?.GetLayoutItemFromModel(dc);
 
             return di?.LayoutElement?.FindParent<LayoutFloatingWindow>() != null || di?.LayoutElement is LayoutAnchorable layoutItem && layoutItem.IsAutoHidden;
         }
 
         private void DockWindow()
         {
-            var dc = DockingManager.Instace.Layout.ActiveContent;
+            var dc = DockingManager.Instace?.Layout.ActiveContent;
             if (dc == null)
                 return;
-            var di = DockingManager.Instace.GetLayoutItemFromModel(dc) as LayoutAnchorableItem;
+            var di = DockingManager.Instace?.GetLayoutItemFromModel(dc) as LayoutAnchorableItem;
 
             di?.DockCommand.Execute(null);
         }

@@ -16,14 +16,14 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         private bool CanCloseDockedWindow()
         {
-            var dm = DockingManager.Instace.Layout.ActiveContent;
+            var dm = DockingManager.Instace?.Layout.ActiveContent;
             return dm != null;
         }
 
         private void CloseDockedWindow()
         {
-            var dm = DockingManager.Instace.Layout.ActiveContent;
-            var item = DockingManager.Instace.GetLayoutItemFromModel(dm);
+            var dm = DockingManager.Instace?.Layout.ActiveContent;
+            var item = DockingManager.Instace?.GetLayoutItemFromModel(dm);
             item?.CloseCommand.Execute(null);
         }
 

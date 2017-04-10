@@ -33,6 +33,18 @@ namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
 
         [Export]
         public static MenuItemDefinition NewHorizontalTabGroupItemDefinition =
-            new MenuItemDefinition("Test", 0, DocumentTabGroupContextMenuGroup, null, false, false, false);
+            new CommandMenuItemDefinition<NewHorizontalTabGroupCommandDefinition>(DocumentTabGroupContextMenuGroup, uint.MinValue, true);
+
+        [Export]
+        public static MenuItemDefinition NewVerticalTabGroupItemDefinition =
+            new CommandMenuItemDefinition<NewVerticalTabGroupCommandDefinition>(DocumentTabGroupContextMenuGroup, 1, true);
+
+        [Export]
+        public static MenuItemDefinition MoveToNextTabGroupItemDefinition =
+            new CommandMenuItemDefinition<MoveToNextTabGroupCommandDefinition>(DocumentTabGroupContextMenuGroup, 2, true);
+
+        [Export]
+        public static MenuItemDefinition MoveToPreviousTabGroupItemDefinition =
+            new CommandMenuItemDefinition<MoveToPreviousTabGroupCommandDefinition>(DocumentTabGroupContextMenuGroup, 3, true);
     }
 }

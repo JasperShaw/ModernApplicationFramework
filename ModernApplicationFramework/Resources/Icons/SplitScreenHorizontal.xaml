@@ -1,0 +1,23 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Viewbox Width="16" Height="16" x:Key="SplitScreenHorizontal">
+        <Rectangle Width="16" Height="16">
+            <Rectangle.Fill>
+                <DrawingBrush>
+                    <DrawingBrush.Drawing>
+                        <DrawingGroup>
+                            <DrawingGroup.Children>
+                                <GeometryDrawing Brush="#00FFFFFF" Geometry="F1M16,16L0,16 0,0 16,0z" />
+                                <GeometryDrawing Brush="#FFF6F6F6" Geometry="F1M0,15L16,15 16,0 0,0z" />
+                                <GeometryDrawing Brush="#FF414141" Geometry="F1M14,6L2,6 2,4 14,4z M1,7L15,7 15,1 1,1z" />
+                                <GeometryDrawing Brush="#FF414141" Geometry="F1M2,11L14,11 14,13 2,13z M1,14L15,14 15,8 1,8z" />
+                                <GeometryDrawing Brush="#FFF0EFF1" Geometry="F1M2,13L14,13 14,11 2,11z" />
+                                <GeometryDrawing Brush="#FFF0EFF1" Geometry="F1M2,6L14,6 14,4 2,4z" />
+                            </DrawingGroup.Children>
+                        </DrawingGroup>
+                    </DrawingBrush.Drawing>
+                </DrawingBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+    </Viewbox>
+</ResourceDictionary>

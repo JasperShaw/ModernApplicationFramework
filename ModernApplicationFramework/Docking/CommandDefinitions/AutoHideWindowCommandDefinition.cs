@@ -18,6 +18,8 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         private bool CanAutoHideWindow()
         {
+            if (DockingManager.Instace == null)
+                return false;
             var dc = DockingManager.Instace.Layout.ActiveContent;
             if (dc == null)
                 return false;
@@ -35,11 +37,11 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         private void AutoHideWindow()
         {
-            var dc = DockingManager.Instace.Layout.ActiveContent;
+            var dc = DockingManager.Instace?.Layout.ActiveContent;
             if (dc == null)
                 return;
 
-            var di = DockingManager.Instace.GetLayoutItemFromModel(dc) as LayoutAnchorableItem;
+            var di = DockingManager.Instace?.GetLayoutItemFromModel(dc) as LayoutAnchorableItem;
 
             di?.AutoHideCommand.Execute(null);
 
