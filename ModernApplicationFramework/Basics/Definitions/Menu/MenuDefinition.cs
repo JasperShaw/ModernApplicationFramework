@@ -1,30 +1,30 @@
 ﻿using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Basics.Definitions.Menu
 {
-    public class MenuDefinition : CommandBarDefinitionBase
+    public class MenuDefinition : CommandBarDefinitionBase, IHasInternalName
     {
-        private string _displayName;
+        private string _internalName;
+        public MenuBarDefinition MenuBar { get; }
 
-        public string DisplayName
+        public virtual string InternalName
         {
-            get => _displayName;
+            get => _internalName;
             set
             {
-                if (value == _displayName) return;
-                _displayName = value;
+                if (value == _internalName) return;
+                _internalName = value;
                 OnPropertyChanged();
             }
         }
 
-        public MenuBarDefinition MenuBar { get; }
-
-        public MenuDefinition(MenuBarDefinition menuBar, uint sortOrder, string text, string displayName, bool isCustom = false) : base(text,
-            sortOrder, new MenuItemCommandDefinition(), isCustom, false)
+        public MenuDefinition(MenuBarDefinition menuBar, uint sortOrder, string name, string text, bool isCustom = false) 
+            : base(text, sortOrder, new MenuItemCommandDefinition(), isCustom, false)
         {
-            _displayName = displayName;
             MenuBar = menuBar;
+            _internalName = name;
         }
     }
 }

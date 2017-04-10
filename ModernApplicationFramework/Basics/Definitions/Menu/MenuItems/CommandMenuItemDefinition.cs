@@ -5,9 +5,9 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu.MenuItems
     public sealed class CommandMenuItemDefinition : MenuItemDefinition
     {
         public CommandMenuItemDefinition(DefinitionBase commandDefinition, bool isCustom = false)
-            : base(null, uint.MinValue, null, commandDefinition, true, false, isCustom)
+            : base(null, null, uint.MinValue, null, commandDefinition, true, false, isCustom)
         {
-            DisplayName = CommandDefinition?.Text;
+            Text = CommandDefinition?.Text;
         }
 
         public CommandMenuItemDefinition(DefinitionBase commandDefinition, bool isChecked, bool isCustom = false)

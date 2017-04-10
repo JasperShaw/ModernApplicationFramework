@@ -15,7 +15,7 @@ namespace ModernApplicationFramework.MVVM.Demo
 
         [Export] public static MenuItemDefinition TestCommand = new CommandMenuItemDefinition<TestCommandDefinition>(TestGroup1, 1);
 
-        [Export] public static MenuItemDefinition TestSub = new CustomSubHeaderMenuItemDefinition("Test", TestGroup1, 0);
+        [Export] public static MenuItemDefinition TestSub = new CustomSubHeaderMenuItemDefinition("Test", "Test", TestGroup1, 0);
 
         [Export] public static MenuItemGroupDefinition TestGroup2 = new MenuItemGroupDefinition(TestSub, int.MaxValue);
 
@@ -23,7 +23,7 @@ namespace ModernApplicationFramework.MVVM.Demo
 
 
 
-        [Export] public static MenuItemDefinition TestSubSub = new CustomSubHeaderMenuItemDefinition("TestSub", TestGroup2, 0);
+        [Export] public static MenuItemDefinition TestSubSub = new CustomSubHeaderMenuItemDefinition("TestSub", "TestSub", TestGroup2, 0);
 
         [Export] public static MenuItemGroupDefinition TestGroup4 = new MenuItemGroupDefinition(TestSubSub, int.MaxValue);
 

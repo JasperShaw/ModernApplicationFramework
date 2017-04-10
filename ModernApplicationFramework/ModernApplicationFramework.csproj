@@ -344,6 +344,7 @@
     <Compile Include="Interfaces\Controls\IDummyListMenuItem.cs" />
     <Compile Include="Interfaces\Controls\IThemableIconContainer.cs" />
     <Compile Include="Interfaces\IContextMenuHost.cs" />
+    <Compile Include="Interfaces\IHasInternalName.cs" />
     <Compile Include="Interfaces\ISettingsPage.cs" />
     <Compile Include="Native\Platform\Enums\Cdcontrolstate.cs" />
     <Compile Include="Native\Platform\Enums\CombineMode.cs" />

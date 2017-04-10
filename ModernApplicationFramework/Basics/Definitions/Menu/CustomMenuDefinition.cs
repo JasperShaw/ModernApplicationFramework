@@ -2,8 +2,8 @@
 {
     public sealed class CustomMenuDefinition : MenuDefinition
     {
-        public CustomMenuDefinition(MenuBarDefinition menuBar,uint sortOrder, string text, string displayName) : base(menuBar, sortOrder, text,
-            displayName, true)
+        public CustomMenuDefinition(MenuBarDefinition menuBar, uint sortOrder, string name, string text) 
+            : base(menuBar, sortOrder, name, text, true)
         {
         }
     }

@@ -39,10 +39,10 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu.MenuItems
         }
 
         public CommandMenuItemDefinition(MenuItemGroupDefinition group, uint sortOrder, bool registerVisibilityToCommand = false)
-            : base(null, sortOrder, group, null, true, false, false)
+            : base(null, null, sortOrder, group, null, true, false, false)
         {
             CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
-            DisplayName = CommandDefinition.Text;
+            Text = CommandDefinition.Text;
             RegisterVisibilityToCommand = registerVisibilityToCommand;
         }
 

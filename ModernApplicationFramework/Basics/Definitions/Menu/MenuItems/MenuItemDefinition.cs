@@ -1,26 +1,13 @@
 ﻿using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Basics.Definitions.Menu.MenuItems
 {
-    public class MenuItemDefinition : CommandBarItemDefinition
+    public class MenuItemDefinition : CommandBarItemDefinition, IHasInternalName
     {
-        private string _displayName;
         private MenuItemGroupDefinition _group;
-        private string _text;
-
-
-        public virtual string DisplayName
-        {
-            get => _displayName;
-            set
-            {
-                if (value == _displayName) return;
-                _displayName = value;
-                OnPropertyChanged();
-            }
-        }
-
+        private string _internalName;
 
         public MenuItemGroupDefinition Group
         {
@@ -33,28 +20,31 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu.MenuItems
             }
         }
 
-        public override string Text
+        public virtual string InternalName
         {
-            get => _text;
+            get => _internalName;
             set
             {
-                if (value == _text) return;
-                _text = value;
+                if (value == _internalName) return;
+                _internalName = value;
                 OnPropertyChanged();
             }
         }
 
-        public MenuItemDefinition(string text, uint sortOrder, MenuItemGroupDefinition group, DefinitionBase definition, bool visible, bool isChecked,
+        public MenuItemDefinition(string name, string text, uint sortOrder, MenuItemGroupDefinition group, DefinitionBase definition, bool visible, bool isChecked,
             bool isCustom)
             : base(text, sortOrder, definition, visible, isChecked, isCustom)
         {
-            _displayName = text;
             _group = group;
 
-            if (!string.IsNullOrEmpty(group?.Parent.Text))
-                _text = group.Parent.Text + " | " + text;
+
+            if (group?.Parent is IHasInternalName internalNameParent)
+            {
+                if (!string.IsNullOrEmpty(internalNameParent.InternalName))
+                    _internalName = internalNameParent.InternalName + " | " + name;
+            } 
             else
-                _text = text;
+                _internalName = name;
         }
     }
 }

@@ -167,7 +167,7 @@
                          IsChecked="{Binding SelectedOption, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:CustomizeRadioButtonOptions.Menu}, Mode=TwoWay}"
                          Visibility="{Binding CustomizableMenuBars, Converter={StaticResource VisibleIfNotNullConverter}}"/>
             <ComboBox Name="MenuBarCombo" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"
-                      Margin="6,0,0,5" SelectedIndex="0" TextSearch.TextPath="Text" DisplayMemberPath="Text"
+                      Margin="6,0,0,5" SelectedIndex="0" TextSearch.TextPath="InternalName" DisplayMemberPath="InternalName"
                       ItemContainerStyle="{StaticResource CollectionComboBoxItemStyle}" ItemsSource="{Binding CustomizableMenuBars}"
                       SelectedItem="{Binding SelectedMenuItem, Mode=TwoWay}"
                       Visibility="{Binding CustomizableMenuBars, Converter={StaticResource VisibleIfNotNullConverter}}">

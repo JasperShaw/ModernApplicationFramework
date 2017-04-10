@@ -35,7 +35,7 @@
                     Visibility="Visible" IsTabStop="False">
                 <Control.Template>
                     <ControlTemplate>
-                        <AccessText Name="LabelText" Text="{Binding DisplayName, Converter={StaticResource AccessKeyConverter}}"/>
+                        <AccessText Name="LabelText" Text="{Binding Text, Converter={StaticResource AccessKeyConverter}}"/>
                     </ControlTemplate>
                 </Control.Template>
             </Button>
@@ -47,7 +47,7 @@
                     <DataTemplate>
                         <TextBlock>
                             <TextBlock.Text>
-                                <Binding Path="DisplayName"/>
+                                <Binding Path="Text"/>
                             </TextBlock.Text>
                         </TextBlock>
                     </DataTemplate>
@@ -405,7 +405,7 @@
                             <ContentPresenter x:Name="Image" Content="{TemplateBinding Icon}" Margin="2" Grid.Column="0"
                                               HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                             <AccessText x:Name="Text" Margin="2" Grid.Column="1" VerticalAlignment="Center"
-                                        HorizontalAlignment="Center" Visibility="Collapsed" Text="{Binding DisplayName, Converter={StaticResource AccessKeyConverter}}"/>
+                                        HorizontalAlignment="Center" Visibility="Collapsed" Text="{Binding Text, Converter={StaticResource AccessKeyConverter}}"/>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -461,12 +461,12 @@
         <Setter Property="utilities:MenuBehavior.UpdateCommandUiItems" Value="True" />
         <Setter Property="AutomationProperties.Name">
             <Setter.Value>
-                <Binding Path="DisplayName" Converter="{StaticResource AccessKeyRemovingConverter}"/>
+                <Binding Path="Text" Converter="{StaticResource AccessKeyRemovingConverter}"/>
             </Setter.Value>
         </Setter>
         <Setter Property="Header">
             <Setter.Value>
-                <Binding Path="DisplayName" Mode="OneWay" Converter="{StaticResource AccessKeyConverter}"/>
+                <Binding Path="Text" Mode="OneWay" Converter="{StaticResource AccessKeyConverter}"/>
             </Setter.Value>
         </Setter>
         <Setter Property="Visibility">
@@ -534,7 +534,7 @@
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="AutomationProperties.Name">
             <Setter.Value>
-                <Binding Path="DisplayName" Converter="{StaticResource AccessKeyRemovingConverter}"/>
+                <Binding Path="Text" Converter="{StaticResource AccessKeyRemovingConverter}"/>
             </Setter.Value>
         </Setter>
         <Setter Property="AutomationProperties.AcceleratorKey">
@@ -577,7 +577,7 @@
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="AutomationProperties.Name">
             <Setter.Value>
-                <Binding Path="DisplayName" Converter="{StaticResource AccessKeyRemovingConverter}"/>
+                <Binding Path="Text" Converter="{StaticResource AccessKeyRemovingConverter}"/>
             </Setter.Value>
         </Setter>
         <Setter Property="AutomationProperties.AcceleratorKey">
@@ -589,7 +589,7 @@
                 Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemForeground}}"/>
         <Setter Property="Header">
             <Setter.Value>
-                <Binding Path="DisplayName" Mode="OneWay" Converter="{StaticResource AccessKeyConverter}"/>
+                <Binding Path="Text" Mode="OneWay" Converter="{StaticResource AccessKeyConverter}"/>
             </Setter.Value>
         </Setter>
         <Setter Property="InputGestureText">
@@ -612,12 +612,12 @@
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="AutomationProperties.Name">
             <Setter.Value>
-                <Binding Path="DisplayName" Converter="{StaticResource AccessKeyRemovingConverter}"/>
+                <Binding Path="Text" Converter="{StaticResource AccessKeyRemovingConverter}"/>
             </Setter.Value>
         </Setter>
         <Setter Property="Header">
             <Setter.Value>
-                <Binding Path="DisplayName" Mode="OneWay" Converter="{StaticResource AccessKeyConverter}"/>
+                <Binding Path="Text" Mode="OneWay" Converter="{StaticResource AccessKeyConverter}"/>
             </Setter.Value>
         </Setter>
         <Setter Property="StaysOpenOnClick" Value="true"/>
