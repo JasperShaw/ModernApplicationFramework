@@ -14,6 +14,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         public event PropertyChangedEventHandler PropertyChanged;
 
         public virtual bool IsCustom { get; }
+        public virtual bool IsCustomizable { get; }
 
         public virtual DefinitionBase CommandDefinition { get; }
 
@@ -50,13 +51,14 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-        protected CommandBarDefinitionBase(string text, uint sortOrder, DefinitionBase definition, bool isCustom, bool isChecked)
+        protected CommandBarDefinitionBase(string text, uint sortOrder, DefinitionBase definition, bool isCustom, bool isCustomizable, bool isChecked)
         {
             _sortOrder = sortOrder;
             _text = text;
             CommandDefinition = definition;
             IsCustom = isCustom;
             _isChecked = isChecked;
+            IsCustomizable = isCustomizable;
         }
 
         [NotifyPropertyChangedInvocator]

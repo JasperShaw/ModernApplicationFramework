@@ -23,8 +23,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         }
 
         protected CommandBarItemDefinition(string text, uint sortOrder, DefinitionBase definition, bool visible,
-            bool isChecked, bool isCustom)
-            : base(text, sortOrder, definition, isCustom, isChecked)
+            bool isChecked, bool isCustom, bool isCustomizable)
+            : base(text, sortOrder, definition, isCustom, isCustomizable, isChecked)
         {
             _isVisible = visible;
         }

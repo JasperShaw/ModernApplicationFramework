@@ -24,6 +24,7 @@
             <converters:IsCustomizableModelConverter x:Key="IsCustomizableModelConverter"/>
             <converters:EnumBooleanConverter x:Key="EnumBooleanConverter"/>
             <converters:IsNotSeparatorModelConverter x:Key="IsNotSeparatorModelConverter"/>
+            <converters:IsSeparatorOrCustomizableModelConverter x:Key="IsSeparatorOrCustomizableModelConverter"/>
             <CollectionViewSource x:Key="ToolBarsView" Source="{Binding CustomizableToolBars}">
                 <CollectionViewSource.SortDescriptions>
                     <componentModel:SortDescription PropertyName="Text"/>
@@ -235,7 +236,7 @@
                 <controls:DialogButton x:Name="DeleteButton" Content="_Delete">
                     <UIElement.IsEnabled>
                         <!-- TODO-->
-                        <Binding ElementName="ControlsListBox" Path="SelectedItem"/>
+                        <Binding Path="SelectedListBoxDefinition" Converter="{StaticResource IsSeparatorOrCustomizableModelConverter}"/>
                     </UIElement.IsEnabled>
                 </controls:DialogButton>
                 <controls:DialogButton x:Name="MoveUpButton" Content="Move _Up">

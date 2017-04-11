@@ -6,8 +6,8 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu.MenuItems
 {
     public sealed class CommandTopLevelMenuItemDefinition<T> : MenuItemDefinition where T : DefinitionBase
     {
-        public CommandTopLevelMenuItemDefinition(MenuItemGroupDefinition group, uint sortOrder)
-            : base(null, null, sortOrder, group, null, true, true, false)
+        public CommandTopLevelMenuItemDefinition(MenuItemGroupDefinition group, uint sortOrder, bool isCustomizable = true)
+            : base(null, null, sortOrder, group, null, true, true, false, isCustomizable)
         {
             CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
             Text = CommandDefinition.Text;

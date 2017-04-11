@@ -7,7 +7,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     {
         public static CommandBarSeparatorDefinition MenuSeparatorDefinition => new CommandBarSeparatorDefinition();
 
-        private CommandBarSeparatorDefinition() : base(null, uint.MinValue, new SeparatorCommandDefinition(), false, false)
+        private CommandBarSeparatorDefinition() : base(null, uint.MinValue, new SeparatorCommandDefinition(), false, false, false)
         {
         }
 

@@ -17,7 +17,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
             }
         }
 
-        public MenuItemGroupDefinition(CommandBarDefinitionBase parent, uint sortOrder) : base(null, sortOrder, null, false, false)
+        public MenuItemGroupDefinition(CommandBarDefinitionBase parent, uint sortOrder) : base(null, sortOrder, null, false, false, false)
         {
             _parent = parent;
         }

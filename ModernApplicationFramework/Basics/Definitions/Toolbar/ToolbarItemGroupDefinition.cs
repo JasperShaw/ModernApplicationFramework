@@ -6,7 +6,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
     {
         public ToolbarDefinition ParentToolbar { get; set; }
 
-        public ToolbarItemGroupDefinition(ToolbarDefinition toolbar, uint sortOrder) : base(null, sortOrder, null, false, false)
+        public ToolbarItemGroupDefinition(ToolbarDefinition toolbar, uint sortOrder) : base(null, sortOrder, null, false, false, false)
         {
             ParentToolbar = toolbar;
         }

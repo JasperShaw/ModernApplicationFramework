@@ -20,8 +20,8 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
             }
         }
 
-        public MenuDefinition(MenuBarDefinition menuBar, uint sortOrder, string name, string text, bool isCustom = false) 
-            : base(text, sortOrder, new MenuItemCommandDefinition(), isCustom, false)
+        public MenuDefinition(MenuBarDefinition menuBar, uint sortOrder, string name, string text, bool isCustom = false, bool isCustomizable = true) 
+            : base(text, sortOrder, new MenuItemCommandDefinition(), isCustom, isCustomizable, false)
         {
             MenuBar = menuBar;
             _internalName = name;

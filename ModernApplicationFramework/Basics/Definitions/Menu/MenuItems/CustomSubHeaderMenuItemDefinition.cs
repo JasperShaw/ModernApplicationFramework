@@ -2,8 +2,8 @@
 {
     public sealed class CustomSubHeaderMenuItemDefinition : MenuItemDefinition
     {
-        public CustomSubHeaderMenuItemDefinition(string name,string text, MenuItemGroupDefinition group, uint sortOrder) 
-            : base(name, text, sortOrder, group, null, true, false, true)
+        public CustomSubHeaderMenuItemDefinition(string name,string text, MenuItemGroupDefinition group, uint sortOrder, bool isCustomizable = true) 
+            : base(name, text, sortOrder, group, null, true, false, true, isCustomizable)
         {
         }
     }

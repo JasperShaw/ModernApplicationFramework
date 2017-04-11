@@ -17,7 +17,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
             }
         }
 
-        public MenuBarDefinition(string text, uint sortOrder) : base(text, sortOrder, null, false, false)
+        public MenuBarDefinition(string text, uint sortOrder) : base(text, sortOrder, null, false, false, false)
         {
             _internalName = text;
         }

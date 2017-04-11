@@ -37,8 +37,8 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
             }
         }
 
-        public ToolbarDefinition(string text, uint sortOrder, bool visible, Dock position,
-            bool isCustom = false) : base(text, sortOrder, new ToolbarItemCommandDefinition(), isCustom, false)
+        public ToolbarDefinition(string text, uint sortOrder, bool visible, Dock position, bool isCustomizable = true,
+            bool isCustom = false) : base(text, sortOrder, new ToolbarItemCommandDefinition(), isCustom, isCustomizable, false)
         {
             _position = position;
             _isVisible = visible;

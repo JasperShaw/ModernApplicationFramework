@@ -9,7 +9,7 @@ namespace ModernApplicationFramework.Core.Converters
         protected override bool Convert(CommandBarDefinitionBase selectedItem, object parameter, CultureInfo culture)
         {
             if (selectedItem != null && selectedItem.CommandDefinition.ControlType != CommandControlTypes.Separator)
-                return !selectedItem.IsCustom;
+                return selectedItem.IsCustomizable;
             return false;
         }
     }

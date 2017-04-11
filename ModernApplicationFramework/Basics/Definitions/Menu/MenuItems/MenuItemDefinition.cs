@@ -32,8 +32,8 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu.MenuItems
         }
 
         public MenuItemDefinition(string name, string text, uint sortOrder, MenuItemGroupDefinition group, DefinitionBase definition, bool visible, bool isChecked,
-            bool isCustom)
-            : base(text, sortOrder, definition, visible, isChecked, isCustom)
+            bool isCustom, bool isCustomizable)
+            : base(text, sortOrder, definition, visible, isChecked, isCustom, isCustomizable)
         {
             _group = group;
 
