@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
@@ -90,7 +89,7 @@ namespace ModernApplicationFramework.Basics.Creators
         }
 
 
-        public IEnumerable GetSingleSubDefinitions(CommandBarDefinitionBase definition)
+        public IEnumerable<CommandBarDefinitionBase> GetSingleSubDefinitions(CommandBarDefinitionBase definition)
         {
             var list = new List<CommandBarDefinitionBase>();
             var host = IoC.Get<IMenuHostViewModel>();

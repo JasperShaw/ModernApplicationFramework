@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Controls;
@@ -64,7 +63,7 @@ namespace ModernApplicationFramework.Basics.Creators
             }
         }
 
-        public IEnumerable GetContextMenuItemDefinitions(CommandBarDefinitionBase contextMenuDefinition)
+        public IEnumerable<CommandBarDefinitionBase> GetContextMenuItemDefinitions(CommandBarDefinitionBase contextMenuDefinition)
         {
             var list = new List<CommandBarDefinitionBase>();
             var model = IoC.Get<IContextMenuHost>();
@@ -133,6 +132,6 @@ namespace ModernApplicationFramework.Basics.Creators
     {
         ContextMenu CreateContextMenu(IContextMenuHost model, CommandBarDefinitionBase contextMenuDefinition);
         void CreateContextMenuTree(CommandBarDefinitionBase definition, ItemsControl contextMenu);
-        IEnumerable GetContextMenuItemDefinitions(CommandBarDefinitionBase contextMenuDefinition);
+        IEnumerable<CommandBarDefinitionBase> GetContextMenuItemDefinitions(CommandBarDefinitionBase contextMenuDefinition);
     }
 }

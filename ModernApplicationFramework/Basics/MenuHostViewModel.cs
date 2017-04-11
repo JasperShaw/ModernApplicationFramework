@@ -1,9 +1,12 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Input;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Basics.Definitions.Menu.MenuItems;
@@ -106,6 +109,16 @@ namespace ModernApplicationFramework.Basics
         public void BuildMenu()
         {
             IoC.Get<IMenuCreator>().CreateMenuBar(this);
+        }
+
+        public IEnumerable<CommandBarDefinitionBase> GetMenuItemDefinitions()
+        {
+            IEnumerable<CommandBarDefinitionBase> barDefinitions = MenuBars.OrderBy(x => x.SortOrder).ToList();
+            IEnumerable<CommandBarDefinitionBase> menuDefinitions =
+                MenuDefinitions.OrderBy(x => x.SortOrder).ToList();
+            IEnumerable<CommandBarDefinitionBase> submenus = MenuItemDefinitions.Where(
+                x => x.CommandDefinition == null || x.CommandDefinition.ControlType == CommandControlTypes.Menu);
+            return new List<CommandBarDefinitionBase>(barDefinitions.Concat(menuDefinitions.Concat(submenus)));
         }
 
         protected virtual async void ExecuteRightClick()

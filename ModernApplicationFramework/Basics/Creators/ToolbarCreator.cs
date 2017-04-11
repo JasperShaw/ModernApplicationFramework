@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
@@ -48,7 +47,7 @@ namespace ModernApplicationFramework.Basics.Creators
             return toolBar;
         }
 
-        public IEnumerable GetToolBarItemDefinitions(CommandBarDefinitionBase toolbarDefinition)
+        public IEnumerable<CommandBarDefinitionBase> GetToolBarItemDefinitions(CommandBarDefinitionBase toolbarDefinition)
         {
             var list = new List<CommandBarDefinitionBase>();
 

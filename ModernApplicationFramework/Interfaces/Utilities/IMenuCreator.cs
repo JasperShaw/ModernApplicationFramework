@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Interfaces.ViewModels;
@@ -16,6 +15,6 @@ namespace ModernApplicationFramework.Interfaces.Utilities
 
         void CreateMenuTree(CommandBarDefinitionBase definition, MenuItem menuItem);
 
-        IEnumerable GetSingleSubDefinitions(CommandBarDefinitionBase definition);
+        IEnumerable<CommandBarDefinitionBase> GetSingleSubDefinitions(CommandBarDefinitionBase definition);
     }
 }

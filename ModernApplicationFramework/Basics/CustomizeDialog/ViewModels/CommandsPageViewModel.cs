@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
@@ -7,7 +6,7 @@ using System.Linq;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Creators;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.CustomizeDialog.Views;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Interfaces;
@@ -24,7 +23,10 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         private CommandBarDefinitionBase _selectedToolBarItem;
         private CommandBarDefinitionBase _selectedContextMenuItem;
         private CustomizeRadioButtonOptions _selectedOption;
-        private IEnumerable _items;
+        private CommandBarDefinitionBase _selectedListBoxDefinition;
+        private IEnumerable<CommandBarDefinitionBase> _items;
+        private ICommandsPageView _control;
+        
 
 
         public ICommand HandleAddCommand => new Command(HandleCommandAdd);
@@ -85,7 +87,21 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             }
         }
 
-        public IEnumerable Items
+        public CommandBarDefinitionBase SelectedListBoxDefinition
+        {
+            get => _selectedListBoxDefinition;
+            set
+            {
+                if (_selectedListBoxDefinition == value)
+                    return;
+                if (value == null)
+                    return;
+                _selectedListBoxDefinition = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public IEnumerable<CommandBarDefinitionBase> Items
         {
             get => _items;
             set
@@ -96,36 +112,34 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             }
         }
 
+        public Command DropDownClickCommand => new Command(ExecuteDropDownClick);
+
         [ImportingConstructor]
         public CommandsPageViewModel()
         {
             DisplayName = "Commands";
-            CustomizableToolBars = IoC.Get<IToolBarHostViewModel>().ToolbarDefinitions;
-
-            var menuHost = IoC.Get<IMenuHostViewModel>();
-
-            IEnumerable<CommandBarDefinitionBase> barDefinitions = menuHost.MenuBars.OrderBy(x => x.SortOrder).ToList();
-            IEnumerable<CommandBarDefinitionBase> menuDefinitions =
-                menuHost.MenuDefinitions.OrderBy(x => x.SortOrder).ToList();
-            IEnumerable<CommandBarDefinitionBase> submenus = menuHost.MenuItemDefinitions.Where(
-                x => x.CommandDefinition == null || x.CommandDefinition.ControlType == CommandControlTypes.Menu);
-
-
-            CustomizableMenuBars =
-                new ObservableCollection<CommandBarDefinitionBase>(
-                    barDefinitions.Concat(menuDefinitions.Concat(submenus)));
-
-            CustomizableContextMenus = IoC.Get<IContextMenuHost>().ContextMenuDefinitions;
-
 
             Items = new List<CommandBarDefinitionBase>();
 
+            CustomizableMenuBars =
+                new ObservableCollection<CommandBarDefinitionBase>(IoC.Get<IMenuHostViewModel>().GetMenuItemDefinitions());
+            CustomizableToolBars = IoC.Get<IToolBarHostViewModel>().ToolbarDefinitions;
+            CustomizableContextMenus = IoC.Get<IContextMenuHost>().ContextMenuDefinitions;
 
             SelectedMenuItem = CustomizableMenuBars.FirstOrDefault();
             SelectedToolBarItem = CustomizableToolBars.FirstOrDefault();
             SelectedContextMenuItem = CustomizableContextMenus.FirstOrDefault();
 
             SetupListBoxItems(SelectedOption);
+        }
+
+        protected override void OnViewLoaded(object view)
+        {
+            base.OnViewLoaded(view);
+            if (view is ICommandsPageView correctView)
+                _control = correctView;
+            SelectedListBoxDefinition = Items.FirstOrDefault();
+
         }
 
         private void SetupListBoxItems(CustomizeRadioButtonOptions value)
@@ -154,6 +168,14 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             var windowManager = new WindowManager();
             var addCommandDialog = new AddCommandDialogViewModel();
             windowManager.ShowDialog(addCommandDialog);
+        }
+
+
+        private void ExecuteDropDownClick()
+        {
+            var dropDownMenu = _control.ModifySelectionButton.DropDownMenu;
+            dropDownMenu.DataContext = SelectedListBoxDefinition;
+            dropDownMenu.IsOpen = true;
         }
     }
 
