@@ -8,6 +8,7 @@
              xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
              xmlns:validationRules="clr-namespace:ModernApplicationFramework.Core.ValidationRules"
              xmlns:local="clr-namespace:ModernApplicationFramework.Basics.CustomizeDialog.ViewModels"
+             xmlns:commandBar="clr-namespace:ModernApplicationFramework.Basics.Definitions.CommandBar"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="360">
     <FrameworkElement.Resources>
@@ -17,6 +18,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <converters:EnabledFilteringMultiConverter x:Key="EnabledFilteringMultiConverter"/>
+            <converters:AndBooleanConverter x:Key="AndBooleanConverter"/>
             <converters:OrBooleanConverter x:Key="OrBooleanConverter"/>
             <converters:NegateBooleanConverter x:Key="NegateBooleanConverter"/>
             <converters:VisibleIfNotNullConverter x:Key="VisibleIfNotNullConverter"/>
@@ -25,6 +27,10 @@
             <converters:EnumBooleanConverter x:Key="EnumBooleanConverter"/>
             <converters:IsNotSeparatorModelConverter x:Key="IsNotSeparatorModelConverter"/>
             <converters:IsSeparatorOrCustomizableModelConverter x:Key="IsSeparatorOrCustomizableModelConverter"/>
+            <converters:ResizeMenuItemVisiblilityConverter x:Key="ResizeMenuItemVisiblilityConverter"/>
+            <converters:IsButtonModelConverter x:Key="IsButtonModelConverter"/>
+            <converters:BeginGroupIsEnabledConverter x:Key="BeginGroupIsEnabledConverter"/>
+            <converters:StylingFlagsConverter x:Key="StylingFlagsConverter"/>
             <CollectionViewSource x:Key="ToolBarsView" Source="{Binding CustomizableToolBars}">
                 <CollectionViewSource.SortDescriptions>
                     <componentModel:SortDescription PropertyName="Text"/>
@@ -41,21 +47,18 @@
                         <Binding Path="Text" Mode="TwoWay" UpdateSourceTrigger="LostFocus" Converter="{StaticResource TrimSpacesConverter}"/>
                     </controls:EditableMenuItem.Edit>
                     <controls:EditableMenuItem.IsEnabled>
-                        <!-- TODO-->
-                        <Binding Mode="OneWay" Path="Item"/>
+                        <Binding Mode="OneWay" Converter="{StaticResource IsCustomizableModelConverter}"/>
                     </controls:EditableMenuItem.IsEnabled>
                     <controls:EditableMenuItem.ValidationRules>
                         <validationRules:CommandNameNotEmptyValidationRule/>
                     </controls:EditableMenuItem.ValidationRules>
                 </controls:EditableMenuItem>
                 <controls:EditableMenuItem Header="_Width:" EditMinWidth="100">
-                    <!--TODO-->
                     <UIElement.IsEnabled>
-                        <Binding Mode="OneWay" Path="Item"/>
+                        <Binding Mode="OneWay" Converter="{StaticResource IsCustomizableModelConverter}"/>
                     </UIElement.IsEnabled>
-                    <!-- TODO -->
                     <UIElement.Visibility>
-                        <Binding Mode="OneWay" Path="Item" />
+                        <Binding Mode="OneWay" Converter="{StaticResource ResizeMenuItemVisiblilityConverter}"/>
                     </UIElement.Visibility>
                     <controls:EditableMenuItem.ValidationRules>
                         <validationRules:ComboBoxWidthValidationRule/>
@@ -74,71 +77,56 @@
                         </Style>
                     </FrameworkElement.Style>
                 </controls:EditableMenuItem>
-                <controls:Separator/>
-                <controls:CheckedMenuItem Header="Defa_ult style" Click="HandleStylingFlagsChange">
+                <Separator/>
+                <controls:CheckedMenuItem Header="Defa_ult style" Click="HandleStylingFlagsChange" Value="{x:Static commandBar:CommandBarFlags.CommandFlagNone}">
                     <controls:CheckedMenuItem.Link>
-                        <Binding Path="Item.Flags.AllFlags" Mode="OneWay"/>
+                        <Binding Path="Flags.AllFlags" Mode="OneWay" Converter="{StaticResource StylingFlagsConverter}"/>
                     </controls:CheckedMenuItem.Link>
-
-                    <!--TODO
-                <UIElement.IsEnabled>
-                    <MultiBinding Converter="{StaticResource AndBooleanConverter}">
-                        <Binding Path="Item" Converter="{StaticResource IsButtonModelConverter}"/>
-                        <Binding Path="Item" Converter="{StaticResource IsCustomizableModelConverter}"/>
-                    </MultiBinding>
-                </UIElement.IsEnabled>-->
-
+                    <UIElement.IsEnabled>
+                        <MultiBinding Converter="{StaticResource AndBooleanConverter}">
+                            <Binding Converter="{StaticResource IsButtonModelConverter}"/>
+                            <Binding Converter="{StaticResource IsCustomizableModelConverter}"/>
+                        </MultiBinding>
+                    </UIElement.IsEnabled>
                 </controls:CheckedMenuItem>
-                <controls:CheckedMenuItem Header="_Text Only (Always)" Click="HandleStylingFlagsChange">
+                <controls:CheckedMenuItem Header="_Text Only (Always)" Click="HandleStylingFlagsChange" Value="{x:Static commandBar:CommandBarFlags.CommandFlagText}">
                     <controls:CheckedMenuItem.Link>
-                        <Binding Path="Item.Flags.AllFlags" Mode="OneWay"/>
+                        <Binding Path="Flags.AllFlags" Mode="OneWay" Converter="{StaticResource StylingFlagsConverter}"/>
                     </controls:CheckedMenuItem.Link>
-
-                    <!--TODO
-                <UIElement.IsEnabled>
-                    <MultiBinding Converter="{StaticResource AndBooleanConverter}">
-                        <Binding Path="Item" Converter="{StaticResource IsButtonModelConverter}"/>
-                        <Binding Path="Item" Converter="{StaticResource IsCustomizableModelConverter}"/>
-                    </MultiBinding>
-                </UIElement.IsEnabled>-->
-
+                    <UIElement.IsEnabled>
+                        <MultiBinding Converter="{StaticResource AndBooleanConverter}">
+                            <Binding Converter="{StaticResource IsButtonModelConverter}"/>
+                            <Binding Converter="{StaticResource IsCustomizableModelConverter}"/>
+                        </MultiBinding>
+                    </UIElement.IsEnabled>
                 </controls:CheckedMenuItem>
-                <controls:CheckedMenuItem Header="Text _Only (in Menus)" Click="HandleStylingFlagsChange">
+                <controls:CheckedMenuItem Header="Text _Only (in Menus)" Click="HandleStylingFlagsChange" Value="{x:Static commandBar:CommandBarFlags.CommandFlagPict}">
                     <controls:CheckedMenuItem.Link>
-                        <Binding Path="Item.Flags.AllFlags" Mode="OneWay"/>
+                        <Binding Path="Flags.AllFlags" Mode="OneWay" Converter="{StaticResource StylingFlagsConverter}"/>
                     </controls:CheckedMenuItem.Link>
-
-                    <!--TODO
-                <UIElement.IsEnabled>
-                    <MultiBinding Converter="{StaticResource AndBooleanConverter}">
-                        <Binding Path="Item" Converter="{StaticResource IsButtonModelConverter}"/>
-                        <Binding Path="Item" Converter="{StaticResource IsCustomizableModelConverter}"/>
-                    </MultiBinding>
-                </UIElement.IsEnabled>-->
-
+                    <UIElement.IsEnabled>
+                        <MultiBinding Converter="{StaticResource AndBooleanConverter}">
+                            <Binding Converter="{StaticResource IsButtonModelConverter}"/>
+                            <Binding Converter="{StaticResource IsCustomizableModelConverter}"/>
+                        </MultiBinding>
+                    </UIElement.IsEnabled>
                 </controls:CheckedMenuItem>
-                <controls:CheckedMenuItem Header="Image _and Text" Click="HandleStylingFlagsChange">
+                <controls:CheckedMenuItem Header="Image _and Text" Click="HandleStylingFlagsChange" Value="{x:Static commandBar:CommandBarFlags.CommandFlagPictAndText}">
                     <controls:CheckedMenuItem.Link>
-                        <Binding Path="Item.Flags.AllFlags" Mode="OneWay"/>
+                        <Binding Path="Flags.AllFlags" Mode="OneWay" Converter="{StaticResource StylingFlagsConverter}"/>
                     </controls:CheckedMenuItem.Link>
-
-                    <!--TODO
-                <UIElement.IsEnabled>
-                    <MultiBinding Converter="{StaticResource AndBooleanConverter}">
-                        <Binding Path="Item" Converter="{StaticResource IsButtonModelConverter}"/>
-                        <Binding Path="Item" Converter="{StaticResource IsCustomizableModelConverter}"/>
-                    </MultiBinding>
-                </UIElement.IsEnabled>-->
-
+                    <UIElement.IsEnabled>
+                        <MultiBinding Converter="{StaticResource AndBooleanConverter}">
+                            <Binding Converter="{StaticResource IsButtonModelConverter}"/>
+                            <Binding Converter="{StaticResource IsCustomizableModelConverter}"/>
+                        </MultiBinding>
+                    </UIElement.IsEnabled>
                 </controls:CheckedMenuItem>
                 <controls:Separator/>
-                <controls:CheckedMenuItem Header="Begin a _Group" IsCheckable="True" IsChecked="{Binding Item.PrecededBySeparator}">
-
-                    <!--TODO
-                <UIElement.IsEnabled>
-                    <Binding Path="Index"/>
-                </UIElement.IsEnabled>-->
-
+                <controls:CheckedMenuItem Header="Begin a _Group" IsCheckable="True" IsChecked="{Binding PrecededBySeparator}">
+                    <UIElement.IsEnabled>
+                        <Binding Converter="{StaticResource BeginGroupIsEnabledConverter}"/>
+                    </UIElement.IsEnabled>
                 </controls:CheckedMenuItem>
             </ContextMenu>
             <Style x:Key="CollectionComboBoxItemStyle" TargetType="{x:Type ComboBoxItem}">

@@ -11,10 +11,11 @@ namespace ModernApplicationFramework.Core.Converters
             if (value == BindingOperations.DisconnectedSource)
                 return value;
             if (!(value is TSource) && (value != null || typeof(TSource).IsValueType))
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "Source is not type: {0}",
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "Source is not type: {0} but is type {1}",
                     new object[]
                     {
-                        typeof(TSource).FullName
+                        typeof(TSource).FullName,
+                        value?.GetType().FullName
                     }));
             if (targetType.IsAssignableFrom(typeof(TTarget)))
                 return Convert((TSource) value, parameter, culture);

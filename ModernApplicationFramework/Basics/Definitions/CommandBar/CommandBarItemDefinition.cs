@@ -4,12 +4,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
     public abstract class CommandBarItemDefinition : CommandBarDefinitionBase
     {
-        private FlagStorage _flagStorage;
         private bool _isVisible;
-
-        public virtual FlagStorage Flags => _flagStorage ?? (_flagStorage = new FlagStorage());
-
-
+        private bool _precededBySeparator;
 
         public virtual bool IsVisible
         {
@@ -18,6 +14,18 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             {
                 if (value == _isVisible) return;
                 _isVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public virtual bool PrecededBySeparator
+        {
+            get => _precededBySeparator;
+            set
+            {
+                if (value == _precededBySeparator)
+                    return;
+                _precededBySeparator = value;
                 OnPropertyChanged();
             }
         }

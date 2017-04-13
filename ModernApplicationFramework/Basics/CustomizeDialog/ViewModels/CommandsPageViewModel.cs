@@ -9,6 +9,7 @@ using ModernApplicationFramework.Basics.Creators;
 using ModernApplicationFramework.Basics.CustomizeDialog.Views;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Core.Converters;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
@@ -30,6 +31,17 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 
 
         public ICommand HandleAddCommand => new Command(HandleCommandAdd);
+
+        public ICommand HandleStylingFlagChangeCommand => new Command<object>(HandleStylingFlagChange, obj => true);
+
+        private void HandleStylingFlagChange(object value)
+        {
+            if (!(value is CommandBarFlags commandFlag))
+                return;
+            var allFlags = SelectedListBoxDefinition.Flags.AllFlags;
+            var commandflag2 = (CommandBarFlags)allFlags & ~StylingFlagsConverter.StylingMask | commandFlag;
+            SelectedListBoxDefinition.Flags.EnableStyleFlags(commandflag2);
+        }
 
         public IEnumerable<CommandBarDefinitionBase> CustomizableToolBars { get; set; }
         public IEnumerable<CommandBarDefinitionBase> CustomizableMenuBars { get; set; }

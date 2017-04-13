@@ -10,8 +10,11 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         private uint _sortOrder;
         private string _text;
         private bool _isChecked;
+        private FlagStorage _flagStorage;
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public virtual FlagStorage Flags => _flagStorage ?? (_flagStorage = new FlagStorage());
 
         public virtual bool IsCustom { get; }
         public virtual bool IsCustomizable { get; }
