@@ -36,11 +36,16 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
 
 
 
-            var w = new TestWindw();
-            w.Background = Brushes.Green;
+            var w = new TestWindw
+            {
+                Background = Brushes.Green,
+                Grid =
+                {
+                    Margin = new Thickness(50),
+                    Background = Brushes.Red
+                }
+            };
 
-            w.Grid.Margin = new Thickness(50);
-            w.Grid.Background = Brushes.Red;
 
             var b = ImageThemingUtilities.GetThemedBitmap(s, ImageThemingUtilities.GetImageBackgroundColor(w.Grid).ToRgba());
 
@@ -49,7 +54,6 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
                 IntPtr.Zero,
                 Int32Rect.Empty,
                 BitmapSizeOptions.FromWidthAndHeight(b.Width, b.Height));
-            ImageBrush ib = new ImageBrush(bs);
             w.Icon = bs;
 
 
@@ -59,10 +63,10 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
             //new FolderBrowserDialog().ShowDialog();
         }
 
-        public BitmapSource Convert(System.Drawing.Bitmap bitmap)
+        public BitmapSource Convert(Bitmap bitmap)
         {
             var bitmapData = bitmap.LockBits(
-                new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height),
+                new Rectangle(0, 0, bitmap.Width, bitmap.Height),
                 System.Drawing.Imaging.ImageLockMode.ReadOnly, bitmap.PixelFormat);
 
             var bitmapSource = BitmapSource.Create(
@@ -73,6 +77,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
             return bitmapSource;
         }
         public override string IconId => null;
+        public override CommandCategory Category => null;
         public override Uri IconSource => null;
         public override string Name => "MultiHotKey";
         public override string Text => Name;

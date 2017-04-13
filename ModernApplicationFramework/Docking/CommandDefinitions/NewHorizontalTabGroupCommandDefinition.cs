@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Windows.Controls;
 using System.Windows.Input;
+using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Docking.Layout;
@@ -69,5 +70,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
                 UriKind.RelativeOrAbsolute);
 
         public override string IconId => "SplitScreenHorizontal";
+
+        public override CommandCategory Category => CommandCategories.WindowCommandCategory;
     }
 }

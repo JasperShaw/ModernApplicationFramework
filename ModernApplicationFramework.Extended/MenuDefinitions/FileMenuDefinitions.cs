@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Basics.Definitions.Menu.MenuItems;
+using ModernApplicationFramework.Docking.CommandDefinitions;
 using ModernApplicationFramework.Extended.Commands;
 
 namespace ModernApplicationFramework.Extended.MenuDefinitions
@@ -16,6 +17,6 @@ namespace ModernApplicationFramework.Extended.MenuDefinitions
 
         [Export] public static MenuItemDefinition CloseProgram = new CommandMenuItemDefinition<CloseProgammCommandDefinition>(CloseProgramGroup, 1);
 
-        [Export] public static MenuItemDefinition CloseActiveDocument = new CommandMenuItemDefinition<CloseActiveDocumentCommandDefinition>(CloseLayoutItemGroup, 1);
+        [Export] public static MenuItemDefinition CloseActiveDocument = new CommandMenuItemDefinition<CloseDockedWindowCommandDefinition>(CloseLayoutItemGroup, 1);
     }
 }

@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Input;
+using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Extended.Interfaces;
@@ -14,13 +15,6 @@ namespace ModernApplicationFramework.Extended.Commands
 #pragma warning disable 649
         [Import] private IDockingMainWindowViewModel _shell;
 #pragma warning restore 649
-
-        public RedoCommandDefinition()
-        {
-            var command = new MultiKeyGestureCommandWrapper(Redo, CanRedo, new MultiKeyGesture(new[] { Key.Y }, ModifierKeys.Control));
-            Command = command;
-            ShortcutText = command.GestureText;
-        }
         public override ICommand Command { get; }
 
         public override string IconId => "RedoIcon";
@@ -33,6 +27,16 @@ namespace ModernApplicationFramework.Extended.Commands
         public override string Name => "Edit.Redo";
         public override string Text => "Redo";
         public override string ToolTip => "Redo";
+
+        public override CommandCategory Category => CommandCategories.EditCommandCategory;
+
+        public RedoCommandDefinition()
+        {
+            var command = new MultiKeyGestureCommandWrapper(Redo, CanRedo,
+                new MultiKeyGesture(new[] {Key.Y}, ModifierKeys.Control));
+            Command = command;
+            ShortcutText = command.GestureText;
+        }
 
         private bool CanRedo()
         {

@@ -62,7 +62,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Commands\CloseActiveDocumentCommandDefinition.cs" />
     <Compile Include="Commands\CloseProgammCommandDefinition.cs" />
     <Compile Include="Commands\FullScreenCommandDefinition.cs" />
     <Compile Include="Commands\OpenSettingsCommandDefinition.cs" />

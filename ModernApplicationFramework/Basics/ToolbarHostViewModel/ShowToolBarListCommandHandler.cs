@@ -63,6 +63,7 @@ namespace ModernApplicationFramework.Basics.ToolbarHostViewModel
             public override string ToolTip => string.Empty;
             public override Uri IconSource => null;
             public override string IconId => null;
+            public override CommandCategory Category => null;
         }
     }
 }

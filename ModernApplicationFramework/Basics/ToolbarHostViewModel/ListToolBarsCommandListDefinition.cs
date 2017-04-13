@@ -7,5 +7,7 @@ namespace ModernApplicationFramework.Basics.ToolbarHostViewModel
     public class ListToolBarsCommandListDefinition : CommandListDefinition
     {
         public override string Name => "Toolbar List";
+
+        public override CommandCategory Category => CommandCategories.ViewCommandCategory;
     }
 }

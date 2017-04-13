@@ -29,5 +29,7 @@ namespace ModernApplicationFramework.Basics.ToolbarHostViewModel
         public override Uri IconSource => null;
         public override string IconId => null;
         public override string ShortcutText => null;
+
+        public override CommandCategory Category => CommandCategories.ViewCommandCategory;
     }
 }

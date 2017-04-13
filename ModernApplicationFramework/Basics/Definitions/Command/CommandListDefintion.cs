@@ -2,7 +2,7 @@
 
 namespace ModernApplicationFramework.Basics.Definitions.Command
 {
-    public class CommandListDefinition : DefinitionBase
+    public abstract class CommandListDefinition : DefinitionBase
     {
         public override string IconId => null;
         public override bool IsList => true;

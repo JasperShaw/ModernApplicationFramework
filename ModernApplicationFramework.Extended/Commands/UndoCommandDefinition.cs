@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Input;
+using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Extended.Interfaces;
@@ -14,13 +15,6 @@ namespace ModernApplicationFramework.Extended.Commands
 #pragma warning disable 649
         [Import] private IDockingMainWindowViewModel _shell;
 #pragma warning restore 649
-
-        public UndoCommandDefinition()
-        {
-            var command = new MultiKeyGestureCommandWrapper(Undo, CanUndo, new MultiKeyGesture(new[] {Key.Z}, ModifierKeys.Control));
-            Command = command;
-            ShortcutText = command.GestureText;
-        }
         public override ICommand Command { get; }
 
         public override string IconId => "UndoIcon";
@@ -34,7 +28,16 @@ namespace ModernApplicationFramework.Extended.Commands
         public override string Text => "Undo";
         public override string ToolTip => "Undo";
 
+        public override CommandCategory Category => CommandCategories.EditCommandCategory;
         public string MyText { get; set; }
+
+        public UndoCommandDefinition()
+        {
+            var command = new MultiKeyGestureCommandWrapper(Undo, CanUndo,
+                new MultiKeyGesture(new[] {Key.Z}, ModifierKeys.Control));
+            Command = command;
+            ShortcutText = command.GestureText;
+        }
 
         private bool CanUndo()
         {

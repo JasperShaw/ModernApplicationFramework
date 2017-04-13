@@ -53,6 +53,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
         public override Uri IconSource => null;
         public override string IconId => null;
         public override bool IsList => false;
+        public override CommandCategory Category => null;
         public override string ShortcutText { get; set; }
 
         public override CommandControlTypes ControlType => CommandControlTypes.Menu;

@@ -1,4 +1,5 @@
-﻿using ModernApplicationFramework.Basics.Definitions.Command;
+﻿using System;
+using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Interfaces;
 
@@ -25,6 +26,19 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
         {
             MenuBar = menuBar;
             _internalName = name;
+        }
+
+        private sealed class MenuItemCommandDefinition : DefinitionBase
+        {
+            public override string Name => null;
+            public override string Text => null;
+            public override string ToolTip => null;
+            public override Uri IconSource => null;
+            public override string IconId => null;
+            public override bool IsList => false;
+            public override CommandCategory Category => null;
+            public override string ShortcutText => null;
+            public override CommandControlTypes ControlType => CommandControlTypes.Menu;
         }
     }
 }

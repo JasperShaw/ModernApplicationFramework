@@ -190,6 +190,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Basics\Bootstrapper.cs" />
+    <Compile Include="Basics\CommandCategories.cs" />
     <Compile Include="Basics\ContextMenuHost.cs" />
     <Compile Include="Basics\Creators\ContextMenuCreator.cs" />
     <Compile Include="Basics\CustomizeDialog\ViewModels\AddCommandDialogViewModel.cs" />
@@ -205,6 +206,7 @@
     <Compile Include="Basics\Definitions\CommandBar\CommandBarItemDefinition.cs" />
     <Compile Include="Basics\Definitions\CommandBar\ExcludeCommandBarElementDefinition.cs" />
     <Compile Include="Basics\Definitions\CommandBar\FlagStorage.cs" />
+    <Compile Include="Basics\Definitions\Command\CommandCategory.cs" />
     <Compile Include="Basics\Definitions\Command\CommandControlTypes.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarSeparatorDefinition.cs" />
     <Compile Include="Basics\Definitions\ContextMenu\ContextMenuCategory.cs" />
@@ -212,7 +214,6 @@
     <Compile Include="Basics\Definitions\Menu\CustomMenuDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuBarDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuDefinition.cs" />
-    <Compile Include="Basics\Definitions\Command\MenuItemCommandDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuItems\CommandMenuItemDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuItems\CommandMenuItemDefinitionT.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuItems\CommandTopLevelMenuItemDefinitionT.cs" />

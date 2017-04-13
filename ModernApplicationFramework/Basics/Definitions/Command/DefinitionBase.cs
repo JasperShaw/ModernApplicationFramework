@@ -15,6 +15,8 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         public abstract string IconId { get; }
         public abstract bool IsList { get; }
 
+        public abstract CommandCategory Category { get; }
+
         public virtual string ShortcutText
         {
             get => _shortcutText;

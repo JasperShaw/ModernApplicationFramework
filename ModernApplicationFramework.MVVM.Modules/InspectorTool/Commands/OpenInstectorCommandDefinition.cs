@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
+using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Extended.Interfaces;
@@ -25,6 +26,8 @@ namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Commands
         public override string Name => "View.Inspector";
         public override string Text => "Inspector";
         public override string ToolTip => "Inspector";
+
+        public override CommandCategory Category => CommandCategories.ViewCommandCategory;
 
         public string MyText { get; set; }
 

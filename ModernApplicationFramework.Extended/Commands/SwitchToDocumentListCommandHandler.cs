@@ -23,8 +23,7 @@ namespace ModernApplicationFramework.Extended.Commands
 
         public void Populate(Command command, List<DefinitionBase> commands)
         {
-
-            for (int i = 0; i < _shell.Documents.Count; i++)
+            for (var i = 0; i < _shell.Documents.Count; i++)
             {
                 var document = _shell.Documents[i];
 
@@ -37,18 +36,25 @@ namespace ModernApplicationFramework.Extended.Commands
                     definition.IsChecked = true;
 
                 commands.Add(definition);
-            } 
+            }
         }
 
         private class ShowSelectedDocumentCommandDefinition : CommandDefinition
         {
+            public override ICommand Command { get; }
+
+            public override string Name => string.Empty;
+            public override string Text { get; }
+            public override string ToolTip => string.Empty;
+            public override Uri IconSource => null;
+            public override string IconId => null;
+            public override CommandCategory Category => null;
+
             public ShowSelectedDocumentCommandDefinition(string name)
             {
                 Text = name;
                 Command = new MultiKeyGestureCommandWrapper(ShowSelectedItem, CanShowSelectedItem);
             }
-
-            public override ICommand Command { get; }
 
             private bool CanShowSelectedItem()
             {
@@ -57,15 +63,8 @@ namespace ModernApplicationFramework.Extended.Commands
 
             private void ShowSelectedItem()
             {
-                IoC.Get<IDockingHostViewModel>().OpenDocument((ILayoutItem)CommandParamenter);
+                IoC.Get<IDockingHostViewModel>().OpenDocument((ILayoutItem) CommandParamenter);
             }
-
-            public override string Name => string.Empty;
-            public override string Text { get; }
-            public override string ToolTip => string.Empty;
-            public override Uri IconSource => null;
-            public override string IconId => null;
         }
-
     }
 }

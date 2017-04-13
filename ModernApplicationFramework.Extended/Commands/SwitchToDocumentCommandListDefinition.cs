@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 
 namespace ModernApplicationFramework.Extended.Commands
@@ -7,5 +8,7 @@ namespace ModernApplicationFramework.Extended.Commands
     public class SwitchToDocumentCommandListDefinition : CommandListDefinition
     {
         public override string Name => "Window List";
+
+        public override CommandCategory Category => CommandCategories.WindowCommandCategory;
     }
 }

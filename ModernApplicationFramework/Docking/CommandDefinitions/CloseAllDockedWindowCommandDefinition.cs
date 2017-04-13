@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Input;
+using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Docking.Layout;
@@ -46,5 +47,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
         public override Uri IconSource => new Uri("/ModernApplicationFramework;component/Resources/Icons/CloseDocumentGroup.xaml",
             UriKind.RelativeOrAbsolute);
         public override string IconId => "CloseDocumentGroup";
+
+        public override CommandCategory Category => CommandCategories.WindowCommandCategory;
     }
 }
