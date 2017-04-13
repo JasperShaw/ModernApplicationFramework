@@ -30,6 +30,8 @@
             <converters:ResizeMenuItemVisiblilityConverter x:Key="ResizeMenuItemVisiblilityConverter"/>
             <converters:IsButtonModelConverter x:Key="IsButtonModelConverter"/>
             <converters:BeginGroupIsEnabledConverter x:Key="BeginGroupIsEnabledConverter"/>
+            <converters:CanMoveUpMultiValueConverter x:Key="CanMoveUpMultiValueConverter"/>
+            <converters:CanMoveDownMultiValueConverter x:Key="CanMoveDownMultiValueConverter"/>
             <converters:StylingFlagsConverter x:Key="StylingFlagsConverter"/>
             <CollectionViewSource x:Key="ToolBarsView" Source="{Binding CustomizableToolBars}">
                 <CollectionViewSource.SortDescriptions>
@@ -229,22 +231,21 @@
                 </controls:DialogButton>
                 <controls:DialogButton x:Name="MoveUpButton" Content="Move _Up">
                     <!-- TODO -->
-                    <!--<UIElement.IsEnabled>
-                        <MultiBinding>
-                            <Binding ElementName="ControlsListBox" Path="SelectedItem"/>
+                    <UIElement.IsEnabled>
+                        <MultiBinding Converter="{StaticResource CanMoveUpMultiValueConverter}">
                             <Binding ElementName="ControlsListBox" Path="SelectedIndex"/>
+                            <Binding ElementName="ControlsListBox" Path="SelectedItem"/>
                         </MultiBinding>
-                    </UIElement.IsEnabled>-->
+                    </UIElement.IsEnabled>
                 </controls:DialogButton>
                 <controls:DialogButton x:Name="MoveDownButton" Content="Move Dow_n">
-                    <!-- TODO -->
-                    <!--<UIElement.IsEnabled>
-                        <MultiBinding>
-                            <Binding ElementName="ControlsListBox" Path="SelectedItem"/>
+                    <UIElement.IsEnabled>
+                        <MultiBinding Converter="{StaticResource CanMoveDownMultiValueConverter}">
                             <Binding ElementName="ControlsListBox" Path="Items.Count"/>
                             <Binding ElementName="ControlsListBox" Path="SelectedIndex"/>
+                            <Binding ElementName="ControlsListBox" Path="SelectedItem"/>
                         </MultiBinding>
-                    </UIElement.IsEnabled>-->
+                    </UIElement.IsEnabled>
                 </controls:DialogButton>
                 <controls:DropDownDialogButton x:Name="DropDownButton" Command="{Binding DropDownClickCommand}"
                                                Content="_Modify Selection" DropDownMenu="{DynamicResource ModifySelectionCommandsMenu}">

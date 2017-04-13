@@ -1,44 +1,27 @@
 ﻿using System;
 using System.Globalization;
-using System.Linq;
-using System.Windows;
-using System.Windows.Data;
 using ModernApplicationFramework.Core.Utilities;
 
 namespace ModernApplicationFramework.Core.Converters
 {
-    public class MultiValueConverter<TSource1, TSource2, TTarget> : IMultiValueConverter
+    public class MultiValueConverter<TSource1, TSource2, TTarget> : MultiValueConverterBase<TTarget>
     {
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        public sealed override object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values.Length != 2)
-                throw new ArgumentException("Insufficient source parameters: 2");
-            if (values.Any(obj => obj == DependencyProperty.UnsetValue || obj == BindingOperations.DisconnectedSource))
-            {
+            if (!ValidateConvertParameters(values, targetType))
                 return default(TTarget);
-            }
-            MultiValueHelper.CheckValue<TSource1>(values, 0);
-            MultiValueHelper.CheckValue<TSource2>(values, 1);
-            if (!targetType.IsAssignableFrom(typeof(TTarget)))
-                throw new InvalidOperationException($"Target is not from Type: {typeof(TTarget).FullName}");
-            return Convert((TSource1) values[0], (TSource2) values[1], parameter, culture);
+            return Convert(MultiValueHelper.CheckValue<TSource1>(values, 0), MultiValueHelper.CheckValue<TSource2>(values, 1), parameter, culture);
         }
 
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        public sealed override object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
-            if (targetTypes.Length != 2)
-                throw new ArgumentException("Insufficient source parameters: 2");
-            if (!(value is TTarget) && (value != null || typeof(TTarget).IsValueType))
-                throw new ArgumentException($"Value is not from Type: {typeof(TTarget).FullName}");
+            ValidateConvertBackParameters(value, targetTypes);
             MultiValueHelper.CheckType<TSource1>(targetTypes, 0);
             MultiValueHelper.CheckType<TSource2>(targetTypes, 1);
-            TSource1 out1;
-            TSource2 out2;
-            ConvertBack((TTarget) value, out out1, out out2, parameter, culture);
-            return new object[]
-            {
-                out1, out2
-            };
+            TSource1 obj1;
+            TSource2 obj2;
+            ConvertBack((TTarget)value, out obj1, out obj2, parameter, culture);
+            return new object[] { obj1, obj2 };
         }
 
         protected virtual TTarget Convert(TSource1 value1, TSource2 value2, object parameter, CultureInfo culture)
@@ -50,6 +33,46 @@ namespace ModernApplicationFramework.Core.Converters
                                            CultureInfo culture)
         {
             throw new NotSupportedException("ConvertBack not defined");
+        }
+    }
+
+    public class MultiValueConverter<TSource1, TSource2, TSource3, TTarget> : MultiValueConverterBase<TTarget>
+    {
+        public override object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            return !ValidateConvertParameters(values, targetType)
+                ? default(TTarget)
+                : Convert(MultiValueHelper.CheckValue<TSource1>(values, 0),
+                    MultiValueHelper.CheckValue<TSource2>(values, 1), MultiValueHelper.CheckValue<TSource3>(values, 2),
+                    parameter, culture);
+        }
+
+        public override object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            ValidateConvertBackParameters(value, targetTypes);
+            MultiValueHelper.CheckType<TSource1>(targetTypes, 0);
+            MultiValueHelper.CheckType<TSource2>(targetTypes, 1);
+            MultiValueHelper.CheckType<TSource3>(targetTypes, 2);
+            TSource1 obj1;
+            TSource2 obj2;
+            TSource3 obj3;
+            ConvertBack((TTarget)value, out obj1, out obj2, out obj3, parameter, culture);
+            return new object[]
+            {
+                obj1,
+                obj2,
+                obj3
+            };
+        }
+
+        protected virtual TTarget Convert(TSource1 value1, TSource2 value2, TSource3 value3, object parameter, CultureInfo culture)
+        {
+            throw MakeConverterFunctionNotDefinedException();
+        }
+
+        protected virtual void ConvertBack(TTarget value, out TSource1 value1, out TSource2 value2, out TSource3 value3, object parameter, CultureInfo culture)
+        {
+            throw MakeConverterFunctionNotDefinedException();
         }
     }
 }
