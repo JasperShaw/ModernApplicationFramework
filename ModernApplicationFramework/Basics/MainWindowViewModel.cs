@@ -341,11 +341,6 @@ namespace ModernApplicationFramework.Basics
             return UseSimpleMovement;
         }
 
-
-        public Command TestCommand => new Command(OnTest);
-
-        protected virtual void OnTest() {}
-
         #endregion
     }
 }

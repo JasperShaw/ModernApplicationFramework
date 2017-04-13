@@ -17,14 +17,6 @@ namespace ModernApplicationFrameworkMVVMTestApp
 			InitializeComponent();
 
             DataContext = new MainWindowViewModel(this);
-
-            OnThemeChanged += MainWindow_OnThemeChanged;
-        }
-
-        private void MainWindow_OnThemeChanged(object sender, ModernApplicationFramework.Core.Events.ThemeChangedEventArgs e)
-        {
-            if (DockManager?.DockingManager != null && e != null)
-                DockManager.DockingManager.Theme = e.NewTheme;
         }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)

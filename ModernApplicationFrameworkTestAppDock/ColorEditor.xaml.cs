@@ -22,16 +22,6 @@ namespace ModernApplicationFrameworkTestAppDock
 			InitializeComponent();
 			ListView.ContextMenu = ListView.Resources["ContextMenuColor"] as ContextMenu;
 			LoadColors(string.Empty);
-
-		    var m = Application.Current.MainWindow as MainWindow;
-            if (m != null)
-                m.OnThemeChanged += OnThemeChanged;
-
-        }
-
-        private void OnThemeChanged(object sender, EventArgs e)
-        {
-            LoadColors(string.Empty);
         }
 
         private void LoadColors(string filterBy)

@@ -46,7 +46,6 @@ using System.Windows.Markup;
 [assembly: XmlnsDefinition("http://modern.framework.com/command", "ModernApplicationFramework.CommandBase.Base")]
 [assembly: XmlnsPrefix("http://modern.framework.com/basics", "mafb")]
 [assembly: XmlnsDefinition("http://modern.framework.com/basics", "ModernApplicationFramework.Basics")]
-[assembly: XmlnsDefinition("http://modern.framework.com/basics", "ModernApplicationFramework.Basics.ViewModels")]
 [assembly: XmlnsPrefix("http://modern.framework.com/docking", "mafd")]
 [assembly: XmlnsDefinition("http://modern.framework.com/docking", "ModernApplicationFramework.Docking")]
 [assembly: XmlnsDefinition("http://modern.framework.com/docking", "ModernApplicationFramework.Docking.Controls")]

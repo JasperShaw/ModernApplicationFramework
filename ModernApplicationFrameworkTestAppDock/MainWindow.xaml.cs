@@ -35,11 +35,6 @@ namespace ModernApplicationFrameworkTestAppDock
 
             DeactivatedFloatIcon = new BitmapImage(new Uri("pack://application:,,,/ModernApplicationFrameworkTestAppDock;component/Build.png"));
             ActivatedFloatIcon = new BitmapImage(new Uri("pack://application:,,,/ModernApplicationFrameworkTestAppDock;component/test.jpg"));
-
-            ((MainWindowViewModel)DataContext).ToolBarHostViewModel.AddToolBar(new ToolBar { IdentifierName = "Test" }, true, Dock.Top);
-            ((MainWindowViewModel)DataContext).ToolBarHostViewModel.AddToolBar(new ToolBar { IdentifierName = "Test1" }, true, Dock.Top);
-            ((MainWindowViewModel)DataContext).ToolBarHostViewModel.AddToolBar(new ToolBar { IdentifierName = "Testing" }, true, Dock.Left);
-            ((MainWindowViewModel)DataContext).ToolBarHostViewModel.AddToolBar(new ToolBar { IdentifierName = "Testing2" }, true, Dock.Left);
         }
 
         public override void OnApplyTemplate()
@@ -79,12 +74,7 @@ namespace ModernApplicationFrameworkTestAppDock
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            if (((MainWindowViewModel)DataContext).Theme is LightTheme)
-                ((MainWindowViewModel)DataContext).Theme = new GenericTheme();
-            else
-                ((MainWindowViewModel)DataContext).Theme = new LightTheme();
-            this.Title = "Test";
-
+            Title = "Test";
         }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
