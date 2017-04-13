@@ -9,7 +9,7 @@ using ModernApplicationFramework.Basics.Creators;
 using ModernApplicationFramework.Basics.CustomizeDialog.Views;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.CommandBase;
-using ModernApplicationFramework.Core.Converters;
+using ModernApplicationFramework.Core.Converters.Customize;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;

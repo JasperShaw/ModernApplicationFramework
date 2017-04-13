@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
+﻿using System.Globalization;
 using System.Text;
-using System.Threading.Tasks;
+using ModernApplicationFramework.Core.Converters.General;
 
-namespace ModernApplicationFramework.Core.Converters
+namespace ModernApplicationFramework.Core.Converters.AccessKey
 {
     public class AccessKeyConverter : ValueConverter<string, string>
     {

@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Windows;
 
-namespace ModernApplicationFramework.Core.Converters
+namespace ModernApplicationFramework.Core.Converters.General
 {
     public class VisibleIfNotNullConverter : ValueConverter<object, Visibility>
     {

@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Data;
 
-namespace ModernApplicationFramework.Core.Converters
+namespace ModernApplicationFramework.Core.Converters.General
 {
     public abstract class MultiValueConverterBase<TTarget> : IMultiValueConverter
     {

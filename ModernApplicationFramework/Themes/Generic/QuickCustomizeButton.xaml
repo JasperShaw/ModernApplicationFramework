@@ -2,12 +2,13 @@
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals"
-                    xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
-                    xmlns:controls="clr-namespace:ModernApplicationFramework.Controls">
+                    xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
+                    xmlns:accessKey="clr-namespace:ModernApplicationFramework.Core.Converters.AccessKey"
+                    xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General">
 
-    <converters:AccessKeyRemovingConverter x:Key="AccessKeyRemovingConverter"/>
-    <converters:AccessKeyConverter x:Key="AccessKeyConverter"/>
-    <converters:NegateBooleanConverter x:Key="NegateBooleanConverter"/>
+    <accessKey:AccessKeyRemovingConverter x:Key="AccessKeyRemovingConverter"/>
+    <accessKey:AccessKeyConverter x:Key="AccessKeyConverter"/>
+    <general:NegateBooleanConverter x:Key="NegateBooleanConverter"/>
 
     <Geometry x:Key="Checkmark">
         F1 M 5,11 L 3,7 L 5,7 L 6,9 L 9,3 L 11,3 L 7,11 L 5,11 Z

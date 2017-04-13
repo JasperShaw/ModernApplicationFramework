@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace ModernApplicationFramework.Core.Converters
+namespace ModernApplicationFramework.Core.Converters.General
 {
     internal class BooleanOrConverter : MultiValueConverter<bool, bool, bool>
     {

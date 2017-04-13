@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Data;
 using ModernApplicationFramework.Native.Standard;
 
-namespace ModernApplicationFramework.Core.Converters
+namespace ModernApplicationFramework.Core.Converters.General
 {
     public sealed class OrBooleanConverter : IMultiValueConverter
     {

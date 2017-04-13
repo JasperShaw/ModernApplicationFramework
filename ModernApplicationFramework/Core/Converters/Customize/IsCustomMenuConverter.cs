@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 
-namespace ModernApplicationFramework.Core.Converters
+namespace ModernApplicationFramework.Core.Converters.Customize
 {
     public class IsCustomMenuConverter : IValueConverter
     {

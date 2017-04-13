@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Windows.Controls;
+using ModernApplicationFramework.Core.Converters.General;
 using ModernApplicationFramework.Docking;
 using ModernApplicationFramework.Docking.Layout;
 

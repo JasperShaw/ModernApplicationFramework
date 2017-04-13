@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using ModernApplicationFramework.Native.Standard;
 
-namespace ModernApplicationFramework.Core.Converters
+namespace ModernApplicationFramework.Core.Converters.General
 {
     public sealed class NegateBooleanConverter : IValueConverter
     {

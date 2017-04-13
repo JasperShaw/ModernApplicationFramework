@@ -4,14 +4,17 @@
                     xmlns:colors="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
                     xmlns:native="clr-namespace:ModernApplicationFramework.Native"
-                    xmlns:utilities="clr-namespace:ModernApplicationFramework.Controls.Utilities">
+                    xmlns:utilities="clr-namespace:ModernApplicationFramework.Controls.Utilities"
+                    xmlns:accessKey="clr-namespace:ModernApplicationFramework.Core.Converters.AccessKey"
+                    xmlns:customize="clr-namespace:ModernApplicationFramework.Core.Converters.Customize"
+                    xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General">
     
-    <converters:AccessKeyConverter x:Key="AccessKeyConverter"/>
-    <converters:AccessKeyRemovingConverter x:Key="AccessKeyRemovingConverter"/>
-    <converters:IsCustomMenuConverter x:Key="IsCustomMenuConverter"/>
+    <accessKey:AccessKeyConverter x:Key="AccessKeyConverter"/>
+    <accessKey:AccessKeyRemovingConverter x:Key="AccessKeyRemovingConverter"/>
+    <customize:IsCustomMenuConverter x:Key="IsCustomMenuConverter"/>
     <converters:BrushToColorConverter x:Key="BrushToColorConverter"/>
     <converters:CommandBarItemCommandConverter x:Key="CommandBarItemCommandConverter"/>
-    <converters:NotNullConverter x:Key="NotNullConverter"/>
+    <general:NotNullConverter x:Key="NotNullConverter"/>
     <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
 
     <Geometry x:Key="Checkmark">

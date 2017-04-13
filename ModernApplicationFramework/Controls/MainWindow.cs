@@ -14,7 +14,7 @@ using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Controls.Internals;
 using ModernApplicationFramework.Controls.Primitives;
 using ModernApplicationFramework.Controls.Utilities;
-using ModernApplicationFramework.Core.Converters;
+using ModernApplicationFramework.Core.Converters.General;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.Native;
 using ModernApplicationFramework.Native.NativeMethods;

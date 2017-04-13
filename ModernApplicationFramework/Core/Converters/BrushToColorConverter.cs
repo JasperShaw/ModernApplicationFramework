@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Windows.Media;
+using ModernApplicationFramework.Core.Converters.General;
 
 namespace ModernApplicationFramework.Core.Converters
 {

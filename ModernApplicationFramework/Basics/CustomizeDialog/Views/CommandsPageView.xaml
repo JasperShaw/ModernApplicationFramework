@@ -9,6 +9,8 @@
              xmlns:validationRules="clr-namespace:ModernApplicationFramework.Core.ValidationRules"
              xmlns:local="clr-namespace:ModernApplicationFramework.Basics.CustomizeDialog.ViewModels"
              xmlns:commandBar="clr-namespace:ModernApplicationFramework.Basics.Definitions.CommandBar"
+             xmlns:customize="clr-namespace:ModernApplicationFramework.Core.Converters.Customize"
+             xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="360">
     <FrameworkElement.Resources>
@@ -17,22 +19,22 @@
                 <ResourceDictionary Source="../../../Themes/Generic/CustomizeStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <converters:EnabledFilteringMultiConverter x:Key="EnabledFilteringMultiConverter"/>
-            <converters:AndBooleanConverter x:Key="AndBooleanConverter"/>
-            <converters:OrBooleanConverter x:Key="OrBooleanConverter"/>
-            <converters:NegateBooleanConverter x:Key="NegateBooleanConverter"/>
-            <converters:VisibleIfNotNullConverter x:Key="VisibleIfNotNullConverter"/>
+            <customize:EnabledFilteringMultiConverter x:Key="EnabledFilteringMultiConverter"/>
+            <general:AndBooleanConverter x:Key="AndBooleanConverter"/>
+            <general:OrBooleanConverter x:Key="OrBooleanConverter"/>
+            <general:NegateBooleanConverter x:Key="NegateBooleanConverter"/>
+            <general:VisibleIfNotNullConverter x:Key="VisibleIfNotNullConverter"/>
             <converters:TrimSpacesConverter x:Key="TrimSpacesConverter"/>
-            <converters:IsCustomizableModelConverter x:Key="IsCustomizableModelConverter"/>
+            <customize:IsCustomizableModelConverter x:Key="IsCustomizableModelConverter"/>
             <converters:EnumBooleanConverter x:Key="EnumBooleanConverter"/>
-            <converters:IsNotSeparatorModelConverter x:Key="IsNotSeparatorModelConverter"/>
-            <converters:IsSeparatorOrCustomizableModelConverter x:Key="IsSeparatorOrCustomizableModelConverter"/>
+            <customize:IsNotSeparatorModelConverter x:Key="IsNotSeparatorModelConverter"/>
+            <customize:IsSeparatorOrCustomizableModelConverter x:Key="IsSeparatorOrCustomizableModelConverter"/>
             <converters:ResizeMenuItemVisiblilityConverter x:Key="ResizeMenuItemVisiblilityConverter"/>
-            <converters:IsButtonModelConverter x:Key="IsButtonModelConverter"/>
-            <converters:BeginGroupIsEnabledConverter x:Key="BeginGroupIsEnabledConverter"/>
-            <converters:CanMoveUpMultiValueConverter x:Key="CanMoveUpMultiValueConverter"/>
-            <converters:CanMoveDownMultiValueConverter x:Key="CanMoveDownMultiValueConverter"/>
-            <converters:StylingFlagsConverter x:Key="StylingFlagsConverter"/>
+            <customize:IsButtonModelConverter x:Key="IsButtonModelConverter"/>
+            <customize:BeginGroupIsEnabledConverter x:Key="BeginGroupIsEnabledConverter"/>
+            <customize:CanMoveUpMultiValueConverter x:Key="CanMoveUpMultiValueConverter"/>
+            <customize:CanMoveDownMultiValueConverter x:Key="CanMoveDownMultiValueConverter"/>
+            <customize:StylingFlagsConverter x:Key="StylingFlagsConverter"/>
             <CollectionViewSource x:Key="ToolBarsView" Source="{Binding CustomizableToolBars}">
                 <CollectionViewSource.SortDescriptions>
                     <componentModel:SortDescription PropertyName="Text"/>

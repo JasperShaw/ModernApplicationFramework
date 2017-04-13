@@ -1,8 +1,9 @@
 ﻿using System.Globalization;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Core.Converters.General;
 
-namespace ModernApplicationFramework.Core.Converters
+namespace ModernApplicationFramework.Core.Converters.Customize
 {
     internal sealed class IsSeparatorOrCustomizableModelConverter : ToBooleanValueConverter<CommandBarDefinitionBase>
     {

@@ -4,17 +4,19 @@
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals"
                     xmlns:native="clr-namespace:ModernApplicationFramework.Native"
-                    xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters">
+                    xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
+                    xmlns:accessKey="clr-namespace:ModernApplicationFramework.Core.Converters.AccessKey"
+                    xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General">
     
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../../Resources/Icons/StatusError.xaml"></ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
 
     <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
-    <converters:AccessKeyRemovingConverter x:Key="AccessKeyRemovingConverter"/>
-    <converters:AccessKeyConverter x:Key="AccessKeyConverter"/>
+    <accessKey:AccessKeyRemovingConverter x:Key="AccessKeyRemovingConverter"/>
+    <accessKey:AccessKeyConverter x:Key="AccessKeyConverter"/>
     <converters:ToolTipMultiConverter x:Key="ToolTipMultiConverter"/>
-    <converters:NotNullConverter x:Key="NotNullConverter"/>
+    <general:NotNullConverter x:Key="NotNullConverter"/>
     <converters:CommandBarItemCommandConverter x:Key="CommandBarItemCommandConverter"/>
     <converters:DockToOrienationConverter x:Key="DockToOrienationConverter"/>
     <converters:BrushToColorConverter x:Key="BrushToColorConverter"/>

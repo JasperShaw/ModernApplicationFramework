@@ -1,7 +1,8 @@
 ﻿using System.Globalization;
+using ModernApplicationFramework.Core.Converters.General;
 using ModernApplicationFramework.Core.Utilities;
 
-namespace ModernApplicationFramework.Core.Converters
+namespace ModernApplicationFramework.Core.Converters.AccessKey
 {
     public class AccessKeyRemovingConverter : ValueConverter<string, string>
     {

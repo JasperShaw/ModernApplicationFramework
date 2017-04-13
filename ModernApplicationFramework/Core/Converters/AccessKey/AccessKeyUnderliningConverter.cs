@@ -1,8 +1,9 @@
 ﻿using System.Globalization;
 using System.Windows.Documents;
+using ModernApplicationFramework.Core.Converters.General;
 using ModernApplicationFramework.Core.Utilities;
 
-namespace ModernApplicationFramework.Core.Converters
+namespace ModernApplicationFramework.Core.Converters.AccessKey
 {
     public class AccessKeyUnderliningConverter : ValueConverter<string, object>
     {

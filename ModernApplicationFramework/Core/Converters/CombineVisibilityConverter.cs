@@ -25,15 +25,15 @@ namespace ModernApplicationFramework.Core.Converters
 
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (((IEnumerable<object>)values).Contains<object>(DependencyProperty.UnsetValue))
+            if (values.Contains(DependencyProperty.UnsetValue))
                 return DependencyProperty.UnsetValue;
             IEnumerable<Visibility> source = values.Cast<Visibility>();
-            switch (this._combineVisibility)
+            switch (_combineVisibility)
             {
                 case CombineVisibility.PickHighestVisibility:
-                    return (object)source.Min<Visibility>();
+                    return source.Min();
                 case CombineVisibility.PickLowestVisibility:
-                    return (object)source.Max<Visibility>();
+                    return source.Max();
                 default:
                     throw new InvalidOperationException();
             }

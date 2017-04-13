@@ -1,11 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters;assembly=ModernApplicationFramework"
                     xmlns:core="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
                     xmlns:cal="http://www.caliburnproject.org"
-                    xmlns:controls="clr-namespace:ModernApplicationFramework.Extended.Modules.InspectorTool.Controls">
+                    xmlns:controls="clr-namespace:ModernApplicationFramework.Extended.Modules.InspectorTool.Controls"
+                    xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General;assembly=ModernApplicationFramework">
 
-    <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+    <general:InverseBoolConverter x:Key="InverseBoolConverter" />
 
     <controls:InspectorItemTemplateSelector x:Key="InspectorItemTemplateSelector">
         <controls:InspectorItemTemplateSelector.LabelledTemplate>

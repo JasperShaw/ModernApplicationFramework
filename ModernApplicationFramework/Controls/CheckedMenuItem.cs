@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Data;
-using ModernApplicationFramework.Core.Converters;
+using ModernApplicationFramework.Core.Converters.General;
 
 namespace ModernApplicationFramework.Controls
 {

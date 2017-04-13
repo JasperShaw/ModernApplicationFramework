@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Globalization;
-using ModernApplicationFramework.Core.Converters;
+using ModernApplicationFramework.Core.Converters.AccessKey;
 
 namespace ModernApplicationFramework.Core.Comparers
 {

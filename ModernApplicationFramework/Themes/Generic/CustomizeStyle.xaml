@@ -2,14 +2,15 @@
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
-                    xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters">
+                    xmlns:accessKey="clr-namespace:ModernApplicationFramework.Core.Converters.AccessKey"
+                    xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General">
 
     <Geometry x:Key="Checkmark">
         F1 M 5,11 L 3,7 L 5,7 L 6,9 L 9,3 L 11,3 L 7,11 L 5,11 Z
     </Geometry>
 
-    <converters:AccessKeyRemovingConverter x:Key="AccessKeyRemovingConverter"/>
-    <converters:NotNullConverter x:Key="NotNullConverter"/>
+    <accessKey:AccessKeyRemovingConverter x:Key="AccessKeyRemovingConverter"/>
+    <general:NotNullConverter x:Key="NotNullConverter"/>
 
     <ControlTemplate x:Key="ContextMenuTemplate" TargetType="{x:Type ContextMenu}">
         <Grid>

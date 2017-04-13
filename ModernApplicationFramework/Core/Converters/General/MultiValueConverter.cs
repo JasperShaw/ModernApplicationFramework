@@ -2,7 +2,7 @@
 using System.Globalization;
 using ModernApplicationFramework.Core.Utilities;
 
-namespace ModernApplicationFramework.Core.Converters
+namespace ModernApplicationFramework.Core.Converters.General
 {
     public class MultiValueConverter<TSource1, TSource2, TTarget> : MultiValueConverterBase<TTarget>
     {

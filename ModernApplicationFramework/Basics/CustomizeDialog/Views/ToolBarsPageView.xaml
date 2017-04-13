@@ -8,6 +8,7 @@
              xmlns:utilities="clr-namespace:ModernApplicationFramework.Controls.Utilities"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="360">
     <FrameworkElement.Resources>
@@ -113,8 +114,8 @@
         </controls:CheckableListBox>
         <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch">
             <FrameworkElement.Resources>
-                <converters:AndBooleanConverter x:Key="AndBooleanConverter"/>
-                <converters:NotNullConverter x:Key="NotNullConverter"/>
+                <general:AndBooleanConverter x:Key="AndBooleanConverter"/>
+                <general:NotNullConverter x:Key="NotNullConverter"/>
             </FrameworkElement.Resources>
             <controls:DialogButton x:Name="NewToolBarButton" Content="_New..." Command="{Binding CreateNewToolbarCommand}"/>
             <controls:DialogButton Content="_Delete" Command="{Binding DeleteSelectedToolbarCommand}">

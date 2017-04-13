@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace ModernApplicationFramework.Core.Converters
+namespace ModernApplicationFramework.Core.Converters.General
 {
     public class AreEqualConverter : MultiValueConverter<object, object, bool>
     {
