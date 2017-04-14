@@ -12,6 +12,6 @@ namespace ModernApplicationFramework.Extended.MenuDefinitions
 
         [Export] public static CommandBarGroupDefinition SettingsGroup = new CommandBarGroupDefinition(ToolsMenu, int.MaxValue);
 
-        [Export] public static CommandBarItemDefinition Settings = new CommandMenuItemDefinition<OpenSettingsCommandDefinition>(SettingsGroup, int.MaxValue);
+        [Export] public static CommandBarItemDefinition Settings = new CommandBarCommandItemDefinition<OpenSettingsCommandDefinition>(SettingsGroup, int.MaxValue);
     }
 }

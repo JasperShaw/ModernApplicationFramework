@@ -12,8 +12,8 @@ namespace ModernApplicationFramework.Extended.MenuDefinitions
 
         [Export] public static CommandBarGroupDefinition EditUndoRedoMenuGroup = new CommandBarGroupDefinition(EditMenu, 0);
 
-        [Export] public static CommandBarItemDefinition EditUndoMenuItem = new CommandMenuItemDefinition<UndoCommandDefinition>(EditUndoRedoMenuGroup, 0);
+        [Export] public static CommandBarItemDefinition EditUndoMenuItem = new CommandBarCommandItemDefinition<UndoCommandDefinition>(EditUndoRedoMenuGroup, 0);
 
-        [Export] public static CommandBarItemDefinition EditRedoMenuItem = new CommandMenuItemDefinition<RedoCommandDefinition>(EditUndoRedoMenuGroup, 0);
+        [Export] public static CommandBarItemDefinition EditRedoMenuItem = new CommandBarCommandItemDefinition<RedoCommandDefinition>(EditUndoRedoMenuGroup, 0);
     }
 }

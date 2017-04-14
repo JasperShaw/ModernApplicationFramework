@@ -14,6 +14,6 @@ namespace ModernApplicationFramework.Extended.MenuDefinitions
 
         [Export] public static CommandBarGroupDefinition ToolsViewGroup = new CommandBarGroupDefinition(ViewMenu, 4);
 
-        [Export] public static CommandBarItemDefinition FullScreen = new CommandMenuItemDefinition<FullScreenCommandDefinition>(ScreenViewGroup, 2);
+        [Export] public static CommandBarItemDefinition FullScreen = new CommandBarCommandItemDefinition<FullScreenCommandDefinition>(ScreenViewGroup, 2);
     }
 }

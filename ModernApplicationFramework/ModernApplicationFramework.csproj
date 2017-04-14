@@ -201,6 +201,7 @@
     <Compile Include="Basics\CustomizeDialog\Views\AddCommandDialogView.xaml.cs">
       <DependentUpon>AddCommandDialogView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Basics\Definitions\CommandBar\CommandBarCommandItemDefinitionT.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarDefinitionBase.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarFlags.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarGroupDefinition.cs" />
@@ -216,14 +217,12 @@
     <Compile Include="Basics\Definitions\Menu\MenuBarDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuItems\CommandMenuItemDefinition.cs" />
-    <Compile Include="Basics\Definitions\Menu\MenuItems\CommandMenuItemDefinitionT.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuItems\CommandTopLevelMenuItemDefinitionT.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuItems\CommandTopLevelMenuItemDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuItems\CustomSubHeaderMenuItemDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuHeaderCommandDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuItems\SubHeaderMenuItemDefinition.cs" />
     <Compile Include="Basics\Definitions\Toolbar\ToolbarDefinition.cs" />
-    <Compile Include="Basics\Definitions\Toolbar\ToolbarItemDefinition.cs" />
     <Compile Include="Basics\SettingsDialog\ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="Basics\SettingsDialog\ViewModels\SettingsWindowViewModel.cs" />
     <Compile Include="Basics\SettingsDialog\Views\SettingsWindowView.xaml.cs">

@@ -1,8 +1,9 @@
 ﻿using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Basics.Definitions.Menu
 {
-    public sealed class MenuBarDefinition : CommandBarDefinitionBase
+    public sealed class MenuBarDefinition : CommandBarDefinitionBase, IHasInternalName
     {
         private string _internalName;
 

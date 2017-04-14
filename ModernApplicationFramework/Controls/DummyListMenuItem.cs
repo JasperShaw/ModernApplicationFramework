@@ -35,7 +35,7 @@ namespace ModernApplicationFramework.Controls
             var startIndex = _parent.Items.IndexOf(this) + 1;
             foreach (var command in listCommands)
             {
-                var id = new CommandMenuItemDefinition(command);
+                var id = new CommandMenuItemDefinition((uint) startIndex ,command);
                 var newMenuItem = new MenuItem(id);
                 if (command is CommandDefinition commandDefinition && commandDefinition.IsChecked)
                     id.IsChecked = true;

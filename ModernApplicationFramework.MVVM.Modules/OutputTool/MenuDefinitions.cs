@@ -7,6 +7,6 @@ namespace ModernApplicationFramework.Extended.Modules.OutputTool
     public static class MenuDefinitions
     {
         [Export]
-        public static CommandBarItemDefinition Output = new CommandMenuItemDefinition<OpenOutputToolCommandDefinition>(Extended.MenuDefinitions.ViewMenuDefinitions.ToolsViewGroup, 2);
+        public static CommandBarItemDefinition Output = new CommandBarCommandItemDefinition<OpenOutputToolCommandDefinition>(Extended.MenuDefinitions.ViewMenuDefinitions.ToolsViewGroup, 2);
     }
 }

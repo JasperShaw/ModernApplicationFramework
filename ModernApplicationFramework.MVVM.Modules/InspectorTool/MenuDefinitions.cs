@@ -9,6 +9,6 @@ namespace ModernApplicationFramework.Extended.Modules.InspectorTool
     {
         [Export] public static CommandBarGroupDefinition PropertiesGroup = new CommandBarGroupDefinition(Extended.MenuDefinitions.ViewMenuDefinitions.ViewMenu, int.MaxValue);
 
-        [Export] public static CommandBarItemDefinition Inspector = new CommandMenuItemDefinition<OpenInstectorCommandDefinition>(PropertiesGroup, 0);
+        [Export] public static CommandBarItemDefinition Inspector = new CommandBarCommandItemDefinition<OpenInstectorCommandDefinition>(PropertiesGroup, 0);
     }
 }

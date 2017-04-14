@@ -1,15 +1,13 @@
 ﻿using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Interfaces.Command;
 
-namespace ModernApplicationFramework.Basics.Definitions.Menu.MenuItems
+namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
-    public sealed class CommandMenuItemDefinition<T> : CommandBarItemDefinition where T : DefinitionBase
+    public sealed class CommandBarCommandItemDefinition<T> : CommandBarItemDefinition where T : DefinitionBase
     {
         private bool _registerVisibilityToCommand;
-        public override DefinitionBase CommandDefinition { get; }
 
         public bool RegisterVisibilityToCommand
         {
@@ -39,8 +37,10 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu.MenuItems
             }
         }
 
-        public CommandMenuItemDefinition(CommandBarGroupDefinition group, uint sortOrder, bool registerVisibilityToCommand = false, bool isCustomizable = true)
-            : base( null, sortOrder, group, null, true, false, false, isCustomizable)
+        public override DefinitionBase CommandDefinition { get; }
+
+        public CommandBarCommandItemDefinition(CommandBarGroupDefinition group, uint sortOrder, bool registerVisibilityToCommand = false, bool isCustomizable = true)
+            : base(null, sortOrder, group, null, true, false, false, isCustomizable)
         {
             CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
             Text = CommandDefinition.Text;

@@ -12,6 +12,6 @@ namespace ModernApplicationFramework.Extended.MenuDefinitions
 
         [Export] public static CommandBarGroupDefinition OpenWindowsGroup = new CommandBarGroupDefinition(WindowMenu, int.MaxValue);
 
-        [Export] public static CommandBarItemDefinition SwitchActiveLayoutDocument = new CommandMenuItemDefinition<SwitchToDocumentCommandListDefinition>(OpenWindowsGroup, 0);
+        [Export] public static CommandBarItemDefinition SwitchActiveLayoutDocument = new CommandBarCommandItemDefinition<SwitchToDocumentCommandListDefinition>(OpenWindowsGroup, 0);
     }
 }
