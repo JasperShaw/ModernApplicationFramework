@@ -1,42 +1,35 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Controls;
-using ModernApplicationFramework.Core.Utilities;
 
 namespace ModernApplicationFramework.Interfaces.ViewModels
 {
-    public interface IMenuHostViewModel
+    public interface ICommandBarHost
     {
-        CommandBase.Command RightClickCommand { get; }
+        ObservableCollection<CommandBarGroupDefinition> ItemGroupDefinitions { get; }
+        ObservableCollection<CommandBarItemDefinition> ItemDefinitions { get; }
+        ObservableCollection<CommandBarDefinitionBase> ExcludedItemDefinitions { get; } 
+        void Build();
+        void AddItemDefinition(CommandBarItemDefinition definition, bool addAboveSeparator);
+    }
 
-        /// <summary>
-        ///     Tells if you can open the ToolbarHostContextMenu
-        /// </summary>
-        bool AllowOpenToolBarContextMenu { get; set; }
+    public interface IHasMainWindowViewModel
+    {
+        IMainWindowViewModel MainWindowViewModel { get; set; }
+    }
 
-        /// <summary>
-        ///     Contains the MenuItems of the MenuHostControl
-        /// </summary>
+    public interface IMenuHostViewModel : ICommandBarHost, IHasMainWindowViewModel
+    {
+        ICommand RightClickCommand { get; }
+
         ObservableCollection<MenuItem> Items { get; }
 
-        /// <summary>
-        ///     Contains the UseDockingHost shall not be changed after setted up
-        /// </summary>
-        IMainWindowViewModel MainWindowViewModel { get; set; }
-
         ObservableCollection<MenuBarDefinition> MenuBars { get; }
-        //ObservableCollectionEx<MenuDefinition> MenuDefinitions { get; }
-        ObservableCollection<CommandBarGroupDefinition> MenuItemGroupDefinitions { get; }
-        ObservableCollection<CommandBarItemDefinition> MenuItemDefinitions { get; }
-        ObservableCollection<CommandBarDefinitionBase> ExcludedMenuElementDefinitions { get; }
 
-
-        /// <summary>
-        /// Builds/Rebuilds the Menu
-        /// </summary>
-        void BuildMenu();
+        bool AllowOpenToolBarContextMenu { get; set; }
 
         IEnumerable<CommandBarDefinitionBase> GetMenuHeaderItemDefinitions();
     }

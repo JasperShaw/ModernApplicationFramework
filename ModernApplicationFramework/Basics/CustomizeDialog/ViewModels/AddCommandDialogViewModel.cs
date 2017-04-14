@@ -15,8 +15,8 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
     public sealed class AddCommandDialogViewModel : Screen, IAddCommandDialogViewModel
     {
         private CommandCategory _selectedCategory;
-        private IEnumerable<CommandBarDefinitionBase> _items;
-        private CommandBarDefinitionBase _selectedItem;
+        private IEnumerable<CommandBarItemDefinition> _items;
+        private CommandBarItemDefinition _selectedItem;
 
         public ICommand OkClickCommand => new Command(ExecuteOkClick);
 
@@ -24,7 +24,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 
         public IEnumerable<DefinitionBase> AllCommandDefinitions { get; }
 
-        public IEnumerable<CommandBarDefinitionBase> Items
+        public IEnumerable<CommandBarItemDefinition> Items
         {
             get => _items;
             set
@@ -48,7 +48,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             }
         }
 
-        public CommandBarDefinitionBase SelectedItem
+        public CommandBarItemDefinition SelectedItem
         {
             get => _selectedItem;
             set
@@ -67,7 +67,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             Items =
                 (from commandDefinition in AllCommandDefinitions
                     where commandDefinition.Category == SelectedCategory
-                    select new CommandBarCommandItemDefinition(0, commandDefinition)).Cast<CommandBarDefinitionBase>()
+                    select new CommandBarCommandItemDefinition(0, commandDefinition))
                 .ToList();
         }
 
@@ -78,7 +78,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             Categories = new List<CommandCategory>(categories);
             var allCommandDefinitions = IoC.GetAll<DefinitionBase>();
             AllCommandDefinitions = new List<DefinitionBase>(allCommandDefinitions);
-            Items = new List<CommandBarDefinitionBase>();
+            Items = new List<CommandBarItemDefinition>();
         }
 
         protected override void OnViewLoaded(object view)
@@ -104,11 +104,11 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 
         IEnumerable<DefinitionBase> AllCommandDefinitions { get; }
 
-        IEnumerable<CommandBarDefinitionBase> Items { get; set; }
+        IEnumerable<CommandBarItemDefinition> Items { get; set; }
 
         CommandCategory SelectedCategory { get; set; }
 
-        CommandBarDefinitionBase SelectedItem { get; set; }
+        CommandBarItemDefinition SelectedItem { get; set; }
 
         void UpdateItems();
     }

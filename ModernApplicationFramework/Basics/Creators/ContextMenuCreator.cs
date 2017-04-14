@@ -29,15 +29,15 @@ namespace ModernApplicationFramework.Basics.Creators
             var host = IoC.Get<IContextMenuHost>();
             contextMenu.Items.Clear();
 
-            var groups = host.MenuItemGroupDefinitions.Where(x => x.Parent == definition)
-                .Where(x => !host.ExcludedContextMenuElementDefinitions.Contains(x))
+            var groups = host.ItemGroupDefinitions.Where(x => x.Parent == definition)
+                .Where(x => !host.ExcludedItemDefinitions.Contains(x))
                 .OrderBy(x => x.SortOrder)
                 .ToList();
             for (var i = 0; i < groups.Count; i++)
             {
                 var group = groups[i];
-                var menuItems = host.MenuItemDefinitions.Where(x => x.Group == group)
-                    .Where(x => !host.ExcludedContextMenuElementDefinitions.Contains(x))
+                var menuItems = host.ItemDefinitions.Where(x => x.Group == group)
+                    .Where(x => !host.ExcludedItemDefinitions.Contains(x))
                     .OrderBy(x => x.SortOrder);
 
                 var firstItem = false;
@@ -75,14 +75,14 @@ namespace ModernApplicationFramework.Basics.Creators
 
             if (contextMenuDefinition is ContextMenuDefinition)
             {
-                var groups = model.MenuItemGroupDefinitions.Where(x => x.Parent == contextMenuDefinition)
+                var groups = model.ItemGroupDefinitions.Where(x => x.Parent == contextMenuDefinition)
                     .OrderBy(x => x.SortOrder)
                     .ToList();
 
                 for (var i = 0; i < groups.Count; i++)
                 {
                     var group = groups[i];
-                    var menuItems = model.MenuItemDefinitions.Where(x => x.Group == group)
+                    var menuItems = model.ItemDefinitions.Where(x => x.Group == group)
                         .OrderBy(x => x.SortOrder);
                     if (i > 0 && i <= groups.Count - 1 && menuItems.Any())
                         if (menuItems.Any(menuItemDefinition => menuItemDefinition.IsVisible))
@@ -92,7 +92,7 @@ namespace ModernApplicationFramework.Basics.Creators
             }
             else if (contextMenuDefinition is MenuDefinition || contextMenuDefinition is CommandBarItemDefinition)
             {
-                var groups = model.MenuItemGroupDefinitions.Where(x => x.Parent == contextMenuDefinition)
+                var groups = model.ItemGroupDefinitions.Where(x => x.Parent == contextMenuDefinition)
                     .OrderBy(x => x.SortOrder)
                     .ToList();
 
@@ -101,7 +101,7 @@ namespace ModernApplicationFramework.Basics.Creators
                 for (var i = 0; i < groups.Count; i++)
                 {
                     var group = groups[i];
-                    var menuItems = model.MenuItemDefinitions.Where(x => x.Group == group)
+                    var menuItems = model.ItemDefinitions.Where(x => x.Group == group)
                         .OrderBy(x => x.SortOrder);
 
                     bool firstItem = false; //As Menus are created each click we need to to this also in this methods
@@ -126,15 +126,15 @@ namespace ModernApplicationFramework.Basics.Creators
 
         private void AddGroupsRecursive(IContextMenuHost model, CommandBarDefinitionBase contextMenuDefinition, ItemsControl contextMenu)
         {
-            var groups = model.MenuItemGroupDefinitions.Where(x => x.Parent == contextMenuDefinition)
-                .Where(x => !model.ExcludedContextMenuElementDefinitions.Contains(x))
+            var groups = model.ItemGroupDefinitions.Where(x => x.Parent == contextMenuDefinition)
+                .Where(x => !model.ExcludedItemDefinitions.Contains(x))
                 .OrderBy(x => x.SortOrder)
                 .ToList();
             for (var i = 0; i < groups.Count; i++)
             {
                 var group = groups[i];
-                var menuItems = model.MenuItemDefinitions.Where(x => x.Group == group)
-                    .Where(x => !model.ExcludedContextMenuElementDefinitions.Contains(x))
+                var menuItems = model.ItemDefinitions.Where(x => x.Group == group)
+                    .Where(x => !model.ExcludedItemDefinitions.Contains(x))
                     .OrderBy(x => x.SortOrder);
 
                 if (i > 0 && i <= groups.Count - 1 && menuItems.Any())

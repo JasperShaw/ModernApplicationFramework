@@ -8,7 +8,6 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Creators;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.ContextMenu;
-using ModernApplicationFramework.Basics.Definitions.Menu.MenuItems;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces;
 
@@ -19,9 +18,9 @@ namespace ModernApplicationFramework.Basics
     public class ContextMenuHost : IContextMenuHost
     {
         public ObservableCollectionEx<ContextMenuDefinition> ContextMenuDefinitions { get; }
-        public ObservableCollectionEx<CommandBarGroupDefinition> MenuItemGroupDefinitions { get; }
-        public ObservableCollectionEx<CommandBarItemDefinition> MenuItemDefinitions { get; }
-        public ObservableCollection<CommandBarDefinitionBase> ExcludedContextMenuElementDefinitions { get; }
+        public ObservableCollection<CommandBarGroupDefinition> ItemGroupDefinitions { get; }
+        public ObservableCollection<CommandBarItemDefinition> ItemDefinitions { get; }
+        public ObservableCollection<CommandBarDefinitionBase> ExcludedItemDefinitions { get; }
 
         private readonly Dictionary<ContextMenuDefinition, Controls.ContextMenu> _hostedContextMenus;
 
@@ -36,33 +35,34 @@ namespace ModernApplicationFramework.Basics
             ContextMenuDefinitions = new ObservableCollectionEx<ContextMenuDefinition>();
             foreach (var menuDefinition in contextMenuDefinitions)
                 ContextMenuDefinitions.Add(menuDefinition);
-            MenuItemGroupDefinitions = new ObservableCollectionEx<CommandBarGroupDefinition>();
-            foreach (var menuDefinition in menuGroupDefinitions)
-                MenuItemGroupDefinitions.Add(menuDefinition);
-            MenuItemDefinitions = new ObservableCollectionEx<CommandBarItemDefinition>();
-            foreach (var menuDefinition in menuItemDefinitions)
-                MenuItemDefinitions.Add(menuDefinition);
-            ExcludedContextMenuElementDefinitions = new ObservableCollection<CommandBarDefinitionBase>();
+            ItemGroupDefinitions = new ObservableCollection<CommandBarGroupDefinition>(menuGroupDefinitions);
+            ItemDefinitions = new ObservableCollection<CommandBarItemDefinition>(menuItemDefinitions);
+            ExcludedItemDefinitions = new ObservableCollection<CommandBarDefinitionBase>();
             foreach (var item in excludedItems)
-                ExcludedContextMenuElementDefinitions.Add(item.ExcludedCommandBarDefinition);
+                ExcludedItemDefinitions.Add(item.ExcludedCommandBarDefinition);
 
 
             ContextMenuDefinitions.CollectionChanged += CreateNewMenu;
-            MenuItemGroupDefinitions.CollectionChanged += UpdateMenu;
-            MenuItemDefinitions.CollectionChanged += UpdateMenu;
-            ExcludedContextMenuElementDefinitions.CollectionChanged += UpdateMenu;
+            ItemGroupDefinitions.CollectionChanged += UpdateMenu;
+            ItemDefinitions.CollectionChanged += UpdateMenu;
+            ExcludedItemDefinitions.CollectionChanged += UpdateMenu;
 
-            CreateAllContextMenus();
+            Build();
         }
 
-        public void CreateAllContextMenus()
+        public void Build()
         {
             _hostedContextMenus.Clear();
-            foreach (var definition in ContextMenuDefinitions.Where(x => !ExcludedContextMenuElementDefinitions.Contains(x)))
+            foreach (var definition in ContextMenuDefinitions.Where(x => !ExcludedItemDefinitions.Contains(x)))
             {
                 var contextMenu = IoC.Get<IContextMenuCreator>().CreateContextMenu(this, definition);
                 _hostedContextMenus.Add(definition, contextMenu);
             }
+        }
+
+        public void AddItemDefinition(CommandBarItemDefinition definition, bool addAboveSeparator)
+        {
+            
         }
 
         public Controls.ContextMenu GetContextMenu(ContextMenuDefinition contextMenuDefinition)

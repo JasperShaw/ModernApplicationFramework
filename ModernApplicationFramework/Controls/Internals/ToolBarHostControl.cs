@@ -61,7 +61,7 @@ namespace ModernApplicationFramework.Controls.Internals
             ToolBarHostViewModel.LeftToolBarTray = GetTemplateChild("LeftDockTray") as ToolBarTray;
             ToolBarHostViewModel.RightToolBarTray = GetTemplateChild("RightDockTray") as ToolBarTray;
             ToolBarHostViewModel.BottomToolBarTray = GetTemplateChild("BottomDockTray") as ToolBarTray;
-            ToolBarHostViewModel.SetupToolbars();
+            ToolBarHostViewModel.Build();
             base.OnApplyTemplate();
         }
     }

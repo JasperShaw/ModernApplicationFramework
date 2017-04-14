@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
@@ -8,7 +9,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Basics.Definitions.ContextMenu;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Core;
@@ -32,14 +32,16 @@ namespace ModernApplicationFramework.Basics.ToolbarHostViewModel
         private ToolBarTray _rightToolBarTay;
         private ToolBarTray _topToolBarTay;
 
-        public ObservableCollectionEx<CommandBarGroupDefinition> ToolbarItemGroupDefinitions { get; }
-        public ObservableCollectionEx<CommandBarItemDefinition> ToolbarItemDefinitions { get; }
+        public ObservableCollection<CommandBarGroupDefinition> ItemGroupDefinitions { get; }
+        public ObservableCollection<CommandBarItemDefinition> ItemDefinitions { get; }
+
+        public ObservableCollection<CommandBarDefinitionBase> ExcludedItemDefinitions { get; }
 
         public ObservableCollectionEx<ToolbarDefinition> ToolbarDefinitions { get; }
 
         public ContextMenu ContextMenu { get; }
 
-        public Command OpenContextMenuCommand => new Command(OpenContextMenu, CanOpenContextMenu);
+        public ICommand OpenContextMenuCommand => new Command(OpenContextMenu, CanOpenContextMenu);
 
         public IMainWindowViewModel MainWindowViewModel { get; set; }
 
@@ -99,13 +101,9 @@ namespace ModernApplicationFramework.Basics.ToolbarHostViewModel
                 ToolbarDefinitions.Add(definition);
 
 
-            ToolbarItemGroupDefinitions = new ObservableCollectionEx<CommandBarGroupDefinition>();
-            foreach (var definition in toolbarItemGroupDefinitions)
-                ToolbarItemGroupDefinitions.Add(definition);
+            ItemGroupDefinitions = new ObservableCollection<CommandBarGroupDefinition>(toolbarItemGroupDefinitions);
 
-            ToolbarItemDefinitions = new ObservableCollectionEx<CommandBarItemDefinition>();
-            foreach (var definition in toolbarItemDefinitions)
-                ToolbarItemDefinitions.Add(definition);
+            ItemDefinitions = new ObservableCollection<CommandBarItemDefinition>(toolbarItemDefinitions);
 
             ToolbarDefinitions.CollectionChanged += _toolbarDefinitions_CollectionChanged;
             ToolbarDefinitions.ItemPropertyChanged += _toolbarDefinitions_ItemPropertyChanged;
@@ -139,9 +137,9 @@ namespace ModernApplicationFramework.Basics.ToolbarHostViewModel
             ToolbarDefinitions.Remove(definition);
         }
 
-        public void SetupToolbars()
+        public void Build()
         {
-            _toolbars.Clear();
+            _toolbars.Clear();   
             var definitions = ToolbarDefinitions.OrderBy(x => x.SortOrder);
             foreach (var definition in definitions)
             {
@@ -149,6 +147,44 @@ namespace ModernApplicationFramework.Basics.ToolbarHostViewModel
                 _toolbars.Add(definition, toolBar);
                 ChangeToolBarVisibility(definition);
             }
+        }
+
+        public void AddItemDefinition(CommandBarItemDefinition definition, bool addAboveSeparator)
+        {
+            if (!addAboveSeparator)
+            {
+                var definitionsToChange =
+                    ItemDefinitions.Where(
+                            x => x.Group == definition.Group)
+                        .OrderBy(x => x.SortOrder);
+
+                foreach (var definitionToChange in definitionsToChange)
+                {
+                    if (definitionToChange.Group != definition.Group)
+                        continue;
+                    if (definitionToChange.SortOrder >= definition.SortOrder)
+                        definitionToChange.SortOrder++;
+                }
+            }
+            ItemDefinitions.Add(definition);
+
+            var toolbarDef = GetToolBarDefinitionFromItemDefinition(definition);
+
+            RebuildToolbar(toolbarDef);
+        }
+
+        private void RebuildToolbar(ToolbarDefinition definition)
+        {
+            InternalHideToolBar(definition);
+            var toolbar = IoC.Get<IToolbarCreator>().CreateToolbar(this, definition);
+            _toolbars[definition] = toolbar;
+            ChangeToolBarVisibility(definition);
+        }
+
+        private ToolbarDefinition GetToolBarDefinitionFromItemDefinition(CommandBarItemDefinition definition)
+        {
+            var group = ItemGroupDefinitions.FirstOrDefault(x => definition.Group == x);
+            return ToolbarDefinitions.FirstOrDefault(x => group?.Parent == x);
         }
 
         public ToolbarDefinition GeToolbarDefinitionByName(string name)
@@ -191,9 +227,9 @@ namespace ModernApplicationFramework.Basics.ToolbarHostViewModel
                 : uniqueName;
         }
 
-        private async void ToolBarTay_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        private void ToolBarTay_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            await OpenContextMenuCommand.Execute();
+            OpenContextMenuCommand.Execute(null);
         }
 
         private void _toolbarDefinitions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -201,7 +237,7 @@ namespace ModernApplicationFramework.Basics.ToolbarHostViewModel
             if (e.NewItems == null && e.OldItems == null)
                 return;
             InternalHideAllToolbars();
-            SetupToolbars();
+            Build();
         }
 
         private void InternalHideAllToolbars()

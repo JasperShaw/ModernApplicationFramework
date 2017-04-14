@@ -17,7 +17,7 @@ namespace ModernApplicationFramework.Basics.Creators
         {
             var toolBar = new ToolBar(definition);
 
-            var groups = model.ToolbarItemGroupDefinitions
+            var groups = model.ItemGroupDefinitions
                 .Where(x => x.Parent == definition)
                 .OrderBy(x => x.SortOrder)
                 .ToList();
@@ -26,7 +26,7 @@ namespace ModernApplicationFramework.Basics.Creators
             for (var i = 0; i < groups.Count; i++)
             {
                 var group = groups[i];
-                var toolBarItems = model.ToolbarItemDefinitions
+                var toolBarItems = model.ItemDefinitions
                     .Where(x => x.Group == group)
                     .OrderBy(x => x.SortOrder);
 
@@ -35,7 +35,9 @@ namespace ModernApplicationFramework.Basics.Creators
                 {
                     if (toolBarItems.Any(toolbarItemDefinition => toolbarItemDefinition.IsVisible))
                     {
-                        var separator = new CommandDefinitionButton(CommandBarSeparatorDefinition.SeparatorDefinition);
+                        var separatorDefinition = CommandBarSeparatorDefinition.SeparatorDefinition;
+                        separatorDefinition.Group = groups[i - 1];
+                        var separator = new CommandDefinitionButton(separatorDefinition);
                         toolBar.Items.Add(separator);
                         firstItem = true;
                     }
@@ -58,7 +60,7 @@ namespace ModernApplicationFramework.Basics.Creators
             var list = new List<CommandBarItemDefinition>();
 
             var model = IoC.Get<IToolBarHostViewModel>();
-            var groups = model.ToolbarItemGroupDefinitions
+            var groups = model.ItemGroupDefinitions
                 .Where(x => x.Parent == toolbarDefinition)
                 .OrderBy(x => x.SortOrder)
                 .ToList();
@@ -66,18 +68,20 @@ namespace ModernApplicationFramework.Basics.Creators
             for (var i = 0; i < groups.Count; i++)
             {
                 var group = groups[i];
-                var toolBarItems = model.ToolbarItemDefinitions
+                var toolBarItems = model.ItemDefinitions
                     .Where(x => x.Group == group)
                     .OrderBy(x => x.SortOrder);
 
                 if (i > 0 && i <= groups.Count - 1 && toolBarItems.Any())
                     if (toolBarItems.Any(toolbarItemDefinition => toolbarItemDefinition.IsVisible))
-                        list.Add(CommandBarSeparatorDefinition.SeparatorDefinition);
+                    {
+                        var separatorDefinition = CommandBarSeparatorDefinition.SeparatorDefinition;
+                        separatorDefinition.Group = groups[i - 1];
+                        list.Add(separatorDefinition);
+                    }
 
                 list.AddRange(toolBarItems);
             }
-
-
             return list;
         }
     }

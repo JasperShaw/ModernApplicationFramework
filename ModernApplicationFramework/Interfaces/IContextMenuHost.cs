@@ -1,19 +1,12 @@
-﻿using System.Collections.ObjectModel;
-using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Basics.Definitions.ContextMenu;
-using ModernApplicationFramework.Basics.Definitions.Menu.MenuItems;
+﻿using ModernApplicationFramework.Basics.Definitions.ContextMenu;
 using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Interfaces
 {
-    public interface IContextMenuHost
+    public interface IContextMenuHost : ICommandBarHost
     {
         ObservableCollectionEx<ContextMenuDefinition> ContextMenuDefinitions { get; }
-        ObservableCollectionEx<CommandBarGroupDefinition> MenuItemGroupDefinitions { get; }
-        ObservableCollectionEx<CommandBarItemDefinition> MenuItemDefinitions { get; }
-        ObservableCollection<CommandBarDefinitionBase> ExcludedContextMenuElementDefinitions { get; }
-
-        void CreateAllContextMenus();
 
         ModernApplicationFramework.Controls.ContextMenu GetContextMenu(ContextMenuDefinition contextMenuDefinition);
     }

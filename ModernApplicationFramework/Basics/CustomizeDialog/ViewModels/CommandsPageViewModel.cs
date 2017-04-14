@@ -29,7 +29,6 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         private IEnumerable<CommandBarItemDefinition> _items;
         private ICommandsPageView _control;
 
-
         public ICommand HandleAddCommand => new Command(HandleCommandAdd);
 
         public ICommand HandleStylingFlagChangeCommand => new Command<object>(HandleStylingFlagChange, obj => true);
@@ -183,51 +182,34 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             if (!nullable.HasValue || !nullable.Value || addCommandDialog.SelectedItem == null)
                 return;
 
-            uint newSortOrder = SelectedListBoxDefinition.SortOrder;
-            bool flag = SelectedListBoxDefinition.SortOrder > 0 &&
+            var newSortOrder = SelectedListBoxDefinition.SortOrder;
+            var flag = SelectedListBoxDefinition.SortOrder > 0 &&
                         SelectedListBoxDefinition.CommandDefinition.ControlType == CommandControlTypes.Separator;
-            var def = addCommandDialog.SelectedItem as CommandBarItemDefinition;
+            var def = addCommandDialog.SelectedItem;
             if (def == null)
                 return;
 
+            def.SortOrder = newSortOrder;
+            def.Group = SelectedListBoxDefinition.Group;
+
+            ICommandBarHost model;
             switch (SelectedOption)
             {
                 case CustomizeRadioButtonOptions.Menu:
-                    AddNewMenuItem(def, newSortOrder, flag);
+                    model = IoC.Get<IMenuHostViewModel>();
                     break;
                 case CustomizeRadioButtonOptions.Toolbar:
+                    model = IoC.Get<IToolBarHostViewModel>();
                     break;
                 case CustomizeRadioButtonOptions.ContextMenu:
+                    model = IoC.Get<IContextMenuHost>();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
-            }          
+            }    
+            model.AddItemDefinition(def, flag);
             SetupListBoxItems(SelectedOption);
             SelectedListBoxDefinition = def;
-        }
-
-        private void AddNewMenuItem(CommandBarItemDefinition def, uint newSortOrder, bool flag)
-        {
-            var model = IoC.Get<IMenuHostViewModel>();
-            def.SortOrder = newSortOrder;
-
-            if (!flag)
-            {
-                var definitionsToChange =
-                    model.MenuItemDefinitions.Where(
-                            x => x.Group == SelectedListBoxDefinition.Group)
-                        .OrderBy(x => x.SortOrder);
-
-                foreach (var definition in definitionsToChange)
-                {
-                    if (definition.Group != SelectedListBoxDefinition.Group)
-                        continue;
-                    if (definition.SortOrder >= newSortOrder)
-                        definition.SortOrder++;
-                }
-            }
-            def.Group = SelectedListBoxDefinition.Group;
-            model.MenuItemDefinitions.Add(def);
         }
 
 

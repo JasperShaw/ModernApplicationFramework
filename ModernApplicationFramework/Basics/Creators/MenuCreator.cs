@@ -23,9 +23,9 @@ namespace ModernApplicationFramework.Basics.Creators
 
             foreach (var bar in bars)
             {
-                var group = model.MenuItemGroupDefinitions.FirstOrDefault(x => x.Parent == bar);
+                var group = model.ItemGroupDefinitions.FirstOrDefault(x => x.Parent == bar);
 
-                var topLevelMenus = model.MenuItemDefinitions.Where(x => !model.ExcludedMenuElementDefinitions.Contains(x))
+                var topLevelMenus = model.ItemDefinitions.Where(x => !model.ExcludedItemDefinitions.Contains(x))
                     .Where(x => x.Group == group)
                     .OrderBy(x => x.SortOrder);
 
@@ -49,16 +49,16 @@ namespace ModernApplicationFramework.Basics.Creators
             var host = IoC.Get<IMenuHostViewModel>();
             menuItem.Items.Clear();
 
-            var groups = host.MenuItemGroupDefinitions.Where(x => x.Parent == definition)
-                .Where(x => !host.ExcludedMenuElementDefinitions.Contains(x))
+            var groups = host.ItemGroupDefinitions.Where(x => x.Parent == definition)
+                .Where(x => !host.ExcludedItemDefinitions.Contains(x))
                 .OrderBy(x => x.SortOrder)
                 .ToList();
 
             for (var i = 0; i < groups.Count; i++)
             {
                 var group = groups[i];
-                var menuItems = host.MenuItemDefinitions.Where(x => x.Group == group)
-                    .Where(x => !host.ExcludedMenuElementDefinitions.Contains(x))
+                var menuItems = host.ItemDefinitions.Where(x => x.Group == group)
+                    .Where(x => !host.ExcludedItemDefinitions.Contains(x))
                     .OrderBy(x => x.SortOrder);
 
 
@@ -100,16 +100,16 @@ namespace ModernApplicationFramework.Basics.Creators
 
             if (definition is MenuBarDefinition barDefinition)
             {
-                var group = host.MenuItemGroupDefinitions.FirstOrDefault(x => x.Parent == barDefinition);
+                var group = host.ItemGroupDefinitions.FirstOrDefault(x => x.Parent == barDefinition);
 
-                var menus = host.MenuItemDefinitions
+                var menus = host.ItemDefinitions
                     .Where(x => x.Group == group)
                     .OrderBy(x => x.SortOrder);
                 list.AddRange(menus);
             }
             else if (definition is MenuDefinition || definition is CommandBarItemDefinition)
             {
-                var groups = host.MenuItemGroupDefinitions.Where(x => x.Parent == definition)
+                var groups = host.ItemGroupDefinitions.Where(x => x.Parent == definition)
                     .OrderBy(x => x.SortOrder)
                     .ToList();
 
@@ -118,7 +118,7 @@ namespace ModernApplicationFramework.Basics.Creators
                 for (var i = 0; i < groups.Count; i++)
                 {
                     var group = groups[i];
-                    var menuItems = host.MenuItemDefinitions.Where(x => x.Group == group)
+                    var menuItems = host.ItemDefinitions.Where(x => x.Group == group)
                         .OrderBy(x => x.SortOrder);
 
                     bool firstItem = false; //As Menus are created each click we need to to this also in this methods

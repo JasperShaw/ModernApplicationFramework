@@ -5,7 +5,6 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Input;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.CommandBase;
@@ -26,9 +25,9 @@ namespace ModernApplicationFramework.Basics
 
         public ObservableCollection<MenuBarDefinition> MenuBars { get; }
         //public ObservableCollectionEx<MenuDefinition> MenuDefinitions { get; }
-        public ObservableCollection<CommandBarGroupDefinition> MenuItemGroupDefinitions { get; }
-        public ObservableCollection<CommandBarItemDefinition> MenuItemDefinitions { get; }
-        public ObservableCollection<CommandBarDefinitionBase> ExcludedMenuElementDefinitions { get; }
+        public ObservableCollection<CommandBarGroupDefinition> ItemGroupDefinitions { get; }
+        public ObservableCollection<CommandBarItemDefinition> ItemDefinitions { get; }
+        public ObservableCollection<CommandBarDefinitionBase> ExcludedItemDefinitions { get; }
 
         internal MenuHostControl MenuHostControl
         {
@@ -55,26 +54,22 @@ namespace ModernApplicationFramework.Basics
             Items = new BindableCollection<MenuItem>();
             _toolBarHost = IoC.Get<IToolBarHostViewModel>();
             MenuBars = new ObservableCollection<MenuBarDefinition>(menubars);
-            //MenuDefinitions = new ObservableCollectionEx<MenuDefinition>();
-            //foreach (var menuDefinition in menus)
-            //    MenuDefinitions.Add(menuDefinition);
-            MenuItemGroupDefinitions = new ObservableCollection<CommandBarGroupDefinition>();
+            ItemGroupDefinitions = new ObservableCollection<CommandBarGroupDefinition>();
             foreach (var menuDefinition in menuItemGroups)
-                MenuItemGroupDefinitions.Add(menuDefinition);
-            MenuItemDefinitions = new ObservableCollection<CommandBarItemDefinition>();
+                ItemGroupDefinitions.Add(menuDefinition);
+            ItemDefinitions = new ObservableCollection<CommandBarItemDefinition>();
             foreach (var menuDefinition in menuItems)
-                MenuItemDefinitions.Add(menuDefinition);
-            ExcludedMenuElementDefinitions = new ObservableCollection<CommandBarDefinitionBase>();
+                ItemDefinitions.Add(menuDefinition);
+            ExcludedItemDefinitions = new ObservableCollection<CommandBarDefinitionBase>();
             foreach (var item in excludedItems)
-                ExcludedMenuElementDefinitions.Add(item.ExcludedCommandBarDefinition);
+                ExcludedItemDefinitions.Add(item.ExcludedCommandBarDefinition);
             
 
             MenuBars.CollectionChanged += OnCollectionChanged;
-            //MenuDefinitions.CollectionChanged += OnCollectionChanged;
-            MenuItemGroupDefinitions.CollectionChanged += OnCollectionChanged;
-            MenuItemDefinitions.CollectionChanged += OnCollectionChanged;
-            ExcludedMenuElementDefinitions.CollectionChanged += OnCollectionChanged;
-            BuildMenu();
+            ItemGroupDefinitions.CollectionChanged += OnCollectionChanged;
+            ItemDefinitions.CollectionChanged += OnCollectionChanged;
+            ExcludedItemDefinitions.CollectionChanged += OnCollectionChanged;
+            Build();
         }
 
         /// <summary>
@@ -101,9 +96,9 @@ namespace ModernApplicationFramework.Basics
             }
         }
 
-        public Command RightClickCommand => new Command(ExecuteRightClick);
+        public ICommand RightClickCommand => new Command(ExecuteRightClick);
 
-        public void BuildMenu()
+        public void Build()
         {
             IoC.Get<IMenuCreator>().CreateMenuBar(this);
         }
@@ -121,11 +116,31 @@ namespace ModernApplicationFramework.Basics
             return list;
         }
 
+        public void AddItemDefinition(CommandBarItemDefinition definition, bool addAboveSeparator)
+        {
+            if (!addAboveSeparator)
+            {
+                var definitionsToChange =
+                    ItemDefinitions.Where(
+                            x => x.Group == definition.Group)
+                        .OrderBy(x => x.SortOrder);
+
+                foreach (var definitionToChange in definitionsToChange)
+                {
+                    if (definitionToChange.Group != definition.Group)
+                        continue;
+                    if (definitionToChange.SortOrder >= definition.SortOrder)
+                        definitionToChange.SortOrder++;
+                }
+            }
+            ItemDefinitions.Add(definition);
+        }
+
         private IEnumerable<CommandBarDefinitionBase> GetSubHeaderMenus(CommandBarDefinitionBase definition)
         {
-            var group = MenuItemGroupDefinitions.FirstOrDefault(x => x.Parent == definition);
+            var group = ItemGroupDefinitions.FirstOrDefault(x => x.Parent == definition);
             var list = new List<CommandBarDefinitionBase>();
-            var headerMenus = MenuItemDefinitions.Where(x => x.CommandDefinition is MenuHeaderCommandDefinition)
+            var headerMenus = ItemDefinitions.Where(x => x.CommandDefinition is MenuHeaderCommandDefinition)
                 .Where(x => x.Group == group).OrderBy(x => x.SortOrder);
 
             foreach (var headerMenu in headerMenus)
@@ -136,23 +151,23 @@ namespace ModernApplicationFramework.Basics
             return list;
         }
 
-        protected virtual async void ExecuteRightClick()
+        protected virtual void ExecuteRightClick()
         {
             if (_toolBarHost == null)
                 return;
 
             if (AllowOpenToolBarContextMenu && _toolBarHost.ToolbarDefinitions.Any())
-                await _toolBarHost.OpenContextMenuCommand.Execute();
+                _toolBarHost.OpenContextMenuCommand.Execute(null);
         }
 
         private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            BuildMenu();
+            Build();
         }
 
-        private async void _control_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        private void _control_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            await RightClickCommand.Execute();
+            RightClickCommand.Execute(null);
         }
     }
 }
