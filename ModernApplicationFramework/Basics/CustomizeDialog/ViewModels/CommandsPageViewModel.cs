@@ -211,20 +211,21 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             var model = IoC.Get<IMenuHostViewModel>();
             def.SortOrder = newSortOrder;
 
-
-            var definitionsToChange =
-                model.MenuItemDefinitions.Where(
-                    x => x.Group == SelectedListBoxDefinition.Group)
-                    .OrderBy(x=> x.SortOrder);
-
-            foreach (var definition in definitionsToChange)
+            if (!flag)
             {
-                if (definition.Group != SelectedListBoxDefinition.Group)
-                    continue;
-                if (definition.SortOrder >= newSortOrder)
-                    definition.SortOrder++;
-            }
+                var definitionsToChange =
+                    model.MenuItemDefinitions.Where(
+                            x => x.Group == SelectedListBoxDefinition.Group)
+                        .OrderBy(x => x.SortOrder);
 
+                foreach (var definition in definitionsToChange)
+                {
+                    if (definition.Group != SelectedListBoxDefinition.Group)
+                        continue;
+                    if (definition.SortOrder >= newSortOrder)
+                        definition.SortOrder++;
+                }
+            }
             def.Group = SelectedListBoxDefinition.Group;
             model.MenuItemDefinitions.Add(def);
         }

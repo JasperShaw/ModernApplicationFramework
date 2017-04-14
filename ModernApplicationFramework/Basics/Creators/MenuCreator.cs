@@ -67,7 +67,9 @@ namespace ModernApplicationFramework.Basics.Creators
                 {
                     if (menuItems.Any(menuItemDefinition => menuItemDefinition.IsVisible))
                     {
-                        var separator = new MenuItem(CommandBarSeparatorDefinition.SeparatorDefinition);
+                        var separatorDefinition = CommandBarSeparatorDefinition.SeparatorDefinition;
+                        separatorDefinition.Group = groups[i - 1];
+                        var separator = new MenuItem(separatorDefinition);
                         menuItem.Items.Add(separator);
                         firstItem = true;
                     }
@@ -123,7 +125,9 @@ namespace ModernApplicationFramework.Basics.Creators
                     if (i > 0 && i <= groups.Count - 1 && menuItems.Any())
                         if (menuItems.Any(menuItemDefinition => menuItemDefinition.IsVisible))
                         {
-                            list.Add(CommandBarSeparatorDefinition.SeparatorDefinition);
+                            var separatorDefinition = CommandBarSeparatorDefinition.SeparatorDefinition;
+                            separatorDefinition.Group = groups[i-1];
+                            list.Add(separatorDefinition);
                             firstItem = true;
                         }
 
