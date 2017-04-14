@@ -29,7 +29,7 @@ namespace ModernApplicationFramework.Basics
 
         public ObservableCollection<MenuBarDefinition> MenuBars { get; }
         public ObservableCollectionEx<MenuDefinition> MenuDefinitions { get; }
-        public ObservableCollectionEx<MenuItemGroupDefinition> MenuItemGroupDefinitions { get; }
+        public ObservableCollectionEx<CommandBarGroupDefinition> MenuItemGroupDefinitions { get; }
         public ObservableCollectionEx<MenuItemDefinition> MenuItemDefinitions { get; }
         public ObservableCollection<CommandBarDefinitionBase> ExcludedMenuElementDefinitions { get; }
 
@@ -51,7 +51,7 @@ namespace ModernApplicationFramework.Basics
         public MenuHostViewModel(
             [ImportMany] MenuBarDefinition[] menubars,
             [ImportMany] MenuDefinition[] menus,
-            [ImportMany] MenuItemGroupDefinition[] menuItemGroups,
+            [ImportMany] CommandBarGroupDefinition[] menuItemGroups,
             [ImportMany] MenuItemDefinition[] menuItems,
             [ImportMany] ExcludeCommandBarElementDefinition[] excludedItems)
         {
@@ -61,7 +61,7 @@ namespace ModernApplicationFramework.Basics
             MenuDefinitions = new ObservableCollectionEx<MenuDefinition>();
             foreach (var menuDefinition in menus)
                 MenuDefinitions.Add(menuDefinition);
-            MenuItemGroupDefinitions = new ObservableCollectionEx<MenuItemGroupDefinition>();
+            MenuItemGroupDefinitions = new ObservableCollectionEx<CommandBarGroupDefinition>();
             foreach (var menuDefinition in menuItemGroups)
                 MenuItemGroupDefinitions.Add(menuDefinition);
             MenuItemDefinitions = new ObservableCollectionEx<MenuItemDefinition>();

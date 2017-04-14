@@ -1,4 +1,5 @@
-﻿using ModernApplicationFramework.Basics.Definitions.Toolbar;
+﻿using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Core.Utilities;
 
@@ -18,7 +19,7 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
 
         ObservableCollectionEx<ToolbarDefinition> ToolbarDefinitions { get; }
 
-        ObservableCollectionEx<ToolbarItemGroupDefinition> ToolbarItemGroupDefinitions { get; }
+        ObservableCollectionEx<CommandBarGroupDefinition> ToolbarItemGroupDefinitions { get; }
         ObservableCollectionEx<ToolbarItemDefinition> ToolbarItemDefinitions { get; }
 
         void SetupToolbars();

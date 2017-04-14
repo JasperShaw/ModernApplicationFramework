@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.ContextMenu;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Basics.Definitions.Menu.MenuItems;
@@ -10,7 +11,7 @@ namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
     {
         [Export] public static ContextMenuDefinition AnchorableAsDocumentContextMenu = new ContextMenuDefinition(ContextMenuCategory.OtherContextMenusCategory, "Easy MDI Tool Window");
 
-        [Export] public static MenuItemGroupDefinition AnchorCloseContextMenuGroup = new MenuItemGroupDefinition(AnchorableAsDocumentContextMenu, uint.MinValue);
+        [Export] public static CommandBarGroupDefinition AnchorCloseContextMenuGroup = new CommandBarGroupDefinition(AnchorableAsDocumentContextMenu, uint.MinValue);
 
         [Export]
         public static MenuItemDefinition CloseCommandItemDefinition =
@@ -20,7 +21,7 @@ namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
         public static MenuItemDefinition CloseAllButThisCommandItemDefinition =
             new CommandMenuItemDefinition<CloseAllButThisDockedWindowCommandDefinition>(AnchorCloseContextMenuGroup, 2);
 
-        [Export] public static MenuItemGroupDefinition AnchorableContextMenuGroup = new MenuItemGroupDefinition(AnchorableAsDocumentContextMenu, 1);
+        [Export] public static CommandBarGroupDefinition AnchorableContextMenuGroup = new CommandBarGroupDefinition(AnchorableAsDocumentContextMenu, 1);
 
         [Export]
         public static MenuItemDefinition FloatCommandItemDefinition = new CommandMenuItemDefinition<FloatDockedWindowCommandDefinition>(AnchorableContextMenuGroup, 0);
@@ -31,7 +32,7 @@ namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
 
         [Export] public static MenuItemDefinition HideCommandItemDefinition = new CommandMenuItemDefinition<HideDockedWindowCommandDefinition>(AnchorableContextMenuGroup, 3);
 
-        [Export] public static MenuItemGroupDefinition DocumentTabGroupContextMenuGroup = new MenuItemGroupDefinition(AnchorableAsDocumentContextMenu, 2);
+        [Export] public static CommandBarGroupDefinition DocumentTabGroupContextMenuGroup = new CommandBarGroupDefinition(AnchorableAsDocumentContextMenu, 2);
 
         [Export]
         public static MenuItemDefinition NewHorizontalTabGroupItemDefinition =

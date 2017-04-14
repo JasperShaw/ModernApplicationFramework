@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Basics.Definitions.Menu.MenuItems;
 using ModernApplicationFramework.Extended.Commands;
@@ -9,7 +10,7 @@ namespace ModernApplicationFramework.Extended.MenuDefinitions
     {
         [Export] public static MenuDefinition EditMenu = new MenuDefinition(MainMenuBarDefinition.MainMenuBar,1,"Edit" ,"&Edit");
 
-        [Export] public static MenuItemGroupDefinition EditUndoRedoMenuGroup = new MenuItemGroupDefinition(EditMenu, 0);
+        [Export] public static CommandBarGroupDefinition EditUndoRedoMenuGroup = new CommandBarGroupDefinition(EditMenu, 0);
 
         [Export] public static MenuItemDefinition EditUndoMenuItem = new CommandMenuItemDefinition<UndoCommandDefinition>(EditUndoRedoMenuGroup, 0);
 

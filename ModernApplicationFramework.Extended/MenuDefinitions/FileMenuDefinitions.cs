@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Basics.Definitions.Menu.MenuItems;
 using ModernApplicationFramework.Docking.CommandDefinitions;
@@ -11,9 +12,9 @@ namespace ModernApplicationFramework.Extended.MenuDefinitions
         [Export] public static MenuDefinition FileMenu =
             new MenuDefinition(MainMenuBarDefinition.MainMenuBar, 0, "File", "&File");
 
-        [Export] public static MenuItemGroupDefinition CloseProgramGroup = new MenuItemGroupDefinition(FileMenu, int.MaxValue);
+        [Export] public static CommandBarGroupDefinition CloseProgramGroup = new CommandBarGroupDefinition(FileMenu, int.MaxValue);
 
-        [Export] public static MenuItemGroupDefinition CloseLayoutItemGroup = new MenuItemGroupDefinition(FileMenu, 3);
+        [Export] public static CommandBarGroupDefinition CloseLayoutItemGroup = new CommandBarGroupDefinition(FileMenu, 3);
 
         [Export] public static MenuItemDefinition CloseProgram = new CommandMenuItemDefinition<CloseProgammCommandDefinition>(CloseProgramGroup, 1);
 

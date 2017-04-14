@@ -18,7 +18,7 @@ namespace ModernApplicationFramework.Basics.Creators
             var toolBar = new ToolBar(definition);
 
             var groups = model.ToolbarItemGroupDefinitions
-                .Where(x => x.ParentToolbar == definition)
+                .Where(x => x.Parent == definition)
                 .OrderBy(x => x.SortOrder)
                 .ToList();
 
@@ -59,7 +59,7 @@ namespace ModernApplicationFramework.Basics.Creators
 
             var model = IoC.Get<IToolBarHostViewModel>();
             var groups = model.ToolbarItemGroupDefinitions
-                .Where(x => x.ParentToolbar == toolbarDefinition)
+                .Where(x => x.Parent == toolbarDefinition)
                 .OrderBy(x => x.SortOrder)
                 .ToList();
 

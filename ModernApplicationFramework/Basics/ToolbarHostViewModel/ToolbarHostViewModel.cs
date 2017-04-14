@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.ContextMenu;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.CommandBase;
@@ -31,7 +32,7 @@ namespace ModernApplicationFramework.Basics.ToolbarHostViewModel
         private ToolBarTray _rightToolBarTay;
         private ToolBarTray _topToolBarTay;
 
-        public ObservableCollectionEx<ToolbarItemGroupDefinition> ToolbarItemGroupDefinitions { get; }
+        public ObservableCollectionEx<CommandBarGroupDefinition> ToolbarItemGroupDefinitions { get; }
         public ObservableCollectionEx<ToolbarItemDefinition> ToolbarItemDefinitions { get; }
 
         public ObservableCollectionEx<ToolbarDefinition> ToolbarDefinitions { get; }
@@ -88,7 +89,7 @@ namespace ModernApplicationFramework.Basics.ToolbarHostViewModel
 
         [ImportingConstructor]
         public ToolbarHostViewModel([ImportMany] ToolbarDefinition[] toolbarDefinitions,
-            [ImportMany] ToolbarItemGroupDefinition[] toolbarItemGroupDefinitions,
+            [ImportMany] CommandBarGroupDefinition[] toolbarItemGroupDefinitions,
             [ImportMany] ToolbarItemDefinition[] toolbarItemDefinitions)
         {
             _toolbars = new Dictionary<ToolbarDefinition, ToolBar>();
@@ -98,7 +99,7 @@ namespace ModernApplicationFramework.Basics.ToolbarHostViewModel
                 ToolbarDefinitions.Add(definition);
 
 
-            ToolbarItemGroupDefinitions = new ObservableCollectionEx<ToolbarItemGroupDefinition>();
+            ToolbarItemGroupDefinitions = new ObservableCollectionEx<CommandBarGroupDefinition>();
             foreach (var definition in toolbarItemGroupDefinitions)
                 ToolbarItemGroupDefinitions.Add(definition);
 

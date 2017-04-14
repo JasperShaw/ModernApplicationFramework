@@ -7,10 +7,10 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
 {
     public abstract class ToolbarItemDefinition : CommandBarItemDefinition
     {
-        public ToolbarItemGroupDefinition Group { get; set; }
+        public CommandBarGroupDefinition Group { get; set; }
 
         protected ToolbarItemDefinition(string text, uint sortOrder, DefinitionBase definition, bool visible,
-            bool isChecked, bool isCustom, ToolbarItemGroupDefinition group, bool isCustomizable)
+            bool isChecked, bool isCustom, CommandBarGroupDefinition group, bool isCustomizable)
             : base(text, sortOrder, definition, visible, isChecked, isCustom, isCustomizable)
         {
             Group = group;
@@ -21,7 +21,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
     {
         public override DefinitionBase CommandDefinition { get; }
 
-        public CommandToolBarItemDefinition(ToolbarItemGroupDefinition group, uint sortOrder, bool visible = true,
+        public CommandToolBarItemDefinition(CommandBarGroupDefinition group, uint sortOrder, bool visible = true,
             bool isChecked = false, bool isCustom = false, bool isCustomizable = true)
             : base(null, sortOrder, null, visible, isChecked, isCustom, group, isCustomizable)
         {

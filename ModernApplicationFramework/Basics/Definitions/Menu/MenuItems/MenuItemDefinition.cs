@@ -6,10 +6,10 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu.MenuItems
 {
     public class MenuItemDefinition : CommandBarItemDefinition, IHasInternalName
     {
-        private MenuItemGroupDefinition _group;
+        private CommandBarGroupDefinition _group;
         private string _internalName;
 
-        public MenuItemGroupDefinition Group
+        public CommandBarGroupDefinition Group
         {
             get => _group;
             set
@@ -31,7 +31,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu.MenuItems
             }
         }
 
-        public MenuItemDefinition(string name, string text, uint sortOrder, MenuItemGroupDefinition group, DefinitionBase definition, bool visible, bool isChecked,
+        public MenuItemDefinition(string name, string text, uint sortOrder, CommandBarGroupDefinition group, DefinitionBase definition, bool visible, bool isChecked,
             bool isCustom, bool isCustomizable)
             : base(text, sortOrder, definition, visible, isChecked, isCustom, isCustomizable)
         {

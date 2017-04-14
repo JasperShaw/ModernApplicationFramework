@@ -11,7 +11,7 @@ namespace ModernApplicationFramework.Extended.MenuDefinitions
 {
     public class MenuBarItemDefinitions
     {
-        [Export] public static MenuItemGroupDefinition TopLevelMenuItemGroup = new MenuItemGroupDefinition(MainMenuBarDefinition.MainMenuBar, uint.MaxValue);
+        [Export] public static CommandBarGroupDefinition TopLevelMenuItemGroup = new CommandBarGroupDefinition(MainMenuBarDefinition.MainMenuBar, uint.MaxValue);
 
         [Export] public static MenuItemDefinition FullScreenTopMenuItem = new CommandTopLevelMenuItemDefinition<FullScreenCommandDefinition>(TopLevelMenuItemGroup, uint.MinValue, false);
 

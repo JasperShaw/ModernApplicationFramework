@@ -203,6 +203,7 @@
     </Compile>
     <Compile Include="Basics\Definitions\CommandBar\CommandBarDefinitionBase.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarFlags.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\CommandBarGroupDefinition.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarItemDefinition.cs" />
     <Compile Include="Basics\Definitions\CommandBar\ExcludeCommandBarElementDefinition.cs" />
     <Compile Include="Basics\Definitions\CommandBar\FlagStorage.cs" />
@@ -220,11 +221,9 @@
     <Compile Include="Basics\Definitions\Menu\MenuItems\CommandTopLevelMenuItemDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuItems\CustomSubHeaderMenuItemDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuItems\MenuItemDefinition.cs" />
-    <Compile Include="Basics\Definitions\Menu\MenuItemGroupDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuItems\SubHeaderMenuItemDefinition.cs" />
     <Compile Include="Basics\Definitions\Toolbar\ToolbarDefinition.cs" />
     <Compile Include="Basics\Definitions\Toolbar\ToolbarItemDefinition.cs" />
-    <Compile Include="Basics\Definitions\Toolbar\ToolbarItemGroupDefinition.cs" />
     <Compile Include="Basics\SettingsDialog\ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="Basics\SettingsDialog\ViewModels\SettingsWindowViewModel.cs" />
     <Compile Include="Basics\SettingsDialog\Views\SettingsWindowView.xaml.cs">

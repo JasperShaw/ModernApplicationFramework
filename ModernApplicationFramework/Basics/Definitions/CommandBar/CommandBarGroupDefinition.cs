@@ -1,8 +1,6 @@
-﻿using ModernApplicationFramework.Basics.Definitions.CommandBar;
-
-namespace ModernApplicationFramework.Basics.Definitions.Menu
+﻿namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
-    public class MenuItemGroupDefinition : CommandBarDefinitionBase
+    public class CommandBarGroupDefinition : CommandBarDefinitionBase
     {
         private CommandBarDefinitionBase _parent;
 
@@ -17,7 +15,8 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
             }
         }
 
-        public MenuItemGroupDefinition(CommandBarDefinitionBase parent, uint sortOrder) : base(null, sortOrder, null, false, false, false)
+        public CommandBarGroupDefinition(CommandBarDefinitionBase parent, uint sortOrder) 
+            : base(null, sortOrder, null, false, false, false)
         {
             _parent = parent;
         }

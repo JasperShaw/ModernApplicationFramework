@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Interfaces.Command;
 
@@ -38,7 +39,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu.MenuItems
             }
         }
 
-        public CommandMenuItemDefinition(MenuItemGroupDefinition group, uint sortOrder, bool registerVisibilityToCommand = false, bool isCustomizable = true)
+        public CommandMenuItemDefinition(CommandBarGroupDefinition group, uint sortOrder, bool registerVisibilityToCommand = false, bool isCustomizable = true)
             : base(null, null, sortOrder, group, null, true, false, false, isCustomizable)
         {
             CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));

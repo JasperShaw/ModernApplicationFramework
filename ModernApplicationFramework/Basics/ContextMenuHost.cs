@@ -8,7 +8,6 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Creators;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.ContextMenu;
-using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Basics.Definitions.Menu.MenuItems;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces;
@@ -20,7 +19,7 @@ namespace ModernApplicationFramework.Basics
     public class ContextMenuHost : IContextMenuHost
     {
         public ObservableCollectionEx<ContextMenuDefinition> ContextMenuDefinitions { get; }
-        public ObservableCollectionEx<MenuItemGroupDefinition> MenuItemGroupDefinitions { get; }
+        public ObservableCollectionEx<CommandBarGroupDefinition> MenuItemGroupDefinitions { get; }
         public ObservableCollectionEx<MenuItemDefinition> MenuItemDefinitions { get; }
         public ObservableCollection<CommandBarDefinitionBase> ExcludedContextMenuElementDefinitions { get; }
 
@@ -28,7 +27,7 @@ namespace ModernApplicationFramework.Basics
 
         [ImportingConstructor]
         public ContextMenuHost([ImportMany] ContextMenuDefinition[] contextMenuDefinitions,
-            [ImportMany] MenuItemGroupDefinition[] menuGroupDefinitions,
+            [ImportMany] CommandBarGroupDefinition[] menuGroupDefinitions,
             [ImportMany] MenuItemDefinition[] menuItemDefinitions,
             [ImportMany] ExcludeCommandBarElementDefinition[] excludedItems)
         {
@@ -37,7 +36,7 @@ namespace ModernApplicationFramework.Basics
             ContextMenuDefinitions = new ObservableCollectionEx<ContextMenuDefinition>();
             foreach (var menuDefinition in contextMenuDefinitions)
                 ContextMenuDefinitions.Add(menuDefinition);
-            MenuItemGroupDefinitions = new ObservableCollectionEx<MenuItemGroupDefinition>();
+            MenuItemGroupDefinitions = new ObservableCollectionEx<CommandBarGroupDefinition>();
             foreach (var menuDefinition in menuGroupDefinitions)
                 MenuItemGroupDefinitions.Add(menuDefinition);
             MenuItemDefinitions = new ObservableCollectionEx<MenuItemDefinition>();
