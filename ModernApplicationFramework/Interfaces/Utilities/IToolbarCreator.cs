@@ -14,6 +14,6 @@ namespace ModernApplicationFramework.Interfaces.Utilities
         /// <param name="model"></param>
         ToolBar CreateToolbar(IToolBarHostViewModel model, ToolbarDefinition definition);
 
-        IEnumerable<CommandBarDefinitionBase> GetToolBarItemDefinitions(CommandBarDefinitionBase selectedToolBarItem);
+        IEnumerable<CommandBarItemDefinition> GetToolBarItemDefinitions(CommandBarDefinitionBase selectedToolBarItem);
     }
 }

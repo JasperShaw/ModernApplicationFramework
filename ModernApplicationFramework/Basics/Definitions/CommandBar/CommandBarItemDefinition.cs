@@ -1,4 +1,6 @@
-﻿using ModernApplicationFramework.Basics.Definitions.Command;
+﻿using System.Globalization;
+using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Core.Converters.AccessKey;
 using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
@@ -63,14 +65,16 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             _isVisible = visible;
             _group = group;
 
+            var internalName = new AccessKeyRemovingConverter().Convert(text, typeof(string), null, CultureInfo.CurrentCulture)?.ToString();
+
             if (group?.Parent is IHasInternalName internalNameParent)
             {
                 if (!string.IsNullOrEmpty(internalNameParent.InternalName))
-                    _internalName = internalNameParent.InternalName + " | " + text;
+                    _internalName = internalNameParent.InternalName + " | " + internalName;
             }
             else
             {
-                _internalName = text;
+                _internalName = internalName;
             }
         }
     }

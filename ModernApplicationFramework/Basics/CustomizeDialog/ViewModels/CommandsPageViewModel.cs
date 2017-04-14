@@ -9,7 +9,6 @@ using ModernApplicationFramework.Basics.Creators;
 using ModernApplicationFramework.Basics.CustomizeDialog.Views;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Core.Converters.Customize;
 using ModernApplicationFramework.Interfaces;
@@ -26,8 +25,8 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         private CommandBarDefinitionBase _selectedToolBarItem;
         private CommandBarDefinitionBase _selectedContextMenuItem;
         private CustomizeRadioButtonOptions _selectedOption;
-        private CommandBarDefinitionBase _selectedListBoxDefinition;
-        private IEnumerable<CommandBarDefinitionBase> _items;
+        private CommandBarItemDefinition _selectedListBoxDefinition;
+        private IEnumerable<CommandBarItemDefinition> _items;
         private ICommandsPageView _control;
 
 
@@ -93,7 +92,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             }
         }
 
-        public CommandBarDefinitionBase SelectedListBoxDefinition
+        public CommandBarItemDefinition SelectedListBoxDefinition
         {
             get => _selectedListBoxDefinition;
             set
@@ -107,7 +106,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             }
         }
 
-        public IEnumerable<CommandBarDefinitionBase> Items
+        public IEnumerable<CommandBarItemDefinition> Items
         {
             get => _items;
             set
@@ -123,11 +122,11 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         {
             DisplayName = "Commands";
 
-            Items = new List<CommandBarDefinitionBase>();
+            Items = new List<CommandBarItemDefinition>();
 
             CustomizableMenuBars =
                 new ObservableCollection<CommandBarDefinitionBase>(IoC.Get<IMenuHostViewModel>()
-                    .GetMenuItemDefinitions());
+                    .GetMenuHeaderItemDefinitions());
             CustomizableToolBars = IoC.Get<IToolBarHostViewModel>().ToolbarDefinitions;
             CustomizableContextMenus = IoC.Get<IContextMenuHost>().ContextMenuDefinitions;
 
@@ -213,15 +212,20 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             def.SortOrder = newSortOrder;
 
 
-            foreach (var definition in model.MenuItemDefinitions)
+            var definitionsToChange =
+                model.MenuItemDefinitions.Where(
+                    x => x.Group == SelectedListBoxDefinition.Group)
+                    .OrderBy(x=> x.SortOrder);
+
+            foreach (var definition in definitionsToChange)
             {
-                if (definition.Group != ((CommandBarItemDefinition)SelectedListBoxDefinition).Group)
+                if (definition.Group != SelectedListBoxDefinition.Group)
                     continue;
                 if (definition.SortOrder >= newSortOrder)
                     definition.SortOrder++;
             }
 
-            def.Group = ((CommandBarItemDefinition)SelectedListBoxDefinition).Group;
+            def.Group = SelectedListBoxDefinition.Group;
             model.MenuItemDefinitions.Add(def);
         }
 

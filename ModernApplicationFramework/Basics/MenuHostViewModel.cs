@@ -12,7 +12,6 @@ using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Controls.Internals;
 using ModernApplicationFramework.Core;
-using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
 
@@ -26,9 +25,9 @@ namespace ModernApplicationFramework.Basics
         private MenuHostControl _menuHostControl;
 
         public ObservableCollection<MenuBarDefinition> MenuBars { get; }
-        public ObservableCollectionEx<MenuDefinition> MenuDefinitions { get; }
-        public ObservableCollectionEx<CommandBarGroupDefinition> MenuItemGroupDefinitions { get; }
-        public ObservableCollectionEx<CommandBarItemDefinition> MenuItemDefinitions { get; }
+        //public ObservableCollectionEx<MenuDefinition> MenuDefinitions { get; }
+        public ObservableCollection<CommandBarGroupDefinition> MenuItemGroupDefinitions { get; }
+        public ObservableCollection<CommandBarItemDefinition> MenuItemDefinitions { get; }
         public ObservableCollection<CommandBarDefinitionBase> ExcludedMenuElementDefinitions { get; }
 
         internal MenuHostControl MenuHostControl
@@ -56,13 +55,13 @@ namespace ModernApplicationFramework.Basics
             Items = new BindableCollection<MenuItem>();
             _toolBarHost = IoC.Get<IToolBarHostViewModel>();
             MenuBars = new ObservableCollection<MenuBarDefinition>(menubars);
-            MenuDefinitions = new ObservableCollectionEx<MenuDefinition>();
-            foreach (var menuDefinition in menus)
-                MenuDefinitions.Add(menuDefinition);
-            MenuItemGroupDefinitions = new ObservableCollectionEx<CommandBarGroupDefinition>();
+            //MenuDefinitions = new ObservableCollectionEx<MenuDefinition>();
+            //foreach (var menuDefinition in menus)
+            //    MenuDefinitions.Add(menuDefinition);
+            MenuItemGroupDefinitions = new ObservableCollection<CommandBarGroupDefinition>();
             foreach (var menuDefinition in menuItemGroups)
                 MenuItemGroupDefinitions.Add(menuDefinition);
-            MenuItemDefinitions = new ObservableCollectionEx<CommandBarItemDefinition>();
+            MenuItemDefinitions = new ObservableCollection<CommandBarItemDefinition>();
             foreach (var menuDefinition in menuItems)
                 MenuItemDefinitions.Add(menuDefinition);
             ExcludedMenuElementDefinitions = new ObservableCollection<CommandBarDefinitionBase>();
@@ -71,7 +70,7 @@ namespace ModernApplicationFramework.Basics
             
 
             MenuBars.CollectionChanged += OnCollectionChanged;
-            MenuDefinitions.CollectionChanged += OnCollectionChanged;
+            //MenuDefinitions.CollectionChanged += OnCollectionChanged;
             MenuItemGroupDefinitions.CollectionChanged += OnCollectionChanged;
             MenuItemDefinitions.CollectionChanged += OnCollectionChanged;
             ExcludedMenuElementDefinitions.CollectionChanged += OnCollectionChanged;
@@ -109,14 +108,32 @@ namespace ModernApplicationFramework.Basics
             IoC.Get<IMenuCreator>().CreateMenuBar(this);
         }
 
-        public IEnumerable<CommandBarDefinitionBase> GetMenuItemDefinitions()
+        public IEnumerable<CommandBarDefinitionBase> GetMenuHeaderItemDefinitions()
         {
+            var list = new List<CommandBarDefinitionBase>();
             IEnumerable<CommandBarDefinitionBase> barDefinitions = MenuBars.OrderBy(x => x.SortOrder).ToList();
-            IEnumerable<CommandBarDefinitionBase> menuDefinitions =
-                MenuDefinitions.OrderBy(x => x.SortOrder).ToList();
-            IEnumerable<CommandBarDefinitionBase> submenus = MenuItemDefinitions.Where(
-                x => x.CommandDefinition == null || x.CommandDefinition.ControlType == CommandControlTypes.Menu);
-            return new List<CommandBarDefinitionBase>(barDefinitions.Concat(menuDefinitions.Concat(submenus)));
+
+            foreach (var barDefinition in barDefinitions)
+            {
+                list.Add(barDefinition);
+                list.AddRange(GetSubHeaderMenus(barDefinition));
+            }
+            return list;
+        }
+
+        private IEnumerable<CommandBarDefinitionBase> GetSubHeaderMenus(CommandBarDefinitionBase definition)
+        {
+            var group = MenuItemGroupDefinitions.FirstOrDefault(x => x.Parent == definition);
+            var list = new List<CommandBarDefinitionBase>();
+            var headerMenus = MenuItemDefinitions.Where(x => x.CommandDefinition is MenuHeaderCommandDefinition)
+                .Where(x => x.Group == group).OrderBy(x => x.SortOrder);
+
+            foreach (var headerMenu in headerMenus)
+            {
+                list.Add(headerMenu);
+                list.AddRange(GetSubHeaderMenus(headerMenu));
+            }
+            return list;
         }
 
         protected virtual async void ExecuteRightClick()

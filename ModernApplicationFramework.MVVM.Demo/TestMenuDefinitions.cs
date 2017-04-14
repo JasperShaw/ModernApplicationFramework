@@ -10,7 +10,7 @@ namespace ModernApplicationFramework.MVVM.Demo
 {
     public static class WindowMenuDefinitions
     {
-        [Export] public static MenuDefinition TestMenu = new MenuDefinition(MainMenuBarDefinition.MainMenuBar, 14, "&Test");
+        [Export] public static CommandBarItemDefinition TestMenu = new MenuDefinition(MainMenuBarDefinition.MainMenuBarGroup, 14, "&Test");
 
         [Export] public static CommandBarGroupDefinition TestGroup1 = new CommandBarGroupDefinition(TestMenu, int.MaxValue);
 

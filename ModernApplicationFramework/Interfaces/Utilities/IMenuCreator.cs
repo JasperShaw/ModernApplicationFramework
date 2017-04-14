@@ -15,6 +15,6 @@ namespace ModernApplicationFramework.Interfaces.Utilities
 
         void CreateMenuTree(CommandBarDefinitionBase definition, MenuItem menuItem);
 
-        IEnumerable<CommandBarDefinitionBase> GetSingleSubDefinitions(CommandBarDefinitionBase definition);
+        IEnumerable<CommandBarItemDefinition> GetSingleSubDefinitions(CommandBarDefinitionBase definition);
     }
 }

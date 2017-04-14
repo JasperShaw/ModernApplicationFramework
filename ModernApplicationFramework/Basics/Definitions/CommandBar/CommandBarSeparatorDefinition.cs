@@ -3,12 +3,11 @@ using ModernApplicationFramework.Basics.Definitions.Command;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
-    public sealed class CommandBarSeparatorDefinition : CommandBarDefinitionBase
+    public sealed class CommandBarSeparatorDefinition : CommandBarItemDefinition
     {
         public static CommandBarSeparatorDefinition SeparatorDefinition => new CommandBarSeparatorDefinition();
 
-        private CommandBarSeparatorDefinition() : base(null, uint.MinValue, new SeparatorCommandDefinition(), false,
-            false, false)
+        private CommandBarSeparatorDefinition() : base(null, 1, null, new SeparatorCommandDefinition(), true, false, false, false)
         {
         }
 

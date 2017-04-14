@@ -27,9 +27,9 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         IMainWindowViewModel MainWindowViewModel { get; set; }
 
         ObservableCollection<MenuBarDefinition> MenuBars { get; }
-        ObservableCollectionEx<MenuDefinition> MenuDefinitions { get; }
-        ObservableCollectionEx<CommandBarGroupDefinition> MenuItemGroupDefinitions { get; }
-        ObservableCollectionEx<CommandBarItemDefinition> MenuItemDefinitions { get; }
+        //ObservableCollectionEx<MenuDefinition> MenuDefinitions { get; }
+        ObservableCollection<CommandBarGroupDefinition> MenuItemGroupDefinitions { get; }
+        ObservableCollection<CommandBarItemDefinition> MenuItemDefinitions { get; }
         ObservableCollection<CommandBarDefinitionBase> ExcludedMenuElementDefinitions { get; }
 
 
@@ -38,6 +38,6 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         /// </summary>
         void BuildMenu();
 
-        IEnumerable<CommandBarDefinitionBase> GetMenuItemDefinitions();
+        IEnumerable<CommandBarDefinitionBase> GetMenuHeaderItemDefinitions();
     }
 }

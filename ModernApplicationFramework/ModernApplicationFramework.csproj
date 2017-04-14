@@ -214,7 +214,6 @@
     <Compile Include="Basics\Definitions\CommandBar\CommandBarSeparatorDefinition.cs" />
     <Compile Include="Basics\Definitions\ContextMenu\ContextMenuCategory.cs" />
     <Compile Include="Basics\Definitions\ContextMenu\ContextMenuDefinition.cs" />
-    <Compile Include="Basics\Definitions\Menu\CustomMenuDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuBarDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuItems\CustomSubHeaderMenuItemDefinition.cs" />

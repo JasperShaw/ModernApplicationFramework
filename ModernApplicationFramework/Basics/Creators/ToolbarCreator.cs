@@ -53,9 +53,9 @@ namespace ModernApplicationFramework.Basics.Creators
             return toolBar;
         }
 
-        public IEnumerable<CommandBarDefinitionBase> GetToolBarItemDefinitions(CommandBarDefinitionBase toolbarDefinition)
+        public IEnumerable<CommandBarItemDefinition> GetToolBarItemDefinitions(CommandBarDefinitionBase toolbarDefinition)
         {
-            var list = new List<CommandBarDefinitionBase>();
+            var list = new List<CommandBarItemDefinition>();
 
             var model = IoC.Get<IToolBarHostViewModel>();
             var groups = model.ToolbarItemGroupDefinitions

@@ -21,32 +21,25 @@ namespace ModernApplicationFramework.Basics.Creators
 
             var bars = model.MenuBars.OrderBy(x => x.SortOrder);
 
-            uint newSortOrder = 0;
             foreach (var bar in bars)
             {
-                var menus = model.MenuDefinitions.Where(x => !model.ExcludedMenuElementDefinitions.Contains(x))
-                    .Where(x => x.MenuBar == bar)
+                var group = model.MenuItemGroupDefinitions.FirstOrDefault(x => x.Parent == bar);
+
+                var topLevelMenus = model.MenuItemDefinitions.Where(x => !model.ExcludedMenuElementDefinitions.Contains(x))
+                    .Where(x => x.Group == group)
                     .OrderBy(x => x.SortOrder);
 
-                foreach (var menuDefinition in menus)
+                uint newSortOrder = 0;
+                foreach (var menuDefinition in topLevelMenus)
                 {
                     var menuItem = new MenuItem(menuDefinition);
-                    menuItem.Items.Add(new MenuItem());
+
+                    //Required so we can call CreateMenuTree() with each submenu open. Do not do this for command items however
+                    if (menuDefinition is MenuDefinition)
+                        menuItem.Items.Add(new MenuItem());
+
                     model.Items.Add(menuItem);
                     menuDefinition.SortOrder = newSortOrder++;
-                }
-                foreach (var noGroupMenuItem in model.MenuItemGroupDefinitions.Where(x => x.Parent == bar))
-                {
-                    var menuItems = model.MenuItemDefinitions.Where(x => x.Group == noGroupMenuItem)
-                        .Where(x => !model.ExcludedMenuElementDefinitions.Contains(x))
-                        .OrderBy(x => x.SortOrder);
-
-                    foreach (var menuItem in menuItems)
-                    {
-                        var item = new MenuItem(menuItem);
-                        model.Items.Add(item);
-                        menuItem.SortOrder = newSortOrder++;
-                    }
                 }
             }
         }
@@ -98,26 +91,19 @@ namespace ModernApplicationFramework.Basics.Creators
         }
 
 
-        public IEnumerable<CommandBarDefinitionBase> GetSingleSubDefinitions(CommandBarDefinitionBase definition)
+        public IEnumerable<CommandBarItemDefinition> GetSingleSubDefinitions(CommandBarDefinitionBase definition)
         {
-            var list = new List<CommandBarDefinitionBase>();
+            var list = new List<CommandBarItemDefinition>();
             var host = IoC.Get<IMenuHostViewModel>();
 
             if (definition is MenuBarDefinition barDefinition)
             {
-                var menus = host.MenuDefinitions
-                    .Where(x => x.MenuBar == barDefinition)
+                var group = host.MenuItemGroupDefinitions.FirstOrDefault(x => x.Parent == barDefinition);
+
+                var menus = host.MenuItemDefinitions
+                    .Where(x => x.Group == group)
                     .OrderBy(x => x.SortOrder);
                 list.AddRange(menus);
-                uint newSortOrder = 0; //As Menus are created each click we need to to this also in this methods
-                foreach (var noGroupMenuItem in host.MenuItemGroupDefinitions.Where(x => x.Parent == barDefinition))
-                {
-                    var menuItems = host.MenuItemDefinitions.Where(x => x.Group == noGroupMenuItem)
-                        .OrderBy(x => x.SortOrder);
-
-                    list.AddRange(menuItems);
-                    noGroupMenuItem.SortOrder = newSortOrder++;
-                }
             }
             else if (definition is MenuDefinition || definition is CommandBarItemDefinition)
             {

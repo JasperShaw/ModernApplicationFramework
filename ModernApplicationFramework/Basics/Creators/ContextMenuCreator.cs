@@ -7,7 +7,6 @@ using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.ContextMenu;
 using ModernApplicationFramework.Basics.Definitions.Menu;
-using ModernApplicationFramework.Basics.Definitions.Menu.MenuItems;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Interfaces;
 using ContextMenu = ModernApplicationFramework.Controls.ContextMenu;
@@ -69,9 +68,9 @@ namespace ModernApplicationFramework.Basics.Creators
             }
         }
 
-        public IEnumerable<CommandBarDefinitionBase> GetContextMenuItemDefinitions(CommandBarDefinitionBase contextMenuDefinition)
+        public IEnumerable<CommandBarItemDefinition> GetContextMenuItemDefinitions(CommandBarDefinitionBase contextMenuDefinition)
         {
-            var list = new List<CommandBarDefinitionBase>();
+            var list = new List<CommandBarItemDefinition>();
             var model = IoC.Get<IContextMenuHost>();
 
             if (contextMenuDefinition is ContextMenuDefinition)
@@ -165,6 +164,6 @@ namespace ModernApplicationFramework.Basics.Creators
     {
         ContextMenu CreateContextMenu(IContextMenuHost model, CommandBarDefinitionBase contextMenuDefinition);
         void CreateContextMenuTree(CommandBarDefinitionBase definition, ItemsControl contextMenu);
-        IEnumerable<CommandBarDefinitionBase> GetContextMenuItemDefinitions(CommandBarDefinitionBase contextMenuDefinition);
+        IEnumerable<CommandBarItemDefinition> GetContextMenuItemDefinitions(CommandBarDefinitionBase contextMenuDefinition);
     }
 }
