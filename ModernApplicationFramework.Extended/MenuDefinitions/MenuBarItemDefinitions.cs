@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Data;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Basics.Definitions.Menu.MenuItems;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Extended.Commands;
 
@@ -14,8 +13,7 @@ namespace ModernApplicationFramework.Extended.MenuDefinitions
             new CommandBarGroupDefinition(MainMenuBarDefinition.MainMenuBar, uint.MaxValue);
 
         [Export] public static CommandBarItemDefinition FullScreenTopMenuItem =
-            new CommandTopLevelMenuItemDefinition<FullScreenCommandDefinition>(TopLevelMenuItemGroup, uint.MinValue,
-                false);
+            new CommandBarCommandItemDefinition<FullScreenCommandDefinition>(TopLevelMenuItemGroup, uint.MinValue, false, true);
 
         static MenuBarItemDefinitions()
         {
@@ -26,6 +24,8 @@ namespace ModernApplicationFramework.Extended.MenuDefinitions
             };
             ((ModernChromeWindow) Application.Current.MainWindow).SetBinding(ModernChromeWindow.FullScreenProperty,
                 myBinding);
+            FullScreenTopMenuItem.Flags.TextOnly = true;
+            FullScreenTopMenuItem.Flags.Pict = true;
         }
     }
 }

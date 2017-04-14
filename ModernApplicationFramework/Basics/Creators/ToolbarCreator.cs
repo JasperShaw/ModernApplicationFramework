@@ -35,7 +35,7 @@ namespace ModernApplicationFramework.Basics.Creators
                 {
                     if (toolBarItems.Any(toolbarItemDefinition => toolbarItemDefinition.IsVisible))
                     {
-                        var separator = new CommandDefinitionButton(CommandBarSeparatorDefinition.MenuSeparatorDefinition);
+                        var separator = new CommandDefinitionButton(CommandBarSeparatorDefinition.SeparatorDefinition);
                         toolBar.Items.Add(separator);
                         firstItem = true;
                     }
@@ -72,7 +72,7 @@ namespace ModernApplicationFramework.Basics.Creators
 
                 if (i > 0 && i <= groups.Count - 1 && toolBarItems.Any())
                     if (toolBarItems.Any(toolbarItemDefinition => toolbarItemDefinition.IsVisible))
-                        list.Add(CommandBarSeparatorDefinition.MenuSeparatorDefinition);
+                        list.Add(CommandBarSeparatorDefinition.SeparatorDefinition);
 
                 list.AddRange(toolBarItems);
             }

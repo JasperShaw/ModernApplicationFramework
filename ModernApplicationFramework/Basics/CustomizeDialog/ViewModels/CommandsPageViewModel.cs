@@ -27,21 +27,13 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         private CommandBarDefinitionBase _selectedListBoxDefinition;
         private IEnumerable<CommandBarDefinitionBase> _items;
         private ICommandsPageView _control;
-        
 
 
         public ICommand HandleAddCommand => new Command(HandleCommandAdd);
 
         public ICommand HandleStylingFlagChangeCommand => new Command<object>(HandleStylingFlagChange, obj => true);
 
-        private void HandleStylingFlagChange(object value)
-        {
-            if (!(value is CommandBarFlags commandFlag))
-                return;
-            var allFlags = SelectedListBoxDefinition.Flags.AllFlags;
-            var commandflag2 = (CommandBarFlags)allFlags & ~StylingFlagsConverter.StylingMask | commandFlag;
-            SelectedListBoxDefinition.Flags.EnableStyleFlags(commandflag2);
-        }
+        public Command DropDownClickCommand => new Command(ExecuteDropDownClick);
 
         public IEnumerable<CommandBarDefinitionBase> CustomizableToolBars { get; set; }
         public IEnumerable<CommandBarDefinitionBase> CustomizableMenuBars { get; set; }
@@ -124,8 +116,6 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             }
         }
 
-        public Command DropDownClickCommand => new Command(ExecuteDropDownClick);
-
         [ImportingConstructor]
         public CommandsPageViewModel()
         {
@@ -134,7 +124,8 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             Items = new List<CommandBarDefinitionBase>();
 
             CustomizableMenuBars =
-                new ObservableCollection<CommandBarDefinitionBase>(IoC.Get<IMenuHostViewModel>().GetMenuItemDefinitions());
+                new ObservableCollection<CommandBarDefinitionBase>(IoC.Get<IMenuHostViewModel>()
+                    .GetMenuItemDefinitions());
             CustomizableToolBars = IoC.Get<IToolBarHostViewModel>().ToolbarDefinitions;
             CustomizableContextMenus = IoC.Get<IContextMenuHost>().ContextMenuDefinitions;
 
@@ -151,7 +142,15 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             if (view is ICommandsPageView correctView)
                 _control = correctView;
             SelectedListBoxDefinition = Items.FirstOrDefault();
+        }
 
+        private void HandleStylingFlagChange(object value)
+        {
+            if (!(value is CommandBarFlags commandFlag))
+                return;
+            var allFlags = SelectedListBoxDefinition.Flags.AllFlags;
+            var commandflag2 = ((CommandBarFlags) allFlags & ~StylingFlagsConverter.StylingMask) | commandFlag;
+            SelectedListBoxDefinition.Flags.EnableStyleFlags(commandflag2);
         }
 
         private void SetupListBoxItems(CustomizeRadioButtonOptions value)
@@ -178,7 +177,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         private void HandleCommandAdd()
         {
             var windowManager = new WindowManager();
-            var addCommandDialog = new AddCommandDialogViewModel();
+            var addCommandDialog = IoC.Get<IAddCommandDialogViewModel>();
             windowManager.ShowDialog(addCommandDialog);
         }
 

@@ -46,7 +46,7 @@ namespace ModernApplicationFramework.Basics.Creators
                 {
                     if (menuItems.Any(menuItemDefinition => menuItemDefinition.IsVisible))
                     {
-                        var separator = new MenuItem(CommandBarSeparatorDefinition.MenuSeparatorDefinition);
+                        var separator = new MenuItem(CommandBarSeparatorDefinition.SeparatorDefinition);
                         contextMenu.Items.Add(separator);
                         firstItem = true;
                     }
@@ -87,7 +87,7 @@ namespace ModernApplicationFramework.Basics.Creators
                         .OrderBy(x => x.SortOrder);
                     if (i > 0 && i <= groups.Count - 1 && menuItems.Any())
                         if (menuItems.Any(menuItemDefinition => menuItemDefinition.IsVisible))
-                            list.Add(CommandBarSeparatorDefinition.MenuSeparatorDefinition);
+                            list.Add(CommandBarSeparatorDefinition.SeparatorDefinition);
                     list.AddRange(menuItems);
                 }
             }
@@ -109,7 +109,7 @@ namespace ModernApplicationFramework.Basics.Creators
                     if (i > 0 && i <= groups.Count - 1 && menuItems.Any())
                         if (menuItems.Any(menuItemDefinition => menuItemDefinition.IsVisible))
                         {
-                            list.Add(CommandBarSeparatorDefinition.MenuSeparatorDefinition);
+                            list.Add(CommandBarSeparatorDefinition.SeparatorDefinition);
                             firstItem = true;
                         }
 
@@ -142,7 +142,7 @@ namespace ModernApplicationFramework.Basics.Creators
                 {
                     if (menuItems.Any(menuItemDefinition => menuItemDefinition.IsVisible))
                     {
-                        var separator = new MenuItem(CommandBarSeparatorDefinition.MenuSeparatorDefinition);
+                        var separator = new MenuItem(CommandBarSeparatorDefinition.SeparatorDefinition);
                         contextMenu.Items.Add(separator);
                     }
                 }

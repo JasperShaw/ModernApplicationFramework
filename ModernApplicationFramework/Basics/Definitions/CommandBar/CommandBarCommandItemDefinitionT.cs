@@ -41,8 +41,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         }
 
         public CommandBarCommandItemDefinition(CommandBarGroupDefinition group, uint sortOrder,
+            bool isVisible = true, bool isChecked = false, bool isCustom = false,
             bool registerVisibilityToCommand = false, bool isCustomizable = true)
-            : base(null, sortOrder, group, null, true, false, false, isCustomizable)
+            : base(null, sortOrder, group, null, isVisible, isChecked, isCustom, isCustomizable)
         {
             CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
             Text = CommandDefinition.Text;

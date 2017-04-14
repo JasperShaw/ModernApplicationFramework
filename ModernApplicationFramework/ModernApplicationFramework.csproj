@@ -201,6 +201,7 @@
     <Compile Include="Basics\CustomizeDialog\Views\AddCommandDialogView.xaml.cs">
       <DependentUpon>AddCommandDialogView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Basics\Definitions\CommandBar\CommandBarCommandItemDefinition.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarCommandItemDefinitionT.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarDefinitionBase.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarFlags.cs" />
@@ -216,13 +217,11 @@
     <Compile Include="Basics\Definitions\Menu\CustomMenuDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuBarDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuDefinition.cs" />
-    <Compile Include="Basics\Definitions\Menu\MenuItems\CommandMenuItemDefinition.cs" />
-    <Compile Include="Basics\Definitions\Menu\MenuItems\CommandTopLevelMenuItemDefinitionT.cs" />
-    <Compile Include="Basics\Definitions\Menu\MenuItems\CommandTopLevelMenuItemDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuItems\CustomSubHeaderMenuItemDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuHeaderCommandDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuItems\SubHeaderMenuItemDefinition.cs" />
     <Compile Include="Basics\Definitions\Toolbar\ToolbarDefinition.cs" />
+    <Compile Include="Basics\Definitions\Toolbar\ToolbarCommandDefinition.cs" />
     <Compile Include="Basics\SettingsDialog\ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="Basics\SettingsDialog\ViewModels\SettingsWindowViewModel.cs" />
     <Compile Include="Basics\SettingsDialog\Views\SettingsWindowView.xaml.cs">
@@ -251,6 +250,7 @@
     <Compile Include="Controls\Utilities\MenuBehavior.cs" />
     <Compile Include="Controls\Utilities\MenuPopupPositionerExtension.cs" />
     <Compile Include="Core\Comparers\CommandTextComparer.cs" />
+    <Compile Include="Core\Comparers\CategoryTextComparer.cs" />
     <Compile Include="Core\Converters\AccessKey\AccessKeyConverter.cs" />
     <Compile Include="Core\Converters\AccessKey\AccessKeyRemovingConverter.cs" />
     <Compile Include="Core\Converters\AccessKey\AccessKeyUnderliningConverter.cs" />
