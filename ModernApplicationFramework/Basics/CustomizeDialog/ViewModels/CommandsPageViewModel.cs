@@ -7,7 +7,9 @@ using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Creators;
 using ModernApplicationFramework.Basics.CustomizeDialog.Views;
+using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Core.Converters.Customize;
 using ModernApplicationFramework.Interfaces;
@@ -178,7 +180,49 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         {
             var windowManager = new WindowManager();
             var addCommandDialog = IoC.Get<IAddCommandDialogViewModel>();
-            windowManager.ShowDialog(addCommandDialog);
+            var nullable = windowManager.ShowDialog(addCommandDialog);
+            if (!nullable.HasValue || !nullable.Value || addCommandDialog.SelectedItem == null)
+                return;
+
+            uint newSortOrder = SelectedListBoxDefinition.SortOrder;
+            bool flag = SelectedListBoxDefinition.SortOrder > 0 &&
+                        SelectedListBoxDefinition.CommandDefinition.ControlType == CommandControlTypes.Separator;
+            var def = addCommandDialog.SelectedItem as CommandBarItemDefinition;
+            if (def == null)
+                return;
+
+            switch (SelectedOption)
+            {
+                case CustomizeRadioButtonOptions.Menu:
+                    AddNewMenuItem(def, newSortOrder, flag);
+                    break;
+                case CustomizeRadioButtonOptions.Toolbar:
+                    break;
+                case CustomizeRadioButtonOptions.ContextMenu:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }          
+            SetupListBoxItems(SelectedOption);
+            SelectedListBoxDefinition = def;
+        }
+
+        private void AddNewMenuItem(CommandBarItemDefinition def, uint newSortOrder, bool flag)
+        {
+            var model = IoC.Get<IMenuHostViewModel>();
+            def.SortOrder = newSortOrder;
+
+
+            foreach (var definition in model.MenuItemDefinitions)
+            {
+                if (definition.Group != ((CommandBarItemDefinition)SelectedListBoxDefinition).Group)
+                    continue;
+                if (definition.SortOrder >= newSortOrder)
+                    definition.SortOrder++;
+            }
+
+            def.Group = ((CommandBarItemDefinition)SelectedListBoxDefinition).Group;
+            model.MenuItemDefinitions.Add(def);
         }
 
 
