@@ -120,7 +120,7 @@ namespace ModernApplicationFramework.Basics.Creators
                     noGroupMenuItem.SortOrder = newSortOrder++;
                 }
             }
-            else if (definition is MenuDefinition || definition is MenuItemDefinition)
+            else if (definition is MenuDefinition || definition is CommandBarItemDefinition)
             {
                 var groups = host.MenuItemGroupDefinitions.Where(x => x.Parent == definition)
                     .OrderBy(x => x.SortOrder)

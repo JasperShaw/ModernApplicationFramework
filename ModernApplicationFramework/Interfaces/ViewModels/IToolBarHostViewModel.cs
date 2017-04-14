@@ -20,7 +20,7 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         ObservableCollectionEx<ToolbarDefinition> ToolbarDefinitions { get; }
 
         ObservableCollectionEx<CommandBarGroupDefinition> ToolbarItemGroupDefinitions { get; }
-        ObservableCollectionEx<ToolbarItemDefinition> ToolbarItemDefinitions { get; }
+        ObservableCollectionEx<CommandBarItemDefinition> ToolbarItemDefinitions { get; }
 
         void SetupToolbars();
 

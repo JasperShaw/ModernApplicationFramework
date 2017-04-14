@@ -14,10 +14,10 @@ namespace ModernApplicationFramework.Basics.ToolbarHostViewModel
 
         [Export] public static CommandBarGroupDefinition ToolBarListGroup = new CommandBarGroupDefinition(ToolbarsContextMenu, 0);
 
-        [Export] public static MenuItemDefinition ToolBarList = new CommandMenuItemDefinition<ListToolBarsCommandListDefinition>(ToolBarListGroup, 0);
+        [Export] public static CommandBarItemDefinition ToolBarList = new CommandMenuItemDefinition<ListToolBarsCommandListDefinition>(ToolBarListGroup, 0);
 
         [Export] public static CommandBarGroupDefinition CustomizeGroup = new CommandBarGroupDefinition(ToolbarsContextMenu, int.MaxValue);
 
-        [Export] public static MenuItemDefinition Customize = new CommandMenuItemDefinition<CustomizeMenuCommandDefinition>(CustomizeGroup, 0);
+        [Export] public static CommandBarItemDefinition Customize = new CommandMenuItemDefinition<CustomizeMenuCommandDefinition>(CustomizeGroup, 0);
     }
 }

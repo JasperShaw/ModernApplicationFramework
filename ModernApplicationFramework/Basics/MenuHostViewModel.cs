@@ -30,7 +30,7 @@ namespace ModernApplicationFramework.Basics
         public ObservableCollection<MenuBarDefinition> MenuBars { get; }
         public ObservableCollectionEx<MenuDefinition> MenuDefinitions { get; }
         public ObservableCollectionEx<CommandBarGroupDefinition> MenuItemGroupDefinitions { get; }
-        public ObservableCollectionEx<MenuItemDefinition> MenuItemDefinitions { get; }
+        public ObservableCollectionEx<CommandBarItemDefinition> MenuItemDefinitions { get; }
         public ObservableCollection<CommandBarDefinitionBase> ExcludedMenuElementDefinitions { get; }
 
         internal MenuHostControl MenuHostControl
@@ -52,7 +52,7 @@ namespace ModernApplicationFramework.Basics
             [ImportMany] MenuBarDefinition[] menubars,
             [ImportMany] MenuDefinition[] menus,
             [ImportMany] CommandBarGroupDefinition[] menuItemGroups,
-            [ImportMany] MenuItemDefinition[] menuItems,
+            [ImportMany] CommandBarItemDefinition[] menuItems,
             [ImportMany] ExcludeCommandBarElementDefinition[] excludedItems)
         {
             Items = new BindableCollection<MenuItem>();
@@ -64,7 +64,7 @@ namespace ModernApplicationFramework.Basics
             MenuItemGroupDefinitions = new ObservableCollectionEx<CommandBarGroupDefinition>();
             foreach (var menuDefinition in menuItemGroups)
                 MenuItemGroupDefinitions.Add(menuDefinition);
-            MenuItemDefinitions = new ObservableCollectionEx<MenuItemDefinition>();
+            MenuItemDefinitions = new ObservableCollectionEx<CommandBarItemDefinition>();
             foreach (var menuDefinition in menuItems)
                 MenuItemDefinitions.Add(menuDefinition);
             ExcludedMenuElementDefinitions = new ObservableCollection<CommandBarDefinitionBase>();

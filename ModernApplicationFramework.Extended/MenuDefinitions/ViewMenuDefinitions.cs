@@ -8,12 +8,12 @@ namespace ModernApplicationFramework.Extended.MenuDefinitions
 {
     public static class ViewMenuDefinitions
     {
-        [Export] public static MenuDefinition ViewMenu = new MenuDefinition(MainMenuBarDefinition.MainMenuBar, 2, "View", "&View");
+        [Export] public static MenuDefinition ViewMenu = new MenuDefinition(MainMenuBarDefinition.MainMenuBar, 2, "&View");
 
         [Export] public static CommandBarGroupDefinition ScreenViewGroup = new CommandBarGroupDefinition(ViewMenu, 5);
 
         [Export] public static CommandBarGroupDefinition ToolsViewGroup = new CommandBarGroupDefinition(ViewMenu, 4);
 
-        [Export] public static MenuItemDefinition FullScreen = new CommandMenuItemDefinition<FullScreenCommandDefinition>(ScreenViewGroup, 2);
+        [Export] public static CommandBarItemDefinition FullScreen = new CommandMenuItemDefinition<FullScreenCommandDefinition>(ScreenViewGroup, 2);
     }
 }

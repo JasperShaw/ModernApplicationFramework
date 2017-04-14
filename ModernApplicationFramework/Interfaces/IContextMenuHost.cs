@@ -10,7 +10,7 @@ namespace ModernApplicationFramework.Interfaces
     {
         ObservableCollectionEx<ContextMenuDefinition> ContextMenuDefinitions { get; }
         ObservableCollectionEx<CommandBarGroupDefinition> MenuItemGroupDefinitions { get; }
-        ObservableCollectionEx<MenuItemDefinition> MenuItemDefinitions { get; }
+        ObservableCollectionEx<CommandBarItemDefinition> MenuItemDefinitions { get; }
         ObservableCollection<CommandBarDefinitionBase> ExcludedContextMenuElementDefinitions { get; }
 
         void CreateAllContextMenus();

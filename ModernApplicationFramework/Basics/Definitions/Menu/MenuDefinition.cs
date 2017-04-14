@@ -1,6 +1,6 @@
-﻿using System;
-using ModernApplicationFramework.Basics.Definitions.Command;
+﻿using System.Globalization;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Core.Converters.AccessKey;
 using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Basics.Definitions.Menu
@@ -21,24 +21,15 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
             }
         }
 
-        public MenuDefinition(MenuBarDefinition menuBar, uint sortOrder, string name, string text, bool isCustom = false, bool isCustomizable = true) 
-            : base(text, sortOrder, new MenuItemCommandDefinition(), isCustom, isCustomizable, false)
+        public MenuDefinition(MenuBarDefinition menuBar, uint sortOrder, string text, bool isCustom = false, bool isCustomizable = true) 
+            : base(text, sortOrder, new MenuHeaderCommandDefinition(), isCustom, isCustomizable, false)
         {
             MenuBar = menuBar;
-            _internalName = name;
-        }
-
-        private sealed class MenuItemCommandDefinition : DefinitionBase
-        {
-            public override string Name => null;
-            public override string Text => null;
-            public override string ToolTip => null;
-            public override Uri IconSource => null;
-            public override string IconId => null;
-            public override bool IsList => false;
-            public override CommandCategory Category => null;
-            public override string ShortcutText => null;
-            public override CommandControlTypes ControlType => CommandControlTypes.Menu;
+            var accesKeyRemover = new AccessKeyRemovingConverter();
+            var convert = accesKeyRemover.Convert(text, typeof(string), null, CultureInfo.CurrentCulture);
+            if (convert != null)
+                _internalName = convert
+                    .ToString();
         }
     }
 }

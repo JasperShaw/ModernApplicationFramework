@@ -91,7 +91,7 @@ namespace ModernApplicationFramework.Basics.Creators
                     list.AddRange(menuItems);
                 }
             }
-            else if (contextMenuDefinition is MenuDefinition || contextMenuDefinition is MenuItemDefinition)
+            else if (contextMenuDefinition is MenuDefinition || contextMenuDefinition is CommandBarItemDefinition)
             {
                 var groups = model.MenuItemGroupDefinitions.Where(x => x.Parent == contextMenuDefinition)
                     .OrderBy(x => x.SortOrder)

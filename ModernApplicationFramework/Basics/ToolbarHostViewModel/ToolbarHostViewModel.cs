@@ -33,7 +33,7 @@ namespace ModernApplicationFramework.Basics.ToolbarHostViewModel
         private ToolBarTray _topToolBarTay;
 
         public ObservableCollectionEx<CommandBarGroupDefinition> ToolbarItemGroupDefinitions { get; }
-        public ObservableCollectionEx<ToolbarItemDefinition> ToolbarItemDefinitions { get; }
+        public ObservableCollectionEx<CommandBarItemDefinition> ToolbarItemDefinitions { get; }
 
         public ObservableCollectionEx<ToolbarDefinition> ToolbarDefinitions { get; }
 
@@ -90,7 +90,7 @@ namespace ModernApplicationFramework.Basics.ToolbarHostViewModel
         [ImportingConstructor]
         public ToolbarHostViewModel([ImportMany] ToolbarDefinition[] toolbarDefinitions,
             [ImportMany] CommandBarGroupDefinition[] toolbarItemGroupDefinitions,
-            [ImportMany] ToolbarItemDefinition[] toolbarItemDefinitions)
+            [ImportMany] CommandBarItemDefinition[] toolbarItemDefinitions)
         {
             _toolbars = new Dictionary<ToolbarDefinition, ToolBar>();
 
@@ -103,7 +103,7 @@ namespace ModernApplicationFramework.Basics.ToolbarHostViewModel
             foreach (var definition in toolbarItemGroupDefinitions)
                 ToolbarItemGroupDefinitions.Add(definition);
 
-            ToolbarItemDefinitions = new ObservableCollectionEx<ToolbarItemDefinition>();
+            ToolbarItemDefinitions = new ObservableCollectionEx<CommandBarItemDefinition>();
             foreach (var definition in toolbarItemDefinitions)
                 ToolbarItemDefinitions.Add(definition);
 

@@ -2,10 +2,10 @@
 
 namespace ModernApplicationFramework.Basics.Definitions.Menu.MenuItems
 {
-    public sealed class CustomSubHeaderMenuItemDefinition : MenuItemDefinition
+    public sealed class CustomSubHeaderMenuItemDefinition : CommandBarItemDefinition
     {
-        public CustomSubHeaderMenuItemDefinition(string name,string text, CommandBarGroupDefinition group, uint sortOrder, bool isCustomizable = true) 
-            : base(name, text, sortOrder, group, null, true, false, true, isCustomizable)
+        public CustomSubHeaderMenuItemDefinition(string text, CommandBarGroupDefinition group, uint sortOrder, bool isCustomizable = true) 
+            : base(text, sortOrder, group, new MenuHeaderCommandDefinition(), true, false, true, isCustomizable)
         {
         }
     }

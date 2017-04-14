@@ -6,7 +6,7 @@ using ModernApplicationFramework.Interfaces.Command;
 
 namespace ModernApplicationFramework.Basics.Definitions.Menu.MenuItems
 {
-    public sealed class CommandMenuItemDefinition<T> : MenuItemDefinition where T : DefinitionBase
+    public sealed class CommandMenuItemDefinition<T> : CommandBarItemDefinition where T : DefinitionBase
     {
         private bool _registerVisibilityToCommand;
         public override DefinitionBase CommandDefinition { get; }
@@ -40,7 +40,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu.MenuItems
         }
 
         public CommandMenuItemDefinition(CommandBarGroupDefinition group, uint sortOrder, bool registerVisibilityToCommand = false, bool isCustomizable = true)
-            : base(null, null, sortOrder, group, null, true, false, false, isCustomizable)
+            : base( null, sortOrder, group, null, true, false, false, isCustomizable)
         {
             CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
             Text = CommandDefinition.Text;

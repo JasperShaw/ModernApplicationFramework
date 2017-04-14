@@ -14,48 +14,48 @@ namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
         [Export] public static CommandBarGroupDefinition AnchorCloseContextMenuGroup = new CommandBarGroupDefinition(AnchorableAsDocumentContextMenu, uint.MinValue);
 
         [Export]
-        public static MenuItemDefinition CloseCommandItemDefinition =
+        public static CommandBarItemDefinition CloseCommandItemDefinition =
             new CommandMenuItemDefinition<CloseDockedWindowCommandDefinition>(AnchorCloseContextMenuGroup, 1);
 
         [Export]
-        public static MenuItemDefinition CloseAllButThisCommandItemDefinition =
+        public static CommandBarItemDefinition CloseAllButThisCommandItemDefinition =
             new CommandMenuItemDefinition<CloseAllButThisDockedWindowCommandDefinition>(AnchorCloseContextMenuGroup, 2);
 
         [Export] public static CommandBarGroupDefinition AnchorableContextMenuGroup = new CommandBarGroupDefinition(AnchorableAsDocumentContextMenu, 1);
 
         [Export]
-        public static MenuItemDefinition FloatCommandItemDefinition = new CommandMenuItemDefinition<FloatDockedWindowCommandDefinition>(AnchorableContextMenuGroup, 0);
+        public static CommandBarItemDefinition FloatCommandItemDefinition = new CommandMenuItemDefinition<FloatDockedWindowCommandDefinition>(AnchorableContextMenuGroup, 0);
 
-        [Export] public static MenuItemDefinition DockCommandItemDefinition = new CommandMenuItemDefinition<DockWindowCommandDefinition>(AnchorableContextMenuGroup, 1);
+        [Export] public static CommandBarItemDefinition DockCommandItemDefinition = new CommandMenuItemDefinition<DockWindowCommandDefinition>(AnchorableContextMenuGroup, 1);
 
-        [Export] public static MenuItemDefinition AutoHideWindowCommandItemDefinition = new CommandMenuItemDefinition<AutoHideWindowCommandDefinition>(AnchorableContextMenuGroup, 2);
+        [Export] public static CommandBarItemDefinition AutoHideWindowCommandItemDefinition = new CommandMenuItemDefinition<AutoHideWindowCommandDefinition>(AnchorableContextMenuGroup, 2);
 
-        [Export] public static MenuItemDefinition HideCommandItemDefinition = new CommandMenuItemDefinition<HideDockedWindowCommandDefinition>(AnchorableContextMenuGroup, 3);
+        [Export] public static CommandBarItemDefinition HideCommandItemDefinition = new CommandMenuItemDefinition<HideDockedWindowCommandDefinition>(AnchorableContextMenuGroup, 3);
 
         [Export] public static CommandBarGroupDefinition DocumentTabGroupContextMenuGroup = new CommandBarGroupDefinition(AnchorableAsDocumentContextMenu, 2);
 
         [Export]
-        public static MenuItemDefinition NewHorizontalTabGroupItemDefinition =
+        public static CommandBarItemDefinition NewHorizontalTabGroupItemDefinition =
             new CommandMenuItemDefinition<NewHorizontalTabGroupCommandDefinition>(DocumentTabGroupContextMenuGroup, uint.MinValue, true);
 
         [Export]
-        public static MenuItemDefinition NewVerticalTabGroupItemDefinition =
+        public static CommandBarItemDefinition NewVerticalTabGroupItemDefinition =
             new CommandMenuItemDefinition<NewVerticalTabGroupCommandDefinition>(DocumentTabGroupContextMenuGroup, 1, true);
 
         [Export]
-        public static MenuItemDefinition MoveToNextTabGroupItemDefinition =
+        public static CommandBarItemDefinition MoveToNextTabGroupItemDefinition =
             new CommandMenuItemDefinition<MoveToNextTabGroupCommandDefinition>(DocumentTabGroupContextMenuGroup, 2, true);
 
         [Export]
-        public static MenuItemDefinition MoveAllToNextTabGroupItemDefinition =
+        public static CommandBarItemDefinition MoveAllToNextTabGroupItemDefinition =
             new CommandMenuItemDefinition<MoveAllToNextTabGroupCommandDefinition>(DocumentTabGroupContextMenuGroup, 3, true);
 
         [Export]
-        public static MenuItemDefinition MoveToPreviousTabGroupItemDefinition =
+        public static CommandBarItemDefinition MoveToPreviousTabGroupItemDefinition =
             new CommandMenuItemDefinition<MoveToPreviousTabGroupCommandDefinition>(DocumentTabGroupContextMenuGroup, 4, true);
 
         [Export]
-        public static MenuItemDefinition MoveAllToPreviousTabGroupItemDefinition =
+        public static CommandBarItemDefinition MoveAllToPreviousTabGroupItemDefinition =
             new CommandMenuItemDefinition<MoveAllToPreviousTabGroupCommandDefinition>(DocumentTabGroupContextMenuGroup, 5, true);
 
     }

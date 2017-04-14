@@ -13,47 +13,47 @@ namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
 
         [Export] public static CommandBarGroupDefinition DocumentCloseContextMenuGroup = new CommandBarGroupDefinition(DocumentContextMenu, uint.MinValue);
 
-        [Export] public static MenuItemDefinition CloseCommandItemDefinition =
+        [Export] public static CommandBarItemDefinition CloseCommandItemDefinition =
             new CommandMenuItemDefinition<CloseDockedWindowCommandDefinition>(DocumentCloseContextMenuGroup, 1);
 
         [Export]
-        public static MenuItemDefinition CloseAllCommandItemDefinition =
+        public static CommandBarItemDefinition CloseAllCommandItemDefinition =
             new CommandMenuItemDefinition<CloseAllDockedWindowCommandDefinition>(DocumentCloseContextMenuGroup, 2);
 
         [Export]
-        public static MenuItemDefinition CloseAllButThisCommandItemDefinition =
+        public static CommandBarItemDefinition CloseAllButThisCommandItemDefinition =
             new CommandMenuItemDefinition<CloseAllButThisDockedWindowCommandDefinition>(DocumentCloseContextMenuGroup, 2);
 
         [Export] public static CommandBarGroupDefinition DocumentFloatContextMenuGroup = new CommandBarGroupDefinition(DocumentContextMenu, 2);
 
         [Export]
-        public static MenuItemDefinition FloatCommandItemDefinition =
+        public static CommandBarItemDefinition FloatCommandItemDefinition =
             new CommandMenuItemDefinition<FloatDockedWindowCommandDefinition>(DocumentFloatContextMenuGroup, 1);
 
         [Export] public static CommandBarGroupDefinition DocumentTabGroupContextMenuGroup = new CommandBarGroupDefinition(DocumentContextMenu, 2);
 
         [Export]
-        public static MenuItemDefinition NewHorizontalTabGroupItemDefinition =
+        public static CommandBarItemDefinition NewHorizontalTabGroupItemDefinition =
             new CommandMenuItemDefinition<NewHorizontalTabGroupCommandDefinition>(DocumentTabGroupContextMenuGroup, uint.MinValue, true);
 
         [Export]
-        public static MenuItemDefinition NewVerticalTabGroupItemDefinition =
+        public static CommandBarItemDefinition NewVerticalTabGroupItemDefinition =
             new CommandMenuItemDefinition<NewVerticalTabGroupCommandDefinition>(DocumentTabGroupContextMenuGroup, 1, true);
 
         [Export]
-        public static MenuItemDefinition MoveToNextTabGroupItemDefinition =
+        public static CommandBarItemDefinition MoveToNextTabGroupItemDefinition =
             new CommandMenuItemDefinition<MoveToNextTabGroupCommandDefinition>(DocumentTabGroupContextMenuGroup, 2, true);
 
         [Export]
-        public static MenuItemDefinition MoveAllToNextTabGroupItemDefinition =
+        public static CommandBarItemDefinition MoveAllToNextTabGroupItemDefinition =
             new CommandMenuItemDefinition<MoveAllToNextTabGroupCommandDefinition>(DocumentTabGroupContextMenuGroup, 3, true);
 
         [Export]
-        public static MenuItemDefinition MoveToPreviousTabGroupItemDefinition =
+        public static CommandBarItemDefinition MoveToPreviousTabGroupItemDefinition =
             new CommandMenuItemDefinition<MoveToPreviousTabGroupCommandDefinition>(DocumentTabGroupContextMenuGroup, 4, true);
 
         [Export]
-        public static MenuItemDefinition MoveAllToPreviousTabGroupItemDefinition =
+        public static CommandBarItemDefinition MoveAllToPreviousTabGroupItemDefinition =
             new CommandMenuItemDefinition<MoveAllToPreviousTabGroupCommandDefinition>(DocumentTabGroupContextMenuGroup, 5, true);
     }
 }

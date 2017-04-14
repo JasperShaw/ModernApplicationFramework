@@ -220,7 +220,7 @@
     <Compile Include="Basics\Definitions\Menu\MenuItems\CommandTopLevelMenuItemDefinitionT.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuItems\CommandTopLevelMenuItemDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuItems\CustomSubHeaderMenuItemDefinition.cs" />
-    <Compile Include="Basics\Definitions\Menu\MenuItems\MenuItemDefinition.cs" />
+    <Compile Include="Basics\Definitions\Menu\MenuHeaderCommandDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuItems\SubHeaderMenuItemDefinition.cs" />
     <Compile Include="Basics\Definitions\Toolbar\ToolbarDefinition.cs" />
     <Compile Include="Basics\Definitions\Toolbar\ToolbarItemDefinition.cs" />

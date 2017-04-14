@@ -8,12 +8,12 @@ namespace ModernApplicationFramework.Extended.MenuDefinitions
 {
     public static class EditMenuDefinitions
     {
-        [Export] public static MenuDefinition EditMenu = new MenuDefinition(MainMenuBarDefinition.MainMenuBar,1,"Edit" ,"&Edit");
+        [Export] public static MenuDefinition EditMenu = new MenuDefinition(MainMenuBarDefinition.MainMenuBar,1,"&Edit");
 
         [Export] public static CommandBarGroupDefinition EditUndoRedoMenuGroup = new CommandBarGroupDefinition(EditMenu, 0);
 
-        [Export] public static MenuItemDefinition EditUndoMenuItem = new CommandMenuItemDefinition<UndoCommandDefinition>(EditUndoRedoMenuGroup, 0);
+        [Export] public static CommandBarItemDefinition EditUndoMenuItem = new CommandMenuItemDefinition<UndoCommandDefinition>(EditUndoRedoMenuGroup, 0);
 
-        [Export] public static MenuItemDefinition EditRedoMenuItem = new CommandMenuItemDefinition<RedoCommandDefinition>(EditUndoRedoMenuGroup, 0);
+        [Export] public static CommandBarItemDefinition EditRedoMenuItem = new CommandMenuItemDefinition<RedoCommandDefinition>(EditUndoRedoMenuGroup, 0);
     }
 }

@@ -31,7 +31,7 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         ObservableCollection<MenuBarDefinition> MenuBars { get; }
         ObservableCollectionEx<MenuDefinition> MenuDefinitions { get; }
         ObservableCollectionEx<CommandBarGroupDefinition> MenuItemGroupDefinitions { get; }
-        ObservableCollectionEx<MenuItemDefinition> MenuItemDefinitions { get; }
+        ObservableCollectionEx<CommandBarItemDefinition> MenuItemDefinitions { get; }
         ObservableCollection<CommandBarDefinitionBase> ExcludedMenuElementDefinitions { get; }
 
 

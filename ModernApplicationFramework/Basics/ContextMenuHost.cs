@@ -20,7 +20,7 @@ namespace ModernApplicationFramework.Basics
     {
         public ObservableCollectionEx<ContextMenuDefinition> ContextMenuDefinitions { get; }
         public ObservableCollectionEx<CommandBarGroupDefinition> MenuItemGroupDefinitions { get; }
-        public ObservableCollectionEx<MenuItemDefinition> MenuItemDefinitions { get; }
+        public ObservableCollectionEx<CommandBarItemDefinition> MenuItemDefinitions { get; }
         public ObservableCollection<CommandBarDefinitionBase> ExcludedContextMenuElementDefinitions { get; }
 
         private readonly Dictionary<ContextMenuDefinition, Controls.ContextMenu> _hostedContextMenus;
@@ -28,7 +28,7 @@ namespace ModernApplicationFramework.Basics
         [ImportingConstructor]
         public ContextMenuHost([ImportMany] ContextMenuDefinition[] contextMenuDefinitions,
             [ImportMany] CommandBarGroupDefinition[] menuGroupDefinitions,
-            [ImportMany] MenuItemDefinition[] menuItemDefinitions,
+            [ImportMany] CommandBarItemDefinition[] menuItemDefinitions,
             [ImportMany] ExcludeCommandBarElementDefinition[] excludedItems)
         {
             _hostedContextMenus = new Dictionary<ContextMenuDefinition, Controls.ContextMenu>();
@@ -39,7 +39,7 @@ namespace ModernApplicationFramework.Basics
             MenuItemGroupDefinitions = new ObservableCollectionEx<CommandBarGroupDefinition>();
             foreach (var menuDefinition in menuGroupDefinitions)
                 MenuItemGroupDefinitions.Add(menuDefinition);
-            MenuItemDefinitions = new ObservableCollectionEx<MenuItemDefinition>();
+            MenuItemDefinitions = new ObservableCollectionEx<CommandBarItemDefinition>();
             foreach (var menuDefinition in menuItemDefinitions)
                 MenuItemDefinitions.Add(menuDefinition);
             ExcludedContextMenuElementDefinitions = new ObservableCollection<CommandBarDefinitionBase>();

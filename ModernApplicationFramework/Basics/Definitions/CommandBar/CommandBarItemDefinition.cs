@@ -1,11 +1,14 @@
 ﻿using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
-    public abstract class CommandBarItemDefinition : CommandBarDefinitionBase
+    public abstract class CommandBarItemDefinition : CommandBarDefinitionBase, IHasInternalName
     {
         private bool _isVisible;
         private bool _precededBySeparator;
+        private CommandBarGroupDefinition _group;
+        private string _internalName;
 
         public virtual bool IsVisible
         {
@@ -30,11 +33,42 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-        protected CommandBarItemDefinition(string text, uint sortOrder, DefinitionBase definition, bool visible,
+        public CommandBarGroupDefinition Group
+        {
+            get => _group;
+            set
+            {
+                if (Equals(value, _group)) return;
+                _group = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public virtual string InternalName
+        {
+            get => _internalName;
+            set
+            {
+                if (value == _internalName) return;
+                _internalName = value;
+                OnPropertyChanged();
+            }
+        }
+
+        protected CommandBarItemDefinition(string text, uint sortOrder, CommandBarGroupDefinition group, DefinitionBase definition, bool visible,
             bool isChecked, bool isCustom, bool isCustomizable)
             : base(text, sortOrder, definition, isCustom, isCustomizable, isChecked)
         {
             _isVisible = visible;
+            _group = group;
+
+            if (group?.Parent is IHasInternalName internalNameParent)
+            {
+                if (!string.IsNullOrEmpty(internalNameParent.InternalName))
+                    _internalName = internalNameParent.InternalName + " | " + text;
+            }
+            else
+                _internalName = text;
         }
     }
 }
