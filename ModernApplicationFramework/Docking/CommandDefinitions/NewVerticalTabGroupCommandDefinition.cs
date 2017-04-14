@@ -13,6 +13,19 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
     [Export(typeof(DefinitionBase))]
     public sealed class NewVerticalTabGroupCommandDefinition : CommandDefinition
     {
+        public override ICommand Command { get; }
+
+        public override string Name => "New Vertical Tab Group";
+        public override string Text => "New Vertical Tab Group";
+        public override string ToolTip => null;
+
+        public override Uri IconSource =>
+            new Uri("/ModernApplicationFramework;component/Resources/Icons/SplitScreenVertical.xaml",
+                UriKind.RelativeOrAbsolute);
+
+        public override string IconId => "SplitScreenVertical";
+        public override CommandCategory Category => CommandCategories.WindowCommandCategory;
+
         public NewVerticalTabGroupCommandDefinition()
         {
             Command = new MultiKeyGestureCommandWrapper(CreateNewVerticalTabGroup, CanCreateNewVerticalTabGroup);
@@ -22,14 +35,15 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
         {
             if (DockingManager.Instace?.Layout.ActiveContent == null)
                 return false;
-            var parentDocumentGroup = DockingManager.Instace?.Layout.ActiveContent.FindParent<LayoutDocumentPaneGroup>();
+            var parentDocumentGroup = DockingManager.Instace?.Layout.ActiveContent
+                .FindParent<LayoutDocumentPaneGroup>();
             var parentDocumentPane = DockingManager.Instace?.Layout.ActiveContent.Parent as LayoutDocumentPane;
-            return ((parentDocumentGroup == null ||
-                     parentDocumentGroup.ChildrenCount == 1 ||
-                     parentDocumentGroup.Root.Manager.AllowMixedOrientation ||
-                     parentDocumentGroup.Orientation == Orientation.Horizontal) &&
-                    parentDocumentPane != null &&
-                    parentDocumentPane.ChildrenCount > 1);
+            return (parentDocumentGroup == null ||
+                    parentDocumentGroup.ChildrenCount == 1 ||
+                    parentDocumentGroup.Root.Manager.AllowMixedOrientation ||
+                    parentDocumentGroup.Orientation == Orientation.Horizontal) &&
+                   parentDocumentPane != null &&
+                   parentDocumentPane.ChildrenCount > 1;
         }
 
         private void CreateNewVerticalTabGroup()
@@ -45,7 +59,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
                 if (parentDocumentPane != null)
                 {
                     var grandParent = parentDocumentPane.Parent;
-                    parentDocumentGroup = new LayoutDocumentPaneGroup { Orientation = Orientation.Horizontal };
+                    parentDocumentGroup = new LayoutDocumentPaneGroup {Orientation = Orientation.Horizontal};
                     grandParent.ReplaceChild(parentDocumentPane, parentDocumentGroup);
                 }
                 parentDocumentGroup?.Children.Add(parentDocumentPane);
@@ -53,23 +67,11 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
             if (parentDocumentGroup != null)
             {
                 parentDocumentGroup.Orientation = Orientation.Horizontal;
-                int indexOfParentPane = parentDocumentGroup.IndexOfChild(parentDocumentPane);
+                var indexOfParentPane = parentDocumentGroup.IndexOfChild(parentDocumentPane);
                 parentDocumentGroup.InsertChildAt(indexOfParentPane + 1, new LayoutDocumentPane(layoutElement));
             }
             layoutElement.IsActive = true;
             layoutElement.Root.CollectGarbage();
         }
-
-        public override ICommand Command { get; }
-
-        public override string Name => "New Vertical Tab Group";
-        public override string Text => "New Vertical Tab Group";
-        public override string ToolTip => null;
-        public override Uri IconSource =>
-            new Uri("/ModernApplicationFramework;component/Resources/Icons/SplitScreenVertical.xaml",
-                UriKind.RelativeOrAbsolute);
-
-        public override string IconId => "SplitScreenVertical";
-        public override CommandCategory Category => CommandCategories.WindowCommandCategory;
     }
 }

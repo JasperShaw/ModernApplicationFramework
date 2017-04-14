@@ -54,7 +54,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-        protected CommandBarDefinitionBase(string text, uint sortOrder, DefinitionBase definition, bool isCustom, bool isCustomizable, bool isChecked)
+        protected CommandBarDefinitionBase(string text, uint sortOrder, DefinitionBase definition, bool isCustom,
+            bool isCustomizable, bool isChecked)
         {
             _sortOrder = sortOrder;
             _text = text;

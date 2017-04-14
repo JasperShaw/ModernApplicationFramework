@@ -21,7 +21,8 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
             }
         }
 
-        public MenuDefinition(MenuBarDefinition menuBar, uint sortOrder, string text, bool isCustom = false, bool isCustomizable = true) 
+        public MenuDefinition(MenuBarDefinition menuBar, uint sortOrder, string text, bool isCustom = false,
+            bool isCustomizable = true)
             : base(text, sortOrder, new MenuHeaderCommandDefinition(), isCustom, isCustomizable, false)
         {
             MenuBar = menuBar;

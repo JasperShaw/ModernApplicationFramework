@@ -38,7 +38,8 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
         }
 
         public ToolbarDefinition(string text, uint sortOrder, bool visible, Dock position, bool isCustomizable = true,
-            bool isCustom = false) : base(text, sortOrder, new ToolbarItemCommandDefinition(), isCustom, isCustomizable, false)
+            bool isCustom = false) : base(text, sortOrder, new ToolbarItemCommandDefinition(), isCustom, isCustomizable,
+            false)
         {
             _position = position;
             _isVisible = visible;
@@ -54,8 +55,8 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
         public override string IconId => null;
         public override bool IsList => false;
         public override CommandCategory Category => null;
-        public override string ShortcutText { get; set; }
 
         public override CommandControlTypes ControlType => CommandControlTypes.Menu;
+        public override string ShortcutText { get; set; }
     }
 }

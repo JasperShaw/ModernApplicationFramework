@@ -13,6 +13,20 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
     [Export(typeof(DefinitionBase))]
     public sealed class NewHorizontalTabGroupCommandDefinition : CommandDefinition
     {
+        public override ICommand Command { get; }
+
+        public override string Name => "New Horizontal Tab Group";
+        public override string Text => "New Horizontal Tab Group";
+        public override string ToolTip => null;
+
+        public override Uri IconSource =>
+            new Uri("/ModernApplicationFramework;component/Resources/Icons/SplitScreenHorizontal.xaml",
+                UriKind.RelativeOrAbsolute);
+
+        public override string IconId => "SplitScreenHorizontal";
+
+        public override CommandCategory Category => CommandCategories.WindowCommandCategory;
+
         public NewHorizontalTabGroupCommandDefinition()
         {
             Command = new MultiKeyGestureCommandWrapper(CreateNewHorizontalTabGroup, CanCreateNewHorizontalTabGroup);
@@ -22,7 +36,8 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
         {
             if (DockingManager.Instace?.Layout.ActiveContent == null)
                 return false;
-            var parentDocumentGroup = DockingManager.Instace?.Layout.ActiveContent.FindParent<LayoutDocumentPaneGroup>();
+            var parentDocumentGroup = DockingManager.Instace?.Layout.ActiveContent
+                .FindParent<LayoutDocumentPaneGroup>();
             var parentDocumentPane = DockingManager.Instace?.Layout.ActiveContent.Parent as LayoutDocumentPane;
             return (parentDocumentGroup == null ||
                     parentDocumentGroup.ChildrenCount == 1 ||
@@ -45,7 +60,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
                 if (parentDocumentPane != null)
                 {
                     var grandParent = parentDocumentPane.Parent;
-                    parentDocumentGroup = new LayoutDocumentPaneGroup() { Orientation = Orientation.Vertical };
+                    parentDocumentGroup = new LayoutDocumentPaneGroup {Orientation = Orientation.Vertical};
                     grandParent.ReplaceChild(parentDocumentPane, parentDocumentGroup);
                 }
                 parentDocumentGroup?.Children.Add(parentDocumentPane);
@@ -53,24 +68,11 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
             if (parentDocumentGroup != null)
             {
                 parentDocumentGroup.Orientation = Orientation.Vertical;
-                int indexOfParentPane = parentDocumentGroup.IndexOfChild(parentDocumentPane);
+                var indexOfParentPane = parentDocumentGroup.IndexOfChild(parentDocumentPane);
                 parentDocumentGroup.InsertChildAt(indexOfParentPane + 1, new LayoutDocumentPane(layoutElement));
             }
             layoutElement.IsActive = true;
             layoutElement.Root.CollectGarbage();
         }
-
-        public override ICommand Command { get; }
-
-        public override string Name => "New Horizontal Tab Group";
-        public override string Text => "New Horizontal Tab Group";
-        public override string ToolTip => null;
-        public override Uri IconSource =>
-            new Uri("/ModernApplicationFramework;component/Resources/Icons/SplitScreenHorizontal.xaml",
-                UriKind.RelativeOrAbsolute);
-
-        public override string IconId => "SplitScreenHorizontal";
-
-        public override CommandCategory Category => CommandCategories.WindowCommandCategory;
     }
 }

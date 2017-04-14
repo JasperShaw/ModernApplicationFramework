@@ -12,6 +12,17 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
     [Export(typeof(DefinitionBase))]
     public sealed class DockWindowCommandDefinition : CommandDefinition
     {
+        public override ICommand Command { get; }
+
+        public override string Name => "Dock";
+        public override string Text => "Dock";
+        public override string ToolTip => null;
+        public override Uri IconSource => null;
+
+        public override string IconId => null;
+
+        public override CommandCategory Category => CommandCategories.WindowCommandCategory;
+
         public DockWindowCommandDefinition()
         {
             Command = new MultiKeyGestureCommandWrapper(DockWindow, CanDockWindow);
@@ -24,8 +35,9 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
                 return false;
             var di = DockingManager.Instace?.GetLayoutItemFromModel(dc);
 
-            return di?.LayoutElement?.FindParent<LayoutFloatingWindow>() != null || di?.LayoutElement?.FindParent<LayoutDocumentPane>() != null ||
-                di?.LayoutElement is LayoutAnchorable layoutItem && layoutItem.IsAutoHidden;
+            return di?.LayoutElement?.FindParent<LayoutFloatingWindow>() != null ||
+                   di?.LayoutElement?.FindParent<LayoutDocumentPane>() != null ||
+                   di?.LayoutElement is LayoutAnchorable layoutItem && layoutItem.IsAutoHidden;
         }
 
         private void DockWindow()
@@ -37,16 +49,5 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
             di?.DockCommand.Execute(null);
         }
-
-        public override ICommand Command { get; }
-
-        public override string Name => "Dock";
-        public override string Text => "Dock";
-        public override string ToolTip => null;
-        public override Uri IconSource => null;
-
-        public override string IconId => null;
-
-        public override CommandCategory Category => CommandCategories.WindowCommandCategory;
     }
 }

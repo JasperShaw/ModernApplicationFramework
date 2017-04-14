@@ -8,6 +8,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
     public abstract class DefinitionBase : INotifyPropertyChanged
     {
         private string _shortcutText;
+        public event PropertyChangedEventHandler PropertyChanged;
         public abstract string Name { get; }
         public abstract string Text { get; }
         public abstract string ToolTip { get; }
@@ -16,6 +17,8 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         public abstract bool IsList { get; }
 
         public abstract CommandCategory Category { get; }
+
+        public abstract CommandControlTypes ControlType { get; }
 
         public virtual string ShortcutText
         {
@@ -28,9 +31,6 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
                 OnPropertyChanged();
             }
         }
-
-        public abstract CommandControlTypes ControlType { get; }
-        public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

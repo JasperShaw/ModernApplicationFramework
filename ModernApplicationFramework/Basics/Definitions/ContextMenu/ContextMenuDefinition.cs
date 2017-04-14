@@ -18,7 +18,8 @@ namespace ModernApplicationFramework.Basics.Definitions.ContextMenu
             }
         }
 
-        public ContextMenuDefinition(ContextMenuCategory category, string text, bool isCustomizable = true) : base(text, uint.MinValue, null, false, isCustomizable, false)
+        public ContextMenuDefinition(ContextMenuCategory category, string text, bool isCustomizable = true) : base(text,
+            uint.MinValue, null, false, isCustomizable, false)
         {
             Category = category;
             _text = $"{category.CategoryName} | {text}";

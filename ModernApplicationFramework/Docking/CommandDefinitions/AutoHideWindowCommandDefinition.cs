@@ -12,6 +12,17 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
     [Export(typeof(DefinitionBase))]
     public sealed class AutoHideWindowCommandDefinition : CommandDefinition
     {
+        public override ICommand Command { get; }
+
+        public override string Name => "Auto Hide";
+        public override string Text => "Auto Hide";
+        public override string ToolTip => null;
+        public override Uri IconSource => null;
+
+        public override string IconId => null;
+
+        public override CommandCategory Category => CommandCategories.WindowCommandCategory;
+
         public AutoHideWindowCommandDefinition()
         {
             Command = new MultiKeyGestureCommandWrapper(AutoHideWindow, CanAutoHideWindow);
@@ -33,7 +44,8 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
             if (di.LayoutElement.FindParent<LayoutAnchorableFloatingWindow>() != null)
                 return false;
 
-            return di.LayoutElement is LayoutAnchorable layoutItem && layoutItem.CanAutoHide && !layoutItem.IsAutoHidden;
+            return di.LayoutElement is LayoutAnchorable layoutItem && layoutItem.CanAutoHide &&
+                   !layoutItem.IsAutoHidden;
         }
 
         private void AutoHideWindow()
@@ -45,18 +57,6 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
             var di = DockingManager.Instace?.GetLayoutItemFromModel(dc) as LayoutAnchorableItem;
 
             di?.AutoHideCommand.Execute(null);
-
         }
-
-        public override ICommand Command { get; }
-
-        public override string Name => "Auto Hide";
-        public override string Text => "Auto Hide";
-        public override string ToolTip => null;
-        public override Uri IconSource => null;
-
-        public override string IconId => null;
-
-        public override CommandCategory Category => CommandCategories.WindowCommandCategory;
     }
 }

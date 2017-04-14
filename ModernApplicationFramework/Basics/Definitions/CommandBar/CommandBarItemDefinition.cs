@@ -33,17 +33,6 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-        public CommandBarGroupDefinition Group
-        {
-            get => _group;
-            set
-            {
-                if (Equals(value, _group)) return;
-                _group = value;
-                OnPropertyChanged();
-            }
-        }
-
         public virtual string InternalName
         {
             get => _internalName;
@@ -55,7 +44,19 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-        protected CommandBarItemDefinition(string text, uint sortOrder, CommandBarGroupDefinition group, DefinitionBase definition, bool visible,
+        public CommandBarGroupDefinition Group
+        {
+            get => _group;
+            set
+            {
+                if (Equals(value, _group)) return;
+                _group = value;
+                OnPropertyChanged();
+            }
+        }
+
+        protected CommandBarItemDefinition(string text, uint sortOrder, CommandBarGroupDefinition group,
+            DefinitionBase definition, bool visible,
             bool isChecked, bool isCustom, bool isCustomizable)
             : base(text, sortOrder, definition, isCustom, isCustomizable, isChecked)
         {
@@ -68,7 +69,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
                     _internalName = internalNameParent.InternalName + " | " + text;
             }
             else
+            {
                 _internalName = text;
+            }
         }
     }
 }

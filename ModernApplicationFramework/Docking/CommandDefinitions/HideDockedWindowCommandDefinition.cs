@@ -12,6 +12,20 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
     [Export(typeof(DefinitionBase))]
     public sealed class HideDockedWindowCommandDefinition : CommandDefinition
     {
+        public override ICommand Command { get; }
+
+        public override string Name => "Hide";
+        public override string Text => "Hide";
+        public override string ToolTip => null;
+
+        public override Uri IconSource =>
+            new Uri("/ModernApplicationFramework;component/Resources/Icons/HideToolWindow.xaml",
+                UriKind.RelativeOrAbsolute);
+
+        public override string IconId => "HideToolWindow";
+
+        public override CommandCategory Category => CommandCategories.WindowCommandCategory;
+
         public HideDockedWindowCommandDefinition()
         {
             Command = new MultiKeyGestureCommandWrapper(HideDockedWindow, CanHideDockedWindow);
@@ -29,18 +43,5 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
             var item = DockingManager.Instace?.GetLayoutItemFromModel(dm) as LayoutAnchorableItem;
             item?.HideCommand.Execute(null);
         }
-
-        public override ICommand Command { get; }
-
-        public override string Name => "Hide";
-        public override string Text => "Hide";
-        public override string ToolTip => null;
-        public override Uri IconSource =>
-            new Uri("/ModernApplicationFramework;component/Resources/Icons/HideToolWindow.xaml",
-                UriKind.RelativeOrAbsolute);
-
-        public override string IconId => "HideToolWindow";
-
-        public override CommandCategory Category => CommandCategories.WindowCommandCategory;
     }
 }

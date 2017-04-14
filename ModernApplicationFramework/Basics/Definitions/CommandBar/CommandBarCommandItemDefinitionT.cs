@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using System;
+using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Interfaces.Command;
@@ -8,6 +9,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     public sealed class CommandBarCommandItemDefinition<T> : CommandBarItemDefinition where T : DefinitionBase
     {
         private bool _registerVisibilityToCommand;
+
+        public override DefinitionBase CommandDefinition { get; }
 
         public bool RegisterVisibilityToCommand
         {
@@ -37,9 +40,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-        public override DefinitionBase CommandDefinition { get; }
-
-        public CommandBarCommandItemDefinition(CommandBarGroupDefinition group, uint sortOrder, bool registerVisibilityToCommand = false, bool isCustomizable = true)
+        public CommandBarCommandItemDefinition(CommandBarGroupDefinition group, uint sortOrder,
+            bool registerVisibilityToCommand = false, bool isCustomizable = true)
             : base(null, sortOrder, group, null, true, false, false, isCustomizable)
         {
             CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
@@ -47,7 +49,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             RegisterVisibilityToCommand = registerVisibilityToCommand;
         }
 
-        private void CommandWrapper_CanExecuteChanged(object sender, System.EventArgs e)
+        private void CommandWrapper_CanExecuteChanged(object sender, EventArgs e)
         {
             var cd = CommandDefinition as CommandDefinition;
             if (cd == null)

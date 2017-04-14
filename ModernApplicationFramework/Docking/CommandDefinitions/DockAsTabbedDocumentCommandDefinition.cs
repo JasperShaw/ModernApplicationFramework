@@ -11,6 +11,17 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
     [Export(typeof(DefinitionBase))]
     public sealed class DockAsTabbedDocumentCommandDefinition : CommandDefinition
     {
+        public override ICommand Command { get; }
+
+        public override string Name => "Dock as Tabbed Document";
+        public override string Text => "Dock as Tabbed Document";
+        public override string ToolTip => null;
+        public override Uri IconSource => null;
+
+        public override string IconId => null;
+
+        public override CommandCategory Category => CommandCategories.WindowCommandCategory;
+
         public DockAsTabbedDocumentCommandDefinition()
         {
             Command = new MultiKeyGestureCommandWrapper(DockAsTabbedDocument, CanDockAsTabbedDocument);
@@ -18,7 +29,6 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         private bool CanDockAsTabbedDocument()
         {
-
             var dc = DockingManager.Instace.Layout.ActiveContent;
             if (dc == null)
                 return false;
@@ -35,16 +45,5 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
             var di = DockingManager.Instace.GetLayoutItemFromModel(dc);
             di?.DockAsDocumentCommand.Execute(null);
         }
-
-        public override ICommand Command { get; }
-
-        public override string Name => "Dock as Tabbed Document";
-        public override string Text => "Dock as Tabbed Document";
-        public override string ToolTip => null;
-        public override Uri IconSource => null;
-
-        public override string IconId => null;
-
-        public override CommandCategory Category => CommandCategories.WindowCommandCategory;
     }
 }

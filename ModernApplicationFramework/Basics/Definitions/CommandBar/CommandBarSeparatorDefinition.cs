@@ -7,7 +7,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     {
         public static CommandBarSeparatorDefinition MenuSeparatorDefinition => new CommandBarSeparatorDefinition();
 
-        private CommandBarSeparatorDefinition() : base(null, uint.MinValue, new SeparatorCommandDefinition(), false, false, false)
+        private CommandBarSeparatorDefinition() : base(null, uint.MinValue, new SeparatorCommandDefinition(), false,
+            false, false)
         {
         }
 
@@ -20,8 +21,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             public override string IconId => null;
             public override bool IsList => false;
             public override CommandCategory Category => null;
-            public sealed override string ShortcutText { get; set; }
             public override CommandControlTypes ControlType => CommandControlTypes.Separator;
+            public sealed override string ShortcutText { get; set; }
         }
     }
 }

@@ -16,7 +16,6 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
 
         protected CommandDefinition()
         {
-            
         }
 
         protected CommandDefinition(ICommand command)

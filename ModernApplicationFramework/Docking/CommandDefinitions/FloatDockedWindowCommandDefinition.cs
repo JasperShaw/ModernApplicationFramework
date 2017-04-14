@@ -11,6 +11,17 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
     [Export(typeof(DefinitionBase))]
     public sealed class FloatDockedWindowCommandDefinition : CommandDefinition
     {
+        public override ICommand Command { get; }
+
+        public override string Name => "Float";
+        public override string Text => "Float";
+        public override string ToolTip => null;
+        public override Uri IconSource => null;
+
+        public override string IconId => null;
+
+        public override CommandCategory Category => CommandCategories.WindowCommandCategory;
+
         public FloatDockedWindowCommandDefinition()
         {
             Command = new MultiKeyGestureCommandWrapper(FloatDockedWindow, CanFloatDockedWindow);
@@ -33,16 +44,5 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
             var di = DockingManager.Instace?.GetLayoutItemFromModel(dc);
             di?.FloatCommand.Execute(null);
         }
-
-        public override ICommand Command { get; }
-
-        public override string Name => "Float";
-        public override string Text => "Float";
-        public override string ToolTip => null;
-        public override Uri IconSource => null;
-
-        public override string IconId => null;
-
-        public override CommandCategory Category => CommandCategories.WindowCommandCategory;
     }
 }

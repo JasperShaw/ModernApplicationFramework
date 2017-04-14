@@ -12,6 +12,16 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
     [Export(typeof(DefinitionBase))]
     public sealed class CloseAllButThisDockedWindowCommandDefinition : CommandDefinition
     {
+        public override ICommand Command { get; }
+
+        public override string Name => "Close All But This";
+        public override string Text => "Close All But This";
+        public override string ToolTip => null;
+        public override Uri IconSource => null;
+        public override string IconId => null;
+
+        public override CommandCategory Category => CommandCategories.FileCommandCategory;
+
         public CloseAllButThisDockedWindowCommandDefinition()
         {
             Command = new MultiKeyGestureCommandWrapper(CloseAllButThisDockedWindows, CanCloseAllButThisDockedWindows);
@@ -28,8 +38,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
             if (!DockingManager.Instace.Layout.ActiveContent.Root.Manager.CanCloseAllButThis)
                 return false;
 
-            return DockingManager.Instace.Layout.ActiveContent.Root.Manager.Layout.
-                Descendents()
+            return DockingManager.Instace.Layout.ActiveContent.Root.Manager.Layout.Descendents()
                 .OfType<LayoutContent>()
                 .Any(
                     d =>
@@ -43,15 +52,5 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
             var dm = DockingManager.Instace?.Layout.ActiveContent;
             DockingManager.Instace?._ExecuteCloseAllButThisCommand(dm);
         }
-
-        public override ICommand Command { get; }
-
-        public override string Name => "Close All But This";
-        public override string Text => "Close All But This";
-        public override string ToolTip => null;
-        public override Uri IconSource => null;
-        public override string IconId => null;
-
-        public override CommandCategory Category => CommandCategories.FileCommandCategory;
     }
 }

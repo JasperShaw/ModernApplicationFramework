@@ -12,6 +12,20 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
     [Export(typeof(DefinitionBase))]
     public sealed class CloseAllDockedWindowCommandDefinition : CommandDefinition
     {
+        public override ICommand Command { get; }
+
+        public override string Name => "Close All Documents";
+        public override string Text => "Close All Documents";
+        public override string ToolTip => null;
+
+        public override Uri IconSource => new Uri(
+            "/ModernApplicationFramework;component/Resources/Icons/CloseDocumentGroup.xaml",
+            UriKind.RelativeOrAbsolute);
+
+        public override string IconId => "CloseDocumentGroup";
+
+        public override CommandCategory Category => CommandCategories.WindowCommandCategory;
+
         public CloseAllDockedWindowCommandDefinition()
         {
             Command = new MultiKeyGestureCommandWrapper(CloseAllDockedWindows, CanCloseAllDockedWindows);
@@ -29,25 +43,14 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
                 return false;
 
             return DockingManager.Instace.Layout
-                    .Descendents()
-                    .OfType<LayoutContent>()
-                    .Any(d => d.Parent is LayoutDocumentPane || d.Parent is LayoutDocumentFloatingWindow);
+                .Descendents()
+                .OfType<LayoutContent>()
+                .Any(d => d.Parent is LayoutDocumentPane || d.Parent is LayoutDocumentFloatingWindow);
         }
 
         private void CloseAllDockedWindows()
         {
             DockingManager.Instace?._ExecuteCloseAllCommand();
         }
-
-        public override ICommand Command { get; }
-
-        public override string Name => "Close All Documents";
-        public override string Text => "Close All Documents";
-        public override string ToolTip => null;
-        public override Uri IconSource => new Uri("/ModernApplicationFramework;component/Resources/Icons/CloseDocumentGroup.xaml",
-            UriKind.RelativeOrAbsolute);
-        public override string IconId => "CloseDocumentGroup";
-
-        public override CommandCategory Category => CommandCategories.WindowCommandCategory;
     }
 }

@@ -6,11 +6,11 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
     {
         public override string IconId => null;
         public override bool IsList => true;
-        public override string ShortcutText => null;
         public override CommandControlTypes ControlType => CommandControlTypes.Button;
         public override Uri IconSource => null;
         public override string Name => string.Empty;
         public override string Text => Name;
         public override string ToolTip => string.Empty;
+        public override string ShortcutText => null;
     }
 }

@@ -66,19 +66,6 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private void SetFlag(CommandBarFlags flag, bool value)
-        {
-            var allFlags = AllFlags;
-            var commandflags = !value ? allFlags & (uint)~flag : allFlags | (uint) flag;
-            AllFlags = commandflags;
-        }
-
         public void EnableStyleFlags(CommandBarFlags flagToEnable)
         {
             switch (flagToEnable)
@@ -106,6 +93,19 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void SetFlag(CommandBarFlags flag, bool value)
+        {
+            var allFlags = AllFlags;
+            var commandflags = !value ? allFlags & (uint) ~flag : allFlags | (uint) flag;
+            AllFlags = commandflags;
         }
     }
 }

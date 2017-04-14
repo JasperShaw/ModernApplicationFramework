@@ -10,6 +10,16 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
     [Export(typeof(DefinitionBase))]
     public sealed class CloseDockedWindowCommandDefinition : CommandDefinition
     {
+        public override ICommand Command { get; }
+
+        public override string Name => "Close";
+        public override string Text => "Close";
+        public override string ToolTip => null;
+        public override Uri IconSource => null;
+        public override string IconId => null;
+
+        public override CommandCategory Category => CommandCategories.FileCommandCategory;
+
         public CloseDockedWindowCommandDefinition()
         {
             Command = new MultiKeyGestureCommandWrapper(CloseDockedWindow, CanCloseDockedWindow);
@@ -27,15 +37,5 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
             var item = DockingManager.Instace?.GetLayoutItemFromModel(dm);
             item?.CloseCommand.Execute(null);
         }
-
-        public override ICommand Command { get; }
-
-        public override string Name => "Close";
-        public override string Text => "Close";
-        public override string ToolTip => null;
-        public override Uri IconSource => null;
-        public override string IconId => null;
-
-        public override CommandCategory Category => CommandCategories.FileCommandCategory;
     }
 }

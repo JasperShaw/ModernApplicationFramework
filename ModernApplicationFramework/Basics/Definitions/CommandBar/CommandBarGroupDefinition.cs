@@ -15,7 +15,7 @@
             }
         }
 
-        public CommandBarGroupDefinition(CommandBarDefinitionBase parent, uint sortOrder) 
+        public CommandBarGroupDefinition(CommandBarDefinitionBase parent, uint sortOrder)
             : base(null, sortOrder, null, false, false, false)
         {
             _parent = parent;

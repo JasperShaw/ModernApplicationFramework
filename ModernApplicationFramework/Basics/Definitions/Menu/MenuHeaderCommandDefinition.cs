@@ -12,7 +12,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
         public override string IconId => null;
         public override bool IsList => false;
         public override CommandCategory Category => null;
-        public override string ShortcutText => null;
         public override CommandControlTypes ControlType => CommandControlTypes.Menu;
+        public override string ShortcutText => null;
     }
 }
