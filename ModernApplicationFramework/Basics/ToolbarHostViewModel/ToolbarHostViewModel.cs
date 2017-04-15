@@ -183,16 +183,45 @@ namespace ModernApplicationFramework.Basics.ToolbarHostViewModel
 
         public void DeleteItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent)
         {
+            //As a Separator contains the previous group we need add all items into the next group
             if (definition.CommandDefinition.ControlType == CommandControlTypes.Separator)
             {
+                if (definition.Group == null || !ItemGroupDefinitions.Contains(definition.Group))
+                    return;
 
+                var definitionsInCurrnetGroup = ItemDefinitions.Where(x => x.Group == definition.Group).OrderBy(x => x.SortOrder).ToList();
+                var nextGroup = ItemGroupDefinitions.Where(x => x.Parent == parent).FirstOrDefault(x => x.SortOrder > definition.Group.SortOrder);
+                var definitionsInNextGroup = ItemDefinitions.Where(x => x.Group == nextGroup).OrderBy(x => x.SortOrder).ToList();
+
+                uint newSortorder = 0;
+                foreach (var groupDefinition in definitionsInCurrnetGroup)
+                {
+                    groupDefinition.Group = nextGroup;
+                    groupDefinition.SortOrder = newSortorder++;
+                }
+
+                //Add old items after the new inserted ones
+                foreach (var groupDefinition in definitionsInNextGroup)
+                    groupDefinition.SortOrder = newSortorder++;
+
+                ItemGroupDefinitions.Remove(definition.Group);
             }
             else
             {
                 var definitionsInGroup = ItemDefinitions.Where(x => x.Group == definition.Group).ToList();
 
                 if (definitionsInGroup.Count <= 1)
+                {
+                    var groupsToChange = ItemGroupDefinitions.Where(x => x.SortOrder >= definition.Group.SortOrder).OrderBy(x => x.SortOrder);
+
+                    foreach (var groupDefinition in groupsToChange)
+                    {
+                        if (groupDefinition == definition.Group)
+                            continue;
+                        groupDefinition.SortOrder--;
+                    }
                     ItemGroupDefinitions.Remove(definition.Group);
+                }
                 else
                 {
                     var definitionsToChange = definitionsInGroup.Where(x => x.SortOrder >= definition.SortOrder).OrderBy(x => x.SortOrder);
