@@ -5,6 +5,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Input;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.CommandBase;
@@ -116,22 +117,54 @@ namespace ModernApplicationFramework.Basics
 
         public void AddItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent, bool addAboveSeparator)
         {
+            //Apparently the current menu is empty so we need to add a group first
+            if (definition.Group == null)
+            {
+                var group = new CommandBarGroupDefinition(parent, uint.MinValue);
+                definition.Group = group;
+                ItemGroupDefinitions.Add(group);
+            }
+
             if (!addAboveSeparator)
             {
-                var definitionsToChange =
-                    ItemDefinitions.Where(
-                            x => x.Group == definition.Group)
+                var definitionsToChange = ItemDefinitions.Where(x => x.Group == definition.Group)
+                    .Where(x=> x.SortOrder >= definition.SortOrder)
                         .OrderBy(x => x.SortOrder);
 
                 foreach (var definitionToChange in definitionsToChange)
                 {
-                    if (definitionToChange.Group != definition.Group)
+                    if (definitionToChange == definition)
                         continue;
-                    if (definitionToChange.SortOrder >= definition.SortOrder)
-                        definitionToChange.SortOrder++;
+                    definitionToChange.SortOrder++;
                 }
             }
             ItemDefinitions.Add(definition);
+        }
+
+        public void DeleteItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent)
+        {
+            if (definition.CommandDefinition.ControlType == CommandControlTypes.Separator)
+            {
+
+            }
+            else
+            {
+                var definitionsInGroup = ItemDefinitions.Where(x => x.Group == definition.Group).ToList();
+
+                if (definitionsInGroup.Count <= 1)
+                    ItemGroupDefinitions.Remove(definition.Group);
+                else
+                {
+                    var definitionsToChange = definitionsInGroup.Where(x => x.SortOrder >= definition.SortOrder).OrderBy(x => x.SortOrder);
+                    foreach (var definitionToChange in definitionsToChange)
+                    {
+                        if (definitionToChange == definition)
+                            continue;
+                        definitionToChange.SortOrder--;
+                    }
+                }
+                ItemDefinitions.Remove(definition);
+            }
         }
 
         private IEnumerable<CommandBarDefinitionBase> GetSubHeaderMenus(CommandBarDefinitionBase definition)

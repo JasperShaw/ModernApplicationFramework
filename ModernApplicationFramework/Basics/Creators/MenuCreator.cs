@@ -54,6 +54,23 @@ namespace ModernApplicationFramework.Basics.Creators
                 .OrderBy(x => x.SortOrder)
                 .ToList();
 
+            //var groups = new List<CommandBarGroupDefinition>();
+            //foreach (var groupDefinition in host.ItemGroupDefinitions.OrderBy(x => x.SortOrder))
+            //{
+            //    if (groupDefinition.Parent == definition && !host.ExcludedItemDefinitions.Contains(groupDefinition))
+            //    {
+            //        bool flag = false;
+            //        foreach (var hostItem in host.ItemDefinitions)
+            //        {
+            //            if (hostItem.Group == groupDefinition)
+            //                flag = true;
+            //        }
+            //        if (flag)
+            //            groups.Add(groupDefinition);
+            //    }
+            //}
+
+
             for (var i = 0; i < groups.Count; i++)
             {
                 var group = groups[i];
@@ -109,9 +126,26 @@ namespace ModernApplicationFramework.Basics.Creators
             }
             else if (definition is MenuDefinition || definition is CommandBarItemDefinition)
             {
+
                 var groups = host.ItemGroupDefinitions.Where(x => x.Parent == definition)
                     .OrderBy(x => x.SortOrder)
                     .ToList();
+
+                //var groups = new List<CommandBarGroupDefinition>();
+                //foreach (var groupDefinition in host.ItemGroupDefinitions.OrderBy(x => x.SortOrder))
+                //{
+                //    if (groupDefinition.Parent == definition && !host.ExcludedItemDefinitions.Contains(groupDefinition))
+                //    {
+                //        bool flag = false;
+                //        foreach (var hostItem in host.ItemDefinitions)
+                //        {
+                //            if (hostItem.Group == groupDefinition)
+                //                flag = true;
+                //        }
+                //        if (flag)
+                //            groups.Add(groupDefinition);
+                //    }
+                //}
 
                 uint newSortOrder = 0;  //As Menus are created each click we need to to this also in this methods
 

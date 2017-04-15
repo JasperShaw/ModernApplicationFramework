@@ -28,16 +28,49 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         private CommandBarItemDefinition _selectedListBoxDefinition;
         private IEnumerable<CommandBarItemDefinition> _items;
         private ICommandsPageView _control;
+        private IEnumerable<CommandBarDefinitionBase> _customizableToolBars;
+        private IEnumerable<CommandBarDefinitionBase> _customizableMenuBars;
+        private IEnumerable<CommandBarDefinitionBase> _customizableContextMenus;
 
         public ICommand HandleAddCommand => new Command(HandleCommandAdd);
+        public ICommand HandleDeleteCommand => new Command(HandleCommandDelete);
 
         public ICommand HandleStylingFlagChangeCommand => new Command<object>(HandleStylingFlagChange, obj => true);
 
         public Command DropDownClickCommand => new Command(ExecuteDropDownClick);
 
-        public IEnumerable<CommandBarDefinitionBase> CustomizableToolBars { get; set; }
-        public IEnumerable<CommandBarDefinitionBase> CustomizableMenuBars { get; set; }
-        public IEnumerable<CommandBarDefinitionBase> CustomizableContextMenus { get; set; }
+        public IEnumerable<CommandBarDefinitionBase> CustomizableToolBars
+        {
+            get => _customizableToolBars;
+            set
+            {
+                if (Equals(value, _customizableToolBars)) return;
+                _customizableToolBars = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public IEnumerable<CommandBarDefinitionBase> CustomizableMenuBars
+        {
+            get => _customizableMenuBars;
+            set
+            {
+                if (Equals(value, _customizableMenuBars)) return;
+                _customizableMenuBars = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public IEnumerable<CommandBarDefinitionBase> CustomizableContextMenus
+        {
+            get => _customizableContextMenus;
+            set
+            {
+                if (Equals(value, _customizableContextMenus)) return;
+                _customizableContextMenus = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         public CommandBarDefinitionBase SelectedMenuItem
         {
@@ -48,7 +81,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
                     return;
                 _selectedMenuItem = value;
                 NotifyOfPropertyChange();
-                SetupListBoxItems(SelectedOption);
+                BuildItemSources(SelectedOption);
             }
         }
 
@@ -61,7 +94,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
                     return;
                 _selectedToolBarItem = value;
                 NotifyOfPropertyChange();
-                SetupListBoxItems(SelectedOption);
+                BuildItemSources(SelectedOption);
             }
         }
 
@@ -74,7 +107,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
                     return;
                 _selectedContextMenuItem = value;
                 NotifyOfPropertyChange();
-                SetupListBoxItems(SelectedOption);
+                BuildItemSources(SelectedOption);
             }
         }
 
@@ -87,7 +120,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
                     return;
                 _selectedOption = value;
                 NotifyOfPropertyChange();
-                SetupListBoxItems(value);
+                BuildItemSources(value);
             }
         }
 
@@ -131,7 +164,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             SelectedToolBarItem = CustomizableToolBars.FirstOrDefault();
             SelectedContextMenuItem = CustomizableContextMenus.FirstOrDefault();
 
-            SetupListBoxItems(SelectedOption);
+            BuildItemSources(SelectedOption);
         }
 
         protected override void OnViewLoaded(object view)
@@ -151,13 +184,16 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             SelectedListBoxDefinition.Flags.EnableStyleFlags(commandflag2);
         }
 
-        private void SetupListBoxItems(CustomizeRadioButtonOptions value)
+        private void BuildItemSources(CustomizeRadioButtonOptions value)
         {
             switch (value)
             {
                 case CustomizeRadioButtonOptions.Menu:
                     var menuCreator = IoC.Get<IMenuCreator>();
                     Items = menuCreator.GetSingleSubDefinitions(SelectedMenuItem);
+                    CustomizableMenuBars =
+                        new ObservableCollection<CommandBarDefinitionBase>(IoC.Get<IMenuHostViewModel>()
+                            .GetMenuHeaderItemDefinitions());
                     break;
                 case CustomizeRadioButtonOptions.Toolbar:
                     var toolbarCreator = IoC.Get<IToolbarCreator>();
@@ -197,28 +233,45 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             }      
             def.SortOrder = newSortOrder;
             
-            ICommandBarHost model;
-            CommandBarDefinitionBase parent;
+            GetModelAndParent(out ICommandBarHost model, out CommandBarDefinitionBase parent);
+
+            model.AddItemDefinition(def, parent, flag);
+            BuildItemSources(SelectedOption);
+            SelectedListBoxDefinition = def;
+        }
+
+
+        private void HandleCommandDelete()
+        {
+            if (SelectedListBoxDefinition == null)
+                return;
+
+            GetModelAndParent(out ICommandBarHost model, out CommandBarDefinitionBase parent);
+
+            model.DeleteItemDefinition(SelectedListBoxDefinition, parent);
+
+            BuildItemSources(SelectedOption);
+        }
+
+        private void GetModelAndParent(out ICommandBarHost host, out CommandBarDefinitionBase parent)
+        {
             switch (SelectedOption)
             {
                 case CustomizeRadioButtonOptions.Menu:
-                    model = IoC.Get<IMenuHostViewModel>();
+                    host = IoC.Get<IMenuHostViewModel>();
                     parent = SelectedMenuItem;
                     break;
                 case CustomizeRadioButtonOptions.Toolbar:
-                    model = IoC.Get<IToolBarHostViewModel>();
+                    host = IoC.Get<IToolBarHostViewModel>();
                     parent = SelectedToolBarItem;
                     break;
                 case CustomizeRadioButtonOptions.ContextMenu:
-                    model = IoC.Get<IContextMenuHost>();
+                    host = IoC.Get<IContextMenuHost>();
                     parent = SelectedContextMenuItem;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
-            }    
-            model.AddItemDefinition(def, parent, flag);
-            SetupListBoxItems(SelectedOption);
-            SelectedListBoxDefinition = def;
+            }
         }
 
 

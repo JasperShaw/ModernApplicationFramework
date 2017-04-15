@@ -225,9 +225,8 @@
                 </FrameworkElement.Resources>
                 <controls:DialogButton x:Name="AddCommandButton" Content="_Add Command..." Command="{Binding HandleAddCommand}"/>
                 <controls:DialogButton x:Name="AddNewMenu" Content="Add N_ew Menu..."/>
-                <controls:DialogButton x:Name="DeleteButton" Content="_Delete">
+                <controls:DialogButton x:Name="DeleteButton" Content="_Delete" Command="{Binding HandleDeleteCommand}">
                     <UIElement.IsEnabled>
-                        <!-- TODO-->
                         <Binding Path="SelectedListBoxDefinition" Converter="{StaticResource IsSeparatorOrCustomizableModelConverter}"/>
                     </UIElement.IsEnabled>
                 </controls:DialogButton>

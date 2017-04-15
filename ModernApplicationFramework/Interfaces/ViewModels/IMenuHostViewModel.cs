@@ -14,6 +14,8 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         ObservableCollection<CommandBarDefinitionBase> ExcludedItemDefinitions { get; } 
         void Build();
         void AddItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent, bool addAboveSeparator);
+
+        void DeleteItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent); //, bool addAboveSeparator);
     }
 
     public interface IHasMainWindowViewModel
