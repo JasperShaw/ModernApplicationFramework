@@ -24,7 +24,6 @@ namespace ModernApplicationFramework.Basics
         private MenuHostControl _menuHostControl;
 
         public ObservableCollection<MenuBarDefinition> MenuBars { get; }
-        //public ObservableCollectionEx<MenuDefinition> MenuDefinitions { get; }
         public ObservableCollection<CommandBarGroupDefinition> ItemGroupDefinitions { get; }
         public ObservableCollection<CommandBarItemDefinition> ItemDefinitions { get; }
         public ObservableCollection<CommandBarDefinitionBase> ExcludedItemDefinitions { get; }
@@ -46,7 +45,6 @@ namespace ModernApplicationFramework.Basics
         [ImportingConstructor]
         public MenuHostViewModel(
             [ImportMany] MenuBarDefinition[] menubars,
-            [ImportMany] MenuDefinition[] menus,
             [ImportMany] CommandBarGroupDefinition[] menuItemGroups,
             [ImportMany] CommandBarItemDefinition[] menuItems,
             [ImportMany] ExcludeCommandBarElementDefinition[] excludedItems)
@@ -140,7 +138,7 @@ namespace ModernApplicationFramework.Basics
         {
             var group = ItemGroupDefinitions.FirstOrDefault(x => x.Parent == definition);
             var list = new List<CommandBarDefinitionBase>();
-            var headerMenus = ItemDefinitions.Where(x => x.CommandDefinition is MenuHeaderCommandDefinition)
+            var headerMenus = ItemDefinitions.Where(x => x is MenuDefinition)
                 .Where(x => x.Group == group).OrderBy(x => x.SortOrder);
 
             foreach (var headerMenu in headerMenus)

@@ -46,7 +46,6 @@ namespace ModernApplicationFramework.Basics
             ItemGroupDefinitions.CollectionChanged += UpdateMenu;
             ItemDefinitions.CollectionChanged += UpdateMenu;
             ExcludedItemDefinitions.CollectionChanged += UpdateMenu;
-
             Build();
         }
 
@@ -62,7 +61,22 @@ namespace ModernApplicationFramework.Basics
 
         public void AddItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent, bool addAboveSeparator)
         {
-            
+            if (!addAboveSeparator)
+            {
+                var definitionsToChange =
+                    ItemDefinitions.Where(
+                            x => x.Group == definition.Group)
+                        .OrderBy(x => x.SortOrder);
+
+                foreach (var definitionToChange in definitionsToChange)
+                {
+                    if (definitionToChange.Group != definition.Group)
+                        continue;
+                    if (definitionToChange.SortOrder >= definition.SortOrder)
+                        definitionToChange.SortOrder++;
+                }
+            }
+            ItemDefinitions.Add(definition);
         }
 
         public Controls.ContextMenu GetContextMenu(ContextMenuDefinition contextMenuDefinition)
