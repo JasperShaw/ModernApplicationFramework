@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.CommandBar.Creators;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Utilities;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 {

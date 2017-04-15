@@ -2,10 +2,10 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.CommandBar.Hosts;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Utilities;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Creators

@@ -8,6 +8,7 @@ using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Interfaces.Utilities;
 using ContextMenu = ModernApplicationFramework.Controls.ContextMenu;
 using MenuItem = ModernApplicationFramework.Controls.MenuItem;
 
@@ -166,12 +167,5 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
                 }
             }
         }
-    }
-
-    public interface IContextMenuCreator
-    {
-        ContextMenu CreateContextMenu(CommandBarDefinitionBase contextMenuDefinition);
-        void CreateContextMenuTree(CommandBarDefinitionBase definition, ItemsControl contextMenu);
-        IEnumerable<CommandBarItemDefinition> GetContextMenuItemDefinitions(CommandBarDefinitionBase contextMenuDefinition);
     }
 }

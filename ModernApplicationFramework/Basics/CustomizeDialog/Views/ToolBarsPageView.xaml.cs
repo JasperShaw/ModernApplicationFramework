@@ -1,6 +1,6 @@
 ﻿using System.Windows;
-using ModernApplicationFramework.Basics.CustomizeDialog.ViewModels;
 using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Interfaces.Views;
 
 namespace ModernApplicationFramework.Basics.CustomizeDialog.Views
 {

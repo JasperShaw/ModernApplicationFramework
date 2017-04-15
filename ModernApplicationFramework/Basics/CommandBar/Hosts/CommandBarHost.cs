@@ -4,6 +4,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Core;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Hosts

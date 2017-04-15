@@ -4,7 +4,6 @@ using System.Windows.Controls;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.CommandBase;
-using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using Screen = Caliburn.Micro.Screen;
@@ -85,12 +84,5 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             dropDownMenu.DataContext = SelectedToolbarDefinition;
             dropDownMenu.IsOpen = true;
         }
-    }
-
-    internal interface IToolBarsPageView
-    {
-        CheckableListBox ToolBarListBox { get; }
-
-        DropDownDialogButton ModifySelectionButton { get; }
-    }
+    }   
 }

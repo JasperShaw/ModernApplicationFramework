@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 {
@@ -22,12 +23,5 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             foreach (var item in excludedItems)
                 ExcludedItemDefinitions.Add(item.ExcludedCommandBarDefinition);
         }
-    }
-
-    public interface ICommandBarDefinitionHost
-    {
-        ObservableCollection<CommandBarGroupDefinition> ItemGroupDefinitions { get; }
-        ObservableCollection<CommandBarItemDefinition> ItemDefinitions { get; }
-        ObservableCollection<CommandBarDefinitionBase> ExcludedItemDefinitions { get; }
     }
 }
