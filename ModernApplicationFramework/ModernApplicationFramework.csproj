@@ -216,9 +216,7 @@
     <Compile Include="Basics\Definitions\ContextMenu\ContextMenuDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuBarDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuDefinition.cs" />
-    <Compile Include="Basics\Definitions\Menu\MenuItems\CustomSubHeaderMenuItemDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuHeaderCommandDefinition.cs" />
-    <Compile Include="Basics\Definitions\Menu\MenuItems\SubHeaderMenuItemDefinition.cs" />
     <Compile Include="Basics\Definitions\Toolbar\ToolbarDefinition.cs" />
     <Compile Include="Basics\Definitions\Toolbar\ToolbarCommandDefinition.cs" />
     <Compile Include="Basics\SettingsDialog\ViewModels\SettingsPageViewModel.cs" />

@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Basics.Definitions.Menu.MenuItems;
 
 namespace ModernApplicationFramework.Extended.Modules.OutputTool
 {

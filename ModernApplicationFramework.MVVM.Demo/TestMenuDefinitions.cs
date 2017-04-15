@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
-using ModernApplicationFramework.Basics.Definitions.Menu.MenuItems;
 using ModernApplicationFramework.Extended.Commands;
 using ModernApplicationFramework.Extended.MenuDefinitions;
 using ModernApplicationFramework.MVVM.Demo.Modules.Commands;
@@ -16,7 +15,7 @@ namespace ModernApplicationFramework.MVVM.Demo
 
         [Export] public static CommandBarItemDefinition TestCommand = new CommandBarCommandItemDefinition<TestCommandDefinition>(TestGroup1, 1);
 
-        [Export] public static CommandBarItemDefinition TestSub = new CustomSubHeaderMenuItemDefinition("Test", TestGroup1, 0);
+        [Export] public static CommandBarItemDefinition TestSub = new MenuDefinition(TestGroup1, 0, "Test", true);
 
         [Export] public static CommandBarGroupDefinition TestGroup2 = new CommandBarGroupDefinition(TestSub, int.MaxValue);
 
@@ -24,7 +23,7 @@ namespace ModernApplicationFramework.MVVM.Demo
 
 
 
-        [Export] public static CommandBarItemDefinition TestSubSub = new CustomSubHeaderMenuItemDefinition("TestSub", TestGroup2, 0);
+        [Export] public static CommandBarItemDefinition TestSubSub = new MenuDefinition(TestGroup2, 0, "TestSub", true);
 
         [Export] public static CommandBarGroupDefinition TestGroup4 = new CommandBarGroupDefinition(TestSubSub, int.MaxValue);
 
