@@ -240,17 +240,23 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             SelectedListBoxDefinition = def;
         }
 
-
         private void HandleCommandDelete()
         {
             if (SelectedListBoxDefinition == null)
                 return;
 
+
+
             GetModelAndParent(out ICommandBarHost model, out CommandBarDefinitionBase parent);
 
-            model.DeleteItemDefinition(SelectedListBoxDefinition, parent);
+            var nextSelectedItem = model.GetNextItemInGroup(SelectedListBoxDefinition) ??
+                                   model.GetPreviousItem(SelectedListBoxDefinition, parent) ??
+                                   model.GetNextItem(SelectedListBoxDefinition, parent);
 
+            model.DeleteItemDefinition(SelectedListBoxDefinition, parent);
             BuildItemSources(SelectedOption);
+
+            SelectedListBoxDefinition = nextSelectedItem;
         }
 
         private void GetModelAndParent(out ICommandBarHost host, out CommandBarDefinitionBase parent)

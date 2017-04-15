@@ -149,7 +149,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
                 //    }
                 //}
 
-                uint newSortOrder = 0;  //As Menus are created each click we need to to this also in this methods
+               
 
                 for (var i = 0; i < groups.Count; i++)
                 {
@@ -167,7 +167,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
                             firstItem = true;
                         }
 
-
+                    uint newSortOrder = 0;  //As Menus are created each click we need to to this also in this methods
                     foreach (var itemDefinition in menuItems)
                     {
                         itemDefinition.PrecededBySeparator = firstItem;

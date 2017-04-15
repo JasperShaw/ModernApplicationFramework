@@ -93,9 +93,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
             {
                 var groups = host.ItemGroupDefinitions.Where(x => x.Parent == contextMenuDefinition)
                     .OrderBy(x => x.SortOrder)
-                    .ToList();
-
-                uint newSortOrder = 0;  //As Menus are created each click we need to to this also in this methods
+                    .ToList();              
 
                 for (var i = 0; i < groups.Count; i++)
                 {
@@ -111,6 +109,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
                             firstItem = true;
                         }
 
+                    uint newSortOrder = 0;  //As Menus are created each click we need to to this also in this methods
                     foreach (var itemDefinition in menuItems)
                     {
                         itemDefinition.PrecededBySeparator = firstItem;
@@ -123,7 +122,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
             return list;
         }
 
-        private void AddGroupsRecursive(CommandBarDefinitionBase contextMenuDefinition, ItemsControl contextMenu)
+        private void AddGroupsRecursive(CommandBarDefinitionBase contextMenuDefinition, ItemsControl menuItem)
         {
             var host = IoC.Get<ICommandBarDefinitionHost>();
 
@@ -138,24 +137,32 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
                     .Where(x => !host.ExcludedItemDefinitions.Contains(x))
                     .OrderBy(x => x.SortOrder);
 
+                bool firstItem = false;
                 if (i > 0 && i <= groups.Count - 1 && menuItems.Any())
                 {
                     if (menuItems.Any(menuItemDefinition => menuItemDefinition.IsVisible))
                     {
-                        var separator = new MenuItem(CommandBarSeparatorDefinition.SeparatorDefinition);
-                        contextMenu.Items.Add(separator);
+                        var separatorDefinition = CommandBarSeparatorDefinition.SeparatorDefinition;
+                        separatorDefinition.Group = groups[i - 1];
+                        var separator = new MenuItem(separatorDefinition);
+                        menuItem.Items.Add(separator);
+                        firstItem = true;
                     }
                 }
 
+                uint newSortOrder = 0;
                 foreach (var menuItemDefinition in menuItems)
                 {
                     MenuItem menuItemControl;
                     if (menuItemDefinition.CommandDefinition is CommandListDefinition)
-                        menuItemControl = new DummyListMenuItem(menuItemDefinition, contextMenu);
+                        menuItemControl = new DummyListMenuItem(menuItemDefinition, menuItem);
                     else
                         menuItemControl = new MenuItem(menuItemDefinition);
+                    menuItemDefinition.PrecededBySeparator = firstItem;
+                    firstItem = false;
                     AddGroupsRecursive(menuItemDefinition, menuItemControl);
-                    contextMenu.Items.Add(menuItemControl);
+                    menuItem.Items.Add(menuItemControl);
+                    menuItemDefinition.SortOrder = newSortOrder++;
                 }
             }
         }

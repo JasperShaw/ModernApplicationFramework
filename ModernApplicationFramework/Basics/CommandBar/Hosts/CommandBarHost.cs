@@ -55,7 +55,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                     return;
 
                 var definitionsInCurrnetGroup = DefinitionHost.ItemDefinitions.Where(x => x.Group == definition.Group).OrderBy(x => x.SortOrder).ToList();
-                var nextGroup = DefinitionHost.ItemGroupDefinitions.Where(x => x.Parent == parent).FirstOrDefault(x => x.SortOrder > definition.Group.SortOrder);
+                var nextGroup = NextGroup(definition, parent);
                 var definitionsInNextGroup = DefinitionHost.ItemDefinitions.Where(x => x.Group == nextGroup).OrderBy(x => x.SortOrder).ToList();
 
                 uint newSortorder = 0;
@@ -99,6 +99,79 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                 }
                 DefinitionHost.ItemDefinitions.Remove(definition);
             }
+        }
+
+        public CommandBarItemDefinition GetPreviousItem(CommandBarItemDefinition definition, CommandBarDefinitionBase parent)
+        {
+            CommandBarItemDefinition previousItem;
+            if (definition.CommandDefinition.ControlType == CommandControlTypes.Separator || definition.SortOrder == 0)
+            {
+                if (definition.SortOrder != 0)
+                    return null;
+                var previousGroup = PreviousGroup(definition, parent);
+                if (previousGroup == null)
+                    return null;
+
+                previousItem = DefinitionHost.ItemDefinitions.LastOrDefault(x => x.Group == previousGroup);
+            }
+            else
+            {
+
+                previousItem = GetPreviousItemInGroup(definition);
+            }
+            return previousItem;
+        }
+
+        public CommandBarItemDefinition GetPreviousItemInGroup(CommandBarItemDefinition definition)
+        {
+            if (definition.CommandDefinition.ControlType == CommandControlTypes.Separator)
+                return null;
+            return DefinitionHost.ItemDefinitions.Where(x => x.Group == definition.Group)
+                .OrderByDescending(x => x.SortOrder)
+                .FirstOrDefault(x => x.SortOrder < definition.SortOrder);
+        }
+
+        public CommandBarItemDefinition GetNextItemInGroup(CommandBarItemDefinition definition)
+        {
+            if (definition.CommandDefinition.ControlType == CommandControlTypes.Separator)
+                return null;
+            return DefinitionHost.ItemDefinitions.Where(x => x.Group == definition.Group)
+                .OrderBy(x => x.SortOrder)
+                .FirstOrDefault(x => x.SortOrder > definition.SortOrder);
+        }
+
+        public CommandBarItemDefinition GetNextItem(CommandBarItemDefinition definition, CommandBarDefinitionBase parent)
+        {
+            CommandBarItemDefinition nextItem;
+
+            var hightestSortOrder = DefinitionHost.ItemDefinitions.Where(x => x.Group == definition.Group)
+                .OrderBy(x => x.SortOrder)
+                .LastOrDefault()
+                ?.SortOrder;
+
+            if (definition.CommandDefinition.ControlType == CommandControlTypes.Separator || definition.SortOrder == hightestSortOrder)
+            {
+                var nextGroup = NextGroup(definition, parent);
+                if (nextGroup == null)
+                    return null;
+
+                nextItem = DefinitionHost.ItemDefinitions.FirstOrDefault(x => x.Group == nextGroup);
+            }
+            else
+            {
+                nextItem = GetNextItemInGroup(definition);
+            }
+            return nextItem;
+        }
+
+        private CommandBarGroupDefinition NextGroup(CommandBarItemDefinition item, CommandBarDefinitionBase parent)
+        {
+            return DefinitionHost.ItemGroupDefinitions.Where(x => x.Parent == parent).FirstOrDefault(x => x.SortOrder > item.Group.SortOrder);
+        }
+
+        private CommandBarGroupDefinition PreviousGroup(CommandBarItemDefinition item, CommandBarDefinitionBase parent)
+        {
+            return DefinitionHost.ItemGroupDefinitions.Where(x => x.Parent == parent).FirstOrDefault(x => x.SortOrder < item.Group.SortOrder);
         }
     }
 }

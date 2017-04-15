@@ -24,9 +24,10 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
                 .OrderBy(x => x.SortOrder)
                 .ToList();
 
-            uint newSortOrder = 0;
+            
             for (var i = 0; i < groups.Count; i++)
             {
+                uint newSortOrder = 0;
                 var group = groups[i];
                 var toolBarItems = host.ItemDefinitions
                     .Where(x => x.Group == group)

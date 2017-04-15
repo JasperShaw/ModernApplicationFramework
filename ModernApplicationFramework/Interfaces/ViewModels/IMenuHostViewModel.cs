@@ -16,6 +16,13 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         void AddItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent, bool addAboveSeparator);
 
         void DeleteItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent); //, bool addAboveSeparator);
+        CommandBarItemDefinition GetPreviousItem(CommandBarItemDefinition definition, CommandBarDefinitionBase parent);
+
+        CommandBarItemDefinition GetNextItem(CommandBarItemDefinition definition, CommandBarDefinitionBase parent);
+
+        CommandBarItemDefinition GetNextItemInGroup(CommandBarItemDefinition definition);
+
+        CommandBarItemDefinition GetPreviousItemInGroup(CommandBarItemDefinition definition);
     }
 
     public interface IHasMainWindowViewModel
