@@ -6,6 +6,7 @@ using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
+using ModernApplicationFramework.Interfaces.Views;
 using Screen = Caliburn.Micro.Screen;
 
 namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels

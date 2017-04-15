@@ -2,11 +2,11 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.CommandBar.Hosts;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using MenuItem = ModernApplicationFramework.Controls.MenuItem;

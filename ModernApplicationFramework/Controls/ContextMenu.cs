@@ -15,6 +15,7 @@ using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Native.Standard;
 
 namespace ModernApplicationFramework.Controls
