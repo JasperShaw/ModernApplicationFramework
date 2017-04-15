@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
@@ -8,11 +7,10 @@ using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.CommandBar.Commands;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.CommandBase;
-using ModernApplicationFramework.Core;
 using ModernApplicationFramework.Core.Exception;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces;
@@ -22,21 +20,16 @@ using ContextMenu = ModernApplicationFramework.Controls.ContextMenu;
 using ToolBar = ModernApplicationFramework.Controls.ToolBar;
 using ToolBarTray = ModernApplicationFramework.Controls.ToolBarTray;
 
-namespace ModernApplicationFramework.Basics.ToolbarHostViewModel
+namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 {
     [Export(typeof(IToolBarHostViewModel))]
-    public class ToolbarHostViewModel : ViewModelBase, IToolBarHostViewModel
+    public class ToolbarHostViewModel : CommandBarHost, IToolBarHostViewModel
     {
         private readonly Dictionary<ToolbarDefinition, ToolBar> _toolbars;
         private ToolBarTray _bottomToolBarTay;
         private ToolBarTray _leftToolBarTay;
         private ToolBarTray _rightToolBarTay;
         private ToolBarTray _topToolBarTay;
-
-        public ObservableCollection<CommandBarGroupDefinition> ItemGroupDefinitions { get; }
-        public ObservableCollection<CommandBarItemDefinition> ItemDefinitions { get; }
-
-        public ObservableCollection<CommandBarDefinitionBase> ExcludedItemDefinitions { get; }
 
         public ObservableCollectionEx<ToolbarDefinition> ToolbarDefinitions { get; }
 
@@ -91,20 +84,13 @@ namespace ModernApplicationFramework.Basics.ToolbarHostViewModel
         }
 
         [ImportingConstructor]
-        public ToolbarHostViewModel([ImportMany] ToolbarDefinition[] toolbarDefinitions,
-            [ImportMany] CommandBarGroupDefinition[] toolbarItemGroupDefinitions,
-            [ImportMany] CommandBarItemDefinition[] toolbarItemDefinitions)
+        public ToolbarHostViewModel([ImportMany] ToolbarDefinition[] toolbarDefinitions)
         {
             _toolbars = new Dictionary<ToolbarDefinition, ToolBar>();
 
             ToolbarDefinitions = new ObservableCollectionEx<ToolbarDefinition>();
             foreach (var definition in toolbarDefinitions)
                 ToolbarDefinitions.Add(definition);
-
-
-            ItemGroupDefinitions = new ObservableCollection<CommandBarGroupDefinition>(toolbarItemGroupDefinitions);
-
-            ItemDefinitions = new ObservableCollection<CommandBarItemDefinition>(toolbarItemDefinitions);
 
             ToolbarDefinitions.CollectionChanged += _toolbarDefinitions_CollectionChanged;
             ToolbarDefinitions.ItemPropertyChanged += _toolbarDefinitions_ItemPropertyChanged;
@@ -138,103 +124,30 @@ namespace ModernApplicationFramework.Basics.ToolbarHostViewModel
             ToolbarDefinitions.Remove(definition);
         }
 
-        public void Build()
+        public override void Build()
         {
             _toolbars.Clear();   
             var definitions = ToolbarDefinitions.OrderBy(x => x.SortOrder);
             foreach (var definition in definitions)
             {
-                var toolBar = IoC.Get<IToolbarCreator>().CreateToolbar(this, definition);
+                var toolBar = IoC.Get<IToolbarCreator>().CreateToolbar(definition);
                 _toolbars.Add(definition, toolBar);
                 ChangeToolBarVisibility(definition);
             }
         }
 
-        public void AddItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent, bool addAboveSeparator)
+        public override void AddItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent, bool addAboveSeparator)
         {
-            //Apparently the current toolbar is empty so we need to add a group first
-            if (definition.Group == null)
-            {
-                var group = new CommandBarGroupDefinition(parent, uint.MinValue);
-                definition.Group = group;
-                ItemGroupDefinitions.Add(group);
-            }
-
-            if (!addAboveSeparator)
-            {
-                var definitionsToChange = ItemDefinitions.Where(x => x.Group == definition.Group)
-                    .Where(x => x.SortOrder >= definition.SortOrder)
-                    .OrderBy(x => x.SortOrder);
-
-                foreach (var definitionToChange in definitionsToChange)
-                {
-                    if (definitionToChange == definition)
-                        continue;
-                    definitionToChange.SortOrder++;
-                }
-            }
-            ItemDefinitions.Add(definition);
-
+            base.AddItemDefinition(definition, parent, addAboveSeparator);
             var toolbarDef = parent as ToolbarDefinition;
             if (toolbarDef == null)
                 return;
             RebuildToolbar(toolbarDef);
         }
 
-        public void DeleteItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent)
+        public override void DeleteItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent)
         {
-            //As a Separator contains the previous group we need add all items into the next group
-            if (definition.CommandDefinition.ControlType == CommandControlTypes.Separator)
-            {
-                if (definition.Group == null || !ItemGroupDefinitions.Contains(definition.Group))
-                    return;
-
-                var definitionsInCurrnetGroup = ItemDefinitions.Where(x => x.Group == definition.Group).OrderBy(x => x.SortOrder).ToList();
-                var nextGroup = ItemGroupDefinitions.Where(x => x.Parent == parent).FirstOrDefault(x => x.SortOrder > definition.Group.SortOrder);
-                var definitionsInNextGroup = ItemDefinitions.Where(x => x.Group == nextGroup).OrderBy(x => x.SortOrder).ToList();
-
-                uint newSortorder = 0;
-                foreach (var groupDefinition in definitionsInCurrnetGroup)
-                {
-                    groupDefinition.Group = nextGroup;
-                    groupDefinition.SortOrder = newSortorder++;
-                }
-
-                //Add old items after the new inserted ones
-                foreach (var groupDefinition in definitionsInNextGroup)
-                    groupDefinition.SortOrder = newSortorder++;
-
-                ItemGroupDefinitions.Remove(definition.Group);
-            }
-            else
-            {
-                var definitionsInGroup = ItemDefinitions.Where(x => x.Group == definition.Group).ToList();
-
-                if (definitionsInGroup.Count <= 1)
-                {
-                    var groupsToChange = ItemGroupDefinitions.Where(x => x.SortOrder >= definition.Group.SortOrder).OrderBy(x => x.SortOrder);
-
-                    foreach (var groupDefinition in groupsToChange)
-                    {
-                        if (groupDefinition == definition.Group)
-                            continue;
-                        groupDefinition.SortOrder--;
-                    }
-                    ItemGroupDefinitions.Remove(definition.Group);
-                }
-                else
-                {
-                    var definitionsToChange = definitionsInGroup.Where(x => x.SortOrder >= definition.SortOrder).OrderBy(x => x.SortOrder);
-                    foreach (var definitionToChange in definitionsToChange)
-                    {
-                        if (definitionToChange == definition)
-                            continue;
-                        definitionToChange.SortOrder--;
-                    }
-                }
-                ItemDefinitions.Remove(definition);
-            }
-
+            base.DeleteItemDefinition(definition, parent);
             var toolbarDef = parent as ToolbarDefinition;
             if (toolbarDef == null)
                 return;
@@ -244,7 +157,7 @@ namespace ModernApplicationFramework.Basics.ToolbarHostViewModel
         private void RebuildToolbar(ToolbarDefinition definition)
         {
             InternalHideToolBar(definition);
-            var toolbar = IoC.Get<IToolbarCreator>().CreateToolbar(this, definition);
+            var toolbar = IoC.Get<IToolbarCreator>().CreateToolbar(definition);
             _toolbars[definition] = toolbar;
             ChangeToolBarVisibility(definition);
         }

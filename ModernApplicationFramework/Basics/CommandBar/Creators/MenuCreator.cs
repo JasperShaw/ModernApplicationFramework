@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.CommandBar.Hosts;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
@@ -10,7 +11,7 @@ using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using MenuItem = ModernApplicationFramework.Controls.MenuItem;
 
-namespace ModernApplicationFramework.Basics.Creators
+namespace ModernApplicationFramework.Basics.CommandBar.Creators
 {
     [Export(typeof(IMenuCreator))]
     public class MenuCreator : IMenuCreator
@@ -18,14 +19,15 @@ namespace ModernApplicationFramework.Basics.Creators
         public void CreateMenuBar(IMenuHostViewModel model)
         {
             model.Items.Clear();
+            var host = IoC.Get<ICommandBarDefinitionHost>();
 
             var bars = model.MenuBars.OrderBy(x => x.SortOrder);
 
             foreach (var bar in bars)
             {
-                var group = model.ItemGroupDefinitions.FirstOrDefault(x => x.Parent == bar);
+                var group = host.ItemGroupDefinitions.FirstOrDefault(x => x.Parent == bar);
 
-                var topLevelMenus = model.ItemDefinitions.Where(x => !model.ExcludedItemDefinitions.Contains(x))
+                var topLevelMenus = host.ItemDefinitions.Where(x => !host.ExcludedItemDefinitions.Contains(x))
                     .Where(x => x.Group == group)
                     .OrderBy(x => x.SortOrder);
 
@@ -46,7 +48,7 @@ namespace ModernApplicationFramework.Basics.Creators
 
         public void CreateMenuTree(CommandBarDefinitionBase definition, MenuItem menuItem)
         {
-            var host = IoC.Get<IMenuHostViewModel>();
+            var host = IoC.Get<ICommandBarDefinitionHost>();
             menuItem.Items.Clear();
 
             var groups = host.ItemGroupDefinitions.Where(x => x.Parent == definition)
@@ -113,7 +115,7 @@ namespace ModernApplicationFramework.Basics.Creators
         public IEnumerable<CommandBarItemDefinition> GetSingleSubDefinitions(CommandBarDefinitionBase definition)
         {
             var list = new List<CommandBarItemDefinition>();
-            var host = IoC.Get<IMenuHostViewModel>();
+            var host = IoC.Get<ICommandBarDefinitionHost>();
 
             if (definition is MenuBarDefinition barDefinition)
             {

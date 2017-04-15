@@ -8,7 +8,7 @@ using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Interfaces.Command;
 using ModernApplicationFramework.Interfaces.ViewModels;
 
-namespace ModernApplicationFramework.Basics.ToolbarHostViewModel
+namespace ModernApplicationFramework.Basics.CommandBar.Commands
 {
     [Export(typeof(ICommandHandler))]
     public class ShowToolBarListCommandHandler : ICommandListHandler<ListToolBarsCommandListDefinition>

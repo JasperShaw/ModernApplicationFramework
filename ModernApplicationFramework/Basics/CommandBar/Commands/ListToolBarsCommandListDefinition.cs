@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.Command;
 
-namespace ModernApplicationFramework.Basics.ToolbarHostViewModel
+namespace ModernApplicationFramework.Basics.CommandBar.Commands
 {
     [Export(typeof(DefinitionBase))]
     public class ListToolBarsCommandListDefinition : CommandListDefinition

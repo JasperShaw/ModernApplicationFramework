@@ -3,30 +3,29 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Controls;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.CommandBar.Hosts;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Basics.Definitions.ContextMenu;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Controls;
-using ModernApplicationFramework.Interfaces;
 using ContextMenu = ModernApplicationFramework.Controls.ContextMenu;
 using MenuItem = ModernApplicationFramework.Controls.MenuItem;
 
-namespace ModernApplicationFramework.Basics.Creators
+namespace ModernApplicationFramework.Basics.CommandBar.Creators
 {
     [Export(typeof(IContextMenuCreator))]
     public class ContextMenuCreator : IContextMenuCreator
     {
-        public ContextMenu CreateContextMenu(IContextMenuHost model, CommandBarDefinitionBase contextMenuDefinition)
+        public ContextMenu CreateContextMenu(CommandBarDefinitionBase contextMenuDefinition)
         {
             var contextMenu = new ContextMenu(contextMenuDefinition);
-            AddGroupsRecursive(model, contextMenuDefinition, contextMenu);
+            AddGroupsRecursive(contextMenuDefinition, contextMenu);
             return contextMenu;
         }
 
         public void CreateContextMenuTree(CommandBarDefinitionBase definition, ItemsControl contextMenu)
         {
-            var host = IoC.Get<IContextMenuHost>();
+            var host = IoC.Get<ICommandBarDefinitionHost>();
             contextMenu.Items.Clear();
 
             var groups = host.ItemGroupDefinitions.Where(x => x.Parent == definition)
@@ -71,18 +70,18 @@ namespace ModernApplicationFramework.Basics.Creators
         public IEnumerable<CommandBarItemDefinition> GetContextMenuItemDefinitions(CommandBarDefinitionBase contextMenuDefinition)
         {
             var list = new List<CommandBarItemDefinition>();
-            var model = IoC.Get<IContextMenuHost>();
+            var host = IoC.Get<ICommandBarDefinitionHost>();
 
-            if (contextMenuDefinition is ContextMenuDefinition)
+            if (contextMenuDefinition is Definitions.ContextMenu.ContextMenuDefinition)
             {
-                var groups = model.ItemGroupDefinitions.Where(x => x.Parent == contextMenuDefinition)
+                var groups = host.ItemGroupDefinitions.Where(x => x.Parent == contextMenuDefinition)
                     .OrderBy(x => x.SortOrder)
                     .ToList();
 
                 for (var i = 0; i < groups.Count; i++)
                 {
                     var group = groups[i];
-                    var menuItems = model.ItemDefinitions.Where(x => x.Group == group)
+                    var menuItems = host.ItemDefinitions.Where(x => x.Group == group)
                         .OrderBy(x => x.SortOrder);
                     if (i > 0 && i <= groups.Count - 1 && menuItems.Any())
                         if (menuItems.Any(menuItemDefinition => menuItemDefinition.IsVisible))
@@ -92,7 +91,7 @@ namespace ModernApplicationFramework.Basics.Creators
             }
             else if (contextMenuDefinition is MenuDefinition || contextMenuDefinition is CommandBarItemDefinition)
             {
-                var groups = model.ItemGroupDefinitions.Where(x => x.Parent == contextMenuDefinition)
+                var groups = host.ItemGroupDefinitions.Where(x => x.Parent == contextMenuDefinition)
                     .OrderBy(x => x.SortOrder)
                     .ToList();
 
@@ -101,7 +100,7 @@ namespace ModernApplicationFramework.Basics.Creators
                 for (var i = 0; i < groups.Count; i++)
                 {
                     var group = groups[i];
-                    var menuItems = model.ItemDefinitions.Where(x => x.Group == group)
+                    var menuItems = host.ItemDefinitions.Where(x => x.Group == group)
                         .OrderBy(x => x.SortOrder);
 
                     bool firstItem = false; //As Menus are created each click we need to to this also in this methods
@@ -124,17 +123,19 @@ namespace ModernApplicationFramework.Basics.Creators
             return list;
         }
 
-        private void AddGroupsRecursive(IContextMenuHost model, CommandBarDefinitionBase contextMenuDefinition, ItemsControl contextMenu)
+        private void AddGroupsRecursive(CommandBarDefinitionBase contextMenuDefinition, ItemsControl contextMenu)
         {
-            var groups = model.ItemGroupDefinitions.Where(x => x.Parent == contextMenuDefinition)
-                .Where(x => !model.ExcludedItemDefinitions.Contains(x))
+            var host = IoC.Get<ICommandBarDefinitionHost>();
+
+            var groups = host.ItemGroupDefinitions.Where(x => x.Parent == contextMenuDefinition)
+                .Where(x => !host.ExcludedItemDefinitions.Contains(x))
                 .OrderBy(x => x.SortOrder)
                 .ToList();
             for (var i = 0; i < groups.Count; i++)
             {
                 var group = groups[i];
-                var menuItems = model.ItemDefinitions.Where(x => x.Group == group)
-                    .Where(x => !model.ExcludedItemDefinitions.Contains(x))
+                var menuItems = host.ItemDefinitions.Where(x => x.Group == group)
+                    .Where(x => !host.ExcludedItemDefinitions.Contains(x))
                     .OrderBy(x => x.SortOrder);
 
                 if (i > 0 && i <= groups.Count - 1 && menuItems.Any())
@@ -153,7 +154,7 @@ namespace ModernApplicationFramework.Basics.Creators
                         menuItemControl = new DummyListMenuItem(menuItemDefinition, contextMenu);
                     else
                         menuItemControl = new MenuItem(menuItemDefinition);
-                    AddGroupsRecursive(model, menuItemDefinition, menuItemControl);
+                    AddGroupsRecursive(menuItemDefinition, menuItemControl);
                     contextMenu.Items.Add(menuItemControl);
                 }
             }
@@ -162,7 +163,7 @@ namespace ModernApplicationFramework.Basics.Creators
 
     public interface IContextMenuCreator
     {
-        ContextMenu CreateContextMenu(IContextMenuHost model, CommandBarDefinitionBase contextMenuDefinition);
+        ContextMenu CreateContextMenu(CommandBarDefinitionBase contextMenuDefinition);
         void CreateContextMenuTree(CommandBarDefinitionBase definition, ItemsControl contextMenu);
         IEnumerable<CommandBarItemDefinition> GetContextMenuItemDefinitions(CommandBarDefinitionBase contextMenuDefinition);
     }

@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.Composition;
+using ModernApplicationFramework.Basics.CommandBar.Commands;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.ContextMenu;
 
-namespace ModernApplicationFramework.Basics.ToolbarHostViewModel
+namespace ModernApplicationFramework.Basics.CommandBar
 {
     public static class ContextMenuDefinition
     {

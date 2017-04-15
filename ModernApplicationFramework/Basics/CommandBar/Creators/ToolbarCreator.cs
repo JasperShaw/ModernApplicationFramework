@@ -2,22 +2,24 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.CommandBar.Hosts;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Interfaces.Utilities;
-using ModernApplicationFramework.Interfaces.ViewModels;
 
-namespace ModernApplicationFramework.Basics.Creators
+namespace ModernApplicationFramework.Basics.CommandBar.Creators
 {
     [Export(typeof(IToolbarCreator))]
     public class ToolbarCreator : IToolbarCreator
     {
-        public ToolBar CreateToolbar(IToolBarHostViewModel model, ToolbarDefinition definition)
+        public ToolBar CreateToolbar(ToolbarDefinition definition)
         {
             var toolBar = new ToolBar(definition);
 
-            var groups = model.ItemGroupDefinitions
+            var host = IoC.Get<ICommandBarDefinitionHost>();
+
+            var groups = host.ItemGroupDefinitions
                 .Where(x => x.Parent == definition)
                 .OrderBy(x => x.SortOrder)
                 .ToList();
@@ -26,7 +28,7 @@ namespace ModernApplicationFramework.Basics.Creators
             for (var i = 0; i < groups.Count; i++)
             {
                 var group = groups[i];
-                var toolBarItems = model.ItemDefinitions
+                var toolBarItems = host.ItemDefinitions
                     .Where(x => x.Group == group)
                     .OrderBy(x => x.SortOrder);
 
@@ -59,7 +61,7 @@ namespace ModernApplicationFramework.Basics.Creators
         {
             var list = new List<CommandBarItemDefinition>();
 
-            var model = IoC.Get<IToolBarHostViewModel>();
+            var model = IoC.Get<ICommandBarDefinitionHost>();
             var groups = model.ItemGroupDefinitions
                 .Where(x => x.Parent == toolbarDefinition)
                 .OrderBy(x => x.SortOrder)

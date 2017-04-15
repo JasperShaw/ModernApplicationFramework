@@ -5,7 +5,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Basics.CustomizeDialog.ViewModels;
 using ModernApplicationFramework.Basics.Definitions.Command;
 
-namespace ModernApplicationFramework.Basics.ToolbarHostViewModel
+namespace ModernApplicationFramework.Basics.CommandBar.Commands
 {
     [Export(typeof(DefinitionBase))]
     public sealed class CustomizeMenuCommandDefinition : CommandDefinition

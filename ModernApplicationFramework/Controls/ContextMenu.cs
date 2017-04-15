@@ -7,7 +7,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.Creators;
+using ModernApplicationFramework.Basics.CommandBar.Creators;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.ContextMenu;
 using ModernApplicationFramework.Controls.Utilities;

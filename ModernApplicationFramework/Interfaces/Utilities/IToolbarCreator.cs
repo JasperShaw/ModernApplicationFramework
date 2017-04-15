@@ -2,7 +2,6 @@
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Controls;
-using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Interfaces.Utilities
 {
@@ -11,8 +10,7 @@ namespace ModernApplicationFramework.Interfaces.Utilities
         /// <summary>
         ///     Populate a toolbartray with a ToolbarDefinitionsPopulator
         /// </summary>
-        /// <param name="model"></param>
-        ToolBar CreateToolbar(IToolBarHostViewModel model, ToolbarDefinition definition);
+        ToolBar CreateToolbar(ToolbarDefinition definition);
 
         IEnumerable<CommandBarItemDefinition> GetToolBarItemDefinitions(CommandBarDefinitionBase selectedToolBarItem);
     }

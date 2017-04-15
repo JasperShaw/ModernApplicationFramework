@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics;
+using ModernApplicationFramework.Basics.CommandBar.Hosts;
 using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Controls.Internals

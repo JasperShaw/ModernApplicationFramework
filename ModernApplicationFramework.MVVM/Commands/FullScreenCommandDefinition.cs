@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.Creators;
+using ModernApplicationFramework.Basics.CommandBar.Creators;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls;
@@ -69,7 +69,7 @@ namespace ModernApplicationFramework.MVVM.Commands
 
                 item.IsChecked = true;
 
-                ((MenuCreator)menuBuilder).CreateMenuBar(_shell.MenuHostViewModel, item);
+                ((MenuCreator)menuBuilder).CreateMenuBar(_shell.MenuHostViewModel);
             }
             else
                 menuBuilder.CreateMenuBar(_shell.MenuHostViewModel);
