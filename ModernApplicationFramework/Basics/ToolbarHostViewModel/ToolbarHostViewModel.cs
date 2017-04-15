@@ -149,8 +149,16 @@ namespace ModernApplicationFramework.Basics.ToolbarHostViewModel
             }
         }
 
-        public void AddItemDefinition(CommandBarItemDefinition definition, bool addAboveSeparator)
+        public void AddItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent, bool addAboveSeparator)
         {
+            //Apparently the current toolbar is empty so we need to add a group first
+            if (definition.Group == null)
+            {
+                var group = new CommandBarGroupDefinition(parent, uint.MinValue);
+                definition.Group = group;
+                ItemGroupDefinitions.Add(group);
+            }
+
             if (!addAboveSeparator)
             {
                 var definitionsToChange =
@@ -166,10 +174,12 @@ namespace ModernApplicationFramework.Basics.ToolbarHostViewModel
                         definitionToChange.SortOrder++;
                 }
             }
+
+            var toolbarDef = parent as ToolbarDefinition;
+            if (toolbarDef == null)
+                return;
+
             ItemDefinitions.Add(definition);
-
-            var toolbarDef = GetToolBarDefinitionFromItemDefinition(definition);
-
             RebuildToolbar(toolbarDef);
         }
 
@@ -179,12 +189,6 @@ namespace ModernApplicationFramework.Basics.ToolbarHostViewModel
             var toolbar = IoC.Get<IToolbarCreator>().CreateToolbar(this, definition);
             _toolbars[definition] = toolbar;
             ChangeToolBarVisibility(definition);
-        }
-
-        private ToolbarDefinition GetToolBarDefinitionFromItemDefinition(CommandBarItemDefinition definition)
-        {
-            var group = ItemGroupDefinitions.FirstOrDefault(x => definition.Group == x);
-            return ToolbarDefinitions.FirstOrDefault(x => group?.Parent == x);
         }
 
         public ToolbarDefinition GeToolbarDefinitionByName(string name)

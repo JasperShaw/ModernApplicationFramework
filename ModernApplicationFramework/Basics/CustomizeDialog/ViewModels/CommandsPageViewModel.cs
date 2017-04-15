@@ -98,8 +98,6 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             {
                 if (_selectedListBoxDefinition == value)
                     return;
-                if (value == null)
-                    return;
                 _selectedListBoxDefinition = value;
                 NotifyOfPropertyChange();
             }
@@ -181,33 +179,44 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             var nullable = windowManager.ShowDialog(addCommandDialog);
             if (!nullable.HasValue || !nullable.Value || addCommandDialog.SelectedItem == null)
                 return;
-
-            var newSortOrder = SelectedListBoxDefinition.SortOrder;
-            var flag = SelectedListBoxDefinition.SortOrder > 0 &&
-                        SelectedListBoxDefinition.CommandDefinition.ControlType == CommandControlTypes.Separator;
             var def = addCommandDialog.SelectedItem;
-            if (def == null)
-                return;
 
+            uint newSortOrder;
+            bool flag;
+            if (SelectedListBoxDefinition == null)
+            {
+                newSortOrder = 0;
+                flag = false;
+            }
+            else
+            {
+                newSortOrder = SelectedListBoxDefinition.SortOrder;
+                flag = SelectedListBoxDefinition.SortOrder > 0 &&
+                           SelectedListBoxDefinition.CommandDefinition.ControlType == CommandControlTypes.Separator;
+                def.Group = SelectedListBoxDefinition.Group;
+            }      
             def.SortOrder = newSortOrder;
-            def.Group = SelectedListBoxDefinition.Group;
-
+            
             ICommandBarHost model;
+            CommandBarDefinitionBase parent;
             switch (SelectedOption)
             {
                 case CustomizeRadioButtonOptions.Menu:
                     model = IoC.Get<IMenuHostViewModel>();
+                    parent = SelectedMenuItem;
                     break;
                 case CustomizeRadioButtonOptions.Toolbar:
                     model = IoC.Get<IToolBarHostViewModel>();
+                    parent = SelectedToolBarItem;
                     break;
                 case CustomizeRadioButtonOptions.ContextMenu:
                     model = IoC.Get<IContextMenuHost>();
+                    parent = SelectedContextMenuItem;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }    
-            model.AddItemDefinition(def, flag);
+            model.AddItemDefinition(def, parent, flag);
             SetupListBoxItems(SelectedOption);
             SelectedListBoxDefinition = def;
         }

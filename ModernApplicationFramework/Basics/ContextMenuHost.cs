@@ -60,7 +60,7 @@ namespace ModernApplicationFramework.Basics
             }
         }
 
-        public void AddItemDefinition(CommandBarItemDefinition definition, bool addAboveSeparator)
+        public void AddItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent, bool addAboveSeparator)
         {
             
         }
