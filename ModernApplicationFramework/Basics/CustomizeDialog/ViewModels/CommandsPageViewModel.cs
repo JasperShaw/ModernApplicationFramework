@@ -8,6 +8,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Basics.CustomizeDialog.Views;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Core.Converters.Customize;
 using ModernApplicationFramework.Interfaces;
@@ -33,6 +34,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 
         public ICommand HandleAddCommand => new Command(HandleCommandAdd);
         public ICommand HandleDeleteCommand => new Command(HandleCommandDelete);
+        public ICommand HandleAddNewMenuCommand => new Command(HandleCommandAddNewMenu);
 
         public ICommand HandleStylingFlagChangeCommand => new Command<object>(HandleStylingFlagChange, obj => true);
 
@@ -216,6 +218,13 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
                 return;
             var def = addCommandDialog.SelectedItem;
 
+            InternalAddItem(def);  
+            BuildItemSources(SelectedOption);
+            SelectedListBoxDefinition = def;
+        }
+
+        private void InternalAddItem(CommandBarItemDefinition definitionToAdd)
+        {
             uint newSortOrder;
             bool flag;
             if (SelectedListBoxDefinition == null)
@@ -227,25 +236,20 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             {
                 newSortOrder = SelectedListBoxDefinition.SortOrder;
                 flag = SelectedListBoxDefinition.SortOrder > 0 &&
-                           SelectedListBoxDefinition.CommandDefinition.ControlType == CommandControlTypes.Separator;
-                def.Group = SelectedListBoxDefinition.Group;
-            }      
-            def.SortOrder = newSortOrder;
-            
+                       SelectedListBoxDefinition.CommandDefinition.ControlType == CommandControlTypes.Separator;
+                definitionToAdd.Group = SelectedListBoxDefinition.Group;
+            }
+            definitionToAdd.SortOrder = newSortOrder;
+
             GetModelAndParent(out ICommandBarHost model, out CommandBarDefinitionBase parent);
 
-            model.AddItemDefinition(def, parent, flag);
-            BuildItemSources(SelectedOption);
-            SelectedListBoxDefinition = def;
+            model.AddItemDefinition(definitionToAdd, parent, flag);
         }
 
         private void HandleCommandDelete()
         {
             if (SelectedListBoxDefinition == null)
                 return;
-
-
-
             GetModelAndParent(out ICommandBarHost model, out CommandBarDefinitionBase parent);
 
             var nextSelectedItem = model.GetNextItemInGroup(SelectedListBoxDefinition) ??
@@ -254,8 +258,16 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 
             model.DeleteItemDefinition(SelectedListBoxDefinition, parent);
             BuildItemSources(SelectedOption);
-
             SelectedListBoxDefinition = nextSelectedItem;
+        }
+
+        private void HandleCommandAddNewMenu()
+        {
+            var newMenuItem = new MenuDefinition(null, 0, "New Menu");
+
+            InternalAddItem(newMenuItem);
+            BuildItemSources(SelectedOption);
+            SelectedListBoxDefinition = newMenuItem;
         }
 
         private void GetModelAndParent(out ICommandBarHost host, out CommandBarDefinitionBase parent)
