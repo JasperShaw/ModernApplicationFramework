@@ -48,6 +48,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                 }
             }
             DefinitionHost.ItemDefinitions.Add(definition);
+            RemoveGapsInGroupSortOrder(parent);
         }
 
         public virtual void DeleteItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent)
@@ -66,8 +67,8 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
                 if (definitionsInGroup.Count <= 1)
                 {
-                    RearrangeGroups(definition.Group);
                     DefinitionHost.ItemGroupDefinitions.Remove(definition.Group);
+                    RemoveGapsInGroupSortOrder(parent);
                 }
                 else
                 {
@@ -101,29 +102,29 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             uint newSortorder = 0;
             if (option == AppendTo.Next)
             {
-                foreach (var groupDefinition in definitionsInCurrnetGroup)
+                foreach (var itemDefinition in definitionsInCurrnetGroup)
                 {
-                    groupDefinition.Group = newGroup;
-                    groupDefinition.SortOrder = newSortorder++;
+                    itemDefinition.Group = newGroup;
+                    itemDefinition.SortOrder = newSortorder++;
                 }
 
                 //Add old items after the new inserted ones
-                foreach (var groupDefinition in definitionsInNewGroup)
-                    groupDefinition.SortOrder = newSortorder++;
+                foreach (var itemDefinition in definitionsInNewGroup)
+                    itemDefinition.SortOrder = newSortorder++;
             }
             else
             {
-                foreach (var groupDefinition in definitionsInNewGroup)
-                    groupDefinition.SortOrder = newSortorder++;
+                foreach (var itemDefinition in definitionsInNewGroup)
+                    itemDefinition.SortOrder = newSortorder++;
 
-                foreach (var groupDefinition in definitionsInCurrnetGroup)
+                foreach (var itemDefinition in definitionsInCurrnetGroup)
                 {
-                    groupDefinition.Group = newGroup;
-                    groupDefinition.SortOrder = newSortorder++;
+                    itemDefinition.Group = newGroup;
+                    itemDefinition.SortOrder = newSortorder++;
                 }
-            }
-            RearrangeGroups(group);
+            }     
             DefinitionHost.ItemGroupDefinitions.Remove(group);
+            RemoveGapsInGroupSortOrder(parent);
         }
 
         public IEnumerable<CommandBarDefinitionBase> GetMenuHeaderItemDefinitions()
@@ -138,6 +139,33 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                 list.AddRange(GetSubHeaderMenus(barDefinition));
             }
             return list;
+        }
+
+        public void AddGroupAt(CommandBarItemDefinition startingDefinition, CommandBarDefinitionBase parent)
+        {
+            var itemsToRegroup = GetAllItemsInGroup(startingDefinition.Group)
+                .Where(x => x.SortOrder >= startingDefinition.SortOrder);
+
+            var newGroupSortOrder = startingDefinition.Group.SortOrder + 1;
+
+            var groupsToResort = DefinitionHost.ItemGroupDefinitions.Where(x => x.Parent == parent)
+                .Where(x => x.SortOrder > startingDefinition.Group.SortOrder);
+
+            var i = newGroupSortOrder + 1;
+            foreach (var groupDefinition in groupsToResort)
+                groupDefinition.SortOrder = i++;
+
+            var newGroup = new CommandBarGroupDefinition(parent, newGroupSortOrder);
+            
+
+            uint j = 0;
+            foreach (var itemDefinition in itemsToRegroup)
+            {
+                itemDefinition.Group = newGroup;
+                itemDefinition.SortOrder = j++;
+            }
+            RemoveGapsInGroupSortOrder(parent);
+            DefinitionHost.ItemGroupDefinitions.Add(newGroup);
         }
 
         public CommandBarItemDefinition GetPreviousItem(CommandBarItemDefinition definition,
@@ -159,6 +187,12 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                 previousItem = GetPreviousItemInGroup(definition);
             }
             return previousItem;
+        }
+
+        public IEnumerable<CommandBarItemDefinition> GetAllItemsInGroup(CommandBarGroupDefinition group)
+        {
+            return DefinitionHost.ItemDefinitions.Where(x => x.Group == group)
+                .OrderBy(x => x.SortOrder);
         }
 
         public CommandBarItemDefinition GetPreviousItemInGroup(CommandBarItemDefinition definition)
@@ -196,7 +230,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                 if (nextGroup == null)
                     return null;
 
-                nextItem = DefinitionHost.ItemDefinitions.FirstOrDefault(x => x.Group == nextGroup);
+                nextItem = DefinitionHost.ItemDefinitions.Where(x => x.Group == nextGroup).OrderBy(x => x.SortOrder).FirstOrDefault();
             }
             else
             {
@@ -222,16 +256,15 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         }
 
 
-        private void RearrangeGroups(CommandBarGroupDefinition deletedGroup)
+        protected void RemoveGapsInGroupSortOrder(CommandBarDefinitionBase parent)
         {
-            var groupsToChange = DefinitionHost.ItemGroupDefinitions.Where(x => x.SortOrder >= deletedGroup.SortOrder)
+            var groupsToChange = DefinitionHost.ItemGroupDefinitions.Where(x => x.Parent == parent)
                 .OrderBy(x => x.SortOrder);
 
+            uint newSortOrder = 0;
             foreach (var groupDefinition in groupsToChange)
             {
-                if (groupDefinition == deletedGroup)
-                    continue;
-                groupDefinition.SortOrder--;
+                groupDefinition.SortOrder = newSortOrder++;
             }
         }
 

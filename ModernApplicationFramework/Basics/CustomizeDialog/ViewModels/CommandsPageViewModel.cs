@@ -249,6 +249,8 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             //Needs to be inverted as the Checkbox will be added before this code executes
             if (!(bool) value)
                 model.DeleteGroup(SelectedListBoxDefinition.Group, parent, AppendTo.Previous);
+            else
+                model.AddGroupAt(SelectedListBoxDefinition, parent);
 
             BuildItemSources(SelectedOption);
             SelectedListBoxDefinition = nextSelectedItem;

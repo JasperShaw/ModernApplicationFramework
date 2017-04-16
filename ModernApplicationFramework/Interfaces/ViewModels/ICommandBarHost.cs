@@ -26,5 +26,6 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         void DeleteGroup(CommandBarGroupDefinition group, CommandBarDefinitionBase parent, AppendTo option);
 
         IEnumerable<CommandBarDefinitionBase> GetMenuHeaderItemDefinitions();
+        void AddGroupAt(CommandBarItemDefinition startingDefinition, CommandBarDefinitionBase parent);
     }
 }

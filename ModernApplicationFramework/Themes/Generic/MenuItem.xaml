@@ -360,8 +360,8 @@
             <Setter.Value>
                 <ControlTemplate>
                     <StackPanel SnapsToDevicePixels="True" Margin="2" Orientation="Horizontal">
-                        <Rectangle Width="1" Focusable="{DynamicResource {x:Static colors:EnvironmentColors.MenuSeparator}}"/>
-                        <Rectangle Width="1" Focusable="{DynamicResource {x:Static colors:EnvironmentColors.MenuSeparator}}"/>
+                        <Rectangle Width="1" Fill="{DynamicResource {x:Static colors:EnvironmentColors.MenuSeparator}}"/>
+                        <Rectangle Width="1" Fill="{DynamicResource {x:Static colors:EnvironmentColors.MenuSeparator}}"/>
                     </StackPanel>
                 </ControlTemplate>
             </Setter.Value>
