@@ -1,20 +1,19 @@
 ﻿using System.Collections.Generic;
+using System.Windows.Controls;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Interfaces.Utilities
 {
     public interface IMenuCreator
     {
-        /// <summary>
-        ///     Populate a menu freely
-        /// </summary>
-        /// <param name="model"></param>
+        void CreateMenuTree(CommandBarDefinitionBase definition, ItemsControl menuItem);
+
+        IEnumerable<CommandBarItemDefinition> GetSingleSubDefinitions(CommandBarDefinitionBase contextMenuDefinition);
+    }
+
+    public interface IMainMenuCreator : IMenuCreator
+    {
         void CreateMenuBar(IMenuHostViewModel model);
-
-        void CreateMenuTree(CommandBarDefinitionBase definition, MenuItem menuItem);
-
-        IEnumerable<CommandBarItemDefinition> GetSingleSubDefinitions(CommandBarDefinitionBase definition);
     }
 }

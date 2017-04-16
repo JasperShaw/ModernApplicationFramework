@@ -6,13 +6,11 @@ using System.Windows.Media;
 using Caliburn.Micro;
 using ModernApplicationFramework.Annotations;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Controls;
-using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Native.Standard;
 
 namespace ModernApplicationFramework.Controls
@@ -21,11 +19,18 @@ namespace ModernApplicationFramework.Controls
     {
         public object IconSource { get; }
         public static DependencyProperty IsUserCreatedMenuProperty;
+        public static DependencyProperty IsPlacedOnToolBarProperty;
 
         public bool IsUserCreatedMenu
         {
             get => (bool)GetValue(IsUserCreatedMenuProperty);
             set => SetValue(IsUserCreatedMenuProperty, Boxes.Box(value));
+        }
+
+        public bool IsPlacedOnToolBar
+        {
+            get => (bool)GetValue(IsPlacedOnToolBarProperty);
+            set => SetValue(IsPlacedOnToolBarProperty, Boxes.Box(value));
         }
 
         public static double MaxMenuWidth => 660.0;
@@ -34,6 +39,7 @@ namespace ModernApplicationFramework.Controls
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MenuItem), new FrameworkPropertyMetadata(typeof(MenuItem)));
             IsUserCreatedMenuProperty = DependencyProperty.Register("IsUserCreatedMenu", typeof(bool), typeof(MenuItem), new FrameworkPropertyMetadata(Boxes.BooleanFalse));
+            IsPlacedOnToolBarProperty = DependencyProperty.Register("IsPlacedOnToolBar", typeof(bool), typeof(MenuItem), new FrameworkPropertyMetadata(Boxes.BooleanFalse));
         }
 
         public MenuItem(CommandBarDefinitionBase definitionBase) : this()
@@ -61,16 +67,6 @@ namespace ModernApplicationFramework.Controls
         {
             base.OnRender(drawingContext);
             this.SetThemedIcon();
-        }
-
-        protected override void OnSubmenuOpened(RoutedEventArgs e)
-        {
-            if (DataContext is MenuDefinition definition)
-            {
-                var menuCreator = IoC.Get<IMenuCreator>();
-                menuCreator.CreateMenuTree(definition, this);
-            }
-            base.OnSubmenuOpened(e);            
         }
 
         private void ThemeManager_OnThemeChanged(object sender, ThemeChangedEventArgs e)

@@ -35,26 +35,26 @@ namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
 
         [Export] public static CommandBarItemDefinition NewHorizontalTabGroupItemDefinition =
             new CommandBarCommandItemDefinition<NewHorizontalTabGroupCommandDefinition>(
-                DocumentTabGroupContextMenuGroup, uint.MinValue, true);
+                DocumentTabGroupContextMenuGroup, uint.MinValue, true, false, false, true);
 
         [Export] public static CommandBarItemDefinition NewVerticalTabGroupItemDefinition =
             new CommandBarCommandItemDefinition<NewVerticalTabGroupCommandDefinition>(DocumentTabGroupContextMenuGroup,
-                1, true);
+                1, true, false, false, true);
 
         [Export] public static CommandBarItemDefinition MoveToNextTabGroupItemDefinition =
             new CommandBarCommandItemDefinition<MoveToNextTabGroupCommandDefinition>(DocumentTabGroupContextMenuGroup,
-                2, true);
+                2, true, false, false, true);
 
         [Export] public static CommandBarItemDefinition MoveAllToNextTabGroupItemDefinition =
             new CommandBarCommandItemDefinition<MoveAllToNextTabGroupCommandDefinition>(
-                DocumentTabGroupContextMenuGroup, 3, true);
+                DocumentTabGroupContextMenuGroup, 3, true, false, false, true);
 
         [Export] public static CommandBarItemDefinition MoveToPreviousTabGroupItemDefinition =
             new CommandBarCommandItemDefinition<MoveToPreviousTabGroupCommandDefinition>(
-                DocumentTabGroupContextMenuGroup, 4, true);
+                DocumentTabGroupContextMenuGroup, 4, true, false, false, true);
 
         [Export] public static CommandBarItemDefinition MoveAllToPreviousTabGroupItemDefinition =
             new CommandBarCommandItemDefinition<MoveAllToPreviousTabGroupCommandDefinition>(
-                DocumentTabGroupContextMenuGroup, 5, true);
+                DocumentTabGroupContextMenuGroup, 5, true, false, false, true);
     }
 }

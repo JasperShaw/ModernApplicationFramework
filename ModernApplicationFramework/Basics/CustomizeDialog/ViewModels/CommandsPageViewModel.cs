@@ -193,7 +193,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             switch (value)
             {
                 case CustomizeRadioButtonOptions.Menu:
-                    var menuCreator = IoC.Get<IMenuCreator>();
+                    var menuCreator = IoC.Get<IMainMenuCreator>();
                     Items = menuCreator.GetSingleSubDefinitions(SelectedMenuItem);
                     CustomizableMenuBars =
                         new ObservableCollection<CommandBarDefinitionBase>(IoC.Get<IMenuHostViewModel>()
@@ -201,11 +201,11 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
                     break;
                 case CustomizeRadioButtonOptions.Toolbar:
                     var toolbarCreator = IoC.Get<IToolbarCreator>();
-                    Items = toolbarCreator.GetToolBarItemDefinitions(SelectedToolBarItem);
+                    Items = toolbarCreator.GetSingleSubDefinitions(SelectedToolBarItem);
                     break;
                 case CustomizeRadioButtonOptions.ContextMenu:
                     var contextMenuCreator = IoC.Get<IContextMenuCreator>();
-                    Items = contextMenuCreator.GetContextMenuItemDefinitions(SelectedContextMenuItem);
+                    Items = contextMenuCreator.GetSingleSubDefinitions(SelectedContextMenuItem);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(value), value, null);

@@ -80,7 +80,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
         public override void Build()
         {
-            IoC.Get<IMenuCreator>().CreateMenuBar(this);
+            IoC.Get<IMainMenuCreator>().CreateMenuBar(this);
         }
 
         public IEnumerable<CommandBarDefinitionBase> GetMenuHeaderItemDefinitions()

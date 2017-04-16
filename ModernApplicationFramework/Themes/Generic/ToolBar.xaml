@@ -9,7 +9,8 @@
                     xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General">
     
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../../Resources/Icons/StatusError.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="../../Resources/Icons/StatusError.xaml"/>
+        <ResourceDictionary Source="MenuItem.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
@@ -725,6 +726,63 @@
         </Setter>
         <Setter Property="Template" Value="{StaticResource ComboTemplate}"/>
         <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxForeground}}"/>
+    </Style>
+
+
+
+
+
+
+    <Style x:Key="ToolBarMenuStyle" TargetType="{x:Type Menu}"
+           BasedOn="{StaticResource {x:Type Menu}}">
+        <Setter Property="Foreground"
+                Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemForeground}}"/>
+        <Setter Property="IsMainMenu" Value="false"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+
+    <Style x:Key="{x:Static this:ToolBar.MenuStyleKey}" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="KeyboardNavigation.IsTabStop" Value="false"/>
+        <Setter Property="Visibility">
+            <Setter.Value>
+                <Binding Path="IsVisible" Converter="{StaticResource BoolToVisConverter}"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="AutomationProperties.Name">
+            <Setter.Value>
+                <Binding Path="Text" Converter="{StaticResource AccessKeyRemovingConverter}"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Menu FocusManager.IsFocusScope="False" Style="{StaticResource ToolBarMenuStyle}">
+                        <AutomationProperties.Name>
+                            <Binding Path="Text" Converter="{StaticResource AccessKeyRemovingConverter}"/>
+                        </AutomationProperties.Name>
+                        <FrameworkElement.Resources>
+                            <Style TargetType="{x:Type this:MenuItem}" BasedOn="{StaticResource {x:Static this:Menu.MenuStyleKey}}"
+                                   x:Key="{x:Static this:Menu.MenuStyleKey}">
+                                <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
+                                <Setter Property="Padding" Value="2,1,1,0"/>
+                                <Setter Property="IsPlacedOnToolBar" Value="true"/>
+                            </Style>
+                        </FrameworkElement.Resources>
+                        <ItemsControl.Items>
+                            <this:MenuItem x:Name="PART_FocusTarget" Style="{DynamicResource {x:Static this:Menu.MenuStyleKey}}"/>
+                        </ItemsControl.Items>
+                        <Control.Template>
+                            <ControlTemplate TargetType="{x:Type Menu}">
+                                <ItemsPresenter Name="ItemsPresenter"/>
+                            </ControlTemplate>
+                        </Control.Template>
+                    </Menu>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 
