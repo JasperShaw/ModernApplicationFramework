@@ -1,7 +1,6 @@
 ﻿using System.Windows.Input;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Controls;
-using ModernApplicationFramework.Core.Utilities;
 
 namespace ModernApplicationFramework.Interfaces.ViewModels
 {
@@ -10,8 +9,6 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         ICommand OpenContextMenuCommand { get; }
 
         ContextMenu ContextMenu { get; }
-
-        ObservableCollectionEx<ToolbarDefinition> ToolbarDefinitions { get; }
 
         ToolBarTray TopToolBarTray { get; set; }
         ToolBarTray LeftToolBarTray { get; set; }

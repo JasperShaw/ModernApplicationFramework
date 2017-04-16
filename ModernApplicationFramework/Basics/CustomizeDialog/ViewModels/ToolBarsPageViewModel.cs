@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Core.Utilities;
@@ -46,7 +47,30 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         public ToolBarsPageViewModel()
         {
             DisplayName = "Toolbars";
-            Toolbars = IoC.Get<IToolBarHostViewModel>().ToolbarDefinitions;
+            var t = IoC.Get<IToolBarHostViewModel>().TopLevelDefinitions as ObservableCollectionEx<CommandBarDefinitionBase>;
+            if (t == null)
+                return;
+            t.CollectionChanged += T_CollectionChanged;
+
+            Toolbars = new ObservableCollectionEx<ToolbarDefinition>();
+            foreach (var definitionBase in t)
+            {
+                if (definitionBase is ToolbarDefinition toolbarDefinition)
+                    Toolbars.Add(toolbarDefinition);
+            }
+        }
+
+
+
+        private void T_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            Toolbars.Clear();
+            var t = IoC.Get<IToolBarHostViewModel>().TopLevelDefinitions;
+            foreach (var definitionBase in t)
+            {
+                if (definitionBase is ToolbarDefinition toolbarDefinition)
+                    Toolbars.Add(toolbarDefinition);
+            }
         }
 
         public Command DropDownClickCommand => new Command(ExecuteDropDownClick);

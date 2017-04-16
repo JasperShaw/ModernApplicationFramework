@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.Composition;
+﻿using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Core;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.ViewModels;
@@ -81,6 +83,23 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             RearrangeGroups(group);
             DefinitionHost.ItemGroupDefinitions.Remove(group);
         }
+
+
+        public abstract ICollection<CommandBarDefinitionBase> TopLevelDefinitions { get; }
+
+        public IEnumerable<CommandBarDefinitionBase> GetMenuHeaderItemDefinitions()
+        {
+            var list = new List<CommandBarDefinitionBase>();
+            IEnumerable<CommandBarDefinitionBase> barDefinitions = TopLevelDefinitions.OrderBy(x => x.SortOrder).ToList();
+
+            foreach (var barDefinition in barDefinitions)
+            {
+                list.Add(barDefinition);
+                list.AddRange(GetSubHeaderMenus(barDefinition));
+            }
+            return list;
+        }
+
 
         private void RearrangeGroups(CommandBarGroupDefinition deletedGroup)
         {
@@ -187,6 +206,22 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                 nextItem = GetNextItemInGroup(definition);
             }
             return nextItem;
+        }
+
+        protected IEnumerable<CommandBarDefinitionBase> GetSubHeaderMenus(CommandBarDefinitionBase definition)
+        {
+            var group = DefinitionHost.ItemGroupDefinitions.FirstOrDefault(x => x.Parent == definition);
+            var list = new List<CommandBarDefinitionBase>();
+            var headerMenus = DefinitionHost.ItemDefinitions.Where(x => x is MenuDefinition)
+                .Where(x => x.Group == group)
+                .OrderBy(x => x.SortOrder);
+
+            foreach (var headerMenu in headerMenus)
+            {
+                list.Add(headerMenu);
+                list.AddRange(GetSubHeaderMenus(headerMenu));
+            }
+            return list;
         }
 
         private CommandBarGroupDefinition NextGroup(CommandBarGroupDefinition group, CommandBarDefinitionBase parent)

@@ -161,8 +161,9 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             CustomizableMenuBars =
                 new ObservableCollection<CommandBarDefinitionBase>(IoC.Get<IMenuHostViewModel>()
                     .GetMenuHeaderItemDefinitions());
-            CustomizableToolBars = IoC.Get<IToolBarHostViewModel>().ToolbarDefinitions;
-            CustomizableContextMenus = IoC.Get<IContextMenuHost>().ContextMenuDefinitions;
+            CustomizableToolBars = new ObservableCollection<CommandBarDefinitionBase>(IoC.Get<IToolBarHostViewModel>()
+                .GetMenuHeaderItemDefinitions());
+            CustomizableContextMenus = IoC.Get<IContextMenuHost>().TopLevelDefinitions;
 
             SelectedMenuItem = CustomizableMenuBars.FirstOrDefault();
             SelectedToolBarItem = CustomizableToolBars.FirstOrDefault();

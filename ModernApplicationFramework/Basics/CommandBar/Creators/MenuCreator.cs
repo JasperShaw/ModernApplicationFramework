@@ -17,7 +17,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
             model.Items.Clear();
             var host = IoC.Get<ICommandBarDefinitionHost>();
 
-            var bars = model.MenuBars.OrderBy(x => x.SortOrder);
+            var bars = model.TopLevelDefinitions.OrderBy(x => x.SortOrder);
 
             foreach (var bar in bars)
             {

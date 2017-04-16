@@ -23,15 +23,13 @@ using ToolBarTray = ModernApplicationFramework.Controls.ToolBarTray;
 namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 {
     [Export(typeof(IToolBarHostViewModel))]
-    public class ToolbarHostViewModel : CommandBarHost, IToolBarHostViewModel
+    public sealed class ToolbarHostViewModel : CommandBarHost, IToolBarHostViewModel
     {
         private readonly Dictionary<ToolbarDefinition, ToolBar> _toolbars;
         private ToolBarTray _bottomToolBarTay;
         private ToolBarTray _leftToolBarTay;
         private ToolBarTray _rightToolBarTay;
         private ToolBarTray _topToolBarTay;
-
-        public ObservableCollectionEx<ToolbarDefinition> ToolbarDefinitions { get; }
 
         public ContextMenu ContextMenu { get; }
 
@@ -88,12 +86,12 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         {
             _toolbars = new Dictionary<ToolbarDefinition, ToolBar>();
 
-            ToolbarDefinitions = new ObservableCollectionEx<ToolbarDefinition>();
+            TopLevelDefinitions = new ObservableCollectionEx<CommandBarDefinitionBase>();
             foreach (var definition in toolbarDefinitions)
-                ToolbarDefinitions.Add(definition);
+                TopLevelDefinitions.Add(definition);
 
-            ToolbarDefinitions.CollectionChanged += _toolbarDefinitions_CollectionChanged;
-            ToolbarDefinitions.ItemPropertyChanged += _toolbarDefinitions_ItemPropertyChanged;
+            ((ObservableCollectionEx<CommandBarDefinitionBase>)TopLevelDefinitions).CollectionChanged += _toolbarDefinitions_CollectionChanged;
+            ((ObservableCollectionEx<CommandBarDefinitionBase>)TopLevelDefinitions).ItemPropertyChanged += _toolbarDefinitions_ItemPropertyChanged;
             ContextMenu = IoC.Get<IContextMenuHost>().GetContextMenu(ContextMenuDefinition.ToolbarsContextMenu);
         }
 
@@ -106,28 +104,28 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         {
             if (definition == null)
                 throw new ArgumentNullException();
-            if (ToolbarDefinitions.Contains(definition))
+            if (TopLevelDefinitions.Contains(definition))
                 throw new ArgumentException();
             if (string.IsNullOrEmpty(definition.Text))
                 throw new NullReferenceException("Toolbar Id must not be null");
-            if (ToolbarDefinitions.Any(toolbarDefinition => toolbarDefinition.Text.Equals(definition.Text)))
+            if (TopLevelDefinitions.Any(toolbarDefinition => toolbarDefinition.Text.Equals(definition.Text)))
                 throw new ToolBarAlreadyExistsException();
-            ToolbarDefinitions.Add(definition);
+            TopLevelDefinitions.Add(definition);
         }
 
         public void RemoveToolbarDefinition(ToolbarDefinition definition)
         {
             if (definition == null)
                 throw new ArgumentNullException();
-            if (!ToolbarDefinitions.Contains(definition))
+            if (!TopLevelDefinitions.Contains(definition))
                 throw new ArgumentException();
-            ToolbarDefinitions.Remove(definition);
+            TopLevelDefinitions.Remove(definition);
         }
 
         public override void Build()
         {
             _toolbars.Clear();   
-            var definitions = ToolbarDefinitions.OrderBy(x => x.SortOrder);
+            var definitions = TopLevelDefinitions.OrderBy(x => x.SortOrder).Cast<ToolbarDefinition>();
             foreach (var definition in definitions)
             {
                 var toolBar = IoC.Get<IToolbarCreator>().CreateToolbar(definition);
@@ -144,6 +142,8 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                 return;
             RebuildToolbar(toolbarDef);
         }
+
+        public override ICollection<CommandBarDefinitionBase> TopLevelDefinitions { get; }
 
         public override void DeleteItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent)
         {
@@ -164,9 +164,9 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
         public ToolbarDefinition GeToolbarDefinitionByName(string name)
         {
-            foreach (var definition in ToolbarDefinitions)
+            foreach (var definition in TopLevelDefinitions)
                 if (definition.Text == name)
-                    return definition;
+                    return definition as ToolbarDefinition;
             throw new ToolBarNotFoundException();
         }
 
@@ -177,14 +177,14 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             definition.IsVisible = visible;
         }
 
-        protected virtual void OpenContextMenu()
+        private void OpenContextMenu()
         {
             ContextMenu.IsOpen = true;
         }
 
-        protected virtual bool CanOpenContextMenu()
+        private bool CanOpenContextMenu()
         {
-            return ToolbarDefinitions.Count != 0;
+            return TopLevelDefinitions.Count != 0;
         }
 
         private static void _ToolBarTay_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -197,7 +197,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         {
             var i = index;
             var uniqueName = $"{i} (custom)";
-            return ToolbarDefinitions.Any(toolbarDefinition => uniqueName.Equals(toolbarDefinition.Text))
+            return TopLevelDefinitions.Any(toolbarDefinition => uniqueName.Equals(toolbarDefinition.Text))
                 ? InternalGetUniqueToolBarName(++i)
                 : uniqueName;
         }
@@ -240,7 +240,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             if (TopToolBarTray == null || LeftToolBarTray == null || RightToolBarTray == null ||
                 BottomToolBarTray == null)
                 throw new NullReferenceException("Could not find all 4 ToolbarTrays");
-            if (!ToolbarDefinitions.Contains(definition))
+            if (!TopLevelDefinitions.Contains(definition))
                 throw new ToolBarNotFoundException();
             if (string.IsNullOrEmpty(definition.Text))
                 throw new ArgumentNullException(nameof(definition.Text));
@@ -255,7 +255,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             if (TopToolBarTray == null || LeftToolBarTray == null || RightToolBarTray == null ||
                 BottomToolBarTray == null)
                 throw new NullReferenceException("Could not find all 4 ToolbarTrays");
-            if (!ToolbarDefinitions.Contains(definition))
+            if (!TopLevelDefinitions.Contains(definition))
                 throw new ToolBarNotFoundException();
             if (string.IsNullOrEmpty(definition.Text))
                 throw new ArgumentNullException(nameof(definition.Text));

@@ -23,14 +23,14 @@ namespace ModernApplicationFramework.Basics.CommandBar.Commands
 
         public void Populate(Command command, List<DefinitionBase> commands)
         {
-            foreach (var toolbarDefinition in _toolBarHost.ToolbarDefinitions)
+            foreach (var toolbarDefinition in _toolBarHost.TopLevelDefinitions)
             {
                 var definition =
                     new ShowSelectedToolBarCommandDefinition(toolbarDefinition.Text)
                     {
                         CommandParamenter = toolbarDefinition
                     };
-                if (toolbarDefinition.IsVisible)
+                if (((ToolbarDefinition)toolbarDefinition).IsVisible)
                     definition.IsChecked = true;
                 commands.Add(definition);
             }

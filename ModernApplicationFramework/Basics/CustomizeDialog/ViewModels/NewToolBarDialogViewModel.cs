@@ -49,7 +49,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
                 errorMessage = "The toolbar name cannot be blank. Type a name.";
             else
             {
-                foreach (var definition in IoC.Get<IToolBarHostViewModel>().ToolbarDefinitions)
+                foreach (var definition in IoC.Get<IToolBarHostViewModel>().TopLevelDefinitions)
                 {
                     var defName = definition.Text;
                     if (!name.Equals(defName, StringComparison.CurrentCultureIgnoreCase))
