@@ -74,8 +74,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
             for (var i = 0; i < groups.Count; i++)
             {
                 var group = groups[i];
-                var menuItems = host.ItemDefinitions.Where(x => x.Group == group)
-                    .OrderBy(x => x.SortOrder);
+                var menuItems = host.ItemDefinitions.Where(x => x.Group == group).OrderBy(x => x.SortOrder);
 
                 if (i > 0 && i <= groups.Count - 1 && menuItems.Any())
                     if (menuItems.Any(menuItemDefinition => menuItemDefinition.IsVisible))

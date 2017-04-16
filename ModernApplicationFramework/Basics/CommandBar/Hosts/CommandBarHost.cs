@@ -7,6 +7,8 @@ using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Core;
+using ModernApplicationFramework.Core.Comparers;
+using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.ViewModels;
 
@@ -31,7 +33,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             {
                 var group = new CommandBarGroupDefinition(parent, uint.MinValue);
                 definition.Group = group;
-                DefinitionHost.ItemGroupDefinitions.Add(group);
+                DefinitionHost.ItemGroupDefinitions.AddSorted(group, new SortOrderComparer<CommandBarDefinitionBase>());
             }
 
             if (!addAboveSeparator)
@@ -47,7 +49,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                     definitionToChange.SortOrder++;
                 }
             }
-            DefinitionHost.ItemDefinitions.Add(definition);
+            DefinitionHost.ItemDefinitions.AddSorted(definition, new SortOrderComparer<CommandBarDefinitionBase>());
             RemoveGapsInGroupSortOrder(parent);
         }
 
@@ -165,7 +167,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                 itemDefinition.SortOrder = j++;
             }
             RemoveGapsInGroupSortOrder(parent);
-            DefinitionHost.ItemGroupDefinitions.Add(newGroup);
+            DefinitionHost.ItemGroupDefinitions.AddSorted(newGroup, new SortOrderComparer<CommandBarDefinitionBase>());
         }
 
         public CommandBarItemDefinition GetPreviousItem(CommandBarItemDefinition definition,

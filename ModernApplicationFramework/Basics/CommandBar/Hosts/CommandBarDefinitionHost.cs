@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
+using System.Linq;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Interfaces;
 
@@ -17,8 +18,8 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             [ImportMany] CommandBarItemDefinition[] menuItems,
             [ImportMany] ExcludeCommandBarElementDefinition[] excludedItems)
         {
-            ItemGroupDefinitions = new ObservableCollection<CommandBarGroupDefinition>(menuItemGroups);
-            ItemDefinitions = new ObservableCollection<CommandBarItemDefinition>(menuItems);
+            ItemGroupDefinitions = new ObservableCollection<CommandBarGroupDefinition>(menuItemGroups.OrderBy(x => x.SortOrder));
+            ItemDefinitions = new ObservableCollection<CommandBarItemDefinition>(menuItems.OrderBy(x => x.SortOrder));
             ExcludedItemDefinitions = new ObservableCollection<CommandBarDefinitionBase>();
             foreach (var item in excludedItems)
                 ExcludedItemDefinitions.Add(item.ExcludedCommandBarDefinition);

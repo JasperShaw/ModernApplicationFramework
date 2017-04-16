@@ -212,6 +212,7 @@
     <Compile Include="Basics\Definitions\CommandBar\CommandBarItemDefinition.cs" />
     <Compile Include="Basics\Definitions\CommandBar\ExcludeCommandBarElementDefinition.cs" />
     <Compile Include="Basics\Definitions\CommandBar\FlagStorage.cs" />
+    <Compile Include="Core\Comparers\SortOrderComparer.cs" />
     <Compile Include="Basics\Definitions\Command\CommandCategory.cs" />
     <Compile Include="Basics\Definitions\Command\CommandControlTypes.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarSeparatorDefinition.cs" />
