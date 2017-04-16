@@ -1,14 +1,13 @@
-﻿using System.ComponentModel.Composition;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Controls;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.CommandBase;
-using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.Interfaces.Views;
-using Screen = Caliburn.Micro.Screen;
 
 namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 {
@@ -20,7 +19,11 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 
         private IToolBarsPageView _control;
 
-        public ObservableCollectionEx<ToolbarDefinition> Toolbars { get; }
+        public ObservableCollection<CommandBarDefinitionBase> Toolbars { get; }
+
+        public Command DropDownClickCommand => new Command(ExecuteDropDownClick);
+        public Command DeleteSelectedToolbarCommand => new Command(ExecuteDeleteSelectedToolbar);
+        public Command CreateNewToolbarCommand => new Command(ExecuteCreateNewToolbar);
 
         public ToolbarDefinition SelectedToolbarDefinition
         {
@@ -36,46 +39,19 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             }
         }
 
+        [ImportingConstructor]
+        public ToolBarsPageViewModel()
+        {
+            DisplayName = "Toolbars";
+            Toolbars = IoC.Get<IToolBarHostViewModel>().TopLevelDefinitions;
+        }
+
         protected override void OnViewLoaded(object view)
         {
             base.OnViewLoaded(view);
             if (view is IToolBarsPageView correctView)
                 _control = correctView;
         }
-
-        [ImportingConstructor]
-        public ToolBarsPageViewModel()
-        {
-            DisplayName = "Toolbars";
-            var t = IoC.Get<IToolBarHostViewModel>().TopLevelDefinitions as ObservableCollectionEx<CommandBarDefinitionBase>;
-            if (t == null)
-                return;
-            t.CollectionChanged += T_CollectionChanged;
-
-            Toolbars = new ObservableCollectionEx<ToolbarDefinition>();
-            foreach (var definitionBase in t)
-            {
-                if (definitionBase is ToolbarDefinition toolbarDefinition)
-                    Toolbars.Add(toolbarDefinition);
-            }
-        }
-
-
-
-        private void T_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            Toolbars.Clear();
-            var t = IoC.Get<IToolBarHostViewModel>().TopLevelDefinitions;
-            foreach (var definitionBase in t)
-            {
-                if (definitionBase is ToolbarDefinition toolbarDefinition)
-                    Toolbars.Add(toolbarDefinition);
-            }
-        }
-
-        public Command DropDownClickCommand => new Command(ExecuteDropDownClick);
-        public Command DeleteSelectedToolbarCommand => new Command(ExecuteDeleteSelectedToolbar);
-        public Command CreateNewToolbarCommand => new Command(ExecuteCreateNewToolbar);
 
         private void ExecuteCreateNewToolbar()
         {
@@ -86,7 +62,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
                 return;
             var def = new ToolbarDefinition(customizeDialog.ToolbarName, int.MaxValue, true, Dock.Top, true, true);
             IoC.Get<IToolBarHostViewModel>().AddToolbarDefinition(def);
-            SelectedToolbarDefinition= def;
+            SelectedToolbarDefinition = def;
             _control.ToolBarListBox.ScrollIntoView(def);
             _control.ToolBarListBox.Focus();
         }
@@ -109,5 +85,5 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             dropDownMenu.DataContext = SelectedToolbarDefinition;
             dropDownMenu.IsOpen = true;
         }
-    }   
+    }
 }

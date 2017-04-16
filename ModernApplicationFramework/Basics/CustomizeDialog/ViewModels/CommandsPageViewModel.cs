@@ -37,7 +37,8 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         public ICommand HandleDeleteCommand => new Command(HandleCommandDelete);
         public ICommand HandleAddNewMenuCommand => new Command(HandleCommandAddNewMenu);
 
-        public ICommand HandleAddOrRemoveGroupCommand => new Command<object>(HandleCommandAddOrRemoveGroup, obj => true);
+        public ICommand HandleAddOrRemoveGroupCommand => new Command<object>(HandleCommandAddOrRemoveGroup,
+            obj => true);
 
         public ICommand HandleStylingFlagChangeCommand => new Command<object>(HandleStylingFlagChange, obj => true);
 
@@ -158,16 +159,13 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 
             Items = new List<CommandBarItemDefinition>();
 
-            CustomizableMenuBars =
-                new ObservableCollection<CommandBarDefinitionBase>(IoC.Get<IMenuHostViewModel>()
-                    .GetMenuHeaderItemDefinitions());
-            CustomizableToolBars = new ObservableCollection<CommandBarDefinitionBase>(IoC.Get<IToolBarHostViewModel>()
-                .GetMenuHeaderItemDefinitions());
-            CustomizableContextMenus = IoC.Get<IContextMenuHost>().TopLevelDefinitions;
+            BuildCheckBoxItems(CustomizeRadioButtonOptions.All);
 
             SelectedMenuItem = CustomizableMenuBars.FirstOrDefault();
             SelectedToolBarItem = CustomizableToolBars.FirstOrDefault();
             SelectedContextMenuItem = CustomizableContextMenus.FirstOrDefault();
+
+            SelectedOption = CustomizeRadioButtonOptions.Menu;
 
             BuildItemSources(SelectedOption);
         }
@@ -189,27 +187,40 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             SelectedListBoxDefinition.Flags.EnableStyleFlags(commandflag2);
         }
 
+
+        private void BuildCheckBoxItems(CustomizeRadioButtonOptions value)
+        {
+            if ((value & CustomizeRadioButtonOptions.Menu) != 0)
+                CustomizableMenuBars =
+                    new ObservableCollection<CommandBarDefinitionBase>(IoC.Get<IMenuHostViewModel>()
+                        .GetMenuHeaderItemDefinitions());
+            if ((value & CustomizeRadioButtonOptions.Toolbar) != 0)
+                CustomizableToolBars =
+                    new ObservableCollection<CommandBarDefinitionBase>(IoC.Get<IToolBarHostViewModel>()
+                        .GetMenuHeaderItemDefinitions());
+            if ((value & CustomizeRadioButtonOptions.ContextMenu) != 0)
+                CustomizableContextMenus =
+                    new ObservableCollection<CommandBarDefinitionBase>(IoC.Get<IContextMenuHost>()
+                        .GetMenuHeaderItemDefinitions());
+        }
+
+
         private void BuildItemSources(CustomizeRadioButtonOptions value)
         {
-            switch (value)
+            if ((value & CustomizeRadioButtonOptions.Menu) != 0)
             {
-                case CustomizeRadioButtonOptions.Menu:
-                    var menuCreator = IoC.Get<IMainMenuCreator>();
-                    Items = menuCreator.GetSingleSubDefinitions(SelectedMenuItem);
-                    CustomizableMenuBars =
-                        new ObservableCollection<CommandBarDefinitionBase>(IoC.Get<IMenuHostViewModel>()
-                            .GetMenuHeaderItemDefinitions());
-                    break;
-                case CustomizeRadioButtonOptions.Toolbar:
-                    var toolbarCreator = IoC.Get<IToolbarCreator>();
-                    Items = toolbarCreator.GetSingleSubDefinitions(SelectedToolBarItem);
-                    break;
-                case CustomizeRadioButtonOptions.ContextMenu:
-                    var contextMenuCreator = IoC.Get<IContextMenuCreator>();
-                    Items = contextMenuCreator.GetSingleSubDefinitions(SelectedContextMenuItem);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(value), value, null);
+                var menuCreator = IoC.Get<IMainMenuCreator>();
+                Items = menuCreator.GetSingleSubDefinitions(SelectedMenuItem);
+            }
+            if ((value & CustomizeRadioButtonOptions.Toolbar) != 0)
+            {
+                var toolbarCreator = IoC.Get<IToolbarCreator>();
+                Items = toolbarCreator.GetSingleSubDefinitions(SelectedToolBarItem);
+            }
+            if ((value & CustomizeRadioButtonOptions.ContextMenu) != 0)
+            {
+                var contextMenuCreator = IoC.Get<IContextMenuCreator>();
+                Items = contextMenuCreator.GetSingleSubDefinitions(SelectedContextMenuItem);
             }
         }
 
@@ -222,7 +233,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
                 return;
             var def = addCommandDialog.SelectedItem;
 
-            InternalAddItem(def);  
+            InternalAddItem(def);
             BuildItemSources(SelectedOption);
             SelectedListBoxDefinition = def;
         }
@@ -278,6 +289,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 
             model.DeleteItemDefinition(SelectedListBoxDefinition, parent);
             BuildItemSources(SelectedOption);
+            BuildCheckBoxItems(SelectedOption);
             SelectedListBoxDefinition = nextSelectedItem;
         }
 
@@ -287,6 +299,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 
             InternalAddItem(newMenuItem);
             BuildItemSources(SelectedOption);
+            BuildCheckBoxItems(SelectedOption);
             SelectedListBoxDefinition = newMenuItem;
         }
 
@@ -320,10 +333,12 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         }
     }
 
+    [Flags]
     public enum CustomizeRadioButtonOptions
     {
-        Menu,
-        Toolbar,
-        ContextMenu
+        Menu = 1,
+        Toolbar = 2,
+        ContextMenu = 4,
+        All = Menu | Toolbar | ContextMenu
     }
 }

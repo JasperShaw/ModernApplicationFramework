@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using ModernApplicationFramework.Basics.CommandBar.Hosts;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 
@@ -8,7 +9,7 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
     {
         ICommandBarDefinitionHost DefinitionHost { get; }
 
-        ICollection<CommandBarDefinitionBase> TopLevelDefinitions { get; }
+        ObservableCollection<CommandBarDefinitionBase> TopLevelDefinitions { get; }
 
         void Build();
         void AddItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent, bool addAboveSeparator);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
@@ -30,6 +31,8 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         private ToolBarTray _leftToolBarTay;
         private ToolBarTray _rightToolBarTay;
         private ToolBarTray _topToolBarTay;
+
+        public override ObservableCollection<CommandBarDefinitionBase> TopLevelDefinitions { get; }
 
         public ContextMenu ContextMenu { get; }
 
@@ -90,9 +93,42 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             foreach (var definition in toolbarDefinitions)
                 TopLevelDefinitions.Add(definition);
 
-            ((ObservableCollectionEx<CommandBarDefinitionBase>)TopLevelDefinitions).CollectionChanged += _toolbarDefinitions_CollectionChanged;
-            ((ObservableCollectionEx<CommandBarDefinitionBase>)TopLevelDefinitions).ItemPropertyChanged += _toolbarDefinitions_ItemPropertyChanged;
+            ((ObservableCollectionEx<CommandBarDefinitionBase>) TopLevelDefinitions).CollectionChanged +=
+                _toolbarDefinitions_CollectionChanged;
+            ((ObservableCollectionEx<CommandBarDefinitionBase>) TopLevelDefinitions).ItemPropertyChanged +=
+                _toolbarDefinitions_ItemPropertyChanged;
             ContextMenu = IoC.Get<IContextMenuHost>().GetContextMenu(ContextMenuDefinition.ToolbarsContextMenu);
+        }
+
+        public override void Build()
+        {
+            _toolbars.Clear();
+            var definitions = TopLevelDefinitions.OrderBy(x => x.SortOrder).Cast<ToolbarDefinition>();
+            foreach (var definition in definitions)
+            {
+                var toolBar = IoC.Get<IToolbarCreator>().CreateToolbar(definition);
+                _toolbars.Add(definition, toolBar);
+                ChangeToolBarVisibility(definition);
+            }
+        }
+
+        public override void AddItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent,
+            bool addAboveSeparator)
+        {
+            base.AddItemDefinition(definition, parent, addAboveSeparator);
+            var toolbarDef = parent as ToolbarDefinition;
+            if (toolbarDef == null)
+                return;
+            RebuildToolbar(toolbarDef);
+        }
+
+        public override void DeleteItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent)
+        {
+            base.DeleteItemDefinition(definition, parent);
+            var toolbarDef = parent as ToolbarDefinition;
+            if (toolbarDef == null)
+                return;
+            RebuildToolbar(toolbarDef);
         }
 
         public string GetUniqueToolBarName()
@@ -122,46 +158,6 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             TopLevelDefinitions.Remove(definition);
         }
 
-        public override void Build()
-        {
-            _toolbars.Clear();   
-            var definitions = TopLevelDefinitions.OrderBy(x => x.SortOrder).Cast<ToolbarDefinition>();
-            foreach (var definition in definitions)
-            {
-                var toolBar = IoC.Get<IToolbarCreator>().CreateToolbar(definition);
-                _toolbars.Add(definition, toolBar);
-                ChangeToolBarVisibility(definition);
-            }
-        }
-
-        public override void AddItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent, bool addAboveSeparator)
-        {
-            base.AddItemDefinition(definition, parent, addAboveSeparator);
-            var toolbarDef = parent as ToolbarDefinition;
-            if (toolbarDef == null)
-                return;
-            RebuildToolbar(toolbarDef);
-        }
-
-        public override ICollection<CommandBarDefinitionBase> TopLevelDefinitions { get; }
-
-        public override void DeleteItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent)
-        {
-            base.DeleteItemDefinition(definition, parent);
-            var toolbarDef = parent as ToolbarDefinition;
-            if (toolbarDef == null)
-                return;
-            RebuildToolbar(toolbarDef);
-        }
-
-        private void RebuildToolbar(ToolbarDefinition definition)
-        {
-            InternalHideToolBar(definition);
-            var toolbar = IoC.Get<IToolbarCreator>().CreateToolbar(definition);
-            _toolbars[definition] = toolbar;
-            ChangeToolBarVisibility(definition);
-        }
-
         public ToolbarDefinition GeToolbarDefinitionByName(string name)
         {
             foreach (var definition in TopLevelDefinitions)
@@ -177,6 +173,20 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             definition.IsVisible = visible;
         }
 
+        private static void _ToolBarTay_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 2)
+                new CustomizeMenuCommandDefinition().Command.Execute(null);
+        }
+
+        private void RebuildToolbar(ToolbarDefinition definition)
+        {
+            InternalHideToolBar(definition);
+            var toolbar = IoC.Get<IToolbarCreator>().CreateToolbar(definition);
+            _toolbars[definition] = toolbar;
+            ChangeToolBarVisibility(definition);
+        }
+
         private void OpenContextMenu()
         {
             ContextMenu.IsOpen = true;
@@ -185,12 +195,6 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         private bool CanOpenContextMenu()
         {
             return TopLevelDefinitions.Count != 0;
-        }
-
-        private static void _ToolBarTay_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ClickCount == 2)
-                new CustomizeMenuCommandDefinition().Command.Execute(null);
         }
 
         private string InternalGetUniqueToolBarName(int index)

@@ -1,4 +1,6 @@
-﻿using Caliburn.Micro;
+﻿using System.Collections.ObjectModel;
+using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Core.Utilities;
 
@@ -6,7 +8,7 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
 {
     internal interface IToolBarsPageViewModel : IScreen
     {
-        ObservableCollectionEx<ToolbarDefinition> Toolbars { get; }
+        ObservableCollection<CommandBarDefinitionBase> Toolbars { get; }
 
         ToolbarDefinition SelectedToolbarDefinition { get; }
 

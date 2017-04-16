@@ -17,7 +17,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         private readonly Dictionary<Definitions.ContextMenu.ContextMenuDefinition, ContextMenu> _hostedContextMenus;
         //public ObservableCollection<Definitions.ContextMenu.ContextMenuDefinition> ContextMenuDefinitions { get; }
 
-        public override ICollection<CommandBarDefinitionBase> TopLevelDefinitions { get; }
+        public override ObservableCollection<CommandBarDefinitionBase> TopLevelDefinitions { get; }
 
         [ImportingConstructor]
         public ContextMenuHost([ImportMany] Definitions.ContextMenu.ContextMenuDefinition[] contextMenuDefinitions)
@@ -35,15 +35,13 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         {
             _hostedContextMenus.Clear();
             foreach (var definition in TopLevelDefinitions.Where(x => !DefinitionHost.ExcludedItemDefinitions
-                .Contains(x))
+                    .Contains(x))
                 .Cast<Definitions.ContextMenu.ContextMenuDefinition>())
             {
                 var contextMenu = IoC.Get<IContextMenuCreator>().CreateContextMenu(definition);
                 _hostedContextMenus.Add(definition, contextMenu);
             }
         }
-
-        
 
         public ContextMenu GetContextMenu(Definitions.ContextMenu.ContextMenuDefinition contextMenuDefinition)
         {

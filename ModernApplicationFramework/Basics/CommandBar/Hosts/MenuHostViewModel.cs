@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel.Composition;
 using System.Linq;
@@ -21,6 +20,8 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         private readonly IToolBarHostViewModel _toolBarHost;
         private IMainWindowViewModel _mainWindowViewModel;
         private MenuHostControl _menuHostControl;
+
+        public override ObservableCollection<CommandBarDefinitionBase> TopLevelDefinitions { get; }
 
         /// <summary>
         ///     Contains the Items of the MenuHostControl
@@ -79,8 +80,6 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         {
             IoC.Get<IMainMenuCreator>().CreateMenuBar(this);
         }
-
-        public override ICollection<CommandBarDefinitionBase> TopLevelDefinitions { get; }
 
 
         private void ExecuteRightClick()

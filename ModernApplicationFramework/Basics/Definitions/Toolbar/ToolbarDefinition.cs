@@ -1,15 +1,19 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows.Controls;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Core.Converters.AccessKey;
+using ModernApplicationFramework.Interfaces;
 using DefinitionBase = ModernApplicationFramework.Basics.Definitions.Command.DefinitionBase;
 
 namespace ModernApplicationFramework.Basics.Definitions.Toolbar
 {
-    public class ToolbarDefinition : CommandBarDefinitionBase
+    public class ToolbarDefinition : CommandBarDefinitionBase, IHasInternalName
     {
         private Dock _position;
         private bool _isVisible;
+        private string _internalName;
 
 
         public Dock Position
@@ -43,6 +47,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
         {
             _position = position;
             _isVisible = visible;
+            _internalName = new AccessKeyRemovingConverter().Convert(text, typeof(string), null, CultureInfo.CurrentCulture)?.ToString();
         }
 
         private sealed class ToolbarCommandDefinition : DefinitionBase
@@ -57,6 +62,17 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
 
             public override CommandControlTypes ControlType => CommandControlTypes.Menu;
             public override string ShortcutText { get; set; }
+        }
+
+        public string InternalName
+        {
+            get => _internalName;
+            set
+            {
+                if (value == _internalName) return;
+                _internalName = value;
+                OnPropertyChanged();
+            }
         }
     }
 }

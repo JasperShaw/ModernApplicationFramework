@@ -37,7 +37,7 @@
             <customize:StylingFlagsConverter x:Key="StylingFlagsConverter"/>
             <CollectionViewSource x:Key="ToolBarsView" Source="{Binding CustomizableToolBars}">
                 <CollectionViewSource.SortDescriptions>
-                    <componentModel:SortDescription PropertyName="Text"/>
+                    <componentModel:SortDescription PropertyName="InternalName"/>
                 </CollectionViewSource.SortDescriptions>
             </CollectionViewSource>
             <ContextMenu x:Key="ModifySelectionCommandsMenu">
@@ -173,7 +173,7 @@
                          VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,5"
                          IsChecked="{Binding SelectedOption, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:CustomizeRadioButtonOptions.Toolbar}, Mode=TwoWay}"/>
             <ComboBox Name="ToolBarCombo" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="6,0,0,5" SelectedIndex="0"
-                      TextSearch.TextPath="Text" DisplayMemberPath="Text" ItemContainerStyle="{StaticResource CollectionComboBoxItemStyle}"
+                      TextSearch.TextPath="InternalName" DisplayMemberPath="InternalName" ItemContainerStyle="{StaticResource CollectionComboBoxItemStyle}"
                       SelectedItem="{Binding SelectedToolBarItem, Mode=TwoWay}">
                 <UIElement.IsEnabled>
                     <Binding ElementName="ToolBarRadioButton" Path="IsChecked"/>
@@ -186,7 +186,7 @@
                          VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,5"
                          IsChecked="{Binding SelectedOption, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:CustomizeRadioButtonOptions.ContextMenu}, Mode=TwoWay}"/>
             <ComboBox Name="ContextMenuCombo" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="6,0,0,5" SelectedIndex="0"
-                      TextSearch.TextPath="Text" DisplayMemberPath="Text" ItemContainerStyle="{StaticResource CollectionComboBoxItemStyle}"
+                      TextSearch.TextPath="InternalName" DisplayMemberPath="InternalName" ItemContainerStyle="{StaticResource CollectionComboBoxItemStyle}"
                       ItemsSource="{Binding CustomizableContextMenus}" SelectedItem="{Binding SelectedContextMenuItem, Mode=TwoWay}">
                 <UIElement.IsEnabled>
                     <Binding ElementName="ContextMenuRadioButton" Path="IsChecked"/>

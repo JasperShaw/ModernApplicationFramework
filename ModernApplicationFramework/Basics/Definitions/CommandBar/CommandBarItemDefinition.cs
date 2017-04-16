@@ -12,6 +12,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         private CommandBarGroupDefinition _group;
         private string _internalName;
         private bool _isVeryFirst;
+        private string _text;
 
         public virtual bool IsVisible
         {
@@ -63,9 +64,42 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             get => _group;
             set
             {
-                if (Equals(value, _group)) return;
+                if (Equals(value, _group))
+                    return;
+                if (_group != null && _group.Parent is IHasInternalName oldinternalNameParent)
+                    oldinternalNameParent.PropertyChanged -= InternalNameParent_PropertyChanged;
                 _group = value;
                 OnPropertyChanged();
+                if (value.Parent is IHasInternalName newinternalNameParent)
+                    newinternalNameParent.PropertyChanged += InternalNameParent_PropertyChanged;
+                UpdateInternalName();
+            }
+        }
+
+        public override string Text
+        {
+            get => _text;
+            set
+            {
+                if (value == _text) return;
+                _text = value;
+                OnPropertyChanged();
+                UpdateInternalName();
+            }
+        }
+
+        protected void UpdateInternalName()
+        {
+            var internalName = new AccessKeyRemovingConverter().Convert(Text, typeof(string), null, CultureInfo.CurrentCulture)?.ToString();
+
+            if (Group?.Parent is IHasInternalName internalNameParent)
+            {
+                if (!string.IsNullOrEmpty(internalNameParent.InternalName))
+                    InternalName = internalNameParent.InternalName + " | " + internalName;
+            }
+            else
+            {
+                InternalName = internalName;
             }
         }
 
@@ -76,18 +110,27 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         {
             _isVisible = visible;
             _group = group;
+            _text = text;
 
             var internalName = new AccessKeyRemovingConverter().Convert(text, typeof(string), null, CultureInfo.CurrentCulture)?.ToString();
 
             if (group?.Parent is IHasInternalName internalNameParent)
             {
-                if (!string.IsNullOrEmpty(internalNameParent.InternalName))
-                    _internalName = internalNameParent.InternalName + " | " + internalName;
+                if (string.IsNullOrEmpty(internalNameParent.InternalName))
+                    return;
+                _internalName = internalNameParent.InternalName + " | " + internalName;
+                internalNameParent.PropertyChanged += InternalNameParent_PropertyChanged;
             }
             else
             {
                 _internalName = internalName;
             }
+        }
+
+        private void InternalNameParent_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if(e.PropertyName == nameof(IHasInternalName.InternalName))
+                UpdateInternalName();
         }
     }
 }
