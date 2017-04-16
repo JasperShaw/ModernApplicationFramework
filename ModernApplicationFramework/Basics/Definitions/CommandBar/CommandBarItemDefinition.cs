@@ -11,6 +11,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         private bool _precededBySeparator;
         private CommandBarGroupDefinition _group;
         private string _internalName;
+        private bool _isVeryFirst;
 
         public virtual bool IsVisible
         {
@@ -31,6 +32,17 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
                 if (value == _precededBySeparator)
                     return;
                 _precededBySeparator = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public virtual bool IsVeryFirst
+        {
+            get => _isVeryFirst;
+            set
+            {
+                if (value == _isVeryFirst) return;
+                _isVeryFirst = value;
                 OnPropertyChanged();
             }
         }

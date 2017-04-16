@@ -47,6 +47,53 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             DefinitionHost.ItemDefinitions.Add(definition);
         }
 
+        public void DeleteGroup(CommandBarGroupDefinition group, CommandBarDefinitionBase parent, AppendTo option = AppendTo.Next)
+        {
+            var definitionsInCurrnetGroup = DefinitionHost.ItemDefinitions.Where(x => x.Group == group).OrderBy(x => x.SortOrder).ToList();
+
+            var newGroup = option == AppendTo.Next ? NextGroup(group, parent) : PreviousGroup(group, parent);
+            var definitionsInNewGroup = DefinitionHost.ItemDefinitions.Where(x => x.Group == newGroup).OrderBy(x => x.SortOrder).ToList();
+
+            uint newSortorder = 0;
+            if (option == AppendTo.Next)
+            {
+                foreach (var groupDefinition in definitionsInCurrnetGroup)
+                {
+                    groupDefinition.Group = newGroup;
+                    groupDefinition.SortOrder = newSortorder++;
+                }
+
+                //Add old items after the new inserted ones
+                foreach (var groupDefinition in definitionsInNewGroup)
+                    groupDefinition.SortOrder = newSortorder++;
+            }
+            else
+            {
+                foreach (var groupDefinition in definitionsInNewGroup)
+                    groupDefinition.SortOrder = newSortorder++;
+
+                foreach (var groupDefinition in definitionsInCurrnetGroup)
+                {
+                    groupDefinition.Group = newGroup;
+                    groupDefinition.SortOrder = newSortorder++;
+                }
+            }
+            RearrangeGroups(group);
+            DefinitionHost.ItemGroupDefinitions.Remove(group);
+        }
+
+        private void RearrangeGroups(CommandBarGroupDefinition deletedGroup)
+        {
+            var groupsToChange = DefinitionHost.ItemGroupDefinitions.Where(x => x.SortOrder >= deletedGroup.SortOrder).OrderBy(x => x.SortOrder);
+
+            foreach (var groupDefinition in groupsToChange)
+            {
+                if (groupDefinition == deletedGroup)
+                    continue;
+                groupDefinition.SortOrder--;
+            }
+        }
+
         public virtual void DeleteItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent)
         {
             //As a Separator contains the previous group we need add all items into the next group
@@ -54,23 +101,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             {
                 if (definition.Group == null || !DefinitionHost.ItemGroupDefinitions.Contains(definition.Group))
                     return;
-
-                var definitionsInCurrnetGroup = DefinitionHost.ItemDefinitions.Where(x => x.Group == definition.Group).OrderBy(x => x.SortOrder).ToList();
-                var nextGroup = NextGroup(definition, parent);
-                var definitionsInNextGroup = DefinitionHost.ItemDefinitions.Where(x => x.Group == nextGroup).OrderBy(x => x.SortOrder).ToList();
-
-                uint newSortorder = 0;
-                foreach (var groupDefinition in definitionsInCurrnetGroup)
-                {
-                    groupDefinition.Group = nextGroup;
-                    groupDefinition.SortOrder = newSortorder++;
-                }
-
-                //Add old items after the new inserted ones
-                foreach (var groupDefinition in definitionsInNextGroup)
-                    groupDefinition.SortOrder = newSortorder++;
-
-                DefinitionHost.ItemGroupDefinitions.Remove(definition.Group);
+                DeleteGroup(definition.Group, parent);
             }
             else
             {
@@ -78,14 +109,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
                 if (definitionsInGroup.Count <= 1)
                 {
-                    var groupsToChange = DefinitionHost.ItemGroupDefinitions.Where(x => x.SortOrder >= definition.Group.SortOrder).OrderBy(x => x.SortOrder);
-
-                    foreach (var groupDefinition in groupsToChange)
-                    {
-                        if (groupDefinition == definition.Group)
-                            continue;
-                        groupDefinition.SortOrder--;
-                    }
+                    RearrangeGroups(definition.Group);
                     DefinitionHost.ItemGroupDefinitions.Remove(definition.Group);
                 }
                 else
@@ -109,7 +133,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             {
                 if (definition.SortOrder != 0)
                     return null;
-                var previousGroup = PreviousGroup(definition, parent);
+                var previousGroup = PreviousGroup(definition.Group, parent);
                 if (previousGroup == null)
                     return null;
 
@@ -152,7 +176,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
             if (definition.CommandDefinition.ControlType == CommandControlTypes.Separator || definition.SortOrder == hightestSortOrder)
             {
-                var nextGroup = NextGroup(definition, parent);
+                var nextGroup = NextGroup(definition.Group, parent);
                 if (nextGroup == null)
                     return null;
 
@@ -165,14 +189,20 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             return nextItem;
         }
 
-        private CommandBarGroupDefinition NextGroup(CommandBarItemDefinition item, CommandBarDefinitionBase parent)
+        private CommandBarGroupDefinition NextGroup(CommandBarGroupDefinition group, CommandBarDefinitionBase parent)
         {
-            return DefinitionHost.ItemGroupDefinitions.Where(x => x.Parent == parent).FirstOrDefault(x => x.SortOrder > item.Group.SortOrder);
+            return DefinitionHost.ItemGroupDefinitions.Where(x => x.Parent == parent).FirstOrDefault(x => x.SortOrder > group.SortOrder);
         }
 
-        private CommandBarGroupDefinition PreviousGroup(CommandBarItemDefinition item, CommandBarDefinitionBase parent)
+        private CommandBarGroupDefinition PreviousGroup(CommandBarGroupDefinition group, CommandBarDefinitionBase parent)
         {
-            return DefinitionHost.ItemGroupDefinitions.Where(x => x.Parent == parent).FirstOrDefault(x => x.SortOrder < item.Group.SortOrder);
+            return DefinitionHost.ItemGroupDefinitions.Where(x => x.Parent == parent).FirstOrDefault(x => x.SortOrder < group.SortOrder);
         }
+    }
+
+    public enum AppendTo
+    {
+        Next,
+        Previous
     }
 }

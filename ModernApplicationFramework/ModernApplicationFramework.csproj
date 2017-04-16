@@ -352,8 +352,10 @@
     <Compile Include="Interfaces\ICommandBarDefinitionHost.cs" />
     <Compile Include="Interfaces\IContextMenuHost.cs" />
     <Compile Include="Interfaces\IHasInternalName.cs" />
+    <Compile Include="Interfaces\IHasMainWindowViewModel.cs" />
     <Compile Include="Interfaces\ISettingsPage.cs" />
     <Compile Include="Interfaces\Utilities\IContextMenuCreator.cs" />
+    <Compile Include="Interfaces\ViewModels\ICommandBarHost.cs" />
     <Compile Include="Interfaces\Views\IToolBarsPageView.cs" />
     <Compile Include="Native\Platform\Enums\Cdcontrolstate.cs" />
     <Compile Include="Native\Platform\Enums\CombineMode.cs" />

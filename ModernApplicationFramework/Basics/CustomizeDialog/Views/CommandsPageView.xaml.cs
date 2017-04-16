@@ -23,6 +23,12 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.Views
 
         public DropDownDialogButton ModifySelectionButton => DropDownButton;
         public CustomizeControlsListBox CustomizeListBox => ControlsListBox;
+
+        private void HandleBeginGroup(object sender, RoutedEventArgs e)
+        {
+            var model = DataContext as CommandsPageViewModel;
+            model?.HandleAddOrRemoveGroupCommand.Execute(((CheckedMenuItem)sender).IsChecked);
+        }
     }
 
     public interface ICommandsPageView

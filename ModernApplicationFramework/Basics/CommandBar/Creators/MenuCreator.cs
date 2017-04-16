@@ -25,23 +25,32 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
 
             foreach (var bar in bars)
             {
-                var group = host.ItemGroupDefinitions.FirstOrDefault(x => x.Parent == bar);
+                var groups = host.ItemGroupDefinitions.Where(x => x.Parent == bar)
+                    .Where(x => !host.ExcludedItemDefinitions.Contains(x))
+                    .OrderBy(x => x.SortOrder)
+                    .ToList();
 
-                var topLevelMenus = host.ItemDefinitions.Where(x => !host.ExcludedItemDefinitions.Contains(x))
-                    .Where(x => x.Group == group)
-                    .OrderBy(x => x.SortOrder);
-
-                uint newSortOrder = 0;
-                foreach (var menuDefinition in topLevelMenus)
+                var veryFirstItem = true;
+                foreach (var group in groups)
                 {
-                    var menuItem = new MenuItem(menuDefinition);
+                    var topLevelMenus = host.ItemDefinitions.Where(x => !host.ExcludedItemDefinitions.Contains(x))
+                        .Where(x => x.Group == group)
+                        .OrderBy(x => x.SortOrder);
 
-                    //Required so we can call CreateMenuTree() with each submenu open. Do not do this for command items however
-                    if (menuDefinition is MenuDefinition)
-                        menuItem.Items.Add(new MenuItem());
+                    uint newSortOrder = 0;
+                    foreach (var menuDefinition in topLevelMenus)
+                    {
+                        var menuItem = new MenuItem(menuDefinition);
 
-                    model.Items.Add(menuItem);
-                    menuDefinition.SortOrder = newSortOrder++;
+                        //Required so we can call CreateMenuTree() with each submenu open. Do not do this for command items however
+                        if (menuDefinition is MenuDefinition)
+                            menuItem.Items.Add(new MenuItem());
+
+                        model.Items.Add(menuItem);
+                        menuDefinition.SortOrder = newSortOrder++;
+                        menuDefinition.IsVeryFirst = veryFirstItem;
+                        veryFirstItem = false;
+                    }
                 }
             }
         }
@@ -56,6 +65,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
                 .OrderBy(x => x.SortOrder)
                 .ToList();
 
+            var veryFirstItem = true;
             for (var i = 0; i < groups.Count; i++)
             {
                 var group = groups[i];
@@ -64,7 +74,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
                     .OrderBy(x => x.SortOrder);
 
 
-                var firstItem = false;
+                var precededBySeparator = false;
                 if (i > 0 && i <= groups.Count - 1 && menuItems.Any())
                 {
                     if (menuItems.Any(menuItemDefinition => menuItemDefinition.IsVisible))
@@ -73,7 +83,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
                         separatorDefinition.Group = groups[i - 1];
                         var separator = new MenuItem(separatorDefinition);
                         menuItem.Items.Add(separator);
-                        firstItem = true;
+                        precededBySeparator = true;
                     }
                 }
                 uint newSortOrder = 0;
@@ -85,11 +95,13 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
                         menuItemControl = new DummyListMenuItem(menuItemDefinition, menuItem);
                     else
                         menuItemControl = new MenuItem(menuItemDefinition);
-                    menuItemDefinition.PrecededBySeparator = firstItem;
-                    firstItem = false;
+                    menuItemDefinition.PrecededBySeparator = precededBySeparator;
+                    precededBySeparator = false;
                     CreateMenuTree(menuItemDefinition, menuItemControl);
                     menuItem.Items.Add(menuItemControl);
                     menuItemDefinition.SortOrder = newSortOrder++;
+                    menuItemDefinition.IsVeryFirst = veryFirstItem;
+                    veryFirstItem = false;
                 }
             }
         }
@@ -102,43 +114,56 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
 
             if (definition is MenuBarDefinition barDefinition)
             {
-                var group = host.ItemGroupDefinitions.FirstOrDefault(x => x.Parent == barDefinition);
-
-                var menus = host.ItemDefinitions
-                    .Where(x => x.Group == group)
-                    .OrderBy(x => x.SortOrder);
-                list.AddRange(menus);
+                var groups = host.ItemGroupDefinitions.Where(x => x.Parent == barDefinition)
+                    .Where(x => !host.ExcludedItemDefinitions.Contains(x))
+                    .OrderBy(x => x.SortOrder)
+                    .ToList();
+                var veryFirstItem = true;
+                foreach (var group in groups)
+                {
+                    var menus = host.ItemDefinitions
+                        .Where(x => x.Group == group)
+                        .OrderBy(x => x.SortOrder);
+                    foreach (var menu in menus)
+                    {
+                        list.Add(menu);
+                        menu.IsVeryFirst = veryFirstItem;
+                        veryFirstItem = false;
+                    }
+                }
             }
             else if (definition is MenuDefinition || definition is CommandBarItemDefinition)
             {
 
                 var groups = host.ItemGroupDefinitions.Where(x => x.Parent == definition)
                     .OrderBy(x => x.SortOrder)
-                    .ToList();              
-
+                    .ToList();
+                var veryFirstItem = true;
                 for (var i = 0; i < groups.Count; i++)
                 {
                     var group = groups[i];
                     var menuItems = host.ItemDefinitions.Where(x => x.Group == group)
                         .OrderBy(x => x.SortOrder);
 
-                    bool firstItem = false; //As Menus are created each click we need to to this also in this methods
+                    bool precededBySeparator = false; //As Menus are created each click we need to to this also in this methods
                     if (i > 0 && i <= groups.Count - 1 && menuItems.Any())
                         if (menuItems.Any(menuItemDefinition => menuItemDefinition.IsVisible))
                         {
                             var separatorDefinition = CommandBarSeparatorDefinition.SeparatorDefinition;
                             separatorDefinition.Group = groups[i-1];
                             list.Add(separatorDefinition);
-                            firstItem = true;
+                            precededBySeparator = true;
                         }
 
                     uint newSortOrder = 0;  //As Menus are created each click we need to to this also in this methods
                     foreach (var itemDefinition in menuItems)
                     {
-                        itemDefinition.PrecededBySeparator = firstItem;
+                        itemDefinition.PrecededBySeparator = precededBySeparator;
                         list.Add(itemDefinition);
                         itemDefinition.SortOrder = newSortOrder++;
-                        firstItem = false;
+                        precededBySeparator = false;
+                        itemDefinition.IsVeryFirst = veryFirstItem;
+                        veryFirstItem = false;
                     }
                 }
             }

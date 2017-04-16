@@ -24,7 +24,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
                 .OrderBy(x => x.SortOrder)
                 .ToList();
 
-            
+            var veryFirstItem = true;
             for (var i = 0; i < groups.Count; i++)
             {
                 uint newSortOrder = 0;
@@ -33,7 +33,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
                     .Where(x => x.Group == group)
                     .OrderBy(x => x.SortOrder);
 
-                var firstItem = false;    
+                var precededBySeparator = false;    
                 if (i > 0 && i <= groups.Count - 1 && toolBarItems.Any())
                 {
                     if (toolBarItems.Any(toolbarItemDefinition => toolbarItemDefinition.IsVisible))
@@ -42,17 +42,19 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
                         separatorDefinition.Group = groups[i - 1];
                         var separator = new CommandDefinitionButton(separatorDefinition);
                         toolBar.Items.Add(separator);
-                        firstItem = true;
+                        precededBySeparator = true;
                     }
                 }
 
                 foreach (var toolBarItem in toolBarItems)
                 {
-                    toolBarItem.PrecededBySeparator = firstItem;
+                    toolBarItem.PrecededBySeparator = precededBySeparator;
                     var button = new CommandDefinitionButton(toolBarItem);
                     toolBar.Items.Add(button);
-                    firstItem = false;
+                    precededBySeparator = false;
                     toolBarItem.SortOrder = newSortOrder++;
+                    toolBarItem.IsVeryFirst = veryFirstItem;
+                    veryFirstItem = false;
                 }
             }
             return toolBar;

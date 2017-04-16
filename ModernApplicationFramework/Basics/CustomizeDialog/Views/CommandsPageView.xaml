@@ -127,7 +127,7 @@
                     </UIElement.IsEnabled>
                 </controls:CheckedMenuItem>
                 <controls:Separator/>
-                <controls:CheckedMenuItem Header="Begin a _Group" IsCheckable="True" IsChecked="{Binding PrecededBySeparator}">
+                <controls:CheckedMenuItem Header="Begin a _Group" IsCheckable="True" IsChecked="{Binding PrecededBySeparator}" Click="HandleBeginGroup">
                     <UIElement.IsEnabled>
                         <Binding Converter="{StaticResource BeginGroupIsEnabledConverter}"/>
                     </UIElement.IsEnabled>

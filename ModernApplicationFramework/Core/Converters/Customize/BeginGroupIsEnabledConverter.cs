@@ -8,7 +8,9 @@ namespace ModernApplicationFramework.Core.Converters.Customize
     {
         protected override bool Convert(CommandBarDefinitionBase value, object parameter, CultureInfo culture)
         {
-                return value?.SortOrder > 0;
+            if (value is CommandBarItemDefinition itemDefinition)
+                return !itemDefinition.IsVeryFirst;
+            return false;
         }
     }
 }

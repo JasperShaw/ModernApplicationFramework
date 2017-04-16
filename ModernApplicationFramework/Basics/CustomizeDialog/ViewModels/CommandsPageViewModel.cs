@@ -5,6 +5,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Input;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.CommandBar.Hosts;
 using ModernApplicationFramework.Basics.CustomizeDialog.Views;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
@@ -35,6 +36,8 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         public ICommand HandleAddCommand => new Command(HandleCommandAdd);
         public ICommand HandleDeleteCommand => new Command(HandleCommandDelete);
         public ICommand HandleAddNewMenuCommand => new Command(HandleCommandAddNewMenu);
+
+        public ICommand HandleAddOrRemoveGroupCommand => new Command<object>(HandleCommandAddOrRemoveGroup, obj => true);
 
         public ICommand HandleStylingFlagChangeCommand => new Command<object>(HandleStylingFlagChange, obj => true);
 
@@ -223,6 +226,22 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             SelectedListBoxDefinition = def;
         }
 
+        private void HandleCommandAddOrRemoveGroup(object value)
+        {
+            if (!(value is bool))
+                return;
+            GetModelAndParent(out ICommandBarHost model, out CommandBarDefinitionBase parent);
+
+            var nextSelectedItem = SelectedListBoxDefinition;
+
+            //Needs to be inverted as the Checkbox will be added before this code executes
+            if (!(bool) value)
+                model.DeleteGroup(SelectedListBoxDefinition.Group, parent, AppendTo.Previous);
+
+            BuildItemSources(SelectedOption);
+            SelectedListBoxDefinition = nextSelectedItem;
+        }
+
         private void InternalAddItem(CommandBarItemDefinition definitionToAdd)
         {
             uint newSortOrder;
@@ -263,7 +282,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 
         private void HandleCommandAddNewMenu()
         {
-            var newMenuItem = new MenuDefinition(null, 0, "New Menu");
+            var newMenuItem = new MenuDefinition(null, 0, "New Menu", true);
 
             InternalAddItem(newMenuItem);
             BuildItemSources(SelectedOption);
