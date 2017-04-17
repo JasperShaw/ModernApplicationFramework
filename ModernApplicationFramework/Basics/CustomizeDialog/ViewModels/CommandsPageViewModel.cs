@@ -36,6 +36,20 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         public ICommand HandleAddCommand => new Command(HandleCommandAdd);
         public ICommand HandleDeleteCommand => new Command(HandleCommandDelete);
         public ICommand HandleAddNewMenuCommand => new Command(HandleCommandAddNewMenu);
+        public ICommand HandleMoveUpCommand => new Command(HandleCommandMoveUp);
+
+        private void HandleCommandMoveUp()
+        {
+            DoMove(-1);
+        }
+
+
+        public ICommand HandleMoveDownCommand => new Command(HandleCommandMoveDown);
+
+        private void HandleCommandMoveDown()
+        {
+            DoMove(1);
+        }
 
         public ICommand HandleAddOrRemoveGroupCommand => new Command<object>(HandleCommandAddOrRemoveGroup,
             obj => true);
@@ -253,6 +267,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
                 model.AddGroupAt(SelectedListBoxDefinition, parent);
 
             BuildItemSources(SelectedOption);
+            BuildCheckBoxItems(SelectedOption);
             SelectedListBoxDefinition = nextSelectedItem;
         }
 
@@ -324,6 +339,20 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private void DoMove(int offset)
+        {
+            var selectedItem = SelectedListBoxDefinition;
+
+            GetModelAndParent(out ICommandBarHost model, out CommandBarDefinitionBase parent);
+
+            model.MoveItem(SelectedListBoxDefinition, offset, parent);
+
+            model.Build();
+            BuildItemSources(SelectedOption);
+            BuildCheckBoxItems(SelectedOption);
+            SelectedListBoxDefinition = selectedItem;
         }
 
 

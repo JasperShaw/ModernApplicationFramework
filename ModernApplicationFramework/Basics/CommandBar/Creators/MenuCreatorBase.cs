@@ -77,7 +77,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
                 var menuItems = host.ItemDefinitions.Where(x => x.Group == group).OrderBy(x => x.SortOrder);
 
                 if (i > 0 && i <= groups.Count - 1 && menuItems.Any())
-                    if (menuItems.Any(menuItemDefinition => menuItemDefinition.IsVisible))
+                    if (menuItems.Any())
                     {
                         var separatorDefinition = CommandBarSeparatorDefinition.SeparatorDefinition;
                         separatorDefinition.Group = groups[i - 1];

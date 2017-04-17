@@ -70,7 +70,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
                     oldinternalNameParent.PropertyChanged -= InternalNameParent_PropertyChanged;
                 _group = value;
                 OnPropertyChanged();
-                if (value.Parent is IHasInternalName newinternalNameParent)
+                if (value?.Parent is IHasInternalName newinternalNameParent)
                     newinternalNameParent.PropertyChanged += InternalNameParent_PropertyChanged;
                 UpdateInternalName();
             }

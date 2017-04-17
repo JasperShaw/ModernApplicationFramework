@@ -230,8 +230,7 @@
                         <Binding Path="SelectedListBoxDefinition" Converter="{StaticResource IsSeparatorOrCustomizableModelConverter}"/>
                     </UIElement.IsEnabled>
                 </controls:DialogButton>
-                <controls:DialogButton x:Name="MoveUpButton" Content="Move _Up">
-                    <!-- TODO -->
+                <controls:DialogButton x:Name="MoveUpButton" Content="Move _Up" Command="{Binding HandleMoveUpCommand}">
                     <UIElement.IsEnabled>
                         <MultiBinding Converter="{StaticResource CanMoveUpMultiValueConverter}">
                             <Binding ElementName="ControlsListBox" Path="SelectedIndex"/>
@@ -239,7 +238,7 @@
                         </MultiBinding>
                     </UIElement.IsEnabled>
                 </controls:DialogButton>
-                <controls:DialogButton x:Name="MoveDownButton" Content="Move Dow_n">
+                <controls:DialogButton x:Name="MoveDownButton" Content="Move Dow_n" Command="{Binding HandleMoveDownCommand}">
                     <UIElement.IsEnabled>
                         <MultiBinding Converter="{StaticResource CanMoveDownMultiValueConverter}">
                             <Binding ElementName="ControlsListBox" Path="Items.Count"/>

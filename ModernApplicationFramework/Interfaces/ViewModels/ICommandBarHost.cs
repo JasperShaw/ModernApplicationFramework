@@ -27,5 +27,6 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
 
         IEnumerable<CommandBarDefinitionBase> GetMenuHeaderItemDefinitions();
         void AddGroupAt(CommandBarItemDefinition startingDefinition, CommandBarDefinitionBase parent);
+        void MoveItem(CommandBarItemDefinition selectedListBoxDefinition, int offset, CommandBarDefinitionBase parent);
     }
 }

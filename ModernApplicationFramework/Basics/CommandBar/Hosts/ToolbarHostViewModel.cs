@@ -103,6 +103,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         public override void Build()
         {
             _toolbars.Clear();
+            InternalHideAllToolbars();
             var definitions = TopLevelDefinitions.OrderBy(x => x.SortOrder).Cast<ToolbarDefinition>();
             foreach (var definition in definitions)
             {
