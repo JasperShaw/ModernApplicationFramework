@@ -37,25 +37,10 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         public ICommand HandleDeleteCommand => new Command(HandleCommandDelete);
         public ICommand HandleAddNewMenuCommand => new Command(HandleCommandAddNewMenu);
         public ICommand HandleMoveUpCommand => new Command(HandleCommandMoveUp);
-
-        private void HandleCommandMoveUp()
-        {
-            DoMove(-1);
-        }
-
-
         public ICommand HandleMoveDownCommand => new Command(HandleCommandMoveDown);
-
-        private void HandleCommandMoveDown()
-        {
-            DoMove(1);
-        }
-
         public ICommand HandleAddOrRemoveGroupCommand => new Command<object>(HandleCommandAddOrRemoveGroup,
             obj => true);
-
         public ICommand HandleStylingFlagChangeCommand => new Command<object>(HandleStylingFlagChange, obj => true);
-
         public Command DropDownClickCommand => new Command(ExecuteDropDownClick);
 
         public IEnumerable<CommandBarDefinitionBase> CustomizableToolBars
@@ -192,6 +177,12 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             SelectedListBoxDefinition = Items.FirstOrDefault();
         }
 
+        protected override void OnActivate()
+        {
+            base.OnActivate();
+            BuildCheckBoxItems(CustomizeRadioButtonOptions.All);
+        }
+
         private void HandleStylingFlagChange(object value)
         {
             if (!(value is CommandBarFlags commandFlag))
@@ -200,7 +191,6 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             var commandflag2 = ((CommandBarFlags) allFlags & ~StylingFlagsConverter.StylingMask) | commandFlag;
             SelectedListBoxDefinition.Flags.EnableStyleFlags(commandflag2);
         }
-
 
         private void BuildCheckBoxItems(CustomizeRadioButtonOptions value)
         {
@@ -217,7 +207,6 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
                     new ObservableCollection<CommandBarDefinitionBase>(IoC.Get<IContextMenuHost>()
                         .GetMenuHeaderItemDefinitions());
         }
-
 
         private void BuildItemSources(CustomizeRadioButtonOptions value)
         {
@@ -343,6 +332,8 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 
         private void DoMove(int offset)
         {
+
+
             var selectedItem = SelectedListBoxDefinition;
 
             GetModelAndParent(out ICommandBarHost model, out CommandBarDefinitionBase parent);
@@ -351,8 +342,13 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 
             model.Build();
             BuildItemSources(SelectedOption);
-            BuildCheckBoxItems(SelectedOption);
-            SelectedListBoxDefinition = selectedItem;
+
+            var newSelectedItem = Items.Where(x => x.Group == selectedItem.Group)
+                                      .FirstOrDefault(x => x.SortOrder == selectedItem.SortOrder) ??
+                                  Items.Where(x => x.Group == model.GetPreviousGroup(selectedItem.Group, parent))
+                                      .FirstOrDefault(x => x.SortOrder == selectedItem.SortOrder); 
+
+            SelectedListBoxDefinition = newSelectedItem;
         }
 
 
@@ -361,6 +357,16 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             var dropDownMenu = _control.ModifySelectionButton.DropDownMenu;
             dropDownMenu.DataContext = SelectedListBoxDefinition;
             dropDownMenu.IsOpen = true;
+        }
+
+        private void HandleCommandMoveUp()
+        {
+            DoMove(-1);
+        }
+
+        private void HandleCommandMoveDown()
+        {
+            DoMove(1);
         }
     }
 

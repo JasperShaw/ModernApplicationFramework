@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
@@ -176,7 +175,8 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                 return;
             if (item.CommandDefinition.ControlType == CommandControlTypes.Separator)
             {
-
+                var lastItem = GetLastDefinitionInGroup(item.Group);
+                StepwiseMoveDown(lastItem as CommandBarItemDefinition, parent);
             }
             else
             {
@@ -214,7 +214,10 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
             if (item.CommandDefinition.ControlType == CommandControlTypes.Separator)
             {
+                var nextGroup = GetNextGroup(item.Group, parent);
+                var nextItem = GetFirstDefinitionInGroup(nextGroup);
 
+                StepwiseMoveUp(nextItem as CommandBarItemDefinition, parent);
             }
             else
             {
@@ -346,13 +349,13 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             }
         }
 
-        private CommandBarGroupDefinition GetNextGroup(CommandBarGroupDefinition group, CommandBarDefinitionBase parent)
+        public CommandBarGroupDefinition GetNextGroup(CommandBarGroupDefinition group, CommandBarDefinitionBase parent)
         {
             return DefinitionHost.ItemGroupDefinitions.Where(x => x.Parent == parent).OrderBy(x => x.SortOrder)
                 .FirstOrDefault(x => x.SortOrder > group.SortOrder);
         }
 
-        private CommandBarGroupDefinition GetPreviousGroup(CommandBarGroupDefinition group,
+        public CommandBarGroupDefinition GetPreviousGroup(CommandBarGroupDefinition group,
             CommandBarDefinitionBase parent)
         {
             return DefinitionHost.ItemGroupDefinitions.Where(x => x.Parent == parent).OrderBy(x => x.SortOrder)
@@ -378,6 +381,13 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             return DefinitionHost.ItemDefinitions.Where(x => x.Group == groupDefinition)
                 .OrderBy(x => x.SortOrder)
                 .LastOrDefault();
+        }
+
+        private CommandBarDefinitionBase GetFirstDefinitionInGroup(CommandBarGroupDefinition groupDefinition)
+        {
+            return DefinitionHost.ItemDefinitions.Where(x => x.Group == groupDefinition)
+                .OrderBy(x => x.SortOrder)
+                .FirstOrDefault();
         }
 
         private IEnumerable<CommandBarGroupDefinition> GetAllGroupsInParent(CommandBarDefinitionBase parent)
