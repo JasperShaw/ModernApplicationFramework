@@ -1,6 +1,8 @@
 ﻿using System.Globalization;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Core.Comparers;
 using ModernApplicationFramework.Core.Converters.AccessKey;
+using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
@@ -13,6 +15,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         private string _internalName;
         private bool _isVeryFirst;
         private string _text;
+        private uint _sortOrder;
 
         public virtual bool IsVisible
         {
@@ -68,12 +71,24 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
                     return;
                 if (_group != null && _group.Parent is IHasInternalName oldinternalNameParent)
                     oldinternalNameParent.PropertyChanged -= InternalNameParent_PropertyChanged;
+                var oldGroup = _group;
                 _group = value;
                 OnPropertyChanged();
                 if (value?.Parent is IHasInternalName newinternalNameParent)
                     newinternalNameParent.PropertyChanged += InternalNameParent_PropertyChanged;
                 UpdateInternalName();
+                UpdateGroup(value, oldGroup);
+
             }
+        }
+
+        protected void UpdateGroup(CommandBarGroupDefinition value, CommandBarGroupDefinition oldGroup)
+        {
+            if (CommandDefinition.ControlType == CommandControlTypes.Separator)
+                return;
+            if (!value.Items.Contains(this))
+                value.Items.AddSorted(this, new SortOrderComparer<CommandBarDefinitionBase>());
+            oldGroup?.Items.Remove(this);
         }
 
         public override string Text
@@ -86,6 +101,23 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
                 OnPropertyChanged();
                 UpdateInternalName();
             }
+        }
+
+        public override uint SortOrder
+        {
+            get => _sortOrder;
+            set
+            {
+                if (value == _sortOrder) return;
+                _sortOrder = value;
+                OnPropertyChanged();
+                ReSortGroupItems();
+            }
+        }
+
+        protected void ReSortGroupItems()
+        {
+            Group.Items.Sort(new SortOrderComparer<CommandBarDefinitionBase>());
         }
 
         protected void UpdateInternalName()
@@ -110,6 +142,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         {
             _isVisible = visible;
             _group = group;
+            _sortOrder = sortOrder;
             _text = text;
 
             var internalName = new AccessKeyRemovingConverter().Convert(text, typeof(string), null, CultureInfo.CurrentCulture)?.ToString();

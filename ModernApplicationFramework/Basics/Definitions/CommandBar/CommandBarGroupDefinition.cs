@@ -1,4 +1,7 @@
-﻿namespace ModernApplicationFramework.Basics.Definitions.CommandBar
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
     public class CommandBarGroupDefinition : CommandBarDefinitionBase
     {
@@ -15,10 +18,16 @@
             }
         }
 
+        public List<CommandBarItemDefinition> Items { get; set; }
+
+        public CommandBarItemDefinition LastItem => Items.LastOrDefault();
+        public CommandBarItemDefinition FirstItem => Items.FirstOrDefault();
+
         public CommandBarGroupDefinition(CommandBarDefinitionBase parent, uint sortOrder)
             : base(null, sortOrder, null, false, false, false)
         {
             _parent = parent;
+            Items = new List<CommandBarItemDefinition>();
         }
     }
 }

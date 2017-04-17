@@ -12,6 +12,9 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         ObservableCollection<CommandBarDefinitionBase> TopLevelDefinitions { get; }
 
         void Build();
+
+        void Build(CommandBarDefinitionBase definition);
+
         void AddItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent, bool addAboveSeparator);
 
         void DeleteItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent); //, bool addAboveSeparator);

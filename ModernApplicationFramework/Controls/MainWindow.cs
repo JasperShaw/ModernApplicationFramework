@@ -141,6 +141,16 @@ namespace ModernApplicationFramework.Controls
 
         private void GetGoodStartingSize()
         {
+
+#if DEBUG
+            if (System.Windows.Forms.Screen.AllScreens.Length <= 1)
+                return;
+            var s2 = System.Windows.Forms.Screen.AllScreens[1];
+            var workingArea = s2.WorkingArea;
+            Top = workingArea.Top + 50;
+            Left = workingArea.Left +100;
+#else
+
             SetBinding(LeftProperty, new Binding
             {
                 Path = new PropertyPath("Left"),
@@ -165,6 +175,7 @@ namespace ModernApplicationFramework.Controls
                 Mode = BindingMode.TwoWay,
                 Converter = new DeviceToLogicalYConverter()
             });
+#endif
         }
 
         private void OnVisibilityChanged(object sender, DependencyPropertyChangedEventArgs e)
