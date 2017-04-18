@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ModernApplicationFramework.Core.Comparers;
+using ModernApplicationFramework.Core.Utilities;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
@@ -27,6 +29,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             : base(null, sortOrder, null, false, false, false)
         {
             _parent = parent;
+            Parent?.ContainedGroups?.AddSorted(this, new SortOrderComparer<CommandBarGroupDefinition>());
             Items = new List<CommandBarItemDefinition>();
         }
     }

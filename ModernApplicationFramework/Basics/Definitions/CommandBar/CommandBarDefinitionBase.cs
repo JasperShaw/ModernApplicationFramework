@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using ModernApplicationFramework.Annotations;
 using ModernApplicationFramework.Basics.Definitions.Command;
@@ -54,6 +55,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
+        public IList<CommandBarGroupDefinition> ContainedGroups { get; }
+
         protected CommandBarDefinitionBase(string text, uint sortOrder, DefinitionBase definition, bool isCustom,
             bool isCustomizable, bool isChecked)
         {
@@ -63,6 +66,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             IsCustom = isCustom;
             _isChecked = isChecked;
             IsCustomizable = isCustomizable;
+            ContainedGroups = new List<CommandBarGroupDefinition>();
         }
 
         [NotifyPropertyChangedInvocator]

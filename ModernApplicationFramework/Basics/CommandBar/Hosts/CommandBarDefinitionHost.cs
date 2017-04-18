@@ -54,7 +54,10 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             if (e.OldItems != null)
                 foreach (var item in e.OldItems)
                     if (item is CommandBarGroupDefinition groupDefinition)
+                    {
+                        groupDefinition.Parent.ContainedGroups.Remove(groupDefinition);
                         groupDefinition.Items.Clear();
+                    }
         }
 
         private void ItemDefinitions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

@@ -19,23 +19,23 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
 
         void AddItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent, bool addAboveSeparator);
 
-        void DeleteItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent); //, bool addAboveSeparator);
-        CommandBarItemDefinition GetPreviousItem(CommandBarItemDefinition definition, CommandBarDefinitionBase parent);
+        void DeleteItemDefinition(CommandBarItemDefinition definition);
+        CommandBarItemDefinition GetPreviousItem(CommandBarItemDefinition definition);
 
-        CommandBarItemDefinition GetNextItem(CommandBarItemDefinition definition, CommandBarDefinitionBase parent);
+        CommandBarItemDefinition GetNextItem(CommandBarItemDefinition definition);
 
         CommandBarItemDefinition GetNextItemInGroup(CommandBarItemDefinition definition);
 
         CommandBarItemDefinition GetPreviousItemInGroup(CommandBarItemDefinition definition);
 
-        void DeleteGroup(CommandBarGroupDefinition group, CommandBarDefinitionBase parent, AppendTo option);
+        void DeleteGroup(CommandBarGroupDefinition group, AppendTo option);
 
         IEnumerable<CommandBarDefinitionBase> GetMenuHeaderItemDefinitions();
-        void AddGroupAt(CommandBarItemDefinition startingDefinition, CommandBarDefinitionBase parent);
+        void AddGroupAt(CommandBarItemDefinition startingDefinition);
         void MoveItem(CommandBarItemDefinition selectedListBoxDefinition, int offset, CommandBarDefinitionBase parent);
 
-        CommandBarGroupDefinition GetNextGroup(CommandBarGroupDefinition group, CommandBarDefinitionBase parent);
+        CommandBarGroupDefinition GetNextGroup(CommandBarGroupDefinition group);
 
-        CommandBarGroupDefinition GetPreviousGroup(CommandBarGroupDefinition group, CommandBarDefinitionBase parent);
+        CommandBarGroupDefinition GetPreviousGroup(CommandBarGroupDefinition group);
     }
 }

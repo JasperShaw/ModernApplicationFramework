@@ -245,15 +245,15 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         {
             if (!(value is bool))
                 return;
-            GetModelAndParent(out ICommandBarHost model, out CommandBarDefinitionBase parent);
+            GetModelAndParent(out ICommandBarHost model, out CommandBarDefinitionBase _);
 
             var nextSelectedItem = SelectedListBoxDefinition;
 
             //Needs to be inverted as the Checkbox will be added before this code executes
             if (!(bool) value)
-                model.DeleteGroup(SelectedListBoxDefinition.Group, parent, AppendTo.Previous);
+                model.DeleteGroup(SelectedListBoxDefinition.Group, AppendTo.Previous);
             else
-                model.AddGroupAt(SelectedListBoxDefinition, parent);
+                model.AddGroupAt(SelectedListBoxDefinition);
 
             BuildItemSources(SelectedOption);
             BuildCheckBoxItems(SelectedOption);
@@ -290,10 +290,10 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             GetModelAndParent(out ICommandBarHost model, out CommandBarDefinitionBase parent);
 
             var nextSelectedItem = model.GetNextItemInGroup(SelectedListBoxDefinition) ??
-                                   model.GetPreviousItem(SelectedListBoxDefinition, parent) ??
-                                   model.GetNextItem(SelectedListBoxDefinition, parent);
+                                   model.GetPreviousItem(SelectedListBoxDefinition) ??
+                                   model.GetNextItem(SelectedListBoxDefinition);
 
-            model.DeleteItemDefinition(SelectedListBoxDefinition, parent);
+            model.DeleteItemDefinition(SelectedListBoxDefinition);
             BuildItemSources(SelectedOption);
             BuildCheckBoxItems(SelectedOption);
             SelectedListBoxDefinition = nextSelectedItem;
@@ -345,7 +345,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 
             var newSelectedItem = Items.Where(x => x.Group == selectedItem.Group)
                                       .FirstOrDefault(x => x.SortOrder == selectedItem.SortOrder) ??
-                                  Items.Where(x => x.Group == model.GetPreviousGroup(selectedItem.Group, parent))
+                                  Items.Where(x => x.Group == model.GetPreviousGroup(selectedItem.Group))
                                       .FirstOrDefault(x => x.SortOrder == selectedItem.SortOrder); 
 
             SelectedListBoxDefinition = newSelectedItem;

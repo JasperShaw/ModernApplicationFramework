@@ -140,10 +140,10 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             RebuildToolbar(toolbarDef);
         }
 
-        public override void DeleteItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent)
+        public override void DeleteItemDefinition(CommandBarItemDefinition definition)
         {
-            base.DeleteItemDefinition(definition, parent);
-            var toolbarDef = parent as ToolbarDefinition;
+            base.DeleteItemDefinition(definition);
+            var toolbarDef = definition.Group.Parent as ToolbarDefinition;
             if (toolbarDef == null)
                 return;
             RebuildToolbar(toolbarDef);
