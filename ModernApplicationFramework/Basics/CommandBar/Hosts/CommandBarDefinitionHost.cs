@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel.Composition;
 using System.Linq;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
@@ -20,7 +21,8 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             [ImportMany] CommandBarItemDefinition[] menuItems,
             [ImportMany] ExcludeCommandBarElementDefinition[] excludedItems)
         {
-            ItemGroupDefinitions = new ObservableCollection<CommandBarGroupDefinition>(menuItemGroups.OrderBy(x => x.SortOrder));
+            ItemGroupDefinitions =
+                new ObservableCollection<CommandBarGroupDefinition>(menuItemGroups.OrderBy(x => x.SortOrder));
             ItemDefinitions = new ObservableCollection<CommandBarItemDefinition>(menuItems.OrderBy(x => x.SortOrder));
             ExcludedItemDefinitions = new ObservableCollection<CommandBarDefinitionBase>();
             foreach (var item in excludedItems)
@@ -36,7 +38,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             ItemGroupDefinitions.CollectionChanged += ItemGroupDefinitions_CollectionChanged;
         }
 
-        private void ItemGroupDefinitions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void ItemGroupDefinitions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.NewItems != null)
                 foreach (var item in e.NewItems)
@@ -45,7 +47,8 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                         var items = ItemDefinitions.Where(x => x.Group == groupDefinition);
                         foreach (var itemDefinition in items)
                             if (!groupDefinition.Items.Contains(itemDefinition))
-                                groupDefinition.Items.AddSorted(itemDefinition, new SortOrderComparer<CommandBarDefinitionBase>());
+                                groupDefinition.Items.AddSorted(itemDefinition,
+                                    new SortOrderComparer<CommandBarDefinitionBase>());
                     }
 
             if (e.OldItems != null)
@@ -54,13 +57,14 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                         groupDefinition.Items.Clear();
         }
 
-        private void ItemDefinitions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void ItemDefinitions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.NewItems != null)
                 foreach (var item in e.NewItems)
                     if (item is CommandBarItemDefinition itemDefinition)
                         if (!itemDefinition.Group.Items.Contains(itemDefinition))
-                            itemDefinition.Group.Items.AddSorted(itemDefinition, new SortOrderComparer<CommandBarDefinitionBase>());
+                            itemDefinition.Group.Items.AddSorted(itemDefinition,
+                                new SortOrderComparer<CommandBarDefinitionBase>());
             if (e.OldItems != null)
                 foreach (var item in e.OldItems)
                     if (item is CommandBarItemDefinition itemDefinition)

@@ -23,7 +23,6 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         {
             _hostedContextMenus = new Dictionary<Definitions.ContextMenu.ContextMenuDefinition, ContextMenu>();
             TopLevelDefinitions = new ObservableCollection<CommandBarDefinitionBase>(contextMenuDefinitions);
-
             Build();
         }
 
@@ -34,11 +33,19 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                 .Cast<Definitions.ContextMenu.ContextMenuDefinition>();
 
             foreach (var definition in contextMenus)
-            {
-                BuildLogical(definition);
-                var contextMenu = IoC.Get<IContextMenuCreator>().CreateContextMenu(definition);
-                _hostedContextMenus.Add(definition, contextMenu);
-            }
+                Build(definition);
+        }
+
+        public override void Build(CommandBarDefinitionBase definition)
+        {
+            if (!(definition is Definitions.ContextMenu.ContextMenuDefinition contextMenuDefinition))
+                return;
+            BuildLogical(contextMenuDefinition);
+            var contextMenu = IoC.Get<IContextMenuCreator>().CreateContextMenu(definition);
+            if (!_hostedContextMenus.ContainsKey(contextMenuDefinition))
+                _hostedContextMenus.Add(contextMenuDefinition, contextMenu);
+            else
+                _hostedContextMenus[contextMenuDefinition] = contextMenu;
         }
 
         public ContextMenu GetContextMenu(Definitions.ContextMenu.ContextMenuDefinition contextMenuDefinition)

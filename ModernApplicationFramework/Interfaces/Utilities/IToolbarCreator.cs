@@ -1,13 +1,6 @@
-﻿using ModernApplicationFramework.Basics.Definitions.Toolbar;
-using ModernApplicationFramework.Controls;
-
-namespace ModernApplicationFramework.Interfaces.Utilities
+﻿namespace ModernApplicationFramework.Interfaces.Utilities
 {
-    public interface IToolbarCreator : IMenuCreator
+    public interface IToolbarCreator : ICreatorBase
     {
-        /// <summary>
-        ///     Populate a toolbartray with a ToolbarDefinitionsPopulator
-        /// </summary>
-        ToolBar CreateToolbar(ToolbarDefinition definition);
     }
 }

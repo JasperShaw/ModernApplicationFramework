@@ -190,6 +190,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Basics\Bootstrapper.cs" />
+    <Compile Include="Basics\CommandBar\Creators\CreatorBase.cs" />
     <Compile Include="Basics\CommandBar\Creators\MenuCreatorBase.cs" />
     <Compile Include="Basics\CommandBar\Hosts\CommandBarHost.cs" />
     <Compile Include="Basics\CommandBar\Hosts\CommandBarDefinitionHost.cs" />

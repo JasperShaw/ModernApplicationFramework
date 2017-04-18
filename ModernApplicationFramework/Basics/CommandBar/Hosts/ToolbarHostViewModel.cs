@@ -106,11 +106,27 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             InternalHideAllToolbars();
             var definitions = TopLevelDefinitions.OrderBy(x => x.SortOrder).Cast<ToolbarDefinition>();
             foreach (var definition in definitions)
+                Build(definition);
+        }
+
+        public override void Build(CommandBarDefinitionBase definition)
+        {
+            if (!(definition is ToolbarDefinition toolbarDefinition))
+                return;
+            BuildLogical(toolbarDefinition);
+
+            if (!_toolbars.ContainsKey(toolbarDefinition))
             {
-                BuildLogical(definition);
-                var toolBar = IoC.Get<IToolbarCreator>().CreateToolbar(definition);
-                _toolbars.Add(definition, toolBar);
-                ChangeToolBarVisibility(definition);
+                var toolBar = new ToolBar();
+                IoC.Get<IToolbarCreator>().CreateRecursive(ref toolBar, toolbarDefinition);
+                _toolbars.Add(toolbarDefinition, toolBar);
+                ChangeToolBarVisibility(toolbarDefinition);
+            }
+            else
+            {
+                var toolBar = _toolbars[toolbarDefinition];
+                IoC.Get<IToolbarCreator>().CreateRecursive(ref toolBar, toolbarDefinition);
+                _toolbars[toolbarDefinition] = toolBar;
             }
         }
 
@@ -160,7 +176,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             TopLevelDefinitions.Remove(definition);
         }
 
-        public ToolbarDefinition GeToolbarDefinitionByName(string name)
+        public ToolbarDefinition GetToolbarDefinitionByName(string name)
         {
             foreach (var definition in TopLevelDefinitions)
                 if (definition.Text == name)
@@ -184,7 +200,8 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         private void RebuildToolbar(ToolbarDefinition definition)
         {
             InternalHideToolBar(definition);
-            var toolbar = IoC.Get<IToolbarCreator>().CreateToolbar(definition);
+            var toolbar = new ToolBar(definition);
+            IoC.Get<IToolbarCreator>().CreateRecursive(ref toolbar, definition);
             _toolbars[definition] = toolbar;
             ChangeToolBarVisibility(definition);
         }

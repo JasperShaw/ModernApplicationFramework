@@ -1,62 +1,39 @@
 ﻿using System.ComponentModel.Composition;
-using System.Linq;
-using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Controls;
-using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Utilities;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Creators
 {
     [Export(typeof(IToolbarCreator))]
-    public class ToolbarCreator : MenuCreatorBase, IToolbarCreator
+    public class ToolbarCreator : CreatorBase, IToolbarCreator
     {
-        public ToolBar CreateToolbar(ToolbarDefinition definition)
+        public override void CreateRecursive<T>(ref T itemsControl, CommandBarDefinitionBase itemDefinition)
         {
-            var toolBar = new ToolBar(definition);
-
-            var host = IoC.Get<ICommandBarDefinitionHost>();
-
-            var groups = host.ItemGroupDefinitions
-                .Where(x => x.Parent == definition)
-                .OrderBy(x => x.SortOrder)
-                .ToList();
-
-            var veryFirstItem = true;
-            for (var i = 0; i < groups.Count; i++)
+            var topItem = GetSingleSubDefinitions(itemDefinition);
+            foreach (var item in topItem)
             {
-                uint newSortOrder = 0;
-                var group = groups[i];
-                var toolBarItems = host.ItemDefinitions
-                    .Where(x => x.Group == group)
-                    .OrderBy(x => x.SortOrder);
-
-                var precededBySeparator = false;
-                if (i > 0 && i <= groups.Count - 1 && toolBarItems.Any())
+                if (itemDefinition is ToolbarDefinition)
                 {
-                    if (toolBarItems.Any(toolbarItemDefinition => toolbarItemDefinition.IsVisible))
-                    {
-                        var separatorDefinition = CommandBarSeparatorDefinition.SeparatorDefinition;
-                        separatorDefinition.Group = groups[i - 1];
-                        var separator = new CommandDefinitionButton(separatorDefinition);
-                        toolBar.Items.Add(separator);
-                        precededBySeparator = true;
-                    }
+                    if (item is MenuDefinition)
+                        CreateRecursive(ref itemsControl, item);
+                    itemsControl.Items.Add(new CommandDefinitionButton(item));
                 }
-
-                foreach (var toolBarItem in toolBarItems)
+                else
                 {
-                    toolBarItem.PrecededBySeparator = precededBySeparator;
-                    var button = new CommandDefinitionButton(toolBarItem);
-                    toolBar.Items.Add(button);
-                    precededBySeparator = false;
-                    toolBarItem.SortOrder = newSortOrder++;
-                    toolBarItem.IsVeryFirst = veryFirstItem;
-                    veryFirstItem = false;
+                    //ItemsControl menuItemControl;
+                    //if (item.CommandDefinition is CommandListDefinition)
+                    //    menuItemControl = new DummyListMenuItem(item, itemsControl);
+                    //else
+                    //    menuItemControl = new MenuItem(item);
+
+                    //if (item is MenuDefinition)
+                    //    CreateRecursive(ref menuItemControl, item);
+                    //itemsControl.Items.Add(menuItemControl);
                 }
             }
-            return toolBar;
         }
     }
 }

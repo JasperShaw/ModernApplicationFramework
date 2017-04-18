@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.Linq;
-using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using MenuItem = ModernApplicationFramework.Controls.MenuItem;
@@ -12,45 +11,27 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
     [Export(typeof(IMainMenuCreator))]
     public class MenuCreator : MenuCreatorBase, IMainMenuCreator
     {
+        public MenuItem CreateMenuItem(CommandBarDefinitionBase contextMenuDefinition)
+        {
+            var menuItem = new MenuItem(contextMenuDefinition);
+            CreateRecursive(ref menuItem, contextMenuDefinition);
+            return menuItem;
+        }
+
         public void CreateMenuBar(IMenuHostViewModel model)
         {
-            model.Items.Clear();
-            var host = IoC.Get<ICommandBarDefinitionHost>();
+            var topLeveDefinitions =
+                model.TopLevelDefinitions.Where(x => !model.DefinitionHost.ExcludedItemDefinitions.Contains(x));
 
-            var bars = model.TopLevelDefinitions.OrderBy(x => x.SortOrder);
-
-            foreach (var bar in bars)
+            foreach (var topLevelDefinition in topLeveDefinitions)
             {
-                var groups = host.ItemGroupDefinitions.Where(x => x.Parent == bar)
-                    .Where(x => !host.ExcludedItemDefinitions.Contains(x))
-                    .OrderBy(x => x.SortOrder)
-                    .ToList();
-
-                for (var i = 0; i < groups.Count; i++)
+                model.BuildLogical(topLevelDefinition);
+                var menu = new Menu();
+                CreateRecursive(ref menu, topLevelDefinition);
+                foreach (var item in menu.Items)
                 {
-                    var group = groups[i];
-                    var topLevelMenus = host.ItemDefinitions.Where(x => !host.ExcludedItemDefinitions.Contains(x))
-                        .Where(x => x.Group == group)
-                        .OrderBy(x => x.SortOrder);
-
-
-                    if (i > 0 && i <= groups.Count - 1 && topLevelMenus.Any())
-                    {
-                        if (topLevelMenus.Any(menuItemDefinition => menuItemDefinition.IsVisible))
-                        {
-                            var separatorDefinition = CommandBarSeparatorDefinition.SeparatorDefinition;
-                            separatorDefinition.Group = groups[i - 1];
-                            var separator = new MenuItem(separatorDefinition);
-                            model.Items.Add(separator);
-                        }
-                    }
-
-                    foreach (var menuDefinition in topLevelMenus)
-                    {
-                        var menuItem = new MenuItem(menuDefinition);
-                        CreateMenuTree(menuDefinition, menuItem);
+                    if (item is MenuItem menuItem)
                         model.Items.Add(menuItem);
-                    }
                 }
             }
         }

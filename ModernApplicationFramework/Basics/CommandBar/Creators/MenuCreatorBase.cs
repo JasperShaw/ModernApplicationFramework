@@ -1,80 +1,29 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Controls;
-using Caliburn.Micro;
-using ModernApplicationFramework.Basics.Definitions.Command;
+﻿using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Controls;
-using ModernApplicationFramework.Interfaces;
 using MenuItem = ModernApplicationFramework.Controls.MenuItem;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Creators
 {
-    public abstract class MenuCreatorBase
+    public abstract class MenuCreatorBase : CreatorBase
     {
-        public void CreateMenuTree(CommandBarDefinitionBase definition, ItemsControl menuItem)
+        public override void CreateRecursive<T>(ref T itemsControl, CommandBarDefinitionBase itemDefinition)
         {
-            var host = IoC.Get<ICommandBarDefinitionHost>();
-            menuItem.Items.Clear();
-
-            var groups = host.ItemGroupDefinitions.Where(x => x.Parent == definition)
-                .Where(x => !host.ExcludedItemDefinitions.Contains(x))
-                .OrderBy(x => x.SortOrder)
-                .ToList();
-
-            for (var i = 0; i < groups.Count; i++)
+            var topItem = GetSingleSubDefinitions(itemDefinition);
+            foreach (var item in topItem)
             {
-                var group = groups[i];
-                var menuItems = host.ItemDefinitions.Where(x => x.Group == group)
-                    .Where(x => !host.ExcludedItemDefinitions.Contains(x))
-                    .OrderBy(x => x.SortOrder);
+                MenuItem menuItemControl;
+                if (item.CommandDefinition is CommandListDefinition)
+                    menuItemControl = new DummyListMenuItem(item, itemsControl);
+                else
+                    menuItemControl = new MenuItem(item);
 
-                if (i > 0 && i <= groups.Count - 1 && menuItems.Any())
-                {
-                    if (menuItems.Any(menuItemDefinition => menuItemDefinition.IsVisible))
-                    {
-                        var separatorDefinition = CommandBarSeparatorDefinition.SeparatorDefinition;
-                        separatorDefinition.Group = groups[i - 1];
-                        var separator = new MenuItem(separatorDefinition);
-                        menuItem.Items.Add(separator);
-                    }
-                }
-                foreach (var menuItemDefinition in menuItems)
-                {
-                    MenuItem menuItemControl;
-                    if (menuItemDefinition.CommandDefinition is CommandListDefinition)
-                        menuItemControl = new DummyListMenuItem(menuItemDefinition, menuItem);
-                    else
-                        menuItemControl = new MenuItem(menuItemDefinition);
-                    CreateMenuTree(menuItemDefinition, menuItemControl);
-                    menuItem.Items.Add(menuItemControl);
-                }
+                if (item is MenuDefinition)
+                    CreateRecursive(ref menuItemControl, item);
+
+                itemsControl.Items.Add(menuItemControl);
             }
-        }
-
-        public IEnumerable<CommandBarItemDefinition> GetSingleSubDefinitions(CommandBarDefinitionBase menuDefinition)
-        {
-            var list = new List<CommandBarItemDefinition>();
-            var host = IoC.Get<ICommandBarDefinitionHost>();
-
-            var groups = host.ItemGroupDefinitions.Where(x => x.Parent == menuDefinition)
-                .OrderBy(x => x.SortOrder)
-                .ToList();
-            for (var i = 0; i < groups.Count; i++)
-            {
-                var group = groups[i];
-                var menuItems = host.ItemDefinitions.Where(x => x.Group == group).OrderBy(x => x.SortOrder);
-
-                if (i > 0 && i <= groups.Count - 1 && menuItems.Any())
-                    if (menuItems.Any())
-                    {
-                        var separatorDefinition = CommandBarSeparatorDefinition.SeparatorDefinition;
-                        separatorDefinition.Group = groups[i - 1];
-                        list.Add(separatorDefinition);
-                    }
-                list.AddRange(menuItems);
-            }
-            return list;
         }
     }
 }

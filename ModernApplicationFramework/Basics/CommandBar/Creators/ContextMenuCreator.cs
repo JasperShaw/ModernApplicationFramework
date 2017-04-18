@@ -11,7 +11,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
         public ContextMenu CreateContextMenu(CommandBarDefinitionBase contextMenuDefinition)
         {
             var contextMenu = new ContextMenu(contextMenuDefinition);
-            CreateMenuTree(contextMenuDefinition, contextMenu);
+            CreateRecursive(ref contextMenu, contextMenuDefinition);
             return contextMenu;
         }
     }
