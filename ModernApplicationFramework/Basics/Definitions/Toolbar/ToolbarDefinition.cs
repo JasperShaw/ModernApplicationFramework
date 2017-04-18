@@ -41,13 +41,26 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
             }
         }
 
+        public string InternalName
+        {
+            get => _internalName;
+            set
+            {
+                if (value == _internalName) return;
+                _internalName = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ToolbarDefinition(string text, uint sortOrder, bool visible, Dock position, bool isCustomizable = true,
             bool isCustom = false) : base(text, sortOrder, new ToolbarCommandDefinition(), isCustom, isCustomizable,
             false)
         {
             _position = position;
             _isVisible = visible;
-            _internalName = new AccessKeyRemovingConverter().Convert(text, typeof(string), null, CultureInfo.CurrentCulture)?.ToString();
+            _internalName = new AccessKeyRemovingConverter()
+                .Convert(text, typeof(string), null, CultureInfo.CurrentCulture)
+                ?.ToString();
         }
 
         private sealed class ToolbarCommandDefinition : DefinitionBase
@@ -62,17 +75,6 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
 
             public override CommandControlTypes ControlType => CommandControlTypes.Menu;
             public override string ShortcutText { get; set; }
-        }
-
-        public string InternalName
-        {
-            get => _internalName;
-            set
-            {
-                if (value == _internalName) return;
-                _internalName = value;
-                OnPropertyChanged();
-            }
         }
     }
 }

@@ -199,6 +199,9 @@
     <Compile Include="Basics\CommandBar\Creators\ContextMenuCreator.cs" />
     <Compile Include="Basics\CustomizeDialog\ViewModels\AddCommandDialogViewModel.cs" />
     <Compile Include="Basics\CustomizeDialog\ViewModels\CommandsPageViewModel.cs" />
+    <Compile Include="Interfaces\Utilities\ICreatorBase.cs" />
+    <Compile Include="Interfaces\Utilities\IMainMenuCreator.cs" />
+    <Compile Include="Interfaces\ViewModels\ICommandsPageViewModel.cs" />
     <Compile Include="Basics\CustomizeDialog\Views\CommandsPageView.xaml.cs">
       <DependentUpon>CommandsPageView.xaml</DependentUpon>
     </Compile>

@@ -6,6 +6,9 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.Views
 {
     public partial class ToolBarsPageView : IToolBarsPageView
     {
+        public CheckableListBox ToolBarListBox => ListBox;
+        public DropDownDialogButton ModifySelectionButton => DropDownButton;
+
         public ToolBarsPageView()
         {
             InitializeComponent();
@@ -17,8 +20,5 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.Views
             ToolBarListBox.Focus();
             Loaded -= OnLoaded;
         }
-
-        public CheckableListBox ToolBarListBox => ListBox;
-        public DropDownDialogButton ModifySelectionButton => DropDownButton;
     }
 }

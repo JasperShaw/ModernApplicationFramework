@@ -22,6 +22,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         public virtual DefinitionBase CommandDefinition { get; }
 
+        public IList<CommandBarGroupDefinition> ContainedGroups { get; }
+
         public virtual uint SortOrder
         {
             get => _sortOrder;
@@ -54,8 +56,6 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
                 OnPropertyChanged();
             }
         }
-
-        public IList<CommandBarGroupDefinition> ContainedGroups { get; }
 
         protected CommandBarDefinitionBase(string text, uint sortOrder, DefinitionBase definition, bool isCustom,
             bool isCustomizable, bool isChecked)

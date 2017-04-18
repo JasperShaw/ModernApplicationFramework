@@ -60,17 +60,6 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             }
         }
 
-        public void UpdateItems()
-        {
-            if(!AllCommandDefinitions.Any())
-                return;
-            Items =
-                (from commandDefinition in AllCommandDefinitions
-                    where commandDefinition.Category == SelectedCategory
-                    select new CommandBarCommandItemDefinition(0, commandDefinition))
-                .ToList();
-        }
-
         public AddCommandDialogViewModel()
         {
             DisplayName = "Add Command";
@@ -81,11 +70,22 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             Items = new List<CommandBarItemDefinition>();
         }
 
+        public void UpdateItems()
+        {
+            if (!AllCommandDefinitions.Any())
+                return;
+            Items =
+                (from commandDefinition in AllCommandDefinitions
+                    where commandDefinition.Category == SelectedCategory
+                    select new CommandBarCommandItemDefinition(0, commandDefinition))
+                .ToList();
+        }
+
         protected override void OnViewLoaded(object view)
         {
             base.OnViewLoaded(view);
             var v = view as AddCommandDialogView;
-            if (!Categories.Any() || v == null)           
+            if (!Categories.Any() || v == null)
                 return;
             v.CategoriesListView.SelectedIndex = 0;
         }

@@ -1,4 +1,6 @@
-﻿namespace ModernApplicationFramework.Basics.CustomizeDialog.Views
+﻿using System.Windows;
+
+namespace ModernApplicationFramework.Basics.CustomizeDialog.Views
 {
     public partial class AddCommandDialogView
     {
@@ -8,7 +10,7 @@
             Loaded += AddCommandDialogView_Loaded;
         }
 
-        private void AddCommandDialogView_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        private void AddCommandDialogView_Loaded(object sender, RoutedEventArgs e)
         {
             CategoriesListView.Focus();
         }

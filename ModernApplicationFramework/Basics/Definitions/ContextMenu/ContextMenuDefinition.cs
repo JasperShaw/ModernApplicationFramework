@@ -22,15 +22,6 @@ namespace ModernApplicationFramework.Basics.Definitions.ContextMenu
             }
         }
 
-        public ContextMenuDefinition(ContextMenuCategory category, string text, bool isCustomizable = true) : base(text,
-            uint.MinValue, null, false, isCustomizable, false)
-        {
-            Category = category;
-            _text = $"{category.CategoryName} | {text}";
-
-            _internalName = new AccessKeyRemovingConverter().Convert(_text, typeof(string), null, CultureInfo.CurrentCulture)?.ToString();
-        }
-
         public string InternalName
         {
             get => _internalName;
@@ -40,6 +31,17 @@ namespace ModernApplicationFramework.Basics.Definitions.ContextMenu
                 _internalName = value;
                 OnPropertyChanged();
             }
+        }
+
+        public ContextMenuDefinition(ContextMenuCategory category, string text, bool isCustomizable = true) : base(text,
+            uint.MinValue, null, false, isCustomizable, false)
+        {
+            Category = category;
+            _text = $"{category.CategoryName} | {text}";
+
+            _internalName = new AccessKeyRemovingConverter()
+                .Convert(_text, typeof(string), null, CultureInfo.CurrentCulture)
+                ?.ToString();
         }
     }
 }

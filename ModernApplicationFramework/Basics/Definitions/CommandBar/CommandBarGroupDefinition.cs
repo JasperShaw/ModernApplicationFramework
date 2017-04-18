@@ -9,6 +9,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     {
         private CommandBarDefinitionBase _parent;
 
+        public CommandBarItemDefinition LastItem => Items.LastOrDefault();
+        public CommandBarItemDefinition FirstItem => Items.FirstOrDefault();
+
         public CommandBarDefinitionBase Parent
         {
             get => _parent;
@@ -21,9 +24,6 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         }
 
         public List<CommandBarItemDefinition> Items { get; set; }
-
-        public CommandBarItemDefinition LastItem => Items.LastOrDefault();
-        public CommandBarItemDefinition FirstItem => Items.FirstOrDefault();
 
         public CommandBarGroupDefinition(CommandBarDefinitionBase parent, uint sortOrder)
             : base(null, sortOrder, null, false, false, false)

@@ -30,20 +30,28 @@ namespace ModernApplicationFramework.Basics.CommandBar.Commands
                     {
                         CommandParamenter = toolbarDefinition
                     };
-                if (((ToolbarDefinition)toolbarDefinition).IsVisible)
+                if (((ToolbarDefinition) toolbarDefinition).IsVisible)
                     definition.IsChecked = true;
                 commands.Add(definition);
             }
         }
+
         private class ShowSelectedToolBarCommandDefinition : CommandDefinition
         {
+            public override ICommand Command { get; }
+
+            public override string Name => string.Empty;
+            public override string Text { get; }
+            public override string ToolTip => string.Empty;
+            public override Uri IconSource => null;
+            public override string IconId => null;
+            public override CommandCategory Category => null;
+
             public ShowSelectedToolBarCommandDefinition(string name)
             {
                 Text = name;
                 Command = new MultiKeyGestureCommandWrapper(ShowSelectedItem, CanShowSelectedItem);
             }
-
-            public override ICommand Command { get; }
 
             private bool CanShowSelectedItem()
             {
@@ -57,13 +65,6 @@ namespace ModernApplicationFramework.Basics.CommandBar.Commands
                     return;
                 toolBarDef.IsVisible = !toolBarDef.IsVisible;
             }
-
-            public override string Name => string.Empty;
-            public override string Text { get; }
-            public override string ToolTip => string.Empty;
-            public override Uri IconSource => null;
-            public override string IconId => null;
-            public override CommandCategory Category => null;
         }
     }
 }

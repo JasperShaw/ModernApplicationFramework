@@ -19,8 +19,8 @@ using ModernApplicationFramework.Interfaces.ViewModels;
 namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 {
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    [Export(typeof(CommandsPageViewModel))]
-    public sealed class CommandsPageViewModel : Screen
+    [Export(typeof(ICommandsPageViewModel))]
+    public sealed class CommandsPageViewModel : Screen, ICommandsPageViewModel
     {
         private CommandBarDefinitionBase _selectedMenuItem;
         private CommandBarDefinitionBase _selectedToolBarItem;
@@ -38,8 +38,10 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         public ICommand HandleAddNewMenuCommand => new Command(HandleCommandAddNewMenu);
         public ICommand HandleMoveUpCommand => new Command(HandleCommandMoveUp);
         public ICommand HandleMoveDownCommand => new Command(HandleCommandMoveDown);
+
         public ICommand HandleAddOrRemoveGroupCommand => new Command<object>(HandleCommandAddOrRemoveGroup,
             obj => true);
+
         public ICommand HandleStylingFlagChangeCommand => new Command<object>(HandleStylingFlagChange, obj => true);
         public Command DropDownClickCommand => new Command(ExecuteDropDownClick);
 
@@ -287,7 +289,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         {
             if (SelectedListBoxDefinition == null)
                 return;
-            GetModelAndParent(out ICommandBarHost model, out CommandBarDefinitionBase parent);
+            GetModelAndParent(out ICommandBarHost model, out CommandBarDefinitionBase _);
 
             var nextSelectedItem = model.GetNextItemInGroup(SelectedListBoxDefinition) ??
                                    model.GetPreviousItem(SelectedListBoxDefinition) ??
@@ -332,8 +334,6 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 
         private void DoMove(int offset)
         {
-
-
             var selectedItem = SelectedListBoxDefinition;
 
             GetModelAndParent(out ICommandBarHost model, out CommandBarDefinitionBase parent);
@@ -346,7 +346,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             var newSelectedItem = Items.Where(x => x.Group == selectedItem.Group)
                                       .FirstOrDefault(x => x.SortOrder == selectedItem.SortOrder) ??
                                   Items.Where(x => x.Group == model.GetPreviousGroup(selectedItem.Group))
-                                      .FirstOrDefault(x => x.SortOrder == selectedItem.SortOrder); 
+                                      .FirstOrDefault(x => x.SortOrder == selectedItem.SortOrder);
 
             SelectedListBoxDefinition = newSelectedItem;
         }

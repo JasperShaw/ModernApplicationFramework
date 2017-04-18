@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Interfaces.Utilities;
-using ContextMenu = ModernApplicationFramework.Controls.ContextMenu;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Creators
 {

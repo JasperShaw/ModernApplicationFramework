@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.Composition;
 using System.Linq;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
-using MenuItem = ModernApplicationFramework.Controls.MenuItem;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Creators
 {

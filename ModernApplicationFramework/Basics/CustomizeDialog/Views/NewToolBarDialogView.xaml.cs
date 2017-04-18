@@ -1,4 +1,5 @@
-﻿using ModernApplicationFramework.Interfaces.Views;
+﻿using System.Windows.Data;
+using ModernApplicationFramework.Interfaces.Views;
 
 namespace ModernApplicationFramework.Basics.CustomizeDialog.Views
 {
@@ -10,17 +11,17 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.Views
             ToolBarNameTextBox.TargetUpdated += ToolBarNameTextBox_TargetUpdated;
         }
 
-        private void ToolBarNameTextBox_TargetUpdated(object sender, System.Windows.Data.DataTransferEventArgs e)
-        {
-            ToolBarNameTextBox.SelectionStart = 0;
-            ToolBarNameTextBox.SelectionLength = ToolBarNameTextBox.Text.Length;
-        }
-
         public void SelectTextBox()
         {
             ToolBarNameTextBox.SelectionStart = 0;
             ToolBarNameTextBox.SelectionLength = ToolBarNameTextBox.Text.Length;
             ToolBarNameTextBox.Focus();
+        }
+
+        private void ToolBarNameTextBox_TargetUpdated(object sender, DataTransferEventArgs e)
+        {
+            ToolBarNameTextBox.SelectionStart = 0;
+            ToolBarNameTextBox.SelectionLength = ToolBarNameTextBox.Text.Length;
         }
     }
 }

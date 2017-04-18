@@ -6,10 +6,13 @@ using ModernApplicationFramework.Controls;
 namespace ModernApplicationFramework.Basics.CustomizeDialog.Views
 {
     /// <summary>
-    /// Interaktionslogik für CommandsPageView.xaml
+    ///     Interaktionslogik für CommandsPageView.xaml
     /// </summary>
     public partial class CommandsPageView : ICommandsPageView
     {
+        public DropDownDialogButton ModifySelectionButton => DropDownButton;
+        public CustomizeControlsListBox CustomizeListBox => ControlsListBox;
+
         public CommandsPageView()
         {
             InitializeComponent();
@@ -18,16 +21,13 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.Views
         private void HandleStylingFlagsChange(object sender, RoutedEventArgs e)
         {
             var model = DataContext as CommandsPageViewModel;
-            model?.HandleStylingFlagChangeCommand.Execute((CommandBarFlags)((CheckedMenuItem)sender).Value);
+            model?.HandleStylingFlagChangeCommand.Execute((CommandBarFlags) ((CheckedMenuItem) sender).Value);
         }
-
-        public DropDownDialogButton ModifySelectionButton => DropDownButton;
-        public CustomizeControlsListBox CustomizeListBox => ControlsListBox;
 
         private void HandleBeginGroup(object sender, RoutedEventArgs e)
         {
             var model = DataContext as CommandsPageViewModel;
-            model?.HandleAddOrRemoveGroupCommand.Execute(((CheckedMenuItem)sender).IsChecked);
+            model?.HandleAddOrRemoveGroupCommand.Execute(((CheckedMenuItem) sender).IsChecked);
         }
     }
 

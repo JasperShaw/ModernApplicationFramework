@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.ComponentModel;
+using System.Globalization;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Core.Comparers;
 using ModernApplicationFramework.Core.Converters.AccessKey;
@@ -62,35 +63,6 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-        public CommandBarGroupDefinition Group
-        {
-            get => _group;
-            set
-            {
-                if (Equals(value, _group))
-                    return;
-                if (_group != null && _group.Parent is IHasInternalName oldinternalNameParent)
-                    oldinternalNameParent.PropertyChanged -= InternalNameParent_PropertyChanged;
-                var oldGroup = _group;
-                _group = value;
-                OnPropertyChanged();
-                if (value?.Parent is IHasInternalName newinternalNameParent)
-                    newinternalNameParent.PropertyChanged += InternalNameParent_PropertyChanged;
-                UpdateInternalName();
-                UpdateGroup(value, oldGroup);
-
-            }
-        }
-
-        protected void UpdateGroup(CommandBarGroupDefinition value, CommandBarGroupDefinition oldGroup)
-        {
-            if (CommandDefinition.ControlType == CommandControlTypes.Separator)
-                return;
-            if (!value.Items.Contains(this))
-                value.Items.AddSorted(this, new SortOrderComparer<CommandBarDefinitionBase>());
-            oldGroup?.Items.Remove(this);
-        }
-
         public override string Text
         {
             get => _text;
@@ -115,23 +87,22 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-        protected void ReSortGroupItems()
+        public CommandBarGroupDefinition Group
         {
-            Group.Items.Sort(new SortOrderComparer<CommandBarDefinitionBase>());
-        }
-
-        protected void UpdateInternalName()
-        {
-            var internalName = new AccessKeyRemovingConverter().Convert(Text, typeof(string), null, CultureInfo.CurrentCulture)?.ToString();
-
-            if (Group?.Parent is IHasInternalName internalNameParent)
+            get => _group;
+            set
             {
-                if (!string.IsNullOrEmpty(internalNameParent.InternalName))
-                    InternalName = internalNameParent.InternalName + " | " + internalName;
-            }
-            else
-            {
-                InternalName = internalName;
+                if (Equals(value, _group))
+                    return;
+                if (_group != null && _group.Parent is IHasInternalName oldinternalNameParent)
+                    oldinternalNameParent.PropertyChanged -= InternalNameParent_PropertyChanged;
+                var oldGroup = _group;
+                _group = value;
+                OnPropertyChanged();
+                if (value?.Parent is IHasInternalName newinternalNameParent)
+                    newinternalNameParent.PropertyChanged += InternalNameParent_PropertyChanged;
+                UpdateInternalName();
+                UpdateGroup(value, oldGroup);
             }
         }
 
@@ -145,7 +116,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             _sortOrder = sortOrder;
             _text = text;
 
-            var internalName = new AccessKeyRemovingConverter().Convert(text, typeof(string), null, CultureInfo.CurrentCulture)?.ToString();
+            var internalName = new AccessKeyRemovingConverter()
+                .Convert(text, typeof(string), null, CultureInfo.CurrentCulture)
+                ?.ToString();
 
             if (group?.Parent is IHasInternalName internalNameParent)
             {
@@ -160,9 +133,40 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-        private void InternalNameParent_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        protected void UpdateGroup(CommandBarGroupDefinition value, CommandBarGroupDefinition oldGroup)
         {
-            if(e.PropertyName == nameof(IHasInternalName.InternalName))
+            if (CommandDefinition.ControlType == CommandControlTypes.Separator)
+                return;
+            if (!value.Items.Contains(this))
+                value.Items.AddSorted(this, new SortOrderComparer<CommandBarDefinitionBase>());
+            oldGroup?.Items.Remove(this);
+        }
+
+        protected void ReSortGroupItems()
+        {
+            Group.Items.Sort(new SortOrderComparer<CommandBarDefinitionBase>());
+        }
+
+        protected void UpdateInternalName()
+        {
+            var internalName = new AccessKeyRemovingConverter()
+                .Convert(Text, typeof(string), null, CultureInfo.CurrentCulture)
+                ?.ToString();
+
+            if (Group?.Parent is IHasInternalName internalNameParent)
+            {
+                if (!string.IsNullOrEmpty(internalNameParent.InternalName))
+                    InternalName = internalNameParent.InternalName + " | " + internalName;
+            }
+            else
+            {
+                InternalName = internalName;
+            }
+        }
+
+        private void InternalNameParent_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(IHasInternalName.InternalName))
                 UpdateInternalName();
         }
     }

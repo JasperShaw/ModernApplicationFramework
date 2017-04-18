@@ -14,18 +14,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         private string _toolbarName;
         private INewToolBarView _toolbarView;
 
-        public NewToolBarDialogViewModel()
-        {
-            DisplayName = "New Toolbar";
-            ToolbarName = IoC.Get<IToolBarHostViewModel>().GetUniqueToolBarName();
-        }
-
-        protected override void OnViewLoaded(object view)
-        {
-            base.OnViewLoaded(view);
-            if (view is INewToolBarView correctView)
-                _toolbarView = correctView;
-        }
+        public Command OkClickCommand => new Command(ExecuteOkClick);
 
         public string ToolbarName
         {
@@ -39,7 +28,18 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             }
         }
 
-        public Command OkClickCommand => new Command(ExecuteOkClick);
+        public NewToolBarDialogViewModel()
+        {
+            DisplayName = "New Toolbar";
+            ToolbarName = IoC.Get<IToolBarHostViewModel>().GetUniqueToolBarName();
+        }
+
+        protected override void OnViewLoaded(object view)
+        {
+            base.OnViewLoaded(view);
+            if (view is INewToolBarView correctView)
+                _toolbarView = correctView;
+        }
 
         private void ExecuteOkClick()
         {
@@ -48,7 +48,6 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             if (string.IsNullOrEmpty(name))
                 errorMessage = "The toolbar name cannot be blank. Type a name.";
             else
-            {
                 foreach (var definition in IoC.Get<IToolBarHostViewModel>().TopLevelDefinitions)
                 {
                     var defName = definition.Text;
@@ -57,7 +56,6 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
                     errorMessage = $"A toolbar named '{defName}' already exists. Type another name.";
                     break;
                 }
-            }
             if (errorMessage != null)
             {
                 MessageBox.Show(errorMessage, Application.Current.MainWindow.Title, MessageBoxButton.OK,
@@ -71,5 +69,4 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             }
         }
     }
-
 }
