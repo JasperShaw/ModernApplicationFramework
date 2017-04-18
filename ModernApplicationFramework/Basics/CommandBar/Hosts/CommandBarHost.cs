@@ -124,15 +124,16 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             uint newSortorder = 0;
             if (option == AppendTo.Next)
             {
-                foreach (var itemDefinition in definitionsInCurrnetGroup.ToList())
-                {
-                    itemDefinition.Group = newGroup;
-                    itemDefinition.SortOrder = newSortorder++;
-                }
+
+                newSortorder = group.LastItem?.SortOrder ?? 0;
+
 
                 //Add old items after the new inserted ones
                 foreach (var itemDefinition in definitionsInNewGroup.ToList())
                     itemDefinition.SortOrder = newSortorder++;
+
+                foreach (var itemDefinition in definitionsInCurrnetGroup.ToList())
+                    itemDefinition.Group = newGroup;
             }
             else
             {

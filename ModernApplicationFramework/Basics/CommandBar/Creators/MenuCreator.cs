@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using System.Linq;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using MenuItem = ModernApplicationFramework.Controls.MenuItem;
@@ -26,12 +25,13 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
             foreach (var topLevelDefinition in topLeveDefinitions)
             {
                 model.BuildLogical(topLevelDefinition);
-                var menu = new Menu();
-                CreateRecursive(ref menu, topLevelDefinition);
-                foreach (var item in menu.Items)
+                var t = GetSingleSubDefinitions(topLevelDefinition);
+
+                foreach (var definition in t)
                 {
-                    if (item is MenuItem menuItem)
-                        model.Items.Add(menuItem);
+                    var menuitem = new MenuItem(definition);
+                    CreateRecursive(ref menuitem, definition);
+                    model.Items.Add(menuitem);
                 }
             }
         }
