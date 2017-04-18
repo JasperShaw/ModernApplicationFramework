@@ -31,6 +31,42 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             
         }
 
+        public void BuildLogical(CommandBarDefinitionBase definition)
+        {
+            var groups = DefinitionHost.ItemGroupDefinitions.Where(x => x.Parent == definition)
+                .Where(x => !DefinitionHost.ExcludedItemDefinitions.Contains(x))
+                .OrderBy(x => x.SortOrder)
+                .ToList();
+
+            var veryFirstItem = true;
+            for (var i = 0; i < groups.Count; i++)
+            {
+                var group = groups[i];
+                var menuItems = DefinitionHost.ItemDefinitions.Where(x => x.Group == group)
+                    .Where(x => !DefinitionHost.ExcludedItemDefinitions.Contains(x))
+                    .OrderBy(x => x.SortOrder);
+
+
+                var precededBySeparator = false;
+                if (i > 0 && i <= groups.Count - 1 && menuItems.Any())
+                {
+                    if (menuItems.Any(menuItemDefinition => menuItemDefinition.IsVisible))
+                        precededBySeparator = true;
+                }
+                uint newSortOrder = 0;
+
+                foreach (var menuItemDefinition in menuItems)
+                {
+                    menuItemDefinition.PrecededBySeparator = precededBySeparator;
+                    precededBySeparator = false;
+                    BuildLogical(menuItemDefinition);
+                    menuItemDefinition.SortOrder = newSortOrder++;
+                    menuItemDefinition.IsVeryFirst = veryFirstItem;
+                    veryFirstItem = false;
+                }
+            }
+        }
+
         public virtual void AddItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent,
             bool addAboveSeparator)
         {

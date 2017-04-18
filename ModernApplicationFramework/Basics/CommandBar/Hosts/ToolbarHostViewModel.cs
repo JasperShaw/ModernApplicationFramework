@@ -107,6 +107,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             var definitions = TopLevelDefinitions.OrderBy(x => x.SortOrder).Cast<ToolbarDefinition>();
             foreach (var definition in definitions)
             {
+                BuildLogical(definition);
                 var toolBar = IoC.Get<IToolbarCreator>().CreateToolbar(definition);
                 _toolbars.Add(definition, toolBar);
                 ChangeToolBarVisibility(definition);

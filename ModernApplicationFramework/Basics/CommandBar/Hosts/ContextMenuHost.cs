@@ -15,7 +15,6 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
     public sealed class ContextMenuHost : CommandBarHost, IContextMenuHost
     {
         private readonly Dictionary<Definitions.ContextMenu.ContextMenuDefinition, ContextMenu> _hostedContextMenus;
-        //public ObservableCollection<Definitions.ContextMenu.ContextMenuDefinition> ContextMenuDefinitions { get; }
 
         public override ObservableCollection<CommandBarDefinitionBase> TopLevelDefinitions { get; }
 
@@ -23,9 +22,6 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         public ContextMenuHost([ImportMany] Definitions.ContextMenu.ContextMenuDefinition[] contextMenuDefinitions)
         {
             _hostedContextMenus = new Dictionary<Definitions.ContextMenu.ContextMenuDefinition, ContextMenu>();
-
-            //ContextMenuDefinitions = new ObservableCollection<Definitions.ContextMenu.ContextMenuDefinition>(contextMenuDefinitions);
-
             TopLevelDefinitions = new ObservableCollection<CommandBarDefinitionBase>(contextMenuDefinitions);
 
             Build();
@@ -34,10 +30,12 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         public override void Build()
         {
             _hostedContextMenus.Clear();
-            foreach (var definition in TopLevelDefinitions.Where(x => !DefinitionHost.ExcludedItemDefinitions
-                    .Contains(x))
-                .Cast<Definitions.ContextMenu.ContextMenuDefinition>())
+            var contextMenus = TopLevelDefinitions.Where(x => !DefinitionHost.ExcludedItemDefinitions.Contains(x))
+                .Cast<Definitions.ContextMenu.ContextMenuDefinition>();
+
+            foreach (var definition in contextMenus)
             {
+                BuildLogical(definition);
                 var contextMenu = IoC.Get<IContextMenuCreator>().CreateContextMenu(definition);
                 _hostedContextMenus.Add(definition, contextMenu);
             }

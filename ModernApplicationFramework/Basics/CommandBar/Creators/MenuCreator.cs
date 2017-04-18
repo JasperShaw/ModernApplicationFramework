@@ -26,7 +26,6 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
                     .OrderBy(x => x.SortOrder)
                     .ToList();
 
-                var veryFirstItem = true;
                 for (var i = 0; i < groups.Count; i++)
                 {
                     var group = groups[i];
@@ -35,7 +34,6 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
                         .OrderBy(x => x.SortOrder);
 
 
-                    var precededBySeparator = false;
                     if (i > 0 && i <= groups.Count - 1 && topLevelMenus.Any())
                     {
                         if (topLevelMenus.Any(menuItemDefinition => menuItemDefinition.IsVisible))
@@ -44,21 +42,14 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
                             separatorDefinition.Group = groups[i - 1];
                             var separator = new MenuItem(separatorDefinition);
                             model.Items.Add(separator);
-                            precededBySeparator = true;
                         }
                     }
 
-                    uint newSortOrder = 0;
                     foreach (var menuDefinition in topLevelMenus)
                     {
                         var menuItem = new MenuItem(menuDefinition);
                         CreateMenuTree(menuDefinition, menuItem);
                         model.Items.Add(menuItem);
-                        menuDefinition.SortOrder = newSortOrder++;
-                        menuDefinition.IsVeryFirst = veryFirstItem;
-                        veryFirstItem = false;
-                        menuDefinition.PrecededBySeparator = precededBySeparator;
-                        precededBySeparator = false;
                     }
                 }
             }

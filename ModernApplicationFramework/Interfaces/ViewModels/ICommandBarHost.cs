@@ -15,6 +15,8 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
 
         void Build(CommandBarDefinitionBase definition);
 
+        void BuildLogical(CommandBarDefinitionBase definition);
+
         void AddItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent, bool addAboveSeparator);
 
         void DeleteItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent); //, bool addAboveSeparator);

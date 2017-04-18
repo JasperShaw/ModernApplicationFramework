@@ -78,6 +78,9 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
         public override void Build()
         {
+            foreach (var topLevelDefinition in TopLevelDefinitions)
+                BuildLogical(topLevelDefinition);
+
             IoC.Get<IMainMenuCreator>().CreateMenuBar(this);
         }
 
