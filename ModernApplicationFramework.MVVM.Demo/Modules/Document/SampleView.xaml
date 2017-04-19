@@ -39,6 +39,12 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
             <mafc:TextBox mafc:FocusBehavior.FocusFirst="true"/>
+            <mafc:ComboBox Text="Text" DataContext="{Binding DataSource}">
+                <ComboBox.ItemsSource>
+                    <Binding Path="Items"/>
+                </ComboBox.ItemsSource>
+            </mafc:ComboBox>
+
         </StackPanel>
     </Border>
 </UserControl>

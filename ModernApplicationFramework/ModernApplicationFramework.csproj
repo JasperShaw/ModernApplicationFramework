@@ -190,6 +190,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Basics\Bootstrapper.cs" />
+    <Compile Include="Basics\ComboBoxDataSource.cs" />
     <Compile Include="Basics\CommandBar\Creators\CreatorBase.cs" />
     <Compile Include="Basics\CommandBar\Creators\MenuCreatorBase.cs" />
     <Compile Include="Basics\CommandBar\Hosts\CommandBarHost.cs" />
@@ -199,6 +200,7 @@
     <Compile Include="Basics\CommandBar\Creators\ContextMenuCreator.cs" />
     <Compile Include="Basics\CustomizeDialog\ViewModels\AddCommandDialogViewModel.cs" />
     <Compile Include="Basics\CustomizeDialog\ViewModels\CommandsPageViewModel.cs" />
+    <Compile Include="Controls\ComboBoxLabel.cs" />
     <Compile Include="Interfaces\Utilities\ICreatorBase.cs" />
     <Compile Include="Interfaces\Utilities\IMainMenuCreator.cs" />
     <Compile Include="Interfaces\ViewModels\ICommandsPageViewModel.cs" />

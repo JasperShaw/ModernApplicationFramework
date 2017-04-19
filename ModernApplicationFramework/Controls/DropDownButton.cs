@@ -89,7 +89,7 @@ namespace ModernApplicationFramework.Controls
 
         protected ButtonBase Button
         {
-            get { return _button; }
+            get => _button;
             set
             {
                 if (_button != null)
@@ -102,14 +102,14 @@ namespace ModernApplicationFramework.Controls
 
         public object DropDownContent
         {
-            get { return GetValue(DropDownContentProperty); }
-            set { SetValue(DropDownContentProperty, value); }
+            get => GetValue(DropDownContentProperty);
+            set => SetValue(DropDownContentProperty, value);
         }
 
         public bool IsOpen
         {
-            get { return (bool) GetValue(IsOpenProperty); }
-            set { SetValue(IsOpenProperty, value); }
+            get => (bool) GetValue(IsOpenProperty);
+            set => SetValue(IsOpenProperty, value);
         }
 
         #endregion
@@ -118,20 +118,20 @@ namespace ModernApplicationFramework.Controls
 
         public event RoutedEventHandler Click
         {
-            add { AddHandler(ClickEvent, value); }
-            remove { RemoveHandler(ClickEvent, value); }
+            add => AddHandler(ClickEvent, value);
+            remove => RemoveHandler(ClickEvent, value);
         }
 
         public event RoutedEventHandler Opened
         {
-            add { AddHandler(OpenedEvent, value); }
-            remove { RemoveHandler(OpenedEvent, value); }
+            add => AddHandler(OpenedEvent, value);
+            remove => RemoveHandler(OpenedEvent, value);
         }
 
         public event RoutedEventHandler Closed
         {
-            add { AddHandler(ClosedEvent, value); }
-            remove { RemoveHandler(ClosedEvent, value); }
+            add => AddHandler(ClosedEvent, value);
+            remove => RemoveHandler(ClosedEvent, value);
         }
 
         #endregion
@@ -269,20 +269,20 @@ namespace ModernApplicationFramework.Controls
         [TypeConverter(typeof(CommandConverter))]
         public ICommand Command
         {
-            get { return (ICommand) GetValue(CommandProperty); }
-            set { SetValue(CommandProperty, value); }
+            get => (ICommand) GetValue(CommandProperty);
+            set => SetValue(CommandProperty, value);
         }
 
         public object CommandParameter
         {
-            get { return GetValue(CommandParameterProperty); }
-            set { SetValue(CommandParameterProperty, value); }
+            get => GetValue(CommandParameterProperty);
+            set => SetValue(CommandParameterProperty, value);
         }
 
         public IInputElement CommandTarget
         {
-            get { return (IInputElement) GetValue(CommandTargetProperty); }
-            set { SetValue(CommandTargetProperty, value); }
+            get => (IInputElement) GetValue(CommandTargetProperty);
+            set => SetValue(CommandTargetProperty, value);
         }
 
         private static void OnCommandChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)

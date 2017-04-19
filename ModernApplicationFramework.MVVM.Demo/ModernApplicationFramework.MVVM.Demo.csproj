@@ -80,6 +80,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Modules\ComboBoxMenuTest\MenuDefinitions.cs" />
+    <Compile Include="Modules\ComboBoxMenuTest\Module.cs" />
+    <Compile Include="Modules\ComboBoxMenuTest\ToolbarDefinitions.cs" />
     <Compile Include="Modules\Commands\MenuDefinitions.cs" />
     <Compile Include="Modules\Commands\TestCommandDefinition.cs" />
     <Compile Include="Modules\Commands\TestWindw.xaml.cs">
@@ -184,6 +187,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\png_undo.16.16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Modules\ComboBoxMenuTest\Commands\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
