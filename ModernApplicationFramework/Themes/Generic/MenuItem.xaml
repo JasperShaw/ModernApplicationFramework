@@ -3,7 +3,6 @@
                     xmlns:this="clr-namespace:ModernApplicationFramework.Controls"
                     xmlns:colors="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
-                    xmlns:native="TopLevelHeaderTemplateKeyclr-namespace:ModernApplicationFramework.Native"
                     xmlns:utilities="clr-namespace:ModernApplicationFramework.Controls.Utilities"
                     xmlns:accessKey="clr-namespace:ModernApplicationFramework.Core.Converters.AccessKey"
                     xmlns:customize="clr-namespace:ModernApplicationFramework.Core.Converters.Customize"
@@ -17,6 +16,7 @@
     <converters:CommandBarItemCommandConverter x:Key="CommandBarItemCommandConverter"/>
     <general:NotNullConverter x:Key="NotNullConverter"/>
     <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+    <converters:ComboBoxWidthConverter x:Key="ComboBoxWidthConverter"/>
 
     <Geometry x:Key="Checkmark">
         F1 M 5,11 L 3,7 L 5,7 L 6,9 L 9,3 L 11,3 L 7,11 L 5,11 Z
@@ -35,18 +35,34 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="Label" Grid.Column="0" VerticalAlignment="Center" Margin="3,0,3,0"
-                    Visibility="Visible" IsTabStop="False">
+            <this:ComboBoxLabel x:Name="Label" Grid.Column="0" VerticalAlignment="Center" Margin="3,0,3,0"
+                    Visibility="Collapsed" IsTabStop="False">
+                <this:ComboBoxLabel.TargetComboBox>
+                    <Binding ElementName="PART_FocusTarget"/>
+                </this:ComboBoxLabel.TargetComboBox>
                 <Control.Template>
                     <ControlTemplate>
                         <AccessText Name="LabelText" Text="{Binding Text, Converter={StaticResource AccessKeyConverter}}"/>
                     </ControlTemplate>
                 </Control.Template>
-            </Button>
-            <this:ComboBox x:Name="PART_FocusTarget" Margin="3,1,3,1" Grid.Column="1" TextSearch.TextPath="Text" IsEditable="{Binding IsEditable}">
+            </this:ComboBoxLabel>
+            <this:ComboBox x:Name="PART_FocusTarget" Margin="3,1,3,1" Grid.Column="1" TextSearch.TextPath="Text" IsEditable="{Binding IsEditable}"
+                           ShouldPreserveUserEnteredPrefix="True" ToolTipService.ShowOnDisabled="true"
+                           VisualDataSource="{Binding VisualSource}" DataSource="{Binding DataSource}">
+
                 <ItemsControl.ItemsSource>
-                    <Binding Path="Items"/>
+                    <Binding Path="DataSource.Items"/>
                 </ItemsControl.ItemsSource>
+                <this:ComboBox.IsEmbeddedInMenu>
+                    <Binding Mode="OneWay" RelativeSource="{RelativeSource Self}" Path="ParentMenuItem" Converter="{StaticResource NotNullConverter}"/>
+                </this:ComboBox.IsEmbeddedInMenu>
+                <!--<FrameworkElement.ToolTip>
+                    <MultiBinding Converter="{StaticResource ToolTipMultiConverter}">
+                        <Binding x:Uid="Binding_17" Path="ToolTip" Mode="OneWay"
+                                 Converter="{StaticResource AccessKeyRemovingConverter}"/>
+                        <Binding x:Uid="Binding_18" Path="ShortcutText" Mode="OneWay"/>
+                    </MultiBinding>
+                </FrameworkElement.ToolTip>-->
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <TextBlock>
@@ -58,6 +74,17 @@
                 </ItemsControl.ItemTemplate>
             </this:ComboBox>
         </Grid>
+        <ControlTemplate.Triggers>
+            <DataTrigger Value="True" Binding="{Binding Flags.PictAndText}">
+                <Setter TargetName="Label" Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+            <DataTrigger Value="False" Binding="{Binding IsEnabled}">
+                <Setter TargetName="Label" Property="Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarTextInactive}}"/>
+            </DataTrigger>
+            <DataTrigger Value="False" Binding="{Binding Flags.StretchHorizontally}">
+                <Setter TargetName="PART_FocusTarget" Property="Width" Value="{Binding Path=DropDownWidth, Mode=TwoWay, Converter={StaticResource ComboBoxWidthConverter}}"/>
+            </DataTrigger>
+        </ControlTemplate.Triggers>
     </ControlTemplate>
 
     <ControlTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type this:MenuItem}, ResourceId=TopLevelHeaderTemplateKey}"
@@ -535,11 +562,17 @@
             </MultiTrigger>
         </Style.Triggers>
     </Style>
-    <Style x:Key="{x:Static this:Menu.ComboBoxStyleKey}" x:Uid="Style_31" TargetType="{x:Type this:MenuItem}">
+    <Style x:Key="{x:Static this:Menu.ComboBoxStyleKey}" TargetType="{x:Type this:MenuItem}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="AutomationProperties.Name">
             <Setter.Value>
                 <Binding Path="Text" Converter="{StaticResource AccessKeyRemovingConverter}"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
+        <Setter Property="Visibility">
+            <Setter.Value>
+                <Binding Path="IsVisible" Converter="{StaticResource BoolToVisConverter}"/>
             </Setter.Value>
         </Setter>
         <Setter Property="AutomationProperties.AcceleratorKey">
@@ -625,6 +658,16 @@
                 <Binding Path="Text" Mode="OneWay" Converter="{StaticResource AccessKeyConverter}"/>
             </Setter.Value>
         </Setter>
+        <Setter Property="IsEnabled">
+            <Setter.Value>
+                <Binding Path="IsEnabled"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Visibility">
+            <Setter.Value>
+                <Binding Path="IsVisible" Converter="{StaticResource BoolToVisConverter}"/>
+            </Setter.Value>
+        </Setter>
         <Setter Property="StaysOpenOnClick" Value="true"/>
         <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemForeground}}"/>
         <Setter Property="Template">
@@ -641,9 +684,21 @@
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         <ContentPresenter Grid.Column="1" ContentSource="Header" Margin="8,1,0,1" VerticalAlignment="Center" RecognizesAccessKey="True"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                        <this:ComboBox x:Name="PART_FocusTarget" Margin="7,2,2,2" Grid.Column="2"
-                                       IsEnabled="{TemplateBinding IsEnabled}" ShouldPreserveUserEnteredPrefix="True">
-                            <!-- TODO Items -->
+                        <this:ComboBox x:Name="PART_FocusTarget" Margin="7,2,2,2" Grid.Column="2" TextSearch.TextPath="Text"
+                                       IsEnabled="{TemplateBinding IsEnabled}" ShouldPreserveUserEnteredPrefix="True"
+                                       IsEmbeddedInMenu="true" IsEditable="{Binding IsEditable}" DataContext="{Binding DataSource}">
+                            <ItemsControl.ItemsSource>
+                                <Binding Path="Items"/>
+                            </ItemsControl.ItemsSource>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock>
+                                        <TextBlock.Text>
+                                            <Binding Path="Text"/>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
                         </this:ComboBox>
                     </Grid>
                     <ControlTemplate.Triggers>

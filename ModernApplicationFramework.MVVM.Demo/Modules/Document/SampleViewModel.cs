@@ -24,7 +24,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
 
         private void AddComboValue()
         {
-            DataSource.Items.Add("Text3");
+            Items.Add(new TestItem("Test 4"));
         }
 
         private void ShowComboValue()
@@ -45,16 +45,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
             }
         }
 
-        public object ComboValue
-        {
-            get => _comboValue;
-            set
-            {
-                if (Equals(value, _comboValue)) return;
-                _comboValue = value;
-                NotifyOfPropertyChange();
-            }
-        }
+        public ObservableCollection<TestItem> Items { get; set; }
 
         [ImportingConstructor]
         public SampleViewModel(IDockingHostViewModel shell, [ImportMany] ISample[] samples)
@@ -62,17 +53,14 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
             _dockingHostViewModel = shell;
             Samples = samples;
 
-
-            DataSource = new ComboBoxDataSource
+            Items = new ObservableCollection<TestItem>
             {
-                Items = new ObservableCollection<object>
-                {
-                    "Test",
-                    "Test1",
-                    "Test2"
-                }
+                new TestItem("Test"),
+                new TestItem("Test2"),
+                new TestItem("Test3"),
             };
-            DataSource.ChangeDisplayedItemRelative(0);
+
+            DataSource = new ComboBoxDataSource(Items);
         }
 
         public override bool ShouldReopenOnStart => true;
@@ -81,5 +69,15 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
         {
             _dockingHostViewModel.OpenDocument(IoC.Get<UndoRedoViewModel>());
         }
+    }
+
+    public class TestItem
+    {
+        public TestItem(string text)
+        {
+            Text = text;
+        }
+
+        public string Text { get; set; }
     }
 }

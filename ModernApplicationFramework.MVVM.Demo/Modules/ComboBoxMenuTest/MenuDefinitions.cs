@@ -2,6 +2,7 @@
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Extended.MenuDefinitions;
+using ModernApplicationFramework.MVVM.Demo.Modules.ComboBoxMenuTest.Commands;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.ComboBoxMenuTest
 {
@@ -9,7 +10,25 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.ComboBoxMenuTest
     {
         [Export] public static CommandBarItemDefinition ComboBoxTestMenu = new MenuDefinition(MainMenuBarDefinition.MainMenuBarGroup, 14, "&ComboBox");
 
-        [Export] public static CommandBarGroupDefinition ComboGroup = new CommandBarGroupDefinition(ComboBoxTestMenu, int.MaxValue);
+        [Export] public static CommandBarGroupDefinition ComboGroup = new CommandBarGroupDefinition(ComboBoxTestMenu, uint.MinValue);
+
+        [Export] public static CommandBarItemDefinition ComboItem = new CommandBarComboItemDefinition<ComboBoxCommandDefinition>(ComboGroup, uint.MinValue);
+
+
+        [Export] public static CommandBarItemDefinition ComboItemMain =
+            new CommandBarComboItemDefinition<ComboBoxCommandDefinition>(MainMenuBarDefinition.MainMenuBarGroup,
+                uint.MinValue);
+
+        [Export]
+        public static CommandBarItemDefinition ComboItemMain2 =
+            new CommandBarComboItemDefinition<ComboBoxCommandDefinition>(MainMenuBarDefinition.MainMenuBarGroup,
+                uint.MaxValue);
+
+        static MenuDefinitions()
+        {
+            ComboItemMain.Flags.PictAndText = true;
+            ComboItemMain2.Flags.PictAndText = true;
+        }
 
     }
 }

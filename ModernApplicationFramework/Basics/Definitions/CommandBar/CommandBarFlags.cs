@@ -8,6 +8,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         CommandFlagNone = 0,
         CommandFlagPict = 1,
         CommandFlagText = 2,
-        CommandFlagPictAndText = CommandFlagPict | CommandFlagText
+        CommandFlagPictAndText = CommandFlagPict | CommandFlagText,
+        CommandStretchHorizontally = 4
     }
 }

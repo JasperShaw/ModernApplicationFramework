@@ -11,6 +11,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         private bool _pictAndText;
         private bool _textOnly;
         private uint _allFlags;
+        private bool _stretchHorizontally;
 
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -62,6 +63,18 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
                     return;
                 _pictAndText = value;
                 SetFlag(CommandBarFlags.CommandFlagPictAndText, value);
+                OnPropertyChanged();
+            }
+        }
+
+        public bool StretchHorizontally
+        {
+            get => _stretchHorizontally;
+            set
+            {
+                if (value == _stretchHorizontally) return;
+                _stretchHorizontally = value;
+                SetFlag(CommandBarFlags.CommandStretchHorizontally, value);
                 OnPropertyChanged();
             }
         }

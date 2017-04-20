@@ -309,7 +309,7 @@
         </Setter>
         <Setter Property="DisplayedItem">
             <Setter.Value>
-                <Binding Mode="TwoWay" Path="DisplayedItem"/>
+                <Binding Mode="TwoWay" Path="DataSource.DisplayedItem"/>
             </Setter.Value>
         </Setter>
         <Setter Property="FocusVisualStyle" Value="{StaticResource ComboBoxFocusVisual}"/>

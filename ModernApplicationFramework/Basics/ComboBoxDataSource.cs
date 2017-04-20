@@ -1,71 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using ModernApplicationFramework.Annotations;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Native.Platform;
 
 namespace ModernApplicationFramework.Basics
 {
-    public class ComboBoxDataSource : DisposableObject, INotifyPropertyChanged
+    public class ComboBoxVisualSource : DisposableObject, INotifyPropertyChanged
     {
-        private object _displayedItem;
-        private double _dropDownWidth;
-        private bool _isEditable;
-        private string _displayedText;
         private bool _isFocused;
         private int _selectionBegin;
         private int _selectionEnd;
         private bool _queryForFocusChange;
-        private string _shortcutText;
-        private int _selectedIndex;
-
-        public object DisplayedItem
-        {
-            get => _displayedItem;
-            set
-            {
-                if (Equals(value, _displayedItem)) return;
-                _displayedItem = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public ObservableCollection<object> Items { get; set; }
-
-        public double DropDownWidth
-        {
-            get => _dropDownWidth;
-            set
-            {
-                if (value.Equals(_dropDownWidth)) return;
-                _dropDownWidth = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool IsEditable
-        {
-            get => _isEditable;
-            set
-            {
-                if (value == _isEditable) return;
-                _isEditable = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string DisplayedText
-        {
-            get => _displayedText;
-            set
-            {
-                if (value == _displayedText) return;
-                _displayedText = value;
-                OnPropertyChanged();
-            }
-        }
+        private double _dropDownWidth;
+        private bool _isEditable;
 
         public bool IsFocused
         {
@@ -111,6 +63,75 @@ namespace ModernApplicationFramework.Basics
             }
         }
 
+        public double DropDownWidth
+        {
+            get => _dropDownWidth;
+            set
+            {
+                if (value.Equals(_dropDownWidth)) return;
+                _dropDownWidth = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsEditable
+        {
+            get => _isEditable;
+            set
+            {
+                if (value == _isEditable) return;
+                _isEditable = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private FlagStorage _flagStorage;
+
+        public virtual FlagStorage Flags => _flagStorage ?? (_flagStorage = new FlagStorage());
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
+    public class ComboBoxDataSource : DisposableObject, INotifyPropertyChanged
+    {
+        public ComboBoxItemsWrapper Wrapper { get; }
+        private object _displayedItem;
+
+        private string _displayedText;
+
+        private string _shortcutText;
+
+        public object DisplayedItem
+        {
+            get => _displayedItem;
+            set
+            {
+                if (Equals(value, _displayedItem)) return;
+                _displayedItem = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<object> Items { get; set; }
+
+
+        public string DisplayedText
+        {
+            get => _displayedText;
+            set
+            {
+                if (value == _displayedText) return;
+                _displayedText = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string ShortcutText
         {
             get => _shortcutText;
@@ -124,21 +145,31 @@ namespace ModernApplicationFramework.Basics
 
         public int SelectedIndex
         {
-            get => _selectedIndex;
-            set
+            get
             {
-                if (value == _selectedIndex) return;
-                _selectedIndex = value;
-                OnPropertyChanged();
+                var displayedItem = DisplayedItem;
+                if (displayedItem == null)
+                    return -1;
+                return Items.IndexOf(displayedItem);
             }
         }
 
+        public ComboBoxDataSource(ComboBoxItemsWrapper wrapper)
+        {
+            Wrapper = wrapper;
+            Items = wrapper.Items;
+        }
+
+        public ComboBoxDataSource(IEnumerable collection)
+        {
+            Wrapper = new ComboBoxItemsWrapper(collection);
+            Items = Wrapper.Items;
+        }
 
         public void ChangeDisplayedItem(int newIndex)
         {
             if (Items.Count -1 < newIndex || newIndex < 0)
                 return;
-            SelectedIndex = newIndex;
             DisplayedItem = Items.ElementAtOrDefault(newIndex);
         }
 
@@ -171,6 +202,36 @@ namespace ModernApplicationFramework.Basics
         public void UpdateItems()
         {
             OnPropertyChanged(nameof(Items));
+        }
+    }
+
+    public class ComboBoxItemsWrapper
+    {
+        public ObservableCollection<object> Items { get; set; }
+
+        public ComboBoxItemsWrapper(IEnumerable colection)
+        {
+            Items = new ObservableCollection<object>();
+            if (colection == null)
+                return;
+            foreach (var item in colection)
+                Items.Add(item);
+            if (colection is INotifyCollectionChanged observable)
+                observable.CollectionChanged += Observable_CollectionChanged;
+        }
+
+        private void Observable_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.NewItems != null)
+                foreach (var eNewItem in e.NewItems)
+                {
+                    Items.Add(eNewItem);
+                }
+            if (e.OldItems != null)
+                foreach (var eNewItem in e.OldItems)
+                {
+                    Items.Remove(eNewItem);
+                }
         }
     }
 }

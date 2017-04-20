@@ -17,7 +17,7 @@ namespace ModernApplicationFramework.Controls.AutomationPeer
                 var dataContext = parentCombo?.DataContext as ComboBoxDataSource;
                 if (dataContext == null || dataContext.IsDisposed)
                     return false;
-                if (dataContext.IsEditable)
+                if (parentCombo.VisualDataSource.IsEditable)
                     return dataContext.DisplayedText == Text;
                 var itemDataSource = ItemDataSource;
                 if (itemDataSource != null && !itemDataSource.IsDisposed)

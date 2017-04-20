@@ -6,15 +6,15 @@ namespace ModernApplicationFramework.Controls
     {
         public static readonly DependencyProperty TargetComboBoxProperty;
 
-        public ComboBox TargetComboBox
+        public System.Windows.Controls.ComboBox TargetComboBox
         {
-            get => (ComboBox)GetValue(TargetComboBoxProperty);
+            get => (System.Windows.Controls.ComboBox)GetValue(TargetComboBoxProperty);
             set => SetValue(TargetComboBoxProperty, value);
         }
 
         static ComboBoxLabel()
         {
-            TargetComboBoxProperty = DependencyProperty.Register("TargetComboBox", typeof(ComboBox), typeof(ComboBoxLabel));
+            TargetComboBoxProperty = DependencyProperty.Register("TargetComboBox", typeof(System.Windows.Controls.ComboBox), typeof(ComboBoxLabel));
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ComboBoxLabel), new FrameworkPropertyMetadata(typeof(ComboBoxLabel)));
         }
 

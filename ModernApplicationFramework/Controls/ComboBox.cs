@@ -18,6 +18,8 @@ namespace ModernApplicationFramework.Controls
         internal const double DefaultWidth = 90.0;
         public static readonly DependencyProperty DisplayedItemProperty;
         public static readonly DependencyProperty IsEmbeddedInMenuProperty;
+        public static readonly DependencyProperty VisualDataSourceProperty;
+        public static readonly DependencyProperty DataSourceProperty;
 
         private static readonly string[] PropertiesToObserve;
 
@@ -30,6 +32,9 @@ namespace ModernApplicationFramework.Controls
         private bool _inKeyboardNavigationMode;
 
         private double _width;
+
+        private bool _isStretchingHorizontally;
+
         private bool _supressQueryForFocusChangeListener;
         private bool _supressSelectionStartChange;
         private bool _supressSelectionEndChange;
@@ -37,12 +42,11 @@ namespace ModernApplicationFramework.Controls
         private bool _supressKillFocusFilterNotification;
 
         private ComboBoxDataSource _controllingDataSource;
-
+        private ComboBoxVisualSource _controllingVisualSource;
 
         private ComboBoxAutomationPeer _peer;
 
         public MenuItem ParentMenuItem => this.FindAncestor<MenuItem>();
-
 
         public object DisplayedItem
         {
@@ -50,9 +54,21 @@ namespace ModernApplicationFramework.Controls
             set => SetValue(DisplayedItemProperty, value);
         }
 
+        public ComboBoxVisualSource VisualDataSource
+        {
+            get => (ComboBoxVisualSource) GetValue(VisualDataSourceProperty);
+            set => SetValue(VisualDataSourceProperty, value);
+        }
+
+        public ComboBoxDataSource DataSource
+        {
+            get => (ComboBoxDataSource) GetValue(DataSourceProperty);
+            set => SetValue(DataSourceProperty, value);
+        }
+
         public bool IsEmbeddedInMenu
         {
-            get => (bool) GetValue(IsEmbeddedInMenuProperty);
+            get => (bool)GetValue(IsEmbeddedInMenuProperty);
             set => SetValue(IsEmbeddedInMenuProperty, Boxes.Box(value));
         }
 
@@ -74,6 +90,10 @@ namespace ModernApplicationFramework.Controls
                     FrameworkPropertyMetadataOptions.AffectsRender, OnDisplayedItemChanged));
             IsEmbeddedInMenuProperty = DependencyProperty.Register("IsEmbeddedInMenu", typeof(bool), typeof(ComboBox),
                 new FrameworkPropertyMetadata(Boxes.BooleanFalse));
+            VisualDataSourceProperty = DependencyProperty.Register("VisualDataSource", typeof(ComboBoxVisualSource), typeof(ComboBox),
+                new FrameworkPropertyMetadata(OnVisualDataSourceChanged));
+            DataSourceProperty = DependencyProperty.Register("DataSource", typeof(ComboBoxDataSource), typeof(ComboBox),
+                new FrameworkPropertyMetadata(OnDataSourceChanged));
             PropertiesToObserve = new[]
             {
                 "DropDownWidth",
@@ -85,11 +105,20 @@ namespace ModernApplicationFramework.Controls
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ComboBox), new FrameworkPropertyMetadata(typeof(ComboBox)));
         }
 
+        private static void OnDataSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((ComboBox)d).OnDataSourceChanged(e);
+        }
+
+        private static void OnVisualDataSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((ComboBox)d).OnVisualDataSourceChanged(e);
+        }
+
         public ComboBox()
         {
             _rememberedHwndFocus = IntPtr.Zero;
             _previousHwndFocus = IntPtr.Zero;
-            DataContextChanged += OnDataContextChanged;
 
             DteFocusHelper.HookAcquireFocus(this);
             AddHandler(MouseDownEvent, new MouseButtonEventHandler(OnMouseDown), true);
@@ -169,8 +198,8 @@ namespace ModernApplicationFramework.Controls
             {
                 _supressSelectionStartChange = true;
                 _supressSelectionEndChange = true;
-                _controllingDataSource.SelectionBegin = _editableTextBoxPart.SelectionStart;
-                _controllingDataSource.SelectionEnd = _editableTextBoxPart.SelectionLength + _editableTextBoxPart.SelectionStart;
+                _controllingVisualSource.SelectionBegin = _editableTextBoxPart.SelectionStart;
+                _controllingVisualSource.SelectionEnd = _editableTextBoxPart.SelectionLength + _editableTextBoxPart.SelectionStart;
             }
             finally
             {
@@ -262,10 +291,10 @@ namespace ModernApplicationFramework.Controls
                 DropDownClosed += SetCaptureOnDropDownClosed;
             }
             base.OnGotKeyboardFocus(e);
-            if (_controllingDataSource == null)
+            if (_controllingDataSource == null || _controllingVisualSource == null)
                 return;
             var keyboardFocusWithin = IsKeyboardFocusWithin;
-            _controllingDataSource.IsFocused = keyboardFocusWithin;
+            _controllingVisualSource.IsFocused = keyboardFocusWithin;
             if (!keyboardFocusWithin || !IsEditable)
                 return;
             _controllingDataSource.UpdateItems();
@@ -278,13 +307,13 @@ namespace ModernApplicationFramework.Controls
             if (_controllingDataSource != null && _controllingDataSource.IsDisposed)
                 return;
             base.OnLostKeyboardFocus(e);
-            if (_controllingDataSource != null)
+            if (_controllingDataSource != null && _controllingVisualSource != null)
             {
-                _controllingDataSource.IsFocused = IsKeyboardFocusWithin;
+                _controllingVisualSource.IsFocused = IsKeyboardFocusWithin;
                 try
                 {
                     _supressSelectionStartChange = true;
-                    _controllingDataSource.SelectionBegin = 0;
+                    _controllingVisualSource.SelectionBegin = 0;
                 }
                 finally
                 {
@@ -312,18 +341,21 @@ namespace ModernApplicationFramework.Controls
         protected override Size MeasureOverride(Size availableSize)
         {
             var constraint = base.MeasureOverride(availableSize);
-            if (double.IsPositiveInfinity(availableSize.Width) && double.IsPositiveInfinity(availableSize.Height))
+            if (_isStretchingHorizontally)
             {
-                var width = constraint.Width;
-                var val1 = _toggleButton?.DesiredSize.Width ?? 0.0;
-                constraint.Width = Math.Max(val1, _width);
-                if (constraint.Width < width)
-                    constraint = base.MeasureOverride(constraint);
-            }
-            else
-            {
-                constraint.Width = availableSize.Width;
-            }
+                if (double.IsPositiveInfinity(availableSize.Width) && double.IsPositiveInfinity(availableSize.Height))
+                {
+                    var width = constraint.Width;
+                    var val1 = _toggleButton?.DesiredSize.Width ?? 0.0;
+                    constraint.Width = Math.Max(val1, _width);
+                    if (constraint.Width < width)
+                        constraint = base.MeasureOverride(constraint);
+                }
+                else
+                {
+                    constraint.Width = availableSize.Width;
+                }
+            }        
             return constraint;
         }
 
@@ -397,8 +429,7 @@ namespace ModernApplicationFramework.Controls
             CaptureMouseInEmbeddedMode();
         }
 
-
-        private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void OnDataSourceChanged(DependencyPropertyChangedEventArgs e)
         {
             if (_controllingDataSource != null)
             {
@@ -409,9 +440,25 @@ namespace ModernApplicationFramework.Controls
             if (newValue == null)
                 return;
             _controllingDataSource = newValue;
-            SubscribeToPropertyChanges(_controllingDataSource);
-            _controllingDataSource.Disposing += OnControllingDataSourceDisposing;
-            //this.isStretchingHorizontally = this.controllingDataSource.Flags.StretchHorizontally;
+        }
+
+        private void OnVisualDataSourceChanged(DependencyPropertyChangedEventArgs e)
+        {
+
+            if (_controllingVisualSource != null)
+            {
+                _controllingVisualSource.Dispose();
+                _controllingVisualSource = null;
+            }
+            var newValue = e.NewValue as ComboBoxVisualSource;
+            if (newValue == null)
+                return;
+            _controllingVisualSource = newValue;
+
+
+            SubscribeToPropertyChanges(_controllingVisualSource);
+            _controllingVisualSource.Disposing += OnControllingDataSourceDisposing;
+            _isStretchingHorizontally = _controllingVisualSource.Flags.StretchHorizontally;
             CacheDropDownWidth();
         }
 
@@ -439,16 +486,16 @@ namespace ModernApplicationFramework.Controls
 
         private void CacheDropDownWidth()
         {
-            _width = _controllingDataSource.DropDownWidth > 0.0 ? _controllingDataSource.DropDownWidth : 90.0;
+            _width = _controllingVisualSource.DropDownWidth > 0.0 ? _controllingVisualSource.DropDownWidth : 90.0;
         }
 
-        private void SubscribeToPropertyChanges(ComboBoxDataSource dataSource)
+        private void SubscribeToPropertyChanges(ComboBoxVisualSource visualSource)
         {
-            var ds = dataSource as INotifyPropertyChanged;
-            if (ds == null)
+            var vs = visualSource as INotifyPropertyChanged;
+            if (vs == null)
                 return;
             foreach (var propertyName in PropertiesToObserve)
-                PropertyChangedEventManager.AddListener(ds, this, propertyName);
+                PropertyChangedEventManager.AddListener(vs, this, propertyName);
         }
 
         private void OnDisplayedItemChanged(DependencyPropertyChangedEventArgs e)
@@ -514,37 +561,37 @@ namespace ModernApplicationFramework.Controls
 
         private void OnDataContextPropertyChanged(PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "DropDownWidth" && _controllingDataSource != null)
+            if (e.PropertyName == "DropDownWidth" && _controllingVisualSource != null)
             {
                 CacheDropDownWidth();
             }
-            else if (e.PropertyName == "IsFocused" && _controllingDataSource != null)
+            else if (e.PropertyName == "IsFocused" && _controllingVisualSource != null)
             {
-                if (!_controllingDataSource.IsFocused || IsKeyboardFocusWithin)
+                if (!_controllingVisualSource.IsFocused || IsKeyboardFocusWithin)
                     return;
                 Keyboard.Focus(this);
-                _controllingDataSource.IsFocused = IsKeyboardFocusWithin;
+                _controllingVisualSource.IsFocused = IsKeyboardFocusWithin;
             }
-            else if (e.PropertyName == "SelectionBegin" && _controllingDataSource != null)
+            else if (e.PropertyName == "SelectionBegin" && _controllingVisualSource != null)
             {
                 if (_editableTextBoxPart == null || _supressSelectionStartChange)
                     return;
-                _editableTextBoxPart.SelectionStart = _controllingDataSource.SelectionBegin;
+                _editableTextBoxPart.SelectionStart = _controllingVisualSource.SelectionBegin;
             }
-            else if (e.PropertyName == "SelectionEnd" && _controllingDataSource != null)
+            else if (e.PropertyName == "SelectionEnd" && _controllingVisualSource != null)
             {
                 if (_editableTextBoxPart == null || _supressSelectionEndChange)
                     return;
-                _editableTextBoxPart.SelectionLength = _controllingDataSource.SelectionEnd -
+                _editableTextBoxPart.SelectionLength = _controllingVisualSource.SelectionEnd -
                                                        _editableTextBoxPart.SelectionStart;
             }
             else
             {
-                if (e.PropertyName != "QueryForFocusChange" || _controllingDataSource == null ||
-                    _supressQueryForFocusChangeListener || !_controllingDataSource.QueryForFocusChange)
+                if (e.PropertyName != "QueryForFocusChange" || _controllingVisualSource == null ||
+                    _supressQueryForFocusChangeListener || !_controllingVisualSource.QueryForFocusChange)
                     return;
                 _supressQueryForFocusChangeListener = true;
-                _controllingDataSource.QueryForFocusChange =
+                _controllingVisualSource.QueryForFocusChange =
                     _rememberedFocus != null && !_rememberedFocus.IsAlive ||
                     (_rememberedFocus == null || !_rememberedFocus.IsAlive
                         ? null
