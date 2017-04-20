@@ -4,16 +4,15 @@ using System.Security.AccessControl;
 using System.Threading;
 using System.Windows;
 using System.Windows.Automation.Peers;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using ModernApplicationFramework.Basics;
+using ModernApplicationFramework.Controls.AutomationPeer;
 using ModernApplicationFramework.Controls.Internals;
 using ModernApplicationFramework.Controls.Primitives;
-using ModernApplicationFramework.Controls.Utilities;
 using ModernApplicationFramework.Core.Converters.General;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.Native;
@@ -104,7 +103,7 @@ namespace ModernApplicationFramework.Controls
             Keyboard.Focus(this);
         }
 
-        protected override AutomationPeer OnCreateAutomationPeer()
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer()
         {
             return new MainWindowAutomationPeer(this);
         }

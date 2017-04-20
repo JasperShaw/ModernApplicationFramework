@@ -16,9 +16,9 @@ namespace ModernApplicationFramework.Native.Platform
             add
             {
                 ThrowIfDisposed();
-                _disposing = _disposing + value;
+                _disposing = (EventHandler)Delegate.Combine(_disposing, value);
             }
-            remove => _disposing = _disposing - value;
+            remove => _disposing = (EventHandler)Delegate.Remove(_disposing, value);
         }
 
         ~DisposableObject()

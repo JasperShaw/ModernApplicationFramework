@@ -1,8 +1,7 @@
 ﻿using System.Windows;
-using System.Windows.Automation.Peers;
 using System.Windows.Controls;
 using System.Windows.Media;
-using ModernApplicationFramework.Controls.Utilities;
+using ModernApplicationFramework.Controls.AutomationPeer;
 using ModernApplicationFramework.Interfaces.Controls;
 
 namespace ModernApplicationFramework.Controls
@@ -30,7 +29,7 @@ namespace ModernApplicationFramework.Controls
             //e.Handled = true;
         }
 
-        protected override AutomationPeer OnCreateAutomationPeer()
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer()
         {
             return new MainWindowTitleBarAutomationPeer(this);
         }

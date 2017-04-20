@@ -200,7 +200,10 @@
     <Compile Include="Basics\CommandBar\Creators\ContextMenuCreator.cs" />
     <Compile Include="Basics\CustomizeDialog\ViewModels\AddCommandDialogViewModel.cs" />
     <Compile Include="Basics\CustomizeDialog\ViewModels\CommandsPageViewModel.cs" />
+    <Compile Include="Controls\AutomationPeer\AutomationPeerHelper.cs" />
     <Compile Include="Controls\ComboBoxLabel.cs" />
+    <Compile Include="Controls\AutomationPeer\ComboBoxAutomationPeer.cs" />
+    <Compile Include="Controls\AutomationPeer\ComboBoxDataItemAutomationPeer.cs" />
     <Compile Include="Interfaces\Utilities\ICreatorBase.cs" />
     <Compile Include="Interfaces\Utilities\IMainMenuCreator.cs" />
     <Compile Include="Interfaces\ViewModels\ICommandsPageViewModel.cs" />
@@ -430,8 +433,8 @@
     <Compile Include="Interfaces\Controls\IListViewContainer.cs" />
     <Compile Include="Interfaces\Controls\INonClientArea.cs" />
     <Compile Include="Controls\Internals\SelectionDelegatingCheckBox.cs" />
-    <Compile Include="Controls\Utilities\MainWindowAutomationPeer.cs" />
-    <Compile Include="Controls\Utilities\MainWindowTitleBarAutomationPeer.cs" />
+    <Compile Include="Controls\AutomationPeer\MainWindowAutomationPeer.cs" />
+    <Compile Include="Controls\AutomationPeer\MainWindowTitleBarAutomationPeer.cs" />
     <Compile Include="Controls\Internals\MenuHostControl.cs" />
     <Compile Include="Controls\OutlineTextBlock.cs" />
     <Compile Include="Controls\Primitives\ResizeGrip.cs" />
@@ -831,6 +834,8 @@
     <Reference Include="System.Xaml" />
     <Reference Include="System.XML" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>

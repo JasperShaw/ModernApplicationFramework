@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using ModernApplicationFramework.Annotations;
+using ModernApplicationFramework.Native.Platform;
 
 namespace ModernApplicationFramework.Basics
 {
-    public class ComboBoxDataSource : INotifyPropertyChanged
+    public class ComboBoxDataSource : DisposableObject, INotifyPropertyChanged
     {
         private object _displayedItem;
         private double _dropDownWidth;
@@ -30,7 +32,7 @@ namespace ModernApplicationFramework.Basics
             }
         }
 
-        public IList<object> Items { get; set; }
+        public ObservableCollection<object> Items { get; set; }
 
         public double DropDownWidth
         {
@@ -134,9 +136,29 @@ namespace ModernApplicationFramework.Basics
 
         public void ChangeDisplayedItem(int newIndex)
         {
-            DisplayedItem = Items.ElementAt(newIndex);
+            if (Items.Count -1 < newIndex || newIndex < 0)
+                return;
+            SelectedIndex = newIndex;
+            DisplayedItem = Items.ElementAtOrDefault(newIndex);
         }
 
+        public void ChangeDisplayedItemRelative(int index)
+        {
+            var newIndex = SelectedIndex + index;
+
+            if (newIndex < 0)
+                newIndex = 0;
+            if (newIndex > Items.Count - 1)
+                newIndex = Items.Count - 1;
+            ChangeDisplayedItem(newIndex);
+        }
+
+
+        protected override void DisposeManagedResources()
+        {
+            Items.Clear();
+            base.DisposeManagedResources();
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -144,6 +166,11 @@ namespace ModernApplicationFramework.Basics
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void UpdateItems()
+        {
+            OnPropertyChanged(nameof(Items));
         }
     }
 }

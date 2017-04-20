@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
-using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
+using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest;
 
@@ -15,8 +15,22 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
     {
         private readonly IDockingHostViewModel _dockingHostViewModel;
         private ComboBoxDataSource _dataSource;
+        private object _comboValue;
 
         public override string DisplayName => "Sample Browser";
+
+        public ICommand ShowComboValueCommand => new Command(ShowComboValue);
+        public ICommand AddComboValueCommand => new Command(AddComboValue);
+
+        private void AddComboValue()
+        {
+            DataSource.Items.Add("Text3");
+        }
+
+        private void ShowComboValue()
+        {
+            MessageBox.Show(DataSource.DisplayedItem.ToString());
+        }
 
         public ISample[] Samples { get; }
 
@@ -31,26 +45,34 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
             }
         }
 
+        public object ComboValue
+        {
+            get => _comboValue;
+            set
+            {
+                if (Equals(value, _comboValue)) return;
+                _comboValue = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         [ImportingConstructor]
         public SampleViewModel(IDockingHostViewModel shell, [ImportMany] ISample[] samples)
         {
             _dockingHostViewModel = shell;
             Samples = samples;
-            if (shell == null)
-                MessageBox.Show("null");
 
 
             DataSource = new ComboBoxDataSource
             {
-                Items = new List<object>
+                Items = new ObservableCollection<object>
                 {
                     "Test",
                     "Test1",
                     "Test2"
-                },
-                SelectedIndex = 1
+                }
             };
-            DataSource.DisplayedItem = DataSource.Items.FirstOrDefault();
+            DataSource.ChangeDisplayedItemRelative(0);
         }
 
         public override bool ShouldReopenOnStart => true;
@@ -58,7 +80,6 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
         public void Activate(ISample sample)
         {
             _dockingHostViewModel.OpenDocument(IoC.Get<UndoRedoViewModel>());
-            //_dockingHostViewModel.ShowTool<IOutput>();
         }
     }
 }

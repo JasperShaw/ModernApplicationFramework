@@ -39,12 +39,13 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
             <mafc:TextBox mafc:FocusBehavior.FocusFirst="true"/>
-            <mafc:ComboBox Text="Text" DataContext="{Binding DataSource}">
+            <mafc:ComboBox DataContext="{Binding DataSource}" Margin="0,10,0,0">
                 <ComboBox.ItemsSource>
                     <Binding Path="Items"/>
                 </ComboBox.ItemsSource>
             </mafc:ComboBox>
-
+            <mafc:Button Content="ShowComboValue" Margin="0,10,0,0" Command="{Binding ShowComboValueCommand}"/>
+            <mafc:Button Content="AddComboValue" Margin="0,10,0,0" Command="{Binding AddComboValueCommand}"/>
         </StackPanel>
     </Border>
 </UserControl>

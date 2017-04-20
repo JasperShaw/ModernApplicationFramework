@@ -18,7 +18,7 @@ namespace ModernApplicationFramework.Core.Utilities
 
         private static void OnAcquireFocusPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
-            UIElement uiElement = obj as UIElement;
+            var uiElement = obj as UIElement;
             if (uiElement == null)
                 throw new ArgumentException("AcquireFocus element must be a UIElement.");
             if (!(bool)args.NewValue)

@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Automation.Peers;
 
-namespace ModernApplicationFramework.Controls.Utilities
+namespace ModernApplicationFramework.Controls.AutomationPeer
 {
     internal class MainWindowAutomationPeer : WindowAutomationPeer
     {
