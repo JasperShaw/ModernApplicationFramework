@@ -63,6 +63,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         public AddCommandDialogViewModel()
         {
             DisplayName = "Add Command";
+
             var categories = IoC.GetAll<CommandCategory>();
             Categories = new List<CommandCategory>(categories);
             var allCommandDefinitions = IoC.GetAll<DefinitionBase>();
@@ -75,10 +76,9 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             if (!AllCommandDefinitions.Any())
                 return;
             Items =
-                (from commandDefinition in AllCommandDefinitions
-                    where commandDefinition.Category == SelectedCategory
-                    select new CommandBarCommandItemDefinition(0, commandDefinition))
-                .ToList();
+                from commandDefinition in AllCommandDefinitions
+                where commandDefinition.Category == SelectedCategory
+                select new CommandBarCommandItemDefinition(0, commandDefinition);
         }
 
         protected override void OnViewLoaded(object view)
@@ -87,7 +87,16 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             var v = view as AddCommandDialogView;
             if (!Categories.Any() || v == null)
                 return;
+            //This fixes an issue with themed icons
             v.CategoriesListView.SelectedIndex = 0;
+            v.CategoriesListView.SelectedIndex = -1;
+            v.CategoriesListView.SelectedIndex = 0;
+        }
+
+        protected override void OnActivate()
+        {
+            base.OnActivate();
+            UpdateItems();
         }
 
         private void ExecuteOkClick()

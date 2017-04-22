@@ -7,8 +7,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.Views
         public AddCommandDialogView()
         {
             InitializeComponent();
-            Loaded += AddCommandDialogView_Loaded;
-        }
+            Loaded += AddCommandDialogView_Loaded;}
 
         private void AddCommandDialogView_Loaded(object sender, RoutedEventArgs e)
         {

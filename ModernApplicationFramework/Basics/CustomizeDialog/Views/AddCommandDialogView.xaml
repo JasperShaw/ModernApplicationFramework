@@ -69,7 +69,7 @@
         <controls:CustomizeControlsListBox x:Name="CommandsListView" Grid.Row="2" Grid.Column="1" Margin="10,0,12,10"
                                            SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                                            IsSynchronizedWithCurrentItem="True" TextSearch.TextPath="Text"
-                                           ItemsSource="{Binding Items, Mode=OneWay}"
+                                           ItemsSource="{Binding Items}"
                                            CustomSort="{StaticResource CommandTextComparer}" />
 
         <StackPanel Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"
