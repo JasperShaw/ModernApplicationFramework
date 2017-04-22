@@ -25,7 +25,7 @@ namespace ModernApplicationFramework.Controls.Internals
 
         protected override Size MeasureOverride(Size constraint)
         {
-            Size size = MeasureWithCollapsePrevention(constraint);
+            Size size = base.MeasureOverride(constraint);
             if (Orientation == Orientation.Horizontal && constraint.Width < double.MaxValue || Orientation == Orientation.Vertical && constraint.Height < double.MaxValue)
             {
                 if (IsStretching)
