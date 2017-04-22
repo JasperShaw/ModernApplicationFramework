@@ -1,19 +1,26 @@
-﻿using System.Globalization;
-using System.Windows.Input;
+﻿using System;
+using System.Globalization;
+using System.Windows.Data;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Core.Converters.General;
 
 namespace ModernApplicationFramework.Core.Converters
 {
-    public class CommandBarItemCommandConverter: ValueConverter<CommandBarDefinitionBase, ICommand>
+    public class CommandBarItemCommandConverter: IValueConverter
     {
-        protected override ICommand Convert(CommandBarDefinitionBase value, object parameter, CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value is CommandBarDefinitionBase definitionBase)
+            {
+                var c = definitionBase.CommandDefinition as CommandDefinition;
+                return c?.Command;
+            }
+            return null;
+        }
 
-            var c = value.CommandDefinition as CommandDefinition;
-
-            return c?.Command;
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }

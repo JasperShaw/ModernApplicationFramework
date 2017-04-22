@@ -206,8 +206,10 @@
     <Compile Include="Controls\ComboBoxLabel.cs" />
     <Compile Include="Controls\AutomationPeer\ComboBoxAutomationPeer.cs" />
     <Compile Include="Controls\AutomationPeer\ComboBoxDataItemAutomationPeer.cs" />
+    <Compile Include="Controls\SplitButtonItem.cs" />
     <Compile Include="Core\Converters\ComboBoxWidthConverter.cs" />
     <Compile Include="Core\Converters\Customize\ToolTipMultiConverter.cs" />
+    <Compile Include="Core\Converters\SplitButtonItemHighlightConverter.cs" />
     <Compile Include="Interfaces\Utilities\ICreatorBase.cs" />
     <Compile Include="Interfaces\Utilities\IMainMenuCreator.cs" />
     <Compile Include="Interfaces\ViewModels\ICommandsPageViewModel.cs" />

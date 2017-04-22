@@ -22,6 +22,52 @@ namespace ModernApplicationFramework.Controls.Utilities
             }
         }
 
+        internal static bool HandleKeyDownForToolBarHostedMenuItem(System.Windows.Controls.MenuItem menuItem, KeyEventArgs e)
+        {
+            if (e.Handled || !ToolBar.GetIsToolBarHostedMenuItem(menuItem))
+                return false;
+            var ancestor = menuItem.FindAncestor<System.Windows.Controls.ToolBar>();
+            if (ancestor == null)
+                return false;
+            var orientation = ancestor.Orientation;
+            CorrectKeysForNavigation(e.Key, ancestor.FlowDirection, orientation);
+            switch (e.Key)
+            {
+                case Key.Escape:
+                    if (ancestor.IsOverflowOpen && !menuItem.IsSubmenuOpen)
+                    {
+                        ancestor.IsOverflowOpen = false;
+                        e.Handled = true;
+                    }
+                    break;
+                case Key.Left:
+                    if (orientation == Orientation.Horizontal)
+                        e.Handled = MoveFocusHorizontally(menuItem, FocusNavigationDirection.Previous);
+                    break;
+                case Key.Up:
+                    if (orientation == Orientation.Vertical && !menuItem.IsSubmenuOpen)
+                        e.Handled = menuItem.MoveFocus(new TraversalRequest(FocusNavigationDirection.Previous));
+                    break;
+                case Key.Right:
+                    if (orientation == Orientation.Horizontal)
+                        e.Handled = MoveFocusHorizontally(menuItem, FocusNavigationDirection.Next);
+                    break;
+                case Key.Down:
+                    if (orientation == Orientation.Vertical && !menuItem.IsSubmenuOpen)
+                        e.Handled = menuItem.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+                    break;
+            }
+            return e.Handled;
+        }
+
+        private static bool MoveFocusHorizontally(System.Windows.Controls.MenuItem menuItem, FocusNavigationDirection direction)
+        {
+            bool flag = menuItem.MoveFocus(new TraversalRequest(direction));
+            if (Equals(menuItem, Keyboard.FocusedElement))
+                menuItem.IsSubmenuOpen = false;
+            return flag;
+        }
+
 
         internal static void ProcessForDirectionalNavigation(KeyEventArgs e, ItemsControl itemsControl, Orientation orientation)
         {
