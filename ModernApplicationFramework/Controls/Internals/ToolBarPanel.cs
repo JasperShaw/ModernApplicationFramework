@@ -2,6 +2,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Native.Standard;
 
 namespace ModernApplicationFramework.Controls.Internals
@@ -39,7 +41,7 @@ namespace ModernApplicationFramework.Controls.Internals
                 else
                     size.Height += 3.0;
             }
-            ToolBar templatedParent = TemplatedParent as ToolBar;
+            System.Windows.Controls.ToolBar templatedParent = TemplatedParent as System.Windows.Controls.ToolBar;
             if (templatedParent != null && templatedParent.Orientation == Orientation.Vertical)
             {
                 double val2 = 0.0;
@@ -169,8 +171,11 @@ namespace ModernApplicationFramework.Controls.Internals
             FrameworkElement frameworkElement = uiElement as FrameworkElement;
             if (frameworkElement == null)
                 return false;
-
-            return true;
+            if (!(frameworkElement.DataContext is CommandBarDefinitionBase definitionBase))
+                return false;
+            if ((definitionBase.CommandDefinition.ControlType & CommandControlTypes.Combobox) == CommandControlTypes.Separator)
+                return false;
+            return definitionBase.Flags.StretchHorizontally;
         }
 
     }

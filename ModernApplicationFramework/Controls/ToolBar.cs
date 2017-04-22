@@ -20,6 +20,7 @@ namespace ModernApplicationFramework.Controls
         public static readonly RoutedEvent HasOverflowItemsChangedEvent;
         public static readonly DependencyProperty IsQuickCustomizeEnabledProperty;
         public static readonly DependencyProperty IsToolBarHostedMenuItemProperty;
+        public static readonly DependencyProperty IsStretchingProperty;
         private bool _isToolBarMode;
 
         static ToolBar()
@@ -35,6 +36,7 @@ namespace ModernApplicationFramework.Controls
                 typeof(ToolBar), new FrameworkPropertyMetadata(Boxes.BooleanTrue));
             IsToolBarHostedMenuItemProperty = DependencyProperty.RegisterAttached("IsToolBarHostedMenuItem",
                 typeof(bool), typeof(ToolBar), new FrameworkPropertyMetadata(Boxes.BooleanFalse));
+            IsStretchingProperty = DependencyProperty.Register("IsStretching", typeof(bool), typeof(ToolBar), new FrameworkPropertyMetadata(Boxes.BooleanFalse));
         }
 
         public ToolBar()
@@ -66,6 +68,12 @@ namespace ModernApplicationFramework.Controls
         {
             get => (bool) GetValue(IsQuickCustomizeEnabledProperty);
             set => SetValue(IsQuickCustomizeEnabledProperty, Boxes.Box(value));
+        }
+
+        public bool IsStretching
+        {
+            get => (bool)GetValue(IsStretchingProperty);
+            set => SetValue(IsStretchingProperty, Boxes.Box(value));
         }
 
         public bool IsOverflowToggleButtonVisible

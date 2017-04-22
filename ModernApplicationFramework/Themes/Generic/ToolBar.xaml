@@ -365,7 +365,8 @@
                                     <Thumb x:Name="ToolBarThumb" Style="{StaticResource HorizontalToolBarThumbStyle}"/>
                                     <ContentPresenter x:Name="ToolBarHeader" ContentSource="Header" HorizontalAlignment="Center"
                                                       VerticalAlignment="Center" Margin="4,0,4,0" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                                    <internals:ToolBarPanel x:Name="PART_ToolBarPanel" IsItemsHost="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                    <internals:ToolBarPanel x:Name="PART_ToolBarPanel" IsItemsHost="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                            IsStretching="{TemplateBinding this:ToolBar.IsStretching}"/>
                                 </DockPanel>
                             </Border>
                         </Grid>
