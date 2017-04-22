@@ -19,7 +19,6 @@
                 <ResourceDictionary Source="../../../Themes/Generic/CustomizeStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <customize:EnabledFilteringMultiConverter x:Key="EnabledFilteringMultiConverter" />
             <general:AndBooleanConverter x:Key="AndBooleanConverter" />
             <general:OrBooleanConverter x:Key="OrBooleanConverter" />
             <general:NegateBooleanConverter x:Key="NegateBooleanConverter" />
@@ -75,7 +74,7 @@
                                 <Trigger Property="IsVisible" Value="True">
                                     <Setter Property="Edit">
                                         <Setter.Value>
-                                            <Binding Path="Item.DropDownWidth" Mode="TwoWay" />
+                                            <Binding Path="VisualSource.DropDownWidth" Mode="TwoWay" />
                                         </Setter.Value>
                                     </Setter>
                                 </Trigger>

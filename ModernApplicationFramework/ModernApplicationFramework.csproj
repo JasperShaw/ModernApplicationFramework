@@ -207,6 +207,7 @@
     <Compile Include="Controls\AutomationPeer\ComboBoxAutomationPeer.cs" />
     <Compile Include="Controls\AutomationPeer\ComboBoxDataItemAutomationPeer.cs" />
     <Compile Include="Core\Converters\ComboBoxWidthConverter.cs" />
+    <Compile Include="Core\Converters\Customize\ToolTipMultiConverter.cs" />
     <Compile Include="Interfaces\Utilities\ICreatorBase.cs" />
     <Compile Include="Interfaces\Utilities\IMainMenuCreator.cs" />
     <Compile Include="Interfaces\ViewModels\ICommandsPageViewModel.cs" />

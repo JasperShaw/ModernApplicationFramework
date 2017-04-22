@@ -12,6 +12,6 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.ComboBoxMenuTest
 
         [Export] public static CommandBarGroupDefinition Group1 = new CommandBarGroupDefinition(ComboBox, 0);
 
-        [Export] public static CommandBarItemDefinition ComboItem = new CommandBarCommandItemDefinition<ComboBoxCommandDefinition>(Group1, 0);
+        [Export] public static CommandBarItemDefinition ComboItem = new CommandBarComboItemDefinition<ComboBoxCommandDefinition>(Group1, 0, false, false, false);
     }
 }

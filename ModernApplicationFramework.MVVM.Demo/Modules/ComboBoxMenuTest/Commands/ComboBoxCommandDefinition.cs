@@ -12,7 +12,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.ComboBoxMenuTest.Commands
     {
         public override string Name => "Combobox";
         public override string Text => Name;
-        public override string ToolTip => null;
+        public override string ToolTip => "ToolTip Test";
         public override Uri IconSource => null;
         public override string IconId => null;
         public override CommandCategory Category => CommandCategories.FileCommandCategory;
