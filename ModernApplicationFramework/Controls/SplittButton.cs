@@ -1,6 +1,11 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Automation.Peers;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
+using ModernApplicationFramework.Controls.AutomationPeer;
 using ModernApplicationFramework.Controls.Utilities;
 using ModernApplicationFramework.Core.Converters;
 
@@ -103,10 +108,10 @@ namespace ModernApplicationFramework.Controls
             splitButtonItem?.MoveFocus(new TraversalRequest(direction));
         }
 
-        //protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer()
-        //{
-        //    return (System.Windows.Automation.Peers.AutomationPeer)new SplitButtonAutomationPeer(this);
-        //}
+        protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer()
+        {
+            return new SplitButtonAutomationPeer(this);
+        }
 
         protected override DependencyObject GetContainerForItemOverride()
         {
@@ -124,7 +129,7 @@ namespace ModernApplicationFramework.Controls
                 Converter = _itemIsHighlightedConverter,
                 ConverterParameter = element
             };
-            BindingOperations.SetBinding(element, IsHighlightedProperty, binding1);
+            BindingOperations.SetBinding(element, SplitButtonItem.IsHighlightedProperty, binding1);
         }
 
         protected override void OnSubmenuClosed(RoutedEventArgs e)
@@ -135,6 +140,7 @@ namespace ModernApplicationFramework.Controls
 
         protected override void OnSubmenuOpened(RoutedEventArgs e)
         {
+            UpdateChildCollection();
             base.OnSubmenuOpened(e);
         }
 
@@ -145,7 +151,56 @@ namespace ModernApplicationFramework.Controls
 
         private void OnSelectedIndexChanged(DependencyPropertyChangedEventArgs e)
         {
+            if (!AutomationPeerHelper.SelectionListenersExist())
+                return;
+            var objectList1 = new List<object>();
+            var objectList2 = new List<object>();
+            if ((int) e.OldValue < (int) e.NewValue)
+            {
+                var num = (int) e.OldValue < 0 ? 0 : (int) e.OldValue;
+                var newValue = (int) e.NewValue;
+                for (var index = num; index <= newValue; ++index)
+                    objectList1.Add(Items[index]);
+            }
+            else
+            {
+                var oldValue = (int) e.OldValue;
+                var num = (int) e.NewValue < 0 ? 0 : (int) e.NewValue;
+                for(var index = oldValue; index >= num; --index)
+                    objectList2.Add(Items[index]);
+            }
+            AutomationPeerHelper.RaiseSelectionEvents(
+                AutomationPeerHelper.CreatePeerFromElement<SplitButtonAutomationPeer>(this),
+                new SelectionChangedEventArgs(Selector.SelectionChangedEvent, objectList2, objectList1), null,
+                this.HasGeneratedContainers(), GetPeer);
+        }
 
+        private System.Windows.Automation.Peers.AutomationPeer GetPeer(object o)
+        {
+            var splitButtonItem = ItemContainerGenerator.ContainerFromItem(o) as SplitButtonItem;
+            if (splitButtonItem == null)
+                return null;
+            return AutomationPeerHelper.CreatePeerFromElement<SplitButtonItemAutomationPeer>(splitButtonItem);
+        }
+
+        internal void Invoke()
+        {
+
+            int selectedIndex = SelectedIndex;
+            IsSubmenuOpen = false;
+            SelectedIndex = 0;
+
+            if (System.Windows.Automation.Peers.AutomationPeer.ListenerExists(AutomationEvents.InvokePatternOnInvoked))
+                AutomationPeerHelper.CreatePeerFromElement<SplitButtonAutomationPeer>(this).RaiseAutomationEvent(AutomationEvents.InvokePatternOnInvoked);
+            if (!IsKeyboardFocusWithin)
+                return;
+            Keyboard.Focus(null);
+            MessageBox.Show("Test");
+        }
+
+        public void UpdateChildCollection()
+        {
+            
         }
     }
 }

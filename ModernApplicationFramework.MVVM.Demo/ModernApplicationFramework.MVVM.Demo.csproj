@@ -81,6 +81,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Modules\ComboBoxMenuTest\Commands\ComboBoxCommandDefinition.cs" />
+    <Compile Include="Modules\ComboBoxMenuTest\Commands\UndoSplitCommandDefinition.cs" />
     <Compile Include="Modules\ComboBoxMenuTest\Module.cs" />
     <Compile Include="Modules\ComboBoxMenuTest\ToolbarDefinitions.cs" />
     <Compile Include="Modules\Commands\MenuDefinitions.cs" />

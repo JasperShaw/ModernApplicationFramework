@@ -106,6 +106,46 @@
             </Setter.Value>
         </Setter>
     </Style>-->
+    
+    <Style TargetType="{x:Type this:SplitButtonItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+        <Setter Property="AutomationProperties.Name">
+            <Setter.Value>
+                <Binding Mode="OneTime" Path="Text"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Content" Value="Text">
+            <!--<Setter.Value>
+                <Binding Path="Text" Mode="OneTime"/>
+            </Setter.Value>-->
+        </Setter>
+        <Setter Property="IsSelected">
+            <Setter.Value>
+                <Binding RelativeSource="{RelativeSource Self}" Path="IsHighlighted"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Focusable" Value="true"/>
+        <Setter Property="FocusVisualStyle" Value="{x:NullExtension}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type this:SplitButtonItem}" x:Key="{x:Type this:SplitButtonItem}">
+                    <Border x:Name="Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}"
+                            SnapsToDevicePixels="True">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="this:SplitButtonItem.IsHighlighted" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemBackgroundHover}}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemBorderHover}}"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemForeground}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 
     <Style x:Key="SplitButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource ToolBarButtonBaseStyle}">
@@ -166,7 +206,7 @@
                                                 <RowDefinition Height="*"/>
                                                 <RowDefinition Height="Auto"/>
                                             </Grid.RowDefinitions>
-                                            <ScrollViewer x:Name="PART_ScrollViewer" Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                                            <ScrollViewer x:Name="PART_ScrollViewer" Grid.Row="0" VerticalScrollBarVisibility="Auto">
                                                 <Grid Background="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxPopupBackground}}">
                                                     <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained" Margin="3"
                                                                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Grid.IsSharedSizeScope="True"/>
@@ -176,7 +216,8 @@
                                                        Background="{DynamicResource {x:Static themes:EnvironmentColors.WindowBaseBackground}}"
                                                        Foreground="{DynamicResource {x:Static themes:EnvironmentColors.GloablForeground}}">
                                                 <StatusBarItem HorizontalAlignment="Center">
-                                                    <TextBlock Text="{Binding StatusString}"/>
+                                                    <!--<TextBlock Text="{Binding StatusString}"/>-->
+                                                    <TextBlock Text="Test"/>
                                                 </StatusBarItem>
                                             </StatusBar>
                                         </Grid>

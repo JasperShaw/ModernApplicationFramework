@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace ModernApplicationFramework.Controls.AutomationPeer
 {
@@ -17,6 +18,11 @@ namespace ModernApplicationFramework.Controls.AutomationPeer
             if (!System.Windows.Automation.Peers.AutomationPeer.ListenerExists(AutomationEvents.SelectionItemPatternOnElementAddedToSelection) && !System.Windows.Automation.Peers.AutomationPeer.ListenerExists(AutomationEvents.SelectionItemPatternOnElementRemovedFromSelection) && !System.Windows.Automation.Peers.AutomationPeer.ListenerExists(AutomationEvents.SelectionItemPatternOnElementSelected))
                 return System.Windows.Automation.Peers.AutomationPeer.ListenerExists(AutomationEvents.SelectionPatternOnInvalidated);
             return true;
+        }
+
+        internal static bool HasGeneratedContainers(this ItemsControl element)
+        {
+            return element.ItemContainerGenerator.Status == GeneratorStatus.ContainersGenerated;
         }
 
         public static void RaiseSelectionEvents(System.Windows.Automation.Peers.AutomationPeer peer, SelectionChangedEventArgs e, object singleSelectedItem, bool childListenersMightExists, Func<object, System.Windows.Automation.Peers.AutomationPeer> getPeer)

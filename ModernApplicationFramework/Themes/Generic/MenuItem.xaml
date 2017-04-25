@@ -22,6 +22,7 @@
     <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
     <converters:ComboBoxWidthConverter x:Key="ComboBoxWidthConverter"/>
     <converters:ToolTipMultiConverter x:Key="ToolTipMultiConverter"/>
+    <converters:IsSplitButtonModelConverter x:Key="IsSplitButtonModelConverter"/>
 
     <Geometry x:Key="Checkmark">
         F1 M 5,11 L 3,7 L 5,7 L 6,9 L 9,3 L 11,3 L 7,11 L 5,11 Z
@@ -32,6 +33,15 @@
     <Geometry x:Key="RightArrow">
         M 0,0 L 4,3.5 L 0,7 Z
     </Geometry>
+
+    <Style x:Key="ToolBarMenuStyle" TargetType="{x:Type Menu}"
+           BasedOn="{StaticResource {x:Type Menu}}">
+        <Setter Property="Foreground"
+                Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemForeground}}"/>
+        <Setter Property="IsMainMenu" Value="false"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
 
     <ControlTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type this:MenuItem}, ResourceId=TopLevelHeaderTemplateKey}"
                      TargetType="{x:Type this:MenuItem}">
@@ -432,7 +442,42 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <!-- TODO Splitbutton  trigger-->
+        <Style.Triggers>
+            <DataTrigger Value="True">
+                <DataTrigger.Binding>
+                    <Binding Converter="{StaticResource IsSplitButtonModelConverter}"/>
+                </DataTrigger.Binding>
+                <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type this:MenuItem}">
+                            <Menu FocusManager.IsFocusScope="False" Style="{StaticResource ToolBarMenuStyle}">
+                                <AutomationProperties.Name>
+                                    <Binding Path="Text" Converter="{StaticResource AccessKeyRemovingConverter}"/>
+                                </AutomationProperties.Name>
+                                <ItemsControl.Items>
+                                    <this:SplitButton x:Name="PART_FocusTarget" Icon="{TemplateBinding Icon}"
+                                                      ItemsSource="{Binding CommandDefinition.Items}">
+                                        <this:SplitButton.SelectedIndex>
+                                            <Binding Path="SelectedIndex" Mode="TwoWay"/>
+                                        </this:SplitButton.SelectedIndex>
+                                    </this:SplitButton>
+                                </ItemsControl.Items>
+                                <Control.Template>
+                                    <ControlTemplate TargetType="{x:Type Menu}">
+                                        <ContentPresenter>
+                                            <ContentPresenter.Content>
+                                                <Binding Path="Items[0]" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                            </ContentPresenter.Content>
+                                        </ContentPresenter>
+                                    </ControlTemplate>
+                                </Control.Template>
+                            </Menu>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
     <Style x:Key="{x:Static this:Menu.MenuStyleKey}" TargetType="{x:Type this:MenuItem}">
         <Setter Property="Background" Value="Transparent"/>

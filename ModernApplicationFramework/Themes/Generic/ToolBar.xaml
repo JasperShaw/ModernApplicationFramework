@@ -23,6 +23,7 @@
     <converters:DockToOrienationConverter x:Key="DockToOrienationConverter"/>
     <converters:BrushToColorConverter x:Key="BrushToColorConverter"/>
     <converters:FormattedStringConverter x:Key="FormattedStringConverter"/>
+    <converters:IsSplitButtonModelConverter x:Key="IsSplitButtonModelConverter"/>
 
     <Style x:Key="HorizontalToolBarThumbStyle" TargetType="{x:Type Thumb}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
@@ -274,6 +275,17 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+
+    <Style x:Key="ToolBarMenuStyle" TargetType="{x:Type Menu}"
+           BasedOn="{StaticResource {x:Type Menu}}">
+        <Setter Property="Foreground"
+                Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemForeground}}"/>
+        <Setter Property="IsMainMenu" Value="false"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
 
     <Style TargetType="{x:Type this:ToolBar}" BasedOn="{StaticResource {x:Type ToolBar}}">
         <Style.Resources>
@@ -673,6 +685,40 @@
                     </Setter.Value>
                 </Setter>
             </DataTrigger>
+            <DataTrigger Value="True">
+                <DataTrigger.Binding>
+                    <Binding Converter="{StaticResource IsSplitButtonModelConverter}"/>
+                </DataTrigger.Binding>
+                <Setter Property="IsTabStop" Value="False"/>
+                <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Menu FocusManager.IsFocusScope="False" Style="{StaticResource ToolBarMenuStyle}">
+                                <AutomationProperties.Name>
+                                    <Binding Path="Text" Converter="{StaticResource AccessKeyRemovingConverter}"/>
+                                </AutomationProperties.Name>
+                                <ItemsControl.Items>
+                                    <this:SplitButton x:Name="PART_FocusTarget" Icon="{TemplateBinding Content}" ItemsSource="{Binding CommandDefinition.Items}">
+                                        <this:SplitButton.SelectedIndex>
+                                            <Binding Path="SelectedIndex" Mode="TwoWay"/>
+                                        </this:SplitButton.SelectedIndex>
+                                    </this:SplitButton>
+                                </ItemsControl.Items>
+                                <Control.Template>
+                                    <ControlTemplate TargetType="{x:Type Menu}">
+                                        <ContentPresenter>
+                                            <ContentPresenter.Content>
+                                                <Binding Path="Items[0]" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                            </ContentPresenter.Content>
+                                        </ContentPresenter>
+                                    </ControlTemplate>
+                                </Control.Template>
+                            </Menu>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
         </Style.Triggers>
     </Style>
     <Style x:Key="{x:Static this:ToolBar.ComboBoxStyleKey}" TargetType="{x:Type Button}">
@@ -697,21 +743,7 @@
         <Setter Property="Template" Value="{StaticResource ComboTemplate}"/>
         <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxForeground}}"/>
     </Style>
-
-
-
-
-
-
-    <Style x:Key="ToolBarMenuStyle" TargetType="{x:Type Menu}"
-           BasedOn="{StaticResource {x:Type Menu}}">
-        <Setter Property="Foreground"
-                Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemForeground}}"/>
-        <Setter Property="IsMainMenu" Value="false"/>
-        <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-    </Style>
-
+    
 
     <Style x:Key="{x:Static this:ToolBar.MenuStyleKey}" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="Transparent"/>
