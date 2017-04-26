@@ -109,6 +109,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\Generic\MenuControllerButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic\MenuController.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\Generic\QuickCustomizeButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -210,6 +218,8 @@
     <Compile Include="Controls\ComboBoxLabel.cs" />
     <Compile Include="Controls\AutomationPeer\ComboBoxAutomationPeer.cs" />
     <Compile Include="Controls\AutomationPeer\ComboBoxDataItemAutomationPeer.cs" />
+    <Compile Include="Controls\MenuController.cs" />
+    <Compile Include="Controls\MenuControllerButton.cs" />
     <Compile Include="Controls\SplitButtonItem.cs" />
     <Compile Include="Core\Converters\ComboBoxWidthConverter.cs" />
     <Compile Include="Core\Converters\Customize\ToolTipMultiConverter.cs" />
