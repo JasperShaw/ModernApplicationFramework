@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
 
@@ -24,12 +26,6 @@ namespace ModernApplicationFramework.Controls
 
         public new static ResourceKey SeparatorStyleKey => separatorStyleKey ?? (separatorStyleKey = new StyleKey<MenuController>());
 
-        public object AnchorItem
-        {
-            get => GetValue(AnchorItemProperty);
-            set => SetValue(AnchorItemProperty, value);
-        }
-
         ResourceKey IExposeStyleKeys.ButtonStyleKey => ButtonStyleKey;
 
         ResourceKey IExposeStyleKeys.MenuControllerStyleKey => MenuControllerStyleKey;
@@ -40,12 +36,23 @@ namespace ModernApplicationFramework.Controls
 
         ResourceKey IExposeStyleKeys.SeparatorStyleKey => SeparatorStyleKey;
 
+        public object AnchorItem
+        {
+            get => GetValue(AnchorItemProperty);
+            set => SetValue(AnchorItemProperty, value);
+        }
+
         static MenuController()
         {
             AnchorItemProperty = DependencyProperty.Register("AnchorItem", typeof(object), typeof(MenuController),
                 new FrameworkPropertyMetadata(null, CoerceAnchorItemCallback));
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MenuController), new FrameworkPropertyMetadata(typeof(MenuController)));
-            //EventManager.RegisterClassHandler(typeof(MenuItem), MenuItem.CommandExecutedRoutedEvent, OnCommandExecuted);
+            EventManager.RegisterClassHandler(typeof(MenuItem), CommandExecutedRoutedEvent, new RoutedEventHandler(OnCommandExecuted));
+        }
+
+        public MenuController()
+        {
+            DteFocusHelper.HookAcquireFocus(this);
         }
 
         private static object CoerceAnchorItemCallback(DependencyObject d, object basevalue)
@@ -55,20 +62,32 @@ namespace ModernApplicationFramework.Controls
 
         private object CoerceAnchorItemCallback(object basevalue)
         {
-            if (basevalue != null && !(basevalue is object))
+            if (basevalue != null && !(basevalue is CommandBarDefinitionBase))
                 return DependencyProperty.UnsetValue;
             return basevalue;
         }
 
-        public MenuController()
+        private static void OnCommandExecuted(object sender, RoutedEventArgs args)
         {
-            DteFocusHelper.HookAcquireFocus(this);
+            var originalSource = args.OriginalSource as MenuItem;
+            if (sender == null)
+                return;
+            var ancestor = originalSource.FindAncestor<MenuController>();
+            if (ancestor == null)
+                return;
+            var dataContext = originalSource?.DataContext as CommandBarDefinitionBase;
+            ancestor.OnCommandExecuted(dataContext);
         }
 
-        //protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer()
-        //{
-        //    return (System.Windows.Automation.Peers.AutomationPeer)new VsMenuControllerAutomationPeer(this);
-        //}
+        private void OnCommandExecuted(CommandBarDefinitionBase dataContext)
+        {
+            IsSubmenuOpen = false;
+            //if (this.IsAnchorCommandFixed())
+            //    return;
+            AnchorItem = dataContext;
+        }
+
+
 
         protected override void OnKeyDown(KeyEventArgs e)
         {

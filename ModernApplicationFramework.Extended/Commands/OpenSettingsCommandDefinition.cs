@@ -10,6 +10,7 @@ using ModernApplicationFramework.CommandBase;
 namespace ModernApplicationFramework.Extended.Commands
 {
     [Export(typeof(DefinitionBase))]
+    [Export(typeof(OpenSettingsCommandDefinition))]
     public sealed class OpenSettingsCommandDefinition : CommandDefinition
     {
 #pragma warning disable 649
@@ -29,8 +30,6 @@ namespace ModernApplicationFramework.Extended.Commands
         public override string ToolTip => "Options...";
 
         public override CommandCategory Category => CommandCategories.ToolsCommandCategory;
-
-        public string MyText { get; set; }
 
         public OpenSettingsCommandDefinition()
         {

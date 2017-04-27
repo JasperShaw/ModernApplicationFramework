@@ -10,6 +10,7 @@ using ModernApplicationFramework.Extended.Interfaces;
 namespace ModernApplicationFramework.Extended.Commands
 {
     [Export(typeof(DefinitionBase))]
+    [Export(typeof(RedoCommandDefinition))]
     public sealed class RedoCommandDefinition : CommandDefinition
     {
 #pragma warning disable 649

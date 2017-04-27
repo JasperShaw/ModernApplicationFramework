@@ -9,6 +9,7 @@ using ModernApplicationFramework.Extended.Interfaces;
 namespace ModernApplicationFramework.Extended.Commands
 {
     [Export(typeof(DefinitionBase))]
+    [Export(typeof(CloseProgammCommandDefinition))]
     public sealed class CloseProgammCommandDefinition : CommandDefinition
     {
 #pragma warning disable 649

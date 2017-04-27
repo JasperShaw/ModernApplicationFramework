@@ -10,6 +10,7 @@ using ModernApplicationFramework.Controls;
 namespace ModernApplicationFramework.Extended.Commands
 {
     [Export(typeof(DefinitionBase))]
+    [Export(typeof(FullScreenCommandDefinition))]
     public sealed class FullScreenCommandDefinition : CommandDefinition
     {
         public override ICommand Command { get; }

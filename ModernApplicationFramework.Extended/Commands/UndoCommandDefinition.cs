@@ -10,6 +10,7 @@ using ModernApplicationFramework.Extended.Interfaces;
 namespace ModernApplicationFramework.Extended.Commands
 {
     [Export(typeof(DefinitionBase))]
+    [Export(typeof(UndoCommandDefinition))]
     public sealed class UndoCommandDefinition : CommandDefinition
     {
 #pragma warning disable 649

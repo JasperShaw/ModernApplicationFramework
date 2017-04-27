@@ -1,9 +1,7 @@
-﻿using System;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.Windows.Controls;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
-using ModernApplicationFramework.Extended.Commands;
 using ModernApplicationFramework.MVVM.Demo.Modules.ComboBoxMenuTest.Commands;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.ComboBoxMenuTest
@@ -18,5 +16,8 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.ComboBoxMenuTest
 
 
         [Export] public static CommandBarItemDefinition SplitItem = new CommandBarSplitItemDefinitionT<UndoSplitCommandDefinition>(Group1, uint.MinValue);
+
+        [Export] public static CommandBarItemDefinition MenuControllerItem =
+            new CommandBarMenuControllerDefinitionT<TestMenuControllerDefinition>(Group1, uint.MinValue);
     }
 }

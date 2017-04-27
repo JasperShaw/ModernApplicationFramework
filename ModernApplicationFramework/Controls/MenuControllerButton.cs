@@ -10,8 +10,7 @@ namespace ModernApplicationFramework.Controls
 
         static MenuControllerButton()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(MenuControllerButton),
-                new PropertyMetadata(typeof(MenuControllerButton)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(MenuControllerButton), new FrameworkPropertyMetadata(typeof(MenuControllerButton)));
         }
 
         protected override void OnClick()

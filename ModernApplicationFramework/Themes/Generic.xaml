@@ -13,14 +13,11 @@
 
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/GridSplitter.xaml"/>
 
-        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/MenuItem.xaml"/>
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/CheckedMenuItem.xaml"/>
 
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/Separator.xaml"/>
 
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/ScrollBar.xaml"/>
-
-        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/SplitButton.xaml"/>
 
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/StatusBar.xaml"/>
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/TextBox.xaml"/>
@@ -28,7 +25,6 @@
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/TitleBarButton.xaml"/>
 
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/ToolBarTray.xaml"/>
-        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/ToolBar.xaml"/>
 
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/CheckBox.xaml"/>
         
@@ -79,6 +75,9 @@
         
         
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/QuickCustomizeButton.xaml"/>
+
+
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/CommandBarStyles.xaml"/>
 
     </ResourceDictionary.MergedDictionaries>
 

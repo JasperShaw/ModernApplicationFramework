@@ -21,6 +21,8 @@ namespace ModernApplicationFramework.Controls
         public static DependencyProperty IsUserCreatedMenuProperty;
         public static DependencyProperty IsPlacedOnToolBarProperty;
 
+        public static readonly RoutedEvent CommandExecutedRoutedEvent;
+
         public bool IsUserCreatedMenu
         {
             get => (bool)GetValue(IsUserCreatedMenuProperty);
@@ -33,11 +35,14 @@ namespace ModernApplicationFramework.Controls
             set => SetValue(IsPlacedOnToolBarProperty, Boxes.Box(value));
         }
 
+        public Button HostContainer => this.FindAncestor<Button>();
+
         public static double MaxMenuWidth => 660.0;
 
         static MenuItem()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(MenuItem), new FrameworkPropertyMetadata(typeof(MenuItem)));
+            //DefaultStyleKeyProperty.OverrideMetadata(typeof(MenuItem), new FrameworkPropertyMetadata(typeof(MenuItem)));
+            CommandExecutedRoutedEvent = EventManager.RegisterRoutedEvent("CommandExecuted", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MenuItem));
             IsUserCreatedMenuProperty = DependencyProperty.Register("IsUserCreatedMenu", typeof(bool), typeof(MenuItem), new FrameworkPropertyMetadata(Boxes.BooleanFalse));
             IsPlacedOnToolBarProperty = DependencyProperty.Register("IsPlacedOnToolBar", typeof(bool), typeof(MenuItem), new FrameworkPropertyMetadata(Boxes.BooleanFalse));
         }
@@ -69,6 +74,19 @@ namespace ModernApplicationFramework.Controls
             this.SetThemedIcon();
         }
 
+        protected override void OnVisualParentChanged(DependencyObject oldParent)
+        {
+            NotifyPropertyChanged("ParentToolBar");
+            NotifyPropertyChanged("HostContainer");
+            base.OnVisualParentChanged(oldParent);
+        }
+
+        private void NotifyPropertyChanged(string propertyName)
+        {
+            PropertyChanged.RaiseEvent(this, propertyName);
+        }
+
+
         private void ThemeManager_OnThemeChanged(object sender, ThemeChangedEventArgs e)
         {
             this.SetThemedIcon();
@@ -83,6 +101,12 @@ namespace ModernApplicationFramework.Controls
         protected override DependencyObject GetContainerForItemOverride()
         {
             return new MenuItem();
+        }
+
+        protected override void OnClick()
+        {
+            base.OnClick();
+            RaiseEvent(new RoutedEventArgs(CommandExecutedRoutedEvent, this));
         }
 
         protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)

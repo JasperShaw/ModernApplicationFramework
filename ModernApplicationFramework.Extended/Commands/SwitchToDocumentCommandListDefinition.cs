@@ -5,6 +5,7 @@ using ModernApplicationFramework.Basics.Definitions.Command;
 namespace ModernApplicationFramework.Extended.Commands
 {
     [Export(typeof(DefinitionBase))]
+    [Export(typeof(SwitchToDocumentCommandListDefinition))]
     public class SwitchToDocumentCommandListDefinition : CommandListDefinition
     {
         public override string Name => "Window List";

@@ -15,7 +15,6 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
     {
         private readonly IDockingHostViewModel _dockingHostViewModel;
         private ComboBoxDataSource _dataSource;
-        private object _comboValue;
 
         public override string DisplayName => "Sample Browser";
 
