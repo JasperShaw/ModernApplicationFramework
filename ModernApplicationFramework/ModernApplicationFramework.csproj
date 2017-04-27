@@ -220,6 +220,7 @@
     <Compile Include="Controls\MenuControllerButton.cs" />
     <Compile Include="Controls\SplitButtonItem.cs" />
     <Compile Include="Core\Converters\ComboBoxWidthConverter.cs" />
+    <Compile Include="Core\Converters\CommandExecutionToBooleanConverter.cs" />
     <Compile Include="Core\Converters\Customize\ToolTipMultiConverter.cs" />
     <Compile Include="Core\Converters\IsSplitButtonModelConverter.cs" />
     <Compile Include="Core\Converters\SplitButtonItemHighlightConverter.cs" />
@@ -950,9 +951,7 @@
       <LastGenOutput>CommonUI.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Basics\ToolbarHostViewModel\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

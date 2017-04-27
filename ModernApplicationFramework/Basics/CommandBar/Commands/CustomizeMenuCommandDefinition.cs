@@ -9,6 +9,7 @@ using ModernApplicationFramework.CommandBase;
 namespace ModernApplicationFramework.Basics.CommandBar.Commands
 {
     [Export(typeof(DefinitionBase))]
+    [Export(typeof(CustomizeMenuCommandDefinition))]
     public sealed class CustomizeMenuCommandDefinition : CommandDefinition
     {
         public override ICommand Command { get; }

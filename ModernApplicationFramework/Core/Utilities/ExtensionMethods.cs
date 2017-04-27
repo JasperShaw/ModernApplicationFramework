@@ -123,6 +123,11 @@ namespace ModernApplicationFramework.Core.Utilities
 
         public static void SetThemedIcon(this IThemableIconContainer element)
         {
+            element.SetThemedIcon(element.IsEnabled);
+        }
+
+        public static void SetThemedIcon(this IThemableIconContainer element, bool isEnabled)
+        {
             var vb = element.IconSource as Viewbox;
             if (vb == null)
                 return;
@@ -135,7 +140,7 @@ namespace ModernApplicationFramework.Core.Utilities
 
 
             BitmapSource bitmapSource;
-            if (element.IsEnabled)
+            if (isEnabled)
             {
                 var bitmap = ImageThemingUtilities.GetThemedBitmap(b, backgroundColor.ToRgba());
                 bitmapSource = ImageConverter.BitmapSourceFromBitmap(bitmap);
@@ -143,7 +148,7 @@ namespace ModernApplicationFramework.Core.Utilities
             else
             {
                 var bitmaptSourceOrg = ImageConverter.BitmapSourceFromBitmap(b);
-                bitmapSource = ImageThemingUtilities.CreateThemedBitmapSource(bitmaptSourceOrg, backgroundColor, element.IsEnabled, Color.FromArgb(64, 255, 255, 255), SystemParameters.HighContrast);
+                bitmapSource = ImageThemingUtilities.CreateThemedBitmapSource(bitmaptSourceOrg, backgroundColor, false, Color.FromArgb(64, 255, 255, 255), SystemParameters.HighContrast);
             }
 
             i.Source = bitmapSource;

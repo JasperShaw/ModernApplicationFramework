@@ -31,6 +31,7 @@
     <converters:IsSplitButtonModelConverter x:Key="IsSplitButtonModelConverter"/>
     <customize:IsCustomMenuConverter x:Key="IsCustomMenuConverter"/>
     <converters:ComboBoxWidthConverter x:Key="ComboBoxWidthConverter"/>
+    <converters:CommandExecutionToBooleanConverter x:Key="CommandExecutionToBooleanConverter"/>
 
     <Style TargetType="{x:Type this:Menu}" BasedOn="{StaticResource {x:Type Menu}}">
         <Setter Property="Background" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuBackground}}"/>
@@ -346,7 +347,6 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-
     <Style x:Key="{x:Static this:Menu.SeparatorStyleKey}" TargetType="{x:Type this:MenuItem}">
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="IsEnabled" Value="False"/>
@@ -652,11 +652,11 @@
                 <Binding Path="Text" Converter="{StaticResource AccessKeyConverter}"/>
             </Setter.Value>
         </Setter>
-        <!--<Setter Property="Icon">
+        <Setter Property="Icon">
             <Setter.Value>
-               <Binding/>
+               <Binding Path="Icon"/>
             </Setter.Value>
-        </Setter>-->
+        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type this:MenuItem}">
@@ -810,9 +810,7 @@
         </Setter>
     </Style>
 
-
-
-
+    
     <Style x:Key="HorizontalToolBarThumbStyle" TargetType="{x:Type Thumb}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="Cursor" Value="SizeAll" />
@@ -1386,8 +1384,6 @@
         </Setter>
     </Style>
 
-
-
     <Style x:Key="{x:Static this:ToolBar.SeparatorStyleKey}" TargetType="{x:Type Button}">
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="Template">
@@ -1615,7 +1611,6 @@
     </Style>
 
 
-
     <Style TargetType="{x:Type this:MenuControllerButton}"
            BasedOn="{StaticResource {x:Static this:ToolBar.ButtonStyleKey}}">
         <Setter Property="KeyboardNavigation.IsTabStop" Value="False"/>
@@ -1632,20 +1627,13 @@
                         <ContentPresenter x:Name="Image" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                          Margin="2" Grid.Column="0"/>
+                                          Margin="2" Grid.Column="0"
+                                          Content="{Binding Path=Icon, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type this:MenuController}}}"/>
                         <AccessText x:Name="Text" Margin="2" Grid.Column="1" VerticalAlignment="Center"
-                                    HorizontalAlignment="Center" Visibility="Collapsed">
-                            <AccessText.Text>
-                                <Binding Path="DataContext.Text" Converter="{StaticResource AccessKeyConverter}">
-                                    <Binding.RelativeSource>
-                                        <RelativeSource Mode="FindAncestor" AncestorType="{x:Type this:MenuController}"/>
-                                    </Binding.RelativeSource>
-                                </Binding>
-                            </AccessText.Text>
-                        </AccessText>
+                                    HorizontalAlignment="Center" Visibility="Collapsed"/>
                     </Grid>
                     <ControlTemplate.Triggers>
-                        <!--<DataTrigger Value="False">
+                        <DataTrigger Value="False">
                             <DataTrigger.Binding>
                                 <Binding Path="IsEnabled">
                                     <Binding.RelativeSource>
@@ -1653,7 +1641,8 @@
                                     </Binding.RelativeSource>
                                 </Binding>
                             </DataTrigger.Binding>
-                        </DataTrigger>-->
+                             
+                        </DataTrigger>
                         <DataTrigger Value="True">
                             <DataTrigger.Binding>
                                 <Binding Path="DataContext.Flags.PictAndText">
@@ -1721,6 +1710,9 @@
                                     Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarTextInactive}}"
                                     Property="TextElement.Foreground"/>
                         </DataTrigger>
+                        <Trigger Property="UIElement.IsEnabled" Value="false">
+                            <Setter TargetName="Text" Value="{DynamicResource {x:Static colors:EnvironmentColors.ButtonForegroundDisabled}}" Property="AccessText.Foreground"/>
+                        </Trigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition Value="Vertical">
@@ -1768,6 +1760,7 @@
                 <Binding Path="IsChecked" Mode="OneWay"/>
             </Setter.Value>
         </Setter>
+        <Setter Property="IsEnabled" Value="{Binding Path=AnchorItem.CommandDefinition.Command, Converter={StaticResource CommandExecutionToBooleanConverter}}"/>
         <Setter Property="AutomationProperties.Name">
             <Setter.Value>
                 <Binding Path="Text" Converter="{StaticResource AccessKeyRemovingConverter}"/>
@@ -1948,6 +1941,16 @@
                                     Value="{DynamicResource {x:Static colors:EnvironmentColors.SplitButtonToggleButtonGlyphChecked}}"
                                     Property="Shape.Fill"/>
                         </Trigger>
+                        <Trigger Property="IsSuspendingPopupAnimation" Value="True">
+                            <Setter TargetName="PART_Popup" Property="PopupAnimation" Value="None"/>
+                        </Trigger>
+                        <DataTrigger Value="true">
+                            <DataTrigger.Binding>
+                                <Binding ElementName="PART_Popup" Path="(Popup.HasDropShadow)"/>
+                            </DataTrigger.Binding>
+                            <Setter TargetName="Shdw" Property="Margin" Value="0,0,5,5"/>
+                            <Setter TargetName="Shdw" Property="Color" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemPopupShadow}}"></Setter>
+                        </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -2118,7 +2121,6 @@
     </Style>
 
 
-
     <Style x:Key="{x:Static this:MenuController.ButtonStyleKey}"
            BasedOn="{StaticResource {x:Static this:MenuItem.ButtonStyleKey}}"
            TargetType="{x:Type this:MenuItem}"/>
@@ -2142,6 +2144,4 @@
            TargetType="{x:Type this:MenuItem}"/>
     <Style x:Key="{x:Static this:ContextMenu.ComboBoxStyleKey}" BasedOn="{StaticResource {x:Static this:MenuItem.ComboBoxStyleKey}}"
            TargetType="{x:Type this:MenuItem}"/>
-
-
 </ResourceDictionary>

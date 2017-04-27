@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Runtime.Remoting.Contexts;
 using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.Interfaces.Command;

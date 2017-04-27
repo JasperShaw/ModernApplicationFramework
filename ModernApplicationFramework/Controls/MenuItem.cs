@@ -17,7 +17,7 @@ namespace ModernApplicationFramework.Controls
 {
     public class MenuItem : System.Windows.Controls.MenuItem, IThemableIconContainer, IExposeStyleKeys, INotifyPropertyChanged
     {
-        public object IconSource { get; }
+        public object IconSource { get; protected set; }
         public static DependencyProperty IsUserCreatedMenuProperty;
         public static DependencyProperty IsPlacedOnToolBarProperty;
 
@@ -61,6 +61,17 @@ namespace ModernApplicationFramework.Controls
             var themeManager = IoC.Get<IThemeManager>();
             themeManager.OnThemeChanged += ThemeManager_OnThemeChanged;
             IsEnabledChanged += MenuItem_IsEnabledChanged;
+            DataContextChanged += MenuItem_DataContextChanged;
+        }
+
+        private void MenuItem_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            var itemDefinition = DataContext as CommandBarDefinitionBase;
+            if (string.IsNullOrEmpty(itemDefinition?.CommandDefinition?.IconSource?.OriginalString))
+                return;
+            var myResourceDictionary = new ResourceDictionary { Source = itemDefinition.CommandDefinition.IconSource };
+            IconSource = myResourceDictionary[itemDefinition.CommandDefinition.IconId];
+            this.SetThemedIcon();
         }
 
         private void MenuItem_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
