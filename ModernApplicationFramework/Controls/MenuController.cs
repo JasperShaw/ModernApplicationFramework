@@ -60,6 +60,11 @@ namespace ModernApplicationFramework.Controls
             var anchorItem = e.NewValue as CommandBarItemDefinition;
             var oldAnchorItem = e.OldValue as CommandBarItemDefinition;
 
+            if (oldAnchorItem != null)
+            {
+                if (oldAnchorItem.CommandDefinition is CommandDefinition commandDefinition)
+                    commandDefinition.Command.CanExecuteChanged -= Command_CanExecuteChanged;
+            }
             if (anchorItem != null)
             {
                 if (string.IsNullOrEmpty(anchorItem?.CommandDefinition?.IconSource?.OriginalString))
@@ -70,12 +75,7 @@ namespace ModernApplicationFramework.Controls
 
                 if (anchorItem.CommandDefinition is CommandDefinition commandDefinition)
                     commandDefinition.Command.CanExecuteChanged += Command_CanExecuteChanged;
-            }
-            if (oldAnchorItem != null)
-            {
-                if (oldAnchorItem.CommandDefinition is CommandDefinition commandDefinition)
-                    commandDefinition.Command.CanExecuteChanged -= Command_CanExecuteChanged;
-            }     
+            }    
         }
 
         private void Command_CanExecuteChanged(object sender, System.EventArgs e)

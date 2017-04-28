@@ -35,7 +35,9 @@ namespace ModernApplicationFramework.Controls
             set => SetValue(IsPlacedOnToolBarProperty, Boxes.Box(value));
         }
 
-        public Button HostContainer => this.FindAncestor<Button>();
+        public CommandDefinitionButton HostContainer => this.FindAncestor<CommandDefinitionButton>();
+
+        public ToolBar ParentToolBar => this.FindAncestor<ToolBar>();
 
         public static double MaxMenuWidth => 660.0;
 

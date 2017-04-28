@@ -71,17 +71,16 @@
                         Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarCheckBoxMouseOver}}"
                         Property="Shape.Fill"/>
             </Trigger>
-            <Trigger x:Uid="Trigger_4" Property="UIElement.IsEnabled" Value="false">
-                <Setter x:Uid="Setter_8"
-                        Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarTextInactive}}"
+            <Trigger Property="UIElement.IsEnabled" Value="false">
+                <Setter Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarTextInactive}}"
                         Property="Control.Foreground"/>
-                <Setter x:Uid="Setter_9" TargetName="GlyphPanel"
+                <Setter TargetName="GlyphPanel"
                         Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarSelectedIconDisabled}}"
                         Property="Border.Background"/>
-                <Setter x:Uid="Setter_10" TargetName="GlyphPanel"
+                <Setter TargetName="GlyphPanel"
                         Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarCheckBoxDisabled}}"
                         Property="Border.BorderBrush"/>
-                <Setter x:Uid="Setter_11" TargetName="Glyph"
+                <Setter TargetName="Glyph"
                         Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarCheckBoxDisabled}}"
                         Property="Shape.Fill"/>
             </Trigger>
@@ -198,35 +197,33 @@
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <MultiTrigger x:Uid="MultiTrigger_1">
+                        <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition x:Uid="Condition_1" Property="UIElement.IsEnabled" Value="true"/>
-                                <Condition x:Uid="Condition_2" Property="UIElement.IsMouseOver" Value="true"/>
+                                <Condition Property="UIElement.IsEnabled" Value="true"/>
+                                <Condition Property="UIElement.IsMouseOver" Value="true"/>
                             </MultiTrigger.Conditions>
-                            <Setter x:Uid="Setter_30" TargetName="Border"
+                            <Setter TargetName="Border"
                                     Value="{DynamicResource {x:Static themes:EnvironmentColors.QuickCustomizeButtonBorder}}"
                                     Property="Border.BorderBrush"/>
-                            <Setter x:Uid="Setter_31" TargetName="Border"
+                            <Setter TargetName="Border"
                                     Value="{DynamicResource {x:Static themes:EnvironmentColors.QuickCustomizeButton}}"
                                     Property="Border.Background"/>
-                            <Setter x:Uid="Setter_36"
-                                    Value="{DynamicResource {x:Static themes:EnvironmentColors.QuickCustomizeButtonTextHover}}"
+                            <Setter Value="{DynamicResource {x:Static themes:EnvironmentColors.QuickCustomizeButtonTextHover}}"
                                     Property="TextElement.Foreground"/>
-                            <Setter x:Uid="Setter_38" TargetName="Arrow"
+                            <Setter TargetName="Arrow"
                                     Value="{DynamicResource {x:Static themes:EnvironmentColors.QuickCustomizeButtonGlyphHover}}"
                                     Property="Shape.Fill"/>
                         </MultiTrigger>
-                        <Trigger x:Uid="Trigger_6" Property="UIElement.IsKeyboardFocused" Value="true">
-                            <Setter x:Uid="Setter_32" TargetName="Border"
+                        <Trigger Property="UIElement.IsKeyboardFocused" Value="true">
+                            <Setter TargetName="Border"
                                     Value="{DynamicResource {x:Static themes:EnvironmentColors.QuickCustomizeButtonBorder}}"
                                     Property="Border.BorderBrush"/>
-                            <Setter x:Uid="Setter_33" TargetName="Border"
+                            <Setter TargetName="Border"
                                     Value="{DynamicResource {x:Static themes:EnvironmentColors.QuickCustomizeButton}}"
                                     Property="Border.Background"/>
-                            <Setter x:Uid="Setter_37"
-                                    Value="{DynamicResource {x:Static themes:EnvironmentColors.QuickCustomizeButtonTextHover}}"
+                            <Setter Value="{DynamicResource {x:Static themes:EnvironmentColors.QuickCustomizeButtonTextHover}}"
                                     Property="TextElement.Foreground"/>
-                            <Setter x:Uid="Setter_39" TargetName="Arrow"
+                            <Setter TargetName="Arrow"
                                     Value="{DynamicResource {x:Static themes:EnvironmentColors.QuickCustomizeButtonGlyphHover}}"
                                     Property="Shape.Fill"/>
                         </Trigger>

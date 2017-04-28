@@ -1,6 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 using Caliburn.Micro;
 using ModernApplicationFramework.Annotations;
@@ -14,11 +17,17 @@ namespace ModernApplicationFramework.Controls
     public class CommandDefinitionButton : System.Windows.Controls.Button, INotifyPropertyChanged, IThemableIconContainer
     {
         private object _icon;
+        private PropertyChangedEventHandler _propertyChanged;
         public object IconSource { get; }
 
         public ToolBar ParentToolBar => this.FindAncestor<ToolBar>();
 
-        public CommandDefinitionButton(CommandBarDefinitionBase definition)
+        static CommandDefinitionButton()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(CommandDefinitionButton), new FrameworkPropertyMetadata(typeof(CommandDefinitionButton)));
+        }
+
+        public CommandDefinitionButton(CommandBarDefinitionBase definition) : this()
         {
             var themeManager = IoC.Get<IThemeManager>();
             themeManager.OnThemeChanged += ThemeManager_OnThemeChanged;
@@ -27,8 +36,39 @@ namespace ModernApplicationFramework.Controls
 
             if (string.IsNullOrEmpty(definition.CommandDefinition.IconSource?.OriginalString))
                 return;
-            var myResourceDictionary = new ResourceDictionary { Source = definition.CommandDefinition.IconSource };
+            var myResourceDictionary = new ResourceDictionary {Source = definition.CommandDefinition.IconSource};
             IconSource = myResourceDictionary[definition.CommandDefinition.IconId];
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged
+        {
+            add
+            {
+                var changedEventHandler = _propertyChanged;
+                PropertyChangedEventHandler comparand;
+                do
+                {
+                    comparand = changedEventHandler;
+                    changedEventHandler = Interlocked.CompareExchange(ref _propertyChanged, (PropertyChangedEventHandler)Delegate.Combine(comparand, value), comparand);
+                }
+                while (changedEventHandler != comparand);
+            }
+            remove
+            {
+                var changedEventHandler = _propertyChanged;
+                PropertyChangedEventHandler comparand;
+                do
+                {
+                    comparand = changedEventHandler;
+                    changedEventHandler = Interlocked.CompareExchange(ref _propertyChanged, (PropertyChangedEventHandler)Delegate.Remove(comparand, value), comparand);
+                }
+                while (changedEventHandler != comparand);
+            }
+        }
+
+        public CommandDefinitionButton()
+        {
+            DteFocusHelper.HookAcquireFocus(this);
         }
 
         private void CommandDefinitionButton_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -59,12 +99,24 @@ namespace ModernApplicationFramework.Controls
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
+        {
+            if (!Equals(e.NewFocus, this))
+                return;
+            var templateChild = GetTemplateChild("PART_FocusTarget") as UIElement;
+            templateChild?.MoveFocus(new TraversalRequest(FocusNavigationDirection.First));
+        }
+
+        protected override void OnVisualParentChanged(DependencyObject oldParent)
+        {
+            OnPropertyChanged(nameof(ParentToolBar));
+            base.OnVisualParentChanged(oldParent);
+        }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            _propertyChanged.RaiseEvent(this, propertyName);
         }
     }
 }

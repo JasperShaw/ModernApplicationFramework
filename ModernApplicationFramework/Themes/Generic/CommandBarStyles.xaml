@@ -29,9 +29,13 @@
     <converters:DockToOrienationConverter x:Key="DockToOrienationConverter"/>
     <converters:FormattedStringConverter x:Key="FormattedStringConverter"/>
     <converters:IsSplitButtonModelConverter x:Key="IsSplitButtonModelConverter"/>
+    <customize:IsNotSeparatorModelConverter x:Key="IsNotSeparatorModelConverter"/>
+    <customize:IsComboBoxModelConverter x:Key="IsComboBoxModelConverter"/>
     <customize:IsCustomMenuConverter x:Key="IsCustomMenuConverter"/>
     <converters:ComboBoxWidthConverter x:Key="ComboBoxWidthConverter"/>
     <converters:CommandExecutionToBooleanConverter x:Key="CommandExecutionToBooleanConverter"/>
+    <converters:MultiToolTipMultiConverter x:Key="MultiToolTipMultiConverter"/>
+    <converters:DockLocationConverter x:Key="DockLocationConverter"/>
 
     <Style TargetType="{x:Type this:Menu}" BasedOn="{StaticResource {x:Type Menu}}">
         <Setter Property="Background" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuBackground}}"/>
@@ -109,9 +113,64 @@
             </Popup>
         </Grid>
         <ControlTemplate.Triggers>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Value="Vertical">
+                        <Condition.Binding>
+                            <Binding RelativeSource="{RelativeSource Self}" Path="ParentToolBar.Orientation"/>
+                        </Condition.Binding>
+                    </Condition>
+                    <Condition Value="False">
+                        <Condition.Binding>
+                            <Binding RelativeSource="{RelativeSource Self}" Path="HostContainer.(ToolBar.IsOverflowItem)"/>
+                        </Condition.Binding>
+                    </Condition>
+                </MultiDataTrigger.Conditions>
+                <Setter TargetName="ContentGrid" Property="FrameworkElement.LayoutTransform">
+                    <Setter.Value>
+                        <RotateTransform Angle="90"/>
+                    </Setter.Value>
+                </Setter>
+                <Setter TargetName="PART_Popup" Property="Popup.VerticalOffset" Value="1"/>
+                <Setter TargetName="Bg" Property="Border.Padding" Value="0,5,1,1"/>
+            </MultiDataTrigger>
+            <DataTrigger Value="{x:Static Dock.Left}">
+                <DataTrigger.Binding>
+                    <Binding RelativeSource="{RelativeSource Self}" Path="ParentToolBar.DataContext.Position"
+                             Converter="{StaticResource DockLocationConverter}"/>
+                </DataTrigger.Binding>
+                <Setter TargetName="PART_Popup" Property="Popup.Placement" Value="Right"/>
+                <Setter TargetName="PART_Popup" Property="Popup.HorizontalOffset" Value="2"/>
+            </DataTrigger>
+
+            <DataTrigger Value="{x:Static Dock.Right}">
+                <DataTrigger.Binding>
+                    <Binding RelativeSource="{RelativeSource Self}" Path="ParentToolBar.DataContext.Position"
+                             Converter="{StaticResource DockLocationConverter}"/>
+                </DataTrigger.Binding>
+                <Setter TargetName="PART_Popup" Property="Popup.Placement" Value="Left"/>
+                <Setter TargetName="PART_Popup" Property="Popup.HorizontalOffset" Value="-2"/>
+            </DataTrigger>
             <!--TODO: Add Upper Case stuff-->
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemForegroundDisabled}}"/>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsEnabled}" Value="False"/>
+                    <Condition Value="True">
+                        <Condition.Binding>
+                            <Binding RelativeSource="{RelativeSource Self}" Path="IsPlacedOnToolBar"/>
+                        </Condition.Binding>
+                    </Condition>
+                </MultiDataTrigger.Conditions>
+                <Setter TargetName="Arrow" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarTextInactive}}"
+                        Property="Shape.Fill"/>
+            </MultiDataTrigger>
+
+            <Trigger Property="this:MenuItem.IsPlacedOnToolBar" Value="true">
+                <Setter TargetName="ContentPresenter" Property="FrameworkElement.Margin" Value="0,0,3,0"/>
+            </Trigger>
+
+            <Trigger Property="UIElement.IsEnabled" Value="false">
+                <Setter Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarTextInactive}}" Property="TextElement.Foreground"/>
             </Trigger>
             <Trigger Property="IsSuspendingPopupAnimation" Value="True">
                 <Setter TargetName="PART_Popup" Property="PopupAnimation" Value="None"/>
@@ -1075,8 +1134,8 @@
         <Setter Property="Background" Value="{DynamicResource {x:Static colors:EnvironmentColors.ToolBarBackground}}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static colors:EnvironmentColors.ToolBarBorder}}"/>
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="Height" Value="26"/>
-        <Setter Property="Width" Value="Auto"/>
+        <!--<Setter Property="Height" Value="26"/>
+        <Setter Property="Width" Value="Auto"/>-->
         <Setter Property="colors:ImageThemingUtilities.ImageBackgroundColor">
             <Setter.Value>
                 <Binding Path="Background" RelativeSource="{RelativeSource Self}"
@@ -1201,8 +1260,6 @@
                             <Setter TargetName="OverflowPopup" Property="Popup.Placement" Value="Right"/>
                             <Setter Property="FrameworkElement.MinWidth" Value="24"/>
                             <Setter Property="FrameworkElement.MinHeight" Value="0"/>
-                            <Setter Property="Height" Value="Auto"/>
-                            <Setter Property="Width" Value="27"/>
                         </Trigger>
                         <Trigger Property="ToolBar.Orientation" Value="Horizontal">
                             <Setter Property="FrameworkElement.MinWidth" Value="0"/>
@@ -1304,6 +1361,11 @@
                                         <Binding Path="ParentToolBar.Orientation" RelativeSource="{RelativeSource Self}"/>
                                     </Condition.Binding>
                                 </Condition>
+                                <Condition Value="False">
+                                    <Condition.Binding>
+                                        <Binding RelativeSource="{RelativeSource Self}" Path="(ToolBar.IsOverflowItem)"/>
+                                    </Condition.Binding>
+                                </Condition>
                             </MultiDataTrigger.Conditions>
                             <Setter TargetName="ContainingGrid" Property="FrameworkElement.LayoutTransform">
                                 <Setter.Value>
@@ -1384,7 +1446,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="{x:Static this:ToolBar.SeparatorStyleKey}" TargetType="{x:Type Button}">
+    <Style x:Key="{x:Static this:ToolBar.SeparatorStyleKey}" TargetType="{x:Type this:CommandDefinitionButton}">
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -1500,7 +1562,7 @@
     <Style x:Key="{x:Static this:ToolBar.ComboBoxStyleKey}" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="IsTabStop" Value="False"/>
-        <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
+        <Setter Property="IsEnabled" Value="{Binding IsEnabled, Mode=TwoWay}"/>
         <Setter Property="Visibility">
             <Setter.Value>
                 <Binding Path="IsVisible" Converter="{StaticResource BoolToVisConverter}"/>
@@ -1518,6 +1580,23 @@
         </Setter>
         <Setter Property="Template" Value="{StaticResource ComboTemplate}"/>
         <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.ComboBoxForeground}}"/>
+        <Style.Triggers>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Value="True">
+                        <Condition.Binding>
+                            <Binding Converter="{StaticResource IsComboBoxModelConverter}"/>
+                        </Condition.Binding>
+                    </Condition>
+                    <Condition Value="Vertical">
+                        <Condition.Binding>
+                            <Binding Path="ParentToolBar.Orientation" RelativeSource="{RelativeSource Self}"/>
+                        </Condition.Binding>
+                    </Condition>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Visibility" Value="Collapsed"/>
+            </MultiDataTrigger>
+        </Style.Triggers>
     </Style>
     <Style x:Key="{x:Static this:ToolBar.MenuStyleKey}" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="Transparent"/>
@@ -1593,10 +1672,13 @@
                         <ItemsControl.Items>
                             <this:MenuController x:Name="PART_FocusTarget" ToolTipService.ShowOnDisabled="True" this:ToolBar.IsToolBarHostedMenuItem="true"
                                                  ItemsSource="{Binding CommandDefinition.Items}" AnchorItem="{Binding AnchorItem, Mode=TwoWay}">
-                                <!--<FrameworkElement.ToolTip>
-                                    <MultiBinding>
+                                <FrameworkElement.ToolTip>
+                                    <MultiBinding Converter="{StaticResource MultiToolTipMultiConverter}">
+                                        <Binding Mode="OneWay" Path="CommandDefinition.ToolTip" Converter="{StaticResource AccessKeyRemovingConverter}"/>
+                                        <Binding Mode="OneWay" Path="AnchorItem.CommandDefinition.ToolTip" Converter="{StaticResource AccessKeyRemovingConverter}"/>
+                                        <Binding Mode="OneWay" Path="AnchorItem.CommandDefinition.ShortcutText"/>
                                     </MultiBinding>
-                                </FrameworkElement.ToolTip>-->
+                                </FrameworkElement.ToolTip>
                             </this:MenuController>
                         </ItemsControl.Items>
                         <Control.Template>
@@ -1610,6 +1692,23 @@
         </Setter>
     </Style>
 
+
+    <Style TargetType="{x:Type this:CommandDefinitionButton}">
+        <Setter Property="FocusVisualStyle">
+            <Setter.Value>
+                <x:NullExtension/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Visibility" Value="Hidden"></Setter>
+        <Style.Triggers>
+            <DataTrigger Value="true">
+                <DataTrigger.Binding>
+                    <Binding Converter="{StaticResource IsNotSeparatorModelConverter}"/>
+                </DataTrigger.Binding>
+                <Setter Property="utilities1:DteFocusHelper.AcquireFocus" Value="{Binding AcquireFocus}"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
 
     <Style TargetType="{x:Type this:MenuControllerButton}"
            BasedOn="{StaticResource {x:Static this:ToolBar.ButtonStyleKey}}">
@@ -1641,7 +1740,7 @@
                                     </Binding.RelativeSource>
                                 </Binding>
                             </DataTrigger.Binding>
-                             
+
                         </DataTrigger>
                         <DataTrigger Value="True">
                             <DataTrigger.Binding>
@@ -1713,6 +1812,7 @@
                         <Trigger Property="UIElement.IsEnabled" Value="false">
                             <Setter TargetName="Text" Value="{DynamicResource {x:Static colors:EnvironmentColors.ButtonForegroundDisabled}}" Property="AccessText.Foreground"/>
                         </Trigger>
+
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition Value="Vertical">
@@ -1722,8 +1822,7 @@
                                 </Condition>
                                 <Condition Value="False">
                                     <Condition.Binding>
-                                        <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type this:MenuController}}"
-                                                 Path="HostContainer.(ToolBar.IsOverflowItem)"/>
+                                        <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type this:MenuController}}" Path="HostContainer.(ToolBar.IsOverflowItem)"/>
                                     </Condition.Binding>
                                 </Condition>
                             </MultiDataTrigger.Conditions>
@@ -1760,7 +1859,6 @@
                 <Binding Path="IsChecked" Mode="OneWay"/>
             </Setter.Value>
         </Setter>
-        <Setter Property="IsEnabled" Value="{Binding Path=AnchorItem.CommandDefinition.Command, Converter={StaticResource CommandExecutionToBooleanConverter}}"/>
         <Setter Property="AutomationProperties.Name">
             <Setter.Value>
                 <Binding Path="Text" Converter="{StaticResource AccessKeyRemovingConverter}"/>
@@ -1768,7 +1866,7 @@
         </Setter>
         <Setter Property="AutomationProperties.AcceleratorKey">
             <Setter.Value>
-                <Binding Path="ShortcutText"/>
+                <Binding Path="CommandDefinition.ShortcutText"/>
             </Setter.Value>
         </Setter>
         <Setter Property="Template">
@@ -1810,7 +1908,7 @@
                             </Border>
                             <Rectangle x:Name="SeparatorLine" Fill="{DynamicResource {x:Static colors:EnvironmentColors.SplitButtonSeparator}}"
                                        Visibility="Hidden" Width="1" VerticalAlignment="Stretch" Grid.Column="1"/>
-                            <Grid Width="10" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <Grid x:Name="ArrowGrid" Width="10" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <Path x:Name="Arrow" Fill="{DynamicResource {x:Static colors:EnvironmentColors.SplitButtonToggleButtonGlyph}}"
                                       Data="{StaticResource DownArrowGeometry}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Grid>

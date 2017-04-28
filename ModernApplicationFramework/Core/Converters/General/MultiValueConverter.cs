@@ -40,11 +40,9 @@ namespace ModernApplicationFramework.Core.Converters.General
     {
         public override object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            return !ValidateConvertParameters(values, targetType)
-                ? default(TTarget)
-                : Convert(MultiValueHelper.CheckValue<TSource1>(values, 0),
-                    MultiValueHelper.CheckValue<TSource2>(values, 1), MultiValueHelper.CheckValue<TSource3>(values, 2),
-                    parameter, culture);
+            if (!ValidateConvertParameters(values, targetType))
+                return default(TTarget);
+            return Convert(MultiValueHelper.CheckValue<TSource1>(values, 0), MultiValueHelper.CheckValue<TSource2>(values, 1), MultiValueHelper.CheckValue<TSource3>(values, 2), parameter, culture);
         }
 
         public override object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

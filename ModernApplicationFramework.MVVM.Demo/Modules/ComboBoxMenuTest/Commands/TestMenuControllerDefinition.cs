@@ -18,7 +18,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.ComboBoxMenuTest.Commands
 
         public override string Name => "MenuController";
         public override string Text => "MenuController";
-        public override string ToolTip => "MenuController";
+        public override string ToolTip => null;
 
         public override CommandCategory Category => CommandCategories.EditCommandCategory;
 
