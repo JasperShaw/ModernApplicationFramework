@@ -407,7 +407,7 @@
                         </Trigger>
                         <Trigger Property="IsDropDownOpen" Value="True">
                             <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropDownMouseDownBackground}}"/>
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropDownMouseDownBorder}}"/>
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropDownMouseDownBorder}}"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropDownMouseDownText}}"/>
                         </Trigger>
                         <Trigger Property="ItemsControl.HasItems" Value="false">

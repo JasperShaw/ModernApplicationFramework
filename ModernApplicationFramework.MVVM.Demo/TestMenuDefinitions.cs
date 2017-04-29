@@ -3,6 +3,7 @@ using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Extended.Commands;
 using ModernApplicationFramework.Extended.MenuDefinitions;
+using ModernApplicationFramework.MVVM.Demo.Modules.ComboBoxMenuTest.Commands;
 using ModernApplicationFramework.MVVM.Demo.Modules.Commands;
 
 namespace ModernApplicationFramework.MVVM.Demo
@@ -25,6 +26,8 @@ namespace ModernApplicationFramework.MVVM.Demo
 
         [Export] public static CommandBarItemDefinition TestSubSub = new MenuDefinition(TestGroup2, 0, "TestSub", true);
 
+        [Export] public static CommandBarItemDefinition MenuControllerItemMenu = new CommandBarMenuControllerDefinitionT<TestMenuControllerDefinition>(TestGroup1, uint.MinValue);
+
         [Export] public static CommandBarGroupDefinition TestGroup4 = new CommandBarGroupDefinition(TestSubSub, int.MaxValue);
 
         [Export] public static CommandBarItemDefinition TestSubSub1 = new CommandBarCommandItemDefinition<UndoCommandDefinition>(TestGroup4, 0);
@@ -33,7 +36,7 @@ namespace ModernApplicationFramework.MVVM.Demo
         //[Export] public static CommandBarItemDefinition SplitItem = new CommandBarSplitItemDefinitionT<UndoSplitCommandDefinition>(MainMenuBarDefinition.MainMenuBarGroup, 0);
 
 
-        //[Export] public static CommandBarItemDefinition MenuControllerItem = new CommandBarMenuControllerDefinitionT<UndoMenuControllerDefinition>(MainMenuBarDefinition.MainMenuBarGroup, uint.MinValue);
+        [Export] public static CommandBarItemDefinition MenuControllerItem = new CommandBarMenuControllerDefinitionT<TestMenuControllerDefinition>(MainMenuBarDefinition.MainMenuBarGroup, uint.MinValue);
 
     }
 }

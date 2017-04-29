@@ -677,18 +677,20 @@
                             <Binding Path="Text" Converter="{StaticResource AccessKeyRemovingConverter}"/>
                         </AutomationProperties.Name>
                         <ItemsControl.Items>
-                            <this:MenuController ToolTipService.ShowOnDisabled="True" ItemsSource="{Binding Items}"
+                            <this:MenuController ToolTipService.ShowOnDisabled="True" ItemsSource="{Binding CommandDefinition.Items}"
                                                  IsEnabled="{Binding IsEnabled}" AnchorItem="{Binding AnchorItem, Mode=TwoWay}">
-                                <!--<FrameworkElement.ToolTip>
-                                    <MultiBinding>
-                                        
+                                <FrameworkElement.ToolTip>
+                                    <MultiBinding Converter="{StaticResource MultiToolTipMultiConverter}">
+                                        <Binding Mode="OneWay" Path="CommandDefinition.ToolTip" Converter="{StaticResource AccessKeyRemovingConverter}"/>
+                                        <Binding Mode="OneWay" Path="AnchorItem.CommandDefinition.ToolTip" Converter="{StaticResource AccessKeyRemovingConverter}"/>
+                                        <Binding Mode="OneWay" Path="AnchorItem.CommandDefinition.ShortcutText"/>
                                     </MultiBinding>
-                                </FrameworkElement.ToolTip>-->
+                                </FrameworkElement.ToolTip>
                             </this:MenuController>
                         </ItemsControl.Items>
                         <Control.Template>
                             <ControlTemplate TargetType="{x:Type Menu}">
-                                <ItemsPresenter VerticalAlignment="Center"></ItemsPresenter>
+                                <ItemsPresenter VerticalAlignment="Center"/>
                             </ControlTemplate>
                         </Control.Template>
                     </Menu>
@@ -728,7 +730,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type this:MenuItem}">
                     <this:MenuController Header="{TemplateBinding Header}"
-                                         Icon="{TemplateBinding Icon}" ItemsSource="{Binding Items}"
+                                         Icon="{TemplateBinding Icon}" ItemsSource="{Binding CommandDefinition.Items}"
                                          IsEnabled="{Binding IsEnabled}" AnchorItem="{Binding AnchorItem, Mode=TwoWay}"
                                          Template="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type this:MenuItem}, ResourceId=SubmenuHeaderTemplateKey}}"/>
                 </ControlTemplate>
