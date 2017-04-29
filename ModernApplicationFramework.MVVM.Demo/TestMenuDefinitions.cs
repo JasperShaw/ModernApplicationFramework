@@ -3,7 +3,6 @@ using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Extended.Commands;
 using ModernApplicationFramework.Extended.MenuDefinitions;
-using ModernApplicationFramework.MVVM.Demo.Modules.ComboBoxMenuTest.Commands;
 using ModernApplicationFramework.MVVM.Demo.Modules.Commands;
 
 namespace ModernApplicationFramework.MVVM.Demo
@@ -33,7 +32,7 @@ namespace ModernApplicationFramework.MVVM.Demo
         [Export] public static CommandBarItemDefinition TestSubSub1 = new CommandBarCommandItemDefinition<UndoCommandDefinition>(TestGroup4, 0);
 
 
-        [Export] public static CommandBarItemDefinition SplitItem = new CommandBarSplitItemDefinitionT<UndoSplitCommandDefinition>(TestGroup1, 0);
+        [Export] public static CommandBarItemDefinition SplitItem = new CommandBarSplitItemDefinitionT<MultiUndoCommandDefinition>(TestGroup1, 0);
 
 
         //[Export] public static CommandBarItemDefinition MenuControllerItem = new CommandBarMenuControllerDefinitionT<TestMenuControllerDefinition>(MainMenuBarDefinition.MainMenuBarGroup, uint.MinValue);

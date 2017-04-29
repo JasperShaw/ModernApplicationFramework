@@ -7,12 +7,12 @@ using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Extended.Interfaces;
-using ModernApplicationFramework.MVVM.Demo.Modules.Document;
 
-namespace ModernApplicationFramework.MVVM.Demo.Modules.ComboBoxMenuTest.Commands
+namespace ModernApplicationFramework.Extended.Commands
 {
     [Export(typeof(DefinitionBase))]
-    public sealed class UndoSplitCommandDefinition : CommandSplitButtonDefinition
+    [Export(typeof(MultiUndoCommandDefinition))]
+    public sealed class MultiUndoCommandDefinition : CommandSplitButtonDefinition
     {
 #pragma warning disable 649
         [Import] private IDockingMainWindowViewModel _shell;
@@ -33,7 +33,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.ComboBoxMenuTest.Commands
         public override CommandCategory Category => CommandCategories.EditCommandCategory;
         public string MyText { get; set; }
 
-        public UndoSplitCommandDefinition()
+        public MultiUndoCommandDefinition()
         {
             var command = new MultiKeyGestureCommandWrapper(Undo, CanUndo,
                 new MultiKeyGesture(new[] {Key.Z}, ModifierKeys.Control));
@@ -58,5 +58,15 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.ComboBoxMenuTest.Commands
         }
 
         public override ObservableCollection<object> Items { get; set; }
+    }
+
+    public class TestItem
+    {
+        public TestItem(string text)
+        {
+            Text = text;
+        }
+
+        public string Text { get; set; }
     }
 }

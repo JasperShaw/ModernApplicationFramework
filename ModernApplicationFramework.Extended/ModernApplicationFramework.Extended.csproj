@@ -69,6 +69,7 @@
     <Compile Include="Commands\SwitchToDocumentCommandListDefinition.cs" />
     <Compile Include="Commands\SwitchToDocumentListCommandHandler.cs" />
     <Compile Include="Commands\UndoCommandDefinition.cs" />
+    <Compile Include="Commands\MultiUndoCommandDefinition.cs" />
     <Compile Include="Core\CommandRouter.cs" />
     <Compile Include="Core\LayoutItems\Document.cs" />
     <Compile Include="Core\LayoutItems\LayoutItem.cs" />
