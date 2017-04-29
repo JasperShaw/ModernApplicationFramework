@@ -19,12 +19,12 @@
                     </Border>      
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsHighlighted" Value="true">
-                            <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxItemBackgroundHover}}"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxItemBorderHover}}"/>
-                             <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxItemForegroundHover}}"/>
+                            <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxItemMouseOverBackground}}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxItemMouseOverBorder}}"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxItemMouseOverText}}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxItemForegroundDisabled}}"/>
+                            <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarTextInactive}}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -43,12 +43,12 @@
         </Border>
         <ControlTemplate.Triggers>
             <Trigger Property="ComboBoxItem.IsHighlighted" Value="true">
-                <Setter TargetName="Bd" Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxItemBackgroundHover}}" Property="Background"/>
-                <Setter TargetName="Bd" Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxItemBorderHover}}" Property="BorderBrush"/>
-                <Setter TargetName="Bd" Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxItemForegroundHover}}" Property="TextElement.Foreground"/>
+                <Setter TargetName="Bd" Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxItemMouseOverBackground}}" Property="Background"/>
+                <Setter TargetName="Bd" Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxItemMouseOverBorder}}" Property="BorderBrush"/>
+                <Setter TargetName="Bd" Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxItemMouseOverText}}" Property="TextElement.Foreground"/>
             </Trigger>
             <Trigger Property="UIElement.IsEnabled" Value="false">
-                <Setter Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxItemForegroundDisabled}}" Property="TextElement.Foreground"/>
+                <Setter Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarTextInactive}}" Property="TextElement.Foreground"/>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -57,7 +57,7 @@
         <Setter Property="Border.BorderThickness" Value="1"/>
         <Setter Property="Border.BorderBrush" Value="Transparent"/>
         <Setter Property="Panel.Background" Value="Transparent"/>
-        <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxItemForeground}}"/>
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarTextActive}}"/>
         <Setter Property="Template" Value="{StaticResource ComboBoxItemTemplate}"/>
         <Setter Property="Margin" Value="2,0,2,0"/>
         <Setter Property="InputMethod.IsInputMethodSuspended" Value="true"/>

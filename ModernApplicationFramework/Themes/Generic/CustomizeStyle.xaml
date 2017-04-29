@@ -14,10 +14,10 @@
 
     <ControlTemplate x:Key="ContextMenuTemplate" TargetType="{x:Type ContextMenu}">
         <Grid>
-            <Border Background="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemPopupBackground}}"
-                    BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemPopupBorder}}"
+            <Border Background="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuBackgroundGradientBegin}}"
+                    BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuBorder}}"
                     BorderThickness="1">
-                <Border Width="28" Background="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemPopupIconBackground}}"
+                <Border Width="28" Background="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuIconBackground}}"
                         HorizontalAlignment="Left"/>
             </Border>
             <controls:MenuScrollViewer Margin="3">
@@ -83,7 +83,7 @@
                 <ColumnDefinition Width="26" SharedSizeGroup="MenuItemIconColumnGroup"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Rectangle Height="1" Margin="4,1,1,1" Fill="{DynamicResource {x:Static themes:EnvironmentColors.MenuSeparator}}" Grid.Column="1"/>
+            <Rectangle Height="1" Margin="4,1,1,1" Fill="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuSeparator}}" Grid.Column="1"/>
         </Grid>
     </ControlTemplate>
 
@@ -92,7 +92,7 @@
         <Setter Property="Template" Value="{DynamicResource ContextMenuTemplate}"/>
     </Style>
     <Style TargetType="{x:Type MenuItem}">
-        <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemForeground}}"/>
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarTextActive}}"/>
         <Setter Property="Template" Value="{DynamicResource MenuItemTemplate}"/>
     </Style>
     <Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" TargetType="{x:Type Separator}">
@@ -101,7 +101,7 @@
     </Style>
     <Style TargetType="{x:Type controls:CheckedMenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}"/>
     <Style TargetType="{x:Type controls:EditableMenuItem}">
-        <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemForeground}}"/>
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarTextActive}}"/>
     </Style>
 
 </ResourceDictionary>

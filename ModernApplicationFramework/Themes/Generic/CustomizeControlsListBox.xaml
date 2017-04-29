@@ -21,8 +21,8 @@
                                 <themes:ImageThemingUtilities.ImageBackgroundColor>
                                     <Binding ElementName="BackgroundBorder" Path="Background" Converter="{StaticResource BrushToColorConverter}"/>
                                 </themes:ImageThemingUtilities.ImageBackgroundColor>
-                                <Border x:Name="BackgroundBorder" Background="{DynamicResource {x:Static themes:EnvironmentColors.MenuBackground}}">
-                                    <Border Width="28" Background="{DynamicResource {x:Static themes:EnvironmentColors.MenuBackground}}"
+                                <Border x:Name="BackgroundBorder" Background="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuBackgroundGradientBegin}}">
+                                    <Border Width="28" Background="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuBackgroundGradientBegin}}"
                                             HorizontalAlignment="Left"/>
                                 </Border>
                                 <ItemsPresenter Margin="3,0,3,0" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Grid.IsSharedSizeScope="True"/>

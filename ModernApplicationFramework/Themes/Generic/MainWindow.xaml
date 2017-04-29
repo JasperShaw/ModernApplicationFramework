@@ -41,7 +41,7 @@
         <Setter Property="RenderOptions.BitmapScalingMode" Value="{x:Static native:DpiHelper.BitmapScalingMode}"/>
 	    <Setter Property="ActiveGlowColor" Value="{DynamicResource {x:Static core:EnvironmentColors.MainWindowActiveShadowAndBorderColor}}" />
 	    <Setter Property="InactiveGlowColor" Value="{DynamicResource {x:Static core:EnvironmentColors.MainWindowInactiveShadowAndBorderColor}}" />
-        <Setter Property="NonClientFillColor" Value="{Binding Path=Background, RelativeSource={RelativeSource Self}}" />
+        <Setter Property="NonClientFillColor" Value="{DynamicResource {x:Static core:EnvironmentColors.MainWindowBackground}}" />
         <Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type this:MainWindow}">
@@ -53,7 +53,7 @@
 								<RowDefinition Height="*" />
 								<RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
-                            <this:MainWindowTitleBar x:Name="MainWindowTitleBar" Grid.Row="0"
+                            <this:MainWindowTitleBar x:Name="MainWindowTitleBar" Grid.Row="0" Grid.Column="0"
 							                         Background="{DynamicResource {x:Static core:EnvironmentColors.MainWindowTitleBarBackground}}"
 							                         TextElement.Foreground="{DynamicResource {x:Static core:EnvironmentColors.MainWindowTitleBarForeground}}">
                                 <DockPanel>
@@ -99,14 +99,19 @@
 									           TextOptions.TextFormattingMode="Display" />
                                 </DockPanel>
                             </this:MainWindowTitleBar>
-                            <DockPanel Grid.Row="1" MinHeight="20" x:Name="MenuPanel">
+                            <DockPanel Grid.Row="1" MinHeight="20" x:Name="MenuPanel"
+                                       Background="{DynamicResource {x:Static core:EnvironmentColors.CommandShelfHighlight}}">
                                 <internals:MenuHostControl x:Name="MenuHostControl"/>
                             </DockPanel>
                             <internals:ToolBarHostControl x:Name="ToolbarHostControl" Grid.Row="2" />
                             <DockPanel x:Name="StatusBarPanel"
 							           Grid.Row="3"
 							           Background="{Binding ElementName=StatusBar, Path=Background}">
-								<primitives:ResizeGrip x:Name="ResizeGrip" VerticalAlignment="Bottom" Cursor="SizeNWSE" DockPanel.Dock="Right" Padding="0" />
+                                <core:ImageThemingUtilities.ImageBackgroundColor>
+                                    <Binding Path="Background" RelativeSource="{RelativeSource Self}"
+                                             Converter="{StaticResource BrushToColorConverter}"/>
+                                </core:ImageThemingUtilities.ImageBackgroundColor>
+                                <primitives:ResizeGrip x:Name="ResizeGrip" VerticalAlignment="Bottom" Cursor="SizeNWSE" DockPanel.Dock="Right" Padding="0" />
 								<primitives:StatusBar x:Name="StatusBar" Mode="3" />
 							</DockPanel>
 						</Grid>

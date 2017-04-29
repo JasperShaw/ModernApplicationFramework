@@ -34,7 +34,7 @@
                         <Border x:Name="LimitedEditBoxWith"/>
                         <TextBox x:Name="PART_EditableTextBox" MinWidth="{TemplateBinding controls:EditableMenuItem.EditMinWidth}" SnapsToDevicePixels="true"
                                              BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Style="{StaticResource ErrorTextBoxStyleKey}"
-                                             BorderBrush="{DynamicResource {x:Static ui:EnvironmentColors.TextBoxBorder}}"
+                                             BorderBrush="{DynamicResource {x:Static ui:EnvironmentColors.DropDownBorder}}"
                                  Validation.ErrorTemplate="{StaticResource ErrorTextBoxTemplateKey}">
                             <FrameworkElement.Width>
                                 <Binding ElementName="LimitEditBoxWidth" Path="ActualWidth"/>
@@ -49,14 +49,14 @@
             </Grid>
             <ControlTemplate.Triggers>
                 <Trigger Property="MenuItem.IsHighlighted" Value="true">
-                    <Setter TargetName="Bg" Value="{DynamicResource {x:Static ui:EnvironmentColors.MenuItemBorderHover}}" Property="Shape.Stroke"/>
-                    <Setter TargetName="Bg" Value="{DynamicResource {x:Static ui:EnvironmentColors.MenuItemBackgroundHover}}" Property="Shape.Fill"/>
-                    <Setter Value="{DynamicResource {x:Static ui:EnvironmentColors.TextBoxForegroundHover}}" Property="TextElement.Foreground"/>
+                    <Setter TargetName="Bg" Value="{DynamicResource {x:Static ui:EnvironmentColors.CommandBarBorder}}" Property="Shape.Stroke"/>
+                    <Setter TargetName="Bg" Value="{DynamicResource {x:Static ui:EnvironmentColors.CommandBarMouseOverBackgroundBegin}}" Property="Shape.Fill"/>
+                    <Setter Value="{DynamicResource {x:Static ui:EnvironmentColors.CommandBarTextHover}}" Property="TextElement.Foreground"/>
                 </Trigger>
                 <Trigger Property="UIElement.IsKeyboardFocused" Value="true">
-                    <Setter TargetName="Bg" Value="{DynamicResource {x:Static ui:EnvironmentColors.MenuItemBackgroundHover}}" Property="Shape.Stroke"/>
-                    <Setter TargetName="Bg" Value="{DynamicResource {x:Static ui:EnvironmentColors.MenuItemBackgroundHover}}" Property="Shape.Fill"/>
-                    <Setter Value="{DynamicResource {x:Static ui:EnvironmentColors.MenuItemForegroundHover}}" Property="TextElement.Foreground"/>
+                    <Setter TargetName="Bg" Value="{DynamicResource {x:Static ui:EnvironmentColors.CommandBarMenuItemMouseOverBorder}}" Property="Shape.Stroke"/>
+                    <Setter TargetName="Bg" Value="{DynamicResource {x:Static ui:EnvironmentColors.CommandBarMenuItemMouseOver}}" Property="Shape.Fill"/>
+                    <Setter Value="{DynamicResource {x:Static ui:EnvironmentColors.CommandBarMenuItemMouseOverText}}" Property="TextElement.Foreground"/>
                 </Trigger>
                 <Trigger Property="UIElement.IsEnabled" Value="false">
                     <Setter Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" Property="Control.Foreground"/>
@@ -65,13 +65,13 @@
                     <DataTrigger.Binding>
                         <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="EditableTextBox.IsKeyboardFocused"/>
                     </DataTrigger.Binding>
-                    <Setter TargetName="Bg" Value="{DynamicResource {x:Static ui:EnvironmentColors.MenuItemBackgroundHover}}"
+                    <Setter TargetName="Bg" Value="{DynamicResource {x:Static ui:EnvironmentColors.CommandBarMenuItemMouseOver}}"
                                         Property="Shape.Stroke"/>
-                    <Setter TargetName="Bg" Value="{DynamicResource {x:Static ui:EnvironmentColors.MenuItemBackgroundHover}}"
+                    <Setter TargetName="Bg" Value="{DynamicResource {x:Static ui:EnvironmentColors.CommandBarMenuItemMouseOver}}"
                                         Property="Shape.Fill"/>
-                    <Setter Value="{DynamicResource {x:Static ui:EnvironmentColors.MenuItemForegroundHover}}"
+                    <Setter Value="{DynamicResource {x:Static ui:EnvironmentColors.CommandBarMenuItemMouseOverText}}"
                                         Property="TextElement.Foreground"/>
-                    <Setter TargetName="EditBoxBorder" Value="{DynamicResource {x:Static ui:EnvironmentColors.MenuItemBorderHover}}"
+                    <Setter TargetName="EditBoxBorder" Value="{DynamicResource {x:Static ui:EnvironmentColors.CommandBarBorder}}"
                                         Property="Border.BorderBrush"/>
                 </DataTrigger>
             </ControlTemplate.Triggers>

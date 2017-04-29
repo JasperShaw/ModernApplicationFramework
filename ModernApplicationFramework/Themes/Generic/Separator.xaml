@@ -9,7 +9,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Separator">
-                    <Border BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.MenuSeparator}}" BorderThickness="1" Margin="26,0,0,0"/>
+                    <Border BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuSeparator}}" BorderThickness="1" Margin="26,0,0,0"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

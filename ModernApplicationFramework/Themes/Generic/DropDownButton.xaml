@@ -43,7 +43,7 @@
                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                   RecognizesAccessKey="True"/>
                                         <Grid x:Name="arrowGlyph" IsHitTestVisible="False" Margin="3,3,4,3" Grid.Column="1">
-                                            <Path x:Name="Arrow"  Width="8" Height="4" Data="M 0 0 L 4 4 L 8 0 Z" Fill="{DynamicResource {x:Static themes:EnvironmentColors.DropDownButtonGlyph}}">
+                                            <Path x:Name="Arrow"  Width="8" Height="4" Data="M 0 0 L 4 4 L 8 0 Z" Fill="{DynamicResource {x:Static themes:EnvironmentColors.DropDownGlyph}}">
                                                 <Path.LayoutTransform>
                                                     <ScaleTransform ScaleX="0.8" ScaleY="0.8"/>
                                                 </Path.LayoutTransform>
@@ -61,19 +61,19 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Arrow" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownButtonGlyphHover}}"/>
-                            <Setter TargetName="ButtonBase" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownButtonBackgroundHover}}"/>
-                            <Setter TargetName="ButtonBase" Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownButtonForegroundHover}}"/>
+                            <Setter TargetName="Arrow" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownMouseOverGlyph}}"/>
+                            <Setter TargetName="ButtonBase" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownButtonMouseOverBackground}}"/>
+                            <Setter TargetName="ButtonBase" Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownMouseOverText}}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True" SourceName="PART_DropDownButton">
-                            <Setter TargetName="ButtonBase" Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownButtonForegroundDown}}"/>
-                            <Setter TargetName="Arrow" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownButtonGlyphDown}}"/>
-                            <Setter TargetName="ButtonBase" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownButtonBackgroundDown}}"/>
+                            <Setter TargetName="ButtonBase" Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownMouseDownText}}"/>
+                            <Setter TargetName="Arrow" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownMouseDownGlyph}}"/>
+                            <Setter TargetName="ButtonBase" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownButtonMouseDownBackground}}"/>
                         </Trigger>
                         <Trigger Property="IsOpen" Value="True" SourceName="PART_Popup">
-                            <Setter TargetName="ButtonBase" Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownButtonForegroundDown}}"/>
-                            <Setter TargetName="Arrow" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownButtonGlyphDown}}"/>
-                            <Setter TargetName="ButtonBase" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownButtonBackgroundDown}}"/>
+                            <Setter TargetName="ButtonBase" Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownMouseDownText}}"/>
+                            <Setter TargetName="Arrow" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownMouseDownGlyph}}"/>
+                            <Setter TargetName="ButtonBase" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownButtonMouseDownBackground}}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

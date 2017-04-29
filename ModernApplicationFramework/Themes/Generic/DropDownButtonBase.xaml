@@ -11,9 +11,9 @@
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-        <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownButtonBackground}}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownButtonBorder}}"/>
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownButtonForeground}}"/>
+        <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownBackground}}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownBorder}}"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownText}}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -35,16 +35,16 @@
                                 <Condition Property="RenderMouseOver" Value="False" />
                                 <Condition Property="RenderPressed" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownButtonBackgroundDown}}" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownButtonBorderDown}}" />
+                            <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownButtonMouseDownBackground}}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownMouseDownBorder}}" />
                         </MultiTrigger>
                         <Trigger Property="RenderPressed" Value="True">
-                            <Setter TargetName="OuterBorder" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownButtonBackgroundDown}}" />
-                            <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownButtonBorderDown}}" />
+                            <Setter TargetName="OuterBorder" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownButtonMouseDownBackground}}" />
+                            <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownMouseDownBorder}}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="OuterBorder" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownButtonBackgroundHover}}" />
-                            <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownButtonBorderHover}}" />
+                            <Setter TargetName="OuterBorder" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownButtonMouseOverBackground}}" />
+                            <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownMouseOverBorder}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

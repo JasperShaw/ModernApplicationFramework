@@ -5,19 +5,9 @@ namespace ModernApplicationFramework.Core.Themes
     public static class EnvironmentColors
     {
         //Global
-        private static ComponentResourceKey _dropDownGlyph;
-        private static ComponentResourceKey _dropDownGlyphHover;
-        private static ComponentResourceKey _dropDownGlyphDown;
-        private static ComponentResourceKey _dropDownGlyphDisabled;
-
         private static ComponentResourceKey _gloablForeground;
         private static ComponentResourceKey _globalBackgroundColor;
         private static ComponentResourceKey _globalBackgroundColor2;
-
-        public static ComponentResourceKey GlobalBackgroundColor => _globalBackgroundColor ??
-                                                          (_globalBackgroundColor = new ComponentResourceKey(typeof(EnvironmentColors), "GlobalBackgroundColor"));
-        public static ComponentResourceKey GlobalBackgroundColor2 => _globalBackgroundColor2 ??
-                                                          (_globalBackgroundColor2 = new ComponentResourceKey(typeof(EnvironmentColors), "GlobalBackgroundColor2"));
 
         //Button
         private static ComponentResourceKey _buttonBackground;
@@ -36,154 +26,100 @@ namespace ModernApplicationFramework.Core.Themes
         private static ComponentResourceKey _buttonForegroundDisabled;
         private static ComponentResourceKey _buttonBorderDisabled;
 
-        //ComboBox
-        private static ComponentResourceKey _comboBoxBorder;
+        //ComboBox -- New
         private static ComponentResourceKey _comboBoxBackground;
-        private static ComponentResourceKey _comboboxButtonBackground;
-        private static ComponentResourceKey _comboBoxButtonBorder;
-        private static ComponentResourceKey _comboBoxForeground;
+        private static ComponentResourceKey _comboBoxBorder;
+        private static ComponentResourceKey _comboBoxButtonMouseDownBackground;
+        private static ComponentResourceKey _comboBoxButtonMouseDownSeparator;
+        private static ComponentResourceKey _comboBoxButtonMouseOverBackground;
+        private static ComponentResourceKey _comboBoxButtonMouseOverSeparator;
+        private static ComponentResourceKey _comboBoxDisabledBackground;
+        private static ComponentResourceKey _comboBoxDisabledBorder;
+        private static ComponentResourceKey _comboBoxDisabledGlyph;
+        private static ComponentResourceKey _comboBoxDisabledText;
+        private static ComponentResourceKey _comboBoxFocusedBackground;
+        private static ComponentResourceKey _comboBoxFocusedBorder;
+        private static ComponentResourceKey _comboBoxFocusedButtonBackground;
+        private static ComponentResourceKey _comboBoxFocusedButtonSeparator;
+        private static ComponentResourceKey _comboBoxFocusedGlyph;
+        private static ComponentResourceKey _comboBoxFocusedText;
         private static ComponentResourceKey _comboBoxGlyph;
-        private static ComponentResourceKey _comboBoxSelectionBrush;
-        private static ComponentResourceKey _comboBoxCaretBrush;
-
-        private static ComponentResourceKey _comboBoxBorderHover;
-        private static ComponentResourceKey _comboBoxBackgroundHover;
-        private static ComponentResourceKey _comboboxButtonBackgroundHover;
-        private static ComponentResourceKey _comboBoxButtonBorderHover;
-        private static ComponentResourceKey _comboBoxForegroundHover;
-        private static ComponentResourceKey _comboBoxGlyphHover;
-
-        private static ComponentResourceKey _comboBoxBorderDown;
-        private static ComponentResourceKey _comboBoxBackgroundDown;
-        private static ComponentResourceKey _comboboxButtonBackgroundDown;
-        private static ComponentResourceKey _comboBoxButtonBorderDown;
-        private static ComponentResourceKey _comboBoxForegroundDown;
-        private static ComponentResourceKey _comboBoxGlyphDown;
-
-        private static ComponentResourceKey _comboBoxBorderDisabled;
-        private static ComponentResourceKey _comboBoxBackgroundDisabled;
-        private static ComponentResourceKey _comboboxButtonBackgroundDisabled;
-        private static ComponentResourceKey _comboBoxButtonBorderDisabled;
-        private static ComponentResourceKey _comboBoxForegroundDisabled;
-        private static ComponentResourceKey _comboBoxGlyphDisabled;
-
+        private static ComponentResourceKey _comboBoxItemMouseOverBackground;
+        private static ComponentResourceKey _comboBoxItemMouseOverBorder;
+        private static ComponentResourceKey _comboBoxItemMouseOverText;
+        private static ComponentResourceKey _comboBoxItemText;
+        private static ComponentResourceKey _comboBoxItemTextInactive;
+        private static ComponentResourceKey _comboBoxMouseDownBackground;
+        private static ComponentResourceKey _comboBoxMouseDownBorder;
+        private static ComponentResourceKey _comboBoxMouseDownGlyph;
+        private static ComponentResourceKey _comboBoxMouseDownText;
+        private static ComponentResourceKey _comboBoxMouseOverBackgroundBegin;
+        private static ComponentResourceKey _comboBoxMouseOverBackgroundEnd;
+        private static ComponentResourceKey _comboBoxMouseOverBackgroundMiddle1;
+        private static ComponentResourceKey _comboBoxMouseOverBackgroundMiddle2;
+        private static ComponentResourceKey _comboBoxMouseOverBorder;
+        private static ComponentResourceKey _comboBoxMouseOverGlyph;
+        private static ComponentResourceKey _comboBoxMouseOverText;
+        private static ComponentResourceKey _comboBoxPopupBackgroundBegin;
+        private static ComponentResourceKey _comboBoxPopupBackgroundEnd;
         private static ComponentResourceKey _comboBoxPopupBorder;
-        private static ComponentResourceKey _comboBoxPopupBackground;
-        private static ComponentResourceKey _comboBoxPopupShadowBackground;
+        private static ComponentResourceKey _comboBoxSelection;
+        private static ComponentResourceKey _comboBoxText;
 
-        //ComboxItem
-        private static ComponentResourceKey _comboBoxItemBackgroundHover;
-        private static ComponentResourceKey _comboBoxItemBorderHover;
-        private static ComponentResourceKey _comboBoxItemForegroundHover;
-        private static ComponentResourceKey _comboBoxItemForeground;
-        private static ComponentResourceKey _comboBoxItemForegroundDisabled;
-
-        //DropDownButton
-        private static ComponentResourceKey _dropDownButtonBackground;
-        private static ComponentResourceKey _dropDownButtonBorder;
-        private static ComponentResourceKey _dropDownButtonForeground;
-        private static ComponentResourceKey _dropDownButtonGlyph;
-
-        private static ComponentResourceKey _dropDownButtonBackgroundHover;
-        private static ComponentResourceKey _dropDownButtonBorderHover;
-        private static ComponentResourceKey _dropDownButtonForegroundHover;
-        private static ComponentResourceKey _dropDownButtonGlyphHover;
-
-        private static ComponentResourceKey _dropDownButtonBackgroundDown;
-        private static ComponentResourceKey _dropDownButtonBorderDown;
-        private static ComponentResourceKey _dropDownButtonForegroundDown;
-        private static ComponentResourceKey _dropDownButtonGlyphDown;
-
-        private static ComponentResourceKey _dropDownButtonBackgroundDisabled;
-        private static ComponentResourceKey _dropDownButtonBorderDisabled;
-        private static ComponentResourceKey _dropDownButtonForegroundDisabled;
-        private static ComponentResourceKey _dropDownButtonGlyphDisabled;
-
-        //Menu
-        private static ComponentResourceKey _menuBackground;
-        private static ComponentResourceKey _menuForeground;
-        private static ComponentResourceKey _menuSeparator;
-
-        //MenuItem
-        private static ComponentResourceKey _menuItemForeground;
-        private static ComponentResourceKey _menuItemBackgroundHover;
-        private static ComponentResourceKey _menuItemBorderHover;
-        private static ComponentResourceKey _menuItemForegroundHover;
-        private static ComponentResourceKey _menuItemBackgroundDown;
-        private static ComponentResourceKey _menuItemBorderDown;
-        private static ComponentResourceKey _menuItemForegroundDown;
-        private static ComponentResourceKey _menuItemForegroundDisabled;
-        private static ComponentResourceKey _menuItemIconForeground;
-        private static ComponentResourceKey _menuItemIconForegroundHover;
-
-        private static ComponentResourceKey _menuItemPopupBackground;
-        private static ComponentResourceKey _menuItemPopupIconBackground;
-        private static ComponentResourceKey _menuItemPopupBorder;
-        private static ComponentResourceKey _menuItemPopupShadow;
-
-        private static ComponentResourceKey _menuSubItemGlyph;
-        private static ComponentResourceKey _menuSubItemForeground;
-        private static ComponentResourceKey _menuSubItemGlyphHover;
-        private static ComponentResourceKey _menuSubItemBackgroundHover;
-        private static ComponentResourceKey _menuSubItemForegroundHover;
-        private static ComponentResourceKey _menuSubItemGlyphDisabled;
-        private static ComponentResourceKey _menuSubItemForegroundDisabled;
+        //DropDownButton -- New
+        private static ComponentResourceKey _dropDownBackground;
+        private static ComponentResourceKey _dropDownBorder;
+        private static ComponentResourceKey _dropDownButtonMouseDownBackground;
+        private static ComponentResourceKey _dropDownButtonMouseDownSeparator;
+        private static ComponentResourceKey _dropDownButtonMouseOverBackground;
+        private static ComponentResourceKey _dropDownButtonMouseOverSeparator;
+        private static ComponentResourceKey _dropDownDisabledBackground;
+        private static ComponentResourceKey _dropDownDisabledBorder;
+        private static ComponentResourceKey _dropDownDisabledGlyph;
+        private static ComponentResourceKey _dropDownDisabledText;
+        private static ComponentResourceKey _dropDownGlyph;
+        private static ComponentResourceKey _dropDownMouseDownBackground;
+        private static ComponentResourceKey _dropDownMouseDownBorder;
+        private static ComponentResourceKey _dropDownMouseDownGlyph;
+        private static ComponentResourceKey _dropDownMouseDownText;
+        private static ComponentResourceKey _dropDownMouseOverBackgroundBegin;
+        private static ComponentResourceKey _dropDownMouseOverBackgroundEnd;
+        private static ComponentResourceKey _dropDownMouseOverBackgroundMiddle1;
+        private static ComponentResourceKey _dropDownMouseOverBackgroundMiddle2;
+        private static ComponentResourceKey _dropDownMouseOverBorder;
+        private static ComponentResourceKey _dropDownMouseOverGlyph;
+        private static ComponentResourceKey _dropDownMouseOverText;
+        private static ComponentResourceKey _dropDownPopupBackgroundBegin;
+        private static ComponentResourceKey _dropDownPopupBackgroundEnd;
+        private static ComponentResourceKey _dropDownPopupBorder;
+        private static ComponentResourceKey _dropDownText;
+        private static ComponentResourceKey _dropShadowBackground;
 
         //Separator
         private static ComponentResourceKey _separatorBackground;
 
         //ScrollBar
+        private static ComponentResourceKey _scrollBarArrowBackground;
+        private static ComponentResourceKey _scrollBarArrowDisabledBackground;
+        private static ComponentResourceKey _scrollBarArrowGlyph;
+        private static ComponentResourceKey _scrollBarArrowGlyphDisabled;
+        private static ComponentResourceKey _scrollBarArrowGlyphMouseOver;
+        private static ComponentResourceKey _scrollBarArrowGlyphPressed;
+        private static ComponentResourceKey _scrollBarArrowMouseOverBackground;
+        private static ComponentResourceKey _scrollBarArrowPressedBackground;
         private static ComponentResourceKey _scrollBarBackground;
         private static ComponentResourceKey _scrollBarBorder;
-        private static ComponentResourceKey _scrollBarButtonBackground;
-        private static ComponentResourceKey _scrollBarButtonGlyph;
-        private static ComponentResourceKey _scrollBarButtonBackgroundHover;
-        private static ComponentResourceKey _scrollBarButtonGlyphHover;
-        private static ComponentResourceKey _scrollBarButtonBackgroundDown;
-        private static ComponentResourceKey _scrollBarButtonGlyphDown;
-        private static ComponentResourceKey _scrollBarButtonBackgroundDisabled;
-        private static ComponentResourceKey _scrollBarButtonGlyphDisabled;
+        private static ComponentResourceKey _scrollBarDisabledBackground;
         private static ComponentResourceKey _scrollBarThumbBackground;
-        private static ComponentResourceKey _scrollBarThumbBackgroundHover;
-        private static ComponentResourceKey _scrollBarThumbBackgroundDown;
-        private static ComponentResourceKey _scrollBarThumbBackgroundDisabled;
-
-        //SplitButton
-        private static ComponentResourceKey _splitButtonBorder;
-        private static ComponentResourceKey _splitButtonBackground;
-        private static ComponentResourceKey _splitButtonActionButtonBackground;
-        private static ComponentResourceKey _splitButtonActionButtonForeground;
-        private static ComponentResourceKey _splitButtonSeparator;
-        private static ComponentResourceKey _splitButtonToggleButtonBackground;
-        private static ComponentResourceKey _splitButtonToggleButtonGlyph;
-
-        private static ComponentResourceKey _splitButtonBorderHover;
-        private static ComponentResourceKey _splitButtonActionButtonBackgroundHover;
-        private static ComponentResourceKey _splitButtonActionButtonForegroundHover;
-        private static ComponentResourceKey _splitButtonSeparatorHover;
-        private static ComponentResourceKey _splitButtonToggleButtonBackgroundHover;
-        private static ComponentResourceKey _splitButtonToggleButtonGlyphHover;
-
-        private static ComponentResourceKey _splitButtonActionButtonBackgroundDown;
-        private static ComponentResourceKey _splitButtonActionButtonForegroundDown;
-        private static ComponentResourceKey _splitButtonSeparatorDown;
-        private static ComponentResourceKey _splitButtonToggleButtonDown;
-        private static ComponentResourceKey _splitButtonActionButtonDown;
-
-        public static ComponentResourceKey SplitButtonToggleButtonDown => _splitButtonToggleButtonDown ??
-                                                                      (_splitButtonToggleButtonDown = new ComponentResourceKey(typeof(EnvironmentColors), "SplitButtonToggleButtonDown"));
-
-        public static ComponentResourceKey SplitButtonActionButtonDown => _splitButtonActionButtonDown ??
-                                                                      (_splitButtonActionButtonDown = new ComponentResourceKey(typeof(EnvironmentColors), "SplitButtonActionButtonDown"));
-
-        private static ComponentResourceKey _splitButtonActionButtonBackgroundChecked;
-        private static ComponentResourceKey _splitButtonActionButtonForegroundChecked;
-        private static ComponentResourceKey _splitButtonSeparatorChecked;
-        private static ComponentResourceKey _splitButtonToggleButtonBackgroundChecked;
-        private static ComponentResourceKey _splitButtonToggleButtonGlyphChecked;
-
-        private static ComponentResourceKey _splitButtonToggleButtonGlyphDisabled;
-        private static ComponentResourceKey _splitButtonActionButtonForegroundDisabled;
+        private static ComponentResourceKey _scrollBarThumbBorder;
+        private static ComponentResourceKey _scrollBarThumbDisabled;
+        private static ComponentResourceKey _scrollBarThumbGlyph;
+        private static ComponentResourceKey _scrollBarThumbGlyphMouseOverBorder;
+        private static ComponentResourceKey _scrollBarThumbGlyphPressedBorder;
+        private static ComponentResourceKey _scrollBarThumbMouseOverBackground;
+        private static ComponentResourceKey _scrollBarThumbMouseOverBorder;
+        private static ComponentResourceKey _scrollBarThumbPressedBackground;
+        private static ComponentResourceKey _scrollBarThumbPressedBorder;
 
         //TextBox
         private static ComponentResourceKey _textBoxBorder;
@@ -220,26 +156,6 @@ namespace ModernApplicationFramework.Core.Themes
         private static ComponentResourceKey _titleBarButtonBorderDisabled;
         private static ComponentResourceKey _titleBarButtonForegroundDisabled;
 
-        //ToolBarTray
-        private static ComponentResourceKey _toolBarTrayBackground;
-
-        //ToolBar
-        private static ComponentResourceKey _toolBarBackground;
-        private static ComponentResourceKey _toolBarBorder;
-        private static ComponentResourceKey _toolBarGrip;
-
-
-        private static ComponentResourceKey _toolBarButtonBackground;
-        private static ComponentResourceKey _toolBarButtonBackgroundGlyph;
-        private static ComponentResourceKey _toolBarButtonBackgroundMouseOver;
-        private static ComponentResourceKey _toolBarButtonBackgroundGlyphMouseOver;
-        private static ComponentResourceKey _toolBarButtonBackgroundIsChecked;
-        private static ComponentResourceKey _toolBarButtonBackgroundGlyphIsChecked;
-        private static ComponentResourceKey _toolBarButtonBackgroundFocused;
-        private static ComponentResourceKey _toolBarButtonBackgroundGlyphFocused;
-        private static ComponentResourceKey _toolBarButtonBackgroundDisabled;
-        private static ComponentResourceKey _toolBarButtonBackgroundGlyphDisabled;
-
         //CheckBox
         private static ComponentResourceKey _checkBoxBackground;
         private static ComponentResourceKey _checkBoxBorder;
@@ -261,17 +177,6 @@ namespace ModernApplicationFramework.Core.Themes
         private static ComponentResourceKey _checkBoxGlyphFocused;
         private static ComponentResourceKey _checkBoxTextFocused;
 
-        //ContextMenu
-        private static ComponentResourceKey _contextMenuBackground;
-        private static ComponentResourceKey _contextMenuForeground;
-        private static ComponentResourceKey _contextMenuIconBackground;
-        private static ComponentResourceKey _contextMenuBorder;
-        private static ComponentResourceKey _contextMenuShadow;
-
-        //ContextMenuGlyphItem
-        private static ComponentResourceKey _contextMenuGlyphItemIconForeground;
-        private static ComponentResourceKey _contextMenuGlyphItemIconForegroundHover;
-
         //MainWindow
         private static ComponentResourceKey _mainWindowBackground;
         private static ComponentResourceKey _mainWindowActiveShadowAndBorderColor;
@@ -280,12 +185,6 @@ namespace ModernApplicationFramework.Core.Themes
         private static ComponentResourceKey _mainWindowTitleBarForeground;
         private static ComponentResourceKey _mainWindowTitleBarForegroundInactive;
 
-        //MenuHostControl
-        private static ComponentResourceKey _menuHostControlBackground;
-
-        //ToolBarHostControl
-        private static ComponentResourceKey _toolBarHostControlTopDockBackground;
-        private static ComponentResourceKey _toolBarHostControlDefaultDockBackground;
 
         //ResizeGrip
         private static ComponentResourceKey _resizeGripColor1;
@@ -457,7 +356,6 @@ namespace ModernApplicationFramework.Core.Themes
         private static ComponentResourceKey _anchorSideItemForegroundHover;
 
         //AnchorPaneTitle
-
         private static ComponentResourceKey _anchorPaneTitleBackgroundActive;
 
         private static ComponentResourceKey _anchorPaneTitleGlyph;
@@ -531,18 +429,90 @@ namespace ModernApplicationFramework.Core.Themes
 
         //ListView
         private static ComponentResourceKey _listViewBackground;
-
-        //CommandBar
-        private static ComponentResourceKey _commandBarSelectedIcon;
-        private static ComponentResourceKey _commandBarCheckBox;
-        private static ComponentResourceKey _commandBarMenuItemMouseOver;
-        private static ComponentResourceKey _commandBarMenuItemMouseOverBorder;
-        private static ComponentResourceKey _commandBarMenuItemMouseOverText;
-        private static ComponentResourceKey _commandBarHoverOverSelectedIcon;
-        private static ComponentResourceKey _commandBarCheckBoxMouseOver;
+        
+        //CommandBar -- New
+        private static ComponentResourceKey _commandBarShadow;
+        private static ComponentResourceKey _commandBarBorder;
+        private static ComponentResourceKey _commandBarGradientEnd;
+        private static ComponentResourceKey _commandBarGradientMiddle;
+        private static ComponentResourceKey _commandBarTextActive;
+        private static ComponentResourceKey _commandBarTextHover;
+        private static ComponentResourceKey _commandBarTextHoverOverSelected;
         private static ComponentResourceKey _commandBarTextInactive;
+        private static ComponentResourceKey _commandBarTextMouseDown;
+        private static ComponentResourceKey _commandBarTextSelected;
+        private static ComponentResourceKey _commandBarSelected;
+        private static ComponentResourceKey _commandBarSelectedBorder;
+        private static ComponentResourceKey _commandBarSelectedIcon;
+        private static ComponentResourceKey _commandBarSelectedIconBorder;
         private static ComponentResourceKey _commandBarSelectedIconDisabled;
+        private static ComponentResourceKey _commandBarSelectedIconDisabledBorder;
+        private static ComponentResourceKey _commandBarHover;
+        private static ComponentResourceKey _commandBarHoverOverSelected;
+        private static ComponentResourceKey _commandBarHoverOverSelectedIcon;
+        private static ComponentResourceKey _commandBarHoverOverSelectedIconBorder;
+        private static ComponentResourceKey _commandBarDragHandle;
+        private static ComponentResourceKey _commandBarDragHandleShadow;
+        private static ComponentResourceKey _commandBarGradientBegin;
+        private static ComponentResourceKey _commandBarMouseDownBackgroundBegin;
+        private static ComponentResourceKey _commandBarMouseDownBackgroundEnd;
+        private static ComponentResourceKey _commandBarMouseDownBackgroundMiddle;
+        private static ComponentResourceKey _commandBarMouseDownBorder;
+        private static ComponentResourceKey _commandBarMouseOverBackgroundBegin;
+        private static ComponentResourceKey _commandBarMouseOverBackgroundEnd;
+        private static ComponentResourceKey _commandBarMouseOverBackgroundMiddle1;
+        private static ComponentResourceKey _commandBarMouseOverBackgroundMiddle2;
+        private static ComponentResourceKey _commandBarMouseOverUnfocused;
+
+        private static ComponentResourceKey _commandBarSplitButtonGlyph;
+        private static ComponentResourceKey _commandBarSplitButtonMouseDownGlyph;
+        private static ComponentResourceKey _commandBarSplitButtonMouseOverGlyph;
+        private static ComponentResourceKey _commandBarSplitButtonSeparator;
+        private static ComponentResourceKey _commandBarToolBarBorder;
+        private static ComponentResourceKey _commandBarToolBarSeparator;
+        private static ComponentResourceKey _commandBarToolBarSeparatorHighlight;
+        private static ComponentResourceKey _commandBarCheckBox;
         private static ComponentResourceKey _commandBarCheckBoxDisabled;
+        private static ComponentResourceKey _commandBarCheckBoxMouseOver;
+        private static ComponentResourceKey _commandBarMenuBackgroundGradientBegin;
+        private static ComponentResourceKey _commandBarMenuBackgroundGradientEnd;
+        private static ComponentResourceKey _commandBarMenuBorder;
+        private static ComponentResourceKey _commandBarMenuGlyph;
+        private static ComponentResourceKey _commandBarMenuGroupHeaderLinkText;
+        private static ComponentResourceKey _commandBarMenuGroupHeaderLinkTextHover;
+        private static ComponentResourceKey _commandBarMenuIconBackground;
+        private static ComponentResourceKey _commandBarMenuItemMouseOver;
+        private static ComponentResourceKey _commandBarMenuItemMouseOverText;
+        private static ComponentResourceKey _commandBarMenuItemMouseOverBorder;
+        private static ComponentResourceKey _commandBarMenuLinkText;
+        private static ComponentResourceKey _commandBarMenuLinkTextHover;
+        private static ComponentResourceKey _commandBarMenuMouseDownGlyph;
+        private static ComponentResourceKey _commandBarMenuMouseOverGlyph;
+        private static ComponentResourceKey _commandBarMenuMouseOverSeparator;
+        private static ComponentResourceKey _commandBarMenuMouseOverSubmenuGlyph;
+        private static ComponentResourceKey _commandBarMenuScrollGlyph;
+        private static ComponentResourceKey _commandBarMenuSeparator;
+        private static ComponentResourceKey _commandBarMenuSubmenuGlyph;
+        private static ComponentResourceKey _commandBarMenuSubmenuGlyphHover;
+        private static ComponentResourceKey _commandBarMenuWatermarkLinkText;
+        private static ComponentResourceKey _commandBarMenuWatermarkLinkTextHover;
+        private static ComponentResourceKey _commandBarMenuWatermarkText;
+        private static ComponentResourceKey _commandBarMenuWatermarkTextHover;
+        private static ComponentResourceKey _commandBarOptionsBackground;
+        private static ComponentResourceKey _commandBarOptionsGlyph;
+        private static ComponentResourceKey _commandBarOptionsMouseDownBackgroundBegin;
+        private static ComponentResourceKey _commandBarOptionsMouseDownBackgroundEnd;
+        private static ComponentResourceKey _commandBarOptionsMouseDownBackgroundMiddle;
+        private static ComponentResourceKey _commandBarOptionsMouseDownGlyph;
+        private static ComponentResourceKey _commandBarOptionsMouseOverBackgroundBegin;
+        private static ComponentResourceKey _commandBarOptionsMouseOverBackgroundEnd;
+        private static ComponentResourceKey _commandBarOptionsMouseOverBackgroundMiddle1;
+        private static ComponentResourceKey _commandBarOptionsMouseOverBackgroundMiddle2;
+        private static ComponentResourceKey _commandBarOptionsMouseOverGlyph;
+
+        //CommandShelf
+        private static ComponentResourceKey _commandShelfBackground;
+        private static ComponentResourceKey _commandShelfHighlight;
 
         //QuickCustomizeButton
         private static ComponentResourceKey _qickCustomizeButtonText;
@@ -551,6 +521,26 @@ namespace ModernApplicationFramework.Core.Themes
         private static ComponentResourceKey _quickCustomizeButton;
         private static ComponentResourceKey _quickCustomizeButtonTextHover;
         private static ComponentResourceKey _quickCustomizeButtonGlyphHover;
+
+        //SystemColors -- New
+        private static ComponentResourceKey _systemWindow;
+        private static ComponentResourceKey _systemGrayText;
+
+        #region SystemColors
+
+        public static ComponentResourceKey SystemWindow => _systemWindow ??
+                                                                     (_systemWindow = new ComponentResourceKey(typeof(EnvironmentColors), "SystemWindow"));
+
+        public static ComponentResourceKey SystemGrayText => _systemGrayText ??
+                                                                    (_systemGrayText = new ComponentResourceKey(typeof(EnvironmentColors), "SystemGrayText"));
+
+        #endregion
+
+        public static ComponentResourceKey CommandShelfBackground => _commandShelfBackground ??
+                                                                     (_commandShelfBackground = new ComponentResourceKey(typeof(EnvironmentColors), "CommandShelfBackground"));
+
+        public static ComponentResourceKey CommandShelfHighlight => _commandShelfHighlight ??
+                                                                    (_commandShelfHighlight = new ComponentResourceKey(typeof(EnvironmentColors), "CommandShelfHighlight"));
 
         #region QuickCustomizeButton
 
@@ -576,35 +566,236 @@ namespace ModernApplicationFramework.Core.Themes
 
         #region CommandBar
 
-        public static ComponentResourceKey CommandBarSelectedIcon => _commandBarSelectedIcon ??
-                                                                     (_commandBarSelectedIcon = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarSelectedIcon"));
+        public static ComponentResourceKey CommandBarShadow => _commandBarShadow ??
+                                                               (_commandBarShadow = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarShadow"));
 
-        public static ComponentResourceKey CommandBarCheckBox => _commandBarCheckBox ??
-                                                                 (_commandBarCheckBox = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarCheckBox"));
+        public static ComponentResourceKey CommandBarBorder => _commandBarBorder ??
+                                                               (_commandBarBorder = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarBorder"));
 
-        public static ComponentResourceKey CommandBarMenuItemMouseOver => _commandBarMenuItemMouseOver ??
-                                                                          (_commandBarMenuItemMouseOver = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMenuItemMouseOver"));
+        public static ComponentResourceKey CommandBarGradientEnd => _commandBarGradientEnd ??
+                                                                    (_commandBarGradientEnd = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarGradientEnd"));
 
-        public static ComponentResourceKey CommandBarMenuItemMouseOverBorder => _commandBarMenuItemMouseOverBorder ??
-                                                                                (_commandBarMenuItemMouseOverBorder = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMenuItemMouseOverBorder"));
+        public static ComponentResourceKey CommandBarGradientMiddle => _commandBarGradientMiddle ??
+                                                                       (_commandBarGradientMiddle = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarShadow"));
 
-        public static ComponentResourceKey CommandBarMenuItemMouseOverText => _commandBarMenuItemMouseOverText ??
-                                                                              (_commandBarMenuItemMouseOverText = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMenuItemMouseOverText"));
+        public static ComponentResourceKey CommandBarTextActive => _commandBarTextActive ??
+                                                                   (_commandBarTextActive = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarTextActive"));
 
-        public static ComponentResourceKey CommandBarHoverOverSelectedIcon => _commandBarHoverOverSelectedIcon ??
-                                                                              (_commandBarHoverOverSelectedIcon = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarHoverOverSelectedIcon"));
+        public static ComponentResourceKey CommandBarTextHover => _commandBarTextHover ??
+                                                                  (_commandBarTextHover = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarTextHover"));
 
-        public static ComponentResourceKey CommandBarCheckBoxMouseOver => _commandBarCheckBoxMouseOver ??
-                                                                          (_commandBarCheckBoxMouseOver = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarCheckBoxMouseOver"));
+        public static ComponentResourceKey CommandBarTextHoverOverSelected => _commandBarTextHoverOverSelected ??
+                                                                              (_commandBarTextHoverOverSelected = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarTextHoverOverSelected"));
 
         public static ComponentResourceKey CommandBarTextInactive => _commandBarTextInactive ??
                                                                      (_commandBarTextInactive = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarTextInactive"));
 
+        public static ComponentResourceKey CommandBarTextMouseDown => _commandBarTextMouseDown ??
+                                                                      (_commandBarTextMouseDown = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarTextMouseDown"));
+
+        public static ComponentResourceKey CommandBarTextSelected => _commandBarTextSelected ??
+                                                                     (_commandBarTextSelected = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarTextSelected"));
+
+        public static ComponentResourceKey CommandBarSelected => _commandBarSelected ??
+                                                                 (_commandBarSelected = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarSelected"));
+
+        public static ComponentResourceKey CommandBarSelectedBorder => _commandBarSelectedBorder ??
+                                                                       (_commandBarSelectedBorder = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarSelectedBorder"));
+
+        public static ComponentResourceKey CommandBarSelectedIcon => _commandBarSelectedIcon ??
+                                                                     (_commandBarSelectedIcon = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarSelectedIcon"));
+
+        public static ComponentResourceKey CommandBarSelectedIconBorder => _commandBarSelectedIconBorder ??
+                                                                           (_commandBarSelectedIconBorder = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarSelectedIconBorder"));
+
         public static ComponentResourceKey CommandBarSelectedIconDisabled => _commandBarSelectedIconDisabled ??
                                                                              (_commandBarSelectedIconDisabled = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarSelectedIconDisabled"));
 
+        public static ComponentResourceKey CommandBarSelectedIconDisabledBorder => _commandBarSelectedIconDisabledBorder ??
+                                                                                   (_commandBarSelectedIconDisabledBorder = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarSelectedIconDisabledBorder"));
+
+        public static ComponentResourceKey CommandBarHover => _commandBarHover ??
+                                                              (_commandBarHover = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarHover"));
+
+        public static ComponentResourceKey CommandBarHoverOverSelected => _commandBarHoverOverSelected ??
+                                                                          (_commandBarHoverOverSelected = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarHoverOverSelected"));
+
+        public static ComponentResourceKey CommandBarHoverOverSelectedIcon => _commandBarHoverOverSelectedIcon ??
+                                                                              (_commandBarHoverOverSelectedIcon = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarHoverOverSelectedIcon"));
+
+        public static ComponentResourceKey CommandBarHoverOverSelectedIconBorder => _commandBarHoverOverSelectedIconBorder ??
+                                                                                    (_commandBarHoverOverSelectedIconBorder = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarHoverOverSelectedIconBorder"));
+
+        public static ComponentResourceKey CommandBarDragHandle => _commandBarDragHandle ??
+                                                                   (_commandBarDragHandle = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarDragHandle"));
+
+        public static ComponentResourceKey CommandBarDragHandleShadow => _commandBarDragHandleShadow ??
+                                                                         (_commandBarDragHandleShadow = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarDragHandleShadow"));
+
+        public static ComponentResourceKey CommandBarGradientBegin => _commandBarGradientBegin ??
+                                                                      (_commandBarGradientBegin = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarGradientBegin"));
+
+        public static ComponentResourceKey CommandBarMouseDownBackgroundBegin => _commandBarMouseDownBackgroundBegin ??
+                                                                                 (_commandBarMouseDownBackgroundBegin = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMouseDownBackgroundBegin"));
+
+        public static ComponentResourceKey CommandBarMouseDownBackgroundEnd => _commandBarMouseDownBackgroundEnd ??
+                                                                               (_commandBarMouseDownBackgroundEnd = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMouseDownBackgroundEnd"));
+
+        public static ComponentResourceKey CommandBarMouseDownBackgroundMiddle => _commandBarMouseDownBackgroundMiddle ??
+                                                                                  (_commandBarMouseDownBackgroundMiddle = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMouseDownBackgroundMiddle"));
+
+        public static ComponentResourceKey CommandBarMouseDownBorder => _commandBarMouseDownBorder ??
+                                                                        (_commandBarMouseDownBorder = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMouseDownBorder"));
+
+        public static ComponentResourceKey CommandBarMouseOverBackgroundBegin => _commandBarMouseOverBackgroundBegin ??
+                                                                                 (_commandBarMouseOverBackgroundBegin = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMouseOverBackgroundBegin"));
+
+        public static ComponentResourceKey CommandBarMouseOverBackgroundEnd => _commandBarMouseOverBackgroundEnd ??
+                                                                               (_commandBarMouseOverBackgroundEnd = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMouseOverBackgroundEnd"));
+
+        public static ComponentResourceKey CommandBarMouseOverBackgroundMiddle1 => _commandBarMouseOverBackgroundMiddle1 ??
+                                                                                   (_commandBarMouseOverBackgroundMiddle1 = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMouseOverBackgroundMiddle1"));
+
+        public static ComponentResourceKey CommandBarMouseOverBackgroundMiddle2 => _commandBarMouseOverBackgroundMiddle2 ??
+                                                                                   (_commandBarMouseOverBackgroundMiddle2 = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMouseOverBackgroundMiddle2"));
+
+        public static ComponentResourceKey CommandBarMouseOverUnfocused => _commandBarMouseOverUnfocused ??
+                                                                           (_commandBarMouseOverUnfocused = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMouseOverUnfocused"));
+
+        public static ComponentResourceKey CommandBarSplitButtonGlyph => _commandBarSplitButtonGlyph ??
+                                                                         (_commandBarSplitButtonGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarSplitButtonGlyph"));
+
+        public static ComponentResourceKey CommandBarSplitButtonMouseDownGlyph => _commandBarSplitButtonMouseDownGlyph ??
+                                                                                  (_commandBarSplitButtonMouseDownGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarSplitButtonMouseDownGlyph"));
+
+        public static ComponentResourceKey CommandBarSplitButtonMouseOverGlyph => _commandBarSplitButtonMouseOverGlyph ??
+                                                                                  (_commandBarSplitButtonMouseOverGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarSplitButtonMouseOverGlyph"));
+
+        public static ComponentResourceKey CommandBarSplitButtonSeparator => _commandBarSplitButtonSeparator ??
+                                                                             (_commandBarSplitButtonSeparator = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarSplitButtonSeparator"));
+
+        public static ComponentResourceKey CommandBarToolBarBorder => _commandBarToolBarBorder ??
+                                                                      (_commandBarToolBarBorder = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarToolBarBorder"));
+
+        public static ComponentResourceKey CommandBarToolBarSeparator => _commandBarToolBarSeparator ??
+                                                                         (_commandBarToolBarSeparator = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarToolBarSeparator"));
+
+        public static ComponentResourceKey CommandBarToolBarSeparatorHighlight => _commandBarToolBarSeparatorHighlight ??
+                                                                                  (_commandBarToolBarSeparatorHighlight = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarToolBarSeparatorHighlight"));
+
+        public static ComponentResourceKey CommandBarCheckBox => _commandBarCheckBox ??
+                                                                 (_commandBarCheckBox = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarCheckBox"));
+
         public static ComponentResourceKey CommandBarCheckBoxDisabled => _commandBarCheckBoxDisabled ??
                                                                          (_commandBarCheckBoxDisabled = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarCheckBoxDisabled"));
+
+        public static ComponentResourceKey CommandBarCheckBoxMouseOver => _commandBarCheckBoxMouseOver ??
+                                                                          (_commandBarCheckBoxMouseOver = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarCheckBoxMouseOver"));
+
+        public static ComponentResourceKey CommandBarMenuBackgroundGradientBegin => _commandBarMenuBackgroundGradientBegin ??
+                                                                                    (_commandBarMenuBackgroundGradientBegin = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMenuBackgroundGradientBegin"));
+
+        public static ComponentResourceKey CommandBarMenuBackgroundGradientEnd => _commandBarMenuBackgroundGradientEnd ??
+                                                                                  (_commandBarMenuBackgroundGradientEnd = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMenuBackgroundGradientEnd"));
+
+        public static ComponentResourceKey CommandBarMenuBorder => _commandBarMenuBorder ??
+                                                                   (_commandBarMenuBorder = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMenuBorder"));
+
+        public static ComponentResourceKey CommandBarMenuGlyph => _commandBarMenuGlyph ??
+                                                                  (_commandBarMenuGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMenuGlyph"));
+
+        public static ComponentResourceKey CommandBarMenuGroupHeaderLinkText => _commandBarMenuGroupHeaderLinkText ??
+                                                                                (_commandBarMenuGroupHeaderLinkText = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMenuGroupHeaderLinkText"));
+
+        public static ComponentResourceKey CommandBarMenuGroupHeaderLinkTextHover => _commandBarMenuGroupHeaderLinkTextHover ??
+                                                                                     (_commandBarMenuGroupHeaderLinkTextHover = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMenuGroupHeaderLinkTextHover"));
+
+        public static ComponentResourceKey CommandBarMenuIconBackground => _commandBarMenuIconBackground ??
+                                                                           (_commandBarMenuIconBackground = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMenuIconBackground"));
+
+        public static ComponentResourceKey CommandBarMenuItemMouseOver => _commandBarMenuItemMouseOver ??
+                                                                          (_commandBarMenuItemMouseOver = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMenuItemMouseOver"));
+
+        public static ComponentResourceKey CommandBarMenuItemMouseOverText => _commandBarMenuItemMouseOverText ??
+                                                                              (_commandBarMenuItemMouseOverText = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMenuItemMouseOverText"));
+
+        public static ComponentResourceKey CommandBarMenuItemMouseOverBorder => _commandBarMenuItemMouseOverBorder ??
+                                                                                (_commandBarMenuItemMouseOverBorder = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMenuItemMouseOverBorder"));
+
+        public static ComponentResourceKey CommandBarMenuLinkText => _commandBarMenuLinkText ??
+                                                                     (_commandBarMenuLinkText = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMenuLinkText"));
+
+        public static ComponentResourceKey CommandBarMenuLinkTextHover => _commandBarMenuLinkTextHover ??
+                                                                          (_commandBarMenuLinkTextHover = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMenuLinkTextHover"));
+
+        public static ComponentResourceKey CommandBarMenuMouseDownGlyph => _commandBarMenuMouseDownGlyph ??
+                                                                           (_commandBarMenuMouseDownGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMenuMouseDownGlyph"));
+
+        public static ComponentResourceKey CommandBarMenuMouseOverGlyph => _commandBarMenuMouseOverGlyph ??
+                                                                           (_commandBarMenuMouseOverGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMenuMouseOverGlyph"));
+
+        public static ComponentResourceKey CommandBarMenuMouseOverSeparator => _commandBarMenuMouseOverSeparator ??
+                                                                               (_commandBarMenuMouseOverSeparator = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMenuMouseOverSeparator"));
+
+        public static ComponentResourceKey CommandBarMenuMouseOverSubmenuGlyph => _commandBarMenuMouseOverSubmenuGlyph ??
+                                                                                  (_commandBarMenuMouseOverSubmenuGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMenuMouseOverSubmenuGlyph"));
+
+        public static ComponentResourceKey CommandBarMenuScrollGlyph => _commandBarMenuScrollGlyph ??
+                                                                        (_commandBarMenuScrollGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMenuScrollGlyph"));
+
+        public static ComponentResourceKey CommandBarMenuSeparator => _commandBarMenuSeparator ??
+                                                                      (_commandBarMenuSeparator = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMenuSeparator"));
+
+        public static ComponentResourceKey CommandBarMenuSubmenuGlyph => _commandBarMenuSubmenuGlyph ??
+                                                                         (_commandBarMenuSubmenuGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMenuSubmenuGlyph"));
+
+        public static ComponentResourceKey CommandBarMenuSubmenuGlyphHover => _commandBarMenuSubmenuGlyphHover ??
+                                                                              (_commandBarMenuSubmenuGlyphHover = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMenuSubmenuGlyphHover"));
+
+        public static ComponentResourceKey CommandBarMenuWatermarkLinkText => _commandBarMenuWatermarkLinkText ??
+                                                                              (_commandBarMenuWatermarkLinkText = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMenuWatermarkLinkText"));
+
+        public static ComponentResourceKey CommandBarMenuWatermarkLinkTextHover => _commandBarMenuWatermarkLinkTextHover ??
+                                                                                   (_commandBarMenuWatermarkLinkTextHover = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMenuWatermarkLinkTextHover"));
+
+        public static ComponentResourceKey CommandBarMenuWatermarkText => _commandBarMenuWatermarkText ??
+                                                                          (_commandBarMenuWatermarkText = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMenuWatermarkText"));
+
+        public static ComponentResourceKey CommandBarMenuWatermarkTextHover => _commandBarMenuWatermarkTextHover ??
+                                                                               (_commandBarMenuWatermarkTextHover = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarMenuWatermarkTextHover"));
+
+        public static ComponentResourceKey CommandBarOptionsBackground => _commandBarOptionsBackground ??
+                                                                          (_commandBarOptionsBackground = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarOptionsBackground"));
+
+        public static ComponentResourceKey CommandBarOptionsGlyph => _commandBarOptionsGlyph ??
+                                                                     (_commandBarOptionsGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarOptionsGlyph"));
+
+        public static ComponentResourceKey CommandBarOptionsMouseDownBackgroundBegin => _commandBarOptionsMouseDownBackgroundBegin ??
+                                                                                        (_commandBarOptionsMouseDownBackgroundBegin = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarOptionsMouseDownBackgroundBegin"));
+
+        public static ComponentResourceKey CommandBarOptionsMouseDownBackgroundEnd => _commandBarOptionsMouseDownBackgroundEnd ??
+                                                                                      (_commandBarOptionsMouseDownBackgroundEnd = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarOptionsMouseDownBackgroundEnd"));
+
+        public static ComponentResourceKey CommandBarOptionsMouseDownBackgroundMiddle => _commandBarOptionsMouseDownBackgroundMiddle ??
+                                                                                         (_commandBarOptionsMouseDownBackgroundMiddle = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarOptionsMouseDownBackgroundMiddle"));
+
+        public static ComponentResourceKey CommandBarOptionsMouseDownGlyph => _commandBarOptionsMouseDownGlyph ??
+                                                                              (_commandBarOptionsMouseDownGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarOptionsMouseDownGlyph"));
+
+        public static ComponentResourceKey CommandBarOptionsMouseOverBackgroundBegin => _commandBarOptionsMouseOverBackgroundBegin ??
+                                                                                        (_commandBarOptionsMouseOverBackgroundBegin = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarOptionsMouseOverBackgroundBegin"));
+
+        public static ComponentResourceKey CommandBarOptionsMouseOverBackgroundEnd => _commandBarOptionsMouseOverBackgroundEnd ??
+                                                                                      (_commandBarOptionsMouseOverBackgroundEnd = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarOptionsMouseOverBackgroundEnd"));
+
+        public static ComponentResourceKey CommandBarOptionsMouseOverBackgroundMiddle1 => _commandBarOptionsMouseOverBackgroundMiddle1 ??
+                                                                                          (_commandBarOptionsMouseOverBackgroundMiddle1 = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarOptionsMouseOverBackgroundMiddle1"));
+
+        public static ComponentResourceKey CommandBarOptionsMouseOverBackgroundMiddle2 => _commandBarOptionsMouseOverBackgroundMiddle2 ??
+                                                                                          (_commandBarOptionsMouseOverBackgroundMiddle2 = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarOptionsMouseOverBackgroundMiddle2"));
+
+        public static ComponentResourceKey CommandBarOptionsMouseOverGlyph => _commandBarOptionsMouseOverGlyph ??
+                                                                              (_commandBarOptionsMouseOverGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "CommandBarOptionsMouseOverGlyph"));
 
         #endregion
 
@@ -676,21 +867,13 @@ namespace ModernApplicationFramework.Core.Themes
 
         #region Global
 
-        public static ComponentResourceKey DropDownGlyph => _dropDownGlyph ??
-                                                            (_dropDownGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownGlyph"));
-
-        public static ComponentResourceKey DropDownGlyphHover => _dropDownGlyphHover ??
-                                                                 (_dropDownGlyphHover = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownGlyphHover"));
-
-        public static ComponentResourceKey DropDownGlyphDown => _dropDownGlyphDown ??
-                                                                (_dropDownGlyphDown = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownGlyphDown"));
-
-        public static ComponentResourceKey DropDownGlyphDisabled => _dropDownGlyphDisabled ??
-                                                                    (_dropDownGlyphDisabled = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownGlyphDisabled"));
-
         public static ComponentResourceKey GloablForeground => _gloablForeground ??
                                                                (_gloablForeground = new ComponentResourceKey(typeof(EnvironmentColors), "GloablForeground"));
 
+        public static ComponentResourceKey GlobalBackgroundColor => _globalBackgroundColor ??
+                                                                    (_globalBackgroundColor = new ComponentResourceKey(typeof(EnvironmentColors), "GlobalBackgroundColor"));
+        public static ComponentResourceKey GlobalBackgroundColor2 => _globalBackgroundColor2 ??
+                                                                     (_globalBackgroundColor2 = new ComponentResourceKey(typeof(EnvironmentColors), "GlobalBackgroundColor2"));
         #endregion
 
         #region Button
@@ -736,289 +919,205 @@ namespace ModernApplicationFramework.Core.Themes
 
         #region ComboBox
 
-        public static ComponentResourceKey ComboBoxBorder => _comboBoxBorder ??
-                                                             (_comboBoxBorder = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxBorder"));
-
         public static ComponentResourceKey ComboBoxBackground => _comboBoxBackground ??
                                                                  (_comboBoxBackground = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxBackground"));
 
-        public static ComponentResourceKey ComboboxButtonBackground => _comboboxButtonBackground ??
-                                                                       (_comboboxButtonBackground =
-                                                                           new ComponentResourceKey(typeof(EnvironmentColors), "ComboboxButtonBackground"));
+        public static ComponentResourceKey ComboBoxBorder => _comboBoxBorder ??
+                                                             (_comboBoxBorder = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxBorder"));
 
-        public static ComponentResourceKey ComboBoxButtonBorder => _comboBoxButtonBorder ??
-                                                                   (_comboBoxButtonBorder =
-                                                                       new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxButtonBorder"));
+        public static ComponentResourceKey ComboBoxButtonMouseDownBackground => _comboBoxButtonMouseDownBackground ??
+                                                                                (_comboBoxButtonMouseDownBackground = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxButtonMouseDownBackground"));
 
-        public static ComponentResourceKey ComboBoxForeground => _comboBoxForeground ??
-                                                                 (_comboBoxForeground = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxForeground"));
+        public static ComponentResourceKey ComboBoxButtonMouseDownSeparator => _comboBoxButtonMouseDownSeparator ??
+                                                                               (_comboBoxButtonMouseDownSeparator = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxButtonMouseDownSeparator"));
 
-        public static ComponentResourceKey ComboBoxArrow => _comboBoxGlyph ??
-                                                            (_comboBoxGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxArrow"));
+        public static ComponentResourceKey ComboBoxButtonMouseOverBackground => _comboBoxButtonMouseOverBackground ??
+                                                                                (_comboBoxButtonMouseOverBackground = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxButtonMouseOverBackground"));
 
-        public static ComponentResourceKey ComboBoxSelectionBrush => _comboBoxSelectionBrush ??
-                                                                     (_comboBoxSelectionBrush =
-                                                                         new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxSelectionBrush"));
+        public static ComponentResourceKey ComboBoxButtonMouseOverSeparator => _comboBoxButtonMouseOverSeparator ??
+                                                                               (_comboBoxButtonMouseOverSeparator = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxButtonMouseOverSeparator"));
 
-        public static ComponentResourceKey ComboBoxCaretBrush => _comboBoxCaretBrush ??
-                                                                 (_comboBoxCaretBrush = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxCaretBrush"));
+        public static ComponentResourceKey ComboBoxDisabledBackground => _comboBoxDisabledBackground ??
+                                                                         (_comboBoxDisabledBackground = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxDisabledBackground"));
 
-        public static ComponentResourceKey ComboBoxBorderHover => _comboBoxBorderHover ??
-                                                                  (_comboBoxBorderHover = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxBorderHover"));
+        public static ComponentResourceKey ComboBoxDisabledBorder => _comboBoxDisabledBorder ??
+                                                                     (_comboBoxDisabledBorder = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxDisabledBorder"));
 
-        public static ComponentResourceKey ComboBoxBackgroundHover => _comboBoxBackgroundHover ??
-                                                                      (_comboBoxBackgroundHover = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxBackgroundHover"));
+        public static ComponentResourceKey ComboBoxDisabledGlyph => _comboBoxDisabledGlyph ??
+                                                                    (_comboBoxDisabledGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxDisabledGlyph"));
 
-        public static ComponentResourceKey ComboboxButtonBackgroundHover => _comboboxButtonBackgroundHover ??
-                                                                            (_comboboxButtonBackgroundHover =
-                                                                                new ComponentResourceKey(typeof(EnvironmentColors), "ComboboxButtonBackgroundHover"));
+        public static ComponentResourceKey ComboBoxDisabledText => _comboBoxDisabledText ??
+                                                                   (_comboBoxDisabledText = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxDisabledText"));
 
-        public static ComponentResourceKey ComboBoxButtonBorderHover => _comboBoxButtonBorderHover ??
-                                                                        (_comboBoxButtonBorderHover =
-                                                                            new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxButtonBorderHover"));
+        public static ComponentResourceKey ComboBoxFocusedBackground => _comboBoxFocusedBackground ??
+                                                                        (_comboBoxFocusedBackground = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxFocusedBackground"));
 
-        public static ComponentResourceKey ComboBoxForegroundHover => _comboBoxForegroundHover ??
-                                                                      (_comboBoxForegroundHover = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxForegroundHover"));
+        public static ComponentResourceKey ComboBoxFocusedBorder => _comboBoxFocusedBorder ??
+                                                                    (_comboBoxFocusedBorder = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxFocusedBorder"));
 
-        public static ComponentResourceKey ComboBoxArrowHover => _comboBoxGlyphHover ??
-                                                                 (_comboBoxGlyphHover = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxArrowHover"));
+        public static ComponentResourceKey ComboBoxFocusedButtonBackground => _comboBoxFocusedButtonBackground ??
+                                                                              (_comboBoxFocusedButtonBackground = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxFocusedButtonBackground"));
 
-        public static ComponentResourceKey ComboBoxBorderDown => _comboBoxBorderDown ??
-                                                                 (_comboBoxBorderDown = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxBorderDown"));
+        public static ComponentResourceKey ComboBoxFocusedButtonSeparator => _comboBoxFocusedButtonSeparator ??
+                                                                             (_comboBoxFocusedButtonSeparator = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxFocusedButtonSeparator"));
 
-        public static ComponentResourceKey ComboBoxBackgroundDown => _comboBoxBackgroundDown ??
-                                                                     (_comboBoxBackgroundDown = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxBackgroundDown"));
+        public static ComponentResourceKey ComboBoxFocusedGlyph => _comboBoxFocusedGlyph ??
+                                                                   (_comboBoxFocusedGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxFocusedGlyph"));
 
-        public static ComponentResourceKey ComboboxButtonBackgroundDown => _comboboxButtonBackgroundDown ??
-                                                                           (_comboboxButtonBackgroundDown =
-                                                                               new ComponentResourceKey(typeof(EnvironmentColors), "ComboboxButtonBackgroundDown"));
+        public static ComponentResourceKey ComboBoxFocusedText => _comboBoxFocusedText ??
+                                                                  (_comboBoxFocusedText = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxFocusedText"));
 
-        public static ComponentResourceKey ComboBoxButtonBorderDown => _comboBoxButtonBorderDown ??
-                                                                       (_comboBoxButtonBorderDown =
-                                                                           new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxButtonBorderDown"));
+        public static ComponentResourceKey ComboBoxGlyph => _comboBoxGlyph ??
+                                                           (_comboBoxGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxGlyph"));
 
-        public static ComponentResourceKey ComboBoxForegroundDown => _comboBoxForegroundDown ??
-                                                                     (_comboBoxForegroundDown = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxForegroundDown"));
+        public static ComponentResourceKey ComboBoxItemMouseOverBackground => _comboBoxItemMouseOverBackground ??
+                                                                              (_comboBoxItemMouseOverBackground = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxItemMouseOverBackground"));
 
-        public static ComponentResourceKey ComboBoxArrowDown => _comboBoxGlyphDown ??
-                                                                (_comboBoxGlyphDown = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxArrowDown"));
+        public static ComponentResourceKey ComboBoxItemMouseOverBorder => _comboBoxItemMouseOverBorder ??
+                                                                          (_comboBoxItemMouseOverBorder = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxItemMouseOverBorder"));
 
-        public static ComponentResourceKey ComboBoxBorderDisabled => _comboBoxBorderDisabled ??
-                                                                     (_comboBoxBorderDisabled = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxBorderDisabled"));
+        public static ComponentResourceKey ComboBoxItemMouseOverText => _comboBoxItemMouseOverText ??
+                                                                        (_comboBoxItemMouseOverText = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxItemMouseOverText"));
 
-        public static ComponentResourceKey ComboBoxBackgroundDisabled => _comboBoxBackgroundDisabled ??
-                                                                         (_comboBoxBackgroundDisabled = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxBackgroundDisabled"));
+        public static ComponentResourceKey ComboBoxItemText => _comboBoxItemText ??
+                                                               (_comboBoxItemText = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxItemText"));
 
-        public static ComponentResourceKey ComboboxButtonBackgroundDisabled => _comboboxButtonBackgroundDisabled ??
-                                                                               (_comboboxButtonBackgroundDisabled =
-                                                                                   new ComponentResourceKey(typeof(EnvironmentColors), "ComboboxButtonBackgroundDisabled"));
+        public static ComponentResourceKey ComboBoxItemTextInactive => _comboBoxItemTextInactive ??
+                                                                       (_comboBoxItemTextInactive = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxItemTextInactive"));
 
-        public static ComponentResourceKey ComboBoxButtonBorderDisabled => _comboBoxButtonBorderDisabled ??
-                                                                           (_comboBoxButtonBorderDisabled =
-                                                                               new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxButtonBorderDisabled"));
+        public static ComponentResourceKey ComboBoxMouseDownBackground => _comboBoxMouseDownBackground ??
+                                                                          (_comboBoxMouseDownBackground = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxMouseDownBackground"));
 
-        public static ComponentResourceKey ComboBoxForegroundDisabled => _comboBoxForegroundDisabled ??
-                                                                         (_comboBoxForegroundDisabled = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxForegroundDisabled"));
+        public static ComponentResourceKey ComboBoxMouseDownBorder => _comboBoxMouseDownBorder ??
+                                                                      (_comboBoxMouseDownBorder = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxMouseDownBorder"));
 
-        public static ComponentResourceKey ComboBoxArrowDisabled => _comboBoxGlyphDisabled ??
-                                                                    (_comboBoxGlyphDisabled = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxArrowDisabled"));
+        public static ComponentResourceKey ComboBoxMouseDownGlyph => _comboBoxMouseDownGlyph ??
+                                                                     (_comboBoxMouseDownGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxMouseDownGlyph"));
+
+        public static ComponentResourceKey ComboBoxMouseDownText => _comboBoxMouseDownText ??
+                                                                    (_comboBoxMouseDownText = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxMouseDownText"));
+
+        public static ComponentResourceKey ComboBoxMouseOverBackgroundBegin => _comboBoxMouseOverBackgroundBegin ??
+                                                                               (_comboBoxMouseOverBackgroundBegin = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxMouseOverBackgroundBegin"));
+
+        public static ComponentResourceKey ComboBoxMouseOverBackgroundEnd => _comboBoxMouseOverBackgroundEnd ??
+                                                                             (_comboBoxMouseOverBackgroundEnd = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxMouseOverBackgroundEnd"));
+
+        public static ComponentResourceKey ComboBoxMouseOverBackgroundMiddle1 => _comboBoxMouseOverBackgroundMiddle1 ??
+                                                                                 (_comboBoxMouseOverBackgroundMiddle1 = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxMouseOverBackgroundMiddle1"));
+
+        public static ComponentResourceKey ComboBoxMouseOverBackgroundMiddle2 => _comboBoxMouseOverBackgroundMiddle2 ??
+                                                                                 (_comboBoxMouseOverBackgroundMiddle2 = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxMouseOverBackgroundMiddle2"));
+
+        public static ComponentResourceKey ComboBoxMouseOverBorder => _comboBoxMouseOverBorder ??
+                                                                      (_comboBoxMouseOverBorder = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxMouseOverBorder"));
+
+        public static ComponentResourceKey ComboBoxMouseOverGlyph => _comboBoxMouseOverGlyph ??
+                                                                     (_comboBoxMouseOverGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxMouseOverGlyph"));
+
+        public static ComponentResourceKey ComboBoxMouseOverText => _comboBoxMouseOverText ??
+                                                                    (_comboBoxMouseOverText = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxMouseOverText"));
+
+        public static ComponentResourceKey ComboBoxPopupBackgroundBegin => _comboBoxPopupBackgroundBegin ??
+                                                                           (_comboBoxPopupBackgroundBegin = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxPopupBackgroundBegin"));
+
+        public static ComponentResourceKey ComboBoxPopupBackgroundEnd => _comboBoxPopupBackgroundEnd ??
+                                                                         (_comboBoxPopupBackgroundEnd = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxPopupBackgroundEnd"));
 
         public static ComponentResourceKey ComboBoxPopupBorder => _comboBoxPopupBorder ??
-                                                                  (_comboBoxPopupBorder = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxPopupBorder"));
+                                                                 (_comboBoxPopupBorder = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxPopupBorder"));
 
-        public static ComponentResourceKey ComboBoxPopupBackground => _comboBoxPopupBackground ??
-                                                                      (_comboBoxPopupBackground = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxPopupBackground"));
+        public static ComponentResourceKey ComboBoxSelection => _comboBoxSelection ??
+                                                                (_comboBoxSelection = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxSelection"));
 
-        public static ComponentResourceKey ComboBoxPopupShadowBackground => _comboBoxPopupShadowBackground ??
-                                                                            (_comboBoxPopupShadowBackground = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxPopupShadowBackground"));
+        public static ComponentResourceKey ComboBoxText => _comboBoxText ??
+                                                           (_comboBoxText = new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxText"));
 
-        #endregion
-
-        #region ComboBoxItem
-
-        public static ComponentResourceKey ComboBoxItemBackgroundHover => _comboBoxItemBackgroundHover ??
-                                                                          (_comboBoxItemBackgroundHover =
-                                                                              new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxItemBackgroundHover"));
-
-        public static ComponentResourceKey ComboBoxItemBorderHover => _comboBoxItemBorderHover ??
-                                                                      (_comboBoxItemBorderHover =
-                                                                          new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxItemBorderHover"));
-
-        public static ComponentResourceKey ComboBoxItemForeground => _comboBoxItemForeground ??
-                                                                     (_comboBoxItemForeground =
-                                                                         new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxItemForeground"));
-
-        public static ComponentResourceKey ComboBoxItemForegroundHover => _comboBoxItemForegroundHover ??
-                                                                          (_comboBoxItemForegroundHover =
-                                                                              new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxItemForegroundHover"));
-
-        public static ComponentResourceKey ComboBoxItemForegroundDisabled => _comboBoxItemForegroundDisabled ??
-                                                                             (_comboBoxItemForegroundDisabled =
-                                                                                 new ComponentResourceKey(typeof(EnvironmentColors), "ComboBoxItemForegroundDisabled"));
 
         #endregion
 
-        #region DropDownButton
+        #region DropDown
 
-        public static ComponentResourceKey DropDownButtonBackground => _dropDownButtonBackground ??
-                                                                       (_dropDownButtonBackground =
-                                                                           new ComponentResourceKey(typeof(EnvironmentColors), "DropDownButtonBackground"));
+        public static ComponentResourceKey DropDownBackground => _dropDownBackground ??
+                                                                 (_dropDownBackground = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownBackground"));
 
-        public static ComponentResourceKey DropDownButtonBorder => _dropDownButtonBorder ??
-                                                                   (_dropDownButtonBorder =
-                                                                       new ComponentResourceKey(typeof(EnvironmentColors), "DropDownButtonBorder"));
+        public static ComponentResourceKey DropDownBorder => _dropDownBorder ??
+                                                             (_dropDownBorder = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownBorder"));
 
-        public static ComponentResourceKey DropDownButtonForeground => _dropDownButtonForeground ??
-                                                                       (_dropDownButtonForeground =
-                                                                           new ComponentResourceKey(typeof(EnvironmentColors), "DropDownButtonForeground"));
+        public static ComponentResourceKey DropDownButtonMouseDownBackground => _dropDownButtonMouseDownBackground ??
+                                                                                (_dropDownButtonMouseDownBackground = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownButtonMouseDownBackground"));
 
-        public static ComponentResourceKey DropDownButtonGlyph => _dropDownButtonGlyph ??
-                                                                  (_dropDownButtonGlyph =
-                                                                      new ComponentResourceKey(typeof(EnvironmentColors), "DropDownButtonGlyph"));
+        public static ComponentResourceKey DropDownButtonMouseDownSeparator => _dropDownButtonMouseDownSeparator ??
+                                                                               (_dropDownButtonMouseDownSeparator = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownButtonMouseDownSeparator"));
 
-        public static ComponentResourceKey DropDownButtonBackgroundDisabled => _dropDownButtonBackgroundDisabled ??
-                                                                               (_dropDownButtonBackgroundDisabled =
-                                                                                   new ComponentResourceKey(typeof(EnvironmentColors), "DropDownButtonBackgroundDisabled"));
+        public static ComponentResourceKey DropDownButtonMouseOverBackground => _dropDownButtonMouseOverBackground ??
+                                                                                (_dropDownButtonMouseOverBackground = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownButtonMouseOverBackground"));
 
-        public static ComponentResourceKey DropDownButtonBorderDisabled => _dropDownButtonBorderDisabled ??
-                                                                           (_dropDownButtonBorderDisabled =
-                                                                               new ComponentResourceKey(typeof(EnvironmentColors), "DropDownButtonBorderDisabled"));
+        public static ComponentResourceKey DropDownButtonMouseOverSeparator => _dropDownButtonMouseOverSeparator ??
+                                                                               (_dropDownButtonMouseOverSeparator = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownButtonMouseOverSeparator"));
 
-        public static ComponentResourceKey DropDownButtonForegroundDisabled => _dropDownButtonForegroundDisabled ??
-                                                                               (_dropDownButtonForegroundDisabled =
-                                                                                   new ComponentResourceKey(typeof(EnvironmentColors), "DropDownButtonForegroundDisabled"));
+        public static ComponentResourceKey DropDownDisabledBackground => _dropDownDisabledBackground ??
+                                                                         (_dropDownDisabledBackground = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownDisabledBackground"));
 
-        public static ComponentResourceKey DropDownButtonGlyphDisabled => _dropDownButtonGlyphDisabled ??
-                                                                          (_dropDownButtonGlyphDisabled =
-                                                                              new ComponentResourceKey(typeof(EnvironmentColors), "DropDownButtonGlyphDisabled"));
+        public static ComponentResourceKey DropDownDisabledBorder => _dropDownDisabledBorder ??
+                                                                     (_dropDownDisabledBorder = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownDisabledBorder"));
 
-        public static ComponentResourceKey DropDownButtonBackgroundHover => _dropDownButtonBackgroundHover ??
-                                                                            (_dropDownButtonBackgroundHover =
-                                                                                new ComponentResourceKey(typeof(EnvironmentColors), "DropDownButtonBackgroundHover"));
+        public static ComponentResourceKey DropDownDisabledGlyph => _dropDownDisabledGlyph ??
+                                                                    (_dropDownDisabledGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownDisabledGlyph"));
 
-        public static ComponentResourceKey DropDownButtonBorderHover => _dropDownButtonBorderHover ??
-                                                                        (_dropDownButtonBorderHover =
-                                                                            new ComponentResourceKey(typeof(EnvironmentColors), "DropDownButtonBorderHover"));
+        public static ComponentResourceKey DropDownDisabledText => _dropDownDisabledText ??
+                                                                   (_dropDownDisabledText = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownDisabledText"));
 
-        public static ComponentResourceKey DropDownButtonForegroundHover => _dropDownButtonForegroundHover ??
-                                                                            (_dropDownButtonForegroundHover =
-                                                                                new ComponentResourceKey(typeof(EnvironmentColors), "DropDownButtonForegroundHover"));
+        public static ComponentResourceKey DropDownGlyph => _dropDownGlyph ??
+                                                            (_dropDownGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownGlyph"));
 
-        public static ComponentResourceKey DropDownButtonGlyphHover => _dropDownButtonGlyphHover ??
-                                                                       (_dropDownButtonGlyphHover =
-                                                                           new ComponentResourceKey(typeof(EnvironmentColors), "DropDownButtonGlyph"));
+        public static ComponentResourceKey DropDownMouseDownBackground => _dropDownMouseDownBackground ??
+                                                                          (_dropDownMouseDownBackground = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownMouseDownBackground"));
 
-        public static ComponentResourceKey DropDownButtonBackgroundDown => _dropDownButtonBackgroundDown ??
-                                                                           (_dropDownButtonBackgroundDown =
-                                                                               new ComponentResourceKey(typeof(EnvironmentColors), "DropDownButtonBackgroundDown"));
+        public static ComponentResourceKey DropDownMouseDownBorder => _dropDownMouseDownBorder ??
+                                                                      (_dropDownMouseDownBorder = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownMouseDownBorder"));
 
-        public static ComponentResourceKey DropDownButtonBorderDown => _dropDownButtonBorderDown ??
-                                                                       (_dropDownButtonBorderDown =
-                                                                           new ComponentResourceKey(typeof(EnvironmentColors), "DropDownButtonBorderDown"));
+        public static ComponentResourceKey DropDownMouseDownGlyph => _dropDownMouseDownGlyph ??
+                                                                     (_dropDownMouseDownGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownMouseDownGlyph"));
 
-        public static ComponentResourceKey DropDownButtonForegroundDown => _dropDownButtonForegroundDown ??
-                                                                           (_dropDownButtonForegroundDown =
-                                                                               new ComponentResourceKey(typeof(EnvironmentColors), "DropDownButtonForegroundDown"));
+        public static ComponentResourceKey DropDownMouseDownText => _dropDownMouseDownText ??
+                                                                    (_dropDownMouseDownText = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownMouseDownText"));
 
-        public static ComponentResourceKey DropDownButtonGlyphDown => _dropDownButtonGlyphDown ??
-                                                                      (_dropDownButtonGlyphDown =
-                                                                          new ComponentResourceKey(typeof(EnvironmentColors), "DropDownButtonGlyphDown"));
+        public static ComponentResourceKey DropDownMouseOverBackgroundBegin => _dropDownMouseOverBackgroundBegin ??
+                                                                               (_dropDownMouseOverBackgroundBegin = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownMouseOverBackgroundBegin"));
 
-        #endregion
+        public static ComponentResourceKey DropDownMouseOverBackgroundEnd => _dropDownMouseOverBackgroundEnd ??
+                                                                             (_dropDownMouseOverBackgroundEnd = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownMouseOverBackgroundEnd"));
 
-        #region Menu
+        public static ComponentResourceKey DropDownMouseOverBackgroundMiddle1 => _dropDownMouseOverBackgroundMiddle1 ??
+                                                                                 (_dropDownMouseOverBackgroundMiddle1 = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownMouseOverBackgroundMiddle1"));
 
-        public static ComponentResourceKey MenuBackground => _menuBackground ??
-                                                             (_menuBackground = new ComponentResourceKey(typeof(EnvironmentColors), "MenuBackground"));
+        public static ComponentResourceKey DropDownMouseOverBackgroundMiddle2 => _dropDownMouseOverBackgroundMiddle2 ??
+                                                                                 (_dropDownMouseOverBackgroundMiddle2 = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownMouseOverBackgroundMiddle2"));
 
-        public static ComponentResourceKey MenuForeground => _menuForeground ??
-                                                             (_menuForeground = new ComponentResourceKey(typeof(EnvironmentColors), "MenuForeground"));
+        public static ComponentResourceKey DropDownMouseOverBorder => _dropDownMouseOverBorder ??
+                                                                      (_dropDownMouseOverBorder = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownMouseOverBorder"));
 
-        public static ComponentResourceKey MenuSeparator => _menuSeparator ??
-                                                            (_menuSeparator = new ComponentResourceKey(typeof(EnvironmentColors), "MenuSeparator"));
+        public static ComponentResourceKey DropDownMouseOverGlyph => _dropDownMouseOverGlyph ??
+                                                                     (_dropDownMouseOverGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownMouseOverGlyph"));
 
-        #endregion
+        public static ComponentResourceKey DropDownMouseOverText => _dropDownMouseOverText ??
+                                                                    (_dropDownMouseOverText = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownMouseOverText"));
 
-        #region MenuItem
+        public static ComponentResourceKey DropDownPopupBackgroundBegin => _dropDownPopupBackgroundBegin ??
+                                                                           (_dropDownPopupBackgroundBegin = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownPopupBackgroundBegin"));
 
-        public static ComponentResourceKey MenuItemForeground => _menuItemForeground ??
-                                                                 (_menuItemForeground = new ComponentResourceKey(typeof(EnvironmentColors), "MenuItemForeground"));
+        public static ComponentResourceKey DropDownPopupBackgroundEnd => _dropDownPopupBackgroundEnd ??
+                                                                         (_dropDownPopupBackgroundEnd = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownPopupBackgroundEnd"));
 
-        public static ComponentResourceKey MenuItemBackgroundHover => _menuItemBackgroundHover ??
-                                                                      (_menuItemBackgroundHover =
-                                                                          new ComponentResourceKey(typeof(EnvironmentColors), "MenuItemBackgroundHover"));
+        public static ComponentResourceKey DropDownPopupBorder => _dropDownPopupBorder ??
+                                                                  (_dropDownPopupBorder = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownPopupBorder"));
 
-        public static ComponentResourceKey MenuItemBorderHover => _menuItemBorderHover ??
-                                                                  (_menuItemBorderHover =
-                                                                      new ComponentResourceKey(typeof(EnvironmentColors), "MenuItemBorderHover"));
+        public static ComponentResourceKey DropDownText => _dropDownText ??
+                                                           (_dropDownText = new ComponentResourceKey(typeof(EnvironmentColors), "DropDownText"));
 
-        public static ComponentResourceKey MenuItemForegroundHover => _menuItemForegroundHover ??
-                                                                      (_menuItemForegroundHover =
-                                                                          new ComponentResourceKey(typeof(EnvironmentColors), "MenuItemForegroundHover"));
-
-        public static ComponentResourceKey MenuItemBackgroundDown => _menuItemBackgroundDown ??
-                                                                     (_menuItemBackgroundDown =
-                                                                         new ComponentResourceKey(typeof(EnvironmentColors), "MenuItemBackgroundDown"));
-
-        public static ComponentResourceKey MenuItemBorderDown => _menuItemBorderDown ??
-                                                                 (_menuItemBorderDown = new ComponentResourceKey(typeof(EnvironmentColors), "MenuItemBorderDown"));
-
-        public static ComponentResourceKey MenuItemForegroundDown => _menuItemForegroundDown ??
-                                                                     (_menuItemForegroundDown =
-                                                                         new ComponentResourceKey(typeof(EnvironmentColors), "MenuItemForegroundDown"));
-
-        public static ComponentResourceKey MenuItemForegroundDisabled => _menuItemForegroundDisabled ??
-                                                                         (_menuItemForegroundDisabled =
-                                                                             new ComponentResourceKey(typeof(EnvironmentColors), "MenuItemForegroundDisabled"));
-
-        public static ComponentResourceKey MenuItemPopupBackground => _menuItemPopupBackground ??
-                                                                      (_menuItemPopupBackground =
-                                                                          new ComponentResourceKey(typeof(EnvironmentColors), "MenuItemPopupBackground"));
-
-        public static ComponentResourceKey MenuItemPopupIconBackground => _menuItemPopupIconBackground ??
-                                                                          (_menuItemPopupIconBackground =
-                                                                              new ComponentResourceKey(typeof(EnvironmentColors), "MenuItemPopupIconBackground"));
-
-        public static ComponentResourceKey MenuItemPopupBorder => _menuItemPopupBorder ??
-                                                                  (_menuItemPopupBorder =
-                                                                      new ComponentResourceKey(typeof(EnvironmentColors), "MenuItemPopupBorder"));
-
-        public static ComponentResourceKey MenuItemIconForeground => _menuItemIconForeground ??
-                                                                     (_menuItemIconForeground =
-                                                                         new ComponentResourceKey(typeof(EnvironmentColors), "MenuItemIconForeground"));
-
-        public static ComponentResourceKey MenuItemPopupShadow => _menuItemPopupShadow ??
-                                                                  (_menuItemPopupShadow =
-                                                                      new ComponentResourceKey(typeof(EnvironmentColors), "MenuItemPopupShadow"));
-
-        public static ComponentResourceKey MenuItemIconForegroundHover => _menuItemIconForegroundHover ??
-                                                                          (_menuItemIconForegroundHover =
-                                                                              new ComponentResourceKey(typeof(EnvironmentColors), "MenuItemIconForegroundHover"));
-
-        public static ComponentResourceKey MenuSubItemGlyph => _menuSubItemGlyph ??
-                                                               (_menuSubItemGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "MenuSubItemGlyph"));
-
-        public static ComponentResourceKey MenuSubItemGlyphHover => _menuSubItemGlyphHover ??
-                                                                    (_menuSubItemGlyphHover = new ComponentResourceKey(typeof(EnvironmentColors), "MenuSubItemGlyphHover"));
-
-        public static ComponentResourceKey MenuSubItemGlyphDisabled => _menuSubItemGlyphDisabled ??
-                                                                       (_menuSubItemGlyphDisabled = new ComponentResourceKey(typeof(EnvironmentColors), "MenuSubItemGlyphDisabled"));
-
-        public static ComponentResourceKey MenuSubItemForeground => _menuSubItemForeground ??
-                                                                    (_menuSubItemForeground =
-                                                                        new ComponentResourceKey(typeof(EnvironmentColors), "MenuSubItemForeground"));
-
-        public static ComponentResourceKey MenuSubItemForegroundHover => _menuSubItemForegroundHover ??
-                                                                         (_menuSubItemForegroundHover =
-                                                                             new ComponentResourceKey(typeof(EnvironmentColors), "MenuSubItemForegroundHover"));
-
-        public static ComponentResourceKey MenuSubItemForegroundDisabled => _menuSubItemForegroundDisabled ??
-                                                                            (_menuSubItemForegroundDisabled =
-                                                                                new ComponentResourceKey(typeof(EnvironmentColors), "MenuSubItemForegroundDisabled"));
-
-        public static ComponentResourceKey MenuSubItemBackgroundHover => _menuSubItemBackgroundHover ??
-                                                                         (_menuSubItemBackgroundHover =
-                                                                             new ComponentResourceKey(typeof(EnvironmentColors), "MenuSubItemBackgroundHover"));
+        public static ComponentResourceKey DropShadowBackground => _dropShadowBackground ??
+                                                                   (_dropShadowBackground = new ComponentResourceKey(typeof(EnvironmentColors), "DropShadowBackground"));
 
         #endregion
 
@@ -1031,6 +1130,36 @@ namespace ModernApplicationFramework.Core.Themes
         #endregion
 
         #region ScrollBar
+
+        public static ComponentResourceKey ScrollBarArrowBackground => _scrollBarArrowBackground ??
+                                                                       (_scrollBarArrowBackground =
+                                                                           new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarArrowBackground"));
+        public static ComponentResourceKey ScrollBarArrowDisabledBackground => _scrollBarArrowDisabledBackground ??
+                                                                               (_scrollBarArrowDisabledBackground =
+                                                                                   new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarArrowDisabledBackground"));
+        public static ComponentResourceKey ScrollBarArrowGlyph => _scrollBarArrowGlyph ??
+                                                                  (_scrollBarArrowGlyph =
+                                                                      new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarArrowGlyph"));
+        public static ComponentResourceKey ScrollBarArrowGlyphDisabled => _scrollBarArrowGlyphDisabled ??
+                                                                          (_scrollBarArrowGlyphDisabled =
+                                                                              new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarArrowGlyphDisabled"));
+
+        public static ComponentResourceKey ScrollBarArrowGlyphMouseOver => _scrollBarArrowGlyphMouseOver ??
+                                                                           (_scrollBarArrowGlyphMouseOver =
+                                                                               new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarArrowGlyphMouseOver"));
+
+        public static ComponentResourceKey ScrollBarArrowGlyphPressed => _scrollBarArrowGlyphPressed ??
+                                                                         (_scrollBarArrowGlyphPressed =
+                                                                             new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarArrowGlyphPressed"));
+
+        public static ComponentResourceKey ScrollBarArrowMouseOverBackground => _scrollBarArrowMouseOverBackground ??
+                                                                                (_scrollBarArrowMouseOverBackground =
+                                                                                    new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarArrowMouseOverBackground"));
+
+        public static ComponentResourceKey ScrollBarArrowPressedBackground => _scrollBarArrowPressedBackground ??
+                                                                              (_scrollBarArrowPressedBackground =
+                                                                                  new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarArrowPressedBackground"));
+
         public static ComponentResourceKey ScrollBarBackground => _scrollBarBackground ??
                                                                   (_scrollBarBackground =
                                                                       new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarBackground"));
@@ -1039,126 +1168,50 @@ namespace ModernApplicationFramework.Core.Themes
                                                               (_scrollBarBorder =
                                                                   new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarBorder"));
 
-        public static ComponentResourceKey ScrollBarButtonBackground => _scrollBarButtonBackground ??
-                                                                        (_scrollBarButtonBackground =
-                                                                            new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarButtonBackground"));
+        public static ComponentResourceKey ScrollBarDisabledBackground => _scrollBarDisabledBackground ??
+                                                                          (_scrollBarDisabledBackground =
+                                                                              new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarDisabledBackground"));
 
-        public static ComponentResourceKey ScrollBarButtonGlyph => _scrollBarButtonGlyph ??
-                                                                   (_scrollBarButtonGlyph =
-                                                                       new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarButtonGlyph"));
-
-        public static ComponentResourceKey ScrollBarButtonBackgroundHover => _scrollBarButtonBackgroundHover ??
-                                                                             (_scrollBarButtonBackgroundHover =
-                                                                                 new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarButtonBackgroundHover"));
-
-        public static ComponentResourceKey ScrollBarButtonGlyphHover => _scrollBarButtonGlyphHover ??
-                                                                        (_scrollBarButtonGlyphHover =
-                                                                            new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarButtonGlyphHover"));
-
-        public static ComponentResourceKey ScrollBarButtonBackgroundDown => _scrollBarButtonBackgroundDown ??
-                                                                            (_scrollBarButtonBackgroundDown =
-                                                                                new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarButtonBackgroundDown"));
-
-        public static ComponentResourceKey ScrollBarButtonGlyphDown => _scrollBarButtonGlyphDown ??
-                                                                       (_scrollBarButtonGlyphDown =
-                                                                           new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarButtonGlyphDown"));
-
-        public static ComponentResourceKey ScrollBarButtonBackgroundDisabled => _scrollBarButtonBackgroundDisabled ??
-                                                                                (_scrollBarButtonBackgroundDisabled =
-                                                                                    new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarButtonBackgroundDisabled"));
-
-        public static ComponentResourceKey ScrollBarButtonGlyphDisabled => _scrollBarButtonGlyphDisabled ??
-                                                                           (_scrollBarButtonGlyphDisabled =
-                                                                               new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarButtonGlyphDisabled"));
 
         public static ComponentResourceKey ScrollBarThumbBackground => _scrollBarThumbBackground ??
                                                                        (_scrollBarThumbBackground =
                                                                            new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarThumbBackground"));
 
-        public static ComponentResourceKey ScrollBarThumbBackgroundHover => _scrollBarThumbBackgroundHover ??
-                                                                            (_scrollBarThumbBackgroundHover =
-                                                                                new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarThumbBackgroundHover"));
+        public static ComponentResourceKey ScrollBarThumbBorder => _scrollBarThumbBorder ??
+                                                                   (_scrollBarThumbBorder =
+                                                                       new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarThumbBorder"));
 
-        public static ComponentResourceKey ScrollBarThumbBackgroundDown => _scrollBarThumbBackgroundDown ??
-                                                                           (_scrollBarThumbBackgroundDown =
-                                                                               new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarThumbBackgroundDown"));
+        public static ComponentResourceKey ScrollBarThumbDisabled => _scrollBarThumbDisabled ??
+                                                                     (_scrollBarThumbDisabled =
+                                                                         new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarThumbDisabled"));
 
-        public static ComponentResourceKey ScrollBarThumbBackgroundDisabled => _scrollBarThumbBackgroundDisabled ??
-                                                                               (_scrollBarThumbBackgroundDisabled =
-                                                                                   new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarThumbBackgroundDisabled"));
+        public static ComponentResourceKey ScrollBarThumbGlyph => _scrollBarThumbGlyph ??
+                                                                  (_scrollBarThumbGlyph =
+                                                                      new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarThumbGlyph"));
 
-        #endregion
+        public static ComponentResourceKey ScrollBarThumbGlyphMouseOverBorder => _scrollBarThumbGlyphMouseOverBorder ??
+                                                                                 (_scrollBarThumbGlyphMouseOverBorder =
+                                                                                     new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarThumbGlyphMouseOverBorder"));
 
-        #region SplitButton
-        public static ComponentResourceKey SplitButtonBorder => _splitButtonBorder ??
-                                                                (_splitButtonBorder = new ComponentResourceKey(typeof(EnvironmentColors), "SplitButtonBorder"));
+        public static ComponentResourceKey ScrollBarThumbGlyphPressedBorder => _scrollBarThumbGlyphPressedBorder ??
+                                                                               (_scrollBarThumbGlyphPressedBorder =
+                                                                                   new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarThumbGlyphPressedBorder"));
 
-        public static ComponentResourceKey SplitButtonBackground => _splitButtonBackground ??
-                                                                    (_splitButtonBackground =
-                                                                        new ComponentResourceKey(typeof(EnvironmentColors), "SplitButtonBackground"));
+        public static ComponentResourceKey ScrollBarThumbMouseOverBackground => _scrollBarThumbMouseOverBackground ??
+                                                                                (_scrollBarThumbMouseOverBackground =
+                                                                                    new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarThumbMouseOverBackground"));
 
-        public static ComponentResourceKey SplitButtonActionButtonBackground => _splitButtonActionButtonBackground ??
-                                                                                (_splitButtonActionButtonBackground = new ComponentResourceKey(typeof(EnvironmentColors), "SplitButtonActionButtonBackground"));
+        public static ComponentResourceKey ScrollBarThumbMouseOverBorder => _scrollBarThumbMouseOverBorder ??
+                                                                            (_scrollBarThumbMouseOverBorder =
+                                                                                new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarThumbMouseOverBorder"));
 
-        public static ComponentResourceKey SplitButtonActionButtonForeground => _splitButtonActionButtonForeground ??
-                                                                                (_splitButtonActionButtonForeground = new ComponentResourceKey(typeof(EnvironmentColors), "SplitButtonActionButtonForeground"));
+        public static ComponentResourceKey ScrollBarThumbPressedBackground => _scrollBarThumbPressedBackground ??
+                                                                              (_scrollBarThumbPressedBackground =
+                                                                                  new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarThumbPressedBackground"));
 
-        public static ComponentResourceKey SplitButtonSeparator => _splitButtonSeparator ??
-                                                                   (_splitButtonSeparator = new ComponentResourceKey(typeof(EnvironmentColors), "SplitButtonSeparator"));
-
-        public static ComponentResourceKey SplitButtonToggleButtonBackground => _splitButtonToggleButtonBackground ??
-                                                                                (_splitButtonToggleButtonBackground = new ComponentResourceKey(typeof(EnvironmentColors), "SplitButtonToggleButtonBackground"));
-
-        public static ComponentResourceKey SplitButtonToggleButtonGlyph => _splitButtonToggleButtonGlyph ??
-                                                                           (_splitButtonToggleButtonGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "SplitButtonToggleButtonGlyph"));
-
-        public static ComponentResourceKey SplitButtonBorderHover => _splitButtonBorderHover ??
-                                                                     (_splitButtonBorderHover = new ComponentResourceKey(typeof(EnvironmentColors), "SplitButtonBorderHover"));
-
-        public static ComponentResourceKey SplitButtonActionButtonBackgroundHover => _splitButtonActionButtonBackgroundHover ??
-                                                                                     (_splitButtonActionButtonBackgroundHover = new ComponentResourceKey(typeof(EnvironmentColors), "SplitButtonActionButtonBackgroundHover"));
-
-        public static ComponentResourceKey SplitButtonActionButtonForegroundHover => _splitButtonActionButtonForegroundHover ??
-                                                                                     (_splitButtonActionButtonForegroundHover = new ComponentResourceKey(typeof(EnvironmentColors), "SplitButtonActionButtonForegroundHover"));
-
-        public static ComponentResourceKey SplitButtonSeparatorHover => _splitButtonSeparatorHover ??
-                                                                        (_splitButtonSeparatorHover = new ComponentResourceKey(typeof(EnvironmentColors), "SplitButtonSeparatorHover"));
-
-        public static ComponentResourceKey SplitButtonToggleButtonBackgroundHover => _splitButtonToggleButtonBackgroundHover ??
-                                                                                     (_splitButtonToggleButtonBackgroundHover = new ComponentResourceKey(typeof(EnvironmentColors), "SplitButtonToggleButtonBackgroundHover"));
-
-        public static ComponentResourceKey SplitButtonToggleButtonGlyphHover => _splitButtonToggleButtonGlyphHover ??
-                                                                                (_splitButtonToggleButtonGlyphHover = new ComponentResourceKey(typeof(EnvironmentColors), "SplitButtonToggleButtonGlyphHover"));
-
-        public static ComponentResourceKey SplitButtonActionButtonBackgroundDown => _splitButtonActionButtonBackgroundDown ??
-                                                                                    (_splitButtonActionButtonBackgroundDown = new ComponentResourceKey(typeof(EnvironmentColors), "SplitButtonActionButtonBackgroundDown"));
-
-        public static ComponentResourceKey SplitButtonActionButtonForegroundDown => _splitButtonActionButtonForegroundDown ??
-                                                                                    (_splitButtonActionButtonForegroundDown = new ComponentResourceKey(typeof(EnvironmentColors), "SplitButtonActionButtonForegroundDown"));
-
-        public static ComponentResourceKey SplitButtonSeparatorDown => _splitButtonSeparatorDown ??
-                                                                       (_splitButtonSeparatorDown = new ComponentResourceKey(typeof(EnvironmentColors), "SplitButtonSeparatorDown"));
-
-        public static ComponentResourceKey SplitButtonActionButtonBackgroundChecked => _splitButtonActionButtonBackgroundChecked ??
-                                                                                       (_splitButtonActionButtonBackgroundChecked = new ComponentResourceKey(typeof(EnvironmentColors), "SplitButtonActionButtonBackgroundChecked"));
-
-        public static ComponentResourceKey SplitButtonActionButtonForegroundChecked => _splitButtonActionButtonForegroundChecked ??
-                                                                                       (_splitButtonActionButtonForegroundChecked = new ComponentResourceKey(typeof(EnvironmentColors), "SplitButtonActionButtonForegroundChecked"));
-
-        public static ComponentResourceKey SplitButtonSeparatorChecked => _splitButtonSeparatorChecked ??
-                                                                          (_splitButtonSeparatorChecked = new ComponentResourceKey(typeof(EnvironmentColors), "SplitButtonSeparatorChecked"));
-
-        public static ComponentResourceKey SplitButtonToggleButtonBackgroundChecked => _splitButtonToggleButtonBackgroundChecked ??
-                                                                                       (_splitButtonToggleButtonBackgroundChecked = new ComponentResourceKey(typeof(EnvironmentColors), "SplitButtonToggleButtonBackgroundChecked"));
-
-        public static ComponentResourceKey SplitButtonToggleButtonGlyphChecked => _splitButtonToggleButtonGlyphChecked ??
-                                                                                  (_splitButtonToggleButtonGlyphChecked = new ComponentResourceKey(typeof(EnvironmentColors), "SplitButtonToggleButtonGlyphChecked"));
-
-        public static ComponentResourceKey SplitButtonToggleButtonGlyphDisabled => _splitButtonToggleButtonGlyphDisabled ??
-                                                                                   (_splitButtonToggleButtonGlyphDisabled = new ComponentResourceKey(typeof(EnvironmentColors), "SplitButtonToggleButtonGlyphDisabled"));
-
-        public static ComponentResourceKey SplitButtonActionButtonForegroundDisabled => _splitButtonActionButtonForegroundDisabled ??
-                                                                                        (_splitButtonActionButtonForegroundDisabled = new ComponentResourceKey(typeof(EnvironmentColors), "SplitButtonActionButtonForegroundDisabled"));
+        public static ComponentResourceKey ScrollBarThumbPressedBorder => _scrollBarThumbPressedBorder ??
+                                                                          (_scrollBarThumbPressedBorder =
+                                                                              new ComponentResourceKey(typeof(EnvironmentColors), "ScrollBarThumbPressedBorder"));
 
         #endregion
 
@@ -1255,55 +1308,6 @@ namespace ModernApplicationFramework.Core.Themes
 
         #endregion
 
-        #region ToolBarTray
-
-        public static ComponentResourceKey ToolBarTrayBackground => _toolBarTrayBackground ??
-                                                                    (_toolBarTrayBackground =
-                                                                        new ComponentResourceKey(typeof(EnvironmentColors), "ToolBarTrayBackground"));
-
-        #endregion
-
-        #region ToolBar
-        public static ComponentResourceKey ToolBarBackground => _toolBarBackground ??
-                                                                (_toolBarBackground = new ComponentResourceKey(typeof(EnvironmentColors), "ToolBarBackground"));
-
-        public static ComponentResourceKey ToolBarBorder => _toolBarBorder ??
-                                                            (_toolBarBorder = new ComponentResourceKey(typeof(EnvironmentColors), "ToolBarBorder"));
-
-        public static ComponentResourceKey ToolBarGrip => _toolBarGrip ??
-                                                          (_toolBarGrip = new ComponentResourceKey(typeof(EnvironmentColors), "ToolBarGrip"));
-
-        public static ComponentResourceKey ToolBarButtonBackground => _toolBarButtonBackground ??
-                                                                      (_toolBarButtonBackground = new ComponentResourceKey(typeof(EnvironmentColors), "ToolBarButtonBackground"));
-
-        public static ComponentResourceKey ToolBarButtonBackgroundGlyph => _toolBarButtonBackgroundGlyph ??
-                                                                           (_toolBarButtonBackgroundGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "ToolBarButtonBackgroundGlyph"));
-
-        public static ComponentResourceKey ToolBarButtonBackgroundMouseOver => _toolBarButtonBackgroundMouseOver ??
-                                                                               (_toolBarButtonBackgroundMouseOver = new ComponentResourceKey(typeof(EnvironmentColors), "ToolBarButtonBackgroundMouseOver"));
-
-        public static ComponentResourceKey ToolBarButtonBackgroundGlyphMouseOver => _toolBarButtonBackgroundGlyphMouseOver ??
-                                                                                    (_toolBarButtonBackgroundGlyphMouseOver = new ComponentResourceKey(typeof(EnvironmentColors), "ToolBarButtonBackgroundGlyphMouseOver"));
-
-        public static ComponentResourceKey ToolBarButtonBackgroundIsChecked => _toolBarButtonBackgroundIsChecked ??
-                                                                               (_toolBarButtonBackgroundIsChecked = new ComponentResourceKey(typeof(EnvironmentColors), "ToolBarButtonBackgroundIsChecked"));
-
-        public static ComponentResourceKey ToolBarButtonBackgroundGlyphIsChecked => _toolBarButtonBackgroundGlyphIsChecked ??
-                                                                                    (_toolBarButtonBackgroundGlyphIsChecked = new ComponentResourceKey(typeof(EnvironmentColors), "ToolBarButtonBackgroundGlyphIsChecked"));
-
-        public static ComponentResourceKey ToolBarButtonBackgroundFocused => _toolBarButtonBackgroundFocused ??
-                                                                             (_toolBarButtonBackgroundFocused = new ComponentResourceKey(typeof(EnvironmentColors), "ToolBarButtonBackgroundFocused"));
-
-        public static ComponentResourceKey ToolBarButtonBackgroundGlyphFocused => _toolBarButtonBackgroundGlyphFocused ??
-                                                                                  (_toolBarButtonBackgroundGlyphFocused = new ComponentResourceKey(typeof(EnvironmentColors), "ToolBarButtonBackgroundGlyphFocused"));
-        public static ComponentResourceKey ToolBarButtonBackgroundDisabled => _toolBarButtonBackgroundDisabled ??
-                                                                              (_toolBarButtonBackgroundDisabled = new ComponentResourceKey(typeof(EnvironmentColors), "ToolBarButtonBackgroundDisabled"));
-
-        public static ComponentResourceKey ToolBarButtonBackgroundGlyphDisabled => _toolBarButtonBackgroundGlyphDisabled ??
-                                                                                   (_toolBarButtonBackgroundGlyphDisabled = new ComponentResourceKey(typeof(EnvironmentColors), "ToolBarButtonBackgroundGlyphDisabled"));
-
-        #endregion
-
         #region CheckBox
         public static ComponentResourceKey CheckBoxBackground => _checkBoxBackground ??
                                                                  (_checkBoxBackground = new ComponentResourceKey(typeof(EnvironmentColors), "CheckBoxBackground"));
@@ -1355,41 +1359,6 @@ namespace ModernApplicationFramework.Core.Themes
 
         #endregion
 
-        #region ContextMenu
-        public static ComponentResourceKey ContextMenuBackground => _contextMenuBackground ??
-                                                                    (_contextMenuBackground =
-                                                                        new ComponentResourceKey(typeof(EnvironmentColors), "ContextMenuBackground"));
-
-        public static ComponentResourceKey ContextMenuForeground => _contextMenuForeground ??
-                                                                    (_contextMenuForeground =
-                                                                        new ComponentResourceKey(
-                                                                            typeof (EnvironmentColors),
-                                                                            "ContextMenuForeground"));
-
-        public static ComponentResourceKey ContextMenuIconBackground => _contextMenuIconBackground ??
-                                                                        (_contextMenuIconBackground =
-                                                                            new ComponentResourceKey(typeof(EnvironmentColors), "ContextMenuIconBackground"));
-
-        public static ComponentResourceKey ContextMenuBorder => _contextMenuBorder ??
-                                                                (_contextMenuBorder = new ComponentResourceKey(typeof(EnvironmentColors), "ContextMenuBorder"));
-
-        public static ComponentResourceKey ContextMenuShadow => _contextMenuShadow ??
-                                                                (_contextMenuShadow = new ComponentResourceKey(typeof(EnvironmentColors), "ContextMenuShadow"));
-
-        #endregion
-
-        #region ContextMenuGlyphItem
-        public static ComponentResourceKey ContextMenuGlyphItemIconForeground => _contextMenuGlyphItemIconForeground ??
-                                                                                 (_contextMenuGlyphItemIconForeground =
-                                                                                     new ComponentResourceKey(typeof(EnvironmentColors), "ContextMenuGlyphItemIconForeground"));
-
-        public static ComponentResourceKey ContextMenuGlyphItemIconForegroundHover => _contextMenuGlyphItemIconForegroundHover ??
-                                                                                      (_contextMenuGlyphItemIconForegroundHover =
-                                                                                          new ComponentResourceKey(typeof(EnvironmentColors),
-                                                                                              "ContextMenuGlyphItemIconForegroundHover"));
-
-        #endregion
-
         #region MainWindow
         public static ComponentResourceKey MainWindowBackground => _mainWindowBackground ??
                                                                    (_mainWindowBackground =
@@ -1416,25 +1385,6 @@ namespace ModernApplicationFramework.Core.Themes
                 _mainWindowTitleBarForegroundInactive ??
                 (_mainWindowTitleBarForegroundInactive =
                     new ComponentResourceKey(typeof(EnvironmentColors), "MainWindowTitleBarForegroundInactive"));
-
-        #endregion
-
-        #region MenuHostControl
-
-        public static ComponentResourceKey MenuHostControlBackground => _menuHostControlBackground ??
-                                                                        (_menuHostControlBackground =
-                                                                            new ComponentResourceKey(typeof(EnvironmentColors), "MenuHostControlBackground"));
-
-        #endregion
-
-        #region ToolBarHostControl
-        public static ComponentResourceKey ToolBarHostControlTopDockBackground => _toolBarHostControlTopDockBackground ??
-                                                                                  (_toolBarHostControlTopDockBackground =
-                                                                                      new ComponentResourceKey(typeof(EnvironmentColors), "ToolBarHostControlTopDockBackground"));
-
-        public static ComponentResourceKey ToolBarHostControlDefaultDockBackground => _toolBarHostControlDefaultDockBackground ??
-                                                                                      (_toolBarHostControlDefaultDockBackground =
-                                                                                          new ComponentResourceKey(typeof(EnvironmentColors), "ToolBarHostControlDefaultDockBackground"));
 
         #endregion
 

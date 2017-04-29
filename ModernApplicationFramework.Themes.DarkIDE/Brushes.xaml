@@ -2,7 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework">
 
-
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
                      ResourceId=GloablForeground}" Color="#FFF1F1F1"/>
 
@@ -64,14 +63,6 @@
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
                      ResourceId=MenuHostControlBackground}" Color="#FF2D2D30"/>
 
-    
-    <!--ToolBarHostControl-->
-
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
-                     ResourceId=ToolBarHostControlTopDockBackground}" Color="#FF2D2D30"/>
-
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
-                     ResourceId=ToolBarHostControlDefaultDockBackground}" Color="#FF2D2D30"/>
 
     <!--MainWindowResizeGrip-->
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
@@ -179,377 +170,265 @@
     
     <!--ComboBox-->
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboBoxBorder}" Color="#FF434346"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
                      ResourceId=ComboBoxBackground}" Color="#FF333337"/>
-    
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboboxButtonBackground}" Color="#FF333337"/>
-    
+                     ResourceId=ComboBoxBorder}" Color="#FF434346"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboBoxButtonBorder}" Color="#FF434346"/>
-    
+                     ResourceId=ComboBoxButtonMouseDownBackground}" Color="#FF007ACC"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboBoxForeground}" Color="#FFF1F1F1"/>
-    
+                     ResourceId=ComboBoxButtonMouseDownSeparator}" Color="#FF007ACC"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboBoxArrow}" Color="#FFF1F1F1"/>
-    
+                     ResourceId=ComboBoxButtonMouseOverBackground}" Color="#FF1F1F20"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboBoxSelectionBrush}" Color="#FF007ACC"/>
-    
+                     ResourceId=ComboBoxButtonMouseOverSeparator}" Color="#FF007ACC"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboBoxCaretBrush}" Color="#FF007ACC"/>
-    
-     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboBoxBorderHover}" Color="#FF007ACC"/>
-    
+                     ResourceId=ComboBoxDisabledBackground}" Color="#FF2D2D30"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboBoxBackgroundHover}" Color="#FF3F3F46"/>
-    
+                     ResourceId=ComboBoxDisabledBorder}" Color="#FF434346"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboboxButtonBackgroundHover}" Color="#FF1F1F20"/>
-    
+                     ResourceId=ComboBoxDisabledGlyph}" Color="#FF434346"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboBoxButtonBorderHover}" Color="#FF007ACC"/>
-    
+                     ResourceId=ComboBoxDisabledText}" Color="#FF656565"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboBoxForegroundHover}" Color="#FFFFFFFF"/>
-    
+                     ResourceId=ComboBoxFocusedBackground}" Color="#FF3F3F46"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboBoxArrowHover}" Color="#FF007ACC"/>
-    
-     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboBoxBorderDown}" Color="#FF007ACC"/>
-    
+                     ResourceId=ComboBoxFocusedBorder}" Color="#FF007ACC"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboBoxBackgroundDown}" Color="#FF3F3F46"/>
-    
+                     ResourceId=ComboBoxFocusedButtonBackground}" Color="#FF1F1F20"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboboxButtonBackgroundDown}" Color="#FF007ACC"/>
-    
+                     ResourceId=ComboBoxFocusedButtonSeparator}" Color="#FF007ACC"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboBoxButtonBorderDown}" Color="#FF007ACC"/>
-    
+                     ResourceId=ComboBoxFocusedGlyph}" Color="#FF007ACC"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboBoxForegroundDown}" Color="#FFFFFFFF"/>
-    
+                     ResourceId=ComboBoxFocusedText}" Color="#FFFFFFFF"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboBoxArrowDown}" Color="#FFFFFFFF"/>
-    
-     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboBoxBorderDisabled}" Color="#FF434346"/>
-    
+                     ResourceId=ComboBoxGlyph}" Color="#FFF1F1F1"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboBoxBackgroundDisabled}" Color="#FF2D2D30"/>
-    
+                     ResourceId=ComboBoxItemMouseOverBackground}" Color="#FF3F3F46"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboboxButtonBackgroundDisabled}" Color="#FF2D2D30"/>
-    
+                     ResourceId=ComboBoxItemMouseOverBorder}" Color="#FF3F3F46"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboBoxButtonBorderDisabled}" Color="#FF434346"/>
-    
+                     ResourceId=ComboBoxItemMouseOverText}" Color="#FFF1F1F1"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboBoxForegroundDisabled}" Color="#FF656565"/>
-    
+                     ResourceId=ComboBoxItemText}" Color="#FFF1F1F1"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboBoxArrowDisabled}" Color="#FF434346"/>
-    
+                     ResourceId=ComboBoxItemTextInactive}" Color="#FF656565"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=ComboBoxMouseDownBackground}" Color="#FF3F3F46"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=ComboBoxMouseDownBorder}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=ComboBoxMouseDownGlyph}" Color="#FFFFFFFF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=ComboBoxMouseDownText}" Color="#FFFFFFFF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=ComboBoxMouseOverBackgroundBegin}" Color="#FF3F3F46"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=ComboBoxMouseOverBackgroundEnd}" Color="#FF3F3F46"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=ComboBoxMouseOverBackgroundMiddle1}" Color="#FF3F3F46"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=ComboBoxMouseOverBackgroundMiddle2}" Color="#FF3F3F46"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=ComboBoxMouseOverBorder}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=ComboBoxMouseOverGlyph}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=ComboBoxMouseOverText}" Color="#FFFFFFFF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=ComboBoxPopupBackgroundBegin}" Color="#FF1B1B1C"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=ComboBoxPopupBackgroundEnd}" Color="#FF1B1B1C"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
                      ResourceId=ComboBoxPopupBorder}" Color="#FF333337"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboBoxPopupBackground}" Color="#FF1B1B1C"/>
-    
-    <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboBoxPopupShadowBackground}" A="72" R="0" G="0" B="0"/>
-    
-    <!--ComboBoxItem-->
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboBoxItemBackgroundHover}" Color="#FF3F3F46"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboBoxItemBorderHover}" Color="#FF3F3F46"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboBoxItemForegroundHover}" Color="#FFF1F1F1"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboBoxItemForeground}" Color="#FFF1F1F1"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ComboBoxItemForegroundDisabled}" Color="#FF656565"/>
-    
-    <!--MenuSeperator-->
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuSeparator}" Color="#FF222222"/>
-    
-    <!--Menu-->
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuBackground}" Color="#FF2D2D30"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuForeground}" Color="#FFF1F1F1"/>
-    
-    <!--MenuItem-->
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuItemForeground}" Color="#FFF1F1F1"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuItemBackgroundHover}" Color="#FF3E3E40"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuItemBorderHover}" Color="#FF333334"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuItemForegroundHover}" Color="#FFF1F1F1"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuItemBackgroundDown}" Color="#FF1B1B1C"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuItemBorderDown}" Color="#FF1B1B1C"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuItemForegroundDown}" Color="#FFF1F1F1"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuItemForegroundDisabled}" Color="#FF656565"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuItemIconForeground}" Color="#FF3E3E40"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuItemIconForegroundHover}" Color="#FF3E3E40"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuItemPopupBackground}" Color="#FF1B1B1C"/>
-    
-    <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuItemPopupShadow}" A="72" R="0" G="0" B="0"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuItemPopupIconBackground}" Color="#FF1B1B1C"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuItemPopupBorder}" Color="#FF333337"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuSubItemGlyph}" Color="#FF999999"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuSubItemForeground}" Color="#FFF1F1F1"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuSubItemGlyphHover}" Color="#FF007ACC"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuSubItemBackgroundHover}" Color="#FF333334"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuSubItemForegroundHover}" Color="#FFF1F1F1"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuSubItemGlyphDisabled}" Color="#FF656565"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MenuSubItemForegroundDisabled}" Color="#FF656565"/>
-    
-    <!--ContextMenuGlyphItem-->
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ContextMenuGlyphItemIconForeground}" Color="#FF999999"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ContextMenuGlyphItemIconForegroundHover}" Color="#FFF1F1F1"/>
 
-    
-    <!--ContextMenu--> 
-    <LinearGradientBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
-                    ResourceId=ContextMenuBackground}" StartPoint="0,0" EndPoint="0,1">
-        <GradientStop Color="#FF1B1B1C" Offset="0.0"/>
-        <GradientStop Color="#FF1B1B1C" Offset="1.0" />
-    </LinearGradientBrush>
-    
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                ResourceId=ContextMenuForeground}" Color="#FFF1F1F1"/>
-    
+                     ResourceId=ComboBoxSelection}" Color="#FF007ACC"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ContextMenuIconBackground}" Color="#FF1B1B1C"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ContextMenuBorder}" Color="#FF333337"/>
-    
-    <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ContextMenuShadow}" A="72" R="0" G="0" B="0"/>
+                     ResourceId=ComboBoxText}" Color="#FFF1F1F1"/>
     
     <!--DropDownButton-->
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=DropDownButtonBackground}" Color="#FF333337"/>
-    
+                     ResourceId=DropDownBackground}" Color="#FF333337"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=DropDownButtonBorder}" Color="#FF434346"/>
-    
+                     ResourceId=DropDownBorder}" Color="#FF434346"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=DropDownButtonForeground}" Color="#FFF1F1F1"/>
-    
+                     ResourceId=DropDownButtonMouseDownBackground}" Color="#FF007ACC"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=DropDownButtonGlyph}" Color="#FF999999"/>
-    
+                     ResourceId=DropDownButtonMouseDownSeparator}" Color="#FF3F3F46"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=DropDownButtonBackgroundHover}" Color="#FF1F1F20"/>
-    
+                     ResourceId=DropDownButtonMouseOverBackground}" Color="#FF1F1F20"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=DropDownButtonBorderHover}" Color="#FF434346"/>
-    
+                     ResourceId=DropDownButtonMouseOverSeparator}" Color="#FF007ACC"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=DropDownButtonForegroundHover}" Color="#FFFFFFFF"/>
-    
+                     ResourceId=DropDownDisabledBackground}" Color="#FF2D2D30"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=DropDownButtonGlyphHover}" Color="#FF007ACC"/>
-    
+                     ResourceId=DropDownDisabledBorder}" Color="#FF434346"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=DropDownButtonBackgroundDown}" Color="#FF007ACC"/>
-    
+                     ResourceId=DropDownDisabledGlyph}" Color="#FF434346"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=DropDownButtonBorderDown}" Color="#FF007ACC"/>
-    
+                     ResourceId=DropDownDisabledText}" Color="#FF656565"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=DropDownButtonForegroundDown}" Color="#FFFFFFFF"/>
-    
+                     ResourceId=DropDownGlyph}" Color="#FF999999"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=DropDownButtonGlyphDown}" Color="#FFFFFFFF"/>
-    
+                     ResourceId=DropDownMouseDownBackground}" Color="#FF3F3F46"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=DropDownButtonBackgroundDisabled}" Color="#FF2D2D30"/>
-    
+                     ResourceId=DropDownMouseDownBorder}" Color="#FF434346"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=DropDownButtonBorderDisabled}" Color="#FF434346"/>
-    
+                     ResourceId=DropDownMouseDownGlyph}" Color="#FFFFFFFF"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=DropDownButtonForegroundDisabled}" Color="#FF656565"/>
-    
+                     ResourceId=DropDownMouseDownText}" Color="#FFFFFFFF"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=DropDownButtonGlyphDisabled}" Color="#FF434346"/>
-    
-    <!--SplitButton-->
+                     ResourceId=DropDownMouseOverBackgroundBegin}" Color="#FF3F3F46"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=SplitButtonBorder}" Color="Transparent"/>
-    
-     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=SplitButtonBackground}" Color="Transparent"/>
-    
+                     ResourceId=DropDownMouseOverBackgroundEnd}" Color="#FF3F3F46"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=SplitButtonActionButtonBackground}" Color="Transparent"/>
-    
-     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=SplitButtonActionButtonForeground}" Color="#FFF1F1F1"/>
-    
+                     ResourceId=DropDownMouseOverBackgroundMiddle1}" Color="#FF3F3F46"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=SplitButtonSeparator}" Color="Transparent"/>
-    
-     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=SplitButtonToggleButtonBackground}" Color="Transparent"/>
-    
-     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=SplitButtonToggleButtonGlyph}" Color="#FF999999"/>
-    
-        <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=SplitButtonBorderHover}" Color="Transparent"/>
-    
+                     ResourceId=DropDownMouseOverBackgroundMiddle2}" Color="#FF3F3F46"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=SplitButtonActionButtonBackgroundHover}" Color="#FF3E3E40"/>
-    
-     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=SplitButtonActionButtonForegroundHover}" Color="#FFF1F1F1"/>
-    
+                     ResourceId=DropDownMouseOverBorder}" Color="#FF434346"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=SplitButtonSeparatorHover}" Color="Transparent"/>
-    
-     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=SplitButtonToggleButtonBackgroundHover}" Color="#FF3E3E40"/>
-    
-     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=SplitButtonToggleButtonGlyphHover}" Color="#FF007ACC"/>
-    
-        <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=SplitButtonActionButtonBackgroundDown}" Color="#FF007ACC"/>
-    
-     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=SplitButtonActionButtonForegroundDown}" Color="#FFFFFFFF"/>
-    
+                     ResourceId=DropDownMouseOverGlyph}" Color="#FF007ACC"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=SplitButtonSeparatorDown}" Color="#FF007ACC"/>
-    
-         <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=SplitButtonActionButtonDown}" Color="#FF007ACC"/>
-    
-     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=SplitButtonToggleButtonDown}" Color="#FF007ACC"/>
-    
-           <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=SplitButtonActionButtonBackgroundChecked}" Color="#FF007ACC"/>
-    
-     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=SplitButtonActionButtonForegroundChecked}" Color="#FFFFFFFF"/>
-    
+                     ResourceId=DropDownMouseOverText}" Color="#FFFFFFFF"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=SplitButtonSeparatorChecked}" Color="#FF007ACC"/>
-    
+                     ResourceId=DropDownPopupBackgroundBegin}" Color="#FF1B1B1C"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=SplitButtonToggleButtonBackgroundChecked}" Color="#FF007ACC"/>
-    
+                     ResourceId=DropDownPopupBackgroundEnd}" Color="#FF1B1B1C"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=SplitButtonToggleButtonGlyphChecked}" Color="#FFFFFFFF"/>
-    
-     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=SplitButtonToggleButtonGlyphDisabled}" Color="#FF2D2D30"/>
-    
+                     ResourceId=DropDownPopupBorder}" Color="#FF333337"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=SplitButtonActionButtonForegroundDisabled}" Color="#FF656565"/>
+                     ResourceId=DropDownText}" Color="#FFF1F1F1"/>
+
+    <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=DropShadowBackground}"  A="72" R="00" G="00" B="00"/>
+    
     
     <!--ScrollBar-->
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=ScrollBarArrowBackground}" Color="#FF3E3E42"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=ScrollBarArrowDisabledBackground}" Color="#FF3E3E42"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=ScrollBarArrowGlyph}" Color="#FF999999"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=ScrollBarArrowGlyphDisabled}" Color="#FF555558"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=ScrollBarArrowGlyphMouseOver}" Color="#FF1C97EA"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=ScrollBarArrowGlyphPressed}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=ScrollBarArrowMouseOverBackground}" Color="#FF3E3E42"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=ScrollBarArrowPressedBackground}" Color="#FF3E3E42"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
                      ResourceId=ScrollBarBackground}" Color="#FF3E3E42"/>
 
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ScrollBarBorder}" Color="#FFFFFFFF"/>
+                     ResourceId=ScrollBarBorder}" Color="#FF1C1C1C"/>
 
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ScrollBarButtonBackground}" Color="#FF3E3E42"/>
+                     ResourceId=ScrollBarDisabledBackground}" Color="#FF3E3E42"/>
 
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ScrollBarButtonBackgroundHover}" Color="#FF3E3E42"/>
-
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ScrollBarButtonBackgroundDown}" Color="#FF3E3E42"/>
-
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ScrollBarButtonBackgroundDisabled}" Color="#FF3E3E42"/>
-    
-     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ScrollBarButtonGlyph}" Color="#FF999999"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ScrollBarButtonGlyphHover}" Color="#FF1C97EA"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ScrollBarButtonGlyphDown}" Color="#FF007ACC"/>
-    
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ScrollBarButtonGlyphDisabled}" Color="#FF555558"/>
-    
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
                      ResourceId=ScrollBarThumbBackground}" Color="#FF686868"/>
-    
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ScrollBarThumbBackgroundHover}" Color="#FF9E9E9E"/>
-    
+                     ResourceId=ScrollBarThumbBorder}" Color="#FF686868"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ScrollBarThumbBackgroundDown}" Color="#FFEFEBEF"/>
-    
+                     ResourceId=ScrollBarThumbDisabled}" Color="#FF3E3E42"/>
+
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ScrollBarThumbBackgroundDisabled}" Color="#FF3E3E42"/>
+                     ResourceId=ScrollBarThumbGlyph}" Color="#FF686868"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=ScrollBarThumbGlyphMouseOverBorder}" Color="#FF9E9E9E"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=ScrollBarThumbGlyphPressedBorder}" Color="#FFEFEBEF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=ScrollBarThumbMouseOverBackground}" Color="#FF9E9E9E"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=ScrollBarThumbMouseOverBorder}" Color="#FF9E9E9E"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=ScrollBarThumbPressedBackground}" Color="#FFEFEBEF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
+                     ResourceId=ScrollBarThumbPressedBorder}" Color="#FFEFEBEF"/>
     
     <!--TextBox-->
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
@@ -591,46 +470,6 @@
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
                      ResourceId=TextBoxForegroundDisabled}" Color="#FF656565"/>
     
-    <!--ToolBar-->
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ToolBarBackground}" Color="#FF2D2D30"/>
-    
-     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ToolBarBorder}" Color="#FF2D2D30"/>
-    
-     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ToolBarGrip}" Color="#FF46464A"/>
-
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ToolBarButtonBackground}" Color="#FF2D2D30"/>
-
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ToolBarButtonBackgroundGlyph}" Color="#FF999999"/>
-
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ToolBarButtonBackgroundMouseOver}" Color="#72555555"/>
-
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ToolBarButtonBackgroundGlyphMouseOver}" Color="#FF007ACC"/>
-
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ToolBarButtonBackgroundIsChecked}" Color="#FF007ACC"/>
-
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ToolBarButtonBackgroundGlyphIsChecked}" Color="#FFFFFFFF"/>
-
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ToolBarButtonBackgroundFocused}" Color="#FF007ACC"/>
-
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ToolBarButtonBackgroundGlyphFocused}" Color="#FF60728C"/>
-
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ToolBarButtonBackgroundDisabled}" Color="#FF2D2D30"/>
-    
-     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=ToolBarButtonBackgroundGlyphDisabled}" Color="#FF999999"/>
-
     <!--WindowBase-->
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
                      ResourceId=WindowBaseBackground}" Color="#FFEEEEF2"/>
@@ -1211,36 +1050,241 @@
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
                      ResourceId=ListViewBackground}" Color="#FF252526"/>
 
+    <!--CommandShelf-->
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandShelfBackground}" Color="#FF2D2D30"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandShelfHighlight}" Color="#FF2D2D30"/>
+
     <!--CommandBar-->
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
-                     ResourceId=CommandBarSelectedIcon}" Color="#FF2D2D30"/>
+                     ResourceId=CommandBarShadow}" Color="#FF2D2D30"/>
 
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
-                     ResourceId=CommandBarCheckBox}" Color="#FF999999"/>
+                     ResourceId=CommandBarBorder}" Color="#FF2D2D30"/>
 
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
-                     ResourceId=CommandBarMenuItemMouseOver}" Color="#FF333334"/>
+                     ResourceId=CommandBarGradientEnd}" Color="#FF2D2D30"/>
 
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
-                     ResourceId=CommandBarMenuItemMouseOverBorder}" Color="#FF333334"/>
+                     ResourceId=CommandBarGradientMiddle}" Color="#FF2D2D30"/>
 
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
-                     ResourceId=CommandBarMenuItemMouseOverText}" Color="#FFF1F1F1"/>
+                     ResourceId=CommandBarTextActive}" Color="#FFF1F1F1"/>
 
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
-                     ResourceId=CommandBarHoverOverSelectedIcon}" Color="#FF3E3E40"/>
+                     ResourceId=CommandBarTextHover}" Color="#FFF1F1F1"/>
 
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
-                     ResourceId=CommandBarCheckBoxMouseOver}" Color="#FFF1F1F1"/>
+                     ResourceId=CommandBarTextHoverOverSelected}" Color="#FFE9ECEE"/>
 
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
                      ResourceId=CommandBarTextInactive}" Color="#FF656565"/>
 
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarTextMouseDown}" Color="#FFFFFFFF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarTextSelected}" Color="#FFF1F1F1"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarSelected}" Color="#FF2D2D30"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarSelectedBorder}" Color="#FF3399FF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarSelectedIcon}" Color="#FF2D2D30"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarSelectedIconBorder}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
                      ResourceId=CommandBarSelectedIconDisabled}" Color="#FF2D2D30"/>
 
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarSelectedIconDisabledBorder}" Color="#FF434346"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarHoverOverSelected}" Color="#FF3E3E40"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarHoverOverSelectedIcon}" Color="#FF3E3E40"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarHoverOverSelectedIconBorder}" Color="#FF3399FF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarDragHandle}" Color="#FF46464A"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarDragHandleShadow}" Color="#FF46464A"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarGradientBegin}" Color="#FF2D2D30"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMouseDownBackgroundBegin}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMouseDownBackgroundEnd}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMouseDownBackgroundMiddle}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMouseDownBorder}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMouseOverBackgroundBegin}" Color="#FF3E3E40"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMouseOverBackgroundEnd}" Color="#FF3E3E40"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMouseOverBackgroundMiddle1}" Color="#FF3E3E40"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMouseOverBackgroundMiddle2}" Color="#FF3E3E40"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMouseOverUnfocused}" Color="#FF3E3E40"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarSplitButtonGlyph}" Color="#FF999999"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarSplitButtonMouseDownGlyph}" Color="#FFFFFFFF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarSplitButtonMouseOverGlyph}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarSplitButtonSeparator}" Color="#FF333337"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarToolBarBorder}" Color="#FF2D2D30"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarToolBarSeparator}" Color="#FF222222"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarToolBarSeparatorHighlight}" Color="#FF46464A"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarCheckBox}" Color="#FF999999"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
                      ResourceId=CommandBarCheckBoxDisabled}" Color="#FF656565"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarCheckBoxMouseOver}" Color="#FFF1F1F1"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMenuBackgroundGradientBegin}" Color="#FF1B1B1C"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMenuBackgroundGradientEnd}" Color="#FF1B1B1C"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMenuBorder}" Color="#FF333337"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMenuGlyph}" Color="#FF999999"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMenuGroupHeaderLinkText}" Color="#FF0097FB"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMenuGroupHeaderLinkTextHover}" Color="#FF55AAFF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMenuIconBackground}" Color="#FF1B1B1C"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMenuItemMouseOver}" Color="#FF333334"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMenuItemMouseOverText}" Color="#FFF1F1F1"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMenuItemMouseOverBorder}" Color="#FF333334"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMenuLinkText}" Color="#FF0097FB"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMenuLinkTextHover}" Color="#FF55AAFF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMenuMouseDownGlyph}" Color="#FFF1F1F1"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMenuMouseOverGlyph}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMenuMouseOverSeparator}" Color="#FF333337"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMenuMouseOverSubmenuGlyph}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMenuScrollGlyph}" Color="#FF999999"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMenuSeparator}" Color="#FF333337"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMenuSubmenuGlyph}" Color="#FF999999"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMenuSubmenuGlyphHover}" Color="#FFFFFFFF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMenuWatermarkLinkText}" Color="#FF0097FB"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMenuWatermarkLinkTextHover}" Color="#FF999999"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMenuWatermarkText}" Color="#FF999999"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarMenuWatermarkTextHover}" Color="#FF999999"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarOptionsBackground}" Color="#FF2D2D30"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarOptionsGlyph}" Color="#FF999999"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarOptionsMouseDownBackgroundBegin}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarOptionsMouseDownBackgroundEnd}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarOptionsMouseDownBackgroundMiddle}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarOptionsMouseDownGlyph}" Color="#FFFFFFFF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarOptionsMouseOverBackgroundBegin}" Color="#72555555"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarOptionsMouseOverBackgroundEnd}" Color="#72555555"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarOptionsMouseOverBackgroundMiddle1}" Color="#72555555"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarOptionsMouseOverBackgroundMiddle2}" Color="#72555555"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=CommandBarOptionsMouseOverGlyph}" Color="#FF007ACC"/>
 
     <!--QuickCustomizeButton-->
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
@@ -1260,5 +1304,12 @@
 
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
                      ResourceId=QuickCustomizeButtonGlyphHover}" Color="#FF007ACC"/>
+
+    <!--SystemColors-->
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=SystemWindow}" Color="#FF252526"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
+                     ResourceId=SystemGrayText}" Color="#FF999999"/>
 
 </ResourceDictionary>

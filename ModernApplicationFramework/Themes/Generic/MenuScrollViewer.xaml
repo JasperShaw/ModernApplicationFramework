@@ -65,7 +65,7 @@
 								</MultiBinding>
 							</UIElement.Visibility>
 							<Path x:Name="ScrollUpArrow"
-                              Fill="{DynamicResource {x:Static themes:EnvironmentColors.MenuSubItemGlyph}}"
+                              Fill="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuScrollGlyph}}"
                               Data="{StaticResource UpArrowGeometry}"/>
 						</RepeatButton>
 						<RepeatButton x:Name="ScrollDownButton" Grid.Row="2" Grid.Column="0"
@@ -84,7 +84,7 @@
 								</MultiBinding>
 							</UIElement.Visibility>
 							<Path x:Name="ScrollDownArrow" x:Uid="ScrollDownArrow"
-                              Fill="{DynamicResource {x:Static themes:EnvironmentColors.MenuSubItemGlyph}}"
+                              Fill="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuScrollGlyph}}"
                               Data="{StaticResource DownArrowGeometry}"/>
 						</RepeatButton>
 					</Grid>

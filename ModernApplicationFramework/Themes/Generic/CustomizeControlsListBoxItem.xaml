@@ -45,7 +45,7 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <ToggleButton x:Name="ToggleButton" Grid.Column="1" Background="Transparent"
-                                  BorderBrush="Transparent" Foreground="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxArrow}}"
+                                  BorderBrush="Transparent" Foreground="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxGlyph}}"
                                   Style="{StaticResource CustomizeControlsComboBoxToggleButton}">
                         <ToggleButton.IsChecked>
                             <Binding Path="IsDropDownOpen" Mode="TwoWay" RelativeSource="{RelativeSource TemplatedParent}"/>
@@ -56,19 +56,19 @@
             <ControlTemplate.Triggers>
                 <Trigger Property="IsEnabled" Value="True">
                     <Setter TargetName="ToggleButton"
-                            Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxButtonBorderHover}}"
+                            Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxButtonMouseOverSeparator}}"
                             Property="Control.BorderBrush"/>
                     <Setter TargetName="ToggleButton"
-                            Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboboxButtonBackgroundHover}}"
+                            Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxButtonMouseOverBackground}}"
                             Property="Control.Background"/>
                     <Setter TargetName="ToggleButton"
-                            Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxArrowHover}}"
+                            Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxMouseOverGlyph}}"
                             Property="TextElement.Foreground"/>
                     <Setter TargetName="Border"
-                            Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxBorderHover}}"
+                            Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxMouseOverBorder}}"
                             Property="Border.BorderBrush"/>
                     <Setter TargetName="Border"
-                            Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxBackgroundHover}}"
+                            Value="{DynamicResource {x:Static themes:EnvironmentColors.ComboBoxMouseOverBackgroundBegin}}"
                             Property="Border.Background"/>
                 </Trigger>
             </ControlTemplate.Triggers>
@@ -82,7 +82,7 @@
                 </Grid.ColumnDefinitions>
                 <Rectangle x:Name="Bg" Stroke=" Transparent" Fill="Transparent" StrokeThickness="0"
                            Grid.ColumnSpan="2"/>
-                <Rectangle Height="1" Margin="4,1,1,1" Fill="{DynamicResource {x:Static themes:EnvironmentColors.MenuSeparator}}" Grid.Column="1"/>
+                <Rectangle Height="1" Margin="4,1,1,1" Fill="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarToolBarSeparator}}" Grid.Column="1"/>
             </Grid>
             <ControlTemplate.Triggers>
                 <Trigger Property="ListBoxItem.IsSelected" Value="True">
@@ -145,7 +145,7 @@
                 </Trigger>
                 <Trigger Property="ListBoxItem.IsSelected" Value="true">
                     <Setter TargetName="Bg"
-                            Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemBackgroundHover}}"
+                            Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuItemMouseOver}}"
                             Property="Shape.Fill"/>
                     <Setter TargetName="Bg"
                             Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuItemMouseOverBorder}}"
@@ -153,13 +153,13 @@
                     <Setter Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuItemMouseOverText}}"
                             Property="TextElement.Foreground"/>
                     <Setter TargetName="GlyphPanel"
-                            Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarSelectedIcon}}"
+                            Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarHoverOverSelectedIcon}}"
                             Property="Border.Background"/>
                     <Setter TargetName="GlyphPanel"
-                            Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarSelectedIcon}}"
+                            Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarCheckBoxMouseOver}}"
                             Property="Border.BorderBrush"/>
                     <Setter TargetName="Glyph"
-                            Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarSelectedIcon}}"
+                            Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarCheckBoxMouseOver}}"
                             Property="Shape.Fill"/>
                 </Trigger>
             </ControlTemplate.Triggers>
@@ -182,7 +182,7 @@
                                   VerticalAlignment="Center" RecognizesAccessKey="true"
                                   SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
                 <Path Grid.Column="2" VerticalAlignment="Center" Margin="4,0,0,0"
-                      Fill="{DynamicResource {x:Static themes:EnvironmentColors.MenuSubItemGlyph}}"
+                      Fill="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuSubmenuGlyph}}"
                       Data="{StaticResource RightArrow}"/>
             </Grid>
             <ControlTemplate.Triggers>
@@ -194,12 +194,12 @@
                 </Trigger>
                 <Trigger Property="ListBoxItem.IsSelected" Value="true">
                     <Setter TargetName="Bg"
-                            Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemBackgroundHover}}"
+                            Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuItemMouseOver}}"
                             Property="Shape.Fill"/>
                     <Setter TargetName="Bg"
-                            Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemBorderHover}}"
+                            Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuItemMouseOverBorder}}"
                             Property="Shape.Stroke"/>
-                    <Setter Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemForegroundHover}}"
+                    <Setter Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuItemMouseOverText}}"
                             Property="TextElement.Foreground"/>
                 </Trigger>
             </ControlTemplate.Triggers>
@@ -224,9 +224,9 @@
                                   VerticalAlignment="Center" RecognizesAccessKey="true"
                                   SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
                 <Rectangle x:Name="DropDownSep" Grid.Column="2" HorizontalAlignment="Left" Width="1"
-                           Fill="{DynamicResource {x:Static themes:EnvironmentColors.SplitButtonSeparator}}"/>
+                           Fill="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarSplitButtonSeparator}}"/>
                 <Path x:Name="Arrow" Grid.Column="3" VerticalAlignment="Center" Margin="4,0,0,0"
-                      Fill="{DynamicResource {x:Static themes:EnvironmentColors.MenuSubItemGlyph}}"
+                      Fill="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuSubmenuGlyph}}"
                       Data="{StaticResource DownArrow}"/>
             </Grid>
             <ControlTemplate.Triggers>
@@ -238,18 +238,18 @@
                 </Trigger>
                 <Trigger Property="ListBoxItem.IsSelected" Value="true">
                     <Setter TargetName="Bg"
-                            Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemBackgroundHover}}"
+                            Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuItemMouseOver}}"
                             Property="Shape.Fill"/>
                     <Setter TargetName="Bg"
-                            Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemBorderHover}}"
+                            Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuItemMouseOverBorder}}"
                             Property="Shape.Stroke"/>
-                    <Setter Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemForegroundHover}}"
+                    <Setter Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuItemMouseOverText}}"
                             Property="TextElement.Foreground"/>
                     <Setter TargetName="DropDownSep"
-                            Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownGlyphHover}}"
+                            Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownMouseOverGlyph}}"
                             Property="Shape.Fill"/>
                     <Setter TargetName="Arrow"
-                            Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownGlyphHover}}"
+                            Value="{DynamicResource {x:Static themes:EnvironmentColors.DropDownMouseOverGlyph}}"
                             Property="Shape.Fill"/>
                 </Trigger>
             </ControlTemplate.Triggers>
@@ -296,15 +296,15 @@
                 </Trigger>
                 <Trigger Property="ListBoxItem.IsSelected" Value="true">
                     <Setter TargetName="Bg"
-                            Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemBackgroundHover}}"
+                            Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuItemMouseOver}}"
                             Property="Shape.Fill"/>
                     <Setter TargetName="Bg"
-                            Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemBorderHover}}"
+                            Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuItemMouseOverBorder}}"
                             Property="Shape.Stroke"/>
-                    <Setter Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemForegroundHover}}"
+                    <Setter Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuItemMouseOverText}}"
                             Property="TextElement.Foreground"/>
                     <Setter TargetName="GlyphPanel"
-                            Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemBackgroundDown}}"
+                            Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarHoverOverSelectedIcon}}"
                             Property="Border.Background"/>
                     <Setter TargetName="GlyphPanel"
                             Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarCheckBoxMouseOver}}"
@@ -316,9 +316,6 @@
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
-
-
-
 
         <Style x:Key="CommonCustomizeControlsListBoxItemStyleKey" TargetType="{x:Type controls:CustomizeControlsListBoxItem}">
             <Setter Property="Content">
@@ -337,7 +334,7 @@
                 </Setter.Value>
             </Setter>
             <Setter Property="TextElement.Foreground"
-                    Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemForeground}}"/>
+                    Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarTextActive}}"/>
         </Style>
 
         <Style x:Key="CommonCustomizeControlsListBoxItemWithImageStyleKey" 

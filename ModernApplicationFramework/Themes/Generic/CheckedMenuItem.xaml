@@ -24,7 +24,7 @@
                         </Grid.ColumnDefinitions>
                         <Rectangle x:Name="Bg" Stroke="Transparent" Fill="Transparent" StrokeThickness="0" Grid.ColumnSpan="3"/>
                         <Border x:Name="GlyphPanel" 
-                                Background="{DynamicResource {x:Static colors:EnvironmentColors.ContextMenuIconBackground}}" 
+                                Background="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuIconBackground}}" 
                                 BorderBrush="{DynamicResource {x:Static colors:EnvironmentColors.CheckBoxBorder}}" 
                                 BorderThickness="2" Margin="1" Visibility="Collapsed" Width="18" Height="18">
                             <Path x:Name="Glyph" Width="16" Height="16"

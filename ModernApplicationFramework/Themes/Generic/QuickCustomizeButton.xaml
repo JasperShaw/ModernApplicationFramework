@@ -54,12 +54,12 @@
             </Trigger>
             <Trigger Property="MenuItem.IsHighlighted" Value="true">
                 <Setter TargetName="Bg"
-                        Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemBackgroundHover}}"
+                        Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuItemMouseOver}}"
                         Property="Shape.Fill"/>
                 <Setter TargetName="Bg"
-                        Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemBorderHover}}"
+                        Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuItemMouseOverBorder}}"
                         Property="Shape.Stroke"/>
-                <Setter Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemForegroundHover}}"
+                <Setter Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuItemMouseOverText}}"
                         Property="TextElement.Foreground"/>
                 <Setter TargetName="GlyphPanel"
                         Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarHoverOverSelectedIcon}}"
@@ -91,7 +91,7 @@
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Padding" Value="2,3,2,3"/>
         <Setter Property="Template" Value="{StaticResource ToolbarCustomizeMenuItemTemplate}"/>
-        <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemForeground}}"/>
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarTextActive}}"/>
         <Setter Property="StaysOpenOnClick" Value="True"/>
     </Style>
 
@@ -135,10 +135,10 @@
                             <ColumnDefinition Width="26" SharedSizeGroup="MenuItemIconColumnGroup"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Rectangle Fill="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemPopupIconBackground}}"
+                        <Rectangle Fill="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuIconBackground}}"
                                    Grid.Column="0" Grid.ColumnSpan="2"/>
                         <Rectangle Height="1" Margin="4,1,1,1"
-                                   Fill="{DynamicResource {x:Static themes:EnvironmentColors.MenuSeparator}}"
+                                   Fill="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuSeparator}}"
                                    Grid.Column="2"/>
                     </Grid>
                 </ControlTemplate>
@@ -174,17 +174,17 @@
                                     <Binding Path="IsSubmenuOpen" RelativeSource="{RelativeSource TemplatedParent}"/>
                                 </Popup.IsOpen>
                                 <controls:SystemDropShadowChrome x:Name="Shdw" Color="Transparent">
-                                    <Grid Background="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemPopupIconBackground}}">
+                                    <Grid Background="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuIconBackground}}">
                                         <controls:MenuScrollViewer>
-                                            <Grid Background="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemPopupBackground}}"
+                                            <Grid Background="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuBackgroundGradientBegin}}"
                                                   RenderOptions.ClearTypeHint="Enabled">
-                                                <Border Background="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemPopupIconBackground}}" 
+                                                <Border Background="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuIconBackground}}" 
                                                         HorizontalAlignment="Left" Width="54"/>
                                                 <ItemsPresenter Margin="3" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Grid.IsSharedSizeScope="True"
                                                                 KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.DirectionalNavigation="Cycle"/>
                                             </Grid>
                                         </controls:MenuScrollViewer>
-                                        <Border BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemPopupBorder}}" BorderThickness="1"/>
+                                        <Border BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuBorder}}" BorderThickness="1"/>
                                     </Grid>
                                 </controls:SystemDropShadowChrome>
                             </Popup>
@@ -232,7 +232,7 @@
                                 <Binding ElementName="PART_Popup" Path="(Popup.HasDropShadow)"/>
                             </DataTrigger.Binding>
                             <Setter TargetName="Shdw" Property="FrameworkElement.Margin" Value="0,0,5,5"/>
-                            <Setter TargetName="Shdw" Value="{DynamicResource {x:Static themes:EnvironmentColors.MenuItemPopupShadow}}" 
+                            <Setter TargetName="Shdw" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropShadowBackground}}" 
                                     Property="controls:SystemDropShadowChrome.Color"/>
                         </DataTrigger>
                     </ControlTemplate.Triggers>

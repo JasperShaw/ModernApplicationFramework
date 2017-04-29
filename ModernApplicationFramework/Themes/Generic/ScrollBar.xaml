@@ -9,22 +9,22 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Border x:Name="Border" Background="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarButtonBackground}}">
+                    <Border x:Name="Border" Background="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarArrowBackground}}">
                         <Path x:Name="Glyph" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                              Fill="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarButtonGlyph}}" Data="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}"/>
+                              Fill="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarArrowGlyph}}" Data="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarButtonBackgroundHover}}"/>
-                            <Setter TargetName="Glyph" Property="Fill" Value="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarButtonGlyphHover}}"/>
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarArrowMouseOverBackground}}"/>
+                            <Setter TargetName="Glyph" Property="Fill" Value="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarArrowGlyphMouseOver}}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarButtonBackgroundDown}}"/>
-                            <Setter TargetName="Glyph" Property="Fill" Value="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarButtonGlyphDown}}"/>
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarArrowPressedBackground}}"/>
+                            <Setter TargetName="Glyph" Property="Fill" Value="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarArrowGlyphPressed}}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarBackground}}"/>
-                            <Setter TargetName="Glyph" Property="Fill" Value="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarButtonGlyphDisabled}}"/>
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarArrowDisabledBackground}}"/>
+                            <Setter TargetName="Glyph" Property="Fill" Value="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarArrowGlyphDisabled}}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -59,13 +59,13 @@
                     <Border x:Name="Border" BorderThickness="2,0" BorderBrush="Transparent" Background="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarThumbBackground}}"/>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarThumbBackgroundHover}}"/>
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarThumbMouseOverBackground}}"/>
                         </Trigger>
                         <Trigger Property="IsDragging" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarThumbBackgroundDown}}"/>
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarThumbPressedBackground}}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarThumbBackgroundDisabled}}"/>
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarThumbDisabled}}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -80,13 +80,13 @@
                     <Border x:Name="Border" BorderThickness="0,2" BorderBrush="Transparent" Background="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarThumbBackground}}"/>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarThumbBackgroundHover}}"/>
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarThumbMouseOverBackground}}"/>
                         </Trigger>
                         <Trigger Property="IsDragging" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarThumbBackgroundDown}}"/>
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarThumbPressedBackground}}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarThumbBackgroundDisabled}}"/>
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarThumbDisabled}}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -95,7 +95,8 @@
     </Style>
     
     <ControlTemplate x:Key="VerticalScrollBar" TargetType="{x:Type primitives:ScrollBar}">
-        <Border Background="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarBackground}}" BorderBrush="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarBorder}}">
+        <Border Background="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarBackground}}" 
+                BorderBrush="{DynamicResource {x:Static core:EnvironmentColors.ScrollBarBorder}}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition MaxHeight="{DynamicResource {x:Static SystemParameters.VerticalScrollBarButtonHeightKey}}"/>

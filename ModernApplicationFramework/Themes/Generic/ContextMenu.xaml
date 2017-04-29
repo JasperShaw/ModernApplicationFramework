@@ -63,7 +63,7 @@
     </ControlTemplate>
 
     <Style TargetType="{x:Type this:ContextMenu}" BasedOn="{StaticResource {x:Type ContextMenu}}">
-        <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.ContextMenuForeground}}"/>
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarTextActive}}"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="PopupAnimation" Value="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}"/>
         <Setter Property="utilities:MenuBehavior.UpdateCommandUiItems" Value="True" />
@@ -71,21 +71,21 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type this:ContextMenu}">
                     <themes:SystemDropShadowChrome x:Name="Shdw" Color="Transparent">
-                        <Grid Background="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemPopupIconBackground}}">
+                        <Grid Background="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuIconBackground}}">
                             <ScrollViewer x:Name="PART_ScrollViewer" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type FrameworkElement}, ResourceId=MenuScrollViewer}}">
-                                <Grid Background="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemPopupBackground}}"
+                                <Grid Background="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuBackgroundGradientBegin}}"
                                       RenderOptions.ClearTypeHint="Enabled">
                                     <colors:ImageThemingUtilities.ImageBackgroundColor>
                                         <Binding Path="Background" ElementName="PART_IconBackground" Converter="{StaticResource BrushToColorConverter}"/>
                                     </colors:ImageThemingUtilities.ImageBackgroundColor>
                                     <Border x:Name="PART_IconBackground" Width="28"
-                                            Background="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemPopupIconBackground}}"
+                                            Background="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuIconBackground}}"
                                             HorizontalAlignment="Left"/>
                                     <ItemsPresenter KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.DirectionalNavigation="Cycle"
                                                     Margin="3" Grid.IsSharedSizeScope="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                                 </Grid>
                             </ScrollViewer>
-                            <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static colors:EnvironmentColors.MenuItemPopupBorder}}"/>
+                            <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuBorder}}"/>
                         </Grid>
                     </themes:SystemDropShadowChrome>
                     <ControlTemplate.Triggers>
@@ -94,7 +94,7 @@
                                 <Binding Path="HasDropShadow" RelativeSource="{RelativeSource Self}"/>
                             </DataTrigger.Binding>
                             <Setter TargetName="Shdw" Property="FrameworkElement.Margin" Value="0,0,5,5"/>
-                            <Setter TargetName="Shdw" Value="{DynamicResource {x:Static colors:EnvironmentColors.ContextMenuShadow}}"
+                            <Setter TargetName="Shdw" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}"
                                     Property="this:SystemDropShadowChrome.Color"/>
                         </DataTrigger>
                     </ControlTemplate.Triggers>

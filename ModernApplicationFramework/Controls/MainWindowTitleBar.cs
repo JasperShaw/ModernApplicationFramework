@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using ModernApplicationFramework.Controls.AutomationPeer;
 using ModernApplicationFramework.Interfaces.Controls;
@@ -21,12 +23,12 @@ namespace ModernApplicationFramework.Controls
         //Not Needed anymore since WindowChrome is Doing the Job now
         protected override void OnContextMenuOpening(ContextMenuEventArgs e)
         {
-            //if (e.Handled)
-            //    return;
-            //var source = PresentationSource.FromVisual(this) as HwndSource;
-            //if (source != null)
-            //    ModernChromeWindow.ShowWindowMenu(source, this, Mouse.GetPosition(this), RenderSize);
-            //e.Handled = true;
+            if (e.Handled)
+                return;
+            var source = PresentationSource.FromVisual(this) as HwndSource;
+            if (source != null)
+                ModernChromeWindow.ShowWindowMenu(source, this, Mouse.GetPosition(this), RenderSize);
+            e.Handled = true;
         }
 
         protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer()
