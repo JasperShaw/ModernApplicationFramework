@@ -408,6 +408,91 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
+
+    <ControlTemplate x:Key="SplitButtonOnMenuTemplate" TargetType="{x:Type this:SplitButton}">
+        <Grid SnapsToDevicePixels="True" Background="Transparent">
+            <Grid MinHeight="22" MaxHeight="{x:Static this:MenuItem.MaxMenuWidth}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="26" SharedSizeGroup="MenuItemColumnGroup"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="37"/>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIGTColumnGroup"/>
+                    <ColumnDefinition Width="17"/>
+                </Grid.ColumnDefinitions>
+                <Rectangle x:Name="Bg" Fill="Transparent" Stroke="Transparent" StrokeThickness="0" Grid.ColumnSpan="6"/>
+                <ContentPresenter Grid.Column="0" x:Name="Icon" Margin="2,1,4,1" Width="16" Height="16" VerticalAlignment="Center" ContentSource="Icon"
+                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                <ContentPresenter Grid.Column="1" ContentSource="Header" Margin="8,1,0,1" RecognizesAccessKey="True" 
+                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center"/>
+                <Path x:Name="Arrow" Grid.Column="4" VerticalAlignment="Center" Margin="4,0,0,0"
+                      Fill="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuSubmenuGlyph}}"
+                      Data="{StaticResource RightArrow}"/>
+            </Grid>
+            <Popup x:Name="PART_Popup" AllowsTransparency="True" Placement="Right" VerticalOffset="0"
+                   HorizontalOffset="0" Focusable="False" PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}">
+                <Popup.IsOpen>
+                    <Binding Path="IsSubmenuOpen" RelativeSource="{RelativeSource TemplatedParent}"/>
+                </Popup.IsOpen>
+                <this:SystemDropShadowChrome x:Name="Shdw" Color="Transparent">
+                    <Border BorderBrush="{DynamicResource {x:Static colors:EnvironmentColors.DropDownPopupBorder}}"
+                            BorderThickness="1">
+                        <Grid SnapsToDevicePixels="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <ScrollViewer x:Name="PART_ScrollViewer" Grid.Row="0" VerticalScrollBarVisibility="Auto">
+                                <Grid Background="{DynamicResource {x:Static colors:EnvironmentColors.DropDownPopupBackgroundBegin}}">
+                                    <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained" Margin="3"
+                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Grid.IsSharedSizeScope="True"/>
+                                </Grid>
+                            </ScrollViewer>
+                            <StatusBar HorizontalAlignment="Stretch" Grid.Row="1"
+                                       Background="{DynamicResource {x:Static colors:EnvironmentColors.SystemWindow}}"
+                                       Foreground="{DynamicResource {x:Static colors:EnvironmentColors.SystemGrayText}}">
+                                <StatusBarItem HorizontalAlignment="Center">
+                                    <TextBlock Text="{Binding StatusString}"/>
+                                </StatusBarItem>
+                            </StatusBar>
+                        </Grid>
+                    </Border>
+                </this:SystemDropShadowChrome>
+            </Popup>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="MenuItem.IsSuspendingPopupAnimation" Value="true">
+                <Setter TargetName="PART_Popup" Property="Popup.PopupAnimation" Value="None"/>
+            </Trigger>
+            <DataTrigger Value="True">
+                <DataTrigger.Binding>
+                    <Binding ElementName="PART_Popup" Path="(Popup.HasDropShadow)"/>
+                </DataTrigger.Binding>
+                <Setter TargetName="Shdw" Property="Margin" Value="0,0,5,5"/>
+                <Setter TargetName="Shdw" Property="Color" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}"/>
+            </DataTrigger>
+            <Trigger Property="UIElement.IsEnabled" Value="false">
+                <Setter Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarTextInactive}}"
+                        Property="TextElement.Foreground"/>
+                <Setter TargetName="Arrow"
+                        Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarTextInactive}}"
+                        Property="Shape.Fill"/>
+            </Trigger>
+            <Trigger Property="UIElement.IsMouseOver" Value="true">
+                <Setter TargetName="Bg"
+                        Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuItemMouseOver}}"
+                        Property="Shape.Fill"/>
+                <Setter TargetName="Bg"
+                        Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuItemMouseOverBorder}}"
+                        Property="Shape.Stroke"/>
+                <Setter Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuItemMouseOverText}}"
+                        Property="TextElement.Foreground"/>
+                <Setter TargetName="Arrow"
+                        Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuMouseOverSubmenuGlyph}}"
+                        Property="Shape.Fill"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    
     <Style x:Key="{x:Static this:Menu.SeparatorStyleKey}" TargetType="{x:Type this:MenuItem}">
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="IsEnabled" Value="False"/>
@@ -794,7 +879,34 @@
                 <Binding Converter="{StaticResource CommandBarItemCommandConverter}"/>
             </Setter.Value>
         </Setter>
-        <!-- TODO Splitbutton  trigger-->
+        <Style.Triggers>
+            <DataTrigger Value="True">
+                <DataTrigger.Binding>
+                    <Binding Converter="{StaticResource IsSplitButtonModelConverter}"/>
+                </DataTrigger.Binding>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type this:MenuItem}">
+                            <this:SplitButton x:Name="PART_FocusTarget" Template="{StaticResource SplitButtonOnMenuTemplate}"
+                                              Icon="{TemplateBinding Icon}">
+                                <MenuItem.IsSubmenuOpen>
+                                    <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="IsSubmenuOpen" Mode="TwoWay"/>
+                                </MenuItem.IsSubmenuOpen>
+                                <ItemsControl.ItemsSource>
+                                    <Binding Path="CommandDefinition.Items"/>
+                                </ItemsControl.ItemsSource>
+                                <HeaderedItemsControl.Header>
+                                    <Binding Path="Text" Mode="OneWay" Converter="{StaticResource AccessKeyConverter}"/>
+                                </HeaderedItemsControl.Header>
+                                <this:SplitButton.SelectedIndex>
+                                    <Binding Path="SelectedIndex" Mode="TwoWay"/>
+                                </this:SplitButton.SelectedIndex>
+                            </this:SplitButton>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
     <Style x:Key="{x:Static this:MenuItem.ComboBoxStyleKey}" TargetType="{x:Type this:MenuItem}">
         <Setter Property="Background" Value="Transparent"/>
