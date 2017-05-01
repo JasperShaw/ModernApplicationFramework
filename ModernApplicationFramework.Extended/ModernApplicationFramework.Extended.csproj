@@ -64,6 +64,7 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Commands\CloseProgammCommandDefinition.cs" />
     <Compile Include="Commands\FullScreenCommandDefinition.cs" />
+    <Compile Include="Commands\MultiRedoCommandDefinition.cs" />
     <Compile Include="Commands\OpenSettingsCommandDefinition.cs" />
     <Compile Include="Commands\RedoCommandDefinition.cs" />
     <Compile Include="Commands\SwitchToDocumentCommandListDefinition.cs" />

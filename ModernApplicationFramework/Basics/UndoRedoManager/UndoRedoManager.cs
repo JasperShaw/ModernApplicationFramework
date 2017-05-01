@@ -9,6 +9,12 @@ namespace ModernApplicationFramework.Basics.UndoRedoManager
         private readonly BindableCollection<UndoRedoAction> _redoStack;
         private readonly BindableCollection<UndoRedoAction> _undoStack;
 
+
+        private bool _isChanging; //Make sure we do not end up in a loop inside the undo/redo manager
+
+        public IObservableCollection<UndoRedoAction> RedoStack => _redoStack;
+        public IObservableCollection<UndoRedoAction> UndoStack => _undoStack;
+
         public UndoRedoManager()
         {
             _redoStack = new BindableCollection<UndoRedoAction>();
@@ -18,38 +24,26 @@ namespace ModernApplicationFramework.Basics.UndoRedoManager
         public void Push(UndoRedoAction action)
         {
             Push(_undoStack, action);
+
+            if (!_isChanging)
+                _redoStack.Clear();
         }
 
-        public void Redo()
+        public void Redo(int count)
         {
-            var action = Pop(_redoStack);
-            action.Execute();
-            Pop(_undoStack);
-            Push(_undoStack, action);
-        }
-
-        public IObservableCollection<UndoRedoAction> RedoStack => _redoStack;
-
-        public void Undo()
-        {
-            var action = Pop(_undoStack);
-            action.Undo();
-            Push(_redoStack, action);
-
-            //Needed because otherwise we would be an odd loop
-            if (action.HasPropertyChange)
-                Pop(_undoStack);
+            _isChanging = true;
+            for (var i = 0; i < count; i++)
+                Redo();
+            _isChanging = false;
         }
 
         public void Undo(int count)
         {
-            for (int i = 0; i < count; i++)
-            {
+            _isChanging = true;
+            for (var i = 0; i < count; i++)
                 Undo();
-            }
+            _isChanging = false;
         }
-
-        public IObservableCollection<UndoRedoAction> UndoStack => _undoStack;
 
         private static UndoRedoAction Pop(IList<UndoRedoAction> stack)
         {
@@ -61,6 +55,26 @@ namespace ModernApplicationFramework.Basics.UndoRedoManager
         private static void Push(ICollection<UndoRedoAction> stack, UndoRedoAction action)
         {
             stack.Add(action);
+        }
+
+        private void Redo()
+        {
+            var action = Pop(_redoStack);
+            action.Execute();
+            Push(_undoStack, action);
+
+            //Needed as action.Execute() readds to the stack
+            Pop(_undoStack);
+        }
+
+        private void Undo()
+        {
+            var action = Pop(_undoStack);
+            action.Undo();
+            Push(_redoStack, action);
+
+            //Needed as action.Undo() readds to the stack
+            Pop(_undoStack);
         }
     }
 }

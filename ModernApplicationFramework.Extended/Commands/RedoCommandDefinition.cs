@@ -5,6 +5,7 @@ using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Extended.Core;
 using ModernApplicationFramework.Extended.Interfaces;
 
 namespace ModernApplicationFramework.Extended.Commands
@@ -13,9 +14,8 @@ namespace ModernApplicationFramework.Extended.Commands
     [Export(typeof(RedoCommandDefinition))]
     public sealed class RedoCommandDefinition : CommandDefinition
     {
-#pragma warning disable 649
-        [Import] private IDockingMainWindowViewModel _shell;
-#pragma warning restore 649
+        private readonly CommandBarUndoRedoManagerWatcher _watcher;
+
         public override ICommand Command { get; }
 
         public override string IconId => "RedoIcon";
@@ -31,8 +31,10 @@ namespace ModernApplicationFramework.Extended.Commands
 
         public override CommandCategory Category => CommandCategories.EditCommandCategory;
 
-        public RedoCommandDefinition()
+        [ImportingConstructor]
+        public RedoCommandDefinition(CommandBarUndoRedoManagerWatcher watcher)
         {
+            _watcher = watcher;
             var command = new MultiKeyGestureCommandWrapper(Redo, CanRedo,
                 new MultiKeyGesture(new[] {Key.Y}, ModifierKeys.Control));
             Command = command;
@@ -41,13 +43,12 @@ namespace ModernApplicationFramework.Extended.Commands
 
         private bool CanRedo()
         {
-            return _shell?.DockingHost.ActiveItem != null &&
-                   _shell.DockingHost.ActiveItem.UndoRedoManager.RedoStack.Any();
+            return _watcher?.UndoRedoManager != null && _watcher.UndoRedoManager.RedoStack.Any();
         }
 
         private void Redo()
         {
-            _shell.DockingHost.ActiveItem.RedoCommand.Execute(null);
+            _watcher.UndoRedoManager.Redo(1);
         }
     }
 }

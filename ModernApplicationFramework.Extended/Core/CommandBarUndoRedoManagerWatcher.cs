@@ -15,7 +15,8 @@ namespace ModernApplicationFramework.Extended.Core
         private readonly IDockingHostViewModel _shell;
         private IUndoRedoManager _undoRedoManager;
 
-        public IObservableCollection<IHasTextProperty> Items { get; set; }
+        public IObservableCollection<IHasTextProperty> RedoItems { get; set; }
+        public IObservableCollection<IHasTextProperty> UndoItems { get; set; }
 
         public IUndoRedoManager UndoRedoManager
         {
@@ -23,10 +24,16 @@ namespace ModernApplicationFramework.Extended.Core
             set
             {
                 if (_undoRedoManager != null)
-                    _undoRedoManager.UndoStack.CollectionChanged -= OnUndoRedoStackChanged;
+                {
+                    _undoRedoManager.UndoStack.CollectionChanged -= OnUndoStackChanged;
+                    _undoRedoManager.RedoStack.CollectionChanged -= OnRedoStackChanged;
+                }
                 _undoRedoManager = value;
                 if (_undoRedoManager != null)
-                    _undoRedoManager.UndoStack.CollectionChanged += OnUndoRedoStackChanged;
+                {
+                    _undoRedoManager.UndoStack.CollectionChanged += OnUndoStackChanged;
+                    _undoRedoManager.RedoStack.CollectionChanged += OnRedoStackChanged;
+                }
             }
         }
 
@@ -37,19 +44,28 @@ namespace ModernApplicationFramework.Extended.Core
                 return;
             _shell = shell;
 
-            Items = new BindableCollection<IHasTextProperty>();
-
+            UndoItems = new BindableCollection<IHasTextProperty>();
+            RedoItems = new BindableCollection<IHasTextProperty>();
             shell.ActiveDocumentChanged += Shell_ActiveDocumentChanged;
-            ;
             UndoRedoManager = shell.ActiveItem?.UndoRedoManager;
         }
 
-        private void OnUndoRedoStackChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void OnUndoStackChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            Items.Clear();
-            if (_undoRedoManager != null)
-                foreach (var t in _undoRedoManager.UndoStack.Reverse())
-                    Items.Add(new TextCommandBarItemDefinition(t.Name));
+            UndoItems.Clear();
+            if (_undoRedoManager == null)
+                return;
+            foreach (var t in _undoRedoManager.UndoStack.Reverse())
+                UndoItems.Add(new TextCommandBarItemDefinition(t.Name));
+        }
+
+        private void OnRedoStackChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            RedoItems.Clear();
+            if (_undoRedoManager == null)
+                return;
+            foreach (var t in _undoRedoManager.RedoStack.Reverse())
+                RedoItems.Add(new TextCommandBarItemDefinition(t.Name));
         }
 
         private void Shell_ActiveDocumentChanged(object sender, EventArgs e)

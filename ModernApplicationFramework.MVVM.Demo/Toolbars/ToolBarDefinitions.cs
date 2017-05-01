@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows.Controls;
+using ModernApplicationFramework.Basics.CommandBar.Creators;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Extended.Commands;
@@ -12,14 +13,8 @@ namespace ModernApplicationFramework.MVVM.Demo.Toolbars
 
         [Export] public static CommandBarGroupDefinition StandardUndoRedoGroup = new CommandBarGroupDefinition(Standard, 0);
 
-        [Export] public static CommandBarItemDefinition UndoToolBarItem = new CommandBarCommandItemDefinition<UndoCommandDefinition>(StandardUndoRedoGroup, 0);
+        [Export] public static CommandBarItemDefinition UndoToolbarItem = new CommandBarSplitItemDefinitionT<MultiUndoCommandDefinition>(new NumberStatusStringCreator("Undo {0} Action{1}", "s"), StandardUndoRedoGroup, uint.MinValue);
 
-        [Export] public static CommandBarItemDefinition RedoToolBarItem = new CommandBarCommandItemDefinition<RedoCommandDefinition>(StandardUndoRedoGroup, 1);
-
-        [Export] public static CommandBarGroupDefinition StandardUndoRedoGroup1 = new CommandBarGroupDefinition(Standard, 1);
-
-        [Export] public static CommandBarItemDefinition UndoToolBarItem1 = new CommandBarCommandItemDefinition<UndoCommandDefinition>(StandardUndoRedoGroup1, 0);
-
-        [Export] public static CommandBarItemDefinition RedoToolBarItem1 = new CommandBarCommandItemDefinition<RedoCommandDefinition>(StandardUndoRedoGroup1, 1);
+        [Export] public static CommandBarItemDefinition RedoToolbarItem = new CommandBarSplitItemDefinitionT<MultiRedoCommandDefinition>(new NumberStatusStringCreator("Redo {0} Action{1}", "s"), StandardUndoRedoGroup, 1);
     }
 }

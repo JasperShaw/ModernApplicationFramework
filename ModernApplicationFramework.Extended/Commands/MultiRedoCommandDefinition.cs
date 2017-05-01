@@ -12,52 +12,51 @@ using ModernApplicationFramework.Interfaces;
 namespace ModernApplicationFramework.Extended.Commands
 {
     [Export(typeof(DefinitionBase))]
-    [Export(typeof(MultiUndoCommandDefinition))]
-    public sealed class MultiUndoCommandDefinition : CommandSplitButtonDefinition
+    [Export(typeof(MultiRedoCommandDefinition))]
+    public sealed class MultiRedoCommandDefinition : CommandSplitButtonDefinition
     {
         private readonly CommandBarUndoRedoManagerWatcher _watcher;
 
-
         public override ICommand Command { get; }
 
-        public override string IconId => "UndoIcon";
+        public override string IconId => "RedoIcon";
 
         public override Uri IconSource
             =>
-                new Uri("/ModernApplicationFramework.Extended;component/Resources/Icons/Undo_16x.xaml",
+                new Uri("/ModernApplicationFramework.Extended;component/Resources/Icons/Redo_16x.xaml",
                     UriKind.RelativeOrAbsolute);
 
-        public override string Name => "Edit.Undo";
-        public override string Text => "Undo";
-        public override string ToolTip => "Undo";
+        public override string Name => "Edit.Redo";
+        public override string Text => "Redo";
+        public override string ToolTip => "Redo";
 
         public override CommandCategory Category => CommandCategories.EditCommandCategory;
 
         [ImportingConstructor]
-        public MultiUndoCommandDefinition(CommandBarUndoRedoManagerWatcher watcher)
+        public MultiRedoCommandDefinition(CommandBarUndoRedoManagerWatcher watcher)
         {
-            var command = new MultiKeyGestureCommandWrapper(Undo, CanUndo,
-                new MultiKeyGesture(new[] {Key.Z}, ModifierKeys.Control));
+            var command = new MultiKeyGestureCommandWrapper(Redo, CanRedo,
+                new MultiKeyGesture(new[] {Key.Y}, ModifierKeys.Control));
             Command = command;
             ShortcutText = command.GestureText;
             _watcher = watcher;
-            Items = _watcher.UndoItems;
+            Items = _watcher.RedoItems;
         }
 
-        private bool CanUndo()
+        private bool CanRedo()
         {
-            return _watcher.UndoRedoManager != null && _watcher.UndoRedoManager.UndoStack.Any();
+            return _watcher.UndoRedoManager != null && _watcher.UndoRedoManager.RedoStack.Any();
         }
 
-        private void Undo()
+        private void Redo()
         {
-            _watcher.UndoRedoManager.Undo(1);
+            _watcher.UndoRedoManager.Redo(1);
         }
 
         public override IObservableCollection<IHasTextProperty> Items { get; set; }
         public override void Execute(int count)
         {
-            _watcher.UndoRedoManager?.Undo(count);
+            _watcher.UndoRedoManager?.Redo(count);
         }
     }
 }

@@ -42,12 +42,12 @@ namespace ModernApplicationFramework.Extended.Core.LayoutItems
 
         private async void Redo()
         {
-            await Task.Run(() => UndoRedoManager.Redo());
+            await Task.Run(() => UndoRedoManager.Redo(1));
         }
 
         private async void Undo()
         {
-            await Task.Run(() => UndoRedoManager.Undo());
+            await Task.Run(() => UndoRedoManager.Undo(1));
         }
     }
 }
