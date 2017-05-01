@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Caliburn.Micro;
 using ModernApplicationFramework.Interfaces;
 
@@ -14,6 +15,10 @@ namespace ModernApplicationFramework.Basics.UndoRedoManager
 
         public IObservableCollection<UndoRedoAction> RedoStack => _redoStack;
         public IObservableCollection<UndoRedoAction> UndoStack => _undoStack;
+
+
+        public event EventHandler ChangingBegin;
+        public event EventHandler ChangingEnd;
 
         public UndoRedoManager()
         {
@@ -31,18 +36,22 @@ namespace ModernApplicationFramework.Basics.UndoRedoManager
 
         public void Redo(int count)
         {
+            OnBegin();
             _isChanging = true;
             for (var i = 0; i < count; i++)
                 Redo();
             _isChanging = false;
+            OnEnd();
         }
 
         public void Undo(int count)
         {
+            OnBegin();
             _isChanging = true;
             for (var i = 0; i < count; i++)
                 Undo();
             _isChanging = false;
+            OnEnd();
         }
 
         private static UndoRedoAction Pop(IList<UndoRedoAction> stack)
@@ -75,6 +84,18 @@ namespace ModernApplicationFramework.Basics.UndoRedoManager
 
             //Needed as action.Undo() readds to the stack
             Pop(_undoStack);
+        }
+
+        private void OnBegin()
+        {
+            var handler = ChangingBegin;
+            handler?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void OnEnd()
+        {
+            var handler = ChangingEnd;
+            handler?.Invoke(this, EventArgs.Empty);
         }
     }
 }

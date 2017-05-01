@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using System;
+using Caliburn.Micro;
 using ModernApplicationFramework.Basics.UndoRedoManager;
 
 namespace ModernApplicationFramework.Interfaces
@@ -7,10 +8,12 @@ namespace ModernApplicationFramework.Interfaces
     {
         IObservableCollection<UndoRedoAction> RedoStack { get; }
         IObservableCollection<UndoRedoAction> UndoStack { get; }
+
+        event EventHandler ChangingBegin;
+        event EventHandler ChangingEnd;
+
         void Push(UndoRedoAction action);
-        //void Redo();
         void Redo(int count);
-        //void Undo();
         void Undo(int count);
     }
 }

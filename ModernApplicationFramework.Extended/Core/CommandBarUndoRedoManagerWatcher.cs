@@ -27,14 +27,32 @@ namespace ModernApplicationFramework.Extended.Core
                 {
                     _undoRedoManager.UndoStack.CollectionChanged -= OnUndoStackChanged;
                     _undoRedoManager.RedoStack.CollectionChanged -= OnRedoStackChanged;
+                    _undoRedoManager.ChangingBegin -= _undoRedoManager_ChangingBegin;
+                    _undoRedoManager.ChangingEnd -= _undoRedoManager_ChangingEnd;
                 }
                 _undoRedoManager = value;
                 if (_undoRedoManager != null)
                 {
                     _undoRedoManager.UndoStack.CollectionChanged += OnUndoStackChanged;
                     _undoRedoManager.RedoStack.CollectionChanged += OnRedoStackChanged;
+                    _undoRedoManager.ChangingBegin += _undoRedoManager_ChangingBegin; ;
+                    _undoRedoManager.ChangingEnd += _undoRedoManager_ChangingEnd; ;
                 }
             }
+        }
+
+        private bool _isRunning;
+
+        private void _undoRedoManager_ChangingEnd(object sender, EventArgs e)
+        {
+            _isRunning = false;
+            Refresh();
+
+        }
+
+        private void _undoRedoManager_ChangingBegin(object sender, EventArgs e)
+        {
+            _isRunning = true;
         }
 
         [ImportingConstructor]
@@ -50,22 +68,32 @@ namespace ModernApplicationFramework.Extended.Core
             UndoRedoManager = shell.ActiveItem?.UndoRedoManager;
         }
 
-        private void OnUndoStackChanged(object sender, NotifyCollectionChangedEventArgs e)
+        public void Refresh()
         {
+            if (_isRunning)
+                return;
+
             UndoItems.Clear();
             if (_undoRedoManager == null)
                 return;
             foreach (var t in _undoRedoManager.UndoStack.Reverse())
                 UndoItems.Add(new TextCommandBarItemDefinition(t.Name));
-        }
 
-        private void OnRedoStackChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
             RedoItems.Clear();
             if (_undoRedoManager == null)
                 return;
             foreach (var t in _undoRedoManager.RedoStack.Reverse())
                 RedoItems.Add(new TextCommandBarItemDefinition(t.Name));
+        }
+
+        private void OnUndoStackChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            Refresh();
+        }
+
+        private void OnRedoStackChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            Refresh();
         }
 
         private void Shell_ActiveDocumentChanged(object sender, EventArgs e)

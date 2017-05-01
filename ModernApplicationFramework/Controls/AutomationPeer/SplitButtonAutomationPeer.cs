@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Automation.Peers;
 using System.Windows.Automation.Provider;
 using System.Windows.Controls.Primitives;
@@ -11,9 +8,6 @@ namespace ModernApplicationFramework.Controls.AutomationPeer
 {
     public class SplitButtonAutomationPeer : MenuItemAutomationPeer, IInvokeProvider, ISelectionProvider, IValueProvider
     {
-        private const string TextPropteryName = "Test";
-        private const string ItemsPropteryName = "Items";
-
         bool ISelectionProvider.CanSelectMultiple => true;
 
         bool ISelectionProvider.IsSelectionRequired => true;
@@ -24,7 +18,7 @@ namespace ModernApplicationFramework.Controls.AutomationPeer
         {
             get
             {
-                var owner = (SplitButton) this.Owner;
+                var owner = (SplitButton) Owner;
                 if (!owner.IsEnabled)
                     return string.Empty;
                 owner.UpdateChildCollection();
