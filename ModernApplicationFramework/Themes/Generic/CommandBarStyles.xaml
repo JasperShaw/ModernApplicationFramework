@@ -2286,8 +2286,7 @@
                                                        Background="{DynamicResource {x:Static colors:EnvironmentColors.SystemWindow}}"
                                                        Foreground="{DynamicResource {x:Static colors:EnvironmentColors.SystemGrayText}}">
                                                 <StatusBarItem HorizontalAlignment="Center">
-                                                    <!--<TextBlock Text="{Binding StatusString}"/>-->
-                                                    <TextBlock Text="Test"/>
+                                                    <TextBlock Text="{Binding StatusString}"/>
                                                 </StatusBarItem>
                                             </StatusBar>
                                         </Grid>

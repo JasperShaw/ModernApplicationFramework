@@ -16,7 +16,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.ComboBoxMenuTest
         [Export] public static CommandBarItemDefinition ComboItem = new CommandBarComboItemDefinition<ComboBoxCommandDefinition>(Group1, 0, false, false, false);
 
 
-        [Export] public static CommandBarItemDefinition SplitItem = new CommandBarSplitItemDefinitionT<MultiUndoCommandDefinition>(Group1, uint.MinValue);
+        [Export] public static CommandBarItemDefinition SplitItem = new CommandBarSplitItemDefinitionT<MultiUndoCommandDefinition>(new NumberStatusStringCreator("Undo {0} Action{1}", "s"), Group1, uint.MinValue);
 
         [Export] public static CommandBarItemDefinition MenuControllerItem =
             new CommandBarMenuControllerDefinitionT<TestMenuControllerDefinition>(Group1, uint.MinValue);

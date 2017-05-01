@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 
 namespace ModernApplicationFramework.Basics.Definitions.Command
 {
