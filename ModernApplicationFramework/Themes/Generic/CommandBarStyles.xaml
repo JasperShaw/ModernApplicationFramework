@@ -1275,7 +1275,7 @@
                         <Grid x:Name="OverflowGrid" HorizontalAlignment="Right">
                             <internals:ToolBarOverflowToggleButton x:Name="OverflowButton" Style="{StaticResource ToolBarHorizontalOverflowButtonStyle}"
                                                                    ClickMode="Press" InputMethod.IsInputMethodSuspended="true"
-                                                                   ToolTip="{Binding Text, ConverterParameter=VsToolBarToolTipText, Converter={StaticResource FormattedStringConverter}}">
+                                                                   ToolTip="{Binding Path=Text, ConverterParameter=ToolBarToolTipText, Converter={StaticResource FormattedStringConverter}}">
                                 <UIElement.Visibility>
                                     <TemplateBindingExtension Property="this:ToolBar.IsOverflowToggleButtonVisible" Converter="{StaticResource BoolToVisConverter}"/>
                                 </UIElement.Visibility>

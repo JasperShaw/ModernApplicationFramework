@@ -117,7 +117,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
             if (!_toolbars.ContainsKey(toolbarDefinition))
             {
-                var toolBar = new ToolBar();
+                var toolBar = new ToolBar(toolbarDefinition);
                 IoC.Get<IToolbarCreator>().CreateRecursive(ref toolBar, toolbarDefinition);
                 _toolbars.Add(toolbarDefinition, toolBar);
                 ChangeToolBarVisibility(toolbarDefinition);

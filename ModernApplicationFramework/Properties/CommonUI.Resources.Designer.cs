@@ -63,9 +63,9 @@ namespace ModernApplicationFramework.Properties {
         /// <summary>
         ///   Looks up a localized string similar to {0} Toolbar Options.
         /// </summary>
-        internal static string VsToolBarToolTipText {
+        internal static string ToolBarToolTipText {
             get {
-                return ResourceManager.GetString("VsToolBarToolTipText", resourceCulture);
+                return ResourceManager.GetString("ToolBarToolTipText", resourceCulture);
             }
         }
     }
