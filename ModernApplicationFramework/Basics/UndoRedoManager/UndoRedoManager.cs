@@ -41,6 +41,14 @@ namespace ModernApplicationFramework.Basics.UndoRedoManager
                 Pop(_undoStack);
         }
 
+        public void Undo(int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                Undo();
+            }
+        }
+
         public IObservableCollection<UndoRedoAction> UndoStack => _undoStack;
 
         private static UndoRedoAction Pop(IList<UndoRedoAction> stack)

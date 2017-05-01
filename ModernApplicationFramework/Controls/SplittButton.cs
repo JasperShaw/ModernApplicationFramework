@@ -5,6 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
+using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Controls.AutomationPeer;
 using ModernApplicationFramework.Controls.Utilities;
 using ModernApplicationFramework.Core.Converters;
@@ -185,17 +187,19 @@ namespace ModernApplicationFramework.Controls
 
         internal void Invoke()
         {
-
-            int selectedIndex = SelectedIndex;
+            var dataContext = (CommandBarDefinitionBase) DataContext;
+            
+            if (dataContext?.CommandDefinition == null || !(dataContext.CommandDefinition is CommandSplitButtonDefinition splitCommandDefinition))
+                return;
+            var selectedIndex = SelectedIndex;
             IsSubmenuOpen = false;
             SelectedIndex = 0;
-
+            splitCommandDefinition.Execute(selectedIndex + 1);
             if (System.Windows.Automation.Peers.AutomationPeer.ListenerExists(AutomationEvents.InvokePatternOnInvoked))
                 AutomationPeerHelper.CreatePeerFromElement<SplitButtonAutomationPeer>(this).RaiseAutomationEvent(AutomationEvents.InvokePatternOnInvoked);
             if (!IsKeyboardFocusWithin)
                 return;
             Keyboard.Focus(null);
-            MessageBox.Show("Test");
         }
 
         public void UpdateChildCollection()

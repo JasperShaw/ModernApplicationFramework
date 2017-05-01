@@ -2209,10 +2209,10 @@
                 <Binding Mode="OneTime" Path="Text"/>
             </Setter.Value>
         </Setter>
-        <Setter Property="Content" Value="Text">
-            <!--<Setter.Value>
+        <Setter Property="Content">
+            <Setter.Value>
                 <Binding Path="Text" Mode="OneTime"/>
-            </Setter.Value>-->
+            </Setter.Value>
         </Setter>
         <Setter Property="IsSelected">
             <Setter.Value>

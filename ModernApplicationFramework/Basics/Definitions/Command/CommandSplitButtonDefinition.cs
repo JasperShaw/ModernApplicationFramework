@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using ModernApplicationFramework.Core.Utilities;
+﻿using System.Collections.ObjectModel;
+using Caliburn.Micro;
 
 namespace ModernApplicationFramework.Basics.Definitions.Command
 {
@@ -8,6 +7,8 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
     {
         public override CommandControlTypes ControlType => CommandControlTypes.SplitDropDown;
 
-        public abstract ObservableCollection<object> Items { get; set; }
+        public abstract IObservableCollection<object> Items { get; set; }
+
+        public abstract void Execute(int count);
     }
 }

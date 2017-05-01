@@ -10,5 +10,6 @@ namespace ModernApplicationFramework.Interfaces
         void Push(UndoRedoAction action);
         void Redo();
         void Undo();
+        void Undo(int count);
     }
 }

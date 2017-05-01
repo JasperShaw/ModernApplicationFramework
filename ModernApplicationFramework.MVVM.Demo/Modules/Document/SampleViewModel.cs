@@ -28,7 +28,6 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
 
         private void ShowComboValue()
         {
-            MessageBox.Show(DataSource.DisplayedItem.ToString());
         }
 
         public ISample[] Samples { get; }
