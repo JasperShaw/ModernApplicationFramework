@@ -1,8 +1,7 @@
-﻿using System;
-using System.Globalization;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Interfaces.Command;
+using ModernApplicationFramework.Interfaces.Utilities;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
@@ -21,7 +20,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
                     return;
                 _selectedIndex = value;
                 OnPropertyChanged();
-                StatusString = StringCreator?.CreateMessage(value + 1);
+                if (StringCreator != null)
+                    StatusString = StringCreator.CreateMessage(value + 1);
             }
         }
 
@@ -54,42 +54,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
             Text = CommandDefinition.Text;
             StringCreator = statusStringCreator;
-            _statusString = StringCreator.CreateMessage();
+            _statusString = StringCreator.CreateMessage(1);
         }
-    }
-
-    public class NumberStatusStringCreator : IStatusStringCreator
-    {
-
-        public string StatusTextTemplate { get; set; }
-        public string PluralSuffix { get; set; }
-
-        public NumberStatusStringCreator(string statusText, string pluralSuffix)
-        {
-            StatusTextTemplate = statusText;
-            PluralSuffix = pluralSuffix;
-        }
-
-        public string CreateMessage(object value)
-        {
-            if (!int.TryParse(value.ToString(), NumberStyles.Any, CultureInfo.CurrentCulture, out int number))
-                throw new ArgumentException(nameof(value));
-            return Math.Abs(number) == 1 ? string.Format(StatusTextTemplate, number, string.Empty) : string.Format(StatusTextTemplate, number, PluralSuffix);
-        }
-
-        public string CreateMessage()
-        {
-            return CreateMessage(1);
-        }
-    }
-
-    public interface IStatusStringCreator
-    {
-        string StatusTextTemplate { get; set; }
-        string PluralSuffix { get; set; }
-
-        string CreateMessage(object value);
-
-        string CreateMessage();
     }
 }

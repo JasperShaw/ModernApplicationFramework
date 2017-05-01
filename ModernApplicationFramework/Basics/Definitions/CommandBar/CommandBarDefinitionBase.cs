@@ -3,10 +3,11 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using ModernApplicationFramework.Annotations;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
-    public abstract class CommandBarDefinitionBase : INotifyPropertyChanged
+    public abstract class CommandBarDefinitionBase : IHasTextProperty
     {
         private uint _sortOrder;
         private string _text;

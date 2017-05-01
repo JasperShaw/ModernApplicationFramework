@@ -93,7 +93,6 @@
     </ApplicationDefinition>
     <Compile Include="Modules\ComboBoxMenuTest\Commands\ComboBoxCommandDefinition.cs" />
     <Compile Include="Modules\ComboBoxMenuTest\Commands\TestMenuControllerDefinition.cs" />
-    <Compile Include="Modules\ComboBoxMenuTest\Module.cs" />
     <Compile Include="Modules\ComboBoxMenuTest\ToolbarDefinitions.cs" />
     <Compile Include="Modules\Commands\MenuDefinitions.cs" />
     <Compile Include="Modules\Commands\TestCommandDefinition.cs" />

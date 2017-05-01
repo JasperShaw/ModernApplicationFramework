@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using ModernApplicationFramework.Annotations;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Native.Platform;
 
 namespace ModernApplicationFramework.Basics
@@ -118,7 +119,7 @@ namespace ModernApplicationFramework.Basics
             }
         }
 
-        public ObservableCollection<object> Items { get; set; }
+        public ObservableCollection<IHasTextProperty> Items { get; set; }
 
 
         public string DisplayedText
@@ -150,7 +151,7 @@ namespace ModernApplicationFramework.Basics
                 var displayedItem = DisplayedItem;
                 if (displayedItem == null)
                     return -1;
-                return Items.IndexOf(displayedItem);
+                return Items.IndexOf(displayedItem as IHasTextProperty);
             }
         }
 
@@ -160,7 +161,7 @@ namespace ModernApplicationFramework.Basics
             Items = wrapper.Items;
         }
 
-        public ComboBoxDataSource(IEnumerable collection)
+        public ComboBoxDataSource(IEnumerable<IHasTextProperty> collection)
         {
             Wrapper = new ComboBoxItemsWrapper(collection);
             Items = Wrapper.Items;
@@ -168,7 +169,7 @@ namespace ModernApplicationFramework.Basics
 
         public void ChangeDisplayedItem(int newIndex)
         {
-            if (Items.Count -1 < newIndex || newIndex < 0)
+            if (Items.Count - 1 < newIndex || newIndex < 0)
                 return;
             DisplayedItem = Items.ElementAtOrDefault(newIndex);
         }
@@ -207,11 +208,11 @@ namespace ModernApplicationFramework.Basics
 
     public class ComboBoxItemsWrapper
     {
-        public ObservableCollection<object> Items { get; set; }
+        public ObservableCollection<IHasTextProperty> Items { get; set; }
 
-        public ComboBoxItemsWrapper(IEnumerable colection)
+        public ComboBoxItemsWrapper(IEnumerable<IHasTextProperty> colection)
         {
-            Items = new ObservableCollection<object>();
+            Items = new ObservableCollection<IHasTextProperty>();
             if (colection == null)
                 return;
             foreach (var item in colection)
@@ -225,12 +226,12 @@ namespace ModernApplicationFramework.Basics
             if (e.NewItems != null)
                 foreach (var eNewItem in e.NewItems)
                 {
-                    Items.Add(eNewItem);
+                    Items.Add(eNewItem as IHasTextProperty);
                 }
             if (e.OldItems != null)
                 foreach (var eNewItem in e.OldItems)
                 {
-                    Items.Remove(eNewItem);
+                    Items.Remove(eNewItem as IHasTextProperty);
                 }
         }
     }

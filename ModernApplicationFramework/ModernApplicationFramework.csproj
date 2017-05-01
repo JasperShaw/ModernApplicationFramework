@@ -207,6 +207,10 @@
     <Compile Include="Basics\Definitions\CommandBar\CommandBarMenuControllerDefinitionT.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarSplitItemDefinitionT.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarComboItemDefinitionT.cs" />
+    <Compile Include="Basics\CommandBar\Creators\NumberStatusStringCreator.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\TextCommandBarItemDefinition.cs" />
+    <Compile Include="Interfaces\IHasTextProperty.cs" />
+    <Compile Include="Interfaces\Utilities\IStatusStringCreator.cs" />
     <Compile Include="Basics\Definitions\Command\CommandMenuControllerDefinition.cs" />
     <Compile Include="Basics\Definitions\Command\CommandSplitButtonDefinition.cs" />
     <Compile Include="Basics\Definitions\Command\CommandComboBoxDefinition.cs" />

@@ -1,11 +1,12 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
-using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
@@ -23,7 +24,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
 
         private void AddComboValue()
         {
-            Items.Add(new TestItem("Test 4"));
+            Items.Add(new TextCommandBarItemDefinition("Test 4"));
         }
 
         private void ShowComboValue()
@@ -43,7 +44,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
             }
         }
 
-        public ObservableCollection<TestItem> Items { get; set; }
+        public ObservableCollection<IHasTextProperty> Items { get; set; }
 
         [ImportingConstructor]
         public SampleViewModel(IDockingHostViewModel shell, [ImportMany] ISample[] samples)
@@ -51,11 +52,11 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
             _dockingHostViewModel = shell;
             Samples = samples;
 
-            Items = new ObservableCollection<TestItem>
+            Items = new ObservableCollection<IHasTextProperty>
             {
-                new TestItem("Test"),
-                new TestItem("Test2"),
-                new TestItem("Test3"),
+                new TextCommandBarItemDefinition("Test"),
+                new TextCommandBarItemDefinition("Test2"),
+                new TextCommandBarItemDefinition("Test3"),
             };
 
             DataSource = new ComboBoxDataSource(Items);
@@ -67,15 +68,5 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
         {
             _dockingHostViewModel.OpenDocument(IoC.Get<UndoRedoViewModel>());
         }
-    }
-
-    public class TestItem
-    {
-        public TestItem(string text)
-        {
-            Text = text;
-        }
-
-        public string Text { get; set; }
     }
 }

@@ -82,6 +82,7 @@
     <Compile Include="Core\Pane\PanesTemplateSelector.cs" />
     <Compile Include="Core\LayoutItems\StorableDocument.cs" />
     <Compile Include="Core\LayoutItems\Tool.cs" />
+    <Compile Include="Core\CommandBarUndoRedoManagerWatcher.cs" />
     <Compile Include="DockingHost\ViewModels\DockingHostViewModel.cs" />
     <Compile Include="DockingHost\Views\DockingHostView.xaml.cs">
       <DependentUpon>DockingHostView.xaml</DependentUpon>

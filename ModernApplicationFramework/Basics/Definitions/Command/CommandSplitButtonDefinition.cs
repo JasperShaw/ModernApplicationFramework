@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Basics.Definitions.Command
 {
@@ -6,7 +7,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
     {
         public override CommandControlTypes ControlType => CommandControlTypes.SplitDropDown;
 
-        public abstract IObservableCollection<object> Items { get; set; }
+        public abstract IObservableCollection<IHasTextProperty> Items { get; set; }
 
         public abstract void Execute(int count);
     }

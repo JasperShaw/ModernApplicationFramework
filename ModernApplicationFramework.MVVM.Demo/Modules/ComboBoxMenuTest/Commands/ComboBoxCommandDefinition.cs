@@ -23,7 +23,6 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.ComboBoxMenuTest.Commands
             DataSource = itemSource.DataSource;
         }
 
-        //public override ComboBoxItemsWrapper ItemWrapper { get; }
         public override ComboBoxDataSource DataSource { get; }
     }
 }
