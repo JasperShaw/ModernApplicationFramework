@@ -38,21 +38,26 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         public IStatusStringCreator StringCreator { get; set; }
 
-        public CommandBarSplitItemDefinitionT(string statusString, CommandBarGroupDefinition group, uint sortOrder,
+
+        private CommandBarSplitItemDefinitionT(CommandBarGroupDefinition group, uint sortOrder,
             bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true)
             : base(null, sortOrder, group, null, isVisible, isChecked, isCustom, isCustomizable)
         {
             CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
             Text = CommandDefinition.Text;
+        }
+
+        public CommandBarSplitItemDefinitionT(string statusString, CommandBarGroupDefinition group, uint sortOrder,
+            bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true)
+            : this(group, sortOrder, isVisible, isChecked, isCustom, isCustomizable)
+        {
             _statusString = statusString;
         }
 
         public CommandBarSplitItemDefinitionT(IStatusStringCreator statusStringCreator, CommandBarGroupDefinition group, uint sortOrder,
             bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true)
-            : base(null, sortOrder, group, null, isVisible, isChecked, isCustom, isCustomizable)
+            : this(group, sortOrder, isVisible, isChecked, isCustom, isCustomizable)
         {
-            CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
-            Text = CommandDefinition.Text;
             StringCreator = statusStringCreator;
             _statusString = StringCreator.CreateMessage(1);
         }
