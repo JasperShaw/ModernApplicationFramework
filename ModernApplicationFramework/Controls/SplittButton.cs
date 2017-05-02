@@ -145,14 +145,16 @@ namespace ModernApplicationFramework.Controls
                 var num = (int) e.OldValue < 0 ? 0 : (int) e.OldValue;
                 var newValue = (int) e.NewValue;
                 for (var index = num; index <= newValue; ++index)
-                    objectList1.Add(Items[index]);
+	                if (HasItems)
+		                objectList1.Add(Items[index]);
             }
             else
             {
                 var oldValue = (int) e.OldValue;
                 var num = (int) e.NewValue < 0 ? 0 : (int) e.NewValue;
                 for(var index = oldValue; index >= num; --index)
-                    objectList2.Add(Items[index]);
+	                if (HasItems)
+						objectList2.Add(Items[index]);
             }
             AutomationPeerHelper.RaiseSelectionEvents(
                 AutomationPeerHelper.CreatePeerFromElement<SplitButtonAutomationPeer>(this),
