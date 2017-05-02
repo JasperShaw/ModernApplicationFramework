@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using Caliburn.Micro;
@@ -8,6 +9,7 @@ using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.Interfaces.Views;
+using ModernApplicationFramework.Properties;
 
 namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 {
@@ -42,7 +44,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         [ImportingConstructor]
         public ToolBarsPageViewModel()
         {
-            DisplayName = "Toolbars";
+            DisplayName = Customize_Resources.CustomizeDialog_Toolbars;
             Toolbars = IoC.Get<IToolBarHostViewModel>().TopLevelDefinitions;
         }
 
@@ -71,8 +73,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         {
             if (!SelectedToolbarDefinition.IsCustom)
                 return;
-            var result = MessageBox.Show(
-                $"Are you sure you want to delete the '{SelectedToolbarDefinition.Text}' toolbar?",
+            var result = MessageBox.Show(string.Format(CultureInfo.CurrentCulture, Customize_Resources.Prompt_ToolbarDeleteConfirmation, SelectedToolbarDefinition.Text),
                 Application.Current.MainWindow.Title, MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.No)
                 return;

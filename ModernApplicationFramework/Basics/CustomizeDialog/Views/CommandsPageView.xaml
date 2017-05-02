@@ -11,6 +11,7 @@
              xmlns:commandBar="clr-namespace:ModernApplicationFramework.Basics.Definitions.CommandBar"
              xmlns:customize="clr-namespace:ModernApplicationFramework.Core.Converters.Customize"
              xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General"
+             xmlns:properties="clr-namespace:ModernApplicationFramework.Properties"
              mc:Ignorable="d"
              d:DesignHeight="400" d:DesignWidth="360">
     <FrameworkElement.Resources>
@@ -40,12 +41,12 @@
                 </CollectionViewSource.SortDescriptions>
             </CollectionViewSource>
             <ContextMenu x:Key="ModifySelectionCommandsMenu">
-                <MenuItem Header="_Reset">
+                <MenuItem Header="{x:Static properties:Customize_Resources.CommandsPage_Reset}">
                     <UIElement.IsEnabled>
                         <Binding Mode="OneWay" Converter="{StaticResource IsCustomizableModelConverter}" />
                     </UIElement.IsEnabled>
                 </MenuItem>
-                <controls:EditableMenuItem Header="_Name:">
+                <controls:EditableMenuItem Header="{x:Static properties:Customize_Resources.CommandsPage_Name}">
                     <controls:EditableMenuItem.Edit>
                         <Binding Path="Text" Mode="TwoWay" UpdateSourceTrigger="LostFocus"
                                  Converter="{StaticResource TrimSpacesConverter}" />
@@ -57,7 +58,7 @@
                         <validationRules:CommandNameNotEmptyValidationRule />
                     </controls:EditableMenuItem.ValidationRules>
                 </controls:EditableMenuItem>
-                <controls:EditableMenuItem Header="_Width:" EditMinWidth="100">
+                <controls:EditableMenuItem Header="{x:Static properties:Customize_Resources.CommandsPage_Width}" EditMinWidth="100">
                     <UIElement.IsEnabled>
                         <Binding Mode="OneWay" Converter="{StaticResource IsCustomizableModelConverter}" />
                     </UIElement.IsEnabled>
@@ -83,7 +84,7 @@
                     </FrameworkElement.Style>
                 </controls:EditableMenuItem>
                 <Separator />
-                <controls:CheckedMenuItem Header="Defa_ult style" Click="HandleStylingFlagsChange"
+                <controls:CheckedMenuItem Header="{x:Static properties:Customize_Resources.CommandsPage_DefaultStyle}" Click="HandleStylingFlagsChange"
                                           Value="{x:Static commandBar:CommandBarFlags.CommandFlagNone}">
                     <controls:CheckedMenuItem.Link>
                         <Binding Path="Flags.AllFlags" Mode="OneWay" Converter="{StaticResource StylingFlagsConverter}" />
@@ -95,7 +96,7 @@
                         </MultiBinding>
                     </UIElement.IsEnabled>
                 </controls:CheckedMenuItem>
-                <controls:CheckedMenuItem Header="_Text Only (Always)" Click="HandleStylingFlagsChange"
+                <controls:CheckedMenuItem Header="{x:Static properties:Customize_Resources.CommandsPage_TextOnlyAlways}" Click="HandleStylingFlagsChange"
                                           Value="{x:Static commandBar:CommandBarFlags.CommandFlagText}">
                     <controls:CheckedMenuItem.Link>
                         <Binding Path="Flags.AllFlags" Mode="OneWay" Converter="{StaticResource StylingFlagsConverter}" />
@@ -107,7 +108,7 @@
                         </MultiBinding>
                     </UIElement.IsEnabled>
                 </controls:CheckedMenuItem>
-                <controls:CheckedMenuItem Header="Text _Only (in Menus)" Click="HandleStylingFlagsChange"
+                <controls:CheckedMenuItem Header="{x:Static properties:Customize_Resources.CommandsPage_TextOnlyMenu}" Click="HandleStylingFlagsChange"
                                           Value="{x:Static commandBar:CommandBarFlags.CommandFlagPict}">
                     <controls:CheckedMenuItem.Link>
                         <Binding Path="Flags.AllFlags" Mode="OneWay" Converter="{StaticResource StylingFlagsConverter}" />
@@ -119,7 +120,7 @@
                         </MultiBinding>
                     </UIElement.IsEnabled>
                 </controls:CheckedMenuItem>
-                <controls:CheckedMenuItem Header="Image _and Text" Click="HandleStylingFlagsChange"
+                <controls:CheckedMenuItem Header="{x:Static properties:Customize_Resources.CommandsPage_ImageAndText}" Click="HandleStylingFlagsChange"
                                           Value="{x:Static commandBar:CommandBarFlags.CommandFlagPictAndText}">
                     <controls:CheckedMenuItem.Link>
                         <Binding Path="Flags.AllFlags" Mode="OneWay" Converter="{StaticResource StylingFlagsConverter}" />
@@ -132,7 +133,7 @@
                     </UIElement.IsEnabled>
                 </controls:CheckedMenuItem>
                 <controls:Separator />
-                <controls:CheckedMenuItem Header="Begin a _Group" IsCheckable="True"
+                <controls:CheckedMenuItem Header="{x:Static properties:Customize_Resources.CommandsPage_BeginGroup}" IsCheckable="True"
                                           IsChecked="{Binding PrecededBySeparator}" Click="HandleBeginGroup">
                     <UIElement.IsEnabled>
                         <Binding Converter="{StaticResource BeginGroupIsEnabledConverter}" />
@@ -160,15 +161,15 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TextBlock x:Name="TitleLabel" Text="Choose a menu or toolbar to rearrange:" Grid.Row="0" Grid.Column="0"
+            <TextBlock x:Name="TitleLabel" Text="{x:Static properties:Customize_Resources.CommandsPage_ComboGroupHeader}" Grid.Row="0" Grid.Column="0"
                        Grid.ColumnSpan="2"
                        HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,5,0,5" TextWrapping="Wrap" />
-            <RadioButton Name="MenuBarRadioButton" GroupName="CurrentlyEditingGroup" Content="Menu _bar:" Grid.Row="1"
+            <RadioButton x:Name="MenuBarRadioButton" GroupName="CurrentlyEditingGroup" Content="{x:Static properties:Customize_Resources.CommandsPage_MenuBarGroupItem}" Grid.Row="1"
                          Grid.Column="0"
                          VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,5"
                          IsChecked="{Binding SelectedOption, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:CustomizeRadioButtonOptions.Menu}, Mode=TwoWay}"
                          Visibility="{Binding CustomizableMenuBars, Converter={StaticResource VisibleIfNotNullConverter}}" />
-            <ComboBox Name="MenuBarCombo" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"
+            <ComboBox x:Name="MenuBarCombo" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"
                       Margin="6,0,0,5" SelectedIndex="0" TextSearch.TextPath="InternalName"
                       DisplayMemberPath="InternalName"
                       ItemContainerStyle="{StaticResource CollectionComboBoxItemStyle}"
@@ -179,7 +180,7 @@
                     <Binding ElementName="MenuBarRadioButton" Path="IsChecked" />
                 </UIElement.IsEnabled>
             </ComboBox>
-            <RadioButton Name="ToolBarRadioButton" GroupName="CurrentlyEditingGroup" Content="_Toolbar:" Grid.Row="2"
+            <RadioButton Name="ToolBarRadioButton" GroupName="CurrentlyEditingGroup" Content="{x:Static properties:Customize_Resources.CommandsPage_ToolbarGroupItem}" Grid.Row="2"
                          Grid.Column="0"
                          VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,5"
                          IsChecked="{Binding SelectedOption, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:CustomizeRadioButtonOptions.Toolbar}, Mode=TwoWay}" />
@@ -195,7 +196,7 @@
                     <Binding Source="{StaticResource ToolBarsView}" />
                 </ItemsControl.ItemsSource>
             </ComboBox>
-            <RadioButton Name="ContextMenuRadioButton" GroupName="CurrentlyEditingGroup" Content="Conte_xt menu:"
+            <RadioButton Name="ContextMenuRadioButton" GroupName="CurrentlyEditingGroup" Content="{x:Static properties:Customize_Resources.CommandsPage_ContextMenuGroupItem}"
                          Grid.Row="3" Grid.Column="0"
                          VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,5"
                          IsChecked="{Binding SelectedOption, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:CustomizeRadioButtonOptions.ContextMenu}, Mode=TwoWay}" />
@@ -219,7 +220,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Label x:Name="ControlsLabel" Content="_Controls" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,0,10,5"
+            <Label x:Name="ControlsLabel" Content="{x:Static properties:Customize_Resources.CommandsPage_ListBoxHeader}" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,0,10,5"
                    IsTabStop="False"
                    HorizontalAlignment="Left" VerticalAlignment="Center" />
             <controls:CustomizeControlsListBox x:Name="ControlsListBox" Grid.Row="1" Grid.Column="0"
@@ -242,17 +243,17 @@
                         <Setter Property="HorizontalAlignment" Value="Stretch" />
                     </Style>
                 </FrameworkElement.Resources>
-                <controls:DialogButton x:Name="AddCommandButton" Content="_Add Command..."
+                <controls:DialogButton x:Name="AddCommandButton" Content="{x:Static properties:Customize_Resources.CommandsPage_AddCommand}"
                                        Command="{Binding HandleAddCommand}" />
-                <controls:DialogButton x:Name="AddNewMenu" Content="Add N_ew Menu..."
+                <controls:DialogButton x:Name="AddNewMenu" Content="{x:Static properties:Customize_Resources.CommandsPage_AddNewMenu}"
                                        Command="{Binding HandleAddNewMenuCommand}" />
-                <controls:DialogButton x:Name="DeleteButton" Content="_Delete" Command="{Binding HandleDeleteCommand}">
+                <controls:DialogButton x:Name="DeleteButton" Content="{x:Static properties:Customize_Resources.CommandsPage_Delete}" Command="{Binding HandleDeleteCommand}">
                     <UIElement.IsEnabled>
                         <Binding Path="SelectedListBoxDefinition"
                                  Converter="{StaticResource IsSeparatorOrCustomizableModelConverter}" />
                     </UIElement.IsEnabled>
                 </controls:DialogButton>
-                <controls:DialogButton x:Name="MoveUpButton" Content="Move _Up" Command="{Binding HandleMoveUpCommand}">
+                <controls:DialogButton x:Name="MoveUpButton" Content="{x:Static properties:Customize_Resources.CommandsPage_MoveUp}" Command="{Binding HandleMoveUpCommand}">
                     <UIElement.IsEnabled>
                         <MultiBinding Converter="{StaticResource CanMoveUpMultiValueConverter}">
                             <Binding ElementName="ControlsListBox" Path="SelectedIndex" />
@@ -260,7 +261,7 @@
                         </MultiBinding>
                     </UIElement.IsEnabled>
                 </controls:DialogButton>
-                <controls:DialogButton x:Name="MoveDownButton" Content="Move Dow_n"
+                <controls:DialogButton x:Name="MoveDownButton" Content="{x:Static properties:Customize_Resources.CommandsPage_MoveDown}"
                                        Command="{Binding HandleMoveDownCommand}">
                     <UIElement.IsEnabled>
                         <MultiBinding Converter="{StaticResource CanMoveDownMultiValueConverter}">
@@ -271,14 +272,14 @@
                     </UIElement.IsEnabled>
                 </controls:DialogButton>
                 <controls:DropDownDialogButton x:Name="DropDownButton" Command="{Binding DropDownClickCommand}"
-                                               Content="_Modify Selection"
+                                               Content="{x:Static properties:Customize_Resources.CommandsPage_ModifySelection}"
                                                DropDownMenu="{DynamicResource ModifySelectionCommandsMenu}">
                     <UIElement.IsEnabled>
                         <Binding Path="SelectedListBoxDefinition"
                                  Converter="{StaticResource IsNotSeparatorModelConverter}" />
                     </UIElement.IsEnabled>
                 </controls:DropDownDialogButton>
-                <controls:DialogButton x:Name="ResetAllButon" Content="_Reset All">
+                <controls:DialogButton x:Name="ResetAllButon" Content="{x:Static properties:Customize_Resources.CommandsPage_ResetAll}">
                     <UIElement.IsEnabled>
                         <MultiBinding Converter="{StaticResource OrBooleanConverter}">
                             <Binding ElementName="ToolBarCombo" Path="IsEnabled"

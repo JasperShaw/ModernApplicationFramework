@@ -117,10 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ToolBarQuickCustomizeText" xml:space="preserve">
-    <value>Sch_altflächen hinzufügen oder entfernen</value>
+  <data name="WindowCloseToolTip" xml:space="preserve">
+    <value>Close</value>
   </data>
-  <data name="ToolBarToolTipText" xml:space="preserve">
-    <value>{0} Toolbar Optionen</value>
+  <data name="WindowMaximizeToolTip" xml:space="preserve">
+    <value>Maximize</value>
+  </data>
+  <data name="WindowMinimizeToolTip" xml:space="preserve">
+    <value>Minimize</value>
+  </data>
+  <data name="WindowRestoreToolTip" xml:space="preserve">
+    <value>Restore Down</value>
   </data>
 </root>

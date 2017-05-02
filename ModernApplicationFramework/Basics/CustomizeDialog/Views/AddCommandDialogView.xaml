@@ -3,6 +3,7 @@
                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                        xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
                        xmlns:comparers="clr-namespace:ModernApplicationFramework.Core.Comparers"
+                       xmlns:properties="clr-namespace:ModernApplicationFramework.Properties"
                        ShowInTaskbar="False" Title="Add Command" ResizeMode="CanResizeWithGrip"
                        Height="370" Width="585" MinHeight="250" MinWidth="500" WindowStartupLocation="CenterOwner">
     <FocusManager.FocusedElement>
@@ -44,15 +45,15 @@
         </Grid.ColumnDefinitions>
         <Label x:Name="TitleLabel" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="12,12,12,6" Padding="0"
                HorizontalAlignment="Left" VerticalAlignment="Center">
-            <TextBlock TextWrapping="Wrap" Text="Choose the command to add and click OK." />
+            <TextBlock TextWrapping="Wrap" Text="{x:Static properties:Customize_Resources.AddCommandPrompt_InfoText}" />
         </Label>
-        <Label x:Name="CategoriesLabel" Padding="0" Grid.Row="1" Grid.Column="0" Content="Cate_gories"
+        <Label x:Name="CategoriesLabel" Padding="0" Grid.Row="1" Grid.Column="0" Content="{x:Static properties:Customize_Resources.AddCommandPrompt_Categories}"
                HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="12,0,0,5">
             <Label.Target>
                 <Binding ElementName="CategoriesListView" Path="FocusableElement" Mode="OneWay" />
             </Label.Target>
         </Label>
-        <Label x:Name="CommandsLabel" Padding="0" Grid.Row="1" Grid.Column="1" Content="Comman_ds:"
+        <Label x:Name="CommandsLabel" Padding="0" Grid.Row="1" Grid.Column="1" Content="{x:Static properties:Customize_Resources.AddCommandPrompt_Commands}"
                HorizontalAlignment="Left"
                VerticalAlignment="Bottom" Margin="10,0,0,5">
             <Label.Target>
@@ -74,14 +75,14 @@
 
         <StackPanel Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"
                     Orientation="Horizontal" Margin="0,0,2,0">
-            <controls:DialogButton x:Name="OKButton" IsDefault="True" Content="OK" VerticalAlignment="Center"
+            <controls:DialogButton x:Name="OKButton" IsDefault="True" Content="{x:Static properties:Customize_Resources.Prompt_Ok}" VerticalAlignment="Center"
                                    Command="{Binding OkClickCommand}">
                 <UIElement.IsEnabled>
                     <Binding Path="SelectedItem" ElementName="CommandsListView"
                              Converter="{StaticResource NotNullConverter}" />
                 </UIElement.IsEnabled>
             </controls:DialogButton>
-            <controls:DialogButton x:Name="CancelButton" IsCancel="True" Content="Cancel" VerticalAlignment="Center" />
+            <controls:DialogButton x:Name="CancelButton" IsCancel="True" Content="{x:Static properties:Customize_Resources.Prompt_Cancel}" VerticalAlignment="Center" />
         </StackPanel>
     </Grid>
 </controls:DialogWindow>

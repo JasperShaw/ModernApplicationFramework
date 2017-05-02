@@ -9,7 +9,8 @@
                     xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General"
                     xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals"
                     xmlns:native="clr-namespace:ModernApplicationFramework.Native"
-                    xmlns:customize="clr-namespace:ModernApplicationFramework.Core.Converters.Customize">
+                    xmlns:customize="clr-namespace:ModernApplicationFramework.Core.Converters.Customize"
+                    xmlns:properties="clr-namespace:ModernApplicationFramework.Properties">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ComboBox.xaml"/>
@@ -27,7 +28,7 @@
     <general:NotNullConverter x:Key="NotNullConverter"/>
     <converters:CommandBarItemCommandConverter x:Key="CommandBarItemCommandConverter"/>
     <converters:DockToOrienationConverter x:Key="DockToOrienationConverter"/>
-    <converters:FormattedStringConverter x:Key="FormattedStringConverter"/>
+    <converters:CommonUiFormattedStringConverter x:Key="CommonUiFormattedStringConverter"/>
     <converters:IsSplitButtonModelConverter x:Key="IsSplitButtonModelConverter"/>
     <customize:IsNotSeparatorModelConverter x:Key="IsNotSeparatorModelConverter"/>
     <customize:IsComboBoxModelConverter x:Key="IsComboBoxModelConverter"/>
@@ -36,6 +37,7 @@
     <converters:CommandExecutionToBooleanConverter x:Key="CommandExecutionToBooleanConverter"/>
     <converters:MultiToolTipMultiConverter x:Key="MultiToolTipMultiConverter"/>
     <converters:DockLocationConverter x:Key="DockLocationConverter"/>
+    <converters:CommonUiResourceConverter x:Key="CommonUiResourceConverter"/>
 
     <Style TargetType="{x:Type this:Menu}" BasedOn="{StaticResource {x:Type Menu}}">
         <Setter Property="Background" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandShelfHighlight}}"/>
@@ -1275,7 +1277,7 @@
                         <Grid x:Name="OverflowGrid" HorizontalAlignment="Right">
                             <internals:ToolBarOverflowToggleButton x:Name="OverflowButton" Style="{StaticResource ToolBarHorizontalOverflowButtonStyle}"
                                                                    ClickMode="Press" InputMethod.IsInputMethodSuspended="true"
-                                                                   ToolTip="{Binding Path=Text, ConverterParameter=ToolBarToolTipText, Converter={StaticResource FormattedStringConverter}}">
+                                                                   ToolTip="{Binding Path=Text, ConverterParameter=ToolBarToolTipText, Converter={StaticResource CommonUiFormattedStringConverter}}">
                                 <UIElement.Visibility>
                                     <TemplateBindingExtension Property="this:ToolBar.IsOverflowToggleButtonVisible" Converter="{StaticResource BoolToVisConverter}"/>
                                 </UIElement.Visibility>
@@ -1306,7 +1308,8 @@
                                                 <this:Separator Margin="2,2,2,0"
                                                                 Visibility="{TemplateBinding HasOverflowItems, Converter={StaticResource BoolToVisConverter}}"/>
                                                 <internals:DummyParentMenuItem>
-                                                    <internals:QuickCustomizeButton Header="_Add or Remove Buttons" this:ToolBar.IsToolBarHostedMenuItem="true"
+                                                    <internals:QuickCustomizeButton Header="{x:Static properties:CommonUI_Resources.ToolBarQuickCustomizeText}" 
+                                                                                    this:ToolBar.IsToolBarHostedMenuItem="true"
                                                                                     QuickCustomizeDataSource="{Binding Path=Items, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
                                                                                     DataContext="{TemplateBinding this:ToolBar.DataContext}"/>
                                                 </internals:DummyParentMenuItem>

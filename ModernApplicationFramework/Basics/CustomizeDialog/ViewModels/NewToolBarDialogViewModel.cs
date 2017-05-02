@@ -1,10 +1,12 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.Interfaces.Views;
+using ModernApplicationFramework.Properties;
 
 namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 {
@@ -30,7 +32,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 
         public NewToolBarDialogViewModel()
         {
-            DisplayName = "New Toolbar";
+            DisplayName = Customize_Resources.NewToolbarPrompt_Title;
             ToolbarName = IoC.Get<IToolBarHostViewModel>().GetUniqueToolBarName();
         }
 
@@ -46,14 +48,14 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             string errorMessage = null;
             var name = ToolbarName?.Trim();
             if (string.IsNullOrEmpty(name))
-                errorMessage = "The toolbar name cannot be blank. Type a name.";
+                errorMessage = Customize_Resources.Error_AddOrRenameToolbarEmptyName;
             else
                 foreach (var definition in IoC.Get<IToolBarHostViewModel>().TopLevelDefinitions)
                 {
                     var defName = definition.Text;
                     if (!name.Equals(defName, StringComparison.CurrentCultureIgnoreCase))
                         continue;
-                    errorMessage = $"A toolbar named '{defName}' already exists. Type another name.";
+                    errorMessage = string.Format(CultureInfo.CurrentUICulture, Customize_Resources.Error_AddOrRenameToolbarExisting, defName);
                     break;
                 }
             if (errorMessage != null)

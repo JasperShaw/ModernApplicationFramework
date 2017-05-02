@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using ModernApplicationFramework.Interfaces.ViewModels;
+using ModernApplicationFramework.Properties;
 
 namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 {
@@ -9,7 +10,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
     {
         public CustomizeDialogViewModel()
         {
-            DisplayName = "Customize";
+            DisplayName = Customize_Resources.CustomizeDialog_Title;
         }
 
         protected override void OnViewLoaded(object view)

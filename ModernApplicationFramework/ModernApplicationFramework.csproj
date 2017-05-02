@@ -204,11 +204,15 @@
     <Compile Include="Basics\CommandBar\Creators\ContextMenuCreator.cs" />
     <Compile Include="Basics\CustomizeDialog\ViewModels\AddCommandDialogViewModel.cs" />
     <Compile Include="Basics\CustomizeDialog\ViewModels\CommandsPageViewModel.cs" />
+    <Compile Include="Interfaces\ViewModels\IAddCommandDialogViewModel.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarMenuControllerDefinitionT.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarSplitItemDefinitionT.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarComboItemDefinitionT.cs" />
     <Compile Include="Basics\CommandBar\Creators\NumberStatusStringCreator.cs" />
     <Compile Include="Basics\Definitions\CommandBar\TextCommandBarItemDefinition.cs" />
+    <Compile Include="Core\Converters\CommonUiResourceConverter.cs" />
+    <Compile Include="Core\Converters\FormattedLocalizableStringConverter.cs" />
+    <Compile Include="Core\Converters\LocalizableResourceConverter.cs" />
     <Compile Include="Interfaces\IHasTextProperty.cs" />
     <Compile Include="Interfaces\Utilities\IStatusStringCreator.cs" />
     <Compile Include="Basics\Definitions\Command\CommandMenuControllerDefinition.cs" />
@@ -296,7 +300,7 @@
     <Compile Include="Core\Converters\CommandToVisibilityConverter.cs" />
     <Compile Include="Core\Converters\Customize\EnabledFilteringMultiConverter.cs" />
     <Compile Include="Core\Converters\EnumBooleanConverter.cs" />
-    <Compile Include="Core\Converters\FormattedStringConverter.cs" />
+    <Compile Include="Core\Converters\CommonUiFormattedStringConverter.cs" />
     <Compile Include="Core\Converters\General\IfElseConverter.cs" />
     <Compile Include="Core\Converters\Customize\IsButtonModelConverter.cs" />
     <Compile Include="Core\Converters\Customize\IsCustomizableModelConverter.cs" />
@@ -658,8 +662,23 @@
     <Compile Include="Interfaces\ViewModels\IToolBarHostViewModel.cs" />
     <Compile Include="Interfaces\ViewModels\IWindowViewModel.cs" />
     <Compile Include="Properties\Annotations1.cs" />
-    <Compile Include="Properties\CommonUI.Resources.de1.Designer.cs">
-      <DependentUpon>CommonUI.Resources.de.resx</DependentUpon>
+    <Compile Include="Properties\Customize.Resources.de.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Customize.Resources.de.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Customize.Resources.Designer.cs">
+      <DependentUpon>Customize.Resources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Properties\MainWindowResources.de.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MainWindowResources.de.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\MainWindowResources.Designer.cs">
+      <DependentUpon>MainWindowResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -953,12 +972,31 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Properties\Customize.Resources.de.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Customize.Resources.de.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Customize.Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Customize.Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\MainWindowResources.de.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>MainWindowResources.de.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\MainWindowResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>MainWindowResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\CommonUI.Resources.de.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>CommonUI.Resources.de1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\CommonUI.Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommonUI.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>

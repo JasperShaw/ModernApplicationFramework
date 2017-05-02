@@ -15,6 +15,7 @@ using ModernApplicationFramework.Core.Converters.Customize;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
+using ModernApplicationFramework.Properties;
 
 namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 {
@@ -156,7 +157,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         [ImportingConstructor]
         public CommandsPageViewModel()
         {
-            DisplayName = "Commands";
+            DisplayName = Customize_Resources.CustomizeDialog_Commands;
 
             Items = new List<CommandBarItemDefinition>();
 

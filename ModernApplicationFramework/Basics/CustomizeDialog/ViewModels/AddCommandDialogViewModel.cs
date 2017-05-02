@@ -7,6 +7,8 @@ using ModernApplicationFramework.Basics.CustomizeDialog.Views;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Interfaces.ViewModels;
+using ModernApplicationFramework.Properties;
 
 namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 {
@@ -62,7 +64,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 
         public AddCommandDialogViewModel()
         {
-            DisplayName = "Add Command";
+            DisplayName = Customize_Resources.AddCommandPrompt_Title;
 
             var categories = IoC.GetAll<CommandCategory>();
             Categories = new List<CommandCategory>(categories);
@@ -103,22 +105,5 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         {
             TryClose(true);
         }
-    }
-
-    public interface IAddCommandDialogViewModel : IScreen
-    {
-        ICommand OkClickCommand { get; }
-
-        IEnumerable<CommandCategory> Categories { get; }
-
-        IEnumerable<DefinitionBase> AllCommandDefinitions { get; }
-
-        IEnumerable<CommandBarItemDefinition> Items { get; set; }
-
-        CommandCategory SelectedCategory { get; set; }
-
-        CommandBarItemDefinition SelectedItem { get; set; }
-
-        void UpdateItems();
     }
 }
