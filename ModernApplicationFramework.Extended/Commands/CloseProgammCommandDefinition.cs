@@ -5,6 +5,7 @@ using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Extended.Properties;
 
 namespace ModernApplicationFramework.Extended.Commands
 {
@@ -25,9 +26,9 @@ namespace ModernApplicationFramework.Extended.Commands
                 new Uri("/ModernApplicationFramework.Extended;component/Resources/Icons/CloseProgramm_16x.xaml",
                     UriKind.RelativeOrAbsolute);
 
-        public override string Name => "File.Exit";
-        public override string Text => "&Exit";
-        public override string ToolTip => "Closes the Programm";
+        public override string Name => Text;
+        public override string Text => Commands_Resources.CloseProgammCommandDefinition_Text;
+        public override string ToolTip => null;
 
         public override CommandCategory Category => CommandCategories.FileCommandCategory;
 

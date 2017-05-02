@@ -2,13 +2,14 @@
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Extended.Commands;
+using ModernApplicationFramework.Extended.Properties;
 
 namespace ModernApplicationFramework.Extended.MenuDefinitions
 {
     public static class ToolsMenuDefinitions
     {
         [Export] public static CommandBarItemDefinition ToolsMenu =
-            new MenuDefinition(MainMenuBarDefinition.MainMenuBarGroup, 8, "&Tools");
+            new MenuDefinition(MainMenuBarDefinition.MainMenuBarGroup, 8, Menu_Resources.ToolsMenu_Name);
 
         [Export] public static CommandBarGroupDefinition SettingsGroup =
             new CommandBarGroupDefinition(ToolsMenu, int.MaxValue);

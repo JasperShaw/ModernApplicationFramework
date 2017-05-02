@@ -6,6 +6,7 @@ using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Extended.Core;
+using ModernApplicationFramework.Extended.Properties;
 
 namespace ModernApplicationFramework.Extended.Commands
 {
@@ -24,9 +25,9 @@ namespace ModernApplicationFramework.Extended.Commands
                 new Uri("/ModernApplicationFramework.Extended;component/Resources/Icons/Undo_16x.xaml",
                     UriKind.RelativeOrAbsolute);
 
-        public override string Name => "Edit.Undo";
-        public override string Text => "Undo";
-        public override string ToolTip => "Undo";
+        public override string Name => Text;
+        public override string Text => Commands_Resources.UndoCommandDefinition_Text;
+        public override string ToolTip => Text;
 
         public override CommandCategory Category => CommandCategories.EditCommandCategory;
 

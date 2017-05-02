@@ -72,10 +72,11 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
                 _text = value;
                 OnPropertyChanged();
                 UpdateInternalName();
+                UpdateName();
             }
         }
 
-        public override uint SortOrder
+	    public override uint SortOrder
         {
             get => _sortOrder;
             set
@@ -164,7 +165,15 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-        private void InternalNameParent_PropertyChanged(object sender, PropertyChangedEventArgs e)
+	    private void UpdateName()
+	    {
+			var name = new AccessKeyRemovingConverter()
+				.Convert(Text, typeof(string), null, CultureInfo.CurrentCulture)
+				?.ToString();
+		    Name = name;
+	    }
+
+		private void InternalNameParent_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(IHasInternalName.InternalName))
                 UpdateInternalName();

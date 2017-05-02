@@ -9,6 +9,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             : base(null, sortOrder, null, commandDefinition, true, false, isCustom, isCustomizable)
         {
             Text = CommandDefinition?.Text;
+            Name = CommandDefinition?.Name;
         }
     }
 }

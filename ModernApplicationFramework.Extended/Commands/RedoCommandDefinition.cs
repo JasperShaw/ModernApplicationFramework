@@ -6,7 +6,7 @@ using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Extended.Core;
-using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Extended.Properties;
 
 namespace ModernApplicationFramework.Extended.Commands
 {
@@ -25,9 +25,9 @@ namespace ModernApplicationFramework.Extended.Commands
                 new Uri("/ModernApplicationFramework.Extended;component/Resources/Icons/Redo_16x.xaml",
                     UriKind.RelativeOrAbsolute);
 
-        public override string Name => "Edit.Redo";
-        public override string Text => "Redo";
-        public override string ToolTip => "Redo";
+        public override string Name => Text;
+        public override string Text => Commands_Resources.RedoCommandDefinition_Text;
+        public override string ToolTip => Text;
 
         public override CommandCategory Category => CommandCategories.EditCommandCategory;
 

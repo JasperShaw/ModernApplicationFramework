@@ -19,8 +19,8 @@ namespace ModernApplicationFramework.Core.Comparers
         {
             if (!(x is CommandBarDefinitionBase command1) || !(y is CommandBarDefinitionBase command2))
                 throw new ArgumentException("This converter does not support the provided objects");
-            var text1 = command1.Text;
-            var text2 = command2.Text;
+            var text1 = command1.Name;
+            var text2 = command2.Name;
 
             if (text1 == null || text2 == null)
                 throw new ArgumentException("Couldn't retrieve Name property of the given data sources");

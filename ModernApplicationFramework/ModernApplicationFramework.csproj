@@ -204,9 +204,10 @@
     <Compile Include="Basics\CommandBar\Creators\ContextMenuCreator.cs" />
     <Compile Include="Basics\CustomizeDialog\ViewModels\AddCommandDialogViewModel.cs" />
     <Compile Include="Basics\CustomizeDialog\ViewModels\CommandsPageViewModel.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\CommandBarItemDefinitionT.cs" />
     <Compile Include="Interfaces\ViewModels\IAddCommandDialogViewModel.cs" />
-    <Compile Include="Basics\Definitions\CommandBar\CommandBarMenuControllerDefinitionT.cs" />
-    <Compile Include="Basics\Definitions\CommandBar\CommandBarSplitItemDefinitionT.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\CommandBarMenuControllerDefinition.cs" />
+    <Compile Include="Basics\Definitions\CommandBar\CommandBarSplitItemDefinition.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarComboItemDefinitionT.cs" />
     <Compile Include="Basics\CommandBar\Creators\NumberStatusStringCreator.cs" />
     <Compile Include="Basics\Definitions\CommandBar\TextCommandBarItemDefinition.cs" />

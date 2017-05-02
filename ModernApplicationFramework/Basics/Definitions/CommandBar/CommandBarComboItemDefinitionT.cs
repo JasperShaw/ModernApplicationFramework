@@ -1,11 +1,9 @@
-﻿using Caliburn.Micro;
-using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Interfaces.Command;
+﻿using ModernApplicationFramework.Basics.Definitions.Command;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
-    public sealed class CommandBarComboItemDefinition<T> : CommandBarItemDefinition where T : DefinitionBase
-    {
+    public sealed class CommandBarComboItemDefinition<T> : CommandBarItemDefinition<T> where T : DefinitionBase
+	{
         private ComboBoxDataSource _dataSource;
         private ComboBoxVisualSource _visualSource;
 
@@ -31,14 +29,10 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-        public override DefinitionBase CommandDefinition { get; }
-
         public CommandBarComboItemDefinition(CommandBarGroupDefinition group, uint sortOrder, bool isEditable, bool stretchHorizontally, bool showText,
             bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true)
             : base(null, sortOrder, group, null, isVisible, isChecked, isCustom, isCustomizable)
         {
-            CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
-            Text = CommandDefinition.Text;
             Flags.PictAndText = showText;
 
             VisualSource = new ComboBoxVisualSource();

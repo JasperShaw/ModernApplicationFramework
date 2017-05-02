@@ -13,8 +13,8 @@ namespace ModernApplicationFramework.MVVM.Demo.Toolbars
 
         [Export] public static CommandBarGroupDefinition StandardUndoRedoGroup = new CommandBarGroupDefinition(Standard, 0);
 
-        [Export] public static CommandBarItemDefinition UndoToolbarItem = new CommandBarSplitItemDefinitionT<MultiUndoCommandDefinition>(new NumberStatusStringCreator("Undo {0} Action{1}", "s"), StandardUndoRedoGroup, uint.MinValue);
+        [Export] public static CommandBarItemDefinition UndoToolbarItem = new CommandBarSplitItemDefinition<MultiUndoCommandDefinition>(new NumberStatusStringCreator("Undo {0} Action{1}", "s"), StandardUndoRedoGroup, uint.MinValue);
 
-        [Export] public static CommandBarItemDefinition RedoToolbarItem = new CommandBarSplitItemDefinitionT<MultiRedoCommandDefinition>(new NumberStatusStringCreator("Redo {0} Action{1}", "s"), StandardUndoRedoGroup, 1);
+        [Export] public static CommandBarItemDefinition RedoToolbarItem = new CommandBarSplitItemDefinition<MultiRedoCommandDefinition>(new NumberStatusStringCreator("Redo {0} Action{1}", "s"), StandardUndoRedoGroup, 1);
     }
 }

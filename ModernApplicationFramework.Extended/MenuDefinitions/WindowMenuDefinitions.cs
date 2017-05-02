@@ -2,13 +2,14 @@
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Extended.Commands;
+using ModernApplicationFramework.Extended.Properties;
 
 namespace ModernApplicationFramework.Extended.MenuDefinitions
 {
     public static class WindowMenuDefinitions
     {
         [Export] public static CommandBarItemDefinition WindowMenu =
-            new MenuDefinition(MainMenuBarDefinition.MainMenuBarGroup, 13, "&Window");
+            new MenuDefinition(MainMenuBarDefinition.MainMenuBarGroup, 13, Menu_Resources.WindowMenu_Name);
 
         [Export] public static CommandBarGroupDefinition OpenWindowsGroup =
             new CommandBarGroupDefinition(WindowMenu, int.MaxValue);

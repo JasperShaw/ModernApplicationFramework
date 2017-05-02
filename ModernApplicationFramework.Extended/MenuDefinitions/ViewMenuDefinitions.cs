@@ -2,13 +2,14 @@
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Extended.Commands;
+using ModernApplicationFramework.Extended.Properties;
 
 namespace ModernApplicationFramework.Extended.MenuDefinitions
 {
     public static class ViewMenuDefinitions
     {
         [Export] public static CommandBarItemDefinition ViewMenu =
-            new MenuDefinition(MainMenuBarDefinition.MainMenuBarGroup, 2, "&View");
+            new MenuDefinition(MainMenuBarDefinition.MainMenuBarGroup, 2, Menu_Resources.ViewMenu_Name);
 
         [Export] public static CommandBarGroupDefinition ScreenViewGroup = new CommandBarGroupDefinition(ViewMenu, 5);
 

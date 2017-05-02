@@ -52,7 +52,7 @@
             <Trigger Property="MenuItem.IsHighlighted" Value="true">
                 <Setter TargetName="Bg" Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuItemMouseOver}}"
                         Property="Shape.Fill"/>
-                <Setter x:Uid="Setter_12" TargetName="Bg"
+                <Setter TargetName="Bg"
                         Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuItemMouseOverBorder}}"
                         Property="Shape.Stroke"/>
                 <Setter Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuItemMouseOverText}}"

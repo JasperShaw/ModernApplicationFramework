@@ -6,6 +6,7 @@ using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.SettingsDialog.ViewModels;
 using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Extended.Properties;
 
 namespace ModernApplicationFramework.Extended.Commands
 {
@@ -25,9 +26,9 @@ namespace ModernApplicationFramework.Extended.Commands
                 new Uri("/ModernApplicationFramework.Extended;component/Resources/Icons/Settings_16x.xaml",
                     UriKind.RelativeOrAbsolute);
 
-        public override string Name => "Tools.Settings";
-        public override string Text => "Options...";
-        public override string ToolTip => "Options...";
+        public override string Name => Text;
+        public override string Text => Commands_Resources.OpenSettingsCommandDefinition_Text;
+        public override string ToolTip => Text;
 
         public override CommandCategory Category => CommandCategories.ToolsCommandCategory;
 

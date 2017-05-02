@@ -70,17 +70,16 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             Categories = new List<CommandCategory>(categories);
             var allCommandDefinitions = IoC.GetAll<DefinitionBase>();
             AllCommandDefinitions = new List<DefinitionBase>(allCommandDefinitions);
-            Items = new List<CommandBarItemDefinition>();
+            //Items = new List<CommandBarItemDefinition>();
         }
 
         public void UpdateItems()
         {
             if (!AllCommandDefinitions.Any())
                 return;
-            Items =
-                from commandDefinition in AllCommandDefinitions
-                where commandDefinition.Category == SelectedCategory
-                select new CommandBarCommandItemDefinition(0, commandDefinition);
+	        Items = (from commandDefinition in AllCommandDefinitions
+		        where commandDefinition.Category == SelectedCategory
+		        select new CommandBarCommandItemDefinition(0, commandDefinition)).ToList(); //Slower to .ToList but actually fixes the CustomSort not beeing used
         }
 
         protected override void OnViewLoaded(object view)

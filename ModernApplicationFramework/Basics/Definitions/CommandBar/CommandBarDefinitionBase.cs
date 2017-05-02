@@ -13,8 +13,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         private string _text;
         private bool _isChecked;
         private FlagStorage _flagStorage;
+	    private string _name;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+	    public event PropertyChangedEventHandler PropertyChanged;
 
         public virtual FlagStorage Flags => _flagStorage ?? (_flagStorage = new FlagStorage());
 
@@ -47,7 +48,18 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-        public virtual bool IsChecked
+	    public virtual string Name
+	    {
+		    get => _name;
+		    set
+		    {
+			    if (value == _name) return;
+			    _name = value;
+			    OnPropertyChanged();
+		    }
+	    }
+
+	    public virtual bool IsChecked
         {
             get => _isChecked;
             set
@@ -63,6 +75,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         {
             _sortOrder = sortOrder;
             _text = text;
+	        _name = text;
             CommandDefinition = definition;
             IsCustom = isCustom;
             _isChecked = isChecked;

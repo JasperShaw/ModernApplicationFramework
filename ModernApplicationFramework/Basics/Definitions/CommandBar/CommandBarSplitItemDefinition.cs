@@ -1,15 +1,12 @@
-﻿using Caliburn.Micro;
-using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Interfaces.Command;
+﻿using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Interfaces.Utilities;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
-    public sealed class CommandBarSplitItemDefinitionT<T> : CommandBarItemDefinition where T : DefinitionBase
-    {
+    public sealed class CommandBarSplitItemDefinition<T> : CommandBarItemDefinition<T> where T : DefinitionBase
+	{
         private int _selectedIndex;
         private string _statusString;
-        public override DefinitionBase CommandDefinition { get; }
 
         public int SelectedIndex
         {
@@ -39,22 +36,20 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         public IStatusStringCreator StringCreator { get; set; }
 
 
-        private CommandBarSplitItemDefinitionT(CommandBarGroupDefinition group, uint sortOrder,
+        private CommandBarSplitItemDefinition(CommandBarGroupDefinition group, uint sortOrder,
             bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true)
             : base(null, sortOrder, group, null, isVisible, isChecked, isCustom, isCustomizable)
         {
-            CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
-            Text = CommandDefinition.Text;
         }
 
-        public CommandBarSplitItemDefinitionT(string statusString, CommandBarGroupDefinition group, uint sortOrder,
+        public CommandBarSplitItemDefinition(string statusString, CommandBarGroupDefinition group, uint sortOrder,
             bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true)
             : this(group, sortOrder, isVisible, isChecked, isCustom, isCustomizable)
         {
             _statusString = statusString;
         }
 
-        public CommandBarSplitItemDefinitionT(IStatusStringCreator statusStringCreator, CommandBarGroupDefinition group, uint sortOrder,
+        public CommandBarSplitItemDefinition(IStatusStringCreator statusStringCreator, CommandBarGroupDefinition group, uint sortOrder,
             bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true)
             : this(group, sortOrder, isVisible, isChecked, isCustom, isCustomizable)
         {

@@ -68,8 +68,7 @@
                                     TextSearch.TextPath="Name" ItemsSource="{Binding Categories}"
                                     CustomSort="{StaticResource CategoryTextComparer}" />
         <controls:CustomizeControlsListBox x:Name="CommandsListView" Grid.Row="2" Grid.Column="1" Margin="10,0,12,10"
-                                           SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-                                           IsSynchronizedWithCurrentItem="True" TextSearch.TextPath="Text"
+                                           SelectedItem="{Binding SelectedItem, Mode=TwoWay}" TextSearch.TextPath="Name"
                                            ItemsSource="{Binding Items}"
                                            CustomSort="{StaticResource CommandTextComparer}" />
 

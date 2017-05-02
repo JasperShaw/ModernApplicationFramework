@@ -14,7 +14,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Commands
     public sealed class CustomizeMenuCommandDefinition : CommandDefinition
     {
         public override ICommand Command { get; }
-        public override string Name => null;
+        public override string Name => Text;
         public override string Text => Commands_Resources.CustomizeMenuCommandDefinition_Text;
         public override string ToolTip => null;
         public override Uri IconSource => null;

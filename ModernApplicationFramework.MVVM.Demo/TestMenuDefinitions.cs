@@ -33,7 +33,7 @@ namespace ModernApplicationFramework.MVVM.Demo
         [Export] public static CommandBarItemDefinition TestSubSub1 = new CommandBarCommandItemDefinition<UndoCommandDefinition>(TestGroup4, 0);
 
 
-        [Export] public static CommandBarItemDefinition SplitItem = new CommandBarSplitItemDefinitionT<MultiUndoCommandDefinition>(new NumberStatusStringCreator("Undo {0} Action{1}", "s"), TestGroup1, 0);
+        [Export] public static CommandBarItemDefinition SplitItem = new CommandBarSplitItemDefinition<MultiUndoCommandDefinition>(new NumberStatusStringCreator("Undo {0} Action{1}", "s"), TestGroup1, 0);
 
 
         //[Export] public static CommandBarItemDefinition MenuControllerItem = new CommandBarMenuControllerDefinitionT<TestMenuControllerDefinition>(MainMenuBarDefinition.MainMenuBarGroup, uint.MinValue);

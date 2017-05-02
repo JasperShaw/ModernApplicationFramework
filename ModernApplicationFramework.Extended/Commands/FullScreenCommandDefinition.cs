@@ -6,6 +6,7 @@ using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Extended.Properties;
 
 namespace ModernApplicationFramework.Extended.Commands
 {
@@ -22,8 +23,8 @@ namespace ModernApplicationFramework.Extended.Commands
                 new Uri("/ModernApplicationFramework.Extended;component/Resources/Icons/FitToScreen_16x.xaml",
                     UriKind.RelativeOrAbsolute);
 
-        public override string Name => "View.FullScreen";
-        public override string Text => "Full Screen";
+        public override string Name => Text;
+        public override string Text => Commands_Resources.FullScreenCommandDefinition_Text;
         public override string ToolTip => Text;
 
         public override CommandCategory Category => CommandCategories.ViewCommandCategory;

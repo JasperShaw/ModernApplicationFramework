@@ -1,12 +1,10 @@
 ﻿using System.Linq;
-using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Interfaces.Command;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
-    public sealed class CommandBarMenuControllerDefinitionT<T> : CommandBarItemDefinition where T : DefinitionBase
-    {
+    public sealed class CommandBarMenuControllerDefinition<T> : CommandBarItemDefinition<T> where T : DefinitionBase
+	{
         private CommandBarItemDefinition _anchorItem;
 
         public CommandBarItemDefinition AnchorItem
@@ -20,15 +18,10 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-        public override DefinitionBase CommandDefinition { get; }
-
-        public CommandBarMenuControllerDefinitionT(CommandBarGroupDefinition group, uint sortOrder,
+        public CommandBarMenuControllerDefinition(CommandBarGroupDefinition group, uint sortOrder,
             bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true)
             : base(null, sortOrder, group, null, isVisible, isChecked, isCustom, isCustomizable)
         {
-            CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
-            Text = CommandDefinition.Text;
-
             Flags.TextIsAnchor = true;
 
             if (CommandDefinition is CommandMenuControllerDefinition menuControllerDefinition)

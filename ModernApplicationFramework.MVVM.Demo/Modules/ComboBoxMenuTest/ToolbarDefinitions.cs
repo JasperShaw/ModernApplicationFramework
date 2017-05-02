@@ -16,6 +16,6 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.ComboBoxMenuTest
 
 
         [Export] public static CommandBarItemDefinition MenuControllerItem =
-            new CommandBarMenuControllerDefinitionT<TestMenuControllerDefinition>(Group1, uint.MinValue);
+            new CommandBarMenuControllerDefinition<TestMenuControllerDefinition>(Group1, uint.MinValue);
     }
 }

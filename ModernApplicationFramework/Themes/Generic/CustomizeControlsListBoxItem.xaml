@@ -322,7 +322,7 @@
         <Style x:Key="CommonCustomizeControlsListBoxItemStyleKey" TargetType="{x:Type controls:CustomizeControlsListBoxItem}">
             <Setter Property="Content">
                 <Setter.Value>
-                    <Binding Path="Text" Converter="{StaticResource AccessKeyUnderliningConverter}"/>
+                    <Binding Path="Name" Converter="{StaticResource AccessKeyUnderliningConverter}"/>
                 </Setter.Value>
             </Setter>
             <Setter Property="FocusVisualStyle">
@@ -332,7 +332,7 @@
             </Setter>
             <Setter Property="AutomationProperties.Name">
                 <Setter.Value>
-                    <Binding Path="Text" Converter="{StaticResource AccessKeyRemovingConverter}"/>
+                    <Binding Path="Name" Converter="{StaticResource AccessKeyRemovingConverter}"/>
                 </Setter.Value>
             </Setter>
             <Setter Property="TextElement.Foreground"
