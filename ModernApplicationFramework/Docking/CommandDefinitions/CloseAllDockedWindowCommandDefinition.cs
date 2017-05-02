@@ -6,16 +6,18 @@ using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Docking.Layout;
+using ModernApplicationFramework.Properties;
 
 namespace ModernApplicationFramework.Docking.CommandDefinitions
 {
     [Export(typeof(DefinitionBase))]
+    [Export(typeof(CloseAllDockedWindowCommandDefinition))]
     public sealed class CloseAllDockedWindowCommandDefinition : CommandDefinition
     {
         public override ICommand Command { get; }
 
-        public override string Name => "Close All Documents";
-        public override string Text => "Close All Documents";
+        public override string Name => Text;
+        public override string Text => Commands_Resources.CloseAllDockedWindowCommandDefinition_Text;
         public override string ToolTip => null;
 
         public override Uri IconSource => new Uri(

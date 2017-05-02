@@ -2,6 +2,7 @@
 using ModernApplicationFramework.Basics.CommandBar.Commands;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.ContextMenu;
+using ModernApplicationFramework.Properties;
 
 namespace ModernApplicationFramework.Basics.CommandBar
 {
@@ -9,7 +10,7 @@ namespace ModernApplicationFramework.Basics.CommandBar
     {
         [Export] public static Definitions.ContextMenu.ContextMenuDefinition ToolbarsContextMenu =
             new Definitions.ContextMenu.ContextMenuDefinition(ContextMenuCategory.OtherContextMenusCategory,
-                "Toolbar List");
+                ContextMenus_Resources.ToolbarsContextMenu_Name);
 
         [Export] public static CommandBarGroupDefinition ToolBarListGroup =
             new CommandBarGroupDefinition(ToolbarsContextMenu, 0);

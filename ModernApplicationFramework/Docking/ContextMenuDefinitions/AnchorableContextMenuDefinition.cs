@@ -2,13 +2,14 @@
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.ContextMenu;
 using ModernApplicationFramework.Docking.CommandDefinitions;
+using ModernApplicationFramework.Properties;
 
 namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
 {
     public class AnchorableContextMenuDefinition
     {
         [Export] public static ContextMenuDefinition AnchorableContextMenu =
-            new ContextMenuDefinition(ContextMenuCategory.OtherContextMenusCategory, "Docked Window");
+            new ContextMenuDefinition(ContextMenuCategory.OtherContextMenusCategory, ContextMenus_Resources.AnchorableContextMenu_Name);
 
         [Export] public static CommandBarGroupDefinition AnchorableContextMenuGroup =
             new CommandBarGroupDefinition(AnchorableContextMenu, uint.MinValue);

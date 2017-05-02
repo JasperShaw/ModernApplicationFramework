@@ -5,16 +5,18 @@ using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Docking.Layout;
+using ModernApplicationFramework.Properties;
 
 namespace ModernApplicationFramework.Docking.CommandDefinitions
 {
     [Export(typeof(DefinitionBase))]
+    [Export(typeof(MoveToPreviousTabGroupCommandDefinition))]
     public sealed class MoveToPreviousTabGroupCommandDefinition : CommandDefinition
     {
         public override ICommand Command { get; }
 
-        public override string Name => "Move to Previous Tab Group";
-        public override string Text => "Move to Previous Tab Group";
+        public override string Name => Text;
+        public override string Text => Commands_Resources.MoveToPreviousTabGroupCommandDefinition_Text;
         public override string ToolTip => null;
         public override Uri IconSource => null;
 

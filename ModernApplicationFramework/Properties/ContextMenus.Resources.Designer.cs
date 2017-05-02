@@ -22,14 +22,14 @@ namespace ModernApplicationFramework.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class CommonUI_Resources {
+    public class ContextMenus_Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal CommonUI_Resources() {
+        internal ContextMenus_Resources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace ModernApplicationFramework.Properties {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ModernApplicationFramework.Properties.CommonUI.Resources", typeof(CommonUI_Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ModernApplicationFramework.Properties.ContextMenus.Resources", typeof(ContextMenus_Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,47 +61,47 @@ namespace ModernApplicationFramework.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} (custom).
+        ///   Looks up a localized string similar to Easy MDI Tool Window.
         /// </summary>
-        public static string NewToolBarUniqueNamePatter {
+        public static string AnchorableAsDocumentContextMenu_Name {
             get {
-                return ResourceManager.GetString("NewToolBarUniqueNamePatter", resourceCulture);
+                return ResourceManager.GetString("AnchorableAsDocumentContextMenu_Name", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to _Customize....
+        ///   Looks up a localized string similar to Docked Window.
         /// </summary>
-        public static string ToolBarCustomizeButton {
+        public static string AnchorableContextMenu_Name {
             get {
-                return ResourceManager.GetString("ToolBarCustomizeButton", resourceCulture);
+                return ResourceManager.GetString("AnchorableContextMenu_Name", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to _Add or Remove Buttons.
+        ///   Looks up a localized string similar to Easy MDI Document Window.
         /// </summary>
-        public static string ToolBarQuickCustomizeText {
+        public static string DocumentContextMenu_Name {
             get {
-                return ResourceManager.GetString("ToolBarQuickCustomizeText", resourceCulture);
+                return ResourceManager.GetString("DocumentContextMenu_Name", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to _Reset Toolbar.
+        ///   Looks up a localized string similar to Other Context Menus.
         /// </summary>
-        public static string ToolBarResetButton {
+        public static string OtherContextMenusCategory {
             get {
-                return ResourceManager.GetString("ToolBarResetButton", resourceCulture);
+                return ResourceManager.GetString("OtherContextMenusCategory", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} Toolbar Options.
+        ///   Looks up a localized string similar to Toolbar List.
         /// </summary>
-        public static string ToolBarToolTipText {
+        public static string ToolbarsContextMenu_Name {
             get {
-                return ResourceManager.GetString("ToolBarToolTipText", resourceCulture);
+                return ResourceManager.GetString("ToolbarsContextMenu_Name", resourceCulture);
             }
         }
     }

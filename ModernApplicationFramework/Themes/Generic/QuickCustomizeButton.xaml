@@ -4,7 +4,8 @@
                     xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals"
                     xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
                     xmlns:accessKey="clr-namespace:ModernApplicationFramework.Core.Converters.AccessKey"
-                    xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General">
+                    xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General"
+                    xmlns:properties="clr-namespace:ModernApplicationFramework.Properties">
 
     <accessKey:AccessKeyRemovingConverter x:Key="AccessKeyRemovingConverter"/>
     <accessKey:AccessKeyConverter x:Key="AccessKeyConverter"/>
@@ -147,11 +148,11 @@
     </Style>
     <Style x:Key="{x:Static internals:QuickCustomizeButton.CustomizeMenuItemStyleKey}" TargetType="{x:Type MenuItem}"
            BasedOn="{StaticResource ToolbarCustomizeMenuItemStyle}">
-        <Setter Property="Header" Value="_Customize..."/>
+        <Setter Property="Header" Value="{x:Static properties:CommonUI_Resources.ToolBarCustomizeButton}"/>
     </Style>
     <Style x:Key="{x:Static internals:QuickCustomizeButton.ResetToolbarMenuItemStyleKey}"
            TargetType="{x:Type MenuItem}" BasedOn="{StaticResource ToolbarCustomizeMenuItemStyle}">
-        <Setter Property="Header" Value="_Reset Toolbar"/>
+        <Setter Property="Header" Value="{x:Static properties:CommonUI_Resources.ToolBarResetButton}"/>
         <Setter Property="StaysOpenOnClick" Value="false"/>
     </Style>
 

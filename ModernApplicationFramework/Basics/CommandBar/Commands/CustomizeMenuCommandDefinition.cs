@@ -5,6 +5,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Basics.CustomizeDialog.ViewModels;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Properties;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Commands
 {
@@ -14,7 +15,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Commands
     {
         public override ICommand Command { get; }
         public override string Name => null;
-        public override string Text => "&Customize...";
+        public override string Text => Commands_Resources.CustomizeMenuCommandDefinition_Text;
         public override string ToolTip => null;
         public override Uri IconSource => null;
         public override string IconId => null;

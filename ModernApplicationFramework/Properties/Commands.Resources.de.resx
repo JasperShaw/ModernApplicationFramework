@@ -117,19 +117,67 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NewToolBarUniqueNamePatter" xml:space="preserve">
-    <value>{0} (custom)</value>
+  <data name="AutoHideWindowCommandDefinition_Text" xml:space="preserve">
+    <value>Automatisch im Hintergrund</value>
   </data>
-  <data name="ToolBarCustomizeButton" xml:space="preserve">
-    <value>_Customize...</value>
+  <data name="Category_Edit" xml:space="preserve">
+    <value>Bearbeiten</value>
   </data>
-  <data name="ToolBarQuickCustomizeText" xml:space="preserve">
-    <value>_Add or Remove Buttons</value>
+  <data name="Category_File" xml:space="preserve">
+    <value>Datei</value>
   </data>
-  <data name="ToolBarResetButton" xml:space="preserve">
-    <value>_Reset Toolbar</value>
+  <data name="Category_Tools" xml:space="preserve">
+    <value>Extras</value>
   </data>
-  <data name="ToolBarToolTipText" xml:space="preserve">
-    <value>{0} Toolbar Options</value>
+  <data name="Category_View" xml:space="preserve">
+    <value>Ansicht</value>
+  </data>
+  <data name="Category_Window" xml:space="preserve">
+    <value>Fenster</value>
+  </data>
+  <data name="CloseAllButThisDockedWindowCommandDefinition_Text" xml:space="preserve">
+    <value>Alle außer diesem schließen</value>
+  </data>
+  <data name="CloseAllDockedWindowCommandDefinition_Text" xml:space="preserve">
+    <value>Alle Dokumente schließen</value>
+  </data>
+  <data name="CloseDockedWindowCommandDefinition_Text" xml:space="preserve">
+    <value>Schließen</value>
+  </data>
+  <data name="CustomizeMenuCommandDefinition_Text" xml:space="preserve">
+    <value>&amp;Anpassen...</value>
+  </data>
+  <data name="DockAsTabbedDocumentCommandDefinition_Text" xml:space="preserve">
+    <value>Als Dokument im Registerkartenformat andocken</value>
+  </data>
+  <data name="DockWindowCommandDefinition_Text" xml:space="preserve">
+    <value>Andocken</value>
+  </data>
+  <data name="FloatDockedWindowCommandDefinition_Text" xml:space="preserve">
+    <value>Verankerung aufheben</value>
+  </data>
+  <data name="HideDockedWindowCommandDefinition_Text" xml:space="preserve">
+    <value>Ausblenden</value>
+  </data>
+  <data name="ListToolBarsCommandListDefinition_Name" xml:space="preserve">
+    <value>Symbolleistenliste</value>
+  </data>
+  <data name="MoveAllToNextTabGroupCommandDefinition_Text" xml:space="preserve">
+    <value>Alle in nächste Registerkartengruppe verschieben</value>
+  </data>
+  <data name="MoveAllToPreviousTabGroupCommandDefinition_Text" xml:space="preserve">
+    <value>Alle in vorherige Registerkartengruppe verschieben</value>
+  </data>
+  <data name="MoveToNextTabGroupCommandDefinition_Text" xml:space="preserve">
+    <value>Zur nächsten Registerkartengruppe wechseln</value>
+  </data>
+  <data name="MoveToPreviousTabGroupCommandDefinition_Text" xml:space="preserve">
+    <value>Zur vorherigen Registerkartengruppe wechseln</value>
+  </data>
+  <data name="NewHorizontalTabGroupCommandDefinition_Text" xml:space="preserve">
+    <value>Neue horizontale Registerkartengruppe</value>
+  </data>
+  <data name="NewVerticalTabGroupCommandDefinition_Text" xml:space="preserve">
+    <value>Neue vertikale Registerkartengruppe</value>
   </data>
 </root>

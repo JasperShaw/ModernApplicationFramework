@@ -117,19 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NewToolBarUniqueNamePatter" xml:space="preserve">
-    <value>{0} (custom)</value>
+  <data name="AnchorableAsDocumentContextMenu_Name" xml:space="preserve">
+    <value>Einfaches MDI-Toolfenster</value>
   </data>
-  <data name="ToolBarCustomizeButton" xml:space="preserve">
-    <value>_Customize...</value>
+  <data name="AnchorableContextMenu_Name" xml:space="preserve">
+    <value>Angedocktes Fenster</value>
   </data>
-  <data name="ToolBarQuickCustomizeText" xml:space="preserve">
-    <value>_Add or Remove Buttons</value>
+  <data name="DocumentContextMenu_Name" xml:space="preserve">
+    <value>Einfaches MDI-Dokumentenfenster</value>
   </data>
-  <data name="ToolBarResetButton" xml:space="preserve">
-    <value>_Reset Toolbar</value>
+  <data name="OtherContextMenusCategory" xml:space="preserve">
+    <value>Weitere Kontextmenüs</value>
   </data>
-  <data name="ToolBarToolTipText" xml:space="preserve">
-    <value>{0} Toolbar Options</value>
+  <data name="ToolbarsContextMenu_Name" xml:space="preserve">
+    <value>Symbolleistenliste</value>
   </data>
 </root>

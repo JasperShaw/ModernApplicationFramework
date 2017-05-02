@@ -117,8 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="NewToolBarUniqueNamePatter" xml:space="preserve">
+    <value>{0} (benutzerdefiniert)</value>
+  </data>
+  <data name="ToolBarCustomizeButton" xml:space="preserve">
+    <value>_Anpassen...</value>
+  </data>
   <data name="ToolBarQuickCustomizeText" xml:space="preserve">
     <value>Sch_altflächen hinzufügen oder entfernen</value>
+  </data>
+  <data name="ToolBarResetButton" xml:space="preserve">
+    <value>_Symbolleiste zurücksetzen</value>
   </data>
   <data name="ToolBarToolTipText" xml:space="preserve">
     <value>{0} Toolbar Optionen</value>

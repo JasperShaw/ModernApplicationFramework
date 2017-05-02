@@ -1,8 +1,10 @@
-﻿namespace ModernApplicationFramework.Basics.Definitions.ContextMenu
+﻿using ModernApplicationFramework.Properties;
+
+namespace ModernApplicationFramework.Basics.Definitions.ContextMenu
 {
     public class ContextMenuCategory
     {
-        public static ContextMenuCategory OtherContextMenusCategory = new ContextMenuCategory("Other Context Menus");
+        public static ContextMenuCategory OtherContextMenusCategory = new ContextMenuCategory(ContextMenus_Resources.OtherContextMenusCategory);
 
         public string CategoryName { get; }
 

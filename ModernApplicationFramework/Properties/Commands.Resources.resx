@@ -117,19 +117,67 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NewToolBarUniqueNamePatter" xml:space="preserve">
-    <value>{0} (custom)</value>
+  <data name="AutoHideWindowCommandDefinition_Text" xml:space="preserve">
+    <value>Auto Hide</value>
   </data>
-  <data name="ToolBarCustomizeButton" xml:space="preserve">
-    <value>_Customize...</value>
+  <data name="Category_Edit" xml:space="preserve">
+    <value>Edit</value>
   </data>
-  <data name="ToolBarQuickCustomizeText" xml:space="preserve">
-    <value>_Add or Remove Buttons</value>
+  <data name="Category_File" xml:space="preserve">
+    <value>File</value>
   </data>
-  <data name="ToolBarResetButton" xml:space="preserve">
-    <value>_Reset Toolbar</value>
+  <data name="Category_Tools" xml:space="preserve">
+    <value>Tools</value>
   </data>
-  <data name="ToolBarToolTipText" xml:space="preserve">
-    <value>{0} Toolbar Options</value>
+  <data name="Category_View" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="Category_Window" xml:space="preserve">
+    <value>Window</value>
+  </data>
+  <data name="CloseAllButThisDockedWindowCommandDefinition_Text" xml:space="preserve">
+    <value>Close All But This</value>
+  </data>
+  <data name="CloseAllDockedWindowCommandDefinition_Text" xml:space="preserve">
+    <value>Close All Documents</value>
+  </data>
+  <data name="CloseDockedWindowCommandDefinition_Text" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="CustomizeMenuCommandDefinition_Text" xml:space="preserve">
+    <value>&amp;Customize...</value>
+  </data>
+  <data name="DockAsTabbedDocumentCommandDefinition_Text" xml:space="preserve">
+    <value>Dock as Tabbed Document</value>
+  </data>
+  <data name="DockWindowCommandDefinition_Text" xml:space="preserve">
+    <value>Dock</value>
+  </data>
+  <data name="FloatDockedWindowCommandDefinition_Text" xml:space="preserve">
+    <value>Float</value>
+  </data>
+  <data name="HideDockedWindowCommandDefinition_Text" xml:space="preserve">
+    <value>Hide</value>
+  </data>
+  <data name="ListToolBarsCommandListDefinition_Name" xml:space="preserve">
+    <value>Toolbar List</value>
+  </data>
+  <data name="MoveAllToNextTabGroupCommandDefinition_Text" xml:space="preserve">
+    <value>Move All to Next Tab Group</value>
+  </data>
+  <data name="MoveAllToPreviousTabGroupCommandDefinition_Text" xml:space="preserve">
+    <value>Move All to Previous Tab Group</value>
+  </data>
+  <data name="MoveToNextTabGroupCommandDefinition_Text" xml:space="preserve">
+    <value>Move to Next Tab Group</value>
+  </data>
+  <data name="MoveToPreviousTabGroupCommandDefinition_Text" xml:space="preserve">
+    <value>Move to Previous Tab Group</value>
+  </data>
+  <data name="NewHorizontalTabGroupCommandDefinition_Text" xml:space="preserve">
+    <value>New Horizontal Tab Group</value>
+  </data>
+  <data name="NewVerticalTabGroupCommandDefinition_Text" xml:space="preserve">
+    <value>New Vertical Tab Group</value>
   </data>
 </root>

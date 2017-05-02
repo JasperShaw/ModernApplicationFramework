@@ -6,17 +6,19 @@ using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Docking.Layout;
+using ModernApplicationFramework.Properties;
 using DefinitionBase = ModernApplicationFramework.Basics.Definitions.Command.DefinitionBase;
 
 namespace ModernApplicationFramework.Docking.CommandDefinitions
 {
     [Export(typeof(DefinitionBase))]
+    [Export(typeof(NewVerticalTabGroupCommandDefinition))]
     public sealed class NewVerticalTabGroupCommandDefinition : CommandDefinition
     {
         public override ICommand Command { get; }
 
-        public override string Name => "New Vertical Tab Group";
-        public override string Text => "New Vertical Tab Group";
+        public override string Name => Text;
+        public override string Text => Commands_Resources.NewVerticalTabGroupCommandDefinition_Text;
         public override string ToolTip => null;
 
         public override Uri IconSource =>
