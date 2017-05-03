@@ -117,34 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CloseProgammCommandDefinition_Text" xml:space="preserve">
-    <value>&amp;Exit</value>
+  <data name="EditMenu_Name" xml:space="preserve">
+    <value>&amp;Bearbeiten</value>
   </data>
-  <data name="FullScreenCommandDefinition_Text" xml:space="preserve">
-    <value>F&amp;ull Screen</value>
+  <data name="FileMenu_Name" xml:space="preserve">
+    <value>&amp;Datei</value>
   </data>
-  <data name="MultiRedoCommandDefinition_Text" xml:space="preserve">
-    <value>MultiLevel Redo</value>
+  <data name="HelpMenu_Name" xml:space="preserve">
+    <value>&amp;Hilfe</value>
   </data>
-  <data name="MultiRedoCommandDefinition_ToolTip" xml:space="preserve">
-    <value>Redo</value>
+  <data name="MainMenuBar_Name" xml:space="preserve">
+    <value>Menüleiste</value>
   </data>
-  <data name="MultiUndoCommandDefinition_Text" xml:space="preserve">
-    <value>MultiLevel Undo</value>
+  <data name="ToolsMenu_Name" xml:space="preserve">
+    <value>Ex&amp;tras</value>
   </data>
-  <data name="MultiUndoCommandDefinition_ToolTip" xml:space="preserve">
-    <value>Undo</value>
+  <data name="ViewMenu_Name" xml:space="preserve">
+    <value>&amp;Ansicht</value>
   </data>
-  <data name="OpenSettingsCommandDefinition_Text" xml:space="preserve">
-    <value>Options...</value>
-  </data>
-  <data name="RedoCommandDefinition_Text" xml:space="preserve">
-    <value>Redo</value>
-  </data>
-  <data name="SwitchToDocumentCommandListDefinition_Name" xml:space="preserve">
-    <value>Window List</value>
-  </data>
-  <data name="UndoCommandDefinition_Text" xml:space="preserve">
-    <value>Undo</value>
+  <data name="WindowMenu_Name" xml:space="preserve">
+    <value>&amp;Fenster</value>
   </data>
 </root>

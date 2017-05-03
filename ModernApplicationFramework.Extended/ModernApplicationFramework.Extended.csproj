@@ -152,7 +152,6 @@
       <DependentUpon>MainWindowSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\ViewModels\MainWindowSettingsViewModel.cs" />
-    <Compile Include="ToolbarDefinition\StandardToolbarDefinition.cs" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -88,25 +88,7 @@ namespace ModernApplicationFramework.Extended.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die s ähnelt.
-        /// </summary>
-        internal static string MultiRedoCommandDefinition_StatusPluralSuffix {
-            get {
-                return ResourceManager.GetString("MultiRedoCommandDefinition_StatusPluralSuffix", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Redo {0} Action{1} ähnelt.
-        /// </summary>
-        internal static string MultiRedoCommandDefinition_StatusText {
-            get {
-                return ResourceManager.GetString("MultiRedoCommandDefinition_StatusText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Redo ähnelt.
+        ///   Looks up a localized string similar to &amp;Redo.
         /// </summary>
         internal static string MultiRedoCommandDefinition_Text {
             get {
@@ -133,16 +115,7 @@ namespace ModernApplicationFramework.Extended.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Undo {0} Action{1} ähnelt.
-        /// </summary>
-        internal static string MultiUndoCommandDefinition_StatusText {
-            get {
-                return ResourceManager.GetString("MultiUndoCommandDefinition_StatusText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Undo ähnelt.
+        ///   Looks up a localized string similar to &amp;Undo.
         /// </summary>
         internal static string MultiUndoCommandDefinition_Text {
             get {
@@ -160,16 +133,7 @@ namespace ModernApplicationFramework.Extended.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die s ähnelt.
-        /// </summary>
-        internal static string MultUndoCommandDefinition_StatusPluralSuffix {
-            get {
-                return ResourceManager.GetString("MultUndoCommandDefinition_StatusPluralSuffix", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Options... ähnelt.
+        ///   Looks up a localized string similar to Options....
         /// </summary>
         internal static string OpenSettingsCommandDefinition_Text {
             get {

@@ -8,7 +8,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.ComboBoxMenuTest
 {
     public static class ToolbarDefinitions
     {
-        [Export] public static ToolbarDefinition ComboBox = new ToolbarDefinition("ComboBoxTest", 1, true, Dock.Top);
+        [Export] public static ToolbarDefinition ComboBox = new ToolbarDefinition("ComboBoxTest", 0, true, Dock.Top);
 
         [Export] public static CommandBarGroupDefinition Group1 = new CommandBarGroupDefinition(ComboBox, 0);
 
