@@ -116,13 +116,13 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\Menu.Resources.de.Designer.cs">
-      <DependentUpon>Menu.Resources.de.resx</DependentUpon>
+    <Compile Include="Properties\CommandBar.Resources.de.Designer.cs">
+      <DependentUpon>CommandBar.Resources.de.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Properties\Menu.Resources.Designer.cs">
-      <DependentUpon>Menu.Resources.resx</DependentUpon>
+    <Compile Include="Properties\CommandBar.Resources.Designer.cs">
+      <DependentUpon>CommandBar.Resources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -152,6 +152,7 @@
       <DependentUpon>MainWindowSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\ViewModels\MainWindowSettingsViewModel.cs" />
+    <Compile Include="ToolbarDefinitions\StandardToolbarDefinition.cs" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -165,13 +166,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Menu.Resources.de.resx">
+    <EmbeddedResource Include="Properties\CommandBar.Resources.de.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Menu.Resources.de.Designer.cs</LastGenOutput>
+      <LastGenOutput>CommandBar.Resources.de.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Menu.Resources.resx">
+    <EmbeddedResource Include="Properties\CommandBar.Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Menu.Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>CommandBar.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Commands.Resources.de.resx">
       <Generator>ResXFileCodeGenerator</Generator>

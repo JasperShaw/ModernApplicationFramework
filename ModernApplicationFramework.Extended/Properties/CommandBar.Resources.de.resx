@@ -117,25 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="EditMenu_Name" xml:space="preserve">
-    <value>&amp;Bearbeiten</value>
-  </data>
-  <data name="FileMenu_Name" xml:space="preserve">
-    <value>&amp;Datei</value>
-  </data>
-  <data name="HelpMenu_Name" xml:space="preserve">
-    <value>&amp;Hilfe</value>
-  </data>
-  <data name="MainMenuBar_Name" xml:space="preserve">
+  <data name="MenuBarMain_Name" xml:space="preserve">
     <value>Menüleiste</value>
   </data>
-  <data name="ToolsMenu_Name" xml:space="preserve">
+  <data name="MenuEdit_Name" xml:space="preserve">
+    <value>&amp;Bearbeiten</value>
+  </data>
+  <data name="MenuFile_Name" xml:space="preserve">
+    <value>&amp;Datei</value>
+  </data>
+  <data name="MenuHelp_Name" xml:space="preserve">
+    <value>&amp;Hilfe</value>
+  </data>
+  <data name="MenuTools_Name" xml:space="preserve">
     <value>Ex&amp;tras</value>
   </data>
-  <data name="ViewMenu_Name" xml:space="preserve">
+  <data name="MenuView_Name" xml:space="preserve">
     <value>&amp;Ansicht</value>
   </data>
-  <data name="WindowMenu_Name" xml:space="preserve">
+  <data name="MenuWindow_Name" xml:space="preserve">
     <value>&amp;Fenster</value>
+  </data>
+  <data name="ToolBarStandard_Name" xml:space="preserve">
+    <value>Standard</value>
   </data>
 </root>

@@ -10,7 +10,7 @@ namespace ModernApplicationFramework.Extended.MenuDefinitions
     public static class FileMenuDefinitions
     {
         [Export] public static CommandBarItemDefinition FileMenu =
-            new MenuDefinition(MainMenuBarDefinition.MainMenuBarGroup, 0, Menu_Resources.FileMenu_Name);
+            new MenuDefinition(MainMenuBarDefinition.MainMenuBarGroup, 0, CommandBar_Resources.MenuFile_Name);
 
         [Export] public static CommandBarGroupDefinition CloseProgramGroup =
             new CommandBarGroupDefinition(FileMenu, int.MaxValue);

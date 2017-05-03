@@ -9,7 +9,7 @@ namespace ModernApplicationFramework.Extended.MenuDefinitions
     public static class ViewMenuDefinitions
     {
         [Export] public static CommandBarItemDefinition ViewMenu =
-            new MenuDefinition(MainMenuBarDefinition.MainMenuBarGroup, 2, Menu_Resources.ViewMenu_Name);
+            new MenuDefinition(MainMenuBarDefinition.MainMenuBarGroup, 2, CommandBar_Resources.MenuView_Name);
 
         [Export] public static CommandBarGroupDefinition ScreenViewGroup = new CommandBarGroupDefinition(ViewMenu, 5);
 

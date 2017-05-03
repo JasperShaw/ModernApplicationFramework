@@ -126,6 +126,12 @@
   <data name="MultiRedoCommandDefinition_Name" xml:space="preserve">
     <value>MultiLevel Redo</value>
   </data>
+  <data name="MultiRedoCommandDefinition_StatusSuffix" xml:space="preserve">
+    <value>s</value>
+  </data>
+  <data name="MultiRedoCommandDefinition_StatusText" xml:space="preserve">
+    <value>Redo {0} Action{1}</value>
+  </data>
   <data name="MultiRedoCommandDefinition_Text" xml:space="preserve">
     <value>&amp;Redo</value>
   </data>
@@ -134,6 +140,12 @@
   </data>
   <data name="MultiUndoCommandDefinition_Name" xml:space="preserve">
     <value>MultiLevel Undo</value>
+  </data>
+  <data name="MultiUndoCommandDefinition_StatusSuffix" xml:space="preserve">
+    <value>s</value>
+  </data>
+  <data name="MultiUndoCommandDefinition_StatusText" xml:space="preserve">
+    <value>Undo {0} Action{1}</value>
   </data>
   <data name="MultiUndoCommandDefinition_Text" xml:space="preserve">
     <value>&amp;Undo</value>

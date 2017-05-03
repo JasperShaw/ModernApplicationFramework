@@ -9,7 +9,7 @@ namespace ModernApplicationFramework.Extended.MenuDefinitions
     public static class EditMenuDefinitions
     {
         [Export] public static CommandBarItemDefinition EditMenu =
-            new MenuDefinition(MainMenuBarDefinition.MainMenuBarGroup, 1, Menu_Resources.EditMenu_Name);
+            new MenuDefinition(MainMenuBarDefinition.MainMenuBarGroup, 1, CommandBar_Resources.MenuEdit_Name);
 
         [Export] public static CommandBarGroupDefinition EditUndoRedoMenuGroup =
             new CommandBarGroupDefinition(EditMenu, 0);

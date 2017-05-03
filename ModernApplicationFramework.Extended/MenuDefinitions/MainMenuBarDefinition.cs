@@ -7,7 +7,7 @@ namespace ModernApplicationFramework.Extended.MenuDefinitions
 {
     public static class MainMenuBarDefinition
     {
-        [Export] public static MenuBarDefinition MainMenuBar = new MenuBarDefinition(Menu_Resources.MainMenuBar_Name, uint.MinValue);
+        [Export] public static MenuBarDefinition MainMenuBar = new MenuBarDefinition(CommandBar_Resources.MenuBarMain_Name, uint.MinValue);
 
         [Export] public static CommandBarGroupDefinition MainMenuBarGroup = new CommandBarGroupDefinition(MainMenuBar, uint.MinValue);
     }

@@ -9,7 +9,7 @@ namespace ModernApplicationFramework.Extended.MenuDefinitions
     public static class WindowMenuDefinitions
     {
         [Export] public static CommandBarItemDefinition WindowMenu =
-            new MenuDefinition(MainMenuBarDefinition.MainMenuBarGroup, 13, Menu_Resources.WindowMenu_Name);
+            new MenuDefinition(MainMenuBarDefinition.MainMenuBarGroup, 13, CommandBar_Resources.MenuWindow_Name);
 
         [Export] public static CommandBarGroupDefinition OpenWindowsGroup =
             new CommandBarGroupDefinition(WindowMenu, int.MaxValue);

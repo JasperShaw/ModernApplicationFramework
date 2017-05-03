@@ -88,7 +88,25 @@ namespace ModernApplicationFramework.Extended.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &amp;Redo.
+        ///   Sucht eine lokalisierte Zeichenfolge, die s ähnelt.
+        /// </summary>
+        internal static string MultiRedoCommandDefinition_StatusSuffix {
+            get {
+                return ResourceManager.GetString("MultiRedoCommandDefinition_StatusSuffix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Redo {0} Action{1} ähnelt.
+        /// </summary>
+        internal static string MultiRedoCommandDefinition_StatusText {
+            get {
+                return ResourceManager.GetString("MultiRedoCommandDefinition_StatusText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Redo ähnelt.
         /// </summary>
         internal static string MultiRedoCommandDefinition_Text {
             get {
@@ -115,7 +133,25 @@ namespace ModernApplicationFramework.Extended.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &amp;Undo.
+        ///   Sucht eine lokalisierte Zeichenfolge, die s ähnelt.
+        /// </summary>
+        internal static string MultiUndoCommandDefinition_StatusSuffix {
+            get {
+                return ResourceManager.GetString("MultiUndoCommandDefinition_StatusSuffix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Undo {0} Action{1} ähnelt.
+        /// </summary>
+        internal static string MultiUndoCommandDefinition_StatusText {
+            get {
+                return ResourceManager.GetString("MultiUndoCommandDefinition_StatusText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Undo ähnelt.
         /// </summary>
         internal static string MultiUndoCommandDefinition_Text {
             get {
@@ -133,7 +169,7 @@ namespace ModernApplicationFramework.Extended.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Options....
+        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Options... ähnelt.
         /// </summary>
         internal static string OpenSettingsCommandDefinition_Text {
             get {
