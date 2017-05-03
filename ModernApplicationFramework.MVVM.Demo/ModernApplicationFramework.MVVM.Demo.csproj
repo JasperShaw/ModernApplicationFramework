@@ -119,7 +119,6 @@
       <DependentUpon>UndoRedoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\UndoRedoTest\UndoRedoViewModel.cs" />
-    <Compile Include="Toolbars\ToolBarDefinitions.cs" />
     <Compile Include="TestMenuDefinitions.cs" />
     <Compile Include="XmlFileDefinition.cs" />
     <Page Include="Modules\Commands\TestWindw.xaml">
