@@ -120,6 +120,9 @@
   <data name="NewToolBarUniqueNamePatter" xml:space="preserve">
     <value>{0} (custom)</value>
   </data>
+  <data name="ThemeBlue_Name" xml:space="preserve">
+    <value>Blue</value>
+  </data>
   <data name="ToolBarCustomizeButton" xml:space="preserve">
     <value>_Customize...</value>
   </data>

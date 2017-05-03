@@ -78,6 +78,7 @@
 
 
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/CommandBarStyles.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/GroupBox.xaml"/>
 
     </ResourceDictionary.MergedDictionaries>
 

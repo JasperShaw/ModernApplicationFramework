@@ -113,6 +113,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\Generic\GroupBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Generic\QuickCustomizeButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -205,6 +209,8 @@
     <Compile Include="Basics\CustomizeDialog\ViewModels\AddCommandDialogViewModel.cs" />
     <Compile Include="Basics\CustomizeDialog\ViewModels\CommandsPageViewModel.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarItemDefinitionT.cs" />
+    <Compile Include="Controls\GroupBox.cs" />
+    <Compile Include="Controls\Utilities\Extensions.cs" />
     <Compile Include="Interfaces\ViewModels\IAddCommandDialogViewModel.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarMenuControllerDefinition.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarSplitItemDefinition.cs" />
