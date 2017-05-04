@@ -148,6 +148,10 @@
     <Compile Include="ResultDialogs\ShowDialogResult.cs" />
     <Compile Include="ResultDialogs\ShowToolResult.cs" />
     <Compile Include="ResultDialogs\ShowWindowResult.cs" />
+    <Compile Include="Settings\ViewModels\LanguageSettingsViewModel.cs" />
+    <Compile Include="Settings\Views\LanguageSettingsView.xaml.cs">
+      <DependentUpon>LanguageSettingsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Settings\Views\MainWindowSettingsView.xaml.cs">
       <DependentUpon>MainWindowSettingsView.xaml</DependentUpon>
     </Compile>
@@ -209,6 +213,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\Icons\Undo_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Settings\Views\LanguageSettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

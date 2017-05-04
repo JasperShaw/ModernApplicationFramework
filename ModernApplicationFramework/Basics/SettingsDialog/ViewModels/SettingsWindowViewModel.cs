@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Input;
@@ -14,11 +13,6 @@ namespace ModernApplicationFramework.Basics.SettingsDialog.ViewModels
     {
         private SettingsPageViewModel _selectedPage;
         private IEnumerable<ISettingsPage> _settingPages;
-
-        public SettingsWindowViewModel()
-        {
-            DisplayName = "Options";
-        }
 
         public ICommand CancelCommand => new Command(Cancel);
 
@@ -36,33 +30,25 @@ namespace ModernApplicationFramework.Basics.SettingsDialog.ViewModels
             }
         }
 
+        public SettingsWindowViewModel()
+        {
+            DisplayName = "Options";
+        }
+
         protected override void OnInitialize()
         {
             base.OnInitialize();
             var pages = new List<SettingsPageViewModel>();
+
             _settingPages = IoC.GetAll<ISettingsPage>().OrderBy(x => x.SortOrder);
 
-            foreach (var settingPage in _settingPages)
-            {
-                var parentCollection = GetParentCollection(settingPage, pages);
-
-                var page = parentCollection.FirstOrDefault(m => m.Name == settingPage.Name);
-
-                if (page == null)
-                {
-                    page = new SettingsPageViewModel
-                    {
-                        Name = settingPage.Name
-                    };
-                    parentCollection.Add(page);
-                }
-
-                page.Pages.Add(settingPage);
-            }
-
+            var groups = _settingPages.Select(p => p.Category.Root).Distinct().OrderBy(x => x.SortOrder);
+            foreach (var settingsCategory in groups)
+                FillRecursive(settingsCategory, pages);
             Pages = pages;
             SelectedPage = GetFirstLeafPageRecursive(pages);
         }
+
 
         private static SettingsPageViewModel GetFirstLeafPageRecursive(List<SettingsPageViewModel> pages)
         {
@@ -70,6 +56,57 @@ namespace ModernApplicationFramework.Basics.SettingsDialog.ViewModels
                 return null;
             var firstPage = pages.First();
             return !firstPage.Children.Any() ? firstPage : GetFirstLeafPageRecursive(firstPage.Children);
+        }
+
+        private static IList<SettingsPageViewModel> GetParentCollection(ISettingsPage settingPage,
+            IList<SettingsPageViewModel> pages)
+        {
+            if (settingPage.Category == null)
+                return pages;
+
+            foreach (var category in settingPage.Category.Path)
+            {
+                var page = pages.FirstOrDefault(s => s.Category == category);
+                if (page == null)
+                {
+                    page = new SettingsPageViewModel { Name = category.Name, Category = category };
+                    page.Pages.Add(settingPage);
+                    pages.Add(page);
+                }
+                else if (page.Pages.First().Name == settingPage.Name)
+                {
+                    page.Pages.Add(settingPage);
+                }
+                pages = page.Children;
+            }
+            return pages;
+        }
+
+        private void FillRecursive(SettingsCategory category, IList<SettingsPageViewModel> pagesList)
+        {
+            var subGroups = category.Children.OrderBy(x => x.SortOrder);
+
+            foreach (var settingsCategory in subGroups)
+                FillRecursive(settingsCategory, pagesList);
+
+            var toppages = _settingPages.Where(x => x.Category == category);
+            foreach (var settingPage in toppages)
+            {
+                var parentCollection = GetParentCollection(settingPage, pagesList);
+
+                var page = parentCollection.FirstOrDefault(m => m.Name == settingPage.Name);
+
+                if (page == null)
+                {
+                    page = new SettingsPageViewModel
+                    {
+                        Name = settingPage.Name,
+                        Category = settingPage.Category
+                    };
+                    parentCollection.Add(page);
+                }
+                page.Pages.Add(settingPage);
+            }
         }
 
         private void ApplyChanges()
@@ -85,32 +122,6 @@ namespace ModernApplicationFramework.Basics.SettingsDialog.ViewModels
         private void Cancel()
         {
             TryClose(false);
-        }
-
-        private static List<SettingsPageViewModel> GetParentCollection(ISettingsPage settingPage,
-                                                                List<SettingsPageViewModel> pages)
-        {
-            if (string.IsNullOrEmpty(settingPage.Path))
-            {
-                return pages;
-            }
-
-            var path = settingPage.Path.Split(new[] {'\\'}, StringSplitOptions.RemoveEmptyEntries);
-
-            foreach (var pathElement in path)
-            {
-                var page = pages.FirstOrDefault(s => s.Name == pathElement);
-
-                if (page == null)
-                {
-                    page = new SettingsPageViewModel {Name = pathElement};
-                    pages.Add(page);
-                }
-
-                pages = page.Children;
-            }
-
-            return pages;
         }
     }
 }

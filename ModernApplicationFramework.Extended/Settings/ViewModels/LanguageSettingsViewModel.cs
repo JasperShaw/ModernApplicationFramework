@@ -11,7 +11,7 @@ namespace ModernApplicationFramework.Extended.Settings.ViewModels
 {
     [Export(typeof(ISettingsPage))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class MainWindowSettingsViewModel : ViewModelBase, ISettingsPage
+    public class LanguageSettingsViewModel : ViewModelBase, ISettingsPage
     {
         private readonly IThemeManager _manager;
 
@@ -19,7 +19,7 @@ namespace ModernApplicationFramework.Extended.Settings.ViewModels
 
 
         [ImportingConstructor]
-        public MainWindowSettingsViewModel(IThemeManager manager)
+        public LanguageSettingsViewModel(IThemeManager manager)
         {
             _manager = manager;
             SelectedTheme = Themes.FirstOrDefault(x => x.GetType() == _manager.Theme?.GetType());
@@ -39,8 +39,8 @@ namespace ModernApplicationFramework.Extended.Settings.ViewModels
             }
         }
 
-        public int SortOrder => 8;
-        public string Name => "General";
+        public int SortOrder => 1;
+        public string Name => "Language";
         public SettingsCategory Category => SettingsCategories.EnvironmentCategory;
 
         public void Apply()
