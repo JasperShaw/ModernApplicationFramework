@@ -8,11 +8,11 @@ namespace ModernApplicationFramework.Basics
     }
 
 
-    [Export(typeof(ISettingContainer))]
-    public class EnvironmentGeneralOptions : ISettingContainer
-    {
+    //[Export(typeof(ISettingContainer))]
+    //public class EnvironmentGeneralOptions : ISettingContainer
+    //{
         
-    }
+    //}
 
 
 

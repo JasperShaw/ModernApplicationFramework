@@ -11,7 +11,8 @@
                     xmlns:native="clr-namespace:ModernApplicationFramework.Native"
                     xmlns:customize="clr-namespace:ModernApplicationFramework.Core.Converters.Customize"
                     xmlns:properties="clr-namespace:ModernApplicationFramework.Properties"
-                    xmlns:commandBar="clr-namespace:ModernApplicationFramework.Basics.CommandBar">
+                    xmlns:commandBar="clr-namespace:ModernApplicationFramework.Basics.CommandBar"
+                    xmlns:basics="clr-namespace:ModernApplicationFramework.Basics">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ComboBox.xaml"/>
@@ -39,6 +40,7 @@
     <converters:MultiToolTipMultiConverter x:Key="MultiToolTipMultiConverter"/>
     <converters:DockLocationConverter x:Key="DockLocationConverter"/>
     <converters:CommonUiResourceConverter x:Key="CommonUiResourceConverter"/>
+    <converters:StringUppercaseConverter x:Key="StringUppercaseConverter"/>
 
     <Style TargetType="{x:Type this:Menu}" BasedOn="{StaticResource {x:Type Menu}}">
         <Setter Property="Background" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandShelfHighlight}}"/>
@@ -156,7 +158,25 @@
                 <Setter TargetName="PART_Popup" Property="Popup.Placement" Value="Left"/>
                 <Setter TargetName="PART_Popup" Property="Popup.HorizontalOffset" Value="-2"/>
             </DataTrigger>
-            <!--TODO: Add Upper Case stuff-->
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Value="False">
+                        <Condition.Binding>
+                            <Binding RelativeSource="{RelativeSource Self}" Path="IsPlacedOnToolBar"/>
+                        </Condition.Binding>
+                    </Condition>
+                    <Condition Value="false">
+                        <Condition.Binding>
+                            <Binding Source="{x:Static basics:EnvironmentGeneralOptions.Instance}" Path="UseTitleCaseOnMenu"/>
+                        </Condition.Binding>
+                    </Condition>
+                </MultiDataTrigger.Conditions>
+                <Setter TargetName="ContentPresenter" Property="Content">
+                    <Setter.Value>
+                        <Binding Path="Header" RelativeSource="{RelativeSource TemplatedParent}" Converter="{StaticResource StringUppercaseConverter}"/>
+                    </Setter.Value>
+                </Setter>
+            </MultiDataTrigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
                     <Condition Binding="{Binding IsEnabled}" Value="False"/>

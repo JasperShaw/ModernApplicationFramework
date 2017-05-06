@@ -23,15 +23,22 @@ namespace ModernApplicationFramework.Basics
 			PreInitialize();
             Initialize();
 	        SetLanguage();
+	        SetEnvironment();
         }
 
-        internal IList<Assembly> PriorityAssemblies => _priorityAssemblies;
+	    internal IList<Assembly> PriorityAssemblies => _priorityAssemblies;
 
 	    protected virtual void PreInitialize()
 	    {
 		    
 	    }
 
+
+	    protected void SetEnvironment()
+	    {
+		    var eo = Container.GetExportedValue<EnvironmentGeneralOptions>();
+			eo.Load();;
+	    }
 
 		protected void SetLanguage()
         {
@@ -44,6 +51,7 @@ namespace ModernApplicationFramework.Basics
             batch.AddExportedValue<IWindowManager>(new WindowManager());
             batch.AddExportedValue<IEventAggregator>(new EventAggregator());
             batch.AddExportedValue<ILanguageManager>(new LanguageManager());
+            batch.AddExportedValue(new EnvironmentGeneralOptions());
             batch.AddExportedValue(Container);
             batch.AddExportedValue(this);
         }

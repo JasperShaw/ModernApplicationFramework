@@ -14,16 +14,22 @@ namespace ModernApplicationFramework.Extended.Settings.ViewModels
     public class MainWindowSettingsViewModel : ViewModelBase, ISettingsPage
     {
         private readonly IThemeManager _manager;
+	    private readonly EnvironmentGeneralOptions _generalOptions;
 
-        private Theme _selectedTheme;
+
+		private Theme _selectedTheme;
+	    private bool _useTitleCaseOnMenu;
+	    
 
 
-        [ImportingConstructor]
-        public MainWindowSettingsViewModel(IThemeManager manager)
-        {
+		[ImportingConstructor]
+        public MainWindowSettingsViewModel(IThemeManager manager, EnvironmentGeneralOptions generalOptions)
+		{
+			_generalOptions = generalOptions;
             _manager = manager;
             SelectedTheme = Themes.FirstOrDefault(x => x.GetType() == _manager.Theme?.GetType());
-        }
+			UseTitleCaseOnMenu = generalOptions.UseTitleCaseOnMenu;
+		}
 
         public IEnumerable<Theme> Themes => _manager.Themes;
 
@@ -39,13 +45,30 @@ namespace ModernApplicationFramework.Extended.Settings.ViewModels
             }
         }
 
-        public uint SortOrder => uint.MinValue;
+	    public bool UseTitleCaseOnMenu
+	    {
+		    get => _useTitleCaseOnMenu;
+		    set
+		    {
+				if (_useTitleCaseOnMenu == value)
+					return;
+			    _useTitleCaseOnMenu = value;
+				OnPropertyChanged();		    
+		    }
+	    }
+
+
+	    public uint SortOrder => uint.MinValue;
         public string Name => "General";
         public SettingsCategory Category => SettingsCategories.EnvironmentCategory;
 
         public void Apply()
         {
             _manager.Theme = SelectedTheme;
+	        _generalOptions.UseTitleCaseOnMenu = UseTitleCaseOnMenu;
+
+
+			_generalOptions.Save();
         }
 
         public bool CanApply()

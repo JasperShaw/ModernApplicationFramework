@@ -228,6 +228,7 @@
     <Compile Include="Basics\CustomizeDialog\ViewModels\AddCommandDialogViewModel.cs" />
     <Compile Include="Basics\CustomizeDialog\ViewModels\CommandsPageViewModel.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarItemDefinitionT.cs" />
+    <Compile Include="Basics\EnvironmentGeneralOptions.cs" />
     <Compile Include="Basics\Settings\Language\LanguageSettingsResources.de.Designer.cs">
       <DependentUpon>LanguageSettingsResources.de.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -251,6 +252,7 @@
     <Compile Include="Controls\Utilities\Extensions.cs" />
     <Compile Include="Basics\SettingsDialog\SettingsCategory.cs" />
     <Compile Include="Basics\SettingsCategories.cs" />
+    <Compile Include="Core\Converters\StringUppercaseConverter.cs" />
     <Compile Include="Core\DialogProiver\DialogProvider.cs" />
     <Compile Include="Interfaces\IDialogProvider.cs" />
     <Compile Include="Core\Localization\LanguageInfo.cs" />
