@@ -141,4 +141,7 @@
   <data name="VisualExperienceGroupBox" xml:space="preserve">
     <value>Visuelle Darstellung</value>
   </data>
+  <data name="VisualExperienceSettings_Name" xml:space="preserve">
+    <value>Allgemein</value>
+  </data>
 </root>

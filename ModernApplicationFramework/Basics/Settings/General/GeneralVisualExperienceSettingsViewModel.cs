@@ -58,7 +58,7 @@ namespace ModernApplicationFramework.Basics.Settings.General
 
 
 	    public uint SortOrder => uint.MinValue;
-        public string Name => "General";
+        public string Name => GeneralVisualExperienceSettingsResources.VisualExperienceSettings_Name;
         public SettingsCategory Category => SettingsCategories.EnvironmentCategory;
 
         public void Apply()
