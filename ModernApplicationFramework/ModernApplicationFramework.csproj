@@ -66,11 +66,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <DesignData Include="Basics\SettingsDialog\SettingsViewModelSampleData.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </DesignData>
     <Page Include="Basics\SettingsDialog\Views\SettingsWindowView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Basics\Settings\Language\LanguageSettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -203,6 +203,21 @@
   <ItemGroup>
     <Compile Include="Basics\Bootstrapper.cs" />
     <Compile Include="Basics\ComboBoxDataSource.cs" />
+    <Compile Include="Basics\CommandBar\CommandBarResources.Designer.cs">
+      <DependentUpon>CommandBarResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Basics\CommandBar\CommandBarResources.de.Designer.cs">
+      <DependentUpon>CommandBarResources.de.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Basics\CommandBar\CommandBarResources.en.Designer.cs">
+      <DependentUpon>CommandBarResources.en.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Basics\CommandBar\Creators\CreatorBase.cs" />
     <Compile Include="Basics\CommandBar\Creators\MenuCreatorBase.cs" />
     <Compile Include="Basics\CommandBar\Hosts\CommandBarHost.cs" />
@@ -213,10 +228,31 @@
     <Compile Include="Basics\CustomizeDialog\ViewModels\AddCommandDialogViewModel.cs" />
     <Compile Include="Basics\CustomizeDialog\ViewModels\CommandsPageViewModel.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarItemDefinitionT.cs" />
+    <Compile Include="Basics\Settings\Language\LanguageSettingsView.xaml.cs">
+      <DependentUpon>LanguageSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Basics\Settings\Language\LanguageSettingsViewModel.cs" />
     <Compile Include="Controls\GroupBox.cs" />
     <Compile Include="Controls\Utilities\Extensions.cs" />
     <Compile Include="Basics\SettingsDialog\SettingsCategory.cs" />
     <Compile Include="Basics\SettingsCategories.cs" />
+    <Compile Include="Core\Localization\LanguageInfo.cs" />
+    <Compile Include="Core\Localization\LanguageManager.cs" />
+    <Compile Include="Docking\DockingResources.de.Designer.cs">
+      <DependentUpon>DockingResources.de.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Docking\DockingResources.en.Designer.cs">
+      <DependentUpon>DockingResources.en.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Docking\DockingResources.Designer.cs">
+      <DependentUpon>DockingResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Interfaces\ViewModels\IAddCommandDialogViewModel.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarMenuControllerDefinition.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarSplitItemDefinition.cs" />
@@ -313,7 +349,7 @@
     <Compile Include="Core\Converters\CommandToVisibilityConverter.cs" />
     <Compile Include="Core\Converters\Customize\EnabledFilteringMultiConverter.cs" />
     <Compile Include="Core\Converters\EnumBooleanConverter.cs" />
-    <Compile Include="Core\Converters\CommonUiFormattedStringConverter.cs" />
+    <Compile Include="Core\Converters\CommandBarFormattedStringConverter.cs" />
     <Compile Include="Core\Converters\General\IfElseConverter.cs" />
     <Compile Include="Core\Converters\Customize\IsButtonModelConverter.cs" />
     <Compile Include="Core\Converters\Customize\IsCustomizableModelConverter.cs" />
@@ -675,38 +711,33 @@
     <Compile Include="Interfaces\ViewModels\IToolBarHostViewModel.cs" />
     <Compile Include="Interfaces\ViewModels\IWindowViewModel.cs" />
     <Compile Include="Properties\Annotations1.cs" />
-    <Compile Include="Properties\ContextMenus.Resources.de.Designer.cs">
-      <DependentUpon>ContextMenus.Resources.de.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Properties\ContextMenus.Resources.Designer.cs">
-      <DependentUpon>ContextMenus.Resources.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Properties\Commands.Resources.de.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Commands.Resources.de.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Commands.Resources.Designer.cs">
-      <DependentUpon>Commands.Resources.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Properties\CommonUI.Resources.de1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CommonUI.Resources.de.resx</DependentUpon>
     </Compile>
-    <Compile Include="Properties\Customize.Resources.de.Designer.cs">
+    <Compile Include="Properties\CommonUI.Resources.Designer.cs">
+      <DependentUpon>CommonUI.Resources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Properties\CommonUI.Resources.de.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CommonUI.Resources.de.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Basics\CustomizeDialog\Customize.Resources.de.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Customize.Resources.de.resx</DependentUpon>
     </Compile>
-    <Compile Include="Properties\Customize.Resources.Designer.cs">
+    <Compile Include="Basics\CustomizeDialog\Customize.Resources.Designer.cs">
       <DependentUpon>Customize.Resources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Basics\CustomizeDialog\Customize.Resources.en.Designer.cs">
+      <DependentUpon>Customize.Resources.en.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -720,10 +751,15 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Properties\CommonUI.Resources.Designer.cs">
+    <Compile Include="Properties\MainWindowResources.en.Designer.cs">
+      <DependentUpon>MainWindowResources.en.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>CommonUI.Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\CommonUI.Resources.en.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CommonUI.Resources.en.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -1010,30 +1046,47 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\ContextMenus.Resources.de.resx">
+    <EmbeddedResource Include="Basics\CommandBar\CommandBarResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ContextMenus.Resources.de.Designer.cs</LastGenOutput>
+      <LastGenOutput>CommandBarResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\ContextMenus.Resources.resx">
+    <EmbeddedResource Include="Basics\CommandBar\CommandBarResources.de.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ContextMenus.Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>CommandBarResources.de.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Commands.Resources.de.resx">
+    <EmbeddedResource Include="Basics\CommandBar\CommandBarResources.en.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Commands.Resources.de.Designer.cs</LastGenOutput>
+      <LastGenOutput>CommandBarResources.en.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Commands.Resources.resx">
+    <EmbeddedResource Include="Docking\DockingResources.de.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Commands.Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>DockingResources.de.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Customize.Resources.de.resx">
+    <EmbeddedResource Include="Docking\DockingResources.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DockingResources.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Docking\DockingResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DockingResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\CommonUI.Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonUI.Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Basics\CustomizeDialog\Customize.Resources.de.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Customize.Resources.de.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Customize.Resources.resx">
+    <EmbeddedResource Include="Basics\CustomizeDialog\Customize.Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Customize.Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Basics\CustomizeDialog\Customize.Resources.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Customize.Resources.en.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\MainWindowResources.de.resx">
@@ -1045,13 +1098,18 @@
       <LastGenOutput>MainWindowResources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\MainWindowResources.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>MainWindowResources.en.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\CommonUI.Resources.de.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>CommonUI.Resources.de1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\CommonUI.Resources.resx">
+    <EmbeddedResource Include="Properties\CommonUI.Resources.en.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>CommonUI.Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>CommonUI.Resources.en.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

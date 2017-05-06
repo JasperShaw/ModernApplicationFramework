@@ -4,7 +4,7 @@ namespace ModernApplicationFramework.Basics.Definitions.ContextMenu
 {
     public class ContextMenuCategory
     {
-        public static ContextMenuCategory OtherContextMenusCategory = new ContextMenuCategory(ContextMenus_Resources.OtherContextMenusCategory);
+        public static ContextMenuCategory OtherContextMenusCategory = new ContextMenuCategory(CommonUI_Resources.OtherContextMenusCategory);
 
         public string CategoryName { get; }
 

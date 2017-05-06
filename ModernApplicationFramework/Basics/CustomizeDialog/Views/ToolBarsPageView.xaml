@@ -9,7 +9,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General"
-             xmlns:properties="clr-namespace:ModernApplicationFramework.Properties"
+             xmlns:customizeDialog="clr-namespace:ModernApplicationFramework.Basics.CustomizeDialog"
              mc:Ignorable="d"
              d:DesignHeight="400" d:DesignWidth="360">
     <FrameworkElement.Resources>
@@ -64,22 +64,22 @@
                                  Converter="{StaticResource BooleanToVisibilityConverter}" />
                     </UIElement.Visibility>
                 </Separator>
-                <controls:CheckedMenuItem Header="{x:Static properties:Customize_Resources.ToolbarsPage_DockLocationTop}" Value="{x:Static Dock.Top}">
+                <controls:CheckedMenuItem Header="{x:Static customizeDialog:Customize_Resources.ToolbarsPage_DockLocationTop}" Value="{x:Static Dock.Top}">
                     <controls:CheckedMenuItem.Link>
                         <Binding Path="Position" Converter="{StaticResource DockLocationConverter}" />
                     </controls:CheckedMenuItem.Link>
                 </controls:CheckedMenuItem>
-                <controls:CheckedMenuItem Header="{x:Static properties:Customize_Resources.ToolbarsPage_DockLocationLeft}" Value="{x:Static Dock.Left}">
+                <controls:CheckedMenuItem Header="{x:Static customizeDialog:Customize_Resources.ToolbarsPage_DockLocationLeft}" Value="{x:Static Dock.Left}">
                     <controls:CheckedMenuItem.Link>
                         <Binding Path="Position" Converter="{StaticResource DockLocationConverter}" />
                     </controls:CheckedMenuItem.Link>
                 </controls:CheckedMenuItem>
-                <controls:CheckedMenuItem Header="{x:Static properties:Customize_Resources.ToolbarsPage_DockLocationRight}" Value="{x:Static Dock.Right}">
+                <controls:CheckedMenuItem Header="{x:Static customizeDialog:Customize_Resources.ToolbarsPage_DockLocationRight}" Value="{x:Static Dock.Right}">
                     <controls:CheckedMenuItem.Link>
                         <Binding Path="Position" Converter="{StaticResource DockLocationConverter}" />
                     </controls:CheckedMenuItem.Link>
                 </controls:CheckedMenuItem>
-                <controls:CheckedMenuItem Header="{x:Static properties:Customize_Resources.ToolbarsPage_DockLocationButtom}" Value="{x:Static Dock.Bottom}">
+                <controls:CheckedMenuItem Header="{x:Static customizeDialog:Customize_Resources.ToolbarsPage_DockLocationButtom}" Value="{x:Static Dock.Bottom}">
                     <controls:CheckedMenuItem.Link>
                         <Binding Path="Position" Converter="{StaticResource DockLocationConverter}" />
                     </controls:CheckedMenuItem.Link>
@@ -96,7 +96,7 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <Label x:Name="ToolBarsLabel" Margin="10,0,10,5" Padding="0" Content="{x:Static properties:Customize_Resources.ToolbarsPage_ListBoxTitle}" Grid.Row="0" />
+        <Label x:Name="ToolBarsLabel" Margin="10,0,10,5" Padding="0" Content="{x:Static customizeDialog:Customize_Resources.ToolbarsPage_ListBoxTitle}" Grid.Row="0" />
         <controls:CheckableListBox x:Name="ListBox" Margin="10,0,10,10" IsSynchronizedWithCurrentItem="True"
                                    IsTextSearchEnabled="True"
                                    TextSearch.TextPath="Text" Grid.Row="1" Grid.Column="0" SelectedIndex="0"
@@ -122,9 +122,9 @@
                 <general:AndBooleanConverter x:Key="AndBooleanConverter" />
                 <general:NotNullConverter x:Key="NotNullConverter" />
             </FrameworkElement.Resources>
-            <controls:DialogButton x:Name="NewToolBarButton" Content="{x:Static properties:Customize_Resources.ToolbarsPage_NewToolbar}"
+            <controls:DialogButton x:Name="NewToolBarButton" Content="{x:Static customizeDialog:Customize_Resources.ToolbarsPage_NewToolbar}"
                                    Command="{Binding CreateNewToolbarCommand}" />
-            <controls:DialogButton Content="{x:Static properties:Customize_Resources.ToolbarsPage_DeleteToolbar}" Command="{Binding DeleteSelectedToolbarCommand}">
+            <controls:DialogButton Content="{x:Static customizeDialog:Customize_Resources.ToolbarsPage_DeleteToolbar}" Command="{Binding DeleteSelectedToolbarCommand}">
                 <UIElement.IsEnabled>
                     <MultiBinding Converter="{StaticResource AndBooleanConverter}">
                         <Binding ElementName="ListBox" Path="SelectedItem"
@@ -133,7 +133,7 @@
                     </MultiBinding>
                 </UIElement.IsEnabled>
             </controls:DialogButton>
-            <controls:DropDownDialogButton x:Name="DropDownButton" Content="{x:Static properties:Customize_Resources.ToolbarsPage_ModifyToolbar}"
+            <controls:DropDownDialogButton x:Name="DropDownButton" Content="{x:Static customizeDialog:Customize_Resources.ToolbarsPage_ModifyToolbar}"
                                            DropDownMenu="{DynamicResource ModifySelectionToolBarsMenu}"
                                            Command="{Binding DropDownClickCommand}" />
         </StackPanel>

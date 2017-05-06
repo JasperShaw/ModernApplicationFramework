@@ -4,6 +4,8 @@ namespace ModernApplicationFramework.Basics
 {
     public static class SettingsCategories
     {
-        public static SettingsCategory EnvironmentCategory => new SettingsCategory("Environment", 1);
+        private static SettingsCategory _environmentSetting;
+
+        public static SettingsCategory EnvironmentCategory => _environmentSetting ?? (_environmentSetting =  new SettingsCategory("Environment", 1));
     }
 }

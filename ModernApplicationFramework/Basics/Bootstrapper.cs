@@ -7,28 +7,44 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Caliburn.Micro;
+using ModernApplicationFramework.Core.Localization;
 using ModernApplicationFramework.Native.TrinetCoreNtfs;
 
 namespace ModernApplicationFramework.Basics
 {
     public class Bootstrapper : BootstrapperBase
     {
-        private CompositionContainer _container;
+        protected CompositionContainer Container;
 
-        private List<Assembly> _priorityAssemblies;
+        protected List<Assembly> _priorityAssemblies;
 
         public Bootstrapper()
         {
+			PreInitialize();
             Initialize();
+	        SetLanguage();
         }
 
         internal IList<Assembly> PriorityAssemblies => _priorityAssemblies;
+
+	    protected virtual void PreInitialize()
+	    {
+		    
+	    }
+
+
+		protected void SetLanguage()
+        {
+	        var lm = Container.GetExportedValue<ILanguageManager>() as LanguageManager;
+			lm?.SetLanguage();
+        }
 
         protected virtual void BindServices(CompositionBatch batch)
         {
             batch.AddExportedValue<IWindowManager>(new WindowManager());
             batch.AddExportedValue<IEventAggregator>(new EventAggregator());
-            batch.AddExportedValue(_container);
+            batch.AddExportedValue<ILanguageManager>(new LanguageManager());
+            batch.AddExportedValue(Container);
             batch.AddExportedValue(this);
         }
 
@@ -60,16 +76,16 @@ namespace ModernApplicationFramework.Basics
                     .Select(x => new AssemblyCatalog(x)));
             var mainProvider = new CatalogExportProvider(mainCatalog);
 
-            _container = new CompositionContainer(priorityProvider, mainProvider);
-            priorityProvider.SourceProvider = _container;
-            mainProvider.SourceProvider = _container;
+            Container = new CompositionContainer(priorityProvider, mainProvider);
+            priorityProvider.SourceProvider = Container;
+            mainProvider.SourceProvider = Container;
 
             var batch = new CompositionBatch();
 
             BindServices(batch);
             batch.AddExportedValue(mainCatalog);
 
-            _container.Compose(batch);
+            Container.Compose(batch);
         }
 
         protected static void ClearUrlZonesInDirectory(string directoryPath)
@@ -83,13 +99,13 @@ namespace ModernApplicationFramework.Basics
 
         protected override IEnumerable<object> GetAllInstances(Type serviceType)
         {
-            return _container.GetExportedValues<object>(AttributedModelServices.GetContractName(serviceType));
+            return Container.GetExportedValues<object>(AttributedModelServices.GetContractName(serviceType));
         }
 
         protected override object GetInstance(Type serviceType, string key)
         {
             var contract = string.IsNullOrEmpty(key) ? AttributedModelServices.GetContractName(serviceType) : key;
-            var exports = _container.GetExportedValues<object>(contract);
+            var exports = Container.GetExportedValues<object>(contract);
 
             var enumerable = exports as object[] ?? exports.ToArray();
             if (enumerable.Any())

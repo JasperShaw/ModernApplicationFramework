@@ -8,7 +8,6 @@
                    xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
                    xmlns:utilities="clr-namespace:ModernApplicationFramework.Controls.Utilities"
                    mc:Ignorable="d" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" ResizeMode="CanResizeWithGrip"
-                       d:DataContext="{d:DesignData Source=../SettingsViewModelSampleData.xaml}"
                    Background="{x:Static SystemColors.ControlBrush}" Width="758" Height="441" MinWidth="757" MinHeight="441">
     <Grid Margin="7">
         <Grid.ColumnDefinitions>

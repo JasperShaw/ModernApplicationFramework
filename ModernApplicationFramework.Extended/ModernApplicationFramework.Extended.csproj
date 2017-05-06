@@ -61,7 +61,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="ExtendedBootstrapper.cs" />
     <Compile Include="Commands\CloseProgammCommandDefinition.cs" />
     <Compile Include="Commands\FullScreenCommandDefinition.cs" />
     <Compile Include="Commands\MultiRedoCommandDefinition.cs" />
@@ -126,15 +126,25 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Properties\CommandBar.Resources.en.Designer.cs">
+      <DependentUpon>CommandBar.Resources.en.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Properties\Commands.Resources.de.Designer.cs">
       <DependentUpon>Commands.Resources.de.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Properties\Commands.Resources.Designer.cs">
+      <DependentUpon>Commands.Resources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Commands.Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Commands.Resources.en.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Commands.Resources.en.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -148,10 +158,6 @@
     <Compile Include="ResultDialogs\ShowDialogResult.cs" />
     <Compile Include="ResultDialogs\ShowToolResult.cs" />
     <Compile Include="ResultDialogs\ShowWindowResult.cs" />
-    <Compile Include="Settings\ViewModels\LanguageSettingsViewModel.cs" />
-    <Compile Include="Settings\Views\LanguageSettingsView.xaml.cs">
-      <DependentUpon>LanguageSettingsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Settings\Views\MainWindowSettingsView.xaml.cs">
       <DependentUpon>MainWindowSettingsView.xaml</DependentUpon>
     </Compile>
@@ -178,6 +184,10 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommandBar.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\CommandBar.Resources.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommandBar.Resources.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Commands.Resources.de.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Commands.Resources.de.Designer.cs</LastGenOutput>
@@ -185,6 +195,10 @@
     <EmbeddedResource Include="Properties\Commands.Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Commands.Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Commands.Resources.en.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Commands.Resources.en.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -213,10 +227,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\Icons\Undo_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Settings\Views\LanguageSettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

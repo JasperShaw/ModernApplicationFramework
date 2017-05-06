@@ -61,11 +61,65 @@ namespace ModernApplicationFramework.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die {0} (custom) ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Edit ähnelt.
         /// </summary>
-        public static string NewToolBarUniqueNamePatter {
+        public static string Category_Edit {
             get {
-                return ResourceManager.GetString("NewToolBarUniqueNamePatter", resourceCulture);
+                return ResourceManager.GetString("Category_Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die File ähnelt.
+        /// </summary>
+        public static string Category_File {
+            get {
+                return ResourceManager.GetString("Category_File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Tools ähnelt.
+        /// </summary>
+        public static string Category_Tools {
+            get {
+                return ResourceManager.GetString("Category_Tools", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die View ähnelt.
+        /// </summary>
+        public static string Category_View {
+            get {
+                return ResourceManager.GetString("Category_View", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Window ähnelt.
+        /// </summary>
+        public static string Category_Window {
+            get {
+                return ResourceManager.GetString("Category_Window", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Other Context Menus ähnelt.
+        /// </summary>
+        public static string OtherContextMenusCategory {
+            get {
+                return ResourceManager.GetString("OtherContextMenusCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Same as Microsoft Windows ähnelt.
+        /// </summary>
+        public static string SystemLanguage_Name {
+            get {
+                return ResourceManager.GetString("SystemLanguage_Name", resourceCulture);
             }
         }
         
@@ -75,42 +129,6 @@ namespace ModernApplicationFramework.Properties {
         public static string ThemeBlue_Name {
             get {
                 return ResourceManager.GetString("ThemeBlue_Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die _Customize... ähnelt.
-        /// </summary>
-        public static string ToolBarCustomizeButton {
-            get {
-                return ResourceManager.GetString("ToolBarCustomizeButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die _Add or Remove Buttons ähnelt.
-        /// </summary>
-        public static string ToolBarQuickCustomizeText {
-            get {
-                return ResourceManager.GetString("ToolBarQuickCustomizeText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die _Reset Toolbar ähnelt.
-        /// </summary>
-        public static string ToolBarResetButton {
-            get {
-                return ResourceManager.GetString("ToolBarResetButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die {0} Toolbar Options ähnelt.
-        /// </summary>
-        public static string ToolBarToolTipText {
-            get {
-                return ResourceManager.GetString("ToolBarToolTipText", resourceCulture);
             }
         }
     }

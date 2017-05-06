@@ -3,6 +3,7 @@
                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                        xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
                        xmlns:properties="clr-namespace:ModernApplicationFramework.Properties"
+                       xmlns:customizeDialog="clr-namespace:ModernApplicationFramework.Basics.CustomizeDialog"
                        Title="New Toolbar"
                        ShowInTaskbar="False"
                        ResizeMode="NoResize" WindowStartupLocation="CenterOwner" SizeToContent="WidthAndHeight">
@@ -15,7 +16,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Label x:Name="ToolBarNameLabel" Margin="10,10,10,6" Content="{x:Static properties:Customize_Resources.NewToolbarPrompt_ToolbarName}" Padding="0" Grid.Row="0" />
+        <Label x:Name="ToolBarNameLabel" Margin="10,10,10,6" Content="{x:Static customizeDialog:Customize_Resources.NewToolbarPrompt_ToolbarName}" Padding="0" Grid.Row="0" />
         <Grid Grid.Row="1" Margin="10,0,10,10" MinWidth="290">
             <Border x:Name="LimitedEditBoxWith" />
             <TextBox x:Name="ToolBarNameTextBox"
@@ -26,8 +27,8 @@
             </TextBox>
         </Grid>
         <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Grid.Row="2">
-            <controls:DialogButton x:Name="OkButton" Content="{x:Static properties:Customize_Resources.Prompt_Ok}" IsDefault="True" Command="{Binding OkClickCommand}" />
-            <controls:DialogButton x:Name="Cancel" Content="{x:Static properties:Customize_Resources.Prompt_Cancel}" IsCancel="True"/>
+            <controls:DialogButton x:Name="OkButton" Content="{x:Static customizeDialog:Customize_Resources.Prompt_Ok}" IsDefault="True" Command="{Binding OkClickCommand}" />
+            <controls:DialogButton x:Name="Cancel" Content="{x:Static customizeDialog:Customize_Resources.Prompt_Cancel}" IsCancel="True"/>
         </StackPanel>
     </Grid>
 </controls:DialogWindow>

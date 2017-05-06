@@ -61,7 +61,7 @@ namespace ModernApplicationFramework.Extended.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Menüleiste ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Menu Bar ähnelt.
         /// </summary>
         public static string MenuBarMain_Name {
             get {
@@ -70,7 +70,7 @@ namespace ModernApplicationFramework.Extended.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Bearbeiten ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Edit ähnelt.
         /// </summary>
         public static string MenuEdit_Name {
             get {
@@ -79,7 +79,7 @@ namespace ModernApplicationFramework.Extended.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Datei ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;File ähnelt.
         /// </summary>
         public static string MenuFile_Name {
             get {
@@ -88,7 +88,7 @@ namespace ModernApplicationFramework.Extended.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Hilfe ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Help ähnelt.
         /// </summary>
         public static string MenuHelp_Name {
             get {
@@ -97,7 +97,7 @@ namespace ModernApplicationFramework.Extended.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Ex&amp;tras ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Tools ähnelt.
         /// </summary>
         public static string MenuTools_Name {
             get {
@@ -106,7 +106,7 @@ namespace ModernApplicationFramework.Extended.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Ansicht ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;View ähnelt.
         /// </summary>
         public static string MenuView_Name {
             get {
@@ -115,7 +115,7 @@ namespace ModernApplicationFramework.Extended.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Fenster ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Window ähnelt.
         /// </summary>
         public static string MenuWindow_Name {
             get {

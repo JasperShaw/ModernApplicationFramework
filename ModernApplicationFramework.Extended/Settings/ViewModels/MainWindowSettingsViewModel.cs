@@ -39,7 +39,7 @@ namespace ModernApplicationFramework.Extended.Settings.ViewModels
             }
         }
 
-        public int SortOrder => 8;
+        public uint SortOrder => uint.MinValue;
         public string Name => "General";
         public SettingsCategory Category => SettingsCategories.EnvironmentCategory;
 

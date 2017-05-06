@@ -3,6 +3,7 @@
                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                        xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
                        xmlns:properties="clr-namespace:ModernApplicationFramework.Properties"
+                       xmlns:customizeDialog="clr-namespace:ModernApplicationFramework.Basics.CustomizeDialog"
                        ShowInTaskbar="False" Title="Customize" ResizeMode="CanResizeWithGrip" Height="550"
                        Width="535" MinHeight="490" MinWidth="375" Padding="12" WindowStartupLocation="CenterOwner">
     <Grid>
@@ -21,7 +22,7 @@
             </TabControl.ItemTemplate>
         </TabControl>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,2,0">
-            <controls:DialogButton Content="{x:Static properties:Customize_Resources.Prompt_Close}" IsCancel="True" IsDefault="True" x:Name="Button" />
+            <controls:DialogButton Content="{x:Static customizeDialog:Customize_Resources.Prompt_Close}" IsCancel="True" IsDefault="True" x:Name="Button" />
         </StackPanel>
     </Grid>
 </controls:DialogWindow>

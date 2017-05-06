@@ -56,7 +56,7 @@ namespace ModernApplicationFramework.Extended.Core
             // Put command handlers defined in priority assemblies, last. This allows applications
             // to override built-in command handlers.
 
-            var bootstrapper = IoC.Get<Bootstrapper>();
+            var bootstrapper = IoC.Get<ExtendedBootstrapper>();
 
             return commandHandlers
                 .OrderBy(h => bootstrapper.PriorityAssemblies.Contains(h.GetType().Assembly) ? 1 : 0)

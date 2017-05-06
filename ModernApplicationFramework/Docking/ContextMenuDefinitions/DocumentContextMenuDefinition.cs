@@ -2,14 +2,13 @@
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.ContextMenu;
 using ModernApplicationFramework.Docking.CommandDefinitions;
-using ModernApplicationFramework.Properties;
 
 namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
 {
     public static class DocumentContextMenuDefinition
     {
         [Export] public static ContextMenuDefinition DocumentContextMenu =
-            new ContextMenuDefinition(ContextMenuCategory.OtherContextMenusCategory, ContextMenus_Resources.DocumentContextMenu_Name);
+            new ContextMenuDefinition(ContextMenuCategory.OtherContextMenusCategory, DockingResources.DocumentContextMenu_Name);
 
         [Export] public static CommandBarGroupDefinition DocumentCloseContextMenuGroup =
             new CommandBarGroupDefinition(DocumentContextMenu, uint.MinValue);

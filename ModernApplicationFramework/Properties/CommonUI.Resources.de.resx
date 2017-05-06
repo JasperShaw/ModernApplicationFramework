@@ -117,22 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NewToolBarUniqueNamePatter" xml:space="preserve">
-    <value>{0} (benutzerdefiniert)</value>
+  <data name="Category_Edit" xml:space="preserve">
+    <value>Bearbeiten</value>
+  </data>
+  <data name="Category_File" xml:space="preserve">
+    <value>Datei</value>
+  </data>
+  <data name="Category_Tools" xml:space="preserve">
+    <value>Extras</value>
+  </data>
+  <data name="Category_View" xml:space="preserve">
+    <value>Ansicht</value>
+  </data>
+  <data name="Category_Window" xml:space="preserve">
+    <value>Fenster</value>
+  </data>
+  <data name="OtherContextMenusCategory" xml:space="preserve">
+    <value>Weitere Kontextmenüs</value>
+  </data>
+  <data name="SystemLanguage_Name" xml:space="preserve">
+    <value>Wie Microsoft Windows</value>
   </data>
   <data name="ThemeBlue_Name" xml:space="preserve">
     <value>Blau</value>
-  </data>
-  <data name="ToolBarCustomizeButton" xml:space="preserve">
-    <value>_Anpassen...</value>
-  </data>
-  <data name="ToolBarQuickCustomizeText" xml:space="preserve">
-    <value>Sch_altflächen hinzufügen oder entfernen</value>
-  </data>
-  <data name="ToolBarResetButton" xml:space="preserve">
-    <value>_Symbolleiste zurücksetzen</value>
-  </data>
-  <data name="ToolBarToolTipText" xml:space="preserve">
-    <value>{0} Toolbar Optionen</value>
   </data>
 </root>

@@ -1,4 +1,4 @@
-﻿namespace ModernApplicationFramework.Extended.Settings.Views
+﻿namespace ModernApplicationFramework.Basics.Settings.Language
 {
     /// <summary>
     /// Interaktionslogik für MainWindowSettingsView.xaml

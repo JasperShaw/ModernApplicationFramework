@@ -117,19 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AnchorableAsDocumentContextMenu_Name" xml:space="preserve">
-    <value>Einfaches MDI-Toolfenster</value>
+  <data name="NewToolBarUniqueNamePatter" xml:space="preserve">
+    <value>{0} (custom)</value>
   </data>
-  <data name="AnchorableContextMenu_Name" xml:space="preserve">
-    <value>Angedocktes Fenster</value>
+  <data name="ToolBarCustomizeButton" xml:space="preserve">
+    <value>&amp;Customize...</value>
   </data>
-  <data name="DocumentContextMenu_Name" xml:space="preserve">
-    <value>Einfaches MDI-Dokumentenfenster</value>
+  <data name="ToolBarQuickCustomizeText" xml:space="preserve">
+    <value>&amp;Add or Remove Buttons</value>
   </data>
-  <data name="OtherContextMenusCategory" xml:space="preserve">
-    <value>Weitere Kontextmenüs</value>
+  <data name="ToolBarResetButton" xml:space="preserve">
+    <value>&amp;Reset Toolbar</value>
   </data>
   <data name="ToolbarsContextMenu_Name" xml:space="preserve">
-    <value>Symbolleistenliste</value>
+    <value>Toolbar List</value>
+  </data>
+  <data name="ToolBarToolTipText" xml:space="preserve">
+    <value>{0} Toolbar Options</value>
+  </data>
+  <data name="CustomizeMenuCommandDefinition_Text" xml:space="preserve">
+    <value>&amp;Customize...</value>
+  </data>
+  <data name="ListToolBarsCommandListDefinition_Name" xml:space="preserve">
+    <value>Toolbar List</value>
   </data>
 </root>

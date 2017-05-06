@@ -18,7 +18,6 @@ using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
-using ModernApplicationFramework.Properties;
 using ContextMenu = ModernApplicationFramework.Controls.ContextMenu;
 using ToolBar = ModernApplicationFramework.Controls.ToolBar;
 using ToolBarTray = ModernApplicationFramework.Controls.ToolBarTray;
@@ -221,7 +220,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         private string InternalGetUniqueToolBarName(int index)
         {
             var i = index;
-            var uniqueName = string.Format(CultureInfo.CurrentUICulture, CommonUI_Resources.NewToolBarUniqueNamePatter, i);
+            var uniqueName = string.Format(CultureInfo.CurrentUICulture, CommandBarResources.NewToolBarUniqueNamePatter, i);
             return TopLevelDefinitions.Any(toolbarDefinition => uniqueName.Equals(toolbarDefinition.Text))
                 ? InternalGetUniqueToolBarName(++i)
                 : uniqueName;

@@ -117,22 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NewToolBarUniqueNamePatter" xml:space="preserve">
-    <value>{0} (custom)</value>
+  <data name="Category_Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Category_File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="Category_Tools" xml:space="preserve">
+    <value>Tools</value>
+  </data>
+  <data name="Category_View" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="Category_Window" xml:space="preserve">
+    <value>Window</value>
+  </data>
+  <data name="OtherContextMenusCategory" xml:space="preserve">
+    <value>Other Context Menus</value>
+  </data>
+  <data name="SystemLanguage_Name" xml:space="preserve">
+    <value>Same as Microsoft Windows</value>
   </data>
   <data name="ThemeBlue_Name" xml:space="preserve">
     <value>Blue</value>
-  </data>
-  <data name="ToolBarCustomizeButton" xml:space="preserve">
-    <value>_Customize...</value>
-  </data>
-  <data name="ToolBarQuickCustomizeText" xml:space="preserve">
-    <value>_Add or Remove Buttons</value>
-  </data>
-  <data name="ToolBarResetButton" xml:space="preserve">
-    <value>_Reset Toolbar</value>
-  </data>
-  <data name="ToolBarToolTipText" xml:space="preserve">
-    <value>{0} Toolbar Options</value>
   </data>
 </root>
