@@ -16,11 +16,13 @@ namespace ModernApplicationFramework.Basics.Settings.Language
         private LanguageInfo _selectedLanguage;
 
         private readonly ILanguageManager _languageManager;
+        private readonly IDialogProvider _dialogProvider;
 
         [ImportingConstructor]
-        public LanguageSettingsViewModel(ILanguageManager languageManager)
+        public LanguageSettingsViewModel(ILanguageManager languageManager, IDialogProvider dialogProvider)
         {
             _languageManager = languageManager;
+	        _dialogProvider = dialogProvider;
             Languages = languageManager.GetInstalledLanguages();
 
             SelectedLanguage = Languages.FirstOrDefault(x => x.Code.Equals(languageManager.GetSavedLanguage().Code));
@@ -51,7 +53,7 @@ namespace ModernApplicationFramework.Basics.Settings.Language
             if (_languageManager.CurrentLanguage.Code == SelectedLanguage.Code)
                 return;
             _languageManager.SaveLanguage(SelectedLanguage);
-            MessageBox.Show("Test", "", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+            _dialogProvider.Warn("Test");
         }
 
         public bool CanApply()

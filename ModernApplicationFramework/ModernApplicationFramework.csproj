@@ -236,6 +236,8 @@
     <Compile Include="Controls\Utilities\Extensions.cs" />
     <Compile Include="Basics\SettingsDialog\SettingsCategory.cs" />
     <Compile Include="Basics\SettingsCategories.cs" />
+    <Compile Include="Core\DialogProiver\DialogProvider.cs" />
+    <Compile Include="Interfaces\IDialogProvider.cs" />
     <Compile Include="Core\Localization\LanguageInfo.cs" />
     <Compile Include="Core\Localization\LanguageManager.cs" />
     <Compile Include="Docking\DockingResources.de.Designer.cs">
