@@ -1,17 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.SettingsDialog;
 using ModernApplicationFramework.Core;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Interfaces;
 
-namespace ModernApplicationFramework.Extended.Settings.ViewModels
+namespace ModernApplicationFramework.Basics.Settings.General
 {
     [Export(typeof(ISettingsPage))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class MainWindowSettingsViewModel : ViewModelBase, ISettingsPage
+    public class GeneralVisualExperienceSettingsViewModel : ViewModelBase, ISettingsPage
     {
         private readonly IThemeManager _manager;
 	    private readonly EnvironmentGeneralOptions _generalOptions;
@@ -23,7 +22,7 @@ namespace ModernApplicationFramework.Extended.Settings.ViewModels
 
 
 		[ImportingConstructor]
-        public MainWindowSettingsViewModel(IThemeManager manager, EnvironmentGeneralOptions generalOptions)
+        public GeneralVisualExperienceSettingsViewModel(IThemeManager manager, EnvironmentGeneralOptions generalOptions)
 		{
 			_generalOptions = generalOptions;
             _manager = manager;

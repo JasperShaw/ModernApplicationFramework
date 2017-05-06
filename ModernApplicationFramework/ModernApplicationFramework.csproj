@@ -70,6 +70,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Basics\Settings\General\GeneralVisualExperienceSettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Basics\Settings\Language\LanguageSettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -229,6 +233,25 @@
     <Compile Include="Basics\CustomizeDialog\ViewModels\CommandsPageViewModel.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarItemDefinitionT.cs" />
     <Compile Include="Basics\EnvironmentGeneralOptions.cs" />
+    <Compile Include="Basics\Settings\General\GeneralVisualExperienceSettingsResources.de.Designer.cs">
+      <DependentUpon>GeneralVisualExperienceSettingsResources.de.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Basics\Settings\General\GeneralVisualExperienceSettingsResources.en.Designer.cs">
+      <DependentUpon>GeneralVisualExperienceSettingsResources.en.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Basics\Settings\General\GeneralVisualExperienceSettingsView.xaml.cs">
+      <DependentUpon>GeneralVisualExperienceSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Basics\Settings\General\GeneralVisualExperienceSettingsViewModel.cs" />
+    <Compile Include="Basics\Settings\General\GeneralVisualExperienceSettingsResources.Designer.cs">
+      <DependentUpon>GeneralVisualExperienceSettingsResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Basics\Settings\Language\LanguageSettingsResources.de.Designer.cs">
       <DependentUpon>LanguageSettingsResources.de.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -1076,6 +1099,18 @@
     <EmbeddedResource Include="Basics\CommandBar\CommandBarResources.en.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommandBarResources.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Basics\Settings\General\GeneralVisualExperienceSettingsResources.de.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>GeneralVisualExperienceSettingsResources.de.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Basics\Settings\General\GeneralVisualExperienceSettingsResources.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>GeneralVisualExperienceSettingsResources.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Basics\Settings\General\GeneralVisualExperienceSettingsResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>GeneralVisualExperienceSettingsResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Basics\Settings\Language\LanguageSettingsResources.de.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

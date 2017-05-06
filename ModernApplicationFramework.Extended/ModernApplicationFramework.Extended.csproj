@@ -158,10 +158,6 @@
     <Compile Include="ResultDialogs\ShowDialogResult.cs" />
     <Compile Include="ResultDialogs\ShowToolResult.cs" />
     <Compile Include="ResultDialogs\ShowWindowResult.cs" />
-    <Compile Include="Settings\Views\MainWindowSettingsView.xaml.cs">
-      <DependentUpon>MainWindowSettingsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Settings\ViewModels\MainWindowSettingsViewModel.cs" />
     <Compile Include="ToolbarDefinitions\StandardToolbarDefinition.cs" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -230,10 +226,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Settings\Views\MainWindowSettingsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Settings\ViewModels\" />
+    <Folder Include="Settings\Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
