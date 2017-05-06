@@ -13,12 +13,11 @@ namespace ModernApplicationFramework.Core.Localization
         event EventHandler OnLanguageChanged;
 
         LanguageInfo CurrentLanguage { get; }
+        LanguageInfo SavedLanguage { get; }
 
         IEnumerable<LanguageInfo> GetInstalledLanguages();
 
         void SaveLanguage(LanguageInfo languageCode);
-
-        LanguageInfo GetSavedLanguage();
 
     }
 
@@ -54,16 +53,19 @@ namespace ModernApplicationFramework.Core.Localization
         }
 
 
-        public LanguageInfo GetSavedLanguage()
-        {
-            var savedCode = Settings.Default.LanguageCode;
-            var installedLanguages = GetInstalledLanguages();
-            if (string.IsNullOrEmpty(savedCode))
-                return installedLanguages.FirstOrDefault(
-                    x => x.Code.Equals(SystemLanguageCode, StringComparison.InvariantCultureIgnoreCase));
-            return installedLanguages.FirstOrDefault(
-                x => x.Code.Equals(savedCode, StringComparison.InvariantCultureIgnoreCase));
-        }
+	    public LanguageInfo SavedLanguage
+	    {
+		    get
+		    {
+				var savedCode = Settings.Default.LanguageCode;
+			    var installedLanguages = GetInstalledLanguages();
+			    if (string.IsNullOrEmpty(savedCode))
+				    return installedLanguages.FirstOrDefault(
+					    x => x.Code.Equals(SystemLanguageCode, StringComparison.InvariantCultureIgnoreCase));
+			    return installedLanguages.FirstOrDefault(
+				    x => x.Code.Equals(savedCode, StringComparison.InvariantCultureIgnoreCase));
+			}
+	    }
 
         private void OnRaiseLanguageChanged(EventArgs e)
         {
@@ -81,7 +83,7 @@ namespace ModernApplicationFramework.Core.Localization
 
         internal void SetLanguage()
         {
-            SetLanguage(GetSavedLanguage());
+            SetLanguage(SavedLanguage);
         }
     }
 }

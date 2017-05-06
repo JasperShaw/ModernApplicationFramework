@@ -228,6 +228,21 @@
     <Compile Include="Basics\CustomizeDialog\ViewModels\AddCommandDialogViewModel.cs" />
     <Compile Include="Basics\CustomizeDialog\ViewModels\CommandsPageViewModel.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarItemDefinitionT.cs" />
+    <Compile Include="Basics\Settings\Language\LanguageSettingsResources.de.Designer.cs">
+      <DependentUpon>LanguageSettingsResources.de.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Basics\Settings\Language\LanguageSettingsResources.en.Designer.cs">
+      <DependentUpon>LanguageSettingsResources.en.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Basics\Settings\Language\LanguageSettingsResources.Designer.cs">
+      <DependentUpon>LanguageSettingsResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Basics\Settings\Language\LanguageSettingsView.xaml.cs">
       <DependentUpon>LanguageSettingsView.xaml</DependentUpon>
     </Compile>
@@ -1059,6 +1074,18 @@
     <EmbeddedResource Include="Basics\CommandBar\CommandBarResources.en.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommandBarResources.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Basics\Settings\Language\LanguageSettingsResources.de.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>LanguageSettingsResources.de.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Basics\Settings\Language\LanguageSettingsResources.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>LanguageSettingsResources.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Basics\Settings\Language\LanguageSettingsResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>LanguageSettingsResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Docking\DockingResources.de.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Windows;
 using ModernApplicationFramework.Basics.SettingsDialog;
 using ModernApplicationFramework.Core;
 using ModernApplicationFramework.Core.Localization;
@@ -25,7 +24,7 @@ namespace ModernApplicationFramework.Basics.Settings.Language
 	        _dialogProvider = dialogProvider;
             Languages = languageManager.GetInstalledLanguages();
 
-            SelectedLanguage = Languages.FirstOrDefault(x => x.Code.Equals(languageManager.GetSavedLanguage().Code));
+            SelectedLanguage = Languages.FirstOrDefault(x => x.Code.Equals(languageManager.SavedLanguage.Code));
         }
 
 
@@ -45,18 +44,18 @@ namespace ModernApplicationFramework.Basics.Settings.Language
 
 
         public uint SortOrder => 7;
-        public string Name => "Language";
+        public string Name => LanguageSettingsResources.LanguageSettings_Name;
         public SettingsCategory Category => SettingsCategories.EnvironmentCategory;
 
-        public void Apply()
-        {
-            if (_languageManager.CurrentLanguage.Code == SelectedLanguage.Code)
-                return;
-            _languageManager.SaveLanguage(SelectedLanguage);
-            _dialogProvider.Warn("Test");
-        }
+	    public void Apply()
+	    {
+		    if (_languageManager.SavedLanguage.Code == SelectedLanguage.Code)
+			    return;
+		    _languageManager.SaveLanguage(SelectedLanguage);
+		    _dialogProvider.Warn(LanguageSettingsResources.LanguageChangedWarning);
+	    }
 
-        public bool CanApply()
+	    public bool CanApply()
         {
             return SelectedLanguage != null;
         }
