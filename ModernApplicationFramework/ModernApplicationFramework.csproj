@@ -113,6 +113,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\Generic\TreeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\Generic\CommandBarStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -275,6 +279,8 @@
     <Compile Include="Controls\Utilities\Extensions.cs" />
     <Compile Include="Basics\SettingsDialog\SettingsCategory.cs" />
     <Compile Include="Basics\SettingsCategories.cs" />
+    <Compile Include="Controls\Utilities\LeftMarginMultiplierConverter.cs" />
+    <Compile Include="Controls\Utilities\TreeViewItemExtensions.cs" />
     <Compile Include="Core\Converters\StringUppercaseConverter.cs" />
     <Compile Include="Core\DialogProiver\DialogProvider.cs" />
     <Compile Include="Interfaces\IDialogProvider.cs" />
