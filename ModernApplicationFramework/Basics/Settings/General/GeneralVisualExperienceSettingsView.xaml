@@ -7,11 +7,16 @@
              xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
              xmlns:general1="clr-namespace:ModernApplicationFramework.Basics.Settings.General"
              mc:Ignorable="d" d:DesignWidth="460">
-    
+
     <UserControl.Resources>
-        <general:InverseBoolConverter x:Key="InverseBoolConverter"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../../Themes/Generic/CheckBox.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <general:InverseBoolConverter x:Key="InverseBoolConverter"/>
+        </ResourceDictionary>
     </UserControl.Resources>
-    
+
     <StackPanel>
         <controls:GroupBox Height="190" Header="{x:Static general1:GeneralVisualExperienceSettingsResources.VisualExperienceGroupBox}">
             <StackPanel Orientation="Vertical">
@@ -26,11 +31,14 @@
                     </ComboBox>
                 </StackPanel>
                 <CheckBox Content="{x:Static general1:GeneralVisualExperienceSettingsResources.UseTitleCaseMenuCheckBox_Text}" Margin="0,5,0,0" 
-                          IsChecked="{Binding UseTitleCaseOnMenu, Mode=TwoWay}"/>
-                <CheckBox x:Name="AutoAdjustCheckBox" Content="{x:Static general1:GeneralVisualExperienceSettingsResources.AutoAdjustVisualExperienceCheckBox_Text}" Margin="0,5,0,0"/>
+                          IsChecked="{Binding UseTitleCaseOnMenu, Mode=TwoWay}" Style="{StaticResource FormsCheckBoxStyle}"/>
+                <CheckBox x:Name="AutoAdjustCheckBox" Content="{x:Static general1:GeneralVisualExperienceSettingsResources.AutoAdjustVisualExperienceCheckBox_Text}" Margin="0,5,0,0"
+                          Style="{StaticResource FormsCheckBoxStyle}"/>
                 <CheckBox Content="{x:Static general1:GeneralVisualExperienceSettingsResources.RichClientVisualExperienceCheckBox_Text}" Margin="25,5,0,0" 
+                          Style="{StaticResource FormsCheckBoxStyle}"
                           IsEnabled="{Binding ElementName=AutoAdjustCheckBox, Path=IsChecked, Converter={StaticResource InverseBoolConverter}}"/>
                 <CheckBox Content="{x:Static general1:GeneralVisualExperienceSettingsResources.UseHardwareAccelerationCheckBox_Text}" Margin="25,5,0,0"
+                          Style="{StaticResource FormsCheckBoxStyle}"
                           IsEnabled="{Binding ElementName=AutoAdjustCheckBox, Path=IsChecked, Converter={StaticResource InverseBoolConverter}}"/>
                 <TextBlock TextWrapping="Wrap" Margin="0,10,0,0" Text="{Binding RenderingStatusText, Mode=OneWay}"/>
             </StackPanel>
