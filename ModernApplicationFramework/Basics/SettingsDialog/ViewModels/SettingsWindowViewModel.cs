@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Input;
@@ -47,6 +48,15 @@ namespace ModernApplicationFramework.Basics.SettingsDialog.ViewModels
                 FillRecursive(settingsCategory, pages);
             Pages = pages;
             SelectedPage = GetFirstLeafPageRecursive(pages);
+        }
+
+        protected override void OnActivate()
+        {
+            base.OnActivate();
+            foreach (var settingsPage in _settingPages)
+            {
+                settingsPage.Load();
+            }
         }
 
 
@@ -115,7 +125,6 @@ namespace ModernApplicationFramework.Basics.SettingsDialog.ViewModels
                 return;
             foreach (var settingPage in _settingPages)
                 settingPage.Apply();
-
             TryClose(true);
         }
 

@@ -71,6 +71,15 @@ namespace ModernApplicationFramework.Basics.Settings.General {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The visual experience settings automatically change based on system capabilities. ähnelt.
+        /// </summary>
+        public static string AutoAdjustVisualExperienceStatus {
+            get {
+                return ResourceManager.GetString("AutoAdjustVisualExperienceStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Color theme: ähnelt.
         /// </summary>
         public static string ColorThemeCombo_Label {
@@ -80,7 +89,7 @@ namespace ModernApplicationFramework.Basics.Settings.General {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Visual Studio is currently using hardware-accelerated rendering. The visual experience settings automatically change based on system capabilities. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die This application is currently using hardware-accelerated rendering. ähnelt.
         /// </summary>
         public static string HardwareRenderingStatus {
             get {
@@ -98,7 +107,7 @@ namespace ModernApplicationFramework.Basics.Settings.General {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Visual Studio is currently using software rendering. The visual experience settings automatically change based on system capabilities. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die This application is currently using software rendering. ähnelt.
         /// </summary>
         public static string SoftwareRendereingStatus {
             get {

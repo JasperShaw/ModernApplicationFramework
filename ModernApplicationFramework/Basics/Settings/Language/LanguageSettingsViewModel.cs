@@ -23,8 +23,7 @@ namespace ModernApplicationFramework.Basics.Settings.Language
             _languageManager = languageManager;
 	        _dialogProvider = dialogProvider;
             Languages = languageManager.GetInstalledLanguages();
-
-            SelectedLanguage = Languages.FirstOrDefault(x => x.Code.Equals(languageManager.SavedLanguage.Code));
+            SelectedLanguage = Languages.FirstOrDefault(x => x.Code.Equals(_languageManager.SavedLanguage.Code));
         }
 
 
@@ -58,6 +57,11 @@ namespace ModernApplicationFramework.Basics.Settings.Language
 	    public bool CanApply()
         {
             return SelectedLanguage != null;
+        }
+
+        public void Load()
+        {
+            
         }
     }
 }

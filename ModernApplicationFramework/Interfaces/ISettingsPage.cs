@@ -9,5 +9,11 @@ namespace ModernApplicationFramework.Interfaces
 		SettingsCategory Category { get; }
         void Apply();
         bool CanApply();
+
+        /// <summary>
+        /// Usually gets called when the Hosting Dialog Window gets active. It should reload/set data in the SettingsPage.
+        /// This can be performence relevant, so only insert code that really needs to be reloaded manually.
+        /// </summary>
+        void Load();
     }
 }

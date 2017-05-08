@@ -237,6 +237,7 @@
     <Compile Include="Basics\CustomizeDialog\ViewModels\CommandsPageViewModel.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarItemDefinitionT.cs" />
     <Compile Include="Basics\EnvironmentGeneralOptions.cs" />
+    <Compile Include="Basics\EnvironmentRenderCapabilities.cs" />
     <Compile Include="Basics\Settings\General\GeneralVisualExperienceSettingsResources.de.Designer.cs">
       <DependentUpon>GeneralVisualExperienceSettingsResources.de.resx</DependentUpon>
       <AutoGen>True</AutoGen>

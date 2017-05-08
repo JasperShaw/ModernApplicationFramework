@@ -58,5 +58,41 @@ namespace ModernApplicationFramework.Properties {
                 this["LanguageCode"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AutoAdjustVisualExperience {
+            get {
+                return ((bool)(this["AutoAdjustVisualExperience"]));
+            }
+            set {
+                this["AutoAdjustVisualExperience"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseHardwareAcceleration {
+            get {
+                return ((bool)(this["UseHardwareAcceleration"]));
+            }
+            set {
+                this["UseHardwareAcceleration"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseRichVisualExperience {
+            get {
+                return ((bool)(this["UseRichVisualExperience"]));
+            }
+            set {
+                this["UseRichVisualExperience"] = value;
+            }
+        }
     }
 }

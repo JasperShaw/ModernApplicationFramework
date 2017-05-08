@@ -6,6 +6,7 @@
              xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General"
              xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
              xmlns:general1="clr-namespace:ModernApplicationFramework.Basics.Settings.General"
+             xmlns:basics="clr-namespace:ModernApplicationFramework.Basics"
              mc:Ignorable="d" d:DesignWidth="460">
 
     <UserControl.Resources>
@@ -14,6 +15,7 @@
                 <ResourceDictionary Source="../../../Themes/Generic/CheckBox.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <general:InverseBoolConverter x:Key="InverseBoolConverter"/>
+            <general:AndBooleanConverter x:Key="AndBooleanConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -33,13 +35,19 @@
                 <CheckBox Content="{x:Static general1:GeneralVisualExperienceSettingsResources.UseTitleCaseMenuCheckBox_Text}" Margin="0,5,0,0" 
                           IsChecked="{Binding UseTitleCaseOnMenu, Mode=TwoWay}" Style="{StaticResource FormsCheckBoxStyle}"/>
                 <CheckBox x:Name="AutoAdjustCheckBox" Content="{x:Static general1:GeneralVisualExperienceSettingsResources.AutoAdjustVisualExperienceCheckBox_Text}" Margin="0,5,0,0"
-                          Style="{StaticResource FormsCheckBoxStyle}"/>
+                          Style="{StaticResource FormsCheckBoxStyle}" IsChecked="{Binding AutoAdjustExperience}"/>
                 <CheckBox Content="{x:Static general1:GeneralVisualExperienceSettingsResources.RichClientVisualExperienceCheckBox_Text}" Margin="25,5,0,0" 
-                          Style="{StaticResource FormsCheckBoxStyle}"
+                          Style="{StaticResource FormsCheckBoxStyle}" IsChecked="{Binding UseRichVisualExperience}"
                           IsEnabled="{Binding ElementName=AutoAdjustCheckBox, Path=IsChecked, Converter={StaticResource InverseBoolConverter}}"/>
                 <CheckBox Content="{x:Static general1:GeneralVisualExperienceSettingsResources.UseHardwareAccelerationCheckBox_Text}" Margin="25,5,0,0"
-                          Style="{StaticResource FormsCheckBoxStyle}"
-                          IsEnabled="{Binding ElementName=AutoAdjustCheckBox, Path=IsChecked, Converter={StaticResource InverseBoolConverter}}"/>
+                          Style="{StaticResource FormsCheckBoxStyle}" IsChecked="{Binding UseHardwareAcceleration}">
+                    <CheckBox.IsEnabled>
+                        <MultiBinding Converter="{StaticResource AndBooleanConverter}">
+                            <Binding ElementName="AutoAdjustCheckBox" Path="IsChecked" Converter="{StaticResource InverseBoolConverter}"/>
+                            <Binding Source="{x:Static basics:EnvironmentGeneralOptions.Instance}" Path="IsHardwareAccelerationSupported"/>
+                        </MultiBinding>
+                    </CheckBox.IsEnabled>
+                </CheckBox>
                 <TextBlock TextWrapping="Wrap" Margin="0,10,0,0" Text="{Binding RenderingStatusText, Mode=OneWay}"/>
             </StackPanel>
         </controls:GroupBox>

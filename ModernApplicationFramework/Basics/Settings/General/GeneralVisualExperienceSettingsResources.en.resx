@@ -120,17 +120,20 @@
   <data name="AutoAdjustVisualExperienceCheckBox_Text" xml:space="preserve">
     <value>_Automatically adjust visual experience based on client performance</value>
   </data>
+  <data name="AutoAdjustVisualExperienceStatus" xml:space="preserve">
+    <value>The visual experience settings automatically change based on system capabilities.</value>
+  </data>
   <data name="ColorThemeCombo_Label" xml:space="preserve">
     <value>&amp;Color theme:</value>
   </data>
   <data name="HardwareRenderingStatus" xml:space="preserve">
-    <value>Visual Studio is currently using hardware-accelerated rendering. The visual experience settings automatically change based on system capabilities.</value>
+    <value>This application is currently using hardware-accelerated rendering.</value>
   </data>
   <data name="RichClientVisualExperienceCheckBox_Text" xml:space="preserve">
     <value>_Enable rich client visual experience</value>
   </data>
   <data name="SoftwareRendereingStatus" xml:space="preserve">
-    <value>Visual Studio is currently using software rendering. The visual experience settings automatically change based on system capabilities.</value>
+    <value>This application is currently using software rendering.</value>
   </data>
   <data name="UseHardwareAccelerationCheckBox_Text" xml:space="preserve">
     <value>_Use hardware graphics acceleration if available</value>
