@@ -141,14 +141,5 @@ namespace ModernApplicationFramework.Basics.Settings.General {
                 return ResourceManager.GetString("VisualExperienceGroupBox", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die General ähnelt.
-        /// </summary>
-        public static string VisualExperienceSettings_Name {
-            get {
-                return ResourceManager.GetString("VisualExperienceSettings_Name", resourceCulture);
-            }
-        }
     }
 }

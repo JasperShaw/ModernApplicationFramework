@@ -8,10 +8,17 @@ namespace ModernApplicationFramework.Basics
 {
     public sealed class EnvironmentGeneralOptions : INotifyPropertyChanged
     {
+        public const int MinFileListCount = 1;
+        public const int MaxFileListCount = 24;
+        public const int MinMruListCount = 1;
+        public const int MaxMruListCount = 24;
+
+
         private bool _useTitleCaseOnMenu;
         private bool _autoAdjustExperience;
         private bool _useHardwareAcceleration;
         private bool _useRichVisualExperience;
+        private int _windowListItems;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public static EnvironmentGeneralOptions Instance { get; private set; }
@@ -71,6 +78,17 @@ namespace ModernApplicationFramework.Basics
             }
         }
 
+        public int WindowListItems
+        {
+            get => _windowListItems;
+            set
+            {
+                if (value == _windowListItems) return;
+                _windowListItems = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         public EnvironmentGeneralOptions()
         {
@@ -79,10 +97,10 @@ namespace ModernApplicationFramework.Basics
 
         public void Load()
         {
+            WindowListItems = Properties.Settings.Default.WindowListItems;
             UseTitleCaseOnMenu = Properties.Settings.Default.UseTitleCaseOnMenu;
             UseHardwareAcceleration = Properties.Settings.Default.UseHardwareAcceleration;
             UseRichVisualExperience = Properties.Settings.Default.UseRichVisualExperience;
-
             //Must be last
             AutoAdjustExperience = Properties.Settings.Default.AutoAdjustVisualExperience;
         }
@@ -93,6 +111,8 @@ namespace ModernApplicationFramework.Basics
             Properties.Settings.Default.AutoAdjustVisualExperience = AutoAdjustExperience;
             Properties.Settings.Default.UseHardwareAcceleration = UseHardwareAcceleration;
             Properties.Settings.Default.UseRichVisualExperience = UseRichVisualExperience;
+
+            Properties.Settings.Default.WindowListItems = WindowListItems;
             Properties.Settings.Default.Save();
         }
 

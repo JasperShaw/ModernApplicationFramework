@@ -117,31 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AutoAdjustVisualExperienceCheckBox_Text" xml:space="preserve">
-    <value>Visuelle Darstellung automatisch basierend auf der Clientleistung an_passen</value>
-  </data>
-  <data name="AutoAdjustVisualExperienceStatus" xml:space="preserve">
-    <value>Die Einstellungen für die visuelle Darstellung werden je nach Systemausstattung automatisch angepasst.</value>
-  </data>
-  <data name="ColorThemeCombo_Label" xml:space="preserve">
-    <value>Farbsc_hema:</value>
-  </data>
-  <data name="HardwareRenderingStatus" xml:space="preserve">
-    <value>Dieses Programm verwendet derzeit hardwarebeschleunigtes Rendering.</value>
-  </data>
-  <data name="RichClientVisualExperienceCheckBox_Text" xml:space="preserve">
-    <value>_Umfassende visuelle Clientdarstellung aktivieren</value>
-  </data>
-  <data name="SoftwareRendereingStatus" xml:space="preserve">
-    <value>Dieses Programm verwendet derzeit Softwarerendering.</value>
-  </data>
-  <data name="UseHardwareAccelerationCheckBox_Text" xml:space="preserve">
-    <value>Hardwaregrafi_kbeschleunigung verwenden, falls verfügbar</value>
-  </data>
-  <data name="UseTitleCaseMenuCheckBox_Text" xml:space="preserve">
-    <value>Traditionellen _Menüleistenstil mit großen Anfangsbuchstaben verwenden</value>
-  </data>
-  <data name="VisualExperienceGroupBox" xml:space="preserve">
-    <value>Visuelle Darstellung</value>
+  <data name="GeneralSettings_Name" xml:space="preserve">
+    <value>Allgemein</value>
   </data>
 </root>

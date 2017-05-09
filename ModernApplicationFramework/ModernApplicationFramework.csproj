@@ -238,6 +238,21 @@
     <Compile Include="Basics\Definitions\CommandBar\CommandBarItemDefinitionT.cs" />
     <Compile Include="Basics\EnvironmentGeneralOptions.cs" />
     <Compile Include="Basics\EnvironmentRenderCapabilities.cs" />
+    <Compile Include="Basics\Settings\General\GeneralSettingsResources.de.Designer.cs">
+      <DependentUpon>GeneralSettingsResources.de.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Basics\Settings\General\GeneralSettingsResources.en.Designer.cs">
+      <DependentUpon>GeneralSettingsResources.en.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Basics\Settings\General\GeneralSettingsResources.Designer.cs">
+      <DependentUpon>GeneralSettingsResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Basics\Settings\General\GeneralVisualExperienceSettingsResources.de.Designer.cs">
       <DependentUpon>GeneralVisualExperienceSettingsResources.de.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -282,8 +297,10 @@
     <Compile Include="Basics\SettingsCategories.cs" />
     <Compile Include="Controls\Utilities\LeftMarginMultiplierConverter.cs" />
     <Compile Include="Controls\Utilities\TreeViewItemExtensions.cs" />
+    <Compile Include="Controls\ValidateableTextBox.cs" />
     <Compile Include="Core\Converters\StringUppercaseConverter.cs" />
     <Compile Include="Core\DialogProiver\DialogProvider.cs" />
+    <Compile Include="Core\ValidationRules\PositiveIntegerValidationRule.cs" />
     <Compile Include="Interfaces\IDialogProvider.cs" />
     <Compile Include="Core\Localization\LanguageInfo.cs" />
     <Compile Include="Core\Localization\LanguageManager.cs" />
@@ -1106,6 +1123,18 @@
     <EmbeddedResource Include="Basics\CommandBar\CommandBarResources.en.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommandBarResources.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Basics\Settings\General\GeneralSettingsResources.de.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>GeneralSettingsResources.de.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Basics\Settings\General\GeneralSettingsResources.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>GeneralSettingsResources.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Basics\Settings\General\GeneralSettingsResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>GeneralSettingsResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Basics\Settings\General\GeneralVisualExperienceSettingsResources.de.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

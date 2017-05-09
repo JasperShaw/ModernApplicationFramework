@@ -23,8 +23,9 @@ namespace ModernApplicationFramework.Basics.Settings.General
         private string _renderingStatusText;
 
         uint ISettingsPage.SortOrder => uint.MinValue;
-        string ISettingsPage.Name => GeneralVisualExperienceSettingsResources.VisualExperienceSettings_Name;
+        string ISettingsPage.Name => GeneralSettingsResources.GeneralSettings_Name;
         SettingsCategory ISettingsPage.Category => SettingsCategories.EnvironmentCategory;
+
 
         public IEnumerable<Theme> Themes => _manager.Themes;
 
@@ -117,7 +118,7 @@ namespace ModernApplicationFramework.Basics.Settings.General
             UpdateStatusText();
         }
 
-        public void Apply()
+        public bool Apply()
         {
             _manager.Theme = SelectedTheme;
             _generalOptions.UseTitleCaseOnMenu = UseTitleCaseOnMenu;
@@ -125,6 +126,7 @@ namespace ModernApplicationFramework.Basics.Settings.General
             _generalOptions.UseRichVisualExperience = UseRichVisualExperience;
             _generalOptions.AutoAdjustExperience = AutoAdjustExperience;
             _generalOptions.Save();
+            return true;
         }
 
         public bool CanApply()

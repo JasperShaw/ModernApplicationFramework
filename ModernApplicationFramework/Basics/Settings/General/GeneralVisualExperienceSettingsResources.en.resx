@@ -144,7 +144,4 @@
   <data name="VisualExperienceGroupBox" xml:space="preserve">
     <value>Visual experience</value>
   </data>
-  <data name="VisualExperienceSettings_Name" xml:space="preserve">
-    <value>General</value>
-  </data>
 </root>

@@ -158,6 +158,10 @@
     <Compile Include="ResultDialogs\ShowDialogResult.cs" />
     <Compile Include="ResultDialogs\ShowToolResult.cs" />
     <Compile Include="ResultDialogs\ShowWindowResult.cs" />
+    <Compile Include="Settings\GeneralWindowItemListSettingsView.xaml.cs">
+      <DependentUpon>GeneralWindowItemListSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\GeneralWindowItemListSettingsViewModel.cs" />
     <Compile Include="ToolbarDefinitions\StandardToolbarDefinition.cs" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -225,6 +229,10 @@
     <Page Include="Resources\Icons\Undo_16x.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Settings\GeneralWindowItemListSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup />

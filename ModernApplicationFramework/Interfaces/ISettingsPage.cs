@@ -7,7 +7,8 @@ namespace ModernApplicationFramework.Interfaces
         uint SortOrder { get; }
         string Name { get; }
 		SettingsCategory Category { get; }
-        void Apply();
+
+        bool Apply();
         bool CanApply();
 
         /// <summary>

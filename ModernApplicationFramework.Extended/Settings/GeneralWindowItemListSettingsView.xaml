@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="ModernApplicationFramework.Extended.Settings.GeneralWindowItemListSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:validationRules="clr-namespace:ModernApplicationFramework.Core.ValidationRules;assembly=ModernApplicationFramework"
+             xmlns:mafc="http://modern.framework.com/controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="300">
+     
+    <StackPanel Orientation="Horizontal" Margin="0,0,0,3">
+        <mafc:NumberOnlyTextBox x:Name="TextBox" Width="35" HorizontalAlignment="Left" VerticalContentAlignment="Center" 
+                                NumberStyle="Integer" MaxLength="2" Text="{Binding WindowListItems}">
+        </mafc:NumberOnlyTextBox>
+        <Label Target="{Binding ElementName=TextBox}" Content="_Test Text  für Combobox" VerticalAlignment="Center"/>
+    </StackPanel>
+</UserControl>

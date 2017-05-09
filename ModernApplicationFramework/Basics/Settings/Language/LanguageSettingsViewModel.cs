@@ -46,12 +46,13 @@ namespace ModernApplicationFramework.Basics.Settings.Language
         public string Name => LanguageSettingsResources.LanguageSettings_Name;
         public SettingsCategory Category => SettingsCategories.EnvironmentCategory;
 
-	    public void Apply()
+	    public bool Apply()
 	    {
-		    if (_languageManager.SavedLanguage.Code == SelectedLanguage.Code)
-			    return;
+	        if (_languageManager.SavedLanguage.Code == SelectedLanguage.Code)
+	            return true;
 		    _languageManager.SaveLanguage(SelectedLanguage);
 		    _dialogProvider.Warn(LanguageSettingsResources.LanguageChangedWarning);
+	        return true;
 	    }
 
 	    public bool CanApply()

@@ -4,7 +4,8 @@
                     xmlns:themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
                     xmlns:colors="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
-                    xmlns:utilities="clr-namespace:ModernApplicationFramework.Controls.Utilities">
+                    xmlns:utilities="clr-namespace:ModernApplicationFramework.Controls.Utilities"
+                    xmlns:basics="clr-namespace:ModernApplicationFramework.Basics">
 
     <converters:BrushToColorConverter x:Key="BrushToColorConverter"/>
 
@@ -89,13 +90,27 @@
                         </Grid>
                     </themes:SystemDropShadowChrome>
                     <ControlTemplate.Triggers>
-                        <DataTrigger>
-                            <DataTrigger.Binding>
-                                <Binding Path="HasDropShadow" RelativeSource="{RelativeSource Self}"/>
-                            </DataTrigger.Binding>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Value="True">
+                                    <Condition.Binding>
+                                        <Binding ElementName="PART_Popup" Path="(Popup.HasDropShadow)"/>
+                                    </Condition.Binding>
+                                </Condition>
+                                <Condition Value="True">
+                                    <Condition.Binding>
+                                        <Binding Source="{x:Static basics:EnvironmentRenderCapabilities.Current}" Path="AreGradientsAllowed"/>
+                                    </Condition.Binding>
+                                </Condition>
+                            </MultiDataTrigger.Conditions>
                             <Setter TargetName="Shdw" Property="FrameworkElement.Margin" Value="0,0,5,5"/>
-                            <Setter TargetName="Shdw" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}"
-                                    Property="this:SystemDropShadowChrome.Color"/>
+                            <Setter TargetName="Shdw" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}" Property="this:SystemDropShadowChrome.Color"/>
+                        </MultiDataTrigger>
+                        <DataTrigger Value="False">
+                            <DataTrigger.Binding>
+                                <Binding Source="{x:Static basics:EnvironmentRenderCapabilities.Current}" Path="AreAnimationsAllowed"/>
+                            </DataTrigger.Binding>
+                            <Setter Property="Popup.PopupAnimation" Value="None"/>
                         </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

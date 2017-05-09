@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Input;
@@ -123,9 +122,15 @@ namespace ModernApplicationFramework.Basics.SettingsDialog.ViewModels
         {
             if (_settingPages.Any(settingPage => !settingPage.CanApply()))
                 return;
+            //var dirtyPages = _settingPages.Where(x => x.IsDirty).ToList();
+            if (!_settingPages.Any())
+                return;
+            var close = true;
             foreach (var settingPage in _settingPages)
-                settingPage.Apply();
-            TryClose(true);
+                if (!settingPage.Apply())
+                    close = false;
+            if (close)
+                TryClose(true);
         }
 
         private void Cancel()

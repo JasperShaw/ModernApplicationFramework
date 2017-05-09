@@ -149,7 +149,6 @@
                 <Setter TargetName="PART_Popup" Property="Popup.Placement" Value="Right"/>
                 <Setter TargetName="PART_Popup" Property="Popup.HorizontalOffset" Value="2"/>
             </DataTrigger>
-
             <DataTrigger Value="{x:Static Dock.Right}">
                 <DataTrigger.Binding>
                     <Binding RelativeSource="{RelativeSource Self}" Path="ParentToolBar.DataContext.Position"
@@ -200,13 +199,28 @@
             <Trigger Property="IsSuspendingPopupAnimation" Value="True">
                 <Setter TargetName="PART_Popup" Property="PopupAnimation" Value="None"/>
             </Trigger>
-            <DataTrigger Value="true">
+            <DataTrigger Value="False">
                 <DataTrigger.Binding>
-                    <Binding ElementName="PART_Popup" Path="(Popup.HasDropShadow)"/>
+                    <Binding Source="{x:Static basics:EnvironmentRenderCapabilities.Current}" Path="AreAnimationsAllowed"/>
                 </DataTrigger.Binding>
-                <Setter TargetName="Shdw" Property="Margin" Value="0,0,5,5"/>
-                <Setter TargetName="Shdw" Property="Color" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}"></Setter>
+                <Setter TargetName="PART_Popup" Property="Popup.PopupAnimation" Value="None"/>
             </DataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Value="True">
+                        <Condition.Binding>
+                            <Binding ElementName="PART_Popup" Path="(Popup.HasDropShadow)"/>
+                        </Condition.Binding>
+                    </Condition>
+                    <Condition Value="True">
+                        <Condition.Binding>
+                            <Binding Source="{x:Static basics:EnvironmentRenderCapabilities.Current}" Path="AreGradientsAllowed"/>
+                        </Condition.Binding>
+                    </Condition>
+                </MultiDataTrigger.Conditions>
+                <Setter TargetName="Shdw" Property="FrameworkElement.Margin" Value="0,0,5,5"/>
+                <Setter TargetName="Shdw" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}" Property="this:SystemDropShadowChrome.Color"/>
+            </MultiDataTrigger>
             <Trigger Property="IsHighlighted" Value="True">
                 <Setter TargetName="Bg" Property="BorderBrush" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarBorder}}"/>
                 <Setter TargetName="Bg" Property="Background" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMouseOverBackgroundBegin}}"/>
@@ -269,13 +283,28 @@
             <Trigger Property="IsSuspendingPopupAnimation" Value="true">
                 <Setter TargetName="PART_Popup" Property="Popup.PopupAnimation" Value="None"/>
             </Trigger>
-            <DataTrigger Value="true">
+            <DataTrigger Value="False">
                 <DataTrigger.Binding>
-                    <Binding ElementName="PART_Popup" Path="(Popup.HasDropShadow)"/>
+                    <Binding Source="{x:Static basics:EnvironmentRenderCapabilities.Current}" Path="AreAnimationsAllowed"/>
                 </DataTrigger.Binding>
-                <Setter TargetName="Shdw" Property="Margin" Value="0,0,5,5"/>
-                <Setter TargetName="Shdw" Property="Color" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}"/>
+                <Setter TargetName="PART_Popup" Property="Popup.PopupAnimation" Value="None"/>
             </DataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Value="True">
+                        <Condition.Binding>
+                            <Binding ElementName="PART_Popup" Path="(Popup.HasDropShadow)"/>
+                        </Condition.Binding>
+                    </Condition>
+                    <Condition Value="True">
+                        <Condition.Binding>
+                            <Binding Source="{x:Static basics:EnvironmentRenderCapabilities.Current}" Path="AreGradientsAllowed"/>
+                        </Condition.Binding>
+                    </Condition>
+                </MultiDataTrigger.Conditions>
+                <Setter TargetName="Shdw" Property="FrameworkElement.Margin" Value="0,0,5,5"/>
+                <Setter TargetName="Shdw" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}" Property="this:SystemDropShadowChrome.Color"/>
+            </MultiDataTrigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarTextInactive}}"/>
                 <Setter TargetName="Arrow" Property="Fill" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarTextInactive}}"/>
@@ -486,13 +515,28 @@
             <Trigger Property="MenuItem.IsSuspendingPopupAnimation" Value="true">
                 <Setter TargetName="PART_Popup" Property="Popup.PopupAnimation" Value="None"/>
             </Trigger>
-            <DataTrigger Value="True">
+            <DataTrigger Value="False">
                 <DataTrigger.Binding>
-                    <Binding ElementName="PART_Popup" Path="(Popup.HasDropShadow)"/>
+                    <Binding Source="{x:Static basics:EnvironmentRenderCapabilities.Current}" Path="AreAnimationsAllowed"/>
                 </DataTrigger.Binding>
-                <Setter TargetName="Shdw" Property="Margin" Value="0,0,5,5"/>
-                <Setter TargetName="Shdw" Property="Color" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}"/>
+                <Setter TargetName="PART_Popup" Property="Popup.PopupAnimation" Value="None"/>
             </DataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Value="True">
+                        <Condition.Binding>
+                            <Binding ElementName="PART_Popup" Path="(Popup.HasDropShadow)"/>
+                        </Condition.Binding>
+                    </Condition>
+                    <Condition Value="True">
+                        <Condition.Binding>
+                            <Binding Source="{x:Static basics:EnvironmentRenderCapabilities.Current}" Path="AreGradientsAllowed"/>
+                        </Condition.Binding>
+                    </Condition>
+                </MultiDataTrigger.Conditions>
+                <Setter TargetName="Shdw" Property="FrameworkElement.Margin" Value="0,0,5,5"/>
+                <Setter TargetName="Shdw" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}" Property="this:SystemDropShadowChrome.Color"/>
+            </MultiDataTrigger>
             <Trigger Property="UIElement.IsEnabled" Value="false">
                 <Setter Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarTextInactive}}"
                         Property="TextElement.Foreground"/>
@@ -1364,6 +1408,12 @@
                         </Grid>
                     </Grid>
                     <ControlTemplate.Triggers>
+                        <DataTrigger Value="False">
+                            <DataTrigger.Binding>
+                                <Binding Source="{x:Static basics:EnvironmentRenderCapabilities.Current}" Path="AreAnimationsAllowed"/>
+                            </DataTrigger.Binding>
+                            <Setter TargetName="OverflowPopup" Property="Popup.PopupAnimation" Value="None"/>
+                        </DataTrigger>
                         <Trigger Property="ToolBar.IsOverflowOpen" Value="true">
                             <Setter TargetName="ToolBarThumb" Property="UIElement.IsEnabled" Value="false"/>
                         </Trigger>
@@ -1383,11 +1433,15 @@
                                         <Binding ElementName="OverflowPopup" Path="(Popup.HasDropShadow)"/>
                                     </Condition.Binding>
                                 </Condition>
+                                <Condition Value="True">
+                                    <Condition.Binding>
+                                        <Binding Source="{x:Static basics:EnvironmentRenderCapabilities.Current}" Path="AreGradientsAllowed"/>
+                                    </Condition.Binding>
+                                </Condition>
                             </MultiDataTrigger.Conditions>
                             <Setter TargetName="Shdw" Property="FrameworkElement.Margin" Value="0,0,5,5"/>
-                            <Setter TargetName="Shdw" Property="UIElement.SnapsToDevicePixels" Value="true"/>
-                            <Setter TargetName="Shdw" Property="this:SystemDropShadowChrome.Color"
-                                    Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}" />
+                            <Setter TargetName="Shdw" Property="SnapsToDevicePixels" Value="True"/>
+                            <Setter TargetName="Shdw" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}" Property="this:SystemDropShadowChrome.Color"/>
                         </MultiDataTrigger>
                         <Trigger Property="ToolBar.Orientation" Value="Vertical">
                             <Setter TargetName="OverflowButton"
@@ -2190,12 +2244,27 @@
                         <Trigger Property="IsSuspendingPopupAnimation" Value="True">
                             <Setter TargetName="PART_Popup" Property="PopupAnimation" Value="None"/>
                         </Trigger>
-                        <DataTrigger Value="true">
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Value="True">
+                                    <Condition.Binding>
+                                        <Binding ElementName="PART_Popup" Path="(Popup.HasDropShadow)"/>
+                                    </Condition.Binding>
+                                </Condition>
+                                <Condition Value="True">
+                                    <Condition.Binding>
+                                        <Binding Source="{x:Static basics:EnvironmentRenderCapabilities.Current}" Path="AreGradientsAllowed"/>
+                                    </Condition.Binding>
+                                </Condition>
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="Shdw" Property="FrameworkElement.Margin" Value="0,0,5,5"/>
+                            <Setter TargetName="Shdw" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}" Property="this:SystemDropShadowChrome.Color"/>
+                        </MultiDataTrigger>
+                        <DataTrigger Value="False">
                             <DataTrigger.Binding>
-                                <Binding ElementName="PART_Popup" Path="(Popup.HasDropShadow)"/>
+                                <Binding Source="{x:Static basics:EnvironmentRenderCapabilities.Current}" Path="AreAnimationsAllowed"/>
                             </DataTrigger.Binding>
-                            <Setter TargetName="Shdw" Property="Margin" Value="0,0,5,5"/>
-                            <Setter TargetName="Shdw" Property="Color" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}"/>
+                            <Setter TargetName="PART_Popup" Property="Popup.PopupAnimation" Value="None"/>
                         </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -2353,12 +2422,27 @@
                             <Setter TargetName="SeparatorLine" Property="Visibility" Value="Hidden"/>
                             <Setter TargetName="Arrow" Property="Fill" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarSplitButtonMouseDownGlyph}}"/>
                         </Trigger>
-                        <DataTrigger Value="true">
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Value="True">
+                                    <Condition.Binding>
+                                        <Binding ElementName="PART_Popup" Path="(Popup.HasDropShadow)"/>
+                                    </Condition.Binding>
+                                </Condition>
+                                <Condition Value="True">
+                                    <Condition.Binding>
+                                        <Binding Source="{x:Static basics:EnvironmentRenderCapabilities.Current}" Path="AreGradientsAllowed"/>
+                                    </Condition.Binding>
+                                </Condition>
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="Shdw" Property="FrameworkElement.Margin" Value="0,0,5,5"/>
+                            <Setter TargetName="Shdw" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}" Property="this:SystemDropShadowChrome.Color"/>
+                        </MultiDataTrigger>
+                        <DataTrigger Value="False">
                             <DataTrigger.Binding>
-                                <Binding ElementName="PART_Popup" Path="(Popup.HasDropShadow)"/>
+                                <Binding Source="{x:Static basics:EnvironmentRenderCapabilities.Current}" Path="AreAnimationsAllowed"/>
                             </DataTrigger.Binding>
-                            <Setter TargetName="Shdw" Property="Margin" Value="0,0,5,5"/>
-                            <Setter TargetName="Shdw" Property="Color" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}"/>
+                            <Setter TargetName="PART_Popup" Property="Popup.PopupAnimation" Value="None"/>
                         </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

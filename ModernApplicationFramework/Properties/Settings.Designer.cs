@@ -94,5 +94,17 @@ namespace ModernApplicationFramework.Properties {
                 this["UseRichVisualExperience"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int WindowListItems {
+            get {
+                return ((int)(this["WindowListItems"]));
+            }
+            set {
+                this["WindowListItems"] = value;
+            }
+        }
     }
 }
