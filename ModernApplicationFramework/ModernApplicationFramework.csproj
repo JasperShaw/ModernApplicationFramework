@@ -78,6 +78,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Controls\Balloon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\Icons\SplitScreenVertical.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
@@ -291,6 +295,9 @@
       <DependentUpon>LanguageSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Basics\Settings\Language\LanguageSettingsViewModel.cs" />
+    <Compile Include="Controls\Balloon.xaml.cs">
+      <DependentUpon>Balloon.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\GroupBox.cs" />
     <Compile Include="Controls\Utilities\Extensions.cs" />
     <Compile Include="Basics\SettingsDialog\SettingsCategory.cs" />

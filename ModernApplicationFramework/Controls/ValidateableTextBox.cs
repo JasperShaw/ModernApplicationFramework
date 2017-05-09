@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace ModernApplicationFramework.Controls
 {
-    public abstract class ValidateableTextBox : TextBox
+    public abstract class ValidateableTextBox : System.Windows.Controls.TextBox
     {
         protected abstract bool InternalValidationRule(string s);
 
