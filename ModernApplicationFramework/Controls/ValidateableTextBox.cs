@@ -13,7 +13,12 @@ namespace ModernApplicationFramework.Controls
             if (InternalValidationRule(e.Text))
                 base.OnPreviewTextInput(e);
             else
+            {
                 e.Handled = true;
+
+                var b = new Balloon(this, "test", "test", BalloonType.Warning);
+                b.Show();
+            }
         }
     }
 

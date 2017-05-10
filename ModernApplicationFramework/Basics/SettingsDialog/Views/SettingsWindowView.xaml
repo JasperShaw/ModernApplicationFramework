@@ -47,7 +47,7 @@
             <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                 <ItemsControl HorizontalAlignment="Left" ItemsSource="{Binding ElementName=TreeView, Path=SelectedValue}"
                               ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"
-                              BorderBrush="{x:Null}" Width="460">
+                              BorderBrush="{x:Null}" Width="460" Focusable="False">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <ContentControl cal:View.Model="{Binding}" />
