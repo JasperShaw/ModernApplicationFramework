@@ -174,10 +174,7 @@ namespace ModernApplicationFramework.Controls
             _oldWidth = Width;
             _oldHeight = Height;
 
-            var interop = new WindowInteropHelper(this);
-            interop.EnsureHandle();
-
-            var monitorinfo = MonitorInfoFromWindow(interop.Handle);
+            var monitorinfo = NativeMethods.MonitorInfoFromWindow(this);
             var monitor = monitorinfo.RcMonitor;
             Left = monitor.Left;
             Top = monitor.Top;
@@ -464,7 +461,7 @@ namespace ModernApplicationFramework.Controls
                 var structure1 = (RECT) Marshal.PtrToStructure(lParam, typeof(RECT));
                 User32.DefWindowProc(hWnd, 131, wParam, lParam);
                 var structure2 = (RECT) Marshal.PtrToStructure(lParam, typeof(RECT));
-                var monitorinfo = MonitorInfoFromWindow(hWnd);
+                var monitorinfo = NativeMethods.MonitorInfoFromWindow(hWnd);
                 if (monitorinfo.RcMonitor.Height == monitorinfo.RcWork.Height &&
                     monitorinfo.RcMonitor.Width == monitorinfo.RcWork.Width)
                 {
@@ -574,7 +571,7 @@ namespace ModernApplicationFramework.Controls
 
         private bool IsAeroSnappedToMonitor(IntPtr hWnd)
         {
-            var monitorinfo = MonitorInfoFromWindow(hWnd);
+            var monitorinfo = NativeMethods.MonitorInfoFromWindow(hWnd);
             var deviceUnits = new Rect(Left, Top, Width, Height).LogicalToDeviceUnits();
             return monitorinfo.RcWork.Height == deviceUnits.Height && monitorinfo.RcWork.Top == deviceUnits.Top;
         }
@@ -715,15 +712,7 @@ namespace ModernApplicationFramework.Controls
             User32.SetWindowRgn(hWnd, rectRgnIndirect, User32.IsWindowVisible(hWnd));
         }
 
-        private static Monitorinfo MonitorInfoFromWindow(IntPtr hWnd)
-        {
-            var hMonitor = User32.MonitorFromWindow(hWnd, 2);
-            var monitorInfo = new Monitorinfo {CbSize = (uint) Marshal.SizeOf(typeof(Monitorinfo))};
-            User32.GetMonitorInfo(hMonitor, ref monitorInfo);
-            return monitorInfo;
-        }
-
-        private void ClearClipRegion(IntPtr hWnd)
+        private static void ClearClipRegion(IntPtr hWnd)
         {
             User32.SetWindowRgn(hWnd, IntPtr.Zero, User32.IsWindowVisible(hWnd));
         }

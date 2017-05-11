@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Media;
 using System.Windows;
 using System.Windows.Input;
 
@@ -15,8 +16,7 @@ namespace ModernApplicationFramework.Controls
             else
             {
                 e.Handled = true;
-
-                var b = new Balloon(this, "test", "test", BalloonType.Warning);
+                var b = new Balloon(this, "Test", "test", BalloonType.Error, SystemSounds.Asterisk);
                 b.Show();
             }
         }

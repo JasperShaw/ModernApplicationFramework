@@ -494,6 +494,25 @@ namespace ModernApplicationFramework.Native.NativeMethods
             return new Point(w32Mouse.X, w32Mouse.Y);
         }
 
+        internal static Monitorinfo MonitorInfoFromWindow(Window window)
+        {
+            var interop = new WindowInteropHelper(window);
+            interop.EnsureHandle();
+            var handle = interop.Handle;
+            var hMonitor = User32.MonitorFromWindow(handle, 2);
+            var monitorInfo = new Monitorinfo { CbSize = (uint)Marshal.SizeOf(typeof(Monitorinfo)) };
+            User32.GetMonitorInfo(hMonitor, ref monitorInfo);
+            return monitorInfo;
+        }
+
+        internal static Monitorinfo MonitorInfoFromWindow(IntPtr hWnd)
+        {
+            var hMonitor = User32.MonitorFromWindow(hWnd, 2);
+            var monitorInfo = new Monitorinfo { CbSize = (uint)Marshal.SizeOf(typeof(Monitorinfo)) };
+            User32.GetMonitorInfo(hMonitor, ref monitorInfo);
+            return monitorInfo;
+        }
+
 
         [return: MarshalAs(UnmanagedType.Bool)]
         internal delegate bool EnumMonitorsDelegate(

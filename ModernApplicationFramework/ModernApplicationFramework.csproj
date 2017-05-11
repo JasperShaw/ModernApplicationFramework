@@ -98,6 +98,18 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Resources\Icons\Icons.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Icons\StatusInfo.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Icons\StatusWarning.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\Icons\StatusError.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </Page>
@@ -305,6 +317,7 @@
     <Compile Include="Controls\Utilities\LeftMarginMultiplierConverter.cs" />
     <Compile Include="Controls\Utilities\TreeViewItemExtensions.cs" />
     <Compile Include="Controls\ValidateableTextBox.cs" />
+    <Compile Include="Core\Converters\EmptryStringToVisibilityConverter.cs" />
     <Compile Include="Core\Converters\StringUppercaseConverter.cs" />
     <Compile Include="Core\DialogProiver\DialogProvider.cs" />
     <Compile Include="Core\ValidationRules\PositiveIntegerValidationRule.cs" />

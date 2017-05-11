@@ -78,7 +78,7 @@ namespace ModernApplicationFramework.Native
 
         internal static void FindMonitorRectsFromPoint(Point point, out Rect monitorRect, out Rect workAreaRect)
         {
-            IntPtr hMonitor = User32.MonitorFromPoint(new Native.Platform.Structs.Point 
+            IntPtr hMonitor = User32.MonitorFromPoint(new Platform.Structs.Point 
             {
                 X = (int)point.X,
                 Y = (int)point.Y

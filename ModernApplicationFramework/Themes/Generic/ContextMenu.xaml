@@ -94,7 +94,7 @@
                             <MultiDataTrigger.Conditions>
                                 <Condition Value="True">
                                     <Condition.Binding>
-                                        <Binding ElementName="PART_Popup" Path="(Popup.HasDropShadow)"/>
+                                        <Binding Path="HasDropShadow" RelativeSource="{RelativeSource Self}"/>
                                     </Condition.Binding>
                                 </Condition>
                                 <Condition Value="True">

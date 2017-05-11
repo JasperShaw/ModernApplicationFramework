@@ -1,14 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Media;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Interop;
 using System.Windows.Media;
-using ModernApplicationFramework.Native.NativeMethods;
-using ModernApplicationFramework.Native.Platform.Structs;
+using System.Windows.Shapes;
+using ModernApplicationFramework.Native;
 using Point = System.Windows.Point;
 
 namespace ModernApplicationFramework.Controls
@@ -16,117 +14,121 @@ namespace ModernApplicationFramework.Controls
     public partial class Balloon
     {
         private readonly Control _control;
-        private readonly bool _placeInCenter;
+        private Path _pathLeft;
+        private Path _pathRight;
+        private Path _pathLeftBottom;
+        private Path _pathRightBottom;
 
-        public static readonly DependencyProperty ShowCloseButtonProperty = DependencyProperty.Register("ShowCloseButton", typeof(bool), typeof(Balloon), new PropertyMetadata(OnShowCloseButtonChanged));
+        public static readonly DependencyProperty CaptionTextProperty = DependencyProperty.Register(
+            "CaptionText", typeof(string), typeof(Balloon), new PropertyMetadata(default(string)));
 
-        public Balloon(Control control, string caption, BalloonType balloonType)
-            : this(control, caption, balloonType, 0)
+        public static readonly DependencyProperty TitleTextProperty = DependencyProperty.Register(
+            "TitleText", typeof(string), typeof(Balloon), new PropertyMetadata(default(string)));
+
+        public static readonly DependencyProperty TitleForegroundProperty = DependencyProperty.Register(
+            "TitleForeground", typeof(Brush), typeof(Balloon), new PropertyMetadata(new SolidColorBrush(Color.FromRgb(00, 33, 99))));
+
+        public static readonly DependencyProperty BalloonTypeProperty = DependencyProperty.Register(
+            "BalloonType", typeof(BalloonType), typeof(Balloon), new PropertyMetadata(default(BalloonType)));
+
+        public BalloonType BalloonType
+        {
+            get => (BalloonType) GetValue(BalloonTypeProperty);
+            set => SetValue(BalloonTypeProperty, value);
+        }
+
+        public Brush TitleForeground
+        {
+            get => (Brush) GetValue(TitleForegroundProperty);
+            set => SetValue(TitleForegroundProperty, value);
+        }
+
+        public string TitleText
+        {
+            get => (string) GetValue(TitleTextProperty);
+            set => SetValue(TitleTextProperty, value);
+        }
+
+        public string CaptionText
+        {
+            get => (string) GetValue(CaptionTextProperty);
+            set => SetValue(CaptionTextProperty, value);
+        }
+
+        public Balloon(Control control, string caption): this(control, caption, null, BalloonType.None)
         {
         }
 
-
-        public Balloon(Control control, string title, string caption, BalloonType balloonType)
-            : this(control, caption, balloonType, 0, 0, false, true, true, title)
+        public Balloon(Control control, string caption, string title, BalloonType balloonType)
+            : this(control, caption, title, balloonType, true)
         {
         }
 
-        public Balloon(Control control, string caption, BalloonType balloonType, bool placeInCenter, bool showCloseButton)
-            : this(control, caption, balloonType, 0, 0, false, placeInCenter, showCloseButton)
+        public Balloon(Control control, string caption, string title, BalloonType balloonType, bool autoWidth)
+            : this(control, caption, title, balloonType, null, autoWidth)
         {
         }
 
-
-        public Balloon(Control control, string title, string caption, BalloonType balloonType, bool placeInCenter, bool showCloseButton)
-            : this(control, caption, balloonType, 0, 0, false, placeInCenter, showCloseButton, title)
-        {
-        }
-
-        public Balloon(Control control, string caption, BalloonType balloonType, double maxHeight = 0, double maxWidth = 0, bool autoWidth = false, 
-            bool placeInCenter = true, bool showCloseButton = true, string title = null)
+        public Balloon(Control control, string caption, string title, BalloonType balloonType, SystemSound sound = null, bool autoWidth = true, double maxHeight = 0, double maxWidth = 0)
         {
             InitializeComponent();
             _control = control;
-            _placeInCenter = placeInCenter;
-            ShowCloseButton = showCloseButton;
             Owner = GetWindow(control);
 
             if (Owner == null)
-                return;
-
-
-            imageClose.Visibility = showCloseButton ? Visibility.Visible : Visibility.Collapsed;
+                throw new ArgumentNullException("There must be at least one Owner-Window");
 
             Owner.Closing += OwnerClosing;
             Owner.LocationChanged += OwnerLocationChanged;
-            control.LayoutUpdated += ControlLayoutChangedChanged;
             control.LostKeyboardFocus += OwnerLocationChanged;
             control.PreviewKeyDown += OwnerLocationChanged;
 
-
-            LinearGradientBrush brush;
-            if (balloonType == BalloonType.Help)
-            {
-                //this.imageType.Source = Properties.Resources.help.ToBitmapImage();
-                brush = FindResource("HelpGradient") as LinearGradientBrush;
-            }
-            else if (balloonType == BalloonType.Information)
-            {
-                //this.imageType.Source = Properties.Resources.Information.ToBitmapImage();
-                brush = FindResource("InfoGradient") as LinearGradientBrush;
-            }
-            else
-            {
-                //this.imageType.Source = Properties.Resources.Warning.ToBitmapImage();
-                brush = FindResource("WarningGradient") as LinearGradientBrush;
-                SystemSounds.Asterisk.Play();
-            }
-
-            borderBalloon.SetValue(BackgroundProperty, brush);
-
-            if (autoWidth)
-            {
+            if (autoWidth) 
                 SizeToContent = SizeToContent.WidthAndHeight;
-            }
-
-            textBlockCaption.Text = caption;
 
             if (maxHeight > 0)
-            {
-                scrollViewerCaption.MaxHeight = maxHeight;
-            }
+                MaxHeight = maxHeight;
 
             if (maxWidth > 0)
-            {
                 MaxWidth = maxWidth;
-            }
 
-            if (!string.IsNullOrWhiteSpace(title))
-            {
-                textBlockTitle.Text = title;
-            }
-            else
-            {
-                textBlockTitle.Visibility = Visibility.Collapsed;
-                lineTitle.Visibility = Visibility.Collapsed;
-            }
+            CaptionText = caption;
+            TitleText = title;
 
+            BalloonType = balloonType;
+            sound?.Play();
+            Loaded += Balloon_Loaded;
+        }
+
+        private void Balloon_Loaded(object sender, RoutedEventArgs e)
+        {
+            Loaded -= Balloon_Loaded;
             CalcPosition();
         }
 
+        public override void OnApplyTemplate()
+        {
+            var pathLeft = GetTemplateChild("PathPointLeft") as Path;
+            if (pathLeft != null)
+                _pathLeft = pathLeft;
+            var pathLeftBottom = GetTemplateChild("PathPointLeftBottom") as Path;
+            if (pathLeftBottom != null)
+                _pathLeftBottom = pathLeftBottom;
+            var pathRight = GetTemplateChild("PathPointRight") as Path;
+            if (pathRight != null)
+                _pathRight = pathRight;
+            var pathRightBottom = GetTemplateChild("PathPointRightBottom") as Path;
+            if (pathRightBottom != null)
+                _pathRightBottom = pathRightBottom;
+            base.OnApplyTemplate();
+        }
 
         protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
         {
             e.Handled = true;
-            Close();
+            InternalClose();
         }
 
-        public bool ShowCloseButton
-        {
-            get => (bool)GetValue(ShowCloseButtonProperty);
-
-            private set => SetValue(ShowCloseButtonProperty, value);
-        }
 
         public bool IsVisibleToUser()
         {
@@ -145,113 +147,108 @@ namespace ModernApplicationFramework.Controls
         {
             if (!IsVisibleToUser())
             {
-                Close();
+                InternalClose();
                 return;
             }
 
-            PresentationSource source = PresentationSource.FromVisual(_control);
+            var source = PresentationSource.FromVisual(_control);
 
             if (source != null)
             {
                 // Position balloon relative to the help image and screen placement
                 // Compensate for the bubble point
-                double captionPointMargin = PathPointLeft.Margin.Left;
+                double captionPointMargin = _pathLeft.Margin.Left;
+                double captionPointMarginBottom = _pathLeftBottom.Margin.Bottom;
 
-                Point location = _control.PointToScreen(new Point(0, 0));
+                var location = _control.PointToScreen(new Point(0, 0));
 
-                double leftPosition;
+                var leftPosition = location.X + _control.ActualWidth / 2 - captionPointMargin;
+                var topPosition = location.Y + _control.ActualHeight / 2 - captionPointMarginBottom;
 
-                if (_placeInCenter)
+
+                double caretAddition = 0;
+                if (_control is System.Windows.Controls.TextBox textbox)
                 {
-                    leftPosition = location.X + (_control.ActualWidth / 2) - captionPointMargin;
+                    var r = textbox.GetRectFromCharacterIndex(textbox.CaretIndex);
+                    caretAddition = r.Left - captionPointMargin;
+                }
+
+                Screen.FindMonitorRectsFromPoint(location, out Rect monitor, out Rect work);
+
+                bool flag = false;
+                if (topPosition < 0 && work.Height + topPosition + Height < work.Height ||
+                    topPosition >= 0 && topPosition + Height < work.Height)
+                {
+                    _pathLeft.Visibility = Visibility.Hidden;
+                    _pathLeftBottom.Visibility = Visibility.Collapsed;
+                    _pathRight.Visibility = Visibility.Hidden;
+                    _pathRightBottom.Visibility = Visibility.Collapsed;
+                    Top = location.Y + _control.ActualHeight * 0.75;
                 }
                 else
                 {
-                    leftPosition = System.Windows.Forms.Control.MousePosition.X - captionPointMargin;
-
-                    if (leftPosition < location.X)
-                    {
-                        leftPosition = location.X;
-                    }
-                    else if (leftPosition > location.X + _control.ActualWidth)
-                    {
-                        leftPosition = location.X + _control.ActualWidth - (captionPointMargin * 2);
-                    }
+                    _pathRight.Visibility = Visibility.Collapsed;
+                    _pathRightBottom.Visibility = Visibility.Hidden;
+                    _pathLeft.Visibility = Visibility.Collapsed;
+                    _pathLeftBottom.Visibility = Visibility.Hidden;
+                    Top = location.Y - _control.ActualHeight * 2 - _control.ActualHeight * 0.75;
+                    flag = true;
                 }
 
-                //System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.FromHandle(new WindowInteropHelper(Owner).Handle);
-
-                var monitorinfo = MonitorInfoFromWindow(new WindowInteropHelper(Owner).Handle);
 
                 // Check if the window is on the secondary screen.
-                if ((leftPosition < 0 && monitorinfo.RcWork.Width + leftPosition + Width < monitorinfo.RcWork.Width) ||
-                    leftPosition >= 0 && leftPosition + Width < monitorinfo.RcWork.Width)
+                if (leftPosition < 0 && work.Width + leftPosition + Width < work.Width ||
+                    leftPosition >= 0 && leftPosition + Width < work.Width)
                 {
-                    PathPointRight.Visibility = Visibility.Hidden;
-                    PathPointLeft.Visibility = Visibility.Visible;
-                    Left = leftPosition;
+                    if (flag)
+                        _pathLeftBottom.Visibility = Visibility.Visible;
+                    else
+                        _pathLeft.Visibility = Visibility.Visible;
+                    Left = leftPosition + caretAddition;
                 }
                 else
                 {
-                    PathPointLeft.Visibility = Visibility.Hidden;
-                    PathPointRight.Visibility = Visibility.Visible;
-                    Left = location.X + (_control.ActualWidth / 2) + captionPointMargin - Width;
+                    if (flag)
+                        _pathRightBottom.Visibility = Visibility.Visible;
+                    else
+                        _pathRight.Visibility = Visibility.Visible;
+                    Left = location.X + _control.ActualWidth / 2 + captionPointMargin - Width + caretAddition;
                 }
-
-                Top = location.Y + (_control.ActualHeight / 2);
             }
-        }
-
-        private static Monitorinfo MonitorInfoFromWindow(IntPtr hWnd)
-        {
-            var hMonitor = User32.MonitorFromWindow(hWnd, 2);
-            var monitorInfo = new Monitorinfo { CbSize = (uint)Marshal.SizeOf(typeof(Monitorinfo)) };
-            User32.GetMonitorInfo(hMonitor, ref monitorInfo);
-            return monitorInfo;
-        }
-
-        private static void OnShowCloseButtonChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            Balloon balloon = (Balloon)d;
-
-            balloon.imageClose.Visibility = balloon.ShowCloseButton ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void OwnerLocationChanged(object sender, EventArgs e)
         {
-            Close();
+            InternalClose();
         }
-
-        private void ControlLayoutChangedChanged(object sender, EventArgs e)
-        {
-            CalcPosition();
-        }    
 
         private void OwnerClosing(object sender, CancelEventArgs e)
         {
-            string name = typeof(Balloon).Name;
+            var name = typeof(Balloon).Name;
 
             foreach (Window window in Application.Current.Windows)
             {
-                string windowType = window.GetType().Name;
+                var windowType = window.GetType().Name;
                 if (windowType.Equals(name))
-                {
                     window.Close();
-                }
             }
         }
 
-
-        private void ImageCloseMouseDown(object sender, MouseButtonEventArgs e)
+        private void InternalClose()
         {
+            Owner.Closing -= OwnerClosing;
+            Owner.LocationChanged -= OwnerLocationChanged;
+            _control.LostKeyboardFocus -= OwnerLocationChanged;
+            _control.PreviewKeyDown -= OwnerLocationChanged;
             Close();
         }
     }
 
     public enum BalloonType
     {
-        Help = 0,
-        Information = 1,
-        Warning = 2
+        None,
+        Error,
+        Info,
+        Warning
     }
 }
