@@ -5,5 +5,5 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mafc="http://modern.framework.com/controls"
              mc:Ignorable="d" d:DesignWidth="300">
-    <mafc:TextBox Text="{Binding Value, StringFormat='{}{0:G7}', TargetNullValue=''}" />
+    <mafc:ModernTextBox Text="{Binding Value, StringFormat='{}{0:G7}', TargetNullValue=''}" />
 </UserControl>

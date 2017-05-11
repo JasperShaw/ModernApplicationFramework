@@ -158,6 +158,21 @@
     <Compile Include="ResultDialogs\ShowDialogResult.cs" />
     <Compile Include="ResultDialogs\ShowToolResult.cs" />
     <Compile Include="ResultDialogs\ShowWindowResult.cs" />
+    <Compile Include="Settings\GeneralSettingsResources.de.Designer.cs">
+      <DependentUpon>GeneralSettingsResources.de.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Settings\GeneralSettingsResources.Designer.cs">
+      <DependentUpon>GeneralSettingsResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Settings\GeneralSettingsResources.en.Designer.cs">
+      <DependentUpon>GeneralSettingsResources.en.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Settings\GeneralWindowItemListSettingsView.xaml.cs">
       <DependentUpon>GeneralWindowItemListSettingsView.xaml</DependentUpon>
     </Compile>
@@ -199,6 +214,18 @@
     <EmbeddedResource Include="Properties\Commands.Resources.en.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Commands.Resources.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\GeneralSettingsResources.de.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>GeneralSettingsResources.de.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\GeneralSettingsResources.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>GeneralSettingsResources.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\GeneralSettingsResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>GeneralSettingsResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

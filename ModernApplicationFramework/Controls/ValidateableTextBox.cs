@@ -1,23 +1,32 @@
 ﻿using System.Globalization;
 using System.Media;
 using System.Windows;
-using System.Windows.Input;
+using ModernApplicationFramework.Controls.Utilities;
+using ModernApplicationFramework.Core.Events;
+using ModernApplicationFramework.Native.Platform.Enums;
+using ModernApplicationFramework.Properties;
 
 namespace ModernApplicationFramework.Controls
 {
-    public abstract class ValidateableTextBox : System.Windows.Controls.TextBox
+    public abstract class ValidateableTextBox : TextBox
     {
         protected abstract bool InternalValidationRule(string s);
 
-        protected override void OnPreviewTextInput(TextCompositionEventArgs e)
+        protected abstract void HandleError();
+
+        protected override void OnPreviewTextChanged(PreviewTextChangedEventArgs e)
         {
+            if (e.Type == TextChangedType.Delete)
+            {
+                base.OnPreviewTextChanged(e);
+                return;
+            }
             if (InternalValidationRule(e.Text))
-                base.OnPreviewTextInput(e);
+                base.OnPreviewTextChanged(e);
             else
             {
                 e.Handled = true;
-                var b = new Balloon(this, "Test", "test", BalloonType.Error, SystemSounds.Asterisk);
-                b.Show();
+                HandleError();
             }
         }
     }
@@ -36,6 +45,12 @@ namespace ModernApplicationFramework.Controls
         protected override bool InternalValidationRule(string s)
         {
             return int.TryParse(s, NumberStyle, CultureInfo.CurrentCulture, out int _);
+        }
+
+        protected override void HandleError()
+        {
+            new BalloonTooltip(this, CommonUI_Resources.Error_NoNumerEntered, CommonUI_Resources.Error_InvalidCharacter,
+                BalloonType.Error, SystemSounds.Asterisk).Show();
         }
     }
 }

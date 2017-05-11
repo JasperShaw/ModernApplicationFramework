@@ -78,10 +78,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\Balloon.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Resources\Icons\SplitScreenVertical.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
@@ -126,6 +122,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\BlueTheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic\BalloonTooltip.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -307,9 +307,10 @@
       <DependentUpon>LanguageSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Basics\Settings\Language\LanguageSettingsViewModel.cs" />
-    <Compile Include="Controls\Balloon.xaml.cs">
-      <DependentUpon>Balloon.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Controls\BalloonTooltip.cs" />
+    <Compile Include="Controls\ModernTextBox.cs" />
+    <Compile Include="Controls\TopmostPopup.cs" />
+    <Compile Include="Controls\Utilities\BalloonType.cs" />
     <Compile Include="Controls\GroupBox.cs" />
     <Compile Include="Controls\Utilities\Extensions.cs" />
     <Compile Include="Basics\SettingsDialog\SettingsCategory.cs" />

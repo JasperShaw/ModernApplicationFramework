@@ -10,11 +10,6 @@ namespace ModernApplicationFramework.Controls
     //http://www.codeproject.com/Articles/234703/WPF-TextBox-with-PreviewTextChanged-event-for-filt
     public class TextBox : System.Windows.Controls.TextBox
     {
-        static TextBox()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(TextBox), new FrameworkPropertyMetadata(typeof(TextBox)));
-        }
-
         public bool PreviewUndoEnabled { get; set; }
 
         public static readonly RoutedEvent PreviewTextChangedEvent =

@@ -117,34 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Category_Edit" xml:space="preserve">
-    <value>Bearbeiten</value>
+  <data name="Error_ItemsListCountNotMatching" xml:space="preserve">
+    <value>Window menu can contain {0} - {1} items.</value>
   </data>
-  <data name="Category_File" xml:space="preserve">
-    <value>Datei</value>
-  </data>
-  <data name="Category_Tools" xml:space="preserve">
-    <value>Extras</value>
-  </data>
-  <data name="Category_View" xml:space="preserve">
-    <value>Ansicht</value>
-  </data>
-  <data name="Category_Window" xml:space="preserve">
-    <value>Fenster</value>
-  </data>
-  <data name="Error_InvalidCharacter" xml:space="preserve">
-    <value>Unzulässiges Zeichen</value>
-  </data>
-  <data name="Error_NoNumerEntered" xml:space="preserve">
-    <value>Sie können hier nur eine Zahl eingeben</value>
-  </data>
-  <data name="OtherContextMenusCategory" xml:space="preserve">
-    <value>Weitere Kontextmenüs</value>
-  </data>
-  <data name="SystemLanguage_Name" xml:space="preserve">
-    <value>Wie Microsoft Windows</value>
-  </data>
-  <data name="ThemeBlue_Name" xml:space="preserve">
-    <value>Blau</value>
+  <data name="WindowItemsTextBox_Text" xml:space="preserve">
+    <value>items shown in _Window menu</value>
   </data>
 </root>

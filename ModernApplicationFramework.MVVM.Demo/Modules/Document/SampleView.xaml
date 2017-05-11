@@ -38,7 +38,7 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <mafc:TextBox mafc:FocusBehavior.FocusFirst="true"/>
+            <mafc:ModernTextBox mafc:FocusBehavior.FocusFirst="true"/>
             <mafc:ComboBox DataSource="{Binding DataSource}" Margin="0,10,0,0">
                 <ComboBox.ItemsSource>
                     <Binding Path="Items"/>

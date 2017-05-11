@@ -3,58 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:validationRules="clr-namespace:ModernApplicationFramework.Core.ValidationRules;assembly=ModernApplicationFramework"
              xmlns:mafc="http://modern.framework.com/controls"
+             xmlns:settings="clr-namespace:ModernApplicationFramework.Extended.Settings"
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="300">
-     
-    <UserControl.Resources>
-        <Style x:Key="{x:Type ToolTip}" TargetType="ToolTip">
-            <Setter Property="OverridesDefaultStyle" Value="true"/>
-            <Setter Property="HasDropShadow" Value="True"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ToolTip">
-                        <Border CornerRadius="7" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="5" BorderThickness="3,3,3,3" >
-                            <Border.Background>
-                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                    <GradientStop Color="#CF181818" Offset="0"/>
-                                    <GradientStop Color="#BE1C1C1C" Offset="1"/>
-                                </LinearGradientBrush>
-                            </Border.Background>
-                            <!--<Border.BorderBrush>
-                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                    <GradientStop Color="#80FFFFFF" Offset="0"/>
-                                    <GradientStop Color="#7FFFFFFF" Offset="1"/>
-                                    <GradientStop Color="#FFFFF18D" Offset="0.344"/>
-                                    <GradientStop Color="#FFFFF4AB" Offset="0.647"/>
-                                </LinearGradientBrush>
-                            </Border.BorderBrush>-->
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="0.1*" />
-                                    <ColumnDefinition Width="0.9*" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                <Image  Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Margin="3" />
-                                <TextBlock FontFamily="Tahoma" Grid.Row="0" Grid.Column="1" FontSize="13" Text="{TemplateBinding Content}" Foreground="#5095D6" />
-                                <TextBlock FontFamily="Tahoma" Grid.Row="1" Grid.Column="1" FontSize="11" Text="To expediate your process please click here" Foreground="#FFFFFFFF" />
-                            </Grid>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </UserControl.Resources>
-    
     
     <StackPanel Orientation="Horizontal" Margin="0,0,0,3">
         <mafc:NumberOnlyTextBox x:Name="TextBox" Width="35" HorizontalAlignment="Left" VerticalContentAlignment="Center" 
-                                NumberStyle="Integer" MaxLength="2" Text="{Binding WindowListItems}" ToolTip="Test">
-        </mafc:NumberOnlyTextBox>
-        <Label Target="{Binding ElementName=TextBox}" Content="_Test Text  für Combobox" VerticalAlignment="Center"/>
+                                NumberStyle="Integer" MaxLength="2" Text="{Binding WindowListItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Target="{Binding ElementName=TextBox}" Content="{x:Static settings:GeneralSettingsResources.WindowItemsTextBox_Text}" VerticalAlignment="Center"/>
     </StackPanel>
 </UserControl>

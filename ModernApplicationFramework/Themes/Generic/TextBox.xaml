@@ -7,7 +7,7 @@
         <ResourceDictionary Source="../../Resources/Icons/StatusError.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style TargetType="{x:Type this:TextBox}">
+    <Style TargetType="{x:Type this:ModernTextBox}">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.TextBoxForeground}}"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
@@ -16,7 +16,7 @@
         <Setter Property="CaretBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.TextBoxForeground}}"></Setter>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type this:TextBox}">
+                <ControlTemplate TargetType="{x:Type this:ModernTextBox}">
                     <Border x:Name="Border" BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.TextBoxBorder}}" BorderThickness="1" 
                             Background="{DynamicResource {x:Static themes:EnvironmentColors.TextBoxBackground}}">
                         <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>

@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
+using System.Globalization;
+using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
-using ModernApplicationFramework.Basics.Settings.General;
 using ModernApplicationFramework.Basics.SettingsDialog;
 using ModernApplicationFramework.Core;
 using ModernApplicationFramework.Interfaces;
@@ -12,9 +13,9 @@ namespace ModernApplicationFramework.Extended.Settings
     public class GeneralWindowItemListSettingsViewModel : ViewModelBase, ISettingsPage
     {
         private readonly EnvironmentGeneralOptions _generalOptions;
-        private int _windowListItems;
+        private string _windowListItems;
         public uint SortOrder => 1;
-        public string Name => GeneralSettingsResources.GeneralSettings_Name;
+        public string Name => Basics.Settings.General.GeneralSettingsResources.GeneralSettings_Name;
         public SettingsCategory Category => SettingsCategories.EnvironmentCategory;
 
 
@@ -22,10 +23,10 @@ namespace ModernApplicationFramework.Extended.Settings
         public GeneralWindowItemListSettingsViewModel(EnvironmentGeneralOptions generalOptions)
         {
             _generalOptions = generalOptions;
-            WindowListItems = generalOptions.WindowListItems;
+            WindowListItems = generalOptions.WindowListItems.ToString();
         }
 
-        public int WindowListItems
+        public string WindowListItems
         {
             get => _windowListItems;
             set
@@ -38,12 +39,28 @@ namespace ModernApplicationFramework.Extended.Settings
 
         public bool Apply()
         {
-            var flag = EnvironmentGeneralOptions.MinFileListCount <= WindowListItems && WindowListItems <= EnvironmentGeneralOptions.MaxFileListCount;
-            if (!flag)
+            if (!PreValidate(out int number))
+            {
+                ShowErrorMessage();
                 return false;
-            _generalOptions.WindowListItems = WindowListItems;
+            }
+            _generalOptions.WindowListItems = number;
             _generalOptions.Save();
             return true;
+        }
+
+        private bool PreValidate(out int number)
+        {
+            if (!int.TryParse(WindowListItems, NumberStyles.Integer, CultureInfo.CurrentCulture, out number))
+                return false;
+            return EnvironmentGeneralOptions.MinFileListCount <= number && number <= EnvironmentGeneralOptions.MaxFileListCount;
+        }
+
+        private void ShowErrorMessage()
+        {
+            IoC.Get<IDialogProvider>().Warn(string.Format(CultureInfo.CurrentCulture,
+                GeneralSettingsResources.Error_ItemsListCountNotMatching, EnvironmentGeneralOptions.MinFileListCount,
+                EnvironmentGeneralOptions.MaxFileListCount));
         }
 
         public bool CanApply()

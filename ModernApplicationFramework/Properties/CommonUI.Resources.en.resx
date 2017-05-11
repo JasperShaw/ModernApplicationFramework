@@ -132,6 +132,12 @@
   <data name="Category_Window" xml:space="preserve">
     <value>Window</value>
   </data>
+  <data name="Error_InvalidCharacter" xml:space="preserve">
+    <value>Illegal Character</value>
+  </data>
+  <data name="Error_NoNumerEntered" xml:space="preserve">
+    <value>You can only enter a number here</value>
+  </data>
   <data name="OtherContextMenusCategory" xml:space="preserve">
     <value>Other Context Menus</value>
   </data>
