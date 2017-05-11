@@ -3,9 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
-             xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
-             mc:Ignorable="d"
+             xmlns:controls="clr-namespace:ModernApplicationFramework.Controls" mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="600" Height="90" Width="250" WindowStyle="None"  ResizeMode="NoResize" ShowInTaskbar="False"
         ShowActivated="False" IsTabStop="False"  OverridesDefaultStyle="False" SizeToContent="Height" AllowsTransparency="True" Background="Transparent">
     

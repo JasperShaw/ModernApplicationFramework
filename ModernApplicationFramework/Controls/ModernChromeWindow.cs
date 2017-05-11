@@ -22,7 +22,6 @@ using DpiHelper = ModernApplicationFramework.Native.DpiHelper;
 using NativeMethods = ModernApplicationFramework.Native.NativeMethods.NativeMethods;
 using Point = System.Windows.Point;
 using RECT = ModernApplicationFramework.Native.Platform.Structs.RECT;
-using Screen = System.Windows.Forms.Screen;
 
 namespace ModernApplicationFramework.Controls
 {
@@ -177,13 +176,13 @@ namespace ModernApplicationFramework.Controls
 
             var interop = new WindowInteropHelper(this);
             interop.EnsureHandle();
-            var sc = Screen.FromHandle(interop.Handle);
-            var bounds = sc.Bounds.ToWpf().TransformFromDevice(this);
 
-            Left = bounds.Left;
-            Top = bounds.Top;
-            Width = bounds.Width;
-            Height = bounds.Height;
+            var monitorinfo = MonitorInfoFromWindow(interop.Handle);
+            var monitor = monitorinfo.RcMonitor;
+            Left = monitor.Left;
+            Top = monitor.Top;
+            Width = monitor.Width;
+            Height = monitor.Height;
         }
 
         private void RestoreToOldScreen()
@@ -592,7 +591,7 @@ namespace ModernApplicationFramework.Controls
                 _logicalSizeForRestore = Rect.Empty;
                 _useLogicalSizeForRestore = false;
             }
-            var deviceUnits = Native.Screen.GetOnScreenPosition(floatRect).LogicalToDeviceUnits();
+            var deviceUnits = Screen.GetOnScreenPosition(floatRect).LogicalToDeviceUnits();
             structure.x = (int) deviceUnits.X;
             structure.y = (int) deviceUnits.Y;
             Marshal.StructureToPtr((object) structure, lParam, true);

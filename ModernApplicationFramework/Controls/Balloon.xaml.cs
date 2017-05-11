@@ -1,11 +1,15 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Media;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using ModernApplicationFramework.Native.NativeMethods;
+using ModernApplicationFramework.Native.Platform.Structs;
+using Point = System.Windows.Point;
 
 namespace ModernApplicationFramework.Controls
 {
@@ -175,11 +179,13 @@ namespace ModernApplicationFramework.Controls
                     }
                 }
 
-                System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.FromHandle(new WindowInteropHelper(Owner).Handle);
+                //System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.FromHandle(new WindowInteropHelper(Owner).Handle);
+
+                var monitorinfo = MonitorInfoFromWindow(new WindowInteropHelper(Owner).Handle);
 
                 // Check if the window is on the secondary screen.
-                if ((leftPosition < 0 && screen.WorkingArea.Width + leftPosition + Width < screen.WorkingArea.Width) ||
-                    leftPosition >= 0 && leftPosition + Width < screen.WorkingArea.Width)
+                if ((leftPosition < 0 && monitorinfo.RcWork.Width + leftPosition + Width < monitorinfo.RcWork.Width) ||
+                    leftPosition >= 0 && leftPosition + Width < monitorinfo.RcWork.Width)
                 {
                     PathPointRight.Visibility = Visibility.Hidden;
                     PathPointLeft.Visibility = Visibility.Visible;
@@ -194,6 +200,14 @@ namespace ModernApplicationFramework.Controls
 
                 Top = location.Y + (_control.ActualHeight / 2);
             }
+        }
+
+        private static Monitorinfo MonitorInfoFromWindow(IntPtr hWnd)
+        {
+            var hMonitor = User32.MonitorFromWindow(hWnd, 2);
+            var monitorInfo = new Monitorinfo { CbSize = (uint)Marshal.SizeOf(typeof(Monitorinfo)) };
+            User32.GetMonitorInfo(hMonitor, ref monitorInfo);
+            return monitorInfo;
         }
 
         private static void OnShowCloseButtonChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
