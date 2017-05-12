@@ -79,6 +79,8 @@ namespace ModernApplicationFramework.Docking.Controls
 
         protected override void OnPreviewLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
         {
+            if (_menuSite == null)
+                return;
             InputManager.Current.PopMenuMode(_menuSite);
             _menuSite = null;
         }
