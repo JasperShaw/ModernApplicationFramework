@@ -23,7 +23,11 @@ namespace ModernApplicationFramework.Extended.Commands
 
         public void Populate(Command command, List<DefinitionBase> commands)
         {
-            for (var i = 0; i < _shell.Documents.Count; i++)
+            var activeFiles = _shell.Documents.Count;
+            var maxFiles = Basics.EnvironmentGeneralOptions.Instance.WindowListItems;
+            var fileCount = activeFiles < maxFiles ? activeFiles : maxFiles;
+
+            for (var i = 0; i < fileCount; i++)
             {
                 var document = _shell.Documents[i];
 
