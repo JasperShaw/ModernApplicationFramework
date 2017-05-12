@@ -1,23 +1,20 @@
 ﻿using System.ComponentModel.Composition;
-using System.Windows;
 using ModernApplicationFramework.Basics.SettingsDialog;
-using ModernApplicationFramework.Core;
 using ModernApplicationFramework.Interfaces;
-using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Basics.Settings.General
 {
     [Export(typeof(ISettingsPage))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class GeneralMainWindowSettingsViewModel : ViewModelBase, ISettingsPage
+    public class GeneralMainWindowSettingsViewModel : AbstractSettingsPage
     {
         private readonly EnvironmentGeneralOptions _generalOptions;
         private bool _showStatusBar;
         private bool _closeAffectsOnlyActive;
         private bool _autoHideAffectsOnlyActive;
-        public uint SortOrder => 3;
-        public string Name => GeneralSettingsResources.GeneralSettings_Name;
-        public SettingsCategory Category => SettingsCategories.EnvironmentCategory;
+        public override uint SortOrder => 3;
+        public override string Name => GeneralSettingsResources.GeneralSettings_Name;
+        public override SettingsCategory Category => SettingsCategories.EnvironmentCategory;
 
         public bool ShowStatusBar
         {
@@ -26,6 +23,7 @@ namespace ModernApplicationFramework.Basics.Settings.General
             {
                 if (_showStatusBar == value)
                     return;
+                DirtyObjectManager.SetData(_showStatusBar, value);
                 _showStatusBar = value;
                 OnPropertyChanged();
             }
@@ -38,6 +36,7 @@ namespace ModernApplicationFramework.Basics.Settings.General
             {
                 if (_closeAffectsOnlyActive == value)
                     return;
+                DirtyObjectManager.SetData(_closeAffectsOnlyActive, value);
                 _closeAffectsOnlyActive = value;
                 OnPropertyChanged();
             }
@@ -50,6 +49,7 @@ namespace ModernApplicationFramework.Basics.Settings.General
             {
                 if (_autoHideAffectsOnlyActive == value)
                     return;
+                DirtyObjectManager.SetData(_autoHideAffectsOnlyActive, value);
                 _autoHideAffectsOnlyActive = value;
                 OnPropertyChanged();
             }
@@ -59,12 +59,12 @@ namespace ModernApplicationFramework.Basics.Settings.General
         public GeneralMainWindowSettingsViewModel(EnvironmentGeneralOptions generalOptions)
         {
             _generalOptions = generalOptions;
-            ShowStatusBar = generalOptions.ShowStatusBar;
-            AutoHideAffectsOnlyActive = generalOptions.DockedWinAuto;
-            CloseAffectsOnlyActive = generalOptions.DockedWinClose;
+            _showStatusBar = generalOptions.ShowStatusBar;
+            _autoHideAffectsOnlyActive = generalOptions.DockedWinAuto;
+            _closeAffectsOnlyActive = generalOptions.DockedWinClose;
         }
 
-        public bool Apply()
+        protected override bool SetData()
         {
             _generalOptions.ShowStatusBar = ShowStatusBar;
             _generalOptions.DockedWinAuto = AutoHideAffectsOnlyActive;
@@ -73,12 +73,12 @@ namespace ModernApplicationFramework.Basics.Settings.General
             return true;
         }
 
-        public bool CanApply()
+        public override bool CanApply()
         {
             return true;
         }
 
-        public void Activate()
+        public override void Activate()
         {
 
         }

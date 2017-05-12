@@ -3,9 +3,9 @@ using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Basics.SettingsDialog.ViewModels
 {
-    public class SettingsPageViewModel
+    public class SettingsPageContainerViewModel
     {
-        public List<SettingsPageViewModel> Children { get; }
+        public List<SettingsPageContainerViewModel> Children { get; }
 
         public List<ISettingsPage> Pages { get; }
 
@@ -13,9 +13,9 @@ namespace ModernApplicationFramework.Basics.SettingsDialog.ViewModels
 
         public SettingsCategory Category { get; set; }
 
-        public SettingsPageViewModel()
+        public SettingsPageContainerViewModel()
         {
-            Children = new List<SettingsPageViewModel>();
+            Children = new List<SettingsPageContainerViewModel>();
             Pages = new List<ISettingsPage>();
         }
     }

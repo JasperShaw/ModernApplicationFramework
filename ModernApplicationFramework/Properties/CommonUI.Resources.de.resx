@@ -138,6 +138,9 @@
   <data name="Error_NoNumerEntered" xml:space="preserve">
     <value>Sie können hier nur eine Zahl eingeben</value>
   </data>
+  <data name="OptionsDialog_Name" xml:space="preserve">
+    <value>Optionen</value>
+  </data>
   <data name="OtherContextMenusCategory" xml:space="preserve">
     <value>Weitere Kontextmenüs</value>
   </data>

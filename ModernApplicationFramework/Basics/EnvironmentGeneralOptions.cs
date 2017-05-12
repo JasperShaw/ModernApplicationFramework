@@ -145,6 +145,7 @@ namespace ModernApplicationFramework.Basics
         public EnvironmentGeneralOptions()
         {
             Instance = this;
+            Load();
         }
 
         public void Load()

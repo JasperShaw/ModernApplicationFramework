@@ -14,8 +14,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         private bool _isChecked;
         private FlagStorage _flagStorage;
 	    private string _name;
+        private bool _acquireFocus;
 
-	    public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public virtual FlagStorage Flags => _flagStorage ?? (_flagStorage = new FlagStorage());
 
@@ -66,6 +67,18 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             {
                 if (value == _isChecked) return;
                 _isChecked = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public virtual bool AcquireFocus
+        {
+            get => _acquireFocus;
+            set
+            {
+                if (value == _acquireFocus)
+                    return;
+                _acquireFocus = value;
                 OnPropertyChanged();
             }
         }

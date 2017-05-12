@@ -2,7 +2,6 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using ModernApplicationFramework.Basics.SettingsDialog;
-using ModernApplicationFramework.Core;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Interfaces;
 
@@ -10,7 +9,7 @@ namespace ModernApplicationFramework.Basics.Settings.General
 {
     [Export(typeof(ISettingsPage))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class GeneralVisualExperienceSettingsViewModel : ViewModelBase, ISettingsPage
+    public class GeneralVisualExperienceSettingsViewModel : AbstractSettingsPage
     {
         private readonly IThemeManager _manager;
         private readonly EnvironmentGeneralOptions _generalOptions;
@@ -22,9 +21,9 @@ namespace ModernApplicationFramework.Basics.Settings.General
         private bool _useRichVisualExperience;
         private string _renderingStatusText;
 
-        uint ISettingsPage.SortOrder => uint.MinValue;
-        string ISettingsPage.Name => GeneralSettingsResources.GeneralSettings_Name;
-        SettingsCategory ISettingsPage.Category => SettingsCategories.EnvironmentCategory;
+        public override uint SortOrder => uint.MinValue;
+        public override string Name => GeneralSettingsResources.GeneralSettings_Name;
+        public override SettingsCategory Category => SettingsCategories.EnvironmentCategory;
 
 
         public IEnumerable<Theme> Themes => _manager.Themes;
@@ -36,6 +35,7 @@ namespace ModernApplicationFramework.Basics.Settings.General
             {
                 if (_selectedTheme != null && value.Equals(_selectedTheme))
                     return;
+                DirtyObjectManager.SetData(_selectedTheme, value);
                 _selectedTheme = value;
                 OnPropertyChanged();
             }
@@ -48,6 +48,7 @@ namespace ModernApplicationFramework.Basics.Settings.General
             {
                 if (_useTitleCaseOnMenu == value)
                     return;
+                DirtyObjectManager.SetData(_useTitleCaseOnMenu, value);
                 _useTitleCaseOnMenu = value;
                 OnPropertyChanged();
             }
@@ -60,6 +61,7 @@ namespace ModernApplicationFramework.Basics.Settings.General
             {
                 if (_autoAdjustExperience == value)
                     return;
+                DirtyObjectManager.SetData(_autoAdjustExperience, value);
                 _autoAdjustExperience = value;
                 OnPropertyChanged();
                 UpdateVisualExperience();
@@ -73,6 +75,7 @@ namespace ModernApplicationFramework.Basics.Settings.General
             {
                 if (_useHardwareAcceleration == value)
                     return;
+                DirtyObjectManager.SetData(_useHardwareAcceleration, value);
                 _useHardwareAcceleration = value;
                 OnPropertyChanged();
             }
@@ -85,6 +88,7 @@ namespace ModernApplicationFramework.Basics.Settings.General
             {
                 if (value == _useRichVisualExperience)
                     return;
+                DirtyObjectManager.SetData(_useRichVisualExperience, value);
                 _useRichVisualExperience = value;
                 OnPropertyChanged();
             }
@@ -97,6 +101,7 @@ namespace ModernApplicationFramework.Basics.Settings.General
             {
                 if (_renderingStatusText == value)
                     return;
+                DirtyObjectManager.SetData(_renderingStatusText, value);
                 _renderingStatusText = value;
                 OnPropertyChanged();
             }
@@ -109,16 +114,27 @@ namespace ModernApplicationFramework.Basics.Settings.General
             _generalOptions = generalOptions;
             _manager = manager;
 
-            SelectedTheme = Themes.FirstOrDefault(x => x.GetType() == _manager.Theme?.GetType());
-            UseTitleCaseOnMenu = _generalOptions.UseTitleCaseOnMenu;
-            AutoAdjustExperience = _generalOptions.AutoAdjustExperience;
-            UseHardwareAcceleration = _generalOptions.UseHardwareAcceleration;
-            UseRichVisualExperience = _generalOptions.UseRichVisualExperience;
+            _selectedTheme = Themes.FirstOrDefault(x => x.GetType() == _manager.Theme?.GetType());
+            _useTitleCaseOnMenu = _generalOptions.UseTitleCaseOnMenu;
+            _autoAdjustExperience = _generalOptions.AutoAdjustExperience;
+            _useHardwareAcceleration = _generalOptions.UseHardwareAcceleration;
+            _useRichVisualExperience = _generalOptions.UseRichVisualExperience;
 
             UpdateStatusText();
         }
 
-        public bool Apply()
+        //public override bool Apply()
+        //{
+        //    _manager.Theme = SelectedTheme;
+        //    _generalOptions.UseTitleCaseOnMenu = UseTitleCaseOnMenu;
+        //    _generalOptions.UseHardwareAcceleration = UseHardwareAcceleration;
+        //    _generalOptions.UseRichVisualExperience = UseRichVisualExperience;
+        //    _generalOptions.AutoAdjustExperience = AutoAdjustExperience;
+        //    _generalOptions.Save();
+        //    return base.Apply();
+        //}
+
+        protected override bool SetData()
         {
             _manager.Theme = SelectedTheme;
             _generalOptions.UseTitleCaseOnMenu = UseTitleCaseOnMenu;
@@ -129,12 +145,12 @@ namespace ModernApplicationFramework.Basics.Settings.General
             return true;
         }
 
-        public bool CanApply()
+        public override bool CanApply()
         {
             return SelectedTheme != null;
         }
 
-        public void Activate()
+        public override void Activate()
         {
             UpdateStatusText();
         }

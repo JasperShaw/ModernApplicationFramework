@@ -5,40 +5,41 @@ using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Properties;
 
 namespace ModernApplicationFramework.Basics.SettingsDialog.ViewModels
 {
     [Export(typeof(SettingsWindowViewModel))]
     public sealed class SettingsWindowViewModel : Screen
     {
-        private SettingsPageViewModel _selectedPage;
+        private SettingsPageContainerViewModel _selectedPageContainer;
         private IEnumerable<ISettingsPage> _settingPages;
 
         public ICommand CancelCommand => new Command(Cancel);
 
         public ICommand OkCommand => new Command(ApplyChanges);
 
-        public List<SettingsPageViewModel> Pages { get; private set; }
+        public List<SettingsPageContainerViewModel> Pages { get; private set; }
 
-        public SettingsPageViewModel SelectedPage
+        public SettingsPageContainerViewModel SelectedPageContainer
         {
-            get => _selectedPage;
+            get => _selectedPageContainer;
             set
             {
-                _selectedPage = value;
+                _selectedPageContainer = value;
                 NotifyOfPropertyChange();
             }
         }
 
         public SettingsWindowViewModel()
         {
-            DisplayName = "Options";
+            DisplayName = CommonUI_Resources.OptionsDialog_Name;
         }
 
         protected override void OnInitialize()
         {
             base.OnInitialize();
-            var pages = new List<SettingsPageViewModel>();
+            var pages = new List<SettingsPageContainerViewModel>();
 
             _settingPages = IoC.GetAll<ISettingsPage>().OrderBy(x => x.SortOrder);
 
@@ -46,7 +47,7 @@ namespace ModernApplicationFramework.Basics.SettingsDialog.ViewModels
             foreach (var settingsCategory in groups)
                 FillRecursive(settingsCategory, pages);
             Pages = pages;
-            SelectedPage = GetFirstLeafPageRecursive(pages);
+            SelectedPageContainer = GetFirstLeafPageRecursive(pages);
         }
 
         protected override void OnActivate()
@@ -59,7 +60,7 @@ namespace ModernApplicationFramework.Basics.SettingsDialog.ViewModels
         }
 
 
-        private static SettingsPageViewModel GetFirstLeafPageRecursive(List<SettingsPageViewModel> pages)
+        private static SettingsPageContainerViewModel GetFirstLeafPageRecursive(List<SettingsPageContainerViewModel> pages)
         {
             if (!pages.Any())
                 return null;
@@ -67,8 +68,8 @@ namespace ModernApplicationFramework.Basics.SettingsDialog.ViewModels
             return !firstPage.Children.Any() ? firstPage : GetFirstLeafPageRecursive(firstPage.Children);
         }
 
-        private static IList<SettingsPageViewModel> GetParentCollection(ISettingsPage settingPage,
-            IList<SettingsPageViewModel> pages)
+        private static IList<SettingsPageContainerViewModel> GetParentCollection(ISettingsPage settingPage,
+            IList<SettingsPageContainerViewModel> pages)
         {
             if (settingPage.Category == null)
                 return pages;
@@ -78,7 +79,7 @@ namespace ModernApplicationFramework.Basics.SettingsDialog.ViewModels
                 var page = pages.FirstOrDefault(s => s.Category == category);
                 if (page == null)
                 {
-                    page = new SettingsPageViewModel { Name = category.Name, Category = category };
+                    page = new SettingsPageContainerViewModel { Name = category.Name, Category = category };
                     page.Pages.Add(settingPage);
                     pages.Add(page);
                 }
@@ -91,7 +92,7 @@ namespace ModernApplicationFramework.Basics.SettingsDialog.ViewModels
             return pages;
         }
 
-        private void FillRecursive(SettingsCategory category, IList<SettingsPageViewModel> pagesList)
+        private void FillRecursive(SettingsCategory category, IList<SettingsPageContainerViewModel> pagesList)
         {
             var subGroups = category.Children.OrderBy(x => x.SortOrder);
 
@@ -107,7 +108,7 @@ namespace ModernApplicationFramework.Basics.SettingsDialog.ViewModels
 
                 if (page == null)
                 {
-                    page = new SettingsPageViewModel
+                    page = new SettingsPageContainerViewModel
                     {
                         Name = settingPage.Name,
                         Category = settingPage.Category
@@ -121,9 +122,6 @@ namespace ModernApplicationFramework.Basics.SettingsDialog.ViewModels
         private void ApplyChanges()
         {
             if (_settingPages.Any(settingPage => !settingPage.CanApply()))
-                return;
-            //var dirtyPages = _settingPages.Where(x => x.IsDirty).ToList();
-            if (!_settingPages.Any())
                 return;
             var close = true;
             foreach (var settingPage in _settingPages)

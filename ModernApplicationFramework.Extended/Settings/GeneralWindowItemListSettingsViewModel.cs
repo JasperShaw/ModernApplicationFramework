@@ -3,20 +3,19 @@ using System.Globalization;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.SettingsDialog;
-using ModernApplicationFramework.Core;
 using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Extended.Settings
 {
     [Export(typeof(ISettingsPage))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class GeneralWindowItemListSettingsViewModel : ViewModelBase, ISettingsPage
+    public class GeneralWindowItemListSettingsViewModel : AbstractSettingsPage
     {
         private readonly EnvironmentGeneralOptions _generalOptions;
         private string _windowListItems;
-        public uint SortOrder => 1;
-        public string Name => Basics.Settings.General.GeneralSettingsResources.GeneralSettings_Name;
-        public SettingsCategory Category => SettingsCategories.EnvironmentCategory;
+        public override uint SortOrder => 1;
+        public override string Name => Basics.Settings.General.GeneralSettingsResources.GeneralSettings_Name;
+        public override SettingsCategory Category => SettingsCategories.EnvironmentCategory;
 
 
         [ImportingConstructor]
@@ -31,13 +30,15 @@ namespace ModernApplicationFramework.Extended.Settings
             get => _windowListItems;
             set
             {
-                if (value == _windowListItems) return;
+                if (value == _windowListItems)
+                    return;
+                DirtyObjectManager.SetData(_windowListItems, value);
                 _windowListItems = value;
                 OnPropertyChanged();
             }
         }
 
-        public bool Apply()
+        protected override bool SetData()
         {
             if (!PreValidate(out int number))
             {
@@ -63,12 +64,12 @@ namespace ModernApplicationFramework.Extended.Settings
                 EnvironmentGeneralOptions.MaxFileListCount));
         }
 
-        public bool CanApply()
+        public override bool CanApply()
         {
             return true;
         }
 
-        public void Activate()
+        public override void Activate()
         {
 
         }

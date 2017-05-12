@@ -3,7 +3,7 @@ using ModernApplicationFramework.Basics.SettingsDialog;
 
 namespace ModernApplicationFramework.Interfaces
 {
-    public interface ISettingsPage : INotifyPropertyChanged
+    public interface ISettingsPage : ICanBeDirty, INotifyPropertyChanged
     {
         uint SortOrder { get; }
         string Name { get; }

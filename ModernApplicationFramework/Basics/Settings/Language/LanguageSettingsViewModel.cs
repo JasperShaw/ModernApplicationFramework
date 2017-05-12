@@ -2,7 +2,6 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using ModernApplicationFramework.Basics.SettingsDialog;
-using ModernApplicationFramework.Core;
 using ModernApplicationFramework.Core.Localization;
 using ModernApplicationFramework.Interfaces;
 
@@ -10,7 +9,7 @@ namespace ModernApplicationFramework.Basics.Settings.Language
 {
     [Export(typeof(ISettingsPage))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class LanguageSettingsViewModel : ViewModelBase, ISettingsPage
+    public class LanguageSettingsViewModel : AbstractSettingsPage
     {
         private LanguageInfo _selectedLanguage;
 
@@ -23,7 +22,7 @@ namespace ModernApplicationFramework.Basics.Settings.Language
             _languageManager = languageManager;
 	        _dialogProvider = dialogProvider;
             Languages = languageManager.GetInstalledLanguages();
-            SelectedLanguage = Languages.FirstOrDefault(x => x.Code.Equals(_languageManager.SavedLanguage.Code));
+            _selectedLanguage = Languages.FirstOrDefault(x => x.Code.Equals(_languageManager.SavedLanguage.Code));
         }
 
 
@@ -36,31 +35,30 @@ namespace ModernApplicationFramework.Basics.Settings.Language
             {
                 if (_selectedLanguage == value)
                     return;
+                DirtyObjectManager.SetData(_selectedLanguage, value);
                 _selectedLanguage = value;
                 OnPropertyChanged();            
             }
         }
 
 
-        public uint SortOrder => 7;
-        public string Name => LanguageSettingsResources.LanguageSettings_Name;
-        public SettingsCategory Category => SettingsCategories.EnvironmentCategory;
+        public override uint SortOrder => 7;
+        public override string Name => LanguageSettingsResources.LanguageSettings_Name;
+        public override SettingsCategory Category => SettingsCategories.EnvironmentCategory;
 
-	    public bool Apply()
-	    {
-	        if (_languageManager.SavedLanguage.Code == SelectedLanguage.Code)
-	            return true;
-		    _languageManager.SaveLanguage(SelectedLanguage);
-		    _dialogProvider.Warn(LanguageSettingsResources.LanguageChangedWarning);
-	        return true;
-	    }
+        protected override bool SetData()
+        {
+            _languageManager.SaveLanguage(SelectedLanguage);
+            _dialogProvider.Warn(LanguageSettingsResources.LanguageChangedWarning);
+            return true;
+        }
 
-	    public bool CanApply()
+        public override bool CanApply()
         {
             return SelectedLanguage != null;
         }
 
-        public void Activate()
+        public override void Activate()
         {
             
         }

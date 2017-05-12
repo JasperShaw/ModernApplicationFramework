@@ -256,8 +256,10 @@
     <Compile Include="Basics\CustomizeDialog\ViewModels\AddCommandDialogViewModel.cs" />
     <Compile Include="Basics\CustomizeDialog\ViewModels\CommandsPageViewModel.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarItemDefinitionT.cs" />
+    <Compile Include="Basics\DirtyObjectManager.cs" />
     <Compile Include="Basics\EnvironmentGeneralOptions.cs" />
     <Compile Include="Basics\EnvironmentRenderCapabilities.cs" />
+    <Compile Include="Basics\SettingsDialog\AbstractSettingsPage.cs" />
     <Compile Include="Basics\Settings\General\GeneralMainWindowSettingsViewModel.cs" />
     <Compile Include="Basics\Settings\General\GeneralSettingsResources.de.Designer.cs">
       <DependentUpon>GeneralSettingsResources.de.resx</DependentUpon>
@@ -348,6 +350,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Interfaces\ICanBeDirty.cs" />
     <Compile Include="Interfaces\ViewModels\IAddCommandDialogViewModel.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarMenuControllerDefinition.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarSplitItemDefinition.cs" />
@@ -404,7 +407,7 @@
     <Compile Include="Basics\Definitions\Menu\MenuBarDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuDefinition.cs" />
     <Compile Include="Basics\Definitions\Toolbar\ToolbarDefinition.cs" />
-    <Compile Include="Basics\SettingsDialog\ViewModels\SettingsPageViewModel.cs" />
+    <Compile Include="Basics\SettingsDialog\ViewModels\SettingsPageContainerViewModel.cs" />
     <Compile Include="Basics\SettingsDialog\ViewModels\SettingsWindowViewModel.cs" />
     <Compile Include="Basics\SettingsDialog\Views\SettingsWindowView.xaml.cs">
       <DependentUpon>SettingsWindowView.xaml</DependentUpon>
