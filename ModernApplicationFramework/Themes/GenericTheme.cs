@@ -6,6 +6,7 @@ namespace ModernApplicationFramework.Themes
     public class GenericTheme : Theme
     {
         public override string Name => "Generic";
+        public override string Text => "Generic";
 
         public override Uri GetResourceUri()
         {

@@ -1,16 +1,17 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls.Primitives;
+using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
-using ModernApplicationFramework.Themes;
 
 namespace ModernApplicationFramework.Extended.DockingMainWindow.ViewModels
 {
@@ -342,7 +343,7 @@ namespace ModernApplicationFramework.Extended.DockingMainWindow.ViewModels
             window.Activated += _mainWindow_Activated;
             window.Deactivated += _mainWindow_Deactivated;
 
-            _themeManager.Theme = !string.IsNullOrEmpty(_themeManager.StartUpTheme?.Name) ? _themeManager.StartUpTheme : new GenericTheme();  
+            _themeManager.Theme = !string.IsNullOrEmpty(_themeManager.StartUpTheme?.Name) ? _themeManager.StartUpTheme : IoC.GetAll<Theme>().First();  
 
             _commandKeyGestureService.BindKeyGesture((UIElement) view);
         }

@@ -8,7 +8,8 @@ namespace ModernApplicationFramework.Themes
     [Export(typeof(Theme))]
     public class BlueTheme : Theme
     {
-        public override string Name => CommonUI_Resources.ThemeBlue_Name;
+        public override string Name => "Blue";
+        public override string Text => CommonUI_Resources.ThemeBlue_Name;
 
         public override Uri GetResourceUri()
         {

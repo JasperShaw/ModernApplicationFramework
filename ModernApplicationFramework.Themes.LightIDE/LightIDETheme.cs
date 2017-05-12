@@ -8,6 +8,7 @@ namespace ModernApplicationFramework.Themes.LightIDE
     public class LightTheme : Theme
     {
         public override string Name => "Light";
+        public override string Text => "Light";
 
         public override Uri GetResourceUri()
         {

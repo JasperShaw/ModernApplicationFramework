@@ -8,6 +8,7 @@ namespace ModernApplicationFramework.Themes.DarkIDE
     public class DarkTheme : Theme
     {
         public override string Name => "Dark";
+        public override string Text => "Dark";
 
         public override Uri GetResourceUri()
         {
