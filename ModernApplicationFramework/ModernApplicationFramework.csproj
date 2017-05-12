@@ -332,6 +332,7 @@
     <Compile Include="Core\Converters\StringUppercaseConverter.cs" />
     <Compile Include="Core\DialogProiver\DialogProvider.cs" />
     <Compile Include="Core\ValidationRules\PositiveIntegerValidationRule.cs" />
+    <Compile Include="Docking\CommandDefinitions\AutoHideAllWindowsCommandDefinition.cs" />
     <Compile Include="Interfaces\IDialogProvider.cs" />
     <Compile Include="Core\Localization\LanguageInfo.cs" />
     <Compile Include="Core\Localization\LanguageManager.cs" />

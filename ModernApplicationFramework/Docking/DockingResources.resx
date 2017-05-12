@@ -123,32 +123,35 @@
   <data name="AnchorableContextMenu_Name" xml:space="preserve">
     <value>Docked Window</value>
   </data>
+  <data name="AutoHideAllWindowsCommandDefinition_Text" xml:space="preserve">
+    <value>A&amp;uto Hide All</value>
+  </data>
   <data name="AutoHideWindowCommandDefinition_Text" xml:space="preserve">
-    <value>Auto Hide</value>
+    <value>&amp;Auto Hide</value>
   </data>
   <data name="CloseAllButThisDockedWindowCommandDefinition_Text" xml:space="preserve">
     <value>Close All But This</value>
   </data>
   <data name="CloseAllDockedWindowCommandDefinition_Text" xml:space="preserve">
-    <value>Close All Documents</value>
+    <value>C&amp;lose All Documents</value>
   </data>
   <data name="CloseDockedWindowCommandDefinition_Text" xml:space="preserve">
     <value>Close</value>
   </data>
   <data name="DockAsTabbedDocumentCommandDefinition_Text" xml:space="preserve">
-    <value>Dock as Tabbed Document</value>
+    <value>Dock as &amp;Tabbed Document</value>
   </data>
   <data name="DockWindowCommandDefinition_Text" xml:space="preserve">
-    <value>Dock</value>
+    <value>Doc&amp;k</value>
   </data>
   <data name="DocumentContextMenu_Name" xml:space="preserve">
     <value>Easy MDI Document Window</value>
   </data>
   <data name="FloatDockedWindowCommandDefinition_Text" xml:space="preserve">
-    <value>Float</value>
+    <value>&amp;Float</value>
   </data>
   <data name="HideDockedWindowCommandDefinition_Text" xml:space="preserve">
-    <value>Hide</value>
+    <value>&amp;Hide</value>
   </data>
   <data name="MoveAllToNextTabGroupCommandDefinition_Text" xml:space="preserve">
     <value>Move All to Next Tab Group</value>
@@ -157,15 +160,15 @@
     <value>Move All to Previous Tab Group</value>
   </data>
   <data name="MoveToNextTabGroupCommandDefinition_Text" xml:space="preserve">
-    <value>Move to Next Tab Group</value>
+    <value>Move to Ne&amp;xt Tab Group</value>
   </data>
   <data name="MoveToPreviousTabGroupCommandDefinition_Text" xml:space="preserve">
-    <value>Move to Previous Tab Group</value>
+    <value>Move to P&amp;revious Tab Group</value>
   </data>
   <data name="NewHorizontalTabGroupCommandDefinition_Text" xml:space="preserve">
-    <value>New Horizontal Tab Group</value>
+    <value>New Hori&amp;zontal Tab Group</value>
   </data>
   <data name="NewVerticalTabGroupCommandDefinition_Text" xml:space="preserve">
-    <value>New Vertical Tab Group</value>
+    <value>New &amp;Vertical Tab Group</value>
   </data>
 </root>

@@ -34,7 +34,10 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
             if (dc == null)
                 return false;
             var di = DockingManager.Instace?.GetLayoutItemFromModel(dc);
-            return di?.LayoutElement?.FindParent<LayoutAnchorableFloatingWindow>() == null;
+
+            if (di?.LayoutElement.FindParent<LayoutFloatingWindow>() == null)
+                return true;
+            return false;
         }
 
         private void FloatDockedWindow()

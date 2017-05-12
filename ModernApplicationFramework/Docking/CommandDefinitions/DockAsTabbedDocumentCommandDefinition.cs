@@ -35,7 +35,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
                 return false;
 
             var di = DockingManager.Instace.GetLayoutItemFromModel(dc);
-            return di?.LayoutElement != null && di.LayoutElement.FindParent<LayoutDocumentPane>() == null;
+            return di?.LayoutElement != null && di.LayoutElement.FindParent<LayoutAnchorablePane>() != null;
         }
 
         private void DockAsTabbedDocument()

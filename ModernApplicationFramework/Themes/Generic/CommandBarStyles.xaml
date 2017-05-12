@@ -10,12 +10,12 @@
                     xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals"
                     xmlns:native="clr-namespace:ModernApplicationFramework.Native"
                     xmlns:customize="clr-namespace:ModernApplicationFramework.Core.Converters.Customize"
-                    xmlns:properties="clr-namespace:ModernApplicationFramework.Properties"
                     xmlns:commandBar="clr-namespace:ModernApplicationFramework.Basics.CommandBar"
                     xmlns:basics="clr-namespace:ModernApplicationFramework.Basics">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ComboBox.xaml"/>
+        <ResourceDictionary Source="ContextMenu.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <Geometry x:Key="DownArrowGeometry">M 0 0 L 3 3 L 6 0 Z</Geometry>
@@ -26,6 +26,7 @@
     <converters:BrushToColorConverter x:Key="BrushToColorConverter"/>
     <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
     <accessKey:AccessKeyConverter x:Key="AccessKeyConverter"/>
+    <accessKey:AccessKeyUnderliningConverter x:Key="AccessKeyUnderliningConverter"/>
     <converters:ToolTipMultiConverter x:Key="ToolTipMultiConverter"/>
     <general:NotNullConverter x:Key="NotNullConverter"/>
     <converters:CommandBarItemCommandConverter x:Key="CommandBarItemCommandConverter"/>
@@ -2467,7 +2468,7 @@
            TargetType="{x:Type this:MenuItem}"/>
     <Style x:Key="{x:Static this:ContextMenu.ButtonStyleKey}" BasedOn="{StaticResource {x:Static this:MenuItem.ButtonStyleKey}}"
            TargetType="{x:Type this:MenuItem}"/>
-    <Style x:Key="{x:Static this:ContextMenu.MenuStyleKey}" BasedOn="{StaticResource {x:Static this:MenuItem.MenuStyleKey}}"
+        <Style x:Key="{x:Static this:ContextMenu.MenuStyleKey}" BasedOn="{StaticResource {x:Static this:MenuItem.MenuStyleKey}}"
            TargetType="{x:Type this:MenuItem}"/>
     <Style x:Key="{x:Static this:ContextMenu.SeparatorStyleKey}" BasedOn="{StaticResource {x:Static this:MenuItem.SeparatorStyleKey}}"
            TargetType="{x:Type this:MenuItem}"/>

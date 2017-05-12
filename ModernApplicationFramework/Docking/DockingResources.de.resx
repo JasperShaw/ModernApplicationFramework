@@ -123,32 +123,35 @@
   <data name="AnchorableContextMenu_Name" xml:space="preserve">
     <value>Angedocktes Fenster</value>
   </data>
+  <data name="AutoHideAllWindowsCommandDefinition_Text" xml:space="preserve">
+    <value>Alle auto&amp;matisch ausblenden</value>
+  </data>
   <data name="AutoHideWindowCommandDefinition_Text" xml:space="preserve">
-    <value>Automatisch im Hintergrund</value>
+    <value>Automatisch im &amp;Hintergrund</value>
   </data>
   <data name="CloseAllButThisDockedWindowCommandDefinition_Text" xml:space="preserve">
     <value>Alle außer diesem schließen</value>
   </data>
   <data name="CloseAllDockedWindowCommandDefinition_Text" xml:space="preserve">
-    <value>Alle Dokumente schließen</value>
+    <value>Alle Dokumente &amp;schließen</value>
   </data>
   <data name="CloseDockedWindowCommandDefinition_Text" xml:space="preserve">
     <value>Schließen</value>
   </data>
   <data name="DockAsTabbedDocumentCommandDefinition_Text" xml:space="preserve">
-    <value>Als Dokument im Registerkartenformat andocken</value>
+    <value>Als &amp;Dokument im Registerkartenformat andocken</value>
   </data>
   <data name="DockWindowCommandDefinition_Text" xml:space="preserve">
-    <value>Andocken</value>
+    <value>A&amp;ndocken</value>
   </data>
   <data name="DocumentContextMenu_Name" xml:space="preserve">
     <value>Einfaches MDI-Dokumentenfenster</value>
   </data>
   <data name="FloatDockedWindowCommandDefinition_Text" xml:space="preserve">
-    <value>Verankerung aufheben</value>
+    <value>Ver&amp;ankerung aufheben</value>
   </data>
   <data name="HideDockedWindowCommandDefinition_Text" xml:space="preserve">
-    <value>Ausblenden</value>
+    <value>&amp;Ausblenden</value>
   </data>
   <data name="MoveAllToNextTabGroupCommandDefinition_Text" xml:space="preserve">
     <value>Alle in nächste Registerkartengruppe verschieben</value>
@@ -157,15 +160,15 @@
     <value>Alle in vorherige Registerkartengruppe verschieben</value>
   </data>
   <data name="MoveToNextTabGroupCommandDefinition_Text" xml:space="preserve">
-    <value>Zur nächsten Registerkartengruppe wechseln</value>
+    <value>Zur &amp;nächsten Registerkartengruppe wechseln</value>
   </data>
   <data name="MoveToPreviousTabGroupCommandDefinition_Text" xml:space="preserve">
-    <value>Zur vorherigen Registerkartengruppe wechseln</value>
+    <value>Zur &amp;vorherigen Registerkartengruppe wechseln</value>
   </data>
   <data name="NewHorizontalTabGroupCommandDefinition_Text" xml:space="preserve">
-    <value>Neue horizontale Registerkartengruppe</value>
+    <value>Neue hori&amp;zontale Registerkartengruppe</value>
   </data>
   <data name="NewVerticalTabGroupCommandDefinition_Text" xml:space="preserve">
-    <value>Neue vertikale Registerkartengruppe</value>
+    <value>&amp;Neue vertikale Registerkartengruppe</value>
   </data>
 </root>
