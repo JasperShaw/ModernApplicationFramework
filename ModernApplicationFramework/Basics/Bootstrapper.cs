@@ -23,7 +23,6 @@ namespace ModernApplicationFramework.Basics
 			PreInitialize();
             Initialize();
 	        SetLanguage();
-	        SetEnvironment();
         }
 
 	    internal IList<Assembly> PriorityAssemblies => _priorityAssemblies;
@@ -31,13 +30,6 @@ namespace ModernApplicationFramework.Basics
 	    protected virtual void PreInitialize()
 	    {
 		    
-	    }
-
-
-	    protected void SetEnvironment()
-	    {
-		    var eo = Container.GetExportedValue<EnvironmentGeneralOptions>();
-			eo.Load();;
 	    }
 
 		protected void SetLanguage()

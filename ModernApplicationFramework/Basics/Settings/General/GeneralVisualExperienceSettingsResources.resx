@@ -121,7 +121,7 @@
     <value>_Automatically adjust visual experience based on client performance</value>
   </data>
   <data name="AutoAdjustVisualExperienceStatus" xml:space="preserve">
-    <value>The visual experience settings automatically change based on system capabilities.</value>
+    <value> The visual experience settings automatically change based on system capabilities.</value>
   </data>
   <data name="ColorThemeCombo_Label" xml:space="preserve">
     <value>&amp;Color theme:</value>

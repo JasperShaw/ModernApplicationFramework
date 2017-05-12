@@ -134,7 +134,7 @@ namespace ModernApplicationFramework.Basics.Settings.General
             return SelectedTheme != null;
         }
 
-        public void Load()
+        public void Activate()
         {
             UpdateStatusText();
         }

@@ -1,8 +1,9 @@
-﻿using ModernApplicationFramework.Basics.SettingsDialog;
+﻿using System.ComponentModel;
+using ModernApplicationFramework.Basics.SettingsDialog;
 
 namespace ModernApplicationFramework.Interfaces
 {
-    public interface ISettingsPage
+    public interface ISettingsPage : INotifyPropertyChanged
     {
         uint SortOrder { get; }
         string Name { get; }
@@ -15,6 +16,6 @@ namespace ModernApplicationFramework.Interfaces
         /// Usually gets called when the Hosting Dialog Window gets active. It should reload/set data in the SettingsPage.
         /// This can be performence relevant, so only insert code that really needs to be reloaded manually.
         /// </summary>
-        void Load();
+        void Activate();
     }
 }

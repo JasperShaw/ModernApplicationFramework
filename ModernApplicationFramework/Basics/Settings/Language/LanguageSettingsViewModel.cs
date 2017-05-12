@@ -60,7 +60,7 @@ namespace ModernApplicationFramework.Basics.Settings.Language
             return SelectedLanguage != null;
         }
 
-        public void Load()
+        public void Activate()
         {
             
         }

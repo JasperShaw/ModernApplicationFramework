@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -10,9 +11,6 @@ using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Basics
 {
-    /// <summary>
-    ///     This contains the Logic for the MainWindow
-    /// </summary>
     public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     {
         protected bool MainWindowInitialized;

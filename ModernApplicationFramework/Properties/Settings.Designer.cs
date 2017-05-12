@@ -98,12 +98,60 @@ namespace ModernApplicationFramework.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("10")]
-        public int WindowListItems {
+        public int WindowMenuContainsNItems {
             get {
-                return ((int)(this["WindowListItems"]));
+                return ((int)(this["WindowMenuContainsNItems"]));
             }
             set {
-                this["WindowListItems"] = value;
+                this["WindowMenuContainsNItems"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowStatusBar {
+            get {
+                return ((bool)(this["ShowStatusBar"]));
+            }
+            set {
+                this["ShowStatusBar"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool CloseButtonActiveTabOnly {
+            get {
+                return ((bool)(this["CloseButtonActiveTabOnly"]));
+            }
+            set {
+                this["CloseButtonActiveTabOnly"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AutohidePinActiveTabOnly {
+            get {
+                return ((bool)(this["AutohidePinActiveTabOnly"]));
+            }
+            set {
+                this["AutohidePinActiveTabOnly"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int MRUListContainsNItems {
+            get {
+                return ((int)(this["MRUListContainsNItems"]));
+            }
+            set {
+                this["MRUListContainsNItems"] = value;
             }
         }
     }

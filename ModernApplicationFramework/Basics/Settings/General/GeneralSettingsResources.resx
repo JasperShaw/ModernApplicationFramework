@@ -117,7 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AutoHideAffectsOnlyActiveCheckBox_Text" xml:space="preserve">
+    <value>Auto Hide button affects active tool window only</value>
+  </data>
+  <data name="CloseAffectsOnlyActiveCheckBox_Text" xml:space="preserve">
+    <value>Close button affects active tool window only</value>
+  </data>
   <data name="GeneralSettings_Name" xml:space="preserve">
     <value>General</value>
+  </data>
+  <data name="UseStatusBarCheckBox_Text" xml:space="preserve">
+    <value>Show status bar</value>
   </data>
 </root>

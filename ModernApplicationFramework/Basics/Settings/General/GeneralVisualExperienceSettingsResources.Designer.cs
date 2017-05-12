@@ -71,7 +71,7 @@ namespace ModernApplicationFramework.Basics.Settings.General {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The visual experience settings automatically change based on system capabilities. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die  The visual experience settings automatically change based on system capabilities. ähnelt.
         /// </summary>
         public static string AutoAdjustVisualExperienceStatus {
             get {

@@ -30,6 +30,7 @@ using System.Windows.Interop;
 using System.Windows.Markup;
 using System.Windows.Threading;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
@@ -1139,9 +1140,17 @@ namespace ModernApplicationFramework.Docking
 
         internal void _ExecuteHideCommand(LayoutAnchorable anchorable)
         {
-            var model = anchorable;
-            //by default hide the anchorable
-            model?.Hide();
+
+            if (EnvironmentGeneralOptions.Instance.DockedWinClose)
+                anchorable?.Hide();
+            else
+            {
+                var pane = anchorable.Parent as LayoutAnchorablePane;
+                if (pane == null)
+                    return;
+                foreach (var child in pane.Children.ToList())
+                    child?.Hide();
+            }
 
             foreach (var layoutContent in _lastLayoutContentElements)
             {

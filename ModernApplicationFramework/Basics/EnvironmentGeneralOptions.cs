@@ -1,8 +1,10 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using ModernApplicationFramework.Annotations;
+using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Basics
 {
@@ -13,12 +15,15 @@ namespace ModernApplicationFramework.Basics
         public const int MinMruListCount = 1;
         public const int MaxMruListCount = 24;
 
-
         private bool _useTitleCaseOnMenu;
         private bool _autoAdjustExperience;
         private bool _useHardwareAcceleration;
         private bool _useRichVisualExperience;
         private int _windowListItems;
+        private bool _showStatusBar;
+        private bool _dockedWinClose;
+        private bool _dockedWinAuto;
+        private int _mruListItems;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public static EnvironmentGeneralOptions Instance { get; private set; }
@@ -89,6 +94,53 @@ namespace ModernApplicationFramework.Basics
             }
         }
 
+        public int MRUListItems
+        {
+            get => _mruListItems;
+            set
+            {
+                if (value == _mruListItems) return;
+                _mruListItems = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool ShowStatusBar
+        {
+            get => _showStatusBar;
+            set
+            {
+
+                _showStatusBar = value;
+                OnPropertyChanged();
+                if (Application.Current.MainWindow?.DataContext is IMainWindowViewModel mainWindowViewModel)
+                    mainWindowViewModel.UseStatusBar = value;
+            }
+        }
+
+        public bool DockedWinClose
+        {
+            get => _dockedWinClose;
+            set
+            {
+                if (value == _dockedWinClose)
+                    return;
+                _dockedWinClose = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool DockedWinAuto
+        {
+            get => _dockedWinAuto;
+            set
+            {
+                if (value == _dockedWinAuto)
+                    return;
+                _dockedWinAuto = value;
+                OnPropertyChanged();
+            }
+        }
 
         public EnvironmentGeneralOptions()
         {
@@ -97,7 +149,11 @@ namespace ModernApplicationFramework.Basics
 
         public void Load()
         {
-            WindowListItems = Properties.Settings.Default.WindowListItems;
+            ShowStatusBar = Properties.Settings.Default.ShowStatusBar;
+            WindowListItems = Properties.Settings.Default.WindowMenuContainsNItems;
+            MRUListItems = Properties.Settings.Default.MRUListContainsNItems;
+            DockedWinAuto = Properties.Settings.Default.AutohidePinActiveTabOnly;
+            DockedWinClose = Properties.Settings.Default.CloseButtonActiveTabOnly;
             UseTitleCaseOnMenu = Properties.Settings.Default.UseTitleCaseOnMenu;
             UseHardwareAcceleration = Properties.Settings.Default.UseHardwareAcceleration;
             UseRichVisualExperience = Properties.Settings.Default.UseRichVisualExperience;
@@ -112,7 +168,11 @@ namespace ModernApplicationFramework.Basics
             Properties.Settings.Default.UseHardwareAcceleration = UseHardwareAcceleration;
             Properties.Settings.Default.UseRichVisualExperience = UseRichVisualExperience;
 
-            Properties.Settings.Default.WindowListItems = WindowListItems;
+            Properties.Settings.Default.WindowMenuContainsNItems = WindowListItems;
+            Properties.Settings.Default.MRUListContainsNItems = MRUListItems;
+            Properties.Settings.Default.AutohidePinActiveTabOnly = DockedWinAuto;
+            Properties.Settings.Default.CloseButtonActiveTabOnly = DockedWinClose;
+            Properties.Settings.Default.ShowStatusBar = ShowStatusBar;
             Properties.Settings.Default.Save();
         }
 

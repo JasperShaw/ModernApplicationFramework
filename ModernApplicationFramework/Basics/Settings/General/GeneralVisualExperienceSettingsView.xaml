@@ -24,7 +24,7 @@
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal">
                     <Label Padding="5,5,55,5" Target="{Binding ElementName=ThemeCombo}">_Color theme:</Label>
-                    <ComboBox x:Name="ThemeCombo" ItemsSource="{Binding Themes}" SelectedItem="{Binding SelectedTheme}" Width="175">
+                    <ComboBox x:Name="ThemeCombo" ItemsSource="{Binding Themes}" SelectedItem="{Binding SelectedTheme, Mode=TwoWay}" Width="175">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Name}" />
@@ -35,12 +35,12 @@
                 <CheckBox Content="{x:Static general1:GeneralVisualExperienceSettingsResources.UseTitleCaseMenuCheckBox_Text}" Margin="0,5,0,0" 
                           IsChecked="{Binding UseTitleCaseOnMenu, Mode=TwoWay}" Style="{StaticResource FormsCheckBoxStyle}"/>
                 <CheckBox x:Name="AutoAdjustCheckBox" Content="{x:Static general1:GeneralVisualExperienceSettingsResources.AutoAdjustVisualExperienceCheckBox_Text}" Margin="0,5,0,0"
-                          Style="{StaticResource FormsCheckBoxStyle}" IsChecked="{Binding AutoAdjustExperience}"/>
+                          Style="{StaticResource FormsCheckBoxStyle}" IsChecked="{Binding AutoAdjustExperience, Mode=TwoWay}"/>
                 <CheckBox Content="{x:Static general1:GeneralVisualExperienceSettingsResources.RichClientVisualExperienceCheckBox_Text}" Margin="25,5,0,0" 
-                          Style="{StaticResource FormsCheckBoxStyle}" IsChecked="{Binding UseRichVisualExperience}"
+                          Style="{StaticResource FormsCheckBoxStyle}" IsChecked="{Binding UseRichVisualExperience, Mode=TwoWay}"
                           IsEnabled="{Binding ElementName=AutoAdjustCheckBox, Path=IsChecked, Converter={StaticResource InverseBoolConverter}}"/>
                 <CheckBox Content="{x:Static general1:GeneralVisualExperienceSettingsResources.UseHardwareAccelerationCheckBox_Text}" Margin="25,5,0,0"
-                          Style="{StaticResource FormsCheckBoxStyle}" IsChecked="{Binding UseHardwareAcceleration}">
+                          Style="{StaticResource FormsCheckBoxStyle}" IsChecked="{Binding UseHardwareAcceleration, Mode=TwoWay}">
                     <CheckBox.IsEnabled>
                         <MultiBinding Converter="{StaticResource AndBooleanConverter}">
                             <Binding ElementName="AutoAdjustCheckBox" Path="IsChecked" Converter="{StaticResource InverseBoolConverter}"/>

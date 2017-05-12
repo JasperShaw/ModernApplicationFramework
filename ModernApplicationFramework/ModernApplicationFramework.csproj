@@ -70,6 +70,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Basics\Settings\General\GeneralMainWindowSettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Basics\Settings\General\GeneralVisualExperienceSettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -254,6 +258,7 @@
     <Compile Include="Basics\Definitions\CommandBar\CommandBarItemDefinitionT.cs" />
     <Compile Include="Basics\EnvironmentGeneralOptions.cs" />
     <Compile Include="Basics\EnvironmentRenderCapabilities.cs" />
+    <Compile Include="Basics\Settings\General\GeneralMainWindowSettingsViewModel.cs" />
     <Compile Include="Basics\Settings\General\GeneralSettingsResources.de.Designer.cs">
       <DependentUpon>GeneralSettingsResources.de.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -278,6 +283,9 @@
       <DependentUpon>GeneralVisualExperienceSettingsResources.en.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Basics\Settings\General\GeneralMainWindowSettingsView.xaml.cs">
+      <DependentUpon>GeneralMainWindowSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Basics\Settings\General\GeneralVisualExperienceSettingsView.xaml.cs">
       <DependentUpon>GeneralVisualExperienceSettingsView.xaml</DependentUpon>

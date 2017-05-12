@@ -61,11 +61,38 @@ namespace ModernApplicationFramework.Basics.Settings.General {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Auto Hide button affects active tool window only ähnelt.
+        /// </summary>
+        public static string AutoHideAffectsOnlyActiveCheckBox_Text {
+            get {
+                return ResourceManager.GetString("AutoHideAffectsOnlyActiveCheckBox_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Close button affects active tool window only ähnelt.
+        /// </summary>
+        public static string CloseAffectsOnlyActiveCheckBox_Text {
+            get {
+                return ResourceManager.GetString("CloseAffectsOnlyActiveCheckBox_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die General ähnelt.
         /// </summary>
         public static string GeneralSettings_Name {
             get {
                 return ResourceManager.GetString("GeneralSettings_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Show status bar ähnelt.
+        /// </summary>
+        public static string UseStatusBarCheckBox_Text {
+            get {
+                return ResourceManager.GetString("UseStatusBarCheckBox_Text", resourceCulture);
             }
         }
     }

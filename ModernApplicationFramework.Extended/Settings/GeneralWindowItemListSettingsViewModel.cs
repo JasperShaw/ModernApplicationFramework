@@ -68,7 +68,7 @@ namespace ModernApplicationFramework.Extended.Settings
             return true;
         }
 
-        public void Load()
+        public void Activate()
         {
 
         }

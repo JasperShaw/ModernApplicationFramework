@@ -21,6 +21,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml.Serialization;
+using ModernApplicationFramework.Basics;
 
 namespace ModernApplicationFramework.Docking.Layout
 {
@@ -463,8 +464,11 @@ namespace ModernApplicationFramework.Docking.Layout
 
                 ((ILayoutPreviousContainer) newAnchorGroup).PreviousContainer = parentPane;
 
-                foreach (var anchorableToImport in parentPane.Children.ToArray())
-                    newAnchorGroup.Children.Add(anchorableToImport);
+                if (EnvironmentGeneralOptions.Instance.DockedWinAuto)
+                    newAnchorGroup.Children.Add(parentPane.Children[parentPane.SelectedContentIndex]);
+                else
+                    foreach (var anchorableToImport in parentPane.Children.ToArray())
+                        newAnchorGroup.Children.Add(anchorableToImport);
 
                 //detect anchor side for the pane
                 var anchorSide = parentPane.GetSide();

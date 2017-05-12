@@ -121,7 +121,7 @@
     <value>Visuelle Darstellung automatisch basierend auf der Clientleistung an_passen</value>
   </data>
   <data name="AutoAdjustVisualExperienceStatus" xml:space="preserve">
-    <value>Die Einstellungen für die visuelle Darstellung werden je nach Systemausstattung automatisch angepasst.</value>
+    <value> Die Einstellungen für die visuelle Darstellung werden je nach Systemausstattung automatisch angepasst.</value>
   </data>
   <data name="ColorThemeCombo_Label" xml:space="preserve">
     <value>Farbsc_hema:</value>
