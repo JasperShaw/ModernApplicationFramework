@@ -168,10 +168,6 @@ namespace ModernApplicationFramework.Docking
             DependencyProperty.Register("DocumentsSource", typeof (IEnumerable), typeof (DockingManager),
                 new FrameworkPropertyMetadata(null, OnDocumentsSourceChanged));
 
-        public static readonly DependencyProperty DocumentContextMenuProperty =
-            DependencyProperty.Register("DocumentContextMenu", typeof (ContextMenu), typeof (DockingManager),
-                new FrameworkPropertyMetadata((ContextMenu) null));
-
         public static readonly DependencyProperty AnchorablesSourceProperty =
             DependencyProperty.Register("AnchorablesSource", typeof (IEnumerable), typeof (DockingManager),
                 new FrameworkPropertyMetadata(null,
@@ -180,14 +176,6 @@ namespace ModernApplicationFramework.Docking
         public static readonly DependencyProperty ActiveContentProperty =
             DependencyProperty.Register("ActiveContent", typeof (object), typeof (DockingManager),
                 new FrameworkPropertyMetadata(null, OnActiveContentChanged));
-
-        public static readonly DependencyProperty AnchorableContextMenuProperty =
-            DependencyProperty.Register("AnchorableContextMenu", typeof (ContextMenu), typeof (DockingManager),
-                new FrameworkPropertyMetadata((ContextMenu) null));
-
-        public static readonly DependencyProperty AnchorableAsDocumentContextMenuProperty =
-            DependencyProperty.Register("AnchorableAsDocumentContextMenu", typeof(ContextMenu), typeof(DockingManager),
-                new FrameworkPropertyMetadata((ContextMenu)null));
 
         public static readonly DependencyProperty GridSplitterHeightProperty =
             DependencyProperty.Register("GridSplitterHeight", typeof (double), typeof (DockingManager),
@@ -280,6 +268,7 @@ namespace ModernApplicationFramework.Docking
         private bool _suspendLayoutItemCreation;
 
         private readonly LinkedList<LayoutContent> _lastLayoutContentElements = new LinkedList<LayoutContent>();
+        private readonly IContextMenuHost _contextMenuHost;
 
 
         public DockingManager()
@@ -294,11 +283,7 @@ namespace ModernApplicationFramework.Docking
             themeManager.OnThemeChanged += ThemeManager_OnThemeChanged;
 
 
-            var contextMenuHost = IoC.Get<IContextMenuHost>();
-            AnchorableContextMenu = contextMenuHost.GetContextMenu(AnchorableContextMenuDefinition.AnchorableContextMenu);
-            AnchorableAsDocumentContextMenu = contextMenuHost.GetContextMenu(AnchorableAsDocumentContextMenuDefinition.AnchorableAsDocumentContextMenu);
-            DocumentContextMenu = contextMenuHost.GetContextMenu(DocumentContextMenuDefinition.DocumentContextMenu);
-
+            _contextMenuHost = IoC.Get<IContextMenuHost>();
             Instace = this;
         }
 
@@ -452,17 +437,10 @@ namespace ModernApplicationFramework.Docking
             set => SetValue(AllowMixedOrientationProperty, value);
         }
 
-        public ContextMenu AnchorableContextMenu
-        {
-            get => (ContextMenu) GetValue(AnchorableContextMenuProperty);
-            set => SetValue(AnchorableContextMenuProperty, value);
-        }
+        public ContextMenu AnchorableContextMenu => _contextMenuHost.GetContextMenu(AnchorableContextMenuDefinition.AnchorableContextMenu);
 
-        public ContextMenu AnchorableAsDocumentContextMenu
-        {
-            get => (ContextMenu)GetValue(AnchorableAsDocumentContextMenuProperty);
-            set => SetValue(AnchorableAsDocumentContextMenuProperty, value);
-        }
+
+        public ContextMenu AnchorableAsDocumentContextMenu => _contextMenuHost.GetContextMenu(AnchorableAsDocumentContextMenuDefinition.AnchorableAsDocumentContextMenu);
 
         public DataTemplate AnchorableHeaderTemplate
         {
@@ -551,11 +529,7 @@ namespace ModernApplicationFramework.Docking
             [ExcludeFromCodeCoverage] set { SetValue(CanCloseAllButThisProperty, value); }
         }
 
-        public ContextMenu DocumentContextMenu
-        {
-            get => (ContextMenu) GetValue(DocumentContextMenuProperty);
-            set => SetValue(DocumentContextMenuProperty, value);
-        }
+        public ContextMenu DocumentContextMenu => _contextMenuHost.GetContextMenu(DocumentContextMenuDefinition.DocumentContextMenu);
 
         public DataTemplate DocumentHeaderTemplate
         {

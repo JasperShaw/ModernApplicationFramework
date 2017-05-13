@@ -9,6 +9,12 @@ namespace ModernApplicationFramework.Interfaces.Utilities
 
         void CreateRecursive<T>(ref T itemsControl, CommandBarDefinitionBase itemDefinition) where T : ItemsControl;
 
-        IEnumerable<CommandBarItemDefinition> GetSingleSubDefinitions(CommandBarDefinitionBase contextMenuDefinition);
+        IEnumerable<CommandBarItemDefinition> GetSingleSubDefinitions(CommandBarDefinitionBase contextMenuDefinition, CommandBarCreationOptions options);
+    }
+
+    public enum CommandBarCreationOptions
+    {
+        DisplaySeparatorsInAnyCase,
+        DisplaySeparatorsOnlyIfGroupNotEmpty
     }
 }

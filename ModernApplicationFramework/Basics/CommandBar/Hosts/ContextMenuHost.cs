@@ -50,9 +50,10 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
         public ContextMenu GetContextMenu(Definitions.ContextMenu.ContextMenuDefinition contextMenuDefinition)
         {
-            if (!_hostedContextMenus.TryGetValue(contextMenuDefinition, out ContextMenu contextMenu))
+            if (!_hostedContextMenus.ContainsKey(contextMenuDefinition))
                 throw new ArgumentException(contextMenuDefinition.Text);
-            return contextMenu;
+            Build(contextMenuDefinition);
+            return _hostedContextMenus[contextMenuDefinition];
         }
     }
 }

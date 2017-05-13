@@ -333,6 +333,8 @@
     <Compile Include="Core\DialogProiver\DialogProvider.cs" />
     <Compile Include="Core\ValidationRules\PositiveIntegerValidationRule.cs" />
     <Compile Include="Docking\CommandDefinitions\AutoHideAllWindowsCommandDefinition.cs" />
+    <Compile Include="Docking\ContextMenuProviders\AnchorableContextMenuProvider.cs" />
+    <Compile Include="Interfaces\IContextMenuProvider.cs" />
     <Compile Include="Interfaces\IDialogProvider.cs" />
     <Compile Include="Core\Localization\LanguageInfo.cs" />
     <Compile Include="Core\Localization\LanguageManager.cs" />
@@ -455,7 +457,7 @@
     <Compile Include="Core\Converters\Customize\IsCustomMenuConverter.cs" />
     <Compile Include="Core\Converters\Customize\IsNotSeparatorModelConverter.cs" />
     <Compile Include="Core\Converters\Customize\IsSeparatorOrCustomizableModelConverter.cs" />
-    <Compile Include="Core\Converters\ModelIsAnchorableToBoolConverter.cs" />
+    <Compile Include="Docking\ContextMenuProviders\DocumentTabModelContextMenuProvider.cs" />
     <Compile Include="Core\Converters\MultiCommandToVisibilityConverter.cs" />
     <Compile Include="Core\Converters\General\MultiValueConverterBase.cs" />
     <Compile Include="Core\Converters\General\NegateBooleanConverter.cs" />

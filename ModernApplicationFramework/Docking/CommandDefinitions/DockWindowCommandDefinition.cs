@@ -37,7 +37,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
             var di = DockingManager.Instace?.GetLayoutItemFromModel(dc);
 
             return di?.LayoutElement?.FindParent<LayoutFloatingWindow>() != null ||
-
+                   di?.LayoutElement?.FindParent<LayoutDocumentPane>() != null && di.LayoutElement is LayoutAnchorable || 
                    di?.LayoutElement is LayoutAnchorable layoutItem && layoutItem.IsAutoHidden;
         }
 

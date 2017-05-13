@@ -4,15 +4,15 @@
                     xmlns:avalonDock="clr-namespace:ModernApplicationFramework.Docking"
 					xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
-                    xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters">
+                    xmlns:contextMenuProviders="clr-namespace:ModernApplicationFramework.Docking.ContextMenuProviders">
 
-    <converters:DocumentTabModelToContextMenuConverter x:Key="DocumentTabModelToContextMenuConverter"/>
+    <contextMenuProviders:DocumentTabModelContextMenuProvider x:Key="DocumentTabModelToContextMenuConverter"/>
 
     <Style TargetType="{x:Type avalonDockControls:LayoutDocumentTabItem}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type avalonDockControls:LayoutDocumentTabItem}">
-                    <avalonDockControls:DropDownControlArea DropDownContextMenu="{Binding Converter={StaticResource DocumentTabModelToContextMenuConverter}}">
+                    <avalonDockControls:DropDownControlArea ContextMenuProvider="{StaticResource DocumentTabModelToContextMenuConverter}">
                         <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
                                 BorderThickness="{TemplateBinding BorderThickness}" Padding="0,2,0,0">
                             <Grid>

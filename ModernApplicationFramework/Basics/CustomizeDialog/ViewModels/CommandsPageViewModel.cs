@@ -15,7 +15,6 @@ using ModernApplicationFramework.Core.Converters.Customize;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
-using ModernApplicationFramework.Properties;
 
 namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 {
@@ -216,17 +215,17 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             if ((value & CustomizeRadioButtonOptions.Menu) != 0)
             {
                 var menuCreator = IoC.Get<IMainMenuCreator>();
-                Items = menuCreator.GetSingleSubDefinitions(SelectedMenuItem);
+                Items = menuCreator.GetSingleSubDefinitions(SelectedMenuItem, CommandBarCreationOptions.DisplaySeparatorsInAnyCase);
             }
             if ((value & CustomizeRadioButtonOptions.Toolbar) != 0)
             {
                 var toolbarCreator = IoC.Get<IToolbarCreator>();
-                Items = toolbarCreator.GetSingleSubDefinitions(SelectedToolBarItem);
+                Items = toolbarCreator.GetSingleSubDefinitions(SelectedToolBarItem, CommandBarCreationOptions.DisplaySeparatorsInAnyCase);
             }
             if ((value & CustomizeRadioButtonOptions.ContextMenu) != 0)
             {
                 var contextMenuCreator = IoC.Get<IContextMenuCreator>();
-                Items = contextMenuCreator.GetSingleSubDefinitions(SelectedContextMenuItem);
+                Items = contextMenuCreator.GetSingleSubDefinitions(SelectedContextMenuItem, CommandBarCreationOptions.DisplaySeparatorsInAnyCase);
             }
         }
 

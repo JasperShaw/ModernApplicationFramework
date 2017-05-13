@@ -3,7 +3,8 @@
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Docking.Converters"
                     xmlns:avalonDockControls="clr-namespace:ModernApplicationFramework.Docking.Controls"
                     xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
-					xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes">
+					xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
+					xmlns:contextMenuProviders="clr-namespace:ModernApplicationFramework.Docking.ContextMenuProviders">
     
      <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"/>
@@ -12,13 +13,13 @@
     <converters:NullToDoNothingConverter x:Key="NullToDoNothingConverter"/>
     <converters:LayoutItemFromLayoutModelConverter x:Key="LayoutItemFromLayoutModelConverter"/>
     <converters:ActivateCommandLayoutItemFromLayoutModelConverter x:Key="ActivateCommandLayoutItemFromLayoutModelConverter"/>
+    <contextMenuProviders:AnchorableContextMenuProvider x:Key="AnchorableContextMenuProvider"/>
     
     <Style TargetType="avalonDockControls:AnchorablePaneTitle">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <avalonDockControls:DropDownControlArea
-                        DropDownContextMenu="{Binding Model.Root.Manager.AnchorableContextMenu, RelativeSource={RelativeSource TemplatedParent}}">
+                    <avalonDockControls:DropDownControlArea ContextMenuProvider="{StaticResource AnchorableContextMenuProvider}">
                         <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}" Padding="2">

@@ -14,9 +14,12 @@
 
   **********************************************************************/
 
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
+using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
@@ -25,6 +28,15 @@ namespace ModernApplicationFramework.Docking.Controls
         public static readonly DependencyProperty DropDownContextMenuProperty =
             DependencyProperty.Register("DropDownContextMenu", typeof (ContextMenu), typeof (DropDownControlArea),
                 new FrameworkPropertyMetadata((ContextMenu) null));
+
+        public static readonly DependencyProperty ContextMenuProviderProperty = DependencyProperty.Register(
+            "ContextMenuProvider", typeof(IContextMenuProvider), typeof(DropDownControlArea), new PropertyMetadata(default(IValueConverter)));
+
+        public IContextMenuProvider ContextMenuProvider
+        {
+            get => (IContextMenuProvider) GetValue(ContextMenuProviderProperty);
+            set => SetValue(ContextMenuProviderProperty, value);
+        }
 
         public ContextMenu DropDownContextMenu
         {
@@ -38,11 +50,24 @@ namespace ModernApplicationFramework.Docking.Controls
 
             if (e.Handled)
                 return;
-            if (DropDownContextMenu == null)
+
+            ContextMenu contextMenu;
+
+            if (DropDownContextMenu != null)
+                contextMenu = DropDownContextMenu;
+            else
+            {
+                if (ContextMenuProvider == null)
+                    return;
+                contextMenu = ContextMenuProvider.Provide(DataContext);
+            }
+
+            if (contextMenu == null)
                 return;
-            DropDownContextMenu.PlacementTarget = null;
-            DropDownContextMenu.Placement = PlacementMode.MousePoint;
-            DropDownContextMenu.IsOpen = true;
+
+            contextMenu.PlacementTarget = null;
+            contextMenu.Placement = PlacementMode.MousePoint;
+            contextMenu.IsOpen = true;
         }
     }
 }
