@@ -91,9 +91,11 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                 .ToList();
 
             var veryFirstItem = true;
+            uint newGroupSortOrder = 0;
             for (var i = 0; i < groups.Count; i++)
             {
                 var group = groups[i];
+                group.SortOrder = newGroupSortOrder++;
                 var menuItems = group.Items
                     .Where(x => !DefinitionHost.ExcludedItemDefinitions.Contains(x))
                     .OrderBy(x => x.SortOrder);

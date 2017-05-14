@@ -25,7 +25,7 @@ namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
                 DocumentCloseContextMenuGroup, 2);
 
         [Export] public static CommandBarGroupDefinition DocumentFloatContextMenuGroup =
-            new CommandBarGroupDefinition(DocumentContextMenu, 2);
+            new CommandBarGroupDefinition(DocumentContextMenu, 1);
 
         [Export] public static CommandBarItemDefinition FloatCommandItemDefinition =
             new CommandBarCommandItemDefinition<FloatDockedWindowCommandDefinition>(DocumentFloatContextMenuGroup, 1);
