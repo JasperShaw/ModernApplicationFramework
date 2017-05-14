@@ -696,7 +696,7 @@
     <Compile Include="Docking\Controls\DocumentPaneGroupDropTarget.cs" />
     <Compile Include="Docking\Controls\DocumentPaneTabPanel.cs" />
     <Compile Include="Docking\Controls\DragService.cs" />
-    <Compile Include="Docking\Controls\DragUndockHeader.cs" />
+    <Compile Include="Docking\Controls\FloatingWindowTitleBar.cs" />
     <Compile Include="Docking\Controls\DropArea.cs" />
     <Compile Include="Docking\Controls\DropDownButton.cs" />
     <Compile Include="Docking\Controls\DropDownControlArea.cs" />

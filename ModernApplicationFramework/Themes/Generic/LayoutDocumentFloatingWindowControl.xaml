@@ -45,7 +45,7 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <avalonDockControls:DragUndockHeader x:Name="FloatingWindowTitleBar" Grid.Row="0" Grid.Column="0" 
+                            <avalonDockControls:FloatingWindowTitleBar x:Name="FloatingWindowTitleBar" Grid.Row="0" Grid.Column="0" IsWindowTitleBar="True"
 																 Background="{DynamicResource {x:Static themes:EnvironmentColors.FloatingWindowTitleBarBackground}}">
 								<DockPanel>
 									<controls:SystemMenu x:Name="PART_SystemMenu" Width="32" Height="27" Margin="0,0,12,4" HorizontalAlignment="Left"
@@ -85,7 +85,7 @@
                                                TextTrimming="CharacterEllipsis" Foreground="{DynamicResource {x:Static themes:EnvironmentColors.FloatingWindowTitleBarForegroundActive}}"
                                                Text="{Binding Path=MainWindow.Title, Source={x:Static Application.Current}}"/>
 								</DockPanel>
-							</avalonDockControls:DragUndockHeader>
+							</avalonDockControls:FloatingWindowTitleBar>
                             <ContentPresenter Content="{TemplateBinding Content}" Grid.Row="1" Margin="4"/>
                         </Grid>
                     </internals:WindowContentPresenter>

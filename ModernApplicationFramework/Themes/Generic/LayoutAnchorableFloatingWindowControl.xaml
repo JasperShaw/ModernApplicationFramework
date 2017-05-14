@@ -45,8 +45,8 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <avalonDockControls:DragUndockHeader x:Name="TitleBar" Background="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarBackground}}" 
-                                                                 Grid.Row="0" Padding="2,1,2,3"
+                            <avalonDockControls:FloatingWindowTitleBar x:Name="TitleBar" Background="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarBackground}}" 
+                                                                 Grid.Row="0" Padding="2,1,2,3" IsWindowTitleBar="False"
                                                                  Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <DockPanel>
                                     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
@@ -102,8 +102,8 @@
                                                Fill="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowGrip}}">
                                     </Rectangle>
                                 </DockPanel>
-                            </avalonDockControls:DragUndockHeader>
-                            <avalonDockControls:DragUndockHeader x:Name="TitleBarL" Background="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarBackground}}" 
+                            </avalonDockControls:FloatingWindowTitleBar>
+                            <avalonDockControls:FloatingWindowTitleBar x:Name="TitleBarL" Background="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarBackground}}" IsWindowTitleBar="True"
                                                                  Grid.Row="0" Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InverseBoolToVisibilityConverter}}">
 
                                 <DockPanel>
@@ -150,7 +150,7 @@
                                 </DockPanel>
                                 
                                 
-                            </avalonDockControls:DragUndockHeader>
+                            </avalonDockControls:FloatingWindowTitleBar>
                             <ContentPresenter Grid.Row="1"/>
                         </Grid>
                     </internals:WindowContentPresenter>

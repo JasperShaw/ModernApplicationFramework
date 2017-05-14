@@ -145,14 +145,14 @@ namespace ModernApplicationFramework.Native.NativeMethods
             return User32.GetKeyState(vKey) < 0;
         }
 
-        private static int HiWord(int value)
+        internal static int HiWord(int value)
         {
             return (short) (value >> 16);
         }
 
-        private static int LoWord(int value)
+        internal static int LoWord(int value)
         {
-            return (short) (value & UInt16.MaxValue);
+            return (short) (value & ushort.MaxValue);
         }
 
         internal static IntPtr MakeParam(int lowWord, int highWord)

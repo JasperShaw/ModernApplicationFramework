@@ -20,7 +20,6 @@ namespace ModernApplicationFramework.Controls
             return new PointHitTestResult(this, hitTestParameters.HitPoint);
         }
 
-        //Not Needed anymore since WindowChrome is Doing the Job now
         protected override void OnContextMenuOpening(ContextMenuEventArgs e)
         {
             if (e.Handled)

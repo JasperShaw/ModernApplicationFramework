@@ -323,7 +323,12 @@ namespace ModernApplicationFramework.Docking.Controls
         protected override bool UpdateClipRegionCore(IntPtr hWnd, int showCmd, ClipRegionChangeType changeType,
             Int32Rect currentBounds)
         {
-            return false;
+            if (base.UpdateClipRegionCore(hWnd, showCmd, changeType, currentBounds))
+                return true;
+            if (changeType != ClipRegionChangeType.FromUndockSingleTab)
+                return false;
+            SetRoundRect(hWnd, currentBounds.Width, currentBounds.Height);
+            return true;
         }
 
         internal void AttachDrag(bool onActivated = true)

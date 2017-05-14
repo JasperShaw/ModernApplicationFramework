@@ -26,7 +26,6 @@ using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Docking.Converters;
 using ModernApplicationFramework.Docking.Layout;
-using ModernApplicationFramework.Native.Platform.Enums;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
@@ -122,29 +121,22 @@ namespace ModernApplicationFramework.Docking.Controls
             set => SetValue(SingleContentLayoutItemProperty, value);
         }
 
-        protected override IntPtr FilterMessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
-        {
-            switch (msg)
-            {
-                case (int)WindowsMessage.WmNclbuttondown: //Left button down on title -> start dragging over docking manager
-                    if (wParam.ToInt32() == (int) HitTestValues.Htcaption)
-                    {
-                        _model.Descendents()
-                            .OfType<LayoutAnchorablePane>()
-                            .First(p => p.ChildrenCount > 0 && p.SelectedContent != null)
-                            .SelectedContent.IsActive = true;
-                        handled = true;
-                    }
-                    break;
-            }
-            return base.FilterMessage(hwnd, msg, wParam, lParam, ref handled);
-        }
-
         protected override void RedockWindow()
         {
            var list = _model.Descendents().OfType<LayoutAnchorablePane>().ToList();
             foreach (var layoutAnchorablePane in list)
                 layoutAnchorablePane?.SelectedContent.Dock();
+        }
+
+        protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
+        {
+            base.OnPreviewMouseDown(e);
+            if (e.Handled)
+                return;
+            _model.Descendents()
+                .OfType<LayoutAnchorablePane>()
+                .First(p => p.ChildrenCount > 0 && p.SelectedContent != null)
+                .SelectedContent.IsActive = true;
         }
 
         protected override void OnClosed(EventArgs e)
