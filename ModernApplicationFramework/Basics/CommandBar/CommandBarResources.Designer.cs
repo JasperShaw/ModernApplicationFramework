@@ -88,7 +88,7 @@ namespace ModernApplicationFramework.Basics.CommandBar {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Customize... ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Customize... ähnelt.
         /// </summary>
         public static string ToolBarCustomizeButton {
             get {
@@ -97,7 +97,7 @@ namespace ModernApplicationFramework.Basics.CommandBar {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Add or Remove Buttons ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Add or Remove Buttons ähnelt.
         /// </summary>
         public static string ToolBarQuickCustomizeText {
             get {
@@ -106,7 +106,7 @@ namespace ModernApplicationFramework.Basics.CommandBar {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Reset Toolbar ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Reset Toolbar ähnelt.
         /// </summary>
         public static string ToolBarResetButton {
             get {

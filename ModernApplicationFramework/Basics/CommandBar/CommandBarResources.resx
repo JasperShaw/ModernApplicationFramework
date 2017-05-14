@@ -121,13 +121,13 @@
     <value>{0} (custom)</value>
   </data>
   <data name="ToolBarCustomizeButton" xml:space="preserve">
-    <value>&amp;Customize...</value>
+    <value>_Customize...</value>
   </data>
   <data name="ToolBarQuickCustomizeText" xml:space="preserve">
-    <value>&amp;Add or Remove Buttons</value>
+    <value>_Add or Remove Buttons</value>
   </data>
   <data name="ToolBarResetButton" xml:space="preserve">
-    <value>&amp;Reset Toolbar</value>
+    <value>_Reset Toolbar</value>
   </data>
   <data name="ToolbarsContextMenu_Name" xml:space="preserve">
     <value>Toolbar List</value>

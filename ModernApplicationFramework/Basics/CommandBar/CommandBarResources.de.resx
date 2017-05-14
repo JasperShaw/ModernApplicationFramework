@@ -121,13 +121,13 @@
     <value>{0} (benutzerdefiniert)</value>
   </data>
   <data name="ToolBarCustomizeButton" xml:space="preserve">
-    <value>&amp;Anpassen...</value>
+    <value>_Anpassen...</value>
   </data>
   <data name="ToolBarQuickCustomizeText" xml:space="preserve">
-    <value>Sch&amp;altflächen hinzufügen oder entfernen</value>
+    <value>Sch_altflächen hinzufügen oder entfernen</value>
   </data>
   <data name="ToolBarResetButton" xml:space="preserve">
-    <value>&amp; zurücksetzen</value>
+    <value>_zurücksetzen</value>
   </data>
   <data name="ToolbarsContextMenu_Name" xml:space="preserve">
     <value>Symbolleistenliste</value>
