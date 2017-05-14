@@ -32,6 +32,12 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         private IEnumerable<CommandBarDefinitionBase> _customizableToolBars;
         private IEnumerable<CommandBarDefinitionBase> _customizableMenuBars;
         private IEnumerable<CommandBarDefinitionBase> _customizableContextMenus;
+        private readonly IMainMenuCreator _menuCreator;
+        private readonly IToolbarCreator _toolbarCreator;
+        private readonly IContextMenuCreator _contextMenuCreator;
+        private readonly IMenuHostViewModel _menuHost;
+        private readonly IToolBarHostViewModel _toolbarHost;
+        private readonly IContextMenuHost _contextMenuHost;
 
         public ICommand HandleAddCommand => new Command(HandleCommandAdd);
         public ICommand HandleDeleteCommand => new Command(HandleCommandDelete);
@@ -156,18 +162,22 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         [ImportingConstructor]
         public CommandsPageViewModel()
         {
+
+            _menuCreator = IoC.Get<IMainMenuCreator>();
+            _toolbarCreator = IoC.Get<IToolbarCreator>();
+            _contextMenuCreator = IoC.Get<IContextMenuCreator>();
+            _menuHost = IoC.Get<IMenuHostViewModel>();
+            _toolbarHost = IoC.Get<IToolBarHostViewModel>();
+            _contextMenuHost = IoC.Get<IContextMenuHost>();
+
             DisplayName = Customize_Resources.CustomizeDialog_Commands;
-
             Items = new List<CommandBarItemDefinition>();
-
             BuildCheckBoxItems(CustomizeRadioButtonOptions.All);
-
             SelectedMenuItem = CustomizableMenuBars.FirstOrDefault();
             SelectedToolBarItem = CustomizableToolBars.FirstOrDefault();
             SelectedContextMenuItem = CustomizableContextMenus.FirstOrDefault();
 
             SelectedOption = CustomizeRadioButtonOptions.Menu;
-
             BuildItemSources(SelectedOption);
         }
 
@@ -198,35 +208,23 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         {
             if ((value & CustomizeRadioButtonOptions.Menu) != 0)
                 CustomizableMenuBars =
-                    new ObservableCollection<CommandBarDefinitionBase>(IoC.Get<IMenuHostViewModel>()
-                        .GetMenuHeaderItemDefinitions());
+                    new ObservableCollection<CommandBarDefinitionBase>(_menuHost.GetMenuHeaderItemDefinitions());
             if ((value & CustomizeRadioButtonOptions.Toolbar) != 0)
                 CustomizableToolBars =
-                    new ObservableCollection<CommandBarDefinitionBase>(IoC.Get<IToolBarHostViewModel>()
-                        .GetMenuHeaderItemDefinitions());
+                    new ObservableCollection<CommandBarDefinitionBase>(_toolbarHost.GetMenuHeaderItemDefinitions());
             if ((value & CustomizeRadioButtonOptions.ContextMenu) != 0)
                 CustomizableContextMenus =
-                    new ObservableCollection<CommandBarDefinitionBase>(IoC.Get<IContextMenuHost>()
-                        .GetMenuHeaderItemDefinitions());
+                    new ObservableCollection<CommandBarDefinitionBase>(_contextMenuHost.GetMenuHeaderItemDefinitions());
         }
 
         private void BuildItemSources(CustomizeRadioButtonOptions value)
         {
-            if ((value & CustomizeRadioButtonOptions.Menu) != 0)
-            {
-                var menuCreator = IoC.Get<IMainMenuCreator>();
-                Items = menuCreator.GetSingleSubDefinitions(SelectedMenuItem, CommandBarCreationOptions.DisplaySeparatorsInAnyCase);
-            }
+            if ((value & CustomizeRadioButtonOptions.Menu) != 0)     
+                Items = _menuCreator.GetSingleSubDefinitions(SelectedMenuItem, CommandBarCreationOptions.DisplaySeparatorsInAnyCase);
             if ((value & CustomizeRadioButtonOptions.Toolbar) != 0)
-            {
-                var toolbarCreator = IoC.Get<IToolbarCreator>();
-                Items = toolbarCreator.GetSingleSubDefinitions(SelectedToolBarItem, CommandBarCreationOptions.DisplaySeparatorsInAnyCase);
-            }
+                Items = _toolbarCreator.GetSingleSubDefinitions(SelectedToolBarItem, CommandBarCreationOptions.DisplaySeparatorsInAnyCase);
             if ((value & CustomizeRadioButtonOptions.ContextMenu) != 0)
-            {
-                var contextMenuCreator = IoC.Get<IContextMenuCreator>();
-                Items = contextMenuCreator.GetSingleSubDefinitions(SelectedContextMenuItem, CommandBarCreationOptions.DisplaySeparatorsInAnyCase);
-            }
+                Items = _contextMenuCreator.GetSingleSubDefinitions(SelectedContextMenuItem, CommandBarCreationOptions.DisplaySeparatorsInAnyCase);
         }
 
         private void HandleCommandAdd()
@@ -247,7 +245,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         {
             if (!(value is bool))
                 return;
-            GetModelAndParent(out ICommandBarHost model, out CommandBarDefinitionBase _);
+            GetModelAndParent(out ICommandBarHost model, out CommandBarDefinitionBase parent);
 
             var nextSelectedItem = SelectedListBoxDefinition;
 
@@ -260,6 +258,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             BuildItemSources(SelectedOption);
             BuildCheckBoxItems(SelectedOption);
             SelectedListBoxDefinition = nextSelectedItem;
+            model.Build(parent);
         }
 
         private void InternalAddItem(CommandBarItemDefinition definitionToAdd)
@@ -281,7 +280,6 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             definitionToAdd.SortOrder = newSortOrder;
 
             GetModelAndParent(out ICommandBarHost model, out CommandBarDefinitionBase parent);
-
             model.AddItemDefinition(definitionToAdd, parent, flag);
         }
 
@@ -316,15 +314,15 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             switch (SelectedOption)
             {
                 case CustomizeRadioButtonOptions.Menu:
-                    host = IoC.Get<IMenuHostViewModel>();
+                    host = _menuHost;
                     parent = SelectedMenuItem;
                     break;
                 case CustomizeRadioButtonOptions.Toolbar:
-                    host = IoC.Get<IToolBarHostViewModel>();
+                    host = _toolbarHost;
                     parent = SelectedToolBarItem;
                     break;
                 case CustomizeRadioButtonOptions.ContextMenu:
-                    host = IoC.Get<IContextMenuHost>();
+                    host = _contextMenuHost;
                     parent = SelectedContextMenuItem;
                     break;
                 default:

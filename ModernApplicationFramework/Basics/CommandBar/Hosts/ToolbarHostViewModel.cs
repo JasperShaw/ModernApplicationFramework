@@ -125,9 +125,11 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             }
             else
             {
-                var toolBar = _toolbars[toolbarDefinition];
+                InternalHideToolBar(toolbarDefinition);
+                var toolBar = new ToolBar(definition);
                 IoC.Get<IToolbarCreator>().CreateRecursive(ref toolBar, toolbarDefinition);
                 _toolbars[toolbarDefinition] = toolBar;
+                ChangeToolBarVisibility(toolbarDefinition);
             }
         }
 
@@ -138,7 +140,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             var toolbarDef = parent as ToolbarDefinition;
             if (toolbarDef == null)
                 return;
-            RebuildToolbar(toolbarDef);
+            Build(toolbarDef);
         }
 
         public override void DeleteItemDefinition(CommandBarItemDefinition definition)
@@ -147,7 +149,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             var toolbarDef = definition.Group.Parent as ToolbarDefinition;
             if (toolbarDef == null)
                 return;
-            RebuildToolbar(toolbarDef);
+            Build(toolbarDef);
         }
 
         public string GetUniqueToolBarName()
@@ -196,15 +198,6 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         {
             if (e.ClickCount == 2)
                 new CustomizeMenuCommandDefinition().Command.Execute(null);
-        }
-
-        private void RebuildToolbar(ToolbarDefinition definition)
-        {
-            InternalHideToolBar(definition);
-            var toolbar = new ToolBar(definition);
-            IoC.Get<IToolbarCreator>().CreateRecursive(ref toolbar, definition);
-            _toolbars[definition] = toolbar;
-            ChangeToolBarVisibility(definition);
         }
 
         private void OpenContextMenu()

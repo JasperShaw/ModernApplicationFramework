@@ -41,7 +41,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                 AdjustItemsAfterItemInsertedInGroup(definition);
             DefinitionHost.ItemDefinitions.AddSorted(definition, new SortOrderComparer<CommandBarDefinitionBase>());
             RemoveGapsInGroupSortOrder(definition.Group.Parent);
-            BuildLogical(definition.Group.Parent);
+            BuildLogical(definition);
         }
 
         public virtual void DeleteItemDefinition(CommandBarItemDefinition definition)
@@ -75,6 +75,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                 }
                 DefinitionHost.ItemDefinitions.Remove(definition);
                 BuildLogical(definition.Group.Parent);
+                Build(definition.Group.Parent);
             }
         }
 

@@ -1902,7 +1902,6 @@
                 <x:NullExtension/>
             </Setter.Value>
         </Setter>
-        <Setter Property="Visibility" Value="Hidden"></Setter>
         <Style.Triggers>
             <DataTrigger Value="true">
                 <DataTrigger.Binding>

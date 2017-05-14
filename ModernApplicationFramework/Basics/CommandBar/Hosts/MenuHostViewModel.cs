@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Input;
@@ -41,7 +40,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         /// </summary>
         public IMainWindowViewModel MainWindowViewModel
         {
-            get { return _mainWindowViewModel; }
+            get => _mainWindowViewModel;
             set
             {
                 if (_mainWindowViewModel == null)
@@ -69,10 +68,6 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             Items = new BindableCollection<MenuItem>();
             _toolBarHost = IoC.Get<IToolBarHostViewModel>();
             TopLevelDefinitions = new ObservableCollection<CommandBarDefinitionBase>(menubars);
-
-            DefinitionHost.ItemGroupDefinitions.CollectionChanged += OnCollectionChanged;
-            DefinitionHost.ItemDefinitions.CollectionChanged += OnCollectionChanged;
-            DefinitionHost.ExcludedItemDefinitions.CollectionChanged += OnCollectionChanged;
             Build();
         }
 
@@ -85,9 +80,26 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         public override void Build(CommandBarDefinitionBase definition)
         {
             BuildLogical(definition);
-            var menuItem = IoC.Get<IMainMenuCreator>().CreateMenuItem(definition);
-            if (!Items.Contains(menuItem))
-                Items.Add(menuItem);
+            if (definition is MenuBarDefinition)
+                Build();
+            else
+            {
+                var menuItem = IoC.Get<IMainMenuCreator>().CreateMenuItem(definition);
+                if (!Items.Contains(menuItem))
+                    Items.Add(menuItem);
+            }
+        }
+
+        public override void AddItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent, bool addAboveSeparator)
+        {
+            base.AddItemDefinition(definition, parent, addAboveSeparator);
+            Build(parent);
+        }
+
+        public override void DeleteItemDefinition(CommandBarItemDefinition definition)
+        {
+            base.DeleteItemDefinition(definition);
+            Build(definition.Group.Parent);
         }
 
 
@@ -98,11 +110,6 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
             if (AllowOpenToolBarContextMenu && _toolBarHost.TopLevelDefinitions.Any())
                 _toolBarHost.OpenContextMenuCommand.Execute(null);
-        }
-
-        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            Build();
         }
 
         private void _control_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
