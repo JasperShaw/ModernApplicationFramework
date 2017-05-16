@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
@@ -24,16 +23,6 @@ namespace ModernApplicationFramework.Extended
         protected override void BuildUp(object instance)
         {
             Container.SatisfyImportsOnce(instance);
-        }
-
-        protected override void PrepareApplication()
-        {
-            base.PrepareApplication();
-            var exassemlby = Assembly.GetExecutingAssembly().Location;
-            var directory = Path.GetDirectoryName(exassemlby);
-
-            //This makes sure we can share any applications through the Internet
-            ClearUrlZonesInDirectory(directory);
         }
 
         protected override object GetInstance(Type serviceType, string key)

@@ -39,7 +39,7 @@ namespace ModernApplicationFramework.Extended.Modules.OutputTool
 
         public void AppendLine(string text)
         {
-            Append(text + Environment.NewLine);
+            Append(text + System.Environment.NewLine);
         }
 
         public void Append(string text)

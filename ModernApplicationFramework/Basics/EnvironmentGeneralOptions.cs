@@ -145,7 +145,6 @@ namespace ModernApplicationFramework.Basics
         public EnvironmentGeneralOptions()
         {
             Instance = this;
-            Load();
         }
 
         public void Load()
@@ -176,7 +175,6 @@ namespace ModernApplicationFramework.Basics
             Properties.Settings.Default.ShowStatusBar = ShowStatusBar;
             Properties.Settings.Default.Save();
         }
-
 
         private void UpdateVisualExperience()
         {

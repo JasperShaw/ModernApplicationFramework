@@ -91,6 +91,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DemoBootstrapper.cs" />
+    <Compile Include="DemoEnvironmentVariables.cs" />
     <Compile Include="Modules\ComboBoxMenuTest\Commands\ComboBoxCommandDefinition.cs" />
     <Compile Include="Modules\ComboBoxMenuTest\Commands\TestMenuControllerDefinition.cs" />
     <Compile Include="Modules\ComboBoxMenuTest\ToolbarDefinitions.cs" />

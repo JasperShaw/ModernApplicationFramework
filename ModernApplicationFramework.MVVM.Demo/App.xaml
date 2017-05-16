@@ -1,12 +1,12 @@
 ﻿<Application x:Class="ModernApplicationFramework.MVVM.Demo.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:extended="clr-namespace:ModernApplicationFramework.Extended;assembly=ModernApplicationFramework.Extended">
+             xmlns:demo="clr-namespace:ModernApplicationFramework.MVVM.Demo">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
-                    <extended:ExtendedBootstrapper x:Key="bootstrapper" />
+                    <demo:DemoBootstrapper x:Key="bootstrapper"/>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

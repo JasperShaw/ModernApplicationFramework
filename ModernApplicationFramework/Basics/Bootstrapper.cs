@@ -6,8 +6,12 @@ using System.ComponentModel.Composition.ReflectionModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Windows;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.SettingsManager;
 using ModernApplicationFramework.Core.Localization;
+using ModernApplicationFramework.Environment;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Native.TrinetCoreNtfs;
 
 namespace ModernApplicationFramework.Basics
@@ -17,6 +21,10 @@ namespace ModernApplicationFramework.Basics
         protected CompositionContainer Container;
 
         protected List<Assembly> _priorityAssemblies;
+
+
+        protected virtual IEnvironmentVarirables EnvironmentVarirables => new FallbackEnvironmentVarirables();
+
 
         public Bootstrapper()
         {
@@ -32,7 +40,14 @@ namespace ModernApplicationFramework.Basics
 		    
 	    }
 
-		protected void SetLanguage()
+        protected override void OnStartup(object sender, StartupEventArgs e)
+        {
+            base.OnStartup(sender, e);
+            IoC.Get<IEnvironmentVarirables>().Setup();
+            IoC.Get<IApplicationEnvironment>().Setup();
+        }
+
+        protected void SetLanguage()
         {
 	        var lm = Container.GetExportedValue<ILanguageManager>() as LanguageManager;
 			lm?.SetLanguage();
@@ -40,10 +55,15 @@ namespace ModernApplicationFramework.Basics
 
         protected virtual void BindServices(CompositionBatch batch)
         {
+            batch.AddExportedValue(EnvironmentVarirables);
+
             batch.AddExportedValue<IWindowManager>(new WindowManager());
             batch.AddExportedValue<IEventAggregator>(new EventAggregator());
             batch.AddExportedValue<ILanguageManager>(new LanguageManager());
+            batch.AddExportedValue<ISettingsManager>(new SettingsManager.SettingsManager());
+
             batch.AddExportedValue(new EnvironmentGeneralOptions());
+
             batch.AddExportedValue(Container);
             batch.AddExportedValue(this);
         }

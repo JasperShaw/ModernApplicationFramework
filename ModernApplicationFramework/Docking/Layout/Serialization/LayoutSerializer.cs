@@ -28,10 +28,7 @@ namespace ModernApplicationFramework.Docking.Layout.Serialization
 
         protected LayoutSerializer(DockingManager manager)
         {
-            if (manager == null)
-                throw new ArgumentNullException(nameof(manager));
-
-            _manager = manager;
+            _manager = manager ?? throw new ArgumentNullException(nameof(manager));
             _previousAnchorables = _manager.Layout.Descendents().OfType<LayoutAnchorable>().ToArray();
             _previousDocuments = _manager.Layout.Descendents().OfType<LayoutDocument>().ToArray();
         }

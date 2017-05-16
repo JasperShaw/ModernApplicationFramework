@@ -48,8 +48,8 @@ namespace ModernApplicationFramework.Controls
          Description(
              "The root folder where the browsing starts from. This property has no effect if the Vista style dialog is used."
              ), Category("Folder Browsing"), Browsable(true),
-         DefaultValue(typeof(Environment.SpecialFolder), "Desktop")]
-        public Environment.SpecialFolder RootFolder { get; set; }
+         DefaultValue(typeof(System.Environment.SpecialFolder), "Desktop")]
+        public System.Environment.SpecialFolder RootFolder { get; set; }
 
         [Browsable(true),
          Editor(
@@ -79,7 +79,7 @@ namespace ModernApplicationFramework.Controls
             _description = string.Empty;
             UseDescriptionForTitle = false;
             _selectedPath = string.Empty;
-            RootFolder = Environment.SpecialFolder.Desktop;
+            RootFolder = System.Environment.SpecialFolder.Desktop;
             ShowNewFolderButton = true;
         }
 
