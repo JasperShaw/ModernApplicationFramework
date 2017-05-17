@@ -8,9 +8,9 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.ApplicationEnvironment;
 using ModernApplicationFramework.Basics.SettingsManager;
 using ModernApplicationFramework.Core.Localization;
-using ModernApplicationFramework.Environment;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Native.TrinetCoreNtfs;
 
@@ -60,7 +60,6 @@ namespace ModernApplicationFramework.Basics
             batch.AddExportedValue<IWindowManager>(new WindowManager());
             batch.AddExportedValue<IEventAggregator>(new EventAggregator());
             batch.AddExportedValue<ILanguageManager>(new LanguageManager());
-            batch.AddExportedValue<ISettingsManager>(new SettingsManager.SettingsManager());
 
             batch.AddExportedValue(new EnvironmentGeneralOptions());
 

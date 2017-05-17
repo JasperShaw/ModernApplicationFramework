@@ -2,21 +2,22 @@
 using System.ComponentModel.Composition;
 using System.IO;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics;
+using ModernApplicationFramework.Basics.SettingsManager;
 using ModernApplicationFramework.Interfaces;
-using Xamarin.Forms.Xaml;
 
-namespace ModernApplicationFramework.Environment
+namespace ModernApplicationFramework.Basics.ApplicationEnvironment
 {
     [Export(typeof(IApplicationEnvironment))]
     public class ApplicationEnvironmentBase : IApplicationEnvironment
     {
         private readonly IEnvironmentVarirables _environmentVarirables;
+        private readonly ISettingsManager _settingsManager;
 
         [ImportingConstructor]
-        public ApplicationEnvironmentBase(IEnvironmentVarirables environmentVarirables)
+        public ApplicationEnvironmentBase(IEnvironmentVarirables environmentVarirables, ISettingsManager settingsManager)
         {
             _environmentVarirables = environmentVarirables;
+            _settingsManager = settingsManager;
         }
 
         public virtual void Setup()
@@ -39,8 +40,7 @@ namespace ModernApplicationFramework.Environment
             catch (Exception e) when (e is UnauthorizedAccessException)
             {
             }
-
-            IoC.Get<EnvironmentGeneralOptions>().Load();
+            _settingsManager.Initialize();
         }
     }
 

@@ -262,7 +262,9 @@
     <Compile Include="Basics\EnvironmentGeneralOptions.cs" />
     <Compile Include="Basics\EnvironmentRenderCapabilities.cs" />
     <Compile Include="Basics\SettingsDialog\AbstractSettingsPage.cs" />
-    <Compile Include="Basics\SettingsManager\SettingsSerializer.cs" />
+    <Compile Include="Basics\SettingsManager\SettingsFileDeserializer.cs" />
+    <Compile Include="Basics\SettingsManager\UserSettingsFile.cs" />
+    <Compile Include="Basics\SettingsManager\SettingsFileSerializer.cs" />
     <Compile Include="Basics\Settings\General\GeneralMainWindowSettingsViewModel.cs" />
     <Compile Include="Basics\Settings\General\GeneralSettingsResources.de.Designer.cs">
       <DependentUpon>GeneralSettingsResources.de.resx</DependentUpon>
@@ -320,8 +322,8 @@
       <DependentUpon>LanguageSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Basics\Settings\Language\LanguageSettingsViewModel.cs" />
-    <Compile Include="Environment\ApplicationEnvironmentBase.cs" />
-    <Compile Include="Environment\FallbackEnvironmentVarirables.cs" />
+    <Compile Include="Basics\ApplicationEnvironment\ApplicationEnvironmentBase.cs" />
+    <Compile Include="Basics\ApplicationEnvironment\FallbackEnvironmentVarirables.cs" />
     <Compile Include="Core\Utilities\RegirstryTools.cs" />
     <Compile Include="Controls\BalloonTooltip.cs" />
     <Compile Include="Controls\ModernTextBox.cs" />
@@ -508,7 +510,7 @@
     <Compile Include="CommandBase\Base\CommandBase.cs" />
     <Compile Include="CommandBase\CommandT.cs" />
     <Compile Include="CommandBase\Base\WeakEventHandlerManager.cs" />
-    <Compile Include="Environment\AbstractEnvironmentVarirables.cs" />
+    <Compile Include="Basics\ApplicationEnvironment\AbstractEnvironmentVarirables.cs" />
     <Compile Include="Controls\Button.cs" />
     <Compile Include="Controls\CheckableListBox.cs" />
     <Compile Include="Controls\CheckableListBoxItem.cs" />
