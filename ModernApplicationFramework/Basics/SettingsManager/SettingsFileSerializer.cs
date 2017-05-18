@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -22,6 +23,22 @@ namespace ModernApplicationFramework.Basics.SettingsManager
             Namespaces = ns;
         }
 
+
+        public UserSettingsFile Desrialize(string filePath)
+        {
+            if (!File.Exists(filePath))
+                throw new FileNotFoundException();
+            try
+            {
+                var xmlDocument = new UserSettingsFile(SettingsManager);
+                xmlDocument.Load(filePath);
+                return xmlDocument;
+            }
+            catch (Exception e)
+            {
+                throw new SettingsManagerException("Could not load current settings. File is currupt.", e);
+            }
+        }
 
         public void Serialize(XmlWriter writer)
         {

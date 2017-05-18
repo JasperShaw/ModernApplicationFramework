@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using System.Xml;
 using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Basics.SettingsManager
@@ -13,18 +13,33 @@ namespace ModernApplicationFramework.Basics.SettingsManager
     {
         private readonly object _lockObject = new object();
 
-        protected SettingsFileDeserializer Deserializer;
+        public event EventHandler SettingsLocationChanged;
+        public event EventHandler Initialized;
 
         public IEnvironmentVarirables EnvironmentVarirables { get; }
 
-        public XmlDocument SettingsFile { get; protected set; }
+        public UserSettingsFile SettingsFile { get; protected set; }
+
+        protected SettingsFileSerializer Serializer { get; }
+        protected SettingsValueSerializer ValueSerializer { get; }
 
         [ImportingConstructor]
         public SettingsManager(IEnvironmentVarirables environmentVarirables)
         {
             EnvironmentVarirables = environmentVarirables;
             Initialized += SettingsManager_Initialized;
-            Deserializer = new SettingsFileDeserializer();
+            Serializer = new SettingsFileSerializer(this);
+            ValueSerializer = new SettingsValueSerializer();
+        }
+
+        public virtual void CreateNewSettingsFile()
+        {
+            CreateNewSettingsFileInternal(EnvironmentVarirables.SettingsFilePath);
+        }
+
+        public virtual void LoadCurrent()
+        {
+            SettingsFile = Serializer.Desrialize(EnvironmentVarirables.SettingsFilePath);
         }
 
         public void ChangeSettingsFileLocation(string path, bool deleteCurrent)
@@ -50,11 +65,6 @@ namespace ModernApplicationFramework.Basics.SettingsManager
             SettingsLocationChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        public virtual void CreateNewSettingsFile()
-        {
-            CreateNewSettingsFileInternal(EnvironmentVarirables.SettingsFilePath);
-        }
-
         public void DeleteCurrentSettingsFile()
         {
             if (File.Exists(EnvironmentVarirables.SettingsFilePath))
@@ -68,18 +78,43 @@ namespace ModernApplicationFramework.Basics.SettingsManager
             LoadCurrent();
             Initialized?.Invoke(this, EventArgs.Empty);
 
-            TryGetValue("UserSettings/ApplicationIdentity/@version", out string value);
+            var t = GetValueOrDefault(SettingsFile.GetPropertyValueData("Environment/Documents/", "InitializeOpenFileFromCurrentDocument"), default(bool));
+            var v = GetValueOrDefault(SettingsFile.GetAttributeValue("ApplicationIdentity", "version", false), default(string));
         }
 
-        public virtual void LoadCurrent()
+        public GetValueResult TryGetValue<T>(string data, out T value)
         {
-            SettingsFile = Deserializer.Desrialize(EnvironmentVarirables.SettingsFilePath); 
+            value = default(T);
+            try
+            {
+                if (data == null)
+                    return GetValueResult.Missing;
+                var serializedData = ValueSerializer.Serialize(data, typeof(T));
+                return TryDeserialize(serializedData, out value);
+            }
+            catch (Exception)
+            {
+                return GetValueResult.Corrupt;
+            }
+        }
+
+
+        public T GetValueOrDefault<T>(string xPath, T defaultValue = default(T))
+        {
+            return TryGetValue(xPath, out T obj) != GetValueResult.Success ? defaultValue : obj;
+        }
+
+
+        public Task SetValueAsync(string name, object value)
+        {
+            var t = new Task(() => { });
+            t.Start();
+            return t;
         }
 
         protected void CreateNewSettingsFileInternal(string path)
         {
-            var serializer = new SettingsFileSerializer(this);
-            serializer.Serialize(path);
+            Serializer.Serialize(path);
         }
 
         private void SettingsManager_Initialized(object sender, EventArgs e)
@@ -88,363 +123,19 @@ namespace ModernApplicationFramework.Basics.SettingsManager
             //TODO: Read real settingspath from file and update if neccessary
         }
 
-        public event EventHandler SettingsLocationChanged;
-        public event EventHandler Initialized;
 
-
-        public GetValueResult TryGetValue<T>(string name, out T value)
+        private GetValueResult TryDeserialize<T>(string data, out T result)
         {
-
-
-            return Deserializer.Deserialize<T>(name, out value);
-
-            //value = CastWithUnboxing<T>(SettingsFile.SelectSingleNode(name)?.Value);
-            //return GetValueResult.Success;
+            result = default(T);
+            try
+            {
+                return ValueSerializer.Deserialize(data, out result);
+            }
+            catch (Exception)
+            {
+                return GetValueResult.UnknownError;
+            }
         }
-
-        public Task SetValueAsync(string name, object value)
-        {
-            var t = new Task(() =>
-            {
-                
-            });
-            t.Start();
-            return t;
-        }
-
-
-
-        private static T CastWithUnboxing<T>(object value)
-        {
-            if (typeof(T).IsEnum)
-                return (T)Enum.ToObject(typeof(T), value);
-            if (typeof(T) == typeof(bool) && !(value is bool))
-            {
-                object boxed = value;
-                if (TryReboxAnyIntegralTypeAs<ulong>(ref boxed))
-                    return (T) (object) ((ulong) boxed > 0UL);
-            }
-            if (value is bool && typeof(T) != typeof(bool))
-            {
-                object boxed = (bool)value ? 1 : 0;
-                if (TryReboxInt32As<T>(ref boxed))
-                    value = boxed;
-            }
-            var flag = TryReboxAnyIntegralTypeAs<T>(ref value) || TryReboxFloatAs<T>(ref value) || TryReboxDoubleAs<T>(ref value) || TryReboxDecimalAs<T>(ref value);
-            return (T)value;
-        }
-
-        private static bool TryReboxAnyIntegralTypeAs<T>(ref object boxed)
-        {
-            if (!TryReboxByteAs<T>(ref boxed) && !TryReboxSbyteAs<T>(ref boxed) && !TryReboxInt16As<T>(ref boxed) &&
-                !TryReboxUint16As<T>(ref boxed) && (!TryReboxInt32As<T>(ref boxed) && !TryReboxUint32As<T>(ref boxed) &&
-                                                    !TryReboxInt64As<T>(ref boxed)))
-                return TryReboxUint64As<T>(ref boxed);
-            return true;
-        }
-
-        private static bool TryReboxByteAs<T>(ref object boxed)
-        {
-            if (!(boxed is byte))
-                return false;
-            byte num = (byte)boxed;
-            if (typeof(T) == typeof(byte))
-                boxed = num;
-            else if (typeof(T) == typeof(sbyte))
-                boxed = (sbyte)num;
-            else if (typeof(T) == typeof(short))
-                boxed = (short)num;
-            else if (typeof(T) == typeof(ushort))
-                boxed = (ushort)num;
-            else if (typeof(T) == typeof(int))
-                boxed = (int)num;
-            else if (typeof(T) == typeof(uint))
-                boxed = (uint)num;
-            else if (typeof(T) == typeof(long))
-            {
-                boxed = (long)num;
-            }
-            else
-            {
-                if (!(typeof(T) == typeof(ulong)))
-                    return false;
-                boxed = (ulong)num;
-            }
-            return true;
-        }
-
-        private static bool TryReboxSbyteAs<T>(ref object boxed)
-        {
-            if (!(boxed is sbyte))
-                return false;
-            sbyte num = (sbyte)boxed;
-            if (typeof(T) == typeof(byte))
-                boxed = (byte)num;
-            else if (typeof(T) == typeof(sbyte))
-                boxed = num;
-            else if (typeof(T) == typeof(short))
-                boxed = (short)num;
-            else if (typeof(T) == typeof(ushort))
-                boxed = (ushort)num;
-            else if (typeof(T) == typeof(int))
-                boxed = (int)num;
-            else if (typeof(T) == typeof(uint))
-                boxed = (uint)num;
-            else if (typeof(T) == typeof(long))
-            {
-                boxed = (long)num;
-            }
-            else
-            {
-                if (!(typeof(T) == typeof(ulong)))
-                    return false;
-                boxed = (ulong)num;
-            }
-            return true;
-        }
-
-        private static bool TryReboxInt16As<T>(ref object boxed)
-        {
-            if (!(boxed is short))
-                return false;
-            short num = (short)boxed;
-            if (typeof(T) == typeof(byte))
-                boxed = (byte)num;
-            else if (typeof(T) == typeof(sbyte))
-                boxed = (sbyte)num;
-            else if (typeof(T) == typeof(short))
-                boxed = num;
-            else if (typeof(T) == typeof(ushort))
-                boxed = (ushort)num;
-            else if (typeof(T) == typeof(int))
-                boxed = (int)num;
-            else if (typeof(T) == typeof(uint))
-                boxed = (uint)num;
-            else if (typeof(T) == typeof(long))
-            {
-                boxed = (long)num;
-            }
-            else
-            {
-                if (!(typeof(T) == typeof(ulong)))
-                    return false;
-                boxed = (ulong)num;
-            }
-            return true;
-        }
-
-        private static bool TryReboxUint16As<T>(ref object boxed)
-        {
-            if (!(boxed is ushort))
-                return false;
-            ushort num = (ushort)boxed;
-            if (typeof(T) == typeof(byte))
-                boxed = (byte)num;
-            else if (typeof(T) == typeof(sbyte))
-                boxed = (sbyte)num;
-            else if (typeof(T) == typeof(short))
-                boxed = (short)num;
-            else if (typeof(T) == typeof(ushort))
-                boxed = num;
-            else if (typeof(T) == typeof(int))
-                boxed = (int)num;
-            else if (typeof(T) == typeof(uint))
-                boxed = (uint)num;
-            else if (typeof(T) == typeof(long))
-            {
-                boxed = (long)num;
-            }
-            else
-            {
-                if (!(typeof(T) == typeof(ulong)))
-                    return false;
-                boxed = (ulong)num;
-            }
-            return true;
-        }
-
-        private static bool TryReboxInt32As<T>(ref object boxed)
-        {
-            if (!(boxed is int))
-                return false;
-            int num = (int)boxed;
-            if (typeof(T) == typeof(byte))
-                boxed = (byte)num;
-            else if (typeof(T) == typeof(sbyte))
-                boxed = (sbyte)num;
-            else if (typeof(T) == typeof(short))
-                boxed = (short)num;
-            else if (typeof(T) == typeof(ushort))
-                boxed = (ushort)num;
-            else if (typeof(T) == typeof(int))
-                boxed = num;
-            else if (typeof(T) == typeof(uint))
-                boxed = (uint)num;
-            else if (typeof(T) == typeof(long))
-            {
-                boxed = (long)num;
-            }
-            else
-            {
-                if (!(typeof(T) == typeof(ulong)))
-                    return false;
-                boxed = (ulong)num;
-            }
-            return true;
-        }
-
-        private static bool TryReboxUint32As<T>(ref object boxed)
-        {
-            if (!(boxed is uint))
-                return false;
-            uint num = (uint)boxed;
-            if (typeof(T) == typeof(byte))
-                boxed = (byte)num;
-            else if (typeof(T) == typeof(sbyte))
-                boxed = (sbyte)num;
-            else if (typeof(T) == typeof(short))
-                boxed = (short)num;
-            else if (typeof(T) == typeof(ushort))
-                boxed = (ushort)num;
-            else if (typeof(T) == typeof(int))
-                boxed = (int)num;
-            else if (typeof(T) == typeof(uint))
-                boxed = num;
-            else if (typeof(T) == typeof(long))
-            {
-                boxed = (long)num;
-            }
-            else
-            {
-                if (!(typeof(T) == typeof(ulong)))
-                    return false;
-                boxed = (ulong)num;
-            }
-            return true;
-        }
-
-        private static bool TryReboxInt64As<T>(ref object boxed)
-        {
-            if (!(boxed is long))
-                return false;
-            long num = (long)boxed;
-            if (typeof(T) == typeof(byte))
-                boxed = (byte)num;
-            else if (typeof(T) == typeof(sbyte))
-                boxed = (sbyte)num;
-            else if (typeof(T) == typeof(short))
-                boxed = (short)num;
-            else if (typeof(T) == typeof(ushort))
-                boxed = (ushort)num;
-            else if (typeof(T) == typeof(int))
-                boxed = (int)num;
-            else if (typeof(T) == typeof(uint))
-                boxed = (uint)num;
-            else if (typeof(T) == typeof(long))
-            {
-                boxed = num;
-            }
-            else
-            {
-                if (!(typeof(T) == typeof(ulong)))
-                    return false;
-                boxed = (ulong)num;
-            }
-            return true;
-        }
-
-        private static bool TryReboxUint64As<T>(ref object boxed)
-        {
-            if (!(boxed is ulong))
-                return false;
-            ulong num = (ulong)boxed;
-            if (typeof(T) == typeof(byte))
-                boxed = (byte)num;
-            else if (typeof(T) == typeof(sbyte))
-                boxed = (sbyte)num;
-            else if (typeof(T) == typeof(short))
-                boxed = (short)num;
-            else if (typeof(T) == typeof(ushort))
-                boxed = (ushort)num;
-            else if (typeof(T) == typeof(int))
-                boxed = (int)num;
-            else if (typeof(T) == typeof(uint))
-                boxed = (uint)num;
-            else if (typeof(T) == typeof(long))
-            {
-                boxed = (long)num;
-            }
-            else
-            {
-                if (!(typeof(T) == typeof(ulong)))
-                    return false;
-                boxed = num;
-            }
-            return true;
-        }
-
-        private static bool TryReboxFloatAs<T>(ref object boxed)
-        {
-            if (!(boxed is float))
-                return false;
-            float num = (float)boxed;
-            if (typeof(T) == typeof(float))
-                boxed = num;
-            else if (typeof(T) == typeof(double))
-            {
-                boxed = (double)num;
-            }
-            else
-            {
-                if (!(typeof(T) == typeof(Decimal)))
-                    return false;
-                boxed = (Decimal)num;
-            }
-            return true;
-        }
-
-        private static bool TryReboxDoubleAs<T>(ref object boxed)
-        {
-            if (!(boxed is double))
-                return false;
-            double num = (double)boxed;
-            if (typeof(T) == typeof(float))
-                boxed = (float)num;
-            else if (typeof(T) == typeof(double))
-            {
-                boxed = num;
-            }
-            else
-            {
-                if (!(typeof(T) == typeof(Decimal)))
-                    return false;
-                boxed = (Decimal)num;
-            }
-            return true;
-        }
-
-        private static bool TryReboxDecimalAs<T>(ref object boxed)
-        {
-            if (!(boxed is Decimal))
-                return false;
-            Decimal num = (Decimal)boxed;
-            if (typeof(T) == typeof(float))
-                boxed = (float)num;
-            else if (typeof(T) == typeof(double))
-            {
-                boxed = (double)num;
-            }
-            else
-            {
-                if (!(typeof(T) == typeof(Decimal)))
-                    return false;
-                boxed = num;
-            }
-            return true;
-        }
-
-
-
     }
 
     public class SettingsManagerException : Exception
@@ -468,6 +159,8 @@ namespace ModernApplicationFramework.Basics.SettingsManager
 
     public interface ISettingsManager
     {
+        event EventHandler SettingsLocationChanged;
+        event EventHandler Initialized;
 
         IEnvironmentVarirables EnvironmentVarirables { get; }
 
@@ -480,8 +173,6 @@ namespace ModernApplicationFramework.Basics.SettingsManager
         void Initialize();
 
         void LoadCurrent();
-        event EventHandler SettingsLocationChanged;
-        event EventHandler Initialized;
 
         //ISettingsSubset GetSubset(string namePattern);
 
@@ -489,9 +180,9 @@ namespace ModernApplicationFramework.Basics.SettingsManager
 
         //ISettingsList GetOrCreateList(string name, bool isMachineLocal);
 
-        GetValueResult TryGetValue<T>(string name, out T value);
+        GetValueResult TryGetValue<T>(string xPath, out T value);
 
-        //T GetValueOrDefault<T>(string name, T defaultValue);
+        T GetValueOrDefault<T>(string xPath, T defaultValue);
 
         Task SetValueAsync(string name, object value);
     }
@@ -503,7 +194,6 @@ namespace ModernApplicationFramework.Basics.SettingsManager
         Corrupt,
         IncompatibleType,
         ObsoleteFormat,
-        UnknownError,
+        UnknownError
     }
 }
-
