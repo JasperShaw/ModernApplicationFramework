@@ -262,10 +262,12 @@
     <Compile Include="Basics\EnvironmentGeneralOptions.cs" />
     <Compile Include="Basics\EnvironmentRenderCapabilities.cs" />
     <Compile Include="Basics\SettingsDialog\AbstractSettingsPage.cs" />
+    <Compile Include="Basics\SettingsManager\ISettingsFile.cs" />
+    <Compile Include="Basics\SettingsManager\SettingsFactory.cs" />
     <Compile Include="Basics\SettingsManager\SettingsValueSerializer.cs" />
     <Compile Include="Basics\SettingsManager\SettingsXPathCreator.cs" />
     <Compile Include="Basics\SettingsManager\UserSettingsFile.cs" />
-    <Compile Include="Basics\SettingsManager\SettingsFileSerializer.cs" />
+    <Compile Include="Basics\SettingsManager\XmlUtilities.cs" />
     <Compile Include="Basics\Settings\General\GeneralMainWindowSettingsViewModel.cs" />
     <Compile Include="Basics\Settings\General\GeneralSettingsResources.de.Designer.cs">
       <DependentUpon>GeneralSettingsResources.de.resx</DependentUpon>

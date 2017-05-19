@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.IO;
-using Caliburn.Micro;
 using ModernApplicationFramework.Basics.SettingsManager;
 using ModernApplicationFramework.Interfaces;
 
@@ -27,7 +26,7 @@ namespace ModernApplicationFramework.Basics.ApplicationEnvironment
             _environmentVarirables.GetEnvironmentVariable(_environmentVarirables.SettingsDirectoryKey,
                 out var settingsLoc);
 
-            var realLoc = System.Environment.ExpandEnvironmentVariables(location);
+            var realLoc = Environment.ExpandEnvironmentVariables(location);
             var realSettingsLoc = _environmentVarirables.ExpandEnvironmentVariables(settingsLoc);
 
             try
@@ -42,10 +41,17 @@ namespace ModernApplicationFramework.Basics.ApplicationEnvironment
             }
             _settingsManager.Initialize();
         }
+
+        public virtual void PrepareClose()
+        {
+            _settingsManager.Close();
+        }
     }
 
     public interface IApplicationEnvironment
     {
         void Setup();
+
+        void PrepareClose();
     }
 }

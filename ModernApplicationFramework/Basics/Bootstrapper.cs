@@ -9,7 +9,6 @@ using System.Reflection;
 using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.ApplicationEnvironment;
-using ModernApplicationFramework.Basics.SettingsManager;
 using ModernApplicationFramework.Core.Localization;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Native.TrinetCoreNtfs;
@@ -45,6 +44,12 @@ namespace ModernApplicationFramework.Basics
             base.OnStartup(sender, e);
             IoC.Get<IEnvironmentVarirables>().Setup();
             IoC.Get<IApplicationEnvironment>().Setup();
+        }
+
+        protected override void OnExit(object sender, EventArgs e)
+        {
+            base.OnExit(sender, e);
+            IoC.Get<IApplicationEnvironment>().PrepareClose();
         }
 
         protected void SetLanguage()

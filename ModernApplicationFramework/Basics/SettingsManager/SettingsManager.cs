@@ -1,13 +1,14 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Basics.SettingsManager
 {
+    //TODO: Try to move all the settings stuff into a new assembly as this might not be required for all users of the framework
+
     [Export(typeof(ISettingsManager))]
     public class SettingsManager : ISettingsManager
     {
@@ -18,18 +19,16 @@ namespace ModernApplicationFramework.Basics.SettingsManager
 
         public IEnvironmentVarirables EnvironmentVarirables { get; }
 
-        public UserSettingsFile SettingsFile { get; protected set; }
+        public ISettingsFile SettingsFile { get; protected set; }
 
-        protected SettingsFileSerializer Serializer { get; }
         protected SettingsValueSerializer ValueSerializer { get; }
 
         [ImportingConstructor]
         public SettingsManager(IEnvironmentVarirables environmentVarirables)
         {
             EnvironmentVarirables = environmentVarirables;
-            Initialized += SettingsManager_Initialized;
-            Serializer = new SettingsFileSerializer(this);
             ValueSerializer = new SettingsValueSerializer();
+            Initialized += SettingsManager_Initialized;
         }
 
         public virtual void CreateNewSettingsFile()
@@ -39,7 +38,18 @@ namespace ModernApplicationFramework.Basics.SettingsManager
 
         public virtual void LoadCurrent()
         {
-            SettingsFile = Serializer.Desrialize(EnvironmentVarirables.SettingsFilePath);
+            SettingsFile = SettingsFactory.Open(EnvironmentVarirables.SettingsFilePath, this);
+        }
+
+        public void SaveCurrent()
+        {
+            SettingsFile.Save();
+        }
+
+        public void Close()
+        {
+            SettingsFile.Dispose();
+            SettingsFile = null;
         }
 
         public void ChangeSettingsFileLocation(string path, bool deleteCurrent)
@@ -75,14 +85,72 @@ namespace ModernApplicationFramework.Basics.SettingsManager
         {
             if (!File.Exists(EnvironmentVarirables.SettingsFilePath))
                 CreateNewSettingsFile();
-            LoadCurrent();
+            else
+                LoadCurrent();
             Initialized?.Invoke(this, EventArgs.Empty);
 
-            var t = GetValueOrDefault(SettingsFile.GetPropertyValueData("Environment/Documents/", "InitializeOpenFileFromCurrentDocument"), default(bool));
-            var v = GetValueOrDefault(SettingsFile.GetAttributeValue("ApplicationIdentity", "version", false), default(string));
+
+            var r = GetOrCreatePropertyValue<bool>("Environment/Documents/", "TestProperty",
+                out var value);
+            if (r == GetValueResult.Success)
+                SetPropertyValueAsync("Environment/Documents/", "TestProperty", (!value).ToString());
+
+
+            //var v = GetValueOrDefault(SettingsFile.GetAttributeValue("ApplicationIdentity", "version", false),
+            //    default(string));
+
+            //var node = SettingsFile.GetSingleNode("Environment/Documents/");
+
+            //SettingsFile.AddPropertyValueElement(node, "TestProperty", "true");
         }
 
-        public GetValueResult TryGetValue<T>(string data, out T value)
+
+        public GetValueResult GetOrCreatePropertyValue<T>(string propertyPath, string propertyName, out T value,
+            bool navigateAttributeWise = true, bool createNew = true)
+        {
+            value = default(T);
+            var data = SettingsFile.GetPropertyValueData(propertyPath, propertyName, navigateAttributeWise);
+            if (data == null)
+            {
+                var node = SettingsFile.GetSingleNode(propertyPath);
+                if (node == null)
+                    return GetValueResult.Missing;
+                SettingsFile.AddPropertyValueElement(node, propertyName, value?.ToString());
+                return GetValueResult.Created;
+            }
+            return TryGetValue(data, out value);
+        }
+
+        public GetValueResult GetPropertyValue<T>(string propertyPath, string propertyName, out T value,
+            bool navigateAttributeWise = true)
+        {
+            return GetOrCreatePropertyValue(propertyPath, propertyName, out value, navigateAttributeWise, false);
+        }
+
+        public Task SetPropertyValueAsync(string name, string propertyName, string value,
+            bool navigateAttributeWise = true)
+        {
+            var t = new Task(() =>
+            {
+                try
+                {
+                    SettingsFile.SetPropertyValueData(name, propertyName, value, navigateAttributeWise);
+                }
+                catch (Exception)
+                {
+                    //Ignored
+                }
+            });
+            t.Start();
+            return t;
+        }
+
+        protected void CreateNewSettingsFileInternal(string path)
+        {
+            SettingsFile = SettingsFactory.Create(EnvironmentVarirables.SettingsFilePath, this);
+        }
+
+        protected GetValueResult TryGetValue<T>(string data, out T value)
         {
             value = default(T);
             try
@@ -98,31 +166,11 @@ namespace ModernApplicationFramework.Basics.SettingsManager
             }
         }
 
-
-        public T GetValueOrDefault<T>(string xPath, T defaultValue = default(T))
-        {
-            return TryGetValue(xPath, out T obj) != GetValueResult.Success ? defaultValue : obj;
-        }
-
-
-        public Task SetValueAsync(string name, object value)
-        {
-            var t = new Task(() => { });
-            t.Start();
-            return t;
-        }
-
-        protected void CreateNewSettingsFileInternal(string path)
-        {
-            Serializer.Serialize(path);
-        }
-
         private void SettingsManager_Initialized(object sender, EventArgs e)
         {
             Initialized -= SettingsManager_Initialized;
             //TODO: Read real settingspath from file and update if neccessary
         }
-
 
         private GetValueResult TryDeserialize<T>(string data, out T result)
         {
@@ -157,7 +205,20 @@ namespace ModernApplicationFramework.Basics.SettingsManager
         }
     }
 
-    public interface ISettingsManager
+
+
+    public interface IPropteryValueManager
+    {
+        GetValueResult GetOrCreatePropertyValue<T>(string propertyPath, string propertyName, out T value,
+            bool navigateAttributeWise, bool createNew);
+
+        GetValueResult GetPropertyValue<T>(string propertyPath, string propertyName, out T value,
+            bool navigateAttributeWise);
+
+        Task SetPropertyValueAsync(string name, string propertyName, string value, bool navigateAttributeWise);
+    }
+
+    public interface ISettingsManager : IPropteryValueManager
     {
         event EventHandler SettingsLocationChanged;
         event EventHandler Initialized;
@@ -174,22 +235,17 @@ namespace ModernApplicationFramework.Basics.SettingsManager
 
         void LoadCurrent();
 
-        //ISettingsSubset GetSubset(string namePattern);
+        void SaveCurrent();
 
-        //string[] NamesStartingWith(string prefix);
+        void Close();
 
-        //ISettingsList GetOrCreateList(string name, bool isMachineLocal);
 
-        GetValueResult TryGetValue<T>(string xPath, out T value);
-
-        T GetValueOrDefault<T>(string xPath, T defaultValue);
-
-        Task SetValueAsync(string name, object value);
     }
 
     public enum GetValueResult
     {
         Success,
+        Created,
         Missing,
         Corrupt,
         IncompatibleType,
