@@ -118,6 +118,8 @@ namespace ModernApplicationFramework.Basics.ApplicationEnvironment
         protected string SetupRegistryPath(string rootPath, string regKeyName, string defaultValue,
             string environmentVariableKey = null)
         {
+            string result;
+
             if (!RegirstryTools.ExistsCurrentUserRoot(rootPath))
                 RegirstryTools.CreateCurrentUserRoot(rootPath);
 
@@ -126,10 +128,15 @@ namespace ModernApplicationFramework.Basics.ApplicationEnvironment
             {
                 RegirstryTools.SetValueCurrentUserRoot(rootPath, regKeyName, defaultValue);
                 keyValue = DefaultSettingsDirectory;
+                result = defaultValue;
+            }
+            else
+            {
+                result = keyValue.ToString();
             }
             if (!string.IsNullOrEmpty(environmentVariableKey))
                 EnvironmentVariables.Add(environmentVariableKey, keyValue.ToString());
-            return keyValue.ToString();
+            return result;
         }
 
         private string GetExpandedRecursive(string part)
