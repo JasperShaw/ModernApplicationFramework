@@ -51,7 +51,7 @@ namespace ModernApplicationFramework.Basics.ApplicationEnvironment
 
 
         protected virtual string DefaultLoggingDirectoryPath => Path.Combine(
-            System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), ApplicationName);
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ApplicationName);
 
         protected virtual string DefaultSettingsDirectory => Path.Combine(ApplicationUserDirectoryKey, "settings");
 
@@ -127,7 +127,6 @@ namespace ModernApplicationFramework.Basics.ApplicationEnvironment
             if (keyValue == null)
             {
                 RegirstryTools.SetValueCurrentUserRoot(rootPath, regKeyName, defaultValue);
-                keyValue = DefaultSettingsDirectory;
                 result = defaultValue;
             }
             else
@@ -135,7 +134,7 @@ namespace ModernApplicationFramework.Basics.ApplicationEnvironment
                 result = keyValue.ToString();
             }
             if (!string.IsNullOrEmpty(environmentVariableKey))
-                EnvironmentVariables.Add(environmentVariableKey, keyValue.ToString());
+                EnvironmentVariables.Add(environmentVariableKey, result);
             return result;
         }
 
@@ -149,7 +148,7 @@ namespace ModernApplicationFramework.Basics.ApplicationEnvironment
 
             if (GetEnvironmentVariable(part, out string newPart))
                 return GetExpandedRecursive(newPart);
-            newPart = System.Environment.ExpandEnvironmentVariables(part);
+            newPart = Environment.ExpandEnvironmentVariables(part);
             return newPart == part ? newPart.Replace("%", "") : newPart;
         }
     }
