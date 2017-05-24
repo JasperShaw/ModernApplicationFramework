@@ -102,13 +102,13 @@ namespace ModernApplicationFramework.Basics
     public class ComboBoxDataSource : DisposableObject, INotifyPropertyChanged
     {
         public ComboBoxItemsWrapper Wrapper { get; }
-        private object _displayedItem;
+        private IHasTextProperty _displayedItem;
 
         private string _displayedText;
 
         private string _shortcutText;
 
-        public object DisplayedItem
+        public IHasTextProperty DisplayedItem
         {
             get => _displayedItem;
             set
