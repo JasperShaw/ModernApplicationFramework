@@ -90,11 +90,8 @@ namespace ModernApplicationFramework.Basics.SettingsManager
             else
                 LoadCurrent();
 
-
             var settingsModels = IoC.GetAll<ISettingsDataModel>();
             var settingsCategories = IoC.GetAll<SettingsCategory>();
-
-
             foreach (var settingsCategory in settingsCategories)
             {
                 var name = settingsCategory.Name;
@@ -135,7 +132,7 @@ namespace ModernApplicationFramework.Basics.SettingsManager
                 SettingsFile.AddPropertyValueElement(node, propertyName, value?.ToString());
                 return GetValueResult.Created;
             }
-            return TryGetValue(data, out value);
+            return TryGetValue(data, out value, defaultValue);
         }
 
         public GetValueResult GetPropertyValue<T>(string propertyPath, string propertyName, out T value,
@@ -167,15 +164,15 @@ namespace ModernApplicationFramework.Basics.SettingsManager
             SettingsFile = SettingsFactory.Create(EnvironmentVarirables.SettingsFilePath, this);
         }
 
-        protected GetValueResult TryGetValue<T>(string data, out T value)
+        protected GetValueResult TryGetValue<T>(string data, out T value, T defaultValue = default(T))
         {
-            value = default(T);
+            value = defaultValue;
             try
             {
                 if (data == null)
                     return GetValueResult.Missing;
                 var serializedData = ValueSerializer.Serialize(data, typeof(T));
-                return TryDeserialize(serializedData, out value);
+                return TryDeserialize(serializedData, out value, defaultValue);
             }
             catch (Exception)
             {
@@ -189,12 +186,12 @@ namespace ModernApplicationFramework.Basics.SettingsManager
             //TODO: Read real settingspath from file and update if neccessary
         }
 
-        private GetValueResult TryDeserialize<T>(string data, out T result)
+        private GetValueResult TryDeserialize<T>(string data, out T result, T defaultValue = default(T))
         {
-            result = default(T);
+            result = defaultValue;
             try
             {
-                return ValueSerializer.Deserialize(data, out result);
+                return ValueSerializer.Deserialize(data, out result, defaultValue);
             }
             catch (Exception)
             {

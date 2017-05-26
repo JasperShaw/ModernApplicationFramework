@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Input;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.SettingsManager;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Properties;
@@ -127,8 +128,10 @@ namespace ModernApplicationFramework.Basics.SettingsDialog.ViewModels
             foreach (var settingPage in _settingPages)
                 if (!settingPage.Apply())
                     close = false;
-            if (close)
-                TryClose(true);
+            if (!close)
+                return;
+            IoC.Get<ISettingsManager>().SaveCurrent();
+            TryClose(true);
         }
 
         private void Cancel()

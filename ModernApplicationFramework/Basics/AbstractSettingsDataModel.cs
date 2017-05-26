@@ -28,8 +28,11 @@ namespace ModernApplicationFramework.Basics
             if (typeof(T) != propertyInfo.PropertyType)
                 throw new InvalidCastException("The type of the Property and the given type T do not match");
 
-            SettingsManager.GetOrCreatePropertyValue(SettingsFilePath, queryName, out T value, defaultValue, true, true);
+            var result = SettingsManager.GetOrCreatePropertyValue(SettingsFilePath, queryName, out T value, defaultValue, true, true);
             propertyInfo.SetValue(this, value);
+
+            if (result == GetValueResult.Corrupt)
+                StoreSettingsValue(queryName, value.ToString());
         }
 
         protected void StoreSettingsValue(string settingsProperty, string value)

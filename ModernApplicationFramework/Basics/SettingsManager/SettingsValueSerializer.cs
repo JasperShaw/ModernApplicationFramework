@@ -61,9 +61,9 @@ namespace ModernApplicationFramework.Basics.SettingsManager
             return string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}{3}", '*', type.FullName, '*', str);
         }
 
-        public GetValueResult Deserialize<T>(string s, out T result)
+        public GetValueResult Deserialize<T>(string s, out T result, T defaultValue = default (T))
         {
-            result = default(T);
+            result = defaultValue;
 
             int num = s.IndexOf('*', 1);
 
