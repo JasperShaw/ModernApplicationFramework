@@ -46,7 +46,7 @@ namespace ModernApplicationFramework.Extended.Settings
                 return false;
             }
             _generalOptions.WindowListItems = number;
-            _generalOptions.Save();
+            _generalOptions.StoreSettings();
             return true;
         }
 

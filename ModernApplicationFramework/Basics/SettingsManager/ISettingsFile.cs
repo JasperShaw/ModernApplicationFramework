@@ -23,6 +23,11 @@ namespace ModernApplicationFramework.Basics.SettingsManager
         void AddPropertyValueElement(string path, string propertyName, string value, bool navigateAttributeWise);
 
         void AddOrChangePropertyValueElement(string path, string propertyName, string value, bool navigateAttributeWise, bool changeValueIfExists);
+
+        void AddToolsOptionsCategoryElement(string name);
+
+        void AddToolsOptionsModelElement(string settingsModelName, string categoryName);
+
         void Save();
     }
 
@@ -32,6 +37,6 @@ namespace ModernApplicationFramework.Basics.SettingsManager
         XmlDocument SettingsSotrage { get; set; }     
         XmlDocument CreateNewSettingsStore();    
         IEnumerable<XmlNode> GetChildNodes(string path, bool navigateAttributeWise = true);
-        XmlNode GetSingleNode(string path, bool navigateAttributeWise = true);       
+        XmlNode GetSingleNode(string path, bool navigateAttributeWise = true);
     }
 }

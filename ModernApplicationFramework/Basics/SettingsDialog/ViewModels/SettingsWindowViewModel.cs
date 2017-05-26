@@ -79,7 +79,7 @@ namespace ModernApplicationFramework.Basics.SettingsDialog.ViewModels
                 var page = pages.FirstOrDefault(s => s.Category == category);
                 if (page == null)
                 {
-                    page = new SettingsPageContainerViewModel { Name = category.Name, Category = category };
+                    page = new SettingsPageContainerViewModel { Text = category.Text, Category = category };
                     page.Pages.Add(settingPage);
                     pages.Add(page);
                 }
@@ -104,13 +104,13 @@ namespace ModernApplicationFramework.Basics.SettingsDialog.ViewModels
             {
                 var parentCollection = GetParentCollection(settingPage, pagesList);
 
-                var page = parentCollection.FirstOrDefault(m => m.Name == settingPage.Name);
+                var page = parentCollection.FirstOrDefault(m => m.Text == settingPage.Name);
 
                 if (page == null)
                 {
                     page = new SettingsPageContainerViewModel
                     {
-                        Name = settingPage.Name,
+                        Text = settingPage.Name,
                         Category = settingPage.Category
                     };
                     parentCollection.Add(page);

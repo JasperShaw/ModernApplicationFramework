@@ -1,11 +1,10 @@
-﻿using ModernApplicationFramework.Basics.SettingsDialog;
+﻿using System.ComponentModel.Composition;
+using ModernApplicationFramework.Basics.SettingsDialog;
 
 namespace ModernApplicationFramework.Basics
 {
     public static class SettingsCategories
     {
-        private static SettingsCategory _environmentSetting;
-
-        public static SettingsCategory EnvironmentCategory => _environmentSetting ?? (_environmentSetting =  new SettingsCategory("Environment", 1));
+        [Export] public static SettingsCategory EnvironmentCategory = new SettingsCategory("Environment", "Umgebung", 1);
     }
 }

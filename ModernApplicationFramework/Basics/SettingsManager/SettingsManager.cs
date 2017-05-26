@@ -3,6 +3,8 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using Caliburn.Micro;
+using ModernApplicationFramework.Basics.SettingsDialog;
 using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Basics.SettingsManager
@@ -87,28 +89,43 @@ namespace ModernApplicationFramework.Basics.SettingsManager
                 CreateNewSettingsFile();
             else
                 LoadCurrent();
+
+
+            var settingsModels = IoC.GetAll<ISettingsDataModel>();
+            var settingsCategories = IoC.GetAll<SettingsCategory>();
+
+
+            foreach (var settingsCategory in settingsCategories)
+            {
+                var name = settingsCategory.Name;
+                var node = SettingsFile.GetSingleNode(name);
+                if (node != null)
+                    continue;
+                if (settingsCategory.IsToolsOptionsCategory)
+                    SettingsFile.AddToolsOptionsCategoryElement(name);   
+                else
+                    throw new NotImplementedException();
+            }
+
+            foreach (var settingsModel in settingsModels)
+            {
+                if (SettingsFile.GetSingleNode(settingsModel.SettingsFilePath) == null)
+                {
+                    if (settingsModel.Category.IsToolsOptionsCategory)
+                        SettingsFile.AddToolsOptionsModelElement(settingsModel.Name, settingsModel.Category.Name);
+                    else
+                        throw new NotImplementedException();
+                }
+                settingsModel.LoadOrCreate();
+            }
             Initialized?.Invoke(this, EventArgs.Empty);
-
-
-            var r = GetOrCreatePropertyValue<bool>("Environment/Documents/", "TestProperty",
-                out var value);
-            if (r == GetValueResult.Success)
-                SetPropertyValueAsync("Environment/Documents/", "TestProperty", (!value).ToString());
-
-
-            //var v = GetValueOrDefault(SettingsFile.GetAttributeValue("ApplicationIdentity", "version", false),
-            //    default(string));
-
-            //var node = SettingsFile.GetSingleNode("Environment/Documents/");
-
-            //SettingsFile.AddPropertyValueElement(node, "TestProperty", "true");
         }
 
 
-        public GetValueResult GetOrCreatePropertyValue<T>(string propertyPath, string propertyName, out T value,
+        public GetValueResult GetOrCreatePropertyValue<T>(string propertyPath, string propertyName, out T value, T defaultValue = default(T),
             bool navigateAttributeWise = true, bool createNew = true)
         {
-            value = default(T);
+            value = defaultValue;
             var data = SettingsFile.GetPropertyValueData(propertyPath, propertyName, navigateAttributeWise);
             if (data == null)
             {
@@ -124,17 +141,17 @@ namespace ModernApplicationFramework.Basics.SettingsManager
         public GetValueResult GetPropertyValue<T>(string propertyPath, string propertyName, out T value,
             bool navigateAttributeWise = true)
         {
-            return GetOrCreatePropertyValue(propertyPath, propertyName, out value, navigateAttributeWise, false);
+            return GetOrCreatePropertyValue(propertyPath, propertyName, out value, default(T), navigateAttributeWise, false);
         }
 
-        public Task SetPropertyValueAsync(string name, string propertyName, string value,
+        public Task SetPropertyValueAsync(string path, string propertyName, string value,
             bool navigateAttributeWise = true)
         {
             var t = new Task(() =>
             {
                 try
                 {
-                    SettingsFile.SetPropertyValueData(name, propertyName, value, navigateAttributeWise);
+                    SettingsFile.SetPropertyValueData(path, propertyName, value, navigateAttributeWise);
                 }
                 catch (Exception)
                 {
@@ -209,13 +226,13 @@ namespace ModernApplicationFramework.Basics.SettingsManager
 
     public interface IPropteryValueManager
     {
-        GetValueResult GetOrCreatePropertyValue<T>(string propertyPath, string propertyName, out T value,
+        GetValueResult GetOrCreatePropertyValue<T>(string propertyPath, string propertyName, out T value, T defaultValue,
             bool navigateAttributeWise, bool createNew);
 
         GetValueResult GetPropertyValue<T>(string propertyPath, string propertyName, out T value,
             bool navigateAttributeWise);
 
-        Task SetPropertyValueAsync(string name, string propertyName, string value, bool navigateAttributeWise);
+        Task SetPropertyValueAsync(string path, string propertyName, string value, bool navigateAttributeWise);
     }
 
     public interface ISettingsManager : IPropteryValueManager
@@ -231,6 +248,10 @@ namespace ModernApplicationFramework.Basics.SettingsManager
 
         void DeleteCurrentSettingsFile();
 
+        /// <summary>
+        /// Loads or Creates a SettingsFile and stores it's values into the SettingsCategories. 
+        /// Also updates the existing SettingsFile if new SettingsCategories have been added
+        /// </summary>
         void Initialize();
 
         void LoadCurrent();

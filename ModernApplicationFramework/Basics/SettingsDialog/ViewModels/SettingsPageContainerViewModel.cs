@@ -9,7 +9,7 @@ namespace ModernApplicationFramework.Basics.SettingsDialog.ViewModels
 
         public List<ISettingsPage> Pages { get; }
 
-        public string Name { get; set; }
+        public string Text { get; set; }
 
         public SettingsCategory Category { get; set; }
 

@@ -65,9 +65,6 @@ namespace ModernApplicationFramework.Basics
             batch.AddExportedValue<IWindowManager>(new WindowManager());
             batch.AddExportedValue<IEventAggregator>(new EventAggregator());
             batch.AddExportedValue<ILanguageManager>(new LanguageManager());
-
-            batch.AddExportedValue(new EnvironmentGeneralOptions());
-
             batch.AddExportedValue(Container);
             batch.AddExportedValue(this);
         }

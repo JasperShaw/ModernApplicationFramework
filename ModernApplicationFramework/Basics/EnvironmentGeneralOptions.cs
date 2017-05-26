@@ -1,14 +1,16 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
-using ModernApplicationFramework.Annotations;
+using ModernApplicationFramework.Basics.SettingsDialog;
+using ModernApplicationFramework.Basics.SettingsManager;
 using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Basics
 {
-    public sealed class EnvironmentGeneralOptions : INotifyPropertyChanged
+    [Export(typeof(ISettingsDataModel))]
+    [Export(typeof(EnvironmentGeneralOptions))]
+    public sealed class EnvironmentGeneralOptions : AbstractSettingsDataModel
     {
         public const int MinFileListCount = 1;
         public const int MaxFileListCount = 24;
@@ -25,7 +27,6 @@ namespace ModernApplicationFramework.Basics
         private bool _dockedWinAuto;
         private int _mruListItems;
 
-        public event PropertyChangedEventHandler PropertyChanged;
         public static EnvironmentGeneralOptions Instance { get; private set; }
 
         public int VisualEffectsAllowed => RenderCapability.Tier >> 16;
@@ -142,38 +143,44 @@ namespace ModernApplicationFramework.Basics
             }
         }
 
-        public EnvironmentGeneralOptions()
+        [ImportingConstructor]
+        public EnvironmentGeneralOptions(ISettingsManager settingsManager)
         {
             Instance = this;
+            Category = SettingsCategories.EnvironmentCategory;
+            SettingsManager = settingsManager;
         }
 
-        public void Load()
+        public override SettingsCategory Category { get; }
+
+        public override string Name => "General";
+
+
+
+        public override void LoadOrCreate()
         {
-            ShowStatusBar = Properties.Settings.Default.ShowStatusBar;
-            WindowListItems = Properties.Settings.Default.WindowMenuContainsNItems;
-            MRUListItems = Properties.Settings.Default.MRUListContainsNItems;
-            DockedWinAuto = Properties.Settings.Default.AutohidePinActiveTabOnly;
-            DockedWinClose = Properties.Settings.Default.CloseButtonActiveTabOnly;
-            UseTitleCaseOnMenu = Properties.Settings.Default.UseTitleCaseOnMenu;
-            UseHardwareAcceleration = Properties.Settings.Default.UseHardwareAcceleration;
-            UseRichVisualExperience = Properties.Settings.Default.UseRichVisualExperience;
-            //Must be last
-            AutoAdjustExperience = Properties.Settings.Default.AutoAdjustVisualExperience;
+            SetPropertyFromSettings("ShowStatusBar", nameof(ShowStatusBar), true);
+            SetPropertyFromSettings("WindowMenuContainsNItems", nameof(WindowListItems), 10);
+            SetPropertyFromSettings("MRUListContainsNItems", nameof(MRUListItems), 10);
+            SetPropertyFromSettings<bool>("AutohidePinActiveTabOnly", nameof(DockedWinAuto));
+            SetPropertyFromSettings("CloseButtonActiveTabOnly", nameof(DockedWinClose), true);
+            SetPropertyFromSettings("UseTitleCaseOnMenu", nameof(UseTitleCaseOnMenu), true);
+            SetPropertyFromSettings("UseHardwareAcceleration", nameof(UseHardwareAcceleration), IsHardwareAccelerationSupported);
+            SetPropertyFromSettings<bool>("RichClientExperienceOptions", nameof(UseRichVisualExperience));
+            SetPropertyFromSettings<bool>("AutoAdjustExperience", nameof(AutoAdjustExperience)); 
         }
 
-        public void Save()
+        public override void StoreSettings()
         {
-            Properties.Settings.Default.UseTitleCaseOnMenu = UseTitleCaseOnMenu;
-            Properties.Settings.Default.AutoAdjustVisualExperience = AutoAdjustExperience;
-            Properties.Settings.Default.UseHardwareAcceleration = UseHardwareAcceleration;
-            Properties.Settings.Default.UseRichVisualExperience = UseRichVisualExperience;
-
-            Properties.Settings.Default.WindowMenuContainsNItems = WindowListItems;
-            Properties.Settings.Default.MRUListContainsNItems = MRUListItems;
-            Properties.Settings.Default.AutohidePinActiveTabOnly = DockedWinAuto;
-            Properties.Settings.Default.CloseButtonActiveTabOnly = DockedWinClose;
-            Properties.Settings.Default.ShowStatusBar = ShowStatusBar;
-            Properties.Settings.Default.Save();
+            StoreSettingsValue("ShowStatusBar", ShowStatusBar.ToString());
+            StoreSettingsValue("WindowMenuContainsNItems", WindowListItems.ToString());
+            StoreSettingsValue("MRUListContainsNItems", MRUListItems.ToString());
+            StoreSettingsValue("AutohidePinActiveTabOnly", DockedWinAuto.ToString());
+            StoreSettingsValue("CloseButtonActiveTabOnly", DockedWinClose.ToString());
+            StoreSettingsValue("UseTitleCaseOnMenu", UseTitleCaseOnMenu.ToString());
+            StoreSettingsValue("UseHardwareAcceleration", UseHardwareAcceleration.ToString());
+            StoreSettingsValue("RichClientExperienceOptions", UseRichVisualExperience.ToString());
+            StoreSettingsValue("AutoAdjustExperience", AutoAdjustExperience.ToString());
         }
 
         private void UpdateVisualExperience()
@@ -195,12 +202,6 @@ namespace ModernApplicationFramework.Basics
                 EnvironmentRenderCapabilities.Current.VisualEffectsAllowed =
                     !UseRichVisualExperience ? 0 : VisualEffectsAllowed;
             }
-        }
-
-        [NotifyPropertyChangedInvocator]
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

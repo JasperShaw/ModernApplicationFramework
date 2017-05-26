@@ -52,7 +52,7 @@ namespace ModernApplicationFramework.Controls
         private void MainWindow_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             var generalOptions = IoC.Get<EnvironmentGeneralOptions>();
-            generalOptions.Load();
+            generalOptions.LoadOrCreate();
         }
 
         public BitmapImage ActivatedFloatIcon { get; set; }

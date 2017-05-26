@@ -34,6 +34,9 @@ namespace ModernApplicationFramework.Basics.SettingsManager
             bool navigateAttributeWise = true,
             bool changeValueIfExists = true);
 
+        public abstract void AddToolsOptionsCategoryElement(string name);
+        public abstract void AddToolsOptionsModelElement(string settingsModelName, string categoryName);
+
         public abstract string GetPropertyValueData(XmlNode node, string path, string propertyName,
             bool navigateAttributeWise = true);
 
@@ -244,6 +247,34 @@ namespace ModernApplicationFramework.Basics.SettingsManager
         }
 
         #endregion
+
+        public override void AddToolsOptionsCategoryElement(string name)
+        {
+            var toolsOptionsNode = GetSingleNode("ToolsOptions", false);
+            if (toolsOptionsNode == null)
+                return;
+            lock (SettingsSotrage)
+            {
+                var element = SettingsSotrage.CreateElement("ToolsOptionsCategory", string.Empty,
+                    new KeyValuePair<string, string>("name", name));
+                toolsOptionsNode.AppendChild(element);
+            }
+        }
+
+        public override void AddToolsOptionsModelElement(string settingsModelName, string categoryName)
+        {
+            var node = GetSingleNode(categoryName);
+
+            if (node == null)
+                throw new ArgumentNullException();
+
+            lock (SettingsSotrage)
+            {
+                var element = SettingsSotrage.CreateElement("ToolsOptionsCategory", string.Empty,
+                    new KeyValuePair<string, string>("name", settingsModelName));
+                node.AppendChild(element);
+            }
+        }
 
         public override string GetAttributeValue(string path, string attribute, bool navigateAttributeWise = true)
         {

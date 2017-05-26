@@ -69,7 +69,7 @@ namespace ModernApplicationFramework.Basics.Settings.General
             _generalOptions.ShowStatusBar = ShowStatusBar;
             _generalOptions.DockedWinAuto = AutoHideAffectsOnlyActive;
             _generalOptions.DockedWinClose = CloseAffectsOnlyActive;
-            _generalOptions.Save();
+            _generalOptions.StoreSettings();
             return true;
         }
 

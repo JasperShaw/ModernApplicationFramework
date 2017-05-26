@@ -8,16 +8,21 @@ namespace ModernApplicationFramework.Basics.SettingsDialog
 
         public string Name { get; }
 
+        public string Text { get; }
+
         public uint SortOrder { get; }
 
         public SettingsCategory Root { get; }
 
         public IList<SettingsCategory> Children { get; }
 
-        public SettingsCategory(string name, uint sortOrder, SettingsCategory parent)
+        public bool IsToolsOptionsCategory { get; } = true;
+
+        public SettingsCategory(string name, string text, uint sortOrder, SettingsCategory parent, bool isToolsOptionsCategory = true)
         {
             SortOrder = sortOrder;
             Name = name;
+            Text = text;
             Parent = parent;
             Children = new List<SettingsCategory>();
 
@@ -26,9 +31,11 @@ namespace ModernApplicationFramework.Basics.SettingsDialog
 
             Parent.Children.Add(this);
             Root = parent.Root;
+            IsToolsOptionsCategory = isToolsOptionsCategory;
         }
 
-        public SettingsCategory(string name, uint sortOrder) : this(name, sortOrder,null)
+        public SettingsCategory(string name, string text, uint sortOrder, bool isToolsOptionsCategory = true) 
+            : this(name, text, sortOrder,null, isToolsOptionsCategory)
         {
             Root = this;
         }

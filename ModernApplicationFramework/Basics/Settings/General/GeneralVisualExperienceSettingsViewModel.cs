@@ -141,7 +141,7 @@ namespace ModernApplicationFramework.Basics.Settings.General
             _generalOptions.UseHardwareAcceleration = UseHardwareAcceleration;
             _generalOptions.UseRichVisualExperience = UseRichVisualExperience;
             _generalOptions.AutoAdjustExperience = AutoAdjustExperience;
-            _generalOptions.Save();
+            _generalOptions.StoreSettings();
             return true;
         }
 
