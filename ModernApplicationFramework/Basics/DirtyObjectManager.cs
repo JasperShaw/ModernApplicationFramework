@@ -26,7 +26,7 @@ namespace ModernApplicationFramework.Basics
                 return;
             if (_changes.ContainsKey(propertyName))
             {
-                if (!_changes[propertyName].Equals(newValue))
+                if (_changes[propertyName] != newValue)
                     return;
                 _changes.TryRemove(propertyName, out object _);
                 RaiseDataChanged(propertyName);
