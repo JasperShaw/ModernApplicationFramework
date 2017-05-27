@@ -7,6 +7,7 @@ using ModernApplicationFramework.Basics.CustomizeDialog.Views;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
@@ -68,7 +69,12 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             var categories = IoC.GetAll<CommandCategory>();
             Categories = new List<CommandCategory>(categories);
             var allCommandDefinitions = IoC.GetAll<DefinitionBase>();
-            AllCommandDefinitions = new List<DefinitionBase>(allCommandDefinitions);
+
+
+            var definitionHost = IoC.Get<ICommandBarDefinitionHost>();
+            var commandToAdd = allCommandDefinitions.Where(x => !definitionHost.ExcludedCommandDefinitions.Contains(x));
+
+            AllCommandDefinitions = new List<DefinitionBase>(commandToAdd);
             //Items = new List<CommandBarItemDefinition>();
         }
 

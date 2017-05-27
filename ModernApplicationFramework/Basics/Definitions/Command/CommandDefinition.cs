@@ -14,6 +14,8 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
 
         public virtual bool IsChecked { get; set; }
 
+        public bool AllowExecution { get; set; } = true;
+
         protected CommandDefinition()
         {
         }

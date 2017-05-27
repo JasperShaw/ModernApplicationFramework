@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 
 namespace ModernApplicationFramework.Interfaces
@@ -8,5 +9,6 @@ namespace ModernApplicationFramework.Interfaces
         ObservableCollection<CommandBarGroupDefinition> ItemGroupDefinitions { get; }
         ObservableCollection<CommandBarItemDefinition> ItemDefinitions { get; }
         ObservableCollection<CommandBarDefinitionBase> ExcludedItemDefinitions { get; }
+        ObservableCollection<DefinitionBase> ExcludedCommandDefinitions { get; }
     }
 }

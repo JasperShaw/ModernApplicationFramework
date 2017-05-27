@@ -15,6 +15,7 @@ namespace ModernApplicationFramework.Extended
 {
     public class ExtendedBootstrapper : Basics.Bootstrapper
     {
+        protected virtual bool UseSettingsManager => true;
 
         protected virtual IEnvironmentVarirables EnvironmentVarirables => new FallbackEnvironmentVarirables();
 
@@ -53,9 +54,9 @@ namespace ModernApplicationFramework.Extended
 
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
+            base.OnStartup(sender, e);
             IoC.Get<IEnvironmentVarirables>().Setup();
             IoC.Get<IApplicationEnvironment>().Setup();
-            base.OnStartup(sender, e);
             DisplayRootViewFor<IDockingMainWindowViewModel>();
         }
 

@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using System.ComponentModel.Composition;
 using System.Linq;
+using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Core.Comparers;
 using ModernApplicationFramework.Core.Utilities;
@@ -15,11 +16,13 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         public ObservableCollection<CommandBarGroupDefinition> ItemGroupDefinitions { get; }
         public ObservableCollection<CommandBarItemDefinition> ItemDefinitions { get; }
         public ObservableCollection<CommandBarDefinitionBase> ExcludedItemDefinitions { get; }
+        public ObservableCollection<DefinitionBase> ExcludedCommandDefinitions { get; }
 
         [ImportingConstructor]
         public CommandBarDefinitionHost([ImportMany] CommandBarGroupDefinition[] menuItemGroups,
             [ImportMany] CommandBarItemDefinition[] menuItems,
-            [ImportMany] ExcludeCommandBarElementDefinition[] excludedItems)
+            [ImportMany] ExcludeCommandBarElementDefinition[] excludedItems,
+            [ImportMany] ExcludedCommandDefinition[] excludedCommands)
         {
             ItemGroupDefinitions =
                 new ObservableCollection<CommandBarGroupDefinition>(menuItemGroups.OrderBy(x => x.SortOrder));
@@ -27,6 +30,12 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             ExcludedItemDefinitions = new ObservableCollection<CommandBarDefinitionBase>();
             foreach (var item in excludedItems)
                 ExcludedItemDefinitions.Add(item.ExcludedCommandBarDefinition);
+
+
+            ExcludedCommandDefinitions = new ObservableCollection<DefinitionBase>();
+            ExcludedCommandDefinitions.CollectionChanged += ExcludedCommandDefinitions_CollectionChanged;
+            foreach (var item in excludedCommands)
+                ExcludedCommandDefinitions.Add(item.ExcludedDefinition);
 
             foreach (var itemDefinition in ItemDefinitions)
             {
@@ -36,6 +45,33 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
             ItemDefinitions.CollectionChanged += ItemDefinitions_CollectionChanged;
             ItemGroupDefinitions.CollectionChanged += ItemGroupDefinitions_CollectionChanged;
+        }
+
+        private void ExcludedCommandDefinitions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.NewItems != null)
+                foreach (var item in e.NewItems)
+                {
+                    foreach (var itemDefinition in ItemDefinitions)
+                    {
+                        if (itemDefinition.CommandDefinition.GetType() == item.GetType())
+                            ExcludedItemDefinitions.Add(itemDefinition);
+                    }
+                    if (item is CommandDefinition commandDefinition)
+                        commandDefinition.AllowExecution = false;
+                }
+
+            if (e.OldItems != null)
+                foreach (var item in e.OldItems)
+                {
+                    foreach (var itemDefinition in ExcludedItemDefinitions.ToList())
+                    {
+                        if (itemDefinition.CommandDefinition.GetType() == item.GetType())
+                            ExcludedItemDefinitions.Remove(itemDefinition);
+                    }
+                    if (item is CommandDefinition commandDefinition)
+                        commandDefinition.AllowExecution = true;
+                }
         }
 
         private void ItemGroupDefinitions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -65,9 +101,18 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             if (e.NewItems != null)
                 foreach (var item in e.NewItems)
                     if (item is CommandBarItemDefinition itemDefinition)
+                    {
+                        if (ExcludedCommandDefinitions.Any(
+                            x => x.GetType() == itemDefinition.CommandDefinition.GetType()))
+                        {
+                            ItemDefinitions.Remove(itemDefinition);
+                            continue;
+                        }
+
                         if (!itemDefinition.Group.Items.Contains(itemDefinition))
                             itemDefinition.Group.Items.AddSorted(itemDefinition,
                                 new SortOrderComparer<CommandBarDefinitionBase>());
+                    }
             if (e.OldItems != null)
                 foreach (var item in e.OldItems)
                     if (item is CommandBarItemDefinition itemDefinition)

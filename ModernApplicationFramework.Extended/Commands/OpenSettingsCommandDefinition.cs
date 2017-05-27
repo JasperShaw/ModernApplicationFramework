@@ -39,7 +39,7 @@ namespace ModernApplicationFramework.Extended.Commands
 
         private bool CanOpenSettings()
         {
-            return true;
+            return AllowExecution;
         }
 
         private void OpenSettings()

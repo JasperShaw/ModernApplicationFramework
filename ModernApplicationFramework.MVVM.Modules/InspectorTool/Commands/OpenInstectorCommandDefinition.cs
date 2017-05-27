@@ -40,6 +40,8 @@ namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Commands
 
         private bool CanOpen()
         {
+            if (!AllowExecution)
+                return false;
             return _shell != null;
         }
 

@@ -17,12 +17,12 @@ namespace ModernApplicationFramework.Basics
         public const int MinMruListCount = 1;
         public const int MaxMruListCount = 24;
 
-        private bool _useTitleCaseOnMenu;
+        private bool _useTitleCaseOnMenu = true;
         private bool _autoAdjustExperience;
         private bool _useHardwareAcceleration;
         private bool _useRichVisualExperience;
-        private int _windowListItems;
-        private bool _showStatusBar;
+        private int _windowListItems = 10;
+        private bool _showStatusBar = true;
         private bool _dockedWinClose;
         private bool _dockedWinAuto;
         private int _mruListItems;

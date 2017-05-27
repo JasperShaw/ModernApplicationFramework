@@ -1,4 +1,6 @@
-﻿namespace ModernApplicationFramework.Basics.Definitions.CommandBar
+﻿using ModernApplicationFramework.Basics.Definitions.Command;
+
+namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
     public class ExcludeCommandBarElementDefinition
     {
@@ -7,6 +9,16 @@
         public ExcludeCommandBarElementDefinition(CommandBarDefinitionBase definition)
         {
             ExcludedCommandBarDefinition = definition;
+        }
+    }
+
+    public class ExcludedCommandDefinition
+    {
+        public DefinitionBase ExcludedDefinition { get; }
+
+        public ExcludedCommandDefinition(DefinitionBase excludedDefinition)
+        {
+            ExcludedDefinition = excludedDefinition;
         }
     }
 }

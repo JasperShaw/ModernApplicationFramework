@@ -54,9 +54,7 @@ namespace ModernApplicationFramework.Settings.SettingsDialog.ViewModels
         {
             base.OnActivate();
             foreach (var settingsPage in _settingPages)
-            {
                 settingsPage.Activate();
-            }
         }
 
 

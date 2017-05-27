@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.IO;
+using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Settings;
 
@@ -11,6 +12,12 @@ namespace ModernApplicationFramework.Extended.ApplicationEnvironment
     {
         private readonly IEnvironmentVarirables _environmentVarirables;
         private readonly ISettingsManager _settingsManager;
+
+        /// <summary>
+        /// Tells the Apllication to setup and use the settingsManager.
+        /// <remarks>The SettingsCommand should be added to the exclude Commands list</remarks>
+        /// </summary>
+        protected virtual bool UseApplicationSettings => true;
 
         [ImportingConstructor]
         public ApplicationEnvironmentBase(IEnvironmentVarirables environmentVarirables, ISettingsManager settingsManager)
@@ -33,25 +40,20 @@ namespace ModernApplicationFramework.Extended.ApplicationEnvironment
             {
                 if (!Directory.Exists(realLoc))
                     Directory.CreateDirectory(realLoc);
-                if (!Directory.Exists(realSettingsLoc))
+                if (UseApplicationSettings  && !Directory.Exists(realSettingsLoc))
                     Directory.CreateDirectory(realSettingsLoc);
             }
             catch (Exception e) when (e is UnauthorizedAccessException)
             {
             }
-            _settingsManager.Initialize();
+            if (UseApplicationSettings)
+                _settingsManager.Initialize();
         }
 
         public virtual void PrepareClose()
         {
-            _settingsManager.Close();
+            if (UseApplicationSettings)
+                _settingsManager.Close();
         }
-    }
-
-    public interface IApplicationEnvironment
-    {
-        void Setup();
-
-        void PrepareClose();
     }
 }

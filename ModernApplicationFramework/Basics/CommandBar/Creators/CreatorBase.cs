@@ -20,12 +20,15 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
             var host = IoC.Get<ICommandBarDefinitionHost>();
 
             var groups = host.ItemGroupDefinitions.Where(x => x.Parent == menuDefinition)
+                .Where(x => !host.ExcludedItemDefinitions.Contains(x))
                 .OrderBy(x => x.SortOrder)
                 .ToList();
             for (var i = 0; i < groups.Count; i++)
             {
                 var group = groups[i];
-                var menuItems = host.ItemDefinitions.Where(x => x.Group == group).OrderBy(x => x.SortOrder);
+                var menuItems = host.ItemDefinitions.Where(x => x.Group == group)
+                    .Where(x => !host.ExcludedItemDefinitions.Contains(x))
+                    .OrderBy(x => x.SortOrder);
                 if (i > 0 && i <= groups.Count - 1)
                 {
                     if (options == CommandBarCreationOptions.DisplaySeparatorsOnlyIfGroupNotEmpty)

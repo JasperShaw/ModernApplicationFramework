@@ -6,7 +6,6 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
-using ModernApplicationFramework.Extended.Core;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Interfaces.Command;
 
@@ -26,7 +25,7 @@ namespace ModernApplicationFramework.Extended.Commands
         public void Populate(Command command, List<DefinitionBase> commands)
         {
             var activeFiles = _shell.Documents.Count;
-            var maxFiles = EnvironmentGeneralOptions.Instance.WindowListItems;
+            var maxFiles = IoC.Get<EnvironmentGeneralOptions>().WindowListItems;
             var fileCount = activeFiles < maxFiles ? activeFiles : maxFiles;
 
             for (var i = 0; i < fileCount; i++)

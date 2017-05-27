@@ -44,12 +44,12 @@ namespace ModernApplicationFramework.Settings.SettingsManager
 
         public void SaveCurrent()
         {
-            SettingsFile.Save();
+            SettingsFile?.Save();
         }
 
         public void Close()
         {
-            SettingsFile.Dispose();
+            SettingsFile?.Dispose();
             SettingsFile = null;
         }
 
