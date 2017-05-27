@@ -24,7 +24,8 @@
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal">
                     <Label Padding="5,5,55,5" Target="{Binding ElementName=ThemeCombo}">_Color theme:</Label>
-                    <ComboBox x:Name="ThemeCombo" ItemsSource="{Binding Themes}" SelectedItem="{Binding SelectedTheme, Mode=TwoWay}" Width="175">
+                    <ComboBox x:Name="ThemeCombo" ItemsSource="{Binding Themes}" SelectedItem="{Binding SelectedTheme, Mode=TwoWay}" Width="175"
+                              VerticalContentAlignment="Center">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Text}" />
