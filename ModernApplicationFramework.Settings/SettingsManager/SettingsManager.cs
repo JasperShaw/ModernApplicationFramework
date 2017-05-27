@@ -4,16 +4,12 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.SettingsBase;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Settings;
-using ModernApplicationFramework.Settings.SettingsDialog;
 
 namespace ModernApplicationFramework.Settings.SettingsManager
 {
-    //TODO: Try to move all the settings stuff into a new assembly as this might not be required for all users of the framework
-
     [Export(typeof(ISettingsManager))]
     public class SettingsManager : ISettingsManager
     {
@@ -24,7 +20,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
 
         public IEnvironmentVarirables EnvironmentVarirables { get; }
 
-        public ISettingsFile SettingsFile { get; protected set; }
+        protected ISettingsFile SettingsFile { get; set; }
 
         protected SettingsValueSerializer ValueSerializer { get; }
 
