@@ -793,11 +793,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CommonUI.Resources.en.resx</DependentUpon>
     </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
     <Compile Include="Basics\CustomizeDialog\Views\CustomizeDialogView.xaml.cs">
       <DependentUpon>CustomizeDialogView.xaml</DependentUpon>
     </Compile>
@@ -1072,10 +1067,6 @@
     <None Include="app.config" />
     <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Basics\CommandBar\CommandBarResources.resx">

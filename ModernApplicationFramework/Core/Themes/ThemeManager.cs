@@ -4,15 +4,18 @@ using System.ComponentModel.Composition;
 using System.Data;
 using System.Linq;
 using System.Windows;
+using Caliburn.Micro;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Interfaces;
-using ModernApplicationFramework.Properties;
 
 namespace ModernApplicationFramework.Core.Themes
 {
     [Export(typeof(IThemeManager))]
     public class ThemeManager : IThemeManager
     {
+        protected const string RegistryKey = "InstalledTheme";
+        protected const string DefaultThemeName = "Blue";
+
         private readonly Theme[] _themes;
         private Theme _theme;
 
@@ -26,11 +29,17 @@ namespace ModernApplicationFramework.Core.Themes
 
         public void SaveTheme(Theme theme)
         {
-            Settings.Default.CurrentTheme = theme.Name;
-            Settings.Default.Save();
+            IoC.Get<IEnvironmentVarirables>().SetRegistryVariable(RegistryKey, theme.Name, null);
         }
 
-        public Theme StartUpTheme => _themes.FirstOrDefault(x => x.Name == Settings.Default.CurrentTheme);
+        public Theme StartUpTheme
+        {
+            get
+            {
+                var theme = IoC.Get<IEnvironmentVarirables>().GetOrCreateRegistryVariable(RegistryKey, null, DefaultThemeName);
+                return _themes.FirstOrDefault(x => x.Name == theme);
+            }
+        }
 
         protected virtual void OnRaiseThemeChanged(ThemeChangedEventArgs e)
         {
