@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.SettingsBase;
 using ModernApplicationFramework.Core.Localization;
 using ModernApplicationFramework.Interfaces;

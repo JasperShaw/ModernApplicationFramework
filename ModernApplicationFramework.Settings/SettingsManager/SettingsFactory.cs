@@ -28,6 +28,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
         {
             var settingsFile = new UserSettingsFile(settingsManager);
             var document = settingsFile.CreateNewSettingsStore();
+            new FileInfo(path).Directory?.Create();
             document.Save(path);
             return settingsFile;
         }

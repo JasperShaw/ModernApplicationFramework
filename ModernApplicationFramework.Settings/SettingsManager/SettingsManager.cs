@@ -57,20 +57,17 @@ namespace ModernApplicationFramework.Settings.SettingsManager
         {
             lock (_lockObject)
             {
-                if (!File.Exists(EnvironmentVarirables.SettingsFilePath))
-                    throw new FileNotFoundException(EnvironmentVarirables.SettingsFilePath);
-
                 var newDirectoryPath = Path.GetDirectoryName(path);
-
                 if (string.IsNullOrEmpty(newDirectoryPath))
                     throw new ArgumentNullException();
-                if (!Directory.Exists(newDirectoryPath))
-                    throw new DirectoryNotFoundException();
-
-                File.Copy(EnvironmentVarirables.SettingsFilePath, path);
+                new FileInfo(path).Directory?.Create();
+                if (!File.Exists(EnvironmentVarirables.SettingsFilePath))
+                    CreateNewSettingsFileInternal(path);
+                else
+                    File.Copy(EnvironmentVarirables.SettingsFilePath, path, true);
 
                 if (deleteCurrent)
-                    File.Delete(EnvironmentVarirables.SettingsFilePath);
+                    DeleteCurrentSettingsFile();
                 EnvironmentVarirables.SettingsFilePath = path;
             }
             SettingsLocationChanged?.Invoke(this, EventArgs.Empty);

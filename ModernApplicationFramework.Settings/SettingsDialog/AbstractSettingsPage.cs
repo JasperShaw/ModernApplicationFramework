@@ -31,6 +31,10 @@ namespace ModernApplicationFramework.Settings.SettingsDialog
             return true;
         }
 
+        /// <summary>
+        /// Sets the changed Values to the correct settings data model.
+        /// </summary>
+        /// <returns>Returns whether the progress was successful</returns>
         protected abstract bool SetData();
 
         public abstract bool CanApply();

@@ -223,6 +223,25 @@
       <DependentUpon>LanguageSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\Language\LanguageSettingsViewModel.cs" />
+    <Compile Include="Settings\SettingsImportExport\SettingsImportExportResources.de.Designer.cs">
+      <DependentUpon>SettingsImportExportResources.de.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Settings\SettingsImportExport\SettingsImportExportResources.en.Designer.cs">
+      <DependentUpon>SettingsImportExportResources.en.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Settings\SettingsImportExport\SettingsImportExportResources.Designer.cs">
+      <DependentUpon>SettingsImportExportResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Settings\SettingsImportExport\SettingsImportExportView.xaml.cs">
+      <DependentUpon>SettingsImportExportView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\SettingsImportExport\SettingsImportExportViewModel.cs" />
     <Compile Include="ToolbarDefinitions\StandardToolbarDefinition.cs" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -301,6 +320,18 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>LanguageSettingsResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Settings\SettingsImportExport\SettingsImportExportResources.de.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SettingsImportExportResources.de.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\SettingsImportExport\SettingsImportExportResources.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SettingsImportExportResources.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\SettingsImportExport\SettingsImportExportResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SettingsImportExportResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Page Include="DockingHost\Views\DockingHostView.xaml">
@@ -346,6 +377,10 @@
     <Page Include="Settings\Language\LanguageSettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Settings\SettingsImportExport\SettingsImportExportView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup />
