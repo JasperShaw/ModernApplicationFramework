@@ -82,6 +82,7 @@
     </Compile>
     <Compile Include="SettingsManager\ISettingsFile.cs" />
     <Compile Include="SettingsManager\SettingsFactory.cs" />
+    <Compile Include="SettingsManager\SettingsImportExportOptions.cs" />
     <Compile Include="SettingsManager\SettingsManager.cs" />
     <Compile Include="SettingsManager\SettingsValueSerializer.cs" />
     <Compile Include="SettingsManager\SettingsXPathCreator.cs" />
