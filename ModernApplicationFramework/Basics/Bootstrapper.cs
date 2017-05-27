@@ -7,7 +7,9 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.ApplicationEnvironment;
 using ModernApplicationFramework.Core.Localization;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Native.TrinetCoreNtfs;
 
 namespace ModernApplicationFramework.Basics
@@ -18,6 +20,7 @@ namespace ModernApplicationFramework.Basics
 
         protected List<Assembly> _priorityAssemblies;
 
+        protected virtual IEnvironmentVarirables EnvironmentVarirables => new FallbackEnvironmentVarirables();
 
         public Bootstrapper()
         {
@@ -44,6 +47,7 @@ namespace ModernApplicationFramework.Basics
             batch.AddExportedValue<IWindowManager>(new WindowManager());
             batch.AddExportedValue<IEventAggregator>(new EventAggregator());
             batch.AddExportedValue<ILanguageManager>(new LanguageManager());
+            batch.AddExportedValue(EnvironmentVarirables);
             batch.AddExportedValue(Container);
             batch.AddExportedValue(this);
         }

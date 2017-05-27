@@ -6,9 +6,6 @@ namespace ModernApplicationFramework.Interfaces
 
         string ApplicationVersion { get; }
 
-        string SettingsFilePath { get; set; }
-
-        string SettingsDirectoryKey { get; } 
         string ApplicationUserDirectoryKey { get; }
 
         void Setup();
@@ -16,5 +13,9 @@ namespace ModernApplicationFramework.Interfaces
         bool GetEnvironmentVariable(string key, out string value);
 
         string ExpandEnvironmentVariables(string name);
+
+        string GetOrCreateRegistryVariable(string key, string path, string defaultValue);
+
+        void SetRegistryVariable(string key, string value, string path);
     }
 }

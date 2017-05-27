@@ -5,18 +5,14 @@ using System.Text;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces;
 
-namespace ModernApplicationFramework.Extended.ApplicationEnvironment
+namespace ModernApplicationFramework.Basics.ApplicationEnvironment
 {
     public abstract class AbstractEnvironmentVarirables : IEnvironmentVarirables
     {
         protected const string ApplicationLocationKey = "ApplicationLocation";
-        protected const string DefaultSettingsDirectoryKey = "DefaultSettingsDirectory";
         protected const string ProfileKey = "Profile";
-        protected const string SettingsFilePathKey = "SaveFile";
 
         private string _registryRootPath;
-        private string _settingsFilePath;
-
 
         protected AbstractEnvironmentVarirables()
         {
@@ -31,20 +27,6 @@ namespace ModernApplicationFramework.Extended.ApplicationEnvironment
 
         public Dictionary<string, string> EnvironmentVariables { get; }
 
-        public string SettingsDirectoryKey => "%maf_settings_directory%";
-
-
-        public string SettingsFilePath
-        {
-            get => ExpandEnvironmentVariables(_settingsFilePath);
-            set
-            {
-                if (_settingsFilePath == value)
-                    return;
-                _settingsFilePath = value;
-                RegirstryTools.SetValueCurrentUserRoot(Path.Combine(RegistryRootPath, ProfileKey), SettingsFilePathKey, value);
-            }
-        }
 
         protected virtual string DefaultApplicationDirectory => Path.Combine("%USERPROFILE%\\Documents\\",
             ApplicationName);
@@ -53,9 +35,6 @@ namespace ModernApplicationFramework.Extended.ApplicationEnvironment
         protected virtual string DefaultLoggingDirectoryPath => Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ApplicationName);
 
-        protected virtual string DefaultSettingsDirectory => Path.Combine(ApplicationUserDirectoryKey, "settings");
-
-        protected virtual string DefaultSettingsFilePath => Path.Combine(DefaultSettingsDirectory, "CurrentSettings.mafsettings");
 
         protected virtual string RegistryRootPath => _registryRootPath ??
                                                   (_registryRootPath =
@@ -80,6 +59,25 @@ namespace ModernApplicationFramework.Extended.ApplicationEnvironment
                 blob.Append(GetExpandedRecursive(envVar));
             }
             return blob.ToString();
+        }
+
+        public string GetOrCreateRegistryVariable(string key, string path, string defaultValue)
+        {
+            var fullPath = path == null ? RegistryRootPath : Path.Combine(RegistryRootPath, path);
+            var value = RegirstryTools.GetValueCurrentUserRoot(fullPath, key);
+            if (value == null)
+            {
+                value = defaultValue;
+                RegirstryTools.SetValueCurrentUserRoot(fullPath, key, defaultValue);
+            }
+
+            return value.ToString();
+        }
+
+        public void SetRegistryVariable(string key, string value, string path)
+        {
+            var fullPath = path == null ? RegistryRootPath : Path.Combine(RegistryRootPath, path);
+            RegirstryTools.SetValueCurrentUserRoot(fullPath, key, value);
         }
 
         public virtual bool GetEnvironmentVariable(string key, out string value)
@@ -109,9 +107,6 @@ namespace ModernApplicationFramework.Extended.ApplicationEnvironment
 
         protected virtual void SetupProfile()
         {
-            var profilePath = Path.Combine(RegistryRootPath, ProfileKey);
-            SetupRegistryPath(profilePath, DefaultSettingsDirectoryKey, DefaultSettingsDirectory, SettingsDirectoryKey);
-            _settingsFilePath = SetupRegistryPath(profilePath, SettingsFilePathKey, DefaultSettingsFilePath);
         }
 
 

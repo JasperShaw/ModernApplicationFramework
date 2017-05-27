@@ -4,26 +4,16 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using Caliburn.Micro;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Properties;
 
 namespace ModernApplicationFramework.Core.Localization
 {
-    public interface ILanguageManager
-    {
-        event EventHandler OnLanguageChanged;
-
-        LanguageInfo CurrentLanguage { get; }
-        LanguageInfo SavedLanguage { get; }
-
-        IEnumerable<LanguageInfo> GetInstalledLanguages();
-
-        void SaveLanguage(LanguageInfo languageCode);
-
-    }
-
     public sealed class LanguageManager : ILanguageManager
     {
         private const string SystemLanguageCode = "system";
+        private const string RegirstryKey = "InstalledApplicationLanguage";
 
         public event EventHandler OnLanguageChanged;
 
@@ -47,8 +37,7 @@ namespace ModernApplicationFramework.Core.Localization
 
         public void SaveLanguage(LanguageInfo languageCode)
         {
-            Settings.Default.LanguageCode = languageCode.Code;
-            Settings.Default.Save();
+            IoC.Get<IEnvironmentVarirables>().SetRegistryVariable(RegirstryKey, languageCode.Code, null);
             OnRaiseLanguageChanged(new EventArgs());
         }
 
@@ -57,7 +46,9 @@ namespace ModernApplicationFramework.Core.Localization
 	    {
 		    get
 		    {
-				var savedCode = Settings.Default.LanguageCode;
+
+		        var savedCode = IoC.Get<IEnvironmentVarirables>().GetOrCreateRegistryVariable(RegirstryKey, null, SystemLanguageCode);
+				//var savedCode = Settings.Default.LanguageCode;
 			    var installedLanguages = GetInstalledLanguages();
 			    if (string.IsNullOrEmpty(savedCode))
 				    return installedLanguages.FirstOrDefault(

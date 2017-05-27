@@ -34,6 +34,14 @@ namespace ModernApplicationFramework.Basics.SettingsBase
                 StoreSettingsValue(queryName, value.ToString());
         }
 
+        protected string GetSettingsValue(string queryName, string defaultValue = null)
+        {
+            var result = SettingsManager.GetOrCreatePropertyValue(SettingsFilePath, queryName, out string value, defaultValue, true, true);
+            if (result == GetValueResult.Corrupt)
+                return defaultValue;
+            return value;
+        }
+
         protected void StoreSettingsValue(string settingsProperty, string value)
         {
             SettingsManager.SetPropertyValueAsync(SettingsFilePath, settingsProperty, value, true);

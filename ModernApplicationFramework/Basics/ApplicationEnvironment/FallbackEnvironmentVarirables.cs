@@ -1,4 +1,4 @@
-﻿namespace ModernApplicationFramework.Extended.ApplicationEnvironment
+﻿namespace ModernApplicationFramework.Basics.ApplicationEnvironment
 {
     public sealed class FallbackEnvironmentVarirables : AbstractEnvironmentVarirables
     {

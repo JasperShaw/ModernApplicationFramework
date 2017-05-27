@@ -18,14 +18,14 @@ namespace ModernApplicationFramework.Settings.SettingsManager
         public event EventHandler SettingsLocationChanged;
         public event EventHandler Initialized;
 
-        public IEnvironmentVarirables EnvironmentVarirables { get; }
+        public IExtendedEnvironmentVarirables EnvironmentVarirables { get; }
 
         protected ISettingsFile SettingsFile { get; set; }
 
         protected SettingsValueSerializer ValueSerializer { get; }
 
         [ImportingConstructor]
-        public SettingsManager(IEnvironmentVarirables environmentVarirables)
+        public SettingsManager(IExtendedEnvironmentVarirables environmentVarirables)
         {
             EnvironmentVarirables = environmentVarirables;
             ValueSerializer = new SettingsValueSerializer();

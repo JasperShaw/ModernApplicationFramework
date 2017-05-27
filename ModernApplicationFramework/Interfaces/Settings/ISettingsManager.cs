@@ -31,7 +31,7 @@ namespace ModernApplicationFramework.Interfaces.Settings
         event EventHandler SettingsLocationChanged;
         event EventHandler Initialized;
 
-        IEnvironmentVarirables EnvironmentVarirables { get; }
+        IExtendedEnvironmentVarirables EnvironmentVarirables { get; }
 
         void ChangeSettingsFileLocation(string path, bool deleteCurrent);
 

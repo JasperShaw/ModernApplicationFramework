@@ -10,7 +10,7 @@ namespace ModernApplicationFramework.Extended.ApplicationEnvironment
     [Export(typeof(IApplicationEnvironment))]
     public class ApplicationEnvironmentBase : IApplicationEnvironment
     {
-        private readonly IEnvironmentVarirables _environmentVarirables;
+        private readonly IExtendedEnvironmentVarirables _environmentVarirables;
         private readonly ISettingsManager _settingsManager;
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace ModernApplicationFramework.Extended.ApplicationEnvironment
         protected virtual bool UseApplicationSettings => true;
 
         [ImportingConstructor]
-        public ApplicationEnvironmentBase(IEnvironmentVarirables environmentVarirables, ISettingsManager settingsManager)
+        public ApplicationEnvironmentBase(IExtendedEnvironmentVarirables environmentVarirables, ISettingsManager settingsManager)
         {
             _environmentVarirables = environmentVarirables;
             _settingsManager = settingsManager;

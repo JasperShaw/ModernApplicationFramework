@@ -215,6 +215,8 @@
     <Content Include="Info.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Basics\ApplicationEnvironment\AbstractEnvironmentVarirables.cs" />
+    <Compile Include="Basics\ApplicationEnvironment\FallbackEnvironmentVarirables.cs" />
     <Compile Include="Basics\SettingsBase\AbstractSettingsDataModel.cs" />
     <Compile Include="Basics\Bootstrapper.cs" />
     <Compile Include="Basics\ComboBoxDataSource.cs" />
@@ -248,6 +250,8 @@
     <Compile Include="Basics\EnvironmentRenderCapabilities.cs" />
     <Compile Include="Basics\SettingsBase\SettingsCategories.cs" />
     <Compile Include="Basics\SettingsBase\SettingsCategory.cs" />
+    <Compile Include="Interfaces\IExtendedEnvironmentVarirables.cs" />
+    <Compile Include="Interfaces\ILanguageManager.cs" />
     <Compile Include="Core\Utilities\RegirstryTools.cs" />
     <Compile Include="Controls\BalloonTooltip.cs" />
     <Compile Include="Controls\ModernTextBox.cs" />

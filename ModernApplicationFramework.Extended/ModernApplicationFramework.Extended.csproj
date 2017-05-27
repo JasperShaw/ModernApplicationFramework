@@ -61,9 +61,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationEnvironment\AbstractEnvironmentVarirables.cs" />
+    <Compile Include="ApplicationEnvironment\ExtendedEnvironmentVarirables.cs" />
     <Compile Include="ApplicationEnvironment\ApplicationEnvironmentBase.cs" />
-    <Compile Include="ApplicationEnvironment\FallbackEnvironmentVarirables.cs" />
+    <Compile Include="ApplicationEnvironment\FallbackExtendedEnvironmentVarirables.cs" />
     <Compile Include="Interfaces\IApplicationEnvironment.cs" />
     <Compile Include="ExtendedBootstrapper.cs" />
     <Compile Include="Commands\CloseProgammCommandDefinition.cs" />
