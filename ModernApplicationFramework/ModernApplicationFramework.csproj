@@ -68,22 +68,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Basics\SettingsDialog\Views\SettingsWindowView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Basics\Settings\General\GeneralMainWindowSettingsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Basics\Settings\General\GeneralVisualExperienceSettingsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Basics\Settings\Language\LanguageSettingsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Resources\Icons\SplitScreenVertical.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
@@ -231,7 +215,7 @@
     <Content Include="Info.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Basics\AbstractSettingsDataModel.cs" />
+    <Compile Include="Basics\SettingsBase\AbstractSettingsDataModel.cs" />
     <Compile Include="Basics\Bootstrapper.cs" />
     <Compile Include="Basics\ComboBoxDataSource.cs" />
     <Compile Include="Basics\CommandBar\CommandBarResources.Designer.cs">
@@ -262,73 +246,8 @@
     <Compile Include="Basics\DirtyObjectManager.cs" />
     <Compile Include="Basics\EnvironmentGeneralOptions.cs" />
     <Compile Include="Basics\EnvironmentRenderCapabilities.cs" />
-    <Compile Include="Basics\ISettingsDataModel.cs" />
-    <Compile Include="Basics\SettingsDialog\AbstractSettingsPage.cs" />
-    <Compile Include="Basics\SettingsManager\ISettingsFile.cs" />
-    <Compile Include="Basics\SettingsManager\SettingsFactory.cs" />
-    <Compile Include="Basics\SettingsManager\SettingsValueSerializer.cs" />
-    <Compile Include="Basics\SettingsManager\SettingsXPathCreator.cs" />
-    <Compile Include="Basics\SettingsManager\UserSettingsFile.cs" />
-    <Compile Include="Basics\SettingsManager\XmlUtilities.cs" />
-    <Compile Include="Basics\Settings\General\GeneralMainWindowSettingsViewModel.cs" />
-    <Compile Include="Basics\Settings\General\GeneralSettingsResources.de.Designer.cs">
-      <DependentUpon>GeneralSettingsResources.de.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Basics\Settings\General\GeneralSettingsResources.en.Designer.cs">
-      <DependentUpon>GeneralSettingsResources.en.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Basics\Settings\General\GeneralSettingsResources.Designer.cs">
-      <DependentUpon>GeneralSettingsResources.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Basics\Settings\General\GeneralVisualExperienceSettingsResources.de.Designer.cs">
-      <DependentUpon>GeneralVisualExperienceSettingsResources.de.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Basics\Settings\General\GeneralVisualExperienceSettingsResources.en.Designer.cs">
-      <DependentUpon>GeneralVisualExperienceSettingsResources.en.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Basics\Settings\General\GeneralMainWindowSettingsView.xaml.cs">
-      <DependentUpon>GeneralMainWindowSettingsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Basics\Settings\General\GeneralVisualExperienceSettingsView.xaml.cs">
-      <DependentUpon>GeneralVisualExperienceSettingsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Basics\Settings\General\GeneralVisualExperienceSettingsViewModel.cs" />
-    <Compile Include="Basics\Settings\General\GeneralVisualExperienceSettingsResources.Designer.cs">
-      <DependentUpon>GeneralVisualExperienceSettingsResources.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Basics\Settings\Language\LanguageSettingsResources.de.Designer.cs">
-      <DependentUpon>LanguageSettingsResources.de.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Basics\Settings\Language\LanguageSettingsResources.en.Designer.cs">
-      <DependentUpon>LanguageSettingsResources.en.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Basics\Settings\Language\LanguageSettingsResources.Designer.cs">
-      <DependentUpon>LanguageSettingsResources.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Basics\Settings\Language\LanguageSettingsView.xaml.cs">
-      <DependentUpon>LanguageSettingsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Basics\Settings\Language\LanguageSettingsViewModel.cs" />
-    <Compile Include="Basics\ApplicationEnvironment\ApplicationEnvironmentBase.cs" />
-    <Compile Include="Basics\ApplicationEnvironment\FallbackEnvironmentVarirables.cs" />
+    <Compile Include="Basics\SettingsBase\SettingsCategories.cs" />
+    <Compile Include="Basics\SettingsBase\SettingsCategory.cs" />
     <Compile Include="Core\Utilities\RegirstryTools.cs" />
     <Compile Include="Controls\BalloonTooltip.cs" />
     <Compile Include="Controls\ModernTextBox.cs" />
@@ -336,8 +255,6 @@
     <Compile Include="Controls\Utilities\BalloonType.cs" />
     <Compile Include="Controls\GroupBox.cs" />
     <Compile Include="Controls\Utilities\Extensions.cs" />
-    <Compile Include="Basics\SettingsDialog\SettingsCategory.cs" />
-    <Compile Include="Basics\SettingsCategories.cs" />
     <Compile Include="Controls\Utilities\LeftMarginMultiplierConverter.cs" />
     <Compile Include="Controls\Utilities\TreeViewItemExtensions.cs" />
     <Compile Include="Controls\ValidateableTextBox.cs" />
@@ -368,6 +285,10 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Interfaces\ICanBeDirty.cs" />
+    <Compile Include="Interfaces\Settings\ISettingsCategory.cs" />
+    <Compile Include="Interfaces\Settings\ISettingsDataModel.cs" />
+    <Compile Include="Interfaces\Settings\ISettingsManager.cs" />
+    <Compile Include="Interfaces\Settings\ISettingsPage.cs" />
     <Compile Include="Interfaces\ViewModels\IAddCommandDialogViewModel.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarMenuControllerDefinition.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarSplitItemDefinition.cs" />
@@ -424,12 +345,6 @@
     <Compile Include="Basics\Definitions\Menu\MenuBarDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuDefinition.cs" />
     <Compile Include="Basics\Definitions\Toolbar\ToolbarDefinition.cs" />
-    <Compile Include="Basics\SettingsDialog\ViewModels\SettingsPageContainerViewModel.cs" />
-    <Compile Include="Basics\SettingsDialog\ViewModels\SettingsWindowViewModel.cs" />
-    <Compile Include="Basics\SettingsDialog\Views\SettingsWindowView.xaml.cs">
-      <DependentUpon>SettingsWindowView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Basics\SettingsManager\SettingsManager.cs" />
     <Compile Include="Basics\CommandBar\ContextMenuDefinition.cs" />
     <Compile Include="Basics\CommandBar\Commands\CustomizeMenuCommandDefinition.cs" />
     <Compile Include="Basics\CommandBar\Commands\ListToolBarsCommandListDefinition.cs" />
@@ -515,7 +430,6 @@
     <Compile Include="CommandBase\Base\CommandBase.cs" />
     <Compile Include="CommandBase\CommandT.cs" />
     <Compile Include="CommandBase\Base\WeakEventHandlerManager.cs" />
-    <Compile Include="Basics\ApplicationEnvironment\AbstractEnvironmentVarirables.cs" />
     <Compile Include="Controls\Button.cs" />
     <Compile Include="Controls\CheckableListBox.cs" />
     <Compile Include="Controls\CheckableListBoxItem.cs" />
@@ -558,7 +472,6 @@
     <Compile Include="Interfaces\IContextMenuHost.cs" />
     <Compile Include="Interfaces\IHasInternalName.cs" />
     <Compile Include="Interfaces\IHasMainWindowViewModel.cs" />
-    <Compile Include="Interfaces\ISettingsPage.cs" />
     <Compile Include="Interfaces\Utilities\IContextMenuCreator.cs" />
     <Compile Include="Interfaces\ViewModels\ICommandBarHost.cs" />
     <Compile Include="Interfaces\Views\IToolBarsPageView.cs" />
@@ -1172,42 +1085,6 @@
     <EmbeddedResource Include="Basics\CommandBar\CommandBarResources.en.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommandBarResources.en.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Basics\Settings\General\GeneralSettingsResources.de.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>GeneralSettingsResources.de.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Basics\Settings\General\GeneralSettingsResources.en.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>GeneralSettingsResources.en.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Basics\Settings\General\GeneralSettingsResources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>GeneralSettingsResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Basics\Settings\General\GeneralVisualExperienceSettingsResources.de.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>GeneralVisualExperienceSettingsResources.de.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Basics\Settings\General\GeneralVisualExperienceSettingsResources.en.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>GeneralVisualExperienceSettingsResources.en.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Basics\Settings\General\GeneralVisualExperienceSettingsResources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>GeneralVisualExperienceSettingsResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Basics\Settings\Language\LanguageSettingsResources.de.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>LanguageSettingsResources.de.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Basics\Settings\Language\LanguageSettingsResources.en.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>LanguageSettingsResources.en.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Basics\Settings\Language\LanguageSettingsResources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>LanguageSettingsResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Docking\DockingResources.de.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

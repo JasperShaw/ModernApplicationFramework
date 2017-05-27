@@ -5,18 +5,25 @@ using System.ComponentModel.Composition.Hosting;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using Caliburn.Micro;
 using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Extended.ApplicationEnvironment;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Extended
 {
     public class ExtendedBootstrapper : Basics.Bootstrapper
     {
+
+        protected virtual IEnvironmentVarirables EnvironmentVarirables => new FallbackEnvironmentVarirables();
+
         internal IList<Assembly> PriorityAssemblies => _priorityAssemblies;
 
         protected override void BindServices(CompositionBatch batch)
         {
-	        base.BindServices(batch);
+            batch.AddExportedValue(EnvironmentVarirables);
+            base.BindServices(batch);
 	     	batch.AddExportedValue(this);
         }
 
@@ -46,8 +53,16 @@ namespace ModernApplicationFramework.Extended
 
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
+            IoC.Get<IEnvironmentVarirables>().Setup();
+            IoC.Get<IApplicationEnvironment>().Setup();
             base.OnStartup(sender, e);
             DisplayRootViewFor<IDockingMainWindowViewModel>();
+        }
+
+        protected override void OnExit(object sender, EventArgs e)
+        {
+            base.OnExit(sender, e);
+            IoC.Get<IApplicationEnvironment>().PrepareClose();
         }
 
         protected override IEnumerable<Assembly> SelectAssemblies()

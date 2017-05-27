@@ -61,6 +61,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationEnvironment\AbstractEnvironmentVarirables.cs" />
+    <Compile Include="ApplicationEnvironment\ApplicationEnvironmentBase.cs" />
+    <Compile Include="ApplicationEnvironment\FallbackEnvironmentVarirables.cs" />
     <Compile Include="ExtendedBootstrapper.cs" />
     <Compile Include="Commands\CloseProgammCommandDefinition.cs" />
     <Compile Include="Commands\FullScreenCommandDefinition.cs" />
@@ -158,25 +161,67 @@
     <Compile Include="ResultDialogs\ShowDialogResult.cs" />
     <Compile Include="ResultDialogs\ShowToolResult.cs" />
     <Compile Include="ResultDialogs\ShowWindowResult.cs" />
-    <Compile Include="Settings\GeneralSettingsResources.de.Designer.cs">
+    <Compile Include="Settings\General\GeneralWindowItemListSettingsView.xaml.cs">
+      <DependentUpon>GeneralWindowItemListSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\General\GeneralWindowItemListSettingsViewModel.cs" />
+    <Compile Include="Settings\General\GeneralMainWindowSettingsView.xaml.cs">
+      <DependentUpon>GeneralMainWindowSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\General\GeneralMainWindowSettingsViewModel.cs" />
+    <Compile Include="Settings\General\GeneralSettingsResources.de.Designer.cs">
       <DependentUpon>GeneralSettingsResources.de.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Settings\GeneralSettingsResources.Designer.cs">
+    <Compile Include="Settings\General\GeneralSettingsResources.Designer.cs">
       <DependentUpon>GeneralSettingsResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Settings\GeneralSettingsResources.en.Designer.cs">
+    <Compile Include="Settings\General\GeneralSettingsResources.en.Designer.cs">
       <DependentUpon>GeneralSettingsResources.en.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Settings\GeneralWindowItemListSettingsView.xaml.cs">
-      <DependentUpon>GeneralWindowItemListSettingsView.xaml</DependentUpon>
+    <Compile Include="Settings\General\GeneralVisualExperienceSettingsResources.de.Designer.cs">
+      <DependentUpon>GeneralVisualExperienceSettingsResources.de.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Settings\GeneralWindowItemListSettingsViewModel.cs" />
+    <Compile Include="Settings\General\GeneralVisualExperienceSettingsResources.Designer.cs">
+      <DependentUpon>GeneralVisualExperienceSettingsResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Settings\General\GeneralVisualExperienceSettingsResources.en.Designer.cs">
+      <DependentUpon>GeneralVisualExperienceSettingsResources.en.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Settings\General\GeneralVisualExperienceSettingsView.xaml.cs">
+      <DependentUpon>GeneralVisualExperienceSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\General\GeneralVisualExperienceSettingsViewModel.cs" />
+    <Compile Include="Settings\Language\LanguageSettingsResources.de.Designer.cs">
+      <DependentUpon>LanguageSettingsResources.de.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Settings\Language\LanguageSettingsResources.Designer.cs">
+      <DependentUpon>LanguageSettingsResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Settings\Language\LanguageSettingsResources.en.Designer.cs">
+      <DependentUpon>LanguageSettingsResources.en.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Settings\Language\LanguageSettingsView.xaml.cs">
+      <DependentUpon>LanguageSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\Language\LanguageSettingsViewModel.cs" />
     <Compile Include="ToolbarDefinitions\StandardToolbarDefinition.cs" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -185,6 +230,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ModernApplicationFramework.Settings\ModernApplicationFramework.Settings.csproj">
+      <Project>{240cc7db-f3a0-48e7-a8eb-5785a90128be}</Project>
+      <Name>ModernApplicationFramework.Settings</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework\ModernApplicationFramework.csproj">
       <Project>{74f6c6a1-64bb-47d4-9e7f-6cd5c4ca166c}</Project>
       <Name>ModernApplicationFramework</Name>
@@ -215,17 +264,41 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Commands.Resources.en.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Settings\GeneralSettingsResources.de.resx">
+    <EmbeddedResource Include="Settings\General\GeneralSettingsResources.de.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>GeneralSettingsResources.de.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Settings\GeneralSettingsResources.en.resx">
+    <EmbeddedResource Include="Settings\General\GeneralSettingsResources.en.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>GeneralSettingsResources.en.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Settings\GeneralSettingsResources.resx">
+    <EmbeddedResource Include="Settings\General\GeneralSettingsResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>GeneralSettingsResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\General\GeneralVisualExperienceSettingsResources.de.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>GeneralVisualExperienceSettingsResources.de.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\General\GeneralVisualExperienceSettingsResources.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>GeneralVisualExperienceSettingsResources.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\General\GeneralVisualExperienceSettingsResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>GeneralVisualExperienceSettingsResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\Language\LanguageSettingsResources.de.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>LanguageSettingsResources.de.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\Language\LanguageSettingsResources.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>LanguageSettingsResources.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\Language\LanguageSettingsResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>LanguageSettingsResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -257,9 +330,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Settings\GeneralWindowItemListSettingsView.xaml">
+    <Page Include="Settings\General\GeneralWindowItemListSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Settings\General\GeneralMainWindowSettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Settings\General\GeneralVisualExperienceSettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Settings\Language\LanguageSettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup />

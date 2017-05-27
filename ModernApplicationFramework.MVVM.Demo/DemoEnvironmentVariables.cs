@@ -1,4 +1,4 @@
-﻿using ModernApplicationFramework.Basics.ApplicationEnvironment;
+﻿using ModernApplicationFramework.Extended.ApplicationEnvironment;
 
 namespace ModernApplicationFramework.MVVM.Demo
 {

@@ -4,13 +4,10 @@ using System.Security.AccessControl;
 using System.Threading;
 using System.Windows;
 using System.Windows.Automation.Peers;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Controls.AutomationPeer;
 using ModernApplicationFramework.Controls.Internals;
@@ -37,7 +34,6 @@ namespace ModernApplicationFramework.Controls
         protected MainWindow()
         {
             IsVisibleChanged += OnVisibilityChanged;
-            DataContextChanged += MainWindow_DataContextChanged;
             if (ShouldAutoSize)
                 GetGoodStartingSize();
 
@@ -47,12 +43,6 @@ namespace ModernApplicationFramework.Controls
                 Application.Current.MainWindow = this;
 
             DataContext = new MainWindowViewModel(this);
-        }
-
-        private void MainWindow_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            var generalOptions = IoC.Get<EnvironmentGeneralOptions>();
-            generalOptions.LoadOrCreate();
         }
 
         public BitmapImage ActivatedFloatIcon { get; set; }

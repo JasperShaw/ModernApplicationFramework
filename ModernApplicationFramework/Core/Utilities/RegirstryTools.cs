@@ -2,7 +2,7 @@
 
 namespace ModernApplicationFramework.Core.Utilities
 {
-    internal static class RegirstryTools
+    public static class RegirstryTools
     {
         private const string RegistryKeyHive = "HKEY_CURRENT_USER\\";
 

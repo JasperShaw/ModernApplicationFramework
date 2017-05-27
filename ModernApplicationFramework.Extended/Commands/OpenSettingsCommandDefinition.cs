@@ -4,9 +4,9 @@ using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Basics.SettingsDialog.ViewModels;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Extended.Properties;
+using ModernApplicationFramework.Settings.SettingsDialog.ViewModels;
 
 namespace ModernApplicationFramework.Extended.Commands
 {

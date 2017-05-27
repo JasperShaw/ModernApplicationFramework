@@ -2,8 +2,8 @@
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
-using ModernApplicationFramework.Basics.SettingsDialog;
-using ModernApplicationFramework.Basics.SettingsManager;
+using ModernApplicationFramework.Basics.SettingsBase;
+using ModernApplicationFramework.Interfaces.Settings;
 using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Basics
@@ -151,7 +151,7 @@ namespace ModernApplicationFramework.Basics
             SettingsManager = settingsManager;
         }
 
-        public override SettingsCategory Category { get; }
+        public override ISettingsCategory Category { get; }
 
         public override string Name => "General";
 

@@ -6,7 +6,7 @@ using ModernApplicationFramework.Native.Standard;
 
 namespace ModernApplicationFramework.Core.Converters.General
 {
-    internal class AndBooleanConverter : IMultiValueConverter
+    public class AndBooleanConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {

@@ -6,11 +6,8 @@ using System.ComponentModel.Composition.ReflectionModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Windows;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.ApplicationEnvironment;
 using ModernApplicationFramework.Core.Localization;
-using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Native.TrinetCoreNtfs;
 
 namespace ModernApplicationFramework.Basics
@@ -20,9 +17,6 @@ namespace ModernApplicationFramework.Basics
         protected CompositionContainer Container;
 
         protected List<Assembly> _priorityAssemblies;
-
-
-        protected virtual IEnvironmentVarirables EnvironmentVarirables => new FallbackEnvironmentVarirables();
 
 
         public Bootstrapper()
@@ -39,19 +33,6 @@ namespace ModernApplicationFramework.Basics
 		    
 	    }
 
-        protected override void OnStartup(object sender, StartupEventArgs e)
-        {
-            base.OnStartup(sender, e);
-            IoC.Get<IEnvironmentVarirables>().Setup();
-            IoC.Get<IApplicationEnvironment>().Setup();
-        }
-
-        protected override void OnExit(object sender, EventArgs e)
-        {
-            base.OnExit(sender, e);
-            IoC.Get<IApplicationEnvironment>().PrepareClose();
-        }
-
         protected void SetLanguage()
         {
 	        var lm = Container.GetExportedValue<ILanguageManager>() as LanguageManager;
@@ -60,8 +41,6 @@ namespace ModernApplicationFramework.Basics
 
         protected virtual void BindServices(CompositionBatch batch)
         {
-            batch.AddExportedValue(EnvironmentVarirables);
-
             batch.AddExportedValue<IWindowManager>(new WindowManager());
             batch.AddExportedValue<IEventAggregator>(new EventAggregator());
             batch.AddExportedValue<ILanguageManager>(new LanguageManager());
