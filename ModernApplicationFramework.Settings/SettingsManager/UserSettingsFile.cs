@@ -298,6 +298,9 @@ namespace ModernApplicationFramework.Settings.SettingsManager
 
             rootNode.AppendChild(CreateApplicationVersionElement(document));
 
+
+            rootNode.AppendChild(document.CreateElement("ToolsOptions"));
+
             SettingsSotrage = document;
             return document;
         }
