@@ -7,14 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Themes.LightIDE", "ModernApplicationFramework.Themes.LightIDE\ModernApplicationFramework.Themes.LightIDE.csproj", "{845DE7C9-6217-479C-9F4F-D98E6A3B436B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFrameworkMVVMTestApp", "ModernApplicationFrameworkMVVMTestApp\ModernApplicationFrameworkMVVMTestApp.csproj", "{7E5B203F-7C5C-4D9E-942F-EF2DDD478059}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFrameworkTestApp", "ModernApplicationFrameworkTestApp\ModernApplicationFrameworkTestApp.csproj", "{39FCF0D8-AE1A-4082-9DF7-EFE6B1D6DA79}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFrameworkTestAppDock", "ModernApplicationFrameworkTestAppDock\ModernApplicationFrameworkTestAppDock.csproj", "{1A844E5B-C719-4E86-9E97-3CC97722DF09}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFrameworkTestAppWindow", "ModernApplicationFrameworkTestAppWindow\ModernApplicationFrameworkTestAppWindow.csproj", "{390498E1-337D-4A4B-9572-D12C2C728A0C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFrameworkTestSimpleWindow", "ModernApplicationFrameworkTestSimpleWindow\ModernApplicationFrameworkTestSimpleWindow.csproj", "{24998A06-26E8-42C4-A3FC-481A3B64D346}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.MVVM.Demo", "ModernApplicationFramework.MVVM.Demo\ModernApplicationFramework.MVVM.Demo.csproj", "{ACBF5195-D0C0-480D-84F0-C72F538830BA}"
@@ -49,22 +41,6 @@ Global
 		{845DE7C9-6217-479C-9F4F-D98E6A3B436B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{845DE7C9-6217-479C-9F4F-D98E6A3B436B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{845DE7C9-6217-479C-9F4F-D98E6A3B436B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7E5B203F-7C5C-4D9E-942F-EF2DDD478059}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7E5B203F-7C5C-4D9E-942F-EF2DDD478059}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7E5B203F-7C5C-4D9E-942F-EF2DDD478059}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7E5B203F-7C5C-4D9E-942F-EF2DDD478059}.Release|Any CPU.Build.0 = Release|Any CPU
-		{39FCF0D8-AE1A-4082-9DF7-EFE6B1D6DA79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{39FCF0D8-AE1A-4082-9DF7-EFE6B1D6DA79}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{39FCF0D8-AE1A-4082-9DF7-EFE6B1D6DA79}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{39FCF0D8-AE1A-4082-9DF7-EFE6B1D6DA79}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1A844E5B-C719-4E86-9E97-3CC97722DF09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1A844E5B-C719-4E86-9E97-3CC97722DF09}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1A844E5B-C719-4E86-9E97-3CC97722DF09}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1A844E5B-C719-4E86-9E97-3CC97722DF09}.Release|Any CPU.Build.0 = Release|Any CPU
-		{390498E1-337D-4A4B-9572-D12C2C728A0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{390498E1-337D-4A4B-9572-D12C2C728A0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{390498E1-337D-4A4B-9572-D12C2C728A0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{390498E1-337D-4A4B-9572-D12C2C728A0C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{24998A06-26E8-42C4-A3FC-481A3B64D346}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{24998A06-26E8-42C4-A3FC-481A3B64D346}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24998A06-26E8-42C4-A3FC-481A3B64D346}.Release|Any CPU.ActiveCfg = Release|Any CPU
