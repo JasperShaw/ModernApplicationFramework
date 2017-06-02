@@ -1,6 +1,9 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.IO;
+using System.Linq;
+using System.Windows;
+using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Settings;
@@ -19,11 +22,17 @@ namespace ModernApplicationFramework.Extended.ApplicationEnvironment
         /// </summary>
         protected virtual bool UseApplicationSettings => true;
 
+
+        public string LocalAppDataPath { get; }
+
         [ImportingConstructor]
         public ApplicationEnvironmentBase(IExtendedEnvironmentVarirables environmentVarirables, ISettingsManager settingsManager)
         {
             _environmentVarirables = environmentVarirables;
             _settingsManager = settingsManager;
+
+            LocalAppDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                environmentVarirables.ApplicationName, environmentVarirables.ApplicationVersion);
         }
 
         public virtual void Setup()
@@ -42,16 +51,33 @@ namespace ModernApplicationFramework.Extended.ApplicationEnvironment
                     Directory.CreateDirectory(realLoc);
                 if (UseApplicationSettings  && !Directory.Exists(realSettingsLoc))
                     Directory.CreateDirectory(realSettingsLoc);
+                if (!Directory.Exists(LocalAppDataPath))
+                    Directory.CreateDirectory(LocalAppDataPath);
             }
             catch (Exception e) when (e is UnauthorizedAccessException)
             {
             }
             if (UseApplicationSettings)
                 _settingsManager.Initialize();
+
+
+            var modules = IoC.GetAll<IModule>().ToList();
+            foreach (var module in modules)
+            foreach (var globalResourceDictionary in module.GlobalResourceDictionaries)
+                Application.Current.Resources.MergedDictionaries.Add(globalResourceDictionary);
+
+
+            foreach (var module in modules)
+                module.PreInitialize();
         }
 
         public virtual void PrepareClose()
         {
+            var modules = IoC.GetAll<IModule>().ToList();
+            modules.ForEach(x => x.Dispose());
+
+
+
             if (UseApplicationSettings)
                 _settingsManager.Close();
         }

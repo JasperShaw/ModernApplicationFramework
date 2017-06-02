@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.IO;
 using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
@@ -96,10 +95,6 @@ namespace ModernApplicationFramework.Extended.DockingHost.ViewModels
 
         public IObservableCollection<ITool> Tools => _tools;
 
-        public bool HasPersistedState => File.Exists(StateFile);
-
-        public virtual string StateFile => @".\ApplicationState.bin";
-
         public override void ActivateItem(ILayoutItem item)
         {
             if (_closing)
@@ -158,7 +153,7 @@ namespace ModernApplicationFramework.Extended.DockingHost.ViewModels
             // requests that occur when _closing is true.
             _closing = true;
 
-            _layoutItemStatePersister.SaveState(this, _dockingHostView, StateFile);
+            _layoutItemStatePersister.SaveState(this, _dockingHostView);
 
             base.OnDeactivate(close);
         }
@@ -166,17 +161,9 @@ namespace ModernApplicationFramework.Extended.DockingHost.ViewModels
         protected override void OnViewLoaded(object view)
         {
             foreach (var module in _modules)
-            foreach (var globalResourceDictionary in module.GlobalResourceDictionaries)
-                Application.Current.Resources.MergedDictionaries.Add(globalResourceDictionary);
-
-            foreach (var module in _modules)
-                module.PreInitialize();
-            foreach (var module in _modules)
                 module.Initialize();
-
-
             _dockingHostView = (IDockingHost) view;
-            if (!HasPersistedState)
+            if (!_layoutItemStatePersister.HasStateFile)
             {
                 foreach (var defaultDocument in _modules.SelectMany(x => x.DefaultDocuments))
                     OpenDocument(defaultDocument);
@@ -184,9 +171,7 @@ namespace ModernApplicationFramework.Extended.DockingHost.ViewModels
                     ShowTool((ITool) IoC.GetInstance(defaultTool, null));
             }
             else
-            {
-                _layoutItemStatePersister.LoadState(this, _dockingHostView, StateFile);
-            }
+                _layoutItemStatePersister.LoadState(this, _dockingHostView);
 
             foreach (var module in _modules)
                 module.PostInitialize();

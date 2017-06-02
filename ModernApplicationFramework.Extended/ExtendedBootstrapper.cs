@@ -63,8 +63,8 @@ namespace ModernApplicationFramework.Extended
 
         protected override void OnExit(object sender, EventArgs e)
         {
-            base.OnExit(sender, e);
             IoC.Get<IApplicationEnvironment>().PrepareClose();
+            base.OnExit(sender, e);
         }
 
         protected override IEnumerable<Assembly> SelectAssemblies()

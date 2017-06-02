@@ -11,18 +11,31 @@ namespace ModernApplicationFramework.Extended.Core.LayoutUtilities
     [Export(typeof(ILayoutItemStatePersister))]
     public class LayoutItemStatePersister : ILayoutItemStatePersister
     {
-        public void LoadState(IDockingHostViewModel shell, IDockingHost shellView, string fileName)
+        private readonly IApplicationEnvironment _environment;
+
+        protected virtual string ApplicationStateFilePath => "ComponentModelCache\\Default.cache";
+
+        public bool HasStateFile => File.Exists(Path.Combine(_environment.LocalAppDataPath, ApplicationStateFilePath));
+
+        [ImportingConstructor]
+        public LayoutItemStatePersister(IApplicationEnvironment environment)
         {
+            _environment = environment;
+        }
+
+        public void LoadState(IDockingHostViewModel shell, IDockingHost shellView)
+        {
+            var absoluteFilePath = Path.Combine(_environment.LocalAppDataPath, ApplicationStateFilePath);
             var layoutItems = new Dictionary<string, ILayoutItemBase>();
 
-            if (!File.Exists(fileName))
+            if (!File.Exists(absoluteFilePath))
                 return;
 
             FileStream stream = null;
 
             try
             {
-                stream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+                stream = new FileStream(absoluteFilePath, FileMode.Open, FileAccess.Read);
 
                 using (var reader = new BinaryReader(stream))
                 {
@@ -74,13 +87,23 @@ namespace ModernApplicationFramework.Extended.Core.LayoutUtilities
             }
         }
 
-        public void SaveState(IDockingHostViewModel shell, IDockingHost shellView, string fileName)
+        public void SaveState(IDockingHostViewModel shell, IDockingHost shellView)
         {
+            var absoluteFilePath = Path.Combine(_environment.LocalAppDataPath, ApplicationStateFilePath);
+            var absolutePath = Path.GetDirectoryName(absoluteFilePath);
+
+            if (string.IsNullOrEmpty(absolutePath))
+                return;
+
+            if (!Directory.Exists(absolutePath))
+                Directory.CreateDirectory(absolutePath);
+
+
             FileStream stream = null;
 
             try
             {
-                stream = new FileStream(fileName, FileMode.Create, FileAccess.Write);
+                stream = new FileStream(absoluteFilePath, FileMode.Create, FileAccess.Write);
 
                 using (var writer = new BinaryWriter(stream))
                 {

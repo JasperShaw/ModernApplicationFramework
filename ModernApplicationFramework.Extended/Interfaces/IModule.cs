@@ -4,7 +4,7 @@ using System.Windows;
 
 namespace ModernApplicationFramework.Extended.Interfaces
 {
-    public interface IModule
+    public interface IModule : IDisposable
     {
         IEnumerable<ILayoutItem> DefaultDocuments { get; }
         IEnumerable<Type> DefaultTools { get; }

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Windows;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Native.Platform;
 
 namespace ModernApplicationFramework.Extended.ModuleBase
 {
-    public abstract class ModuleBase : IModule
+    public abstract class ModuleBase : DisposableObject, IModule
     {
         protected IDockingHostViewModel DockingHostViewModel => _dockingHostViewModel;
 
