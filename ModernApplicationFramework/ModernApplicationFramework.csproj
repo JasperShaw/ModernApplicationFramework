@@ -250,6 +250,7 @@
     <Compile Include="Basics\EnvironmentRenderCapabilities.cs" />
     <Compile Include="Basics\SettingsBase\SettingsCategories.cs" />
     <Compile Include="Basics\SettingsBase\SettingsCategory.cs" />
+    <Compile Include="Controls\TextInputDialog.cs" />
     <Compile Include="Interfaces\IExtendedEnvironmentVarirables.cs" />
     <Compile Include="Interfaces\ILanguageManager.cs" />
     <Compile Include="Core\Utilities\RegirstryTools.cs" />

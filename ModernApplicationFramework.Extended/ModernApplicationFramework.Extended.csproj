@@ -64,6 +64,8 @@
     <Compile Include="ApplicationEnvironment\ExtendedEnvironmentVarirables.cs" />
     <Compile Include="ApplicationEnvironment\ApplicationEnvironmentBase.cs" />
     <Compile Include="ApplicationEnvironment\FallbackExtendedEnvironmentVarirables.cs" />
+    <Compile Include="Commands\SaveCurrentLayoutCommandDefinition.cs" />
+    <Compile Include="Core\LayoutUtilities\LayoutManager.cs" />
     <Compile Include="Interfaces\IApplicationEnvironment.cs" />
     <Compile Include="ExtendedBootstrapper.cs" />
     <Compile Include="Commands\CloseProgammCommandDefinition.cs" />
