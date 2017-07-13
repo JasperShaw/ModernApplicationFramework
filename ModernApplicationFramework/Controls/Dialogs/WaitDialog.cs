@@ -3,7 +3,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace ModernApplicationFramework.Controls
+namespace ModernApplicationFramework.Controls.Dialogs
 {
     public class WaitDialog : ModernChromeWindow
     {

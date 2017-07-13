@@ -1,9 +1,10 @@
-﻿<controls:DialogWindow x:Class="ModernApplicationFramework.Basics.CustomizeDialog.Views.AddCommandDialogView"
+﻿<dialogs:DialogWindow x:Class="ModernApplicationFramework.Basics.CustomizeDialog.Views.AddCommandDialogView"
                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                        xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
                        xmlns:comparers="clr-namespace:ModernApplicationFramework.Core.Comparers"
                        xmlns:customizeDialog="clr-namespace:ModernApplicationFramework.Basics.CustomizeDialog"
+                       xmlns:dialogs="clr-namespace:ModernApplicationFramework.Controls.Dialogs"
                        ShowInTaskbar="False" Title="Add Command" ResizeMode="CanResizeWithGrip"
                        Height="370" Width="585" MinHeight="250" MinWidth="500" WindowStartupLocation="CenterOwner">
     <FocusManager.FocusedElement>
@@ -84,4 +85,4 @@
             <controls:DialogButton x:Name="CancelButton" IsCancel="True" Content="{x:Static customizeDialog:Customize_Resources.Prompt_Cancel}" VerticalAlignment="Center" />
         </StackPanel>
     </Grid>
-</controls:DialogWindow>
+</dialogs:DialogWindow>

@@ -1,9 +1,9 @@
-﻿<controls:DialogWindow x:Class="ModernApplicationFramework.Basics.CustomizeDialog.Views.CustomizeDialogView"
+﻿<dialogs:DialogWindow x:Class="ModernApplicationFramework.Basics.CustomizeDialog.Views.CustomizeDialogView"
                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                        xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
-                       xmlns:properties="clr-namespace:ModernApplicationFramework.Properties"
                        xmlns:customizeDialog="clr-namespace:ModernApplicationFramework.Basics.CustomizeDialog"
+                       xmlns:dialogs="clr-namespace:ModernApplicationFramework.Controls.Dialogs"
                        ShowInTaskbar="False" Title="Customize" ResizeMode="CanResizeWithGrip" Height="550"
                        Width="535" MinHeight="490" MinWidth="375" Padding="12" WindowStartupLocation="CenterOwner">
     <Grid>
@@ -25,4 +25,4 @@
             <controls:DialogButton Content="{x:Static customizeDialog:Customize_Resources.Prompt_Close}" IsCancel="True" IsDefault="True" x:Name="Button" />
         </StackPanel>
     </Grid>
-</controls:DialogWindow>
+</dialogs:DialogWindow>

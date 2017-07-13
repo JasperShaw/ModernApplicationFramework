@@ -68,6 +68,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Controls\Dialogs\TextInputDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\Icons\SplitScreenVertical.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
@@ -116,6 +120,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Generic\BalloonTooltip.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic\Dialogs\MessageDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -250,7 +258,34 @@
     <Compile Include="Basics\EnvironmentRenderCapabilities.cs" />
     <Compile Include="Basics\SettingsBase\SettingsCategories.cs" />
     <Compile Include="Basics\SettingsBase\SettingsCategory.cs" />
-    <Compile Include="Controls\TextInputDialog.cs" />
+    <Compile Include="CommandBase\DelegateCommand.cs" />
+    <Compile Include="Controls\Dialogs\DialogResourcesResources.de.Designer.cs">
+      <DependentUpon>DialogResourcesResources.de.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Controls\Dialogs\DialogResourcesResources.Designer.cs">
+      <DependentUpon>DialogResourcesResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Controls\Dialogs\DialogResourcesResources.en.Designer.cs">
+      <DependentUpon>DialogResourcesResources.en.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Controls\Dialogs\DialogWindow.cs" />
+    <Compile Include="Controls\Dialogs\MessageDialog.cs" />
+    <Compile Include="Controls\Dialogs\MessageDialogCommand.cs" />
+    <Compile Include="Controls\Dialogs\MessageDialogCommandSet.cs" />
+    <Compile Include="Controls\Dialogs\MessageViewModel.cs" />
+    <Compile Include="Controls\Dialogs\TextInputDialog.xaml.cs">
+      <DependentUpon>TextInputDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Dialogs\TextInputViewModel.cs" />
+    <Compile Include="Controls\Dialogs\WaitDialog.cs" />
+    <Compile Include="Controls\Utilities\HelperMethods.cs" />
+    <Compile Include="Core\Utilities\ObservableObject.cs" />
     <Compile Include="Interfaces\IExtendedEnvironmentVarirables.cs" />
     <Compile Include="Interfaces\ILanguageManager.cs" />
     <Compile Include="Core\Utilities\RegirstryTools.cs" />
@@ -290,6 +325,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Interfaces\ICanBeDirty.cs" />
+    <Compile Include="Interfaces\IMafUIShell.cs" />
     <Compile Include="Interfaces\Settings\ISettingsCategory.cs" />
     <Compile Include="Interfaces\Settings\ISettingsDataModel.cs" />
     <Compile Include="Interfaces\Settings\ISettingsManager.cs" />
@@ -445,7 +481,6 @@
     <Compile Include="Controls\ContextMenu.cs" />
     <Compile Include="Controls\ContextMenuItem.cs" />
     <Compile Include="Controls\DialogButton.cs" />
-    <Compile Include="Controls\DialogWindow.cs" />
     <Compile Include="Controls\DockingHost.xaml.cs">
       <DependentUpon>DockingHost.xaml</DependentUpon>
     </Compile>
@@ -552,7 +587,6 @@
     <Compile Include="Controls\Primitives\ResizeGrip.cs" />
     <Compile Include="Controls\SystemMenu.cs" />
     <Compile Include="Controls\Internals\ToolBarHostControl.cs" />
-    <Compile Include="Controls\WaitDialog.cs" />
     <Compile Include="Controls\Primitives\WindowBase.cs" />
     <Compile Include="Controls\Internals\WindowContentPresenter.cs" />
     <Compile Include="Controls\Internals\WindowTitleBarButton.cs" />
@@ -949,7 +983,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Generic\WaitDialog.xaml">
+    <Page Include="Themes\Generic\Dialogs\WaitDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1081,6 +1115,18 @@
     <EmbeddedResource Include="Basics\CommandBar\CommandBarResources.en.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommandBarResources.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Dialogs\DialogResourcesResources.de.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DialogResourcesResources.de.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Dialogs\DialogResourcesResources.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DialogResourcesResources.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Dialogs\DialogResourcesResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DialogResourcesResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Docking\DockingResources.de.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

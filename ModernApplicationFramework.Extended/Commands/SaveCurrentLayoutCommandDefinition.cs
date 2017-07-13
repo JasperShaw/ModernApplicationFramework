@@ -1,8 +1,11 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Windows;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Controls.Dialogs;
 using ModernApplicationFramework.Extended.Core.LayoutUtilities;
 
 namespace ModernApplicationFramework.Extended.Commands
@@ -25,6 +28,21 @@ namespace ModernApplicationFramework.Extended.Commands
         public SaveCurrentLayoutCommandDefinition(ILayoutManager layoutManager)
         {
             _layoutManager = layoutManager;
+
+            var command = new MultiKeyGestureCommandWrapper(Save, CanSave);
+            Command = command;
+        }
+
+        private bool CanSave()
+        {
+            return true;
+        }
+
+        private void Save()
+        {
+            var c = TextInputDialog.Show("test", "test", "test", out string response);
+
+            MessageBox.Show(c + response);
         }
     }
 }

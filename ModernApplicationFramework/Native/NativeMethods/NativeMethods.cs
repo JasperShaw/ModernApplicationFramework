@@ -513,6 +513,46 @@ namespace ModernApplicationFramework.Native.NativeMethods
             return monitorInfo;
         }
 
+        internal static void FindMaximumSingleMonitorRectangle(RECT windowRect, out RECT screenSubRect, out RECT monitorRect)
+        {
+            List<RECT> rects = new List<RECT>();
+            User32.EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero, (IntPtr hMonitor, IntPtr hdcMonitor, ref RECT rect, IntPtr lpData) =>
+            {
+                var monitorInfo = new Monitorinfo {CbSize = (uint) Marshal.SizeOf(typeof(Monitorinfo))};
+                User32.GetMonitorInfo(hMonitor, ref monitorInfo);
+                rects.Add(monitorInfo.RcWork);
+                return true;
+            }, IntPtr.Zero);
+            long num1 = 0;
+            screenSubRect = new RECT()
+            {
+                Left = 0,
+                Right = 0,
+                Top = 0,
+                Bottom = 0
+            };
+            monitorRect = new RECT()
+            {
+                Left = 0,
+                Right = 0,
+                Top = 0,
+                Bottom = 0
+            };
+            foreach (RECT rect in rects)
+            {
+                RECT lprcSrc1 = rect;
+                RECT lprcDst;
+                User32.IntersectRect(out lprcDst, ref lprcSrc1, ref windowRect);
+                long num2 = lprcDst.Width * lprcDst.Height;
+                if (num2 > num1)
+                {
+                    screenSubRect = lprcDst;
+                    monitorRect = rect;
+                    num1 = num2;
+                }
+            }
+        }
+
 
         [return: MarshalAs(UnmanagedType.Bool)]
         internal delegate bool EnumMonitorsDelegate(

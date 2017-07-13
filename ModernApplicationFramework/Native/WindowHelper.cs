@@ -20,6 +20,9 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using ModernApplicationFramework.Native.NativeMethods;
+using ModernApplicationFramework.Native.Platform.Structs;
+using ModernApplicationFramework.Native.Standard;
+using Point = System.Windows.Point;
 
 namespace ModernApplicationFramework.Native
 {
@@ -43,7 +46,9 @@ namespace ModernApplicationFramework.Native
         {
             var wndParent = Window.GetWindow(element);
             if (wndParent != null)
+            {
                 window.Owner = wndParent;
+            }
             else
             {
                 IntPtr parentHwnd;
@@ -67,10 +72,92 @@ namespace ModernApplicationFramework.Native
 
         internal static void BringToTop(Window window)
         {
-            IntPtr handle = new WindowInteropHelper(window).Handle;
-            int flags = 19;
+            var handle = new WindowInteropHelper(window).Handle;
+            var flags = 19;
             User32.SetWindowPos(handle, IntPtr.Zero, 0, 0, 0, 0, flags);
             NativeMethods.NativeMethods.SetActiveWindow(handle);
+        }
+
+        public static int ShowModal(Window window)
+        {
+            var dialogOwnerHandle = GetDialogOwnerHandle();
+            return ShowModal(window, dialogOwnerHandle);
+        }
+
+        public static IntPtr GetDialogOwnerHandle()
+        {
+            //GetDialogOwnerHwnd(out phwnd);
+            var handle = User32.GetActiveWindow();
+            return handle;
+            //var service = WindowHelper.ServiceProvider.GetService(typeof(SVsUIShell)) as IVsUIShell;
+            //if (service == null)
+            //    throw new COMException(Resources.Error_CannotGetUIShellService, -2147467259);
+            //IntPtr num;
+            //int dialogOwnerHwnd = service.GetDialogOwnerHwnd(ref num);
+            //if (dialogOwnerHwnd != 0)
+            //    throw new COMException(Resources.Error_CannotGetParent, dialogOwnerHwnd);
+            //return num;
+        }
+
+        public static int ShowModal(Window window, IntPtr parent)
+        {
+            Validate.IsNotNull(window, "window");
+
+            //EnableModeless(0);
+            var activeWindow = User32.GetActiveWindow();
+            User32.EnableWindow(activeWindow, false);
+
+            try
+            {
+                var helper = new WindowInteropHelper(window) {Owner = parent};
+                if (window.WindowStartupLocation == WindowStartupLocation.CenterOwner)
+                    window.SourceInitialized += (param0, param1) =>
+                    {
+                        if (!User32.GetWindowRect(parent, out RECT lpRect))
+                            return;
+                        var hwndSource = HwndSource.FromHwnd(helper.Handle);
+                        if (hwndSource?.CompositionTarget == null)
+                            return;
+                        var point1 =
+                            hwndSource.CompositionTarget.TransformToDevice.Transform(new Point(window.ActualWidth,
+                                window.ActualHeight));
+                        var rect = CenterRectOnSingleMonitor(lpRect, (int) point1.X, (int) point1.Y);
+                        var point2 =
+                            hwndSource.CompositionTarget.TransformFromDevice.Transform(new Point(rect.Left, rect.Top));
+                        window.WindowStartupLocation = WindowStartupLocation.Manual;
+                        window.Left = point2.X;
+                        window.Top = point2.Y;
+                    };
+                var nullable = window.ShowDialog();
+                return nullable.HasValue ? (nullable.Value ? 1 : 2) : 0;
+            }
+            finally
+            {
+                User32.EnableWindow(activeWindow, true);
+            }
+        }
+
+        private static RECT CenterRectOnSingleMonitor(RECT parentRect, int childWidth, int childHeight)
+        {
+            NativeMethods.NativeMethods.FindMaximumSingleMonitorRectangle(parentRect, out RECT screenSubRect,
+                out RECT monitorRect);
+            return CenterInRect(screenSubRect, childWidth, childHeight, monitorRect);
+        }
+
+        private static RECT CenterInRect(RECT parentRect, int childWidth, int childHeight, RECT monitorClippingRect)
+        {
+            var rect = new RECT
+            {
+                Left = parentRect.Left + (parentRect.Width - childWidth) / 2,
+                Top = parentRect.Top + (parentRect.Height - childHeight) / 2,
+                Width = childWidth,
+                Height = childHeight
+            };
+            rect.Left = Math.Min(rect.Right, monitorClippingRect.Right) - rect.Width;
+            rect.Top = Math.Min(rect.Bottom, monitorClippingRect.Bottom) - rect.Height;
+            rect.Left = Math.Max(rect.Left, monitorClippingRect.Left);
+            rect.Top = Math.Max(rect.Top, monitorClippingRect.Top);
+            return rect;
         }
     }
 }
