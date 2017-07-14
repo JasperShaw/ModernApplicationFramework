@@ -11,20 +11,20 @@ using ModernApplicationFramework.Native.NativeMethods;
 
 namespace ModernApplicationFramework.Controls.Menu
 {
-    [TemplatePart(Name = "PART_EditableTextBox", Type = typeof(System.Windows.Controls.TextBox))]
+    [TemplatePart(Name = "PART_EditableTextBox", Type = typeof(TextBox))]
     internal class EditableMenuItem : System.Windows.Controls.MenuItem
     {
         private IntPtr _previousHwndFocus;
         public static readonly DependencyProperty EditProperty;
         public static readonly DependencyProperty EditMinWidthProperty;
-        private System.Windows.Controls.TextBox _editableTextBoxPart;
+        private TextBox _editableTextBoxPart;
         private RoutedEventHandler _afterMenuItemTextChange;
         private string _textInGotFocus;
         private Collection<ValidationRule> _validationRules;
         private bool _contentLoaded;
 
-        internal System.Windows.Controls.TextBox EditableTextBox => _editableTextBoxPart ??
-                                            (_editableTextBoxPart = GetTemplateChild("PART_EditableTextBox") as System.Windows.Controls.TextBox);
+        internal TextBox EditableTextBox => _editableTextBoxPart ??
+                                            (_editableTextBoxPart = GetTemplateChild("PART_EditableTextBox") as TextBox);
 
         public Collection<ValidationRule> ValidationRules => _validationRules ?? (_validationRules = new Collection<ValidationRule>());
 
@@ -86,7 +86,7 @@ namespace ModernApplicationFramework.Controls.Menu
             ApplyTemplate();
             if (EditableTextBox == null)
                 return;
-            var binding = BindingOperations.GetBinding(EditableTextBox, System.Windows.Controls.TextBox.TextProperty);
+            var binding = BindingOperations.GetBinding(EditableTextBox, TextBox.TextProperty);
             if (binding != null)
             {
                 binding.ValidationRules.Clear();

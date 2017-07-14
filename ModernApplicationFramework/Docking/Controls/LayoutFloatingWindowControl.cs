@@ -27,7 +27,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using Caliburn.Micro;
-using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Controls.Utilities;
 using ModernApplicationFramework.Controls.Windows;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Layout;
@@ -62,28 +62,11 @@ namespace ModernApplicationFramework.Docking.Controls
         private HwndSource _hwndSrc;
         private HwndSourceHook _hwndSrcHook;
         private bool _internalCloseFlag;
-        PresentationSource _menuSite;
 
         protected LayoutFloatingWindowControl(ILayoutElement model)
         {
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
-        }
-
-
-        protected override void OnPreviewGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
-        {
-            _menuSite = PresentationSource.FromVisual(this);
-            if(_menuSite != null)
-                InputManager.Current.PushMenuMode(_hwndSrc);
-        }
-
-        protected override void OnPreviewLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
-        {
-            if (_menuSite == null)
-                return;
-            InputManager.Current.PopMenuMode(_menuSite);
-            _menuSite = null;
         }
 
         static LayoutFloatingWindowControl()
@@ -123,7 +106,7 @@ namespace ModernApplicationFramework.Docking.Controls
             var hwndSource = (HwndSource)PresentationSource.FromVisual(this);
             var keyboardInputSink = (IKeyboardInputSink)hwndSource;
             keyboardInputSink?.RegisterKeyboardInputSink(new MnemonicForwardingKeyboardInputSink(this));
-            //ModifyStyle(hwndSource.Handle, 0, int.MinValue);
+            ModifyStyle(hwndSource.Handle, 0, int.MinValue);
             UpdateClipRegion();
             base.OnSourceInitialized(e);
         }
@@ -569,6 +552,7 @@ namespace ModernApplicationFramework.Docking.Controls
             {
                 switch (msg.message)
                 {
+                    case 260:
                     case 262:
                     case 263:
                         string key = new string((char) (int) msg.wParam, 1);

@@ -25,6 +25,7 @@ namespace ModernApplicationFramework.Controls.Windows
         {
             //Needed so we can use inputbinding in FloatingWindows as well
             Keyboard.DefaultRestoreFocusMode = RestoreFocusMode.None;
+            HwndSource.DefaultAcquireHwndFocusInMenuMode = false;
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MainWindow),
                 new FrameworkPropertyMetadata(typeof(MainWindow)));
         }

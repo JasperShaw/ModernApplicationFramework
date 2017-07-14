@@ -16,9 +16,12 @@
 
 using System;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
+using Caliburn.Micro;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Native.Platform.Structs;
 using ModernApplicationFramework.Native.Standard;
@@ -65,19 +68,6 @@ namespace ModernApplicationFramework.Native
                 NativeMethods.NativeMethods.SetOwner(new WindowInteropHelper(window).EnsureHandle(), IntPtr.Zero);
         }
 
-        internal static Window FindActiveWindow()
-        {
-            return Application.Current.Windows.Cast<Window>().FirstOrDefault(window => window.IsActive);
-        }
-
-        internal static void BringToTop(Window window)
-        {
-            var handle = new WindowInteropHelper(window).Handle;
-            var flags = 19;
-            User32.SetWindowPos(handle, IntPtr.Zero, 0, 0, 0, 0, flags);
-            NativeMethods.NativeMethods.SetActiveWindow(handle);
-        }
-
         public static int ShowModal(Window window)
         {
             var dialogOwnerHandle = GetDialogOwnerHandle();
@@ -86,27 +76,23 @@ namespace ModernApplicationFramework.Native
 
         public static IntPtr GetDialogOwnerHandle()
         {
-            //GetDialogOwnerHwnd(out phwnd);
-            var handle = User32.GetActiveWindow();
+            var service = IoC.Get<IMafUIShell>();
+            if (service == null)
+                throw new COMException("Cannot get IMafUIShell service.", -2147467259);
+            var dialogOwnerHwnd = service.GetDialogOwnerHwnd(out IntPtr handle);
+            if (dialogOwnerHwnd != 0)
+                throw new COMException("Cannot get parent window handle from shell.", dialogOwnerHwnd);
             return handle;
-            //var service = WindowHelper.ServiceProvider.GetService(typeof(SVsUIShell)) as IVsUIShell;
-            //if (service == null)
-            //    throw new COMException(Resources.Error_CannotGetUIShellService, -2147467259);
-            //IntPtr num;
-            //int dialogOwnerHwnd = service.GetDialogOwnerHwnd(ref num);
-            //if (dialogOwnerHwnd != 0)
-            //    throw new COMException(Resources.Error_CannotGetParent, dialogOwnerHwnd);
-            //return num;
         }
 
         public static int ShowModal(Window window, IntPtr parent)
         {
             Validate.IsNotNull(window, "window");
+            var service = IoC.Get<IMafUIShell>();
+            if (service == null)
+                throw new COMException("Cannot get IMafUIShell service.", -2147467259);
 
-            //EnableModeless(0);
-            var activeWindow = User32.GetActiveWindow();
-            User32.EnableWindow(activeWindow, false);
-
+            service.EnableModeless(0);
             try
             {
                 var helper = new WindowInteropHelper(window) {Owner = parent};
@@ -133,7 +119,7 @@ namespace ModernApplicationFramework.Native
             }
             finally
             {
-                User32.EnableWindow(activeWindow, true);
+                service.EnableModeless(1);
             }
         }
 

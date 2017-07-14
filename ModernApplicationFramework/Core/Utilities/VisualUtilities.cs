@@ -92,6 +92,13 @@ namespace ModernApplicationFramework.Core.Utilities
             return obj.FindAncestor<TAncestorType, TElementType>(parentEvaluator);
         }
 
+        public static object FindAncestorOrSelf<TElementType>(this TElementType obj, Func<TElementType, TElementType> parentEvaluator, Func<TElementType, bool> ancestorSelector)
+        {
+            if (ancestorSelector(obj))
+                return obj;
+            return obj.FindAncestor(parentEvaluator, ancestorSelector);
+        }
+
         private static HitTestFilterBehavior ExcludeNonVisualElements(DependencyObject potentialHitTestTarget)
         {
             if (!(potentialHitTestTarget is Visual))

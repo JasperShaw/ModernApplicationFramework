@@ -3,7 +3,6 @@
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Docking.Converters"
                     xmlns:avalonDockControls="clr-namespace:ModernApplicationFramework.Docking.Controls"
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
-                    xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
                     xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals"
                     xmlns:utilities1="clr-namespace:ModernApplicationFramework.Controls.Utilities"
                     xmlns:windows="clr-namespace:ModernApplicationFramework.Controls.Windows">

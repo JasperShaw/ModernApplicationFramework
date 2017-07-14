@@ -1,11 +1,13 @@
-﻿using System.Windows;
+﻿using System;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
 using ModernApplicationFramework.Controls.ListBoxes;
 using ModernApplicationFramework.Controls.Utilities;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
-using ModernApplicationFramework.Native;
 using ModernApplicationFramework.Native.NativeMethods;
 
 namespace ModernApplicationFramework.Controls.Menu
@@ -23,8 +25,7 @@ namespace ModernApplicationFramework.Controls.Menu
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Menu), new FrameworkPropertyMetadata(typeof(Menu)));
         }
-
-
+        
         public static ResourceKey ButtonStyleKey => _buttonStyleKey ?? (_buttonStyleKey = new StyleKey<Menu>());
         ResourceKey IExposeStyleKeys.MenuControllerStyleKey => MenuControllerStyleKey;
 
@@ -44,6 +45,11 @@ namespace ModernApplicationFramework.Controls.Menu
 
         public static ResourceKey SeparatorStyleKey => _separatorStyleKey ?? (_separatorStyleKey = new StyleKey<Menu>());
 
+        protected override DependencyObject GetContainerForItemOverride()
+        {
+            var element = new MenuItem();
+            return element;
+        }
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
@@ -74,8 +80,8 @@ namespace ModernApplicationFramework.Controls.Menu
                     mainWindow.WindowState = WindowState.Normal;
                 if (!mainWindow.IsActive)
                 {
-                    _priorActiveWindow = WindowHelper.FindActiveWindow();
-                    WindowHelper.BringToTop(mainWindow);
+                    _priorActiveWindow = FindActiveWindow();
+                    BringToTop(mainWindow);
                 }
             }
             base.OnPreviewGotKeyboardFocus(e);
@@ -85,7 +91,7 @@ namespace ModernApplicationFramework.Controls.Menu
         {
             if (_priorActiveWindow != null && !(e.NewFocus is MenuItem))
             {
-                WindowHelper.BringToTop(_priorActiveWindow);
+                BringToTop(_priorActiveWindow);
                 _priorActiveWindow = null;
             }
             base.OnLostKeyboardFocus(e);
@@ -94,6 +100,19 @@ namespace ModernApplicationFramework.Controls.Menu
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
         {
             StyleUtilities.SelectStyleForItem(element as FrameworkElement, item, this);
+        }
+
+        private static Window FindActiveWindow()
+        {
+            return Application.Current.Windows.Cast<Window>().FirstOrDefault(window => window.IsActive);
+        }
+
+        private void BringToTop(Window window)
+        {
+            IntPtr handle = new WindowInteropHelper(window).Handle;
+            int flags = 19;
+            User32.SetWindowPos(handle, IntPtr.Zero, 0, 0, 0, 0, flags);
+            window.Activate();
         }
     }
 }
