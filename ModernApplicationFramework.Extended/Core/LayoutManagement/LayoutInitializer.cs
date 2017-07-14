@@ -6,7 +6,7 @@ using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Extended.Core.Pane;
 using ModernApplicationFramework.Extended.Interfaces;
 
-namespace ModernApplicationFramework.Extended.Core.LayoutUtilities
+namespace ModernApplicationFramework.Extended.Core.LayoutManagement
 {
     public class LayoutInitializer : ILayoutUpdateStrategy
     {

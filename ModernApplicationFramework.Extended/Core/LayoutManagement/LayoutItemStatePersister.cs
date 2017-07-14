@@ -6,7 +6,7 @@ using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Interfaces;
 
-namespace ModernApplicationFramework.Extended.Core.LayoutUtilities
+namespace ModernApplicationFramework.Extended.Core.LayoutManagement
 {
     [Export(typeof(ILayoutItemStatePersister))]
     public class LayoutItemStatePersister : ILayoutItemStatePersister

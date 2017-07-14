@@ -9,5 +9,8 @@ namespace ModernApplicationFramework.Interfaces
         int EnableModeless(int fEnable);
 
         int CenterDialogOnWindow(IntPtr hwndDialog, IntPtr hwndParent);
+
+        int GetAppName(out string pbstrAppName);
+
     }
 }

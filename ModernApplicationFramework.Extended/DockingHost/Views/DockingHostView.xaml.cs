@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using ModernApplicationFramework.Docking.Controls;
-using ModernApplicationFramework.Extended.Core.LayoutUtilities;
+using ModernApplicationFramework.Extended.Core.LayoutManagement;
 using ModernApplicationFramework.Extended.DockingHost.ViewModels;
 using ModernApplicationFramework.Extended.Interfaces;
 

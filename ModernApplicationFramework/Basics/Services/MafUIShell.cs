@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Interop;
+using Caliburn.Micro;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Native.Platform.Structs;
@@ -53,6 +54,16 @@ namespace ModernApplicationFramework.Basics.Services
             window.WindowStartupLocation = WindowStartupLocation.Manual;
             window.Left = point2.X;
             window.Top = point2.Y;
+            return 0;
+        }
+
+        public int GetAppName(out string pbstrAppName)
+        {
+            pbstrAppName = string.Empty;
+            var env = IoC.Get<IEnvironmentVarirables>();
+            if (env == null)
+                return -1;
+            pbstrAppName = env.ApplicationName;
             return 0;
         }
 

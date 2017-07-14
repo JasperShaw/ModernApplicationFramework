@@ -159,6 +159,21 @@
   <data name="RedoCommandDefinition_Text" xml:space="preserve">
     <value>Wieder&amp;holen</value>
   </data>
+  <data name="SaveLayoutCommandDefinitionMessageBox_Default" xml:space="preserve">
+    <value>Neues Layout {0}</value>
+  </data>
+  <data name="SaveLayoutCommandDefinitionMessageBox_Label" xml:space="preserve">
+    <value>_Layoutname:</value>
+  </data>
+  <data name="SaveLayoutCommandDefinitionMessageBox_Title" xml:space="preserve">
+    <value>Fensterlayout speichern</value>
+  </data>
+  <data name="SaveLayoutCommandDefinition_Name" xml:space="preserve">
+    <value>Fensterlayout speichern</value>
+  </data>
+  <data name="SaveLayoutCommandDefinition_Text" xml:space="preserve">
+    <value>Fensterlayout &amp;speichern</value>
+  </data>
   <data name="SwitchToDocumentCommandListDefinition_Name" xml:space="preserve">
     <value>Window List</value>
   </data>

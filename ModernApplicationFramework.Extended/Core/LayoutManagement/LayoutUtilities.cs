@@ -6,7 +6,7 @@ using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Docking.Layout.Serialization;
 using ModernApplicationFramework.Extended.Interfaces;
 
-namespace ModernApplicationFramework.Extended.Core.LayoutUtilities
+namespace ModernApplicationFramework.Extended.Core.LayoutManagement
 {
     internal static class LayoutUtilities
     {

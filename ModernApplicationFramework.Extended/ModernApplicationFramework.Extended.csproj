@@ -65,7 +65,7 @@
     <Compile Include="ApplicationEnvironment\ApplicationEnvironmentBase.cs" />
     <Compile Include="ApplicationEnvironment\FallbackExtendedEnvironmentVarirables.cs" />
     <Compile Include="Commands\SaveCurrentLayoutCommandDefinition.cs" />
-    <Compile Include="Core\LayoutUtilities\LayoutManager.cs" />
+    <Compile Include="Core\LayoutManagement\LayoutManager.cs" />
     <Compile Include="Interfaces\IApplicationEnvironment.cs" />
     <Compile Include="ExtendedBootstrapper.cs" />
     <Compile Include="Commands\CloseProgammCommandDefinition.cs" />
@@ -81,9 +81,9 @@
     <Compile Include="Core\LayoutItems\Document.cs" />
     <Compile Include="Core\LayoutItems\LayoutItem.cs" />
     <Compile Include="Core\LayoutItems\LayoutItemBase.cs" />
-    <Compile Include="Core\LayoutUtilities\LayoutInitializer.cs" />
-    <Compile Include="Core\LayoutUtilities\LayoutItemStatePersister.cs" />
-    <Compile Include="Core\LayoutUtilities\LayoutUtilities.cs" />
+    <Compile Include="Core\LayoutManagement\LayoutInitializer.cs" />
+    <Compile Include="Core\LayoutManagement\LayoutItemStatePersister.cs" />
+    <Compile Include="Core\LayoutManagement\LayoutUtilities.cs" />
     <Compile Include="Core\Pane\PaneLocation.cs" />
     <Compile Include="Core\Pane\PanesStyleSelector.cs" />
     <Compile Include="Core\Pane\PanesTemplateSelector.cs" />
@@ -385,6 +385,9 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Core\LayoutManagement\ViewModel\" />
+    <Folder Include="Core\LayoutManagement\View\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

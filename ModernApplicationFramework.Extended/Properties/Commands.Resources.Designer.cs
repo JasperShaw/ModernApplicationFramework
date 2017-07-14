@@ -187,6 +187,51 @@ namespace ModernApplicationFramework.Extended.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string SaveLayoutCommandDefinition_Name {
+            get {
+                return ResourceManager.GetString("SaveLayoutCommandDefinition_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string SaveLayoutCommandDefinition_Text {
+            get {
+                return ResourceManager.GetString("SaveLayoutCommandDefinition_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string SaveLayoutCommandDefinitionMessageBox_Default {
+            get {
+                return ResourceManager.GetString("SaveLayoutCommandDefinitionMessageBox_Default", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string SaveLayoutCommandDefinitionMessageBox_Label {
+            get {
+                return ResourceManager.GetString("SaveLayoutCommandDefinitionMessageBox_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string SaveLayoutCommandDefinitionMessageBox_Title {
+            get {
+                return ResourceManager.GetString("SaveLayoutCommandDefinitionMessageBox_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Window List ähnelt.
         /// </summary>
         internal static string SwitchToDocumentCommandListDefinition_Name {

@@ -5,9 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cal="http://www.caliburnproject.org"
              xmlns:mafd="http://modern.framework.com/docking"
-             xmlns:layoutUtilities="clr-namespace:ModernApplicationFramework.Extended.Core.LayoutUtilities"
              xmlns:pane="clr-namespace:ModernApplicationFramework.Extended.Core.Pane"
              xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General;assembly=ModernApplicationFramework"
+             xmlns:layoutManagement="clr-namespace:ModernApplicationFramework.Extended.Core.LayoutManagement"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
@@ -68,7 +68,7 @@
             </mafd:DockingManager.LayoutItemContainerStyleSelector>
 
             <mafd:DockingManager.LayoutUpdateStrategy>
-                <layoutUtilities:LayoutInitializer />
+                <layoutManagement:LayoutInitializer />
             </mafd:DockingManager.LayoutUpdateStrategy>
 
             <mafd:LayoutRoot>
