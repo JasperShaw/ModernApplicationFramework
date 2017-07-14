@@ -6,7 +6,9 @@
                     xmlns:accessKey="clr-namespace:ModernApplicationFramework.Core.Converters.AccessKey"
                     xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General"
                     xmlns:properties="clr-namespace:ModernApplicationFramework.Properties"
-                    xmlns:commandBar="clr-namespace:ModernApplicationFramework.Basics.CommandBar">
+                    xmlns:commandBar="clr-namespace:ModernApplicationFramework.Basics.CommandBar"
+                    xmlns:menu="clr-namespace:ModernApplicationFramework.Controls.Menu"
+                    xmlns:windows="clr-namespace:ModernApplicationFramework.Controls.Windows">
 
     <accessKey:AccessKeyRemovingConverter x:Key="AccessKeyRemovingConverter"/>
     <accessKey:AccessKeyConverter x:Key="AccessKeyConverter"/>
@@ -175,9 +177,9 @@
                                 <Popup.IsOpen>
                                     <Binding Path="IsSubmenuOpen" RelativeSource="{RelativeSource TemplatedParent}"/>
                                 </Popup.IsOpen>
-                                <controls:SystemDropShadowChrome x:Name="Shdw" Color="Transparent">
+                                <windows:SystemDropShadowChrome x:Name="Shdw" Color="Transparent">
                                     <Grid Background="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuIconBackground}}">
-                                        <controls:MenuScrollViewer>
+                                        <menu:MenuScrollViewer>
                                             <Grid Background="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuBackgroundGradientBegin}}"
                                                   RenderOptions.ClearTypeHint="Enabled">
                                                 <Border Background="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuIconBackground}}" 
@@ -185,10 +187,10 @@
                                                 <ItemsPresenter Margin="3" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Grid.IsSharedSizeScope="True"
                                                                 KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.DirectionalNavigation="Cycle"/>
                                             </Grid>
-                                        </controls:MenuScrollViewer>
+                                        </menu:MenuScrollViewer>
                                         <Border BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuBorder}}" BorderThickness="1"/>
                                     </Grid>
-                                </controls:SystemDropShadowChrome>
+                                </windows:SystemDropShadowChrome>
                             </Popup>
                             <ContentPresenter Grid.Column="0" ContentSource="Header" Margin="8,3,0,4" RecognizesAccessKey="True"
                                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center"/>
@@ -235,7 +237,7 @@
                             </DataTrigger.Binding>
                             <Setter TargetName="Shdw" Property="FrameworkElement.Margin" Value="0,0,5,5"/>
                             <Setter TargetName="Shdw" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropShadowBackground}}" 
-                                    Property="controls:SystemDropShadowChrome.Color"/>
+                                    Property="windows:SystemDropShadowChrome.Color"/>
                         </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

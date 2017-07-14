@@ -1,5 +1,5 @@
 ﻿using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ContextMenu = ModernApplicationFramework.Controls.ContextMenu;
+using ContextMenu = ModernApplicationFramework.Controls.Menu.ContextMenu;
 
 namespace ModernApplicationFramework.Interfaces.Utilities
 {

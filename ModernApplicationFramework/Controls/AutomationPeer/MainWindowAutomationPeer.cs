@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Automation.Peers;
+using ModernApplicationFramework.Controls.Windows;
 
 namespace ModernApplicationFramework.Controls.AutomationPeer
 {

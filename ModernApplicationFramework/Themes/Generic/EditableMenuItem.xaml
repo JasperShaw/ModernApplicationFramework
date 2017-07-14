@@ -1,7 +1,8 @@
-﻿<controls:EditableMenuItem xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<menu:EditableMenuItem xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                        xmlns:ui="clr-namespace:ModernApplicationFramework.Core.Themes"
-                       xmlns:controls="clr-namespace:ModernApplicationFramework.Controls">
+                       xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
+                       xmlns:menu="clr-namespace:ModernApplicationFramework.Controls.Menu">
 
     <FrameworkElement.Resources>
         <ResourceDictionary x:Uid="ResourceDictionary_1">
@@ -12,7 +13,7 @@
     </FrameworkElement.Resources>
 
     <Control.Template>
-        <ControlTemplate TargetType="{x:Type controls:EditableMenuItem}">
+        <ControlTemplate TargetType="{x:Type menu:EditableMenuItem}">
             <Grid SnapsToDevicePixels="True" Background="Transparent">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="26" SharedSizeGroup="MenuItemIconColumnGroup"/>
@@ -32,7 +33,7 @@
                             <BindingGroup Name="EditableTextBoxBindingGroup"/>
                         </FrameworkElement.BindingGroup>
                         <Border x:Name="LimitedEditBoxWith"/>
-                        <TextBox x:Name="PART_EditableTextBox" MinWidth="{TemplateBinding controls:EditableMenuItem.EditMinWidth}" SnapsToDevicePixels="true"
+                        <TextBox x:Name="PART_EditableTextBox" MinWidth="{TemplateBinding menu:EditableMenuItem.EditMinWidth}" SnapsToDevicePixels="true"
                                              BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Style="{StaticResource ErrorTextBoxStyleKey}"
                                              BorderBrush="{DynamicResource {x:Static ui:EnvironmentColors.DropDownBorder}}"
                                  Validation.ErrorTemplate="{StaticResource ErrorTextBoxTemplateKey}">
@@ -77,4 +78,4 @@
             </ControlTemplate.Triggers>
         </ControlTemplate>
     </Control.Template>
-</controls:EditableMenuItem>
+</menu:EditableMenuItem>

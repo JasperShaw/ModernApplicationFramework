@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Services;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Extended.ApplicationEnvironment;
 using ModernApplicationFramework.Extended.Interfaces;
@@ -13,7 +14,7 @@ using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Extended
 {
-    public class ExtendedBootstrapper : Basics.Bootstrapper
+    public class ExtendedBootstrapper : Bootstrapper
     {
         protected virtual bool UseSettingsManager => true;
 

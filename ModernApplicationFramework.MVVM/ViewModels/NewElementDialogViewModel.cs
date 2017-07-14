@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Controls.Dialogs;
 using ModernApplicationFramework.MVVM.Interfaces;
 using static ModernApplicationFramework.Core.Utilities.WindowsFileNameHelper;
 

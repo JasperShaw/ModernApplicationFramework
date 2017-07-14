@@ -2,12 +2,13 @@
                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                           xmlns:local="clr-namespace:ModernApplicationFramework.Controls"
                           xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
-                          xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals">
+                          xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals"
+                          xmlns:menu="clr-namespace:ModernApplicationFramework.Controls.Menu">
     
     <Control.Template>
         <ControlTemplate TargetType="{x:Type internals:MenuHostControl}">
             <DockPanel Background="{DynamicResource {x:Static themes:EnvironmentColors.CommandShelfBackground}}">
-                <local:Menu Margin="2,0,6,0" ItemsSource="{Binding Path=Items}"/>
+                <menu:Menu Margin="2,0,6,0" ItemsSource="{Binding Path=Items}"/>
             </DockPanel>
         </ControlTemplate>
     </Control.Template>

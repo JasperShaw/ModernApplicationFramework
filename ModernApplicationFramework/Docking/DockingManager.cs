@@ -320,9 +320,9 @@ namespace ModernApplicationFramework.Docking
 
             _overlayWindow?.ChangeTheme(oldValue, newValue);
             _navigatorWindow?.ChangeTheme(oldValue, newValue);
-            ((ModernApplicationFramework.Controls.ContextMenu)DocumentContextMenu)?.ChangeTheme(oldValue, newValue);
-            ((ModernApplicationFramework.Controls.ContextMenu)AnchorableContextMenu)?.ChangeTheme(oldValue, newValue);
-            ((ModernApplicationFramework.Controls.ContextMenu)AnchorableAsDocumentContextMenu)?.ChangeTheme(oldValue, newValue);
+            ((ModernApplicationFramework.Controls.Menu.ContextMenu)DocumentContextMenu)?.ChangeTheme(oldValue, newValue);
+            ((ModernApplicationFramework.Controls.Menu.ContextMenu)AnchorableContextMenu)?.ChangeTheme(oldValue, newValue);
+            ((ModernApplicationFramework.Controls.Menu.ContextMenu)AnchorableAsDocumentContextMenu)?.ChangeTheme(oldValue, newValue);
         }
 
         static DockingManager()

@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using ModernApplicationFramework.Annotations;
+using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Basics
 {
@@ -52,16 +53,5 @@ namespace ModernApplicationFramework.Basics
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-    }
-
-    public interface IDirtyObjectManager : INotifyPropertyChanged
-    {
-        event PropertyChangedEventHandler IsDirtyChanged;
-
-        bool IsDirty { get; }
-
-        void Clear();
-
-        void SetData(object oldValue,object newValue,  [CallerMemberName] string propertyName = null);
     }
 }

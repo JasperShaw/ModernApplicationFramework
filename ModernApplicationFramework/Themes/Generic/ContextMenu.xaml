@@ -4,7 +4,9 @@
                     xmlns:colors="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
                     xmlns:utilities="clr-namespace:ModernApplicationFramework.Controls.Utilities"
-                    xmlns:basics="clr-namespace:ModernApplicationFramework.Basics">
+                    xmlns:basics="clr-namespace:ModernApplicationFramework.Basics"
+                    xmlns:menu="clr-namespace:ModernApplicationFramework.Controls.Menu"
+                    xmlns:windows="clr-namespace:ModernApplicationFramework.Controls.Windows">
 
     <converters:BrushToColorConverter x:Key="BrushToColorConverter"/>
 
@@ -12,9 +14,9 @@
         F1 M 5,11 L 3,7 L 5,7 L 6,9 L 9,3 L 11,3 L 7,11 L 5,11 Z
     </Geometry>
 
-    <ControlTemplate x:Key="MenuItemTemplate" TargetType="{x:Type this:ContextMenuItem}">
+    <ControlTemplate x:Key="MenuItemTemplate" TargetType="{x:Type menu:ContextMenuItem}">
         <Grid SnapsToDevicePixels="true" Background="{TemplateBinding Control.Background}"
-              MinHeight="22" MaxWidth="{x:Static this:MenuItem.MaxMenuWidth}">
+              MinHeight="22" MaxWidth="{x:Static menu:MenuItem.MaxMenuWidth}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="26" SharedSizeGroup="MenuItemIconColumnGroup"/>
                 <ColumnDefinition Width="*"/>
@@ -62,15 +64,15 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <Style TargetType="{x:Type this:ContextMenu}" BasedOn="{StaticResource {x:Type ContextMenu}}">
+    <Style TargetType="{x:Type menu:ContextMenu}" BasedOn="{StaticResource {x:Type ContextMenu}}">
         <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarTextActive}}"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="PopupAnimation" Value="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}"/>
         <Setter Property="utilities:MenuBehavior.UpdateCommandUiItems" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type this:ContextMenu}">
-                    <this:SystemDropShadowChrome x:Name="Shdw" Color="Transparent">
+                <ControlTemplate TargetType="{x:Type menu:ContextMenu}">
+                    <windows:SystemDropShadowChrome x:Name="Shdw" Color="Transparent">
                         <Grid Background="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuIconBackground}}">
                             <ScrollViewer x:Name="PART_ScrollViewer" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type FrameworkElement}, ResourceId=MenuScrollViewer}}">
                                 <Grid Background="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuBackgroundGradientBegin}}"
@@ -87,7 +89,7 @@
                             </ScrollViewer>
                             <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuBorder}}"/>
                         </Grid>
-                    </this:SystemDropShadowChrome>
+                    </windows:SystemDropShadowChrome>
                     <ControlTemplate.Triggers>
                         <DataTrigger Value="False">
                             <DataTrigger.Binding>
@@ -109,7 +111,7 @@
                                 </Condition>
                             </MultiDataTrigger.Conditions>
                             <Setter TargetName="Shdw" Property="FrameworkElement.Margin" Value="0,0,5,5"/>
-                            <Setter TargetName="Shdw" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}" Property="this:SystemDropShadowChrome.Color"/>
+                            <Setter TargetName="Shdw" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}" Property="windows:SystemDropShadowChrome.Color"/>
                         </MultiDataTrigger>
                         <DataTrigger Value="False">
                             <DataTrigger.Binding>
@@ -123,8 +125,8 @@
         </Setter>
     </Style>
     
-    <Style TargetType="{x:Type this:ContextMenuItem}">
-        <Setter Property="Foreground" Value="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type this:ContextMenu}}}"/>
+    <Style TargetType="{x:Type menu:ContextMenuItem}">
+        <Setter Property="Foreground" Value="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type menu:ContextMenu}}}"/>
         <Setter Property="Template" Value="{StaticResource MenuItemTemplate}"/>
     </Style>
     

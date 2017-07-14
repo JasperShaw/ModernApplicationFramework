@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using ModernApplicationFramework.Controls.Buttons;
 using ModernApplicationFramework.Interfaces.Controls;
 
 namespace ModernApplicationFramework.Controls.Internals

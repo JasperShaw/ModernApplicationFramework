@@ -5,7 +5,8 @@
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:mafc="clr-namespace:ModernApplicationFramework.Controls"
                     xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals"
-                    xmlns:utilities1="clr-namespace:ModernApplicationFramework.Controls.Utilities">
+                    xmlns:utilities1="clr-namespace:ModernApplicationFramework.Controls.Utilities"
+                    xmlns:windows="clr-namespace:ModernApplicationFramework.Controls.Windows">
     
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"/>
@@ -107,8 +108,8 @@
                                                                  Grid.Row="0" Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InverseBoolToVisibilityConverter}}">
 
                                 <DockPanel>
-                                    <mafc:SystemMenu x:Name="PART_SystemMenu" Width="32" Height="27" Margin="0,0,12,4" HorizontalAlignment="Left"
-                                                     DockPanel.Dock="Left" Padding="12,7,0,0" Source="{Binding Source={x:Static Application.Current}, Path=MainWindow.(mafc:MainWindow.ActivatedFloatIcon)}" 
+                                    <windows:SystemMenu x:Name="PART_SystemMenu" Width="32" Height="27" Margin="0,0,12,4" HorizontalAlignment="Left"
+                                                     DockPanel.Dock="Left" Padding="12,7,0,0" Source="{Binding Source={x:Static Application.Current}, Path=MainWindow.(windows:MainWindow.ActivatedFloatIcon)}" 
                                                      WindowChrome.IsHitTestVisibleInChrome="True"/>
 
                                     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
@@ -187,7 +188,7 @@
                         </Trigger>
                         <Trigger Property="IsActive" Value="False">
                             <Setter TargetName="TitleBarTextL" Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.FloatingWindowTitleBarForeground}}"/>
-                            <Setter TargetName="PART_SystemMenu" Property="Source" Value="{Binding Source={x:Static Application.Current}, Path=MainWindow.(mafc:MainWindow.DeactivatedFloatIcon)}"/>
+                            <Setter TargetName="PART_SystemMenu" Property="Source" Value="{Binding Source={x:Static Application.Current}, Path=MainWindow.(windows:MainWindow.DeactivatedFloatIcon)}"/>
                         </Trigger>
                         <Trigger SourceName="CloseButton" Property="IsMouseOver" Value="true">
                             <Setter TargetName="CloseButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarGlyphHover}}"/>

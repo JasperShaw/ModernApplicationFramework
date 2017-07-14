@@ -5,6 +5,8 @@
                        xmlns:comparers="clr-namespace:ModernApplicationFramework.Core.Comparers"
                        xmlns:customizeDialog="clr-namespace:ModernApplicationFramework.Basics.CustomizeDialog"
                        xmlns:dialogs="clr-namespace:ModernApplicationFramework.Controls.Dialogs"
+                       xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons"
+                       xmlns:listBoxes="clr-namespace:ModernApplicationFramework.Controls.ListBoxes"
                        ShowInTaskbar="False" Title="Add Command" ResizeMode="CanResizeWithGrip"
                        Height="370" Width="585" MinHeight="250" MinWidth="500" WindowStartupLocation="CenterOwner">
     <FocusManager.FocusedElement>
@@ -61,28 +63,28 @@
                 <Binding ElementName="CommandsListView" Path="FocusableElement" Mode="OneWay" />
             </Label.Target>
         </Label>
-        <controls:CustomSortListBox x:Name="CategoriesListView" Grid.Row="2" Grid.Column="0"
+        <listBoxes:CustomSortListBox x:Name="CategoriesListView" Grid.Row="2" Grid.Column="0"
                                     SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"
                                     Margin="12,0,0,10" ItemTemplate="{StaticResource CategoriesItemDataTemplate}"
                                     ItemContainerStyle="{StaticResource CategoryItemStyle}"
                                     VirtualizingStackPanel.IsVirtualizing="False"
                                     TextSearch.TextPath="Name" ItemsSource="{Binding Categories}"
                                     CustomSort="{StaticResource CategoryTextComparer}" />
-        <controls:CustomizeControlsListBox x:Name="CommandsListView" Grid.Row="2" Grid.Column="1" Margin="10,0,12,10"
+        <listBoxes:CustomizeControlsListBox x:Name="CommandsListView" Grid.Row="2" Grid.Column="1" Margin="10,0,12,10"
                                            SelectedItem="{Binding SelectedItem, Mode=TwoWay}" TextSearch.TextPath="Name"
                                            ItemsSource="{Binding Items}"
                                            CustomSort="{StaticResource CommandTextComparer}" />
 
         <StackPanel Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"
                     Orientation="Horizontal" Margin="0,0,2,0">
-            <controls:DialogButton x:Name="OKButton" IsDefault="True" Content="{x:Static customizeDialog:Customize_Resources.Prompt_Ok}" VerticalAlignment="Center"
+            <buttons:DialogButton x:Name="OKButton" IsDefault="True" Content="{x:Static customizeDialog:Customize_Resources.Prompt_Ok}" VerticalAlignment="Center"
                                    Command="{Binding OkClickCommand}">
                 <UIElement.IsEnabled>
                     <Binding Path="SelectedItem" ElementName="CommandsListView"
                              Converter="{StaticResource NotNullConverter}" />
                 </UIElement.IsEnabled>
-            </controls:DialogButton>
-            <controls:DialogButton x:Name="CancelButton" IsCancel="True" Content="{x:Static customizeDialog:Customize_Resources.Prompt_Cancel}" VerticalAlignment="Center" />
+            </buttons:DialogButton>
+            <buttons:DialogButton x:Name="CancelButton" IsCancel="True" Content="{x:Static customizeDialog:Customize_Resources.Prompt_Cancel}" VerticalAlignment="Center" />
         </StackPanel>
     </Grid>
 </dialogs:DialogWindow>

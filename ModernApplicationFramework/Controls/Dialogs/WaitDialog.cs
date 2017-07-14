@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
+using ModernApplicationFramework.Controls.Windows;
 
 namespace ModernApplicationFramework.Controls.Dialogs
 {

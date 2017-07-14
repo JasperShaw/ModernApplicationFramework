@@ -1,7 +1,8 @@
 ﻿<mafc:ToolBar x:Class="ModernApplicationFramework.MVVM.Controls.Toolbars.StandardToolbar"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mafc="http://modern.framework.com/controls">
+             xmlns:mafc="http://modern.framework.com/controls"
+             xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons;assembly=ModernApplicationFramework">
 
     <mafc:ToolBar.Resources>
         <ResourceDictionary>
@@ -12,17 +13,17 @@
                 <ResourceDictionary Source="../../Resources/Icons/Save_16x.xaml" />
                 <ResourceDictionary Source="../../Resources/Icons/OpenFile_16x.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <Style TargetType="{x:Type mafc:Button}">
+            <Style TargetType="{x:Type buttons:Button}">
                 <Setter Property="MinWidth" Value="22"/>
             </Style>
         </ResourceDictionary>
     </mafc:ToolBar.Resources>
-    <mafc:Button Command="{Binding NewFileCommand}" Content="{StaticResource NewFileIcon}"/>
-    <mafc:Button Command="{Binding OpenFileCommand}" Content="{StaticResource OpenFile}"/>
-    <mafc:Button Command="{Binding SaveFileCommand}" Content="{StaticResource SaveIcon}"/>
+    <buttons:Button Command="{Binding NewFileCommand}" Content="{StaticResource NewFileIcon}"/>
+    <buttons:Button Command="{Binding OpenFileCommand}" Content="{StaticResource OpenFile}"/>
+    <buttons:Button Command="{Binding SaveFileCommand}" Content="{StaticResource SaveIcon}"/>
 
     <Separator />
 
-    <mafc:Button Command="{Binding UndoCommand}" Content="{StaticResource UndoIcon}"/>
-    <mafc:Button Command="{Binding RedoCommand}" Content="{StaticResource RedoIcon}"/>
+    <buttons:Button Command="{Binding UndoCommand}" Content="{StaticResource UndoIcon}"/>
+    <buttons:Button Command="{Binding RedoCommand}" Content="{StaticResource RedoIcon}"/>
 </mafc:ToolBar>

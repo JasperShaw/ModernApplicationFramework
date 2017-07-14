@@ -1,10 +1,11 @@
-﻿<local:CheckableListBoxItem xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<listBoxes:CheckableListBoxItem xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                             xmlns:local="clr-namespace:ModernApplicationFramework.Controls"
-                            xmlns:internal="clr-namespace:ModernApplicationFramework.Controls.Internals">
+                            xmlns:internal="clr-namespace:ModernApplicationFramework.Controls.Internals"
+                            xmlns:listBoxes="clr-namespace:ModernApplicationFramework.Controls.ListBoxes">
     
     <Control.Template>
-        <ControlTemplate TargetType="{x:Type local:CheckableListBoxItem}">
+        <ControlTemplate TargetType="{x:Type listBoxes:CheckableListBoxItem}">
             <Border Name="Bd" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
                     Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
                 <StackPanel Orientation="Horizontal">
@@ -34,4 +35,4 @@
         </ControlTemplate>
     </Control.Template>
     
-</local:CheckableListBoxItem>
+</listBoxes:CheckableListBoxItem>

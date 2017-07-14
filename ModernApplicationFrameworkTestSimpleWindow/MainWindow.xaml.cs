@@ -1,4 +1,4 @@
-﻿using ModernApplicationFramework.Basics;
+﻿using ModernApplicationFramework.Controls.Windows;
 
 namespace ModernApplicationFrameworkTestSimpleWindow
 {

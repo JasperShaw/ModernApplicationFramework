@@ -4,7 +4,9 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Controls.Buttons;
 using ModernApplicationFramework.Core.Converters.General;
+using MenuItem = ModernApplicationFramework.Controls.Menu.MenuItem;
 
 namespace ModernApplicationFramework.Controls.Internals
 {

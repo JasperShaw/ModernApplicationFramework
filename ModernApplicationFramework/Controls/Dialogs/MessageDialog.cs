@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using ModernApplicationFramework.Controls.Utilities;
 using ModernApplicationFramework.Native.Standard;
+using Button = ModernApplicationFramework.Controls.Buttons.Button;
 
 namespace ModernApplicationFramework.Controls.Dialogs
 {

@@ -11,7 +11,11 @@
                     xmlns:native="clr-namespace:ModernApplicationFramework.Native"
                     xmlns:customize="clr-namespace:ModernApplicationFramework.Core.Converters.Customize"
                     xmlns:commandBar="clr-namespace:ModernApplicationFramework.Basics.CommandBar"
-                    xmlns:basics="clr-namespace:ModernApplicationFramework.Basics">
+                    xmlns:basics="clr-namespace:ModernApplicationFramework.Basics"
+                    xmlns:menu="clr-namespace:ModernApplicationFramework.Controls.Menu"
+                    xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons"
+                    xmlns:windows="clr-namespace:ModernApplicationFramework.Controls.Windows"
+                    xmlns:comboBox="clr-namespace:ModernApplicationFramework.Controls.ComboBox">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ComboBox.xaml"/>
@@ -43,7 +47,7 @@
     <converters:CommonUiResourceConverter x:Key="CommonUiResourceConverter"/>
     <converters:StringUppercaseConverter x:Key="StringUppercaseConverter"/>
 
-    <Style TargetType="{x:Type this:Menu}" BasedOn="{StaticResource {x:Type Menu}}">
+    <Style TargetType="{x:Type menu:Menu}" BasedOn="{StaticResource {x:Type Menu}}">
         <Setter Property="Background" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandShelfHighlight}}"/>
         <Setter Property="colors:ImageThemingUtilities.ImageBackgroundColor">
             <Setter.Value>
@@ -67,8 +71,8 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
 
-    <ControlTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type this:MenuItem}, ResourceId=TopLevelHeaderTemplateKey}"
-                     TargetType="{x:Type this:MenuItem}">
+    <ControlTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type menu:MenuItem}, ResourceId=TopLevelHeaderTemplateKey}"
+                     TargetType="{x:Type menu:MenuItem}">
         <Grid x:Name="HostingGrid">
             <Border x:Name="Bg" Padding="{TemplateBinding Control.Padding}" Margin="0,1,0,1"
                     BorderBrush="Transparent" BorderThickness="1" Background="{TemplateBinding Control.Background}">
@@ -95,9 +99,9 @@
                 <Popup.IsOpen>
                     <Binding Path="IsSubmenuOpen" RelativeSource="{RelativeSource TemplatedParent}"/>
                 </Popup.IsOpen>
-                <this:SystemDropShadowChrome x:Name="Shdw" Color="Transparent" SnapsToDevicePixels="True">
+                <windows:SystemDropShadowChrome x:Name="Shdw" Color="Transparent" SnapsToDevicePixels="True">
                     <Grid Background="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuIconBackground}}">
-                        <this:MenuScrollViewer>
+                        <menu:MenuScrollViewer>
                             <Grid Background="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuBackgroundGradientBegin}}" RenderOptions.BitmapScalingMode="{x:Static native:DpiHelper.BitmapScalingMode}" RenderOptions.ClearTypeHint="Enabled">
                                 <colors:ImageThemingUtilities.ImageBackgroundColor>
                                     <Binding Path="Background" ElementName="IconBackground" Converter="{StaticResource BrushToColorConverter}"/>
@@ -108,7 +112,7 @@
                                 <ItemsPresenter Margin="3" KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.DirectionalNavigation="Cycle"
                                                 SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" Grid.IsSharedSizeScope="True"></ItemsPresenter>
                             </Grid>
-                        </this:MenuScrollViewer>
+                        </menu:MenuScrollViewer>
                         <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuBorder}}"/>
                         <Border Background="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuBackgroundGradientBegin}}"
                                 VerticalAlignment="Top" HorizontalAlignment="Left" Height="2">
@@ -117,7 +121,7 @@
                             </FrameworkElement.Margin>
                         </Border>
                     </Grid>
-                </this:SystemDropShadowChrome>
+                </windows:SystemDropShadowChrome>
             </Popup>
         </Grid>
         <ControlTemplate.Triggers>
@@ -190,7 +194,7 @@
                         Property="Shape.Fill"/>
             </MultiDataTrigger>
 
-            <Trigger Property="this:MenuItem.IsPlacedOnToolBar" Value="true">
+            <Trigger Property="menu:MenuItem.IsPlacedOnToolBar" Value="true">
                 <Setter TargetName="ContentPresenter" Property="FrameworkElement.Margin" Value="0,0,3,0"/>
             </Trigger>
 
@@ -220,7 +224,7 @@
                     </Condition>
                 </MultiDataTrigger.Conditions>
                 <Setter TargetName="Shdw" Property="FrameworkElement.Margin" Value="0,0,5,5"/>
-                <Setter TargetName="Shdw" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}" Property="this:SystemDropShadowChrome.Color"/>
+                <Setter TargetName="Shdw" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}" Property="windows:SystemDropShadowChrome.Color"/>
             </MultiDataTrigger>
             <Trigger Property="IsHighlighted" Value="True">
                 <Setter TargetName="Bg" Property="BorderBrush" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarBorder}}"/>
@@ -236,9 +240,9 @@
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
-    <ControlTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type this:MenuItem}, ResourceId=SubmenuHeaderTemplateKey}" TargetType="{x:Type this:MenuItem}">
+    <ControlTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type menu:MenuItem}, ResourceId=SubmenuHeaderTemplateKey}" TargetType="{x:Type menu:MenuItem}">
         <Grid SnapsToDevicePixels="True" Background="Transparent">
-            <Grid MinHeight="22" MaxWidth="{x:Static this:MenuItem.MaxMenuWidth}">
+            <Grid MinHeight="22" MaxWidth="{x:Static menu:MenuItem.MaxMenuWidth}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="26" SharedSizeGroup="MenuItemicoColumnGroup"/>
                     <ColumnDefinition Width="*"/>
@@ -260,9 +264,9 @@
                 <Popup.IsOpen>
                     <Binding Path="IsSubmenuOpen" RelativeSource="{RelativeSource TemplatedParent}"/>
                 </Popup.IsOpen>
-                <this:SystemDropShadowChrome x:Name="Shdw" Color="Transparent">
+                <windows:SystemDropShadowChrome x:Name="Shdw" Color="Transparent">
                     <Grid Background="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuIconBackground}}">
-                        <this:MenuScrollViewer>
+                        <menu:MenuScrollViewer>
                             <Grid Background="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuBackgroundGradientBegin}}"
                                   RenderOptions.BitmapScalingMode="{x:Static native:DpiHelper.BitmapScalingMode}" RenderOptions.ClearTypeHint="Enabled">
                                 <colors:ImageThemingUtilities.ImageBackgroundColor>
@@ -273,11 +277,11 @@
                                 <ItemsPresenter KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.DirectionalNavigation="Cycle" Margin="3"
                                                 SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" Grid.IsSharedSizeScope="true"/>
                             </Grid>
-                        </this:MenuScrollViewer>
+                        </menu:MenuScrollViewer>
                         <Border BorderBrush="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuBorder}}"
                                 BorderThickness="1"/>
                     </Grid>
-                </this:SystemDropShadowChrome>
+                </windows:SystemDropShadowChrome>
             </Popup>
         </Grid>
         <ControlTemplate.Triggers>
@@ -304,7 +308,7 @@
                     </Condition>
                 </MultiDataTrigger.Conditions>
                 <Setter TargetName="Shdw" Property="FrameworkElement.Margin" Value="0,0,5,5"/>
-                <Setter TargetName="Shdw" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}" Property="this:SystemDropShadowChrome.Color"/>
+                <Setter TargetName="Shdw" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}" Property="windows:SystemDropShadowChrome.Color"/>
             </MultiDataTrigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarTextInactive}}"/>
@@ -318,8 +322,8 @@
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
-    <ControlTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type this:MenuItem}, ResourceId=SubmenuItemTemplateKey}" TargetType="{x:Type this:MenuItem}">
-        <Grid SnapsToDevicePixels="True" Background="Transparent" MinHeight="22" MaxWidth="{x:Static this:MenuItem.MaxMenuWidth}">
+    <ControlTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type menu:MenuItem}, ResourceId=SubmenuItemTemplateKey}" TargetType="{x:Type menu:MenuItem}">
+        <Grid SnapsToDevicePixels="True" Background="Transparent" MinHeight="22" MaxWidth="{x:Static menu:MenuItem.MaxMenuWidth}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="26" SharedSizeGroup="MenuItemIconColumnGroup"/>
                 <ColumnDefinition Width="*"/>
@@ -462,9 +466,9 @@
     </ControlTemplate>
 
 
-    <ControlTemplate x:Key="SplitButtonOnMenuTemplate" TargetType="{x:Type this:SplitButton}">
+    <ControlTemplate x:Key="SplitButtonOnMenuTemplate" TargetType="{x:Type buttons:SplitButton}">
         <Grid SnapsToDevicePixels="True" Background="Transparent">
-            <Grid MinHeight="22" MaxHeight="{x:Static this:MenuItem.MaxMenuWidth}">
+            <Grid MinHeight="22" MaxHeight="{x:Static menu:MenuItem.MaxMenuWidth}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="26" SharedSizeGroup="MenuItemColumnGroup"/>
                     <ColumnDefinition Width="*"/>
@@ -486,7 +490,7 @@
                 <Popup.IsOpen>
                     <Binding Path="IsSubmenuOpen" RelativeSource="{RelativeSource TemplatedParent}"/>
                 </Popup.IsOpen>
-                <this:SystemDropShadowChrome x:Name="Shdw" Color="Transparent">
+                <windows:SystemDropShadowChrome x:Name="Shdw" Color="Transparent">
                     <Border BorderBrush="{DynamicResource {x:Static colors:EnvironmentColors.DropDownPopupBorder}}"
                             BorderThickness="1">
                         <Grid SnapsToDevicePixels="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -509,7 +513,7 @@
                             </StatusBar>
                         </Grid>
                     </Border>
-                </this:SystemDropShadowChrome>
+                </windows:SystemDropShadowChrome>
             </Popup>
         </Grid>
         <ControlTemplate.Triggers>
@@ -536,7 +540,7 @@
                     </Condition>
                 </MultiDataTrigger.Conditions>
                 <Setter TargetName="Shdw" Property="FrameworkElement.Margin" Value="0,0,5,5"/>
-                <Setter TargetName="Shdw" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}" Property="this:SystemDropShadowChrome.Color"/>
+                <Setter TargetName="Shdw" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}" Property="windows:SystemDropShadowChrome.Color"/>
             </MultiDataTrigger>
             <Trigger Property="UIElement.IsEnabled" Value="false">
                 <Setter Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarTextInactive}}"
@@ -561,7 +565,7 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
     
-    <Style x:Key="{x:Static this:Menu.SeparatorStyleKey}" TargetType="{x:Type this:MenuItem}">
+    <Style x:Key="{x:Static menu:Menu.SeparatorStyleKey}" TargetType="{x:Type menu:MenuItem}">
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="IsEnabled" Value="False"/>
         <Setter Property="Template">
@@ -575,7 +579,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style x:Key="{x:Static this:Menu.ButtonStyleKey}" TargetType="{x:Type this:MenuItem}">
+    <Style x:Key="{x:Static menu:Menu.ButtonStyleKey}" TargetType="{x:Type menu:MenuItem}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="utilities:MenuBehavior.UpdateCommandUiItems" Value="True" />
         <Setter Property="AutomationProperties.Name">
@@ -606,7 +610,7 @@
         <Setter Property="IsChecked" Value="{Binding IsChecked}"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type this:MenuItem}">
+                <ControlTemplate TargetType="{x:Type menu:MenuItem}">
                     <Border x:Name="Border" BorderBrush="Transparent" Background="Transparent" BorderThickness="1">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -675,18 +679,18 @@
                 <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
                 <Setter Property="Template">
                     <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type this:MenuItem}">
+                        <ControlTemplate TargetType="{x:Type menu:MenuItem}">
                             <Menu FocusManager.IsFocusScope="False" Style="{StaticResource ToolBarMenuStyle}">
                                 <AutomationProperties.Name>
                                     <Binding Path="Text" Converter="{StaticResource AccessKeyRemovingConverter}"/>
                                 </AutomationProperties.Name>
                                 <ItemsControl.Items>
-                                    <this:SplitButton x:Name="PART_FocusTarget" Icon="{TemplateBinding Icon}"
+                                    <buttons:SplitButton x:Name="PART_FocusTarget" Icon="{TemplateBinding Icon}"
                                                       ItemsSource="{Binding CommandDefinition.Items}">
-                                        <this:SplitButton.SelectedIndex>
+                                        <buttons:SplitButton.SelectedIndex>
                                             <Binding Path="SelectedIndex" Mode="TwoWay"/>
-                                        </this:SplitButton.SelectedIndex>
-                                    </this:SplitButton>
+                                        </buttons:SplitButton.SelectedIndex>
+                                    </buttons:SplitButton>
                                 </ItemsControl.Items>
                                 <Control.Template>
                                     <ControlTemplate TargetType="{x:Type Menu}">
@@ -704,7 +708,7 @@
             </DataTrigger>
         </Style.Triggers>
     </Style>
-    <Style x:Key="{x:Static this:Menu.MenuStyleKey}" TargetType="{x:Type this:MenuItem}">
+    <Style x:Key="{x:Static menu:Menu.MenuStyleKey}" TargetType="{x:Type menu:MenuItem}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="utilities:MenuBehavior.UpdateCommandUiItems" Value="True" />
         <Setter Property="AutomationProperties.Name">
@@ -741,7 +745,7 @@
             </Setter.Value>
         </Setter>
         <Setter Property="Template"
-                Value="{DynamicResource {ComponentResourceKey  TypeInTargetAssembly={x:Type this:MenuItem}, ResourceId=TopLevelHeaderTemplateKey}}"/>
+                Value="{DynamicResource {ComponentResourceKey  TypeInTargetAssembly={x:Type menu:MenuItem}, ResourceId=TopLevelHeaderTemplateKey}}"/>
         <Setter Property="Padding" Value="6,0,0,1"/>
         <Setter Property="IsEnabled">
             <Setter.Value>
@@ -755,7 +759,7 @@
                 <DataTrigger.Binding>
                     <Binding Converter="{StaticResource IsCustomMenuConverter}"/>
                 </DataTrigger.Binding>
-                <Setter Property="this:MenuItem.IsUserCreatedMenu">
+                <Setter Property="menu:MenuItem.IsUserCreatedMenu">
                     <Setter.Value>
                         <Binding Path="IsCustom"/>
                     </Setter.Value>
@@ -763,20 +767,20 @@
             </DataTrigger>
             <Trigger Property="MenuItem.Role" Value="SubmenuHeader">
                 <Setter Property="Control.Padding" Value="2,0,2,3"/>
-                <Setter Property="Control.Template" Value="{DynamicResource {ComponentResourceKey  TypeInTargetAssembly={x:Type this:MenuItem}, ResourceId=SubmenuHeaderTemplateKey}}"/>
+                <Setter Property="Control.Template" Value="{DynamicResource {ComponentResourceKey  TypeInTargetAssembly={x:Type menu:MenuItem}, ResourceId=SubmenuHeaderTemplateKey}}"/>
             </Trigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
                     <Condition Property="MenuItem.Role" Value="SubmenuItem"/>
-                    <Condition Property="this:MenuItem.IsUserCreatedMenu" Value="true"/>
+                    <Condition Property="menu:MenuItem.IsUserCreatedMenu" Value="true"/>
                 </MultiTrigger.Conditions>
                 <Setter Property="Control.Padding" Value="2,0,2,3"/>
-                <Setter Property="Control.Template" Value="{DynamicResource {ComponentResourceKey  TypeInTargetAssembly={x:Type this:MenuItem}, ResourceId=SubmenuHeaderTemplateKey}}"/>
+                <Setter Property="Control.Template" Value="{DynamicResource {ComponentResourceKey  TypeInTargetAssembly={x:Type menu:MenuItem}, ResourceId=SubmenuHeaderTemplateKey}}"/>
             </MultiTrigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
                     <Condition Property="UIElement.IsEnabled" Value="false"/>
-                    <Condition Property="this:MenuItem.IsUserCreatedMenu" Value="true"/>
+                    <Condition Property="menu:MenuItem.IsUserCreatedMenu" Value="true"/>
                 </MultiTrigger.Conditions>
                 <Setter Property="FrameworkElement.ToolTip"
                         Value="Adding child items to this menu will enable it"/>
@@ -784,7 +788,7 @@
             </MultiTrigger>
         </Style.Triggers>
     </Style>
-    <Style x:Key="{x:Static this:Menu.ComboBoxStyleKey}" TargetType="{x:Type this:MenuItem}">
+    <Style x:Key="{x:Static menu:Menu.ComboBoxStyleKey}" TargetType="{x:Type menu:MenuItem}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="AutomationProperties.Name">
             <Setter.Value>
@@ -805,7 +809,7 @@
         <Setter Property="Template" Value="{StaticResource ComboTemplate}"/>
         <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarTextActive}}"/>
     </Style>
-    <Style x:Key="{x:Static this:Menu.MenuControllerStyleKey}" TargetType="{x:Type this:MenuItem}">
+    <Style x:Key="{x:Static menu:Menu.MenuControllerStyleKey}" TargetType="{x:Type menu:MenuItem}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="AutomationProperties.Name">
             <Setter.Value>
@@ -830,7 +834,7 @@
                             <Binding Path="Text" Converter="{StaticResource AccessKeyRemovingConverter}"/>
                         </AutomationProperties.Name>
                         <ItemsControl.Items>
-                            <this:MenuController ToolTipService.ShowOnDisabled="True" ItemsSource="{Binding CommandDefinition.Items}"
+                            <menu:MenuController ToolTipService.ShowOnDisabled="True" ItemsSource="{Binding CommandDefinition.Items}"
                                                  IsEnabled="{Binding IsEnabled}" AnchorItem="{Binding AnchorItem, Mode=TwoWay}">
                                 <FrameworkElement.ToolTip>
                                     <MultiBinding Converter="{StaticResource MultiToolTipMultiConverter}">
@@ -839,7 +843,7 @@
                                         <Binding Mode="OneWay" Path="AnchorItem.CommandDefinition.ShortcutText"/>
                                     </MultiBinding>
                                 </FrameworkElement.ToolTip>
-                            </this:MenuController>
+                            </menu:MenuController>
                         </ItemsControl.Items>
                         <Control.Template>
                             <ControlTemplate TargetType="{x:Type Menu}">
@@ -852,7 +856,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="{x:Static this:MenuItem.MenuControllerStyleKey}" TargetType="{x:Type this:MenuItem}">
+    <Style x:Key="{x:Static menu:MenuItem.MenuControllerStyleKey}" TargetType="{x:Type menu:MenuItem}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="AutomationProperties.Name">
             <Setter.Value>
@@ -881,20 +885,20 @@
         </Setter>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type this:MenuItem}">
-                    <this:MenuController Header="{TemplateBinding Header}"
+                <ControlTemplate TargetType="{x:Type menu:MenuItem}">
+                    <menu:MenuController Header="{TemplateBinding Header}"
                                          Icon="{TemplateBinding Icon}" ItemsSource="{Binding CommandDefinition.Items}"
                                          IsEnabled="{Binding IsEnabled}" AnchorItem="{Binding AnchorItem, Mode=TwoWay}"
-                                         Template="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type this:MenuItem}, ResourceId=SubmenuHeaderTemplateKey}}"/>
+                                         Template="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type menu:MenuItem}, ResourceId=SubmenuHeaderTemplateKey}}"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    <Style x:Key="{x:Static this:MenuItem.MenuStyleKey}" TargetType="{x:Type this:MenuItem}"
-           BasedOn="{StaticResource {x:Static this:Menu.MenuStyleKey}}">
+    <Style x:Key="{x:Static menu:MenuItem.MenuStyleKey}" TargetType="{x:Type menu:MenuItem}"
+           BasedOn="{StaticResource {x:Static menu:Menu.MenuStyleKey}}">
         <Setter Property="utilities:MenuBehavior.UpdateCommandUiItems" Value="True" />
     </Style>
-    <Style x:Key="{x:Static this:MenuItem.SeparatorStyleKey}" TargetType="{x:Type this:MenuItem}">
+    <Style x:Key="{x:Static menu:MenuItem.SeparatorStyleKey}" TargetType="{x:Type menu:MenuItem}">
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="IsEnabled" Value="False"/>
         <Setter Property="Template">
@@ -912,8 +916,8 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style x:Key="{x:Static this:MenuItem.ButtonStyleKey}" x:Uid="Style_9" TargetType="{x:Type this:MenuItem}"
-           BasedOn="{StaticResource {x:Static this:MenuItem.MenuStyleKey}}">
+    <Style x:Key="{x:Static menu:MenuItem.ButtonStyleKey}" x:Uid="Style_9" TargetType="{x:Type menu:MenuItem}"
+           BasedOn="{StaticResource {x:Static menu:MenuItem.MenuStyleKey}}">
         <Setter Property="utilities:MenuBehavior.UpdateCommandUiItems" Value="True"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="AutomationProperties.Name">
@@ -940,7 +944,7 @@
         </Setter>
         <Setter Property="IsChecked" Value="{Binding IsChecked}"/>
         <Setter Property="Template"
-                Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type this:MenuItem}, ResourceId=SubmenuItemTemplateKey}}"/>
+                Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type menu:MenuItem}, ResourceId=SubmenuItemTemplateKey}}"/>
         <Setter Property="Padding" Value="2,3,2,3"/>
         <Setter Property="Command">
             <Setter.Value>
@@ -954,8 +958,8 @@
                 </DataTrigger.Binding>
                 <Setter Property="Template">
                     <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type this:MenuItem}">
-                            <this:SplitButton x:Name="PART_FocusTarget" Template="{StaticResource SplitButtonOnMenuTemplate}"
+                        <ControlTemplate TargetType="{x:Type menu:MenuItem}">
+                            <buttons:SplitButton x:Name="PART_FocusTarget" Template="{StaticResource SplitButtonOnMenuTemplate}"
                                               Icon="{TemplateBinding Icon}">
                                 <MenuItem.IsSubmenuOpen>
                                     <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="IsSubmenuOpen" Mode="TwoWay"/>
@@ -966,17 +970,17 @@
                                 <HeaderedItemsControl.Header>
                                     <Binding Path="Text" Mode="OneWay" Converter="{StaticResource AccessKeyConverter}"/>
                                 </HeaderedItemsControl.Header>
-                                <this:SplitButton.SelectedIndex>
+                                <buttons:SplitButton.SelectedIndex>
                                     <Binding Path="SelectedIndex" Mode="TwoWay"/>
-                                </this:SplitButton.SelectedIndex>
-                            </this:SplitButton>
+                                </buttons:SplitButton.SelectedIndex>
+                            </buttons:SplitButton>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
             </DataTrigger>
         </Style.Triggers>
     </Style>
-    <Style x:Key="{x:Static this:MenuItem.ComboBoxStyleKey}" TargetType="{x:Type this:MenuItem}">
+    <Style x:Key="{x:Static menu:MenuItem.ComboBoxStyleKey}" TargetType="{x:Type menu:MenuItem}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="AutomationProperties.Name">
             <Setter.Value>
@@ -1002,8 +1006,8 @@
         <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarTextActive}}"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type this:MenuItem}">
-                    <Grid SnapsToDevicePixels="True" Background="Transparent" MaxWidth="{x:Static this:MenuItem.MaxMenuWidth}">
+                <ControlTemplate TargetType="{x:Type menu:MenuItem}">
+                    <Grid SnapsToDevicePixels="True" Background="Transparent" MaxWidth="{x:Static menu:MenuItem.MaxMenuWidth}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="26" SharedSizeGroup="MenuItemIconColumnGroup"/>
                             <ColumnDefinition Width="Auto"/>
@@ -1014,7 +1018,7 @@
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         <ContentPresenter Grid.Column="1" ContentSource="Header" Margin="8,1,0,1" VerticalAlignment="Center" RecognizesAccessKey="True"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                        <this:ComboBox x:Name="PART_FocusTarget" Margin="7,2,2,2" Grid.Column="2" TextSearch.TextPath="Text"
+                        <comboBox:ComboBox x:Name="PART_FocusTarget" Margin="7,2,2,2" Grid.Column="2" TextSearch.TextPath="Text"
                                        IsEnabled="{TemplateBinding IsEnabled}" ShouldPreserveUserEnteredPrefix="True"
                                        IsEmbeddedInMenu="true" 
                                        IsEditable="{Binding VisualSource.IsEditable}" DataSource="{Binding DataSource}" VisualDataSource="{Binding VisualSource}">
@@ -1030,7 +1034,7 @@
                                     </TextBlock>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
-                        </this:ComboBox>
+                        </comboBox:ComboBox>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="MenuItem.Icon">
@@ -1356,7 +1360,7 @@
                                 <Popup.IsOpen>
                                     <Binding Path="IsOverflowOpen" RelativeSource="{RelativeSource TemplatedParent}"/>
                                 </Popup.IsOpen>
-                                <this:SystemDropShadowChrome x:Name="Shdw" Color="Transparent">
+                                <windows:SystemDropShadowChrome x:Name="Shdw" Color="Transparent">
                                     <Border Background="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuBackgroundGradientBegin}}" 
                                             BorderBrush="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuBorder}}" 
                                             BorderThickness="1" 
@@ -1382,7 +1386,7 @@
                                             </StackPanel>
                                         </StackPanel>
                                     </Border>
-                                </this:SystemDropShadowChrome>
+                                </windows:SystemDropShadowChrome>
                             </internals:ToolBarOverflowPopup>
                         </Grid>
                         <Grid>
@@ -1442,7 +1446,7 @@
                             </MultiDataTrigger.Conditions>
                             <Setter TargetName="Shdw" Property="FrameworkElement.Margin" Value="0,0,5,5"/>
                             <Setter TargetName="Shdw" Property="SnapsToDevicePixels" Value="True"/>
-                            <Setter TargetName="Shdw" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}" Property="this:SystemDropShadowChrome.Color"/>
+                            <Setter TargetName="Shdw" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}" Property="windows:SystemDropShadowChrome.Color"/>
                         </MultiDataTrigger>
                         <Trigger Property="ToolBar.Orientation" Value="Vertical">
                             <Setter TargetName="OverflowButton"
@@ -1649,7 +1653,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="{x:Static this:ToolBar.SeparatorStyleKey}" TargetType="{x:Type this:CommandDefinitionButton}">
+    <Style x:Key="{x:Static this:ToolBar.SeparatorStyleKey}" TargetType="{x:Type buttons:CommandDefinitionButton}">
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -1740,11 +1744,11 @@
                                     <Binding Path="Text" Converter="{StaticResource AccessKeyRemovingConverter}"/>
                                 </AutomationProperties.Name>
                                 <ItemsControl.Items>
-                                    <this:SplitButton x:Name="PART_FocusTarget" Icon="{TemplateBinding Content}" ItemsSource="{Binding CommandDefinition.Items}">
-                                        <this:SplitButton.SelectedIndex>
+                                    <buttons:SplitButton x:Name="PART_FocusTarget" Icon="{TemplateBinding Content}" ItemsSource="{Binding CommandDefinition.Items}">
+                                        <buttons:SplitButton.SelectedIndex>
                                             <Binding Path="SelectedIndex" Mode="TwoWay"/>
-                                        </this:SplitButton.SelectedIndex>
-                                    </this:SplitButton>
+                                        </buttons:SplitButton.SelectedIndex>
+                                    </buttons:SplitButton>
                                 </ItemsControl.Items>
                                 <Control.Template>
                                     <ControlTemplate TargetType="{x:Type Menu}">
@@ -1822,15 +1826,15 @@
                             <Binding Path="Text" Converter="{StaticResource AccessKeyRemovingConverter}"/>
                         </AutomationProperties.Name>
                         <FrameworkElement.Resources>
-                            <Style TargetType="{x:Type this:MenuItem}" BasedOn="{StaticResource {x:Static this:Menu.MenuStyleKey}}"
-                                   x:Key="{x:Static this:Menu.MenuStyleKey}">
+                            <Style TargetType="{x:Type menu:MenuItem}" BasedOn="{StaticResource {x:Static menu:Menu.MenuStyleKey}}"
+                                   x:Key="{x:Static menu:Menu.MenuStyleKey}">
                                 <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
                                 <Setter Property="Padding" Value="2,1,1,0"/>
                                 <Setter Property="IsPlacedOnToolBar" Value="true"/>
                             </Style>
                         </FrameworkElement.Resources>
                         <ItemsControl.Items>
-                            <this:MenuItem x:Name="PART_FocusTarget" Style="{DynamicResource {x:Static this:Menu.MenuStyleKey}}"/>
+                            <menu:MenuItem x:Name="PART_FocusTarget" Style="{DynamicResource {x:Static menu:Menu.MenuStyleKey}}"/>
                         </ItemsControl.Items>
                         <Control.Template>
                             <ControlTemplate TargetType="{x:Type Menu}">
@@ -1873,7 +1877,7 @@
                             <Binding Path="Text" Converter="{StaticResource AccessKeyRemovingConverter}"/>
                         </AutomationProperties.Name>
                         <ItemsControl.Items>
-                            <this:MenuController x:Name="PART_FocusTarget" ToolTipService.ShowOnDisabled="True" this:ToolBar.IsToolBarHostedMenuItem="true"
+                            <menu:MenuController x:Name="PART_FocusTarget" ToolTipService.ShowOnDisabled="True" this:ToolBar.IsToolBarHostedMenuItem="true"
                                                  ItemsSource="{Binding CommandDefinition.Items}" AnchorItem="{Binding AnchorItem, Mode=TwoWay}">
                                 <FrameworkElement.ToolTip>
                                     <MultiBinding Converter="{StaticResource MultiToolTipMultiConverter}">
@@ -1882,7 +1886,7 @@
                                         <Binding Mode="OneWay" Path="AnchorItem.CommandDefinition.ShortcutText"/>
                                     </MultiBinding>
                                 </FrameworkElement.ToolTip>
-                            </this:MenuController>
+                            </menu:MenuController>
                         </ItemsControl.Items>
                         <Control.Template>
                             <ControlTemplate TargetType="{x:Type Menu}">
@@ -1896,7 +1900,7 @@
     </Style>
 
 
-    <Style TargetType="{x:Type this:CommandDefinitionButton}">
+    <Style TargetType="{x:Type buttons:CommandDefinitionButton}">
         <Setter Property="FocusVisualStyle">
             <Setter.Value>
                 <x:NullExtension/>
@@ -1912,13 +1916,13 @@
         </Style.Triggers>
     </Style>
 
-    <Style TargetType="{x:Type this:MenuControllerButton}"
+    <Style TargetType="{x:Type menu:MenuControllerButton}"
            BasedOn="{StaticResource {x:Static this:ToolBar.ButtonStyleKey}}">
         <Setter Property="KeyboardNavigation.IsTabStop" Value="False"/>
         <Setter Property="Visibility" Value="Visible"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type this:MenuControllerButton}">
+                <ControlTemplate TargetType="{x:Type menu:MenuControllerButton}">
                     <Grid x:Name="ContainingGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                           Background="Transparent">
                         <Grid.ColumnDefinitions>
@@ -1929,7 +1933,7 @@
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                           Margin="2" Grid.Column="0"
-                                          Content="{Binding Path=Icon, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type this:MenuController}}}"/>
+                                          Content="{Binding Path=Icon, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type menu:MenuController}}}"/>
                         <AccessText x:Name="Text" Margin="2" Grid.Column="1" VerticalAlignment="Center"
                                     HorizontalAlignment="Center" Visibility="Collapsed"/>
                     </Grid>
@@ -1938,7 +1942,7 @@
                             <DataTrigger.Binding>
                                 <Binding Path="IsEnabled">
                                     <Binding.RelativeSource>
-                                        <RelativeSource Mode="FindAncestor" AncestorType="{x:Type this:MenuController}"/>
+                                        <RelativeSource Mode="FindAncestor" AncestorType="{x:Type menu:MenuController}"/>
                                     </Binding.RelativeSource>
                                 </Binding>
                             </DataTrigger.Binding>
@@ -1948,7 +1952,7 @@
                             <DataTrigger.Binding>
                                 <Binding Path="DataContext.Flags.PictAndText">
                                     <Binding.RelativeSource>
-                                        <RelativeSource Mode="FindAncestor" AncestorType="{x:Type this:MenuController}"/>
+                                        <RelativeSource Mode="FindAncestor" AncestorType="{x:Type menu:MenuController}"/>
                                     </Binding.RelativeSource>
                                 </Binding>
                             </DataTrigger.Binding>
@@ -1967,7 +1971,7 @@
                             <DataTrigger.Binding>
                                 <Binding Path="DataContext.Flags.TextIsAnchor">
                                     <Binding.RelativeSource>
-                                        <RelativeSource Mode="FindAncestor" AncestorType="{x:Type this:MenuController}"/>
+                                        <RelativeSource Mode="FindAncestor" AncestorType="{x:Type menu:MenuController}"/>
                                     </Binding.RelativeSource>
                                 </Binding>
                             </DataTrigger.Binding>
@@ -1975,7 +1979,7 @@
                                 <Setter.Value>
                                     <Binding Path="DataContext.Text" Converter="{StaticResource AccessKeyConverter}">
                                         <Binding.RelativeSource>
-                                            <RelativeSource Mode="FindAncestor" AncestorType="{x:Type this:MenuController}"/>
+                                            <RelativeSource Mode="FindAncestor" AncestorType="{x:Type menu:MenuController}"/>
                                         </Binding.RelativeSource>
                                     </Binding>
                                 </Setter.Value>
@@ -1985,7 +1989,7 @@
                             <DataTrigger.Binding>
                                 <Binding Path="DataContext.Flags.TextIsAnchor">
                                     <Binding.RelativeSource>
-                                        <RelativeSource Mode="FindAncestor" AncestorType="{x:Type this:MenuController}"/>
+                                        <RelativeSource Mode="FindAncestor" AncestorType="{x:Type menu:MenuController}"/>
                                     </Binding.RelativeSource>
                                 </Binding>
                             </DataTrigger.Binding>
@@ -1993,7 +1997,7 @@
                                 <Setter.Value>
                                     <Binding Path="AnchorItem.Text" Converter="{StaticResource AccessKeyConverter}">
                                         <Binding.RelativeSource>
-                                            <RelativeSource Mode="FindAncestor" AncestorType="{x:Type this:MenuController}"/>
+                                            <RelativeSource Mode="FindAncestor" AncestorType="{x:Type menu:MenuController}"/>
                                         </Binding.RelativeSource>
                                     </Binding>
                                 </Setter.Value>
@@ -2003,7 +2007,7 @@
                             <DataTrigger.Binding>
                                 <Binding Path="IsEnabled">
                                     <Binding.RelativeSource>
-                                        <RelativeSource Mode="FindAncestor" AncestorType="{x:Type this:MenuController}"/>
+                                        <RelativeSource Mode="FindAncestor" AncestorType="{x:Type menu:MenuController}"/>
                                     </Binding.RelativeSource>
                                 </Binding>
                             </DataTrigger.Binding>
@@ -2024,7 +2028,7 @@
                                 </Condition>
                                 <Condition Value="False">
                                     <Condition.Binding>
-                                        <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type this:MenuController}}" Path="HostContainer.(ToolBar.IsOverflowItem)"/>
+                                        <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type menu:MenuController}}" Path="HostContainer.(ToolBar.IsOverflowItem)"/>
                                     </Condition.Binding>
                                 </Condition>
                             </MultiDataTrigger.Conditions>
@@ -2052,7 +2056,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style TargetType="{x:Type this:MenuController}">
+    <Style TargetType="{x:Type menu:MenuController}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="IsSubmenuOpen" Value="{Binding AreChildItemsDisplayed, Mode=TwoWay}"/>
         <Setter Property="utilities1:DteFocusHelper.AcquireFocus" Value="{Binding AcquireFocus}"/>
@@ -2073,7 +2077,7 @@
         </Setter>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type this:MenuController}">
+                <ControlTemplate TargetType="{x:Type menu:MenuController}">
                     <Border x:Name="NonCheckedBorder" BorderThickness="1" BorderBrush="Transparent"
                             Background="{TemplateBinding Background}">
                         <Grid SnapsToDevicePixels="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -2084,9 +2088,9 @@
                             </Grid.ColumnDefinitions>
                             <Popup x:Name="PART_Popup" AllowsTransparency="True" Grid.ColumnSpan="3" Placement="Bottom" Margin="1" 
                                    PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" IsOpen="{TemplateBinding IsSubmenuOpen}">
-                                <this:SystemDropShadowChrome x:Name="Shdw" Color="Transparent">
+                                <windows:SystemDropShadowChrome x:Name="Shdw" Color="Transparent">
                                     <Grid Background="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuIconBackground}}">
-                                        <this:MenuScrollViewer>
+                                        <menu:MenuScrollViewer>
                                             <Grid Background="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuBackgroundGradientBegin}}">
                                                 <colors:ImageThemingUtilities.ImageBackgroundColor>
                                                     <Binding Path="Background" ElementName="IconBackground" Converter="{StaticResource BrushToColorConverter}"/>
@@ -2096,14 +2100,14 @@
                                                 <ItemsPresenter Margin="3" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" KeyboardNavigation.DirectionalNavigation="Cycle"
                                                                 Grid.IsSharedSizeScope="True"/>
                                             </Grid>
-                                        </this:MenuScrollViewer>
+                                        </menu:MenuScrollViewer>
                                         <Border BorderBrush="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuBorder}}"
                                                 BorderThickness="1"/>
                                     </Grid>
-                                </this:SystemDropShadowChrome>
+                                </windows:SystemDropShadowChrome>
                             </Popup>
                             <Border x:Name="CheckedBorder" BorderThickness="1" BorderBrush="Transparent" Grid.Column="0" Background="{TemplateBinding Background}">
-                                <this:MenuControllerButton x:Name="MenuControllerButton" DataContext="{TemplateBinding AnchorItem}"
+                                <menu:MenuControllerButton x:Name="MenuControllerButton" DataContext="{TemplateBinding AnchorItem}"
                                                                IsEnabled="{TemplateBinding IsEnabled}"
                                                                ToolTip="{TemplateBinding ToolTip}" HorizontalAlignment="Stretch"
                                                                VerticalAlignment="Stretch"/>
@@ -2258,7 +2262,7 @@
                                 </Condition>
                             </MultiDataTrigger.Conditions>
                             <Setter TargetName="Shdw" Property="FrameworkElement.Margin" Value="0,0,5,5"/>
-                            <Setter TargetName="Shdw" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}" Property="this:SystemDropShadowChrome.Color"/>
+                            <Setter TargetName="Shdw" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}" Property="windows:SystemDropShadowChrome.Color"/>
                         </MultiDataTrigger>
                         <DataTrigger Value="False">
                             <DataTrigger.Binding>
@@ -2296,7 +2300,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style TargetType="{x:Type this:SplitButtonItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+    <Style TargetType="{x:Type buttons:SplitButtonItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
         <Setter Property="AutomationProperties.Name">
             <Setter.Value>
                 <Binding Mode="OneTime" Path="Text"/>
@@ -2316,7 +2320,7 @@
         <Setter Property="FocusVisualStyle" Value="{x:NullExtension}"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type this:SplitButtonItem}" x:Key="{x:Type this:SplitButtonItem}">
+                <ControlTemplate TargetType="{x:Type buttons:SplitButtonItem}" x:Key="{x:Type buttons:SplitButtonItem}">
                     <Border x:Name="Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}"
                             SnapsToDevicePixels="True">
@@ -2325,7 +2329,7 @@
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="this:SplitButtonItem.IsHighlighted" Value="True">
+                        <Trigger Property="buttons:SplitButtonItem.IsHighlighted" Value="True">
                             <Setter Property="Background" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMouseOverBackgroundBegin}}"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarBorder}}"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarTextHover}}"/>
@@ -2335,7 +2339,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style TargetType="{x:Type this:SplitButton}">
+    <Style TargetType="{x:Type buttons:SplitButton}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="AutomationProperties.Name">
             <Setter.Value>
@@ -2349,7 +2353,7 @@
         </Setter>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type this:SplitButton}">
+                <ControlTemplate TargetType="{x:Type buttons:SplitButton}">
                     <Border x:Name="Border" BorderThickness="1" BorderBrush="Transparent"
                             Background="{TemplateBinding Background}">
                         <Grid SnapsToDevicePixels="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -2361,7 +2365,7 @@
                             <Popup x:Name="PART_Popup" AllowsTransparency="True" Grid.ColumnSpan="3" Placement="Bottom"
                                    Margin="1" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                    IsOpen="{TemplateBinding IsSubmenuOpen}" MinWidth="155" MaxHeight="210">
-                                <this:SystemDropShadowChrome x:Name="Shdw" Color="Transparent">
+                                <windows:SystemDropShadowChrome x:Name="Shdw" Color="Transparent">
                                     <Border BorderBrush="{DynamicResource {x:Static colors:EnvironmentColors.DropDownPopupBorder}}"
                                             BorderThickness="1">
                                         <Grid SnapsToDevicePixels="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -2384,7 +2388,7 @@
                                             </StatusBar>
                                         </Grid>
                                     </Border>
-                                </this:SystemDropShadowChrome>
+                                </windows:SystemDropShadowChrome>
                             </Popup>
                             <Button Grid.Column="0" 
                                     Content="{TemplateBinding Icon}" Focusable="False" Style="{StaticResource SplitButtonStyle}"
@@ -2436,7 +2440,7 @@
                                 </Condition>
                             </MultiDataTrigger.Conditions>
                             <Setter TargetName="Shdw" Property="FrameworkElement.Margin" Value="0,0,5,5"/>
-                            <Setter TargetName="Shdw" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}" Property="this:SystemDropShadowChrome.Color"/>
+                            <Setter TargetName="Shdw" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}" Property="windows:SystemDropShadowChrome.Color"/>
                         </MultiDataTrigger>
                         <DataTrigger Value="False">
                             <DataTrigger.Binding>
@@ -2450,27 +2454,27 @@
         </Setter>
     </Style>
 
-    <Style x:Key="{x:Static this:MenuController.ButtonStyleKey}"
-           BasedOn="{StaticResource {x:Static this:MenuItem.ButtonStyleKey}}"
-           TargetType="{x:Type this:MenuItem}"/>
-    <Style x:Key="{x:Static this:MenuController.MenuControllerStyleKey}"
-           BasedOn="{StaticResource {x:Static this:MenuItem.MenuControllerStyleKey}}"
-           TargetType="{x:Type this:MenuItem}"/>
-    <Style x:Key="{x:Static this:MenuController.MenuStyleKey}"
-           BasedOn="{StaticResource {x:Static this:MenuItem.MenuStyleKey}}"
-           TargetType="{x:Type this:MenuItem}"/>
-    <Style x:Key="{x:Static this:MenuController.SeparatorStyleKey}"
-           BasedOn="{StaticResource {x:Static this:MenuItem.SeparatorStyleKey}}"
-           TargetType="{x:Type this:MenuItem}"/>
-    <Style x:Key="{x:Static this:MenuController.ComboBoxStyleKey}"
-           BasedOn="{StaticResource {x:Static this:MenuItem.ComboBoxStyleKey}}"
-           TargetType="{x:Type this:MenuItem}"/>
-    <Style x:Key="{x:Static this:ContextMenu.ButtonStyleKey}" BasedOn="{StaticResource {x:Static this:MenuItem.ButtonStyleKey}}"
-           TargetType="{x:Type this:MenuItem}"/>
-        <Style x:Key="{x:Static this:ContextMenu.MenuStyleKey}" BasedOn="{StaticResource {x:Static this:MenuItem.MenuStyleKey}}"
-           TargetType="{x:Type this:MenuItem}"/>
-    <Style x:Key="{x:Static this:ContextMenu.SeparatorStyleKey}" BasedOn="{StaticResource {x:Static this:MenuItem.SeparatorStyleKey}}"
-           TargetType="{x:Type this:MenuItem}"/>
-    <Style x:Key="{x:Static this:ContextMenu.ComboBoxStyleKey}" BasedOn="{StaticResource {x:Static this:MenuItem.ComboBoxStyleKey}}"
-           TargetType="{x:Type this:MenuItem}"/>
+    <Style x:Key="{x:Static menu:MenuController.ButtonStyleKey}"
+           BasedOn="{StaticResource {x:Static menu:MenuItem.ButtonStyleKey}}"
+           TargetType="{x:Type menu:MenuItem}"/>
+    <Style x:Key="{x:Static menu:MenuController.MenuControllerStyleKey}"
+           BasedOn="{StaticResource {x:Static menu:MenuItem.MenuControllerStyleKey}}"
+           TargetType="{x:Type menu:MenuItem}"/>
+    <Style x:Key="{x:Static menu:MenuController.MenuStyleKey}"
+           BasedOn="{StaticResource {x:Static menu:MenuItem.MenuStyleKey}}"
+           TargetType="{x:Type menu:MenuItem}"/>
+    <Style x:Key="{x:Static menu:MenuController.SeparatorStyleKey}"
+           BasedOn="{StaticResource {x:Static menu:MenuItem.SeparatorStyleKey}}"
+           TargetType="{x:Type menu:MenuItem}"/>
+    <Style x:Key="{x:Static menu:MenuController.ComboBoxStyleKey}"
+           BasedOn="{StaticResource {x:Static menu:MenuItem.ComboBoxStyleKey}}"
+           TargetType="{x:Type menu:MenuItem}"/>
+    <Style x:Key="{x:Static menu:ContextMenu.ButtonStyleKey}" BasedOn="{StaticResource {x:Static menu:MenuItem.ButtonStyleKey}}"
+           TargetType="{x:Type menu:MenuItem}"/>
+        <Style x:Key="{x:Static menu:ContextMenu.MenuStyleKey}" BasedOn="{StaticResource {x:Static menu:MenuItem.MenuStyleKey}}"
+           TargetType="{x:Type menu:MenuItem}"/>
+    <Style x:Key="{x:Static menu:ContextMenu.SeparatorStyleKey}" BasedOn="{StaticResource {x:Static menu:MenuItem.SeparatorStyleKey}}"
+           TargetType="{x:Type menu:MenuItem}"/>
+    <Style x:Key="{x:Static menu:ContextMenu.ComboBoxStyleKey}" BasedOn="{StaticResource {x:Static menu:MenuItem.ComboBoxStyleKey}}"
+           TargetType="{x:Type menu:MenuItem}"/>
 </ResourceDictionary>

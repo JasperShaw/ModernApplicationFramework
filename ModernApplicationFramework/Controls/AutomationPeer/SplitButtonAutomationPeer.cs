@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Automation.Peers;
 using System.Windows.Automation.Provider;
 using System.Windows.Controls.Primitives;
+using ModernApplicationFramework.Controls.Buttons;
 
 namespace ModernApplicationFramework.Controls.AutomationPeer
 {

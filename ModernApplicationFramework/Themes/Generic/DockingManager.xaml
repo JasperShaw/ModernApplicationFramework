@@ -5,7 +5,8 @@
                     xmlns:avalonDock="clr-namespace:ModernApplicationFramework.Docking"
                     xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
-                    xmlns:converters1="clr-namespace:ModernApplicationFramework.Core.Converters">
+                    xmlns:converters1="clr-namespace:ModernApplicationFramework.Core.Converters"
+                    xmlns:window="clr-namespace:ModernApplicationFramework.Controls.Windows">
     
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="LayoutDocumentPaneControl.xaml"/>
@@ -79,7 +80,7 @@
                 <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorSideItemBackgroundHover}}" TargetName="Bd"/>
                 <Setter TargetName="Content" Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorSideItemForegroundHover}}"/>
             </MultiTrigger>
-             <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:MainWindow}}, Path=FullScreen}" Value="true">
+             <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type window:MainWindow}}, Path=FullScreen}" Value="true">
                  <Setter Property="Visibility" Value="Collapsed"/>
              </DataTrigger>
         </ControlTemplate.Triggers>

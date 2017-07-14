@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
+using ModernApplicationFramework.Controls.Menu;
 using ModernApplicationFramework.Interfaces.Command;
 using ModernApplicationFramework.Interfaces.Controls;
 

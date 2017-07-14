@@ -7,6 +7,8 @@ using ModernApplicationFramework.Basics.CommandBar.Creators;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Controls.Menu;
+using ModernApplicationFramework.Controls.Windows;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.MVVM.Interfaces;
 

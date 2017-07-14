@@ -3,7 +3,8 @@
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
                     xmlns:accessKey="clr-namespace:ModernApplicationFramework.Core.Converters.AccessKey"
-                    xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General">
+                    xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General"
+                    xmlns:menu="clr-namespace:ModernApplicationFramework.Controls.Menu">
 
     <Geometry x:Key="Checkmark">
         F1 M 5,11 L 3,7 L 5,7 L 6,9 L 9,3 L 11,3 L 7,11 L 5,11 Z
@@ -20,16 +21,16 @@
                 <Border Width="28" Background="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuIconBackground}}"
                         HorizontalAlignment="Left"/>
             </Border>
-            <controls:MenuScrollViewer Margin="3">
+            <menu:MenuScrollViewer Margin="3">
                 <ItemsPresenter KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.DirectionalNavigation="Cycle"
                                 SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" Grid.IsSharedSizeScope="true"/>
-            </controls:MenuScrollViewer>
+            </menu:MenuScrollViewer>
         </Grid>
     </ControlTemplate>
 
     <ControlTemplate x:Key="MenuItemTemplate" TargetType="{x:Type MenuItem}">
         <Grid SnapsToDevicePixels="true" Background="{TemplateBinding Control.Background}"
-              MinHeight="22" MaxWidth="{x:Static controls:MenuItem.MaxMenuWidth}">
+              MinHeight="22" MaxWidth="{x:Static menu:MenuItem.MaxMenuWidth}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="26" SharedSizeGroup="MenuItemIconColumnGroup"/>
                 <ColumnDefinition Width="*"/>
@@ -99,8 +100,8 @@
         <Setter Property="OverridesDefaultStyle" Value="true"/>
         <Setter Property="Template" Value="{DynamicResource SeparatorTemplate}"/>
     </Style>
-    <Style TargetType="{x:Type controls:CheckedMenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}"/>
-    <Style TargetType="{x:Type controls:EditableMenuItem}">
+    <Style TargetType="{x:Type menu:CheckedMenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}"/>
+    <Style TargetType="{x:Type menu:EditableMenuItem}">
         <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarTextActive}}"/>
     </Style>
 

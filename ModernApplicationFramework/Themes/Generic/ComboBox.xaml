@@ -6,7 +6,9 @@
                     xmlns:accessKey="clr-namespace:ModernApplicationFramework.Core.Converters.AccessKey"
                     xmlns:customize="clr-namespace:ModernApplicationFramework.Core.Converters.Customize"
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
-                    xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General">
+                    xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General"
+                    xmlns:windows="clr-namespace:ModernApplicationFramework.Controls.Windows"
+                    xmlns:comboBox="clr-namespace:ModernApplicationFramework.Controls.ComboBox">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Brushes.xaml"/>
@@ -204,7 +206,7 @@
         </Setter>
     </Style>
 
-    <ControlTemplate x:Key="ComboBoxEditableTemplate" TargetType="{x:Type this:ComboBox}">
+    <ControlTemplate x:Key="ComboBoxEditableTemplate" TargetType="{x:Type comboBox:ComboBox}">
         <Border x:Name="Border" BorderThickness="1" BorderBrush="{DynamicResource {x:Static colors:EnvironmentColors.ComboBoxBorder}}"
                 Background="{DynamicResource {x:Static colors:EnvironmentColors.ComboBoxBackground}}">
             <Grid Name="Placement" SnapsToDevicePixels="True">
@@ -217,10 +219,10 @@
                     <Popup.IsOpen>
                         <Binding Path="IsDropDownOpen" RelativeSource="{RelativeSource TemplatedParent}"/>
                     </Popup.IsOpen>
-                    <this:SystemDropShadowChrome x:Name="Shdw" Color="Transparent" MaxHeight="{TemplateBinding MaxDropDownHeight}">
-                        <this:SystemDropShadowChrome.MinWidth>
+                    <windows:SystemDropShadowChrome x:Name="Shdw" Color="Transparent" MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                        <windows:SystemDropShadowChrome.MinWidth>
                             <Binding ElementName="Placement" Path="ActualWidth"/>
-                        </this:SystemDropShadowChrome.MinWidth>
+                        </windows:SystemDropShadowChrome.MinWidth>
                         <Border x:Name="DropDownBorder" BorderThickness="1"
                                 BorderBrush="{DynamicResource {x:Static colors:EnvironmentColors.ComboBoxPopupBorder}}">
                             <ScrollViewer>
@@ -230,7 +232,7 @@
                                 </Grid>
                             </ScrollViewer>
                         </Border>
-                    </this:SystemDropShadowChrome>
+                    </windows:SystemDropShadowChrome>
                 </Popup>
                 <TextBox x:Name="PART_EditableTextBox" Grid.Column="0" Margin="0"
                          Foreground="{TemplateBinding Foreground}" SelectionBrush="{DynamicResource {x:Static colors:EnvironmentColors.ComboBoxSelection}}"
@@ -292,7 +294,7 @@
             <DataTrigger Binding="{Binding ElementName=PART_Popup, Path=(Popup.HasDropShadow)}" Value="True">
                 <Setter TargetName="Shdw" Property="FrameworkElement.Margin" Value="0,0,5,5"/>
                 <Setter TargetName="Shdw" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}"
-                        Property="this:SystemDropShadowChrome.Color"/>
+                        Property="windows:SystemDropShadowChrome.Color"/>
             </DataTrigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -307,7 +309,7 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type this:ComboBox}">
+    <Style TargetType="{x:Type comboBox:ComboBox}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="utilities:DteFocusHelper.AcquireFocus" Value="{Binding AcquireFocus}"/>
         <Setter Property="AutomationProperties.Name">
@@ -329,7 +331,7 @@
         <Setter Property="Padding" Value="3,0,3,0"/>
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
-                <Style TargetType="{x:Type this:ComboBoxItem}">
+                <Style TargetType="{x:Type comboBox:ComboBoxItem}">
                     <Setter Property="BorderThickness" Value="1"/>
                     <Setter Property="BorderBrush" Value="Transparent"/>
                     <Setter Property="Background" Value="Transparent"/>
@@ -344,7 +346,7 @@
         </Setter>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type this:ComboBox}">
+                <ControlTemplate TargetType="{x:Type comboBox:ComboBox}">
                     <Border x:Name="Border" BorderThickness="{TemplateBinding BorderThickness}"
                             BorderBrush="{DynamicResource {x:Static colors:EnvironmentColors.DropDownBorder}}"
                             Background="{DynamicResource {x:Static colors:EnvironmentColors.DropDownBackground}}">
@@ -358,7 +360,7 @@
                                 <Popup.IsOpen>
                                     <Binding Path="IsDropDownOpen" RelativeSource="{RelativeSource TemplatedParent}"/>
                                 </Popup.IsOpen>
-                                <this:SystemDropShadowChrome x:Name="Shdw" Color="Transparent" MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                <windows:SystemDropShadowChrome x:Name="Shdw" Color="Transparent" MaxHeight="{TemplateBinding MaxDropDownHeight}">
                                     <FrameworkElement.MinWidth>
                                         <Binding ElementName="MainGrid" Path="ActualWidth"/>
                                     </FrameworkElement.MinWidth>
@@ -370,7 +372,7 @@
                                             </Grid>
                                         </ScrollViewer>
                                     </Border>
-                                </this:SystemDropShadowChrome>
+                                </windows:SystemDropShadowChrome>
                             </Popup>
                             <ToggleButton x:Name="ToggleButton" Grid.Column="0" Grid.ColumnSpan="2" Background="Transparent"
                                           BorderBrush="Transparent" Foreground="{DynamicResource {x:Static colors:EnvironmentColors.DropDownGlyph}}"
@@ -427,7 +429,7 @@
                         <DataTrigger Binding="{Binding ElementName=PART_Popup, Path=(Popup.HasDropShadow)}" Value="True">
                             <Setter TargetName="Shdw" Property="FrameworkElement.Margin" Value="0,0,5,5"/>
                             <Setter TargetName="Shdw" Value="{DynamicResource {x:Static colors:EnvironmentColors.DropShadowBackground}}"
-                                    Property="this:SystemDropShadowChrome.Color"/>
+                                    Property="windows:SystemDropShadowChrome.Color"/>
                         </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -454,27 +456,27 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <this:ComboBoxLabel x:Name="Label" Grid.Column="0" VerticalAlignment="Center" Margin="3,0,3,0"
+            <comboBox:ComboBoxLabel x:Name="Label" Grid.Column="0" VerticalAlignment="Center" Margin="3,0,3,0"
                                 Visibility="Collapsed" IsTabStop="False">
-                <this:ComboBoxLabel.TargetComboBox>
+                <comboBox:ComboBoxLabel.TargetComboBox>
                     <Binding ElementName="PART_FocusTarget"/>
-                </this:ComboBoxLabel.TargetComboBox>
+                </comboBox:ComboBoxLabel.TargetComboBox>
                 <Control.Template>
                     <ControlTemplate>
                         <AccessText Name="LabelText" Text="{Binding Text, Converter={StaticResource AccessKeyConverter}}"/>
                     </ControlTemplate>
                 </Control.Template>
-            </this:ComboBoxLabel>
-            <this:ComboBox x:Name="PART_FocusTarget" Margin="3,1,3,1" Grid.Column="1" TextSearch.TextPath="Text" IsEditable="{Binding VisualSource.IsEditable}"
+            </comboBox:ComboBoxLabel>
+            <comboBox:ComboBox x:Name="PART_FocusTarget" Margin="3,1,3,1" Grid.Column="1" TextSearch.TextPath="Text" IsEditable="{Binding VisualSource.IsEditable}"
                            ShouldPreserveUserEnteredPrefix="True" ToolTipService.ShowOnDisabled="true"
                            VisualDataSource="{Binding VisualSource}" DataSource="{Binding DataSource}">
 
                 <ItemsControl.ItemsSource>
                     <Binding Path="DataSource.Items"/>
                 </ItemsControl.ItemsSource>
-                <this:ComboBox.IsEmbeddedInMenu>
+                <comboBox:ComboBox.IsEmbeddedInMenu>
                     <Binding Mode="OneWay" RelativeSource="{RelativeSource Self}" Path="ParentMenuItem" Converter="{StaticResource NotNullConverter}"/>
-                </this:ComboBox.IsEmbeddedInMenu>
+                </comboBox:ComboBox.IsEmbeddedInMenu>
                 <FrameworkElement.ToolTip>
                     <MultiBinding Converter="{StaticResource ToolTipMultiConverter}">
                         <Binding Path="CommandDefinition.ToolTip" Mode="OneWay"
@@ -491,7 +493,7 @@
                         </TextBlock>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
-            </this:ComboBox>
+            </comboBox:ComboBox>
         </Grid>
         <ControlTemplate.Triggers>
             <DataTrigger Value="True" Binding="{Binding Flags.PictAndText}">

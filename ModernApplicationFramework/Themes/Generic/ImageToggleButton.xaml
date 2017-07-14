@@ -1,12 +1,13 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:mafc="clr-namespace:ModernApplicationFramework.Controls">
+                    xmlns:mafc="clr-namespace:ModernApplicationFramework.Controls"
+                    xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons">
     
-    <Style TargetType="{x:Type mafc:ImageToggleButton}">
+    <Style TargetType="{x:Type buttons:ImageToggleButton}">
         <Setter Property="Visibility" Value="Visible"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type mafc:ImageToggleButton}">
+                <ControlTemplate TargetType="{x:Type buttons:ImageToggleButton}">
                     <Border Name="Bd" SnapsToDevicePixels="True">
                         <Border.Background>
                             <ImageBrush ImageSource="{Binding NormalImage, RelativeSource={RelativeSource TemplatedParent}}"/>

@@ -7,6 +7,7 @@
     xmlns:System="clr-namespace:System;assembly=mscorlib"
              xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
              xmlns:mafc="http://modern.framework.com/controls"
+             xmlns:comboBox="clr-namespace:ModernApplicationFramework.Controls.ComboBox;assembly=ModernApplicationFramework"
              x:Class="ModernApplicationFramework.MVVM.Controls.FileExtensionItemPresenter"
              mc:Ignorable="d" MinWidth="680" DataContext="{Binding RelativeSource={RelativeSource Self}}"
              d:DesignHeight="300" d:DesignWidth="300">
@@ -82,12 +83,12 @@
             <DockPanel Grid.Row="0" Grid.ColumnSpan="3">
                 <StackPanel  Orientation="Horizontal" DockPanel.Dock="Left" HorizontalAlignment="Stretch">
                     <TextBlock VerticalAlignment="Center" Margin="4,0,4,0" DockPanel.Dock="Left"><Run Text="Sort by:"/></TextBlock>
-                    <mafc:ComboBox Width="160" x:Name="SortComboBox" VerticalAlignment="Center" DockPanel.Dock="Left" TabIndex="1" Margin="0,0,4,0"
+                    <comboBox:ComboBox Width="160" x:Name="SortComboBox" VerticalAlignment="Center" DockPanel.Dock="Left" TabIndex="1" Margin="0,0,4,0"
 						SelectionChanged="Selector_OnSelectionChanged" SelectedIndex="0">
                         <System:String>Default</System:String>
                         <System:String>Name (Ascending)</System:String>
                         <System:String>Name (Descending)</System:String>
-                    </mafc:ComboBox>
+                    </comboBox:ComboBox>
                 </StackPanel>
                 <Grid HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>

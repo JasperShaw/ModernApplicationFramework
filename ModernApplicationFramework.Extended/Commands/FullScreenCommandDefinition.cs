@@ -6,6 +6,7 @@ using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Controls.Windows;
 using ModernApplicationFramework.Extended.Properties;
 
 namespace ModernApplicationFramework.Extended.Commands

@@ -2,6 +2,9 @@
 using ModernApplicationFramework.Basics.CustomizeDialog.ViewModels;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Controls.Buttons;
+using ModernApplicationFramework.Controls.ListBoxes;
+using ModernApplicationFramework.Controls.Menu;
 
 namespace ModernApplicationFramework.Basics.CustomizeDialog.Views
 {

@@ -1,6 +1,7 @@
 ﻿using System.Windows.Input;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Controls.Menu;
 
 namespace ModernApplicationFramework.Interfaces.ViewModels
 {

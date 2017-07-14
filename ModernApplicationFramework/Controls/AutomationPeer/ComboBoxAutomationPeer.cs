@@ -6,6 +6,7 @@ using System.Windows.Automation;
 using System.Windows.Automation.Peers;
 using System.Windows.Automation.Provider;
 using ModernApplicationFramework.Basics;
+using ModernApplicationFramework.Controls.ComboBox;
 using ModernApplicationFramework.Native.Standard;
 
 namespace ModernApplicationFramework.Controls.AutomationPeer
@@ -29,7 +30,7 @@ namespace ModernApplicationFramework.Controls.AutomationPeer
             EmptySelection = new IRawElementProviderSimple[0];
         }
 
-        public ComboBoxAutomationPeer(ComboBox owner) : base(owner)
+        public ComboBoxAutomationPeer(ComboBox.ComboBox owner) : base(owner)
         {
             _selectedItem = new IRawElementProviderSimple[1];
             _itemPeers = new Dictionary<object, ComboBoxDataItemAutomationPeer>(owner.Items.Count);
@@ -81,7 +82,7 @@ namespace ModernApplicationFramework.Controls.AutomationPeer
         protected override List<System.Windows.Automation.Peers.AutomationPeer> GetChildrenCore()
         {
             var automationPeerList = base.GetChildrenCore();
-            var owner = Owner as ComboBox;
+            var owner = Owner as ComboBox.ComboBox;
             if (owner == null)
                 return automationPeerList;
             var dataContext = owner.DataContext as ComboBoxDataSource;
@@ -106,7 +107,7 @@ namespace ModernApplicationFramework.Controls.AutomationPeer
 
         IRawElementProviderSimple[] ISelectionProvider.GetSelection()
         {
-            var owner = Owner as ComboBox;
+            var owner = Owner as ComboBox.ComboBox;
             var dataContext = owner?.DataContext as ComboBoxDataSource;
             if (dataContext == null || dataContext.IsDisposed)
                 return EmptySelection;
@@ -119,7 +120,7 @@ namespace ModernApplicationFramework.Controls.AutomationPeer
 
         private bool DisplayedItemIsInChildCollection(object displayedItem)
         {
-            var owner = Owner as ComboBox;
+            var owner = Owner as ComboBox.ComboBox;
             if (owner == null)
                 return false;
             return owner.ItemsSource.Cast<object>().Contains(displayedItem);

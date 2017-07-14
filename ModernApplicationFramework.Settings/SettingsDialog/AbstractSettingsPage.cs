@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Core;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Settings;
 
 namespace ModernApplicationFramework.Settings.SettingsDialog

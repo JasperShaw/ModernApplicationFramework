@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Controls.ComboBox;
 using ModernApplicationFramework.MVVM.Demo.Modules.Document;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.ComboBoxMenuTest.Commands

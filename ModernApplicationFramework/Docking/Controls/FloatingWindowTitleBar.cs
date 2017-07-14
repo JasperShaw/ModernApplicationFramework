@@ -7,6 +7,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Controls.AutomationPeer;
+using ModernApplicationFramework.Controls.Windows;
 using ModernApplicationFramework.Interfaces.Controls;
 using ModernApplicationFramework.Native.Standard;
 

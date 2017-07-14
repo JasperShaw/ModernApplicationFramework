@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Controls.Buttons;
 using ModernApplicationFramework.Core.Converters.General;
 
 namespace ModernApplicationFramework.Core.Converters

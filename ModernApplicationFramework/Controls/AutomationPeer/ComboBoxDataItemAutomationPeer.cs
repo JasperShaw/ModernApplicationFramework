@@ -2,12 +2,13 @@
 using System.Windows.Automation.Peers;
 using System.Windows.Automation.Provider;
 using ModernApplicationFramework.Basics;
+using ModernApplicationFramework.Controls.ComboBox;
 
 namespace ModernApplicationFramework.Controls.AutomationPeer
 {
     public class ComboBoxDataItemAutomationPeer : SelectorItemAutomationPeer, ISelectionItemProvider, IScrollItemProvider
     {
-        private ComboBox _parentCombo;
+        private ComboBox.ComboBox _parentCombo;
 
         bool ISelectionItemProvider.IsSelected
         {
@@ -28,7 +29,7 @@ namespace ModernApplicationFramework.Controls.AutomationPeer
 
         IRawElementProviderSimple ISelectionItemProvider.SelectionContainer => ProviderFromPeer(ItemsControlAutomationPeer);
 
-        private ComboBox ParentCombo
+        private ComboBox.ComboBox ParentCombo
         {
             get
             {
@@ -36,7 +37,7 @@ namespace ModernApplicationFramework.Controls.AutomationPeer
                     return _parentCombo;
                 var controlAutomationPeer = ItemsControlAutomationPeer as ComboBoxAutomationPeer;
                 if (controlAutomationPeer != null)
-                    _parentCombo = controlAutomationPeer.Owner as ComboBox;
+                    _parentCombo = controlAutomationPeer.Owner as ComboBox.ComboBox;
                 return _parentCombo;
             }
         }

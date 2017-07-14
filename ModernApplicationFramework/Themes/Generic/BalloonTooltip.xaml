@@ -3,7 +3,8 @@
 					xmlns:this="clr-namespace:ModernApplicationFramework.Controls"
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
-                    xmlns:basics="clr-namespace:ModernApplicationFramework.Basics">
+                    xmlns:basics="clr-namespace:ModernApplicationFramework.Basics"
+                    xmlns:windows="clr-namespace:ModernApplicationFramework.Controls.Windows">
 
     <ResourceDictionary.MergedDictionaries>
 		<ResourceDictionary Source="../../Resources/Icons/Icons.xaml"/>
@@ -40,7 +41,7 @@
                                 </DockPanel>
                             </Border>
                         </Grid>
-                        <this:SystemDropShadowChrome x:Name="Shdw" Color="Transparent" SnapsToDevicePixels="True" CornerRadius="5">
+                        <windows:SystemDropShadowChrome x:Name="Shdw" Color="Transparent" SnapsToDevicePixels="True" CornerRadius="5">
                             <Border x:Name="Bd" CornerRadius="7" Background="{TemplateBinding Background}" VerticalAlignment="Top"
                                         BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" Margin="5,0,5,5">
                                 <Grid>
@@ -68,7 +69,7 @@
                                     </ScrollViewer>
                                 </Grid>
                             </Border>
-                        </this:SystemDropShadowChrome>
+                        </windows:SystemDropShadowChrome>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -118,7 +119,7 @@
                             </DataTrigger.Binding>
                             <Setter TargetName="Shdw" Property="FrameworkElement.Margin" Value="0,0,5,5"/>
                             <Setter TargetName="Bd" Property="FrameworkElement.Margin" Value="0"/>
-                            <Setter TargetName="Shdw" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropShadowBackground}}" Property="this:SystemDropShadowChrome.Color"/>
+                            <Setter TargetName="Shdw" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropShadowBackground}}" Property="windows:SystemDropShadowChrome.Color"/>
                         </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

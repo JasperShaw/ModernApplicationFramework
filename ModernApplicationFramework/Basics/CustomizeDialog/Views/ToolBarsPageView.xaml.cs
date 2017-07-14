@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Controls.Buttons;
+using ModernApplicationFramework.Controls.ListBoxes;
 using ModernApplicationFramework.Interfaces.Views;
 
 namespace ModernApplicationFramework.Basics.CustomizeDialog.Views

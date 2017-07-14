@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mafc="http://modern.framework.com/controls"
              xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
+             xmlns:textBoxes="clr-namespace:ModernApplicationFramework.Controls.TextBoxes;assembly=ModernApplicationFramework"
              MinWidth="800" MinHeight="450" Background="{DynamicResource {x:Static themes:EnvironmentColors.GlobalBackgroundColor2}}"
                    HasMaximizeButton="false" HasMinimizeButton="false" ResizeMode="CanResize" ShowInTaskbar="false"
                     SnapsToDevicePixels="true" WindowStartupLocation="Manual" Width="900" Height="600" Icon="{x:Null}"
@@ -46,7 +47,7 @@
                     <ColumnDefinition Width="Auto" MinWidth="272"/>
                 </Grid.ColumnDefinitions>
                 <Label VerticalAlignment="Center" Margin="7,0,0,0" Foreground="{DynamicResource {x:Static themes:EnvironmentColors.GloablForeground}}">Name:</Label>
-                <mafc:TextBox Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"
+                <textBoxes:TextBox Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"
                      TextWrapping="NoWrap" AllowDrop="True" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
 
@@ -57,7 +58,7 @@
                     <ColumnDefinition Width="Auto" MinWidth="272"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Margin="7,0,0,0" Foreground="{DynamicResource {x:Static themes:EnvironmentColors.GloablForeground}}">Destination:</Label>
-                <mafc:TextBox Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{Binding Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <textBoxes:TextBox Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{Binding Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <Button Grid.Column="2" MinWidth="85" Margin="14,0,6,0" Padding="6,2,6,2" 
                     VerticalAlignment="Center" HorizontalAlignment="Left" Command="{Binding BrowseCommand}">Browse...</Button>

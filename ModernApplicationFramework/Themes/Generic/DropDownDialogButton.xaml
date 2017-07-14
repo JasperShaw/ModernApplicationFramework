@@ -1,5 +1,6 @@
-﻿<mafc:DropDownDialogButton xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                            xmlns:mafc="clr-namespace:ModernApplicationFramework.Controls">
+﻿<buttons:DropDownDialogButton xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                            xmlns:mafc="clr-namespace:ModernApplicationFramework.Controls"
+                            xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons">
     
     <ContentControl.ContentTemplate>
         <DataTemplate>
@@ -14,4 +15,4 @@
             </StackPanel>
         </DataTemplate>
     </ContentControl.ContentTemplate>
-</mafc:DropDownDialogButton>
+</buttons:DropDownDialogButton>

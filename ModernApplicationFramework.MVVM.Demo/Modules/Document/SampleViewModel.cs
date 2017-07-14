@@ -5,6 +5,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Controls.ComboBox;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest;

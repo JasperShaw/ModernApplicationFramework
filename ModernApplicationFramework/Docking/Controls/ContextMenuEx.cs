@@ -15,11 +15,11 @@
   **********************************************************************/
 
 using System.Windows.Data;
-using ContextMenu = ModernApplicationFramework.Controls.ContextMenu;
+using ContextMenu = ModernApplicationFramework.Controls.Menu.ContextMenu;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-    public class ContextMenuEx : ContextMenu
+    public class ContextMenuEx : ModernApplicationFramework.Controls.Menu.ContextMenu
     {
         protected override System.Windows.DependencyObject GetContainerForItemOverride()
         {

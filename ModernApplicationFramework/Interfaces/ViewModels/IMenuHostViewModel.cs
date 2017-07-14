@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Controls.Menu;
 
 namespace ModernApplicationFramework.Interfaces.ViewModels
 {

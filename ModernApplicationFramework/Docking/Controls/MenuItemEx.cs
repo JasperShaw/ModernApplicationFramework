@@ -17,6 +17,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Controls.Menu;
 
 namespace ModernApplicationFramework.Docking.Controls
 {

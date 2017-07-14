@@ -1,4 +1,6 @@
-﻿namespace ModernApplicationFramework.Basics.Definitions.Command
+﻿using ModernApplicationFramework.Controls.ComboBox;
+
+namespace ModernApplicationFramework.Basics.Definitions.Command
 {
     public abstract class CommandComboBoxDefinition : DefinitionBase
     {

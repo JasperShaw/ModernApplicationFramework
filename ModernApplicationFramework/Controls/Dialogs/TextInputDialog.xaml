@@ -3,6 +3,7 @@
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
                       xmlns:dialogs="clr-namespace:ModernApplicationFramework.Controls.Dialogs"
+                      xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons"
                       ResizeMode="NoResize" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" HasDialogFrame="True"
                       ShowInTaskbar="False" MinWidth="325" Title="{Binding Title}" 
                       FocusManager.FocusedElement="{Binding ElementName=InputTextBox}">
@@ -13,8 +14,8 @@
                      MaxLength="{Binding MaxLength}" Width="{Binding ActualWidth, ElementName=InputBorder}"/>
         </Border>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-            <controls:DialogButton Content="{x:Static dialogs:DialogResourcesResources.DialogButton_Ok}" IsDefault="True" Command="{Binding SubmitCommand}" Margin="0"/>
-            <controls:DialogButton Content="{x:Static dialogs:DialogResourcesResources.DialogButton_Cancel}" IsCancel="True" Command="{Binding CancelCommand}" Margin="6,0,0,0"/>
+            <buttons:DialogButton Content="{x:Static dialogs:DialogResourcesResources.DialogButton_Ok}" IsDefault="True" Command="{Binding SubmitCommand}" Margin="0"/>
+            <buttons:DialogButton Content="{x:Static dialogs:DialogResourcesResources.DialogButton_Cancel}" IsCancel="True" Command="{Binding CancelCommand}" Margin="6,0,0,0"/>
         </StackPanel>
     </StackPanel>
 </dialogs:DialogWindow>

@@ -2,6 +2,7 @@
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Controls.Menu;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Creators
 {

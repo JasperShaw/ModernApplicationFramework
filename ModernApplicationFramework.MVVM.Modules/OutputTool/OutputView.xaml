@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:core="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
              xmlns:mafc="http://modern.framework.com/controls"
+             xmlns:menu="clr-namespace:ModernApplicationFramework.Controls.Menu;assembly=ModernApplicationFramework"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
@@ -24,10 +25,10 @@
                  Cursor="{x:Static Cursors.Arrow}" BorderThickness="0"
                  Background="{DynamicResource {x:Static core:EnvironmentColors.TextBoxBackground}}">
             <TextBox.ContextMenu>
-                <mafc:ContextMenu>
-                    <mafc:ContextMenuItem Header="Clear" Command="{Binding ClearCommand}"
+                <menu:ContextMenu>
+                    <menu:ContextMenuItem Header="Clear" Command="{Binding ClearCommand}"
                                           Icon="{StaticResource ClearContentIcon}" />
-                </mafc:ContextMenu>
+                </menu:ContextMenu>
             </TextBox.ContextMenu>
         </TextBox>
     </mafc:ScrollViewer>

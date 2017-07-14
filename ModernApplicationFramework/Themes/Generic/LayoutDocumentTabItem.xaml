@@ -4,7 +4,8 @@
                     xmlns:avalonDock="clr-namespace:ModernApplicationFramework.Docking"
 					xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
-                    xmlns:contextMenuProviders="clr-namespace:ModernApplicationFramework.Docking.ContextMenuProviders">
+                    xmlns:contextMenuProviders="clr-namespace:ModernApplicationFramework.Docking.ContextMenuProviders"
+                    xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons">
 
     <contextMenuProviders:DocumentTabModelContextMenuProvider x:Key="DocumentTabModelToContextMenuConverter"/>
 
@@ -22,14 +23,14 @@
                                 </Grid.ColumnDefinitions>
                                 <Border Grid.ColumnSpan="2" Background="Transparent"/>
                                 <DockPanel Grid.Column="0">
-                                    <controls:Button x:Name="DocumentCloseButton" DockPanel.Dock="Right" Margin="5,0,0,0" Visibility="Hidden" BorderThickness="1"
+                                    <buttons:Button x:Name="DocumentCloseButton" DockPanel.Dock="Right" Margin="5,0,0,0" Visibility="Hidden" BorderThickness="1"
                                                  Command="{Binding Path=LayoutItem.CloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                  ToolTip="Close" Height="15" Width="15"
 													 Background="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBackground}}"
 													 BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBorder}}">
                                         <Path x:Name="HideButtonPath" Fill="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyph}}" Width="10" Height="8" Stretch="Uniform"
                                           Data="F1 M 0,0 L 2,0 5,3 8,0 10,0 6,4 10,8 8,8 5,5 2,8 0,8 4,4 0,0 Z"/>
-                                    </controls:Button>
+                                    </buttons:Button>
                                     <ContentPresenter Margin="6,0,6,0" x:Name="Content" Content="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}" TextElement.Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}, Mode=FindAncestor}, Path=Foreground}"
                                             ContentTemplate="{Binding DocumentHeaderTemplate, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"
                                             ContentTemplateSelector="{Binding DocumentHeaderTemplateSelector, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"/>

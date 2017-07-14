@@ -4,7 +4,8 @@
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:dock="clr-namespace:ModernApplicationFramework.Docking.Controls"
                     xmlns:primitives="clr-namespace:ModernApplicationFramework.Controls.Primitives"
-                    xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General">
+                    xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General"
+                    xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons">
     
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Brushes.xaml"/>
@@ -12,7 +13,7 @@
     
     <general:InverseBoolConverter x:Key="InverseBoolConverter"/>
     
-    <Style TargetType="{x:Type this:DropDownButton}">
+    <Style TargetType="{x:Type buttons:DropDownButton}">
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
@@ -20,7 +21,7 @@
         <Setter Property="Padding" Value="3"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type this:DropDownButton}">
+                <ControlTemplate TargetType="{x:Type buttons:DropDownButton}">
                     <Grid x:Name="MainGrid" SnapsToDevicePixels="True">
                         <ToggleButton x:Name="PART_DropDownButton" IsChecked="{Binding IsOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                                       IsHitTestVisible="{Binding IsOpen, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InverseBoolConverter}}">

@@ -18,7 +18,7 @@ using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
-using ContextMenu = ModernApplicationFramework.Controls.ContextMenu;
+using ContextMenu = ModernApplicationFramework.Controls.Menu.ContextMenu;
 using ToolBar = ModernApplicationFramework.Controls.ToolBar;
 using ToolBarTray = ModernApplicationFramework.Controls.ToolBarTray;
 

@@ -3,7 +3,8 @@
                      xmlns:this="clr-namespace:ModernApplicationFramework.Controls"
                      xmlns:core="clr-namespace:ModernApplicationFramework.Core.Themes"
                      xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals"
-                     xmlns:dialogs="clr-namespace:ModernApplicationFramework.Controls.Dialogs">
+                     xmlns:dialogs="clr-namespace:ModernApplicationFramework.Controls.Dialogs"
+                     xmlns:windows="clr-namespace:ModernApplicationFramework.Controls.Windows">
     
     <Style TargetType="{x:Type dialogs:WaitDialog}">
         <Setter Property="WindowStyle" Value="None"/>
@@ -21,7 +22,7 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <this:MainWindowTitleBar x:Name="MainWindowTitleBar" Grid.Row="0"
+                            <windows:MainWindowTitleBar x:Name="MainWindowTitleBar" Grid.Row="0"
 							                         Background="{DynamicResource {x:Static core:EnvironmentColors.WaitDialogTitleBarBackground}}"
 							                         TextElement.Foreground="{DynamicResource {x:Static core:EnvironmentColors.WaitDialogTitleBarForeground}}">
                                 <DockPanel>
@@ -30,7 +31,7 @@
 									           Text="{TemplateBinding Title}"
 									           TextOptions.TextFormattingMode="Display" FontSize="16"/>
                                 </DockPanel>
-                            </this:MainWindowTitleBar>
+                            </windows:MainWindowTitleBar>
                             <Grid Margin="12,12,12,20" Grid.Row="1">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>

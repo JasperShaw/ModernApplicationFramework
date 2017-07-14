@@ -28,6 +28,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using Caliburn.Micro;
 using ModernApplicationFramework.Controls;
+using ModernApplicationFramework.Controls.Windows;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Interfaces.Utilities;
