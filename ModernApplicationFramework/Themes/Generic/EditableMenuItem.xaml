@@ -1,11 +1,10 @@
 ﻿<menu:EditableMenuItem xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                        xmlns:ui="clr-namespace:ModernApplicationFramework.Core.Themes"
-                       xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
                        xmlns:menu="clr-namespace:ModernApplicationFramework.Controls.Menu">
 
     <FrameworkElement.Resources>
-        <ResourceDictionary x:Uid="ResourceDictionary_1">
+        <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/TextBox.xaml"/>
             </ResourceDictionary.MergedDictionaries>
