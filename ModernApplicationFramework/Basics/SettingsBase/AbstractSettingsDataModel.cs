@@ -31,20 +31,18 @@ namespace ModernApplicationFramework.Basics.SettingsBase
             propertyInfo.SetValue(this, value);
 
             if (result == GetValueResult.Corrupt)
-                StoreSettingsValue(queryName, value.ToString());
+                StoreSettingsValue(queryName, value);
         }
 
-        protected string GetSettingsValue(string queryName, string defaultValue = null)
+        protected T GetSettingsValue<T>(string queryName, T defaultValue = default(T))
         {
-            var result = SettingsManager.GetOrCreatePropertyValue(SettingsFilePath, queryName, out string value, defaultValue, true, true);
-            if (result == GetValueResult.Corrupt)
-                return defaultValue;
-            return value;
+            var result = SettingsManager.GetOrCreatePropertyValue(SettingsFilePath, queryName, out T value, defaultValue, true, true);
+            return result == GetValueResult.Corrupt ? defaultValue : value;
         }
 
-        protected void StoreSettingsValue(string settingsProperty, string value)
+        protected void StoreSettingsValue<T>(string settingsProperty, T value)
         {
-            SettingsManager.SetPropertyValueAsync(SettingsFilePath, settingsProperty, value, true);
+            SettingsManager.SetPropertyValueAsync(SettingsFilePath, settingsProperty, value.ToString(), true);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

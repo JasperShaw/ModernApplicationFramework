@@ -172,15 +172,15 @@ namespace ModernApplicationFramework.Basics
 
         public override void StoreSettings()
         {
-            StoreSettingsValue("ShowStatusBar", ShowStatusBar.ToString());
-            StoreSettingsValue("WindowMenuContainsNItems", WindowListItems.ToString());
-            StoreSettingsValue("MRUListContainsNItems", MRUListItems.ToString());
-            StoreSettingsValue("AutohidePinActiveTabOnly", DockedWinAuto.ToString());
-            StoreSettingsValue("CloseButtonActiveTabOnly", DockedWinClose.ToString());
-            StoreSettingsValue("UseTitleCaseOnMenu", UseTitleCaseOnMenu.ToString());
-            StoreSettingsValue("UseHardwareAcceleration", UseHardwareAcceleration.ToString());
-            StoreSettingsValue("RichClientExperienceOptions", UseRichVisualExperience.ToString());
-            StoreSettingsValue("AutoAdjustExperience", AutoAdjustExperience.ToString());
+            StoreSettingsValue("ShowStatusBar", ShowStatusBar);
+            StoreSettingsValue("WindowMenuContainsNItems", WindowListItems);
+            StoreSettingsValue("MRUListContainsNItems", MRUListItems);
+            StoreSettingsValue("AutohidePinActiveTabOnly", DockedWinAuto);
+            StoreSettingsValue("CloseButtonActiveTabOnly", DockedWinClose);
+            StoreSettingsValue("UseTitleCaseOnMenu", UseTitleCaseOnMenu);
+            StoreSettingsValue("UseHardwareAcceleration", UseHardwareAcceleration);
+            StoreSettingsValue("RichClientExperienceOptions", UseRichVisualExperience);
+            StoreSettingsValue("AutoAdjustExperience", AutoAdjustExperience);
         }
 
         private void UpdateVisualExperience()
