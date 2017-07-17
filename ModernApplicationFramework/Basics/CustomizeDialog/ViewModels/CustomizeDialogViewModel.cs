@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using ModernApplicationFramework.Interfaces.ViewModels;
-using ModernApplicationFramework.Properties;
 
 namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 {
