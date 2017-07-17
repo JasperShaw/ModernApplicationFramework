@@ -123,6 +123,12 @@
   <data name="FullScreenCommandDefinition_Text" xml:space="preserve">
     <value>F&amp;ull Screen</value>
   </data>
+  <data name="ManageLayoutCommandDefinition_Name" xml:space="preserve">
+    <value>Fensterlayouts verwalten</value>
+  </data>
+  <data name="ManageLayoutCommandDefinition_Text" xml:space="preserve">
+    <value>Fensterlayouts &amp;verwalten</value>
+  </data>
   <data name="MultiRedoCommandDefinition_Name" xml:space="preserve">
     <value>MultiLevel Redo</value>
   </data>

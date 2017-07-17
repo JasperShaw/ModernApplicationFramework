@@ -29,6 +29,10 @@ namespace ModernApplicationFramework.Extended.MenuDefinitions
         public static CommandBarItemDefinition SaveLayout =
             new CommandBarCommandItemDefinition<SaveCurrentLayoutCommandDefinition>(LayoutGroup, 0);
 
+        [Export]
+        public static CommandBarItemDefinition ManageLayouts =
+            new CommandBarCommandItemDefinition<ManageLayoutCommandDefinition>(LayoutGroup, 2);
+
 
         //DocumentToolsGroup
 

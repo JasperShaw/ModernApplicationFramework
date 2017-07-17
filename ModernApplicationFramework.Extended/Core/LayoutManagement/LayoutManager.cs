@@ -1,68 +1,107 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
-using System.Linq;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Properties;
 
 namespace ModernApplicationFramework.Extended.Core.LayoutManagement
 {
     [Export(typeof(ILayoutManager))]
-    public class LayoutManager : ILayoutManager
+    public class LayoutManager : ILayoutManager, ILayoutManagerInternal
     {
         private readonly ILayoutItemStatePersister _layoutItemStatePersister;
+        private readonly IWindowLayoutStore _layoutStore;
 
-        public ObservableCollection<Layout> Layouts { get; }
+        public int LayoutCount => _layoutStore.GetLayoutCount();
 
         [ImportingConstructor]
         public LayoutManager(ILayoutItemStatePersister layoutItemStatePersister)
         {
             _layoutItemStatePersister = layoutItemStatePersister;
-            Layouts = new ObservableCollection<Layout>();
+
+            _layoutStore = new WindowLayoutStore();
         }
 
-        public void Load()
-        {       
-        }
-
-        public void Save(string name)
+        public string GetLayoutNameAt(int index)
         {
+            throw new NotImplementedException();
         }
 
-        public void Apply(string name)
+        public string GetLayoutDataAt(int index)
         {
+            throw new NotImplementedException();
         }
 
-        public string GetUniqueLayoutName()
+        public void ApplyWindowLayout(int index)
         {
-            return GetUniqueLayoutName(1);
+            throw new NotImplementedException();
         }
 
-        private string GetUniqueLayoutName(int index)
+        public void SaveWindowLayout()
         {
-            var i = index;
-            var uniqueName = string.Format(CultureInfo.CurrentUICulture, Commands_Resources.SaveLayoutCommandDefinitionMessageBox_Default, i);
-            return Layouts.Any(layout => uniqueName.Equals(layout.Name))
-                ? GetUniqueLayoutName(++i)
-                : uniqueName;
+            var layoutNameFormat = Commands_Resources.SaveLayoutCommandDefinitionMessageBox_Default;
+            var defaultLayoutNameIndex = GetDefaultLayoutNameIndex(layoutNameFormat);
+            var defaultName = string.Format(CultureInfo.CurrentUICulture, layoutNameFormat, new object[]
+            {
+                defaultLayoutNameIndex
+            });
+            var hadNameConflict = false;
+            if (!LayoutManagementDialogUserInput.TryGetSavedLayoutName(defaultName, name => ValidateLayoutName(name, out hadNameConflict), out string layoutName))
+                return;
+            SaveWindowLayoutInternal(LayoutManagementUtilities.NormalizeName(layoutName), hadNameConflict);
         }
-    }
 
-    public interface ILayoutManager
-    {
-        ObservableCollection<Layout> Layouts { get; }
+        public void ManageWindowLayouts()
+        {
+            ManageWindowLayoutsInternal(LayoutManagementDialogUserInput.ShowManageLayoutsView);
+        }
 
-        void Load();
+        public void SaveWindowLayoutInternal(string layoutName, bool hadNameConflict)
+        {
 
-        void Save(string name);
+        }
 
-        void Apply(string name);
+        public void SaveWindowLayoutInternal(string layoutName, string layoutPayload, bool hadNameConflict)
+        {
 
-        string GetUniqueLayoutName();
-    }
+        }
 
-    public class Layout
-    {
-        public string Name { get; set; }
+        public void ManageWindowLayoutsInternal(Func<IEnumerable<KeyValuePair<string, WindowLayoutInfo>>, IEnumerable<KeyValuePair<string, WindowLayoutInfo>>> layoutTransformation)
+        {
+            var keyValuePairs = LayoutManagementUtilities.EnumerateLayoutKeyInfo(_layoutStore);
+            //TODO: Update LayoutStore
+            layoutTransformation(keyValuePairs);
+        }
+
+        public void ApplyWindowLayoutInternal(int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        private int GetDefaultLayoutNameIndex(string defaultNameFormat)
+        {
+            var num = 0;
+            string name;
+            do
+            {
+                ++num;
+                name = string.Format(CultureInfo.CurrentUICulture, defaultNameFormat, new[]
+                {
+                    num
+                });
+            } while (num < 11 && !LayoutManagementUtilities.IsUniqueName(name, _layoutStore));
+            return num;
+        }
+
+        private bool ValidateLayoutName(string name, out bool hadNameConflict)
+        {
+            name = LayoutManagementUtilities.NormalizeName(name);
+            hadNameConflict = false;
+            if (LayoutManagementUtilities.IsUniqueName(name, _layoutStore))
+                return true;
+            hadNameConflict = true;
+            return LayoutManagementDialogUserInput.TryGetOverwriteLayoutConfirmation(name);
+        }
     }
 }

@@ -11,12 +11,12 @@ using ModernApplicationFramework.Extended.Properties;
 namespace ModernApplicationFramework.Extended.Commands
 {
     [Export(typeof(DefinitionBase))]
-    [Export(typeof(SaveCurrentLayoutCommandDefinition))]
-    public sealed class SaveCurrentLayoutCommandDefinition : CommandDefinition
+    [Export(typeof(ManageLayoutCommandDefinition))]
+    public sealed class ManageLayoutCommandDefinition : CommandDefinition
     {
         private readonly ILayoutManager _layoutManager;
-        public override string Name => Commands_Resources.SaveLayoutCommandDefinition_Name;
-        public override string Text => Commands_Resources.SaveLayoutCommandDefinition_Text;
+        public override string Name => Commands_Resources.ManageLayoutCommandDefinition_Name;
+        public override string Text => Commands_Resources.ManageLayoutCommandDefinition_Text;
         public override string ToolTip => null;
         public override Uri IconSource => null;
         public override string IconId => null;
@@ -25,22 +25,22 @@ namespace ModernApplicationFramework.Extended.Commands
         public override ICommand Command { get; }
 
         [ImportingConstructor]
-        public SaveCurrentLayoutCommandDefinition(ILayoutManager layoutManager)
+        public ManageLayoutCommandDefinition(ILayoutManager layoutManager)
         {
             _layoutManager = layoutManager;
 
-            var command = new MultiKeyGestureCommandWrapper(Save, CanSave);
+            var command = new MultiKeyGestureCommandWrapper(Manage, CanManage);
             Command = command;
         }
 
-        private bool CanSave()
+        private bool CanManage()
         {
             return true;
         }
 
-        private void Save()
+        private void Manage()
         {
-            _layoutManager.SaveWindowLayout();
+            _layoutManager.ManageWindowLayouts();
         }
     }
 }

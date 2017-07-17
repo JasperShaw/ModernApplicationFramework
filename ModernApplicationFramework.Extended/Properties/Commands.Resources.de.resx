@@ -123,6 +123,12 @@
   <data name="FullScreenCommandDefinition_Text" xml:space="preserve">
     <value>G&amp;anzer Bildschirm</value>
   </data>
+  <data name="ManageLayoutCommandDefinition_Name" xml:space="preserve">
+    <value>Fensterlayouts verwalten</value>
+  </data>
+  <data name="ManageLayoutCommandDefinition_Text" xml:space="preserve">
+    <value>Fensterlayouts &amp;verwalten</value>
+  </data>
   <data name="MultiRedoCommandDefinition_Name" xml:space="preserve">
     <value>Wiederholen: MultiLevel</value>
   </data>

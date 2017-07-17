@@ -228,6 +228,7 @@
     <Compile Include="Basics\Services\MafUIShell.cs" />
     <Compile Include="Controls\ComboBox\ComboBoxVisualSource.cs" />
     <Compile Include="Controls\TextBoxes\NumberOnlyTextBox.cs" />
+    <Compile Include="Core\Utilities\FocusHelper.cs" />
     <Compile Include="Interfaces\IDirtyObjectManager.cs" />
     <Compile Include="Basics\SettingsBase\AbstractSettingsDataModel.cs" />
     <Compile Include="Basics\Services\Bootstrapper.cs" />

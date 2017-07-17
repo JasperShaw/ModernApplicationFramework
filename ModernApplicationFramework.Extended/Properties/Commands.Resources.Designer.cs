@@ -79,6 +79,24 @@ namespace ModernApplicationFramework.Extended.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Fensterlayouts verwalten ähnelt.
+        /// </summary>
+        internal static string ManageLayoutCommandDefinition_Name {
+            get {
+                return ResourceManager.GetString("ManageLayoutCommandDefinition_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Fensterlayouts &amp;verwalten ähnelt.
+        /// </summary>
+        internal static string ManageLayoutCommandDefinition_Text {
+            get {
+                return ResourceManager.GetString("ManageLayoutCommandDefinition_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die MultiLevel Redo ähnelt.
         /// </summary>
         internal static string MultiRedoCommandDefinition_Name {
