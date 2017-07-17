@@ -144,6 +144,9 @@
   <data name="OtherContextMenusCategory" xml:space="preserve">
     <value>Weitere Kontextmenüs</value>
   </data>
+  <data name="SettingsCategory_Environment" xml:space="preserve">
+    <value>Umgebung</value>
+  </data>
   <data name="SystemLanguage_Name" xml:space="preserve">
     <value>Wie Microsoft Windows</value>
   </data>

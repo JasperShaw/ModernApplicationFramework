@@ -142,6 +142,15 @@ namespace ModernApplicationFramework.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Environment ähnelt.
+        /// </summary>
+        public static string SettingsCategory_Environment {
+            get {
+                return ResourceManager.GetString("SettingsCategory_Environment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Same as Microsoft Windows ähnelt.
         /// </summary>
         public static string SystemLanguage_Name {
