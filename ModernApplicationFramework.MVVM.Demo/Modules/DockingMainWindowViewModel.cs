@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.Composition;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Services;
 using ModernApplicationFramework.Extended.DockingMainWindow.Views;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules
 {
@@ -18,7 +20,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules
         {
             base.OnViewLoaded(view);
             Window.Title = "Demo-Tool";
-            StatusBar.ModeText = "Ready";
+            IoC.Get<IStatusBarDataModelService>().SetReadyText();
         }
     }
 }

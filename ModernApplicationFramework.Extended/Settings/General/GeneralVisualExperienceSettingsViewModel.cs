@@ -5,6 +5,7 @@ using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.SettingsBase;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Interfaces.Settings;
 using ModernApplicationFramework.Settings.SettingsDialog;
 

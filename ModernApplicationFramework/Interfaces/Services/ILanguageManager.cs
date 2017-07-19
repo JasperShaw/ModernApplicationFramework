@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using ModernApplicationFramework.Core.Localization;
 
-namespace ModernApplicationFramework.Interfaces
+namespace ModernApplicationFramework.Interfaces.Services
 {
     public interface ILanguageManager
     {

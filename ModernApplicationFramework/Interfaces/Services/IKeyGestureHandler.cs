@@ -1,8 +1,8 @@
-﻿using System.Windows;
+using System.Windows;
 using System.Windows.Input;
 using ModernApplicationFramework.CommandBase;
 
-namespace ModernApplicationFramework.Interfaces.Utilities
+namespace ModernApplicationFramework.Interfaces.Services
 {
     public interface IKeyGestureHandler
     {

@@ -10,6 +10,7 @@ using ModernApplicationFramework.Controls.Primitives;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
 
@@ -30,11 +31,8 @@ namespace ModernApplicationFramework.Extended.DockingMainWindow.ViewModels
 
         private BitmapImage _passiveIcon;
 
-        private StatusBar _statusBar;
-
         private IToolBarHostViewModel _toolBarHostViewModel;
         private bool _useSimpleMovement;
-        private bool _useStatusbar;
         private bool _useTitleBar;
         private bool _useMenu;
 
@@ -62,7 +60,6 @@ namespace ModernApplicationFramework.Extended.DockingMainWindow.ViewModels
 
         public DockingMainWindowViewModel()
         {
-            UseStatusBar = true;
             UseTitleBar = true;
             UseMenu = true;
         }
@@ -83,21 +80,6 @@ namespace ModernApplicationFramework.Extended.DockingMainWindow.ViewModels
             }
         }
 
-
-        /// <summary>
-        ///     Contains the StatusBar of the MainWindow
-        ///     This can not be changed once it was setted with a value
-        /// </summary>
-        public StatusBar StatusBar
-        {
-            get { return _statusBar; }
-            set
-            {
-                if (_statusBar == null)
-                    _statusBar = value;
-            }
-        }
-
         /// <summary>
         ///     Contains the ViewModel of the MainWindows ToolbarHostControl
         ///     This can not be changed once it was setted with a value
@@ -111,21 +93,6 @@ namespace ModernApplicationFramework.Extended.DockingMainWindow.ViewModels
                     throw new InvalidOperationException(
                         "You can not change the ToolBarHostViewModel once it was seeted up");
                 _toolBarHostViewModel = value;
-            }
-        }
-
-        /// <summary>
-        ///     Contains information whether a StatusBar is displayed or not
-        /// </summary>
-        public bool UseStatusBar
-        {
-            get => _useStatusbar;
-            set
-            {
-                if (Equals(value, _useStatusbar))
-                    return;
-                _useStatusbar = value;
-                NotifyOfPropertyChange(() => UseStatusBar);
             }
         }
 

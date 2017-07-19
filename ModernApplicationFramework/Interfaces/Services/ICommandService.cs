@@ -1,7 +1,7 @@
 ﻿using System;
 using ModernApplicationFramework.Basics.Definitions.Command;
 
-namespace ModernApplicationFramework.Interfaces.Command
+namespace ModernApplicationFramework.Interfaces.Services
 {
     public interface ICommandService
     {

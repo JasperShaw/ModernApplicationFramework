@@ -22,6 +22,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using Caliburn.Micro;
 using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Native.Platform.Structs;
 using ModernApplicationFramework.Native.Standard;

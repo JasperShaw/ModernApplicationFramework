@@ -61,6 +61,15 @@ namespace ModernApplicationFramework.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Ready ähnelt.
+        /// </summary>
+        public static string StatusBarText_Ready {
+            get {
+                return ResourceManager.GetString("StatusBarText_Ready", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Close ähnelt.
         /// </summary>
         public static string WindowCloseToolTip {

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading;
 using Caliburn.Micro;
 using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Properties;
 
 namespace ModernApplicationFramework.Core.Localization

@@ -8,10 +8,8 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Controls.AutomationPeer;
 using ModernApplicationFramework.Controls.Internals;
-using ModernApplicationFramework.Controls.Primitives;
 using ModernApplicationFramework.Core.Converters.General;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.Native;
@@ -88,11 +86,6 @@ namespace ModernApplicationFramework.Controls.Windows
                 if (dataContext != null)
                     dataContext.MainWindowViewModel = viewModel;
             }
-
-            var statusBar = GetTemplateChild("StatusBar") as StatusBar;
-            if (statusBar != null)
-                viewModel.StatusBar = statusBar;
-
             base.OnApplyTemplate();
         }
 

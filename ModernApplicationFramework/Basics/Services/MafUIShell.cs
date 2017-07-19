@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Interop;
 using Caliburn.Micro;
 using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Native.Platform.Structs;
 using Point = System.Windows.Point;

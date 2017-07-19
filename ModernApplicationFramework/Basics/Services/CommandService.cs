@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Interfaces.Command;
+using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Basics.Services
 {

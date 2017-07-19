@@ -38,6 +38,7 @@ using ModernApplicationFramework.Docking.ContextMenuDefinitions;
 using ModernApplicationFramework.Docking.Controls;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Native;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Native.Platform.Enums;

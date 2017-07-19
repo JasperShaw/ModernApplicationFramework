@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using ModernApplicationFramework.CommandBase;
-using ModernApplicationFramework.Controls.Primitives;
 using ModernApplicationFramework.Core;
 using ModernApplicationFramework.Interfaces.ViewModels;
 
@@ -18,16 +17,13 @@ namespace ModernApplicationFramework.Controls.Windows
         private bool _isSimpleWindow;
         private IMenuHostViewModel _menuHostViewModel;
         private BitmapImage _passiveIcon;
-        private StatusBar _statusBar;
         private IToolBarHostViewModel _toolBarHostViewModel;
         private bool _useSimpleMovement;
-        private bool _useStatusbar;
         private bool _useTitleBar;
         private bool _useMenu;
 
         public MainWindowViewModel(MainWindow mainWindow)
         {
-            UseStatusBar = true;
             UseTitleBar = true;
             UseMenu = true;
             _mainWindow = mainWindow;
@@ -71,20 +67,6 @@ namespace ModernApplicationFramework.Controls.Windows
         }
 
         /// <summary>
-        ///     Contains the StatusBar of the MainWindow
-        ///     This can not be changed once it was setted with a value
-        /// </summary>
-        public StatusBar StatusBar
-        {
-            get => _statusBar;
-            set
-            {
-                if (_statusBar == null)
-                    _statusBar = value;
-            }
-        }
-
-        /// <summary>
         ///     Contains the ViewModel of the MainWindows ToolbarHostControl
         ///     This can not be changed once it was setted with a value
         /// </summary>
@@ -97,22 +79,6 @@ namespace ModernApplicationFramework.Controls.Windows
                     throw new InvalidOperationException(
                         "You can not change the ToolBarHostViewModel once it was seeted up");
                 _toolBarHostViewModel = value;
-            }
-        }
-
-        /// <summary>
-        ///     Contains information whether a StatusBar is displayed or not
-        /// </summary>
-        public bool UseStatusBar
-        {
-            get => _useStatusbar;
-            set
-            {
-                if (Equals(value, _useStatusbar))
-                    return;
-                _useStatusbar = value;
-                OnPropertyChanged();
-                //NotifyOfPropertyChange(() => UseStatusBar);
             }
         }
 

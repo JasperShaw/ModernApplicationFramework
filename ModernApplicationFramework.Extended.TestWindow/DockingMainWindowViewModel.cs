@@ -18,7 +18,6 @@ namespace ModernApplicationFramework.Extended.TestWindow
         {
             base.OnViewLoaded(view);
             Window.Title = "Demo-Tool";
-            StatusBar.ModeText = "Ready";
         }
     }
 }

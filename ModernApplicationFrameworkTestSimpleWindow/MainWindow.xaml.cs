@@ -10,7 +10,7 @@ namespace ModernApplicationFrameworkTestSimpleWindow
         public MainWindow()
         {
             InitializeComponent();
-            ((MainWindowViewModel) DataContext).UseStatusBar = false;
+            //IoC.Get<IStatusBarService>().SetVisibility(0);
             ((MainWindowViewModel) DataContext).UseTitleBar = false;
             ((MainWindowViewModel) DataContext).IsSimpleWindow = true;
             ((MainWindowViewModel) DataContext).UseSimpleMovement = true;

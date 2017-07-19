@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 namespace ModernApplicationFramework.Interfaces.Settings
 {
-
     public enum GetValueResult
     {
         Success,

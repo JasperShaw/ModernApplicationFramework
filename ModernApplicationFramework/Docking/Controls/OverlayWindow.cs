@@ -23,6 +23,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Docking.Controls
 {

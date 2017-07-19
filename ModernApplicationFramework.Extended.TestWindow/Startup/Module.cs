@@ -29,7 +29,6 @@ namespace ModernApplicationFramework.Extended.TestWindow.Startup
 
         public override void Initialize()
         {
-            MainWindow.StatusBar.ModeText = "Test";
             DockingHostViewModel.ShowFloatingWindowsInTaskbar = true;
 
             _output.AppendLine("Started up");

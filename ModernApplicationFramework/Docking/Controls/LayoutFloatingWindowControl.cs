@@ -31,6 +31,7 @@ using ModernApplicationFramework.Controls.Utilities;
 using ModernApplicationFramework.Controls.Windows;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Layout;
+using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Native;
 using ModernApplicationFramework.Native.NativeMethods;

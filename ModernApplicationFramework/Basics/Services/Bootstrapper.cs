@@ -10,6 +10,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Basics.ApplicationEnvironment;
 using ModernApplicationFramework.Core.Localization;
 using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Native.TrinetCoreNtfs;
 
 namespace ModernApplicationFramework.Basics.Services

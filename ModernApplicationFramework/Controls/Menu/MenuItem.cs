@@ -13,6 +13,7 @@ using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Controls;
+using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Native.Standard;
 
 namespace ModernApplicationFramework.Controls.Menu

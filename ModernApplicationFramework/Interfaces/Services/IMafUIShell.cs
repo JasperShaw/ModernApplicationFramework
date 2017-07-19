@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ModernApplicationFramework.Interfaces
+namespace ModernApplicationFramework.Interfaces.Services
 {
     public interface IMafUIShell
     {

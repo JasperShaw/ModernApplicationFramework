@@ -4,6 +4,7 @@ using System.Linq;
 using ModernApplicationFramework.Basics.SettingsBase;
 using ModernApplicationFramework.Core.Localization;
 using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Interfaces.Settings;
 using ModernApplicationFramework.Settings.SettingsDialog;
 

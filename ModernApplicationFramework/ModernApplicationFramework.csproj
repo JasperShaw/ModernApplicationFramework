@@ -225,9 +225,21 @@
   <ItemGroup>
     <Compile Include="Basics\ApplicationEnvironment\AbstractEnvironmentVarirables.cs" />
     <Compile Include="Basics\ApplicationEnvironment\FallbackEnvironmentVarirables.cs" />
+    <Compile Include="Basics\Services\BasicStatusBarService.cs" />
+    <Compile Include="Interfaces\Services\IStatusBarDataModel.cs" />
+    <Compile Include="Interfaces\Services\IStatusBarDataModelService.cs" />
+    <Compile Include="Interfaces\Services\IStatusBarService.cs" />
     <Compile Include="Basics\Services\MafUIShell.cs" />
+    <Compile Include="Basics\Services\AbstractStatusBarService.cs" />
+    <Compile Include="Core\BackgroundDispatcher.cs" />
     <Compile Include="Controls\ComboBox\ComboBoxVisualSource.cs" />
+    <Compile Include="Controls\ElementContainer.cs" />
+    <Compile Include="Controls\VisualTargetPresentationSource.cs" />
+    <Compile Include="Controls\VisualWrapper.cs" />
+    <Compile Include="Interfaces\Controls\IStatusBar.cs" />
+    <Compile Include="Controls\StatusBarContainer.cs" />
     <Compile Include="Controls\TextBoxes\NumberOnlyTextBox.cs" />
+    <Compile Include="Core\Converters\ClientTextPickerConverter.cs" />
     <Compile Include="Core\Utilities\FocusHelper.cs" />
     <Compile Include="Interfaces\IDirtyObjectManager.cs" />
     <Compile Include="Basics\SettingsBase\AbstractSettingsDataModel.cs" />
@@ -292,7 +304,7 @@
     <Compile Include="Controls\Utilities\HelperMethods.cs" />
     <Compile Include="Core\Utilities\ObservableObject.cs" />
     <Compile Include="Interfaces\IExtendedEnvironmentVarirables.cs" />
-    <Compile Include="Interfaces\ILanguageManager.cs" />
+    <Compile Include="Interfaces\Services\ILanguageManager.cs" />
     <Compile Include="Core\Utilities\RegirstryTools.cs" />
     <Compile Include="Controls\BalloonTooltip.cs" />
     <Compile Include="Controls\TextBoxes\ModernTextBox.cs" />
@@ -330,7 +342,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Interfaces\ICanBeDirty.cs" />
-    <Compile Include="Interfaces\IMafUIShell.cs" />
+    <Compile Include="Interfaces\Services\IMafUIShell.cs" />
     <Compile Include="Interfaces\Settings\ISettingsCategory.cs" />
     <Compile Include="Interfaces\Settings\ISettingsDataModel.cs" />
     <Compile Include="Interfaces\Settings\ISettingsManager.cs" />
@@ -470,7 +482,7 @@
     <Compile Include="Interfaces\Command\ICommandHandler.cs" />
     <Compile Include="Interfaces\Command\ICommandListHandler.cs" />
     <Compile Include="Interfaces\Command\ICommandRouter.cs" />
-    <Compile Include="Interfaces\Command\ICommandService.cs" />
+    <Compile Include="Interfaces\Services\ICommandService.cs" />
     <Compile Include="CommandBase\RelayCommand.cs" />
     <Compile Include="CommandBase\Command.cs" />
     <Compile Include="CommandBase\Base\CommandBase.cs" />
@@ -638,7 +650,7 @@
     <Compile Include="Native\Shell\ShellProvider.cs" />
     <Compile Include="Native\Standard\Verify.cs" />
     <Compile Include="Core\Themes\EnvironmentColors.cs" />
-    <Compile Include="Interfaces\IThemeManager.cs" />
+    <Compile Include="Interfaces\Services\IThemeManager.cs" />
     <Compile Include="Core\Themes\Theme.cs" />
     <Compile Include="Core\Converters\General\BooleanOrConverter.cs" />
     <Compile Include="Native\DpiHelper.cs" />
@@ -774,7 +786,7 @@
     <Compile Include="Interfaces\Utilities\ISupportedFileDefinition.cs" />
     <Compile Include="Interfaces\Utilities\IToolbarCreator.cs" />
     <Compile Include="Interfaces\Utilities\IMenuCreator.cs" />
-    <Compile Include="Interfaces\Utilities\IKeyGestureHandler.cs" />
+    <Compile Include="Interfaces\Services\IKeyGestureHandler.cs" />
     <Compile Include="Interfaces\ViewModels\IMainWindowViewModel.cs" />
     <Compile Include="Interfaces\ViewModels\IMenuHostViewModel.cs" />
     <Compile Include="Interfaces\ViewModels\IToolBarHostViewModel.cs" />
@@ -850,7 +862,6 @@
     <Compile Include="Basics\FileDefinitionManager.cs" />
     <Compile Include="Basics\FileType.cs" />
     <Compile Include="Basics\Services\KeyGestureHandler.cs" />
-    <Compile Include="Interfaces\IToolbarService.cs" />
     <Compile Include="Basics\CommandBar\Creators\ToolbarCreator.cs" />
     <Compile Include="Basics\CommandBar\Creators\MenuCreator.cs" />
     <Compile Include="Basics\UndoRedoManager\InstancePropertyHandler.cs" />
@@ -1063,7 +1074,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\Generic\StatusBar.xaml">
+    <Page Include="Themes\Generic\BasicStatusBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.Composition;
-using System.Windows;
+﻿using System;
+using System.ComponentModel.Composition;
 using System.Windows.Interop;
 using System.Windows.Media;
+using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Services;
 using ModernApplicationFramework.Basics.SettingsBase;
+using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Interfaces.Settings;
-using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Basics
 {
@@ -111,11 +113,9 @@ namespace ModernApplicationFramework.Basics
             get => _showStatusBar;
             set
             {
-
                 _showStatusBar = value;
                 OnPropertyChanged();
-                if (Application.Current.MainWindow?.DataContext is IMainWindowViewModel mainWindowViewModel)
-                    mainWindowViewModel.UseStatusBar = value;
+                IoC.Get<IStatusBarDataModelService>().SetVisibility(Convert.ToUInt32(value));
             }
         }
 
