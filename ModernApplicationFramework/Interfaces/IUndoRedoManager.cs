@@ -31,7 +31,7 @@ namespace ModernApplicationFramework.Interfaces
 
         /// <summary>
         /// Pushes an action to the <see cref="UndoStack"/> and 
-        /// cleares the <see cref="RedoStack"/> if this method was executed inside the manager itsself
+        /// cleares the <see cref="RedoStack"/> if this method was executed outside of the manager
         /// </summary>
         /// <param name="action">The action that was performed and pushed to the <see cref="UndoStack"/></param>
         void Push(UndoRedoAction action);
