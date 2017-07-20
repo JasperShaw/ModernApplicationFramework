@@ -4,12 +4,26 @@ using ModernApplicationFramework.Basics.Definitions.CommandBar;
 
 namespace ModernApplicationFramework.Interfaces.Utilities
 {
+    /// <summary>
+    /// Offers basic methods to populate an <see cref="ItemsControl"/>
+    /// </summary>
     public interface ICreatorBase
     {
-
+        /// <summary>
+        /// Creates a sub-tree of an <see cref="ItemsControl"/> recursively 
+        /// </summary>
+        /// <typeparam name="T">The type of the <see cref="ItemsControl"/></typeparam>
+        /// <param name="itemsControl">The <see cref="ItemsControl"/> that should be filled</param>
+        /// <param name="itemDefinition">The datamodel of the current item</param>
         void CreateRecursive<T>(ref T itemsControl, CommandBarDefinitionBase itemDefinition) where T : ItemsControl;
 
-        IEnumerable<CommandBarItemDefinition> GetSingleSubDefinitions(CommandBarDefinitionBase contextMenuDefinition, CommandBarCreationOptions options);
+        /// <summary>
+        /// Gets all single level sub-definitions of a given <see cref="CommandBarDefinitionBase"/>
+        /// </summary>
+        /// <param name="definitionBase">The <see cref="CommandBarDefinitionBase"/> to find its sub-definitions</param>
+        /// <param name="options">An option to include separators to the result.</param>
+        /// <returns>Returns a list with all found definitions</returns>
+        IEnumerable<CommandBarItemDefinition> GetSingleSubDefinitions(CommandBarDefinitionBase definitionBase, CommandBarCreationOptions options);
     }
 
     public enum CommandBarCreationOptions

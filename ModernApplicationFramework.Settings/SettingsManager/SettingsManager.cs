@@ -116,25 +116,15 @@ namespace ModernApplicationFramework.Settings.SettingsManager
 
 
         public GetValueResult GetOrCreatePropertyValue<T>(string propertyPath, string propertyName, out T value, T defaultValue = default(T),
-            bool navigateAttributeWise = true, bool createNew = true)
+            bool navigateAttributeWise = true)
         {
-            value = defaultValue;
-            var data = SettingsFile.GetPropertyValueData(propertyPath, propertyName, navigateAttributeWise);
-            if (data == null)
-            {
-                var node = SettingsFile.GetSingleNode(propertyPath);
-                if (node == null)
-                    return GetValueResult.Missing;
-                SettingsFile.AddPropertyValueElement(node, propertyName, value?.ToString());
-                return GetValueResult.Created;
-            }
-            return TryGetValue(data, out value, defaultValue);
+            return GetOrCreatePropertyValueInternal(propertyPath, propertyName, out value, true, defaultValue, navigateAttributeWise);
         }
 
         public GetValueResult GetPropertyValue<T>(string propertyPath, string propertyName, out T value,
             bool navigateAttributeWise = true)
         {
-            return GetOrCreatePropertyValue(propertyPath, propertyName, out value, default(T), navigateAttributeWise, false);
+            return GetOrCreatePropertyValueInternal(propertyPath, propertyName, out value, false, default(T), navigateAttributeWise);
         }
 
         public Task SetPropertyValueAsync(string path, string propertyName, string value,
@@ -153,6 +143,24 @@ namespace ModernApplicationFramework.Settings.SettingsManager
             });
             t.Start();
             return t;
+        }
+
+        protected GetValueResult GetOrCreatePropertyValueInternal<T>(string propertyPath, string propertyName,
+            out T value, bool createNew, T defaultValue = default(T), bool navigateAttributeWise = true)
+        {
+            value = defaultValue;
+            var data = SettingsFile.GetPropertyValueData(propertyPath, propertyName, navigateAttributeWise);
+            //Could not find, but we can create a PropertyValue element
+            if (data == null && createNew)
+            {
+                var node = SettingsFile.GetSingleNode(propertyPath);
+                if (node == null)
+                    return GetValueResult.Missing;
+                SettingsFile.AddPropertyValueElement(node, propertyName, value?.ToString());
+                return GetValueResult.Created;
+            }
+            //Don't create PropertyValue if data is null
+            return data == null ? GetValueResult.Missing : TryGetValue(data, out value, defaultValue);
         }
 
         protected void CreateNewSettingsFileInternal(string path)
@@ -175,7 +183,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
                 return GetValueResult.Corrupt;
             }
         }
-
+        
         private void SettingsManager_Initialized(object sender, EventArgs e)
         {
             Initialized -= SettingsManager_Initialized;

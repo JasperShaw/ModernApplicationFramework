@@ -225,7 +225,10 @@
   <ItemGroup>
     <Compile Include="Basics\ApplicationEnvironment\AbstractEnvironmentVarirables.cs" />
     <Compile Include="Basics\ApplicationEnvironment\FallbackEnvironmentVarirables.cs" />
+    <Compile Include="Basics\Services\AbstractApplicationIconService.cs" />
     <Compile Include="Basics\Services\BasicStatusBarService.cs" />
+    <Compile Include="Basics\Services\IApplicationIconService.cs" />
+    <Compile Include="Core\Utilities\IconHelper.cs" />
     <Compile Include="Interfaces\Services\IStatusBarDataModel.cs" />
     <Compile Include="Interfaces\Services\IStatusBarDataModelService.cs" />
     <Compile Include="Interfaces\Services\IStatusBarService.cs" />
@@ -343,6 +346,7 @@
     </Compile>
     <Compile Include="Interfaces\ICanBeDirty.cs" />
     <Compile Include="Interfaces\Services\IMafUIShell.cs" />
+    <Compile Include="Interfaces\Settings\IPropteryValueManager.cs" />
     <Compile Include="Interfaces\Settings\ISettingsCategory.cs" />
     <Compile Include="Interfaces\Settings\ISettingsDataModel.cs" />
     <Compile Include="Interfaces\Settings\ISettingsManager.cs" />
@@ -351,7 +355,7 @@
     <Compile Include="Basics\Definitions\CommandBar\CommandBarMenuControllerDefinition.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarSplitItemDefinition.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarComboItemDefinitionT.cs" />
-    <Compile Include="Basics\CommandBar\Creators\NumberStatusStringCreator.cs" />
+    <Compile Include="Basics\Creators\NumberStatusStringCreator.cs" />
     <Compile Include="Basics\Definitions\CommandBar\TextCommandBarItemDefinition.cs" />
     <Compile Include="Core\Converters\CommonUiResourceConverter.cs" />
     <Compile Include="Core\Converters\FormattedLocalizableStringConverter.cs" />
@@ -785,7 +789,6 @@
     <Compile Include="Interfaces\Utilities\IExtensionDefinition.cs" />
     <Compile Include="Interfaces\Utilities\ISupportedFileDefinition.cs" />
     <Compile Include="Interfaces\Utilities\IToolbarCreator.cs" />
-    <Compile Include="Interfaces\Utilities\IMenuCreator.cs" />
     <Compile Include="Interfaces\Services\IKeyGestureHandler.cs" />
     <Compile Include="Interfaces\ViewModels\IMainWindowViewModel.cs" />
     <Compile Include="Interfaces\ViewModels\IMenuHostViewModel.cs" />

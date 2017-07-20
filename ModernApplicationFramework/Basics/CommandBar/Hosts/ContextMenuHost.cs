@@ -5,7 +5,6 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Controls.Menu;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Utilities;
@@ -52,7 +51,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         public ContextMenu GetContextMenu(Definitions.ContextMenu.ContextMenuDefinition contextMenuDefinition)
         {
             if (!_hostedContextMenus.ContainsKey(contextMenuDefinition))
-                throw new ArgumentException(contextMenuDefinition.Text);
+                throw new KeyNotFoundException(contextMenuDefinition.Text);
             Build(contextMenuDefinition);
             return _hostedContextMenus[contextMenuDefinition];
         }

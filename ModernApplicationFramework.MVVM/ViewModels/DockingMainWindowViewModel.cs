@@ -4,14 +4,9 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using ModernApplicationFramework.CommandBase;
-using ModernApplicationFramework.Controls.Primitives;
-using ModernApplicationFramework.Core.Themes;
-using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
-using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.MVVM.Controls;
 using ModernApplicationFramework.MVVM.Core;
@@ -25,17 +20,10 @@ namespace ModernApplicationFramework.MVVM.ViewModels
                                               IPartImportsSatisfiedNotification
     {
         protected bool MainWindowInitialized;
-
-        private BitmapImage _activeIcon;
-        private BitmapImage _icon;
         private bool _isSimpleWindow;
 
 
         private IMenuHostViewModel _menuHostViewModel;
-
-        private BitmapImage _passiveIcon;
-
-
 
         private IToolBarHostViewModel _toolBarHostViewModel;
         private bool _useSimpleMovement;
@@ -44,7 +32,6 @@ namespace ModernApplicationFramework.MVVM.ViewModels
 
         public DockingMainWindowViewModel()
         {
-            UseStatusBar = true;
             UseTitleBar = true;
             UseMenu = true;
         }
@@ -53,20 +40,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         public bool MenuHostViewModelSetted => MenuHostViewModel != null;
         public bool ToolbarHostViewModelSetted => ToolBarHostViewModel != null;
 
-        /// <summary>
-        ///     Contains the Current Icon of the MainWindow
-        /// </summary>
-        public BitmapImage Icon
-        {
-            get => _icon;
-            set
-            {
-                if (Equals(value, _icon))
-                    return;
-                _icon = value;
-                NotifyOfPropertyChange();
-            }
-        }
+
 
         public Window Window { get; private set; }
         public WindowState WindowState { get; set; }
@@ -130,26 +104,6 @@ namespace ModernApplicationFramework.MVVM.ViewModels
 
         public IDockingHostViewModel DockingHost => _dockingHost;
 
-        /// <summary>
-        ///     Contains the Active Icon for the MainWindow
-        /// </summary>
-        public BitmapImage ActiveIcon
-        {
-            get => _activeIcon;
-            set
-            {
-                if (Equals(value, _activeIcon))
-                    return;
-                _activeIcon = value;
-                NotifyOfPropertyChange(() => ActiveIcon);
-                ApplyWindowIconChange();
-            }
-        }
-
-        public ICommand ChangeWindowIconActiveCommand => new Command(ChangeWindowIconActive, CanChangeWindowIcon);
-
-        public ICommand ChangeWindowIconPassiveCommand => new Command(ChangeWindowIconPassive, CanChangeWindowIcon);
-
         public ICommand CloseCommand => new Command(Close, CanClose);
 
         /// <summary>
@@ -170,22 +124,6 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         public ICommand MaximizeResizeCommand => new Command(MaximizeResize, CanMaximizeResize);
 
         public ICommand MinimizeCommand => new Command(Minimize, CanMinimize);
-
-        /// <summary>
-        ///     Contains the Passive Icon for the MainWindow
-        /// </summary>
-        public BitmapImage PassiveIcon
-        {
-            get => _passiveIcon;
-            set
-            {
-                if (Equals(value, _passiveIcon))
-                    return;
-                _passiveIcon = value;
-                NotifyOfPropertyChange(() => PassiveIcon);
-                ApplyWindowIconChange();
-            }
-        }
 
         public ICommand SimpleMoveWindowCommand => new Command(MoveSimpleWindow, CanMoveSimpleWindow);
 
@@ -220,23 +158,6 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         {
             if (Mouse.LeftButton == MouseButtonState.Pressed)
                 Window?.DragMove();
-        }
-
-        public void ChangeWindowIconActive()
-        {
-            Icon = ActiveIcon;
-        }
-
-        public void ChangeWindowIconPassive()
-        {
-            Icon = PassiveIcon;
-        }
-
-        protected virtual void ApplyWindowIconChange()
-        {
-            if (Window == null)
-                return;
-            Icon = Window.IsActive ? ActiveIcon : PassiveIcon;
         }
 
         protected virtual bool CanClose()
@@ -311,20 +232,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
                 return;
             Window = window;
             window.SourceInitialized += _mainWindow_SourceInitialized;
-            window.Activated += _mainWindow_Activated;
-            window.Deactivated += _mainWindow_Deactivated;
-
             _commandKeyGestureService.BindKeyGesture((UIElement)view);
-        }
-
-        private async void _mainWindow_Activated(object sender, EventArgs e)
-        {
-            await ((Command) ChangeWindowIconActiveCommand).Execute();
-        }
-
-        private async void _mainWindow_Deactivated(object sender, EventArgs e)
-        {
-            await ((Command) ChangeWindowIconPassiveCommand).Execute();
         }
 
         private async void _mainWindow_MouseDown(object sender, MouseButtonEventArgs e)
@@ -335,11 +243,6 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         private void _mainWindow_SourceInitialized(object sender, EventArgs e)
         {
             MainWindowInitialized = true;
-        }
-
-        private bool CanChangeWindowIcon()
-        {
-            return ActiveIcon != null && PassiveIcon != null;
         }
 
         #pragma warning disable 649

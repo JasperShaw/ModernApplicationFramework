@@ -2,6 +2,7 @@
 
 namespace ModernApplicationFramework.Interfaces.Utilities
 {
+    //TODO: Move
     public interface IExtensionDefinition
     {
         string ApplicationContext { get; }

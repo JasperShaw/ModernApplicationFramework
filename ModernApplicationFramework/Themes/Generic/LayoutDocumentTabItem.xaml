@@ -3,7 +3,6 @@
                     xmlns:avalonDockControls="clr-namespace:ModernApplicationFramework.Docking.Controls"
                     xmlns:avalonDock="clr-namespace:ModernApplicationFramework.Docking"
 					xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
-                    xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
                     xmlns:contextMenuProviders="clr-namespace:ModernApplicationFramework.Docking.ContextMenuProviders"
                     xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons">
 

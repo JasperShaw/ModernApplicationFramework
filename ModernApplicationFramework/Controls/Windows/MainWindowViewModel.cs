@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Core;
 using ModernApplicationFramework.Interfaces.ViewModels;
@@ -12,11 +11,8 @@ namespace ModernApplicationFramework.Controls.Windows
     {
         protected bool MainWindowInitialized;
         private readonly MainWindow _mainWindow;
-        private BitmapImage _activeIcon;
-        private BitmapImage _icon;
         private bool _isSimpleWindow;
         private IMenuHostViewModel _menuHostViewModel;
-        private BitmapImage _passiveIcon;
         private IToolBarHostViewModel _toolBarHostViewModel;
         private bool _useSimpleMovement;
         private bool _useTitleBar;
@@ -28,28 +24,11 @@ namespace ModernApplicationFramework.Controls.Windows
             UseMenu = true;
             _mainWindow = mainWindow;
             _mainWindow.SourceInitialized += _mainWindow_SourceInitialized;
-            _mainWindow.Activated += _mainWindow_Activated;
-            _mainWindow.Deactivated += _mainWindow_Deactivated;
         }
 
         public bool MenuHostViewModelSetted => MenuHostViewModel != null;
         public bool ToolbarHostViewModelSetted => ToolBarHostViewModel != null;
 
-        /// <summary>
-        ///     Contains the Current Icon of the MainWindow
-        /// </summary>
-        public BitmapImage Icon
-        {
-            get => _icon;
-            set
-            {
-                if (Equals(value, _icon))
-                    return;
-                _icon = value;
-                OnPropertyChanged();
-                //NotifyOfPropertyChange(() => Icon);
-            }
-        }
 
         /// <summary>
         ///     Contains the ViewModel of the MainWindows MenuHostControl
@@ -111,23 +90,6 @@ namespace ModernApplicationFramework.Controls.Windows
         }
 
         /// <summary>
-        ///     Contains the Active Icon for the MainWindow
-        /// </summary>
-        public BitmapImage ActiveIcon
-        {
-            get => _activeIcon;
-            set
-            {
-                if (Equals(value, _activeIcon))
-                    return;
-                _activeIcon = value;
-                OnPropertyChanged();
-                //NotifyOfPropertyChange(() => ActiveIcon);
-                ApplyWindowIconChange();
-            }
-        }
-
-        /// <summary>
         ///     A SimpleWindow is a window which is not possible to resize my dragging the edges
         /// </summary>
         public bool IsSimpleWindow
@@ -139,23 +101,6 @@ namespace ModernApplicationFramework.Controls.Windows
                     return;
                 _isSimpleWindow = value;
                 OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        ///     Contains the Passive Icon for the MainWindow
-        /// </summary>
-        public BitmapImage PassiveIcon
-        {
-            get => _passiveIcon;
-            set
-            {
-                if (Equals(value, _passiveIcon))
-                    return;
-                _passiveIcon = value;
-                OnPropertyChanged();
-                //NotifyOfPropertyChange(() => PassiveIcon);
-                ApplyWindowIconChange();
             }
         }
 
@@ -174,16 +119,6 @@ namespace ModernApplicationFramework.Controls.Windows
                 OnUseSimpleMovementChanged();
                 ((Command) SimpleMoveWindowCommand).RaiseCanExecuteChanged();
             }
-        }
-
-        /// <summary>
-        ///     Makes sure the just changed Active or Passive Icons are applied to the View
-        /// </summary>
-        protected virtual void ApplyWindowIconChange()
-        {
-            if (_mainWindow == null)
-                return;
-            Icon = _mainWindow.IsActive ? ActiveIcon : PassiveIcon;
         }
 
         /// <summary>
@@ -207,16 +142,6 @@ namespace ModernApplicationFramework.Controls.Windows
                 _mainWindow.MouseDown += _mainWindow_MouseDown;
             else
                 _mainWindow.MouseDown -= _mainWindow_MouseDown;
-        }
-
-        private async void _mainWindow_Activated(object sender, EventArgs e)
-        {
-            await ((Command) ChangeWindowIconActiveCommand).Execute();
-        }
-
-        private async void _mainWindow_Deactivated(object sender, EventArgs e)
-        {
-            await ((Command) ChangeWindowIconPassiveCommand).Execute();
         }
 
         private async void _mainWindow_MouseDown(object sender, MouseButtonEventArgs e)
@@ -269,25 +194,6 @@ namespace ModernApplicationFramework.Controls.Windows
         protected virtual bool CanClose()
         {
             return true;
-        }
-
-        public ICommand ChangeWindowIconActiveCommand => new Command(ChangeWindowIconActive, CanChangeWindowIcon);
-
-        private bool CanChangeWindowIcon()
-        {
-            return ActiveIcon != null && PassiveIcon != null;
-        }
-
-        public void ChangeWindowIconActive()
-        {
-            Icon = ActiveIcon;
-        }
-
-        public ICommand ChangeWindowIconPassiveCommand => new Command(ChangeWindowIconPassive, CanChangeWindowIcon);
-
-        public void ChangeWindowIconPassive()
-        {
-            Icon = PassiveIcon;
         }
 
         public ICommand SimpleMoveWindowCommand => new Command(MoveSimpleWindow, CanMoveSimpleWindow);

@@ -8,9 +8,13 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using Caliburn.Micro;
 using ModernApplicationFramework.Controls.AutomationPeer;
 using ModernApplicationFramework.Controls.Internals;
 using ModernApplicationFramework.Core.Converters.General;
+using ModernApplicationFramework.Core.Themes;
+using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Interfaces.Settings;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.Native;
 using ModernApplicationFramework.Native.NativeMethods;
@@ -26,6 +30,7 @@ namespace ModernApplicationFramework.Controls.Windows
             HwndSource.DefaultAcquireHwndFocusInMenuMode = false;
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MainWindow),
                 new FrameworkPropertyMetadata(typeof(MainWindow)));
+            ImageThemingUtilities.IsImageThemingEnabled = !GetIsImageThemingSuppressed();
         }
 
         protected virtual bool ShouldAutoSize { get; set; } = true;
@@ -94,6 +99,35 @@ namespace ModernApplicationFramework.Controls.Windows
             base.OnActivated(e);
             //Needed so we can Bind Keygestures to the Window
             Keyboard.Focus(this);
+        }
+
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+            SetWindowIcon();
+        }
+
+        private static bool GetIsImageThemingSuppressed()
+        {
+            try
+            {
+                var settingsManager = IoC.Get<ISettingsManager>();
+                if (settingsManager == null)
+                    return false;
+
+                settingsManager.GetOrCreatePropertyValue("Environment/General", "SuppressImageTheming",
+                    out bool setting, false, true);
+                return setting;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        private void SetWindowIcon()
+        {
+            IconHelper.UseWindowIconAsync(windowIcon => Icon = windowIcon);
         }
 
         protected override System.Windows.Automation.Peers.AutomationPeer OnCreateAutomationPeer()

@@ -3,7 +3,6 @@ using System.ComponentModel.Composition;
 using System.Windows.Interop;
 using System.Windows.Media;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.Services;
 using ModernApplicationFramework.Basics.SettingsBase;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Interfaces.Settings;

@@ -19,7 +19,7 @@ namespace ModernApplicationFramework.Basics.SettingsBase
 
         public abstract void StoreSettings();
 
-        protected void SetPropertyFromSettings<T>(string queryName, string propertyName, T defaultValue = default (T))
+        protected void SetPropertyFromSettings<T>(string settingsName, string propertyName, T defaultValue = default (T))
         {
             var propertyInfo = GetType().GetProperty(propertyName);
             if (propertyInfo == null)
@@ -27,16 +27,16 @@ namespace ModernApplicationFramework.Basics.SettingsBase
             if (typeof(T) != propertyInfo.PropertyType)
                 throw new InvalidCastException("The type of the Property and the given type T do not match");
 
-            var result = SettingsManager.GetOrCreatePropertyValue(SettingsFilePath, queryName, out T value, defaultValue, true, true);
+            var result = SettingsManager.GetOrCreatePropertyValue(SettingsFilePath, settingsName, out T value, defaultValue, true);
             propertyInfo.SetValue(this, value);
 
             if (result == GetValueResult.Corrupt)
-                StoreSettingsValue(queryName, value);
+                StoreSettingsValue(settingsName, value);
         }
 
-        protected T GetSettingsValue<T>(string queryName, T defaultValue = default(T))
+        protected T GetSettingsValue<T>(string settingsName, T defaultValue = default(T))
         {
-            var result = SettingsManager.GetOrCreatePropertyValue(SettingsFilePath, queryName, out T value, defaultValue, true, true);
+            var result = SettingsManager.GetOrCreatePropertyValue(SettingsFilePath, settingsName, out T value, defaultValue, true);
             return result == GetValueResult.Corrupt ? defaultValue : value;
         }
 

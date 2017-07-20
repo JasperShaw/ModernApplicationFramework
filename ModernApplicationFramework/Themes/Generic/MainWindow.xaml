@@ -61,8 +61,13 @@
 							                         TextElement.Foreground="{DynamicResource {x:Static core:EnvironmentColors.MainWindowTitleBarForeground}}">
                                 <DockPanel>
                                     <window:SystemMenu x:Name="PART_SystemMenu" Width="32" Height="27" Margin="0,0,12,4" HorizontalAlignment="Left"
-									                 DockPanel.Dock="Left" Padding="12,7,0,0" Source="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=DataContext.Icon}" 
-                                                     WindowChrome.IsHitTestVisibleInChrome="True" />
+									                 DockPanel.Dock="Left" Padding="12,7,0,0" Source="{TemplateBinding Icon}" 
+                                                       VectorFill="{Binding Source={x:Static services:InternalApplicationIconService.Instance}, Path=ActiveColor}"
+                                                     WindowChrome.IsHitTestVisibleInChrome="True">
+                                        <window:SystemMenu.VectorIcon>
+                                            <Binding Source="{x:Static services:InternalApplicationIconService.Instance}" Path="VectorIcon"/>
+                                        </window:SystemMenu.VectorIcon>
+                                    </window:SystemMenu>
                                     <StackPanel x:Name="WindowTitleBarButtons"
 									            DockPanel.Dock="Right"
 									            Orientation="Horizontal">
@@ -146,9 +151,9 @@
                                 </Setter.Value>
                             </Setter>
 						</Trigger>
-						<Trigger Property="IsActive" Value="False">
+                        <Trigger Property="IsActive" Value="False">
 							<Setter TargetName="MainWindowTitleBar" Property="TextElement.Foreground" Value="{DynamicResource {x:Static core:EnvironmentColors.MainWindowTitleBarForegroundInactive}}" />
-							<Setter TargetName="PART_SystemMenu" Property="VectorFill" Value="White" />
+							<Setter TargetName="PART_SystemMenu" Property="VectorFill" Value="{Binding Source={x:Static services:InternalApplicationIconService.Instance}, Path=InactiveColor}" />
 						</Trigger>
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=DataContext.IsSimpleWindow}" Value="True">
                             <Setter Property="ResizeMode" Value="CanMinimize"/>

@@ -14,5 +14,8 @@ namespace ModernApplicationFramework.Native.NativeMethods
 
         [DllImport("shell32", CallingConvention = CallingConvention.StdCall)]
         internal static extern int SHAppBarMessage(int dwMessage, ref Appbardata pData);
+
+        [DllImport("shell32.dll", CharSet = CharSet.Auto)]
+        public static extern int ExtractIconEx(string szFileName, int nIconIndex, IntPtr[] phiconLarge, IntPtr[] phiconSmall, int nIcons);
     }
 }

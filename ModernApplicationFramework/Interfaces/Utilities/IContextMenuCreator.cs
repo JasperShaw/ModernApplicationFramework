@@ -3,8 +3,16 @@ using ContextMenu = ModernApplicationFramework.Controls.Menu.ContextMenu;
 
 namespace ModernApplicationFramework.Interfaces.Utilities
 {
-    public interface IContextMenuCreator : IMenuCreator
+    /// <summary>
+    /// A Factory to create context menus
+    /// </summary>
+    public interface IContextMenuCreator : ICreatorBase
     {
+        /// <summary>
+        /// Creates a context menu
+        /// </summary>
+        /// <param name="contextMenuDefinition">The data model of the context menu</param>
+        /// <returns>Returns the context menu</returns>
         ContextMenu CreateContextMenu(CommandBarDefinitionBase contextMenuDefinition);
     }
 }

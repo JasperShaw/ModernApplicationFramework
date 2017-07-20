@@ -80,7 +80,9 @@
     <Compile Include="SettingsDialog\Views\SettingsWindowView.xaml.cs">
       <DependentUpon>SettingsWindowView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SettingsManager\IReadableSettingsFile.cs" />
     <Compile Include="SettingsManager\ISettingsFile.cs" />
+    <Compile Include="SettingsManager\IWriteableSettingsFile.cs" />
     <Compile Include="SettingsManager\SettingsFactory.cs" />
     <Compile Include="SettingsManager\SettingsImportExportOptions.cs" />
     <Compile Include="SettingsManager\SettingsManager.cs" />
@@ -88,6 +90,7 @@
     <Compile Include="SettingsManager\SettingsXPathCreator.cs" />
     <Compile Include="SettingsManager\UserSettingsFile.cs" />
     <Compile Include="SettingsManager\XmlUtilities.cs" />
+    <Compile Include="SettingsManager\XPath.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

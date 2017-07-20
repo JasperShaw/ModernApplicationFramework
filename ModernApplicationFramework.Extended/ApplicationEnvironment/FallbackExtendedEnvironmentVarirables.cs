@@ -1,6 +1,4 @@
-﻿using ModernApplicationFramework.Basics.ApplicationEnvironment;
-
-namespace ModernApplicationFramework.Extended.ApplicationEnvironment
+﻿namespace ModernApplicationFramework.Extended.ApplicationEnvironment
 {
     public sealed class FallbackExtendedEnvironmentVarirables : ExtendedEnvironmentVarirables
     {

@@ -56,7 +56,7 @@ namespace ModernApplicationFramework.Controls.Windows
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
             base.OnMouseDown(e);
-            var w = System.Windows.Window.GetWindow(this) as MainWindow;
+            var w = Window.GetWindow(this) as MainWindow;
 
             if (w == null)
                 return;

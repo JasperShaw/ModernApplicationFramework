@@ -13,11 +13,11 @@ namespace ModernApplicationFramework.Core.DialogProiver
 				MessageBoxImage.None, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
 		}
 
-		public bool Ask(string message, MessageBoxButton button)
+		public bool Ask(string message)
 		{
-			MessageBoxResult result = MessageBox.Show(message, "Modern Application Framework", button,
+			MessageBoxResult result = MessageBox.Show(message, "Modern Application Framework", MessageBoxButton.YesNo,
 				MessageBoxImage.Question, MessageBoxResult.Yes, MessageBoxOptions.DefaultDesktopOnly);
-			return result.HasFlag(MessageBoxResult.OK);
+			return result.HasFlag(MessageBoxResult.Yes);
 		}
 
 		public void ShowError(string message)

@@ -93,6 +93,7 @@
     </ApplicationDefinition>
     <Compile Include="DemoBootstrapper.cs" />
     <Compile Include="DemoEnvironmentVariables.cs" />
+    <Compile Include="Modules\AppIcon\AppIcon.cs" />
     <Compile Include="Modules\ComboBoxMenuTest\Commands\ComboBoxCommandDefinition.cs" />
     <Compile Include="Modules\ComboBoxMenuTest\Commands\TestMenuControllerDefinition.cs" />
     <Compile Include="Modules\ComboBoxMenuTest\ToolbarDefinitions.cs" />
@@ -139,6 +140,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Modules\UndoRedoTest\UndoRedoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Icon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -219,7 +224,12 @@
   <ItemGroup>
     <None Include="Resources\png_undo.16.16.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Commander Appo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="VisualStudioLogo_noHalo.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

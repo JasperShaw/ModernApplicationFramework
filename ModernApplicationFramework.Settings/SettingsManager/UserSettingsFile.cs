@@ -253,11 +253,17 @@ namespace ModernApplicationFramework.Settings.SettingsManager
         {
             var toolsOptionsNode = GetSingleNode("ToolsOptions", false);
             if (toolsOptionsNode == null)
-                return;
+            {
+                var root = SettingsSotrage.DocumentElement;
+                toolsOptionsNode = root?.AppendChild(CreateToolsOptionsElement(SettingsSotrage)); 
+            }
             lock (SettingsSotrage)
             {
                 var element = SettingsSotrage.CreateElement("ToolsOptionsCategory", string.Empty,
                     new KeyValuePair<string, string>("name", name));
+                //If it is still null we want to throw an exception
+                if (toolsOptionsNode == null)
+                    throw new NullReferenceException(nameof(toolsOptionsNode));
                 toolsOptionsNode.AppendChild(element);
             }
         }
@@ -267,7 +273,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
             var node = GetSingleNode(categoryName);
 
             if (node == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(node));
 
             lock (SettingsSotrage)
             {
@@ -328,6 +334,11 @@ namespace ModernApplicationFramework.Settings.SettingsManager
         {
             return document.CreateElement("ApplicationIdentity", null,
                 new KeyValuePair<string, string>("version", SettingsManager.EnvironmentVarirables.ApplicationVersion));
+        }
+
+        private XmlElement CreateToolsOptionsElement(XmlDocument document)
+        {
+            return document.CreateElement("ToolsOptions");
         }
     }
 }

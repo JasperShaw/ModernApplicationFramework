@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 
@@ -113,20 +112,6 @@ namespace ModernApplicationFramework.Settings.SettingsManager
             }
 
             return xPath;
-        }
-    }
-
-
-    public class XPath {
-        public string Path { get; }
-        public bool NavigateAttributeWise { get; }
-
-        public IEnumerable<string> Segments => Path.Split(NavigateAttributeWise ? '/' : '.');
-
-        public XPath(string path, bool navigateAttributeWise)
-        {
-            Path = path;
-            NavigateAttributeWise = navigateAttributeWise;
         }
     }
 

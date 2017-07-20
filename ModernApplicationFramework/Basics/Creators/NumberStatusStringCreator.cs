@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using ModernApplicationFramework.Interfaces.Utilities;
 
-namespace ModernApplicationFramework.Basics.CommandBar.Creators
+namespace ModernApplicationFramework.Basics.Creators
 {
     public class NumberStatusStringCreator : IStatusStringCreator
     {
