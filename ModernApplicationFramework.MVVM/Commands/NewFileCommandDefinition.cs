@@ -12,7 +12,7 @@ using ModernApplicationFramework.MVVM.Interfaces;
 
 namespace ModernApplicationFramework.MVVM.Commands
 {
-    [Export(typeof(DefinitionBase))]
+    [Export(typeof(CommandDefinitionBase))]
     public sealed class NewFileCommandDefinition : CommandDefinition
     {
         public NewFileCommandDefinition()

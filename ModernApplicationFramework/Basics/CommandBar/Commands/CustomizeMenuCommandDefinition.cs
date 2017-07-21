@@ -8,11 +8,12 @@ using ModernApplicationFramework.CommandBase;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Commands
 {
+    /// <inheritdoc />
     /// <summary>
     /// Implementation of the command to open the command bar customize dialog
     /// </summary>
-    /// <seealso cref="CommandDefinition" />
-    [Export(typeof(DefinitionBase))]
+    /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.Command.CommandDefinition" />
+    [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(CustomizeMenuCommandDefinition))]
     public sealed class CustomizeMenuCommandDefinition : CommandDefinition
     {

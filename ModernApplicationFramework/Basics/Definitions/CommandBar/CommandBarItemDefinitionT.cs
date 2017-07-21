@@ -9,12 +9,12 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarItemDefinition" />
-    public abstract class CommandBarItemDefinition<T> : CommandBarItemDefinition where T : DefinitionBase
+    public abstract class CommandBarItemDefinition<T> : CommandBarItemDefinition where T : CommandDefinitionBase
 	{
 		private string _text;
 		private string _name;
 
-		public sealed override DefinitionBase CommandDefinition { get; }
+		public sealed override CommandDefinitionBase CommandDefinition { get; }
 
 		public sealed override string Text
 		{
@@ -38,7 +38,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 			}
 		}
 
-		protected CommandBarItemDefinition(string text, uint sortOrder, CommandBarGroupDefinition @group, DefinitionBase definition, 
+		protected CommandBarItemDefinition(string text, uint sortOrder, CommandBarGroupDefinition @group, CommandDefinitionBase definition, 
 			bool visible, bool isChecked, bool isCustom, bool isCustomizable) 
 			: base(text, sortOrder, @group, definition, visible, isChecked, isCustom, isCustomizable)
 		{

@@ -14,9 +14,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
     public class ExcludedCommandDefinition
     {
-        public DefinitionBase ExcludedDefinition { get; }
+        public CommandDefinitionBase ExcludedDefinition { get; }
 
-        public ExcludedCommandDefinition(DefinitionBase excludedDefinition)
+        public ExcludedCommandDefinition(CommandDefinitionBase excludedDefinition)
         {
             ExcludedDefinition = excludedDefinition;
         }

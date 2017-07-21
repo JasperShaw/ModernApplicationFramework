@@ -32,7 +32,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                 ExcludedItemDefinitions.Add(item.ExcludedCommandBarDefinition);
 
 
-            ExcludedCommandDefinitions = new ObservableCollection<DefinitionBase>();
+            ExcludedCommandDefinitions = new ObservableCollection<CommandDefinitionBase>();
             ExcludedCommandDefinitions.CollectionChanged += ExcludedCommandDefinitions_CollectionChanged;
             foreach (var item in excludedCommands)
                 ExcludedCommandDefinitions.Add(item.ExcludedDefinition);
@@ -53,7 +53,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
         public ObservableCollection<CommandBarDefinitionBase> ExcludedItemDefinitions { get; }
 
-        public ObservableCollection<DefinitionBase> ExcludedCommandDefinitions { get; }
+        public ObservableCollection<CommandDefinitionBase> ExcludedCommandDefinitions { get; }
 
         private void ExcludedCommandDefinitions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {

@@ -3,7 +3,7 @@ using ModernApplicationFramework.Controls.ComboBox;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
-    public sealed class CommandBarComboItemDefinition<T> : CommandBarItemDefinition<T> where T : DefinitionBase
+    public sealed class CommandBarComboItemDefinition<T> : CommandBarItemDefinition<T> where T : CommandDefinitionBase
 	{
         private ComboBoxDataSource _dataSource;
         private ComboBoxVisualSource _visualSource;

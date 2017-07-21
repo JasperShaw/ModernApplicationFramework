@@ -12,7 +12,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
         {
         }
 
-        private sealed class MenuHeaderCommandDefinition : DefinitionBase
+        private sealed class MenuHeaderCommandDefinition : CommandDefinitionBase
         {
             public override string Name => null;
             public override string Text => null;

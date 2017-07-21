@@ -8,7 +8,7 @@ using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.CommandDefinitions
 {
-    [Export(typeof(DefinitionBase))]
+    [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(MoveAllToPreviousTabGroupCommandDefinition))]
     public sealed class MoveAllToPreviousTabGroupCommandDefinition : CommandDefinition
     {

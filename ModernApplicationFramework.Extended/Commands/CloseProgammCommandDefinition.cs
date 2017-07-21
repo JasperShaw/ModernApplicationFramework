@@ -9,7 +9,7 @@ using ModernApplicationFramework.Extended.Properties;
 
 namespace ModernApplicationFramework.Extended.Commands
 {
-    [Export(typeof(DefinitionBase))]
+    [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(CloseProgammCommandDefinition))]
     public sealed class CloseProgammCommandDefinition : CommandDefinition
     {

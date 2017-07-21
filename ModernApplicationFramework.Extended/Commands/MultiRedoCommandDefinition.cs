@@ -12,7 +12,7 @@ using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Extended.Commands
 {
-    [Export(typeof(DefinitionBase))]
+    [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(MultiRedoCommandDefinition))]
     public sealed class MultiRedoCommandDefinition : CommandSplitButtonDefinition
     {

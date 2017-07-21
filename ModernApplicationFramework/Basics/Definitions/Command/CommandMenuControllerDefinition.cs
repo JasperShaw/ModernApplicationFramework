@@ -7,8 +7,8 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
     /// <summary>
     ///     Special <see cref="CommandDefinition" /> for menu controllers models
     /// </summary>
-    /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.Command.DefinitionBase" />
-    public abstract class CommandMenuControllerDefinition : DefinitionBase
+    /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.Command.CommandDefinitionBase" />
+    public abstract class CommandMenuControllerDefinition : CommandDefinitionBase
     {
         public override CommandControlTypes ControlType => CommandControlTypes.MenuToolbar;
 

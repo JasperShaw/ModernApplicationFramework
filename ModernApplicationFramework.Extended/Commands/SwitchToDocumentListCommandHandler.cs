@@ -22,7 +22,7 @@ namespace ModernApplicationFramework.Extended.Commands
             _shell = shell;
         }
 
-        public void Populate(Command command, List<DefinitionBase> commands)
+        public void Populate(Command command, List<CommandDefinitionBase> commands)
         {
             var activeFiles = _shell.Documents.Count;
             var maxFiles = IoC.Get<EnvironmentGeneralOptions>().WindowListItems;

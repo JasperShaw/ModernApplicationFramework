@@ -14,7 +14,7 @@ namespace ModernApplicationFramework.Basics.Services
         private readonly CommandDefinition[] _keyboardShortcuts;
 
         [ImportingConstructor]
-        public KeyGestureHandler([ImportMany] DefinitionBase[] keyboardShortcuts)
+        public KeyGestureHandler([ImportMany] CommandDefinitionBase[] keyboardShortcuts)
         {
             _keyboardShortcuts = keyboardShortcuts.OfType<CommandDefinition>().ToArray();
         }

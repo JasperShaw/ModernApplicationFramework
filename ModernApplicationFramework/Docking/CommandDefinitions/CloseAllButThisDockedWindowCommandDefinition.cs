@@ -9,7 +9,7 @@ using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.CommandDefinitions
 {
-    [Export(typeof(DefinitionBase))]
+    [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(CloseAllButThisDockedWindowCommandDefinition))]
     public sealed class CloseAllButThisDockedWindowCommandDefinition : CommandDefinition
     {

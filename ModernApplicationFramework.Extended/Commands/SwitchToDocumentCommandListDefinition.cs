@@ -5,7 +5,7 @@ using ModernApplicationFramework.Extended.Properties;
 
 namespace ModernApplicationFramework.Extended.Commands
 {
-    [Export(typeof(DefinitionBase))]
+    [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(SwitchToDocumentCommandListDefinition))]
     public class SwitchToDocumentCommandListDefinition : CommandListDefinition
     {

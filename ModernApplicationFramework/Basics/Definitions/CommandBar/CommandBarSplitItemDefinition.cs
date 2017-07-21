@@ -3,7 +3,7 @@ using ModernApplicationFramework.Interfaces.Utilities;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
-    public sealed class CommandBarSplitItemDefinition<T> : CommandBarItemDefinition<T> where T : DefinitionBase
+    public sealed class CommandBarSplitItemDefinition<T> : CommandBarItemDefinition<T> where T : CommandDefinitionBase
 	{
         private int _selectedIndex;
         private string _statusString;

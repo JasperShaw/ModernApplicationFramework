@@ -12,7 +12,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         {
         }
 
-        private class SeparatorCommandDefinition : DefinitionBase
+        private class SeparatorCommandDefinition : CommandDefinitionBase
         {
             public override string Name => null;
             public override string Text => null;

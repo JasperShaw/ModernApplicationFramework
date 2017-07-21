@@ -6,11 +6,10 @@ using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Docking.Layout;
-using DefinitionBase = ModernApplicationFramework.Basics.Definitions.Command.DefinitionBase;
 
 namespace ModernApplicationFramework.Docking.CommandDefinitions
 {
-    [Export(typeof(DefinitionBase))]
+    [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(NewHorizontalTabGroupCommandDefinition))]
     public sealed class NewHorizontalTabGroupCommandDefinition : CommandDefinition
     {

@@ -5,11 +5,11 @@ namespace ModernApplicationFramework.Interfaces.Command
 {
     public interface ICommandRouter
     {
-        CommandHandlerWrapper GetCommandHandler(DefinitionBase commandDefinition);
+        CommandHandlerWrapper GetCommandHandler(CommandDefinitionBase commandDefinition);
     }
 
     public interface ICommandRerouter
     {
-        object GetHandler(DefinitionBase commandDefinition);
+        object GetHandler(CommandDefinitionBase commandDefinition);
     }
 }

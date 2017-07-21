@@ -5,7 +5,6 @@ using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Core.Converters.AccessKey;
 using ModernApplicationFramework.Interfaces;
-using DefinitionBase = ModernApplicationFramework.Basics.Definitions.Command.DefinitionBase;
 
 namespace ModernApplicationFramework.Basics.Definitions.Toolbar
 {
@@ -63,7 +62,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
                 ?.ToString();
         }
 
-        private sealed class ToolbarCommandDefinition : DefinitionBase
+        private sealed class ToolbarCommandDefinition : CommandDefinitionBase
         {
             public override string Name => null;
             public override string Text => null;

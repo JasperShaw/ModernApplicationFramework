@@ -7,8 +7,8 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
     /// <summary>
     /// Basic definition model used for application commands
     /// </summary>
-    /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.Command.DefinitionBase" />
-    public abstract class CommandDefinition : DefinitionBase
+    /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.Command.CommandDefinitionBase" />
+    public abstract class CommandDefinition : CommandDefinitionBase
     {
         /// <summary>
         /// The executable command of the definition

@@ -27,6 +27,6 @@ namespace ModernApplicationFramework.Interfaces
         /// <summary>
         /// Collection of excluded command definitions
         /// </summary>
-        ObservableCollection<DefinitionBase> ExcludedCommandDefinitions { get; }
+        ObservableCollection<CommandDefinitionBase> ExcludedCommandDefinitions { get; }
     }
 }

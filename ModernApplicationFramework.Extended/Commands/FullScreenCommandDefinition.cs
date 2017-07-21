@@ -11,7 +11,7 @@ using ModernApplicationFramework.Extended.Properties;
 
 namespace ModernApplicationFramework.Extended.Commands
 {
-    [Export(typeof(DefinitionBase))]
+    [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(FullScreenCommandDefinition))]
     public sealed class FullScreenCommandDefinition : CommandDefinition
     {

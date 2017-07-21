@@ -3,7 +3,7 @@ using ModernApplicationFramework.Basics.Definitions.Command;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
-    public sealed class CommandBarMenuControllerDefinition<T> : CommandBarItemDefinition<T> where T : DefinitionBase
+    public sealed class CommandBarMenuControllerDefinition<T> : CommandBarItemDefinition<T> where T : CommandDefinitionBase
 	{
         private CommandBarItemDefinition _anchorItem;
 

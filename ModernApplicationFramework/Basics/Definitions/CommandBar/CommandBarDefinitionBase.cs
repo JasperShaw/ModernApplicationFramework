@@ -42,7 +42,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         /// <summary>
         /// The command definition of the element
         /// </summary>
-        public virtual DefinitionBase CommandDefinition { get; }
+        public virtual CommandDefinitionBase CommandDefinition { get; }
 
         /// <summary>
         /// The groups that are hosted by the element
@@ -118,7 +118,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-        protected CommandBarDefinitionBase(string text, uint sortOrder, DefinitionBase definition, bool isCustom,
+        protected CommandBarDefinitionBase(string text, uint sortOrder, CommandDefinitionBase definition, bool isCustom,
             bool isCustomizable, bool isChecked)
         {
             _sortOrder = sortOrder;

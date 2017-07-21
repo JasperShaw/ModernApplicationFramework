@@ -9,7 +9,7 @@ using ModernApplicationFramework.Extended.Commands;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.ComboBoxMenuTest.Commands
 {
-    [Export(typeof(DefinitionBase))]
+    [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(TestMenuControllerDefinition))]
     public sealed class TestMenuControllerDefinition : CommandMenuControllerDefinition
     {

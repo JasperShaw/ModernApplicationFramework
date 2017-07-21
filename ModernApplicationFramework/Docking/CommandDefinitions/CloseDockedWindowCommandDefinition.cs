@@ -7,7 +7,7 @@ using ModernApplicationFramework.CommandBase;
 
 namespace ModernApplicationFramework.Docking.CommandDefinitions
 {
-    [Export(typeof(DefinitionBase))]
+    [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(CloseDockedWindowCommandDefinition))]
     public sealed class CloseDockedWindowCommandDefinition : CommandDefinition
     {

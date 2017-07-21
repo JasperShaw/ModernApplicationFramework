@@ -10,20 +10,20 @@ namespace ModernApplicationFramework.Basics.Services
     [Export(typeof(ICommandService))]
     public class CommandService : ICommandService
     {
-        private readonly Dictionary<Type, DefinitionBase> _commandDefinitionsLookup;
+        private readonly Dictionary<Type, CommandDefinitionBase> _commandDefinitionsLookup;
 
 #pragma warning disable 649
-        [ImportMany] private DefinitionBase[] _commandDefinitions;
+        [ImportMany] private CommandDefinitionBase[] _commandDefinitions;
 #pragma warning restore 649
 
         public CommandService()
         {
-            _commandDefinitionsLookup = new Dictionary<Type, DefinitionBase>();
+            _commandDefinitionsLookup = new Dictionary<Type, CommandDefinitionBase>();
         }
 
-        public DefinitionBase GetCommandDefinition(Type commandDefinitionType)
+        public CommandDefinitionBase GetCommandDefinition(Type commandDefinitionType)
         {
-            if (!_commandDefinitionsLookup.TryGetValue(commandDefinitionType, out DefinitionBase commandDefinition))
+            if (!_commandDefinitionsLookup.TryGetValue(commandDefinitionType, out CommandDefinitionBase commandDefinition))
                 commandDefinition = _commandDefinitionsLookup[commandDefinitionType] =
                     _commandDefinitions.First(x => x.GetType() == commandDefinitionType);
             return commandDefinition;

@@ -5,7 +5,6 @@ using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Interfaces.Controls;
-using DefinitionBase = ModernApplicationFramework.Basics.Definitions.Command.DefinitionBase;
 
 namespace ModernApplicationFramework.Controls.Menu
 {
@@ -29,7 +28,7 @@ namespace ModernApplicationFramework.Controls.Menu
             foreach (var listItem in _listItems)
                 _parent.Items.Remove(listItem);
             _listItems.Clear();
-            var listCommands = new List<DefinitionBase>();
+            var listCommands = new List<CommandDefinitionBase>();
             commandHandler.Populate(null, listCommands);
             var startIndex = _parent.Items.IndexOf(this) + 1;
             foreach (var command in listCommands)

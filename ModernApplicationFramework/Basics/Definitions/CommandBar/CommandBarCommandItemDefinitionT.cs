@@ -4,7 +4,7 @@ using ModernApplicationFramework.CommandBase;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
-    public sealed class CommandBarCommandItemDefinition<T> : CommandBarItemDefinition<T> where T : DefinitionBase
+    public sealed class CommandBarCommandItemDefinition<T> : CommandBarItemDefinition<T> where T : CommandDefinitionBase
 	{
         private bool _registerVisibilityToCommand;
 

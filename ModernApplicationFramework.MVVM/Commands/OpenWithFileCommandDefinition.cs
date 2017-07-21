@@ -11,7 +11,7 @@ using ModernApplicationFramework.MVVM.Interfaces;
 
 namespace ModernApplicationFramework.MVVM.Commands
 {
-    [Export(typeof(DefinitionBase))]
+    [Export(typeof(CommandDefinitionBase))]
     public class OpenWithFileCommandDefinition : CommandDefinition
     {
         public OpenWithFileCommandDefinition()

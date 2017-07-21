@@ -7,7 +7,7 @@ using ModernApplicationFramework.MVVM.Interfaces;
 
 namespace ModernApplicationFramework.MVVM.Commands
 {
-    [Export(typeof(DefinitionBase))]
+    [Export(typeof(CommandDefinitionBase))]
     public sealed class CloseProgammCommandDefinition : CommandDefinition
     {
 #pragma warning disable 649

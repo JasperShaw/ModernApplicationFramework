@@ -13,7 +13,7 @@ using Brushes = System.Windows.Media.Brushes;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
 {
-    [Export(typeof(DefinitionBase))]
+    [Export(typeof(CommandDefinitionBase))]
     public sealed class TestCommandDefinition : CommandDefinition
     {
         public TestCommandDefinition()

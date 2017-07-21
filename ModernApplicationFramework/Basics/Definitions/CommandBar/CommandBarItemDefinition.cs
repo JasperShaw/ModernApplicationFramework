@@ -137,7 +137,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         }
 
         protected CommandBarItemDefinition(string text, uint sortOrder, CommandBarGroupDefinition group,
-            DefinitionBase definition, bool visible,
+            CommandDefinitionBase definition, bool visible,
             bool isChecked, bool isCustom, bool isCustomizable)
             : base(text, sortOrder, definition, isCustom, isCustomizable, isChecked)
         {

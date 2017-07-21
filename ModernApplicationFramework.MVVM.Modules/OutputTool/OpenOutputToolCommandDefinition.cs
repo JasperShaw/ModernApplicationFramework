@@ -8,7 +8,7 @@ using ModernApplicationFramework.Extended.Interfaces;
 
 namespace ModernApplicationFramework.Extended.Modules.OutputTool
 {
-    [Export(typeof(DefinitionBase))]
+    [Export(typeof(CommandDefinitionBase))]
     public sealed class OpenOutputToolCommandDefinition : CommandDefinition
     {
 #pragma warning disable 649

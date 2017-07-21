@@ -8,7 +8,7 @@ using ModernApplicationFramework.Extended.Interfaces;
 
 namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Commands
 {
-    [Export(typeof(DefinitionBase))]
+    [Export(typeof(CommandDefinitionBase))]
     public sealed class OpenInstectorCommandDefinition : CommandDefinition
     {
 #pragma warning disable 649

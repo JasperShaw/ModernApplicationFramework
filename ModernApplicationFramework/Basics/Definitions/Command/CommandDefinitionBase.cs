@@ -10,7 +10,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
     /// Basic definition model for command bar elements
     /// </summary>
     /// <seealso cref="T:System.ComponentModel.INotifyPropertyChanged" />
-    public abstract class DefinitionBase : INotifyPropertyChanged
+    public abstract class CommandDefinitionBase : INotifyPropertyChanged
     {
         private string _shortcutText;
 

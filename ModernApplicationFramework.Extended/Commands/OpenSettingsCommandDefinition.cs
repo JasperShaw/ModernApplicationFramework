@@ -10,7 +10,7 @@ using ModernApplicationFramework.Settings.SettingsDialog.ViewModels;
 
 namespace ModernApplicationFramework.Extended.Commands
 {
-    [Export(typeof(DefinitionBase))]
+    [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(OpenSettingsCommandDefinition))]
     public sealed class OpenSettingsCommandDefinition : CommandDefinition
     {

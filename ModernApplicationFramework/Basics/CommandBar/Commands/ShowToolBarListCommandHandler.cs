@@ -25,7 +25,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Commands
             _toolBarHost = shell;
         }
 
-        public void Populate(Command command, List<DefinitionBase> commands)
+        public void Populate(Command command, List<CommandDefinitionBase> commands)
         {
             foreach (var toolbarDefinition in _toolBarHost.TopLevelDefinitions)
             {

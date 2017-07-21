@@ -8,7 +8,7 @@ using ModernApplicationFramework.MVVM.Demo.Modules.Document;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.ComboBoxMenuTest.Commands
 {
-    [Export(typeof(DefinitionBase))]
+    [Export(typeof(CommandDefinitionBase))]
     public class ComboBoxCommandDefinition : CommandComboBoxDefinition
     {
         public override string Name => "Combobox";

@@ -39,7 +39,7 @@ namespace ModernApplicationFramework.CommandBase
                 _updateMethod.Invoke(_commandHandler, new object[] { command });
         }
 
-        public void Populate(Command command, List<DefinitionBase> commands)
+        public void Populate(Command command, List<CommandDefinitionBase> commands)
         {
             if (_populateMethod == null)
                 throw new InvalidOperationException("Populate can only be called for list-type commands.");
