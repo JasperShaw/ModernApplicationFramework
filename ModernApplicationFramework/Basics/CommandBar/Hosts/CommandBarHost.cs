@@ -15,9 +15,16 @@ using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 {
+    /// <inheritdoc cref="ICommandBarHost" />
+    /// <summary>
+    /// Basic implementation of <see cref="ICommandBarHost"/>
+    /// </summary>
+    /// <seealso cref="T:ModernApplicationFramework.Core.ViewModelBase" />
+    /// <seealso cref="T:ModernApplicationFramework.Interfaces.ViewModels.ICommandBarHost" />
     public abstract class CommandBarHost : ViewModelBase, ICommandBarHost
     {
         public abstract ObservableCollection<CommandBarDefinitionBase> TopLevelDefinitions { get; }
+        
         public ICommandBarDefinitionHost DefinitionHost { get; }
 
         [ImportingConstructor]

@@ -13,7 +13,7 @@ using ModernApplicationFramework.Core.Converters;
 
 namespace ModernApplicationFramework.Controls.Buttons
 {
-    public class SplitButton : System.Windows.Controls.MenuItem
+    public class SplitButton : MenuItem
     {
         public static readonly DependencyProperty SelectedIndexProperty;
         private readonly IValueConverter _itemIsHighlightedConverter;

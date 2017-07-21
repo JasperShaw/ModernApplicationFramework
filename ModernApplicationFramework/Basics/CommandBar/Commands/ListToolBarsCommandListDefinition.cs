@@ -3,6 +3,10 @@ using ModernApplicationFramework.Basics.Definitions.Command;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Commands
 {
+    /// <summary>
+    /// Definition of the command to show all tool bars as a menu item
+    /// </summary>
+    /// <seealso cref="CommandListDefinition" />
     [Export(typeof(DefinitionBase))]
     [Export(typeof(ListToolBarsCommandListDefinition))]
     public class ListToolBarsCommandListDefinition : CommandListDefinition

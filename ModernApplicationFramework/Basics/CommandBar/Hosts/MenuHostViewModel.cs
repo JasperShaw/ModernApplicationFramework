@@ -13,6 +13,12 @@ using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 {
+    /// <inheritdoc cref="IMenuHostViewModel" />
+    /// <summary>
+    /// Implementation of <see cref="T:ModernApplicationFramework.Interfaces.ViewModels.IMenuHostViewModel" />
+    /// </summary>
+    /// <seealso cref="T:ModernApplicationFramework.Basics.CommandBar.Hosts.CommandBarHost" />
+    /// <seealso cref="T:ModernApplicationFramework.Interfaces.ViewModels.IMenuHostViewModel" />
     [Export(typeof(IMenuHostViewModel))]
     public sealed class MenuHostViewModel : CommandBarHost, IMenuHostViewModel
     {
@@ -22,22 +28,12 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
         public override ObservableCollection<CommandBarDefinitionBase> TopLevelDefinitions { get; }
 
-        /// <summary>
-        ///     Contains the Items of the MenuHostControl
-        /// </summary>
         public ObservableCollection<MenuItem> Items { get; }
 
         public ICommand RightClickCommand => new Command(ExecuteRightClick);
 
-        /// <summary>
-        ///     Tells if you can open the ToolbarHostContextMenu
-        ///     Default is true
-        /// </summary>
         public bool AllowOpenToolBarContextMenu { get; set; } = true;
 
-        /// <summary>
-        ///     Contains the UseDockingHost shall not be changed after setted up
-        /// </summary>
         public IMainWindowViewModel MainWindowViewModel
         {
             get => _mainWindowViewModel;

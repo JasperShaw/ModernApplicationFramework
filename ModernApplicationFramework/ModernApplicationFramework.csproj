@@ -407,7 +407,7 @@
     <Compile Include="Basics\Definitions\Menu\MenuBarDefinition.cs" />
     <Compile Include="Basics\Definitions\Menu\MenuDefinition.cs" />
     <Compile Include="Basics\Definitions\Toolbar\ToolbarDefinition.cs" />
-    <Compile Include="Basics\CommandBar\ContextMenuDefinition.cs" />
+    <Compile Include="Basics\CommandBar\ToolbarsContextMenuDefinition.cs" />
     <Compile Include="Basics\CommandBar\Commands\CustomizeMenuCommandDefinition.cs" />
     <Compile Include="Basics\CommandBar\Commands\ListToolBarsCommandListDefinition.cs" />
     <Compile Include="Basics\CommandBar\Commands\ShowToolBarListCommandHandler.cs" />
@@ -1119,6 +1119,7 @@
     <EmbeddedResource Include="Basics\CommandBar\CommandBarResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommandBarResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Basics\CommandBar\CommandBarResources.de.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

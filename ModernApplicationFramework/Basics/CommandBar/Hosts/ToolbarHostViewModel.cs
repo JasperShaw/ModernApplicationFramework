@@ -24,6 +24,12 @@ using ToolBarTray = ModernApplicationFramework.Controls.ToolBarTray;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 {
+    /// <inheritdoc cref="IToolBarHostViewModel" />
+    /// <summary>
+    /// Implementation of <see cref="T:ModernApplicationFramework.Interfaces.ViewModels.IToolBarHostViewModel" />
+    /// </summary>
+    /// <seealso cref="T:ModernApplicationFramework.Basics.CommandBar.Hosts.CommandBarHost" />
+    /// <seealso cref="T:ModernApplicationFramework.Interfaces.ViewModels.IToolBarHostViewModel" />
     [Export(typeof(IToolBarHostViewModel))]
     public sealed class ToolbarHostViewModel : CommandBarHost, IToolBarHostViewModel
     {
@@ -98,7 +104,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                 _toolbarDefinitions_CollectionChanged;
             ((ObservableCollectionEx<CommandBarDefinitionBase>) TopLevelDefinitions).ItemPropertyChanged +=
                 _toolbarDefinitions_ItemPropertyChanged;
-            ContextMenu = IoC.Get<IContextMenuHost>().GetContextMenu(ContextMenuDefinition.ToolbarsContextMenu);
+            ContextMenu = IoC.Get<IContextMenuHost>().GetContextMenu(ToolbarsContextMenuDefinition.ToolbarsContextMenu);
         }
 
         public override void Build()

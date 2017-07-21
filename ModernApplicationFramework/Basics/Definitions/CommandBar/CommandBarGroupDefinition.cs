@@ -5,13 +5,28 @@ using ModernApplicationFramework.Core.Utilities;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// A <see cref="CommandBarGroupDefinition"/> is a container that contains command bar items 
+    /// </summary>
+    /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarDefinitionBase" />
     public class CommandBarGroupDefinition : CommandBarDefinitionBase
     {
         private CommandBarDefinitionBase _parent;
 
+        /// <summary>
+        /// Gets the last item of the group.
+        /// </summary>
         public CommandBarItemDefinition LastItem => Items.LastOrDefault();
+
+        /// <summary>
+        /// Gets the first item of the group.
+        /// </summary>
         public CommandBarItemDefinition FirstItem => Items.FirstOrDefault();
 
+        /// <summary>
+        /// The parent command bar element of the group
+        /// </summary>
         public CommandBarDefinitionBase Parent
         {
             get => _parent;
@@ -23,6 +38,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
+        /// <summary>
+        /// The collection of all containing command bar items
+        /// </summary>
         public List<CommandBarItemDefinition> Items { get; set; }
 
         public CommandBarGroupDefinition(CommandBarDefinitionBase parent, uint sortOrder)

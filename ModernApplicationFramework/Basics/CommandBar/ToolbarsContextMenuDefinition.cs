@@ -5,10 +5,13 @@ using ModernApplicationFramework.Basics.Definitions.ContextMenu;
 
 namespace ModernApplicationFramework.Basics.CommandBar
 {
-    public static class ContextMenuDefinition
+    /// <summary>
+    /// Context menu definition for the tool bar tray
+    /// </summary>
+    public static class ToolbarsContextMenuDefinition
     {
-        [Export] public static Definitions.ContextMenu.ContextMenuDefinition ToolbarsContextMenu =
-            new Definitions.ContextMenu.ContextMenuDefinition(ContextMenuCategory.OtherContextMenusCategory,
+        [Export] public static ContextMenuDefinition ToolbarsContextMenu =
+            new ContextMenuDefinition(ContextMenuCategory.OtherContextMenusCategory,
                 CommandBarResources.ToolbarsContextMenu_Name);
 
         [Export] public static CommandBarGroupDefinition ToolBarListGroup =

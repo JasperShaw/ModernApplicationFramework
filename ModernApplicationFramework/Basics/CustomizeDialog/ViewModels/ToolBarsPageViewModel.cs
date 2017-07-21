@@ -9,10 +9,15 @@ using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.Interfaces.Views;
-using ModernApplicationFramework.Properties;
 
 namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 {
+    /// <inheritdoc cref="IToolBarsPageViewModel" />
+    /// <summary>
+    /// Data view model implementing <see cref="T:ModernApplicationFramework.Interfaces.ViewModels.IToolBarsPageViewModel" />
+    /// </summary>
+    /// <seealso cref="T:Caliburn.Micro.Screen" />
+    /// <seealso cref="T:ModernApplicationFramework.Interfaces.ViewModels.IToolBarsPageViewModel" />
     [PartCreationPolicy(CreationPolicy.NonShared)]
     [Export(typeof(IToolBarsPageViewModel))]
     internal sealed class ToolBarsPageViewModel : Screen, IToolBarsPageViewModel

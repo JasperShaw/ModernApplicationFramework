@@ -5,6 +5,12 @@ using ModernApplicationFramework.Interfaces.Utilities;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Creators
 {
+    /// <inheritdoc cref="IContextMenuCreator" />
+    /// <summary>
+    /// Implementation of <see cref="IContextMenuCreator"/>
+    /// </summary>
+    /// <seealso cref="T:ModernApplicationFramework.Basics.CommandBar.Creators.MenuCreatorBase" />
+    /// <seealso cref="T:ModernApplicationFramework.Interfaces.Utilities.IContextMenuCreator" />
     [Export(typeof(IContextMenuCreator))]
     public class ContextMenuCreator : MenuCreatorBase, IContextMenuCreator
     {

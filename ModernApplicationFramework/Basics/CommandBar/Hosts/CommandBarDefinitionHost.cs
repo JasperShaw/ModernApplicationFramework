@@ -10,14 +10,14 @@ using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 {
+    /// <inheritdoc />
+    /// <summary>
+    ///     Implementation of <see cref="ICommandBarDefinitionHost" />
+    /// </summary>
+    /// <seealso cref="T:ICommandBarDefinitionHost" />
     [Export(typeof(ICommandBarDefinitionHost))]
-    public class CommandBarDefinitionHost : ICommandBarDefinitionHost
+    public sealed class CommandBarDefinitionHost : ICommandBarDefinitionHost
     {
-        public ObservableCollection<CommandBarGroupDefinition> ItemGroupDefinitions { get; }
-        public ObservableCollection<CommandBarItemDefinition> ItemDefinitions { get; }
-        public ObservableCollection<CommandBarDefinitionBase> ExcludedItemDefinitions { get; }
-        public ObservableCollection<DefinitionBase> ExcludedCommandDefinitions { get; }
-
         [ImportingConstructor]
         public CommandBarDefinitionHost([ImportMany] CommandBarGroupDefinition[] menuItemGroups,
             [ImportMany] CommandBarItemDefinition[] menuItems,
@@ -47,16 +47,22 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             ItemGroupDefinitions.CollectionChanged += ItemGroupDefinitions_CollectionChanged;
         }
 
+        public ObservableCollection<CommandBarGroupDefinition> ItemGroupDefinitions { get; }
+
+        public ObservableCollection<CommandBarItemDefinition> ItemDefinitions { get; }
+
+        public ObservableCollection<CommandBarDefinitionBase> ExcludedItemDefinitions { get; }
+
+        public ObservableCollection<DefinitionBase> ExcludedCommandDefinitions { get; }
+
         private void ExcludedCommandDefinitions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.NewItems != null)
                 foreach (var item in e.NewItems)
                 {
                     foreach (var itemDefinition in ItemDefinitions)
-                    {
                         if (itemDefinition.CommandDefinition.GetType() == item.GetType())
                             ExcludedItemDefinitions.Add(itemDefinition);
-                    }
                     if (item is CommandDefinition commandDefinition)
                         commandDefinition.AllowExecution = false;
                 }
@@ -65,10 +71,8 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                 foreach (var item in e.OldItems)
                 {
                     foreach (var itemDefinition in ExcludedItemDefinitions.ToList())
-                    {
                         if (itemDefinition.CommandDefinition.GetType() == item.GetType())
                             ExcludedItemDefinitions.Remove(itemDefinition);
-                    }
                     if (item is CommandDefinition commandDefinition)
                         commandDefinition.AllowExecution = true;
                 }

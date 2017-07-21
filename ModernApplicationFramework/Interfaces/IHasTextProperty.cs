@@ -2,6 +2,7 @@ using System.ComponentModel;
 
 namespace ModernApplicationFramework.Interfaces
 {
+    /// <inheritdoc />
     /// <summary>
     /// Denotes an object to have localized, displayed text
     /// </summary>

@@ -7,6 +7,11 @@ using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Fundamental command bar element definition
+    /// </summary>
+    /// <seealso cref="T:ModernApplicationFramework.Interfaces.IHasTextProperty" />
     public abstract class CommandBarDefinitionBase : IHasTextProperty
     {
         private uint _sortOrder;
@@ -18,15 +23,35 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+
+        /// <summary>
+        /// The <see cref="FlagStorage"/> of this definition
+        /// </summary>
         public virtual FlagStorage Flags => _flagStorage ?? (_flagStorage = new FlagStorage());
 
+        /// <summary>
+        /// Indicates whether this definition was created by the application's user
+        /// </summary>
         public virtual bool IsCustom { get; }
+
+        /// <summary>
+        /// Indicates whether this definition can be modified
+        /// </summary>
         public virtual bool IsCustomizable { get; }
 
+        /// <summary>
+        /// The command definition of the element
+        /// </summary>
         public virtual DefinitionBase CommandDefinition { get; }
 
+        /// <summary>
+        /// The groups that are hosted by the element
+        /// </summary>
         public IList<CommandBarGroupDefinition> ContainedGroups { get; }
 
+        /// <summary>
+        /// The sorting order of the definition
+        /// </summary>
         public virtual uint SortOrder
         {
             get => _sortOrder;
@@ -38,6 +63,10 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// The localized definition's text
+        /// </summary>
         public virtual string Text
         {
             get => _text;
@@ -49,7 +78,10 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-	    public virtual string Name
+        /// <summary>
+        /// The name of the definition
+        /// </summary>
+        public virtual string Name
 	    {
 		    get => _name;
 		    set
@@ -60,7 +92,10 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 		    }
 	    }
 
-	    public virtual bool IsChecked
+        /// <summary>
+        /// Indicates whether this element's state is checked or not
+        /// </summary>
+        public virtual bool IsChecked
         {
             get => _isChecked;
             set

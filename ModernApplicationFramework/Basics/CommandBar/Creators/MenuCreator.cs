@@ -7,6 +7,12 @@ using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Creators
 {
+    /// <inheritdoc cref="IMainMenuCreator" />
+    /// <summary>
+    /// Implementation of <see cref="IMainMenuCreator"/>
+    /// </summary>
+    /// <seealso cref="T:MenuCreatorBase" />
+    /// <seealso cref="T:IMainMenuCreator" />
     [Export(typeof(IMainMenuCreator))]
     public class MenuCreator : MenuCreatorBase, IMainMenuCreator
     {

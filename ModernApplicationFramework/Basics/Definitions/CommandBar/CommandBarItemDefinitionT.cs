@@ -4,7 +4,12 @@ using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
-	public abstract class CommandBarItemDefinition<T> : CommandBarItemDefinition where T : DefinitionBase
+    /// <inheritdoc />
+    /// <summary>
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarItemDefinition" />
+    public abstract class CommandBarItemDefinition<T> : CommandBarItemDefinition where T : DefinitionBase
 	{
 		private string _text;
 		private string _name;

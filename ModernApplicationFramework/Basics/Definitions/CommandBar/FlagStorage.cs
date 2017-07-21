@@ -5,6 +5,11 @@ using ModernApplicationFramework.Annotations;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// A storage to collect flags
+    /// </summary>
+    /// <seealso cref="T:System.ComponentModel.INotifyPropertyChanged" />
     public class FlagStorage : INotifyPropertyChanged
     {
         private bool _pict;
@@ -14,9 +19,11 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         private bool _stretchHorizontally;
         private bool _textIsAnchor;
 
-
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// All flags currently saved
+        /// </summary>
         public uint AllFlags
         {
             get => _allFlags;
@@ -29,6 +36,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
+        /// <summary>
+        /// Option to show a picture 
+        /// </summary>
         public bool Pict
         {
             get => _pict;
@@ -42,6 +52,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
+        /// <summary>
+        /// Option to show the text only 
+        /// </summary>
         public bool TextOnly
         {
             get => _textOnly;
@@ -55,6 +68,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
+        /// <summary>
+        /// Option to text and picture
+        /// </summary>
         public bool PictAndText
         {
             get => _pictAndText;
@@ -68,6 +84,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
+        /// <summary>
+        /// Option to stretch horizontally
+        /// </summary>
         public bool StretchHorizontally
         {
             get => _stretchHorizontally;
@@ -80,6 +99,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
+        /// <summary>
+        /// Option whether text is anchored
+        /// </summary>
         public bool TextIsAnchor
         {
             get => _textIsAnchor;
@@ -92,6 +114,11 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
+        /// <summary>
+        /// Enables the style flags.
+        /// </summary>
+        /// <param name="flagToEnable">The flag to enable.</param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public void EnableStyleFlags(CommandBarFlags flagToEnable)
         {
             switch (flagToEnable)

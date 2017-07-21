@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
@@ -11,6 +10,12 @@ using ModernApplicationFramework.Interfaces.Utilities;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 {
+    /// <inheritdoc cref="IContextMenuHost" />
+    /// <summary>
+    /// Implementation of <see cref="IContextMenuHost"/>
+    /// </summary>
+    /// <seealso cref="T:ModernApplicationFramework.Basics.CommandBar.Hosts.CommandBarHost" />
+    /// <seealso cref="T:ModernApplicationFramework.Interfaces.IContextMenuHost" />
     [Export(typeof(IContextMenuHost))]
     public sealed class ContextMenuHost : CommandBarHost, IContextMenuHost
     {

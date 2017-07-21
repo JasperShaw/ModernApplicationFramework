@@ -2,6 +2,10 @@
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
+
+    /// <summary>
+    /// Visual flags for command bar items
+    /// </summary>
     [Flags]
     public enum CommandBarFlags
     {

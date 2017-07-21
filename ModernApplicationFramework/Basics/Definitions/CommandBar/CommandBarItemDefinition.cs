@@ -8,6 +8,12 @@ using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
+    /// <inheritdoc cref="CommandBarDefinitionBase" />
+    /// <summary>
+    /// Fundamental command bar item definition
+    /// </summary>
+    /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarDefinitionBase" />
+    /// <seealso cref="T:ModernApplicationFramework.Interfaces.IHasInternalName" />
     public abstract class CommandBarItemDefinition : CommandBarDefinitionBase, IHasInternalName
     {
         private bool _isVisible;
@@ -18,6 +24,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         private string _text;
         private uint _sortOrder;
 
+        /// <summary>
+        /// Indicates whether this item is visible
+        /// </summary>
         public virtual bool IsVisible
         {
             get => _isVisible;
@@ -29,6 +38,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
+        /// <summary>
+        /// Indicates whether this preceded by a separator item
+        /// </summary>
         public virtual bool PrecededBySeparator
         {
             get => _precededBySeparator;
@@ -41,6 +53,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
+        /// <summary>
+        /// Indicates whether this item is first of any other in this sub-tree
+        /// </summary>
         public virtual bool IsVeryFirst
         {
             get => _isVeryFirst;
@@ -52,6 +67,10 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// The unlocalized internal name of the object
+        /// </summary>
         public virtual string InternalName
         {
             get => _internalName;
@@ -63,6 +82,10 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
+        /// <summary>
+        /// The localized definition's text
+        /// </summary>
+        /// <inheritdoc />
         public override string Text
         {
             get => _text;
@@ -76,7 +99,10 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-	    public override uint SortOrder
+        /// <summary>
+        /// The sorting order of the definition
+        /// </summary>
+        public override uint SortOrder
         {
             get => _sortOrder;
             set
@@ -88,6 +114,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
+        /// <summary>
+        /// The current group of the item
+        /// </summary>
         public CommandBarGroupDefinition Group
         {
             get => _group;
@@ -134,6 +163,11 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
+        /// <summary>
+        /// Updates the group.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="oldGroup">The old group.</param>
         protected void UpdateGroup(CommandBarGroupDefinition value, CommandBarGroupDefinition oldGroup)
         {
             if (CommandDefinition.ControlType == CommandControlTypes.Separator)
@@ -143,11 +177,17 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             oldGroup?.Items.Remove(this);
         }
 
+        /// <summary>
+        /// Re-sort group items.
+        /// </summary>
         protected void ReSortGroupItems()
         {
             Group.Items.Sort(new SortOrderComparer<CommandBarDefinitionBase>());
         }
 
+        /// <summary>
+        /// Updates the internal name of the item
+        /// </summary>
         protected void UpdateInternalName()
         {
             var internalName = new AccessKeyRemovingConverter()

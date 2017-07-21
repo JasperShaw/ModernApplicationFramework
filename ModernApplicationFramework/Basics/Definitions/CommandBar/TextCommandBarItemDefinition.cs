@@ -5,6 +5,11 @@ using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Simple text command bar item
+    /// </summary>
+    /// <seealso cref="T:ModernApplicationFramework.Interfaces.IHasTextProperty" />
     public class TextCommandBarItemDefinition : IHasTextProperty
     {
         private string _text;
@@ -14,6 +19,10 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             _text = text;
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// The localized object text
+        /// </summary>
         public string Text
         {
             get => _text;

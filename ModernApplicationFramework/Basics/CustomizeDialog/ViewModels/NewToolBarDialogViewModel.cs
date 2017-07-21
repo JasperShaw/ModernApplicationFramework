@@ -9,14 +9,25 @@ using ModernApplicationFramework.Interfaces.Views;
 
 namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Data view model of the new tool bar dialog
+    /// </summary>
+    /// <seealso cref="T:Caliburn.Micro.Screen" />
     [Export(typeof(NewToolBarDialogViewModel))]
     internal sealed class NewToolBarDialogViewModel : Screen
     {
         private string _toolbarName;
         private INewToolBarView _toolbarView;
 
+        /// <summary>
+        /// The Command to perform the OK click
+        /// </summary>
         public Command OkClickCommand => new Command(ExecuteOkClick);
 
+        /// <summary>
+        /// The name of the tool bar.
+        /// </summary>
         public string ToolbarName
         {
             get => _toolbarName;

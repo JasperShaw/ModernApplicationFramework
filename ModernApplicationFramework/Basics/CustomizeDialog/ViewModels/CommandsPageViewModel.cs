@@ -18,6 +18,12 @@ using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 {
+    /// <inheritdoc cref="ICommandsPageViewModel" />
+    /// <summary>
+    /// Data view model implementing <see cref="T:ModernApplicationFramework.Interfaces.ViewModels.ICommandsPageViewModel" />
+    /// </summary>
+    /// <seealso cref="T:Caliburn.Micro.Screen" />
+    /// <seealso cref="T:ModernApplicationFramework.Interfaces.ViewModels.ICommandsPageViewModel" />
     [PartCreationPolicy(CreationPolicy.NonShared)]
     [Export(typeof(ICommandsPageViewModel))]
     public sealed class CommandsPageViewModel : Screen, ICommandsPageViewModel

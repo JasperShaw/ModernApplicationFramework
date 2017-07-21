@@ -8,11 +8,30 @@ using ModernApplicationFramework.Interfaces.Utilities;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Creators
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Implementation of <see cref="T:ModernApplicationFramework.Interfaces.Utilities.ICreatorBase" />
+    /// </summary>
+    /// <seealso cref="T:ModernApplicationFramework.Interfaces.Utilities.ICreatorBase" />
     public abstract class CreatorBase : ICreatorBase
     {
+        /// <inheritdoc />
+        /// <summary>
+        /// Creates a sub-tree of an <see cref="T:System.Windows.Controls.ItemsControl" /> recursively 
+        /// </summary>
+        /// <typeparam name="T">The type of the <see cref="T:System.Windows.Controls.ItemsControl" /></typeparam>
+        /// <param name="itemsControl">The <see cref="T:System.Windows.Controls.ItemsControl" /> that should be filled</param>
+        /// <param name="itemDefinition">The data model of the current item</param>
         public abstract void CreateRecursive<T>(ref T itemsControl, CommandBarDefinitionBase itemDefinition)
             where T : ItemsControl;
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Gets the single sub definitions.
+        /// </summary>
+        /// <param name="menuDefinition">The menu definition.</param>
+        /// <param name="options">The options.</param>
+        /// <returns></returns>
         public IEnumerable<CommandBarItemDefinition> GetSingleSubDefinitions(CommandBarDefinitionBase menuDefinition, 
             CommandBarCreationOptions options = CommandBarCreationOptions.DisplaySeparatorsOnlyIfGroupNotEmpty) 
         {
