@@ -7,7 +7,7 @@ using ModernApplicationFramework.Native.Platform;
 
 namespace ModernApplicationFramework.Basics
 {
-    public sealed class EnvironmentRenderCapabilities : DisposableObject, INotifyPropertyChanged
+    internal sealed class EnvironmentRenderCapabilities : DisposableObject, INotifyPropertyChanged
     {
         private static EnvironmentRenderCapabilities _current;
 

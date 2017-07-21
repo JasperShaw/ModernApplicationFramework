@@ -2,7 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Media;
-using ModernApplicationFramework.Basics.Services;
+using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.AppIcon
 {

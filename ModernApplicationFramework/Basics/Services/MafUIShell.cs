@@ -11,9 +11,22 @@ using Point = System.Windows.Point;
 
 namespace ModernApplicationFramework.Basics.Services
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// A service providing access to basic windowing functionality.
+    /// </summary>
+    /// <seealso cref="T:ModernApplicationFramework.Interfaces.Services.IMafUIShell" />
     [Export(typeof(IMafUIShell))]
     public class MafUIShell : IMafUIShell
     {
+        /// <inheritdoc />
+        /// <summary>
+        /// Returns the HWND that can be used to parent modal dialogs.
+        /// </summary>
+        /// <param name="phwnd">Pointer to a window handle that can be used to parent modal dialogs.</param>
+        /// <returns>
+        /// If the method succeeds, it returns 0. If it fails, it returns an error code.
+        /// </returns>
         public int GetDialogOwnerHwnd(out IntPtr phwnd)
         {
             phwnd = GetActiveWindowHandle();
@@ -22,6 +35,14 @@ namespace ModernApplicationFramework.Basics.Services
             return 0;
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Enables or disables a frame's modeless dialog box.
+        /// </summary>
+        /// <param name="fEnable">1 when exiting a modal state. 0 when entering a modal state.</param>
+        /// <returns>
+        /// If the method succeeds, it returns 0. If it fails, it returns an error code.
+        /// </returns>
         public int EnableModeless(int fEnable)
         {
             var handle = GetActiveWindowHandle();
@@ -34,6 +55,15 @@ namespace ModernApplicationFramework.Basics.Services
             return 0;
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Centers the provided dialog box HWND on the parent HWND (if provided), or on the main window.
+        /// </summary>
+        /// <param name="hwndDialog">Specifies HWND dialog.</param>
+        /// <param name="hwndParent">Specifies HWND parent.</param>
+        /// <returns>
+        /// If the method succeeds, it returns 0. If it fails, it returns an error code.
+        /// </returns>
         public int CenterDialogOnWindow(IntPtr hwndDialog, IntPtr hwndParent)
         {
             if (!User32.GetWindowRect(hwndParent, out RECT lpRect))
@@ -58,6 +88,14 @@ namespace ModernApplicationFramework.Basics.Services
             return 0;
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Returns the name of the application.
+        /// </summary>
+        /// <param name="pbstrAppName">Pointer to the name of the application</param>
+        /// <returns>
+        /// If the method succeeds, it returns 0. If it fails, it returns an error code.
+        /// </returns>
         public int GetAppName(out string pbstrAppName)
         {
             pbstrAppName = string.Empty;
@@ -68,6 +106,10 @@ namespace ModernApplicationFramework.Basics.Services
             return 0;
         }
 
+        /// <summary>
+        /// Gets the pointer to the active window.
+        /// </summary>
+        /// <returns>The point to the active window</returns>
         protected IntPtr GetActiveWindowHandle()
         {
             return User32.GetActiveWindow();
@@ -76,7 +118,7 @@ namespace ModernApplicationFramework.Basics.Services
         private static RECT CenterRectOnSingleMonitor(RECT parentRect, int childWidth, int childHeight)
         {
             NativeMethods.FindMaximumSingleMonitorRectangle(parentRect, out RECT screenSubRect,
-                out RECT monitorRect);
+                out var monitorRect);
             return CenterInRect(screenSubRect, childWidth, childHeight, monitorRect);
         }
 
@@ -96,12 +138,12 @@ namespace ModernApplicationFramework.Basics.Services
             return rect;
         }
 
-        private int GetWindowByHandle(IntPtr handle, out Window window)
+        private static int GetWindowByHandle(IntPtr handle, out Window window)
         {
             window = null;
             if (handle == IntPtr.Zero)
                 return -1;
-            HwndSource hwndSource = HwndSource.FromHwnd(handle);
+            var hwndSource = HwndSource.FromHwnd(handle);
             if (hwndSource == null)
                 return -1;
             window = hwndSource.RootVisual as Window;

@@ -2,6 +2,11 @@
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Simple command bar item
+    /// </summary>
+    /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarItemDefinition" />
     public sealed class CommandBarCommandItemDefinition : CommandBarItemDefinition
     {
         public CommandBarCommandItemDefinition(uint sortOrder, CommandDefinitionBase commandDefinition, bool isCustom = false,

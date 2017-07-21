@@ -8,6 +8,12 @@ using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Basics.Definitions.Toolbar
 {
+    /// <inheritdoc cref="CommandBarDefinitionBase" />
+    /// <summary>
+    /// A command bar definition that specifies a tool bar
+    /// </summary>
+    /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarDefinitionBase" />
+    /// <seealso cref="T:ModernApplicationFramework.Interfaces.IHasInternalName" />
     public class ToolbarDefinition : CommandBarDefinitionBase, IHasInternalName
     {
         private Dock _position;
@@ -15,6 +21,9 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
         private string _internalName;
 
 
+        /// <summary>
+        /// The current dock position of the tool bar
+        /// </summary>
         public Dock Position
         {
             get => _position;
@@ -27,8 +36,14 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
             }
         }
 
+        /// <summary>
+        /// The last know dock position
+        /// </summary>
         public Dock LastPosition { get; private set; }
 
+        /// <summary>
+        /// Sets or gets the visibility of the tool bar
+        /// </summary>
         public bool IsVisible
         {
             get => _isVisible;
@@ -40,6 +55,10 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
             }
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// The unlocalized internal name of the object
+        /// </summary>
         public string InternalName
         {
             get => _internalName;

@@ -2,10 +2,19 @@
 
 namespace ModernApplicationFramework.Basics.Definitions.ContextMenu
 {
+    /// <summary>
+    /// Information to categorize a context menu
+    /// </summary>
     public class ContextMenuCategory
     {
-        public static ContextMenuCategory OtherContextMenusCategory = new ContextMenuCategory(CommonUI_Resources.OtherContextMenusCategory);
+        /// <summary>
+        /// Returns a default context menu category
+        /// </summary>
+        public static ContextMenuCategory OtherContextMenusCategory => new ContextMenuCategory(CommonUI_Resources.OtherContextMenusCategory);
 
+        /// <summary>
+        /// The full localized category name
+        /// </summary>
         public string CategoryName { get; }
 
         public ContextMenuCategory(string categoryName) : this(null, categoryName)

@@ -34,7 +34,7 @@ namespace ModernApplicationFramework.Interfaces.Settings
             bool navigateAttributeWise);
 
         /// <summary>
-        /// Async method to add a propery-value setting to the settings file
+        /// Async method to add a property-value setting to the settings file
         /// </summary>
         /// <param name="path">The path pointing to the PropertyValue inside the document</param>
         /// <param name="propertyName">The name of the property</param>

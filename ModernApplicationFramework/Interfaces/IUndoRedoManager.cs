@@ -5,7 +5,7 @@ using ModernApplicationFramework.Basics.UndoRedoManager;
 namespace ModernApplicationFramework.Interfaces
 {
     /// <summary>
-    /// A service that keeps track of changes and supports undoing and redoing them
+    /// A service that supports undoing and redoing actions
     /// </summary>
     public interface IUndoRedoManager
     {

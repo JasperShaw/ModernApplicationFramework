@@ -4,6 +4,11 @@ using ModernApplicationFramework.Basics.Definitions.CommandBar;
 
 namespace ModernApplicationFramework.Basics.Definitions.Menu
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// A command bar definition that specifies a menu item
+    /// </summary>
+    /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarItemDefinition" />
     public class MenuDefinition : CommandBarItemDefinition
     {
         public MenuDefinition(CommandBarGroupDefinition group, uint sortOrder, string text, bool isCustom = false,

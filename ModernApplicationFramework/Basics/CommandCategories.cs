@@ -4,6 +4,9 @@ using ModernApplicationFramework.Properties;
 
 namespace ModernApplicationFramework.Basics
 {
+    /// <summary>
+    /// A set of common command categories
+    /// </summary>
     public static class CommandCategories
     {
         [Export] public static CommandCategory WindowCommandCategory = new CommandCategory(CommonUI_Resources.Category_Window);

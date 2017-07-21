@@ -6,17 +6,26 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
     /// <inheritdoc />
     /// <summary>
+    /// Fundamental command bar item definition that contains a <see cref="CommandBarDefinitionBase"/>
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">The type of the command definition this item should have</typeparam>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarItemDefinition" />
     public abstract class CommandBarItemDefinition<T> : CommandBarItemDefinition where T : CommandDefinitionBase
 	{
 		private string _text;
 		private string _name;
 
-		public sealed override CommandDefinitionBase CommandDefinition { get; }
+        /// <inheritdoc />
+        /// <summary>
+        /// The command definition of the element
+        /// </summary>
+        public sealed override CommandDefinitionBase CommandDefinition { get; }
 
-		public sealed override string Text
+        /// <summary>
+        /// The localized definition's text
+        /// </summary>
+        /// <inheritdoc />
+        public sealed override string Text
 		{
 			get => _text;
 			set
@@ -27,7 +36,11 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 			}
 		}
 
-		public sealed override string Name
+        /// <inheritdoc />
+        /// <summary>
+        /// The name of the definition
+        /// </summary>
+        public sealed override string Name
 		{
 			get => _name;
 			set

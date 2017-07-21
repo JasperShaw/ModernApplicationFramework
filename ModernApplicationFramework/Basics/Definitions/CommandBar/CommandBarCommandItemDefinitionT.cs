@@ -4,11 +4,19 @@ using ModernApplicationFramework.CommandBase;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Simple command bar item definition that contains a <see cref="CommandBarDefinitionBase" />
+    /// </summary>
+    /// <typeparam name="T">The type of the command definition this item should have</typeparam>
+    /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarItemDefinition`1" />
     public sealed class CommandBarCommandItemDefinition<T> : CommandBarItemDefinition<T> where T : CommandDefinitionBase
 	{
         private bool _registerVisibilityToCommand;
 
-
+        /// <summary>
+        /// When set to <see langword="true"/> the command bar item will become invisible when the command can not be executed
+        /// </summary>
         public bool RegisterVisibilityToCommand
         {
             get => _registerVisibilityToCommand;

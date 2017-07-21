@@ -225,9 +225,10 @@
   <ItemGroup>
     <Compile Include="Basics\ApplicationEnvironment\AbstractEnvironmentVarirables.cs" />
     <Compile Include="Basics\ApplicationEnvironment\FallbackEnvironmentVarirables.cs" />
-    <Compile Include="Basics\Services\AbstractApplicationIconService.cs" />
+    <Compile Include="Basics\Definitions\Command\ExcludedCommandDefinition.cs" />
+    <Compile Include="Basics\Services\InternalApplicationIconService.cs" />
     <Compile Include="Basics\Services\BasicStatusBarService.cs" />
-    <Compile Include="Basics\Services\IApplicationIconService.cs" />
+    <Compile Include="Interfaces\Services\IApplicationIconService.cs" />
     <Compile Include="Core\Utilities\IconHelper.cs" />
     <Compile Include="Interfaces\Services\IStatusBarDataModel.cs" />
     <Compile Include="Interfaces\Services\IStatusBarDataModelService.cs" />

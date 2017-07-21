@@ -1,25 +1,66 @@
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using ModernApplicationFramework.Annotations;
 using ModernApplicationFramework.Interfaces.Settings;
 
 namespace ModernApplicationFramework.Basics.SettingsBase
 {
+    /// <summary>
+    /// Abstract implementation of an <see cref="ISettingsDataModel" /></summary>
+    /// <seealso cref="ISettingsDataModel" />
+    /// <inheritdoc />
+    /// <seealso cref="ISettingsDataModel" />
     public abstract class AbstractSettingsDataModel : ISettingsDataModel
     {
+        /// <inheritdoc />
+        /// <summary>
+        /// The category of the data model
+        /// </summary>
         public abstract ISettingsCategory Category { get; }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// The name of the data model
+        /// </summary>
         public abstract string Name { get; }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// The path of the setting inside the document
+        /// </summary>
         public virtual string SettingsFilePath => $"{Category.Name}/{Name}/";
 
+        /// <summary>
+        /// The instance an implementation of an <see cref="ISettingsManager"/>
+        /// </summary>
         protected ISettingsManager SettingsManager { get; set; }
 
+
+        /// <inheritdoc />
+        /// <summary>
+        /// Loads all settings entries from the settings file or creates them if they don't exist.
+        /// </summary>
         public abstract void LoadOrCreate();
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Stores all settings into memory.
+        /// <remarks>This should not write the file to disk due to performance and possible mutexes.</remarks>
+        /// </summary>
         public abstract void StoreSettings();
 
-        protected void SetPropertyFromSettings<T>(string settingsName, string propertyName, T defaultValue = default (T))
+        /// <summary>
+        /// Fills a property from a settings value. Creates a new settings entry if it was not found
+        /// </summary>
+        /// <typeparam name="T">The type of Property</typeparam>
+        /// <param name="settingsName">Name of the PropertyValue name element</param>
+        /// <param name="propertyName">Name of the property on this data model</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="InvalidCastException">The type of the Property and the given type T do not match</exception>
+        protected void SetPropertyFromSettings<T>(string settingsName, string propertyName, T defaultValue = default(T))
         {
             var propertyInfo = GetType().GetProperty(propertyName);
             if (propertyInfo == null)
@@ -31,18 +72,55 @@ namespace ModernApplicationFramework.Basics.SettingsBase
             propertyInfo.SetValue(this, value);
 
             if (result == GetValueResult.Corrupt)
-                StoreSettingsValue(settingsName, value);
+                SetSettingsValue(settingsName, value);
         }
 
-        protected T GetSettingsValue<T>(string settingsName, T defaultValue = default(T))
+        /// <summary>
+        /// Gets or creates a PropertyValue setting value from memory.
+        /// </summary>
+        /// <typeparam name="T">The expected type of the returned value</typeparam>
+        /// <param name="settingsName">Name of the PropertyValue name element</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns></returns>
+        protected T GetOrCreateSettingsValue<T>(string settingsName, T defaultValue = default(T))
         {
             var result = SettingsManager.GetOrCreatePropertyValue(SettingsFilePath, settingsName, out T value, defaultValue, true);
             return result == GetValueResult.Corrupt ? defaultValue : value;
         }
 
-        protected void StoreSettingsValue<T>(string settingsProperty, T value)
+        /// <summary>
+        /// Gets a PropertyValue setting value from memory.
+        /// </summary>
+        /// <typeparam name="T">The expected type of the returned value</typeparam>
+        /// <param name="settingsName">Name of the PropertyValue name element</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns></returns>
+        protected T GetSettingsValue<T>(string settingsName, T defaultValue = default(T))
+        {
+            var result = SettingsManager.GetPropertyValue(SettingsFilePath, settingsName, out T value, true);
+            return result == GetValueResult.Corrupt ? defaultValue : value;
+        }
+
+        /// <summary>
+        /// Sets a settings value in memory.
+        /// </summary>
+        /// <typeparam name="T">The type of the value to </typeparam>
+        /// <param name="settingsProperty">The settings property.</param>
+        /// <param name="value">The value.</param>
+        protected void SetSettingsValue<T>(string settingsProperty, T value)
         {
             SettingsManager.SetPropertyValueAsync(SettingsFilePath, settingsProperty, value.ToString(), true);
+        }
+
+        /// <summary>
+        /// Sets a settings value in memory asynchronous.
+        /// </summary>
+        /// <typeparam name="T">The type of the value to </typeparam>
+        /// <param name="settingsProperty">The settings property.</param>
+        /// <param name="value">The value.</param>
+        protected async Task SetSettingsValueAsync<T>(string settingsProperty, T value)
+        {
+            await SettingsManager.SetPropertyValueAsync(SettingsFilePath, settingsProperty, value.ToString(), true);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

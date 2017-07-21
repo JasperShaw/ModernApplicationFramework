@@ -3,11 +3,20 @@ using ModernApplicationFramework.Interfaces.Utilities;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Command bar split button definition that contains a <see cref="CommandBarDefinitionBase"/>
+    /// </summary>
+    /// <typeparam name="T">The type of the command definition this item should have</typeparam>
+    /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarItemDefinition`1" />
     public sealed class CommandBarSplitItemDefinition<T> : CommandBarItemDefinition<T> where T : CommandDefinitionBase
 	{
         private int _selectedIndex;
         private string _statusString;
 
+        /// <summary>
+        /// The currently selected item index
+        /// </summary>
         public int SelectedIndex
         {
             get => _selectedIndex;
@@ -22,6 +31,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
+        /// <summary>
+        /// The message of the status bar of a split button
+        /// </summary>
         public string StatusString
         {
             get => _statusString;
@@ -33,6 +45,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
+        /// <summary>
+        /// The <see cref="IStatusStringCreator"/> that creates an localized status message
+        /// </summary>
         public IStatusStringCreator StringCreator { get; set; }
 
 

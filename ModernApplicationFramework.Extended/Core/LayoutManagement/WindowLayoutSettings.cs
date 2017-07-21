@@ -15,18 +15,18 @@ namespace ModernApplicationFramework.Extended.Core.LayoutManagement
 
         public bool SkipApplyLayoutConfirmation
         {
-            get => GetSettingsValue(nameof(SkipApplyLayoutConfirmation), false);
+            get => GetOrCreateSettingsValue(nameof(SkipApplyLayoutConfirmation), false);
             set
             {
                 if (SkipApplyLayoutConfirmation == value)
                     return;
-                StoreSettingsValue(nameof(SkipApplyLayoutConfirmation), value);
+                SetSettingsValue(nameof(SkipApplyLayoutConfirmation), value);
                 OnPropertyChanged();
             }
         }
         public int ManageLayoutsDialogWidth
         {
-            get => GetSettingsValue(nameof(ManageLayoutsDialogWidth), 0);
+            get => GetOrCreateSettingsValue(nameof(ManageLayoutsDialogWidth), 0);
             set
             {
                 if (ManageLayoutsDialogWidth == value || !TrySetLocalInt32Setting(nameof(ManageLayoutsDialogWidth), value))
@@ -37,7 +37,7 @@ namespace ModernApplicationFramework.Extended.Core.LayoutManagement
 
         public int ManageLayoutsDialogHeight
         {
-            get => GetSettingsValue(nameof(ManageLayoutsDialogHeight), 0);
+            get => GetOrCreateSettingsValue(nameof(ManageLayoutsDialogHeight), 0);
             set
             {
                 if (ManageLayoutsDialogHeight == value || !TrySetLocalInt32Setting(nameof(ManageLayoutsDialogHeight), value))
@@ -58,16 +58,16 @@ namespace ModernApplicationFramework.Extended.Core.LayoutManagement
 
         public override void StoreSettings()
         {
-            StoreSettingsValue(nameof(ManageLayoutsDialogWidth), ManageLayoutsDialogWidth);
-            StoreSettingsValue(nameof(ManageLayoutsDialogHeight), ManageLayoutsDialogHeight);
-            StoreSettingsValue(nameof(SkipApplyLayoutConfirmation), SkipApplyLayoutConfirmation);
+            SetSettingsValue(nameof(ManageLayoutsDialogWidth), ManageLayoutsDialogWidth);
+            SetSettingsValue(nameof(ManageLayoutsDialogHeight), ManageLayoutsDialogHeight);
+            SetSettingsValue(nameof(SkipApplyLayoutConfirmation), SkipApplyLayoutConfirmation);
         }
 
         private bool TrySetLocalInt32Setting(string settingsName, int value)
         {
             try
             {
-                StoreSettingsValue(settingsName, value);
+                SetSettingsValue(settingsName, value);
                 return true;
             }
             catch (Exception)

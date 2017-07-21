@@ -18,14 +18,14 @@ namespace ModernApplicationFramework.Extended
     {
         protected virtual bool UseSettingsManager => true;
 
-        protected new virtual IExtendedEnvironmentVarirables EnvironmentVarirables => new FallbackExtendedEnvironmentVarirables();
+        protected new virtual IExtendedEnvironmentVarirables EnvironmentVariables => new FallbackExtendedEnvironmentVarirables();
 
         internal IList<Assembly> PriorityAssemblies => _priorityAssemblies;
 
         protected override void BindServices(CompositionBatch batch)
         {
-            batch.AddExportedValue(EnvironmentVarirables);
-            batch.AddExportedValue<IEnvironmentVarirables>(EnvironmentVarirables);
+            batch.AddExportedValue(EnvironmentVariables);
+            batch.AddExportedValue<IEnvironmentVarirables>(EnvironmentVariables);
             base.BindServices(batch);
 	     	batch.AddExportedValue(this);
         }

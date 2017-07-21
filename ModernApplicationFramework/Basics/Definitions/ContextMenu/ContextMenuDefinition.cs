@@ -5,12 +5,26 @@ using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Basics.Definitions.ContextMenu
 {
+    /// <inheritdoc cref="CommandBarDefinitionBase" />
+    /// <summary>
+    /// A command bar definition that specifies a context menu
+    /// </summary>
+    /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarDefinitionBase" />
+    /// <seealso cref="T:ModernApplicationFramework.Interfaces.IHasInternalName" />
     public class ContextMenuDefinition : CommandBarDefinitionBase, IHasInternalName
     {
         private string _text;
         private string _internalName;
+
+        /// <summary>
+        /// The category of the context menu
+        /// </summary>
         public ContextMenuCategory Category { get; }
 
+        /// <summary>
+        /// The localized definition's text
+        /// </summary>
+        /// <inheritdoc />
         public override string Text
         {
             get => _text;
@@ -22,6 +36,10 @@ namespace ModernApplicationFramework.Basics.Definitions.ContextMenu
             }
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// The unlocalized internal name of the object
+        /// </summary>
         public string InternalName
         {
             get => _internalName;

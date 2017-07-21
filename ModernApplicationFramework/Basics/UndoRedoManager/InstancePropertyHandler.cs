@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace ModernApplicationFramework.Basics.UndoRedoManager
 {
-    public class InstancePropertyHandler
+    internal class InstancePropertyHandler
     {
         public InstancePropertyHandler(object instance, PropertyDescriptor property)
         {

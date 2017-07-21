@@ -1,6 +1,7 @@
 using System.ComponentModel.Composition;
 using System.Windows.Media;
 using Caliburn.Micro;
+using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Basics.Services
 {

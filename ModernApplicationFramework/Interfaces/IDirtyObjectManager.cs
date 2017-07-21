@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 namespace ModernApplicationFramework.Interfaces
 {
     /// <summary>
-    /// An <see cref="IDirtyObjectManager"/> handles dirty objects by monitoring property changes
+    /// An <see cref="IDirtyObjectManager"/> handles dirty objects by monitoring their property changes
     /// </summary>
     public interface IDirtyObjectManager : INotifyPropertyChanged
     {

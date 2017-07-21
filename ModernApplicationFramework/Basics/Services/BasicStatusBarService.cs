@@ -4,7 +4,7 @@ using ModernApplicationFramework.Interfaces.Services;
 namespace ModernApplicationFramework.Basics.Services
 {
     [Export(typeof(IStatusBarDataModelService))]
-    public class BasicStatusBarService : AbstractStatusBarService
+    public sealed class BasicStatusBarService : AbstractStatusBarService
     {
         protected override void SetTextInternal(int index, string text)
         {

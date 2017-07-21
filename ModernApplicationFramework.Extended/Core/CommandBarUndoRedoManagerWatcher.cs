@@ -77,13 +77,13 @@ namespace ModernApplicationFramework.Extended.Core
             if (_undoRedoManager == null)
                 return;
             foreach (var t in _undoRedoManager.UndoStack.Reverse())
-                UndoItems.Add(new TextCommandBarItemDefinition(t.Name));
+                UndoItems.Add(new TextCommandBarItemDefinition(t.Description));
 
             RedoItems.Clear();
             if (_undoRedoManager == null)
                 return;
             foreach (var t in _undoRedoManager.RedoStack.Reverse())
-                RedoItems.Add(new TextCommandBarItemDefinition(t.Name));
+                RedoItems.Add(new TextCommandBarItemDefinition(t.Description));
         }
 
         private void OnUndoStackChanged(object sender, NotifyCollectionChangedEventArgs e)

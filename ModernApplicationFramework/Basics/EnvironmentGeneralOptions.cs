@@ -9,6 +9,11 @@ using ModernApplicationFramework.Interfaces.Settings;
 
 namespace ModernApplicationFramework.Basics
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// A settings data model that manages the environment's general options
+    /// </summary>
+    /// <seealso cref="AbstractSettingsDataModel" />
     [Export(typeof(ISettingsDataModel))]
     [Export(typeof(EnvironmentGeneralOptions))]
     public sealed class EnvironmentGeneralOptions : AbstractSettingsDataModel
@@ -28,12 +33,25 @@ namespace ModernApplicationFramework.Basics
         private bool _dockedWinAuto;
         private int _mruListItems;
 
+        /// <summary>
+        /// Gets the instance.
+        /// </summary>
         public static EnvironmentGeneralOptions Instance { get; private set; }
 
+        /// <summary>
+        /// The level of visual effects are allowed.
+        /// From 0 = no effects; to 2 = full effects allowed
+        /// </summary>
         public int VisualEffectsAllowed => RenderCapability.Tier >> 16;
 
+        /// <summary>
+        /// Determinates if hardware acceleration is allowed. <see langword="true"/> if <see cref="VisualEffectsAllowed"/> is greater than 0.
+        /// </summary>
         public bool IsHardwareAccelerationSupported => VisualEffectsAllowed > 0;
 
+        /// <summary>
+        /// Option to set all capital letters on the menu bar. <see langword="false"/> means menu items will be in capital only
+        /// </summary>
         public bool UseTitleCaseOnMenu
         {
             get => _useTitleCaseOnMenu;
@@ -46,6 +64,9 @@ namespace ModernApplicationFramework.Basics
             }
         }
 
+        /// <summary>
+        /// Option to let the environment decide about using hardware accelerated rendering.
+        /// </summary>
         public bool AutoAdjustExperience
         {
             get => _autoAdjustExperience;
@@ -59,6 +80,9 @@ namespace ModernApplicationFramework.Basics
             }
         }
 
+        /// <summary>
+        /// Option to use hardware acceleration
+        /// </summary>
         public bool UseHardwareAcceleration
         {
             get => _useHardwareAcceleration;
@@ -72,6 +96,9 @@ namespace ModernApplicationFramework.Basics
             }
         }
 
+        /// <summary>
+        /// Option to use enhanced visual animations, gradients and shadows
+        /// </summary>
         public bool UseRichVisualExperience
         {
             get => _useRichVisualExperience;
@@ -85,6 +112,9 @@ namespace ModernApplicationFramework.Basics
             }
         }
 
+        /// <summary>
+        /// The amount of listed windows inside the window menu 
+        /// </summary>
         public int WindowListItems
         {
             get => _windowListItems;
@@ -96,6 +126,9 @@ namespace ModernApplicationFramework.Basics
             }
         }
 
+        /// <summary>
+        /// The amount of listed MRU files
+        /// </summary>
         public int MRUListItems
         {
             get => _mruListItems;
@@ -107,6 +140,9 @@ namespace ModernApplicationFramework.Basics
             }
         }
 
+        /// <summary>
+        /// Option to show the environment's status bar
+        /// </summary>
         public bool ShowStatusBar
         {
             get => _showStatusBar;
@@ -118,6 +154,9 @@ namespace ModernApplicationFramework.Basics
             }
         }
 
+        /// <summary>
+        /// Option to close only the active tab of an anchorable container
+        /// </summary>
         public bool DockedWinClose
         {
             get => _dockedWinClose;
@@ -130,6 +169,9 @@ namespace ModernApplicationFramework.Basics
             }
         }
 
+        /// <summary>
+        /// Option to auto-hide only the active tab of an anchorable container
+        /// </summary>
         public bool DockedWinAuto
         {
             get => _dockedWinAuto;
@@ -150,12 +192,23 @@ namespace ModernApplicationFramework.Basics
             SettingsManager = settingsManager;
         }
 
+        /// <summary>
+        /// The category of the data model
+        /// </summary>
+        /// <inheritdoc />
         public override ISettingsCategory Category { get; }
 
+        /// <summary>
+        /// The name of the data model
+        /// </summary>
+        /// <inheritdoc />
         public override string Name => "General";
 
 
-
+        /// <summary>
+        /// Loads all settings entries from the settings file or creates them if they don't exist.
+        /// </summary>
+        /// <inheritdoc />
         public override void LoadOrCreate()
         {
             SetPropertyFromSettings("ShowStatusBar", nameof(ShowStatusBar), true);
@@ -169,17 +222,22 @@ namespace ModernApplicationFramework.Basics
             SetPropertyFromSettings<bool>("AutoAdjustExperience", nameof(AutoAdjustExperience)); 
         }
 
+        /// <summary>
+        /// Stores all settings into memory.
+        /// <remarks>This should not write the file to disk due to performance and possible mutexes.</remarks>
+        /// </summary>
+        /// <inheritdoc />
         public override void StoreSettings()
         {
-            StoreSettingsValue("ShowStatusBar", ShowStatusBar);
-            StoreSettingsValue("WindowMenuContainsNItems", WindowListItems);
-            StoreSettingsValue("MRUListContainsNItems", MRUListItems);
-            StoreSettingsValue("AutohidePinActiveTabOnly", DockedWinAuto);
-            StoreSettingsValue("CloseButtonActiveTabOnly", DockedWinClose);
-            StoreSettingsValue("UseTitleCaseOnMenu", UseTitleCaseOnMenu);
-            StoreSettingsValue("UseHardwareAcceleration", UseHardwareAcceleration);
-            StoreSettingsValue("RichClientExperienceOptions", UseRichVisualExperience);
-            StoreSettingsValue("AutoAdjustExperience", AutoAdjustExperience);
+            SetSettingsValue("ShowStatusBar", ShowStatusBar);
+            SetSettingsValue("WindowMenuContainsNItems", WindowListItems);
+            SetSettingsValue("MRUListContainsNItems", MRUListItems);
+            SetSettingsValue("AutohidePinActiveTabOnly", DockedWinAuto);
+            SetSettingsValue("CloseButtonActiveTabOnly", DockedWinClose);
+            SetSettingsValue("UseTitleCaseOnMenu", UseTitleCaseOnMenu);
+            SetSettingsValue("UseHardwareAcceleration", UseHardwareAcceleration);
+            SetSettingsValue("RichClientExperienceOptions", UseRichVisualExperience);
+            SetSettingsValue("AutoAdjustExperience", AutoAdjustExperience);
         }
 
         private void UpdateVisualExperience()

@@ -5,6 +5,12 @@ using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Basics.UndoRedoManager
 {
+    /// <summary>
+    /// An implementation of an <see cref="IUndoRedoManager" /> interface.
+    /// </summary>
+    /// <seealso cref="IUndoRedoManager" />
+    /// <inheritdoc />
+    /// <seealso cref="IUndoRedoManager" />
     public class UndoRedoManager : IUndoRedoManager
     {
         private readonly BindableCollection<UndoRedoAction> _redoStack;
@@ -13,11 +19,27 @@ namespace ModernApplicationFramework.Basics.UndoRedoManager
 
         private bool _isChanging; //Make sure we do not end up in a loop inside the undo/redo manager
 
+        /// <inheritdoc />
+        /// <summary>
+        /// The actions that can be redone
+        /// </summary>
         public IObservableCollection<UndoRedoAction> RedoStack => _redoStack;
+
+        /// <inheritdoc />
+        /// <summary>
+        /// The actions that can be undone
+        /// </summary>
         public IObservableCollection<UndoRedoAction> UndoStack => _undoStack;
 
 
+        /// <summary>
+        /// Fires when an undo or redo action is about to start
+        /// </summary>
         public event EventHandler ChangingBegin;
+
+        /// <summary>
+        /// Fires when an undo or redo action is completed
+        /// </summary>
         public event EventHandler ChangingEnd;
 
         public UndoRedoManager()
@@ -26,6 +48,12 @@ namespace ModernApplicationFramework.Basics.UndoRedoManager
             _undoStack = new BindableCollection<UndoRedoAction>();
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Pushes an action to the <see cref="P:ModernApplicationFramework.Basics.UndoRedoManager.UndoRedoManager.UndoStack" /> and
+        /// clears the <see cref="P:ModernApplicationFramework.Basics.UndoRedoManager.UndoRedoManager.RedoStack" /> if this method was executed outside of the manager
+        /// </summary>
+        /// <param name="action">The action that was performed and pushed to the <see cref="P:ModernApplicationFramework.Basics.UndoRedoManager.UndoRedoManager.UndoStack" /></param>
         public void Push(UndoRedoAction action)
         {
             Push(_undoStack, action);
@@ -34,6 +62,11 @@ namespace ModernApplicationFramework.Basics.UndoRedoManager
                 _redoStack.Clear();
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Redoes an amount of actions
+        /// </summary>
+        /// <param name="count">The number of actions to be redone</param>
         public void Redo(int count)
         {
             OnBegin();
@@ -44,6 +77,11 @@ namespace ModernApplicationFramework.Basics.UndoRedoManager
             OnEnd();
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Undoes an amount of actions
+        /// </summary>
+        /// <param name="count">The number of actions to be undone</param>
         public void Undo(int count)
         {
             OnBegin();
@@ -72,7 +110,7 @@ namespace ModernApplicationFramework.Basics.UndoRedoManager
             action.Execute();
             Push(_undoStack, action);
 
-            //Needed as action.Execute() readds to the stack
+            //Needed as action.Execute() re-adds to the stack
             Pop(_undoStack);
         }
 
@@ -82,7 +120,7 @@ namespace ModernApplicationFramework.Basics.UndoRedoManager
             action.Undo();
             Push(_redoStack, action);
 
-            //Needed as action.Undo() readds to the stack
+            //Needed as action.Undo() re-adds to the stack
             Pop(_undoStack);
         }
 

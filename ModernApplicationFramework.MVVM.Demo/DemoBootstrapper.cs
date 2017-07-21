@@ -5,6 +5,6 @@ namespace ModernApplicationFramework.MVVM.Demo
 {
     public class DemoBootstrapper : ExtendedBootstrapper
     {
-        protected override IExtendedEnvironmentVarirables EnvironmentVarirables => new DemoEnvironmentVariables();
+        protected override IExtendedEnvironmentVarirables EnvironmentVariables => new DemoEnvironmentVariables();
     }
 }

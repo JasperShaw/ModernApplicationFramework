@@ -3,13 +3,14 @@ using System.Windows.Media;
 
 namespace ModernApplicationFramework.Interfaces.Services
 {
+    /// <inheritdoc />
     /// <summary>
-    /// The view-model that controls a Statusbar
+    /// The view-model that controls a status bar
     /// </summary>
     public interface IStatusBarDataModel : INotifyPropertyChanged
     {
         /// <summary>
-        /// Indicates whether the Statusbar is visible
+        /// Indicates whether the status bar is visible
         /// </summary>
         bool IsVisible { get; }
 
@@ -34,12 +35,12 @@ namespace ModernApplicationFramework.Interfaces.Services
         bool IsProgressBarActive { get; }
 
         /// <summary>
-        /// The Background color the the StatusBar
+        /// The Background color the StatusBar
         /// </summary>
         Brush Background { get; }
 
         /// <summary>
-        /// The Foreground color the the StatusBar
+        /// The Foreground color the StatusBar
         /// </summary>
         Brush Foreground { get; }
     }

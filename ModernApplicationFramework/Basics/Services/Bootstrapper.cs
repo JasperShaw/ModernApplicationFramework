@@ -15,13 +15,27 @@ using ModernApplicationFramework.Native.TrinetCoreNtfs;
 
 namespace ModernApplicationFramework.Basics.Services
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// A minimal bootsrapper to launch the application
+    /// </summary>
+    /// <seealso cref="T:Caliburn.Micro.BootstrapperBase" />
     public class Bootstrapper : BootstrapperBase
     {
+        /// <summary>
+        /// The container of all instances
+        /// </summary>
         protected CompositionContainer Container;
 
+        /// <summary>
+        /// The priority assemblies
+        /// </summary>
         protected List<Assembly> _priorityAssemblies;
 
-        protected virtual IEnvironmentVarirables EnvironmentVarirables => new FallbackEnvironmentVarirables();
+        /// <summary>
+        /// Gets the environment variables for this application.
+        /// </summary>
+        protected virtual IEnvironmentVarirables EnvironmentVariables => new FallbackEnvironmentVarirables();
 
         public Bootstrapper()
         {
@@ -32,27 +46,41 @@ namespace ModernApplicationFramework.Basics.Services
 
 	    internal IList<Assembly> PriorityAssemblies => _priorityAssemblies;
 
-	    protected virtual void PreInitialize()
+        /// <summary>
+        /// Performs actions before the bootstrapper gets initialied
+        /// </summary>
+        protected virtual void PreInitialize()
 	    {
 		    
 	    }
 
+        /// <summary>
+        /// Sets the language of the application.
+        /// </summary>
         protected void SetLanguage()
         {
 	        var lm = Container.GetExportedValue<ILanguageManager>() as LanguageManager;
 			lm?.SetLanguage();
         }
 
+        /// <summary>
+        /// Exports object instances
+        /// </summary>
+        /// <param name="batch">The batch.</param>
         protected virtual void BindServices(CompositionBatch batch)
         {
             batch.AddExportedValue<IWindowManager>(new WindowManager());
             batch.AddExportedValue<IEventAggregator>(new EventAggregator());
             batch.AddExportedValue<ILanguageManager>(new LanguageManager());
-            batch.AddExportedValue(EnvironmentVarirables);
+            batch.AddExportedValue(EnvironmentVariables);
             batch.AddExportedValue(Container);
             batch.AddExportedValue(this);
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Provides an opportunity to hook into the application object.
+        /// </summary>
         protected override void PrepareApplication()
         {
             base.PrepareApplication();
@@ -62,6 +90,10 @@ namespace ModernApplicationFramework.Basics.Services
             ClearUrlZonesInDirectory(directory);
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Override to configure the framework and setup your IoC container.
+        /// </summary>
         protected override void Configure()
         {
             // Add all assemblies to AssemblySource (using a temporary DirectoryCatalog).
@@ -93,6 +125,10 @@ namespace ModernApplicationFramework.Basics.Services
             Container.Compose(batch);
         }
 
+        /// <summary>
+        /// Clears the URL zones of all .dll files inside a given directory.
+        /// </summary>
+        /// <param name="directoryPath">The directory path.</param>
         protected static void ClearUrlZonesInDirectory(string directoryPath)
         {
             foreach (var filePath in Directory.EnumerateFiles(directoryPath, "*.dll", SearchOption.AllDirectories))
@@ -102,11 +138,25 @@ namespace ModernApplicationFramework.Basics.Services
             }
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Gets all instances.
+        /// </summary>
+        /// <param name="serviceType">Type of the service.</param>
+        /// <returns></returns>
         protected override IEnumerable<object> GetAllInstances(Type serviceType)
         {
             return Container.GetExportedValues<object>(AttributedModelServices.GetContractName(serviceType));
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Gets the instance.
+        /// </summary>
+        /// <param name="serviceType">Type of the service.</param>
+        /// <param name="key">The key.</param>
+        /// <returns></returns>
+        /// <exception cref="T:System.Exception"></exception>
         protected override object GetInstance(Type serviceType, string key)
         {
             var contract = string.IsNullOrEmpty(key) ? AttributedModelServices.GetContractName(serviceType) : key;

@@ -5,7 +5,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
 {
     /// <inheritdoc />
     /// <summary>
-    /// Special <see cref="CommandDefinition"/> for split button models
+    /// Special <see cref="CommandDefinition"/> for split button commands
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.Command.CommandDefinition" />
     public abstract class CommandSplitButtonDefinition : CommandDefinition

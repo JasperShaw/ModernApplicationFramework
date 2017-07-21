@@ -8,6 +8,11 @@ using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Basics.Services
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// A service to manage key input bindings
+    /// </summary>
+    /// <seealso cref="T:ModernApplicationFramework.Interfaces.Services.IKeyGestureHandler" />
     [Export(typeof(IKeyGestureHandler))]
     public class KeyGestureHandler : IKeyGestureHandler
     {
@@ -22,6 +27,9 @@ namespace ModernApplicationFramework.Basics.Services
 
         private UIElement _currentElement;
 
+        /// <summary>
+        /// Restores the bindings.
+        /// </summary>
         public void RestoreBindings()
         {
             if (_currentElement == null)
@@ -30,6 +38,10 @@ namespace ModernApplicationFramework.Basics.Services
             BindKeyGesture(_currentElement);
         }
 
+        /// <summary>
+        /// Binds the key gesture.
+        /// </summary>
+        /// <param name="uiElement">The UI element.</param>
         public void BindKeyGesture(UIElement uiElement)
         {
             _currentElement = uiElement;
@@ -40,6 +52,11 @@ namespace ModernApplicationFramework.Basics.Services
                     uiElement.InputBindings.Add(new InputBinding(gc, GetPrimaryKeyGesture(gc)));
         }
 
+        /// <summary>
+        /// Gets the primary key gesture.
+        /// </summary>
+        /// <param name="command">The command.</param>
+        /// <returns></returns>
         public KeyGesture GetPrimaryKeyGesture(MultiKeyGestureCommandWrapper command) => command.KeyGesture;
     }
 }

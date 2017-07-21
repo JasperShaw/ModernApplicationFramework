@@ -28,12 +28,12 @@ namespace ModernApplicationFramework.Settings.SettingsManager
 
         public override void LoadOrCreate()
         {
-            GetSettingsValue("AutoSaveFile", _environmentVarirables.SettingsFilePath);
+            GetOrCreateSettingsValue("AutoSaveFile", _environmentVarirables.SettingsFilePath);
         }
 
         public override void StoreSettings()
         {
-            StoreSettingsValue("AutoSaveFile", _environmentVarirables.SettingsFilePath);
+            SetSettingsValue("AutoSaveFile", _environmentVarirables.SettingsFilePath);
         }
     }
 }
