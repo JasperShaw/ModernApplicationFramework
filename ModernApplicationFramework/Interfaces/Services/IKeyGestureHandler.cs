@@ -13,6 +13,6 @@ namespace ModernApplicationFramework.Interfaces.Services
 
         void RestoreBindings();
 
-        KeyGesture GetPrimaryKeyGesture(MultiKeyGestureCommandWrapper command);
+        KeyGesture GetPrimaryKeyGesture(MultiKeyGestureCommandWrapper abstractCommand);
     }
 }

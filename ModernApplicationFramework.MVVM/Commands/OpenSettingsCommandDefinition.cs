@@ -17,7 +17,7 @@ namespace ModernApplicationFramework.MVVM.Commands
 
         public OpenSettingsCommandDefinition()
         {
-            Command = new CommandWrapper(OpenSettings, CanOpenSettings);
+            Command = new AbstractCommandWrapper(OpenSettings, CanOpenSettings);
         }
 
         public override bool CanShowInMenu => true;

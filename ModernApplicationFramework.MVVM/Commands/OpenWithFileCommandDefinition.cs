@@ -16,7 +16,7 @@ namespace ModernApplicationFramework.MVVM.Commands
     {
         public OpenWithFileCommandDefinition()
         {
-            Command = new CommandWrapper(OpenFile, CanOpenFile);
+            Command = new AbstractCommandWrapper(OpenFile, CanOpenFile);
         }
 
         public override bool CanShowInMenu => true;

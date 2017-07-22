@@ -30,7 +30,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
                 {
                     if (!(CommandDefinition is CommandDefinition commandDefinition))
                         return;
-                    var commandWrapper = commandDefinition.Command as CommandWrapper;
+                    var commandWrapper = commandDefinition.Command as AbstractCommandWrapper;
                     if (commandWrapper != null)
                         commandWrapper.CanExecuteChanged += CommandWrapper_CanExecuteChanged;
                 }
@@ -38,7 +38,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
                 {
                     if (!(CommandDefinition is CommandDefinition commandDefinition))
                         return;
-                    var commandWrapper = commandDefinition.Command as CommandWrapper;
+                    var commandWrapper = commandDefinition.Command as AbstractCommandWrapper;
                     if (commandWrapper != null)
                         commandWrapper.CanExecuteChanged -= CommandWrapper_CanExecuteChanged;
                 }

@@ -124,10 +124,10 @@
     <value>Comman_ds:</value>
   </data>
   <data name="AddCommandPrompt_InfoText" xml:space="preserve">
-    <value>Choose the command to add and click OK.</value>
+    <value>Choose the abstractCommand to add and click OK.</value>
   </data>
   <data name="AddCommandPrompt_Title" xml:space="preserve">
-    <value>Add command</value>
+    <value>Add abstractCommand</value>
   </data>
   <data name="CommandsPage_AddCommand" xml:space="preserve">
     <value>_Add Command...</value>
@@ -208,7 +208,7 @@
     <value>The width must be a positive integer value or 0 to use default width.</value>
   </data>
   <data name="Error_RenameCommandEmptyName" xml:space="preserve">
-    <value>The command name cannot be blank. Type a name.</value>
+    <value>The abstractCommand name cannot be blank. Type a name.</value>
   </data>
   <data name="NewToolbarPrompt_Title" xml:space="preserve">
     <value>NewToolbar</value>

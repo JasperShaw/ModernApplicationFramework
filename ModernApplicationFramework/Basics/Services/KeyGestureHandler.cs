@@ -8,11 +8,12 @@ using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Basics.Services
 {
+    //TODO: Add multi category support
     /// <inheritdoc />
     /// <summary>
     /// A service to manage key input bindings
     /// </summary>
-    /// <seealso cref="T:ModernApplicationFramework.Interfaces.Services.IKeyGestureHandler" />
+    /// <seealso cref="IKeyGestureHandler" />
     [Export(typeof(IKeyGestureHandler))]
     public class KeyGestureHandler : IKeyGestureHandler
     {
@@ -55,8 +56,8 @@ namespace ModernApplicationFramework.Basics.Services
         /// <summary>
         /// Gets the primary key gesture.
         /// </summary>
-        /// <param name="command">The command.</param>
+        /// <param name="abstractCommand">The abstractCommand.</param>
         /// <returns></returns>
-        public KeyGesture GetPrimaryKeyGesture(MultiKeyGestureCommandWrapper command) => command.KeyGesture;
+        public KeyGesture GetPrimaryKeyGesture(MultiKeyGestureCommandWrapper abstractCommand) => abstractCommand.KeyGesture;
     }
 }

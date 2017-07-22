@@ -76,9 +76,9 @@ namespace ModernApplicationFramework.MVVM.ViewModels
             Name = ItemPresenter.SelectedItem.PresetElementName;
         }
 
-        public ICommand ApplyCommand => new CommandWrapper(Apply, CanApply);
+        public ICommand ApplyCommand => new AbstractCommandWrapper(Apply, CanApply);
 
-        public ICommand BrowseCommand => new CommandWrapper(Browse, CanBrowse);
+        public ICommand BrowseCommand => new AbstractCommandWrapper(Browse, CanBrowse);
         public object ResultData { get; protected set; }
 
         private void Apply()

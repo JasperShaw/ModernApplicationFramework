@@ -7,12 +7,14 @@ using ModernApplicationFramework.Annotations;
 
 namespace ModernApplicationFramework.CommandBase
 {
-    /// <inheritdoc cref="CommandWrapper" />
+    //TODO: Generalize to a least specific class name. 
+    //TODO: Add multi category support
+    /// <inheritdoc cref="AbstractCommandWrapper" />
     /// <summary>
     /// </summary>
-    /// <seealso cref="CommandWrapper" />
+    /// <seealso cref="AbstractCommandWrapper" />
     /// <seealso cref="INotifyPropertyChanged" />
-    public class MultiKeyGestureCommandWrapper : CommandWrapper, INotifyPropertyChanged
+    public class MultiKeyGestureCommandWrapper : AbstractCommandWrapper, INotifyPropertyChanged
     {
         private MultiKeyGesture _keyGesture;
 

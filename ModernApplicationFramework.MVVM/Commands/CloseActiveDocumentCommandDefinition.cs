@@ -26,7 +26,7 @@ namespace ModernApplicationFramework.MVVM.Commands
 
         public CloseActiveDocumentCommandDefinition()
         {
-            Command = new CommandWrapper(CloseFile, CanCloseFile);
+            Command = new AbstractCommandWrapper(CloseFile, CanCloseFile);
         }
 
         private bool CanCloseFile()

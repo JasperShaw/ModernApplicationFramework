@@ -10,9 +10,9 @@ namespace ModernApplicationFramework.CommandBase
     /// Abstract command wrapper that triggers the <see cref="ICommand.CanExecuteChanged" /> correctly
     /// </summary>
     /// <seealso cref="ICommand" />
-    public abstract class CommandWrapper : ICommand
+    public abstract class AbstractCommandWrapper : ICommand
     {
-        protected CommandWrapper(Action executeAction, Func<bool> cantExectueFunc)
+        protected AbstractCommandWrapper(Action executeAction, Func<bool> cantExectueFunc)
         {
             if (executeAction == null)
                 throw new ArgumentNullException(nameof(executeAction));
@@ -21,7 +21,7 @@ namespace ModernApplicationFramework.CommandBase
             WrappedCommand = new Command(executeAction, cantExectueFunc);
         }
 
-        protected CommandWrapper(ICommand wrappedCommand)
+        protected AbstractCommandWrapper(ICommand wrappedCommand)
         {
             WrappedCommand = wrappedCommand ?? throw new ArgumentNullException(nameof(wrappedCommand));
         }

@@ -17,7 +17,7 @@ namespace ModernApplicationFramework.MVVM.Commands
 
         public SaveFileAsCommandDefinition()
         {
-            Command = new CommandWrapper(SaveFile, CanSaveFile);
+            Command = new AbstractCommandWrapper(SaveFile, CanSaveFile);
         }
 
         public override bool CanShowInMenu => true;
