@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using ModernApplicationFramework.Annotations;
-using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Basics

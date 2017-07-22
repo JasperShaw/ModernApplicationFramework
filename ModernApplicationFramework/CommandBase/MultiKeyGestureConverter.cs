@@ -7,7 +7,10 @@ using System.Windows.Input;
 
 namespace ModernApplicationFramework.CommandBase
 {
-    //http://kent-boogaart.com/blog/multikeygesture
+    /// <inheritdoc />
+    /// <summary>
+    /// The converter to make a string to a <see cref="MultiKeyGesture" /> and print a <see cref="MultiKeyGesture" />
+    /// </summary>
     public class MultiKeyGestureConverter : TypeConverter
     {
         private readonly KeyConverter _keyConverter;

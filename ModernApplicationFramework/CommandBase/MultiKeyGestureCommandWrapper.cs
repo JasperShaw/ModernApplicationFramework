@@ -7,6 +7,11 @@ using ModernApplicationFramework.Annotations;
 
 namespace ModernApplicationFramework.CommandBase
 {
+    /// <inheritdoc cref="CommandWrapper" />
+    /// <summary>
+    /// </summary>
+    /// <seealso cref="CommandWrapper" />
+    /// <seealso cref="INotifyPropertyChanged" />
     public class MultiKeyGestureCommandWrapper : CommandWrapper, INotifyPropertyChanged
     {
         private MultiKeyGesture _keyGesture;
@@ -34,6 +39,9 @@ namespace ModernApplicationFramework.CommandBase
             KeyGesture = gesture;
         }
 
+        /// <summary>
+        /// The key gesture text
+        /// </summary>
         public string GestureText
         {
             get
@@ -48,6 +56,9 @@ namespace ModernApplicationFramework.CommandBase
             }
         }
 
+        /// <summary>
+        /// The key gesture
+        /// </summary>
         public MultiKeyGesture KeyGesture
         {
             get => _keyGesture;

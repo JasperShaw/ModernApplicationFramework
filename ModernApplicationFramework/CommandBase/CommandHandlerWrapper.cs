@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using System.Reflection;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Interfaces.Command;
 
 namespace ModernApplicationFramework.CommandBase
 {
+    /// <summary>
+    /// Wraps a generic <see cref="ICommandHandler{TCommandDefinition}"/> or <see cref="ICommandListHandler{TCommandDefinition}"/> 
+    /// and allows easy calling of generic interface methods.
+    /// </summary>
     public sealed class CommandHandlerWrapper
     {
         public static CommandHandlerWrapper FromCommandHandler(Type commandHandlerInterfaceType, object commandHandler)

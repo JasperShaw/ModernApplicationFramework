@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace ModernApplicationFramework.CommandBase.Base
 {
-    public static class WeakEventHandlerManager
+    internal static class WeakEventHandlerManager
     {
         private static readonly SynchronizationContext SyncContext = SynchronizationContext.Current;
 

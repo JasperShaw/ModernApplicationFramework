@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows.Input;
-using ModernApplicationFramework.Core.Utilities;
-using ModernApplicationFramework.Native.Standard;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.CommandBase

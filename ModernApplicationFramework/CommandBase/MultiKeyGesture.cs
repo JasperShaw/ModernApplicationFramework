@@ -8,11 +8,19 @@ namespace ModernApplicationFramework.CommandBase
 {
     //http://kent-boogaart.com/blog/multikeygesture
 
+    /// <inheritdoc />
+    /// <summary>
+    /// <see cref="KeyGesture"/> that allows multiple hot keys
+    /// </summary>
+    /// <seealso cref="KeyGesture" />
     [TypeConverter(typeof(MultiKeyGestureConverter))]
     public class MultiKeyGesture : KeyGesture
     {
         private static readonly TimeSpan MaximumDelayBetweenKeyPresses = TimeSpan.FromSeconds(1);
 
+        /// <summary>
+        /// An instance of a <see cref="MultiKeyGestureConverter"/>
+        /// </summary>
         public static TypeConverter KeyGestureConverter = new MultiKeyGestureConverter();
 
         private readonly IList<Key> _keys;
@@ -42,11 +50,13 @@ namespace ModernApplicationFramework.CommandBase
             }
         }
 
+        /// <summary>
+        /// All keys of the gesture
+        /// </summary>
         public ICollection<Key> Keys => _readOnlyKeys;
 
         public override bool Matches(object targetElement, InputEventArgs inputEventArgs)
         {
-
             if (_keys == null || _keys.Count <= 0)
                 return base.Matches(targetElement, inputEventArgs);
 

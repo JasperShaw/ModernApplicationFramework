@@ -6,6 +6,10 @@ using System.Windows.Input;
 
 namespace ModernApplicationFramework.CommandBase.Base
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// An <see cref="ICommand" /> whose delegates can be attached for <see cref="Execute(Object)" /> and <see cref="CanExecute(Object)" />.
+    /// </summary>
     public abstract class CommandBase : ICommand
     {
         protected readonly Func<object, bool> CanExecuteMethod;
@@ -41,18 +45,29 @@ namespace ModernApplicationFramework.CommandBase.Base
 
         bool ICommand.CanExecute(object parameter) => CanExecute(parameter);
 
+        /// <summary>
+        /// Occurs when changes occur that affect whether or not the command should execute.
+        /// </summary>
         public virtual event EventHandler CanExecuteChanged
         {
             add => WeakEventHandlerManager.AddWeakReferenceHandler(ref _canExecuteChangedHandlers, value, 2);
             remove => WeakEventHandlerManager.RemoveWeakReferenceHandler(_canExecuteChangedHandlers, value);
         }
 
+        /// <summary>
+        /// Raises <see cref="CanExecuteChanged"/> so every command invoker
+        /// can requery to check if the command can execute.
+        /// </summary>
         [SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate")]
         public void RaiseCanExecuteChanged()
         {
             OnCanExecuteChanged();
         }
 
+        /// <summary>
+        /// Raises <see cref="ICommand.CanExecuteChanged"/> so every 
+        /// command invoker can requery <see cref="ICommand.CanExecute"/>.
+        /// </summary>
         protected virtual void OnCanExecuteChanged()
         {
             WeakEventHandlerManager.CallWeakReferenceHandlers(this, _canExecuteChangedHandlers);

@@ -5,6 +5,11 @@ namespace ModernApplicationFramework.CommandBase
 {
     /*This class is doing some magic since the CanExecuteChanged in the base Command was not fired correctly*/
 
+    /// <inheritdoc />
+    /// <summary>
+    /// Abstract command wrapper that triggers the <see cref="ICommand.CanExecuteChanged" /> correctly
+    /// </summary>
+    /// <seealso cref="ICommand" />
     public abstract class CommandWrapper : ICommand
     {
         protected CommandWrapper(Action executeAction, Func<bool> cantExectueFunc)
