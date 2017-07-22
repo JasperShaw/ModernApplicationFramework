@@ -44,7 +44,7 @@ namespace ModernApplicationFramework.Docking.Controls
             : base(model)
         {
             _model = model;
-            HideWindowCommand = new RelayCommand(OnExecuteHideWindowCommand, CanExecuteHideWindowCommand);
+            HideWindowCommand = new ObjectCommand(OnExecuteHideWindowCommand, CanExecuteHideWindowCommand);
             Loaded += LayoutAnchorableFloatingWindowControl_Loaded;
         }
 
