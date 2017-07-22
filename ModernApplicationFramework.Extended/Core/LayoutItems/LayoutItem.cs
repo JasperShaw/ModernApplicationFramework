@@ -16,7 +16,7 @@ namespace ModernApplicationFramework.Extended.Core.LayoutItems
 
         public override ICommand CloseCommand
         {
-            get { return _closeCommand ?? (_closeCommand = new ObjectCommand(p => TryClose(), p => true)); }
+            get { return _closeCommand ?? (_closeCommand = new RelayCommand(p => TryClose(), p => true)); }
         }
 
         public ICommand RedoCommand => new Command(Redo, CanRedo);

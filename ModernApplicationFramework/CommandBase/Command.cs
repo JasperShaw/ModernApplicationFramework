@@ -12,11 +12,10 @@ namespace ModernApplicationFramework.CommandBase
     /// <see cref="T:ModernApplicationFramework.CommandBase.Command" />
     public class Command : Base.CommandBase
     {
-        /// <inheritdoc />
         /// <summary>
-        /// Creates a new instance of <see cref="T:ModernApplicationFramework.CommandBase.Command" /> with the <see cref="T:System.Action" /> to invoke on execution.
+        /// Creates a new instance of <see cref="Command"/> with the <see cref="Action"/> to invoke on execution.
         /// </summary>
-        /// <param name="executeMethod">The <see cref="T:System.Action" /> to invoke when <see cref="M:System.Windows.Input.ICommand.Execute(System.Object)" /> is called.</param>
+        /// <param name="executeMethod">The <see cref="Action"/> to invoke when <see cref="ICommand.Execute"/> is called.</param>
         public Command(Action executeMethod) : this(executeMethod, () => true) {}
 
         /// <summary>

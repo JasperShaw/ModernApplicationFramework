@@ -51,10 +51,10 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         public ICommand HandleMoveUpCommand => new Command(HandleCommandMoveUp);
         public ICommand HandleMoveDownCommand => new Command(HandleCommandMoveDown);
 
-        public ICommand HandleAddOrRemoveGroupCommand => new ObjectCommand(HandleCommandAddOrRemoveGroup,
+        public ICommand HandleAddOrRemoveGroupCommand => new Command<object>(HandleCommandAddOrRemoveGroup,
             obj => true);
 
-        public ICommand HandleStylingFlagChangeCommand => new ObjectCommand(HandleStylingFlagChange);
+        public ICommand HandleStylingFlagChangeCommand => new Command<object>(HandleStylingFlagChange, obj => true);
         public Command DropDownClickCommand => new Command(ExecuteDropDownClick);
 
         public IEnumerable<CommandBarDefinitionBase> CustomizableToolBars

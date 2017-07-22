@@ -334,23 +334,23 @@ namespace ModernApplicationFramework.Docking.Controls
 
         protected virtual void InitDefaultCommands()
         {
-            _defaultAddCommand = new ObjectCommand(ExecuteAddCommand, CanExecuteAddCommand);
-            _defaultCloseAllCommand = new ObjectCommand(p => ExecuteCloseAllCommand(),
+            _defaultAddCommand = new RelayCommand(ExecuteAddCommand, CanExecuteAddCommand);
+            _defaultCloseAllCommand = new RelayCommand(p => ExecuteCloseAllCommand(),
                 p => CanExecuteCloseAllCommand());
-            _defaultCloseCommand = new ObjectCommand(ExecuteCloseCommand, CanExecuteCloseCommand);
-            _defaultFloatCommand = new ObjectCommand(ExecuteFloatCommand, CanExecuteFloatCommand);
-            _defaultDockAsDocumentCommand = new ObjectCommand(ExecuteDockAsDocumentCommand,
+            _defaultCloseCommand = new RelayCommand(ExecuteCloseCommand, CanExecuteCloseCommand);
+            _defaultFloatCommand = new RelayCommand(ExecuteFloatCommand, CanExecuteFloatCommand);
+            _defaultDockAsDocumentCommand = new RelayCommand(ExecuteDockAsDocumentCommand,
                 CanExecuteDockAsDocumentCommand);
-            _defaultCloseAllButThisCommand = new ObjectCommand(ExecuteCloseAllButThisCommand,
+            _defaultCloseAllButThisCommand = new RelayCommand(ExecuteCloseAllButThisCommand,
                 CanExecuteCloseAllButThisCommand);
-            _defaultActivateCommand = new ObjectCommand(ExecuteActivateCommand, CanExecuteActivateCommand);
-            _defaultNewVerticalTabGroupCommand = new ObjectCommand(ExecuteNewVerticalTabGroupCommand,
+            _defaultActivateCommand = new RelayCommand(ExecuteActivateCommand, CanExecuteActivateCommand);
+            _defaultNewVerticalTabGroupCommand = new RelayCommand(ExecuteNewVerticalTabGroupCommand,
                 CanExecuteNewVerticalTabGroupCommand);
-            _defaultNewHorizontalTabGroupCommand = new ObjectCommand(ExecuteNewHorizontalTabGroupCommand,
+            _defaultNewHorizontalTabGroupCommand = new RelayCommand(ExecuteNewHorizontalTabGroupCommand,
                 CanExecuteNewHorizontalTabGroupCommand);
-            _defaultMoveToNextTabGroupCommand = new ObjectCommand(ExecuteMoveToNextTabGroupCommand,
+            _defaultMoveToNextTabGroupCommand = new RelayCommand(ExecuteMoveToNextTabGroupCommand,
                 CanExecuteMoveToNextTabGroupCommand);
-            _defaultMoveToPreviousTabGroupCommand = new ObjectCommand(ExecuteMoveToPreviousTabGroupCommand,
+            _defaultMoveToPreviousTabGroupCommand = new RelayCommand(ExecuteMoveToPreviousTabGroupCommand,
                 CanExecuteMoveToPreviousTabGroupCommand);
         }
 

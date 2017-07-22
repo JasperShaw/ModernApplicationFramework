@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Input;
 using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Native.Standard;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.Dialogs
@@ -23,7 +25,7 @@ namespace ModernApplicationFramework.Controls.Dialogs
             {
                 if (!SetProperty(ref _text, value))
                     return;
-                ((ObjectCommand)SubmitCommand).RaiseCanExecuteChanged();
+                ((DelegateCommand)SubmitCommand).RaiseCanExecuteChanged();
             }
         }
 
@@ -34,7 +36,7 @@ namespace ModernApplicationFramework.Controls.Dialogs
             {
                 if (!SetProperty(ref _allowWhiteSpace, value))
                     return;
-                ((ObjectCommand)SubmitCommand).RaiseCanExecuteChanged();
+                ((DelegateCommand)SubmitCommand).RaiseCanExecuteChanged();
             }
         }
 
@@ -78,8 +80,8 @@ namespace ModernApplicationFramework.Controls.Dialogs
             Validate.IsWithinRange(maxLength, 1, int.MaxValue, "maxLength");
             if (defaultText != null)
                 Validate.IsWithinRange(defaultText.Length, 0, maxLength, "defaultText.Length");
-            SubmitCommand = new ObjectCommand(OnSubmitCommandExecuted, CanExecuteSubmitCommand);
-            CancelCommand = new ObjectCommand(OnCancelCommandExecuted);
+            SubmitCommand = new DelegateCommand(OnSubmitCommandExecuted, CanExecuteSubmitCommand);
+            CancelCommand = new DelegateCommand(OnCancelCommandExecuted);
             IsCancelled = true;
             Title = title;
             Prompt = prompt;
