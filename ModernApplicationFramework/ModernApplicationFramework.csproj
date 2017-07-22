@@ -274,7 +274,7 @@
     <Compile Include="Basics\Definitions\CommandBar\CommandBarItemDefinitionT.cs" />
     <Compile Include="Basics\EnvironmentGeneralOptions.cs" />
     <Compile Include="Basics\EnvironmentRenderCapabilities.cs" />
-    <Compile Include="CommandBase\DelegateCommand.cs" />
+    <Compile Include="CommandBase\ObjectCommand.cs" />
     <Compile Include="Controls\Dialogs\DialogResourcesResources.de.Designer.cs">
       <DependentUpon>DialogResourcesResources.de.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -470,7 +470,6 @@
     <Compile Include="Interfaces\Command\ICommandListHandler.cs" />
     <Compile Include="Interfaces\Command\ICommandRouter.cs" />
     <Compile Include="Interfaces\Services\ICommandService.cs" />
-    <Compile Include="CommandBase\RelayCommand.cs" />
     <Compile Include="CommandBase\Command.cs" />
     <Compile Include="CommandBase\Base\CommandBase.cs" />
     <Compile Include="CommandBase\CommandT.cs" />

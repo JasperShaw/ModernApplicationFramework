@@ -7,12 +7,12 @@ namespace ModernApplicationFramework.CommandBase
 {
     /// <inheritdoc />
     /// <summary>
-    /// An <see cref="ICommand" /> whose delegates can be attached for <see cref="Execute" /> and <see cref="CanExecute" />.
+    /// Abstract <see cref="ICommand" /> whose delegates can be attached for <see cref="Execute" /> and <see cref="CanExecute" />.
     /// </summary>
     /// <typeparam name="T">Parameter type.</typeparam>
-    public class Command<T> : Base.CommandBase
+    public abstract class Command<T> : Base.CommandBase
     {
-        public Command(Action<T> executeMethod, Func<T, bool> canExecuteMethod)
+        protected Command(Action<T> executeMethod, Func<T, bool> canExecuteMethod)
             : base(o => executeMethod((T) o), o => canExecuteMethod((T) o))
         {
             if (executeMethod == null || canExecuteMethod == null)
@@ -28,19 +28,6 @@ namespace ModernApplicationFramework.CommandBase
                 throw new InvalidCastException();
         }
 
-        public Command(Func<T, Task> executeMethod) : this(executeMethod, o => true) {}
-
-        private Command(Func<T, Task> executeMethod, Func<T, bool> canExecuteMethod)
-            : base(o => executeMethod((T) o), o => canExecuteMethod((T) o))
-        {
-            if (executeMethod == null || canExecuteMethod == null)
-                throw new ArgumentNullException(nameof(executeMethod));
-        }
-
-        public static Command<T> FromAsyncHandler(Func<T, Task> executeMethod) => new Command<T>(executeMethod);
-
-        public static Command<T> FromAsyncHandler(Func<T, Task> executeMethod, Func<T, bool> canExecuteMethod)
-            => new Command<T>(executeMethod, canExecuteMethod);
 
         ///<summary>
         ///Determines if the command can execute by invoked the <see cref="Func{T,Bool}"/> provided during construction.
