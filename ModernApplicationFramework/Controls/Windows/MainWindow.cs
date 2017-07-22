@@ -21,6 +21,10 @@ using ModernApplicationFramework.Utilities.Interfaces.Settings;
 
 namespace ModernApplicationFramework.Controls.Windows
 {
+    /// <summary>
+    /// A main window implementation 
+    /// </summary>
+    /// <seealso cref="ModernApplicationFramework.Controls.Windows.ModernChromeWindow" />
     public abstract class MainWindow : ModernChromeWindow
     {
         static MainWindow()

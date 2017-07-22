@@ -1,5 +1,8 @@
 ﻿namespace ModernApplicationFramework.Controls.Dialogs
 {
+    /// <summary>
+    /// Allowed message dialog commands
+    /// </summary>
     public enum MessageDialogCommand
     {
         Ok = 1,

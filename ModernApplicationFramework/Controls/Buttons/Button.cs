@@ -2,6 +2,11 @@
 
 namespace ModernApplicationFramework.Controls.Buttons
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// A restyled button control
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Controls.Button" />
     public class Button : System.Windows.Controls.Button
     {
         static Button()

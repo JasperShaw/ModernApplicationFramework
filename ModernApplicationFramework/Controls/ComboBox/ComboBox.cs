@@ -13,12 +13,37 @@ using MenuItem = ModernApplicationFramework.Controls.Menu.MenuItem;
 
 namespace ModernApplicationFramework.Controls.ComboBox
 {
+    /// <summary>
+    /// Custom combo box control
+    /// </summary>
+    /// <seealso cref="System.Windows.Controls.ComboBox" />
+    /// <seealso cref="System.Windows.IWeakEventListener" />
+    /// <inheritdoc cref="System.Windows.Controls.ComboBox" />
+    /// <seealso cref="T:System.Windows.Controls.ComboBox" />
+    /// <seealso cref="T:System.Windows.IWeakEventListener" />
     public class ComboBox : System.Windows.Controls.ComboBox, IWeakEventListener
     {
         internal const double DefaultWidth = 90.0;
+
+        /// <summary>
+        /// The displayed item
+        /// </summary>
         public static readonly DependencyProperty DisplayedItemProperty;
+
+        /// <summary>
+        /// Indication whether the combo box is inside a menu item
+        /// </summary>
         public static readonly DependencyProperty IsEmbeddedInMenuProperty;
+
+
+        /// <summary>
+        /// The visual data source property
+        /// </summary>
         public static readonly DependencyProperty VisualDataSourceProperty;
+        
+        /// <summary>
+        /// The data source property
+        /// </summary>
         public static readonly DependencyProperty DataSourceProperty;
 
         private static readonly string[] PropertiesToObserve;
@@ -56,13 +81,13 @@ namespace ModernApplicationFramework.Controls.ComboBox
 
         public ComboBoxVisualSource VisualDataSource
         {
-            get => (ComboBoxVisualSource) GetValue(VisualDataSourceProperty);
+            get => (ComboBoxVisualSource)GetValue(VisualDataSourceProperty);
             set => SetValue(VisualDataSourceProperty, value);
         }
 
         public ComboBoxDataSource DataSource
         {
-            get => (ComboBoxDataSource) GetValue(DataSourceProperty);
+            get => (ComboBoxDataSource)GetValue(DataSourceProperty);
             set => SetValue(DataSourceProperty, value);
         }
 
@@ -179,7 +204,7 @@ namespace ModernApplicationFramework.Controls.ComboBox
 
         private void TextBoxTextChanged(object sender, TextChangedEventArgs e)
         {
-            
+
             if (_controllingDataSource == null)
                 return;
             UpdateTextSelectionProperties();
@@ -212,7 +237,7 @@ namespace ModernApplicationFramework.Controls.ComboBox
         {
             if (!(managerType == typeof(PropertyChangedEventManager)) || !(e is PropertyChangedEventArgs))
                 return false;
-            OnDataContextPropertyChanged((PropertyChangedEventArgs) e);
+            OnDataContextPropertyChanged((PropertyChangedEventArgs)e);
             return true;
         }
 
@@ -355,7 +380,7 @@ namespace ModernApplicationFramework.Controls.ComboBox
                 {
                     constraint.Width = availableSize.Width;
                 }
-            }        
+            }
             return constraint;
         }
 
@@ -410,7 +435,7 @@ namespace ModernApplicationFramework.Controls.ComboBox
 
         private static void OnDisplayedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((ComboBox) d).OnDisplayedItemChanged(e);
+            ((ComboBox)d).OnDisplayedItemChanged(e);
         }
 
         private bool ShouldPassPreviewKeyDownToBase(KeyEventArgs e)

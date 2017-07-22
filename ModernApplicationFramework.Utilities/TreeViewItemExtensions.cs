@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace ModernApplicationFramework.Controls.Utilities
+namespace ModernApplicationFramework.Utilities
 {
 	public static class TreeViewItemExtensions
 	{

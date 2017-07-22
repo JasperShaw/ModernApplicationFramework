@@ -7,6 +7,13 @@ using System.Windows.Data;
 
 namespace ModernApplicationFramework.Controls.Utilities
 {
+    /// <inheritdoc cref="CollectionViewSource" />
+    /// <summary>
+    /// Special view source for filtering collection view items
+    /// </summary>
+    /// <typeparam name="T">The type to filter</typeparam>
+    /// <seealso cref="T:System.Windows.Data.CollectionViewSource" />
+    /// <seealso cref="T:System.Windows.IWeakEventListener" />
     public abstract class PropertyBoundFilteringCollectionViewSource<T> : CollectionViewSource, IWeakEventListener
     {
         public static DependencyProperty BoundPropertyNameProperty;

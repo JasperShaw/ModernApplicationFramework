@@ -5,8 +5,13 @@ using ModernApplicationFramework.Controls.Menu;
 using ModernApplicationFramework.Interfaces.Command;
 using ModernApplicationFramework.Interfaces.Controls;
 
-namespace ModernApplicationFramework.Controls.Utilities
+namespace ModernApplicationFramework.Controls.Extensions
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Extension allowing menu items to populate themselves when opened
+    /// </summary>
+    /// <seealso cref="T:System.Windows.DependencyObject" />
     public class MenuBehavior : DependencyObject
     {
         public static readonly DependencyProperty UpdateCommandUiItemsProperty = DependencyProperty.RegisterAttached(

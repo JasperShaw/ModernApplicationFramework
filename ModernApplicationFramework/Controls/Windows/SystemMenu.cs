@@ -10,15 +10,30 @@ using ModernApplicationFramework.Native;
 
 namespace ModernApplicationFramework.Controls.Windows
 {
+    /// <inheritdoc cref="INonClientArea" />
+    /// <summary>
+    /// Custom implementation of a top left corner system menu. Hosts the window icon either as a vector image or bitmap image
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Controls.Control" />
+    /// <seealso cref="T:ModernApplicationFramework.Interfaces.Controls.INonClientArea" />
     public sealed class SystemMenu : Control, INonClientArea
     {
+        /// <summary>
+        /// The source property of the window icon
+        /// </summary>
         public static readonly DependencyProperty SourceProperty = Image.SourceProperty.AddOwner(typeof(SystemMenu),
             new FrameworkPropertyMetadata(OnSourceChanged));
 
+        /// <summary>
+        /// The vector icon property
+        /// </summary>
         public static readonly DependencyProperty VectorIconProperty = DependencyProperty.Register("VectorIcon",
             typeof(Geometry), typeof(SystemMenu),
             new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
 
+        /// <summary>
+        /// The vector fill property
+        /// </summary>
         public static readonly DependencyProperty VectorFillProperty = DependencyProperty.Register("VectorFill",
             typeof(Brush), typeof(SystemMenu));
 

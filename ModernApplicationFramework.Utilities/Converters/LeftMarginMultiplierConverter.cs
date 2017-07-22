@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace ModernApplicationFramework.Controls.Utilities
+namespace ModernApplicationFramework.Utilities.Converters
 {
 	public class LeftMarginMultiplierConverter : IValueConverter
 	{

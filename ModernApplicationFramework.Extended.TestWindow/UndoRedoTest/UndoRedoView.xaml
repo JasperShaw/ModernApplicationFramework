@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mafc="http://modern.framework.com/controls"
              xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons;assembly=ModernApplicationFramework"
              xmlns:textBoxes="clr-namespace:ModernApplicationFramework.Controls.TextBoxes;assembly=ModernApplicationFramework"
+             xmlns:extensions="clr-namespace:ModernApplicationFramework.Controls.Extensions;assembly=ModernApplicationFramework"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
@@ -17,7 +17,7 @@
             <RowDefinition Height="58*"/>
         </Grid.RowDefinitions>
 
-        <textBoxes:TextBox Text="{Binding Text, Mode=TwoWay}" mafc:FocusBehavior.FocusFirst="true"/>
+        <textBoxes:TextBox Text="{Binding Text, Mode=TwoWay}" extensions:FocusBehavior.FocusFirst="true"/>
         <textBoxes:TextBox Grid.Row="1" Margin="0,5,0,0" Text="{Binding Text2, Mode=TwoWay}"/>
         <buttons:Button Margin="0,22.345,0,0" Grid.Row="2" Command="{Binding SetValueCommand}">SetValue</buttons:Button>
         <buttons:Button Margin="0,50,0,0" Grid.Row="3" Command="{Binding UndoCommand}">Undo</buttons:Button>

@@ -8,6 +8,12 @@ using ModernApplicationFramework.Interfaces.Controls;
 
 namespace ModernApplicationFramework.Controls.Menu
 {
+    /// <inheritdoc cref="MenuItem" />
+    /// <summary>
+    /// A <see cref="T:ModernApplicationFramework.Controls.Menu.DummyListMenuItem" /> is a placeholder that gets populated when the parent menu was opened
+    /// </summary>
+    /// <seealso cref="T:ModernApplicationFramework.Controls.Menu.MenuItem" />
+    /// <seealso cref="T:ModernApplicationFramework.Interfaces.Controls.IDummyListMenuItem" />
     public class DummyListMenuItem : MenuItem, IDummyListMenuItem
     {
         private readonly ItemsControl _parent;
@@ -21,8 +27,17 @@ namespace ModernApplicationFramework.Controls.Menu
             SetValue(VisibilityProperty, Visibility.Collapsed);
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Contains the CommandBarDefinition of the MenuItem
+        /// </summary>
         public CommandBarDefinitionBase CommandBarItemDefinition { get; }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Updates Menu
+        /// </summary>
+        /// <param name="commandHandler"></param>
         public void Update(CommandHandlerWrapper commandHandler)
         {
             foreach (var listItem in _listItems)

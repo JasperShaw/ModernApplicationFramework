@@ -6,6 +6,7 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                    xmlns:cal="http://www.caliburnproject.org"
                    xmlns:mafc="http://modern.framework.com/controls"
+                   xmlns:utilities="clr-namespace:ModernApplicationFramework.Utilities;assembly=ModernApplicationFramework.Utilities"
                    mc:Ignorable="d" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" ResizeMode="CanResizeWithGrip"
                    Background="{x:Static SystemColors.ControlBrush}" Width="758" Height="441" MinWidth="757" MinHeight="441">
     
@@ -30,7 +31,7 @@
         <TreeView x:Name="TreeView" SelectedValuePath="Pages" Background="Transparent" ItemsSource="{Binding Pages}"
                   ItemContainerStyle="{StaticResource FormsTreeViewItem}">
             <i:Interaction.Behaviors>
-                <mafc:BindableSelectedItemBehavior SelectedItem="{Binding SelectedPageContainer, Mode=TwoWay}" />
+                <utilities:BindableSelectedItemBehavior SelectedItem="{Binding SelectedPageContainer, Mode=TwoWay}" />
             </i:Interaction.Behaviors>
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}">

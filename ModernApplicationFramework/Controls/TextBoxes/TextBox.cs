@@ -8,15 +8,26 @@ using ModernApplicationFramework.Native.Platform.Enums;
 namespace ModernApplicationFramework.Controls.TextBoxes
 {
     //http://www.codeproject.com/Articles/234703/WPF-TextBox-with-PreviewTextChanged-event-for-filt
+    /// <inheritdoc />
+    /// <summary>
+    /// An enhanced <see cref="T:System.Windows.Controls.TextBox" /> control that supports a <see cref="F:ModernApplicationFramework.Controls.TextBoxes.TextBox.PreviewTextChangedEvent" /> event.
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Controls.TextBox" />
     public class TextBox : System.Windows.Controls.TextBox
     {
+        /// <summary>
+        /// Option to enable preview undo
+        /// </summary>
         public bool PreviewUndoEnabled { get; set; }
 
         public static readonly RoutedEvent PreviewTextChangedEvent =
             EventManager.RegisterRoutedEvent("PreviewTextChanged", RoutingStrategy.Tunnel,
                 typeof(PreviewTextChangedEventHandler), typeof(TextBox));
 
-        public event PreviewTextChangedEventHandler PrevieTextChanged
+        /// <summary>
+        /// Occurs when before the text gets changed.
+        /// </summary>
+        public event PreviewTextChangedEventHandler PreviewTextChanged
         {
             add => AddHandler(PreviewTextChangedEvent, value);
             remove => RemoveHandler(PreviewTextChangedEvent, value);
@@ -62,7 +73,7 @@ namespace ModernApplicationFramework.Controls.TextBoxes
             {
                 var dataObject = Clipboard.GetDataObject();
                 if (dataObject != null)
-                    TextInput(e, (string) dataObject.GetData(typeof(string)));
+                    TextInput(e, (string)dataObject.GetData(typeof(string)));
                 return;
             }
             if (PreviewUndoEnabled)

@@ -5,7 +5,7 @@ using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.Dialogs
 {
-    class TextInputViewModel : ObservableObject
+    internal class TextInputViewModel : ObservableObject
     {
         private string _text;
         private int _maxLength;

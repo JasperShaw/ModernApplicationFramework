@@ -3,8 +3,15 @@ using System.Windows.Media;
 
 namespace ModernApplicationFramework.Controls.Buttons
 {
+    /// <summary>
+    /// A simple button control that has a geometry icon
+    /// </summary>
+    /// <seealso cref="ModernApplicationFramework.Controls.Buttons.Button" />
     public class GlyphButton : Button
     {
+        /// <summary>
+        /// The geometry data property
+        /// </summary>
         public static readonly DependencyProperty GlyphDataProperty = DependencyProperty.Register(
             "GlyphData", typeof(Geometry), typeof(GlyphButton), new PropertyMetadata(default(Geometry)));
 
@@ -16,8 +23,8 @@ namespace ModernApplicationFramework.Controls.Buttons
 
         public Geometry GlyphData
         {
-            get { return (Geometry) GetValue(GlyphDataProperty); }
-            set { SetValue(GlyphDataProperty, value); }
+            get => (Geometry) GetValue(GlyphDataProperty);
+            set => SetValue(GlyphDataProperty, value);
         }
     }
 }

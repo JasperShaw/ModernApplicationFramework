@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Interactivity;
 using System.Windows.Media;
 
-namespace ModernApplicationFramework.Controls.Utilities
+namespace ModernApplicationFramework.Utilities
 {
     //http://stackoverflow.com/a/20636049/208817
     public class BindableSelectedItemBehavior : Behavior<TreeView>

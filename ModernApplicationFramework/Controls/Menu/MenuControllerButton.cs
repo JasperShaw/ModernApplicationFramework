@@ -4,8 +4,16 @@ using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.Menu
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// A custom button control used by a <see cref="T:ModernApplicationFramework.Controls.Menu.MenuController" />
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Controls.Button" />
     public class MenuControllerButton : System.Windows.Controls.Button
     {
+        /// <summary>
+        /// The parent tool bar.
+        /// </summary>
         public ToolBar ParentToolBar => this.FindAncestor<ToolBar>();
 
         static MenuControllerButton()

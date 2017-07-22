@@ -17,7 +17,8 @@
                     xmlns:windows="clr-namespace:ModernApplicationFramework.Controls.Windows"
                     xmlns:comboBox="clr-namespace:ModernApplicationFramework.Controls.ComboBox"
                     xmlns:converters1="clr-namespace:ModernApplicationFramework.Utilities.Converters;assembly=ModernApplicationFramework.Utilities"
-                    xmlns:imaging="clr-namespace:ModernApplicationFramework.Utilities.Imaging;assembly=ModernApplicationFramework.Utilities">
+                    xmlns:imaging="clr-namespace:ModernApplicationFramework.Utilities.Imaging;assembly=ModernApplicationFramework.Utilities"
+                    xmlns:extensions="clr-namespace:ModernApplicationFramework.Controls.Extensions">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ComboBox.xaml"/>
@@ -119,7 +120,7 @@
                         <Border Background="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuBackgroundGradientBegin}}"
                                 VerticalAlignment="Top" HorizontalAlignment="Left" Height="2">
                             <FrameworkElement.Margin>
-                                <utilities:MenuPopupPositionerExtension ElementName="Bg"/>
+                                <extensions:MenuPopupPositionerExtension ElementName="Bg"/>
                             </FrameworkElement.Margin>
                         </Border>
                     </Grid>
@@ -583,7 +584,7 @@
     </Style>
     <Style x:Key="{x:Static menu:Menu.ButtonStyleKey}" TargetType="{x:Type menu:MenuItem}">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="utilities:MenuBehavior.UpdateCommandUiItems" Value="True" />
+        <Setter Property="extensions:MenuBehavior.UpdateCommandUiItems" Value="True" />
         <Setter Property="AutomationProperties.Name">
             <Setter.Value>
                 <Binding Path="Text" Converter="{StaticResource AccessKeyRemovingConverter}"/>
@@ -712,7 +713,7 @@
     </Style>
     <Style x:Key="{x:Static menu:Menu.MenuStyleKey}" TargetType="{x:Type menu:MenuItem}">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="utilities:MenuBehavior.UpdateCommandUiItems" Value="True" />
+        <Setter Property="extensions:MenuBehavior.UpdateCommandUiItems" Value="True" />
         <Setter Property="AutomationProperties.Name">
             <Setter.Value>
                 <Binding Path="Text" Converter="{StaticResource AccessKeyRemovingConverter}"/>
@@ -898,7 +899,7 @@
     </Style>
     <Style x:Key="{x:Static menu:MenuItem.MenuStyleKey}" TargetType="{x:Type menu:MenuItem}"
            BasedOn="{StaticResource {x:Static menu:Menu.MenuStyleKey}}">
-        <Setter Property="utilities:MenuBehavior.UpdateCommandUiItems" Value="True" />
+        <Setter Property="extensions:MenuBehavior.UpdateCommandUiItems" Value="True" />
     </Style>
     <Style x:Key="{x:Static menu:MenuItem.SeparatorStyleKey}" TargetType="{x:Type menu:MenuItem}">
         <Setter Property="Focusable" Value="False"/>
@@ -920,7 +921,7 @@
     </Style>
     <Style x:Key="{x:Static menu:MenuItem.ButtonStyleKey}" x:Uid="Style_9" TargetType="{x:Type menu:MenuItem}"
            BasedOn="{StaticResource {x:Static menu:MenuItem.MenuStyleKey}}">
-        <Setter Property="utilities:MenuBehavior.UpdateCommandUiItems" Value="True"/>
+        <Setter Property="extensions:MenuBehavior.UpdateCommandUiItems" Value="True"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="AutomationProperties.Name">
             <Setter.Value>

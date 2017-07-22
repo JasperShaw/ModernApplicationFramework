@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Windows;
 using ModernApplicationFramework.Controls.Utilities;
-using ModernApplicationFramework.Native.Standard;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.Dialogs
 {
+    /// <inheritdoc cref="DialogWindow" />
+    /// <summary>
+    /// Dialog window control for showing text input messages
+    /// </summary>
+    /// <seealso cref="T:ModernApplicationFramework.Controls.Dialogs.DialogWindow" />
+    /// <seealso cref="T:System.Windows.Markup.IComponentConnector" />
     public partial class TextInputDialog
     {
         private TextInputDialog(TextInputViewModel dataContext)

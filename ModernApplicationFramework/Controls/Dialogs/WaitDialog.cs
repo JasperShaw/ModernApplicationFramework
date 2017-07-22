@@ -6,6 +6,11 @@ using ModernApplicationFramework.Controls.Windows;
 
 namespace ModernApplicationFramework.Controls.Dialogs
 {
+    //TODO: Restyle and improve
+    /// <summary>
+    /// A dialog showing a progress bar
+    /// </summary>
+    /// <seealso cref="ModernApplicationFramework.Controls.Windows.ModernChromeWindow" />
     public class WaitDialog : ModernChromeWindow
     {
         public static readonly DependencyProperty MessageTextProperty =

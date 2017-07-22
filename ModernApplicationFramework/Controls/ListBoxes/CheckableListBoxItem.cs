@@ -7,6 +7,11 @@ using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.ListBoxes
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// List box item control used for a <see cref="T:ModernApplicationFramework.Controls.ListBoxes.CheckableListBox" />
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Controls.ListBoxItem" />
     public class CheckableListBoxItem : ListBoxItem
     {
         private static readonly DependencyProperty InternalIsCheckedProperty =
@@ -15,18 +20,30 @@ namespace ModernApplicationFramework.Controls.ListBoxes
                 new FrameworkPropertyMetadata(Boxes.BooleanFalse, FrameworkPropertyMetadataOptions.AffectsRender,
                     OnInternalIsCheckedChanged));
 
+        /// <summary>
+        /// The is checked property
+        /// </summary>
         public static DependencyProperty IsCheckedProperty = DependencyProperty.Register("IsChecked", typeof(bool?),
             typeof(CheckableListBoxItem),
             new FrameworkPropertyMetadata(Boxes.BooleanFalse, FrameworkPropertyMetadataOptions.AffectsRender,
                 OnIsCheckedChanged));
 
+        /// <summary>
+        /// The checked event
+        /// </summary>
         public static readonly RoutedEvent CheckedEvent =
             ToggleButton.CheckedEvent.AddOwner(typeof(CheckableListBoxItem));
 
+        /// <summary>
+        /// The unchecked event
+        /// </summary>
         public static readonly RoutedEvent UncheckedEvent =
             ToggleButton.UncheckedEvent.AddOwner(typeof(CheckableListBoxItem));
 
 
+        /// <summary>
+        /// The is toggle enabled property
+        /// </summary>
         public static DependencyProperty IsToggleEnabledProperty = DependencyProperty.Register("IsToggleEnabled",
             typeof(bool), typeof(CheckableListBoxItem), new FrameworkPropertyMetadata(Boxes.BooleanTrue));
 
@@ -52,13 +69,13 @@ namespace ModernApplicationFramework.Controls.ListBoxes
 
         public bool? IsChecked
         {
-            get => (bool?) GetValue(IsCheckedProperty);
+            get => (bool?)GetValue(IsCheckedProperty);
             set => SetValue(IsCheckedProperty, value);
         }
 
         public bool IsToggleEnabled
         {
-            get => (bool) GetValue(IsToggleEnabledProperty);
+            get => (bool)GetValue(IsToggleEnabledProperty);
             set => SetValue(IsToggleEnabledProperty, Boxes.Box(value));
         }
 
@@ -69,7 +86,7 @@ namespace ModernApplicationFramework.Controls.ListBoxes
 
         public void OnIsCheckedChanged(DependencyPropertyChangedEventArgs e)
         {
-            InternalIsChecked = (bool?) e.NewValue;
+            InternalIsChecked = (bool?)e.NewValue;
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
@@ -113,12 +130,12 @@ namespace ModernApplicationFramework.Controls.ListBoxes
 
         private static void OnInternalIsCheckedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((CheckableListBoxItem) d).OnInternalIsCheckedChanged(e);
+            ((CheckableListBoxItem)d).OnInternalIsCheckedChanged(e);
         }
 
         private static void OnIsCheckedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((CheckableListBoxItem) d).OnIsCheckedChanged(e);
+            ((CheckableListBoxItem)d).OnIsCheckedChanged(e);
         }
 
         private void InitializeComponent()
@@ -133,7 +150,7 @@ namespace ModernApplicationFramework.Controls.ListBoxes
 
         private void OnInternalIsCheckedChanged(DependencyPropertyChangedEventArgs e)
         {
-            IsChecked = (bool?) e.NewValue;
+            IsChecked = (bool?)e.NewValue;
         }
     }
 }

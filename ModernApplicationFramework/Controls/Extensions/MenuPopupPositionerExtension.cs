@@ -3,22 +3,26 @@ using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Interop;
 using System.Windows.Markup;
-using ModernApplicationFramework.Utilities;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Native.Platform.Structs;
+using ModernApplicationFramework.Utilities;
 using Point = System.Windows.Point;
 using DpiHelper = ModernApplicationFramework.Native.DpiHelper;
 
-namespace ModernApplicationFramework.Controls.Utilities
+namespace ModernApplicationFramework.Controls.Extensions
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Extension that adjusts the menu bar item's borders
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Markup.MarkupExtension" />
     public class MenuPopupPositionerExtension : MarkupExtension
     {
         public string ElementName { get; set; }
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            var borderClass = new BorderClass();
-            borderClass.Positioner = this;
+            var borderClass = new BorderClass {Positioner = this};
 
             IProvideValueTarget service = (IProvideValueTarget)serviceProvider.GetService(typeof(IProvideValueTarget));
             borderClass.Border = service.TargetObject as FrameworkElement;;

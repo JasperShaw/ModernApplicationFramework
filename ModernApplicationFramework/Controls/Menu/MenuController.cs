@@ -2,13 +2,19 @@
 using System.Windows.Input;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Controls.ListBoxes;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Interfaces.Controls;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.Menu
 {
+    /// <inheritdoc cref="MenuItem" />
+    /// <summary>
+    /// A custom menu item control hosting one or more buttons.
+    /// </summary>
+    /// <seealso cref="T:ModernApplicationFramework.Controls.Menu.MenuItem" />
+    /// <seealso cref="T:ModernApplicationFramework.Interfaces.Controls.IExposeStyleKeys" />
     public class MenuController : MenuItem, IExposeStyleKeys
     {
         public static readonly DependencyProperty AnchorItemProperty;
@@ -18,14 +24,30 @@ namespace ModernApplicationFramework.Controls.Menu
         private static ResourceKey _comboBoxStyleKey;
         private static ResourceKey _menuStyleKey;
         private static ResourceKey _separatorStyleKey;
+        
+        /// <summary>
+        /// The style key for a simple button
+        /// </summary>
         public new static ResourceKey ButtonStyleKey => _buttonStyleKey ?? (_buttonStyleKey = new StyleKey<MenuController>());
 
+        /// <summary>
+        /// The style key for a menu controller
+        /// </summary>
         public new static ResourceKey MenuControllerStyleKey => _menuControllerStyleKey ?? (_menuControllerStyleKey = new StyleKey<MenuController>());
 
+        /// <summary>
+        /// The style key for a combo box
+        /// </summary>
         public new static ResourceKey ComboBoxStyleKey => _comboBoxStyleKey ?? (_comboBoxStyleKey = new StyleKey<MenuController>());
 
+        /// <summary>
+        /// The style key for a menu item
+        /// </summary>
         public new static ResourceKey MenuStyleKey => _menuStyleKey ?? (_menuStyleKey = new StyleKey<MenuController>());
 
+        /// <summary>
+        /// The style key for a separator
+        /// </summary>
         public new static ResourceKey SeparatorStyleKey => _separatorStyleKey ?? (_separatorStyleKey = new StyleKey<MenuController>());
 
         ResourceKey IExposeStyleKeys.ButtonStyleKey => ButtonStyleKey;

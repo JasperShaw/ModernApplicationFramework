@@ -11,12 +11,25 @@ using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.Menu
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// A custom menu item control having an editable text box
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Controls.MenuItem" />
     [TemplatePart(Name = "PART_EditableTextBox", Type = typeof(TextBox))]
     internal class EditableMenuItem : System.Windows.Controls.MenuItem
     {
-        private IntPtr _previousHwndFocus;
+        /// <summary>
+        /// The text box's content
+        /// </summary>
         public static readonly DependencyProperty EditProperty;
+
+        /// <summary>
+        /// The minimum width property
+        /// </summary>
         public static readonly DependencyProperty EditMinWidthProperty;
+
+        private IntPtr _previousHwndFocus;        
         private TextBox _editableTextBoxPart;
         private RoutedEventHandler _afterMenuItemTextChange;
         private string _textInGotFocus;
@@ -26,6 +39,9 @@ namespace ModernApplicationFramework.Controls.Menu
         internal TextBox EditableTextBox => _editableTextBoxPart ??
                                             (_editableTextBoxPart = GetTemplateChild("PART_EditableTextBox") as TextBox);
 
+        /// <summary>
+        /// The validation rules for the text box
+        /// </summary>
         public Collection<ValidationRule> ValidationRules => _validationRules ?? (_validationRules = new Collection<ValidationRule>());
 
         public object Edit

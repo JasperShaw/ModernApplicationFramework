@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using Caliburn.Micro;
@@ -15,12 +16,28 @@ using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.Buttons
 {
+    /// <inheritdoc cref="System.Windows.Controls.Button" />
+    /// <summary>
+    /// A command bar button supporting themable icons
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Controls.Button" />
+    /// <seealso cref="T:System.ComponentModel.INotifyPropertyChanged" />
+    /// <seealso cref="T:ModernApplicationFramework.Interfaces.Controls.IThemableIconContainer" />
     public class CommandDefinitionButton : System.Windows.Controls.Button, INotifyPropertyChanged, IThemableIconContainer
     {
         private object _icon;
         private PropertyChangedEventHandler _propertyChanged;
+
+
+        /// <inheritdoc />
+        /// <summary>
+        /// This is the original source to icon. Usually this is a resource containing a <see cref="T:System.Windows.Controls.Viewbox" /> element.
+        /// </summary>
         public object IconSource { get; }
 
+        /// <summary>
+        /// The toolbar this button is inside
+        /// </summary>
         public ToolBar ParentToolBar => this.FindAncestor<ToolBar>();
 
         static CommandDefinitionButton()

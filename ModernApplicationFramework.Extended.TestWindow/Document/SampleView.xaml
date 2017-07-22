@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cal="http://www.caliburnproject.org"
-             xmlns:mafc="http://modern.framework.com/controls"
              xmlns:textBoxes="clr-namespace:ModernApplicationFramework.Controls.TextBoxes;assembly=ModernApplicationFramework"
+             xmlns:extensions="clr-namespace:ModernApplicationFramework.Controls.Extensions;assembly=ModernApplicationFramework"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 <Border Padding="20">
@@ -39,7 +39,7 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <textBoxes:TextBox mafc:FocusBehavior.FocusFirst="true"></textBoxes:TextBox>
+            <textBoxes:TextBox extensions:FocusBehavior.FocusFirst="true"></textBoxes:TextBox>
         </StackPanel>
     </Border>
 </UserControl>

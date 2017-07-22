@@ -3,8 +3,11 @@ using System.Windows.Controls;
 
 //http://blogs.microsoft.co.il/eladkatz/2011/05/29/what-is-the-easiest-way-to-set-spacing-between-items-in-stackpanel/
 
-namespace ModernApplicationFramework.Controls.Utilities
+namespace ModernApplicationFramework.Controls.Extensions
 {
+    /// <summary>
+    /// Extension to set a fixed margin between stack panel items
+    /// </summary>
     public class PanelMarginSetter
     {
         public static readonly DependencyProperty MarginProperty = DependencyProperty.RegisterAttached("Margin",

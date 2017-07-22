@@ -11,7 +11,8 @@
                     xmlns:window="clr-namespace:ModernApplicationFramework.Controls.Windows"
                     xmlns:services="clr-namespace:ModernApplicationFramework.Basics.Services"
                     xmlns:converters1="clr-namespace:ModernApplicationFramework.Utilities.Converters;assembly=ModernApplicationFramework.Utilities"
-                    xmlns:imaging="clr-namespace:ModernApplicationFramework.Utilities.Imaging;assembly=ModernApplicationFramework.Utilities">
+                    xmlns:imaging="clr-namespace:ModernApplicationFramework.Utilities.Imaging;assembly=ModernApplicationFramework.Utilities"
+                    xmlns:extensions="clr-namespace:ModernApplicationFramework.Controls.Extensions">
 
     <Style TargetType="{x:Type window:MainWindow}">
         <Style.Resources>
@@ -30,8 +31,8 @@
 		<Setter Property="UseLayoutRounding" Value="True" />
 		<Setter Property="InputMethod.IsInputMethodSuspended" Value="True" />
 		<Setter Property="FlowDirection" Value="LeftToRight" />
-		<Setter Property="utilities1:WindowStyleHelper.HasMaximizeButton" Value="True" />
-		<Setter Property="utilities1:WindowStyleHelper.HasMinimizeButton" Value="True" />
+		<Setter Property="extensions:WindowStyleHelper.HasMaximizeButton" Value="True" />
+		<Setter Property="extensions:WindowStyleHelper.HasMinimizeButton" Value="True" />
 		<Setter Property="MinWidth" Value="200" />
 		<Setter Property="MinHeight" Value="200" />
         <Setter Property="Title" Value="{Binding Path=Caption}"/>

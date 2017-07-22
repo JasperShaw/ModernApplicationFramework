@@ -2,6 +2,11 @@
 
 namespace ModernApplicationFramework.Controls.ComboBox
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// An item control used for a <see cref="T:ModernApplicationFramework.Controls.ComboBox.ComboBox" />
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Controls.ComboBoxItem" />
     public class ComboBoxItem : System.Windows.Controls.ComboBoxItem
     {
         private readonly ComboBox _parent;

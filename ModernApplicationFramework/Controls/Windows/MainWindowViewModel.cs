@@ -7,6 +7,12 @@ using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Controls.Windows
 {
+    /// <inheritdoc cref="IMainWindowViewModel" />
+    /// <summary>
+    /// View model for a main window
+    /// </summary>
+    /// <seealso cref="T:ModernApplicationFramework.Core.ViewModelBase" />
+    /// <seealso cref="T:ModernApplicationFramework.Interfaces.ViewModels.IMainWindowViewModel" />
     public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     {
         protected bool MainWindowInitialized;
@@ -26,8 +32,9 @@ namespace ModernApplicationFramework.Controls.Windows
             _mainWindow.SourceInitialized += _mainWindow_SourceInitialized;
         }
 
-        public bool MenuHostViewModelSetted => MenuHostViewModel != null;
-        public bool ToolbarHostViewModelSetted => ToolBarHostViewModel != null;
+        private bool MenuHostViewModelSetted => MenuHostViewModel != null;
+
+        private bool ToolbarHostViewModelSetted => ToolBarHostViewModel != null;
 
 
         /// <summary>
@@ -45,6 +52,7 @@ namespace ModernApplicationFramework.Controls.Windows
             }
         }
 
+        /// <inheritdoc />
         /// <summary>
         ///     Contains the ViewModel of the MainWindows ToolbarHostControl
         ///     This can not be changed once it was setted with a value
@@ -61,6 +69,7 @@ namespace ModernApplicationFramework.Controls.Windows
             }
         }
 
+        /// <inheritdoc />
         /// <summary>
         ///     Contains information whether a TitleBar is displayed or not
         /// </summary>
@@ -77,6 +86,10 @@ namespace ModernApplicationFramework.Controls.Windows
             }
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Option to use a menu bar or not
+        /// </summary>
         public bool UseMenu
         {
             get => _useMenu;
@@ -89,6 +102,7 @@ namespace ModernApplicationFramework.Controls.Windows
             }
         }
 
+        /// <inheritdoc />
         /// <summary>
         ///     A SimpleWindow is a window which is not possible to resize my dragging the edges
         /// </summary>
@@ -104,6 +118,7 @@ namespace ModernApplicationFramework.Controls.Windows
             }
         }
 
+        /// <inheritdoc />
         /// <summary>
         ///     Contains the Movement Technique for the MainWindow
         ///     SimpleMovemtn allows to move the Window by clicking/dragging anywhere on it

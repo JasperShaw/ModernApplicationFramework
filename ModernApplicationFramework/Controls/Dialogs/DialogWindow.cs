@@ -6,6 +6,10 @@ using ModernApplicationFramework.Native.NativeMethods;
 
 namespace ModernApplicationFramework.Controls.Dialogs
 {
+    /// <summary>
+    /// A special window used for dialogs
+    /// </summary>
+    /// <seealso cref="WindowBase" />
     public class DialogWindow : WindowBase
     {
         public DialogWindow()

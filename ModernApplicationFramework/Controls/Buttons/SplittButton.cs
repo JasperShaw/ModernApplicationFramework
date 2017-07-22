@@ -13,9 +13,18 @@ using ModernApplicationFramework.Core.Converters;
 
 namespace ModernApplicationFramework.Controls.Buttons
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Custom split button control
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Controls.MenuItem" />
     public class SplitButton : MenuItem
     {
+        /// <summary>
+        /// The selected item index
+        /// </summary>
         public static readonly DependencyProperty SelectedIndexProperty;
+        
         private readonly IValueConverter _itemIsHighlightedConverter;
 
         static SplitButton()

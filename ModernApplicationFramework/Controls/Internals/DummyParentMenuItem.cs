@@ -7,20 +7,20 @@ using System.Windows.Markup;
 namespace ModernApplicationFramework.Controls.Internals
 {
     [ContentProperty("Child")]
-    internal class DummyParentMenuItem : System.Windows.Controls.MenuItem
+    internal class DummyParentMenuItem : MenuItem
     {
         public static readonly DependencyProperty ChildProperty;
         private static readonly ControlTemplate ControlTemplate;
 
-        public System.Windows.Controls.MenuItem Child
+        public MenuItem Child
         {
-            get => (System.Windows.Controls.MenuItem)GetValue(ChildProperty);
+            get => (MenuItem)GetValue(ChildProperty);
             set => SetValue(ChildProperty, value);
         }
 
         static DummyParentMenuItem()
         {
-            ChildProperty = DependencyProperty.Register("Child", typeof(System.Windows.Controls.MenuItem), typeof(DummyParentMenuItem), new FrameworkPropertyMetadata(ChildPropertyChanged));
+            ChildProperty = DependencyProperty.Register("Child", typeof(MenuItem), typeof(DummyParentMenuItem), new FrameworkPropertyMetadata(ChildPropertyChanged));
             FrameworkElementFactory frameworkElementFactory = new FrameworkElementFactory(typeof(ContentPresenter));
             frameworkElementFactory.SetValue(ContentPresenter.ContentProperty, new TemplateBindingExtension(ChildProperty));
             ControlTemplate controlTemplate = new ControlTemplate
@@ -59,7 +59,7 @@ namespace ModernApplicationFramework.Controls.Internals
             }
             else
             {
-                System.Windows.Controls.MenuItem menuItem = Items[0] as System.Windows.Controls.MenuItem;
+                MenuItem menuItem = Items[0] as MenuItem;
                 if (Items.Count == 1 && menuItem != null)
                 {
                     if (Equals(Child, menuItem))
@@ -81,7 +81,7 @@ namespace ModernApplicationFramework.Controls.Internals
             try
             {
                 dummyParentMenuItem.Items.Clear();
-                System.Windows.Controls.MenuItem child = dummyParentMenuItem.Child;
+                MenuItem child = dummyParentMenuItem.Child;
                 if (child == null)
                     return;
                 dummyParentMenuItem.Items.Add(child);

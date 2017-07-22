@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Windows;
 using System.Windows.Interop;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Controls.Utilities
+namespace ModernApplicationFramework.Controls.Extensions
 {
     internal static class WindowStyleHelper
     {

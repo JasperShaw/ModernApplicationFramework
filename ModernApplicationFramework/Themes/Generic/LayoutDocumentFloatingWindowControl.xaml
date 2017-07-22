@@ -6,7 +6,8 @@
                     xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals"
                     xmlns:utilities1="clr-namespace:ModernApplicationFramework.Controls.Utilities"
                     xmlns:windows="clr-namespace:ModernApplicationFramework.Controls.Windows"
-                    xmlns:services="clr-namespace:ModernApplicationFramework.Basics.Services">
+                    xmlns:services="clr-namespace:ModernApplicationFramework.Basics.Services"
+                    xmlns:extensions="clr-namespace:ModernApplicationFramework.Controls.Extensions">
     
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"/>
@@ -27,8 +28,8 @@
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="InputMethod.IsInputMethodSuspended" Value="True" />
         <Setter Property="FlowDirection" Value="LeftToRight" />
-        <Setter Property="utilities1:WindowStyleHelper.HasMaximizeButton" Value="True" />
-        <Setter Property="utilities1:WindowStyleHelper.HasMinimizeButton" Value="True" />
+        <Setter Property="extensions:WindowStyleHelper.HasMaximizeButton" Value="True" />
+        <Setter Property="extensions:WindowStyleHelper.HasMinimizeButton" Value="True" />
         <Setter Property="MinWidth" Value="50" />
         <Setter Property="MinHeight" Value="50" />
         <Setter Property="Title" Value="{Binding Path=Caption}" />

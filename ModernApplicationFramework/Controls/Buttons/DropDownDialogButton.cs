@@ -5,8 +5,16 @@ using System.Windows.Input;
 
 namespace ModernApplicationFramework.Controls.Buttons
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// A drop down button for dialog windows
+    /// </summary>
+    /// <seealso cref="DialogButton" />
     public class DropDownDialogButton: DialogButton
     {
+        /// <summary>
+        /// The drop down context menu
+        /// </summary>
         public static readonly DependencyProperty DropDownMenuProperty = DependencyProperty.Register("DropDownMenu", typeof(System.Windows.Controls.ContextMenu), typeof(DropDownDialogButton));
         private bool _contentLoaded;
 

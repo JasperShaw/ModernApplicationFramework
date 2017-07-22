@@ -3,12 +3,16 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using ModernApplicationFramework.Controls.Utilities;
-using ModernApplicationFramework.Native.Standard;
 using ModernApplicationFramework.Utilities;
 using Button = ModernApplicationFramework.Controls.Buttons.Button;
 
 namespace ModernApplicationFramework.Controls.Dialogs
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Dialog window control for showing messages
+    /// </summary>
+    /// <seealso cref="T:ModernApplicationFramework.Controls.Dialogs.DialogWindow" />
     public class MessageDialog : DialogWindow
     {
         private bool _focusPending;

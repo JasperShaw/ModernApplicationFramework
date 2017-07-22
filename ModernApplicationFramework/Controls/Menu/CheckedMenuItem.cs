@@ -6,9 +6,21 @@ using ModernApplicationFramework.Core.Converters.General;
 
 namespace ModernApplicationFramework.Controls.Menu
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// A custom menu item that appears checked by a custom data binding
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Controls.MenuItem" />
     public class CheckedMenuItem : System.Windows.Controls.MenuItem
     {
+        /// <summary>
+        /// The value to check the binding against
+        /// </summary>
         public static readonly DependencyProperty ValueProperty;
+        
+        /// <summary>
+        /// The actual binding
+        /// </summary>
         public static readonly DependencyProperty LinkProperty;
 
         public object Value

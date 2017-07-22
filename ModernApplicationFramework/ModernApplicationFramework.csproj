@@ -228,6 +228,8 @@
     <Compile Include="Basics\Definitions\Command\ExcludedCommandDefinition.cs" />
     <Compile Include="Basics\Services\InternalApplicationIconService.cs" />
     <Compile Include="Basics\Services\BasicStatusBarService.cs" />
+    <Compile Include="Controls\ComboBox\ComboBoxItemsWrapper.cs" />
+    <Compile Include="Interfaces\Controls\IExposeStyleKeys.cs" />
     <Compile Include="Interfaces\Services\IApplicationIconService.cs" />
     <Compile Include="Core\Utilities\IconHelper.cs" />
     <Compile Include="Interfaces\Services\IStatusBarDataModel.cs" />
@@ -309,8 +311,6 @@
     <Compile Include="Controls\Utilities\BalloonType.cs" />
     <Compile Include="Controls\GroupBox.cs" />
     <Compile Include="Controls\Utilities\Extensions.cs" />
-    <Compile Include="Controls\Utilities\LeftMarginMultiplierConverter.cs" />
-    <Compile Include="Controls\Utilities\TreeViewItemExtensions.cs" />
     <Compile Include="Controls\TextBoxes\ValidateableTextBox.cs" />
     <Compile Include="Core\Converters\EmptryStringToVisibilityConverter.cs" />
     <Compile Include="Core\Converters\StringUppercaseConverter.cs" />
@@ -412,9 +412,8 @@
     <Compile Include="Controls\ListBoxes\CustomizeControlsListBoxItem.cs" />
     <Compile Include="Controls\ListBoxes\CustomSortListBox.cs" />
     <Compile Include="Controls\Menu\DummyListMenuItem.cs" />
-    <Compile Include="Controls\Utilities\BindableSelectedItemBehavior.cs" />
-    <Compile Include="Controls\Utilities\MenuBehavior.cs" />
-    <Compile Include="Controls\Utilities\MenuPopupPositionerExtension.cs" />
+    <Compile Include="Controls\Extensions\MenuBehavior.cs" />
+    <Compile Include="Controls\Extensions\MenuPopupPositionerExtension.cs" />
     <Compile Include="Core\Comparers\CommandTextComparer.cs" />
     <Compile Include="Core\Comparers\CategoryTextComparer.cs" />
     <Compile Include="Core\Converters\AccessKey\AccessKeyConverter.cs" />
@@ -502,7 +501,7 @@
     <Compile Include="Controls\Internals\ToolBarOverflowToggleButton.cs" />
     <Compile Include="Controls\Internals\ToolBarPanel.cs" />
     <Compile Include="Controls\Utilities\MenuUtilities.cs" />
-    <Compile Include="Controls\Utilities\PanelMarginSetter.cs" />
+    <Compile Include="Controls\Extensions\PanelMarginSetter.cs" />
     <Compile Include="Core\Converters\General\AreEqualConverter.cs" />
     <Compile Include="Core\Converters\General\NotNullConverter.cs" />
     <Compile Include="Core\Events\ItemDoubleClickedEventArgs.cs" />
@@ -559,7 +558,7 @@
     <Compile Include="Native\TrinetCoreNtfs\SafeHGlobalHandle.cs" />
     <Compile Include="Native\TrinetCoreNtfs\StreamName.cs" />
     <Compile Include="Core\Utilities\CommonUtilities.cs" />
-    <Compile Include="Controls\Utilities\FocusBehavior.cs" />
+    <Compile Include="Controls\Extensions\FocusBehavior.cs" />
     <Compile Include="Core\Utilities\ObservableCollectionEx.cs" />
     <Compile Include="Controls\Utilities\PropertyBoundFilteringCollectionViewSource.cs" />
     <Compile Include="Controls\Utilities\ToolbarsCollectionViewSource.cs" />
@@ -632,7 +631,7 @@
     <Compile Include="Core\Utilities\KeyboardUtilities.cs" />
     <Compile Include="Native\Screen.cs" />
     <Compile Include="Core\Utilities\VisualUtilities.cs" />
-    <Compile Include="Controls\Utilities\WindowStyleHelper.cs" />
+    <Compile Include="Controls\Extensions\WindowStyleHelper.cs" />
     <Compile Include="Docking\Controls\AnchorablePaneControlOverlayArea.cs" />
     <Compile Include="Docking\Controls\AnchorablePaneDropTarget.cs" />
     <Compile Include="Docking\Controls\AnchorablePaneTabPanel.cs" />

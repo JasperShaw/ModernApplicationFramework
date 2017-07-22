@@ -2,6 +2,11 @@
 
 namespace ModernApplicationFramework.Controls.Buttons
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// A tab button created from an image
+    /// </summary>
+    /// <seealso cref="T:ModernApplicationFramework.Controls.Buttons.ImageRadioButton" />
     public class ImageTabButton : ImageRadioButton
     {
         static ImageTabButton()

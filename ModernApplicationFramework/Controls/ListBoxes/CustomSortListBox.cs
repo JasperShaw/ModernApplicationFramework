@@ -9,11 +9,20 @@ using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.ListBoxes
 {
+    /// <inheritdoc cref="ListBox" />
+    /// <summary>
+    /// Special list box control with a custom <see cref="T:System.Collections.IComparer" /> for sorting the items
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Controls.ListBox" />
+    /// <seealso cref="T:System.ComponentModel.INotifyPropertyChanged" />
     public class CustomSortListBox : ListBox, INotifyPropertyChanged
     {
 
         private PropertyChangedEventHandler _propertyChanged;
 
+        /// <summary>
+        /// The Instance handling the sorting
+        /// </summary>
         public IComparer CustomSort { get; set; }
 
         public UIElement FocusableElement

@@ -2,6 +2,10 @@
 
 namespace ModernApplicationFramework.Controls.Menu
 {
+    /// <summary>
+    /// Custom context menu item
+    /// </summary>
+    /// <seealso cref="ModernApplicationFramework.Controls.Menu.MenuItem" />
     public class ContextMenuItem : MenuItem
     {
         static ContextMenuItem()

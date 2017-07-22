@@ -12,7 +12,7 @@ using NativeMethods = ModernApplicationFramework.Native.NativeMethods.NativeMeth
 namespace ModernApplicationFramework.Controls.Dialogs
 {
     /// <summary>
-    /// Microsoft seems not to realize developers might need at some point a proper Dialog to choose folders from explorer. 
+    /// Microsoft seems not to realize developers might need at some point a proper dialog to choose folders from explorer. 
     /// They accomplished that in their own tools by using the WindowsAPI but did not create an .NET version. 
     /// 
     /// This sollution is based on Ookii's source code avaiable here: https://www.nuget.org/packages/Ookii.Dialogs/
@@ -33,6 +33,9 @@ namespace ModernApplicationFramework.Controls.Dialogs
         }
 
 
+        /// <summary>
+        /// "The descriptive text displayed above the tree view control in the dialog box, or below the list view control in the Vista style dialog."
+        /// </summary>
         [Category("Folder Browsing"), DefaultValue(""), Localizable(true), Browsable(true),
          Description(
              "The descriptive text displayed above the tree view control in the dialog box, or below the list view control in the Vista style dialog."
@@ -43,13 +46,19 @@ namespace ModernApplicationFramework.Controls.Dialogs
             set => _description = value;
         }
 
+        /// <summary>
+        /// "The root folder where the browsing starts from. This property has no effect if the Vista style dialog is used."
+        /// </summary>
         [Localizable(false),
          Description(
              "The root folder where the browsing starts from. This property has no effect if the Vista style dialog is used."
              ), Category("Folder Browsing"), Browsable(true),
-         DefaultValue(typeof(System.Environment.SpecialFolder), "Desktop")]
-        public System.Environment.SpecialFolder RootFolder { get; set; }
+         DefaultValue(typeof(Environment.SpecialFolder), "Desktop")]
+        public Environment.SpecialFolder RootFolder { get; set; }
 
+        /// <summary>
+        /// The path value that was selected
+        /// </summary>
         [Browsable(true),
          Editor(
              "System.Windows.Forms.Design.SelectedPathEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",
@@ -61,32 +70,50 @@ namespace ModernApplicationFramework.Controls.Dialogs
             set => _selectedPath = value;
         }
 
+        /// <summary>
+        /// A value indicating whether the New Folder button appears in the folder browser dialog box. This property has no effect if the Vista style dialog is used; in that case, the New Folder button is always shown.
+        /// </summary>
         [Browsable(true), Localizable(false),
          Description(
              "A value indicating whether the New Folder button appears in the folder browser dialog box. This property has no effect if the Vista style dialog is used; in that case, the New Folder button is always shown."
              ), DefaultValue(true), Category("Folder Browsing")]
         public bool ShowNewFolderButton { get; set; }
 
+        /// <summary>
+        /// A value that indicates whether to use the value of the Description property as the dialog title for Vista style dialogs. This property has no effect on old style dialogs.
+        /// </summary>
         [Category("Folder Browsing"), DefaultValue(false),
          Description(
              "A value that indicates whether to use the value of the Description property as the dialog title for Vista style dialogs. This property has no effect on old style dialogs."
              )]
         public bool UseDescriptionForTitle { get; set; }
 
+        /// <summary>
+        /// Resets this instance.
+        /// </summary>
         public void Reset()
         {
             _description = string.Empty;
             UseDescriptionForTitle = false;
             _selectedPath = string.Empty;
-            RootFolder = System.Environment.SpecialFolder.Desktop;
+            RootFolder = Environment.SpecialFolder.Desktop;
             ShowNewFolderButton = true;
         }
 
+        /// <summary>
+        /// Shows the dialog.
+        /// </summary>
+        /// <returns>Indicator whether the dialog was closed by canceling (<see langword="false"/>) or finishing the action (<see langword="true"/>)</returns>
         public bool? ShowDialog()
         {
             return ShowDialog(null);
         }
 
+        /// <summary>
+        /// Shows the dialog.
+        /// </summary>
+        /// <param name="owner">The owner window</param>
+        /// <returns>Indicator whether the dialog was closed by canceling (<see langword="false"/>) or finishing the action (<see langword="true"/>)</returns>
         public bool? ShowDialog(System.Windows.Window owner)
         {
             IntPtr ownerHandle = owner == null ? User32.GetActiveWindow() : new WindowInteropHelper(owner).Handle;

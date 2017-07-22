@@ -7,10 +7,18 @@ using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.Buttons
 {
+    /// <summary>
+    /// The item control used by a <see cref="SplitButton
+    /// "/>
+    /// </summary>
+    /// <seealso cref="System.Windows.Controls.ListBoxItem" />
     public class SplitButtonItem : ListBoxItem
     {
         public static readonly DependencyProperty IsHighlightedProperty;
 
+        /// <summary>
+        /// Indicating whether the item is highlighted.
+        /// </summary>
         public bool IsHighlighted
         {
             get => (bool)GetValue(IsHighlightedProperty);

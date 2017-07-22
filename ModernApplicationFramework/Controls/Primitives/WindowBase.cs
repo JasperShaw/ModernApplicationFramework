@@ -6,6 +6,11 @@ using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.Primitives
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Abstract implementation of a window
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Window" />
     public abstract class WindowBase : Window
     {
         public static readonly DependencyProperty HasMaximizeButtonProperty = DependencyProperty.Register(

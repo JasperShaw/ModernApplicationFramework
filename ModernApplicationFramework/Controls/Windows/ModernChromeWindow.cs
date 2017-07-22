@@ -17,7 +17,6 @@ using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Native.Platform;
 using ModernApplicationFramework.Native.Platform.Enums;
 using ModernApplicationFramework.Native.Platform.Structs;
-using ModernApplicationFramework.Native.Standard;
 using ModernApplicationFramework.Utilities;
 using DpiHelper = ModernApplicationFramework.Native.DpiHelper;
 using NativeMethods = ModernApplicationFramework.Native.NativeMethods.NativeMethods;
@@ -26,10 +25,18 @@ using RECT = ModernApplicationFramework.Native.Platform.Structs.RECT;
 
 namespace ModernApplicationFramework.Controls.Windows
 {
-    public class ModernChromeWindow : System.Windows.Window
+    /// <inheritdoc />
+    /// <summary>
+    /// Window implementation that has custom chrome shadows
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Window" />
+    public class ModernChromeWindow : Window
     {
         private const int MonitorDefaulttonearest = 0x00000002;
 
+        /// <summary>
+        /// Indicates whether the window is in full screen mode
+        /// </summary>
         public static readonly DependencyProperty FullScreenProperty =
             DependencyProperty.Register("FullScreen", typeof(bool), typeof(ModernChromeWindow));
 
@@ -37,10 +44,16 @@ namespace ModernApplicationFramework.Controls.Windows
             typeof(int), typeof(ModernChromeWindow),
             new FrameworkPropertyMetadata(Boxes.Int32Zero, OnCornerRadiusChanged));
 
+        /// <summary>
+        /// The active glow color property
+        /// </summary>
         public static readonly DependencyProperty ActiveGlowColorProperty = DependencyProperty.Register(
             "ActiveGlowColor", typeof(Color), typeof(ModernChromeWindow),
             new FrameworkPropertyMetadata(Colors.Transparent, OnGlowColorChanged));
 
+        /// <summary>
+        /// The inactive glow color property
+        /// </summary>
         public static readonly DependencyProperty InactiveGlowColorProperty = DependencyProperty.Register(
             "InactiveGlowColor", typeof(Color), typeof(ModernChromeWindow),
             new FrameworkPropertyMetadata(Colors.Transparent, OnGlowColorChanged));

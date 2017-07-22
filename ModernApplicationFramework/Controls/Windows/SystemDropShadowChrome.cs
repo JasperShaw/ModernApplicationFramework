@@ -5,6 +5,11 @@ using System.Windows.Media;
 
 namespace ModernApplicationFramework.Controls.Windows
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Custom implementation of a system drop shadow
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Controls.Decorator" />
     public sealed class SystemDropShadowChrome : Decorator
     {
         public static readonly DependencyProperty ColorProperty = DependencyProperty.Register("Color", typeof(Color),

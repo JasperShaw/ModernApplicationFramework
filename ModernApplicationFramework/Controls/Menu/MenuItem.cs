@@ -7,7 +7,6 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Annotations;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Controls.Buttons;
-using ModernApplicationFramework.Controls.ListBoxes;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
@@ -17,38 +16,47 @@ using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.Menu
 {
-    public class MenuItem : System.Windows.Controls.MenuItem, IThemableIconContainer, IExposeStyleKeys, INotifyPropertyChanged
+    /// <summary>
+    /// A custom menu item control which visual style changes based on it's data model. Supports themable icons.
+    /// </summary>
+    /// <seealso cref="System.Windows.Controls.MenuItem" />
+    /// <seealso cref="ModernApplicationFramework.Interfaces.Controls.IThemableIconContainer" />
+    /// <seealso cref="ModernApplicationFramework.Interfaces.Controls.IExposeStyleKeys" />
+    /// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
+    /// <inheritdoc cref="System.Windows.Controls.MenuItem" />
+    /// <seealso cref="T:System.Windows.Controls.MenuItem" />
+    /// <seealso cref="T:ModernApplicationFramework.Interfaces.Controls.IThemableIconContainer" />
+    /// <seealso cref="T:ModernApplicationFramework.Interfaces.Controls.IExposeStyleKeys" />
+    /// <seealso cref="T:System.ComponentModel.INotifyPropertyChanged" />
+    public class MenuItem : System.Windows.Controls.MenuItem, IThemableIconContainer, IExposeStyleKeys,
+        INotifyPropertyChanged
     {
-        public object IconSource { get; protected set; }
+        /// <summary>
+        /// Indicates whether this item was created by the application's user
+        /// </summary>
         public static DependencyProperty IsUserCreatedMenuProperty;
+
+        /// <summary>
+        /// Indicates whether this item is hosted by a tool bar
+        /// </summary>
         public static DependencyProperty IsPlacedOnToolBarProperty;
 
         public static readonly RoutedEvent CommandExecutedRoutedEvent;
 
-        public bool IsUserCreatedMenu
-        {
-            get => (bool)GetValue(IsUserCreatedMenuProperty);
-            set => SetValue(IsUserCreatedMenuProperty, Boxes.Box(value));
-        }
-
-        public bool IsPlacedOnToolBar
-        {
-            get => (bool)GetValue(IsPlacedOnToolBarProperty);
-            set => SetValue(IsPlacedOnToolBarProperty, Boxes.Box(value));
-        }
-
-        public CommandDefinitionButton HostContainer => this.FindAncestor<CommandDefinitionButton>();
-
-        public ToolBar ParentToolBar => this.FindAncestor<ToolBar>();
-
-        public static double MaxMenuWidth => 660.0;
+        private static ResourceKey _buttonStyleKey;
+        private static ResourceKey _menuControllerStyleKey;
+        private static ResourceKey _comboBoxStyleKey;
+        private static ResourceKey _menuStyleKey;
+        private static ResourceKey _separatorStyleKey;
 
         static MenuItem()
         {
-            //DefaultStyleKeyProperty.OverrideMetadata(typeof(MenuItem), new FrameworkPropertyMetadata(typeof(MenuItem)));
-            CommandExecutedRoutedEvent = EventManager.RegisterRoutedEvent("CommandExecuted", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MenuItem));
-            IsUserCreatedMenuProperty = DependencyProperty.Register("IsUserCreatedMenu", typeof(bool), typeof(MenuItem), new FrameworkPropertyMetadata(Boxes.BooleanFalse));
-            IsPlacedOnToolBarProperty = DependencyProperty.Register("IsPlacedOnToolBar", typeof(bool), typeof(MenuItem), new FrameworkPropertyMetadata(Boxes.BooleanFalse));
+            CommandExecutedRoutedEvent = EventManager.RegisterRoutedEvent("CommandExecuted", RoutingStrategy.Bubble,
+                typeof(RoutedEventHandler), typeof(MenuItem));
+            IsUserCreatedMenuProperty = DependencyProperty.Register("IsUserCreatedMenu", typeof(bool), typeof(MenuItem),
+                new FrameworkPropertyMetadata(Boxes.BooleanFalse));
+            IsPlacedOnToolBarProperty = DependencyProperty.Register("IsPlacedOnToolBar", typeof(bool), typeof(MenuItem),
+                new FrameworkPropertyMetadata(Boxes.BooleanFalse));
         }
 
         public MenuItem(CommandBarDefinitionBase definitionBase) : this()
@@ -67,6 +75,62 @@ namespace ModernApplicationFramework.Controls.Menu
             IsEnabledChanged += MenuItem_IsEnabledChanged;
             DataContextChanged += MenuItem_DataContextChanged;
         }
+
+        public bool IsUserCreatedMenu
+        {
+            get => (bool)GetValue(IsUserCreatedMenuProperty);
+            set => SetValue(IsUserCreatedMenuProperty, Boxes.Box(value));
+        }
+
+        public bool IsPlacedOnToolBar
+        {
+            get => (bool)GetValue(IsPlacedOnToolBarProperty);
+            set => SetValue(IsPlacedOnToolBarProperty, Boxes.Box(value));
+        }
+
+        public CommandDefinitionButton HostContainer => this.FindAncestor<CommandDefinitionButton>();
+
+        /// <summary>
+        /// Gets the parent tool bar.
+        /// </summary>
+        public ToolBar ParentToolBar => this.FindAncestor<ToolBar>();
+
+        /// <summary>
+        /// Gets the maximum width of the menu.
+        /// </summary>
+        public static double MaxMenuWidth => 660.0;
+
+        public static ResourceKey ButtonStyleKey => _buttonStyleKey ?? (_buttonStyleKey = new StyleKey<MenuItem>());
+
+        public static ResourceKey MenuControllerStyleKey =>
+            _menuControllerStyleKey ?? (_menuControllerStyleKey = new StyleKey<MenuItem>());
+
+        public static ResourceKey ComboBoxStyleKey =>
+            _comboBoxStyleKey ?? (_comboBoxStyleKey = new StyleKey<MenuItem>());
+
+        public static ResourceKey MenuStyleKey => _menuStyleKey ?? (_menuStyleKey = new StyleKey<MenuItem>());
+
+        public new static ResourceKey SeparatorStyleKey =>
+            _separatorStyleKey ?? (_separatorStyleKey = new StyleKey<MenuItem>());
+
+        ResourceKey IExposeStyleKeys.MenuControllerStyleKey => MenuControllerStyleKey;
+
+        ResourceKey IExposeStyleKeys.ComboBoxStyleKey => ComboBoxStyleKey;
+
+        ResourceKey IExposeStyleKeys.MenuStyleKey => MenuStyleKey;
+
+        ResourceKey IExposeStyleKeys.SeparatorStyleKey => SeparatorStyleKey;
+
+        ResourceKey IExposeStyleKeys.ButtonStyleKey => ButtonStyleKey;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <inheritdoc />
+        /// <summary>
+        ///     This is the original source to icon. Usually this is a resource containing a
+        ///     <see cref="T:System.Windows.Controls.Viewbox" /> element.
+        /// </summary>
+        public object IconSource { get; protected set; }
 
         private void MenuItem_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
@@ -107,12 +171,6 @@ namespace ModernApplicationFramework.Controls.Menu
             this.SetThemedIcon();
         }
 
-        private static ResourceKey _buttonStyleKey;
-        private static ResourceKey _menuControllerStyleKey;
-        private static ResourceKey _comboBoxStyleKey;
-        private static ResourceKey _menuStyleKey;
-        private static ResourceKey _separatorStyleKey;
-
         protected override DependencyObject GetContainerForItemOverride()
         {
             return new MenuItem();
@@ -136,28 +194,6 @@ namespace ModernApplicationFramework.Controls.Menu
         {
             StyleUtilities.SelectStyleForItem(element as FrameworkElement, item, this);
         }
-
-        ResourceKey IExposeStyleKeys.MenuControllerStyleKey => MenuControllerStyleKey;
-
-        ResourceKey IExposeStyleKeys.ComboBoxStyleKey => ComboBoxStyleKey;
-
-        ResourceKey IExposeStyleKeys.MenuStyleKey => MenuStyleKey;
-
-        ResourceKey IExposeStyleKeys.SeparatorStyleKey => SeparatorStyleKey;
-
-        ResourceKey IExposeStyleKeys.ButtonStyleKey => ButtonStyleKey;
-
-        public static ResourceKey ButtonStyleKey => _buttonStyleKey ?? (_buttonStyleKey = new StyleKey<MenuItem>());
-
-        public static ResourceKey MenuControllerStyleKey => _menuControllerStyleKey ?? (_menuControllerStyleKey = new StyleKey<MenuItem>());
-
-        public static ResourceKey ComboBoxStyleKey => _comboBoxStyleKey ?? (_comboBoxStyleKey = new StyleKey<MenuItem>());
-
-        public static ResourceKey MenuStyleKey => _menuStyleKey ?? (_menuStyleKey = new StyleKey<MenuItem>());
-
-        public new static ResourceKey SeparatorStyleKey => _separatorStyleKey ?? (_separatorStyleKey = new StyleKey<MenuItem>());
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

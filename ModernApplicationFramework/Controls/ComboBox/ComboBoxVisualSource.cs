@@ -6,6 +6,12 @@ using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.ComboBox
 {
+    /// <inheritdoc cref="DisposableObject" />
+    /// <summary>
+    /// The visual data model for a <see cref="T:ModernApplicationFramework.Controls.ComboBox.ComboBox" />
+    /// </summary>
+    /// <seealso cref="T:ModernApplicationFramework.Utilities.DisposableObject" />
+    /// <seealso cref="T:System.ComponentModel.INotifyPropertyChanged" />
     public class ComboBoxVisualSource : DisposableObject, INotifyPropertyChanged
     {
         private bool _isFocused;
@@ -15,6 +21,9 @@ namespace ModernApplicationFramework.Controls.ComboBox
         private double _dropDownWidth;
         private bool _isEditable;
 
+        /// <summary>
+        /// Indicates whether the combo box is focused.
+        /// </summary>
         public bool IsFocused
         {
             get => _isFocused;
@@ -59,6 +68,9 @@ namespace ModernApplicationFramework.Controls.ComboBox
             }
         }
 
+        /// <summary>
+        /// The width of the drop down.
+        /// </summary>
         public double DropDownWidth
         {
             get => _dropDownWidth;
@@ -70,6 +82,9 @@ namespace ModernApplicationFramework.Controls.ComboBox
             }
         }
 
+        /// <summary>
+        /// Option to make a <see cref="ComboBox"/> editable
+        /// </summary>
         public bool IsEditable
         {
             get => _isEditable;
@@ -83,6 +98,9 @@ namespace ModernApplicationFramework.Controls.ComboBox
 
         private FlagStorage _flagStorage;
 
+        /// <summary>
+        /// The flag store
+        /// </summary>
         public virtual FlagStorage Flags => _flagStorage ?? (_flagStorage = new FlagStorage());
 
         public event PropertyChangedEventHandler PropertyChanged;

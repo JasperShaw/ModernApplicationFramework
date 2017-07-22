@@ -2,6 +2,11 @@
 
 namespace ModernApplicationFramework.Controls.ComboBox
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// A special button control representing the displayed combo box item when the combo box is not editable.
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Controls.Button" />
     public class ComboBoxLabel : System.Windows.Controls.Button
     {
         public static readonly DependencyProperty TargetComboBoxProperty;

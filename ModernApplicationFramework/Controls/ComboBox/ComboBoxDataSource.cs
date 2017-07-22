@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -10,15 +9,28 @@ using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.ComboBox
 {
+    /// <inheritdoc cref="DisposableObject" />
+    /// <summary>
+    /// The data model used by a <see cref="ComboBox"/>
+    /// </summary>
+    /// <seealso cref="T:ModernApplicationFramework.Utilities.DisposableObject" />
+    /// <seealso cref="T:System.ComponentModel.INotifyPropertyChanged" />
     public class ComboBoxDataSource : DisposableObject, INotifyPropertyChanged
     {
+        /// <summary>
+        /// The item wrapper
+        /// </summary>
         public ComboBoxItemsWrapper Wrapper { get; }
+        
         private IHasTextProperty _displayedItem;
 
         private string _displayedText;
 
         private string _shortcutText;
 
+        /// <summary>
+        /// The currently displayed item
+        /// </summary>
         public IHasTextProperty DisplayedItem
         {
             get => _displayedItem;
@@ -30,9 +42,15 @@ namespace ModernApplicationFramework.Controls.ComboBox
             }
         }
 
+        /// <summary>
+        /// The actual item list of the data model
+        /// </summary>
         public ObservableCollection<IHasTextProperty> Items { get; set; }
 
 
+        /// <summary>
+        /// The displayed text
+        /// </summary>
         public string DisplayedText
         {
             get => _displayedText;
@@ -44,6 +62,9 @@ namespace ModernApplicationFramework.Controls.ComboBox
             }
         }
 
+        /// <summary>
+        /// The short cut text
+        /// </summary>
         public string ShortcutText
         {
             get => _shortcutText;
@@ -55,6 +76,9 @@ namespace ModernApplicationFramework.Controls.ComboBox
             }
         }
 
+        /// <summary>
+        /// The index of the selected item.
+        /// </summary>
         public int SelectedIndex
         {
             get
@@ -78,6 +102,10 @@ namespace ModernApplicationFramework.Controls.ComboBox
             Items = Wrapper.Items;
         }
 
+        /// <summary>
+        /// Changes the displayed item.
+        /// </summary>
+        /// <param name="newIndex">The new index.</param>
         public void ChangeDisplayedItem(int newIndex)
         {
             if (Items.Count - 1 < newIndex || newIndex < 0)
@@ -85,6 +113,10 @@ namespace ModernApplicationFramework.Controls.ComboBox
             DisplayedItem = Items.ElementAtOrDefault(newIndex);
         }
 
+        /// <summary>
+        /// Changes the displayed item relative to the currently selected index.
+        /// </summary>
+        /// <param name="index">The index.</param>
         public void ChangeDisplayedItemRelative(int index)
         {
             var newIndex = SelectedIndex + index;
@@ -114,36 +146,6 @@ namespace ModernApplicationFramework.Controls.ComboBox
         public void UpdateItems()
         {
             OnPropertyChanged(nameof(Items));
-        }
-    }
-
-    public class ComboBoxItemsWrapper
-    {
-        public ObservableCollection<IHasTextProperty> Items { get; set; }
-
-        public ComboBoxItemsWrapper(IEnumerable<IHasTextProperty> colection)
-        {
-            Items = new ObservableCollection<IHasTextProperty>();
-            if (colection == null)
-                return;
-            foreach (var item in colection)
-                Items.Add(item);
-            if (colection is INotifyCollectionChanged observable)
-                observable.CollectionChanged += Observable_CollectionChanged;
-        }
-
-        private void Observable_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (e.NewItems != null)
-                foreach (var eNewItem in e.NewItems)
-                {
-                    Items.Add(eNewItem as IHasTextProperty);
-                }
-            if (e.OldItems != null)
-                foreach (var eNewItem in e.OldItems)
-                {
-                    Items.Remove(eNewItem as IHasTextProperty);
-                }
         }
     }
 }

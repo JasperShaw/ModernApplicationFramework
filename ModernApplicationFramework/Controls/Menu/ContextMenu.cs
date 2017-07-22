@@ -8,17 +8,23 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Controls.ListBoxes;
 using ModernApplicationFramework.Controls.Utilities;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Interfaces.Controls;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Utilities;
 using ModernApplicationFramework.Utilities.Imaging;
 
 namespace ModernApplicationFramework.Controls.Menu
 {
+    /// <inheritdoc cref="System.Windows.Controls.ContextMenu" />
+    /// <summary>
+    /// Custom context menu control. It has a dedicated data model and styles it's items individually 
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Controls.ContextMenu" />
+    /// <seealso cref="T:ModernApplicationFramework.Interfaces.Controls.IExposeStyleKeys" />
     public class ContextMenu : System.Windows.Controls.ContextMenu, IExposeStyleKeys
     {
         public static readonly DependencyProperty PopupAnimationProperty;
@@ -33,19 +39,37 @@ namespace ModernApplicationFramework.Controls.Menu
         private static readonly DependencyPropertyKey IsInsideContextMenuPropertyKey;
         private ScrollViewer _scrollViewer;
 
+        /// <summary>
+        /// The style key for a simple button
+        /// </summary>
         public static ResourceKey ButtonStyleKey => _buttonStyleKey ?? (_buttonStyleKey = new StyleKey<ContextMenu>());
 
+        /// <summary>
+        /// The style key for a menu controller
+        /// </summary>
         public static ResourceKey MenuControllerStyleKey => _menuControllerStyleKey ??
                                                             (_menuControllerStyleKey = new StyleKey<ContextMenu>());
 
+        /// <summary>
+        /// The style key for a combo box
+        /// </summary>
         public static ResourceKey ComboBoxStyleKey => _comboBoxStyleKey ??
                                                       (_comboBoxStyleKey = new StyleKey<ContextMenu>());
 
+        /// <summary>
+        /// The style key for a menu item
+        /// </summary>
         public static ResourceKey MenuStyleKey => _menuStyleKey ?? (_menuStyleKey = new StyleKey<ContextMenu>());
 
+        /// <summary>
+        /// The style key for a separator
+        /// </summary>
         public static ResourceKey SeparatorStyleKey => _separatorStyleKey ??
                                                        (_separatorStyleKey = new StyleKey<ContextMenu>());
 
+        /// <summary>
+        /// The popup animation.
+        /// </summary>
         public PopupAnimation PopupAnimation
         {
             get => (PopupAnimation) GetValue(PopupAnimationProperty);
