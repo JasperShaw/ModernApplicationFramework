@@ -9,6 +9,7 @@ using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Utilities.Imaging;
 using Brushes = System.Windows.Media.Brushes;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands

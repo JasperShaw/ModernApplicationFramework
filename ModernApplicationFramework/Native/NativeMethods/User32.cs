@@ -42,6 +42,12 @@ namespace ModernApplicationFramework.Native.NativeMethods
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool GetWindowRect(IntPtr hwnd, out RECT lpRect);
 
+        [DllImport("User32.dll", CallingConvention = CallingConvention.StdCall)]
+        internal static extern IntPtr GetDC(IntPtr hWnd);
+
+        [DllImport("User32.dll", CallingConvention = CallingConvention.StdCall)]
+        internal static extern int ReleaseDC(IntPtr hWnd, IntPtr hDc);
+
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool IsIconic(IntPtr hwnd);
@@ -127,10 +133,6 @@ namespace ModernApplicationFramework.Native.NativeMethods
         [DllImport("user32.dll")]
         internal static extern int GetSystemMetrics(int index);
 
-        [DllImport("User32.dll", CallingConvention = CallingConvention.StdCall)]
-        internal static extern IntPtr GetDC(IntPtr hWnd);
-
-
         [DllImport("User32.dll")]
         internal static extern IntPtr GetDCEx(IntPtr hWnd, IntPtr hrgnClip, int dwFlags);
 
@@ -150,9 +152,6 @@ namespace ModernApplicationFramework.Native.NativeMethods
 
         [DllImport("user32.dll")]
         internal static extern IntPtr PostMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
-
-        [DllImport("User32.dll", CallingConvention = CallingConvention.StdCall)]
-        internal static extern int ReleaseDC(IntPtr hWnd, IntPtr hDc);
 
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]

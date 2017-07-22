@@ -1,12 +1,12 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:this="clr-namespace:ModernApplicationFramework.Controls"
                     xmlns:colors="clr-namespace:ModernApplicationFramework.Core.Themes"
-                    xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
                     xmlns:utilities="clr-namespace:ModernApplicationFramework.Controls.Utilities"
                     xmlns:basics="clr-namespace:ModernApplicationFramework.Basics"
                     xmlns:menu="clr-namespace:ModernApplicationFramework.Controls.Menu"
-                    xmlns:windows="clr-namespace:ModernApplicationFramework.Controls.Windows">
+                    xmlns:windows="clr-namespace:ModernApplicationFramework.Controls.Windows"
+                    xmlns:converters="clr-namespace:ModernApplicationFramework.Utilities.Converters;assembly=ModernApplicationFramework.Utilities"
+                    xmlns:imaging="clr-namespace:ModernApplicationFramework.Utilities.Imaging;assembly=ModernApplicationFramework.Utilities">
 
     <converters:BrushToColorConverter x:Key="BrushToColorConverter"/>
 
@@ -77,9 +77,9 @@
                             <ScrollViewer x:Name="PART_ScrollViewer" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type FrameworkElement}, ResourceId=MenuScrollViewer}}">
                                 <Grid Background="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuBackgroundGradientBegin}}"
                                       RenderOptions.ClearTypeHint="Enabled">
-                                    <colors:ImageThemingUtilities.ImageBackgroundColor>
+                                    <imaging:ImageThemingUtilities.ImageBackgroundColor>
                                         <Binding Path="Background" ElementName="PART_IconBackground" Converter="{StaticResource BrushToColorConverter}"/>
-                                    </colors:ImageThemingUtilities.ImageBackgroundColor>
+                                    </imaging:ImageThemingUtilities.ImageBackgroundColor>
                                     <Border x:Name="PART_IconBackground" Width="28"
                                             Background="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuIconBackground}}"
                                             HorizontalAlignment="Left"/>

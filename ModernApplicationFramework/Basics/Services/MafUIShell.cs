@@ -3,10 +3,10 @@ using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Interop;
 using Caliburn.Micro;
-using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Native.Platform.Structs;
+using ModernApplicationFramework.Utilities.Interfaces;
 using Point = System.Windows.Point;
 
 namespace ModernApplicationFramework.Basics.Services

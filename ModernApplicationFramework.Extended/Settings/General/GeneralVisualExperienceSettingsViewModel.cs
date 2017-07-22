@@ -2,11 +2,10 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using ModernApplicationFramework.Basics;
-using ModernApplicationFramework.Basics.SettingsBase;
 using ModernApplicationFramework.Core.Themes;
-using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
-using ModernApplicationFramework.Interfaces.Settings;
+using ModernApplicationFramework.Settings;
+using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Settings.SettingsDialog;
 
 namespace ModernApplicationFramework.Extended.Settings.General
@@ -17,6 +16,7 @@ namespace ModernApplicationFramework.Extended.Settings.General
     {
         private readonly IThemeManager _manager;
         private readonly EnvironmentGeneralOptions _generalOptions;
+        private readonly StorableEnvironmentGeneralOptions _storableOptions;
 
         private Theme _selectedTheme;
         private bool _useTitleCaseOnMenu;
@@ -113,9 +113,11 @@ namespace ModernApplicationFramework.Extended.Settings.General
 
 
         [ImportingConstructor]
-        public GeneralVisualExperienceSettingsViewModel(IThemeManager manager, EnvironmentGeneralOptions generalOptions)
+        public GeneralVisualExperienceSettingsViewModel(IThemeManager manager, EnvironmentGeneralOptions generalOptions, 
+            StorableEnvironmentGeneralOptions storableOptions)
         {
             _generalOptions = generalOptions;
+            _storableOptions = storableOptions;
             _manager = manager;
 
             _selectedTheme = Themes.FirstOrDefault(x => x.GetType() == _manager.Theme?.GetType());
@@ -145,7 +147,7 @@ namespace ModernApplicationFramework.Extended.Settings.General
             _generalOptions.UseHardwareAcceleration = UseHardwareAcceleration;
             _generalOptions.UseRichVisualExperience = UseRichVisualExperience;
             _generalOptions.AutoAdjustExperience = AutoAdjustExperience;
-            _generalOptions.StoreSettings();
+            _storableOptions.StoreSettings();
             return true;
         }
 

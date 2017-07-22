@@ -5,7 +5,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.ListBoxes
 {

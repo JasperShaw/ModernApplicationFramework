@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using ModernApplicationFramework.Controls.ListBoxes;
-using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.Internals
 {

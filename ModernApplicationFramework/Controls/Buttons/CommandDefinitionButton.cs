@@ -11,6 +11,7 @@ using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces.Controls;
 using ModernApplicationFramework.Interfaces.Services;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.Buttons
 {

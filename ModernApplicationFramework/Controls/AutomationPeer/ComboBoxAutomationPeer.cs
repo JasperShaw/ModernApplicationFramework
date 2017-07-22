@@ -5,9 +5,8 @@ using System.Linq;
 using System.Windows.Automation;
 using System.Windows.Automation.Peers;
 using System.Windows.Automation.Provider;
-using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Controls.ComboBox;
-using ModernApplicationFramework.Native.Standard;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.AutomationPeer
 {

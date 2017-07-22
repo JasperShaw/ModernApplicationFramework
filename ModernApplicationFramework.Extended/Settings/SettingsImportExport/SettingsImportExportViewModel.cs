@@ -2,11 +2,13 @@
 using System.IO;
 using System.Windows.Input;
 using Microsoft.Win32;
-using ModernApplicationFramework.Basics.SettingsBase;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Interfaces;
-using ModernApplicationFramework.Interfaces.Settings;
+using ModernApplicationFramework.Settings;
+using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Settings.SettingsDialog;
+using ModernApplicationFramework.Utilities.Interfaces;
+using ModernApplicationFramework.Utilities.Interfaces.Settings;
 
 namespace ModernApplicationFramework.Extended.Settings.SettingsImportExport
 {

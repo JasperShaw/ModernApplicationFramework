@@ -8,7 +8,8 @@
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
                     xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General"
                     xmlns:windows="clr-namespace:ModernApplicationFramework.Controls.Windows"
-                    xmlns:comboBox="clr-namespace:ModernApplicationFramework.Controls.ComboBox">
+                    xmlns:comboBox="clr-namespace:ModernApplicationFramework.Controls.ComboBox"
+                    xmlns:converters1="clr-namespace:ModernApplicationFramework.Utilities.Converters;assembly=ModernApplicationFramework.Utilities">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Brushes.xaml"/>
@@ -20,7 +21,7 @@
     <accessKey:AccessKeyRemovingConverter x:Key="AccessKeyRemovingConverter"/>
     <accessKey:AccessKeyConverter x:Key="AccessKeyConverter"/>
     <customize:IsCustomMenuConverter x:Key="IsCustomMenuConverter"/>
-    <converters:BrushToColorConverter x:Key="BrushToColorConverter"/>
+    <converters1:BrushToColorConverter x:Key="BrushToColorConverter"/>
     <general:NotNullConverter x:Key="NotNullConverter"/>
     <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
     <converters:ComboBoxWidthConverter x:Key="ComboBoxWidthConverter"/>

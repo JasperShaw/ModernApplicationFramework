@@ -3,8 +3,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Utilities;
 using MenuItem = ModernApplicationFramework.Controls.Menu.MenuItem;
+using ExtensionMethods = ModernApplicationFramework.Utilities.ExtensionMethods;
 
 namespace ModernApplicationFramework.Controls.Utilities
 {
@@ -13,7 +14,7 @@ namespace ModernApplicationFramework.Controls.Utilities
         internal static void HandleOnContextMenuOpening(ContextMenuEventArgs args, Action<ContextMenuEventArgs> baseHandler)
         {
             var originalSource = args.OriginalSource as DependencyObject;
-            if (originalSource?.FindAncestor<Popup, DependencyObject>(VisualUtilities.GetVisualOrLogicalParent) != null)
+            if (originalSource?.FindAncestor<Popup, DependencyObject>(ExtensionMethods.GetVisualOrLogicalParent) != null)
                 args.Handled = true;
             else
             {

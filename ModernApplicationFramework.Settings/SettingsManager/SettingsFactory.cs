@@ -1,11 +1,12 @@
 using System;
 using System.IO;
 using System.Xml;
-using ModernApplicationFramework.Interfaces.Settings;
+using ModernApplicationFramework.Settings.Interfaces;
+using ModernApplicationFramework.Utilities.Interfaces.Settings;
 
 namespace ModernApplicationFramework.Settings.SettingsManager
 {
-    public static class SettingsFactory
+    internal static class SettingsFactory
     {
         public static ISettingsFile Open(string path, ISettingsManager settingsManager)
         {

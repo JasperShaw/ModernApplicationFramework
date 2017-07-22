@@ -5,6 +5,7 @@ using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Controls.ListBoxes;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.Menu
 {
@@ -68,7 +69,7 @@ namespace ModernApplicationFramework.Controls.Menu
             }
             if (anchorItem != null)
             {
-                if (string.IsNullOrEmpty(anchorItem?.CommandDefinition?.IconSource?.OriginalString))
+                if (string.IsNullOrEmpty(anchorItem.CommandDefinition?.IconSource?.OriginalString))
                     return;
                 var myResourceDictionary = new ResourceDictionary { Source = anchorItem.CommandDefinition.IconSource };
                 IconSource = myResourceDictionary[anchorItem.CommandDefinition.IconId];

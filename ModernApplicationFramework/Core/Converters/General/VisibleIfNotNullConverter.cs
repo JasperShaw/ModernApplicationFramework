@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Windows;
+using ModernApplicationFramework.Utilities.Converters;
 
 namespace ModernApplicationFramework.Core.Converters.General
 {

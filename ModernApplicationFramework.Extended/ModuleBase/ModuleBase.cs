@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Windows;
 using ModernApplicationFramework.Extended.Interfaces;
-using ModernApplicationFramework.Native.Platform;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Extended.ModuleBase
 {

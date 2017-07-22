@@ -10,7 +10,7 @@ using ModernApplicationFramework.Controls.Utilities;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Native.NativeMethods;
-using ModernApplicationFramework.Native.Standard;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls
 {

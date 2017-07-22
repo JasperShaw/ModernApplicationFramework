@@ -1,7 +1,9 @@
 using System;
 using System.ComponentModel.Composition;
-using ModernApplicationFramework.Basics.SettingsBase;
-using ModernApplicationFramework.Interfaces.Settings;
+using ModernApplicationFramework.Settings;
+using ModernApplicationFramework.Settings.Interfaces;
+using ModernApplicationFramework.Settings.SettingDataModel;
+using ModernApplicationFramework.Utilities.Interfaces.Settings;
 
 namespace ModernApplicationFramework.Extended.Core.LayoutManagement
 {

@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using ModernApplicationFramework.Native.Standard;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.ListBoxes
 {

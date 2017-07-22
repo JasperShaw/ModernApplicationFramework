@@ -4,9 +4,11 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.SettingsBase;
-using ModernApplicationFramework.Interfaces;
-using ModernApplicationFramework.Interfaces.Settings;
+using ModernApplicationFramework.Settings.Interfaces;
+using ModernApplicationFramework.Utilities.Interfaces;
+using ModernApplicationFramework.Utilities.Interfaces.Settings;
+using ModernApplicationFramework.Utilities.Settings;
+using ISettingsDataModel = ModernApplicationFramework.Settings.Interfaces.ISettingsDataModel;
 
 namespace ModernApplicationFramework.Settings.SettingsManager
 {
@@ -60,7 +62,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
                 var newDirectoryPath = Path.GetDirectoryName(path);
                 if (string.IsNullOrEmpty(newDirectoryPath))
                     throw new ArgumentNullException();
-                new FileInfo(path).Directory?.Create();
+                new FileInfo(path).Directory.Create();
                 if (!File.Exists(EnvironmentVarirables.SettingsFilePath))
                     CreateNewSettingsFileInternal(path);
                 else

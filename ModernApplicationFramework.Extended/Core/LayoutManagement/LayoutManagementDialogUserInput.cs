@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Windows;
 using ModernApplicationFramework.Controls.Dialogs;
-using ModernApplicationFramework.Native.Standard;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Extended.Core.LayoutManagement
 {

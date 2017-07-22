@@ -2,6 +2,7 @@
 using ModernApplicationFramework.Basics.ApplicationEnvironment;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Utilities.Interfaces;
 
 namespace ModernApplicationFramework.Extended.ApplicationEnvironment
 {

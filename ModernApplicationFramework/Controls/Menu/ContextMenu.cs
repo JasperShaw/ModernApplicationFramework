@@ -13,9 +13,9 @@ using ModernApplicationFramework.Controls.Utilities;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
-using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
-using ModernApplicationFramework.Native.Standard;
+using ModernApplicationFramework.Utilities;
+using ModernApplicationFramework.Utilities.Imaging;
 
 namespace ModernApplicationFramework.Controls.Menu
 {

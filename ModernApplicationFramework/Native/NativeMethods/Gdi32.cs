@@ -27,9 +27,6 @@ namespace ModernApplicationFramework.Native.NativeMethods
             int nWidthEllipse, int nHeightEllipse);
 
         [DllImport("Gdi32.dll", CallingConvention = CallingConvention.StdCall)]
-        internal static extern int GetDeviceCaps(IntPtr hdc, int nIndex);
-
-        [DllImport("Gdi32.dll", CallingConvention = CallingConvention.StdCall)]
         internal static extern int CombineRgn(IntPtr hrngDest, IntPtr hrgnSrc1, IntPtr hrgnSrc2, int fnCombineMode);
 
         [DllImport("gdi32.dll", SetLastError = true)]

@@ -5,8 +5,8 @@ using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Interfaces;
-using ModernApplicationFramework.Interfaces;
-using ModernApplicationFramework.Interfaces.Settings;
+using ModernApplicationFramework.Utilities.Interfaces;
+using ModernApplicationFramework.Utilities.Interfaces.Settings;
 
 namespace ModernApplicationFramework.Extended.ApplicationEnvironment
 {

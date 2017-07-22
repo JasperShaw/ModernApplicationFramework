@@ -5,6 +5,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 using ModernApplicationFramework.Native.Standard;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Core
 {

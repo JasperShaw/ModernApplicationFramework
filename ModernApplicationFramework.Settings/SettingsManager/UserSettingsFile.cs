@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
-using ModernApplicationFramework.Interfaces.Settings;
 using ModernApplicationFramework.Native.Platform;
+using ModernApplicationFramework.Settings.Interfaces;
+using ModernApplicationFramework.Settings.XPath;
+using ModernApplicationFramework.Utilities;
+using ModernApplicationFramework.Utilities.Interfaces.Settings;
 
 namespace ModernApplicationFramework.Settings.SettingsManager
 {
-    public abstract class SettingsFile : DisposableObject, ISettingsFile
+    internal abstract class SettingsFile : DisposableObject, ISettingsFile
     {
         protected const string RootElement = "UserSettings";
 
@@ -128,7 +131,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
     }
 
 
-    public class UserSettingsFile : SettingsFile
+    internal class UserSettingsFile : SettingsFile
     {
         public UserSettingsFile(ISettingsManager settingsManager) : base(settingsManager)
         {
@@ -136,14 +139,14 @@ namespace ModernApplicationFramework.Settings.SettingsManager
 
         public override XmlNode GetSingleNode(string path, bool navigateAttributeWise = true)
         {
-            var xPath = new XPath(path, navigateAttributeWise);
+            var xPath = new XPath.XPath(path, navigateAttributeWise);
             var node = SettingsSotrage.SelectSingleNode(SettingsXPathCreator.CreateXPath(xPath));
             return node;
         }
 
         public override IEnumerable<XmlNode> GetChildNodes(string path, bool navigateAttributeWise = true)
         {
-            var xPath = new XPath(path, navigateAttributeWise);
+            var xPath = new XPath.XPath(path, navigateAttributeWise);
             var nodes = SettingsSotrage.SelectSingleNode(SettingsXPathCreator.CreateXPath(xPath));
             if (nodes == null || !nodes.HasChildNodes)
                 return new List<XmlNode>();
@@ -154,7 +157,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
 
         public override string GetPropertyValueData(string path, string propertyName, bool navigateAttributeWise = true)
         {
-            var xPath = new XPath(path, navigateAttributeWise);
+            var xPath = new XPath.XPath(path, navigateAttributeWise);
             var node = SettingsSotrage.SelectSingleNode(
                 SettingsXPathCreator.CreatePropertyValeXPath(xPath, propertyName));
             var value = node?.InnerText;
@@ -165,7 +168,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
             bool navigateAttributeWise = true)
         {
             var nodePath = SettingsXPathCreator.CreateNodeXPath(node);
-            var xPath = new XPath(path, navigateAttributeWise);
+            var xPath = new XPath.XPath(path, navigateAttributeWise);
             var additPath =
                 nodePath + SettingsXPathCreator.CreatePropertyValeXPath(xPath, propertyName,
                     XPathCreationOptions.AllowEmpty);
@@ -285,7 +288,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
 
         public override string GetAttributeValue(string path, string attribute, bool navigateAttributeWise = true)
         {
-            var xPath = new XPath(path, navigateAttributeWise);
+            var xPath = new XPath.XPath(path, navigateAttributeWise);
             var value = SettingsSotrage
                 .SelectSingleNode(SettingsXPathCreator.CreateElementAttributeValueXPath(xPath, attribute))
                 ?.Value;
@@ -332,8 +335,11 @@ namespace ModernApplicationFramework.Settings.SettingsManager
 
         private XmlElement CreateApplicationVersionElement(XmlDocument document)
         {
-            return document.CreateElement("ApplicationIdentity", null,
-                new KeyValuePair<string, string>("version", SettingsManager.EnvironmentVarirables.ApplicationVersion));
+            lock (SettingsSotrage)
+            {
+                return document.CreateElement("ApplicationIdentity", null,
+                    new KeyValuePair<string, string>("version", SettingsManager.EnvironmentVarirables.ApplicationVersion));
+            }
         }
 
         private XmlElement CreateToolsOptionsElement(XmlDocument document)

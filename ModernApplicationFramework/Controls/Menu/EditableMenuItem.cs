@@ -6,8 +6,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Native.NativeMethods;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.Menu
 {

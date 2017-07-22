@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using ModernApplicationFramework.Core.Utilities;
-using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Utilities.Interfaces;
 
 namespace ModernApplicationFramework.Basics.ApplicationEnvironment
 {
+    /// <inheritdoc />
     /// <summary>
     /// Basic implementation of a service that handles the application's environment variables
     /// </summary>
-    /// <seealso cref="ModernApplicationFramework.Interfaces.IEnvironmentVarirables" />
+    /// <seealso cref="T:ModernApplicationFramework.Utilities.Interfaces.IEnvironmentVarirables" />
     public abstract class AbstractEnvironmentVarirables : IEnvironmentVarirables
     {
         protected const string ApplicationLocationKey = "ApplicationLocation";

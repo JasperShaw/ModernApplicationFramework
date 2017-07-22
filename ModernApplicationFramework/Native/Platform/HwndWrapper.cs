@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Native.Platform.Structs;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Native.Platform
 {

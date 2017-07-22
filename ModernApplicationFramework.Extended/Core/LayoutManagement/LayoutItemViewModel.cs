@@ -1,5 +1,5 @@
 ﻿using ModernApplicationFramework.Core.Utilities;
-using ModernApplicationFramework.Native.Standard;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Extended.Core.LayoutManagement
 {

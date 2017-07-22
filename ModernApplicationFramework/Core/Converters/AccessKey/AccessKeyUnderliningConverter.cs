@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Windows.Documents;
-using ModernApplicationFramework.Core.Converters.General;
-using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Utilities;
+using ModernApplicationFramework.Utilities.Converters;
 
 namespace ModernApplicationFramework.Core.Converters.AccessKey
 {

@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.Composition;
-using ModernApplicationFramework.Basics;
+﻿using System;
+using System.ComponentModel.Composition;
 using ModernApplicationFramework.Core;
-using ModernApplicationFramework.Interfaces;
-using ModernApplicationFramework.Interfaces.Settings;
+using ModernApplicationFramework.Utilities;
+using ModernApplicationFramework.Utilities.Interfaces;
+using ISettingsCategory = ModernApplicationFramework.Settings.Interfaces.ISettingsCategory;
+using ISettingsPage = ModernApplicationFramework.Settings.Interfaces.ISettingsPage;
 
 namespace ModernApplicationFramework.Settings.SettingsDialog
 {
@@ -14,6 +16,8 @@ namespace ModernApplicationFramework.Settings.SettingsDialog
         public abstract ISettingsCategory Category { get; }
 
         public IDirtyObjectManager DirtyObjectManager { get; }
+
+        IDirtyObjectManager ICanBeDirty.DirtyObjectManager => throw new NotImplementedException();
 
         protected AbstractSettingsPage()
         {

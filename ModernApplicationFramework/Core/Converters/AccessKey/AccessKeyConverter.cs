@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 using System.Text;
-using ModernApplicationFramework.Core.Converters.General;
+using ModernApplicationFramework.Utilities.Converters;
 
 namespace ModernApplicationFramework.Core.Converters.AccessKey
 {
@@ -8,7 +8,7 @@ namespace ModernApplicationFramework.Core.Converters.AccessKey
     {
         protected override string Convert(string inputString, object parameter, CultureInfo culture)
         {
-            return AccessKeyConverter.ConvertAmpersandToUnderscore(inputString);
+            return ConvertAmpersandToUnderscore(inputString);
         }
 
         public static string ConvertAmpersandToUnderscore(string inputString)

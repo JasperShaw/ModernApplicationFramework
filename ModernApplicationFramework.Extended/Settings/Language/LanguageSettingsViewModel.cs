@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using ModernApplicationFramework.Basics.SettingsBase;
 using ModernApplicationFramework.Core.Localization;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
-using ModernApplicationFramework.Interfaces.Settings;
+using ModernApplicationFramework.Settings;
+using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Settings.SettingsDialog;
 
 namespace ModernApplicationFramework.Extended.Settings.Language

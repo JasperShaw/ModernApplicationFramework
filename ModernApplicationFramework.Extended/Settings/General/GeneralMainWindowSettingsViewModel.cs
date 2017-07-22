@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics;
-using ModernApplicationFramework.Basics.SettingsBase;
-using ModernApplicationFramework.Interfaces.Settings;
+using ModernApplicationFramework.Settings;
+using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Settings.SettingsDialog;
 
 namespace ModernApplicationFramework.Extended.Settings.General
@@ -11,6 +11,7 @@ namespace ModernApplicationFramework.Extended.Settings.General
     public class GeneralMainWindowSettingsViewModel : AbstractSettingsPage
     {
         private readonly EnvironmentGeneralOptions _generalOptions;
+        private readonly StorableEnvironmentGeneralOptions _storableOptions;
         private bool _showStatusBar;
         private bool _closeAffectsOnlyActive;
         private bool _autoHideAffectsOnlyActive;
@@ -58,9 +59,11 @@ namespace ModernApplicationFramework.Extended.Settings.General
         }
 
         [ImportingConstructor]
-        public GeneralMainWindowSettingsViewModel(EnvironmentGeneralOptions generalOptions)
+        public GeneralMainWindowSettingsViewModel(EnvironmentGeneralOptions generalOptions,
+            StorableEnvironmentGeneralOptions storableOptions)
         {
             _generalOptions = generalOptions;
+            _storableOptions = storableOptions;
             _showStatusBar = generalOptions.ShowStatusBar;
             _autoHideAffectsOnlyActive = generalOptions.DockedWinAuto;
             _closeAffectsOnlyActive = generalOptions.DockedWinClose;
@@ -71,7 +74,7 @@ namespace ModernApplicationFramework.Extended.Settings.General
             _generalOptions.ShowStatusBar = ShowStatusBar;
             _generalOptions.DockedWinAuto = AutoHideAffectsOnlyActive;
             _generalOptions.DockedWinClose = CloseAffectsOnlyActive;
-            _generalOptions.StoreSettings();
+            _storableOptions.StoreSettings();
             return true;
         }
 

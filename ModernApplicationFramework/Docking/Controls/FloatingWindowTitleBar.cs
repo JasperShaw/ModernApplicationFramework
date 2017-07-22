@@ -8,7 +8,7 @@ using System.Windows.Media;
 using ModernApplicationFramework.Controls.AutomationPeer;
 using ModernApplicationFramework.Controls.Windows;
 using ModernApplicationFramework.Interfaces.Controls;
-using ModernApplicationFramework.Native.Standard;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Docking.Controls
 {

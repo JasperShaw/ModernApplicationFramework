@@ -4,8 +4,10 @@ using System.Linq;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.CommandBase;
-using ModernApplicationFramework.Interfaces.Settings;
 using ModernApplicationFramework.Properties;
+using ModernApplicationFramework.Utilities.Interfaces.Settings;
+using ISettingsCategory = ModernApplicationFramework.Settings.Interfaces.ISettingsCategory;
+using ISettingsPage = ModernApplicationFramework.Settings.Interfaces.ISettingsPage;
 
 namespace ModernApplicationFramework.Settings.SettingsDialog.ViewModels
 {

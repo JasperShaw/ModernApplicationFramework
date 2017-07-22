@@ -15,7 +15,9 @@
                     xmlns:menu="clr-namespace:ModernApplicationFramework.Controls.Menu"
                     xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons"
                     xmlns:windows="clr-namespace:ModernApplicationFramework.Controls.Windows"
-                    xmlns:comboBox="clr-namespace:ModernApplicationFramework.Controls.ComboBox">
+                    xmlns:comboBox="clr-namespace:ModernApplicationFramework.Controls.ComboBox"
+                    xmlns:converters1="clr-namespace:ModernApplicationFramework.Utilities.Converters;assembly=ModernApplicationFramework.Utilities"
+                    xmlns:imaging="clr-namespace:ModernApplicationFramework.Utilities.Imaging;assembly=ModernApplicationFramework.Utilities">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ComboBox.xaml"/>
@@ -27,7 +29,7 @@
     <Geometry x:Key="RightArrow">M 0,0 L 4,3.5 L 0,7 Z</Geometry>
 
     <accessKey:AccessKeyRemovingConverter x:Key="AccessKeyRemovingConverter"/>
-    <converters:BrushToColorConverter x:Key="BrushToColorConverter"/>
+    <converters1:BrushToColorConverter x:Key="BrushToColorConverter"/>
     <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
     <accessKey:AccessKeyConverter x:Key="AccessKeyConverter"/>
     <accessKey:AccessKeyUnderliningConverter x:Key="AccessKeyUnderliningConverter"/>
@@ -49,7 +51,7 @@
 
     <Style TargetType="{x:Type menu:Menu}" BasedOn="{StaticResource {x:Type Menu}}">
         <Setter Property="Background" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandShelfHighlight}}"/>
-        <Setter Property="colors:ImageThemingUtilities.ImageBackgroundColor">
+        <Setter Property="imaging:ImageThemingUtilities.ImageBackgroundColor">
             <Setter.Value>
                 <Binding Path="Background" RelativeSource="{RelativeSource Self}"
                          Converter="{StaticResource BrushToColorConverter}"/>
@@ -103,9 +105,9 @@
                     <Grid Background="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuIconBackground}}">
                         <menu:MenuScrollViewer>
                             <Grid Background="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuBackgroundGradientBegin}}" RenderOptions.BitmapScalingMode="{x:Static native:DpiHelper.BitmapScalingMode}" RenderOptions.ClearTypeHint="Enabled">
-                                <colors:ImageThemingUtilities.ImageBackgroundColor>
+                                <imaging:ImageThemingUtilities.ImageBackgroundColor>
                                     <Binding Path="Background" ElementName="IconBackground" Converter="{StaticResource BrushToColorConverter}"/>
-                                </colors:ImageThemingUtilities.ImageBackgroundColor>
+                                </imaging:ImageThemingUtilities.ImageBackgroundColor>
                                 <Border x:Name="IconBackground" Width="28"
                                         Background="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuIconBackground}}"
                                         HorizontalAlignment="Left"/>
@@ -269,9 +271,9 @@
                         <menu:MenuScrollViewer>
                             <Grid Background="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuBackgroundGradientBegin}}"
                                   RenderOptions.BitmapScalingMode="{x:Static native:DpiHelper.BitmapScalingMode}" RenderOptions.ClearTypeHint="Enabled">
-                                <colors:ImageThemingUtilities.ImageBackgroundColor>
+                                <imaging:ImageThemingUtilities.ImageBackgroundColor>
                                     <Binding Path="Background" ElementName="IconBackground" Converter="{StaticResource BrushToColorConverter}"/>
-                                </colors:ImageThemingUtilities.ImageBackgroundColor>
+                                </imaging:ImageThemingUtilities.ImageBackgroundColor>
                                 <Border x:Name="IconBackground" Width="28" HorizontalAlignment="Left"
                                         Background="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuIconBackground}}"/>
                                 <ItemsPresenter KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.DirectionalNavigation="Cycle" Margin="3"
@@ -1328,7 +1330,7 @@
         <Setter Property="Background" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarGradientBegin}}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarToolBarBorder}}"/>
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="colors:ImageThemingUtilities.ImageBackgroundColor">
+        <Setter Property="imaging:ImageThemingUtilities.ImageBackgroundColor">
             <Setter.Value>
                 <Binding Path="Background" RelativeSource="{RelativeSource Self}"
                          Converter="{StaticResource BrushToColorConverter}"/>
@@ -2092,9 +2094,9 @@
                                     <Grid Background="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuIconBackground}}">
                                         <menu:MenuScrollViewer>
                                             <Grid Background="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuBackgroundGradientBegin}}">
-                                                <colors:ImageThemingUtilities.ImageBackgroundColor>
+                                                <imaging:ImageThemingUtilities.ImageBackgroundColor>
                                                     <Binding Path="Background" ElementName="IconBackground" Converter="{StaticResource BrushToColorConverter}"/>
-                                                </colors:ImageThemingUtilities.ImageBackgroundColor>
+                                                </imaging:ImageThemingUtilities.ImageBackgroundColor>
                                                 <Border x:Name="IconBackground" Background="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarMenuIconBackground}}"
                                                         HorizontalAlignment="Left"/>
                                                 <ItemsPresenter Margin="3" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" KeyboardNavigation.DirectionalNavigation="Cycle"

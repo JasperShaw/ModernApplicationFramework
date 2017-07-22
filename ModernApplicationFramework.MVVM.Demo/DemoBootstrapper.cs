@@ -1,5 +1,5 @@
 ﻿using ModernApplicationFramework.Extended;
-using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Utilities.Interfaces;
 
 namespace ModernApplicationFramework.MVVM.Demo
 {

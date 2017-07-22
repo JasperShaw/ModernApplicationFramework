@@ -4,7 +4,6 @@ using System.Security.AccessControl;
 using System.Threading;
 using System.Windows;
 using System.Windows.Automation.Peers;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
@@ -12,13 +11,13 @@ using System.Windows.Threading;
 using Caliburn.Micro;
 using ModernApplicationFramework.Controls.AutomationPeer;
 using ModernApplicationFramework.Controls.Internals;
-using ModernApplicationFramework.Core.Converters.General;
-using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
-using ModernApplicationFramework.Interfaces.Settings;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.Native;
 using ModernApplicationFramework.Native.NativeMethods;
+using ModernApplicationFramework.Utilities.Converters;
+using ModernApplicationFramework.Utilities.Imaging;
+using ModernApplicationFramework.Utilities.Interfaces.Settings;
 
 namespace ModernApplicationFramework.Controls.Windows
 {
@@ -98,7 +97,7 @@ namespace ModernApplicationFramework.Controls.Windows
         protected override void OnActivated(EventArgs e)
         {
             base.OnActivated(e);
-            //Needed so we can Bind Keygestures to the Window
+            //Needed so we can Bind key gestures to the Window
             Keyboard.Focus(this);
         }
 

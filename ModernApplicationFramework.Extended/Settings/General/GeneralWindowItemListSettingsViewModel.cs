@@ -2,9 +2,9 @@
 using System.Globalization;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
-using ModernApplicationFramework.Basics.SettingsBase;
 using ModernApplicationFramework.Interfaces;
-using ModernApplicationFramework.Interfaces.Settings;
+using ModernApplicationFramework.Settings;
+using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Settings.SettingsDialog;
 
 namespace ModernApplicationFramework.Extended.Settings.General
@@ -14,6 +14,7 @@ namespace ModernApplicationFramework.Extended.Settings.General
     public class GeneralWindowItemListSettingsViewModel : AbstractSettingsPage
     {
         private readonly EnvironmentGeneralOptions _generalOptions;
+        private readonly StorableEnvironmentGeneralOptions _storableOptions;
         private string _windowListItems;
         public override uint SortOrder => 1;
         public override string Name => GeneralSettingsResources.GeneralSettings_Name;
@@ -21,9 +22,11 @@ namespace ModernApplicationFramework.Extended.Settings.General
 
 
         [ImportingConstructor]
-        public GeneralWindowItemListSettingsViewModel(EnvironmentGeneralOptions generalOptions)
+        public GeneralWindowItemListSettingsViewModel(EnvironmentGeneralOptions generalOptions,
+            StorableEnvironmentGeneralOptions storableOptions)
         {
             _generalOptions = generalOptions;
+            _storableOptions = storableOptions;
             WindowListItems = generalOptions.WindowListItems.ToString();
         }
 
@@ -48,7 +51,7 @@ namespace ModernApplicationFramework.Extended.Settings.General
                 return false;
             }
             _generalOptions.WindowListItems = number;
-            _generalOptions.StoreSettings();
+            _storableOptions.StoreSettings();
             return true;
         }
 

@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Media;
-using ModernApplicationFramework.Native.Platform.Enums;
+using ModernApplicationFramework.Utilities;
 using Size = System.Windows.Size;
 
 namespace ModernApplicationFramework.Native
@@ -327,7 +327,7 @@ namespace ModernApplicationFramework.Native
             return Instance.CreateDeviceFromLogicalImage(logicalImageList, backgroundColor, scalingMode);
         }
 
-        public class DpiHelperImplementation : Native.Platform.DpiHelper
+        public class DpiHelperImplementation : Utilities.DpiHelper
         {
             public DpiHelperImplementation()
                 : base(96.0)

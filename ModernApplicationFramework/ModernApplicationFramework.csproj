@@ -245,8 +245,6 @@
     <Compile Include="Controls\TextBoxes\NumberOnlyTextBox.cs" />
     <Compile Include="Core\Converters\ClientTextPickerConverter.cs" />
     <Compile Include="Core\Utilities\FocusHelper.cs" />
-    <Compile Include="Interfaces\IDirtyObjectManager.cs" />
-    <Compile Include="Basics\SettingsBase\AbstractSettingsDataModel.cs" />
     <Compile Include="Basics\Services\Bootstrapper.cs" />
     <Compile Include="Controls\ComboBox\ComboBoxDataSource.cs" />
     <Compile Include="Basics\CommandBar\CommandBarResources.Designer.cs">
@@ -274,11 +272,8 @@
     <Compile Include="Basics\CustomizeDialog\ViewModels\AddCommandDialogViewModel.cs" />
     <Compile Include="Basics\CustomizeDialog\ViewModels\CommandsPageViewModel.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarItemDefinitionT.cs" />
-    <Compile Include="Basics\DirtyObjectManager.cs" />
     <Compile Include="Basics\EnvironmentGeneralOptions.cs" />
     <Compile Include="Basics\EnvironmentRenderCapabilities.cs" />
-    <Compile Include="Basics\SettingsBase\SettingsCategories.cs" />
-    <Compile Include="Basics\SettingsBase\SettingsCategory.cs" />
     <Compile Include="CommandBase\DelegateCommand.cs" />
     <Compile Include="Controls\Dialogs\DialogResourcesResources.de.Designer.cs">
       <DependentUpon>DialogResourcesResources.de.resx</DependentUpon>
@@ -306,8 +301,6 @@
     <Compile Include="Controls\Dialogs\TextInputViewModel.cs" />
     <Compile Include="Controls\Dialogs\WaitDialog.cs" />
     <Compile Include="Controls\Utilities\HelperMethods.cs" />
-    <Compile Include="Core\Utilities\ObservableObject.cs" />
-    <Compile Include="Interfaces\IExtendedEnvironmentVarirables.cs" />
     <Compile Include="Interfaces\Services\ILanguageManager.cs" />
     <Compile Include="Core\Utilities\RegirstryTools.cs" />
     <Compile Include="Controls\BalloonTooltip.cs" />
@@ -325,7 +318,6 @@
     <Compile Include="Core\ValidationRules\PositiveIntegerValidationRule.cs" />
     <Compile Include="Docking\CommandDefinitions\AutoHideAllWindowsCommandDefinition.cs" />
     <Compile Include="Docking\ContextMenuProviders\AnchorableContextMenuProvider.cs" />
-    <Compile Include="Interfaces\IEnvironmentVarirables.cs" />
     <Compile Include="Interfaces\IContextMenuProvider.cs" />
     <Compile Include="Interfaces\IDialogProvider.cs" />
     <Compile Include="Core\Localization\LanguageInfo.cs" />
@@ -345,13 +337,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Interfaces\ICanBeDirty.cs" />
     <Compile Include="Interfaces\Services\IMafUIShell.cs" />
-    <Compile Include="Interfaces\Settings\IPropteryValueManager.cs" />
-    <Compile Include="Interfaces\Settings\ISettingsCategory.cs" />
-    <Compile Include="Interfaces\Settings\ISettingsDataModel.cs" />
-    <Compile Include="Interfaces\Settings\ISettingsManager.cs" />
-    <Compile Include="Interfaces\Settings\ISettingsPage.cs" />
     <Compile Include="Interfaces\ViewModels\IAddCommandDialogViewModel.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarMenuControllerDefinition.cs" />
     <Compile Include="Basics\Definitions\CommandBar\CommandBarSplitItemDefinition.cs" />
@@ -451,7 +437,6 @@
     <Compile Include="Core\Converters\Customize\IsSeparatorOrCustomizableModelConverter.cs" />
     <Compile Include="Docking\ContextMenuProviders\DocumentTabModelContextMenuProvider.cs" />
     <Compile Include="Core\Converters\MultiCommandToVisibilityConverter.cs" />
-    <Compile Include="Core\Converters\General\MultiValueConverterBase.cs" />
     <Compile Include="Core\Converters\General\NegateBooleanConverter.cs" />
     <Compile Include="Core\Converters\General\OrBooleanConverter.cs" />
     <Compile Include="Core\Converters\ResizeMenuItemVisiblilityConverter.cs" />
@@ -460,10 +445,7 @@
     <Compile Include="Core\Converters\General\VisibleIfNotNullConverter.cs" />
     <Compile Include="Core\Converters\DockToOrienationConverter.cs" />
     <Compile Include="Core\Themes\StyleKey.cs" />
-    <Compile Include="Core\Utilities\Accelerator.cs" />
-    <Compile Include="Core\Utilities\BitmapLocker.cs" />
     <Compile Include="Core\Utilities\DteFocusHelper.cs" />
-    <Compile Include="Core\Utilities\ImageConverter.cs" />
     <Compile Include="Core\Utilities\StyleUtilities.cs" />
     <Compile Include="Core\ValidationRules\ComboBoxWidthValidationRule.cs" />
     <Compile Include="Core\ValidationRules\CommandNameNotEmptyValidationRule.cs" />
@@ -563,12 +545,8 @@
     <Compile Include="Native\Platform\Structs\BitmapInfo.cs" />
     <Compile Include="Native\Platform\Structs\BitmapInfoHeader.cs" />
     <Compile Include="Native\Platform\Structs\BlendFunction.cs" />
-    <Compile Include="Native\Platform\DisposableObject.cs" />
-    <Compile Include="Native\Platform\DpiHelper.cs" />
     <Compile Include="Native\Platform\HwndWrapper.cs" />
-    <Compile Include="Native\Platform\Enums\ImageScalingMode.cs" />
     <Compile Include="Native\Platform\Enums\TextChangedType.cs" />
-    <Compile Include="Native\Standard\Validate.cs" />
     <Compile Include="Native\Platform\Structs\Win32Size.cs" />
     <Compile Include="Native\Platform\Structs\WndClass.cs" />
     <Compile Include="Native\Shell\ShellComInterfaces.cs" />
@@ -584,12 +562,7 @@
     <Compile Include="Core\Utilities\CommonUtilities.cs" />
     <Compile Include="Controls\Utilities\FocusBehavior.cs" />
     <Compile Include="Core\Utilities\ObservableCollectionEx.cs" />
-    <Compile Include="Core\Utilities\PathUtilities.cs" />
     <Compile Include="Controls\Utilities\PropertyBoundFilteringCollectionViewSource.cs" />
-    <Compile Include="Native\ReusableResourceHolder.cs" />
-    <Compile Include="Native\ReusableResourceStore.cs" />
-    <Compile Include="Native\ReusableResourceStoreBase.cs" />
-    <Compile Include="Native\ReusableStringBuilder.cs" />
     <Compile Include="Controls\Utilities\ToolbarsCollectionViewSource.cs" />
     <Compile Include="Core\Utilities\WindowsFileNameHelper.cs" />
     <Compile Include="Controls\Dialogs\FolderBrowserDialog.cs" />
@@ -623,12 +596,10 @@
     <Compile Include="Core\Converters\FullScreenToVisibilityConverter.cs" />
     <Compile Include="Core\Converters\General\InverseBoolConverter.cs" />
     <Compile Include="Core\Converters\IsHorizontalResizeGripConverter.cs" />
-    <Compile Include="Core\Converters\General\MultiValueConverter.cs" />
     <Compile Include="Core\Converters\General\NullableValueConverter.cs" />
     <Compile Include="Core\Converters\General\ToBooleanValueConverter.cs" />
     <Compile Include="Core\Converters\ToolBarVisibilityConverter.cs" />
     <Compile Include="Core\Converters\TrimSpacesConverter.cs" />
-    <Compile Include="Core\Converters\General\ValueConverter.cs" />
     <Compile Include="Core\Converters\WindowStateConverter.cs" />
     <Compile Include="Core\Events\PreviewTextChangedEventArgs.cs" />
     <Compile Include="Core\Events\PreviewTextChangedEventHandler.cs" />
@@ -639,7 +610,6 @@
     <Compile Include="Native\Platform\Enums\AbEdge.cs" />
     <Compile Include="Native\Platform\Enums\AbMsg.cs" />
     <Compile Include="Native\Platform\Structs\Appbardata.cs" />
-    <Compile Include="Native\Standard\Boxes.cs" />
     <Compile Include="Native\Platform\Enums\Gwl.cs" />
     <Compile Include="Native\Platform\Enums\Gwpl.cs" />
     <Compile Include="Native\Platform\Structs\Minmaxinfo.cs" />
@@ -660,9 +630,7 @@
     <Compile Include="Core\Converters\General\BooleanOrConverter.cs" />
     <Compile Include="Native\DpiHelper.cs" />
     <Compile Include="Core\Utilities\ExtensionMethods.cs" />
-    <Compile Include="Core\Utilities\ImageUtilities.cs" />
     <Compile Include="Core\Utilities\KeyboardUtilities.cs" />
-    <Compile Include="Core\Utilities\MultiValueHelper.cs" />
     <Compile Include="Native\Screen.cs" />
     <Compile Include="Core\Utilities\VisualUtilities.cs" />
     <Compile Include="Controls\Utilities\WindowStyleHelper.cs" />
@@ -885,13 +853,6 @@
     <Compile Include="Controls\ToolBar.cs" />
     <Compile Include="Controls\ToolBarTray.cs" />
     <Compile Include="Controls\Windows\ModernChromeWindow.cs" />
-    <Compile Include="Core\Utilities\BitRotator.cs" />
-    <Compile Include="Core\Converters\BrushToColorConverter.cs" />
-    <Compile Include="Core\Utilities\ColorExtensions.cs" />
-    <Compile Include="Core\Utilities\HashHelpers.cs" />
-    <Compile Include="Core\Utilities\HslColor.cs" />
-    <Compile Include="Core\Themes\ImageThemingUtilities.cs" />
-    <Compile Include="Core\Utilities\ReusableArray.cs" />
     <Compile Include="Themes\BlueTheme.cs" />
     <Compile Include="Themes\GenericTheme.cs" />
     <Page Include="Themes\Generic\AnchorablePaneTitle.xaml">
@@ -1196,7 +1157,12 @@
       <LastGenOutput>CommonUI.Resources.en.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\ModernApplicationFramework.Utilities\ModernApplicationFramework.Utilities.csproj">
+      <Project>{2b388979-5b07-4f0a-a302-0c575aaa21c0}</Project>
+      <Name>ModernApplicationFramework.Utilities</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.3.4.224\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.3.4.224\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

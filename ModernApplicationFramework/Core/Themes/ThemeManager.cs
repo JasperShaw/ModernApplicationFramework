@@ -8,6 +8,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
+using ModernApplicationFramework.Utilities.Interfaces;
 
 namespace ModernApplicationFramework.Core.Themes
 {

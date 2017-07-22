@@ -6,7 +6,7 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using Caliburn.Micro;
 using ModernApplicationFramework.Core.Utilities;
-using ModernApplicationFramework.Native.Standard;
+using ModernApplicationFramework.Utilities;
 using Action = System.Action;
 
 namespace ModernApplicationFramework.Extended.Core.LayoutManagement

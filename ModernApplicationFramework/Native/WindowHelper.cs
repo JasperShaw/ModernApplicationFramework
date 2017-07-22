@@ -26,6 +26,7 @@ using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Native.Platform.Structs;
 using ModernApplicationFramework.Native.Standard;
+using ModernApplicationFramework.Utilities;
 using Point = System.Windows.Point;
 
 namespace ModernApplicationFramework.Native

@@ -1,5 +1,5 @@
 ﻿using System.Globalization;
-using ModernApplicationFramework.Core.Converters.General;
+using ModernApplicationFramework.Utilities.Converters;
 
 namespace ModernApplicationFramework.Core.Converters
 {

@@ -1,22 +1,22 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
+using System.Runtime.CompilerServices;
 using System.Windows.Interop;
 using System.Windows.Media;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.SettingsBase;
+using ModernApplicationFramework.Annotations;
 using ModernApplicationFramework.Interfaces.Services;
-using ModernApplicationFramework.Interfaces.Settings;
 
 namespace ModernApplicationFramework.Basics
 {
     /// <inheritdoc />
     /// <summary>
-    /// A settings data model that manages the environment's general options
+    /// Holds the environment's general settings
     /// </summary>
-    /// <seealso cref="AbstractSettingsDataModel" />
-    [Export(typeof(ISettingsDataModel))]
+    /// <seealso cref="INotifyPropertyChanged" />
     [Export(typeof(EnvironmentGeneralOptions))]
-    public sealed class EnvironmentGeneralOptions : AbstractSettingsDataModel
+    public sealed class EnvironmentGeneralOptions : INotifyPropertyChanged
     {
         public const int MinFileListCount = 1;
         public const int MaxFileListCount = 24;
@@ -185,59 +185,9 @@ namespace ModernApplicationFramework.Basics
         }
 
         [ImportingConstructor]
-        public EnvironmentGeneralOptions(ISettingsManager settingsManager)
+        public EnvironmentGeneralOptions()
         {
             Instance = this;
-            Category = SettingsCategories.EnvironmentCategory;
-            SettingsManager = settingsManager;
-        }
-
-        /// <summary>
-        /// The category of the data model
-        /// </summary>
-        /// <inheritdoc />
-        public override ISettingsCategory Category { get; }
-
-        /// <summary>
-        /// The name of the data model
-        /// </summary>
-        /// <inheritdoc />
-        public override string Name => "General";
-
-
-        /// <summary>
-        /// Loads all settings entries from the settings file or creates them if they don't exist.
-        /// </summary>
-        /// <inheritdoc />
-        public override void LoadOrCreate()
-        {
-            SetPropertyFromSettings("ShowStatusBar", nameof(ShowStatusBar), true);
-            SetPropertyFromSettings("WindowMenuContainsNItems", nameof(WindowListItems), 10);
-            SetPropertyFromSettings("MRUListContainsNItems", nameof(MRUListItems), 10);
-            SetPropertyFromSettings<bool>("AutohidePinActiveTabOnly", nameof(DockedWinAuto));
-            SetPropertyFromSettings("CloseButtonActiveTabOnly", nameof(DockedWinClose), true);
-            SetPropertyFromSettings("UseTitleCaseOnMenu", nameof(UseTitleCaseOnMenu), true);
-            SetPropertyFromSettings("UseHardwareAcceleration", nameof(UseHardwareAcceleration), IsHardwareAccelerationSupported);
-            SetPropertyFromSettings<bool>("RichClientExperienceOptions", nameof(UseRichVisualExperience));
-            SetPropertyFromSettings<bool>("AutoAdjustExperience", nameof(AutoAdjustExperience)); 
-        }
-
-        /// <summary>
-        /// Stores all settings into memory.
-        /// <remarks>This should not write the file to disk due to performance and possible mutexes.</remarks>
-        /// </summary>
-        /// <inheritdoc />
-        public override void StoreSettings()
-        {
-            SetSettingsValue("ShowStatusBar", ShowStatusBar);
-            SetSettingsValue("WindowMenuContainsNItems", WindowListItems);
-            SetSettingsValue("MRUListContainsNItems", MRUListItems);
-            SetSettingsValue("AutohidePinActiveTabOnly", DockedWinAuto);
-            SetSettingsValue("CloseButtonActiveTabOnly", DockedWinClose);
-            SetSettingsValue("UseTitleCaseOnMenu", UseTitleCaseOnMenu);
-            SetSettingsValue("UseHardwareAcceleration", UseHardwareAcceleration);
-            SetSettingsValue("RichClientExperienceOptions", UseRichVisualExperience);
-            SetSettingsValue("AutoAdjustExperience", AutoAdjustExperience);
         }
 
         private void UpdateVisualExperience()
@@ -259,6 +209,14 @@ namespace ModernApplicationFramework.Basics
                 EnvironmentRenderCapabilities.Current.VisualEffectsAllowed =
                     !UseRichVisualExperience ? 0 : VisualEffectsAllowed;
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

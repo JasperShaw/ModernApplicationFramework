@@ -7,6 +7,7 @@ using System.Windows.Threading;
 using ModernApplicationFramework.Controls.Utilities;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Native.Standard;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Core.Utilities
 {

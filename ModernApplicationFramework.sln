@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework", "ModernApplicationFramework\ModernApplicationFramework.csproj", "{74F6C6A1-64BB-47D4-9E7F-6CD5C4CA166C}"
 EndProject
@@ -26,6 +26,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.EditorBase", "ModernApplicationFramework.EditorBase\ModernApplicationFramework.EditorBase.csproj", "{C5F062E8-48C1-425E-831F-511A541E18D8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Settings", "ModernApplicationFramework.Settings\ModernApplicationFramework.Settings.csproj", "{240CC7DB-F3A0-48E7-A8EB-5785A90128BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Utilities", "ModernApplicationFramework.Utilities\ModernApplicationFramework.Utilities.csproj", "{2B388979-5B07-4F0A-A302-0C575AAA21C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{240CC7DB-F3A0-48E7-A8EB-5785A90128BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{240CC7DB-F3A0-48E7-A8EB-5785A90128BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{240CC7DB-F3A0-48E7-A8EB-5785A90128BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B388979-5B07-4F0A-A302-0C575AAA21C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B388979-5B07-4F0A-A302-0C575AAA21C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B388979-5B07-4F0A-A302-0C575AAA21C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B388979-5B07-4F0A-A302-0C575AAA21C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

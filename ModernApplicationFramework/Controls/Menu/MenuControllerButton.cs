@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.Menu
 {

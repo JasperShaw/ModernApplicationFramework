@@ -2,7 +2,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using ModernApplicationFramework.Annotations;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Native.Platform;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.ComboBox
 {

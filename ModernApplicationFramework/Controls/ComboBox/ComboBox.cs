@@ -8,7 +8,7 @@ using System.Windows.Input;
 using ModernApplicationFramework.Controls.AutomationPeer;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Native.NativeMethods;
-using ModernApplicationFramework.Native.Standard;
+using ModernApplicationFramework.Utilities;
 using MenuItem = ModernApplicationFramework.Controls.Menu.MenuItem;
 
 namespace ModernApplicationFramework.Controls.ComboBox

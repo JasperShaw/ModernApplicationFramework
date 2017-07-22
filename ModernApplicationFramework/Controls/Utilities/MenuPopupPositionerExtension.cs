@@ -3,11 +3,11 @@ using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Interop;
 using System.Windows.Markup;
-using ModernApplicationFramework.Core.Utilities;
-using ModernApplicationFramework.Native;
+using ModernApplicationFramework.Utilities;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Native.Platform.Structs;
 using Point = System.Windows.Point;
+using DpiHelper = ModernApplicationFramework.Native.DpiHelper;
 
 namespace ModernApplicationFramework.Controls.Utilities
 {

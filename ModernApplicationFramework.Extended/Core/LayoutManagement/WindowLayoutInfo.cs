@@ -1,5 +1,5 @@
 using System.Text;
-using ModernApplicationFramework.Native.Standard;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Extended.Core.LayoutManagement
 {

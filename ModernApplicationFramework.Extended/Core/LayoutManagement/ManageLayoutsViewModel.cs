@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows.Input;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Core.Utilities;
-using ModernApplicationFramework.Native.Standard;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Extended.Core.LayoutManagement
 {

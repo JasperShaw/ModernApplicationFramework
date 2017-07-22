@@ -1,9 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
-                    xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
-                    xmlns:listBoxes="clr-namespace:ModernApplicationFramework.Controls.ListBoxes">
+                    xmlns:listBoxes="clr-namespace:ModernApplicationFramework.Controls.ListBoxes"
+                    xmlns:converters="clr-namespace:ModernApplicationFramework.Utilities.Converters;assembly=ModernApplicationFramework.Utilities"
+                    xmlns:imaging="clr-namespace:ModernApplicationFramework.Utilities.Imaging;assembly=ModernApplicationFramework.Utilities">
     <converters:BrushToColorConverter x:Key="BrushToColorConverter"/>
     <Style TargetType="{x:Type listBoxes:CustomizeControlsListBox}">
         <Setter Property="BorderBrush" Value="#828790"/>
@@ -19,9 +19,9 @@
                             Padding="1">
                         <ScrollViewer Padding="{TemplateBinding Padding}" Focusable="False">
                             <Grid>
-                                <themes:ImageThemingUtilities.ImageBackgroundColor>
+                                <imaging:ImageThemingUtilities.ImageBackgroundColor>
                                     <Binding ElementName="BackgroundBorder" Path="Background" Converter="{StaticResource BrushToColorConverter}"/>
-                                </themes:ImageThemingUtilities.ImageBackgroundColor>
+                                </imaging:ImageThemingUtilities.ImageBackgroundColor>
                                 <Border x:Name="BackgroundBorder" Background="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuBackgroundGradientBegin}}">
                                     <Border Width="28" Background="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuBackgroundGradientBegin}}"
                                             HorizontalAlignment="Left"/>

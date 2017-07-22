@@ -2,6 +2,7 @@
 using System.Windows;
 using ModernApplicationFramework.Controls.Utilities;
 using ModernApplicationFramework.Native.Standard;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.Dialogs
 {
