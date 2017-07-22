@@ -107,7 +107,6 @@ namespace ModernApplicationFramework.Docking.Controls
             var hwndSource = (HwndSource)PresentationSource.FromVisual(this);
             var keyboardInputSink = (IKeyboardInputSink)hwndSource;
             keyboardInputSink?.RegisterKeyboardInputSink(new MnemonicForwardingKeyboardInputSink(this));
-            ModifyStyle(hwndSource.Handle, 0, int.MinValue);
             UpdateClipRegion();
             base.OnSourceInitialized(e);
         }
