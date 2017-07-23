@@ -3,7 +3,10 @@ using System.Windows.Controls;
 
 namespace ModernApplicationFramework.Controls
 {
-    //From Gemini
+    /// <summary>
+    /// A custom styled expander control
+    /// </summary>
+    /// <seealso cref="System.Windows.Controls.Expander" />
     public class ModernExpander : Expander
     {
         static ModernExpander()

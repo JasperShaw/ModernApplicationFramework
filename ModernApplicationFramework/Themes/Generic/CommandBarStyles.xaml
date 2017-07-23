@@ -47,7 +47,6 @@
     <converters:CommandExecutionToBooleanConverter x:Key="CommandExecutionToBooleanConverter"/>
     <converters:MultiToolTipMultiConverter x:Key="MultiToolTipMultiConverter"/>
     <converters:DockLocationConverter x:Key="DockLocationConverter"/>
-    <converters:CommonUiResourceConverter x:Key="CommonUiResourceConverter"/>
     <converters:StringUppercaseConverter x:Key="StringUppercaseConverter"/>
 
     <Style TargetType="{x:Type menu:Menu}" BasedOn="{StaticResource {x:Type Menu}}">

@@ -5,6 +5,11 @@ using System.Windows.Data;
 
 namespace ModernApplicationFramework.Core.Converters
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// An <see cref="IMultiValueConverter"/> that returns <see cref="Visibility.Visible"/> if one <see cref="Visibility"/> of a list is <see cref="Visibility.Visible"/>
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Data.IMultiValueConverter" />
     public class MultiVisibilityToVisibilityConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)

@@ -5,8 +5,12 @@ using ModernApplicationFramework.Utilities.Converters;
 
 namespace ModernApplicationFramework.Core.Converters.AccessKey
 {
+    /// <summary>
+    /// A <see cref="ValueConverter{TSource,TTarget}"/> that adds access texts
+    /// </summary>
     public class AccessKeyUnderliningConverter : ValueConverter<string, object>
     {
+        
         protected override object Convert(string fullText, object parameter, CultureInfo culture)
         {
             char ch1 = Accelerator.AccessKeySpecifierFromObject(parameter);

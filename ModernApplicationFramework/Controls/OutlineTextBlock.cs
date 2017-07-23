@@ -7,6 +7,11 @@ using System.Windows.Media;
 
 namespace ModernApplicationFramework.Controls
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// A text block control that enables an outlining effect onto the text.
+    /// </summary>
+    /// <seealso cref="T:System.Windows.FrameworkElement" />
     [ContentProperty("Text")]
     public class OutlineTextBlock : FrameworkElement
     {

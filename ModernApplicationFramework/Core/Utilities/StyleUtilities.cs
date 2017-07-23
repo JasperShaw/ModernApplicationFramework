@@ -2,15 +2,19 @@
 using System.Windows.Controls;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Controls;
-using ModernApplicationFramework.Controls.ListBoxes;
 using ModernApplicationFramework.Interfaces.Controls;
 
 namespace ModernApplicationFramework.Core.Utilities
 {
     public static class StyleUtilities
     {
-        internal static void SelectStyleForItem(FrameworkElement element, object item, IExposeStyleKeys styleKeySource)
+        /// <summary>
+        /// Selects the style for item based on the <see cref="IExposeStyleKeys"/> resource key
+        /// </summary>
+        /// <param name="element">The element.</param>
+        /// <param name="item">The item.</param>
+        /// <param name="styleKeySource">The style key.</param>
+        public static void SelectStyleForItem(FrameworkElement element, object item, IExposeStyleKeys styleKeySource)
         {
             var control = element as Control;
             var context = control?.DataContext as CommandBarDefinitionBase;

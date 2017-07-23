@@ -4,7 +4,12 @@ using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Core.DialogProiver
 {
-	[Export(typeof(IDialogProvider))]
+    /// <inheritdoc />
+    /// <summary>
+    /// A basic <see cref="T:ModernApplicationFramework.Interfaces.IDialogProvider" /> implementation using the <see cref="T:System.Windows.MessageBox" />
+    /// </summary>
+    /// <seealso cref="T:ModernApplicationFramework.Interfaces.IDialogProvider" />
+    [Export(typeof(IDialogProvider))]
 	public class DialogProvider : IDialogProvider
 	{
 		public void ShowMessage(string message)

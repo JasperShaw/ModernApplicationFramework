@@ -6,6 +6,11 @@ using ModernApplicationFramework.Basics.Definitions.Toolbar;
 
 namespace ModernApplicationFramework.Core.ValidationRules
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// A <see cref="T:System.Windows.Controls.ValidationRule" /> that checks, if a given tool bar name if valid and unique
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Controls.ValidationRule" />
     public class ToolbarNameUniqueValidationRule : ValidationRule
     {
         public ToolbarNameUniqueValidationRuleDataContext DataContext { get; set; }

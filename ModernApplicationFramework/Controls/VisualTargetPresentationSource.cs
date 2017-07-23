@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 namespace ModernApplicationFramework.Controls
 {
-    public class VisualTargetPresentationSource : PresentationSource, IDisposable
+    internal class VisualTargetPresentationSource : PresentationSource, IDisposable
     {
         private VisualTarget _visualTarget;
 

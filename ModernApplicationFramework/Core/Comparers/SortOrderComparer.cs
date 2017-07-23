@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
 
 namespace ModernApplicationFramework.Core.Comparers
 {
-    public class SortOrderComparer<TCommandBarDefinitionBase> : IComparer<Basics.Definitions.CommandBar.CommandBarDefinitionBase>
+    /// <inheritdoc />
+    /// <summary>
+    /// An <see cref="IComparer{T}"/> that compared two <see cref="CommandBarDefinitionBase"/> by name
+    /// </summary>
+    /// <seealso cref="T:System.Collections.IComparer" />s
+    public class SortOrderComparer<TCommandBarDefinitionBase> : IComparer<CommandBarDefinitionBase>
     {
-        public int Compare(Basics.Definitions.CommandBar.CommandBarDefinitionBase x, Basics.Definitions.CommandBar.CommandBarDefinitionBase y)
+        public int Compare(CommandBarDefinitionBase x, CommandBarDefinitionBase y)
         {
             if (!(x is TCommandBarDefinitionBase) || !(y is TCommandBarDefinitionBase))
                 throw new ArgumentException("This converter does not support the provided objects");

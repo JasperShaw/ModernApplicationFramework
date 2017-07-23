@@ -5,7 +5,7 @@ using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Core.Utilities
 {
-    public static class DteFocusHelper
+    internal static class DteFocusHelper
     {
         public static readonly DependencyProperty AcquireFocusProperty;
         public static readonly RoutedEvent AcquireFocusEvent;

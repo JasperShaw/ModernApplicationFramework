@@ -11,15 +11,34 @@ using ModernApplicationFramework.Utilities.Interfaces;
 
 namespace ModernApplicationFramework.Core.Localization
 {
+    /// <inheritdoc />
+    /// <summary>
+    ///     The <see cref="T:ModernApplicationFramework.Core.Localization.LanguageManager" /> controls the application's
+    ///     environment language
+    /// </summary>
+    /// <seealso cref="T:ModernApplicationFramework.Interfaces.Services.ILanguageManager" />
     public sealed class LanguageManager : ILanguageManager
     {
         private const string SystemLanguageCode = "system";
         private const string RegirstryKey = "InstalledApplicationLanguage";
 
+        /// <summary>
+        ///     Fires when the Language was changed
+        /// </summary>
         public event EventHandler OnLanguageChanged;
 
+        /// <summary>
+        ///     The current language.
+        /// </summary>
         public LanguageInfo CurrentLanguage { get; private set; }
 
+        /// <inheritdoc />
+        /// <summary>
+        ///     Gets all available Languages on the Operating System
+        /// </summary>
+        /// <returns>
+        ///     Returns an <see cref="T:System.Collections.Generic.IEnumerable`1" /> with the founded languages
+        /// </returns>
         public IEnumerable<LanguageInfo> GetInstalledLanguages()
         {
             var culture = CultureInfo.GetCultures(CultureTypes.AllCultures);
@@ -36,33 +55,36 @@ namespace ModernApplicationFramework.Core.Localization
             return list;
         }
 
+        /// <summary>
+        ///     Gets the saved language.
+        /// </summary>
+        /// <value>
+        ///     The saved language.
+        /// </value>
+        public LanguageInfo SavedLanguage
+        {
+            get
+            {
+                var savedCode = IoC.Get<IEnvironmentVarirables>()
+                    .GetOrCreateRegistryVariable(RegirstryKey, null, SystemLanguageCode);
+                //var savedCode = Settings.Default.LanguageCode;
+                var installedLanguages = GetInstalledLanguages();
+                if (string.IsNullOrEmpty(savedCode))
+                    return installedLanguages.FirstOrDefault(
+                        x => x.Code.Equals(SystemLanguageCode, StringComparison.InvariantCultureIgnoreCase));
+                return installedLanguages.FirstOrDefault(
+                    x => x.Code.Equals(savedCode, StringComparison.InvariantCultureIgnoreCase));
+            }
+        }
+
+        /// <summary>
+        ///     Saves the given Language
+        /// </summary>
+        /// <param name="languageCode">The language information that should be saved</param>
         public void SaveLanguage(LanguageInfo languageCode)
         {
             IoC.Get<IEnvironmentVarirables>().SetRegistryVariable(RegirstryKey, languageCode.Code, null);
             OnRaiseLanguageChanged(new EventArgs());
-        }
-
-
-	    public LanguageInfo SavedLanguage
-	    {
-		    get
-		    {
-
-		        var savedCode = IoC.Get<IEnvironmentVarirables>().GetOrCreateRegistryVariable(RegirstryKey, null, SystemLanguageCode);
-				//var savedCode = Settings.Default.LanguageCode;
-			    var installedLanguages = GetInstalledLanguages();
-			    if (string.IsNullOrEmpty(savedCode))
-				    return installedLanguages.FirstOrDefault(
-					    x => x.Code.Equals(SystemLanguageCode, StringComparison.InvariantCultureIgnoreCase));
-			    return installedLanguages.FirstOrDefault(
-				    x => x.Code.Equals(savedCode, StringComparison.InvariantCultureIgnoreCase));
-			}
-	    }
-
-        private void OnRaiseLanguageChanged(EventArgs e)
-        {
-            var handler = OnLanguageChanged;
-            handler?.Invoke(this, e);
         }
 
         internal void SetLanguage(LanguageInfo info)
@@ -76,6 +98,12 @@ namespace ModernApplicationFramework.Core.Localization
         internal void SetLanguage()
         {
             SetLanguage(SavedLanguage);
+        }
+
+        private void OnRaiseLanguageChanged(EventArgs e)
+        {
+            var handler = OnLanguageChanged;
+            handler?.Invoke(this, e);
         }
     }
 }

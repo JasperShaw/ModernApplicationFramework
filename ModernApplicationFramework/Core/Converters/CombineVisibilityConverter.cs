@@ -7,11 +7,20 @@ using System.Windows.Data;
 
 namespace ModernApplicationFramework.Core.Converters
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// An <see cref="IMultiValueConverter"/> that converts a list of <see cref="Visibility"/> 
+    /// to either the lowest or highest <see cref="Visibility"/> in that list
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Data.IMultiValueConverter" />
     public class CombineVisibilityConverter : IMultiValueConverter
     {
 
         private CombineVisibility _combineVisibility;
 
+        /// <summary>
+        /// The visibility option
+        /// </summary>
         public CombineVisibility CombineVisibility
         {
             get => _combineVisibility;
@@ -45,6 +54,9 @@ namespace ModernApplicationFramework.Core.Converters
         }
     }
 
+    /// <summary>
+    /// The option enumeration
+    /// </summary>
     public enum CombineVisibility
     {
         PickHighestVisibility,

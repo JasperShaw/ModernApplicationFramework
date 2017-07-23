@@ -4,12 +4,11 @@ using System.Globalization;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
-using ModernApplicationFramework.Native.Standard;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Core
 {
-    public sealed class BackgroundDispatcher
+    internal sealed class BackgroundDispatcher
     {
         private static readonly List<BackgroundDispatcher> SDispatchers = new List<BackgroundDispatcher>();
         private readonly string _name;

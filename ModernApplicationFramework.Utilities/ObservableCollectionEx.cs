@@ -5,8 +5,14 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 
-namespace ModernApplicationFramework.Core.Utilities
+namespace ModernApplicationFramework.Utilities
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// An extended <see cref="T:System.Collections.ObjectModel.ObservableCollection`1" /> that has a <see cref="E:ModernApplicationFramework.Utilities.ObservableCollectionEx`1.ItemPropertyChanged" /> event
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <seealso cref="T:System.Collections.ObjectModel.ObservableCollection`1" />
     public sealed class ObservableCollectionEx<T> : ObservableCollection<T> where T : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler ItemPropertyChanged;

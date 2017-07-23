@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Globalization;
-using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Controls.Buttons;
 using ModernApplicationFramework.Core.Converters.General;
 
 namespace ModernApplicationFramework.Core.Converters
 {
-    public sealed class SplitButtonItemHighlightConverter : ToBooleanValueConverter<int>
+    internal sealed class SplitButtonItemHighlightConverter : ToBooleanValueConverter<int>
     {
         private readonly SplitButton _itemOwningButton;
 

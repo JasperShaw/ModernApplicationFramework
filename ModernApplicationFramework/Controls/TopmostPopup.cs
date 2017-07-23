@@ -4,10 +4,14 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
 using ModernApplicationFramework.Native.NativeMethods;
-using ModernApplicationFramework.Native.Platform.Structs;
 
 namespace ModernApplicationFramework.Controls
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// A custom <see cref="T:System.Windows.Controls.Primitives.Popup" /> control that always is top most
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Controls.Primitives.Popup" />
     public class TopmostPopup : Popup
     {
         public static readonly DependencyProperty TopmostProperty = DependencyProperty.Register("Topmost", typeof(bool),
@@ -98,9 +102,7 @@ namespace ModernApplicationFramework.Controls
                 return;
             var hwnd = hwndSource.Handle;
 
-            RECT rect;
-
-            if (!User32.GetWindowRect(hwnd, out rect))
+            if (!User32.GetWindowRect(hwnd, out var rect))
                 return;
             if (isTop)
                 User32.SetWindowPos(hwnd, new IntPtr(-1), rect.Left, rect.Top, (int)Width, (int)Height, 1563);

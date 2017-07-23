@@ -1,10 +1,14 @@
 ﻿using System.Globalization;
 using System.Windows.Controls;
 using ModernApplicationFramework.Basics.CustomizeDialog;
-using ModernApplicationFramework.Properties;
 
 namespace ModernApplicationFramework.Core.ValidationRules
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// A <see cref="T:System.Windows.Controls.ValidationRule" /> that checks, if an command name is valid
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Controls.ValidationRule" />
     public class CommandNameNotEmptyValidationRule : ValidationRule
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)

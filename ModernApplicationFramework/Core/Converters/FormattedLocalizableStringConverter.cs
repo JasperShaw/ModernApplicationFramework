@@ -4,7 +4,10 @@ using ModernApplicationFramework.Utilities.Converters;
 
 namespace ModernApplicationFramework.Core.Converters
 {
-	public abstract class FormattedLocalizableStringConverter : ValueConverter<string, string>
+    /// <summary>
+    /// Abstract <see cref="ValueConverter{TSource,TTarget}"/> that creates a text based on a <see cref="ResourceManager"/>
+    /// </summary>
+    public abstract class FormattedLocalizableStringConverter : ValueConverter<string, string>
 	{
 		public abstract ResourceManager ResourceManager { get; }
 

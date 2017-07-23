@@ -6,12 +6,16 @@ using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.Core.Events;
-using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Utilities.Interfaces;
 
 namespace ModernApplicationFramework.Core.Themes
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// A <see cref="T:ModernApplicationFramework.Core.Themes.ThemeManager" /> manages the current UI's theme
+    /// </summary>
+    /// <seealso cref="T:ModernApplicationFramework.Interfaces.Services.IThemeManager" />
     [Export(typeof(IThemeManager))]
     public class ThemeManager : IThemeManager
     {
@@ -21,19 +25,21 @@ namespace ModernApplicationFramework.Core.Themes
         private readonly Theme[] _themes;
         private Theme _theme;
 
-        [ImportingConstructor]
-        public ThemeManager([ImportMany] Theme[] themes)
-        {
-            _themes = themes;
-        }
+        /// <summary>
+        /// Fired when the current theme is changed
+        /// </summary>
+        public event EventHandler<ThemeChangedEventArgs> OnThemeChanged;
 
+        /// <inheritdoc />
+        /// <summary>
+        /// A list of all installed themes
+        /// </summary>
         public IEnumerable<Theme> Themes => _themes;
 
-        public void SaveTheme(Theme theme)
-        {
-            IoC.Get<IEnvironmentVarirables>().SetRegistryVariable(RegistryKey, theme.Name, null);
-        }
-
+        /// <inheritdoc />
+        /// <summary>
+        /// Gets the theme saved when re-launching the environment
+        /// </summary>
         public Theme StartUpTheme
         {
             get
@@ -43,14 +49,11 @@ namespace ModernApplicationFramework.Core.Themes
             }
         }
 
-        protected virtual void OnRaiseThemeChanged(ThemeChangedEventArgs e)
-        {
-            var handler = OnThemeChanged;
-            handler?.Invoke(this, e);
-        }
-
-        public event EventHandler<ThemeChangedEventArgs> OnThemeChanged;
-
+        /// <inheritdoc />
+        /// <summary>
+        /// The current theme of the environment
+        /// </summary>
+        /// <exception cref="T:System.Data.NoNullAllowedException"></exception>
         public Theme Theme
         {
             get => _theme;
@@ -67,6 +70,29 @@ namespace ModernApplicationFramework.Core.Themes
                 SaveTheme(_theme);
             }
         }
+
+        [ImportingConstructor]
+        public ThemeManager([ImportMany] Theme[] themes)
+        {
+            _themes = themes;
+        }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// Saves a theme for re-launch
+        /// </summary>
+        /// <param name="theme">The theme that should be saved</param>
+        public void SaveTheme(Theme theme)
+        {
+            IoC.Get<IEnvironmentVarirables>().SetRegistryVariable(RegistryKey, theme.Name, null);
+        }
+
+        protected virtual void OnRaiseThemeChanged(ThemeChangedEventArgs e)
+        {
+            var handler = OnThemeChanged;
+            handler?.Invoke(this, e);
+        }
+
 
         private void ChangeTheme(Theme oldTheme, Theme theme)
         {

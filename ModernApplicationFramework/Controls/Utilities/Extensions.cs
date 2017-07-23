@@ -61,48 +61,5 @@ namespace ModernApplicationFramework.Controls.Utilities
 			var man = t.UintValue & 0x000fffffffffffff;
 			return (exp == 0x7ff0000000000000 || exp == 0xfff0000000000000) && (man != 0);
 		}
-
-	    public static IEnumerable<T> FindDescendants<T>(this DependencyObject obj) where T : class
-	    {
-	        if (obj == null)
-	            return Enumerable.Empty<T>();
-	        var descendants = new List<T>();
-	        obj.TraverseVisualTree<T>(child => descendants.Add(child));
-	        return descendants;
-	    }
-
-	    public static void TraverseVisualTree<T>(this DependencyObject obj, Action<T> action) where T : class
-	    {
-	        if (obj == null)
-	            return;
-	        for (int childIndex = 0; childIndex < VisualTreeHelper.GetChildrenCount(obj); ++childIndex)
-	        {
-	            DependencyObject child = VisualTreeHelper.GetChild(obj, childIndex);
-	            if (child != null)
-	            {
-	                T obj1 = child as T;
-	                child.TraverseVisualTreeReverse(action);
-	                if (obj1 != null)
-	                    action(obj1);
-	            }
-	        }
-	    }
-
-	    public static void TraverseVisualTreeReverse<T>(this DependencyObject obj, Action<T> action) where T : class
-	    {
-	        if (obj == null)
-	            return;
-	        for (int childIndex = VisualTreeHelper.GetChildrenCount(obj) - 1; childIndex >= 0; --childIndex)
-	        {
-	            DependencyObject child = VisualTreeHelper.GetChild(obj, childIndex);
-	            if (child != null)
-	            {
-	                T obj1 = child as T;
-	                child.TraverseVisualTreeReverse(action);
-	                if (obj1 != null)
-	                    action(obj1);
-	            }
-	        }
-	    }
     }
 }

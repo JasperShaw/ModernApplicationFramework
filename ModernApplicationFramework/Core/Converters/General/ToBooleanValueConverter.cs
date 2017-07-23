@@ -5,6 +5,12 @@ using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Core.Converters.General
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// An <see cref="T:System.Windows.Data.IValueConverter" /> that checks a condition and returns a <see langword="bool" />
+    /// </summary>
+    /// <typeparam name="TSource">The type of the source.</typeparam>
+    /// <seealso cref="T:System.Windows.Data.IValueConverter" />
     public class ToBooleanValueConverter<TSource> : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

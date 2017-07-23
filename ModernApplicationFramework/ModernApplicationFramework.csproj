@@ -245,8 +245,6 @@
     <Compile Include="Interfaces\Controls\IStatusBar.cs" />
     <Compile Include="Controls\StatusBarContainer.cs" />
     <Compile Include="Controls\TextBoxes\NumberOnlyTextBox.cs" />
-    <Compile Include="Core\Converters\ClientTextPickerConverter.cs" />
-    <Compile Include="Core\Utilities\FocusHelper.cs" />
     <Compile Include="Basics\Services\Bootstrapper.cs" />
     <Compile Include="Controls\ComboBox\ComboBoxDataSource.cs" />
     <Compile Include="Basics\CommandBar\CommandBarResources.Designer.cs">
@@ -344,9 +342,7 @@
     <Compile Include="Basics\Definitions\CommandBar\CommandBarComboItemDefinitionT.cs" />
     <Compile Include="Basics\Creators\NumberStatusStringCreator.cs" />
     <Compile Include="Basics\Definitions\CommandBar\TextCommandBarItemDefinition.cs" />
-    <Compile Include="Core\Converters\CommonUiResourceConverter.cs" />
     <Compile Include="Core\Converters\FormattedLocalizableStringConverter.cs" />
-    <Compile Include="Core\Converters\LocalizableResourceConverter.cs" />
     <Compile Include="Interfaces\IHasTextProperty.cs" />
     <Compile Include="Interfaces\Utilities\IStatusStringCreator.cs" />
     <Compile Include="Basics\Definitions\Command\CommandMenuControllerDefinition.cs" />
@@ -559,7 +555,6 @@
     <Compile Include="Native\TrinetCoreNtfs\StreamName.cs" />
     <Compile Include="Core\Utilities\CommonUtilities.cs" />
     <Compile Include="Controls\Extensions\FocusBehavior.cs" />
-    <Compile Include="Core\Utilities\ObservableCollectionEx.cs" />
     <Compile Include="Controls\Utilities\PropertyBoundFilteringCollectionViewSource.cs" />
     <Compile Include="Controls\Utilities\ToolbarsCollectionViewSource.cs" />
     <Compile Include="Core\Utilities\WindowsFileNameHelper.cs" />

@@ -6,7 +6,7 @@ using System.Windows.Data;
 
 namespace ModernApplicationFramework.Core.Converters.Customize
 {
-    public class EnabledFilteringMultiConverter : IMultiValueConverter
+    internal class EnabledFilteringMultiConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {

@@ -3,7 +3,12 @@ using ModernApplicationFramework.Controls.Utilities;
 
 namespace ModernApplicationFramework.Controls
 {
-	public class GroupBox : System.Windows.Controls.GroupBox
+    /// <inheritdoc />
+    /// <summary>
+    /// A custom <see cref="T:System.Windows.Controls.GroupBox" /> with editable <see cref="P:ModernApplicationFramework.Controls.GroupBox.CornerRadius" />
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Controls.GroupBox" />
+    public class GroupBox : System.Windows.Controls.GroupBox
 	{
 
 		public static readonly DependencyProperty CornerRadiusProperty
@@ -26,7 +31,7 @@ namespace ModernApplicationFramework.Controls
 		private static bool IsCornerRadiusValid(object value)
 		{
 			var cr = (CornerRadius)value;
-			return (cr.IsValid(false, false, false, false));
+			return cr.IsValid(false, false, false, false);
 		}
 	}
 }

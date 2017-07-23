@@ -6,6 +6,11 @@ using ModernApplicationFramework.Basics.Definitions.CommandBar;
 
 namespace ModernApplicationFramework.Core.Converters
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// An <see cref="T:System.Windows.Data.IValueConverter" /> that returns the embedded command of a given <see cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarDefinitionBase" />
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Data.IValueConverter" />
     public class CommandBarItemCommandConverter: IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

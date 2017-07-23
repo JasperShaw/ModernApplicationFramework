@@ -6,6 +6,11 @@ using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Core.Converters.General
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// An <see cref="T:System.Windows.Data.IMultiValueConverter" /> that simulates as a logical AND gate
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Data.IMultiValueConverter" />
     public class AndBooleanConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)

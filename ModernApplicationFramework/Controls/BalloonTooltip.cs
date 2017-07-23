@@ -13,6 +13,11 @@ using Point = System.Windows.Point;
 
 namespace ModernApplicationFramework.Controls
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// A tool tip control in the look of a win-forms balloon tool tip 
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Controls.ContentControl" />
     public class BalloonTooltip : ContentControl
     {
         private readonly Control _control;
@@ -21,15 +26,27 @@ namespace ModernApplicationFramework.Controls
         private Path _pathLeftBottom;
         private Path _pathRightBottom;
 
+        /// <summary>
+        /// The caption text
+        /// </summary>
         public static readonly DependencyProperty CaptionTextProperty = DependencyProperty.Register(
             "CaptionText", typeof(string), typeof(BalloonTooltip), new PropertyMetadata(default(string)));
 
+        /// <summary>
+        /// The title text
+        /// </summary>
         public static readonly DependencyProperty TitleTextProperty = DependencyProperty.Register(
             "TitleText", typeof(string), typeof(BalloonTooltip), new PropertyMetadata(default(string)));
 
+        /// <summary>
+        /// The title foreground
+        /// </summary>
         public static readonly DependencyProperty TitleForegroundProperty = DependencyProperty.Register(
             "TitleForeground", typeof(Brush), typeof(BalloonTooltip), new PropertyMetadata(new SolidColorBrush(Color.FromRgb(00, 33, 99))));
 
+        /// <summary>
+        /// The balloon type
+        /// </summary>
         public static readonly DependencyProperty BalloonTypeProperty = DependencyProperty.Register(
             "BalloonType", typeof(BalloonType), typeof(BalloonTooltip), new PropertyMetadata(default(BalloonType)));
 

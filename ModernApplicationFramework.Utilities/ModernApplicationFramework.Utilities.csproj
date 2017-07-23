@@ -76,6 +76,7 @@
     <Compile Include="DisposableObject.cs" />
     <Compile Include="DpiHelper.cs" />
     <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="FocusHelper.cs" />
     <Compile Include="HashHelpers.cs" />
     <Compile Include="ImageScalingMode.cs" />
     <Compile Include="Imaging\BitmapLocker.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="MultiValueHelper.cs" />
     <Compile Include="NativeMethods\Gdi32.cs" />
     <Compile Include="NativeMethods\User32.cs" />
+    <Compile Include="ObservableCollectionEx.cs" />
     <Compile Include="ObservableObject.cs" />
     <Compile Include="PathUtilities.cs" />
     <Compile Include="Properties\Annotations.cs" />

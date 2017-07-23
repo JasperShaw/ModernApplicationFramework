@@ -6,6 +6,11 @@ using ModernApplicationFramework.Interfaces.Controls;
 
 namespace ModernApplicationFramework.Controls
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// An <see cref="T:ModernApplicationFramework.Controls.ElementContainer" /> for hosting a status bar that inherits from <see cref="T:ModernApplicationFramework.Interfaces.Controls.IStatusBar" />
+    /// </summary>
+    /// <seealso cref="T:ModernApplicationFramework.Controls.ElementContainer" />
     public class StatusBarContainer : ElementContainer
     {
         protected override string DispatcherGroup => "StatusBar";

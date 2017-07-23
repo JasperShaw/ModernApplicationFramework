@@ -9,7 +9,7 @@ using ModernApplicationFramework.Native.NativeMethods;
 
 namespace ModernApplicationFramework.Core.Utilities
 {
-    public static class IconHelper
+    internal static class IconHelper
     {
         private static bool _triedGettingIconsFromExecutable;
         private static bool _isWindowIconRetrieved;

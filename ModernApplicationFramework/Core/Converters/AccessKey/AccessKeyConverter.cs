@@ -4,6 +4,9 @@ using ModernApplicationFramework.Utilities.Converters;
 
 namespace ModernApplicationFramework.Core.Converters.AccessKey
 {
+    /// <summary>
+    /// A <see cref="ValueConverter{TSource,TTarget}"/> that converts an ampersand access texts to underscoring access texts
+    /// </summary>
     public class AccessKeyConverter : ValueConverter<string, string>
     {
         protected override string Convert(string inputString, object parameter, CultureInfo culture)

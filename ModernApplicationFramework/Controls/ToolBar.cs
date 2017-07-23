@@ -5,7 +5,6 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Threading;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Controls.ListBoxes;
 using ModernApplicationFramework.Controls.Utilities;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
@@ -15,6 +14,13 @@ using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls
 {
+    /// <inheritdoc cref="System.Windows.Controls.ToolBar"/>
+    /// <summary>
+    /// A custom <see cref="T:System.Windows.Controls.ToolBar" /> control that holds its own data model 
+    /// and styles its items based on their type
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Controls.ToolBar" />
+    /// <seealso cref="T:ModernApplicationFramework.Interfaces.Controls.IExposeStyleKeys" />
     public class ToolBar : System.Windows.Controls.ToolBar, IExposeStyleKeys
     {
         private static readonly DependencyPropertyKey IsOverflowToggleButtonVisiblePropertyKey;
@@ -68,7 +74,7 @@ namespace ModernApplicationFramework.Controls
 
         public bool IsQuickCustomizeEnabled
         {
-            get => (bool) GetValue(IsQuickCustomizeEnabledProperty);
+            get => (bool)GetValue(IsQuickCustomizeEnabledProperty);
             set => SetValue(IsQuickCustomizeEnabledProperty, Boxes.Box(value));
         }
 
@@ -80,13 +86,13 @@ namespace ModernApplicationFramework.Controls
 
         public bool IsOverflowToggleButtonVisible
         {
-            get => (bool) GetValue(IsOverflowToggleButtonVisibleProperty);
+            get => (bool)GetValue(IsOverflowToggleButtonVisibleProperty);
             private set => SetValue(IsOverflowToggleButtonVisiblePropertyKey, Boxes.Box(value));
         }
 
         public static bool GetIsToolBarHostedMenuItem(System.Windows.Controls.MenuItem menuItem)
         {
-            return (bool) menuItem.GetValue(IsToolBarHostedMenuItemProperty);
+            return (bool)menuItem.GetValue(IsToolBarHostedMenuItemProperty);
         }
 
         public static void SetIsToolBarHostedMenuItem(System.Windows.Controls.MenuItem menuItem, bool value)
@@ -106,7 +112,7 @@ namespace ModernApplicationFramework.Controls
             if (e.Property != HasOverflowItemsProperty && e.Property != IsQuickCustomizeEnabledProperty)
                 return;
             Dispatcher.BeginInvoke(DispatcherPriority.Send,
-                (Action) (() => { IsOverflowToggleButtonVisible = HasOverflowItems || IsQuickCustomizeEnabled; }));
+                (Action)(() => { IsOverflowToggleButtonVisible = HasOverflowItems || IsQuickCustomizeEnabled; }));
             if (e.Property != HasOverflowItemsProperty)
                 return;
             RaiseEvent(new RoutedEventArgs(HasOverflowItemsChangedEvent));

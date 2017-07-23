@@ -6,6 +6,11 @@ using ModernApplicationFramework.Core.Converters.AccessKey;
 
 namespace ModernApplicationFramework.Core.Comparers
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// An <see cref="IComparer"/> that compared two <see cref="CommandCategory"/> by name
+    /// </summary>
+    /// <seealso cref="T:System.Collections.IComparer" />
     public class CategoryTextComparer : IComparer
     {
         private static readonly AccessKeyRemovingConverter AccessKeyRemover;

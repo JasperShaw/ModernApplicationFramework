@@ -6,6 +6,9 @@ using ModernApplicationFramework.Native.NativeMethods;
 
 namespace ModernApplicationFramework.Core.Utilities
 {
+    /// <summary>
+    /// A helper class that adds rich functions for Windows OS file paths
+    /// </summary>
     public static class WindowsFileNameHelper
     {
         private static readonly Regex RegexInvalidname =

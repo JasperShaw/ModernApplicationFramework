@@ -4,12 +4,9 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Threading;
-using ModernApplicationFramework.Controls.Utilities;
-using ModernApplicationFramework.Native.NativeMethods;
-using ModernApplicationFramework.Native.Standard;
-using ModernApplicationFramework.Utilities;
+using ModernApplicationFramework.Utilities.NativeMethods;
 
-namespace ModernApplicationFramework.Core.Utilities
+namespace ModernApplicationFramework.Utilities
 {
     public static class FocusHelper
     {

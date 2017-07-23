@@ -2,6 +2,9 @@
 
 namespace ModernApplicationFramework.Core.Themes
 {
+    /// <summary>
+    /// Set of all available colors
+    /// </summary>
     public static class EnvironmentColors
     {
         //Global

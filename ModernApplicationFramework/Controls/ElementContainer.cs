@@ -7,6 +7,11 @@ using ModernApplicationFramework.Core;
 
 namespace ModernApplicationFramework.Controls
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// A container control that hosts an <see cref="T:System.Windows.UIElement" />
+    /// </summary>
+    /// <seealso cref="T:ModernApplicationFramework.Controls.VisualWrapper" />
     public abstract class ElementContainer : VisualWrapper
     {
         private readonly object _syncObject = new object();
@@ -62,6 +67,10 @@ namespace ModernApplicationFramework.Controls
             }
         }
 
+        /// <summary>
+        /// Creates the hosted <see cref="UIElement"/>.
+        /// </summary>
+        /// <returns>The <see cref="UIElement"/></returns>
         protected abstract UIElement CreateRootUiElement();
 
         protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
@@ -93,6 +102,11 @@ namespace ModernApplicationFramework.Controls
             }
         }
 
+        /// <summary>
+        /// Determinate whether to forward an property change
+        /// </summary>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+        /// <returns></returns>
         protected virtual bool ShouldForwardPropertyChange(DependencyPropertyChangedEventArgs e)
         {
             if (e.Property.ReadOnly)

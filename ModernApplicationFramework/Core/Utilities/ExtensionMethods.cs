@@ -14,22 +14,39 @@ using Color = System.Windows.Media.Color;
 
 namespace ModernApplicationFramework.Core.Utilities
 {
+    /// <summary>
+    /// Set of extension methods
+    /// </summary>
     public static class ExtensionMethods
     {
-        
+
+        /// <summary>
+        /// Determines whether an <see langword="object"/> is inside an<see cref="IEnumerable"/>
+        /// </summary>
+        /// <param name="collection">The collection.</param>
+        /// <param name="item">The item.</param>
+        /// <returns>
+        ///   <see langword="true"/>if the object is inside the collection; otherwise, <see langword="false"/>.
+        /// </returns>
         public static bool Contains(this IEnumerable collection, object item)
         {
             return collection.Cast<object>().Any(o => o == item);
         }
 
 
+        /// <summary>
+        /// Performs a <see cref="Action{T}"/> for each item of an <see cref="IEnumerable{T}"/>
+        /// </summary>
+        /// <typeparam name="T">the generic type of the collection</typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="action">The action.</param>
         public static void ForEach<T>(this IEnumerable<T> collection, Action<T> action)
         {
-            foreach (T v in collection)
+            foreach (var v in collection)
                 action(v);
         }
 
-        public static TV GetValueOrDefault<TV>(this WeakReference wr)
+        internal static TV GetValueOrDefault<TV>(this WeakReference wr)
         {
             if (wr == null || !wr.IsAlive)
                 return default(TV);
@@ -37,6 +54,13 @@ namespace ModernApplicationFramework.Core.Utilities
         }
 
 
+        /// <summary>
+        /// Gets the index of an item inside an array of a type T
+        /// </summary>
+        /// <typeparam name="T">The type of the array</typeparam>
+        /// <param name="array">The array.</param>
+        /// <param name="value">The value.</param>
+        /// <returns>Returns the index of the item. Returns -1 if the item was not inside the array</returns>
         public static int IndexOf<T>(this T[] array, T value) where T : class
         {
             for (var i = 0; i < array.Length; i++)
@@ -46,6 +70,11 @@ namespace ModernApplicationFramework.Core.Utilities
             return -1;
         }
 
+        /// <summary>
+        /// Unwraps a composition exception.
+        /// </summary>
+        /// <param name="exception">The exception.</param>
+        /// <returns>The unwrapped exception</returns>
         public static System.Exception UnwrapCompositionException(this System.Exception exception)
         {
             var compositionException = exception as CompositionException;
@@ -83,11 +112,20 @@ namespace ModernApplicationFramework.Core.Utilities
             return exception;
         }
 
+        /// <summary>
+        /// Sets a themed icon for an <see cref="IThemableIconContainer"/>
+        /// </summary>
+        /// <param name="element">The element.</param>
         public static void SetThemedIcon(this IThemableIconContainer element)
         {
             element.SetThemedIcon(element.IsEnabled);
         }
 
+        /// <summary>
+        ///  Sets a themed icon for an <see cref="IThemableIconContainer"/>. Supports gray scale if the element is not enabled
+        /// </summary>
+        /// <param name="element">The element.</param>
+        /// <param name="isEnabled">if set to <see langword="true"/> no gray scale will be applied</param>
         public static void SetThemedIcon(this IThemableIconContainer element, bool isEnabled)
         {
             var vb = element.IconSource as Viewbox;
@@ -117,7 +155,7 @@ namespace ModernApplicationFramework.Core.Utilities
             element.Icon = i;
         }
 
-        public static void AddSorted<T>(this IList<T> list, T item, IComparer<T> comparer = null)
+        internal static void AddSorted<T>(this IList<T> list, T item, IComparer<T> comparer = null)
         {
             if (comparer == null)
                 comparer = Comparer<T>.Default;

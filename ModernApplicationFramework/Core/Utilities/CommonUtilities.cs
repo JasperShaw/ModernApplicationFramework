@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace ModernApplicationFramework.Core.Utilities
 {
-    public static class CommonUtilities
+    internal static class CommonUtilities
     {
         public static Uri MakePackUri(Assembly assembly, string path)
         {

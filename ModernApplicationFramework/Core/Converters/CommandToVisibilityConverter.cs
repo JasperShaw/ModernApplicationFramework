@@ -6,6 +6,11 @@ using System.Windows.Input;
 
 namespace ModernApplicationFramework.Core.Converters
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// An <see cref="T:System.Windows.Data.IValueConverter" /> that returns <see cref="F:System.Windows.Visibility.Visible" /> if the given <see cref="T:System.Windows.Input.ICommand" /> can be executed
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Data.IValueConverter" />
     public class CommandToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

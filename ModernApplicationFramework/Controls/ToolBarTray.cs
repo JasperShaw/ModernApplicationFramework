@@ -3,6 +3,10 @@ using System.Windows;
 
 namespace ModernApplicationFramework.Controls
 {
+    /// <summary>
+    /// A custom <see cref="System.Windows.Controls.ToolBarTray"/> control
+    /// </summary>
+    /// <seealso cref="System.Windows.Controls.ToolBarTray" />
     public class ToolBarTray : System.Windows.Controls.ToolBarTray
     {
         public static readonly DependencyProperty IsMainToolBarTrayProperty = DependencyProperty.Register(
@@ -29,6 +33,10 @@ namespace ModernApplicationFramework.Controls
             set => SetValue(IsMainToolBarTrayProperty, value);
         }
 
+        /// <summary>
+        /// Adds a tool bar.
+        /// </summary>
+        /// <param name="toolBar">The tool bar.</param>
         public void AddToolBar(ToolBar toolBar)
         {
             if (ToolBars.Contains(toolBar))
@@ -36,11 +44,20 @@ namespace ModernApplicationFramework.Controls
             ToolBars.Add(toolBar);
         }
 
+        /// <summary>
+        /// Checks whether a tool bar exists
+        /// </summary>
+        /// <param name="toolBar">The tool bar.</param>
+        /// <returns></returns>
         public bool ToolBarExists(ToolBar toolBar)
         {
             return Enumerable.Contains(ToolBars, toolBar);
         }
 
+        /// <summary>
+        /// Removes a tool bar.
+        /// </summary>
+        /// <param name="toolBar">The tool bar.</param>
         public void RemoveToolBar(ToolBar toolBar)
         {
             if (!ToolBars.Contains(toolBar))
@@ -48,6 +65,9 @@ namespace ModernApplicationFramework.Controls
             ToolBars.Remove(toolBar);
         }
 
+        /// <summary>
+        /// Removes all toolbars.
+        /// </summary>
         public void RemoveAllToolbars()
         {
             ToolBars.Clear();

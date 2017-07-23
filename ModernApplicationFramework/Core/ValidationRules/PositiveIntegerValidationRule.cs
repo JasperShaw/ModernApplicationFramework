@@ -4,6 +4,11 @@ using ModernApplicationFramework.Basics.CustomizeDialog;
 
 namespace ModernApplicationFramework.Core.ValidationRules
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// A <see cref="T:System.Windows.Controls.ValidationRule" /> that checks, if an input string can be pared to an <see langword="uint"/>
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Controls.ValidationRule" />
     public class PositiveIntegerValidationRule : ValidationRule
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)

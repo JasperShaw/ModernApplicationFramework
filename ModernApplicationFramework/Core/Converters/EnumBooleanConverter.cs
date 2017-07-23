@@ -4,6 +4,11 @@ using System.Windows.Data;
 
 namespace ModernApplicationFramework.Core.Converters
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// An <see cref="IValueConverter"/> that compares the input and an parameter for equality
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Data.IValueConverter" />
     public class EnumBooleanConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

@@ -5,11 +5,19 @@ using System.Windows.Media;
 
 namespace ModernApplicationFramework.Controls
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// A wrapper that holds a <see cref="T:System.Windows.Media.Visual" /> as its child element
+    /// </summary>
+    /// <seealso cref="T:System.Windows.FrameworkElement" />
     [ContentProperty("Child")]
     public class VisualWrapper : FrameworkElement
     {
         private Visual _child;
 
+        /// <summary>
+        /// The child.
+        /// </summary>
         public Visual Child
         {
             get => _child;

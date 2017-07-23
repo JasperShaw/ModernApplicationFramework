@@ -4,9 +4,13 @@ using System.Windows.Data;
 
 namespace ModernApplicationFramework.Core.Converters.General
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// An <see cref="T:System.Windows.Data.IValueConverter" /> that boxed a <see langword="bool?"/> to a <see langword="bool"/>
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Data.IValueConverter" />
     public class IfElseConverter : IValueConverter
     {
-
         public object TrueValue { get; set; }
         public object FalseValue { get; set; }
 
