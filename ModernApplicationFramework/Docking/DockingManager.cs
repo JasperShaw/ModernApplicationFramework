@@ -43,206 +43,211 @@ using ModernApplicationFramework.Native;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Native.Platform.Enums;
 using Action = System.Action;
-using ContextMenu = System.Windows.Controls.ContextMenu;
 
 namespace ModernApplicationFramework.Docking
 {
+    /// <inheritdoc cref="Control" />
+    /// <summary>
+    /// This is the avalon docking manager. For full documentation of all the docking framework please consider their website
+    /// </summary>
+    /// <seealso cref="T:System.Windows.Controls.Control" />
+    /// <seealso cref="T:ModernApplicationFramework.Docking.Controls.IOverlayWindowHost" />
     [ContentProperty("Layout")]
     [TemplatePart(Name = "PART_AutoHideArea")]
     public class DockingManager : Control, IOverlayWindowHost //, ILogicalChildrenContainer
     {
         public static readonly DependencyProperty LayoutProperty =
-            DependencyProperty.Register("Layout", typeof (LayoutRoot), typeof (DockingManager),
+            DependencyProperty.Register("Layout", typeof(LayoutRoot), typeof(DockingManager),
                 new FrameworkPropertyMetadata(null, OnLayoutChanged, CoerceLayoutValue));
 
         public static readonly DependencyProperty LayoutUpdateStrategyProperty =
-            DependencyProperty.Register("LayoutUpdateStrategy", typeof (ILayoutUpdateStrategy), typeof (DockingManager),
+            DependencyProperty.Register("LayoutUpdateStrategy", typeof(ILayoutUpdateStrategy), typeof(DockingManager),
                 new FrameworkPropertyMetadata((ILayoutUpdateStrategy) null));
 
         public static readonly DependencyProperty DocumentPaneTemplateProperty =
-            DependencyProperty.Register("DocumentPaneTemplate", typeof (ControlTemplate), typeof (DockingManager),
+            DependencyProperty.Register("DocumentPaneTemplate", typeof(ControlTemplate), typeof(DockingManager),
                 new FrameworkPropertyMetadata(null, OnDocumentPaneTemplateChanged));
 
         public static readonly DependencyProperty AnchorablePaneTemplateProperty =
-            DependencyProperty.Register("AnchorablePaneTemplate", typeof (ControlTemplate), typeof (DockingManager),
+            DependencyProperty.Register("AnchorablePaneTemplate", typeof(ControlTemplate), typeof(DockingManager),
                 new FrameworkPropertyMetadata(null, OnAnchorablePaneTemplateChanged));
 
         public static readonly DependencyProperty AnchorGroupTemplateProperty =
-            DependencyProperty.Register("AnchorGroupTemplate", typeof (ControlTemplate), typeof (DockingManager),
+            DependencyProperty.Register("AnchorGroupTemplate", typeof(ControlTemplate), typeof(DockingManager),
                 new FrameworkPropertyMetadata((ControlTemplate) null));
 
         public static readonly DependencyProperty AnchorSideTemplateProperty =
-            DependencyProperty.Register("AnchorSideTemplate", typeof (ControlTemplate), typeof (DockingManager),
+            DependencyProperty.Register("AnchorSideTemplate", typeof(ControlTemplate), typeof(DockingManager),
                 new FrameworkPropertyMetadata((ControlTemplate) null));
 
         public static readonly DependencyProperty AnchorTemplateProperty =
-            DependencyProperty.Register("AnchorTemplate", typeof (ControlTemplate), typeof (DockingManager),
+            DependencyProperty.Register("AnchorTemplate", typeof(ControlTemplate), typeof(DockingManager),
                 new FrameworkPropertyMetadata((ControlTemplate) null));
 
         public static readonly DependencyProperty DocumentPaneControlStyleProperty =
-            DependencyProperty.Register("DocumentPaneControlStyle", typeof (Style), typeof (DockingManager),
+            DependencyProperty.Register("DocumentPaneControlStyle", typeof(Style), typeof(DockingManager),
                 new FrameworkPropertyMetadata(null, OnDocumentPaneControlStyleChanged));
 
         public static readonly DependencyProperty AnchorablePaneControlStyleProperty =
-            DependencyProperty.Register("AnchorablePaneControlStyle", typeof (Style), typeof (DockingManager),
+            DependencyProperty.Register("AnchorablePaneControlStyle", typeof(Style), typeof(DockingManager),
                 new FrameworkPropertyMetadata(null, OnAnchorablePaneControlStyleChanged));
 
         public static readonly DependencyProperty DocumentHeaderTemplateProperty =
-            DependencyProperty.Register("DocumentHeaderTemplate", typeof (DataTemplate), typeof (DockingManager),
-                new FrameworkPropertyMetadata(null, OnDocumentHeaderTemplateChanged, CoerceDocumentHeaderTemplateValue));
+            DependencyProperty.Register("DocumentHeaderTemplate", typeof(DataTemplate), typeof(DockingManager),
+                new FrameworkPropertyMetadata(null, OnDocumentHeaderTemplateChanged,
+                    CoerceDocumentHeaderTemplateValue));
 
         public static readonly DependencyProperty DocumentHeaderTemplateSelectorProperty =
-            DependencyProperty.Register("DocumentHeaderTemplateSelector", typeof (DataTemplateSelector),
-                typeof (DockingManager),
+            DependencyProperty.Register("DocumentHeaderTemplateSelector", typeof(DataTemplateSelector),
+                typeof(DockingManager),
                 new FrameworkPropertyMetadata(null, OnDocumentHeaderTemplateSelectorChanged,
                     CoerceDocumentHeaderTemplateSelectorValue));
 
         public static readonly DependencyProperty DocumentTitleTemplateProperty =
-            DependencyProperty.Register("DocumentTitleTemplate", typeof (DataTemplate), typeof (DockingManager),
+            DependencyProperty.Register("DocumentTitleTemplate", typeof(DataTemplate), typeof(DockingManager),
                 new FrameworkPropertyMetadata(null, OnDocumentTitleTemplateChanged, CoerceDocumentTitleTemplateValue));
 
         public static readonly DependencyProperty DocumentTitleTemplateSelectorProperty =
-            DependencyProperty.Register("DocumentTitleTemplateSelector", typeof (DataTemplateSelector),
-                typeof (DockingManager),
+            DependencyProperty.Register("DocumentTitleTemplateSelector", typeof(DataTemplateSelector),
+                typeof(DockingManager),
                 new FrameworkPropertyMetadata(null,
                     OnDocumentTitleTemplateSelectorChanged,
                     CoerceDocumentTitleTemplateSelectorValue));
 
         public static readonly DependencyProperty AnchorableTitleTemplateProperty =
-            DependencyProperty.Register("AnchorableTitleTemplate", typeof (DataTemplate), typeof (DockingManager),
+            DependencyProperty.Register("AnchorableTitleTemplate", typeof(DataTemplate), typeof(DockingManager),
                 new FrameworkPropertyMetadata(null,
                     OnAnchorableTitleTemplateChanged,
                     CoerceAnchorableTitleTemplateValue));
 
         public static readonly DependencyProperty AnchorableTitleTemplateSelectorProperty =
-            DependencyProperty.Register("AnchorableTitleTemplateSelector", typeof (DataTemplateSelector),
-                typeof (DockingManager),
+            DependencyProperty.Register("AnchorableTitleTemplateSelector", typeof(DataTemplateSelector),
+                typeof(DockingManager),
                 new FrameworkPropertyMetadata(null, OnAnchorableTitleTemplateSelectorChanged));
 
         public static readonly DependencyProperty AnchorableHeaderTemplateProperty =
-            DependencyProperty.Register("AnchorableHeaderTemplate", typeof (DataTemplate), typeof (DockingManager),
+            DependencyProperty.Register("AnchorableHeaderTemplate", typeof(DataTemplate), typeof(DockingManager),
                 new FrameworkPropertyMetadata(null, OnAnchorableHeaderTemplateChanged,
                     CoerceAnchorableHeaderTemplateValue));
 
         public static readonly DependencyProperty AnchorableHeaderTemplateSelectorProperty =
-            DependencyProperty.Register("AnchorableHeaderTemplateSelector", typeof (DataTemplateSelector),
-                typeof (DockingManager), new FrameworkPropertyMetadata(null, OnAnchorableHeaderTemplateSelectorChanged));
+            DependencyProperty.Register("AnchorableHeaderTemplateSelector", typeof(DataTemplateSelector),
+                typeof(DockingManager), new FrameworkPropertyMetadata(null, OnAnchorableHeaderTemplateSelectorChanged));
 
         public static readonly DependencyProperty LayoutRootPanelProperty =
-            DependencyProperty.Register("LayoutRootPanel", typeof (LayoutPanelControl), typeof (DockingManager),
+            DependencyProperty.Register("LayoutRootPanel", typeof(LayoutPanelControl), typeof(DockingManager),
                 new FrameworkPropertyMetadata(null, OnLayoutRootPanelChanged));
 
         public static readonly DependencyProperty RightSidePanelProperty =
-            DependencyProperty.Register("RightSidePanel", typeof (LayoutAnchorSideControl), typeof (DockingManager),
+            DependencyProperty.Register("RightSidePanel", typeof(LayoutAnchorSideControl), typeof(DockingManager),
                 new FrameworkPropertyMetadata(null, OnRightSidePanelChanged));
 
         public static readonly DependencyProperty LeftSidePanelProperty =
-            DependencyProperty.Register("LeftSidePanel", typeof (LayoutAnchorSideControl), typeof (DockingManager),
+            DependencyProperty.Register("LeftSidePanel", typeof(LayoutAnchorSideControl), typeof(DockingManager),
                 new FrameworkPropertyMetadata(null, OnLeftSidePanelChanged));
 
         public static readonly DependencyProperty TopSidePanelProperty =
-            DependencyProperty.Register("TopSidePanel", typeof (LayoutAnchorSideControl), typeof (DockingManager),
+            DependencyProperty.Register("TopSidePanel", typeof(LayoutAnchorSideControl), typeof(DockingManager),
                 new FrameworkPropertyMetadata(null, OnTopSidePanelChanged));
 
         public static readonly DependencyProperty BottomSidePanelProperty =
-            DependencyProperty.Register("BottomSidePanel", typeof (LayoutAnchorSideControl), typeof (DockingManager),
+            DependencyProperty.Register("BottomSidePanel", typeof(LayoutAnchorSideControl), typeof(DockingManager),
                 new FrameworkPropertyMetadata(null, OnBottomSidePanelChanged));
 
         private static readonly DependencyPropertyKey AutoHideWindowPropertyKey
-            = DependencyProperty.RegisterReadOnly("AutoHideWindow", typeof (LayoutAutoHideWindowControl),
-                typeof (DockingManager),
+            = DependencyProperty.RegisterReadOnly("AutoHideWindow", typeof(LayoutAutoHideWindowControl),
+                typeof(DockingManager),
                 new FrameworkPropertyMetadata(null, OnAutoHideWindowChanged));
 
         public static readonly DependencyProperty AutoHideWindowProperty
             = AutoHideWindowPropertyKey.DependencyProperty;
 
         public static readonly DependencyProperty LayoutItemTemplateProperty =
-            DependencyProperty.Register("LayoutItemTemplate", typeof (DataTemplate), typeof (DockingManager),
+            DependencyProperty.Register("LayoutItemTemplate", typeof(DataTemplate), typeof(DockingManager),
                 new FrameworkPropertyMetadata(null, OnLayoutItemTemplateChanged));
 
         public static readonly DependencyProperty LayoutItemTemplateSelectorProperty =
-            DependencyProperty.Register("LayoutItemTemplateSelector", typeof (DataTemplateSelector),
-                typeof (DockingManager),
+            DependencyProperty.Register("LayoutItemTemplateSelector", typeof(DataTemplateSelector),
+                typeof(DockingManager),
                 new FrameworkPropertyMetadata(null, OnLayoutItemTemplateSelectorChanged));
 
         public static readonly DependencyProperty DocumentsSourceProperty =
-            DependencyProperty.Register("DocumentsSource", typeof (IEnumerable), typeof (DockingManager),
+            DependencyProperty.Register("DocumentsSource", typeof(IEnumerable), typeof(DockingManager),
                 new FrameworkPropertyMetadata(null, OnDocumentsSourceChanged));
 
         public static readonly DependencyProperty AnchorablesSourceProperty =
-            DependencyProperty.Register("AnchorablesSource", typeof (IEnumerable), typeof (DockingManager),
+            DependencyProperty.Register("AnchorablesSource", typeof(IEnumerable), typeof(DockingManager),
                 new FrameworkPropertyMetadata(null,
                     OnAnchorablesSourceChanged));
 
         public static readonly DependencyProperty ActiveContentProperty =
-            DependencyProperty.Register("ActiveContent", typeof (object), typeof (DockingManager),
+            DependencyProperty.Register("ActiveContent", typeof(object), typeof(DockingManager),
                 new FrameworkPropertyMetadata(null, OnActiveContentChanged));
 
         public static readonly DependencyProperty GridSplitterHeightProperty =
-            DependencyProperty.Register("GridSplitterHeight", typeof (double), typeof (DockingManager),
+            DependencyProperty.Register("GridSplitterHeight", typeof(double), typeof(DockingManager),
                 new FrameworkPropertyMetadata(6.0));
 
         public static readonly DependencyProperty GridSplitterWidthProperty =
-            DependencyProperty.Register("GridSplitterWidth", typeof (double), typeof (DockingManager),
+            DependencyProperty.Register("GridSplitterWidth", typeof(double), typeof(DockingManager),
                 new FrameworkPropertyMetadata(6.0));
 
         public static readonly DependencyProperty DocumentPaneMenuItemHeaderTemplateProperty =
-            DependencyProperty.Register("DocumentPaneMenuItemHeaderTemplate", typeof (DataTemplate),
-                typeof (DockingManager),
+            DependencyProperty.Register("DocumentPaneMenuItemHeaderTemplate", typeof(DataTemplate),
+                typeof(DockingManager),
                 new FrameworkPropertyMetadata(null, OnDocumentPaneMenuItemHeaderTemplateChanged,
                     CoerceDocumentPaneMenuItemHeaderTemplateValue));
 
         public static readonly DependencyProperty DocumentPaneMenuItemHeaderTemplateSelectorProperty =
-            DependencyProperty.Register("DocumentPaneMenuItemHeaderTemplateSelector", typeof (DataTemplateSelector),
-                typeof (DockingManager),
+            DependencyProperty.Register("DocumentPaneMenuItemHeaderTemplateSelector", typeof(DataTemplateSelector),
+                typeof(DockingManager),
                 new FrameworkPropertyMetadata(null, OnDocumentPaneMenuItemHeaderTemplateSelectorChanged,
                     CoerceDocumentPaneMenuItemHeaderTemplateSelectorValue));
 
         public static readonly DependencyProperty IconContentTemplateProperty =
-            DependencyProperty.Register("IconContentTemplate", typeof (DataTemplate), typeof (DockingManager),
+            DependencyProperty.Register("IconContentTemplate", typeof(DataTemplate), typeof(DockingManager),
                 new FrameworkPropertyMetadata((DataTemplate) null));
 
         public static readonly DependencyProperty IconContentTemplateSelectorProperty =
-            DependencyProperty.Register("IconContentTemplateSelector", typeof (DataTemplateSelector),
-                typeof (DockingManager),
+            DependencyProperty.Register("IconContentTemplateSelector", typeof(DataTemplateSelector),
+                typeof(DockingManager),
                 new FrameworkPropertyMetadata((DataTemplateSelector) null));
 
         public static readonly DependencyProperty LayoutItemContainerStyleProperty =
-            DependencyProperty.Register("LayoutItemContainerStyle", typeof (Style), typeof (DockingManager),
+            DependencyProperty.Register("LayoutItemContainerStyle", typeof(Style), typeof(DockingManager),
                 new FrameworkPropertyMetadata(null, OnLayoutItemContainerStyleChanged));
 
         public static readonly DependencyProperty LayoutItemContainerStyleSelectorProperty =
-            DependencyProperty.Register("LayoutItemContainerStyleSelector", typeof (StyleSelector),
-                typeof (DockingManager),
+            DependencyProperty.Register("LayoutItemContainerStyleSelector", typeof(StyleSelector),
+                typeof(DockingManager),
                 new FrameworkPropertyMetadata(null, OnLayoutItemContainerStyleSelectorChanged));
 
         public static readonly DependencyProperty AllowMixedOrientationProperty =
-            DependencyProperty.Register("AllowMixedOrientation", typeof (bool), typeof (DockingManager),
+            DependencyProperty.Register("AllowMixedOrientation", typeof(bool), typeof(DockingManager),
                 new FrameworkPropertyMetadata(false));
 
 
-        public static readonly DependencyProperty CanAddProperty = DependencyProperty.Register("CanAdd", typeof (bool),
-            typeof (DockingManager), new UIPropertyMetadata(true));
+        public static readonly DependencyProperty CanAddProperty = DependencyProperty.Register("CanAdd", typeof(bool),
+            typeof(DockingManager), new UIPropertyMetadata(true));
 
         public static readonly DependencyProperty CanCloseAllButThisProperty =
-            DependencyProperty.Register("CanCloseAllButThis", typeof (bool), typeof (DockingManager),
+            DependencyProperty.Register("CanCloseAllButThis", typeof(bool), typeof(DockingManager),
                 new UIPropertyMetadata(true));
 
         public static readonly DependencyProperty CanCloseAllProperty = DependencyProperty.Register("CanCloseAll",
-            typeof (bool), typeof (DockingManager), new UIPropertyMetadata(true));
+            typeof(bool), typeof(DockingManager), new UIPropertyMetadata(true));
 
 
         public static readonly DependencyProperty ShowSystemMenuProperty =
-            DependencyProperty.Register("ShowSystemMenu", typeof (bool), typeof (DockingManager),
+            DependencyProperty.Register("ShowSystemMenu", typeof(bool), typeof(DockingManager),
                 new FrameworkPropertyMetadata(true));
 
-
-        internal bool SuspendAnchorablesSourceBinding = false;
-
-        internal bool SuspendDocumentsSourceBinding = false;
+        private readonly IContextMenuHost _contextMenuHost;
 
 
         private readonly List<LayoutFloatingWindowControl> _fwList = new List<LayoutFloatingWindowControl>();
+
+        private readonly LinkedList<LayoutContent> _lastLayoutContentElements = new LinkedList<LayoutContent>();
 
         private readonly List<LayoutItem> _layoutItems = new List<LayoutItem>();
 
@@ -268,8 +273,18 @@ namespace ModernApplicationFramework.Docking
 
         private bool _suspendLayoutItemCreation;
 
-        private readonly LinkedList<LayoutContent> _lastLayoutContentElements = new LinkedList<LayoutContent>();
-        private readonly IContextMenuHost _contextMenuHost;
+
+        internal bool SuspendAnchorablesSourceBinding = false;
+
+        internal bool SuspendDocumentsSourceBinding = false;
+
+        static DockingManager()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(DockingManager),
+                new FrameworkPropertyMetadata(typeof(DockingManager)));
+            FocusableProperty.OverrideMetadata(typeof(DockingManager), new FrameworkPropertyMetadata(false));
+            HwndSource.DefaultAcquireHwndFocusInMenuMode = false;
+        }
 
 
         public DockingManager()
@@ -290,137 +305,6 @@ namespace ModernApplicationFramework.Docking
 
         public static DockingManager Instace { get; private set; }
 
-        private void ThemeManager_OnThemeChanged(object sender, ThemeChangedEventArgs e)
-        {
-            ChangeTheme(e.OldTheme, e.NewTheme);
-        }
-
-        private void ChangeTheme(Theme oldValue, Theme newValue)
-        {
-            var oldTheme = oldValue;
-            var newTheme = newValue;
-            var resources = Resources;
-            if (oldTheme != null)
-            {
-                var resourceDictionaryToRemove =
-                    resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldTheme.GetResourceUri());
-                if (resourceDictionaryToRemove != null)
-                    resources.MergedDictionaries.Remove(
-                        resourceDictionaryToRemove);
-            }
-
-            if (newTheme != null)
-            {
-                resources.MergedDictionaries.Add(new ResourceDictionary { Source = newTheme.GetResourceUri() });
-            }
-
-            foreach (var floatingWindowControl in _fwList)
-            {
-                floatingWindowControl.ChangeTheme(oldValue, newValue);
-            }
-
-            _overlayWindow?.ChangeTheme(oldValue, newValue);
-            _navigatorWindow?.ChangeTheme(oldValue, newValue);
-            ((ModernApplicationFramework.Controls.Menu.ContextMenu)DocumentContextMenu)?.ChangeTheme(oldValue, newValue);
-            ((ModernApplicationFramework.Controls.Menu.ContextMenu)AnchorableContextMenu)?.ChangeTheme(oldValue, newValue);
-            ((ModernApplicationFramework.Controls.Menu.ContextMenu)AnchorableAsDocumentContextMenu)?.ChangeTheme(oldValue, newValue);
-        }
-
-        static DockingManager()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof (DockingManager),
-                new FrameworkPropertyMetadata(typeof (DockingManager)));
-            FocusableProperty.OverrideMetadata(typeof (DockingManager), new FrameworkPropertyMetadata(false));
-            HwndSource.DefaultAcquireHwndFocusInMenuMode = false;
-        }
-
-        public event EventHandler ActiveContentChanged;
-
-        public event EventHandler<DocumentClosedEventArgs> DocumentClosed;
-
-        public event EventHandler<DocumentClosingEventArgs> DocumentClosing;
-
-
-        public event EventHandler LayoutChanged;
-
-        public event EventHandler LayoutChanging;
-
-
-        public event EventHandler<ThemeChangedEventArgs> OnThemeChanged;
-
-
-        IEnumerable<IDropArea> IOverlayWindowHost.GetDropAreas(LayoutFloatingWindowControl draggingWindow)
-        {
-            if (_areas != null)
-                return _areas;
-
-            var isDraggingDocuments = draggingWindow.Model is LayoutDocumentFloatingWindow;
-
-            _areas = new List<IDropArea>();
-
-            if (!isDraggingDocuments)
-            {
-                _areas.Add(new DropArea<DockingManager>(
-                    this,
-                    DropAreaType.DockingManager));
-
-                foreach (
-                    var areaHost in
-                        this.FindVisualChildren<LayoutAnchorablePaneControl>()
-                            .Where(areaHost => areaHost.Model.Descendents().Any()))
-                {
-                    _areas.Add(new DropArea<LayoutAnchorablePaneControl>(
-                        areaHost,
-                        DropAreaType.AnchorablePane));
-                }
-            }
-
-            foreach (var areaHost in this.FindVisualChildren<LayoutDocumentPaneControl>())
-            {
-                _areas.Add(new DropArea<LayoutDocumentPaneControl>(
-                    areaHost,
-                    DropAreaType.DocumentPane));
-            }
-
-            foreach (var areaHost in this.FindVisualChildren<LayoutDocumentPaneGroupControl>())
-            {
-                var documentGroupModel = areaHost.Model as LayoutDocumentPaneGroup;
-                if (documentGroupModel != null && !documentGroupModel.Children.Any(c => c.IsVisible))
-                {
-                    _areas.Add(new DropArea<LayoutDocumentPaneGroupControl>(
-                        areaHost,
-                        DropAreaType.DocumentPaneGroup));
-                }
-            }
-
-            return _areas;
-        }
-
-        void IOverlayWindowHost.HideOverlayWindow()
-        {
-            _areas = null;
-            _overlayWindow.Owner = null;
-            _overlayWindow.HideDropTargets();
-        }
-
-        bool IOverlayWindowHost.HitTest(Point dragPoint)
-        {
-            var detectionRect = new Rect(this.PointToScreenDpiWithoutFlowDirection(new Point()),
-                this.TransformActualSizeToAncestor());
-            return detectionRect.Contains(dragPoint);
-        }
-
-        DockingManager IOverlayWindowHost.Manager => this;
-
-        IOverlayWindow IOverlayWindowHost.ShowOverlayWindow(LayoutFloatingWindowControl draggingWindow)
-        {
-            CreateOverlayWindow();
-            _overlayWindow.Owner = draggingWindow;
-            _overlayWindow.EnableDropTargets();
-            _overlayWindow.Show();
-            return _overlayWindow;
-        }
-
         public LayoutAutoHideWindowControl AutoHideWindow
             => (LayoutAutoHideWindowControl) GetValue(AutoHideWindowProperty);
 
@@ -438,10 +322,12 @@ namespace ModernApplicationFramework.Docking
             set => SetValue(AllowMixedOrientationProperty, value);
         }
 
-        public ContextMenu AnchorableContextMenu => _contextMenuHost.GetContextMenu(AnchorableContextMenuDefinition.AnchorableContextMenu);
+        public ContextMenu AnchorableContextMenu =>
+            _contextMenuHost.GetContextMenu(AnchorableContextMenuDefinition.AnchorableContextMenu);
 
 
-        public ContextMenu AnchorableAsDocumentContextMenu => _contextMenuHost.GetContextMenu(AnchorableAsDocumentContextMenuDefinition.AnchorableAsDocumentContextMenu);
+        public ContextMenu AnchorableAsDocumentContextMenu =>
+            _contextMenuHost.GetContextMenu(AnchorableAsDocumentContextMenuDefinition.AnchorableAsDocumentContextMenu);
 
         public DataTemplate AnchorableHeaderTemplate
         {
@@ -530,7 +416,8 @@ namespace ModernApplicationFramework.Docking
             [ExcludeFromCodeCoverage] set { SetValue(CanCloseAllButThisProperty, value); }
         }
 
-        public ContextMenu DocumentContextMenu => _contextMenuHost.GetContextMenu(DocumentContextMenuDefinition.DocumentContextMenu);
+        public ContextMenu DocumentContextMenu =>
+            _contextMenuHost.GetContextMenu(DocumentContextMenuDefinition.DocumentContextMenu);
 
         public DataTemplate DocumentHeaderTemplate
         {
@@ -682,6 +569,122 @@ namespace ModernApplicationFramework.Docking
         }
 
         private bool IsNavigatorWindowActive => _navigatorWindow != null;
+
+
+        IEnumerable<IDropArea> IOverlayWindowHost.GetDropAreas(LayoutFloatingWindowControl draggingWindow)
+        {
+            if (_areas != null)
+                return _areas;
+
+            var isDraggingDocuments = draggingWindow.Model is LayoutDocumentFloatingWindow;
+
+            _areas = new List<IDropArea>();
+
+            if (!isDraggingDocuments)
+            {
+                _areas.Add(new DropArea<DockingManager>(
+                    this,
+                    DropAreaType.DockingManager));
+
+                foreach (
+                    var areaHost in
+                    this.FindVisualChildren<LayoutAnchorablePaneControl>()
+                        .Where(areaHost => areaHost.Model.Descendents().Any()))
+                    _areas.Add(new DropArea<LayoutAnchorablePaneControl>(
+                        areaHost,
+                        DropAreaType.AnchorablePane));
+            }
+
+            foreach (var areaHost in this.FindVisualChildren<LayoutDocumentPaneControl>())
+                _areas.Add(new DropArea<LayoutDocumentPaneControl>(
+                    areaHost,
+                    DropAreaType.DocumentPane));
+
+            foreach (var areaHost in this.FindVisualChildren<LayoutDocumentPaneGroupControl>())
+            {
+                var documentGroupModel = areaHost.Model as LayoutDocumentPaneGroup;
+                if (documentGroupModel != null && !documentGroupModel.Children.Any(c => c.IsVisible))
+                    _areas.Add(new DropArea<LayoutDocumentPaneGroupControl>(
+                        areaHost,
+                        DropAreaType.DocumentPaneGroup));
+            }
+
+            return _areas;
+        }
+
+        void IOverlayWindowHost.HideOverlayWindow()
+        {
+            _areas = null;
+            _overlayWindow.Owner = null;
+            _overlayWindow.HideDropTargets();
+        }
+
+        bool IOverlayWindowHost.HitTest(Point dragPoint)
+        {
+            var detectionRect = new Rect(this.PointToScreenDpiWithoutFlowDirection(new Point()),
+                this.TransformActualSizeToAncestor());
+            return detectionRect.Contains(dragPoint);
+        }
+
+        DockingManager IOverlayWindowHost.Manager => this;
+
+        IOverlayWindow IOverlayWindowHost.ShowOverlayWindow(LayoutFloatingWindowControl draggingWindow)
+        {
+            CreateOverlayWindow();
+            _overlayWindow.Owner = draggingWindow;
+            _overlayWindow.EnableDropTargets();
+            _overlayWindow.Show();
+            return _overlayWindow;
+        }
+
+        private void ThemeManager_OnThemeChanged(object sender, ThemeChangedEventArgs e)
+        {
+            ChangeTheme(e.OldTheme, e.NewTheme);
+        }
+
+        private void ChangeTheme(Theme oldValue, Theme newValue)
+        {
+            var oldTheme = oldValue;
+            var newTheme = newValue;
+            var resources = Resources;
+            if (oldTheme != null)
+            {
+                var resourceDictionaryToRemove =
+                    resources.MergedDictionaries.FirstOrDefault(r => r.Source == oldTheme.GetResourceUri());
+                if (resourceDictionaryToRemove != null)
+                    resources.MergedDictionaries.Remove(
+                        resourceDictionaryToRemove);
+            }
+
+            if (newTheme != null)
+                resources.MergedDictionaries.Add(new ResourceDictionary {Source = newTheme.GetResourceUri()});
+
+            foreach (var floatingWindowControl in _fwList)
+                floatingWindowControl.ChangeTheme(oldValue, newValue);
+
+            _overlayWindow?.ChangeTheme(oldValue, newValue);
+            _navigatorWindow?.ChangeTheme(oldValue, newValue);
+            ((ModernApplicationFramework.Controls.Menu.ContextMenu) DocumentContextMenu)?.ChangeTheme(oldValue,
+                newValue);
+            ((ModernApplicationFramework.Controls.Menu.ContextMenu) AnchorableContextMenu)?.ChangeTheme(oldValue,
+                newValue);
+            ((ModernApplicationFramework.Controls.Menu.ContextMenu) AnchorableAsDocumentContextMenu)?.ChangeTheme(
+                oldValue, newValue);
+        }
+
+        public event EventHandler ActiveContentChanged;
+
+        public event EventHandler<DocumentClosedEventArgs> DocumentClosed;
+
+        public event EventHandler<DocumentClosingEventArgs> DocumentClosing;
+
+
+        public event EventHandler LayoutChanged;
+
+        public event EventHandler LayoutChanging;
+
+
+        public event EventHandler<ThemeChangedEventArgs> OnThemeChanged;
 
 
         public LayoutItem GetLayoutItemFromModel(LayoutContent content)
@@ -860,9 +863,7 @@ namespace ModernApplicationFramework.Docking
                 BottomSidePanel = CreateUIElementForModel(Layout.BottomSide) as LayoutAnchorSideControl;
 
                 foreach (var fw in Layout.FloatingWindows.ToArray().Where(fw => fw.IsValid))
-                {
                     _fwList.Add(CreateUIElementForModel(fw) as LayoutFloatingWindowControl);
-                }
             }
 
 
@@ -895,7 +896,7 @@ namespace ModernApplicationFramework.Docking
         }
 
         /// <summary>
-        /// Provides derived classes an opportunity to handle changes to the LayoutItemTemplateSelector property.
+        ///     Provides derived classes an opportunity to handle changes to the LayoutItemTemplateSelector property.
         /// </summary>
         protected virtual void OnLayoutItemTemplateSelectorChanged(DependencyPropertyChangedEventArgs e)
         {
@@ -934,16 +935,12 @@ namespace ModernApplicationFramework.Docking
         {
             Trace.WriteLine($"OnPreviewKeyDown({e.Key})");
             if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
-            {
                 if (e.IsDown && e.Key == Key.Tab)
-                {
                     if (!IsNavigatorWindowActive)
                     {
                         ShowNavigatorWindow();
                         e.Handled = true;
                     }
-                }
-            }
             base.OnPreviewKeyDown(e);
         }
 
@@ -993,13 +990,13 @@ namespace ModernApplicationFramework.Docking
         {
             foreach (
                 var contentToClose in
-                    Layout.Descendents()
-                        .OfType<LayoutContent>()
-                        .Where(
-                            d =>
-                                !Equals(d, contentSelected) &&
-                                (d.Parent is LayoutDocumentPane || d.Parent is LayoutDocumentFloatingWindow))
-                        .ToArray())
+                Layout.Descendents()
+                    .OfType<LayoutContent>()
+                    .Where(
+                        d =>
+                            !Equals(d, contentSelected) &&
+                            (d.Parent is LayoutDocumentPane || d.Parent is LayoutDocumentFloatingWindow))
+                    .ToArray())
             {
                 if (!contentToClose.CanClose)
                     continue;
@@ -1024,10 +1021,10 @@ namespace ModernApplicationFramework.Docking
         {
             foreach (
                 var contentToClose in
-                    Layout.Descendents()
-                        .OfType<LayoutContent>()
-                        .Where(d => d.Parent is LayoutDocumentPane || d.Parent is LayoutDocumentFloatingWindow)
-                        .ToArray())
+                Layout.Descendents()
+                    .OfType<LayoutContent>()
+                    .Where(d => d.Parent is LayoutDocumentPane || d.Parent is LayoutDocumentFloatingWindow)
+                    .ToArray())
             {
                 if (!contentToClose.CanClose)
                     continue;
@@ -1115,9 +1112,10 @@ namespace ModernApplicationFramework.Docking
 
         internal void _ExecuteHideCommand(LayoutAnchorable anchorable)
         {
-
             if (EnvironmentGeneralOptions.Instance.DockedWinClose)
+            {
                 anchorable?.Hide();
+            }
             else
             {
                 var pane = anchorable.Parent as LayoutAnchorablePane;
@@ -1131,7 +1129,8 @@ namespace ModernApplicationFramework.Docking
             {
                 if (layoutContent == null)
                     continue;
-                if (layoutContent is LayoutAnchorable layoutAnchorable && (layoutAnchorable.IsHidden || !layoutAnchorable.IsVisible))
+                if (layoutContent is LayoutAnchorable layoutAnchorable &&
+                    (layoutAnchorable.IsHidden || !layoutAnchorable.IsVisible))
                     continue;
                 if (layoutContent is LayoutDocument layoutDocument && !layoutDocument.IsVisible)
                     continue;
@@ -1208,9 +1207,7 @@ namespace ModernApplicationFramework.Docking
                 newFw.Show();
                 // Do not set the WindowState before showing or it will be lost
                 if (paneForExtensions != null && paneForExtensions.IsMaximized)
-                {
                     newFw.WindowState = WindowState.Maximized;
-                }
                 return newFw;
             }
 
@@ -1239,9 +1236,7 @@ namespace ModernApplicationFramework.Docking
                 newFw.Show();
                 // Do not set the WindowState before showing or it will be lost
                 if (paneForExtensions != null && paneForExtensions.IsMaximized)
-                {
                     newFw.WindowState = WindowState.Maximized;
-                }
                 return newFw;
             }
 
@@ -1273,12 +1268,12 @@ namespace ModernApplicationFramework.Docking
                 (int) GetWindowCmd.GwHwndfirst);
             while (currentHandle != IntPtr.Zero)
             {
-                LayoutFloatingWindowControl ctrl =
+                var ctrl =
                     _fwList.FirstOrDefault(fw => new WindowInteropHelper(fw).EnsureHandle() == currentHandle);
                 if (ctrl != null && Equals(ctrl.Model.Root.Manager, this))
                     yield return ctrl;
 
-                currentHandle = User32.GetWindow(currentHandle, (int)GetWindowCmd.GwHwndnext);
+                currentHandle = User32.GetWindow(currentHandle, (int) GetWindowCmd.GwHwndnext);
             }
         }
 
@@ -1355,7 +1350,7 @@ namespace ModernApplicationFramework.Docking
             var parentPaneAsPositionableElement = contentModel.Parent as ILayoutPositionableElement;
             var parentPaneAsWithActualSize = contentModel.Parent as ILayoutPositionableElementWithActualSize;
             // ReSharper disable once PossibleNullReferenceException
-            List<ILayoutElement> list = parentPane.Children.ToList();
+            var list = parentPane.Children.ToList();
             var contentModelParentChildrenIndex = list.IndexOf(contentModel);
 
             if (contentModel.FindParent<LayoutFloatingWindow>() == null)
@@ -1370,8 +1365,8 @@ namespace ModernApplicationFramework.Docking
             if (layoutItem != null)
                 layoutItem.IsFloating = true;
 
-            double fwWidth = contentModel.FloatingWidth;
-            double fwHeight = contentModel.FloatingHeight;
+            var fwWidth = contentModel.FloatingWidth;
+            var fwHeight = contentModel.FloatingHeight;
 
             if (fwWidth == 0.0)
                 if (parentPaneAsPositionableElement != null) fwWidth = parentPaneAsPositionableElement.FloatingWidth;
@@ -1401,7 +1396,7 @@ namespace ModernApplicationFramework.Docking
                             FloatingLeft = parentPaneAsPositionableElement.FloatingLeft,
                             FloatingTop = parentPaneAsPositionableElement.FloatingTop,
                             FloatingWidth = parentPaneAsPositionableElement.FloatingWidth,
-                            FloatingHeight = parentPaneAsPositionableElement.FloatingHeight,
+                            FloatingHeight = parentPaneAsPositionableElement.FloatingHeight
                         })
                 };
 
@@ -1473,7 +1468,7 @@ namespace ModernApplicationFramework.Docking
                 FloatingLeft = paneAsPositionableElement.FloatingLeft,
                 FloatingTop = paneAsPositionableElement.FloatingTop,
                 FloatingWidth = paneAsPositionableElement.FloatingWidth,
-                FloatingHeight = paneAsPositionableElement.FloatingHeight,
+                FloatingHeight = paneAsPositionableElement.FloatingHeight
             };
 
             var savePreviousContainer = paneModel.FindParent<LayoutFloatingWindow>() == null;
@@ -1494,12 +1489,10 @@ namespace ModernApplicationFramework.Docking
             }
 
             if (destPane.Children.Count > 0)
-            {
                 destPane.SelectedContentIndex = currentSelectedContentIndex;
-            }
 
 
-            LayoutFloatingWindow fw = new LayoutAnchorableFloatingWindow()
+            LayoutFloatingWindow fw = new LayoutAnchorableFloatingWindow
             {
                 RootPanel = new LayoutAnchorablePaneGroup(
                     destPane)
@@ -1507,7 +1500,7 @@ namespace ModernApplicationFramework.Docking
                     DockHeight = destPane.DockHeight,
                     DockWidth = destPane.DockWidth,
                     DockMinHeight = destPane.DockMinHeight,
-                    DockMinWidth = destPane.DockMinWidth,
+                    DockMinWidth = destPane.DockMinWidth
                 }
             };
 
@@ -1590,7 +1583,7 @@ namespace ModernApplicationFramework.Docking
         private static object CoerceLayoutValue(DependencyObject d, object value)
         {
             if (value == null)
-                return new LayoutRoot()
+                return new LayoutRoot
                 {
                     RootPanel = new LayoutPanel(new LayoutDocumentPaneGroup(new LayoutDocumentPane()))
                 };
@@ -1631,7 +1624,8 @@ namespace ModernApplicationFramework.Docking
             ((DockingManager) d).OnAnchorableHeaderTemplateSelectorChanged(e);
         }
 
-        private static void OnAnchorablePaneControlStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnAnchorablePaneControlStyleChanged(DependencyObject d,
+            DependencyPropertyChangedEventArgs e)
         {
             ((DockingManager) d).OnAnchorablePaneControlStyleChanged(e);
         }
@@ -1749,7 +1743,8 @@ namespace ModernApplicationFramework.Docking
             ((DockingManager) d).OnLayoutItemTemplateChanged(e);
         }
 
-        private static void OnLayoutItemTemplateSelectorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnLayoutItemTemplateSelectorChanged(DependencyObject d,
+            DependencyPropertyChangedEventArgs e)
         {
             ((DockingManager) d).OnLayoutItemTemplateSelectorChanged(e);
         }
@@ -1786,7 +1781,6 @@ namespace ModernApplicationFramework.Docking
             //handle remove
             if (e.Action == NotifyCollectionChangedAction.Remove ||
                 e.Action == NotifyCollectionChangedAction.Replace)
-            {
                 if (e.OldItems != null)
                 {
                     var anchorablesToRemove =
@@ -1801,38 +1795,27 @@ namespace ModernApplicationFramework.Docking
                         RemoveViewFromLogicalChild(anchorableToRemove);
                     }
                 }
-            }
 
             //handle add
             if (e.NewItems != null &&
                 (e.Action == NotifyCollectionChangedAction.Add ||
                  e.Action == NotifyCollectionChangedAction.Replace))
-            {
                 if (e.NewItems != null)
                 {
                     LayoutAnchorablePane anchorablePane = null;
 
                     if (Layout.ActiveContent != null)
-                    {
-                        //look for active content parent pane
                         anchorablePane = Layout.ActiveContent.Parent as LayoutAnchorablePane;
-                    }
 
                     if (anchorablePane == null)
-                    {
-                        //look for a pane on the right side
                         anchorablePane =
                             Layout.Descendents()
                                 .OfType<LayoutAnchorablePane>()
                                 .FirstOrDefault(
                                     pane => !pane.IsHostedInFloatingWindow && pane.GetSide() == AnchorSide.Right);
-                    }
 
                     if (anchorablePane == null)
-                    {
-                        //look for an available pane
                         anchorablePane = Layout.Descendents().OfType<LayoutAnchorablePane>().FirstOrDefault();
-                    }
 
                     _suspendLayoutItemCreation = true;
                     foreach (var anchorableContentToImport in e.NewItems)
@@ -1842,12 +1825,10 @@ namespace ModernApplicationFramework.Docking
                             Content = anchorableContentToImport
                         };
 
-                        bool added = false;
+                        var added = false;
                         if (LayoutUpdateStrategy != null)
-                        {
                             added = LayoutUpdateStrategy.BeforeInsertAnchorable(Layout, anchorableToImport,
                                 anchorablePane);
-                        }
 
                         if (!added)
                         {
@@ -1855,9 +1836,7 @@ namespace ModernApplicationFramework.Docking
                             {
                                 var mainLayoutPanel = new LayoutPanel {Orientation = Orientation.Horizontal};
                                 if (Layout.RootPanel != null)
-                                {
                                     mainLayoutPanel.Children.Add(Layout.RootPanel);
-                                }
 
                                 Layout.RootPanel = mainLayoutPanel;
                                 anchorablePane = new LayoutAnchorablePane
@@ -1875,13 +1854,10 @@ namespace ModernApplicationFramework.Docking
                         var root = anchorableToImport.Root;
 
                         if (root != null && Equals(root.Manager, this))
-                        {
                             CreateAnchorableLayoutItem(anchorableToImport);
-                        }
                     }
                     _suspendLayoutItemCreation = false;
                 }
-            }
 
             if (e.Action == NotifyCollectionChangedAction.Reset)
             {
@@ -1922,46 +1898,33 @@ namespace ModernApplicationFramework.Docking
 
             foreach (
                 var document in
-                    listOfAnchorablesToImport.ToArray().Where(document => anchorablesImported.Contains(document)))
-            {
+                listOfAnchorablesToImport.ToArray().Where(document => anchorablesImported.Contains(document)))
                 listOfAnchorablesToImport.Remove(document);
-            }
 
             LayoutAnchorablePane anchorablePane = null;
             if (layout.ActiveContent != null)
-            {
-                //look for active content parent pane
                 anchorablePane = layout.ActiveContent.Parent as LayoutAnchorablePane;
-            }
 
             if (anchorablePane == null)
-            {
-                //look for a pane on the right side
                 anchorablePane =
                     layout.Descendents()
                         .OfType<LayoutAnchorablePane>()
                         .FirstOrDefault(pane => !pane.IsHostedInFloatingWindow && pane.GetSide() == AnchorSide.Right);
-            }
 
             if (anchorablePane == null)
-            {
-                //look for an available pane
                 anchorablePane = layout.Descendents().OfType<LayoutAnchorablePane>().FirstOrDefault();
-            }
 
             _suspendLayoutItemCreation = true;
             foreach (var anchorableContentToImport in listOfAnchorablesToImport)
             {
-                var anchorableToImport = new LayoutAnchorable()
+                var anchorableToImport = new LayoutAnchorable
                 {
                     Content = anchorableContentToImport
                 };
 
-                bool added = false;
+                var added = false;
                 if (LayoutUpdateStrategy != null)
-                {
                     added = LayoutUpdateStrategy.BeforeInsertAnchorable(layout, anchorableToImport, anchorablePane);
-                }
 
                 if (!added)
                 {
@@ -1969,9 +1932,7 @@ namespace ModernApplicationFramework.Docking
                     {
                         var mainLayoutPanel = new LayoutPanel {Orientation = Orientation.Horizontal};
                         if (layout.RootPanel != null)
-                        {
                             mainLayoutPanel.Children.Add(layout.RootPanel);
-                        }
 
                         layout.RootPanel = mainLayoutPanel;
                         anchorablePane = new LayoutAnchorablePane
@@ -2008,35 +1969,27 @@ namespace ModernApplicationFramework.Docking
 
             foreach (
                 var document in
-                    listOfDocumentsToImport.ToArray().Where(document => documentsImported.Contains(document)))
-            {
+                listOfDocumentsToImport.ToArray().Where(document => documentsImported.Contains(document)))
                 listOfDocumentsToImport.Remove(document);
-            }
 
             LayoutDocumentPane documentPane = null;
             if (layout.LastFocusedDocument != null)
-            {
                 documentPane = layout.LastFocusedDocument.Parent as LayoutDocumentPane;
-            }
 
             if (documentPane == null)
-            {
                 documentPane = layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
-            }
 
             _suspendLayoutItemCreation = true;
             foreach (var documentContentToImport in listOfDocumentsToImport)
             {
-                var documentToImport = new LayoutDocument()
+                var documentToImport = new LayoutDocument
                 {
                     Content = documentContentToImport
                 };
 
-                bool added = false;
+                var added = false;
                 if (LayoutUpdateStrategy != null)
-                {
                     added = LayoutUpdateStrategy.BeforeInsertDocument(layout, documentToImport, documentPane);
-                }
 
                 if (!added)
                 {
@@ -2066,13 +2019,9 @@ namespace ModernApplicationFramework.Docking
             if (Layout == null)
                 return;
             foreach (var document in Layout.Descendents().OfType<LayoutDocument>().ToArray())
-            {
                 CreateDocumentLayoutItem(document);
-            }
             foreach (var anchorable in Layout.Descendents().OfType<LayoutAnchorable>().ToArray())
-            {
                 CreateAnchorableLayoutItem(anchorable);
-            }
 
             Layout.ElementAdded += Layout_ElementAdded;
             Layout.ElementRemoved += Layout_ElementRemoved;
@@ -2118,9 +2067,7 @@ namespace ModernApplicationFramework.Docking
             _layoutItems.Add(layoutItem);
 
             if (contentToAttach?.Content is UIElement)
-            {
                 InternalAddLogicalChild(contentToAttach.Content);
-            }
         }
 
         private void CreateDocumentLayoutItem(LayoutDocument contentToAttach)
@@ -2134,17 +2081,13 @@ namespace ModernApplicationFramework.Docking
             _layoutItems.Add(layoutItem);
 
             if (contentToAttach?.Content is UIElement)
-            {
                 InternalAddLogicalChild(contentToAttach.Content);
-            }
         }
 
         private void CreateOverlayWindow()
         {
             if (_overlayWindow == null)
-            {
                 _overlayWindow = new OverlayWindow(this);
-            }
             var rectWindow = new Rect(this.PointToScreenDpiWithoutFlowDirection(new Point()),
                 this.TransformActualSizeToAncestor());
             _overlayWindow.Left = rectWindow.Left;
@@ -2263,7 +2206,6 @@ namespace ModernApplicationFramework.Docking
             //handle remove
             if (e.Action == NotifyCollectionChangedAction.Remove ||
                 e.Action == NotifyCollectionChangedAction.Replace)
-            {
                 if (e.OldItems != null)
                 {
                     var documentsToRemove =
@@ -2275,43 +2217,34 @@ namespace ModernApplicationFramework.Docking
                     {
                         documentToRemove.Parent.RemoveChild(documentToRemove);
                         RemoveViewFromLogicalChild(documentToRemove);
-
                     }
                 }
-            }
 
             //handle add
             if (e.NewItems != null &&
                 (e.Action == NotifyCollectionChangedAction.Add ||
                  e.Action == NotifyCollectionChangedAction.Replace))
-            {
                 if (e.NewItems != null)
                 {
                     LayoutDocumentPane documentPane = null;
                     if (Layout.LastFocusedDocument != null)
-                    {
                         documentPane = Layout.LastFocusedDocument.Parent as LayoutDocumentPane;
-                    }
 
                     if (documentPane == null)
-                    {
                         documentPane = Layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
-                    }
 
                     _suspendLayoutItemCreation = true;
 
                     foreach (var documentContentToImport in e.NewItems)
                     {
-                        var documentToImport = new LayoutDocument()
+                        var documentToImport = new LayoutDocument
                         {
                             Content = documentContentToImport
                         };
 
-                        bool added = false;
+                        var added = false;
                         if (LayoutUpdateStrategy != null)
-                        {
                             added = LayoutUpdateStrategy.BeforeInsertDocument(Layout, documentToImport, documentPane);
-                        }
 
                         if (!added)
                         {
@@ -2327,13 +2260,10 @@ namespace ModernApplicationFramework.Docking
                         var root = documentToImport.Root;
 
                         if (root != null && Equals(root.Manager, this))
-                        {
                             CreateDocumentLayoutItem(documentToImport);
-                        }
                     }
                     _suspendLayoutItemCreation = false;
                 }
-            }
 
             if (e.Action == NotifyCollectionChangedAction.Reset)
             {
@@ -2369,12 +2299,10 @@ namespace ModernApplicationFramework.Docking
                 return;
 
             foreach (var content in Layout.Descendents().OfType<LayoutContent>())
-            {
                 if (content is LayoutDocument)
                     CreateDocumentLayoutItem(content as LayoutDocument);
                 else //if (content is LayoutAnchorable)
                     CreateAnchorableLayoutItem(content as LayoutAnchorable);
-            }
 
             CollectLayoutItemsDeleted();
         }
@@ -2406,23 +2334,8 @@ namespace ModernApplicationFramework.Docking
                     break;
                 case "ActiveContent":
                     if (Layout.ActiveContent != null)
-                    {
-                        ////Debug.WriteLine(new StackTrace().ToString());
-
-                        ////set focus on active element only after a layout pass is completed
-                        ////it's possible that it is not yet visible in the visual tree
-                        //if (_setFocusAsyncOperation == null)
-                        //{
-                        //    _setFocusAsyncOperation = Dispatcher.BeginInvoke(new Action(() =>
-                        //    {
-                        //        //if (Layout.ActiveContent != null)
-                        //        //    FocusElementManager.SetFocusOnLastElement(Layout.ActiveContent);
-                        //        //_setFocusAsyncOperation = null;
-                        //    }), DispatcherPriority.Input);
-                        //}
                         if (Layout.ActiveContent != null)
                             FocusElementManager.SetFocusOnLastElement(Layout.ActiveContent);
-                    }
 
                     if (!_insideInternalSetActiveContent && Layout.ActiveContent != null)
                         ActiveContent = Layout.ActiveContent?.Content;
@@ -2452,13 +2365,11 @@ namespace ModernApplicationFramework.Docking
         private void ShowNavigatorWindow()
         {
             if (_navigatorWindow == null)
-            {
                 _navigatorWindow = new NavigatorWindow(this)
                 {
                     Owner = Window.GetWindow(this),
                     WindowStartupLocation = WindowStartupLocation.CenterOwner
                 };
-            }
 
             _navigatorWindow.ShowDialog();
             _navigatorWindow = null;

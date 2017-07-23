@@ -5,6 +5,7 @@ using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Interfaces
 {
+    /// <inheritdoc />
     /// <summary>
     /// A manager to provide context menus by commandbar definitions
     /// </summary>
