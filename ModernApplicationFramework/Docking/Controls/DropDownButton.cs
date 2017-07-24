@@ -16,7 +16,9 @@
 
 using System.Windows;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Input;
+using ModernApplicationFramework.Interfaces;
 using ContextMenu = System.Windows.Controls.ContextMenu;
 
 namespace ModernApplicationFramework.Docking.Controls
@@ -27,6 +29,9 @@ namespace ModernApplicationFramework.Docking.Controls
             DependencyProperty.Register("DropDownContextMenu", typeof (ContextMenu), typeof (DropDownButton),
                 new FrameworkPropertyMetadata(null,
                     OnDropDownContextMenuChanged));
+
+        public static readonly DependencyProperty ContextMenuProviderProperty = DependencyProperty.Register(
+            "ContextMenuProvider", typeof(IContextMenuProvider), typeof(DropDownButton), new PropertyMetadata(default(IValueConverter)));
 
 
         public DropDownButton()
@@ -46,16 +51,35 @@ namespace ModernApplicationFramework.Docking.Controls
             set => SetValue(DropDownContextMenuProperty, value);
         }
 
+        public IContextMenuProvider ContextMenuProvider
+        {
+            get => (IContextMenuProvider)GetValue(ContextMenuProviderProperty);
+            set => SetValue(ContextMenuProviderProperty, value);
+        }
+
         protected override void OnClick()
         {
+
+            ContextMenu contextMenu;
+
             if (DropDownContextMenu != null)
-            {     
-                DropDownContextMenu.PlacementTarget = this;
-                DropDownContextMenu.Placement = PlacementMode.Bottom;
-                DropDownContextMenu.IsOpen = true;
-                DropDownContextMenu.Closed += OnContextMenuClosed;
-                IsChecked = true;
+                contextMenu = DropDownContextMenu;
+            else
+            {
+                if (ContextMenuProvider == null)
+                    return;
+                contextMenu = ContextMenuProvider.Provide(DataContext);
             }
+
+            if (contextMenu == null)
+                return;
+
+            contextMenu.PlacementTarget = this;
+            contextMenu.Placement = PlacementMode.Bottom;
+            contextMenu.IsOpen = true;
+            contextMenu.Closed += OnContextMenuClosed;
+            IsChecked = true;
+            
             base.OnClick();
         }
 

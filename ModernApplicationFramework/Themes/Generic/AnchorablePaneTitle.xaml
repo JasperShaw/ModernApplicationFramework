@@ -32,8 +32,8 @@
                                 <DockPanel>
                                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
                                         <avalonDockControls:DropDownButton x:Name="MenuDropDownButton" Focusable="False" ToolTip="Positions" Height="15" Width="15" BorderThickness="1"
-                                                                           DropDownContextMenu="{Binding Model.Root.Manager.AnchorableContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
                                                                            Background="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBackground}}"
+                                                                           ContextMenuProvider="{StaticResource AnchorableContextMenuProvider}"
                                                                            BorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleButtonBorder}}">
                                             <Path x:Name="MenuButtonPath" Data="F1 M 0,0 L 4,4 8,0 0,0 z" 
                                                   Fill="{DynamicResource {x:Static themes:EnvironmentColors.AnchorPaneTitleGlyph}}" VerticalAlignment="Center" 
