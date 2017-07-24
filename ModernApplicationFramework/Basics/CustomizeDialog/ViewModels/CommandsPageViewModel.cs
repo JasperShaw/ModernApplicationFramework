@@ -212,15 +212,28 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 
         private void BuildCheckBoxItems(CustomizeRadioButtonOptions value)
         {
+            CommandBarDefinitionBase selected;
             if ((value & CustomizeRadioButtonOptions.Menu) != 0)
+            {
+                selected = SelectedMenuItem;
                 CustomizableMenuBars =
                     new ObservableCollection<CommandBarDefinitionBase>(_menuHost.GetMenuHeaderItemDefinitions());
+                SelectedMenuItem = selected;
+            }
             if ((value & CustomizeRadioButtonOptions.Toolbar) != 0)
+            {
+                selected = SelectedToolBarItem;
                 CustomizableToolBars =
                     new ObservableCollection<CommandBarDefinitionBase>(_toolbarHost.GetMenuHeaderItemDefinitions());
+                SelectedToolBarItem = selected;
+            }
             if ((value & CustomizeRadioButtonOptions.ContextMenu) != 0)
+            {
+                selected = SelectedContextMenuItem;
                 CustomizableContextMenus =
                     new ObservableCollection<CommandBarDefinitionBase>(_contextMenuHost.GetMenuHeaderItemDefinitions());
+                SelectedContextMenuItem = selected;
+            }
         }
 
         private void BuildItemSources(CustomizeRadioButtonOptions value)
@@ -303,6 +316,8 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             BuildItemSources(SelectedOption);
             BuildCheckBoxItems(SelectedOption);
             SelectedListBoxDefinition = nextSelectedItem;
+            
+            
         }
 
         private void HandleCommandAddNewMenu()
