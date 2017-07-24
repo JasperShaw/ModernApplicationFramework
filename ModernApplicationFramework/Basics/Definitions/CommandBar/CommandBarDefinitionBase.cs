@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using ModernApplicationFramework.Annotations;
 using ModernApplicationFramework.Basics.Definitions.Command;
@@ -12,6 +13,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     /// Fundamental command bar element definition
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Interfaces.IHasTextProperty" />
+    [DebuggerDisplay("Name = {Name}")]
     public abstract class CommandBarDefinitionBase : IHasTextProperty
     {
         private uint _sortOrder;
@@ -20,6 +22,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         private FlagStorage _flagStorage;
 	    private string _name;
         private bool _acquireFocus;
+        private bool _isEnabled = true;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -102,6 +105,18 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             {
                 if (value == _isChecked) return;
                 _isChecked = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        public virtual bool IsEnabled
+        {
+            get => _isEnabled;
+            set
+            {
+                if (value == _isEnabled) return;
+                _isEnabled = value;
                 OnPropertyChanged();
             }
         }

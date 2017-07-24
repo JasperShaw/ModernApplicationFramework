@@ -80,9 +80,16 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                 Build();
             else
             {
-                var menuItem = IoC.Get<IMainMenuCreator>().CreateMenuItem(definition);
-                if (!Items.Contains(menuItem))
-                    Items.Add(menuItem);
+                var newItem = IoC.Get<IMainMenuCreator>().CreateMenuItem(definition);  
+                var olditem = Items.FirstOrDefault(x => x.DataContext.Equals(definition));    
+                if (olditem == null)
+                    Items.Add(newItem);
+                else
+                {
+                    var index = Items.IndexOf(olditem);
+                    Items.Remove(olditem);
+                    Items.Insert(index, newItem);
+                }
             }
         }
 

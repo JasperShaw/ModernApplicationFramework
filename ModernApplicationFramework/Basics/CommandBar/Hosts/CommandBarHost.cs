@@ -91,11 +91,16 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         public abstract void Build();
 
         public void BuildLogical(CommandBarDefinitionBase definition)
-        {
+        {           
             var groups = DefinitionHost.ItemGroupDefinitions.Where(x => x.Parent == definition)
                 .Where(x => !DefinitionHost.ExcludedItemDefinitions.Contains(x))
                 .OrderBy(x => x.SortOrder)
                 .ToList();
+
+            if (definition is MenuDefinition && groups.Count == 0)
+                    definition.IsEnabled = false;
+            else
+                definition.IsEnabled = true;
 
             var veryFirstItem = true;
             uint newGroupSortOrder = 0;
