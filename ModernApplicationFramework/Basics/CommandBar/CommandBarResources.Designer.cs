@@ -79,6 +79,15 @@ namespace ModernApplicationFramework.Basics.CommandBar {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die New Menu ähnelt.
+        /// </summary>
+        public static string NewMenuDefaultName {
+            get {
+                return ResourceManager.GetString("NewMenuDefaultName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die {0} (custom) ähnelt.
         /// </summary>
         public static string NewToolBarUniqueNamePatter {

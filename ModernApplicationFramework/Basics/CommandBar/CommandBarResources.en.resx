@@ -141,4 +141,7 @@
   <data name="ListToolBarsCommandListDefinition_Name" xml:space="preserve">
     <value>Toolbar List</value>
   </data>
+  <data name="NewMenuDefaultName" xml:space="preserve">
+    <value>New Menu</value>
+  </data>
 </root>

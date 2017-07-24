@@ -5,6 +5,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Input;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.CommandBar;
 using ModernApplicationFramework.Basics.CommandBar.Hosts;
 using ModernApplicationFramework.Basics.CustomizeDialog.Views;
 using ModernApplicationFramework.Basics.Definitions.Command;
@@ -322,7 +323,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 
         private void HandleCommandAddNewMenu()
         {
-            var newMenuItem = new MenuDefinition(null, 0, "New Menu", true);
+            var newMenuItem = new MenuDefinition(null, 0, CommandBarResources.NewMenuDefaultName, true);
 
             InternalAddItem(newMenuItem);
             BuildItemSources(SelectedOption);
