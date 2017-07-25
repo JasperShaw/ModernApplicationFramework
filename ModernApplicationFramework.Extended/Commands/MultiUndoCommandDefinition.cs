@@ -37,7 +37,7 @@ namespace ModernApplicationFramework.Extended.Commands
         [ImportingConstructor]
         public MultiUndoCommandDefinition(CommandBarUndoRedoManagerWatcher watcher)
         {
-            var command = new MultiKeyGestureCommandWrapper(Undo, CanUndo,
+            var command = new UICommand(Undo, CanUndo,
                 new MultiKeyGesture(new[] {Key.Z}, ModifierKeys.Control));
             Command = command;
             ShortcutText = command.GestureText;

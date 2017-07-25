@@ -13,6 +13,8 @@ namespace ModernApplicationFramework.Interfaces.Services
 
         void RestoreBindings();
 
-        KeyGesture GetPrimaryKeyGesture(MultiKeyGestureCommandWrapper abstractCommand);
+        KeyGesture GetPrimaryKeyGesture(UICommand abstractCommand);
+
+        void BindKeyGestures(ICanHaveInputBindings hostingModel);
     }
 }

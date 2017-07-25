@@ -25,7 +25,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public MoveAllToNextTabGroupCommandDefinition()
         {
-            Command = new MultiKeyGestureCommandWrapper(MoveAllToNextTabGroup, CanAllMoveToNextTabGroup);
+            Command = new UICommand(MoveAllToNextTabGroup, CanAllMoveToNextTabGroup);
         }
 
         private bool CanAllMoveToNextTabGroup()

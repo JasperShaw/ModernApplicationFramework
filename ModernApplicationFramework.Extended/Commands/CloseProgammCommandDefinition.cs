@@ -34,7 +34,7 @@ namespace ModernApplicationFramework.Extended.Commands
 
         public CloseProgammCommandDefinition()
         {
-            var command = new MultiKeyGestureCommandWrapper(Close, CanClose,
+            var command = new UICommand(Close, CanClose,
                 new MultiKeyGesture(new[] {Key.F4}, ModifierKeys.Alt));
             Command = command;
             ShortcutText = command.GestureText;

@@ -29,7 +29,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public CloseAllDockedWindowCommandDefinition()
         {
-            Command = new MultiKeyGestureCommandWrapper(CloseAllDockedWindows, CanCloseAllDockedWindows);
+            Command = new UICommand(CloseAllDockedWindows, CanCloseAllDockedWindows);
         }
 
         private bool CanCloseAllDockedWindows()

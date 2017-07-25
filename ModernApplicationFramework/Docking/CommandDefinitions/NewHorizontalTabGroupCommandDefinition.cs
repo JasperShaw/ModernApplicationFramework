@@ -29,7 +29,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public NewHorizontalTabGroupCommandDefinition()
         {
-            Command = new MultiKeyGestureCommandWrapper(CreateNewHorizontalTabGroup, CanCreateNewHorizontalTabGroup);
+            Command = new UICommand(CreateNewHorizontalTabGroup, CanCreateNewHorizontalTabGroup);
         }
 
         private bool CanCreateNewHorizontalTabGroup()

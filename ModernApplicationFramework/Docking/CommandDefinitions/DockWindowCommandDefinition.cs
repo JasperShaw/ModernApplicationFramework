@@ -26,7 +26,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public DockWindowCommandDefinition()
         {
-            Command = new MultiKeyGestureCommandWrapper(DockWindow, CanDockWindow);
+            Command = new UICommand(DockWindow, CanDockWindow);
         }
 
         private bool CanDockWindow()

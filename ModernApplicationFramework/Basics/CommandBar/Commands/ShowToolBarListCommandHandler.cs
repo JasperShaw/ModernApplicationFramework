@@ -54,7 +54,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Commands
             public ShowSelectedToolBarCommandDefinition(string name)
             {
                 Text = name;
-                Command = new MultiKeyGestureCommandWrapper(ShowSelectedItem, CanShowSelectedItem);
+                Command = new UICommand(ShowSelectedItem, CanShowSelectedItem);
             }
 
             private bool CanShowSelectedItem()

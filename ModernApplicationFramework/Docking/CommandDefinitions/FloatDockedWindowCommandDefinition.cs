@@ -25,7 +25,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public FloatDockedWindowCommandDefinition()
         {
-            Command = new MultiKeyGestureCommandWrapper(FloatDockedWindow, CanFloatDockedWindow);
+            Command = new UICommand(FloatDockedWindow, CanFloatDockedWindow);
         }
 
         private bool CanFloatDockedWindow()

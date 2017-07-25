@@ -228,6 +228,7 @@
     <Compile Include="Basics\Definitions\Command\ExcludedCommandDefinition.cs" />
     <Compile Include="Basics\Services\InternalApplicationIconService.cs" />
     <Compile Include="Basics\Services\BasicStatusBarService.cs" />
+    <Compile Include="CommandBase\UICommand.cs" />
     <Compile Include="Controls\ComboBox\ComboBoxItemsWrapper.cs" />
     <Compile Include="Interfaces\Controls\IExposeStyleKeys.cs" />
     <Compile Include="Interfaces\Services\IApplicationIconService.cs" />
@@ -400,7 +401,6 @@
     <Compile Include="Basics\Definitions\Command\CommandDefinitionBase.cs" />
     <Compile Include="Basics\Definitions\Command\CommandDefinition.cs" />
     <Compile Include="CommandBase\MultiKeyGesture.cs" />
-    <Compile Include="CommandBase\MultiKeyGestureCommandWrapper.cs" />
     <Compile Include="CommandBase\MultiKeyGestureConverter.cs" />
     <Compile Include="Basics\Services\CommandService.cs" />
     <Compile Include="Controls\Buttons\CommandDefinitionButton.cs" />

@@ -26,7 +26,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public AutoHideAllWindowsCommandDefinition()
         {
-            Command = new MultiKeyGestureCommandWrapper(AutoHideAllWindows, CanAutoHideAllWindows);
+            Command = new UICommand(AutoHideAllWindows, CanAutoHideAllWindows);
         }
 
         private bool CanAutoHideAllWindows()

@@ -1,8 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Caliburn.Micro;
 using ModernApplicationFramework.Basics.UndoRedoManager;
 using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Extended.Commands;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Interfaces;
 
@@ -15,13 +17,13 @@ namespace ModernApplicationFramework.Extended.Core.LayoutItems
         private IUndoRedoManager _undoRedoManager;
 
         public override ICommand CloseCommand
-        {
+        { 
             get { return _closeCommand ?? (_closeCommand = new ObjectCommand(p => TryClose(), p => true)); }
         }
 
-        public ICommand RedoCommand => new Command(Redo, CanRedo);
+        public ICommand RedoCommand => IoC.Get<RedoCommandDefinition>().Command;
 
-        public ICommand UndoCommand => new Command(Undo, CanUndo);
+        public ICommand UndoCommand => IoC.Get<UndoCommandDefinition>().Command;
 
         public IUndoRedoManager UndoRedoManager => _undoRedoManager ?? (_undoRedoManager = new UndoRedoManager());
 

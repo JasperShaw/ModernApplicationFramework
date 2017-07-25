@@ -23,7 +23,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public CloseDockedWindowCommandDefinition()
         {
-            Command = new MultiKeyGestureCommandWrapper(CloseDockedWindow, CanCloseDockedWindow);
+            Command = new UICommand(CloseDockedWindow, CanCloseDockedWindow);
         }
 
         private bool CanCloseDockedWindow()

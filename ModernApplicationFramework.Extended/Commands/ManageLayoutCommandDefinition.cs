@@ -29,7 +29,7 @@ namespace ModernApplicationFramework.Extended.Commands
         {
             _layoutManager = layoutManager;
 
-            var command = new MultiKeyGestureCommandWrapper(Manage, CanManage);
+            var command = new UICommand(Manage, CanManage);
             Command = command;
         }
 

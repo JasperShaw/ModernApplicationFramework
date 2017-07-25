@@ -35,7 +35,7 @@ namespace ModernApplicationFramework.Extended.Commands
         public RedoCommandDefinition(CommandBarUndoRedoManagerWatcher watcher)
         {
             _watcher = watcher;
-            var command = new MultiKeyGestureCommandWrapper(Redo, CanRedo,
+            var command = new UICommand(Redo, CanRedo,
                 new MultiKeyGesture(new[] {Key.Y}, ModifierKeys.Control));
             Command = command;
             ShortcutText = command.GestureText;

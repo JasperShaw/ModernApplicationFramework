@@ -34,7 +34,7 @@ namespace ModernApplicationFramework.Extended.Commands
 
         public OpenSettingsCommandDefinition()
         {
-            Command = new MultiKeyGestureCommandWrapper(OpenSettings, CanOpenSettings);
+            Command = new UICommand(OpenSettings, CanOpenSettings);
         }
 
         private bool CanOpenSettings()

@@ -33,7 +33,7 @@ namespace ModernApplicationFramework.Extended.Commands
 
         public FullScreenCommandDefinition()
         {
-            var command = new MultiKeyGestureCommandWrapper(TriggerFullScreen, CanTriggerFullScreen,
+            var command = new UICommand(TriggerFullScreen, CanTriggerFullScreen,
                 new MultiKeyGesture(Key.Enter, ModifierKeys.Shift | ModifierKeys.Alt));
             Command = command;
             ShortcutText = command.GestureText;

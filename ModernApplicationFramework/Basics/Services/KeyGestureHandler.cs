@@ -47,17 +47,31 @@ namespace ModernApplicationFramework.Basics.Services
         {
             _currentElement = uiElement;
             foreach (var gc in from definition in _keyboardShortcuts
-                               where definition.Command is MultiKeyGestureCommandWrapper
-                               select definition.Command as MultiKeyGestureCommandWrapper)
+                               where definition.Command is UICommand
+                               select definition.Command as UICommand)
                 if (gc.KeyGesture != null)
                     uiElement.InputBindings.Add(new InputBinding(gc, GetPrimaryKeyGesture(gc)));
         }
 
+        public void BindKeyGestures(ICanHaveInputBindings hostingModel)
+        {
+
+            var uiCommands = from definition in _keyboardShortcuts
+                where definition.Command is UICommand
+                select definition.Command as UICommand;
+
+            var commands = uiCommands.Where(x => x.Category.Equals(hostingModel.GestureCategory));
+            
+            foreach (var gc in commands)
+                if (gc.KeyGesture != null)
+                    hostingModel.BindableElement.InputBindings.Add(new InputBinding(gc, GetPrimaryKeyGesture(gc)));
+        }
+        
         /// <summary>
         /// Gets the primary key gesture.
         /// </summary>
         /// <param name="abstractCommand">The abstractCommand.</param>
         /// <returns></returns>
-        public KeyGesture GetPrimaryKeyGesture(MultiKeyGestureCommandWrapper abstractCommand) => abstractCommand.KeyGesture;
+        public KeyGesture GetPrimaryKeyGesture(UICommand abstractCommand) => abstractCommand.KeyGesture;
     }
 }

@@ -28,7 +28,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public NewVerticalTabGroupCommandDefinition()
         {
-            Command = new MultiKeyGestureCommandWrapper(CreateNewVerticalTabGroup, CanCreateNewVerticalTabGroup);
+            Command = new UICommand(CreateNewVerticalTabGroup, CanCreateNewVerticalTabGroup);
         }
 
         private bool CanCreateNewVerticalTabGroup()

@@ -29,7 +29,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public HideDockedWindowCommandDefinition()
         {
-            Command = new MultiKeyGestureCommandWrapper(HideDockedWindow, CanHideDockedWindow);
+            Command = new UICommand(HideDockedWindow, CanHideDockedWindow);
         }
 
         private bool CanHideDockedWindow()

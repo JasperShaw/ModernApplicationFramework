@@ -25,7 +25,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public DockAsTabbedDocumentCommandDefinition()
         {
-            Command = new MultiKeyGestureCommandWrapper(DockAsTabbedDocument, CanDockAsTabbedDocument);
+            Command = new UICommand(DockAsTabbedDocument, CanDockAsTabbedDocument);
         }
 
         private bool CanDockAsTabbedDocument()

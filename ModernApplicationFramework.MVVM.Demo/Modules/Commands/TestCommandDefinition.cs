@@ -19,7 +19,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
     {
         public TestCommandDefinition()
         {
-            var command = new MultiKeyGestureCommandWrapper(Test, CanTest, new MultiKeyGesture(new[] {Key.W, Key.K}, ModifierKeys.Control));
+            var command = new UICommand(Test, CanTest, new MultiKeyGesture(new[] {Key.W, Key.K}, ModifierKeys.Control));
             Command = command;
             ShortcutText = command.GestureText;
         }

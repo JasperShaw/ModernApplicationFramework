@@ -14,7 +14,7 @@ namespace ModernApplicationFramework.Extended.DockingMainWindow.ViewModels
 {
     [Export(typeof(IDockingMainWindowViewModel))]
     public class DockingMainWindowViewModel : Conductor<IDockingHostViewModel>, IDockingMainWindowViewModel,
-        IPartImportsSatisfiedNotification
+        IPartImportsSatisfiedNotification, ICanHaveInputBindings
     {
         protected bool MainWindowInitialized;
 
@@ -39,6 +39,7 @@ namespace ModernApplicationFramework.Extended.DockingMainWindow.ViewModels
             UseMenu = true;
         }
 
+        /// <inheritdoc />
         /// <summary>
         ///     Contains the ViewModel of the MainWindows MenuHostControl
         ///     This can not be changed once it was setted with a value.
@@ -55,6 +56,7 @@ namespace ModernApplicationFramework.Extended.DockingMainWindow.ViewModels
             }
         }
 
+        /// <inheritdoc />
         /// <summary>
         ///     Contains the ViewModel of the MainWindows ToolbarHostControl
         ///     This can not be changed once it was setted with a value
@@ -71,6 +73,7 @@ namespace ModernApplicationFramework.Extended.DockingMainWindow.ViewModels
             }
         }
 
+        /// <inheritdoc />
         /// <summary>
         ///     Contains information whether a TitleBar is displayed or not
         /// </summary>
@@ -101,6 +104,7 @@ namespace ModernApplicationFramework.Extended.DockingMainWindow.ViewModels
 
         public ICommand CloseCommand => new Command(Close, CanClose);
 
+        /// <inheritdoc />
         /// <summary>
         ///     A SimpleWindow is a window which is not possible to resize my dragging the edges
         /// </summary>
@@ -122,6 +126,7 @@ namespace ModernApplicationFramework.Extended.DockingMainWindow.ViewModels
 
         public ICommand SimpleMoveWindowCommand => new Command(MoveSimpleWindow, CanMoveSimpleWindow);
 
+        /// <inheritdoc />
         /// <summary>
         ///     Contains the Movement Technique for the MainWindow
         ///     SimpleMovemtn allows to move the Window by clicking/dragging anywhere on it
@@ -224,15 +229,15 @@ namespace ModernApplicationFramework.Extended.DockingMainWindow.ViewModels
 
         protected override void OnViewLoaded(object view)
         {
-            var window = view as Window;
-            if (window == null)
+            _themeManager.Theme = !string.IsNullOrEmpty(_themeManager.StartUpTheme?.Name)
+                ? _themeManager.StartUpTheme
+                : IoC.GetAll<Theme>().First();
+            
+            if (!(view is Window window))
                 return;
             Window = window;
-            window.SourceInitialized += _mainWindow_SourceInitialized;
-
-            _themeManager.Theme = !string.IsNullOrEmpty(_themeManager.StartUpTheme?.Name) ? _themeManager.StartUpTheme : IoC.GetAll<Theme>().First();  
-
-            _commandKeyGestureService.BindKeyGesture((UIElement) view);
+            window.SourceInitialized += _mainWindow_SourceInitialized;    
+            BindGestures();
         }
 
         private async void _mainWindow_MouseDown(object sender, MouseButtonEventArgs e)
@@ -250,5 +255,14 @@ namespace ModernApplicationFramework.Extended.DockingMainWindow.ViewModels
         [Import] private IThemeManager _themeManager;
         [Import] private IKeyGestureHandler _commandKeyGestureService;
 #pragma warning restore 649
+        public CommandGestureCategory GestureCategory => CommandGestureCategories.GlobalGestureCategory;
+        public UIElement BindableElement => Window;
+
+        public void BindGestures()
+        {
+            if (BindableElement == null)
+                return;   
+            _commandKeyGestureService.BindKeyGestures(this);
+        }
     }
 }
