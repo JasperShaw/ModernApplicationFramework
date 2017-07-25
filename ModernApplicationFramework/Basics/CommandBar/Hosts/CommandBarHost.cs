@@ -410,6 +410,16 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                 groupDefinition.SortOrder = newSortOrder++;
         }
 
+        public static CommandBarDefinitionBase FindRoot(CommandBarDefinitionBase definition)
+        {
+            if (!(definition is CommandBarItemDefinition) && !(definition is CommandBarGroupDefinition))
+                return definition;
+            if (definition is CommandBarGroupDefinition groupDefinition)
+                return FindRoot(groupDefinition.Parent);
+            var itemDefinition = (CommandBarItemDefinition) definition;
+            return FindRoot(itemDefinition.Group.Parent);
+        }
+
         private static void AdjustItemsAfterItemInsertedInGroup(CommandBarItemDefinition item)
         {
             var definitionsToChange = item.Group.Items

@@ -3,7 +3,6 @@
                     xmlns:this="clr-namespace:ModernApplicationFramework.Controls"
                     xmlns:colors="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
-                    xmlns:utilities="clr-namespace:ModernApplicationFramework.Controls.Utilities"
                     xmlns:accessKey="clr-namespace:ModernApplicationFramework.Core.Converters.AccessKey"
                     xmlns:utilities1="clr-namespace:ModernApplicationFramework.Core.Utilities"
                     xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General"
@@ -566,7 +565,7 @@
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
-    
+
     <Style x:Key="{x:Static menu:Menu.SeparatorStyleKey}" TargetType="{x:Type menu:MenuItem}">
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="IsEnabled" Value="False"/>
@@ -728,6 +727,11 @@
                 <Binding Path="IsVisible" Converter="{StaticResource BoolToVisConverter}"/>
             </Setter.Value>
         </Setter>
+        <Setter Property="ItemsSource">
+            <Setter.Value>
+                <Binding Path="Items"/>
+            </Setter.Value>
+        </Setter>
         <Setter Property="HorizontalContentAlignment">
             <Setter.Value>
                 <Binding Path="HorizontalContentAlignment">
@@ -882,7 +886,7 @@
         </Setter>
         <Setter Property="Icon">
             <Setter.Value>
-               <Binding Path="Icon"/>
+                <Binding Path="Icon"/>
             </Setter.Value>
         </Setter>
         <Setter Property="Template">
@@ -1065,7 +1069,7 @@
         </Setter>
     </Style>
 
-    
+
     <Style x:Key="HorizontalToolBarThumbStyle" TargetType="{x:Type Thumb}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="Cursor" Value="SizeAll" />
@@ -1824,19 +1828,18 @@
             <Setter.Value>
                 <ControlTemplate>
                     <Menu FocusManager.IsFocusScope="False" Style="{StaticResource ToolBarMenuStyle}">
-                        <AutomationProperties.Name>
-                            <Binding Path="Text" Converter="{StaticResource AccessKeyRemovingConverter}"/>
-                        </AutomationProperties.Name>
                         <FrameworkElement.Resources>
                             <Style TargetType="{x:Type menu:MenuItem}" BasedOn="{StaticResource {x:Static menu:Menu.MenuStyleKey}}"
                                    x:Key="{x:Static menu:Menu.MenuStyleKey}">
                                 <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
+                                <Setter Property="Visibility" Value="Visible"/>
                                 <Setter Property="Padding" Value="2,1,1,0"/>
                                 <Setter Property="IsPlacedOnToolBar" Value="true"/>
                             </Style>
                         </FrameworkElement.Resources>
                         <ItemsControl.Items>
-                            <menu:MenuItem x:Name="PART_FocusTarget" Style="{DynamicResource {x:Static menu:Menu.MenuStyleKey}}"/>
+                            <menu:MenuItem x:Name="PART_FocusTarget" Style="{DynamicResource {x:Static menu:Menu.MenuStyleKey}}"
+                                           this:ToolBar.IsToolBarHostedMenuItem="true"/>
                         </ItemsControl.Items>
                         <Control.Template>
                             <ControlTemplate TargetType="{x:Type Menu}">
@@ -2473,7 +2476,7 @@
            TargetType="{x:Type menu:MenuItem}"/>
     <Style x:Key="{x:Static menu:ContextMenu.ButtonStyleKey}" BasedOn="{StaticResource {x:Static menu:MenuItem.ButtonStyleKey}}"
            TargetType="{x:Type menu:MenuItem}"/>
-        <Style x:Key="{x:Static menu:ContextMenu.MenuStyleKey}" BasedOn="{StaticResource {x:Static menu:MenuItem.MenuStyleKey}}"
+    <Style x:Key="{x:Static menu:ContextMenu.MenuStyleKey}" BasedOn="{StaticResource {x:Static menu:MenuItem.MenuStyleKey}}"
            TargetType="{x:Type menu:MenuItem}"/>
     <Style x:Key="{x:Static menu:ContextMenu.SeparatorStyleKey}" BasedOn="{StaticResource {x:Static menu:MenuItem.SeparatorStyleKey}}"
            TargetType="{x:Type menu:MenuItem}"/>

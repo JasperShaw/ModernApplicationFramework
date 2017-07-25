@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using Caliburn.Micro;
@@ -27,8 +26,7 @@ namespace ModernApplicationFramework.Controls.Buttons
     {
         private object _icon;
         private PropertyChangedEventHandler _propertyChanged;
-
-
+        
         /// <inheritdoc />
         /// <summary>
         /// This is the original source to icon. Usually this is a resource containing a <see cref="T:System.Windows.Controls.Viewbox" /> element.

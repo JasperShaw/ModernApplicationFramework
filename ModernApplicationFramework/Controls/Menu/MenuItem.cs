@@ -1,12 +1,14 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using Caliburn.Micro;
 using ModernApplicationFramework.Annotations;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Controls.Buttons;
+using ModernApplicationFramework.Controls.Utilities;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
@@ -134,11 +136,13 @@ namespace ModernApplicationFramework.Controls.Menu
 
         private void MenuItem_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            var itemDefinition = DataContext as CommandBarDefinitionBase;
-            if (string.IsNullOrEmpty(itemDefinition?.CommandDefinition?.IconSource?.OriginalString))
+            if (!(DataContext is CommandBarDefinitionBase definitionBase))
                 return;
-            var myResourceDictionary = new ResourceDictionary { Source = itemDefinition.CommandDefinition.IconSource };
-            IconSource = myResourceDictionary[itemDefinition.CommandDefinition.IconId];
+           
+            if (string.IsNullOrEmpty(definitionBase?.CommandDefinition?.IconSource?.OriginalString))
+                return;
+            var myResourceDictionary = new ResourceDictionary { Source = definitionBase.CommandDefinition.IconSource };
+            IconSource = myResourceDictionary[definitionBase.CommandDefinition.IconId];
             this.SetThemedIcon();
         }
 
@@ -199,6 +203,15 @@ namespace ModernApplicationFramework.Controls.Menu
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            if (MenuUtilities.HandleKeyDownForToolBarHostedMenuItem(this, e))
+                return;
+            if (IsSubmenuOpen)
+                MenuUtilities.ProcessForDirectionalNavigation(e, this, Orientation.Vertical);
+            base.OnKeyDown(e);
         }
     }
 }

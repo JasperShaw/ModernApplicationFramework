@@ -4,6 +4,7 @@ using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Interfaces.Utilities
 {
+    /// <inheritdoc />
     /// <summary>
     /// A factory to create the main menu
     /// </summary>

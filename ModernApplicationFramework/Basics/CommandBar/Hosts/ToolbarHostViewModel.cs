@@ -142,20 +142,16 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         public override void AddItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent,
             bool addAboveSeparator)
         {
-            base.AddItemDefinition(definition, parent, addAboveSeparator);
-            var toolbarDef = parent as ToolbarDefinition;
-            if (toolbarDef == null)
-                return;
-            Build(toolbarDef);
+            base.AddItemDefinition(definition, parent, addAboveSeparator);        
+            var root = FindRoot(definition);         
+            Build(root);
         }
 
         public override void DeleteItemDefinition(CommandBarItemDefinition definition)
         {
             base.DeleteItemDefinition(definition);
-            var toolbarDef = definition.Group.Parent as ToolbarDefinition;
-            if (toolbarDef == null)
-                return;
-            Build(toolbarDef);
+            var root = FindRoot(definition);
+            Build(root);
         }
 
         public string GetUniqueToolBarName()

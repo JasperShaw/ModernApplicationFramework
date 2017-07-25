@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Composition;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
@@ -20,12 +21,35 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
         {
             var topItem = GetSingleSubDefinitions(itemDefinition);
             foreach (var item in topItem)
+            {
                 if (itemDefinition is ToolbarDefinition)
                 {
                     if (item is MenuDefinition)
-                        CreateRecursive(ref itemsControl, item);
-                    itemsControl.Items.Add(new CommandDefinitionButton(item));
+                    {
+                        var list = new ObservableCollection<CommandBarItemDefinition>();
+                        Fill(ref list, item);
+                        item.Items = list;
+                        itemsControl.Items.Add(new CommandDefinitionButton(item));
+                    }
+                    else
+                        itemsControl.Items.Add(new CommandDefinitionButton(item));
                 }
+            }
+        }
+
+        private void Fill(ref ObservableCollection<CommandBarItemDefinition> list, CommandBarDefinitionBase item)
+        {
+            var defs = GetSingleSubDefinitions(item);
+            foreach (var def in defs)
+            {
+                list.Add(def);
+                if (def is MenuDefinition)
+                {
+                    var newList = new ObservableCollection<CommandBarItemDefinition>();
+                    Fill(ref newList, def);
+                    def.Items = newList;
+                }
+            }
         }
     }
 }

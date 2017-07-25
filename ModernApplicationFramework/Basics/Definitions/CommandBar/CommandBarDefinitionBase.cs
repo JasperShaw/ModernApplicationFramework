@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -13,7 +14,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     /// Fundamental command bar element definition
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Interfaces.IHasTextProperty" />
-    [DebuggerDisplay("Name = {Name}")]
+    [DebuggerDisplay("Name = {" + nameof(Name) + "}")]
     public abstract class CommandBarDefinitionBase : IHasTextProperty
     {
         private uint _sortOrder;
@@ -26,7 +27,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-
+        public ObservableCollection<CommandBarItemDefinition> Items { get; set; }
+        
         /// <summary>
         /// The <see cref="FlagStorage"/> of this definition
         /// </summary>
