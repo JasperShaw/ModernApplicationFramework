@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.CompilerServices;
-using System.Windows;
 using System.Windows.Input;
 using ModernApplicationFramework.Annotations;
 using Action = System.Action;
@@ -89,46 +88,5 @@ namespace ModernApplicationFramework.CommandBase
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-    }
-
-    public class CommandGestureCategory
-    {
-        public string Name { get; }
-        
-        public CommandGestureCategory(string name)
-        {
-            Name = name;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (!(obj is CommandGestureCategory commandGesture))
-                return false;
-            return Name.Equals(commandGesture.Name);
-        }
-
-        protected bool Equals(CommandGestureCategory other)
-        {
-            return string.Equals(Name, other.Name);
-        }
-
-        public override int GetHashCode()
-        {
-            return Name != null ? Name.GetHashCode() : 0;
-        }
-    }
-
-    public interface ICanHaveInputBindings
-    {
-        CommandGestureCategory GestureCategory { get; }
-        
-        UIElement BindableElement { get; }
-
-        void BindGestures();
-    }
-
-    public static class CommandGestureCategories
-    {
-        public static CommandGestureCategory GlobalGestureCategory = new CommandGestureCategory("Global");
     }
 }

@@ -61,6 +61,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IStretchSettingsPanelPanel.cs" />
+    <Compile Include="SettingsDialog\SettingsPageStackPanel.cs" />
     <Compile Include="SettingDataModel\AbstractSettingsDataModel.cs" />
     <Compile Include="Interfaces\ISettingsCategory.cs" />
     <Compile Include="Interfaces\ISettingsDataModel.cs" />

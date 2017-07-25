@@ -224,6 +224,15 @@
     </Compile>
     <Compile Include="Settings\General\GeneralVisualExperienceSettingsViewModel.cs" />
     <Compile Include="Settings\General\StorableEnvironmentGeneralOptions.cs" />
+    <Compile Include="Settings\Keyboard\KeyboardSettingsView.xaml.cs">
+      <DependentUpon>KeyboardSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\Keyboard\KeyboardSettingsViewModel.cs" />
+    <Compile Include="Settings\Keyboard\KeyboardSettingsResources.Designer.cs">
+      <DependentUpon>KeyboardSettingsResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Settings\Language\LanguageSettingsResources.de.Designer.cs">
       <DependentUpon>LanguageSettingsResources.de.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -332,6 +341,10 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>GeneralVisualExperienceSettingsResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Settings\Keyboard\KeyboardSettingsResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>KeyboardSettingsResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Settings\Language\LanguageSettingsResources.de.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>LanguageSettingsResources.de.Designer.cs</LastGenOutput>
@@ -407,6 +420,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Settings\General\GeneralVisualExperienceSettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Settings\Keyboard\KeyboardSettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -226,8 +226,12 @@
     <Compile Include="Basics\ApplicationEnvironment\AbstractEnvironmentVarirables.cs" />
     <Compile Include="Basics\ApplicationEnvironment\FallbackEnvironmentVarirables.cs" />
     <Compile Include="Basics\Definitions\Command\ExcludedCommandDefinition.cs" />
+    <Compile Include="Basics\InputBindingStore.cs" />
     <Compile Include="Basics\Services\InternalApplicationIconService.cs" />
     <Compile Include="Basics\Services\BasicStatusBarService.cs" />
+    <Compile Include="CommandBase\CommandGestureCategories.cs" />
+    <Compile Include="CommandBase\CommandGestureCategory.cs" />
+    <Compile Include="CommandBase\ICanHaveInputBindings.cs" />
     <Compile Include="CommandBase\UICommand.cs" />
     <Compile Include="Controls\ComboBox\ComboBoxItemsWrapper.cs" />
     <Compile Include="Interfaces\Controls\IExposeStyleKeys.cs" />

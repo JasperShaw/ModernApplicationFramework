@@ -7,6 +7,7 @@
                    xmlns:cal="http://www.caliburnproject.org"
                    xmlns:mafc="http://modern.framework.com/controls"
                    xmlns:utilities="clr-namespace:ModernApplicationFramework.Utilities;assembly=ModernApplicationFramework.Utilities"
+                   xmlns:settingsDialog="clr-namespace:ModernApplicationFramework.Settings.SettingsDialog"
                    mc:Ignorable="d" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" ResizeMode="CanResizeWithGrip"
                    Background="{x:Static SystemColors.ControlBrush}" Width="758" Height="441" MinWidth="757" MinHeight="441">
     
@@ -45,14 +46,21 @@
                 <RowDefinition Height="10" />
             </Grid.RowDefinitions>
             <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                <ItemsControl HorizontalAlignment="Left" ItemsSource="{Binding ElementName=TreeView, Path=SelectedValue}"
+                <ItemsControl HorizontalAlignment="Stretch" ItemsSource="{Binding ElementName=TreeView, Path=SelectedValue}"
+                              VerticalAlignment="Stretch" VerticalContentAlignment="Stretch"
                               ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"
-                              BorderBrush="{x:Null}" Width="460" Focusable="False">
+                              BorderBrush="{x:Null}" Focusable="False">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <ContentControl cal:View.Model="{Binding}" />
+                            <ContentControl cal:View.Model="{Binding}"  
+                                            VerticalContentAlignment="Stretch" VerticalAlignment="Stretch"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <settingsDialog:SettingsPageStackPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
                 </ItemsControl>
             </ScrollViewer>
             <Border BorderThickness="0,0,1,1" BorderBrush="White" Grid.Row="1" VerticalAlignment="Bottom">

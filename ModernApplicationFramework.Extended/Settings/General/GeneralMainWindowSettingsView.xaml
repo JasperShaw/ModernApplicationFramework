@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:general="clr-namespace:ModernApplicationFramework.Extended.Settings.General"
-             mc:Ignorable="d" d:DesignWidth="460">
+             mc:Ignorable="d" d:DesignWidth="460" Width="460" HorizontalAlignment="Left">
 
     <UserControl.Resources>
         <ResourceDictionary>

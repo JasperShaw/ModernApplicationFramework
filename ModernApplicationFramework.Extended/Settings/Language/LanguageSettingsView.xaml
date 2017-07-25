@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:language1="clr-namespace:ModernApplicationFramework.Extended.Settings.Language"
-             mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="460">
+             mc:Ignorable="d" HorizontalAlignment="Left"
+             d:DesignHeight="300" d:DesignWidth="460" Width="460">
 
     <StackPanel>
         <StackPanel Orientation="Vertical">
