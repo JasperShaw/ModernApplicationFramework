@@ -8,7 +8,9 @@ namespace ModernApplicationFramework.Core.Converters.AccessKey
     /// A <see cref="ValueConverter{TSource,TTarget}"/> that removed access texts
     /// </summary>
     public class AccessKeyRemovingConverter : ValueConverter<string, string>
-    {
+    {       
+        public static AccessKeyRemovingConverter Instance = new AccessKeyRemovingConverter();
+
         protected override string Convert(string value, object parameter, CultureInfo culture)
         {
             return string.IsNullOrEmpty(value) ? value : Accelerator.StripAccelerators(value, parameter);

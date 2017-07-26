@@ -482,7 +482,7 @@
                     <MultiBinding Converter="{StaticResource ToolTipMultiConverter}">
                         <Binding Path="CommandDefinition.ToolTip" Mode="OneWay"
                                  Converter="{StaticResource AccessKeyRemovingConverter}"/>
-                        <Binding Path="CommandDefinition.ShortcutText" Mode="OneWay"/>
+                        <Binding Path="CommandDefinition.GestureText" Mode="OneWay"/>
                     </MultiBinding>
                 </FrameworkElement.ToolTip>
                 <ItemsControl.ItemTemplate>

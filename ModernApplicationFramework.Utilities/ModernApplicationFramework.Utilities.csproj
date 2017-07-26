@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accelerator.cs" />
+    <Compile Include="BaseDictionary.cs" />
     <Compile Include="BindableSelectedItemBehavior.cs" />
     <Compile Include="BitRotator.cs" />
     <Compile Include="Boxes.cs" />

@@ -226,7 +226,8 @@
     <Compile Include="Basics\ApplicationEnvironment\AbstractEnvironmentVarirables.cs" />
     <Compile Include="Basics\ApplicationEnvironment\FallbackEnvironmentVarirables.cs" />
     <Compile Include="Basics\Definitions\Command\ExcludedCommandDefinition.cs" />
-    <Compile Include="Basics\InputBindingStore.cs" />
+    <Compile Include="Basics\CommandDefinitionGestureMappingStore.cs" />
+    <Compile Include="Basics\GestureCollection.cs" />
     <Compile Include="Basics\Services\InternalApplicationIconService.cs" />
     <Compile Include="Basics\Services\BasicStatusBarService.cs" />
     <Compile Include="CommandBase\CommandGestureCategories.cs" />
@@ -755,7 +756,7 @@
     <Compile Include="Interfaces\Utilities\IExtensionDefinition.cs" />
     <Compile Include="Interfaces\Utilities\ISupportedFileDefinition.cs" />
     <Compile Include="Interfaces\Utilities\IToolbarCreator.cs" />
-    <Compile Include="Interfaces\Services\IKeyGestureHandler.cs" />
+    <Compile Include="Interfaces\Services\IKeyGestureService.cs" />
     <Compile Include="Interfaces\ViewModels\IMainWindowViewModel.cs" />
     <Compile Include="Interfaces\ViewModels\IMenuHostViewModel.cs" />
     <Compile Include="Interfaces\ViewModels\IToolBarHostViewModel.cs" />
@@ -830,7 +831,7 @@
     <Compile Include="Basics\CommandBar\Hosts\ToolbarHostViewModel.cs" />
     <Compile Include="Basics\FileDefinitionManager.cs" />
     <Compile Include="Basics\FileType.cs" />
-    <Compile Include="Basics\Services\KeyGestureHandler.cs" />
+    <Compile Include="Basics\Services\KeyGestureService.cs" />
     <Compile Include="Basics\CommandBar\Creators\ToolbarCreator.cs" />
     <Compile Include="Basics\CommandBar\Creators\MenuCreator.cs" />
     <Compile Include="Basics\UndoRedoManager\InstancePropertyHandler.cs" />
@@ -979,6 +980,9 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ValueTuple, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.3.1\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">

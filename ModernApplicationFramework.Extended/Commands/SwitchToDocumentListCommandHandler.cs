@@ -46,7 +46,10 @@ namespace ModernApplicationFramework.Extended.Commands
 
         private class ShowSelectedDocumentCommandDefinition : CommandDefinition
         {
-            public override ICommand Command { get; }
+            public override UICommand Command { get; }
+
+            public override MultiKeyGesture DefaultKeyGesture => null;
+            public override CommandGestureCategory DefaultGestureCategory => null;
 
             public override string Name => string.Empty;
             public override string Text { get; }

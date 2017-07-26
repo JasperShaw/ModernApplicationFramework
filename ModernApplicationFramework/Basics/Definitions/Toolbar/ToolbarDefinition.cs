@@ -92,7 +92,6 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
             public override CommandCategory Category => null;
 
             public override CommandControlTypes ControlType => CommandControlTypes.Menu;
-            public override string ShortcutText { get; set; }
         }
     }
 }

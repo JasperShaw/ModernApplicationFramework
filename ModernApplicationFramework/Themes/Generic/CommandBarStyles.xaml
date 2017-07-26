@@ -590,7 +590,7 @@
         </Setter>
         <Setter Property="AutomationProperties.AcceleratorKey">
             <Setter.Value>
-                <Binding Path="CommandDefinition.ShortcutText" Mode="OneWay"/>
+                <Binding Path="CommandDefinition.GestureText" Mode="OneWay"/>
             </Setter.Value>
         </Setter>
         <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarTextActive}}"/>
@@ -809,7 +809,7 @@
         </Setter>
         <Setter Property="AutomationProperties.AcceleratorKey">
             <Setter.Value>
-                <Binding Path="CommandDefinition.ShortcutText"/>
+                <Binding Path="CommandDefinition.GestureText"/>
             </Setter.Value>
         </Setter>
         <Setter Property="Template" Value="{StaticResource ComboTemplate}"/>
@@ -824,7 +824,7 @@
         </Setter>
         <Setter Property="AutomationProperties.AcceleratorKey">
             <Setter.Value>
-                <Binding Path="ShortcutText" Mode="OneWay"/>
+                <Binding Path="GestureText" Mode="OneWay"/>
             </Setter.Value>
         </Setter>
         <Setter Property="Visibility">
@@ -846,7 +846,7 @@
                                     <MultiBinding Converter="{StaticResource MultiToolTipMultiConverter}">
                                         <Binding Mode="OneWay" Path="CommandDefinition.ToolTip" Converter="{StaticResource AccessKeyRemovingConverter}"/>
                                         <Binding Mode="OneWay" Path="AnchorItem.CommandDefinition.ToolTip" Converter="{StaticResource AccessKeyRemovingConverter}"/>
-                                        <Binding Mode="OneWay" Path="AnchorItem.CommandDefinition.ShortcutText"/>
+                                        <Binding Mode="OneWay" Path="AnchorItem.CommandDefinition.GestureText"/>
                                     </MultiBinding>
                                 </FrameworkElement.ToolTip>
                             </menu:MenuController>
@@ -871,7 +871,7 @@
         </Setter>
         <Setter Property="AutomationProperties.AcceleratorKey">
             <Setter.Value>
-                <Binding Path="ShortcutText" Mode="OneWay"/>
+                <Binding Path="GestureText" Mode="OneWay"/>
             </Setter.Value>
         </Setter>
         <Setter Property="Visibility">
@@ -933,7 +933,7 @@
         </Setter>
         <Setter Property="AutomationProperties.AcceleratorKey">
             <Setter.Value>
-                <Binding Path="CommandDefinition.ShortcutText" Mode="OneWay"/>
+                <Binding Path="CommandDefinition.GestureText" Mode="OneWay"/>
             </Setter.Value>
         </Setter>
         <Setter Property="TextElement.Foreground"
@@ -945,7 +945,7 @@
         </Setter>
         <Setter Property="InputGestureText">
             <Setter.Value>
-                <Binding Path="CommandDefinition.ShortcutText" Mode="OneWay"/>
+                <Binding Path="CommandDefinition.GestureText" Mode="OneWay"/>
             </Setter.Value>
         </Setter>
         <Setter Property="IsChecked" Value="{Binding IsChecked}"/>
@@ -1508,7 +1508,7 @@
         </Setter>
         <Setter Property="AutomationProperties.AcceleratorKey">
             <Setter.Value>
-                <Binding Path="CommandDefinition.ShortcutText" Mode="OneWay"/>
+                <Binding Path="CommandDefinition.GestureText" Mode="OneWay"/>
             </Setter.Value>
         </Setter>
         <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarTextActive}}"/>
@@ -1517,7 +1517,7 @@
             <Setter.Value>
                 <MultiBinding Converter="{StaticResource ToolTipMultiConverter}">
                     <Binding Mode="OneWay" Path="CommandDefinition.ToolTip" Converter="{StaticResource AccessKeyRemovingConverter}"/>
-                    <Binding Mode="OneWay" Path="CommandDefinition.ShortcutText"/>
+                    <Binding Mode="OneWay" Path="CommandDefinition.GestureText"/>
                 </MultiBinding>
             </Setter.Value>
         </Setter>
@@ -1788,7 +1788,7 @@
         </Setter>
         <Setter Property="AutomationProperties.AcceleratorKey">
             <Setter.Value>
-                <Binding Path="ShortcutText"/>
+                <Binding Path="GestureText"/>
             </Setter.Value>
         </Setter>
         <Setter Property="Template" Value="{StaticResource ComboTemplate}"/>
@@ -1871,7 +1871,7 @@
         </Setter>
         <Setter Property="AutomationProperties.AcceleratorKey">
             <Setter.Value>
-                <Binding Path="ShortcutText" Mode="OneWay"/>
+                <Binding Path="GestureText" Mode="OneWay"/>
             </Setter.Value>
         </Setter>
         <Setter Property="Control.Template">
@@ -1888,7 +1888,7 @@
                                     <MultiBinding Converter="{StaticResource MultiToolTipMultiConverter}">
                                         <Binding Mode="OneWay" Path="CommandDefinition.ToolTip" Converter="{StaticResource AccessKeyRemovingConverter}"/>
                                         <Binding Mode="OneWay" Path="AnchorItem.CommandDefinition.ToolTip" Converter="{StaticResource AccessKeyRemovingConverter}"/>
-                                        <Binding Mode="OneWay" Path="AnchorItem.CommandDefinition.ShortcutText"/>
+                                        <Binding Mode="OneWay" Path="AnchorItem.CommandDefinition.GestureText"/>
                                     </MultiBinding>
                                 </FrameworkElement.ToolTip>
                             </menu:MenuController>
@@ -2077,7 +2077,7 @@
         </Setter>
         <Setter Property="AutomationProperties.AcceleratorKey">
             <Setter.Value>
-                <Binding Path="CommandDefinition.ShortcutText"/>
+                <Binding Path="CommandDefinition.GestureText"/>
             </Setter.Value>
         </Setter>
         <Setter Property="Template">
@@ -2353,7 +2353,7 @@
         </Setter>
         <Setter Property="AutomationProperties.AcceleratorKey">
             <Setter.Value>
-                <Binding Path="ShortcutText"/>
+                <Binding Path="GestureText"/>
             </Setter.Value>
         </Setter>
         <Setter Property="Template">

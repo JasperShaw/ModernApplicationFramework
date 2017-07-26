@@ -1,10 +1,8 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
-using ModernApplicationFramework.Controls.Dialogs;
 using ModernApplicationFramework.Extended.Core.LayoutManagement;
 using ModernApplicationFramework.Extended.Properties;
 
@@ -22,7 +20,10 @@ namespace ModernApplicationFramework.Extended.Commands
         public override string IconId => null;
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
 
-        public override ICommand Command { get; }
+        public override UICommand Command { get; }
+
+        public override MultiKeyGesture DefaultKeyGesture => null;
+        public override CommandGestureCategory DefaultGestureCategory => null;
 
         [ImportingConstructor]
         public SaveCurrentLayoutCommandDefinition(ILayoutManager layoutManager)

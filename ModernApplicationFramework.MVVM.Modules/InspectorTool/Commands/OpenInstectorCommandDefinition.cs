@@ -15,7 +15,10 @@ namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Commands
         [Import] private IDockingMainWindowViewModel _shell;
 #pragma warning restore 649
 
-        public override ICommand Command { get; }
+        public override UICommand Command { get; }
+
+        public override MultiKeyGesture DefaultKeyGesture { get; }
+        public override CommandGestureCategory DefaultGestureCategory { get; }
 
         public override string IconId => "PropertyIcon";
 
@@ -33,9 +36,11 @@ namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Commands
 
         public OpenInstectorCommandDefinition()
         {
-            var command = new UICommand(Open, CanOpen, new MultiKeyGesture(Key.F4));
+            var command = new UICommand(Open, CanOpen);
             Command = command;
-            ShortcutText = command.GestureText;
+
+            DefaultKeyGesture = new MultiKeyGesture(Key.F4);
+            DefaultGestureCategory = CommandGestureCategories.GlobalGestureCategory;
         }
 
         private bool CanOpen()

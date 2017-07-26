@@ -16,7 +16,10 @@ namespace ModernApplicationFramework.Extended.Commands
     {
         private readonly CommandBarUndoRedoManagerWatcher _watcher;
 
-        public override ICommand Command { get; }
+        public override UICommand Command { get; }
+
+        public override MultiKeyGesture DefaultKeyGesture { get; }
+        public override CommandGestureCategory DefaultGestureCategory { get; }
 
         public override string IconId => "RedoIcon";
 
@@ -25,7 +28,6 @@ namespace ModernApplicationFramework.Extended.Commands
                 new Uri("/ModernApplicationFramework.Extended;component/Resources/Icons/Redo_16x.xaml",
                     UriKind.RelativeOrAbsolute);
 
-        public override string Name => Text;
         public override string Text => Commands_Resources.RedoCommandDefinition_Text;
         public override string ToolTip => Text;
 
@@ -35,10 +37,11 @@ namespace ModernApplicationFramework.Extended.Commands
         public RedoCommandDefinition(CommandBarUndoRedoManagerWatcher watcher)
         {
             _watcher = watcher;
-            var command = new UICommand(Redo, CanRedo,
-                new MultiKeyGesture(new[] {Key.Y}, ModifierKeys.Control));
+            var command = new UICommand(Redo, CanRedo);
             Command = command;
-            ShortcutText = command.GestureText;
+
+            DefaultKeyGesture = new MultiKeyGesture(new[] {Key.Y}, ModifierKeys.Control);
+            DefaultGestureCategory = CommandGestureCategories.GlobalGestureCategory;
         }
 
         private bool CanRedo()

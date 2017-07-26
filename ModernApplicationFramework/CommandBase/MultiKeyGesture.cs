@@ -103,7 +103,7 @@ namespace ModernApplicationFramework.CommandBase
             _currentKeyIndex = 0;
             return true;
         }
-
+        
         private static bool IsDefinedKey(Key key)
         {
             return (key >= Key.None) && (key <= Key.OemClear);

@@ -253,7 +253,7 @@ namespace ModernApplicationFramework.Extended.DockingMainWindow.ViewModels
 #pragma warning disable 649
         [Import] private IDockingHostViewModel _dockingHost;
         [Import] private IThemeManager _themeManager;
-        [Import] private IKeyGestureHandler _commandKeyGestureService;
+        [Import] private IKeyGestureService _commandKeyGestureService;
 #pragma warning restore 649
         public CommandGestureCategory GestureCategory => CommandGestureCategories.GlobalGestureCategory;
         public UIElement BindableElement => Window;

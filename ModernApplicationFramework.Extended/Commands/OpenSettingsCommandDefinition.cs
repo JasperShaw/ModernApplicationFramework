@@ -17,7 +17,10 @@ namespace ModernApplicationFramework.Extended.Commands
 #pragma warning disable 649
         [Import] private IWindowManager _windowManager;
 #pragma warning restore 649
-        public override ICommand Command { get; }
+        public override UICommand Command { get; }
+
+        public override MultiKeyGesture DefaultKeyGesture => null;
+        public override CommandGestureCategory DefaultGestureCategory => null;
 
         public override string IconId => "SettingsIcon";
 
@@ -26,7 +29,6 @@ namespace ModernApplicationFramework.Extended.Commands
                 new Uri("/ModernApplicationFramework.Extended;component/Resources/Icons/Settings_16x.xaml",
                     UriKind.RelativeOrAbsolute);
 
-        public override string Name => Text;
         public override string Text => Commands_Resources.OpenSettingsCommandDefinition_Text;
         public override string ToolTip => Text;
 

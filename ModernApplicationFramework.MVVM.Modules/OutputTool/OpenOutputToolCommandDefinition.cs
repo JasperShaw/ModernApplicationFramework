@@ -14,7 +14,10 @@ namespace ModernApplicationFramework.Extended.Modules.OutputTool
 #pragma warning disable 649
         [Import] private IDockingMainWindowViewModel _shell;
 #pragma warning restore 649
-        public override ICommand Command { get; }
+        public override UICommand Command { get; }
+
+        public override MultiKeyGesture DefaultKeyGesture { get; }
+        public override CommandGestureCategory DefaultGestureCategory { get; }
 
         public override string IconId => "OutputIcon";
 
@@ -33,10 +36,11 @@ namespace ModernApplicationFramework.Extended.Modules.OutputTool
 
         public OpenOutputToolCommandDefinition()
         {
-            var command = new UICommand(Open, CanOpen,
-                new MultiKeyGesture(new[] { Key.O }, ModifierKeys.Control | ModifierKeys.Alt));
+            var command = new UICommand(Open, CanOpen);
             Command = command;
-            ShortcutText = command.GestureText;
+
+            DefaultKeyGesture = new MultiKeyGesture(new[] { Key.O }, ModifierKeys.Control | ModifierKeys.Alt);
+            DefaultGestureCategory = CommandGestureCategories.GlobalGestureCategory;
         }
 
         private bool CanOpen()

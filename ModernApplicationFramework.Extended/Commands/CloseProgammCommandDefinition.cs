@@ -17,7 +17,10 @@ namespace ModernApplicationFramework.Extended.Commands
         [Import] private IDockingMainWindowViewModel _shell;
 #pragma warning restore 649
 
-        public override ICommand Command { get; }
+        public override UICommand Command { get; }
+
+        public override MultiKeyGesture DefaultKeyGesture { get; }
+        public override CommandGestureCategory DefaultGestureCategory { get; }
 
         public override string IconId => "CloseProgrammIcon";
 
@@ -26,7 +29,6 @@ namespace ModernApplicationFramework.Extended.Commands
                 new Uri("/ModernApplicationFramework.Extended;component/Resources/Icons/CloseProgramm_16x.xaml",
                     UriKind.RelativeOrAbsolute);
 
-        public override string Name => Text;
         public override string Text => Commands_Resources.CloseProgammCommandDefinition_Text;
         public override string ToolTip => null;
 
@@ -34,10 +36,11 @@ namespace ModernApplicationFramework.Extended.Commands
 
         public CloseProgammCommandDefinition()
         {
-            var command = new UICommand(Close, CanClose,
-                new MultiKeyGesture(new[] {Key.F4}, ModifierKeys.Alt));
+            var command = new UICommand(Close, CanClose);
             Command = command;
-            ShortcutText = command.GestureText;
+
+            DefaultKeyGesture = new MultiKeyGesture(new[] { Key.F4 }, ModifierKeys.Alt);
+            DefaultGestureCategory = CommandGestureCategories.GlobalGestureCategory;
         }
 
         private bool CanClose()

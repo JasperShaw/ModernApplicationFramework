@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Globalization;
+using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Basics.Definitions.Command
@@ -13,7 +14,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         /// <summary>
         /// The executable command of the definition
         /// </summary>
-        public virtual ICommand Command { get; }
+        public virtual UICommand Command { get; }
 
         public sealed override bool IsList => false;
 
@@ -37,11 +38,39 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
 
         protected CommandDefinition()
         {
+            Gestures = new GestureCollection();
+            Gestures.GestursChanged += Gestures_GestursChanged;
         }
 
-        protected CommandDefinition(ICommand command)
+        protected CommandDefinition(UICommand command) : this()
         {
             Command = command;
+        }
+
+        public string GestureText
+        {
+            get
+            {
+                var gesture = DefaultKeyGesture;
+                if (gesture == null)
+                    return null;
+                return
+                    (string)
+                    MultiKeyGesture.KeyGestureConverter.ConvertTo(null, CultureInfo.CurrentCulture, gesture,
+                        typeof(string));
+            }
+        }
+
+        public abstract MultiKeyGesture DefaultKeyGesture { get; }
+
+        public abstract CommandGestureCategory DefaultGestureCategory { get; }
+        
+        public GestureCollection Gestures { get; }
+
+
+        private void Gestures_GestursChanged(object sender, GestureChangedEventArgs e)
+        {
+
         }
     }
 }

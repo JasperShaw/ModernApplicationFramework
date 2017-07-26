@@ -16,6 +16,5 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         public override string Name => string.Empty;
         public override string Text => Name;
         public override string ToolTip => string.Empty;
-        public override string ShortcutText => null;
     }
 }

@@ -249,7 +249,7 @@ namespace ModernApplicationFramework.MVVM.ViewModels
         [Import] private IDockingHostViewModel _dockingHost;
         [Import] private IThemeManager _themeManager;
         [Import]
-        private IKeyGestureHandler _commandKeyGestureService;
+        private IKeyGestureService _commandKeyGestureService;
         private bool _useMenu;
 #pragma warning restore 649
     }

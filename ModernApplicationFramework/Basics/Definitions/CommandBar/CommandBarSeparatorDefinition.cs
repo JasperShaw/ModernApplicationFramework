@@ -30,7 +30,6 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             public override bool IsList => false;
             public override CommandCategory Category => null;
             public override CommandControlTypes ControlType => CommandControlTypes.Separator;
-            public sealed override string ShortcutText { get; set; }
         }
     }
 }

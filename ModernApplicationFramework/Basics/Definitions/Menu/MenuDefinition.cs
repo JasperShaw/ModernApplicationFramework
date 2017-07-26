@@ -27,7 +27,6 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
             public override bool IsList => false;
             public override CommandCategory Category => null;
             public override CommandControlTypes ControlType => CommandControlTypes.Menu;
-            public override string ShortcutText => null;
         }
     }
 }

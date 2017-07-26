@@ -76,7 +76,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest
         
         public void BindGestures()
         {
-            IoC.Get<IKeyGestureHandler>().BindKeyGestures(this);
+            IoC.Get<IKeyGestureService>().BindKeyGestures(this);
         }
     }
 }

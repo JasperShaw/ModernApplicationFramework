@@ -16,7 +16,10 @@ namespace ModernApplicationFramework.Extended.Commands
     {
         private readonly CommandBarUndoRedoManagerWatcher _watcher;
 
-        public override ICommand Command { get; }
+        public override UICommand Command { get; }
+
+        public override MultiKeyGesture DefaultKeyGesture { get; }
+        public override CommandGestureCategory DefaultGestureCategory { get; }
 
         public override string IconId => "UndoIcon";
 
@@ -25,7 +28,6 @@ namespace ModernApplicationFramework.Extended.Commands
                 new Uri("/ModernApplicationFramework.Extended;component/Resources/Icons/Undo_16x.xaml",
                     UriKind.RelativeOrAbsolute);
 
-        public override string Name => Text;
         public override string Text => Commands_Resources.UndoCommandDefinition_Text;
         public override string ToolTip => Text;
 
@@ -34,10 +36,12 @@ namespace ModernApplicationFramework.Extended.Commands
         [ImportingConstructor]
         public UndoCommandDefinition(CommandBarUndoRedoManagerWatcher watcher)
         {
-            var command = new UICommand(Undo, CanUndo,
-                new MultiKeyGesture(new[] {Key.Z}, ModifierKeys.Control));
+            var command = new UICommand(Undo, CanUndo);
             Command = command;
-            ShortcutText = command.GestureText;
+
+            DefaultKeyGesture = new MultiKeyGesture(new[] { Key.Z }, ModifierKeys.Control);
+            DefaultGestureCategory = CommandGestureCategories.GlobalGestureCategory;
+
             _watcher = watcher;
         }
 

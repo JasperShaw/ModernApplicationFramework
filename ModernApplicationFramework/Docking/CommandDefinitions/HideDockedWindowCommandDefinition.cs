@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
@@ -13,7 +12,10 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
     [Export(typeof(HideDockedWindowCommandDefinition))]
     public sealed class HideDockedWindowCommandDefinition : CommandDefinition
     {
-        public override ICommand Command { get; }
+        public override UICommand Command { get; }
+
+        public override MultiKeyGesture DefaultKeyGesture => null;
+        public override CommandGestureCategory DefaultGestureCategory => null;
 
         public override string Name => Text;
         public override string Text => DockingResources.HideDockedWindowCommandDefinition_Text;

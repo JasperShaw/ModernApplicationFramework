@@ -14,7 +14,10 @@ namespace ModernApplicationFramework.Extended.Commands
     [Export(typeof(FullScreenCommandDefinition))]
     public sealed class FullScreenCommandDefinition : CommandDefinition
     {
-        public override ICommand Command { get; }
+        public override UICommand Command { get; }
+
+        public override MultiKeyGesture DefaultKeyGesture { get; }
+        public override CommandGestureCategory DefaultGestureCategory { get; }
 
         public override string IconId => "FullScreenIcon";
 
@@ -23,7 +26,6 @@ namespace ModernApplicationFramework.Extended.Commands
                 new Uri("/ModernApplicationFramework.Extended;component/Resources/Icons/FitToScreen_16x.xaml",
                     UriKind.RelativeOrAbsolute);
 
-        public override string Name => Text;
         public override string Text => Commands_Resources.FullScreenCommandDefinition_Text;
         public override string ToolTip => Text;
 
@@ -33,10 +35,11 @@ namespace ModernApplicationFramework.Extended.Commands
 
         public FullScreenCommandDefinition()
         {
-            var command = new UICommand(TriggerFullScreen, CanTriggerFullScreen,
-                new MultiKeyGesture(Key.Enter, ModifierKeys.Shift | ModifierKeys.Alt));
+            var command = new UICommand(TriggerFullScreen, CanTriggerFullScreen);
             Command = command;
-            ShortcutText = command.GestureText;
+
+            DefaultKeyGesture = new MultiKeyGesture(Key.Enter, ModifierKeys.Shift | ModifierKeys.Alt);
+            DefaultGestureCategory = CommandGestureCategories.GlobalGestureCategory;
         }
 
         private bool CanTriggerFullScreen()

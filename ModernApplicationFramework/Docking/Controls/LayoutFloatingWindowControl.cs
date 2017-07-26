@@ -26,13 +26,9 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
-using Caliburn.Micro;
-using ModernApplicationFramework.Controls.Utilities;
 using ModernApplicationFramework.Controls.Windows;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Layout;
-using ModernApplicationFramework.Interfaces.Services;
-using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Native;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Native.Platform.Enums;
@@ -221,7 +217,6 @@ namespace ModernApplicationFramework.Docking.Controls
                 return;
             RedockWindow();  
             handled = true;
-            IoC.Get<IKeyGestureHandler>().RestoreBindings();
         }
 
         protected abstract void RedockWindow();

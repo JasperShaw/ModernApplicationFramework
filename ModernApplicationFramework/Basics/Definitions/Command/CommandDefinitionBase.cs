@@ -1,7 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 using ModernApplicationFramework.Annotations;
+using ModernApplicationFramework.Core.Converters.AccessKey;
 
 namespace ModernApplicationFramework.Basics.Definitions.Command
 {
@@ -12,8 +14,6 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
     /// <seealso cref="T:System.ComponentModel.INotifyPropertyChanged" />
     public abstract class CommandDefinitionBase : INotifyPropertyChanged
     {
-        private string _shortcutText;
-
         /// <summary>
         /// Fires when a property was changed
         /// </summary>
@@ -22,7 +22,8 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         /// <summary>
         /// The localized name of the definition
         /// </summary>
-        public abstract string Name { get; }
+        public virtual string Name => (string)AccessKeyRemovingConverter.Instance.Convert(Text, typeof(string), null,
+            CultureInfo.CurrentCulture);
 
         /// <summary>
         /// The localized display text including possible mnemonic underlining
@@ -58,21 +59,6 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         /// The type of this definition
         /// </summary>
         public abstract CommandControlTypes ControlType { get; }
-
-        /// <summary>
-        /// The key binding shortcut text of the definition
-        /// </summary>
-        public virtual string ShortcutText
-        {
-            get => _shortcutText;
-            set
-            {
-                if (value == _shortcutText)
-                    return;
-                _shortcutText = value;
-                OnPropertyChanged();
-            }
-        }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

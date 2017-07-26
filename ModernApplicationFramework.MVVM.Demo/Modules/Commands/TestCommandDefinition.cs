@@ -17,10 +17,11 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
     {
         public TestCommandDefinition()
         {
-            var command = new UICommand(Test, CanTest, new MultiKeyGesture(new[] {Key.W, Key.K}, ModifierKeys.Control));
-            command.Category = new CommandGestureCategory("RedoUndo");
+            var command = new UICommand(Test, CanTest);
             Command = command;
-            ShortcutText = command.GestureText;
+
+            DefaultKeyGesture = new MultiKeyGesture(new[] { Key.W, Key.K }, ModifierKeys.Control);
+            DefaultGestureCategory = new CommandGestureCategory("RedoUndo");
         }
 
         private bool CanTest()
@@ -83,6 +84,9 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
         public override string Text => Name;
         public override string ToolTip => Name;
 
-        public override ICommand Command { get; }
+        public override UICommand Command { get; }
+
+        public override MultiKeyGesture DefaultKeyGesture { get; }
+        public override CommandGestureCategory DefaultGestureCategory { get; }
     }
 }

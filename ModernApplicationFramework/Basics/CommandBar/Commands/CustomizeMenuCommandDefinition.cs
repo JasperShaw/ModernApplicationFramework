@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.CustomizeDialog.ViewModels;
 using ModernApplicationFramework.Basics.Definitions.Command;
@@ -17,7 +16,10 @@ namespace ModernApplicationFramework.Basics.CommandBar.Commands
     [Export(typeof(CustomizeMenuCommandDefinition))]
     public sealed class CustomizeMenuCommandDefinition : CommandDefinition
     {
-        public override ICommand Command { get; }
+        public override MultiKeyGesture DefaultKeyGesture => null;
+        public override CommandGestureCategory DefaultGestureCategory => null;
+
+        public override UICommand Command { get; }
         public override string Name => Text;
         public override string Text => CommandBarResources.CustomizeMenuCommandDefinition_Text;
         public override string ToolTip => null;
@@ -25,11 +27,10 @@ namespace ModernApplicationFramework.Basics.CommandBar.Commands
         public override string IconId => null;
 
         public override CommandCategory Category => CommandCategories.ViewCommandCategory;
-        public override string ShortcutText => null;
 
         public CustomizeMenuCommandDefinition()
         {
-            Command = new Command(OpenCustomizeDialog, () => true);
+            Command = new UICommand(OpenCustomizeDialog, () => true);
         }
 
         private void OpenCustomizeDialog()
