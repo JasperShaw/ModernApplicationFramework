@@ -6,8 +6,10 @@ using System.Text.RegularExpressions;
 using System.Windows.Data;
 using System.Windows.Input;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.CommandBase.Input;
 using ModernApplicationFramework.Extended.Commands;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
@@ -27,6 +29,9 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         private readonly IKeyGestureService _gestureService;
         private IEnumerable<CommandDefinition> _items;
         private string _searchFilter;
+        private GestureCollection _availableGestureCommands;
+        private CommandDefinition _selectedCommand;
+        private CategoryKeyGesture _selectedGestureBinding;
         public override uint SortOrder => 15;
         public override string Name => "Keyboard";
         public override ISettingsCategory Category => SettingsCategories.EnvironmentCategory;
@@ -63,6 +68,43 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
             }
         }
 
+        public CommandDefinition SelectedCommand
+        {
+            get => _selectedCommand;
+            set
+            {
+                if (Equals(value, _selectedCommand))
+                    return;
+                _selectedCommand = value;
+                OnPropertyChanged();
+                UpdateAvailableGestureBinding();
+            }
+        }
+
+        public GestureCollection AvailableGestureBindings
+        {
+            get => _availableGestureCommands;
+            set
+            {
+                if (Equals(value, _availableGestureCommands))
+                    return;
+                _availableGestureCommands = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public CategoryKeyGesture SelectedGestureBinding
+        {
+            get => _selectedGestureBinding;
+            set
+            {
+                if (Equals(value, _selectedGestureBinding))
+                    return;
+                _selectedGestureBinding = value; 
+                OnPropertyChanged();
+            }
+        }
+
 
         [ImportingConstructor]
         public KeyboardSettingsViewModel(ISettingsManager settingsManager,
@@ -71,12 +113,8 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
             _settingsManager = settingsManager;
             _dialogProvider = dialogProvider;
             _gestureService = gestureService;
-
             AllCommands = gestureService.GetAllCommandCommandDefinitions();
-
-            SetupCollectionViewSource();
-
-            
+            SetupCollectionViewSource();          
         }
 
         protected override bool SetData()
@@ -93,6 +131,16 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         {
         }
 
+
+        private void UpdateAvailableGestureBinding()
+        {
+            AvailableGestureBindings = SelectedCommand.Gestures;
+
+            if (SelectedCommand.Gestures.Count > 0)
+                SelectedGestureBinding = SelectedCommand.Gestures[0];
+
+
+        }
 
         private void ExecuteMethod()
         {

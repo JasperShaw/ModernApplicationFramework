@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Input;
 
-namespace ModernApplicationFramework.CommandBase
+namespace ModernApplicationFramework.CommandBase.Input
 {
     /// <inheritdoc />
     /// <summary>
@@ -69,6 +69,19 @@ namespace ModernApplicationFramework.CommandBase
             k = gesture.Keys.Aggregate(k, (current, key) => current + $"{key}, ");
             k = k.Remove(k.Length - 2, 2);
             return k;
+        }
+
+        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
+        {
+            if (destinationType != typeof(string))
+                return false;
+            if (context?.Instance == null)
+                return true;
+            if (!(context.Instance is MultiKeyGesture multiKeyGesture))
+                return false;
+            if (!ModifierKeysConverter.IsDefinedModifierKeys(multiKeyGesture.Modifiers))
+                return false;
+            return multiKeyGesture.Keys.All(key => MultiKeyGesture.IsDefinedKey(Key.K));
         }
     }
 }

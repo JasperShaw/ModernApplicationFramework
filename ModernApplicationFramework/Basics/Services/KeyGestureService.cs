@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.CommandBase.Input;
 using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Basics.Services
@@ -64,18 +65,14 @@ namespace ModernApplicationFramework.Basics.Services
             hostingModel.BindableElement.InputBindings.Clear();
             foreach (var commandDefinition in _keyboardShortcuts.Where(x => x.Gestures.Count > 0))
             {
-                if (commandDefinition.Gestures.TryGetValue(hostingModel.GestureCategory, out var value))
+                foreach (var gesture in commandDefinition.Gestures)
                 {
-                    var inputBinding = new InputBinding(commandDefinition.Command, value);
+                    if (!gesture.Category.Equals(hostingModel.GestureCategory) &&
+                        !gesture.Category.Equals(CommandGestureCategories.GlobalGestureCategory))
+                        continue;
+                    var inputBinding = new MultiKeyBinding(commandDefinition.Command, gesture.KeyGesture);
                     hostingModel.BindableElement.InputBindings.Add(inputBinding);
                     _elementMapping[hostingModel.GestureCategory]
-                        .Add(hostingModel.BindableElement);
-                }
-                else if (commandDefinition.Gestures.TryGetValue(CommandGestureCategories.GlobalGestureCategory, out value))
-                {
-                    var inputBinding = new KeyBinding(commandDefinition.Command, value);
-                    hostingModel.BindableElement.InputBindings.Add(inputBinding);
-                    _elementMapping[CommandGestureCategories.GlobalGestureCategory]
                         .Add(hostingModel.BindableElement);
                 }
             }
@@ -127,7 +124,7 @@ namespace ModernApplicationFramework.Basics.Services
             foreach (var cd in defaultCommands)
             {
                 cd.Gestures.Clear();
-                cd.Gestures.Add(cd.DefaultGestureCategory, cd.DefaultKeyGesture);
+                cd.Gestures.Add(new CategoryKeyGesture(cd.DefaultGestureCategory, cd.DefaultKeyGesture));
             }
         }
 
@@ -135,8 +132,8 @@ namespace ModernApplicationFramework.Basics.Services
         {
             return from commandDefinition in _keyboardShortcuts
                    from commandDefinitionGesture in commandDefinition.Gestures
-                   select new CommandCategoryGestureMapping(commandDefinitionGesture.Key, commandDefinition,
-                       commandDefinitionGesture.Value);
+                   select new CommandCategoryGestureMapping(commandDefinitionGesture.Category, commandDefinition,
+                       commandDefinitionGesture.KeyGesture);
         }
 
         public IEnumerable<CommandDefinition> GetAllCommandCommandDefinitions()
@@ -161,7 +158,7 @@ namespace ModernApplicationFramework.Basics.Services
 
     public class CommandCategoryGestureMapping
     {
-        public CommandCategoryGestureMapping(CommandGestureCategory category, CommandDefinitionBase command, KeyGesture gesture)
+        public CommandCategoryGestureMapping(CommandGestureCategory category, CommandDefinitionBase command, MultiKeyGesture gesture)
         {
             Category = category;
             Command = command;
@@ -169,19 +166,12 @@ namespace ModernApplicationFramework.Basics.Services
         }
 
         public CommandDefinitionBase Command { get; }
-        public KeyGesture Gesture { get; }
+        public MultiKeyGesture Gesture { get; }
         public CommandGestureCategory Category { get; }
 
         public override string ToString()
         {
-            string gestureText;
-
-            if (Gesture is MultiKeyGesture)
-                gestureText = (string)MultiKeyGesture.KeyGestureConverter.ConvertTo(null, CultureInfo.CurrentCulture,
-                    Gesture,
-                    typeof(string));
-            else
-                gestureText = Gesture.GetDisplayStringForCulture(CultureInfo.CurrentCulture);
+            var gestureText = Gesture.GetDisplayStringForCulture(CultureInfo.CurrentCulture);
             return $"{Command.Name} + {Category.Name} = {gestureText}";
         }
     }

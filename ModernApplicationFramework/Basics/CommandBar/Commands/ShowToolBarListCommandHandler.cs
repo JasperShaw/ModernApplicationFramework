@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.CommandBase.Input;
 using ModernApplicationFramework.Interfaces.Command;
 using ModernApplicationFramework.Interfaces.ViewModels;
 

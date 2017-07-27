@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Windows.Input;
 
-namespace ModernApplicationFramework.CommandBase
+namespace ModernApplicationFramework.CommandBase.Input
 {
     //http://kent-boogaart.com/blog/multikeygesture
 
@@ -28,6 +29,9 @@ namespace ModernApplicationFramework.CommandBase
         private int _currentKeyIndex;
         private DateTime _lastKeyPress;
 
+        public new string DisplayString => (string) KeyGestureConverter.ConvertTo(null, CultureInfo.CurrentCulture, this,
+            typeof(string));
+
         public MultiKeyGesture(Key key) : base(key) {}
 
         public MultiKeyGesture(Key key, ModifierKeys modifiers) : base(key, modifiers) {}
@@ -36,18 +40,17 @@ namespace ModernApplicationFramework.CommandBase
             : base(key, modifiers, displayString) {}
 
         public MultiKeyGesture(IEnumerable<Key> keys, ModifierKeys modifiers)
-            : this(keys, modifiers, string.Empty) {}
-
-        public MultiKeyGesture(IEnumerable<Key> keys, ModifierKeys modifiers, string displayString)
-            : base(Key.None, modifiers, displayString)
+            : base(Key.None, modifiers)
         {
+            if (keys == null)
+                throw new ArgumentNullException(nameof(keys));
+            
+            
             _keys = new List<Key>(keys);
             _readOnlyKeys = new ReadOnlyCollection<Key>(_keys);
 
             if (_keys.Count == 0)
-            {
                 throw new ArgumentException("At least one key must be specified.", nameof(keys));
-            }
         }
 
         /// <summary>
@@ -62,7 +65,7 @@ namespace ModernApplicationFramework.CommandBase
 
             var args = inputEventArgs as KeyEventArgs;
 
-            if ((args == null) || !IsDefinedKey(args.Key))
+            if (args == null || !IsDefinedKey(args.Key))
             {
                 return false;
             }
@@ -103,10 +106,10 @@ namespace ModernApplicationFramework.CommandBase
             _currentKeyIndex = 0;
             return true;
         }
-        
-        private static bool IsDefinedKey(Key key)
+
+        public static bool IsDefinedKey(Key key)
         {
-            return (key >= Key.None) && (key <= Key.OemClear);
+            return key >= Key.None && key <= Key.OemClear;
         }
     }
 }

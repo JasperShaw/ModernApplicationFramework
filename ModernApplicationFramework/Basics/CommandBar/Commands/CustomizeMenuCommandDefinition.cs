@@ -4,6 +4,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Basics.CustomizeDialog.ViewModels;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.CommandBase.Input;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Commands
 {

@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.CommandBase.Input;
 using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.CommandDefinitions
