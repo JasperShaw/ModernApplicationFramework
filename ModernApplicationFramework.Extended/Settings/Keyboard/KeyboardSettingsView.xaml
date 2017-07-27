@@ -9,14 +9,22 @@
              xmlns:comparers="clr-namespace:ModernApplicationFramework.Core.Comparers;assembly=ModernApplicationFramework"
              mc:Ignorable="d" d:DesignWidth="460" d:DesignHeight="300">
     <FrameworkElement.Resources>
-        <comparers:CategoryCommandTextComparer x:Key="CategoryCommandTextComparer" />
-        <DataTemplate x:Key="CommandNameDataTemplate">
-            <TextBlock>
-                <TextBlock.Text>
-                    <Binding Path="TrimmedCategoryCommandName"/>
-                </TextBlock.Text>
-            </TextBlock>
-        </DataTemplate>
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/ModernApplicationFramework;component/Themes/Generic/FormsListBoxItem.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+
+            <comparers:CategoryCommandTextComparer x:Key="CategoryCommandTextComparer" />
+            <DataTemplate x:Key="CommandNameDataTemplate">
+                <TextBlock>
+                    <TextBlock.Text>
+                        <Binding Path="TrimmedCategoryCommandName"/>
+                    </TextBlock.Text>
+                </TextBlock>
+            </DataTemplate>
+        </ResourceDictionary>
     </FrameworkElement.Resources>
 
     <DockPanel>
@@ -38,7 +46,8 @@
                                          ScrollViewer.HorizontalScrollBarVisibility="Auto" ItemsSource="{Binding AllCommands}"
                                          SelectedItem="{Binding SelectedCommand, Mode=TwoWay}" TextSearch.TextPath="TrimmedCategoryCommandName"
                                          ItemTemplate="{StaticResource CommandNameDataTemplate}"
-                                         CustomSort="{StaticResource CategoryCommandTextComparer}">
+                                         CustomSort="{StaticResource CategoryCommandTextComparer}"
+                                         ItemContainerStyle="{StaticResource FormsListBoxItemStyle}">
             </listBoxes:CustomSortListBox>
 
             <Grid Grid.Row="2">
