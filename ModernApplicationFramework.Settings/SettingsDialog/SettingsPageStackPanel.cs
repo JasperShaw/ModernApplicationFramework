@@ -6,6 +6,18 @@ namespace ModernApplicationFramework.Settings.SettingsDialog
 {
     internal class SettingsPageStackPanel : StackPanel
     {
+        protected override Size MeasureOverride(Size availableSize)
+        {
+            var mySize = new Size();
+            foreach (UIElement child in InternalChildren)
+            {
+                child.Measure(availableSize);
+                mySize.Width += child.DesiredSize.Width;
+                mySize.Height += child.DesiredSize.Height;
+            }
+            return mySize;
+        }
+
         protected override Size ArrangeOverride(Size availableSize)
         {
             if (InternalChildren.Count != 1)

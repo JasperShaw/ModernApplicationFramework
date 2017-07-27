@@ -45,15 +45,13 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="10" />
             </Grid.RowDefinitions>
-            <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <!--<ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">-->
                 <ItemsControl HorizontalAlignment="Stretch" ItemsSource="{Binding ElementName=TreeView, Path=SelectedValue}"
-                              VerticalAlignment="Stretch" VerticalContentAlignment="Stretch"
                               ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"
                               BorderBrush="{x:Null}" Focusable="False">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <ContentControl cal:View.Model="{Binding}"  
-                                            VerticalContentAlignment="Stretch" VerticalAlignment="Stretch"/>
+                            <ContentControl cal:View.Model="{Binding}"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                     <ItemsControl.ItemsPanel>
@@ -62,7 +60,7 @@
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
-            </ScrollViewer>
+            <!--</ScrollViewer>-->
             <Border BorderThickness="0,0,1,1" BorderBrush="White" Grid.Row="1" VerticalAlignment="Bottom">
                 <Rectangle Height="1" Fill="{x:Static SystemColors.ControlDarkBrush}"
                            VerticalAlignment="Bottom"/>
