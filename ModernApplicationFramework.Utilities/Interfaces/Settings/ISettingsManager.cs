@@ -35,6 +35,11 @@ namespace ModernApplicationFramework.Utilities.Interfaces.Settings
         IExtendedEnvironmentVarirables EnvironmentVarirables { get; }
 
         /// <summary>
+        /// Gets a value indicating whether this instance is initialized.
+        /// </summary>
+        bool IsInitialized { get; }
+
+        /// <summary>
         /// Changes the current storage location of the settings file
         /// </summary>
         /// <param name="path">The new storage path</param>

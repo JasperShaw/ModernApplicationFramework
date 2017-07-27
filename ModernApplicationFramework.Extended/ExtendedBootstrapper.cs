@@ -10,6 +10,7 @@ using ModernApplicationFramework.Basics.Services;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Extended.ApplicationEnvironment;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Utilities.Interfaces;
 
 namespace ModernApplicationFramework.Extended
@@ -59,6 +60,7 @@ namespace ModernApplicationFramework.Extended
             base.OnStartup(sender, e);
             IoC.Get<IExtendedEnvironmentVarirables>().Setup();
             IoC.Get<IApplicationEnvironment>().Setup();
+            IoC.Get<IKeyGestureService>().Initialize();
             DisplayRootViewFor<IDockingMainWindowViewModel>();
         }
 

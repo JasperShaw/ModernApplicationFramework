@@ -121,6 +121,7 @@
     <Compile Include="Modules\StatusBar\ExtendedStatusBarService.cs" />
     <Compile Include="Modules\StatusBar\IStatusBarDataModel2.cs" />
     <Compile Include="Modules\TestPanel\TestPanelViewModel.cs" />
+    <Compile Include="Modules\UndoRedoTest\UndoRedoTextBox.cs" />
     <Compile Include="Modules\UndoRedoTest\UndoRedoView.xaml.cs">
       <DependentUpon>UndoRedoView.xaml</DependentUpon>
     </Compile>

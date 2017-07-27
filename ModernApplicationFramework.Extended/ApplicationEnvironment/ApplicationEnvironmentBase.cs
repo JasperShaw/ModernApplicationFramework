@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Utilities.Interfaces;
 using ModernApplicationFramework.Utilities.Interfaces.Settings;
 
@@ -60,7 +61,6 @@ namespace ModernApplicationFramework.Extended.ApplicationEnvironment
             if (UseApplicationSettings)
                 _settingsManager.Initialize();
 
-
             var modules = IoC.GetAll<IModule>().ToList();
             foreach (var module in modules)
             foreach (var globalResourceDictionary in module.GlobalResourceDictionaries)
@@ -69,15 +69,14 @@ namespace ModernApplicationFramework.Extended.ApplicationEnvironment
 
             foreach (var module in modules)
                 module.PreInitialize();
+            
+            
         }
 
         public virtual void PrepareClose()
         {
             var modules = IoC.GetAll<IModule>().ToList();
             modules.ForEach(x => x.Dispose());
-
-
-
             if (UseApplicationSettings)
                 _settingsManager.Close();
         }

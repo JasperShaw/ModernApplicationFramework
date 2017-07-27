@@ -232,12 +232,14 @@ namespace ModernApplicationFramework.Extended.DockingMainWindow.ViewModels
             _themeManager.Theme = !string.IsNullOrEmpty(_themeManager.StartUpTheme?.Name)
                 ? _themeManager.StartUpTheme
                 : IoC.GetAll<Theme>().First();
-            
+          
             if (!(view is Window window))
                 return;
             Window = window;
-            window.SourceInitialized += _mainWindow_SourceInitialized;    
-            BindGestures();
+            window.SourceInitialized += _mainWindow_SourceInitialized;
+            if (BindableElement == null)
+                return;
+            _commandKeyGestureService.Register(this);
         }
 
         private async void _mainWindow_MouseDown(object sender, MouseButtonEventArgs e)
@@ -257,12 +259,5 @@ namespace ModernApplicationFramework.Extended.DockingMainWindow.ViewModels
 #pragma warning restore 649
         public CommandGestureCategory GestureCategory => CommandGestureCategories.GlobalGestureCategory;
         public UIElement BindableElement => Window;
-
-        public void BindGestures()
-        {
-            if (BindableElement == null)
-                return;   
-            _commandKeyGestureService.BindKeyGestures(this);
-        }
     }
 }

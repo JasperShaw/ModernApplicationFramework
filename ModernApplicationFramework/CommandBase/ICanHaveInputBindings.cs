@@ -7,7 +7,5 @@ namespace ModernApplicationFramework.CommandBase
         CommandGestureCategory GestureCategory { get; }
         
         UIElement BindableElement { get; }
-
-        void BindGestures();
     }
 }

@@ -18,7 +18,12 @@ namespace ModernApplicationFramework.Extended.Core.LayoutItems
 
         public override ICommand CloseCommand
         { 
-            get { return _closeCommand ?? (_closeCommand = new ObjectCommand(p => TryClose(), p => true)); }
+            get { return _closeCommand ?? (_closeCommand = new ObjectCommand(Close, p => true)); }
+        }
+
+        private void Close(object obj)
+        {   
+            TryClose(null);
         }
 
         public ICommand RedoCommand => IoC.Get<RedoCommandDefinition>().Command;

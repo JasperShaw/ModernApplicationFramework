@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.CommandBase;
@@ -20,7 +21,16 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest
         public UndoRedoViewModel()
         {
             DisplayName = "UndoRedoTest";
-            GestureCategory = new CommandGestureCategory("RedoUndo");
+
+            Deactivated += UndoRedoViewModel_Deactivated;
+        }
+
+        private void UndoRedoViewModel_Deactivated(object sender, DeactivationEventArgs e)
+        {
+            if (!e.WasClosed)
+                return;
+            IoC.Get<IKeyGestureService>().Remove(this);
+            BindableElement = null;
         }
 
         [DisplayName("Text"), Description("Nothing special"), Category("Text")]
@@ -58,25 +68,23 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest
 
         protected override void OnViewLoaded(object view)
         {
-            if (view is UIElement element)
+            if (view is Control element)
             {
                 BindableElement = element;
-                BindGestures();
+                IoC.Get<IKeyGestureService>().Register(this);
             }
         }
+
 
         private void SetValue()
         {
             Text += "5";
         }
 
-        public CommandGestureCategory GestureCategory { get; }
+        public CommandGestureCategory GestureCategory => UndoRedoCategory;
         
         public UIElement BindableElement { get; private set; }
-        
-        public void BindGestures()
-        {
-            IoC.Get<IKeyGestureService>().BindKeyGestures(this);
-        }
+               
+        [Export] public static CommandGestureCategory UndoRedoCategory = new CommandGestureCategory("UndoRedo");
     }
 }

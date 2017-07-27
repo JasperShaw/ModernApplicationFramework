@@ -37,6 +37,7 @@ namespace ModernApplicationFramework.Controls.Windows
         private bool ToolbarHostViewModelSetted => ToolBarHostViewModel != null;
 
 
+        /// <inheritdoc />
         /// <summary>
         ///     Contains the ViewModel of the MainWindows MenuHostControl
         ///     This can not be changed once it was setted with a value.

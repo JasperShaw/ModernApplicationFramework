@@ -21,6 +21,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
         public event EventHandler Initialized;
 
         public IExtendedEnvironmentVarirables EnvironmentVarirables { get; }
+        public bool IsInitialized { get; private set; }
 
         protected ISettingsFile SettingsFile { get; set; }
 
@@ -189,6 +190,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
         private void SettingsManager_Initialized(object sender, EventArgs e)
         {
             Initialized -= SettingsManager_Initialized;
+            IsInitialized = true;
             //TODO: Read real settingspath from file and update if neccessary
         }
 
