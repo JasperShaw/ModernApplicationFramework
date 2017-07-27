@@ -79,7 +79,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
             return bitmapSource;
         }
         public override string IconId => null;
-        public override CommandCategory Category => null;
+        public override CommandCategory Category => new CommandCategory("Test");
         public override Uri IconSource => null;
         public override string Name => "MultiHotKey";
         public override string Text => Name;

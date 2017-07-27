@@ -96,7 +96,7 @@ namespace ModernApplicationFramework.Basics.Services
                 return;
             _elementMapping[CommandGestureCategories.GlobalGestureCategory].Remove(hostingModel.BindableElement);
 
-            hostingModel.BindableElement.InputBindings.Clear();
+            hostingModel.BindableElement?.InputBindings.Clear();
         }
 
         public void SetKeyGestures()
@@ -137,6 +137,11 @@ namespace ModernApplicationFramework.Basics.Services
                    from commandDefinitionGesture in commandDefinition.Gestures
                    select new CommandCategoryGestureMapping(commandDefinitionGesture.Key, commandDefinition,
                        commandDefinitionGesture.Value);
+        }
+
+        public IEnumerable<CommandDefinition> GetAllCommandCommandDefinitions()
+        {
+            return new List<CommandDefinition>(_keyboardShortcuts);
         }
 
 

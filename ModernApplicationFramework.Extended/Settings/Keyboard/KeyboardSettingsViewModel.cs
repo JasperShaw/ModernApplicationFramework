@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Extended.Commands;
 using ModernApplicationFramework.Interfaces;
@@ -29,6 +31,19 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
 
         public ICommand ShowBindings => new Command(ExecuteMethod);
 
+        private IEnumerable<CommandDefinition> _items;
+
+        public IEnumerable<CommandDefinition> AllCommands
+        {
+            get => _items;
+            set
+            {
+                if (Equals(value, _items)) return;
+                _items = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         [ImportingConstructor]
         public KeyboardSettingsViewModel(ISettingsManager settingsManager,
@@ -37,6 +52,8 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
             _settingsManager = settingsManager;
             _dialogProvider = dialogProvider;
             _gestureService = gestureService;
+
+            AllCommands = gestureService.GetAllCommandCommandDefinitions();
         }
 
         protected override bool SetData()

@@ -235,6 +235,7 @@
     <Compile Include="CommandBase\ICanHaveInputBindings.cs" />
     <Compile Include="CommandBase\UICommand.cs" />
     <Compile Include="Controls\ComboBox\ComboBoxItemsWrapper.cs" />
+    <Compile Include="Core\Comparers\CategoryCommandTextComparer.cs" />
     <Compile Include="Interfaces\Controls\IExposeStyleKeys.cs" />
     <Compile Include="Interfaces\Services\IApplicationIconService.cs" />
     <Compile Include="Core\Utilities\IconHelper.cs" />

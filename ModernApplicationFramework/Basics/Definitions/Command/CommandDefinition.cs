@@ -1,5 +1,8 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
+using System.Text.RegularExpressions;
 using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Core.Converters.AccessKey;
 using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Basics.Definitions.Command
@@ -36,6 +39,22 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         /// </summary>
         public bool AllowExecution { get; set; } = true;
 
+
+        public string TrimmedCategoryCommandName
+        {
+            get
+            {
+                var name = (string)new AccessKeyRemovingConverter().Convert(Name, typeof(string), null, CultureInfo.CurrentCulture);
+                if (name == null)
+                    throw new ArgumentNullException(nameof(name));
+
+                var category = Regex.Replace(Category.Name, @"\s+", "", RegexOptions.Compiled);
+                var trimmedName = Regex.Replace(name, @"\s+", "", RegexOptions.Compiled);
+
+                return $"{category}.{trimmedName}";
+            }
+        }
+
         protected CommandDefinition()
         {
             Gestures = new GestureCollection();
@@ -64,7 +83,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         public abstract MultiKeyGesture DefaultKeyGesture { get; }
 
         public abstract CommandGestureCategory DefaultGestureCategory { get; }
-        
+
         public GestureCollection Gestures { get; }
 
 

@@ -55,5 +55,7 @@ namespace ModernApplicationFramework.Interfaces.Services
         void LoadDefaultGestures();
 
         IEnumerable<CommandCategoryGestureMapping> GetAllBindings();
+
+        IEnumerable<CommandDefinition> GetAllCommandCommandDefinitions();
     }
 }

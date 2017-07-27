@@ -5,66 +5,83 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:keyboard="clr-namespace:ModernApplicationFramework.Extended.Settings.Keyboard"
              xmlns:textBoxes="clr-namespace:ModernApplicationFramework.Controls.TextBoxes;assembly=ModernApplicationFramework"
+             xmlns:listBoxes="clr-namespace:ModernApplicationFramework.Controls.ListBoxes;assembly=ModernApplicationFramework"
+             xmlns:comparers="clr-namespace:ModernApplicationFramework.Core.Comparers;assembly=ModernApplicationFramework"
              mc:Ignorable="d" d:DesignWidth="460" d:DesignHeight="300">
-    <Grid Margin="0,0,12,0">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0">
-            <Button Content="Show" DockPanel.Dock="Top" Command="{Binding ShowBindings}"/>
-            <Label DockPanel.Dock="Top" HorizontalAlignment="Left" Padding="0,5,5,3" Target="{Binding ElementName=SearchTextBox}"
-                       Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsSearch_Label}"/>
-            <textBoxes:TextBox x:Name="SearchTextBox" DockPanel.Dock="Left" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"
-                               Height="21"/>
-        </DockPanel>
-        <ListBox Grid.Row="1" Margin="0,3,0,3" 
-                     ScrollViewer.CanContentScroll="True" 
-                     ScrollViewer.VerticalScrollBarVisibility="Visible" 
-                     ScrollViewer.HorizontalScrollBarVisibility="Auto">
-        </ListBox>
+    <FrameworkElement.Resources>
+        <comparers:CategoryCommandTextComparer x:Key="CategoryCommandTextComparer" />
+        <DataTemplate x:Key="CommandNameDataTemplate">
+            <TextBlock>
+                <TextBlock.Text>
+                    <Binding Path="TrimmedCategoryCommandName"/>
+                </TextBlock.Text>
+            </TextBlock>
+        </DataTemplate>
+    </FrameworkElement.Resources>
 
-        <Grid Grid.Row="2">
+    <DockPanel>
+        <Grid Margin="0,0,12,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="60*"/>
-                <ColumnDefinition Width="3"/>
-                <ColumnDefinition Width="40*"/>
-                <ColumnDefinition Width="6"/>
-                <ColumnDefinition Width="100"/>
-            </Grid.ColumnDefinitions>
+            <DockPanel Grid.Row="0">
+                <Button Content="Show" DockPanel.Dock="Top" Command="{Binding ShowBindings}"/>
+                <Label DockPanel.Dock="Top" HorizontalAlignment="Left" Padding="0,5,5,3" Target="{Binding ElementName=SearchTextBox}"
+                       Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsSearch_Label}"/>
+                <textBoxes:TextBox x:Name="SearchTextBox" DockPanel.Dock="Left" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"
+                               Height="21"/>
+            </DockPanel>
+            <listBoxes:CustomSortListBox Grid.Row="1" Margin="0,3,0,3" ScrollViewer.CanContentScroll="True" 
+                                         ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                                         ScrollViewer.HorizontalScrollBarVisibility="Auto" ItemsSource="{Binding AllCommands}"
+                                         SelectedItem="{Binding SelectedCommand, Mode=TwoWay}" TextSearch.TextPath="TrimmedCategoryCommandName"
+                                         ItemTemplate="{StaticResource CommandNameDataTemplate}"
+                                         CustomSort="{StaticResource CategoryCommandTextComparer}">
+            </listBoxes:CustomSortListBox>
 
-            <Label Grid.Row="0" Grid.ColumnSpan="3" Grid.Column="0" HorizontalAlignment="Left" Padding="0,5,5,3" Target="{Binding ElementName=SelectedBindingCombo}"
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60*"/>
+                    <ColumnDefinition Width="3"/>
+                    <ColumnDefinition Width="40*"/>
+                    <ColumnDefinition Width="6"/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Row="0" Grid.ColumnSpan="3" Grid.Column="0" HorizontalAlignment="Left" Padding="0,5,5,3" Target="{Binding ElementName=SelectedBindingCombo}"
                        Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsSelectedBinding_Label}"/>
-            <ComboBox x:Name="SelectedBindingCombo" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+                <ComboBox x:Name="SelectedBindingCombo" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
                       IsEnabled="{Binding RelativeSource={RelativeSource Self}, Path=HasItems}"/>
 
-            <Button Grid.Row="1" Grid.Column="4" Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsRemoveCurrentBinding_Button}"
+                <Button Grid.Row="1" Grid.Column="4" Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsRemoveCurrentBinding_Button}"
                     IsEnabled="{Binding ElementName=SelectedBindingCombo, Path=IsEnabled}"/>
 
-            <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Padding="0,5,5,3" Target="{Binding ElementName=CategoryCombo}"
+                <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Padding="0,5,5,3" Target="{Binding ElementName=CategoryCombo}"
                    Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsNewBindingCategory_Label}"/>
-            <ComboBox x:Name="CategoryCombo" Grid.Row="3" Grid.Column="0"/>
+                <ComboBox x:Name="CategoryCombo" Grid.Row="3" Grid.Column="0"/>
 
-            <Label Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" Padding="0,5,5,3" Target="{Binding ElementName=GestureTextBox}"
+                <Label Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" Padding="0,5,5,3" Target="{Binding ElementName=GestureTextBox}"
                    Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsNewBinding_Label}"/>
-            <TextBox x:Name="GestureTextBox" Grid.Row="3" Grid.Column="2"/>
+                <TextBox x:Name="GestureTextBox" Grid.Row="3" Grid.Column="2"/>
 
-            <Button Grid.Row="3" Grid.Column="4" Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsApplyNewBinding_Button}"/>
+                <Button Grid.Row="3" Grid.Column="4" Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsApplyNewBinding_Button}"/>
 
-            <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Left" Padding="0,5,5,3" Target="{Binding ElementName=GestureTextBox}"
+                <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Left" Padding="0,5,5,3" Target="{Binding ElementName=GestureTextBox}"
                    Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsCurrentBindings_Label}"/>
-            <ComboBox x:Name="CurrentUsedCombo" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="5"
+                <ComboBox x:Name="CurrentUsedCombo" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="5"
                       IsEnabled="{Binding RelativeSource={RelativeSource Self}, Path=HasItems}"/>
 
+            </Grid>
         </Grid>
-    </Grid>
+    </DockPanel>
 </UserControl>
