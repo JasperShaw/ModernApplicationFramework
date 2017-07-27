@@ -7,6 +7,7 @@
              xmlns:textBoxes="clr-namespace:ModernApplicationFramework.Controls.TextBoxes;assembly=ModernApplicationFramework"
              xmlns:listBoxes="clr-namespace:ModernApplicationFramework.Controls.ListBoxes;assembly=ModernApplicationFramework"
              xmlns:comparers="clr-namespace:ModernApplicationFramework.Core.Comparers;assembly=ModernApplicationFramework"
+             xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              mc:Ignorable="d" d:DesignWidth="460" d:DesignHeight="300">
     <FrameworkElement.Resources>
 
@@ -14,8 +15,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/ModernApplicationFramework;component/Themes/Generic/FormsListBoxItem.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-
-
             <comparers:CategoryCommandTextComparer x:Key="CategoryCommandTextComparer" />
             <DataTemplate x:Key="CommandNameDataTemplate">
                 <TextBlock>
@@ -39,11 +38,12 @@
                 <Label DockPanel.Dock="Top" HorizontalAlignment="Left" Padding="0,5,5,3" Target="{Binding ElementName=SearchTextBox}"
                        Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsSearch_Label}"/>
                 <textBoxes:TextBox x:Name="SearchTextBox" DockPanel.Dock="Left" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"
-                               Height="21"/>
+                               Height="21" Text="{Binding SearchFilter, UpdateSourceTrigger=PropertyChanged}"/>
             </DockPanel>
             <listBoxes:CustomSortListBox Grid.Row="1" Margin="0,3,0,3" ScrollViewer.CanContentScroll="True" 
                                          ScrollViewer.VerticalScrollBarVisibility="Visible" 
-                                         ScrollViewer.HorizontalScrollBarVisibility="Auto" ItemsSource="{Binding AllCommands}"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                                         ItemsSource="{Binding CollViewSource.View}"
                                          SelectedItem="{Binding SelectedCommand, Mode=TwoWay}" TextSearch.TextPath="TrimmedCategoryCommandName"
                                          ItemTemplate="{StaticResource CommandNameDataTemplate}"
                                          CustomSort="{StaticResource CategoryCommandTextComparer}"

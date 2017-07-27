@@ -224,6 +224,7 @@
     </Compile>
     <Compile Include="Settings\General\GeneralVisualExperienceSettingsViewModel.cs" />
     <Compile Include="Settings\General\StorableEnvironmentGeneralOptions.cs" />
+    <Compile Include="Settings\Keyboard\CommandDefinitionViewSource.cs" />
     <Compile Include="Settings\Keyboard\KeyboardSettingsView.xaml.cs">
       <DependentUpon>KeyboardSettingsView.xaml</DependentUpon>
     </Compile>

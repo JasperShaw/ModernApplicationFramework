@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Text.RegularExpressions;
+using System.Windows.Data;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Extended.Commands;
 using ModernApplicationFramework.Interfaces;
@@ -24,6 +25,8 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         private readonly ISettingsManager _settingsManager;
         private readonly IDialogProvider _dialogProvider;
         private readonly IKeyGestureService _gestureService;
+        private IEnumerable<CommandDefinition> _items;
+        private string _searchFilter;
         public override uint SortOrder => 15;
         public override string Name => "Keyboard";
         public override ISettingsCategory Category => SettingsCategories.EnvironmentCategory;
@@ -31,7 +34,23 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
 
         public ICommand ShowBindings => new Command(ExecuteMethod);
 
-        private IEnumerable<CommandDefinition> _items;
+        
+
+        public CommandDefinitionViewSource CollViewSource { get; set; }
+
+        public string SearchFilter
+        {
+            get => _searchFilter;
+            set
+            {
+                if (_searchFilter == value)
+                    return;
+                _searchFilter = value;
+                if (!string.IsNullOrEmpty(SearchFilter))
+                    AddFilter();
+                CollViewSource.View.Refresh(); // important to refresh your View
+            }
+        }
 
         public IEnumerable<CommandDefinition> AllCommands
         {
@@ -54,6 +73,10 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
             _gestureService = gestureService;
 
             AllCommands = gestureService.GetAllCommandCommandDefinitions();
+
+            SetupCollectionViewSource();
+
+            
         }
 
         protected override bool SetData()
@@ -84,6 +107,35 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
             if (ic == null)
                 return;
             
+        }
+
+        private void AddFilter()
+        {
+            CollViewSource.Filter -= Filter;
+            CollViewSource.Filter += Filter;
+        }
+
+        private void Filter(object sender, FilterEventArgs e)
+        {
+            // see Notes on Filter Methods:
+            var src = e.Item as CommandDefinition;
+            if (src == null)
+                e.Accepted = false;
+            else if (src.TrimmedCategoryCommandName != null && 
+                     !Regex.IsMatch(src.TrimmedCategoryCommandName, SearchFilter, 
+                         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.IgnorePatternWhitespace))
+                e.Accepted = false;
+        }
+
+        private void SetupCollectionViewSource()
+        {
+            var sd = new SortDescription { PropertyName = nameof(CommandDefinition.TrimmedCategoryCommandName) };
+            CollViewSource = new CommandDefinitionViewSource
+            {
+                Source = AllCommands,
+                BoundPropertyName = nameof(CommandDefinition.TrimmedCategoryCommandName)
+            };
+            CollViewSource.SortDescriptions.Add(sd);
         }
     }
 }
