@@ -3,6 +3,7 @@ using System.Windows;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Services;
 using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.CommandBase.Input;
 
 namespace ModernApplicationFramework.Interfaces.Services
 {
@@ -37,12 +38,15 @@ namespace ModernApplicationFramework.Interfaces.Services
         /// <summary>
         /// Sets key gestures to all registered elements.
         /// </summary>
-        void SetKeyGestures();
+        void SetKeyGestures(CommandGestureCategory category);
 
         /// <summary>
         /// Removes all key gestures from all registered elements.
         /// </summary>
-        void RemoveKeyGestures();
+        void RemoveAllKeyGestures();
+
+
+        void RemoveKeyGesture(CategoryKeyGesture categoryKeyGesture);
 
         /// <summary>
         /// Loads all available key gestures and applies them to their <see cref="CommandDefinition"/>

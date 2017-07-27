@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
@@ -21,8 +20,8 @@ namespace ModernApplicationFramework.Extended.Commands
 
 
         public override UICommand Command { get; }
-        public override MultiKeyGesture DefaultKeyGesture { get; }
-        public override CommandGestureCategory DefaultGestureCategory { get; }
+        public override MultiKeyGesture DefaultKeyGesture => null;
+        public override CommandGestureCategory DefaultGestureCategory => null;
 
         public override string IconId => "UndoIcon";
 
@@ -42,9 +41,6 @@ namespace ModernApplicationFramework.Extended.Commands
         {
             var command = new UICommand(Undo, CanUndo);
             Command = command;
-
-            DefaultKeyGesture = new MultiKeyGesture(new[] { Key.Z }, ModifierKeys.Control);
-            DefaultGestureCategory = CommandGestureCategories.GlobalGestureCategory;
 
             _watcher = watcher;
             Items = _watcher.UndoItems;

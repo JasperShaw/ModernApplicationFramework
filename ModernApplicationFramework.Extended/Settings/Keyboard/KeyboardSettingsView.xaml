@@ -8,6 +8,7 @@
              xmlns:listBoxes="clr-namespace:ModernApplicationFramework.Controls.ListBoxes;assembly=ModernApplicationFramework"
              xmlns:comparers="clr-namespace:ModernApplicationFramework.Core.Comparers;assembly=ModernApplicationFramework"
              xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General;assembly=ModernApplicationFramework"
              mc:Ignorable="d" d:DesignWidth="460" d:DesignHeight="300">
     <FrameworkElement.Resources>
 
@@ -16,6 +17,9 @@
                 <ResourceDictionary Source="pack://application:,,,/ModernApplicationFramework;component/Themes/Generic/FormsListBoxItem.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <comparers:CategoryCommandTextComparer x:Key="CategoryCommandTextComparer" />
+
+            <general:NullToBooleanConverter x:Key="NullToBooleanConverter"/>
+                        
             <DataTemplate x:Key="CategoryGestureDataTemplate">
                 <TextBlock>
                     <TextBlock.Text>
@@ -77,12 +81,13 @@
                 <Label Grid.Row="0" Grid.ColumnSpan="3" Grid.Column="0" HorizontalAlignment="Left" Padding="0,5,5,3" Target="{Binding ElementName=SelectedBindingCombo}"
                        Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsSelectedBinding_Label}"/>
                 <ComboBox x:Name="SelectedBindingCombo" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
-                          IsEnabled="{Binding RelativeSource={RelativeSource Self}, Path=HasItems}"
+                          IsEnabled="{Binding SelectedGestureBinding, Converter={StaticResource NullToBooleanConverter}}"
                           ItemsSource="{Binding AvailableGestureBindings}" SelectedItem="{Binding SelectedGestureBinding, Mode=TwoWay}"
                           ItemTemplate="{StaticResource CategoryGestureDataTemplate}"/>
 
                 <Button Grid.Row="1" Grid.Column="4" Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsRemoveCurrentBinding_Button}"
-                    IsEnabled="{Binding ElementName=SelectedBindingCombo, Path=IsEnabled}"/>
+                    IsEnabled="{Binding ElementName=SelectedBindingCombo, Path=IsEnabled}"
+                        Command="{Binding RemoveSelectedBinding}"/>
 
                 <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Padding="0,5,5,3" Target="{Binding ElementName=CategoryCombo}"
                    Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsNewBindingCategory_Label}"/>

@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 using System.Windows.Data;
 using System.Windows.Input;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.CommandBase.Input;
@@ -38,8 +37,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
 
 
         public ICommand ShowBindings => new Command(ExecuteMethod);
-
-        
+        public ICommand RemoveSelectedBinding => new UICommand(ExecuteRemoveBinding, CanExecuteRemoveBinding);
 
         public CommandDefinitionViewSource CollViewSource { get; set; }
 
@@ -132,14 +130,24 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         }
 
 
+
+        private void ExecuteRemoveBinding()
+        {
+            SelectedCommand.Gestures.Remove(SelectedGestureBinding);
+            _gestureService.RemoveKeyGesture(SelectedGestureBinding);
+            UpdateAvailableGestureBinding();  
+        }
+
+        private bool CanExecuteRemoveBinding()
+        {
+            return SelectedGestureBinding != null;
+        }
+
+
         private void UpdateAvailableGestureBinding()
         {
             AvailableGestureBindings = SelectedCommand.Gestures;
-
-            if (SelectedCommand.Gestures.Count > 0)
-                SelectedGestureBinding = SelectedCommand.Gestures[0];
-
-
+            SelectedGestureBinding = SelectedCommand.Gestures.Count > 0 ? SelectedCommand.Gestures[0] : null;
         }
 
         private void ExecuteMethod()

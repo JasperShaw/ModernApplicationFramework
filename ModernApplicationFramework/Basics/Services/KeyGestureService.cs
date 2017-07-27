@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -20,6 +20,8 @@ namespace ModernApplicationFramework.Basics.Services
     [Export(typeof(IKeyGestureService))]
     public class KeyGestureService : IKeyGestureService
     {
+        
+        private readonly object _lockObj = new object();
         private readonly CommandGestureCategory[] _gestureCategories;
         private readonly CommandDefinition[] _keyboardShortcuts;
         private readonly Dictionary<CommandGestureCategory, HashSet<UIElement>> _elementMapping;
@@ -67,13 +69,27 @@ namespace ModernApplicationFramework.Basics.Services
             {
                 foreach (var gesture in commandDefinition.Gestures)
                 {
-                    if (!gesture.Category.Equals(hostingModel.GestureCategory) &&
-                        !gesture.Category.Equals(CommandGestureCategories.GlobalGestureCategory))
-                        continue;
-                    var inputBinding = new MultiKeyBinding(commandDefinition.Command, gesture.KeyGesture);
-                    hostingModel.BindableElement.InputBindings.Add(inputBinding);
-                    _elementMapping[hostingModel.GestureCategory]
-                        .Add(hostingModel.BindableElement);
+                    if (gesture.Category.Equals(hostingModel.GestureCategory))
+                    {
+                        var inputBinding = new MultiKeyBinding(commandDefinition.Command, gesture.KeyGesture);
+                        hostingModel.BindableElement.InputBindings.Add(inputBinding);
+                        lock (_lockObj)
+                        {
+                            _elementMapping[hostingModel.GestureCategory]
+                                .Add(hostingModel.BindableElement);
+                        }
+
+                    }
+                    else if (gesture.Category.Equals(CommandGestureCategories.GlobalGestureCategory))
+                    {
+                        var inputBinding = new MultiKeyBinding(commandDefinition.Command, gesture.KeyGesture);
+                        hostingModel.BindableElement.InputBindings.Add(inputBinding);
+                        lock (_lockObj)
+                        {
+                            _elementMapping[CommandGestureCategories.GlobalGestureCategory]
+                                .Add(hostingModel.BindableElement);
+                        }
+                    }
                 }
             }
         }
@@ -86,24 +102,48 @@ namespace ModernApplicationFramework.Basics.Services
         /// <param name="hostingModel">The hosting model.</param>
         public void Remove(ICanHaveInputBindings hostingModel)
         {
-            if (!_elementMapping.ContainsKey(hostingModel.GestureCategory))
-                return;
-            _elementMapping[hostingModel.GestureCategory].Remove(hostingModel.BindableElement);
-            if (!_elementMapping.ContainsKey(CommandGestureCategories.GlobalGestureCategory))
-                return;
-            _elementMapping[CommandGestureCategories.GlobalGestureCategory].Remove(hostingModel.BindableElement);
-
+            lock (_lockObj)
+            {
+                if (!_elementMapping.ContainsKey(hostingModel.GestureCategory))
+                    return;
+                _elementMapping[hostingModel.GestureCategory].Remove(hostingModel.BindableElement);
+                if (!_elementMapping.ContainsKey(CommandGestureCategories.GlobalGestureCategory))
+                    return;
+                _elementMapping[CommandGestureCategories.GlobalGestureCategory].Remove(hostingModel.BindableElement);
+            }
             hostingModel.BindableElement?.InputBindings.Clear();
         }
 
-        public void SetKeyGestures()
+        public void SetKeyGestures(CommandGestureCategory category)
         {
             if (!IsInitialized)
                 return;
         }
 
-        public void RemoveKeyGestures()
+        public void RemoveAllKeyGestures()
         {
+            
+        }
+
+        public void RemoveKeyGesture(CategoryKeyGesture categoryKeyGesture)
+        {
+            if ( categoryKeyGesture?.KeyGesture == null || categoryKeyGesture.Category == null)
+                return;
+            var possibleElemetns = _elementMapping.Where(x => x.Key.Equals(categoryKeyGesture.Category)).SelectMany(x => x.Value);
+
+            foreach (var element in possibleElemetns)
+            {
+                var bindings = new ArrayList(element.InputBindings);
+
+                foreach (InputBinding binding in bindings)
+                {
+                    if (binding is MultiKeyBinding multiKeyBinding && multiKeyBinding.Gesture.Equals(categoryKeyGesture.KeyGesture))
+                        element.InputBindings.Remove(binding);
+                }
+                
+                
+            }
+
             
         }
 
@@ -171,7 +211,7 @@ namespace ModernApplicationFramework.Basics.Services
 
         public override string ToString()
         {
-            var gestureText = Gesture.GetDisplayStringForCulture(CultureInfo.CurrentCulture);
+            var gestureText = Gesture.DisplayString;
             return $"{Command.Name} + {Category.Name} = {gestureText}";
         }
     }

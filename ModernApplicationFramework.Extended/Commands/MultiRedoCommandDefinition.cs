@@ -21,8 +21,8 @@ namespace ModernApplicationFramework.Extended.Commands
 
         public override UICommand Command { get; }
 
-        public override MultiKeyGesture DefaultKeyGesture { get; }
-        public override CommandGestureCategory DefaultGestureCategory { get; }
+        public override MultiKeyGesture DefaultKeyGesture => null;
+        public override CommandGestureCategory DefaultGestureCategory => null;
 
         public override string IconId => "RedoIcon";
 
@@ -42,9 +42,6 @@ namespace ModernApplicationFramework.Extended.Commands
         {
             var command = new UICommand(Redo, CanRedo);
             Command = command;
-
-            DefaultKeyGesture = new MultiKeyGesture(new[] { Key.Y }, ModifierKeys.Control);
-            DefaultGestureCategory = CommandGestureCategories.GlobalGestureCategory;
 
             _watcher = watcher;
             Items = _watcher.RedoItems;
