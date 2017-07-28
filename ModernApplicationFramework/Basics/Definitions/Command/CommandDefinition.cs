@@ -71,12 +71,11 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         {
             get
             {
-                var gesture = DefaultKeyGesture;
-                if (gesture == null)
-                    return null;
+                if (Gestures.Count == 0)
+                    return string.Empty;;
                 return
                     (string)
-                    MultiKeyGesture.KeyGestureConverter.ConvertTo(null, CultureInfo.CurrentCulture, gesture,
+                    MultiKeyGesture.KeyGestureConverter.ConvertTo(null, CultureInfo.CurrentCulture, Gestures[0].KeyGesture,
                         typeof(string));
             }
         }
@@ -90,7 +89,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
 
         private void Gestures_GestursChanged(object sender, GestureChangedEventArgs e)
         {
-
+            OnPropertyChanged(nameof(GestureText));
         }
     }
 }

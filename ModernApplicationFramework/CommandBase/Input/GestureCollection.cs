@@ -30,12 +30,14 @@ namespace ModernApplicationFramework.CommandBase.Input
             if (_innerList == null)
                 _innerList = new List<CategoryKeyGesture>(1);
             _innerList.Add(item);
+            OnGestureChanged(new GestureChangedEventArgs(GestureChangedType.Added));
         }
 
         public void Clear()
         {
             if (_innerList == null)
                 return;
+            OnGestureChanged(new GestureChangedEventArgs(GestureChangedType.Removed));
             _innerList.Clear();
             _innerList = null;
         }
@@ -54,7 +56,11 @@ namespace ModernApplicationFramework.CommandBase.Input
         {
             if (_innerList == null)
                 return false;
-            return _innerList.Remove(item);
+            var result = _innerList.Remove(item);
+            if (!result)
+                return false;
+            OnGestureChanged(new GestureChangedEventArgs(GestureChangedType.Removed));
+            return true;
         }
 
         public int Count => _innerList?.Count ?? 0;
@@ -71,11 +77,13 @@ namespace ModernApplicationFramework.CommandBase.Input
         public void Insert(int index, CategoryKeyGesture item)
         {
             _innerList?.Insert(index, item);
+            OnGestureChanged(new GestureChangedEventArgs(GestureChangedType.Added));
         }
 
         public void RemoveAt(int index)
         {
             _innerList?.RemoveAt(index);
+            OnGestureChanged(new GestureChangedEventArgs(GestureChangedType.Removed));
         }
 
         public CategoryKeyGesture this[int index]
@@ -86,15 +94,11 @@ namespace ModernApplicationFramework.CommandBase.Input
                 if (_innerList == null)
                     _innerList = new List<CategoryKeyGesture>(index);
                 _innerList[index] = value;
+                OnGestureChanged(new GestureChangedEventArgs(GestureChangedType.ValueChanged));
             }
         }
 
-        protected void OnGestureAdded(GestureChangedEventArgs e)
-        {
-            GestursChanged?.Invoke(this, e);
-        }
-
-        protected void OnGestureRemoved(GestureChangedEventArgs e)
+        protected void OnGestureChanged(GestureChangedEventArgs e)
         {
             GestursChanged?.Invoke(this, e);
         }
