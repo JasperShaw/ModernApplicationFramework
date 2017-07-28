@@ -6,10 +6,11 @@ using ModernApplicationFramework.Properties;
 
 namespace ModernApplicationFramework.Controls.TextBoxes
 {
+    /// <inheritdoc />
     /// <summary>
-    /// A custom <see cref="ValidateableTextBox"/> that only accepts numbers and shows a <see cref="BalloonTooltip"/> on error
+    /// A custom <see cref="T:ModernApplicationFramework.Controls.TextBoxes.ValidateableTextBox" /> that only accepts numbers and shows a <see cref="T:ModernApplicationFramework.Controls.BalloonTooltip" /> on error
     /// </summary>
-    /// <seealso cref="ModernApplicationFramework.Controls.TextBoxes.ValidateableTextBox" />
+    /// <seealso cref="T:ModernApplicationFramework.Controls.TextBoxes.ValidateableTextBox" />
     public class NumberOnlyTextBox : ValidateableTextBox
     {
         public static readonly DependencyProperty NumberStyleProperty = DependencyProperty.Register(

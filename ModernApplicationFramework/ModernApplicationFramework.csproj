@@ -241,6 +241,7 @@
     <Compile Include="CommandBase\Input\MultiKeyGestureValueSerializer.cs" />
     <Compile Include="CommandBase\UICommand.cs" />
     <Compile Include="Controls\ComboBox\ComboBoxItemsWrapper.cs" />
+    <Compile Include="Controls\TextBoxes\KeyGestureTextBox.cs" />
     <Compile Include="Core\Comparers\CategoryCommandTextComparer.cs" />
     <Compile Include="Core\Converters\General\NullToBooleanConverter.cs" />
     <Compile Include="Interfaces\Controls\IExposeStyleKeys.cs" />
