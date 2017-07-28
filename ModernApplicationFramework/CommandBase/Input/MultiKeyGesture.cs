@@ -40,17 +40,31 @@ namespace ModernApplicationFramework.CommandBase.Input
             : base(key, modifiers, displayString) {}
 
         public MultiKeyGesture(IEnumerable<Key> keys, ModifierKeys modifiers)
-            : base(Key.None, modifiers)
+            : this(Key.None, modifiers)
         {
             if (keys == null)
-                throw new ArgumentNullException(nameof(keys));
-            
-            
+                throw new ArgumentNullException(nameof(keys));     
             _keys = new List<Key>(keys);
             _readOnlyKeys = new ReadOnlyCollection<Key>(_keys);
-
             if (_keys.Count == 0)
                 throw new ArgumentException("At least one key must be specified.", nameof(keys));
+        }
+
+        public MultiKeyGesture(ICollection<(Key key, ModifierKeys modifiers)> gestureList) : base(Key.None, ModifierKeys.None)
+        {
+            if (gestureList == null)
+                throw new ArgumentNullException(nameof(gestureList));
+            if (gestureList.Count > 2)
+                throw new ArgumentException($"Maximum input is 2 but given were: {gestureList.Count}");
+            if (gestureList.Count == 0)
+                throw new ArgumentException("At least one key must be specified.", nameof(gestureList));
+
+            foreach (var gesturePair in gestureList)
+            {
+                if (gesturePair.key == Key.None)
+                    throw new ArgumentException("At least one key must be specified.", nameof(gesturePair));
+            }
+
         }
 
         /// <summary>
@@ -70,7 +84,7 @@ namespace ModernApplicationFramework.CommandBase.Input
                 return false;
             }
 
-            if (_currentKeyIndex != 0 && (DateTime.Now - _lastKeyPress > MaximumDelayBetweenKeyPresses))
+            if (_currentKeyIndex != 0 && DateTime.Now - _lastKeyPress > MaximumDelayBetweenKeyPresses)
             {
                 //took too long to press next key so reset
                 _currentKeyIndex = 0;

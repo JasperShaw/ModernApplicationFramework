@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Drawing;
 using System.Windows;
@@ -14,14 +15,22 @@ using Brushes = System.Windows.Media.Brushes;
 namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
-    public sealed class TestCommandDefinition : CommandDefinition
+    public sealed class TestCommandDefinitionRealMulti : CommandDefinition
     {
-        public TestCommandDefinition()
+        public TestCommandDefinitionRealMulti()
         {
             var command = new UICommand(Test, CanTest);
             Command = command;
+
+            var l = new List<(Key, ModifierKeys)>
+            {
+                ValueTuple.Create(Key.W, ModifierKeys.Control),
+                ValueTuple.Create(Key.K, ModifierKeys.Alt),
+            };
+
+            var gesture = new MultiKeyGesture(l);
                      
-            DefaultKeyGesture = new MultiKeyGesture(new[] { Key.W, Key.K }, ModifierKeys.Control);
+            DefaultKeyGesture = gesture;
             DefaultGestureCategory = CommandGestureCategories.GlobalGestureCategory;
         }
 
@@ -58,6 +67,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
                 BitmapSizeOptions.FromWidthAndHeight(b.Width, b.Height));
             w.Icon = bs;
 
+            w.Title = "Real Multi";
 
             w.ShowDialog();
 
