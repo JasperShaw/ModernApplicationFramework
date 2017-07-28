@@ -31,6 +31,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         private GestureCollection _availableGestureCommands;
         private CommandDefinition _selectedCommand;
         private CategoryKeyGesture _selectedGestureBinding;
+        private CommandGestureCategory _selectedCategory;
         public override uint SortOrder => 15;
         public override string Name => "Keyboard";
         public override ISettingsCategory Category => SettingsCategories.EnvironmentCategory;
@@ -40,6 +41,8 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         public ICommand RemoveSelectedBinding => new UICommand(ExecuteRemoveBinding, CanExecuteRemoveBinding);
 
         public CommandDefinitionViewSource CollViewSource { get; set; }
+        
+        public IObservableCollection<CommandGestureCategory> Categories { get; }
 
         public string SearchFilter
         {
@@ -103,6 +106,18 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
             }
         }
 
+        public CommandGestureCategory SelectedCategory
+        {
+            get => _selectedCategory;
+            set
+            {
+                if (Equals(value, _selectedCategory))
+                    return;
+                _selectedCategory = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         [ImportingConstructor]
         public KeyboardSettingsViewModel(ISettingsManager settingsManager,
@@ -111,7 +126,9 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
             _settingsManager = settingsManager;
             _dialogProvider = dialogProvider;
             _gestureService = gestureService;
-            AllCommands = gestureService.GetAllCommandCommandDefinitions();
+            AllCommands = gestureService.GetAllCommandDefinitions();
+            Categories = new BindableCollection<CommandGestureCategory>(gestureService.GetAllCommandGestureCategories());
+            SelectedCategory = CommandGestureCategories.GlobalGestureCategory;
             SetupCollectionViewSource();          
         }
 

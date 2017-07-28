@@ -19,7 +19,21 @@
             <comparers:CategoryCommandTextComparer x:Key="CategoryCommandTextComparer" />
 
             <general:NullToBooleanConverter x:Key="NullToBooleanConverter"/>
-                        
+            
+            <CollectionViewSource x:Key="CategoryView" Source="{Binding Categories}">
+                <CollectionViewSource.SortDescriptions>
+                    <componentModel:SortDescription PropertyName="Name"/>
+                </CollectionViewSource.SortDescriptions>
+            </CollectionViewSource>
+
+            <DataTemplate x:Key="CategoryDataTemplate">
+                <TextBlock>
+                    <TextBlock.Text>
+                        <Binding Path="Name"/>
+                    </TextBlock.Text>
+                </TextBlock>
+            </DataTemplate>
+
             <DataTemplate x:Key="CategoryGestureDataTemplate">
                 <TextBlock>
                     <TextBlock.Text>
@@ -91,7 +105,9 @@
 
                 <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Padding="0,5,5,3" Target="{Binding ElementName=CategoryCombo}"
                    Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsNewBindingCategory_Label}"/>
-                <ComboBox x:Name="CategoryCombo" Grid.Row="3" Grid.Column="0"/>
+                <ComboBox x:Name="CategoryCombo" Grid.Row="3" Grid.Column="0" ItemsSource="{Binding Source={StaticResource CategoryView}}"
+                          ItemTemplate="{StaticResource CategoryDataTemplate}" SelectedItem="{Binding SelectedCategory}"
+                          TextSearch.TextPath="Name"/>
 
                 <Label Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" Padding="0,5,5,3" Target="{Binding ElementName=GestureTextBox}"
                    Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsNewBinding_Label}"/>

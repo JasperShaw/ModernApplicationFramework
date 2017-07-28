@@ -176,9 +176,14 @@ namespace ModernApplicationFramework.Basics.Services
                        commandDefinitionGesture.KeyGesture);
         }
 
-        public IEnumerable<CommandDefinition> GetAllCommandCommandDefinitions()
+        public IEnumerable<CommandDefinition> GetAllCommandDefinitions()
         {
             return new List<CommandDefinition>(_keyboardShortcuts);
+        }
+
+        public IEnumerable<CommandGestureCategory> GetAllCommandGestureCategories()
+        {
+            return new List<CommandGestureCategory>(_gestureCategories);
         }
 
 

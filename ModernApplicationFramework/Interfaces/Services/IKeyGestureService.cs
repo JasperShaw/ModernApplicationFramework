@@ -60,6 +60,8 @@ namespace ModernApplicationFramework.Interfaces.Services
 
         IEnumerable<CommandCategoryGestureMapping> GetAllBindings();
 
-        IEnumerable<CommandDefinition> GetAllCommandCommandDefinitions();
+        IEnumerable<CommandDefinition> GetAllCommandDefinitions();
+        
+        IEnumerable<CommandGestureCategory> GetAllCommandGestureCategories();
     }
 }
