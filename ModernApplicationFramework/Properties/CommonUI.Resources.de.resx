@@ -153,4 +153,10 @@
   <data name="ThemeBlue_Name" xml:space="preserve">
     <value>Blau</value>
   </data>
+  <data name="KeyGestureService_EnterMutliKeyState" xml:space="preserve">
+    <value>({0}) wurde gedrückt. Es wird auf die zweiter Taste in der Kombination gewartet...</value>
+  </data>
+  <data name="KeyGestureService_MultiKeyNotFound" xml:space="preserve">
+    <value>Die Tastenkombination ({0}) ist kein Befehl.</value>
+  </data>
 </root>

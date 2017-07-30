@@ -153,4 +153,10 @@
   <data name="ThemeBlue_Name" xml:space="preserve">
     <value>Blue</value>
   </data>
+  <data name="KeyGestureService_MultiKeyNotFound" xml:space="preserve">
+    <value>The key combination ({0}) is not a command.</value>
+  </data>
+  <data name="KeyGestureService_EnterMutliKeyState" xml:space="preserve">
+    <value>({0}) was pressed. Waiting for second key of chord...</value>
+  </data>
 </root>

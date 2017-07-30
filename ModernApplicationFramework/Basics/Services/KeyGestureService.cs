@@ -2,16 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.Linq;
+using System.Media;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
-using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.CommandBase.Input;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Native.NativeMethods;
+using ModernApplicationFramework.Properties;
 using Action = System.Action;
 
 namespace ModernApplicationFramework.Basics.Services
@@ -27,6 +29,7 @@ namespace ModernApplicationFramework.Basics.Services
         private readonly Dictionary<CommandGestureCategory, HashSet<UIElement>> _elementMapping;
         private readonly CommandGestureCategory[] _gestureCategories;
         private readonly IKeyboardInputService _keyboardInputService;
+        private readonly IStatusBarDataModelService _statusBarDataModelService;
         private readonly CommandDefinition[] _keyboardShortcuts;
 
         private readonly object _lockObj = new object();
@@ -36,22 +39,9 @@ namespace ModernApplicationFramework.Basics.Services
 
 
         private bool _multiMode;
+        private KeySequence _oldKeySequence;
 
-
-        [ImportingConstructor]
-        public KeyGestureService([ImportMany] CommandDefinitionBase[] keyboardShortcuts,
-            [ImportMany] CommandGestureCategory[] gestureCategories,
-            IKeyboardInputService keyboardInputService)
-        {
-            _gestureCategories = gestureCategories;
-            _keyboardInputService = keyboardInputService;
-            _keyboardShortcuts = keyboardShortcuts.OfType<CommandDefinition>().ToArray();
-
-            _elementMapping = new Dictionary<CommandGestureCategory, HashSet<UIElement>>();
-
-            foreach (var commandGestureCategory in gestureCategories)
-                _elementMapping.Add(commandGestureCategory, new HashSet<UIElement>());
-        }
+        public event EventHandler Initialized;
 
         public bool EnableEnhancedInputFiltering { get; set; }
 
@@ -70,6 +60,23 @@ namespace ModernApplicationFramework.Basics.Services
                 else
                     _keyboardInputService.PreviewKeyDown -= HandlePreviewKeyInput;
             }
+        }
+
+
+        [ImportingConstructor]
+        public KeyGestureService([ImportMany] CommandDefinitionBase[] keyboardShortcuts,
+            [ImportMany] CommandGestureCategory[] gestureCategories,
+            IKeyboardInputService keyboardInputService, IStatusBarDataModelService statusBarDataModelService)
+        {
+            _gestureCategories = gestureCategories;
+            _keyboardInputService = keyboardInputService;
+            _statusBarDataModelService = statusBarDataModelService;
+            _keyboardShortcuts = keyboardShortcuts.OfType<CommandDefinition>().ToArray();
+
+            _elementMapping = new Dictionary<CommandGestureCategory, HashSet<UIElement>>();
+
+            foreach (var commandGestureCategory in gestureCategories)
+                _elementMapping.Add(commandGestureCategory, new HashSet<UIElement>());
         }
 
         /// <inheritdoc />
@@ -96,27 +103,27 @@ namespace ModernApplicationFramework.Basics.Services
         {
             hostingModel.BindableElement.InputBindings.Clear();
             foreach (var commandDefinition in _keyboardShortcuts.Where(x => x.Gestures.Count > 0))
-            foreach (var gesture in commandDefinition.Gestures)
-                if (gesture.Category.Equals(hostingModel.GestureCategory))
-                {
-                    var inputBinding = new MultiKeyBinding(commandDefinition.Command, gesture.KeyGesture);
-                    hostingModel.BindableElement.InputBindings.Add(inputBinding);
-                    lock (_lockObj)
+                foreach (var gesture in commandDefinition.Gestures)
+                    if (gesture.Category.Equals(hostingModel.GestureCategory))
                     {
-                        _elementMapping[hostingModel.GestureCategory]
-                            .Add(hostingModel.BindableElement);
+                        var inputBinding = new MultiKeyBinding(commandDefinition.Command, gesture.KeyGesture);
+                        hostingModel.BindableElement.InputBindings.Add(inputBinding);
+                        lock (_lockObj)
+                        {
+                            _elementMapping[hostingModel.GestureCategory]
+                                .Add(hostingModel.BindableElement);
+                        }
                     }
-                }
-                else if (gesture.Category.Equals(CommandGestureCategories.GlobalGestureCategory))
-                {
-                    var inputBinding = new MultiKeyBinding(commandDefinition.Command, gesture.KeyGesture);
-                    hostingModel.BindableElement.InputBindings.Add(inputBinding);
-                    lock (_lockObj)
+                    else if (gesture.Category.Equals(CommandGestureCategories.GlobalGestureCategory))
                     {
-                        _elementMapping[CommandGestureCategories.GlobalGestureCategory]
-                            .Add(hostingModel.BindableElement);
+                        var inputBinding = new MultiKeyBinding(commandDefinition.Command, gesture.KeyGesture);
+                        hostingModel.BindableElement.InputBindings.Add(inputBinding);
+                        lock (_lockObj)
+                        {
+                            _elementMapping[CommandGestureCategories.GlobalGestureCategory]
+                                .Add(hostingModel.BindableElement);
+                        }
                     }
-                }
         }
 
 
@@ -191,9 +198,9 @@ namespace ModernApplicationFramework.Basics.Services
         public IEnumerable<CommandCategoryGestureMapping> GetAllBindings()
         {
             return from commandDefinition in _keyboardShortcuts
-                from commandDefinitionGesture in commandDefinition.Gestures
-                select new CommandCategoryGestureMapping(commandDefinitionGesture.Category, commandDefinition,
-                    commandDefinitionGesture.KeyGesture);
+                   from commandDefinitionGesture in commandDefinition.Gestures
+                   select new CommandCategoryGestureMapping(commandDefinitionGesture.Category, commandDefinition,
+                       commandDefinitionGesture.KeyGesture);
         }
 
         public IEnumerable<CommandDefinition> GetAllCommandDefinitions()
@@ -206,42 +213,39 @@ namespace ModernApplicationFramework.Basics.Services
             return new List<CommandGestureCategory>(_gestureCategories);
         }
 
-        public event EventHandler Initialized;
 
-
-        private void HandlePreviewKeyInput(object sender, KeyEventArgs e)
-        {
-            CheckKeyInput(e);
-        }
-
-
-        protected void CheckKeyInput(KeyEventArgs e)
+        /// <summary>
+        /// Checks a keyboard input for multi-key gestures.
+        /// </summary>
+        /// <param name="e">The <see cref="KeyEventArgs"/> instance containing the event data.</param>
+        protected virtual void CheckKeyInput(KeyEventArgs e)
         {
             if (_multiMode)
-            {
                 CheckMultiStateKeyInput(e);
-            }
             else
             {
                 _possibleMultiGestures.Clear();
 
                 // Get the current pressed Keys
-                var ks = new KeySequence(NativeMethods.ModifierKeys, e.Key);
+                var ks = _oldKeySequence = new KeySequence(NativeMethods.ModifierKeys, e.Key);
 
                 foreach (var gesture in _keyboardShortcuts.SelectMany(x => x.KeyGestures))
                     if (ks.Modifiers == gesture.GestureCollection?[0].Modifiers &&
                         ks.Key == gesture.GestureCollection[0].Key)
                         _possibleMultiGestures.Add(gesture);
                 if (_possibleMultiGestures.Count == 0)
-                    return; //No MultiKeyGesture found. Continue as normal
+                    return;
 
-                //We are in multi mode now     
+                //Prevents other KeyGestures being triggered
                 e.Handled = true;
-                _multiMode = true;
-                IoC.Get<IStatusBarDataModelService>().SetText("Is in multi mode now");
+                SetMultiState(ks);
             }
         }
 
+        /// <summary>
+        /// Checks the keyboard input when the Service is in multi-key state
+        /// </summary>
+        /// <param name="e">The <see cref="KeyEventArgs"/> instance containing the event data.</param>
         protected virtual void CheckMultiStateKeyInput(KeyEventArgs e)
         {
             //Ignore Modifier keys
@@ -258,56 +262,70 @@ namespace ModernApplicationFramework.Basics.Services
 
             if (gesture == null)
             {
-                _multiMode = false;
-                IoC.Get<IStatusBarDataModelService>().SetText("Was no command");
+                ResetMultiState(false, ks, null);
                 e.Handled = true;
                 return;
             }
-            e.Handled = true;
-
             gesture.WasFoundDuringMulti = true;
-
-
+            
+            //Prevents other KeyGestures being triggered
+            e.Handled = true;
+            
             //The correct Key gesture  was found. Now get the currently selected UIElement and apply the input
-
             var i = Keyboard.FocusedElement;
             if (!(i is UIElement element))
                 return;
             var op = element.Dispatcher.BeginInvoke(
                 DispatcherPriority.Input, CreateElementKeyDownAction(element, e)
             );
-            op.Completed += (_, __) => ResetMultiState();
-
-
-            void ResetMultiState()
-            {
-                _multiMode = false;
-                //If this property is still is true the action was not executed thus the element did not had the gesture
-                if (gesture.WasFoundDuringMulti)
-                {
-                    IoC.Get<IStatusBarDataModelService>().SetText("Was no command");
-                }
-                else
-                {
-                    IoC.Get<IStatusBarDataModelService>().SetText(string.Empty);
-                    IoC.Get<IStatusBarDataModelService>().SetReadyText();
-                }
-                gesture.WasFoundDuringMulti = false;
-            }
+            op.Completed += (_, __) => ResetMultiState(true, ks, gesture);         
         }
 
-
-        protected static Action CreateElementKeyDownAction(UIElement element, KeyEventArgs e)
+        /// <summary>
+        /// Sets the multi-key state
+        /// </summary>
+        /// <param name="foundSequence">The found sequence.</param>
+        protected virtual void SetMultiState(KeySequence foundSequence)
         {
-            return () => element.RaiseEvent(
-                new KeyEventArgs(
-                        e.KeyboardDevice,
-                        e.InputSource,
-                        e.Timestamp,
-                        Key.None)
-                    {RoutedEvent = Keyboard.KeyDownEvent});
+            _multiMode = true;
+            var message = string.Format(CommonUI_Resources.KeyGestureService_EnterMutliKeyState, foundSequence);
+            _statusBarDataModelService.SetText(message);
         }
 
+        /// <summary>
+        /// Resets the multi-key input state. Displays result to Status Bar
+        /// </summary>
+        /// <param name="success">Flag that tells if the second, expected key sequence was found at all</param>
+        /// <param name="newKeySequence">The second key sequence.</param>
+        /// <param name="gesture">The gesture. May be <see langword="null"/></param>
+        protected virtual void ResetMultiState(bool success, KeySequence newKeySequence, MultiKeyGesture gesture)
+        {
+            _multiMode = false;
+            _statusBarDataModelService.SetText(string.Empty);
+
+            if (!success)
+            {
+                var mkg = new MultiKeyGesture(new[] { _oldKeySequence, newKeySequence });
+                var gm = (string)
+                    MultiKeyGesture.KeyGestureConverter.ConvertTo(null, CultureInfo.CurrentCulture, mkg,
+                        typeof(string));
+                var message = string.Format(CommonUI_Resources.KeyGestureService_MultiKeyNotFound, gm);
+                _statusBarDataModelService.SetText(message);       
+                SystemSounds.Asterisk.Play();
+                
+                if (gesture != null)
+                    gesture.WasFoundDuringMulti = false;
+                return;
+            }
+            if (gesture == null || gesture.WasFoundDuringMulti)
+            {
+                ResetMultiState(false, newKeySequence, gesture);
+                return;
+            }
+            _statusBarDataModelService.SetText(string.Empty);
+            _statusBarDataModelService.SetReadyText();
+            gesture.WasFoundDuringMulti = false;
+        }
 
         /// <summary>
         ///     Performs the initial Gesture to Command  mapping
@@ -322,6 +340,10 @@ namespace ModernApplicationFramework.Basics.Services
             Initialized?.Invoke(this, EventArgs.Empty);
         }
 
+        private void HandlePreviewKeyInput(object sender, KeyEventArgs e)
+        {
+            CheckKeyInput(e);
+        }
 
         private static bool IgnoreKey(Key key)
         {
@@ -342,6 +364,17 @@ namespace ModernApplicationFramework.Basics.Services
                     return true;
             }
             return false;
+        }
+
+        private static Action CreateElementKeyDownAction(IInputElement element, KeyEventArgs e)
+        {
+            return () => element.RaiseEvent(
+                new KeyEventArgs(
+                        e.KeyboardDevice,
+                        e.InputSource,
+                        e.Timestamp,
+                        Key.None)
+                { RoutedEvent = Keyboard.KeyDownEvent });
         }
     }
 

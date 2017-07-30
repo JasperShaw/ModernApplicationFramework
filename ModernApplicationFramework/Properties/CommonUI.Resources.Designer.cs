@@ -124,6 +124,24 @@ namespace ModernApplicationFramework.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die ({0}) was pressed. Waiting for second key of chord... ähnelt.
+        /// </summary>
+        public static string KeyGestureService_EnterMutliKeyState {
+            get {
+                return ResourceManager.GetString("KeyGestureService_EnterMutliKeyState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The key combination ({0}) is not a command. ähnelt.
+        /// </summary>
+        public static string KeyGestureService_MultiKeyNotFound {
+            get {
+                return ResourceManager.GetString("KeyGestureService_MultiKeyNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Options ähnelt.
         /// </summary>
         public static string OptionsDialog_Name {
