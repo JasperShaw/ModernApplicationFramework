@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Caliburn.Micro;
-using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Utilities;
 using Action = System.Action;
 

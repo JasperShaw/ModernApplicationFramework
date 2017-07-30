@@ -9,7 +9,7 @@
                    xmlns:utilities="clr-namespace:ModernApplicationFramework.Utilities;assembly=ModernApplicationFramework.Utilities"
                    xmlns:settingsDialog="clr-namespace:ModernApplicationFramework.Settings.SettingsDialog"
                    mc:Ignorable="d" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" ResizeMode="CanResizeWithGrip"
-                   Background="{x:Static SystemColors.ControlBrush}" Width="758" Height="441" MinWidth="757" MinHeight="441">
+                   Background="{x:Static SystemColors.ControlBrush}" Width="757" Height="441" MinWidth="757" MinHeight="441">
 
     <mafc:DialogWindow.Resources>
         <ResourceDictionary>

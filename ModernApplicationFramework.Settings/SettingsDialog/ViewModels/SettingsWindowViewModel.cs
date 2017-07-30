@@ -4,7 +4,9 @@ using System.Linq;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Controls.Dialogs;
 using ModernApplicationFramework.Properties;
+using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Utilities.Interfaces.Settings;
 using ISettingsCategory = ModernApplicationFramework.Settings.Interfaces.ISettingsCategory;
 using ISettingsPage = ModernApplicationFramework.Settings.Interfaces.ISettingsPage;
@@ -16,6 +18,7 @@ namespace ModernApplicationFramework.Settings.SettingsDialog.ViewModels
     {
         private SettingsPageContainerViewModel _selectedPageContainer;
         private IEnumerable<ISettingsPage> _settingPages;
+        private readonly ISettingsDialogSettings _settings;
 
         public ICommand CancelCommand => new Command(Cancel);
 
@@ -36,6 +39,8 @@ namespace ModernApplicationFramework.Settings.SettingsDialog.ViewModels
         public SettingsWindowViewModel()
         {
             DisplayName = CommonUI_Resources.OptionsDialog_Name;
+
+            _settings = IoC.Get<ISettingsDialogSettings>();
         }
 
         protected override void OnInitialize()
@@ -57,6 +62,37 @@ namespace ModernApplicationFramework.Settings.SettingsDialog.ViewModels
             base.OnActivate();
             foreach (var settingsPage in _settingPages)
                 settingsPage.Activate();
+        }
+
+        protected override void OnViewLoaded(object view)
+        {
+            if (!(view is DialogWindow control))
+                return;
+            _dialogControl = control;
+            
+            if (_settings == null)
+                return;
+            var dialogWidth = _settings.SettingsDialogWidth;
+            if (dialogWidth != 0)
+                _dialogControl.Width = dialogWidth;
+            var dialogHeight = _settings.SettingsDialogHeight;
+            if (dialogHeight != 0)
+                _dialogControl.Height = dialogHeight;
+        }
+
+        private DialogWindow _dialogControl;
+
+        protected override void OnDeactivate(bool close)
+        {
+            if (close)
+            {
+                if (_dialogControl != null && _settings != null)
+                {
+                    _settings.SettingsDialogWidth = (int)_dialogControl.Width;
+                    _settings.SettingsDialogHeight = (int)_dialogControl.Height;
+                }
+            }
+            base.OnDeactivate(close);
         }
 
 

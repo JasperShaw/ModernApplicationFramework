@@ -62,6 +62,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\IStretchSettingsPanelPanel.cs" />
+    <Compile Include="Interfaces\ISettingsDialogSettings.cs" />
+    <Compile Include="SettingsDialog\SettingsDialogSettings.cs" />
     <Compile Include="SettingsDialog\SettingsPageStackPanel.cs" />
     <Compile Include="SettingDataModel\AbstractSettingsDataModel.cs" />
     <Compile Include="Interfaces\ISettingsCategory.cs" />
