@@ -15,7 +15,7 @@ namespace ModernApplicationFramework.CommandBase.Input
             get
             {
                 if (base.Gesture == null)
-                    base.Gesture = new MultiKeyGesture(new[] { Key.None }, ModifierKeys.None);
+                    base.Gesture = new MultiKeyGesture(Key.None);
                 return base.Gesture as MultiKeyGesture;
             }
             set
@@ -28,16 +28,10 @@ namespace ModernApplicationFramework.CommandBase.Input
             }
         }
 
-        public IEnumerable<Key> Keys
+        public IEnumerable<KeySequence> KeySequences
         {
-            get => ((MultiKeyGesture) Gesture).Keys;
-            set => Gesture = new MultiKeyGesture(value, ((MultiKeyGesture) Gesture).Modifiers);
-        }
-
-        public ModifierKeys Modifiers
-        {
-            get => ((KeyGesture) Gesture).Modifiers;
-            set => Gesture = new MultiKeyGesture(((MultiKeyGesture) Gesture).Keys, value);
+            get => ((MultiKeyGesture) Gesture).GestureCollection;
+            set => Gesture = new MultiKeyGesture(new List<KeySequence>(value));
         }
 
         public MultiKeyBinding()

@@ -40,7 +40,7 @@ namespace ModernApplicationFramework.Extended.Commands
             var command = new UICommand(Undo, CanUndo);
             Command = command;
 
-            DefaultKeyGesture = new MultiKeyGesture(new[] { Key.Z }, ModifierKeys.Control);
+            DefaultKeyGesture = new MultiKeyGesture(Key.Z, ModifierKeys.Control);
             DefaultGestureCategory = CommandGestureCategories.GlobalGestureCategory;
 
             _watcher = watcher;

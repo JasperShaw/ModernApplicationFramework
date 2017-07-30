@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace ModernApplicationFramework.CommandBase.Input
 {
-
     public class GestureCollection : IList<CategoryKeyGesture>
     {
         public delegate void GestursChangedEventHandler(object sender, GestureChangedEventArgs e);
@@ -123,6 +123,8 @@ namespace ModernApplicationFramework.CommandBase.Input
 
     public class CategoryKeyGesture : IEquatable<CategoryKeyGesture>
     {
+        private static readonly MultiKeyGestureConverter Converter = new MultiKeyGestureConverter();
+        
         public CategoryKeyGesture(CommandGestureCategory category, MultiKeyGesture keyGesture)
         {
             Category = category;
@@ -133,7 +135,7 @@ namespace ModernApplicationFramework.CommandBase.Input
 
         public MultiKeyGesture KeyGesture { get; }
 
-        public string Text => $"{KeyGesture.DisplayString} ({Category.Name})";
+        public string Text => $"{Converter.ConvertTo(null, CultureInfo.CurrentCulture, KeyGesture, typeof(string))} ({Category.Name})";
 
         public bool Equals(CategoryKeyGesture other)
         {

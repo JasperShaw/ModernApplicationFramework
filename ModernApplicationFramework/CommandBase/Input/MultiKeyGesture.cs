@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Globalization;
+using System.Linq;
 using System.Windows.Input;
+using System.Windows.Markup;
 
 namespace ModernApplicationFramework.CommandBase.Input
 {
@@ -15,42 +15,59 @@ namespace ModernApplicationFramework.CommandBase.Input
     /// </summary>
     /// <seealso cref="KeyGesture" />
     [TypeConverter(typeof(MultiKeyGestureConverter))]
+    [ValueSerializer(typeof(MultiKeyGestureValueSerializer))]
     public class MultiKeyGesture : KeyGesture
     {
-        private static readonly TimeSpan MaximumDelayBetweenKeyPresses = TimeSpan.FromSeconds(1);
+        public static TimeSpan MaximumDelayBetweenKeyPresses { get; set; }
 
         /// <summary>
         /// An instance of a <see cref="MultiKeyGestureConverter"/>
         /// </summary>
         public static TypeConverter KeyGestureConverter = new MultiKeyGestureConverter();
 
-        private readonly IList<Key> _keys;
-        private readonly ReadOnlyCollection<Key> _readOnlyKeys;
+
         private int _currentKeyIndex;
+        private bool _isInMultiState;
         private DateTime _lastKeyPress;
 
-        public new string DisplayString => (string) KeyGestureConverter.ConvertTo(null, CultureInfo.CurrentCulture, this,
-            typeof(string));
+        public bool WasFoundDuringMulti { get; set; }
 
-        public MultiKeyGesture(Key key) : base(key) {}
+        public IList<KeySequence> GestureCollection { get; }
 
-        public MultiKeyGesture(Key key, ModifierKeys modifiers) : base(key, modifiers) {}
-
-        public MultiKeyGesture(Key key, ModifierKeys modifiers, string displayString)
-            : base(key, modifiers, displayString) {}
-
-        public MultiKeyGesture(IEnumerable<Key> keys, ModifierKeys modifiers)
-            : this(Key.None, modifiers)
+        static MultiKeyGesture()
         {
-            if (keys == null)
-                throw new ArgumentNullException(nameof(keys));     
-            _keys = new List<Key>(keys);
-            _readOnlyKeys = new ReadOnlyCollection<Key>(_keys);
-            if (_keys.Count == 0)
-                throw new ArgumentException("At least one key must be specified.", nameof(keys));
+            MaximumDelayBetweenKeyPresses = TimeSpan.FromSeconds(1);
         }
 
-        public MultiKeyGesture(ICollection<(Key key, ModifierKeys modifiers)> gestureList) : base(Key.None, ModifierKeys.None)
+        public MultiKeyGesture(Key key) : base(key) { }
+
+        public MultiKeyGesture(Key key, ModifierKeys modifiers) : base(key, modifiers) { }
+
+        public MultiKeyGesture(Key key, ModifierKeys modifiers, string displayString)
+            : base(key, modifiers, displayString) { }
+
+        public MultiKeyGesture(IEnumerable<Key> keys, ModifierKeys modifiers)
+            : this(Key.None, ModifierKeys.None)
+        {
+            if (keys == null)
+                throw new ArgumentNullException(nameof(keys));
+            var keyList = keys as IList<Key> ?? keys.ToList();
+            if (!keyList.Any())
+                throw new ArgumentException("At least one key must be specified.", nameof(keys));
+            if (keyList.Count > 2)
+                throw new ArgumentException($"Maximum input is 2 but given were: {keyList.Count}");
+
+            GestureCollection = new List<KeySequence>();
+            var index = 0;
+            foreach (var key in keyList)
+            {
+                GestureCollection.Add(index++ == 0
+                    ? new KeySequence(modifiers, key)
+                    : new KeySequence(ModifierKeys.None, key));
+            }
+        }
+
+        public MultiKeyGesture(ICollection<KeySequence> gestureList) : base(Key.None, ModifierKeys.None)
         {
             if (gestureList == null)
                 throw new ArgumentNullException(nameof(gestureList));
@@ -59,66 +76,99 @@ namespace ModernApplicationFramework.CommandBase.Input
             if (gestureList.Count == 0)
                 throw new ArgumentException("At least one key must be specified.", nameof(gestureList));
 
+            GestureCollection = new List<KeySequence>();
             foreach (var gesturePair in gestureList)
             {
-                if (gesturePair.key == Key.None)
+                if (gesturePair.Key == Key.None)
                     throw new ArgumentException("At least one key must be specified.", nameof(gesturePair));
+                GestureCollection.Add(gesturePair);
             }
-
         }
-
-        /// <summary>
-        /// All keys of the gesture
-        /// </summary>
-        public ICollection<Key> Keys => _readOnlyKeys;
 
         public override bool Matches(object targetElement, InputEventArgs inputEventArgs)
         {
-            if (_keys == null || _keys.Count <= 0)
+            if (WasFoundDuringMulti)
+            {
+                WasFoundDuringMulti = false;
+                return true;
+            }
+
+            if (!_isInMultiState && (GestureCollection == null || GestureCollection.Count == 0))
                 return base.Matches(targetElement, inputEventArgs);
 
-            var args = inputEventArgs as KeyEventArgs;
 
-            if (args == null || !IsDefinedKey(args.Key))
-            {
+            if (!(inputEventArgs is KeyEventArgs args))
                 return false;
-            }
 
+            var key = args.Key != Key.System ? args.Key : args.SystemKey;
+
+            if (!IsDefinedKey(key))
+                return false;
+
+            //Check if the key is a modifier...
+            if (IsModifierKey(key))
+                return false;
+
+            //Check if the current key press happened too late...
             if (_currentKeyIndex != 0 && DateTime.Now - _lastKeyPress > MaximumDelayBetweenKeyPresses)
             {
-                //took too long to press next key so reset
-                _currentKeyIndex = 0;
+                //The delay has expired, abort the match...
+                ResetState();
                 return false;
             }
 
-            //the modifier only needs to be held down for the first keystroke, but you could also require that the modifier be held down for every keystroke
-            if (_currentKeyIndex == 0 && Modifiers != Keyboard.Modifiers)
+            // Distinguishes between (CTRL+W, K) and (CTRL+W, CTRL+K)
+            ModifierKeys toCheckModifierKeys;
+            if (_currentKeyIndex != 0 && GestureCollection[_currentKeyIndex].Modifiers == ModifierKeys.None)
+                toCheckModifierKeys = GestureCollection[0].Modifiers & ModifierKeys.None;
+            else
+                toCheckModifierKeys = GestureCollection[_currentKeyIndex].Modifiers;
+
+
+            if (!Keyboard.Modifiers.HasFlag(toCheckModifierKeys))
             {
-                //wrong modifiers
-                _currentKeyIndex = 0;
+                ResetState();
                 return false;
             }
 
-            if (_keys[_currentKeyIndex] != args.Key)
+            //Check if the current key is correct...
+            if (GestureCollection[_currentKeyIndex].Key != key)
             {
-                //wrong key
-                _currentKeyIndex = 0;
+                //The current key is not correct, abort the match...
+                ResetState();
                 return false;
             }
 
-            ++_currentKeyIndex;
+            _currentKeyIndex++;
+            _isInMultiState = true;
 
-            if (_currentKeyIndex != _keys.Count)
+            args.Handled = true;
+
+            //Check if the sequence is the last one of the gesture...
+            if (_currentKeyIndex != GestureCollection.Count)
             {
-                //still matching
+                //If the key is not the last one, get the current date time, handle the match event but do nothing...
                 _lastKeyPress = DateTime.Now;
                 inputEventArgs.Handled = true;
                 return false;
             }
 
-            //match complete
-            _currentKeyIndex = 0;
+            args.Handled = true;
+            //The gesture has finished and was correct, complete the match operation...
+            ResetState();
             return true;
+        }
+        
+        private void ResetState()
+        {
+            _currentKeyIndex = 0;
+            _isInMultiState = false;
+        }
+
+        private static bool IsModifierKey(Key key)
+        {
+            return key == Key.LeftCtrl || key == Key.RightCtrl || key == Key.LeftShift || key == Key.RightShift ||
+                   key == Key.LeftAlt || key == Key.RightAlt || key == Key.LWin || key == Key.RWin;
         }
 
         public static bool IsDefinedKey(Key key)

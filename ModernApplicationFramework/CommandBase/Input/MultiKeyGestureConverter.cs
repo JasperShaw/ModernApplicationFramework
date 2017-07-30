@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Windows.Input;
 
 namespace ModernApplicationFramework.CommandBase.Input
@@ -43,32 +44,25 @@ namespace ModernApplicationFramework.CommandBase.Input
             return new MultiKeyGesture(keys, modifierKeys);
         }
 
-        //Maybe not the most save way, but it works
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {
             if (destinationType != typeof(string))
                 throw new NotSupportedException();
-            var gesture = value as MultiKeyGesture;
-            if (gesture == null)
+            
+            if (!(value is MultiKeyGesture gesture))
                 throw new InvalidCastException();
 
-            var k =
-                (string)
-                    new ModifierKeysConverter().ConvertTo(null, CultureInfo.CurrentUICulture, gesture.Modifiers,
-                        typeof(string));
+            var sb = new StringBuilder();        
+            if (gesture.GestureCollection == null || gesture.GestureCollection.Count == 0)
+                return gesture.GetDisplayStringForCulture(CultureInfo.CurrentCulture);
 
-            if (!string.IsNullOrEmpty(k))
-                k += "+";
 
-            if (gesture.Keys == null || gesture.Keys.Count <= 0)
-            {
-                k += gesture.Key.ToString();
-                return k;
-            }
+            foreach (var i in gesture.GestureCollection)
+                sb.Append($"{i}, ");
 
-            k = gesture.Keys.Aggregate(k, (current, key) => current + $"{key}, ");
-            k = k.Remove(k.Length - 2, 2);
-            return k;
+            sb.Remove(sb.Length - 2, 2);
+            
+            return sb.ToString();
         }
 
         public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
@@ -79,9 +73,9 @@ namespace ModernApplicationFramework.CommandBase.Input
                 return true;
             if (!(context.Instance is MultiKeyGesture multiKeyGesture))
                 return false;
-            if (!ModifierKeysConverter.IsDefinedModifierKeys(multiKeyGesture.Modifiers))
+            if (multiKeyGesture.GestureCollection.Count == 0)
                 return false;
-            return multiKeyGesture.Keys.All(key => MultiKeyGesture.IsDefinedKey(Key.K));
+            return true;
         }
     }
 }

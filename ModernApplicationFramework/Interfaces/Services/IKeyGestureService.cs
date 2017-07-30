@@ -12,8 +12,19 @@ namespace ModernApplicationFramework.Interfaces.Services
     /// </summary>
     public interface IKeyGestureService
     {
-
+        /// <summary>
+        /// Indicating whether this instance is initialized.
+        /// </summary>
         bool IsInitialized { get; }
+
+        /// <summary>
+        ///  Option to switch the Visual Studio like behavior for multi-key gestures on or off.
+        ///  If this option is enabled all keyboard input events will be filtered separately for multi-key gestures.
+        ///  This options has the advantage that a multi-key gestures does not get interrupted by an common gesture like 'CTRL+A'
+        ///  Default is <see langword="true"/>
+        /// </summary>
+
+        bool IsEnhancedMultiKeyGestureModeEnabled { get; set; }
 
 
         /// <summary>
@@ -22,18 +33,16 @@ namespace ModernApplicationFramework.Interfaces.Services
         void Initialize();
 
         /// <summary>
-        /// Registers an <see cref="ICanHaveInputBindings"/> to the service
+        /// Adds an <see cref="ICanHaveInputBindings"/> to the service
         /// </summary>
         /// <param name="hostingModel">The hosting model.</param>
-        void Register(ICanHaveInputBindings hostingModel);
+        void Add(ICanHaveInputBindings hostingModel);
 
-
-        /// <summary>
+        // <summary>
         /// Removes an <see cref="ICanHaveInputBindings"/> from the service
         /// </summary>
         /// <param name="hostingModel">The hosting model.</param>
         void Remove(ICanHaveInputBindings hostingModel);
-
 
         /// <summary>
         /// Sets key gestures to all registered elements.

@@ -933,7 +933,6 @@ namespace ModernApplicationFramework.Docking
 
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
-            Trace.WriteLine($"OnPreviewKeyDown({e.Key})");
             if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
                 if (e.IsDown && e.Key == Key.Tab)
                     if (!IsNavigatorWindowActive)

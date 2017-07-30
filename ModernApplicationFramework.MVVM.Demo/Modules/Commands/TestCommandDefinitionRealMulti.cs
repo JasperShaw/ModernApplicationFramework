@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.CommandBase.Input;
+using ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest;
 using ModernApplicationFramework.Utilities.Imaging;
 using Brushes = System.Windows.Media.Brushes;
 
@@ -22,16 +23,16 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
             var command = new UICommand(Test, CanTest);
             Command = command;
 
-            var l = new List<(Key, ModifierKeys)>
+            var l = new List<KeySequence>
             {
-                ValueTuple.Create(Key.W, ModifierKeys.Control),
-                ValueTuple.Create(Key.K, ModifierKeys.Alt),
+                new KeySequence(ModifierKeys.Control, Key.A),
+                new KeySequence(ModifierKeys.Control, Key.A),
             };
 
             var gesture = new MultiKeyGesture(l);
                      
             DefaultKeyGesture = gesture;
-            DefaultGestureCategory = CommandGestureCategories.GlobalGestureCategory;
+            DefaultGestureCategory = UndoRedoViewModel.UndoRedoCategory;
         }
 
         private bool CanTest()
@@ -41,7 +42,6 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
 
         private void Test()
         {
-
             var s = new Bitmap(Properties.Resources.png_undo_16_16);
 
 

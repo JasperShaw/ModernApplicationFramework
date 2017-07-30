@@ -15,6 +15,8 @@ namespace ModernApplicationFramework.MVVM.Demo
         [Export] public static CommandBarGroupDefinition TestGroup1 = new CommandBarGroupDefinition(TestMenu, int.MaxValue);
 
         [Export] public static CommandBarItemDefinition TestCommand = new CommandBarCommandItemDefinition<TestCommandDefinition>(TestGroup1, 1);
+        
+        [Export] public static CommandBarItemDefinition TestCommand2 = new CommandBarCommandItemDefinition<TestCommandDefinitionRealMulti>(TestGroup1, 1);
 
         [Export] public static CommandBarItemDefinition TestSub = new MenuDefinition(TestGroup1, 0, "Test", true);
 

@@ -5,10 +5,12 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using ModernApplicationFramework.Basics.Services;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces.Controls;
@@ -214,6 +216,7 @@ namespace ModernApplicationFramework.Controls.Windows
         {
             UpdateGlowActiveState();
             base.OnActivated(e);
+            MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
         }
 
         protected override void OnDeactivated(EventArgs e)
@@ -244,6 +247,7 @@ namespace ModernApplicationFramework.Controls.Windows
             var hwndSource = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
             hwndSource?.AddHook(HwndSourceHook);
             CreateGlowWindowHandles();
+            KeyboardInputService.Instance?.Register(this);
             base.OnSourceInitialized(e);
         }
 
@@ -857,6 +861,7 @@ namespace ModernApplicationFramework.Controls.Windows
         {
             StopTimer();
             DestroyGlowWindows();
+            KeyboardInputService.Instance?.Unregister(this);
             base.OnClosed(e);
         }
 

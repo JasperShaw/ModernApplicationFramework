@@ -22,7 +22,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -34,7 +34,8 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -230,6 +231,7 @@
     <Compile Include="Basics\ApplicationEnvironment\AbstractEnvironmentVarirables.cs" />
     <Compile Include="Basics\ApplicationEnvironment\FallbackEnvironmentVarirables.cs" />
     <Compile Include="Basics\Definitions\Command\ExcludedCommandDefinition.cs" />
+    <Compile Include="Basics\Services\KeyboardInputService.cs" />
     <Compile Include="CommandBase\Input\CommandDefinitionGestureMappingStore.cs" />
     <Compile Include="CommandBase\Input\GestureCollection.cs" />
     <Compile Include="Basics\Services\InternalApplicationIconService.cs" />
@@ -237,6 +239,7 @@
     <Compile Include="CommandBase\CommandGestureCategories.cs" />
     <Compile Include="CommandBase\CommandGestureCategory.cs" />
     <Compile Include="CommandBase\ICanHaveInputBindings.cs" />
+    <Compile Include="CommandBase\Input\KeySequence.cs" />
     <Compile Include="CommandBase\Input\MultiKeyBinding.cs" />
     <Compile Include="CommandBase\Input\MultiKeyGestureValueSerializer.cs" />
     <Compile Include="CommandBase\UICommand.cs" />
@@ -247,6 +250,7 @@
     <Compile Include="Interfaces\Controls\IExposeStyleKeys.cs" />
     <Compile Include="Interfaces\Services\IApplicationIconService.cs" />
     <Compile Include="Core\Utilities\IconHelper.cs" />
+    <Compile Include="Interfaces\Services\IKeyboardInputService.cs" />
     <Compile Include="Interfaces\Services\IStatusBarDataModel.cs" />
     <Compile Include="Interfaces\Services\IStatusBarDataModelService.cs" />
     <Compile Include="Interfaces\Services\IStatusBarService.cs" />
@@ -988,10 +992,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ValueTuple, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.3.1\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
-    </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">

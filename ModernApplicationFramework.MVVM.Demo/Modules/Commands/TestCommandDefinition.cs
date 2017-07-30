@@ -8,6 +8,7 @@ using System.Windows.Media.Imaging;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.CommandBase.Input;
+using ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest;
 using ModernApplicationFramework.Utilities.Imaging;
 using Brushes = System.Windows.Media.Brushes;
 
@@ -22,7 +23,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
             Command = command;
                      
             DefaultKeyGesture = new MultiKeyGesture(new[] { Key.W, Key.K }, ModifierKeys.Control);
-            DefaultGestureCategory = CommandGestureCategories.GlobalGestureCategory;
+            DefaultGestureCategory = UndoRedoViewModel.UndoRedoCategory;
         }
 
         private bool CanTest()
@@ -34,9 +35,6 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
         {
 
             var s = new Bitmap(Properties.Resources.png_undo_16_16);
-
-
-
 
             var w = new TestWindw
             {

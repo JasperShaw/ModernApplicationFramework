@@ -41,7 +41,7 @@ namespace ModernApplicationFramework.Extended.Commands
             var command = new UICommand(Redo, CanRedo);
             Command = command;
 
-            DefaultKeyGesture = new MultiKeyGesture(new[] {Key.Y}, ModifierKeys.Control);
+            DefaultKeyGesture = new MultiKeyGesture(Key.Y, ModifierKeys.Control);
             DefaultGestureCategory = CommandGestureCategories.GlobalGestureCategory;
         }
 

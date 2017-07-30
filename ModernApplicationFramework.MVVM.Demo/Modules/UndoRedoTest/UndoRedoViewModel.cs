@@ -71,7 +71,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest
             if (view is Control element)
             {
                 BindableElement = element;
-                IoC.Get<IKeyGestureService>().Register(this);
+                IoC.Get<IKeyGestureService>().Add(this);
             }
         }
 

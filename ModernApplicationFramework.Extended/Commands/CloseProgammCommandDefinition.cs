@@ -40,7 +40,7 @@ namespace ModernApplicationFramework.Extended.Commands
             var command = new UICommand(Close, CanClose);
             Command = command;
 
-            DefaultKeyGesture = new MultiKeyGesture(new[] { Key.F4 }, ModifierKeys.Alt);
+            DefaultKeyGesture = new MultiKeyGesture(Key.F4, ModifierKeys.Alt);
             DefaultGestureCategory = CommandGestureCategories.GlobalGestureCategory;
         }
 

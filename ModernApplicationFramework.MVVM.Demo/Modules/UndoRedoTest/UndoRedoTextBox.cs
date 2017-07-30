@@ -25,7 +25,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest
         private void UndoRedoTextBox_Initialized(object sender, EventArgs e)
         {
             Loaded -= UndoRedoTextBox_Initialized;
-            IoC.Get<IKeyGestureService>().Register(this);
+            IoC.Get<IKeyGestureService>().Add(this);
             Unloaded += UndoRedoTextBox_Unloaded;
         }
 
