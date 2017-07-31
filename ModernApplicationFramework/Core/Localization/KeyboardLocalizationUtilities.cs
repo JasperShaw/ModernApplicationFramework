@@ -76,7 +76,7 @@ namespace ModernApplicationFramework.Core.Localization
         private static string PreFilterKeys(Key key)
         {
             //Keys from A to Z
-            if ((int)key >= 44 && (int)key <= 96)
+            if ((int)key >= 44 && (int)key <= 69)
                 return key.ToString();
             
             //Other Special Keys
