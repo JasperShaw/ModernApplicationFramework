@@ -247,6 +247,7 @@
     <Compile Include="Controls\TextBoxes\KeyGestureTextBox.cs" />
     <Compile Include="Core\Comparers\CategoryCommandTextComparer.cs" />
     <Compile Include="Core\Converters\General\NullToBooleanConverter.cs" />
+    <Compile Include="Core\Localization\KeyboardLocalizationUtilities.cs" />
     <Compile Include="Interfaces\Controls\IExposeStyleKeys.cs" />
     <Compile Include="Interfaces\Services\IApplicationIconService.cs" />
     <Compile Include="Core\Utilities\IconHelper.cs" />
@@ -775,6 +776,11 @@
     <Compile Include="Interfaces\ViewModels\IToolBarHostViewModel.cs" />
     <Compile Include="Interfaces\ViewModels\IWindowViewModel.cs" />
     <Compile Include="Properties\Annotations1.cs" />
+    <Compile Include="Properties\KeyboardLocalizationResources.Designer.cs">
+      <DependentUpon>KeyboardLocalizationResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Properties\CommonUI.Resources.de1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1126,6 +1132,13 @@
     <EmbeddedResource Include="Docking\DockingResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>DockingResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\KeyboardLocalizationResources.de.resx" />
+    <EmbeddedResource Include="Properties\KeyboardLocalizationResources.en.resx" />
+    <EmbeddedResource Include="Properties\KeyboardLocalizationResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>KeyboardLocalizationResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\CommonUI.Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

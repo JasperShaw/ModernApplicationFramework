@@ -1,7 +1,7 @@
 using System;
-using System.Globalization;
 using System.Text;
 using System.Windows.Input;
+using ModernApplicationFramework.Core.Localization;
 
 namespace ModernApplicationFramework.CommandBase.Input
 {
@@ -22,15 +22,13 @@ namespace ModernApplicationFramework.CommandBase.Input
         public override string ToString()
         {
             var builder = new StringBuilder();
-            var modifierName =
-                (string)
-                new ModifierKeysConverter().ConvertTo(null, CultureInfo.CurrentUICulture, Modifiers,
-                    typeof(string));
+            var modifierName = KeyboardLocalizationUtilities.GetCultureModifierName(Modifiers);
 
 
             if (Modifiers != ModifierKeys.None)
                 builder.Append($"{modifierName}+");
-            builder.Append(Key);
+
+            builder.Append(KeyboardLocalizationUtilities.GetKeyCultureName(Key));
             return builder.ToString();
         }
     }

@@ -21,7 +21,7 @@ namespace ModernApplicationFramework.Controls.TextBoxes
         /// Handles an input violation.
         /// </summary>
         protected abstract void HandleError();
-
+        
         protected override void OnPreviewTextChanged(PreviewTextChangedEventArgs e)
         {
             if (e.Type == TextChangedType.Delete)

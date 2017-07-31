@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
+using ModernApplicationFramework.Core.Localization;
 
 namespace ModernApplicationFramework.CommandBase.Input
 {
@@ -52,9 +53,13 @@ namespace ModernApplicationFramework.CommandBase.Input
             if (!(value is MultiKeyGesture gesture))
                 throw new InvalidCastException();
 
-            var sb = new StringBuilder();        
+            var sb = new StringBuilder();
             if (gesture.GestureCollection == null || gesture.GestureCollection.Count == 0)
-                return gesture.GetDisplayStringForCulture(CultureInfo.CurrentCulture);
+            {
+                if (gesture.Modifiers == ModifierKeys.None)
+                    return gesture.Key.ToString();
+                return KeyboardLocalizationUtilities.GetCultureModifierName(gesture.Modifiers) + "+" + gesture.Key;
+            }
 
 
             foreach (var i in gesture.GestureCollection)

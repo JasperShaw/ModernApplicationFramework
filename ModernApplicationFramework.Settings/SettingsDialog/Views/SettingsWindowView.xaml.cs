@@ -1,6 +1,4 @@
-﻿using Caliburn.Micro;
-
-namespace ModernApplicationFramework.Settings.SettingsDialog.Views
+﻿namespace ModernApplicationFramework.Settings.SettingsDialog.Views
 {
     public partial class SettingsWindowView
     {

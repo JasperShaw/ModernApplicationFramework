@@ -54,6 +54,8 @@ namespace ModernApplicationFramework.CommandBase.Input
             var keyList = keys as IList<Key> ?? keys.ToList();
             if (!keyList.Any())
                 throw new ArgumentException("At least one key must be specified.", nameof(keys));
+            if (keyList.Count == 1)
+                throw new ArgumentException("Do not use this constructor for a normal key gesture", nameof(keys));
             if (keyList.Count > 2)
                 throw new ArgumentException($"Maximum input is 2 but given were: {keyList.Count}");
 
@@ -73,6 +75,8 @@ namespace ModernApplicationFramework.CommandBase.Input
                 throw new ArgumentNullException(nameof(gestureList));
             if (gestureList.Count > 2)
                 throw new ArgumentException($"Maximum input is 2 but given were: {gestureList.Count}");
+            if (gestureList.Count == 1)
+                throw new ArgumentException("Do not use this constructor for a normal key gesture", nameof(gestureList));
             if (gestureList.Count == 0)
                 throw new ArgumentException("At least one key must be specified.", nameof(gestureList));
 
@@ -165,10 +169,10 @@ namespace ModernApplicationFramework.CommandBase.Input
             _isInMultiState = false;
         }
 
-        private static bool IsModifierKey(Key key)
+        public static bool IsModifierKey(Key key)
         {
             return key == Key.LeftCtrl || key == Key.RightCtrl || key == Key.LeftShift || key == Key.RightShift ||
-                   key == Key.LeftAlt || key == Key.RightAlt || key == Key.LWin || key == Key.RWin;
+                   key == Key.LeftAlt || key == Key.RightAlt;
         }
 
         public static bool IsDefinedKey(Key key)

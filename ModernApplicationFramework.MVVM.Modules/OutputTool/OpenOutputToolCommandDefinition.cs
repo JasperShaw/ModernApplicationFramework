@@ -40,7 +40,7 @@ namespace ModernApplicationFramework.Extended.Modules.OutputTool
             var command = new UICommand(Open, CanOpen);
             Command = command;
 
-            DefaultKeyGesture = new MultiKeyGesture(new[] { Key.O }, ModifierKeys.Control | ModifierKeys.Alt);
+            DefaultKeyGesture = new MultiKeyGesture(Key.O, ModifierKeys.Control | ModifierKeys.Alt);
             DefaultGestureCategory = CommandGestureCategories.GlobalGestureCategory;
         }
 
