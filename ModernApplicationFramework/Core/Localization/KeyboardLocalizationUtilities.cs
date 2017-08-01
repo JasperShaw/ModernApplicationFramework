@@ -83,7 +83,7 @@ namespace ModernApplicationFramework.Core.Localization
             if (key == Key.Cancel)
                 return GetResource("Cancel");
             if (key == Key.Back)
-                return GetResource("Back");
+                return GetResource("Backspace");
             if (key == Key.Tab)
                 return GetResource("Tab");
             if (key == Key.Clear)
@@ -148,6 +148,54 @@ namespace ModernApplicationFramework.Core.Localization
                 return GetResource("Decimal");
             if (key == Key.Multiply)
                 return GetResource("Divide");
+            if (key == Key.F1)
+                return GetResource("F1");
+            if (key == Key.F2)
+                return GetResource("F2");
+            if (key == Key.F3)
+                return GetResource("F3");
+            if (key == Key.F4)
+                return GetResource("F4");
+            if (key == Key.F5)
+                return GetResource("F5");
+            if (key == Key.F6)
+                return GetResource("F6");
+            if (key == Key.F7)
+                return GetResource("F7");
+            if (key == Key.F8)
+                return GetResource("F8");
+            if (key == Key.F9)
+                return GetResource("F9");
+            if (key == Key.F10)
+                return GetResource("F10");
+            if (key == Key.F11)
+                return GetResource("F11");
+            if (key == Key.F12)
+                return GetResource("F12");
+            if (key == Key.F13)
+                return GetResource("F13");
+            if (key == Key.F14)
+                return GetResource("F14");
+            if (key == Key.F15)
+                return GetResource("F15");
+            if (key == Key.F16)
+                return GetResource("F16");
+            if (key == Key.F17)
+                return GetResource("F17");
+            if (key == Key.F18)
+                return GetResource("F18");
+            if (key == Key.F19)
+                return GetResource("F19");
+            if (key == Key.F20)
+                return GetResource("F20");
+            if (key == Key.F21)
+                return GetResource("F21");
+            if (key == Key.F22)
+                return GetResource("F22");
+            if (key == Key.F23)
+                return GetResource("F23");
+            if (key == Key.F24)
+                return GetResource("F24"); 
             return string.Empty;
         }
 

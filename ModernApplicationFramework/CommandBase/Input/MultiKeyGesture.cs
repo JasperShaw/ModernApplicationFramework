@@ -32,7 +32,16 @@ namespace ModernApplicationFramework.CommandBase.Input
 
         public bool WasFoundDuringMulti { get; set; }
 
-        public IList<KeySequence> GestureCollection { get; }
+        public IList<KeySequence> GestureCollection { get; } = new List<KeySequence>();
+
+        /// <summary>
+        /// Indicating whether this gesture is a real multi key gesture.
+        /// A real multi key gesture is considered to have exactly two key sequences.
+        /// <remarks>
+        /// This indication is required as the property values <see cref="GestureCollection"/>, <see cref="MultiKeyGesture.Modifiers"/> and <see cref="MultiKeyGesture.Key"/>
+        /// </remarks>
+        /// </summary>
+        public bool IsRealMultiKeyGesture => GestureCollection.Count == 2;
 
         static MultiKeyGesture()
         {
@@ -97,7 +106,7 @@ namespace ModernApplicationFramework.CommandBase.Input
                 return true;
             }
 
-            if (!_isInMultiState && (GestureCollection == null || GestureCollection.Count == 0))
+            if (!_isInMultiState && !IsRealMultiKeyGesture)
                 return base.Matches(targetElement, inputEventArgs);
 
 

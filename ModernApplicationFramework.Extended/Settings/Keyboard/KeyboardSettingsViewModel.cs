@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Data;
@@ -32,6 +33,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         private CommandDefinition _selectedCommand;
         private CategoryKeyGesture _selectedGestureBinding;
         private CommandGestureCategory _selectedCategory;
+        private string _gestureInput;
         public override uint SortOrder => 15;
         public override string Name => "Keyboard";
         public override ISettingsCategory Category => SettingsCategories.EnvironmentCategory;
@@ -39,7 +41,8 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
 
         public ICommand ShowBindings => new Command(ExecuteMethod);
         public ICommand RemoveSelectedBinding => new UICommand(ExecuteRemoveBinding, CanExecuteRemoveBinding);
-
+        public ICommand AssignGesture => new UICommand(ExecuteAssignGesture, CanAssignGesture);
+        
         public CommandDefinitionViewSource CollViewSource { get; set; }
         
         public IObservableCollection<CommandGestureCategory> Categories { get; }
@@ -118,6 +121,18 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
             }
         }
 
+        public string GestureInput
+        {
+            get => _gestureInput;
+            set
+            {
+                if (Equals(value, _gestureInput))
+                    return;
+                _gestureInput = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         [ImportingConstructor]
         public KeyboardSettingsViewModel(ISettingsManager settingsManager,
@@ -165,6 +180,17 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         {
             AvailableGestureBindings = SelectedCommand.Gestures;
             SelectedGestureBinding = SelectedCommand.Gestures.Count > 0 ? SelectedCommand.Gestures[0] : null;
+        }
+
+        private bool CanAssignGesture()
+        {
+            return !string.IsNullOrEmpty(GestureInput);
+        }
+
+        private void ExecuteAssignGesture()
+        {
+            var c = new MultiKeyGestureConverter();
+            var g = (MultiKeyGesture) c.ConvertFrom(null, CultureInfo.CurrentCulture, GestureInput);
         }
 
         private void ExecuteMethod()

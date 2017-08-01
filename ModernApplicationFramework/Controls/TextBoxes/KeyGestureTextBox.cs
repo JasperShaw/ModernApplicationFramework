@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Input;
 using ModernApplicationFramework.CommandBase.Input;
 using ModernApplicationFramework.Native.NativeMethods;
@@ -18,6 +19,12 @@ namespace ModernApplicationFramework.Controls.TextBoxes
             _keySequences = new KeySequence[2];
         }
 
+        protected override void OnSelectionChanged(RoutedEventArgs e)
+        {
+            e.Handled = true;
+            base.OnSelectionChanged(e);
+        }
+        
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
             if (e.Key == Key.Back && NativeMethods.ModifierKeys == ModifierKeys.None)

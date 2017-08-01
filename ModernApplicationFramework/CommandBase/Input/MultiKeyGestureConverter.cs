@@ -30,19 +30,54 @@ namespace ModernApplicationFramework.CommandBase.Input
         }
 
         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
-        {
-            var keyStrokes = (value as string)?.Split(',');
-            var firstKeyStroke = keyStrokes?[0];
-            var firstKeyStrokeParts = firstKeyStroke?.Split('+');
+        {     
+            if (!(value is string input))
+                throw new InvalidCastException("Only strings can be converted to a MultiKeyGesture");
+            input = input.Trim();
+            if (string.IsNullOrEmpty(input))
+                return new MultiKeyGesture(Key.None);
+            
+            var keyStrokes = input.Split(',');
+            
+            //Since ',' is a valid KeyGesture char we need to re-add it if it was lost by the split() operation
+            for (int i = 1; i < keyStrokes.Length; i++)
+                if (string.IsNullOrEmpty(keyStrokes[i]))
+                    keyStrokes[i - 1] += ",";
 
-            var modifierKeys = (ModifierKeys)_modifierKeysConverter.ConvertFrom(firstKeyStrokeParts[0]);
-            var keys = new List<Key> {(Key) _keyConverter.ConvertFrom(firstKeyStrokeParts[1])};
+            //Remove any possible gaps in the array
+            var sequences = keyStrokes.Where(x => !string.IsNullOrEmpty(x)).ToList();
+
+            foreach (var sequence in sequences)
+            {
+                var lastDelimiterIndex = sequence.LastIndexOf('+');
+
+                if (lastDelimiterIndex >= 0)
+                {
+                    if (lastDelimiterIndex == sequence.Length - 1)
+                        lastDelimiterIndex--;
+
+                    var modifiers = sequence.Substring(0, lastDelimiterIndex);
+                    var key = sequence.Substring(lastDelimiterIndex + 1);
+
+                }
+                else
+                {
+                    //Single Key without modifiers
+                }
+                    
+            }
+
+            //var firstKeyStroke = keyStrokes?[0];
+            //var firstKeyStrokeParts = firstKeyStroke?.Split('+');
+
+            //var modifierKeys = (ModifierKeys)_modifierKeysConverter.ConvertFrom(firstKeyStrokeParts[0]);
+            //var keys = new List<Key> {(Key) _keyConverter.ConvertFrom(firstKeyStrokeParts[1])};
 
 
-            for (var i = 1; i < keyStrokes?.Length; ++i)
-                keys.Add((Key)_keyConverter.ConvertFrom(keyStrokes[i]));
+            //for (var i = 1; i < keyStrokes?.Length; ++i)
+            //    keys.Add((Key)_keyConverter.ConvertFrom(keyStrokes[i]));
 
-            return new MultiKeyGesture(keys, modifierKeys);
+            return new MultiKeyGesture(Key.None);
         }
 
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
@@ -54,11 +89,12 @@ namespace ModernApplicationFramework.CommandBase.Input
                 throw new InvalidCastException();
 
             var sb = new StringBuilder();
-            if (gesture.GestureCollection == null || gesture.GestureCollection.Count == 0)
+            if (!gesture.IsRealMultiKeyGesture)
             {
                 if (gesture.Modifiers == ModifierKeys.None)
-                    return gesture.Key.ToString();
-                return KeyboardLocalizationUtilities.GetCultureModifierName(gesture.Modifiers) + "+" + gesture.Key;
+                    return KeyboardLocalizationUtilities.GetKeyCultureName(gesture.Key);
+                return KeyboardLocalizationUtilities.GetCultureModifierName(gesture.Modifiers) + "+" +
+                       KeyboardLocalizationUtilities.GetKeyCultureName(gesture.Key);
             }
 
 

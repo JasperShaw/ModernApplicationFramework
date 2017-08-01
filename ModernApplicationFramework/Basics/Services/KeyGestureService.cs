@@ -229,8 +229,8 @@ namespace ModernApplicationFramework.Basics.Services
                 // Get the current pressed Keys
                 var ks = _oldKeySequence = new KeySequence(NativeMethods.ModifierKeys, e.Key);
 
-                foreach (var gesture in _keyboardShortcuts.SelectMany(x => x.KeyGestures))
-                    if (ks.Modifiers == gesture.GestureCollection?[0].Modifiers &&
+                foreach (var gesture in _keyboardShortcuts.SelectMany(x => x.KeyGestures).Where(x => x.IsRealMultiKeyGesture))
+                    if (ks.Modifiers == gesture.GestureCollection[0].Modifiers &&
                         ks.Key == gesture.GestureCollection[0].Key)
                         _possibleMultiGestures.Add(gesture);
                 if (_possibleMultiGestures.Count == 0)
