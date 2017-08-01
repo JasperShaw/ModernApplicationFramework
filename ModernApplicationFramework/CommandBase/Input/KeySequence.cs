@@ -22,7 +22,7 @@ namespace ModernApplicationFramework.CommandBase.Input
         public override string ToString()
         {
             var builder = new StringBuilder();
-            var modifierName = KeyboardLocalizationUtilities.GetCultureModifierName(Modifiers);
+            var modifierName = KeyboardLocalizationUtilities.GetCultureModifiersName(Modifiers);
 
 
             if (Modifiers != ModifierKeys.None)

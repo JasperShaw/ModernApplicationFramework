@@ -15,15 +15,6 @@ namespace ModernApplicationFramework.CommandBase.Input
     /// </summary>
     public class MultiKeyGestureConverter : TypeConverter
     {
-        private readonly KeyConverter _keyConverter;
-        private readonly ModifierKeysConverter _modifierKeysConverter;
-
-        public MultiKeyGestureConverter()
-        {
-            _keyConverter = new KeyConverter();
-            _modifierKeysConverter = new ModifierKeysConverter();
-        }
-
         public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
         {
             return sourceType == typeof(string);
@@ -45,39 +36,36 @@ namespace ModernApplicationFramework.CommandBase.Input
                     keyStrokes[i - 1] += ",";
 
             //Remove any possible gaps in the array
-            var sequences = keyStrokes.Where(x => !string.IsNullOrEmpty(x)).ToList();
-
-            foreach (var sequence in sequences)
+            var rawSequences = keyStrokes.Where(x => !string.IsNullOrEmpty(x)).ToList();
+            var sequences = new List<KeySequence>();       
+            foreach (var sequence in rawSequences)
             {
                 var lastDelimiterIndex = sequence.LastIndexOf('+');
-
+                string modifierString = string.Empty;
+                string keyString;
+                
                 if (lastDelimiterIndex >= 0)
                 {
                     if (lastDelimiterIndex == sequence.Length - 1)
-                        lastDelimiterIndex--;
-
-                    var modifiers = sequence.Substring(0, lastDelimiterIndex);
-                    var key = sequence.Substring(lastDelimiterIndex + 1);
-
+                    {
+                        if (sequence.Contains(KeyboardLocalizationUtilities.GetKeyCultureName(Key.OemPlus)))
+                            lastDelimiterIndex = sequence.LastIndexOf('+', lastDelimiterIndex - 1);
+                        else
+                            lastDelimiterIndex--;
+                    }
+                    modifierString = sequence.Substring(0, lastDelimiterIndex);
+                    keyString = sequence.Substring(lastDelimiterIndex + 1);
                 }
                 else
-                {
-                    //Single Key without modifiers
-                }
-                    
+                    keyString = sequence;
+
+                var modifiers = ModifiersFromString(modifierString, culture);
+                var key = KeyFromString(keyString, culture);
+                sequences.Add(new KeySequence(modifiers, key));
             }
-
-            //var firstKeyStroke = keyStrokes?[0];
-            //var firstKeyStrokeParts = firstKeyStroke?.Split('+');
-
-            //var modifierKeys = (ModifierKeys)_modifierKeysConverter.ConvertFrom(firstKeyStrokeParts[0]);
-            //var keys = new List<Key> {(Key) _keyConverter.ConvertFrom(firstKeyStrokeParts[1])};
-
-
-            //for (var i = 1; i < keyStrokes?.Length; ++i)
-            //    keys.Add((Key)_keyConverter.ConvertFrom(keyStrokes[i]));
-
-            return new MultiKeyGesture(Key.None);
+            if (sequences.Count == 1)
+                return new MultiKeyGesture(sequences[0].Key, sequences[0].Modifiers);      
+            return new MultiKeyGesture(sequences);
         }
 
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
@@ -93,7 +81,7 @@ namespace ModernApplicationFramework.CommandBase.Input
             {
                 if (gesture.Modifiers == ModifierKeys.None)
                     return KeyboardLocalizationUtilities.GetKeyCultureName(gesture.Key);
-                return KeyboardLocalizationUtilities.GetCultureModifierName(gesture.Modifiers) + "+" +
+                return KeyboardLocalizationUtilities.GetCultureModifiersName(gesture.Modifiers) + "+" +
                        KeyboardLocalizationUtilities.GetKeyCultureName(gesture.Key);
             }
 
@@ -118,5 +106,23 @@ namespace ModernApplicationFramework.CommandBase.Input
                 return false;
             return true;
         }
+
+        private static Key KeyFromString(string keyString, CultureInfo culture)
+        {
+            if (string.IsNullOrEmpty(keyString))
+                return Key.None;
+            return KeyboardLocalizationUtilities.CultureStringToKey(keyString.ToLower(), culture);
+        }
+
+        private static ModifierKeys ModifiersFromString(string modifierString, CultureInfo culture)
+        {
+            if (string.IsNullOrEmpty(modifierString))
+                return ModifierKeys.None;
+            var modifiers = modifierString.Split('+');
+            return modifiers.Aggregate(ModifierKeys.None,
+                (current, modifier) =>
+                    current | KeyboardLocalizationUtilities.SingleStringToModifierKey(modifier, culture));
+        }
+
     }
 }

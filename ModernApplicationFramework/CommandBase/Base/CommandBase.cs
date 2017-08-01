@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -38,6 +39,7 @@ namespace ModernApplicationFramework.CommandBase.Base
             CanExecuteMethod = canExecuteMethod;
         }
 
+        [DebuggerHidden]
         async void ICommand.Execute(object parameter)
         {
             await Execute(parameter);
