@@ -169,6 +169,222 @@ namespace ModernApplicationFramework.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die F1 ähnelt.
+        /// </summary>
+        public static string KeyboardKey_F1 {
+            get {
+                return ResourceManager.GetString("KeyboardKey_F1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die F10 ähnelt.
+        /// </summary>
+        public static string KeyboardKey_F10 {
+            get {
+                return ResourceManager.GetString("KeyboardKey_F10", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die F11 ähnelt.
+        /// </summary>
+        public static string KeyboardKey_F11 {
+            get {
+                return ResourceManager.GetString("KeyboardKey_F11", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die F12 ähnelt.
+        /// </summary>
+        public static string KeyboardKey_F12 {
+            get {
+                return ResourceManager.GetString("KeyboardKey_F12", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die F13 ähnelt.
+        /// </summary>
+        public static string KeyboardKey_F13 {
+            get {
+                return ResourceManager.GetString("KeyboardKey_F13", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die F14 ähnelt.
+        /// </summary>
+        public static string KeyboardKey_F14 {
+            get {
+                return ResourceManager.GetString("KeyboardKey_F14", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die F15 ähnelt.
+        /// </summary>
+        public static string KeyboardKey_F15 {
+            get {
+                return ResourceManager.GetString("KeyboardKey_F15", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die F16 ähnelt.
+        /// </summary>
+        public static string KeyboardKey_F16 {
+            get {
+                return ResourceManager.GetString("KeyboardKey_F16", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die F17 ähnelt.
+        /// </summary>
+        public static string KeyboardKey_F17 {
+            get {
+                return ResourceManager.GetString("KeyboardKey_F17", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die F18 ähnelt.
+        /// </summary>
+        public static string KeyboardKey_F18 {
+            get {
+                return ResourceManager.GetString("KeyboardKey_F18", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die F19 ähnelt.
+        /// </summary>
+        public static string KeyboardKey_F19 {
+            get {
+                return ResourceManager.GetString("KeyboardKey_F19", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die F2 ähnelt.
+        /// </summary>
+        public static string KeyboardKey_F2 {
+            get {
+                return ResourceManager.GetString("KeyboardKey_F2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die F20 ähnelt.
+        /// </summary>
+        public static string KeyboardKey_F20 {
+            get {
+                return ResourceManager.GetString("KeyboardKey_F20", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die F21 ähnelt.
+        /// </summary>
+        public static string KeyboardKey_F21 {
+            get {
+                return ResourceManager.GetString("KeyboardKey_F21", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die F22 ähnelt.
+        /// </summary>
+        public static string KeyboardKey_F22 {
+            get {
+                return ResourceManager.GetString("KeyboardKey_F22", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die F23 ähnelt.
+        /// </summary>
+        public static string KeyboardKey_F23 {
+            get {
+                return ResourceManager.GetString("KeyboardKey_F23", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die F24 ähnelt.
+        /// </summary>
+        public static string KeyboardKey_F24 {
+            get {
+                return ResourceManager.GetString("KeyboardKey_F24", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die F3 ähnelt.
+        /// </summary>
+        public static string KeyboardKey_F3 {
+            get {
+                return ResourceManager.GetString("KeyboardKey_F3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die F4 ähnelt.
+        /// </summary>
+        public static string KeyboardKey_F4 {
+            get {
+                return ResourceManager.GetString("KeyboardKey_F4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die F5 ähnelt.
+        /// </summary>
+        public static string KeyboardKey_F5 {
+            get {
+                return ResourceManager.GetString("KeyboardKey_F5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die F6 ähnelt.
+        /// </summary>
+        public static string KeyboardKey_F6 {
+            get {
+                return ResourceManager.GetString("KeyboardKey_F6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die F7 ähnelt.
+        /// </summary>
+        public static string KeyboardKey_F7 {
+            get {
+                return ResourceManager.GetString("KeyboardKey_F7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die F8 ähnelt.
+        /// </summary>
+        public static string KeyboardKey_F8 {
+            get {
+                return ResourceManager.GetString("KeyboardKey_F8", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die F9 ähnelt.
+        /// </summary>
+        public static string KeyboardKey_F9 {
+            get {
+                return ResourceManager.GetString("KeyboardKey_F9", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Ins ähnelt.
         /// </summary>
         public static string KeyboardKey_Insert {
