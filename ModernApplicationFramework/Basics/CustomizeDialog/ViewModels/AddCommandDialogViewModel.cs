@@ -6,7 +6,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Basics.CustomizeDialog.Views;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.ViewModels;
 

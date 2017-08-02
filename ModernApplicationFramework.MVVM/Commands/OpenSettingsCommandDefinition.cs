@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.MVVM.ViewModels;
 
 namespace ModernApplicationFramework.MVVM.Commands

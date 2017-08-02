@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using ModernApplicationFramework.Input.Base;
 
-namespace ModernApplicationFramework.CommandBase
+namespace ModernApplicationFramework.Input.Command
 {
     /// <inheritdoc />
     /// <summary>
     /// An <see cref="ICommand" /> whose delegates do not take any parameters for <see cref="Execute" /> and <see cref="CanExecute" />.
     /// </summary>
     /// <see cref="N:ModernApplicationFramework.CommandBase" />
-    /// <see cref="T:ModernApplicationFramework.CommandBase.Command" />
-    public class Command : Base.CommandBase
+    /// <see cref="T:ModernApplicationFramework.Input.Command.Command" />
+    public class Command : CommandBase
     {
         /// <inheritdoc />
         /// <summary>
-        /// Creates a new instance of <see cref="T:ModernApplicationFramework.CommandBase.Command" /> with the <see cref="T:System.Action" /> to invoke on execution.
+        /// Creates a new instance of <see cref="T:ModernApplicationFramework.Input.Command.Command" /> with the <see cref="T:System.Action" /> to invoke on execution.
         /// </summary>
         /// <param name="executeMethod">The <see cref="T:System.Action" /> to invoke when <see cref="M:System.Windows.Input.ICommand.Execute(System.Object)" /> is called.</param>
         public Command(Action executeMethod) : this(executeMethod, () => true) {}

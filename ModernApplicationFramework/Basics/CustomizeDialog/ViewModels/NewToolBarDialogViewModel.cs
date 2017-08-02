@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Windows;
 using Caliburn.Micro;
-using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.Interfaces.Views;
 

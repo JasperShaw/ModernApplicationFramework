@@ -3,9 +3,9 @@ using System.ComponentModel.Composition;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls.ComboBox;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest;
 

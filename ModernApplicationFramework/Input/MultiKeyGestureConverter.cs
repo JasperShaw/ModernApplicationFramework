@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Input;
 using ModernApplicationFramework.Core.Localization;
 
-namespace ModernApplicationFramework.CommandBase.Input
+namespace ModernApplicationFramework.Input
 {
     /// <inheritdoc />
     /// <summary>

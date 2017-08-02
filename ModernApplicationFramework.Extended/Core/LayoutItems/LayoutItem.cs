@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.UndoRedoManager;
-using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Extended.Commands;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Extended.Core.LayoutItems

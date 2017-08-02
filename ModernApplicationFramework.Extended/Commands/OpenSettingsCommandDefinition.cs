@@ -3,9 +3,9 @@ using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.CommandBase;
-using ModernApplicationFramework.CommandBase.Input;
 using ModernApplicationFramework.Extended.Properties;
+using ModernApplicationFramework.Input;
+using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Settings.SettingsDialog.ViewModels;
 
 namespace ModernApplicationFramework.Extended.Commands

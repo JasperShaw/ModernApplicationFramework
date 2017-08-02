@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
-using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.Interfaces.Views;
 

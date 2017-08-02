@@ -1,14 +1,13 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.CommandBase;
-using ModernApplicationFramework.CommandBase.Input;
 using ModernApplicationFramework.Extended.Core;
 using ModernApplicationFramework.Extended.Properties;
+using ModernApplicationFramework.Input;
+using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Extended.Commands

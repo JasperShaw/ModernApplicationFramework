@@ -5,9 +5,9 @@ using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
-using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Controls.Internals;
 using ModernApplicationFramework.Controls.Menu;
+using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
 

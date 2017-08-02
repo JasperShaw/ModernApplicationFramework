@@ -4,9 +4,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
-using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Interfaces.ViewModels;
 

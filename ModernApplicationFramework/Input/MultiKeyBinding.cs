@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Windows.Input;
 using System.Windows.Markup;
 
-namespace ModernApplicationFramework.CommandBase.Input
+namespace ModernApplicationFramework.Input
 {
     public class MultiKeyBinding : InputBinding
     {

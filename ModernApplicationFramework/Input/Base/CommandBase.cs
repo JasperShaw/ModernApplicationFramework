@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace ModernApplicationFramework.CommandBase.Base
+namespace ModernApplicationFramework.Input.Base
 {
     /// <inheritdoc />
     /// <summary>

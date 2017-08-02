@@ -22,10 +22,10 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
-using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Docking.Converters;
 using ModernApplicationFramework.Docking.Layout;
+using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.Docking.Controls
 {

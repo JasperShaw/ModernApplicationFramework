@@ -2,7 +2,7 @@
 using System.Windows.Input;
 using Action = System.Action;
 
-namespace ModernApplicationFramework.CommandBase
+namespace ModernApplicationFramework.Input.Command
 {
     public class UICommand : AbstractCommandWrapper
     {

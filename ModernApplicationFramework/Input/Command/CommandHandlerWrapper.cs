@@ -4,7 +4,7 @@ using System.Reflection;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Interfaces.Command;
 
-namespace ModernApplicationFramework.CommandBase
+namespace ModernApplicationFramework.Input.Command
 {
     /// <summary>
     /// Wraps a generic <see cref="ICommandHandler{TCommandDefinition}"/> or <see cref="ICommandListHandler{TCommandDefinition}"/> 

@@ -2,15 +2,16 @@
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using ModernApplicationFramework.Input.Base;
 
-namespace ModernApplicationFramework.CommandBase
+namespace ModernApplicationFramework.Input.Command
 {
     /// <inheritdoc />
     /// <summary>
     /// Abstract <see cref="ICommand" /> whose delegates can be attached for <see cref="Execute" /> and <see cref="CanExecute" />.
     /// </summary>
     /// <typeparam name="T">Parameter type.</typeparam>
-    public abstract class Command<T> : Base.CommandBase
+    public abstract class Command<T> : CommandBase
     {
         protected Command(Action<T> executeMethod, Func<T, bool> canExecuteMethod)
             : base(o => executeMethod((T) o), o => canExecuteMethod((T) o))

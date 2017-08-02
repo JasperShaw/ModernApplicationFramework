@@ -232,20 +232,20 @@
     <Compile Include="Basics\ApplicationEnvironment\FallbackEnvironmentVarirables.cs" />
     <Compile Include="Basics\Definitions\Command\ExcludedCommandDefinition.cs" />
     <Compile Include="Basics\Services\KeyboardInputService.cs" />
-    <Compile Include="CommandBase\Input\CategoryGestureMapping.cs" />
-    <Compile Include="CommandBase\Input\CommandDefinitionGestureMappingStore.cs" />
-    <Compile Include="CommandBase\Input\GestureCollection.cs" />
+    <Compile Include="Input\CategoryGestureMapping.cs" />
+    <Compile Include="Input\CommandDefinitionGestureMappingStore.cs" />
+    <Compile Include="Input\GestureCollection.cs" />
     <Compile Include="Basics\Services\InternalApplicationIconService.cs" />
     <Compile Include="Basics\Services\BasicStatusBarService.cs" />
-    <Compile Include="CommandBase\CommandGestureCategories.cs" />
-    <Compile Include="CommandBase\CommandGestureCategory.cs" />
-    <Compile Include="CommandBase\ICanHaveInputBindings.cs" />
-    <Compile Include="CommandBase\Input\GestureCollectionChangedEventArgs.cs" />
-    <Compile Include="CommandBase\Input\GestureCollectionChangedType.cs" />
-    <Compile Include="CommandBase\Input\KeySequence.cs" />
-    <Compile Include="CommandBase\Input\MultiKeyBinding.cs" />
-    <Compile Include="CommandBase\Input\MultiKeyGestureValueSerializer.cs" />
-    <Compile Include="CommandBase\UICommand.cs" />
+    <Compile Include="Input\Command\CommandGestureCategories.cs" />
+    <Compile Include="Input\Command\CommandGestureCategory.cs" />
+    <Compile Include="Input\Command\ICanHaveInputBindings.cs" />
+    <Compile Include="Input\GestureCollectionChangedEventArgs.cs" />
+    <Compile Include="Input\GestureCollectionChangedType.cs" />
+    <Compile Include="Input\KeySequence.cs" />
+    <Compile Include="Input\MultiKeyBinding.cs" />
+    <Compile Include="Input\MultiKeyGestureValueSerializer.cs" />
+    <Compile Include="Input\Command\UICommand.cs" />
     <Compile Include="Controls\ComboBox\ComboBoxItemsWrapper.cs" />
     <Compile Include="Controls\TextBoxes\KeyGestureTextBox.cs" />
     <Compile Include="Core\Comparers\CategoryCommandTextComparer.cs" />
@@ -297,7 +297,7 @@
     <Compile Include="Basics\Definitions\CommandBar\CommandBarItemDefinitionT.cs" />
     <Compile Include="Basics\EnvironmentGeneralOptions.cs" />
     <Compile Include="Basics\EnvironmentRenderCapabilities.cs" />
-    <Compile Include="CommandBase\ObjectCommand.cs" />
+    <Compile Include="Input\Command\ObjectCommand.cs" />
     <Compile Include="Controls\Dialogs\DialogResourcesResources.de.Designer.cs">
       <DependentUpon>DialogResourcesResources.de.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -417,13 +417,13 @@
     <Compile Include="Basics\CommandBar\Commands\CustomizeMenuCommandDefinition.cs" />
     <Compile Include="Basics\CommandBar\Commands\ListToolBarsCommandListDefinition.cs" />
     <Compile Include="Basics\CommandBar\Commands\ShowToolBarListCommandHandler.cs" />
-    <Compile Include="CommandBase\CommandHandlerWrapper.cs" />
+    <Compile Include="Input\Command\CommandHandlerWrapper.cs" />
     <Compile Include="Basics\Definitions\Command\CommandListDefintion.cs" />
-    <Compile Include="CommandBase\AbstractCommandWrapper.cs" />
+    <Compile Include="Input\Command\AbstractCommandWrapper.cs" />
     <Compile Include="Basics\Definitions\Command\CommandDefinitionBase.cs" />
     <Compile Include="Basics\Definitions\Command\CommandDefinition.cs" />
-    <Compile Include="CommandBase\Input\MultiKeyGesture.cs" />
-    <Compile Include="CommandBase\Input\MultiKeyGestureConverter.cs" />
+    <Compile Include="Input\MultiKeyGesture.cs" />
+    <Compile Include="Input\MultiKeyGestureConverter.cs" />
     <Compile Include="Basics\Services\CommandService.cs" />
     <Compile Include="Controls\Buttons\CommandDefinitionButton.cs" />
     <Compile Include="Controls\ListBoxes\CustomizeControlsListBox.cs" />
@@ -487,10 +487,10 @@
     <Compile Include="Interfaces\Command\ICommandListHandler.cs" />
     <Compile Include="Interfaces\Command\ICommandRouter.cs" />
     <Compile Include="Interfaces\Services\ICommandService.cs" />
-    <Compile Include="CommandBase\Command.cs" />
-    <Compile Include="CommandBase\Base\CommandBase.cs" />
-    <Compile Include="CommandBase\CommandT.cs" />
-    <Compile Include="CommandBase\Base\WeakEventHandlerManager.cs" />
+    <Compile Include="Input\Command\Command.cs" />
+    <Compile Include="Input\Base\CommandBase.cs" />
+    <Compile Include="Input\Command\CommandT.cs" />
+    <Compile Include="Input\Base\WeakEventHandlerManager.cs" />
     <Compile Include="Controls\Buttons\Button.cs" />
     <Compile Include="Controls\ListBoxes\CheckableListBox.cs" />
     <Compile Include="Controls\ListBoxes\CheckableListBoxItem.cs" />
@@ -1190,6 +1190,9 @@
       <Project>{2b388979-5b07-4f0a-a302-0c575aaa21c0}</Project>
       <Name>ModernApplicationFramework.Utilities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="CommandBase\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.3.4.224\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.3.4.224\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />

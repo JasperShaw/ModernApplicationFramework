@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using System.Windows;
+
 using System.Windows.Input;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Services;
-using ModernApplicationFramework.CommandBase;
-using ModernApplicationFramework.CommandBase.Input;
+using ModernApplicationFramework.Input;
+using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.Interfaces.Services
 {

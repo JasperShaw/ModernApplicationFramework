@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.Extended.TestWindow.UndoRedoTest
 {

@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
-using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Extended.Core.Pane;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.Extended.Core.LayoutItems
 {

@@ -18,8 +18,8 @@ using System;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
-using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Docking.Layout;
+using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.Docking.Controls
 {

@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.MVVM.Controls;

@@ -9,6 +9,6 @@ namespace ModernApplicationFramework.Interfaces.Command
     public interface ICommandHandler<TCommandDefinition> : ICommandHandler
         where TCommandDefinition : CommandDefinitionBase
     {
-        void Update(CommandBase.Command command);
+        void Update(Input.Command.Command command);
     }
 }

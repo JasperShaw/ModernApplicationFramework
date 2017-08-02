@@ -1,6 +1,6 @@
 using System.ComponentModel.Composition;
 
-namespace ModernApplicationFramework.CommandBase
+namespace ModernApplicationFramework.Input.Command
 {
     public static class CommandGestureCategories
     {

@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace ModernApplicationFramework.CommandBase.Input
+namespace ModernApplicationFramework.Input
 {
     public class GestureCollection : IList<CategoryGestureMapping>
     {

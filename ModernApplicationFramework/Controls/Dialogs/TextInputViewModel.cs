@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
-using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.Dialogs

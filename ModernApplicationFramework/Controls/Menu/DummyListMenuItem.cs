@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Controls;
 
 namespace ModernApplicationFramework.Controls.Menu

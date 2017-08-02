@@ -49,7 +49,7 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         /// <summary>
         /// The command to open a drop-down button
         /// </summary>
-        CommandBase.Command DropDownClickCommand { get; }
+        Input.Command.Command DropDownClickCommand { get; }
 
         /// <summary>
         /// A list of all tool bars that are customizable

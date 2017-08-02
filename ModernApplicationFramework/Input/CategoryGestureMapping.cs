@@ -1,7 +1,8 @@
 using System;
 using System.Globalization;
+using ModernApplicationFramework.Input.Command;
 
-namespace ModernApplicationFramework.CommandBase.Input
+namespace ModernApplicationFramework.Input
 {
     public class CategoryGestureMapping : IEquatable<CategoryGestureMapping>
     {

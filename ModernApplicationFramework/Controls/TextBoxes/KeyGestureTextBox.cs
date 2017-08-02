@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
-using ModernApplicationFramework.CommandBase.Input;
+using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Native.NativeMethods;
 
 namespace ModernApplicationFramework.Controls.TextBoxes

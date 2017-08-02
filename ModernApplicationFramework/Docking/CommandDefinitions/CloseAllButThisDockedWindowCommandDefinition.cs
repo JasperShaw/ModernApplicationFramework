@@ -3,9 +3,9 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.CommandBase;
-using ModernApplicationFramework.CommandBase.Input;
 using ModernApplicationFramework.Docking.Layout;
+using ModernApplicationFramework.Input;
+using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.Docking.CommandDefinitions
 {

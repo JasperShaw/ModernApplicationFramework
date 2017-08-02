@@ -5,10 +5,10 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Caliburn.Micro;
-using ModernApplicationFramework.CommandBase;
-using ModernApplicationFramework.CommandBase.Input;
 using ModernApplicationFramework.Core.Converters.AccessKey;
-using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Input;
+using ModernApplicationFramework.Input.Command;
+
 using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Basics.Definitions.Command

@@ -1,4 +1,4 @@
-namespace ModernApplicationFramework.CommandBase
+namespace ModernApplicationFramework.Input.Command
 {
     public class CommandGestureCategory
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Input;
 using System.Windows.Markup;
 
-namespace ModernApplicationFramework.CommandBase.Input
+namespace ModernApplicationFramework.Input
 {
     //http://kent-boogaart.com/blog/multikeygesture
 

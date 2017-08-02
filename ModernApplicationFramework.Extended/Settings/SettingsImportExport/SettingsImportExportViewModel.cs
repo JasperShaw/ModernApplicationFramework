@@ -2,7 +2,7 @@
 using System.IO;
 using System.Windows.Input;
 using Microsoft.Win32;
-using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Settings;
 using ModernApplicationFramework.Settings.Interfaces;

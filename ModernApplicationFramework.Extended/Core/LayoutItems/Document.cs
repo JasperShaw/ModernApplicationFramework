@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Win32;
-using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.Extended.Core.LayoutItems
 {

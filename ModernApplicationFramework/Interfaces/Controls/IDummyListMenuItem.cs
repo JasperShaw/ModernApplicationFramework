@@ -1,5 +1,5 @@
 ﻿using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.Interfaces.Controls
 {

@@ -7,8 +7,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Command;
 
 namespace ModernApplicationFramework.Extended.Core

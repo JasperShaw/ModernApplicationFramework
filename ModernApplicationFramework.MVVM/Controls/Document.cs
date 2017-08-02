@@ -6,6 +6,7 @@ using Caliburn.Micro;
 using Microsoft.Win32;
 using ModernApplicationFramework.Basics.UndoRedoManager;
 using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.MVVM.Core;
 using ModernApplicationFramework.MVVM.Interfaces;

@@ -3,10 +3,10 @@ using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.CommandBase;
-using ModernApplicationFramework.CommandBase.Input;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Properties;
+using ModernApplicationFramework.Input;
+using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.Extended.Commands
 {

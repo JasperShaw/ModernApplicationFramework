@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ModernApplicationFramework.CommandBase.Input
+namespace ModernApplicationFramework.Input
 {
     public class GestureCollectionChangedEventArgs : EventArgs
     {

@@ -1,8 +1,8 @@
 ﻿using System;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Input.Command;
 
-namespace ModernApplicationFramework.Basics
+namespace ModernApplicationFramework.Input
 {
     internal struct CommandCategoryKey : IEquatable<CommandCategoryKey>
     {

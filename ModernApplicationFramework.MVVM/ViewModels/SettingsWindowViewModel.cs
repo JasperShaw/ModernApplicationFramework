@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.MVVM.Interfaces;
 
 namespace ModernApplicationFramework.MVVM.ViewModels

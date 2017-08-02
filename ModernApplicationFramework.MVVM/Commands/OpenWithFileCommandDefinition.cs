@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.MVVM.Core;
 using ModernApplicationFramework.MVVM.Core.CommandArguments;
 using ModernApplicationFramework.MVVM.Interfaces;

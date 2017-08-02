@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
-using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.Core;
+using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Controls.Windows

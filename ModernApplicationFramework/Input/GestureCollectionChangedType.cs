@@ -1,4 +1,4 @@
-namespace ModernApplicationFramework.CommandBase.Input
+namespace ModernApplicationFramework.Input
 {
     public enum GestureCollectionChangedType
     {

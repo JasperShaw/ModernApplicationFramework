@@ -23,16 +23,16 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         /// <summary>
         /// The command to open a drop-down button
         /// </summary>
-        CommandBase.Command DropDownClickCommand { get; }
+        Input.Command.Command DropDownClickCommand { get; }
 
         /// <summary>
         /// The command to delete the selected toolbar
         /// </summary>
-        CommandBase.Command DeleteSelectedToolbarCommand { get; }
+        Input.Command.Command DeleteSelectedToolbarCommand { get; }
 
         /// <summary>
         /// The command to create a new toolbar
         /// </summary>
-        CommandBase.Command CreateNewToolbarCommand { get; }
+        Input.Command.Command CreateNewToolbarCommand { get; }
     }
 }

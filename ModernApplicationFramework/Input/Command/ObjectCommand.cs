@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace ModernApplicationFramework.CommandBase
+namespace ModernApplicationFramework.Input.Command
 {
     /// <inheritdoc />
     /// <summary>
-    /// Implementation of a <see cref="T:ModernApplicationFramework.CommandBase.Command`1" /> with a parameter of type <see langword="object" />
+    /// Implementation of a <see cref="T:ModernApplicationFramework.Input.Command.Command`1" /> with a parameter of type <see langword="object" />
     /// </summary>
     /// <seealso cref="T:System.Object" />
     public class ObjectCommand : Command<object>
