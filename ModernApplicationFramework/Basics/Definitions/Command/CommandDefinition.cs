@@ -120,7 +120,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         public IReadOnlyList<MultiKeyGesture> KeyGestures { get; private set; }
 
 
-        private void Gestures_GestursChanged(object sender, GestureChangedEventArgs e)
+        private void Gestures_GestursChanged(object sender, GestureCollectionChangedEventArgs e)
         {
             if (_gestureService == null)
                 _gestureService = IoC.Get<IKeyGestureService>();
@@ -128,13 +128,13 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
             KeyGestures = new ReadOnlyCollection<MultiKeyGesture>(Gestures.Select(x => x.KeyGesture).ToList());
             switch (e.Type)
             {
-                case GestureChangedType.Added:
-                    _gestureService.SetKeyGestures(Command ,e.CategoryKeyGesture.FirstOrDefault());
+                case GestureCollectionChangedType.Added:
+                    _gestureService.AddKeyGestures(Command ,e.CategoryKeyGesture.FirstOrDefault());
                     break;
-                case GestureChangedType.Removed:
+                case GestureCollectionChangedType.Removed:
                     _gestureService.RemoveKeyGesture(e.CategoryKeyGesture.FirstOrDefault());
                     break;
-                case GestureChangedType.Cleared:
+                case GestureCollectionChangedType.Cleared:
                     foreach (var gesture in e.CategoryKeyGesture)
                         _gestureService.RemoveKeyGesture(gesture);
                     break;

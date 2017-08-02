@@ -31,7 +31,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         private string _searchFilter;
         private GestureCollection _availableGestureCommands;
         private CommandDefinition _selectedCommand;
-        private CategoryKeyGesture _selectedGestureBinding;
+        private CategoryGestureMapping _selectedGestureBinding;
         private CommandGestureCategory _selectedCategory;
         private string _gestureInput;
         public override uint SortOrder => 15;
@@ -97,7 +97,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
             }
         }
 
-        public CategoryKeyGesture SelectedGestureBinding
+        public CategoryGestureMapping SelectedGestureBinding
         {
             get => _selectedGestureBinding;
             set
@@ -162,7 +162,6 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         }
 
 
-
         private void ExecuteRemoveBinding()
         {
             SelectedCommand.Gestures.Remove(SelectedGestureBinding);
@@ -192,7 +191,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
                 (MultiKeyGesture) new MultiKeyGestureConverter().ConvertFrom(null, CultureInfo.CurrentCulture,
                     GestureInput);
             var category = SelectedCategory;        
-            var categoryKeyGesture = new CategoryKeyGesture(category, gesture);
+            var categoryKeyGesture = new CategoryGestureMapping(category, gesture);
             SelectedCommand.Gestures.Add(categoryKeyGesture);
         }
 

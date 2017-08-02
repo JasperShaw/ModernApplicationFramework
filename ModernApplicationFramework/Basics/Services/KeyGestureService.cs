@@ -100,7 +100,7 @@ namespace ModernApplicationFramework.Basics.Services
         ///     Registers an <see cref="T:ModernApplicationFramework.CommandBase.ICanHaveInputBindings" /> to the service
         /// </summary>
         /// <param name="hostingModel">The hosting model.</param>
-        public void Add(ICanHaveInputBindings hostingModel)
+        public void AddModel(ICanHaveInputBindings hostingModel)
         {
             hostingModel.BindableElement.InputBindings.Clear();
             foreach (var commandDefinition in _keyboardShortcuts.Where(x => x.Gestures.Count > 0))
@@ -133,7 +133,7 @@ namespace ModernApplicationFramework.Basics.Services
         ///     Removes an <see cref="T:ModernApplicationFramework.CommandBase.ICanHaveInputBindings" /> from the service
         /// </summary>
         /// <param name="hostingModel">The hosting model.</param>
-        public void Remove(ICanHaveInputBindings hostingModel)
+        public void RemoveModel(ICanHaveInputBindings hostingModel)
         {
             lock (_lockObj)
             {
@@ -147,7 +147,7 @@ namespace ModernApplicationFramework.Basics.Services
             hostingModel.BindableElement?.InputBindings.Clear();
         }
 
-        public void SetKeyGestures(ICommand command, CategoryKeyGesture categoryKeyGesture)
+        public void AddKeyGestures(ICommand command, CategoryGestureMapping categoryKeyGesture)
         {
             if (!IsInitialized)
                 return;
@@ -171,7 +171,7 @@ namespace ModernApplicationFramework.Basics.Services
         {
         }
 
-        public void RemoveKeyGesture(CategoryKeyGesture categoryKeyGesture)
+        public void RemoveKeyGesture(CategoryGestureMapping categoryKeyGesture)
         {
             if (categoryKeyGesture?.KeyGesture == null || categoryKeyGesture.Category == null)
                 return;
@@ -211,7 +211,7 @@ namespace ModernApplicationFramework.Basics.Services
             foreach (var cd in defaultCommands)
             {
                 cd.Gestures.Clear();
-                cd.Gestures.Add(new CategoryKeyGesture(cd.DefaultGestureCategory, cd.DefaultKeyGesture));
+                cd.Gestures.Add(new CategoryGestureMapping(cd.DefaultGestureCategory, cd.DefaultKeyGesture));
             }
         }
 

@@ -79,7 +79,6 @@ namespace ModernApplicationFramework.Controls.TextBoxes
             return true;
         }
 
-
         private bool ValidateMultiStateInput(KeyEventArgs e)
         {
             CreateKeys(e, out var modifier, out var key);
@@ -116,7 +115,6 @@ namespace ModernApplicationFramework.Controls.TextBoxes
             return false;
         }
 
-
         private bool ValidateBasicKeyInput(Key key)
         {
             if (key == Key.None)
@@ -127,9 +125,7 @@ namespace ModernApplicationFramework.Controls.TextBoxes
                 return false;
             return true;
         }
-
-
-        
+    
         private void HandleRemove()
         {
             if (_isMultiState && _keySequences[1] == null)

@@ -232,6 +232,7 @@
     <Compile Include="Basics\ApplicationEnvironment\FallbackEnvironmentVarirables.cs" />
     <Compile Include="Basics\Definitions\Command\ExcludedCommandDefinition.cs" />
     <Compile Include="Basics\Services\KeyboardInputService.cs" />
+    <Compile Include="CommandBase\Input\CategoryGestureMapping.cs" />
     <Compile Include="CommandBase\Input\CommandDefinitionGestureMappingStore.cs" />
     <Compile Include="CommandBase\Input\GestureCollection.cs" />
     <Compile Include="Basics\Services\InternalApplicationIconService.cs" />
@@ -239,6 +240,8 @@
     <Compile Include="CommandBase\CommandGestureCategories.cs" />
     <Compile Include="CommandBase\CommandGestureCategory.cs" />
     <Compile Include="CommandBase\ICanHaveInputBindings.cs" />
+    <Compile Include="CommandBase\Input\GestureCollectionChangedEventArgs.cs" />
+    <Compile Include="CommandBase\Input\GestureCollectionChangedType.cs" />
     <Compile Include="CommandBase\Input\KeySequence.cs" />
     <Compile Include="CommandBase\Input\MultiKeyBinding.cs" />
     <Compile Include="CommandBase\Input\MultiKeyGestureValueSerializer.cs" />

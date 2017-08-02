@@ -239,7 +239,7 @@ namespace ModernApplicationFramework.Extended.DockingMainWindow.ViewModels
             window.SourceInitialized += _mainWindow_SourceInitialized;
             if (BindableElement == null)
                 return;
-            _commandKeyGestureService.Add(this);
+            _commandKeyGestureService.AddModel(this);
         }
 
         private async void _mainWindow_MouseDown(object sender, MouseButtonEventArgs e)

@@ -37,24 +37,24 @@ namespace ModernApplicationFramework.Interfaces.Services
         /// Adds an <see cref="ICanHaveInputBindings"/> to the service
         /// </summary>
         /// <param name="hostingModel">The hosting model.</param>
-        void Add(ICanHaveInputBindings hostingModel);
+        void AddModel(ICanHaveInputBindings hostingModel);
 
-        // <summary>
+        /// <summary>
         /// Removes an <see cref="ICanHaveInputBindings"/> from the service
         /// </summary>
         /// <param name="hostingModel">The hosting model.</param>
-        void Remove(ICanHaveInputBindings hostingModel);
+        void RemoveModel(ICanHaveInputBindings hostingModel);
 
 
-        void SetKeyGestures(ICommand command, CategoryKeyGesture categoryKeyGesture);
+        void AddKeyGestures(ICommand command, CategoryGestureMapping categoryKeyGesture);
+
+        void RemoveKeyGesture(CategoryGestureMapping categoryKeyGesture);
+
 
         /// <summary>
         /// Removes all key gestures from all registered elements.
         /// </summary>
         void RemoveAllKeyGestures();
-
-
-        void RemoveKeyGesture(CategoryKeyGesture categoryKeyGesture);
 
         /// <summary>
         /// Loads all available key gestures and applies them to their <see cref="CommandDefinition"/>

@@ -29,7 +29,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest
         {
             if (!e.WasClosed)
                 return;
-            IoC.Get<IKeyGestureService>().Remove(this);
+            IoC.Get<IKeyGestureService>().RemoveModel(this);
             BindableElement = null;
         }
 
@@ -71,7 +71,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest
             if (view is Control element)
             {
                 BindableElement = element;
-                IoC.Get<IKeyGestureService>().Add(this);
+                IoC.Get<IKeyGestureService>().AddModel(this);
             }
         }
 
