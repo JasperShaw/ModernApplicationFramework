@@ -53,8 +53,8 @@ namespace ModernApplicationFramework.CommandBase.Input
                         else
                             lastDelimiterIndex--;
                     }
-                    modifierString = sequence.Substring(0, lastDelimiterIndex);
-                    keyString = sequence.Substring(lastDelimiterIndex + 1);
+                    modifierString = sequence.Substring(0, lastDelimiterIndex).Trim();
+                    keyString = sequence.Substring(lastDelimiterIndex + 1).Trim();
                 }
                 else
                     keyString = sequence;
