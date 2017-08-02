@@ -130,8 +130,12 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
                     return;
                 _gestureInput = value;
                 OnPropertyChanged();
+                CurrentKeyGesture = (MultiKeyGesture)new MultiKeyGestureConverter().ConvertFrom(null, CultureInfo.CurrentCulture,
+                    GestureInput);
             }
         }
+        
+        public MultiKeyGesture CurrentKeyGesture { get; set; }
 
 
         [ImportingConstructor]
@@ -159,6 +163,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
 
         public override void Activate()
         {
+            GestureInput = string.Empty;
         }
 
 
@@ -187,11 +192,8 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
 
         private void ExecuteAssignGesture()
         {
-            var gesture =
-                (MultiKeyGesture) new MultiKeyGestureConverter().ConvertFrom(null, CultureInfo.CurrentCulture,
-                    GestureInput);
             var category = SelectedCategory;        
-            var categoryKeyGesture = new CategoryGestureMapping(category, gesture);
+            var categoryKeyGesture = new CategoryGestureMapping(category, CurrentKeyGesture);
             SelectedCommand.Gestures.Add(categoryKeyGesture);
         }
 

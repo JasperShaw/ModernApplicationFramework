@@ -2,9 +2,8 @@
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using ModernApplicationFramework.Input.Base;
 
-namespace ModernApplicationFramework.Input.Command
+namespace ModernApplicationFramework.Input.Base
 {
     /// <inheritdoc />
     /// <summary>

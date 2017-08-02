@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace ModernApplicationFramework.Input.Command
+namespace ModernApplicationFramework.Input.Base
 {
     /*This class is doing some magic since the CanExecuteChanged in the base Command was not fired correctly*/
 
@@ -18,7 +18,7 @@ namespace ModernApplicationFramework.Input.Command
                 throw new ArgumentNullException(nameof(executeAction));
             if (cantExectueFunc == null)
                 throw new ArgumentNullException(nameof(cantExectueFunc));
-            WrappedCommand = new Command(executeAction, cantExectueFunc);
+            WrappedCommand = new Command.Command(executeAction, cantExectueFunc);
         }
 
         protected AbstractCommandWrapper(ICommand wrappedCommand)

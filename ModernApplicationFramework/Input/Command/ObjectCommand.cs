@@ -1,4 +1,5 @@
 ﻿using System;
+using ModernApplicationFramework.Input.Base;
 
 namespace ModernApplicationFramework.Input.Command
 {

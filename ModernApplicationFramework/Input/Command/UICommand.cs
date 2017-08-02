@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
+using ModernApplicationFramework.Input.Base;
 using Action = System.Action;
 
 namespace ModernApplicationFramework.Input.Command

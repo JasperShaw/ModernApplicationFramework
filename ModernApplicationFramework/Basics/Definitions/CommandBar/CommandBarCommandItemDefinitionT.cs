@@ -1,5 +1,6 @@
 ﻿using System;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Input.Base;
 using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar

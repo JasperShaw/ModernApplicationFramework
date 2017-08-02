@@ -239,7 +239,7 @@
     <Compile Include="Basics\Services\BasicStatusBarService.cs" />
     <Compile Include="Input\Command\CommandGestureCategories.cs" />
     <Compile Include="Input\Command\CommandGestureCategory.cs" />
-    <Compile Include="Input\Command\ICanHaveInputBindings.cs" />
+    <Compile Include="Interfaces\ICanHaveInputBindings.cs" />
     <Compile Include="Input\GestureCollectionChangedEventArgs.cs" />
     <Compile Include="Input\GestureCollectionChangedType.cs" />
     <Compile Include="Input\KeySequence.cs" />
@@ -419,7 +419,7 @@
     <Compile Include="Basics\CommandBar\Commands\ShowToolBarListCommandHandler.cs" />
     <Compile Include="Input\Command\CommandHandlerWrapper.cs" />
     <Compile Include="Basics\Definitions\Command\CommandListDefintion.cs" />
-    <Compile Include="Input\Command\AbstractCommandWrapper.cs" />
+    <Compile Include="Input\Base\AbstractCommandWrapper.cs" />
     <Compile Include="Basics\Definitions\Command\CommandDefinitionBase.cs" />
     <Compile Include="Basics\Definitions\Command\CommandDefinition.cs" />
     <Compile Include="Input\MultiKeyGesture.cs" />
@@ -489,7 +489,7 @@
     <Compile Include="Interfaces\Services\ICommandService.cs" />
     <Compile Include="Input\Command\Command.cs" />
     <Compile Include="Input\Base\CommandBase.cs" />
-    <Compile Include="Input\Command\CommandT.cs" />
+    <Compile Include="Input\Base\CommandT.cs" />
     <Compile Include="Input\Base\WeakEventHandlerManager.cs" />
     <Compile Include="Controls\Buttons\Button.cs" />
     <Compile Include="Controls\ListBoxes\CheckableListBox.cs" />

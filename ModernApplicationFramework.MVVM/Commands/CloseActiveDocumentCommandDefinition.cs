@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.CommandBase;
+using ModernApplicationFramework.Input.Base;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.MVVM.Interfaces;
 
