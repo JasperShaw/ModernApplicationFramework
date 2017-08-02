@@ -166,7 +166,6 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         private void ExecuteRemoveBinding()
         {
             SelectedCommand.Gestures.Remove(SelectedGestureBinding);
-            _gestureService.RemoveKeyGesture(SelectedGestureBinding);
             UpdateAvailableGestureBinding();  
         }
 
@@ -189,8 +188,12 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
 
         private void ExecuteAssignGesture()
         {
-            var c = new MultiKeyGestureConverter();
-            var g = (MultiKeyGesture) c.ConvertFrom(null, CultureInfo.CurrentCulture, GestureInput);
+            var gesture =
+                (MultiKeyGesture) new MultiKeyGestureConverter().ConvertFrom(null, CultureInfo.CurrentCulture,
+                    GestureInput);
+            var category = SelectedCategory;        
+            var categoryKeyGesture = new CategoryKeyGesture(category, gesture);
+            SelectedCommand.Gestures.Add(categoryKeyGesture);
         }
 
         private void ExecuteMethod()

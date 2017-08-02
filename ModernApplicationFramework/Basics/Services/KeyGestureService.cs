@@ -71,6 +71,7 @@ namespace ModernApplicationFramework.Basics.Services
             _gestureCategories = gestureCategories;
             _keyboardInputService = keyboardInputService;
             _statusBarDataModelService = statusBarDataModelService;
+            
             _keyboardShortcuts = keyboardShortcuts.OfType<CommandDefinition>().ToArray();
 
             _elementMapping = new Dictionary<CommandGestureCategory, HashSet<UIElement>>();
@@ -146,10 +147,24 @@ namespace ModernApplicationFramework.Basics.Services
             hostingModel.BindableElement?.InputBindings.Clear();
         }
 
-        public void SetKeyGestures(CommandGestureCategory category)
+        public void SetKeyGestures(ICommand command, CategoryKeyGesture categoryKeyGesture)
         {
             if (!IsInitialized)
                 return;
+            if (command == null)
+                return;
+            if (categoryKeyGesture?.KeyGesture == null || categoryKeyGesture.Category == null)
+                return;
+            
+            IEnumerable<UIElement> possibleElemetns;
+            lock (_lockObj)
+            {
+                possibleElemetns = _elementMapping.Where(x => x.Key.Equals(categoryKeyGesture.Category))
+                    .SelectMany(x => x.Value);
+            }
+
+            foreach (var element in possibleElemetns)
+                element.InputBindings.Add(new MultiKeyBinding(command, categoryKeyGesture.KeyGesture));
         }
 
         public void RemoveAllKeyGestures()
@@ -160,8 +175,13 @@ namespace ModernApplicationFramework.Basics.Services
         {
             if (categoryKeyGesture?.KeyGesture == null || categoryKeyGesture.Category == null)
                 return;
-            var possibleElemetns = _elementMapping.Where(x => x.Key.Equals(categoryKeyGesture.Category))
-                .SelectMany(x => x.Value);
+
+            IEnumerable<UIElement> possibleElemetns;
+            lock (_lockObj)
+            {
+                possibleElemetns = _elementMapping.Where(x => x.Key.Equals(categoryKeyGesture.Category))
+                    .SelectMany(x => x.Value);
+            }
 
             foreach (var element in possibleElemetns)
             {

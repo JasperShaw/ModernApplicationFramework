@@ -1,12 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Caliburn.Micro;
 using ModernApplicationFramework.CommandBase;
 using ModernApplicationFramework.CommandBase.Input;
 using ModernApplicationFramework.Core.Converters.AccessKey;
 using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Basics.Definitions.Command
 {
@@ -17,6 +20,9 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.Command.CommandDefinitionBase" />
     public abstract class CommandDefinition : CommandDefinitionBase
     {
+
+        private IKeyGestureService _gestureService;
+        
         protected CommandDefinition()
         {
             Gestures = new GestureCollection();
@@ -116,7 +122,25 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
 
         private void Gestures_GestursChanged(object sender, GestureChangedEventArgs e)
         {
+            if (_gestureService == null)
+                _gestureService = IoC.Get<IKeyGestureService>();
+            
             KeyGestures = new ReadOnlyCollection<MultiKeyGesture>(Gestures.Select(x => x.KeyGesture).ToList());
+            switch (e.Type)
+            {
+                case GestureChangedType.Added:
+                    _gestureService.SetKeyGestures(Command ,e.CategoryKeyGesture.FirstOrDefault());
+                    break;
+                case GestureChangedType.Removed:
+                    _gestureService.RemoveKeyGesture(e.CategoryKeyGesture.FirstOrDefault());
+                    break;
+                case GestureChangedType.Cleared:
+                    foreach (var gesture in e.CategoryKeyGesture)
+                        _gestureService.RemoveKeyGesture(gesture);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }          
             OnPropertyChanged(nameof(GestureText));
         }
     }

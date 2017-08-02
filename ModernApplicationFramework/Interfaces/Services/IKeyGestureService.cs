@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Input;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Services;
 using ModernApplicationFramework.CommandBase;
@@ -44,10 +45,8 @@ namespace ModernApplicationFramework.Interfaces.Services
         /// <param name="hostingModel">The hosting model.</param>
         void Remove(ICanHaveInputBindings hostingModel);
 
-        /// <summary>
-        /// Sets key gestures to all registered elements.
-        /// </summary>
-        void SetKeyGestures(CommandGestureCategory category);
+
+        void SetKeyGestures(ICommand command, CategoryKeyGesture categoryKeyGesture);
 
         /// <summary>
         /// Removes all key gestures from all registered elements.

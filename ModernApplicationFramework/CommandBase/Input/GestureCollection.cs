@@ -27,17 +27,19 @@ namespace ModernApplicationFramework.CommandBase.Input
 
         public void Add(CategoryKeyGesture item)
         {
+            if (item == null)
+                throw new ArgumentNullException(nameof(item));
             if (_innerList == null)
                 _innerList = new List<CategoryKeyGesture>(1);
             _innerList.Add(item);
-            OnGestureChanged(new GestureChangedEventArgs(GestureChangedType.Added));
+            OnGestureChanged(new GestureChangedEventArgs(GestureChangedType.Added, item));
         }
 
         public void Clear()
         {
             if (_innerList == null)
                 return;
-            OnGestureChanged(new GestureChangedEventArgs(GestureChangedType.Removed));
+            OnGestureChanged(new GestureChangedEventArgs(GestureChangedType.Cleared, _innerList));
             _innerList.Clear();
             _innerList = null;
         }
@@ -59,7 +61,7 @@ namespace ModernApplicationFramework.CommandBase.Input
             var result = _innerList.Remove(item);
             if (!result)
                 return false;
-            OnGestureChanged(new GestureChangedEventArgs(GestureChangedType.Removed));
+            OnGestureChanged(new GestureChangedEventArgs(GestureChangedType.Removed, item));
             return true;
         }
 
@@ -77,13 +79,16 @@ namespace ModernApplicationFramework.CommandBase.Input
         public void Insert(int index, CategoryKeyGesture item)
         {
             _innerList?.Insert(index, item);
-            OnGestureChanged(new GestureChangedEventArgs(GestureChangedType.Added));
+            OnGestureChanged(new GestureChangedEventArgs(GestureChangedType.Added, item));
         }
 
         public void RemoveAt(int index)
         {
-            _innerList?.RemoveAt(index);
-            OnGestureChanged(new GestureChangedEventArgs(GestureChangedType.Removed));
+            if (_innerList == null)
+                return;
+            var item = _innerList[index];
+            _innerList.RemoveAt(index);
+            OnGestureChanged(new GestureChangedEventArgs(GestureChangedType.Removed, item));
         }
 
         public CategoryKeyGesture this[int index]
@@ -94,7 +99,6 @@ namespace ModernApplicationFramework.CommandBase.Input
                 if (_innerList == null)
                     _innerList = new List<CategoryKeyGesture>(index);
                 _innerList[index] = value;
-                OnGestureChanged(new GestureChangedEventArgs(GestureChangedType.ValueChanged));
             }
         }
 
@@ -105,19 +109,29 @@ namespace ModernApplicationFramework.CommandBase.Input
     }
     public class GestureChangedEventArgs : EventArgs
     {
-        public GestureChangedEventArgs(GestureChangedType type)
+
+        public GestureChangedEventArgs(GestureChangedType type, IEnumerable<CategoryKeyGesture> list)
         {
             Type = type;
+            CategoryKeyGesture = new List<CategoryKeyGesture>(list);
+        }
+
+        public GestureChangedEventArgs(GestureChangedType type, CategoryKeyGesture categoryKeyGesture)
+        {
+            Type = type;
+            CategoryKeyGesture = new List<CategoryKeyGesture> { categoryKeyGesture };
         }
 
         public GestureChangedType Type { get; }
+        
+        public IReadOnlyCollection<CategoryKeyGesture> CategoryKeyGesture { get; }
     }
 
     public enum GestureChangedType
     {
         Added,
         Removed,
-        ValueChanged
+        Cleared
     }
 
 
