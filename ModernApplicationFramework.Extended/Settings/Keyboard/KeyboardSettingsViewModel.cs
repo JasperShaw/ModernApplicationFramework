@@ -178,8 +178,6 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
 
         public override void Activate()
         {
-            //For some funny reason you can to call Last() in order to select the first item...
-            SelectedCommand = ((IEnumerable<CommandDefinition>)CollViewSource.Source).LastOrDefault();
             GestureInput = string.Empty;
         }
 

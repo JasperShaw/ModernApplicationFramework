@@ -69,13 +69,16 @@ namespace ModernApplicationFramework.Input
                 throw new ArgumentException("Do not use this constructor for a normal key gesture", nameof(gestureList));
             if (gestureList.Count == 0)
                 throw new ArgumentException("At least one key must be specified.", nameof(gestureList));
+
+            var flag = ValidCheckMode.FirstSequence;
             GestureCollection = new List<KeySequence>();
             foreach (var gesturePair in gestureList)
             {
-                if (!gesturePair.IsValid())
+                if (!gesturePair.IsValid(flag))
                     throw new ArgumentException("Used invalid key sequence");
                 if (gesturePair.Key == Key.None)
                     throw new ArgumentException("At least one key must be specified.", nameof(gesturePair));
+                flag = ValidCheckMode.SecondSequence;
                 GestureCollection.Add(gesturePair);
             }
         }

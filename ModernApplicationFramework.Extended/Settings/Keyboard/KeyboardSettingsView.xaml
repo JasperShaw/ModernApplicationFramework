@@ -89,6 +89,7 @@
                                          ScrollViewer.VerticalScrollBarVisibility="Visible" 
                                          ScrollViewer.HorizontalScrollBarVisibility="Auto" 
                                          ItemsSource="{Binding CollViewSource.View}"
+                                         SelectedIndex="0"
                                          SelectedItem="{Binding SelectedCommand, Mode=TwoWay}" TextSearch.TextPath="TrimmedCategoryCommandName"
                                          ItemTemplate="{StaticResource CommandNameDataTemplate}"
                                          CustomSort="{StaticResource CategoryCommandTextComparer}"

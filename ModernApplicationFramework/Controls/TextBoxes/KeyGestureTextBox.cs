@@ -94,7 +94,7 @@ namespace ModernApplicationFramework.Controls.TextBoxes
             if (!ValidateBasicKeyInput(key))
                 return false;
             var sequence = new KeySequence(modifier, key);
-            if (!sequence.IsValid())
+            if (!sequence.IsValid(ValidCheckMode.SecondSequence))
                 return false;
             _keySequences[1] = sequence;
             return true;

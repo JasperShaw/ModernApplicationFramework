@@ -20,8 +20,8 @@ namespace ModernApplicationFramework.Input
             Key = key;
             Modifiers = modifiers;
         }
-
-        public bool IsValid()
+        
+        public bool IsValid(ValidCheckMode mode = ValidCheckMode.FirstSequence)
         {
             if ((Key < Key.F1 || Key > Key.F24) && (Key < Key.NumPad0 || Key > Key.Divide))
             {
@@ -40,7 +40,7 @@ namespace ModernApplicationFramework.Input
                             return true;
                     }
                 }
-                if (Key >= Key.D0 && Key <= Key.D9 || Key >= Key.A && Key <= Key.Z)
+                if (Key >= Key.D0 && Key <= Key.D9 || (Key >= Key.A && Key <= Key.Z && mode == ValidCheckMode.FirstSequence))
                     return false;
             }
             return true;
