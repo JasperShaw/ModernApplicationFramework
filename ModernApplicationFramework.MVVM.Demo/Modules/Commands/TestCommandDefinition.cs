@@ -28,7 +28,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
                 new KeySequence(ModifierKeys.Control, Key.W),
                 new KeySequence(Key.K)
             });
-            DefaultGestureCategory = UndoRedoViewModel.UndoRedoCategory;
+            DefaultGestureScope = UndoRedoViewModel.UndoRedoScope;
         }
 
         private bool CanTest()
@@ -91,6 +91,6 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
         public override UICommand Command { get; }
 
         public override MultiKeyGesture DefaultKeyGesture { get; }
-        public override CommandGestureCategory DefaultGestureCategory { get; }
+        public override GestureScope DefaultGestureScope { get; }
     }
 }

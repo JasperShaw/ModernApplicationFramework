@@ -26,8 +26,8 @@ namespace ModernApplicationFramework.Basics.Services
     [Export(typeof(IKeyGestureService))]
     public class KeyGestureService : IKeyGestureService
     {
-        private readonly Dictionary<CommandGestureCategory, HashSet<UIElement>> _elementMapping;
-        private readonly CommandGestureCategory[] _gestureCategories;
+        private readonly Dictionary<GestureScope, HashSet<UIElement>> _elementMapping;
+        private readonly GestureScope[] _gestureScopes;
         private readonly IKeyboardInputService _keyboardInputService;
         private readonly IStatusBarDataModelService _statusBarDataModelService;
         private readonly CommandDefinition[] _keyboardShortcuts;
@@ -65,18 +65,18 @@ namespace ModernApplicationFramework.Basics.Services
 
         [ImportingConstructor]
         public KeyGestureService([ImportMany] CommandDefinitionBase[] keyboardShortcuts,
-            [ImportMany] CommandGestureCategory[] gestureCategories,
+            [ImportMany] GestureScope[] gestureScopes,
             IKeyboardInputService keyboardInputService, IStatusBarDataModelService statusBarDataModelService)
         {
-            _gestureCategories = gestureCategories;
+            _gestureScopes = gestureScopes;
             _keyboardInputService = keyboardInputService;
             _statusBarDataModelService = statusBarDataModelService;
             
             _keyboardShortcuts = keyboardShortcuts.OfType<CommandDefinition>().ToArray();
 
-            _elementMapping = new Dictionary<CommandGestureCategory, HashSet<UIElement>>();
+            _elementMapping = new Dictionary<GestureScope, HashSet<UIElement>>();
 
-            foreach (var commandGestureCategory in gestureCategories)
+            foreach (var commandGestureCategory in gestureScopes)
                 _elementMapping.Add(commandGestureCategory, new HashSet<UIElement>());
         }
 
@@ -105,23 +105,23 @@ namespace ModernApplicationFramework.Basics.Services
             hostingModel.BindableElement.InputBindings.Clear();
             foreach (var commandDefinition in _keyboardShortcuts.Where(x => x.Gestures.Count > 0))
                 foreach (var gesture in commandDefinition.Gestures)
-                    if (gesture.Category.Equals(hostingModel.GestureCategory))
+                    if (gesture.Scope.Equals(hostingModel.GestureScope))
                     {
                         var inputBinding = new MultiKeyBinding(commandDefinition.Command, gesture.KeyGesture);
                         hostingModel.BindableElement.InputBindings.Add(inputBinding);
                         lock (_lockObj)
                         {
-                            _elementMapping[hostingModel.GestureCategory]
+                            _elementMapping[hostingModel.GestureScope]
                                 .Add(hostingModel.BindableElement);
                         }
                     }
-                    else if (gesture.Category.Equals(CommandGestureCategories.GlobalGestureCategory))
+                    else if (gesture.Scope.Equals(GestureScopes.GlobalGestureScope))
                     {
                         var inputBinding = new MultiKeyBinding(commandDefinition.Command, gesture.KeyGesture);
                         hostingModel.BindableElement.InputBindings.Add(inputBinding);
                         lock (_lockObj)
                         {
-                            _elementMapping[CommandGestureCategories.GlobalGestureCategory]
+                            _elementMapping[GestureScopes.GlobalGestureScope]
                                 .Add(hostingModel.BindableElement);
                         }
                     }
@@ -137,34 +137,32 @@ namespace ModernApplicationFramework.Basics.Services
         {
             lock (_lockObj)
             {
-                if (!_elementMapping.ContainsKey(hostingModel.GestureCategory))
+                if (!_elementMapping.ContainsKey(hostingModel.GestureScope))
                     return;
-                _elementMapping[hostingModel.GestureCategory].Remove(hostingModel.BindableElement);
-                if (!_elementMapping.ContainsKey(CommandGestureCategories.GlobalGestureCategory))
+                _elementMapping[hostingModel.GestureScope].Remove(hostingModel.BindableElement);
+                if (!_elementMapping.ContainsKey(GestureScopes.GlobalGestureScope))
                     return;
-                _elementMapping[CommandGestureCategories.GlobalGestureCategory].Remove(hostingModel.BindableElement);
+                _elementMapping[GestureScopes.GlobalGestureScope].Remove(hostingModel.BindableElement);
             }
             hostingModel.BindableElement?.InputBindings.Clear();
         }
 
-        public void AddKeyGestures(ICommand command, CategoryGestureMapping categoryKeyGesture)
+        public void AddKeyGestures(CommandGestureScopeMapping commandKeyGestureScope)
         {
             if (!IsInitialized)
                 return;
-            if (command == null)
-                return;
-            if (categoryKeyGesture?.KeyGesture == null || categoryKeyGesture.Category == null)
+            if (commandKeyGestureScope?.CommandDefinition == null || commandKeyGestureScope.GestureScopeMapping == null)
                 return;
             
             IEnumerable<UIElement> possibleElemetns;
             lock (_lockObj)
             {
-                possibleElemetns = _elementMapping.Where(x => x.Key.Equals(categoryKeyGesture.Category))
+                possibleElemetns = _elementMapping.Where(x => x.Key.Equals(commandKeyGestureScope.GestureScopeMapping.Scope))
                     .SelectMany(x => x.Value);
             }
 
             foreach (var element in possibleElemetns)
-                element.InputBindings.Add(new MultiKeyBinding(command, categoryKeyGesture.KeyGesture));
+                element.InputBindings.Add(new MultiKeyBinding(commandKeyGestureScope.CommandDefinition.Command, commandKeyGestureScope.GestureScopeMapping.KeyGesture));
         }
 
         public void RemoveAllKeyGestures()
@@ -184,15 +182,15 @@ namespace ModernApplicationFramework.Basics.Services
             }
         }
 
-        public void RemoveKeyGesture(CategoryGestureMapping categoryKeyGesture)
+        public void RemoveKeyGesture(GestureScopeMapping keyGestureScope)
         {
-            if (categoryKeyGesture?.KeyGesture == null || categoryKeyGesture.Category == null)
+            if (keyGestureScope?.KeyGesture == null || keyGestureScope.Scope == null)
                 return;
 
             IEnumerable<UIElement> possibleElemetns;
             lock (_lockObj)
             {
-                possibleElemetns = _elementMapping.Where(x => x.Key.Equals(categoryKeyGesture.Category))
+                possibleElemetns = _elementMapping.Where(x => x.Key.Equals(keyGestureScope.Scope))
                     .SelectMany(x => x.Value);
             }
 
@@ -202,7 +200,7 @@ namespace ModernApplicationFramework.Basics.Services
 
                 foreach (InputBinding binding in bindings)
                     if (binding is MultiKeyBinding multiKeyBinding &&
-                        multiKeyBinding.Gesture.Equals(categoryKeyGesture.KeyGesture))
+                        multiKeyBinding.Gesture.Equals(keyGestureScope.KeyGesture))
                         element.InputBindings.Remove(binding);
             }
         }
@@ -219,20 +217,20 @@ namespace ModernApplicationFramework.Basics.Services
         public virtual void LoadDefaultGestures()
         {
             var defaultCommands =
-                _keyboardShortcuts.Where(x => x.DefaultGestureCategory != null && x.DefaultKeyGesture != null);
+                _keyboardShortcuts.Where(x => x.DefaultGestureScope != null && x.DefaultKeyGesture != null);
 
             foreach (var cd in defaultCommands)
             {
                 cd.Gestures.Clear();
-                cd.Gestures.Add(new CategoryGestureMapping(cd.DefaultGestureCategory, cd.DefaultKeyGesture));
+                cd.Gestures.Add(new GestureScopeMapping(cd.DefaultGestureScope, cd.DefaultKeyGesture));
             }
         }
 
-        public IEnumerable<CommandCategoryGestureMapping> GetAllBindings()
+        public IEnumerable<CommandGestureScopeMapping> GetAllBindings()
         {
             return from commandDefinition in _keyboardShortcuts
                    from commandDefinitionGesture in commandDefinition.Gestures
-                   select new CommandCategoryGestureMapping(commandDefinitionGesture.Category, commandDefinition,
+                   select new CommandGestureScopeMapping(commandDefinitionGesture.Scope, commandDefinition,
                        commandDefinitionGesture.KeyGesture);
         }
 
@@ -241,20 +239,20 @@ namespace ModernApplicationFramework.Basics.Services
             return new List<CommandDefinition>(_keyboardShortcuts);
         }
 
-        public IEnumerable<CommandGestureCategory> GetAllCommandGestureCategories()
+        public IEnumerable<GestureScope> GetAllCommandGestureCategories()
         {
-            return new List<CommandGestureCategory>(_gestureCategories);
+            return new List<GestureScope>(_gestureScopes);
         }
 
-        public IEnumerable<CommandCategoryGestureMapping> FindKeyGestures(IList<KeySequence> sequences, FindKeyGestureOption option)
+        public IEnumerable<CommandGestureScopeMapping> FindKeyGestures(IList<KeySequence> sequences, FindKeyGestureOption option)
         {    
-            var list = new List<CommandCategoryGestureMapping>();
+            var list = new List<CommandGestureScopeMapping>();
             foreach (var commandDefinition in _keyboardShortcuts)
             {
                 foreach (var definitionGesture in commandDefinition.Gestures)
                 {
                     if (definitionGesture.KeyGesture.Contains(sequences))
-                        list.Add(new CommandCategoryGestureMapping(commandDefinition, definitionGesture));
+                        list.Add(new CommandGestureScopeMapping(commandDefinition, definitionGesture));
                 }
             }
             return list;

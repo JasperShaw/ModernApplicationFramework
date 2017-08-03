@@ -49,7 +49,7 @@ namespace ModernApplicationFramework.Extended.Commands
             public override UICommand Command { get; }
 
             public override MultiKeyGesture DefaultKeyGesture => null;
-            public override CommandGestureCategory DefaultGestureCategory => null;
+            public override GestureScope DefaultGestureScope => null;
 
             public override string Name => string.Empty;
             public override string Text { get; }

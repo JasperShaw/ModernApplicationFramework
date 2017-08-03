@@ -12,9 +12,9 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         }
     }
 
-    public class CommandCategoryGestureMappingViewSource : PropertyBoundFilteringCollectionViewSource<CommandCategoryGestureMapping>
+    public class CommandCategoryGestureMappingViewSource : PropertyBoundFilteringCollectionViewSource<CommandGestureScopeMapping>
     {
-        protected override bool AcceptItem(CommandCategoryGestureMapping item)
+        protected override bool AcceptItem(CommandGestureScopeMapping item)
         {
             return true;
         }

@@ -29,7 +29,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest
             Unloaded += UndoRedoTextBox_Unloaded;
         }
 
-        public CommandGestureCategory GestureCategory => UndoRedoViewModel.UndoRedoCategory;
+        public GestureScope GestureScope => UndoRedoViewModel.UndoRedoScope;
         public UIElement BindableElement => this;
     }
 }

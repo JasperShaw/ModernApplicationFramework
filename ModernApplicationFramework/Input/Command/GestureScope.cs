@@ -1,22 +1,22 @@
 namespace ModernApplicationFramework.Input.Command
 {
-    public class CommandGestureCategory
+    public class GestureScope
     {
         public string Name { get; }
         
-        public CommandGestureCategory(string name)
+        public GestureScope(string name)
         {
             Name = name;
         }
 
         public override bool Equals(object obj)
         {
-            if (!(obj is CommandGestureCategory commandGesture))
+            if (!(obj is GestureScope commandGesture))
                 return false;
             return Name.Equals(commandGesture.Name);
         }
 
-        protected bool Equals(CommandGestureCategory other)
+        protected bool Equals(GestureScope other)
         {
             return string.Equals(Name, other.Name);
         }

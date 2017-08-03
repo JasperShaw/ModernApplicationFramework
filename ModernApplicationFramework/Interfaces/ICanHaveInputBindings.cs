@@ -4,7 +4,7 @@ namespace ModernApplicationFramework.Input.Command
 {
     public interface ICanHaveInputBindings
     {
-        CommandGestureCategory GestureCategory { get; }
+        GestureScope GestureScope { get; }
         
         UIElement BindableElement { get; }
     }

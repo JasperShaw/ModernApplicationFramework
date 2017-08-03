@@ -24,7 +24,7 @@ namespace ModernApplicationFramework.Extended.Commands
         public override UICommand Command { get; }
 
         public override MultiKeyGesture DefaultKeyGesture { get; }
-        public override CommandGestureCategory DefaultGestureCategory { get; }
+        public override GestureScope DefaultGestureScope { get; }
 
         [ImportingConstructor]
         public ManageLayoutCommandDefinition(ILayoutManager layoutManager)

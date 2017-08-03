@@ -4,19 +4,19 @@ using System.Collections.Generic;
 
 namespace ModernApplicationFramework.Input
 {
-    public class GestureCollection : IList<CategoryGestureMapping>
+    public class GestureCollection : IList<GestureScopeMapping>
     {
         public delegate void GestursChangedEventHandler(object sender, GestureCollectionChangedEventArgs e);
 
         public event GestursChangedEventHandler GestursChanged;
 
 
-        private List<CategoryGestureMapping> _innerList;
+        private List<GestureScopeMapping> _innerList;
 
-        public IEnumerator<CategoryGestureMapping> GetEnumerator()
+        public IEnumerator<GestureScopeMapping> GetEnumerator()
         {
             return _innerList?.GetEnumerator() ??
-                   new List<CategoryGestureMapping>(0).GetEnumerator();
+                   new List<GestureScopeMapping>(0).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -24,12 +24,12 @@ namespace ModernApplicationFramework.Input
             return GetEnumerator();
         }
 
-        public void Add(CategoryGestureMapping item)
+        public void Add(GestureScopeMapping item)
         {
             if (item == null)
                 throw new ArgumentNullException(nameof(item));
             if (_innerList == null)
-                _innerList = new List<CategoryGestureMapping>(1);
+                _innerList = new List<GestureScopeMapping>(1);
             _innerList.Add(item);
             OnGestureChanged(new GestureCollectionChangedEventArgs(GestureCollectionChangedType.Added, item));
         }
@@ -43,17 +43,17 @@ namespace ModernApplicationFramework.Input
             _innerList = null;
         }
 
-        public bool Contains(CategoryGestureMapping item)
+        public bool Contains(GestureScopeMapping item)
         {
             return _innerList != null && _innerList.Contains(item);
         }
 
-        public void CopyTo(CategoryGestureMapping[] array, int arrayIndex)
+        public void CopyTo(GestureScopeMapping[] array, int arrayIndex)
         {
             throw new NotImplementedException();
         }
 
-        public bool Remove(CategoryGestureMapping item)
+        public bool Remove(GestureScopeMapping item)
         {
             if (_innerList == null)
                 return false;
@@ -68,14 +68,14 @@ namespace ModernApplicationFramework.Input
 
         public bool IsReadOnly => false;
 
-        public int IndexOf(CategoryGestureMapping item)
+        public int IndexOf(GestureScopeMapping item)
         {
             if (_innerList == null)
                 return -1;
             return _innerList.IndexOf(item);
         }
 
-        public void Insert(int index, CategoryGestureMapping item)
+        public void Insert(int index, GestureScopeMapping item)
         {
             _innerList?.Insert(index, item);
             OnGestureChanged(new GestureCollectionChangedEventArgs(GestureCollectionChangedType.Added, item));
@@ -90,13 +90,13 @@ namespace ModernApplicationFramework.Input
             OnGestureChanged(new GestureCollectionChangedEventArgs(GestureCollectionChangedType.Removed, item));
         }
 
-        public CategoryGestureMapping this[int index]
+        public GestureScopeMapping this[int index]
         {
             get => _innerList[index];
             set
             {
                 if (_innerList == null)
-                    _innerList = new List<CategoryGestureMapping>(index);
+                    _innerList = new List<GestureScopeMapping>(index);
                 _innerList[index] = value;
             }
         }

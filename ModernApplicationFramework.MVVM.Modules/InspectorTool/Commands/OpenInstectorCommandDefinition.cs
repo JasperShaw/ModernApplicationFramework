@@ -19,7 +19,7 @@ namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Commands
         public override UICommand Command { get; }
 
         public override MultiKeyGesture DefaultKeyGesture { get; }
-        public override CommandGestureCategory DefaultGestureCategory { get; }
+        public override GestureScope DefaultGestureScope { get; }
 
         public override string IconId => "PropertyIcon";
 
@@ -41,7 +41,7 @@ namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Commands
             Command = command;
 
             DefaultKeyGesture = new MultiKeyGesture(Key.F4);
-            DefaultGestureCategory = CommandGestureCategories.GlobalGestureCategory;
+            DefaultGestureScope = GestureScopes.GlobalGestureScope;
         }
 
         private bool CanOpen()

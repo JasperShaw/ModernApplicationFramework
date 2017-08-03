@@ -105,9 +105,9 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         public abstract MultiKeyGesture DefaultKeyGesture { get; }
 
         /// <summary>
-        /// The <see cref="CommandGestureCategory"/> of the <see cref="DefaultKeyGesture"/>.
+        /// The <see cref="GestureScope"/> of the <see cref="DefaultKeyGesture"/>.
         /// </summary>
-        public abstract CommandGestureCategory DefaultGestureCategory { get; }
+        public abstract GestureScope DefaultGestureScope { get; }
 
         /// <summary>
         /// The collection of all gestures.
@@ -129,7 +129,8 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
             switch (e.Type)
             {
                 case GestureCollectionChangedType.Added:
-                    _gestureService.AddKeyGestures(Command ,e.CategoryKeyGesture.FirstOrDefault());
+                    var mapping = new CommandGestureScopeMapping(this, e.CategoryKeyGesture.FirstOrDefault());
+                    _gestureService.AddKeyGestures(mapping);
                     break;
                 case GestureCollectionChangedType.Removed:
                     _gestureService.RemoveKeyGesture(e.CategoryKeyGesture.FirstOrDefault());

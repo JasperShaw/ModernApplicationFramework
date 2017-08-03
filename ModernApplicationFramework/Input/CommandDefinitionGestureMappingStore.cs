@@ -7,17 +7,17 @@ namespace ModernApplicationFramework.Input
     internal struct CommandCategoryKey : IEquatable<CommandCategoryKey>
     {
         public CommandDefinition Command { get; }
-        public CommandGestureCategory Category { get; }
+        public GestureScope Scope { get; }
 
-        public CommandCategoryKey(CommandDefinition command, CommandGestureCategory category)
+        public CommandCategoryKey(CommandDefinition command, GestureScope scope)
         {
             Command = command;
-            Category = category;
+            Scope = scope;
         }
 
         public bool Equals(CommandCategoryKey other)
         {
-            return Equals(Command, other.Command) && Equals(Category, other.Category);
+            return Equals(Command, other.Command) && Equals(Scope, other.Scope);
         }
 
         public override bool Equals(object obj)
@@ -31,7 +31,7 @@ namespace ModernApplicationFramework.Input
         {
             unchecked
             {
-                return ((Command != null ? Command.GetHashCode() : 0) * 397) ^ (Category != null ? Category.GetHashCode() : 0);
+                return ((Command != null ? Command.GetHashCode() : 0) * 397) ^ (Scope != null ? Scope.GetHashCode() : 0);
             }
         }
     }

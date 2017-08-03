@@ -18,7 +18,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Commands
     public sealed class CustomizeMenuCommandDefinition : CommandDefinition
     {
         public override MultiKeyGesture DefaultKeyGesture => null;
-        public override CommandGestureCategory DefaultGestureCategory => null;
+        public override GestureScope DefaultGestureScope => null;
 
         public override UICommand Command { get; }
         public override string Name => Text;

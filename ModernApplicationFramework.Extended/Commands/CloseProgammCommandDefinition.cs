@@ -21,7 +21,7 @@ namespace ModernApplicationFramework.Extended.Commands
         public override UICommand Command { get; }
 
         public override MultiKeyGesture DefaultKeyGesture { get; }
-        public override CommandGestureCategory DefaultGestureCategory { get; }
+        public override GestureScope DefaultGestureScope { get; }
 
         public override string IconId => "CloseProgrammIcon";
 
@@ -41,7 +41,7 @@ namespace ModernApplicationFramework.Extended.Commands
             Command = command;
 
             DefaultKeyGesture = new MultiKeyGesture(Key.F4, ModifierKeys.Alt);
-            DefaultGestureCategory = CommandGestureCategories.GlobalGestureCategory;
+            DefaultGestureScope = GestureScopes.GlobalGestureScope;
         }
 
         private bool CanClose()

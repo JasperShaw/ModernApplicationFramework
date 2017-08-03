@@ -20,7 +20,7 @@ namespace ModernApplicationFramework.Extended.Commands
         public override UICommand Command { get; }
 
         public override MultiKeyGesture DefaultKeyGesture { get; }
-        public override CommandGestureCategory DefaultGestureCategory { get; }
+        public override GestureScope DefaultGestureScope { get; }
 
         public override string IconId => "RedoIcon";
 
@@ -42,7 +42,7 @@ namespace ModernApplicationFramework.Extended.Commands
             Command = command;
 
             DefaultKeyGesture = new MultiKeyGesture(Key.Y, ModifierKeys.Control);
-            DefaultGestureCategory = CommandGestureCategories.GlobalGestureCategory;
+            DefaultGestureScope = GestureScopes.GlobalGestureScope;
         }
 
         private bool CanRedo()

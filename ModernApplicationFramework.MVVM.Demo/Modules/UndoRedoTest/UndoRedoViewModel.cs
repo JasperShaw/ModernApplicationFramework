@@ -81,10 +81,10 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest
             Text += "5";
         }
 
-        public CommandGestureCategory GestureCategory => UndoRedoCategory;
+        public GestureScope GestureScope => UndoRedoScope;
         
         public UIElement BindableElement { get; private set; }
                
-        [Export] public static CommandGestureCategory UndoRedoCategory = new CommandGestureCategory("UndoRedo");
+        [Export] public static GestureScope UndoRedoScope = new GestureScope("UndoRedo");
     }
 }

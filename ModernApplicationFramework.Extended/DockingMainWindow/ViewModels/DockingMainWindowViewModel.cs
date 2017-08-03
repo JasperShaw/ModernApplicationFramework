@@ -257,7 +257,7 @@ namespace ModernApplicationFramework.Extended.DockingMainWindow.ViewModels
         [Import] private IThemeManager _themeManager;
         [Import] private IKeyGestureService _commandKeyGestureService;
 #pragma warning restore 649
-        public CommandGestureCategory GestureCategory => CommandGestureCategories.GlobalGestureCategory;
+        public GestureScope GestureScope => GestureScopes.GlobalGestureScope;
         public UIElement BindableElement => Window;
     }
 }

@@ -47,9 +47,9 @@ namespace ModernApplicationFramework.Interfaces.Services
         void RemoveModel(ICanHaveInputBindings hostingModel);
 
 
-        void AddKeyGestures(ICommand command, CategoryGestureMapping categoryKeyGesture);
+        void AddKeyGestures(CommandGestureScopeMapping commandKeyGestureScope);
 
-        void RemoveKeyGesture(CategoryGestureMapping categoryKeyGesture);
+        void RemoveKeyGesture(GestureScopeMapping keyGestureScope);
 
 
         /// <summary>
@@ -67,12 +67,12 @@ namespace ModernApplicationFramework.Interfaces.Services
         /// </summary>
         void LoadDefaultGestures();
 
-        IEnumerable<CommandCategoryGestureMapping> GetAllBindings();
+        IEnumerable<CommandGestureScopeMapping> GetAllBindings();
 
         IEnumerable<CommandDefinition> GetAllCommandDefinitions();
         
-        IEnumerable<CommandGestureCategory> GetAllCommandGestureCategories();
+        IEnumerable<GestureScope> GetAllCommandGestureCategories();
         
-        IEnumerable<CommandCategoryGestureMapping> FindKeyGestures(IList<KeySequence> sequences, FindKeyGestureOption option);
+        IEnumerable<CommandGestureScopeMapping> FindKeyGestures(IList<KeySequence> sequences, FindKeyGestureOption option);
     }
 }

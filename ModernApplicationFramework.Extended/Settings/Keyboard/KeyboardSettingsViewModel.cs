@@ -8,7 +8,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Basics.Services;
 using ModernApplicationFramework.Extended.Commands;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
@@ -32,10 +31,10 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         private string _searchFilter;
         private GestureCollection _availableGestureCommands;
         private CommandDefinition _selectedCommand;
-        private CategoryGestureMapping _selectedGestureBinding;
-        private CommandGestureCategory _selectedCategory;
+        private GestureScopeMapping _selectedGestureScopeBinding;
+        private GestureScope _selectedScope;
         private string _gestureInput;
-        private IEnumerable<CommandCategoryGestureMapping> _duplicates;
+        private IEnumerable<CommandGestureScopeMapping> _duplicates;
         private int _selectedCommandIndex;
         
         public override uint SortOrder => 15;
@@ -49,7 +48,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
 
         public CommandDefinitionViewSource CollViewSource { get; set; }
 
-        public IObservableCollection<CommandGestureCategory> Categories { get; }
+        public IObservableCollection<GestureScope> Categories { get; }
 
         public int SelectedCommandIndex
         {
@@ -113,26 +112,26 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
             }
         }
 
-        public CategoryGestureMapping SelectedGestureBinding
+        public GestureScopeMapping SelectedGestureScopeBinding
         {
-            get => _selectedGestureBinding;
+            get => _selectedGestureScopeBinding;
             set
             {
-                if (Equals(value, _selectedGestureBinding))
+                if (Equals(value, _selectedGestureScopeBinding))
                     return;
-                _selectedGestureBinding = value;
+                _selectedGestureScopeBinding = value;
                 OnPropertyChanged();
             }
         }
 
-        public CommandGestureCategory SelectedCategory
+        public GestureScope SelectedScope
         {
-            get => _selectedCategory;
+            get => _selectedScope;
             set
             {
-                if (Equals(value, _selectedCategory))
+                if (Equals(value, _selectedScope))
                     return;
-                _selectedCategory = value;
+                _selectedScope = value;
                 OnPropertyChanged();
             }
         }
@@ -152,7 +151,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
             }
         }
 
-        public IEnumerable<CommandCategoryGestureMapping> Duplicates
+        public IEnumerable<CommandGestureScopeMapping> Duplicates
         {
             get => _duplicates;
             set
@@ -175,8 +174,8 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
             _dialogProvider = dialogProvider;
             _gestureService = gestureService;
             AllCommands = gestureService.GetAllCommandDefinitions();
-            Categories = new BindableCollection<CommandGestureCategory>(gestureService.GetAllCommandGestureCategories());
-            SelectedCategory = CommandGestureCategories.GlobalGestureCategory;
+            Categories = new BindableCollection<GestureScope>(gestureService.GetAllCommandGestureCategories());
+            SelectedScope = GestureScopes.GlobalGestureScope;
             SetupCollectionViewSource();
         }
 
@@ -205,20 +204,20 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
 
         private void ExecuteRemoveBinding()
         {
-            SelectedCommand.Gestures.Remove(SelectedGestureBinding);
+            SelectedCommand.Gestures.Remove(SelectedGestureScopeBinding);
             UpdateAvailableGestureBinding();
         }
 
         private bool CanExecuteRemoveBinding()
         {
-            return SelectedGestureBinding != null;
+            return SelectedGestureScopeBinding != null;
         }
 
 
         private void UpdateAvailableGestureBinding()
         {
             AvailableGestureBindings = SelectedCommand.Gestures;
-            SelectedGestureBinding = SelectedCommand.Gestures.Count > 0 ? SelectedCommand.Gestures[0] : null;
+            SelectedGestureScopeBinding = SelectedCommand.Gestures.Count > 0 ? SelectedCommand.Gestures[0] : null;
         }
 
         private bool CanAssignGesture()
@@ -233,12 +232,12 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
                 var exactDuplicate = _gestureService
                     .FindKeyGestures(MultiKeyGesture.GetKeySequences(CurrentKeyGesture),
                         FindKeyGestureOption.Containing)
-                    .FirstOrDefault(x => Equals(x.CategoryGestureMapping.Category, SelectedCategory));
-                exactDuplicate?.Command.Gestures.Remove(exactDuplicate.CategoryGestureMapping);
+                    .FirstOrDefault(x => Equals(x.GestureScopeMapping.Scope, SelectedScope));
+                exactDuplicate?.CommandDefinition.Gestures.Remove(exactDuplicate.GestureScopeMapping);
             }
 
-            var category = SelectedCategory;
-            var categoryKeyGesture = new CategoryGestureMapping(category, CurrentKeyGesture);
+            var category = SelectedScope;
+            var categoryKeyGesture = new GestureScopeMapping(category, CurrentKeyGesture);
             SelectedCommand.Gestures.Insert(0, categoryKeyGesture);
             UpdateAvailableGestureBinding();
             UpdateDuplicate();

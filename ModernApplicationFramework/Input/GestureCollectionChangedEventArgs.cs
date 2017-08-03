@@ -7,18 +7,18 @@ namespace ModernApplicationFramework.Input
     {
         public GestureCollectionChangedType Type { get; }
 
-        public IReadOnlyCollection<CategoryGestureMapping> CategoryKeyGesture { get; }
+        public IReadOnlyCollection<GestureScopeMapping> CategoryKeyGesture { get; }
 
-        public GestureCollectionChangedEventArgs(GestureCollectionChangedType type, IEnumerable<CategoryGestureMapping> list)
+        public GestureCollectionChangedEventArgs(GestureCollectionChangedType type, IEnumerable<GestureScopeMapping> list)
         {
             Type = type;
-            CategoryKeyGesture = new List<CategoryGestureMapping>(list);
+            CategoryKeyGesture = new List<GestureScopeMapping>(list);
         }
 
-        public GestureCollectionChangedEventArgs(GestureCollectionChangedType type, CategoryGestureMapping categoryKeyGesture)
+        public GestureCollectionChangedEventArgs(GestureCollectionChangedType type, GestureScopeMapping keyGestureScope)
         {
             Type = type;
-            CategoryKeyGesture = new List<CategoryGestureMapping> { categoryKeyGesture };
+            CategoryKeyGesture = new List<GestureScopeMapping> { keyGestureScope };
         }
     }
 }

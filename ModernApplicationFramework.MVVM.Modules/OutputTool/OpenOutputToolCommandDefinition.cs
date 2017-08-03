@@ -18,7 +18,7 @@ namespace ModernApplicationFramework.Extended.Modules.OutputTool
         public override UICommand Command { get; }
 
         public override MultiKeyGesture DefaultKeyGesture { get; }
-        public override CommandGestureCategory DefaultGestureCategory { get; }
+        public override GestureScope DefaultGestureScope { get; }
 
         public override string IconId => "OutputIcon";
 
@@ -41,7 +41,7 @@ namespace ModernApplicationFramework.Extended.Modules.OutputTool
             Command = command;
 
             DefaultKeyGesture = new MultiKeyGesture(Key.O, ModifierKeys.Control | ModifierKeys.Alt);
-            DefaultGestureCategory = CommandGestureCategories.GlobalGestureCategory;
+            DefaultGestureScope = GestureScopes.GlobalGestureScope;
         }
 
         private bool CanOpen()

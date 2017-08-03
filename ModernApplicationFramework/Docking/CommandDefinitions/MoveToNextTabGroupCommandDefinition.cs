@@ -14,7 +14,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
     {
         public override UICommand Command { get; }
         public override MultiKeyGesture DefaultKeyGesture => null;
-        public override CommandGestureCategory DefaultGestureCategory => null;
+        public override GestureScope DefaultGestureScope => null;
         public override string Name => Text;
         public override string Text => DockingResources.MoveToNextTabGroupCommandDefinition_Text;
         public override string ToolTip => null;
