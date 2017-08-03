@@ -342,6 +342,8 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>GeneralVisualExperienceSettingsResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Settings\Keyboard\KeyboardSettingsResources.de.resx" />
+    <EmbeddedResource Include="Settings\Keyboard\KeyboardSettingsResources.en.resx" />
     <EmbeddedResource Include="Settings\Keyboard\KeyboardSettingsResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>KeyboardSettingsResources.Designer.cs</LastGenOutput>

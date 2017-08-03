@@ -78,7 +78,23 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <DockPanel Grid.Row="0">
-                <Button Content="Show" DockPanel.Dock="Top" Command="{Binding ShowBindings}"/>
+                <Grid DockPanel.Dock="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.ColumnSpan="3" Padding="0,5,5,3" Target="{Binding ElementName=SchemeCombo}"
+                           Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsApplyScheme_Label}"/>
+                    <ComboBox x:Name="SchemeCombo" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch"/>
+                    <Button x:Name="ResetButton" Grid.Row="1"  Grid.Column="2" MinWidth="125" 
+                            Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsResetScheme}" 
+                            Command="{Binding ShowBindings}"/>
+                </Grid>
                 <Label DockPanel.Dock="Top" HorizontalAlignment="Left" Padding="0,5,5,3" Target="{Binding ElementName=SearchTextBox}"
                        Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsSearch_Label}"/>
                 <textBoxes:TextBox x:Name="SearchTextBox" DockPanel.Dock="Left" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"
@@ -130,7 +146,7 @@
                           ItemTemplate="{StaticResource CategoryDataTemplate}" SelectedItem="{Binding SelectedCategory}"
                           TextSearch.TextPath="Name"/>
 
-                <Label Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" Padding="0,5,5,3" Target="{Binding ElementName=GestureTextBox}"
+                <Label Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" HorizontalAlignment="Left" Padding="0,5,5,3" Target="{Binding ElementName=GestureTextBox}"
                    Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsNewBinding_Label}"/>
                 <textBoxes:KeyGestureTextBox x:Name="GestureTextBox" Grid.Row="3" Grid.Column="2" VerticalContentAlignment="Center"
                                              SelectionOpacity="0"

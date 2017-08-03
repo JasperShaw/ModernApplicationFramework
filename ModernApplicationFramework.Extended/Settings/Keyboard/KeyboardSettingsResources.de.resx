@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,31 +117,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="KeyboardSettingsApplyNewBinding_Button" xml:space="preserve">
-    <value>A_ssign</value>
-  </data>
-  <data name="KeyboardSettingsCurrentBindings_Label" xml:space="preserve">
-    <value>Shortcut c_urrently used by:</value>
-  </data>
-  <data name="KeyboardSettingsNewBindingCategory_Label" xml:space="preserve">
-    <value>Use _new shortcut in:</value>
-  </data>
-  <data name="KeyboardSettingsNewBinding_Label" xml:space="preserve">
-    <value>_Press shortcut keys:</value>
-  </data>
-  <data name="KeyboardSettingsRemoveCurrentBinding_Button" xml:space="preserve">
-    <value>_Remove</value>
-  </data>
-  <data name="KeyboardSettingsSearch_Label" xml:space="preserve">
-    <value>Show _commands containing:</value>
-  </data>
-  <data name="KeyboardSettingsSelectedBinding_Label" xml:space="preserve">
-    <value>Shor_tcuts for selected command:</value>
-  </data>
   <data name="KeyboardSettingsApplyScheme_Label" xml:space="preserve">
-    <value>Apply the following additional keyboard _mapping scheme:</value>
+    <value>Folgendes zusätzliches _Tastaturzuordnungsschema anwenden:</value>
   </data>
   <data name="KeyboardSettingsResetScheme" xml:space="preserve">
-    <value>R_eset</value>
+    <value>_Zurücksetzen</value>
+  </data>
+  <data name="KeyboardSettingsSearch_Label" xml:space="preserve">
+    <value>_Befehle mit folgendem Inhalt anzeigen:</value>
+  </data>
+  <data name="KeyboardSettingsRemoveCurrentBinding_Button" xml:space="preserve">
+    <value>_Entfernen</value>
+  </data>
+  <data name="KeyboardSettingsSelectedBinding_Label" xml:space="preserve">
+    <value>Tasten_kombination für ausgewählten Befehl:</value>
+  </data>
+  <data name="KeyboardSettingsNewBindingCategory_Label" xml:space="preserve">
+    <value>_Neue Tastenkomb. verwenden in:</value>
+  </data>
+  <data name="KeyboardSettingsNewBinding_Label" xml:space="preserve">
+    <value>Tastenkombination _drücken:</value>
+  </data>
+  <data name="KeyboardSettingsApplyNewBinding_Button" xml:space="preserve">
+    <value>Zu_weisen</value>
+  </data>
+  <data name="KeyboardSettingsCurrentBindings_Label" xml:space="preserve">
+    <value>Tastenkombination wird _momentan verwendet von:</value>
   </data>
 </root>

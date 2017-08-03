@@ -70,6 +70,15 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Apply the following additional keyboard _mapping scheme: ähnelt.
+        /// </summary>
+        public static string KeyboardSettingsApplyScheme_Label {
+            get {
+                return ResourceManager.GetString("KeyboardSettingsApplyScheme_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Shortcut c_urrently used by: ähnelt.
         /// </summary>
         public static string KeyboardSettingsCurrentBindings_Label {
@@ -102,6 +111,15 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard {
         public static string KeyboardSettingsRemoveCurrentBinding_Button {
             get {
                 return ResourceManager.GetString("KeyboardSettingsRemoveCurrentBinding_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die R_eset ähnelt.
+        /// </summary>
+        public static string KeyboardSettingsResetScheme {
+            get {
+                return ResourceManager.GetString("KeyboardSettingsResetScheme", resourceCulture);
             }
         }
         

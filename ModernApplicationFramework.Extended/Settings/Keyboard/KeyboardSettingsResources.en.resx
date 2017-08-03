@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="KeyboardSettingsApplyScheme_Label" xml:space="preserve">
+    <value>Apply the following additional keyboard _mapping scheme:</value>
+  </data>
   <data name="KeyboardSettingsApplyNewBinding_Button" xml:space="preserve">
     <value>A_ssign</value>
   </data>
@@ -137,9 +140,6 @@
   </data>
   <data name="KeyboardSettingsSelectedBinding_Label" xml:space="preserve">
     <value>Shor_tcuts for selected command:</value>
-  </data>
-  <data name="KeyboardSettingsApplyScheme_Label" xml:space="preserve">
-    <value>Apply the following additional keyboard _mapping scheme:</value>
   </data>
   <data name="KeyboardSettingsResetScheme" xml:space="preserve">
     <value>R_eset</value>
