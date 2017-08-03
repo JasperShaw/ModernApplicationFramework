@@ -9,7 +9,6 @@
              xmlns:comparers="clr-namespace:ModernApplicationFramework.Core.Comparers;assembly=ModernApplicationFramework"
              xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General;assembly=ModernApplicationFramework"
-             xmlns:services="clr-namespace:ModernApplicationFramework.Basics.Services;assembly=ModernApplicationFramework"
              mc:Ignorable="d" d:DesignWidth="460" d:DesignHeight="300">
     <FrameworkElement.Resources>
 
@@ -85,12 +84,13 @@
                 <textBoxes:TextBox x:Name="SearchTextBox" DockPanel.Dock="Left" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"
                                Height="21" Text="{Binding SearchFilter, UpdateSourceTrigger=PropertyChanged}"/>
             </DockPanel>
-            <listBoxes:CustomSortListBox Grid.Row="1" Margin="0,3,0,3" ScrollViewer.CanContentScroll="True" 
+            <listBoxes:CustomSortListBox x:Name="CommandsListBox" Grid.Row="1" Margin="0,3,0,3" ScrollViewer.CanContentScroll="True" 
                                          ScrollViewer.VerticalScrollBarVisibility="Visible" 
                                          ScrollViewer.HorizontalScrollBarVisibility="Auto" 
-                                         ItemsSource="{Binding CollViewSource.View}"
-                                         SelectedIndex="0"
-                                         SelectedItem="{Binding SelectedCommand, Mode=TwoWay}" TextSearch.TextPath="TrimmedCategoryCommandName"
+                                         IsSynchronizedWithCurrentItem ="True"
+                                         ItemsSource="{Binding CollViewSource.View}"   
+                                         SelectedItem="{Binding SelectedCommand, Mode=TwoWay}" 
+                                         TextSearch.TextPath="TrimmedCategoryCommandName"
                                          ItemTemplate="{StaticResource CommandNameDataTemplate}"
                                          CustomSort="{StaticResource CategoryCommandTextComparer}"
                                          ItemContainerStyle="{StaticResource FormsListBoxItemStyle}">

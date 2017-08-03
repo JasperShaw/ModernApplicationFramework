@@ -36,6 +36,8 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         private CommandGestureCategory _selectedCategory;
         private string _gestureInput;
         private IEnumerable<CommandCategoryGestureMapping> _duplicates;
+        private int _selectedCommandIndex;
+        
         public override uint SortOrder => 15;
         public override string Name => "Keyboard";
         public override ISettingsCategory Category => SettingsCategories.EnvironmentCategory;
@@ -48,6 +50,18 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         public CommandDefinitionViewSource CollViewSource { get; set; }
 
         public IObservableCollection<CommandGestureCategory> Categories { get; }
+
+        public int SelectedCommandIndex
+        {
+            get => _selectedCommandIndex;
+            set
+            {
+                if(value == _selectedCommandIndex)
+                    return;
+                _selectedCommandIndex = value;
+                OnPropertyChanged();
+            }
+        }
 
         public string SearchFilter
         {
@@ -178,6 +192,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
 
         public override void Activate()
         {
+            SelectedCommandIndex = 0;
             GestureInput = string.Empty;
         }
 

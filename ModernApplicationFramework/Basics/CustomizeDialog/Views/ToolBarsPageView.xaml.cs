@@ -3,6 +3,7 @@ using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Controls.Buttons;
 using ModernApplicationFramework.Controls.ListBoxes;
 using ModernApplicationFramework.Interfaces.Views;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Basics.CustomizeDialog.Views
 {
@@ -14,13 +15,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.Views
         public ToolBarsPageView()
         {
             InitializeComponent();
-            Loaded += OnLoaded;
-        }
-
-        private void OnLoaded(object sender, RoutedEventArgs e)
-        {
-            ToolBarListBox.Focus();
-            Loaded -= OnLoaded;
+            FocusHelper.FocusPossiblyUnloadedElement(ToolBarListBox);
         }
     }
 }
