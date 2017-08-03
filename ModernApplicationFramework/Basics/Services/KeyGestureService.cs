@@ -169,6 +169,19 @@ namespace ModernApplicationFramework.Basics.Services
 
         public void RemoveAllKeyGestures()
         {
+            if (!IsInitialized)
+                return;
+            lock (_lockObj)
+            {
+                var possibleElemetns = _elementMapping.SelectMany(x => x.Value);
+                foreach (var element in possibleElemetns)
+                {
+                    var bindings = new ArrayList(element.InputBindings);
+                    foreach (InputBinding binding in bindings)
+                        if (binding is MultiKeyBinding)
+                            element.InputBindings.Remove(binding);
+                }
+            }
         }
 
         public void RemoveKeyGesture(CategoryGestureMapping categoryKeyGesture)
@@ -409,26 +422,6 @@ namespace ModernApplicationFramework.Basics.Services
                         e.Timestamp,
                         Key.None)
                 { RoutedEvent = Keyboard.KeyDownEvent });
-        }
-    }
-
-    public class CommandCategoryGestureMapping
-    {
-        public CommandDefinition Command { get; }
-
-        public CategoryGestureMapping CategoryGestureMapping { get; }
-        
-        public string Name => $"{Command.TrimmedCategoryCommandName} ({CategoryGestureMapping.KeyGesture.DisplayString} ({CategoryGestureMapping.Category.Name}))";
-
-        public CommandCategoryGestureMapping(CommandGestureCategory category, CommandDefinition command,
-            MultiKeyGesture gesture) : this(command, new CategoryGestureMapping(category, gesture))
-        {
-        }
-
-        public CommandCategoryGestureMapping(CommandDefinition command, CategoryGestureMapping mapping)
-        {
-            Command = command;
-            CategoryGestureMapping = mapping;
         }
     }
 }

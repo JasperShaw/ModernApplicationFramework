@@ -231,6 +231,7 @@
     <Compile Include="Basics\ApplicationEnvironment\AbstractEnvironmentVarirables.cs" />
     <Compile Include="Basics\ApplicationEnvironment\FallbackEnvironmentVarirables.cs" />
     <Compile Include="Basics\Definitions\Command\ExcludedCommandDefinition.cs" />
+    <Compile Include="Basics\Definitions\Command\CommandCategoryGestureMapping.cs" />
     <Compile Include="Basics\Services\KeyboardInputService.cs" />
     <Compile Include="Input\CategoryGestureMapping.cs" />
     <Compile Include="Input\CommandDefinitionGestureMappingStore.cs" />
