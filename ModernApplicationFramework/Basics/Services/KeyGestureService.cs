@@ -23,8 +23,7 @@ namespace ModernApplicationFramework.Basics.Services
     ///     A service to manage key input bindings
     /// </summary>
     /// <seealso cref="IKeyGestureService" />
-    [Export(typeof(IKeyGestureService))]
-    public class KeyGestureService : IKeyGestureService
+    public abstract class KeyGestureService : IKeyGestureService
     {
         private readonly Dictionary<GestureScope, HashSet<UIElement>> _elementMapping;
         private readonly GestureScope[] _gestureScopes;
@@ -62,10 +61,7 @@ namespace ModernApplicationFramework.Basics.Services
             }
         }
 
-
-        [ImportingConstructor]
-        public KeyGestureService([ImportMany] CommandDefinitionBase[] keyboardShortcuts,
-            [ImportMany] GestureScope[] gestureScopes,
+        protected KeyGestureService(CommandDefinitionBase[] keyboardShortcuts,GestureScope[] gestureScopes,
             IKeyboardInputService keyboardInputService, IStatusBarDataModelService statusBarDataModelService)
         {
             _gestureScopes = gestureScopes;
@@ -420,6 +416,18 @@ namespace ModernApplicationFramework.Basics.Services
                         e.Timestamp,
                         Key.None)
                 { RoutedEvent = Keyboard.KeyDownEvent });
+        }
+    }
+
+    [Export(typeof(IKeyGestureService))]
+    public class DefaultKeyGestureService : KeyGestureService
+    {
+        [ImportingConstructor]
+        public DefaultKeyGestureService([ImportMany] CommandDefinitionBase[] keyboardShortcuts,
+            [ImportMany] GestureScope[] gestureScopes, IKeyboardInputService keyboardInputService, 
+            IStatusBarDataModelService statusBarDataModelService) : 
+            base(keyboardShortcuts, gestureScopes, keyboardInputService, statusBarDataModelService)
+        {
         }
     }
 }
