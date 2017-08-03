@@ -2,7 +2,6 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
-             xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
              xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:validationRules="clr-namespace:ModernApplicationFramework.Core.ValidationRules"
              xmlns:utilities="clr-namespace:ModernApplicationFramework.Controls.Utilities"

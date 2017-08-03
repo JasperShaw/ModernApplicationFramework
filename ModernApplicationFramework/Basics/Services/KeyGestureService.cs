@@ -233,6 +233,20 @@ namespace ModernApplicationFramework.Basics.Services
             return new List<CommandGestureCategory>(_gestureCategories);
         }
 
+        public IEnumerable<CommandCategoryGestureMapping> FindKeyGestures(IList<KeySequence> sequences, FindKeyGestureOption option)
+        {    
+            var list = new List<CommandCategoryGestureMapping>();
+            foreach (var commandDefinition in _keyboardShortcuts)
+            {
+                foreach (var definitionGesture in commandDefinition.Gestures)
+                {
+                    if (definitionGesture.KeyGesture.Contains(sequences))
+                        list.Add(new CommandCategoryGestureMapping(commandDefinition, definitionGesture));
+                }
+            }
+            return list;
+        }
+
 
         /// <summary>
         /// Checks a keyboard input for multi-key gestures.
@@ -400,22 +414,21 @@ namespace ModernApplicationFramework.Basics.Services
 
     public class CommandCategoryGestureMapping
     {
-        public CommandCategoryGestureMapping(CommandGestureCategory category, CommandDefinitionBase command,
-            MultiKeyGesture gesture)
+        public CommandDefinition Command { get; }
+
+        public CategoryGestureMapping CategoryGestureMapping { get; }
+        
+        public string Name => $"{Command.TrimmedCategoryCommandName} ({CategoryGestureMapping.KeyGesture.DisplayString} ({CategoryGestureMapping.Category.Name}))";
+
+        public CommandCategoryGestureMapping(CommandGestureCategory category, CommandDefinition command,
+            MultiKeyGesture gesture) : this(command, new CategoryGestureMapping(category, gesture))
         {
-            Category = category;
-            Command = command;
-            Gesture = gesture;
         }
 
-        public CommandDefinitionBase Command { get; }
-        public MultiKeyGesture Gesture { get; }
-        public CommandGestureCategory Category { get; }
-
-        public override string ToString()
+        public CommandCategoryGestureMapping(CommandDefinition command, CategoryGestureMapping mapping)
         {
-            var gestureText = Gesture.DisplayString;
-            return $"{Command.Name} + {Category.Name} = {gestureText}";
+            Command = command;
+            CategoryGestureMapping = mapping;
         }
     }
 }

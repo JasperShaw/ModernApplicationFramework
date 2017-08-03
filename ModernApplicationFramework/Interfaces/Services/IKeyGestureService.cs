@@ -1,5 +1,6 @@
+using System;
 using System.Collections.Generic;
-
+using System.Windows;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Services;
@@ -71,5 +72,7 @@ namespace ModernApplicationFramework.Interfaces.Services
         IEnumerable<CommandDefinition> GetAllCommandDefinitions();
         
         IEnumerable<CommandGestureCategory> GetAllCommandGestureCategories();
+        
+        IEnumerable<CommandCategoryGestureMapping> FindKeyGestures(IList<KeySequence> sequences, FindKeyGestureOption option);
     }
 }

@@ -25,7 +25,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
 
             var l = new List<KeySequence>
             {
-                new KeySequence(ModifierKeys.Control, Key.A),
+                new KeySequence(ModifierKeys.Control, Key.W),
                 new KeySequence(ModifierKeys.Control, Key.A),
             };
 
@@ -91,7 +91,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
         public override string IconId => null;
         public override CommandCategory Category => new CommandCategory("Test");
         public override Uri IconSource => null;
-        public override string Name => "MultiHotKey";
+        public override string Name => "RealMultiHotKey";
         public override string Text => Name;
         public override string ToolTip => Name;
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Input;
 using System.Windows.Markup;
@@ -42,6 +43,10 @@ namespace ModernApplicationFramework.Input
         /// </remarks>
         /// </summary>
         public bool IsRealMultiKeyGesture => GestureCollection.Count == 2;
+
+        public new string DisplayString => (string)
+            KeyGestureConverter.ConvertTo(null, CultureInfo.CurrentCulture, this,
+                typeof(string));
 
         static MultiKeyGesture()
         {
@@ -171,7 +176,66 @@ namespace ModernApplicationFramework.Input
             ResetState();
             return true;
         }
-        
+
+        /// <summary>
+        /// Determines whether this gesture contains the specified key-sequence. 
+        /// </summary>
+        /// <remarks>
+        /// If this instance is set <see cref="IsRealMultiKeyGesture"/> to <see langword="true"/> 
+        /// it check the first specified sequence against the first sequence of this gesture.
+        /// The second specified will be checked against the second sequences of this gesture. 
+        /// </remarks>
+        /// <param name="sequence">The sequence.</param>
+        /// <param name="option">The option.</param>
+        /// <returns>
+        ///   <see langword="true"/> if there was a matching; <see langword="false"/> if not.
+        /// </returns>
+        public bool Contains(KeySequence sequence, FindKeyGestureOption option = FindKeyGestureOption.Containing)
+        {
+            return Contains(new List<KeySequence> { sequence }, option);
+        }
+
+        /// <summary>
+        /// Determines whether this gesture contains the specified key-sequences. 
+        /// </summary>
+        /// <remarks>
+        /// If this instance is set <see cref="IsRealMultiKeyGesture"/> to <see langword="true"/> 
+        /// it check the first specified sequence against the first sequence of this gesture.
+        /// The second specified will be checked against the second sequences of this gesture. 
+        /// </remarks>
+        /// <param name="keySequences">The key sequences.</param>
+        /// <param name="option">The option.</param>
+        /// <returns>
+        ///   <see langword="true"/> if there was a matching; <see langword="false"/> if not.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public bool Contains(IList<KeySequence> keySequences, FindKeyGestureOption option = FindKeyGestureOption.Containing)
+        {
+            if (keySequences == null)
+                throw new ArgumentNullException();
+
+            var checkCount = keySequences.Count;
+
+            if (checkCount == 0)
+                return false;
+            var realSequences = GetKeySequences(this);
+            var realCount = realSequences.Count;
+                    
+            if (checkCount > realCount)
+                return false;
+            if (keySequences[0].Key != realSequences[0].Key || keySequences[0].Modifiers != realSequences[0].Modifiers)
+                return false;
+
+            if (option == FindKeyGestureOption.ExactMatch && checkCount != realCount)
+                return false;
+            if (checkCount < realCount || checkCount == 1)
+                return true;
+
+            if (keySequences[1].Key != realSequences[1].Key || keySequences[1].Modifiers != realSequences[1].Modifiers)
+                return false;
+            return false;
+        }
+
         private void ResetState()
         {
             _currentKeyIndex = 0;
@@ -188,5 +252,25 @@ namespace ModernApplicationFramework.Input
         {
             return key >= Key.None && key <= Key.OemClear;
         }
+
+        /// <summary>
+        /// Gets a list of the containing sequences even if the <see cref="IsRealMultiKeyGesture"/> is set to false;
+        /// </summary>
+        /// <param name="gesture">The gesture.</param>
+        /// <returns>All <see cref="KeySequence"/>s found</returns>
+        public static IList<KeySequence> GetKeySequences(MultiKeyGesture gesture)
+        {
+            if (gesture.IsRealMultiKeyGesture)
+                return gesture.GestureCollection;
+            if (gesture.Key == Key.None)
+                return new List<KeySequence>();
+            return new List<KeySequence> { new KeySequence(gesture.Modifiers, gesture.Key) };
+        }
+    }
+
+    public enum FindKeyGestureOption
+    {
+        Containing,
+        ExactMatch
     }
 }

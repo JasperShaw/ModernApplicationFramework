@@ -19,7 +19,7 @@ namespace ModernApplicationFramework.Core.Localization
         public static string GetCultureModifiersName(ModifierKeys modifiers, CultureInfo culture = null)
         {
             if (!ModifierKeysConverter.IsDefinedModifierKeys(modifiers))
-                throw new InvalidEnumArgumentException(nameof(modifiers), (int) modifiers, typeof(ModifierKeys));
+                throw new InvalidEnumArgumentException(nameof(modifiers), (int)modifiers, typeof(ModifierKeys));
             var str = string.Empty;
 
             if ((modifiers & ModifierKeys.Control) == ModifierKeys.Control)
@@ -68,7 +68,7 @@ namespace ModernApplicationFramework.Core.Localization
         {
             var ret = GetLocalizedKeyName(key, culture);
             if (!string.IsNullOrEmpty(ret))
-                return ret;     
+                return ret;
             //Translate OEM keys
             ret = KeyCodeToUnicode(key);
             return ret;
@@ -85,7 +85,7 @@ namespace ModernApplicationFramework.Core.Localization
             if (name == GetResource("Shift", culture))
                 return ModifierKeys.Shift;
             if (name == GetResource("Windows", culture))
-                return ModifierKeys.Windows;          
+                return ModifierKeys.Windows;
             return ModifierKeys.None;
         }
 
@@ -93,12 +93,13 @@ namespace ModernApplicationFramework.Core.Localization
         {
             if (string.IsNullOrEmpty(keyString))
                 return Key.None;
-            var ret = GetKeyByLocalizedName(keyString, culture);
+            var trimmed = keyString.Trim();
+            var ret = GetKeyByLocalizedName(trimmed, culture);
             if (ret != Key.None)
                 return ret;
-            var tmp = keyString.ToCharArray();         
+            var tmp = trimmed.ToCharArray();
             if (tmp.Length > 1)
-                throw new ArgumentException($"Invalid key string: {keyString}");       
+                throw new ArgumentException($"Invalid key string: {trimmed}");
             return KeyInterop.KeyFromVirtualKey(VkKeyScan(tmp[0]));
         }
 

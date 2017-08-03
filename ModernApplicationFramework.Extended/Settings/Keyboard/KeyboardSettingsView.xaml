@@ -9,6 +9,7 @@
              xmlns:comparers="clr-namespace:ModernApplicationFramework.Core.Comparers;assembly=ModernApplicationFramework"
              xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General;assembly=ModernApplicationFramework"
+             xmlns:services="clr-namespace:ModernApplicationFramework.Basics.Services;assembly=ModernApplicationFramework"
              mc:Ignorable="d" d:DesignWidth="460" d:DesignHeight="300">
     <FrameworkElement.Resources>
 
@@ -19,12 +20,31 @@
             <comparers:CategoryCommandTextComparer x:Key="CategoryCommandTextComparer" />
 
             <general:NullToBooleanConverter x:Key="NullToBooleanConverter"/>
-            
+
+
+            <keyboard:CommandCategoryGestureMappingViewSource x:Key="DuplicatesView" BoundPropertyName="Name"
+                                                              Source="{Binding Duplicates}">
+                <keyboard:CommandCategoryGestureMappingViewSource.SortDescriptions>
+                    <componentModel:SortDescription PropertyName="Name"/>
+                </keyboard:CommandCategoryGestureMappingViewSource.SortDescriptions>
+            </keyboard:CommandCategoryGestureMappingViewSource>
+
+
             <CollectionViewSource x:Key="CategoryView" Source="{Binding Categories}">
                 <CollectionViewSource.SortDescriptions>
                     <componentModel:SortDescription PropertyName="Name"/>
                 </CollectionViewSource.SortDescriptions>
             </CollectionViewSource>
+
+
+
+            <DataTemplate x:Key="DuplicateDataTemplate">
+                <TextBlock>
+                    <TextBlock.Text>
+                        <Binding Path="Name"/>
+                    </TextBlock.Text>
+                </TextBlock>
+            </DataTemplate>
 
             <DataTemplate x:Key="CategoryDataTemplate">
                 <TextBlock>
@@ -121,9 +141,14 @@
                 <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Left" Padding="0,5,5,3" Target="{Binding ElementName=GestureTextBox}"
                    Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsCurrentBindings_Label}"/>
                 <ComboBox x:Name="CurrentUsedCombo" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="5"
-                      IsEnabled="{Binding RelativeSource={RelativeSource Self}, Path=HasItems}"/>
-
+                      IsEnabled="{Binding RelativeSource={RelativeSource Self}, Path=HasItems}"
+                          ItemsSource="{Binding Source={StaticResource DuplicatesView}}"
+                          IsTextSearchEnabled="True" TextSearch.TextPath="Text" ItemTemplate="{StaticResource DuplicateDataTemplate}">
+                </ComboBox>
             </Grid>
         </Grid>
     </DockPanel>
 </UserControl>
+
+
+

@@ -8,6 +8,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Services;
 using ModernApplicationFramework.Extended.Commands;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
@@ -34,6 +35,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         private CategoryGestureMapping _selectedGestureBinding;
         private CommandGestureCategory _selectedCategory;
         private string _gestureInput;
+        private IEnumerable<CommandCategoryGestureMapping> _duplicates;
         public override uint SortOrder => 15;
         public override string Name => "Keyboard";
         public override ISettingsCategory Category => SettingsCategories.EnvironmentCategory;
@@ -132,9 +134,22 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
                 OnPropertyChanged();
                 CurrentKeyGesture = (MultiKeyGesture)new MultiKeyGestureConverter().ConvertFrom(null, CultureInfo.CurrentCulture,
                     GestureInput);
+                UpdateDuplicate();
             }
         }
-        
+
+        public IEnumerable<CommandCategoryGestureMapping> Duplicates
+        {
+            get => _duplicates;
+            set
+            {
+                if (Equals(_duplicates, value))
+                    return;
+                _duplicates = value;
+                OnPropertyChanged();
+            }
+        }
+
         public MultiKeyGesture CurrentKeyGesture { get; set; }
 
 
@@ -163,7 +178,15 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
 
         public override void Activate()
         {
+            //For some funny reason you can to call Last() in order to select the first item...
+            SelectedCommand = ((IEnumerable<CommandDefinition>) CollViewSource.Source).LastOrDefault();
             GestureInput = string.Empty;
+        }
+
+        private void UpdateDuplicate()
+        {
+            Duplicates = _gestureService.FindKeyGestures(MultiKeyGesture.GetKeySequences(CurrentKeyGesture),
+                FindKeyGestureOption.Containing);
         }
 
 
