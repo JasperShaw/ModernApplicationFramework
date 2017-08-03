@@ -83,6 +83,7 @@
     <Compile Include="Core\LayoutManagement\WindowLayoutInfo.cs" />
     <Compile Include="Core\LayoutManagement\WindowLayoutSettings.cs" />
     <Compile Include="Core\LayoutManagement\WindowLayoutStore.cs" />
+    <Compile Include="Input\KeyBindingScheme.cs" />
     <Compile Include="Interfaces\IApplicationEnvironment.cs" />
     <Compile Include="ExtendedBootstrapper.cs" />
     <Compile Include="Commands\CloseProgammCommandDefinition.cs" />

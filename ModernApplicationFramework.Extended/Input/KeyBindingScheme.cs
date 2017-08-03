@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Input.Command;
 
-namespace ModernApplicationFramework.Basics
+namespace ModernApplicationFramework.Extended.Input
 {
     public class KeyBindingScheme
     {
@@ -24,7 +19,7 @@ namespace ModernApplicationFramework.Basics
             
         }
 
-        public static KeyBindingScheme CreateSchemeFromFile(string file)
+        public static KeyBindingScheme LoadSchemeFromFile(string file)
         {
             return null;
         }
