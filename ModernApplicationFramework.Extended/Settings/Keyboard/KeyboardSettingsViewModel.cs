@@ -44,9 +44,9 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         public ICommand ShowBindings => new Command(ExecuteMethod);
         public ICommand RemoveSelectedBinding => new UICommand(ExecuteRemoveBinding, CanExecuteRemoveBinding);
         public ICommand AssignGesture => new UICommand(ExecuteAssignGesture, CanAssignGesture);
-        
+
         public CommandDefinitionViewSource CollViewSource { get; set; }
-        
+
         public IObservableCollection<CommandGestureCategory> Categories { get; }
 
         public string SearchFilter
@@ -106,7 +106,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
             {
                 if (Equals(value, _selectedGestureBinding))
                     return;
-                _selectedGestureBinding = value; 
+                _selectedGestureBinding = value;
                 OnPropertyChanged();
             }
         }
@@ -163,7 +163,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
             AllCommands = gestureService.GetAllCommandDefinitions();
             Categories = new BindableCollection<CommandGestureCategory>(gestureService.GetAllCommandGestureCategories());
             SelectedCategory = CommandGestureCategories.GlobalGestureCategory;
-            SetupCollectionViewSource();          
+            SetupCollectionViewSource();
         }
 
         protected override bool SetData()
@@ -179,7 +179,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         public override void Activate()
         {
             //For some funny reason you can to call Last() in order to select the first item...
-            SelectedCommand = ((IEnumerable<CommandDefinition>) CollViewSource.Source).LastOrDefault();
+            SelectedCommand = ((IEnumerable<CommandDefinition>)CollViewSource.Source).LastOrDefault();
             GestureInput = string.Empty;
         }
 
@@ -193,7 +193,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         private void ExecuteRemoveBinding()
         {
             SelectedCommand.Gestures.Remove(SelectedGestureBinding);
-            UpdateAvailableGestureBinding();  
+            UpdateAvailableGestureBinding();
         }
 
         private bool CanExecuteRemoveBinding()
@@ -215,9 +215,21 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
 
         private void ExecuteAssignGesture()
         {
-            var category = SelectedCategory;        
+            if (Duplicates.Any())
+            {
+                var exactDuplicate = _gestureService
+                    .FindKeyGestures(MultiKeyGesture.GetKeySequences(CurrentKeyGesture),
+                        FindKeyGestureOption.Containing)
+                    .FirstOrDefault(x => Equals(x.CategoryGestureMapping.Category, SelectedCategory));
+                exactDuplicate?.Command.Gestures.Remove(exactDuplicate.CategoryGestureMapping);
+            }
+
+            var category = SelectedCategory;
             var categoryKeyGesture = new CategoryGestureMapping(category, CurrentKeyGesture);
-            SelectedCommand.Gestures.Add(categoryKeyGesture);
+            SelectedCommand.Gestures.Insert(0, categoryKeyGesture);
+            UpdateAvailableGestureBinding();
+            UpdateDuplicate();
+            GestureInput = string.Empty;
         }
 
         private void ExecuteMethod()
@@ -229,10 +241,10 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
             _dialogProvider.ShowMessage(message);
 
 
-            var ic = IoC.Get<ICommandService>().GetCommandDefinition(typeof(MultiUndoCommandDefinition)) as CommandDefinition;   
+            var ic = IoC.Get<ICommandService>().GetCommandDefinition(typeof(MultiUndoCommandDefinition)) as CommandDefinition;
             if (ic == null)
                 return;
-            
+
         }
 
         private void AddFilter()
@@ -247,8 +259,8 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
             var src = e.Item as CommandDefinition;
             if (src == null)
                 e.Accepted = false;
-            else if (src.TrimmedCategoryCommandName != null && 
-                     !Regex.IsMatch(src.TrimmedCategoryCommandName, SearchFilter, 
+            else if (src.TrimmedCategoryCommandName != null &&
+                     !Regex.IsMatch(src.TrimmedCategoryCommandName, SearchFilter,
                          RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.IgnorePatternWhitespace))
                 e.Accepted = false;
         }
