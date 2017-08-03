@@ -48,7 +48,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
 
         public CommandDefinitionViewSource CollViewSource { get; set; }
 
-        public IObservableCollection<GestureScope> Categories { get; }
+        public IObservableCollection<GestureScope> Scopes { get; }
 
         public int SelectedCommandIndex
         {
@@ -174,7 +174,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
             _dialogProvider = dialogProvider;
             _gestureService = gestureService;
             AllCommands = gestureService.GetAllCommandDefinitions();
-            Categories = new BindableCollection<GestureScope>(gestureService.GetAllCommandGestureCategories());
+            Scopes = new BindableCollection<GestureScope>(gestureService.GetAllCommandGestureCategories());
             SelectedScope = GestureScopes.GlobalGestureScope;
             SetupCollectionViewSource();
         }

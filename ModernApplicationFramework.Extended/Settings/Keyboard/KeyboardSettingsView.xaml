@@ -21,15 +21,15 @@
             <general:NullToBooleanConverter x:Key="NullToBooleanConverter"/>
 
 
-            <keyboard:CommandCategoryGestureMappingViewSource x:Key="DuplicatesView" BoundPropertyName="Name"
+            <keyboard:CommandGestureScopeMappingViewSource x:Key="DuplicatesView" BoundPropertyName="Name"
                                                               Source="{Binding Duplicates}">
-                <keyboard:CommandCategoryGestureMappingViewSource.SortDescriptions>
+                <keyboard:CommandGestureScopeMappingViewSource.SortDescriptions>
                     <componentModel:SortDescription PropertyName="Name"/>
-                </keyboard:CommandCategoryGestureMappingViewSource.SortDescriptions>
-            </keyboard:CommandCategoryGestureMappingViewSource>
+                </keyboard:CommandGestureScopeMappingViewSource.SortDescriptions>
+            </keyboard:CommandGestureScopeMappingViewSource>
 
 
-            <CollectionViewSource x:Key="CategoryView" Source="{Binding Categories}">
+            <CollectionViewSource x:Key="ScopeView" Source="{Binding Scopes}">
                 <CollectionViewSource.SortDescriptions>
                     <componentModel:SortDescription PropertyName="Name"/>
                 </CollectionViewSource.SortDescriptions>
@@ -45,7 +45,7 @@
                 </TextBlock>
             </DataTemplate>
 
-            <DataTemplate x:Key="CategoryDataTemplate">
+            <DataTemplate x:Key="ScopeDataTemplate">
                 <TextBlock>
                     <TextBlock.Text>
                         <Binding Path="Name"/>
@@ -53,7 +53,7 @@
                 </TextBlock>
             </DataTemplate>
 
-            <DataTemplate x:Key="CategoryGestureDataTemplate">
+            <DataTemplate x:Key="GestureScopeDataTemplate">
                 <TextBlock>
                     <TextBlock.Text>
                         <Binding Path="Text"/>
@@ -132,18 +132,18 @@
                 <Label Grid.Row="0" Grid.ColumnSpan="3" Grid.Column="0" HorizontalAlignment="Left" Padding="0,5,5,3" Target="{Binding ElementName=SelectedBindingCombo}"
                        Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsSelectedBinding_Label}"/>
                 <ComboBox x:Name="SelectedBindingCombo" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
-                          IsEnabled="{Binding SelectedGestureBinding, Converter={StaticResource NullToBooleanConverter}}"
-                          ItemsSource="{Binding AvailableGestureBindings}" SelectedItem="{Binding SelectedGestureBinding, Mode=TwoWay}"
-                          ItemTemplate="{StaticResource CategoryGestureDataTemplate}"/>
+                          IsEnabled="{Binding SelectedGestureScopeBinding, Converter={StaticResource NullToBooleanConverter}}"
+                          ItemsSource="{Binding AvailableGestureBindings}" SelectedItem="{Binding SelectedGestureScopeBinding, Mode=TwoWay}"
+                          ItemTemplate="{StaticResource GestureScopeDataTemplate}"/>
 
                 <Button Grid.Row="1" Grid.Column="4" Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsRemoveCurrentBinding_Button}"
                     IsEnabled="{Binding ElementName=SelectedBindingCombo, Path=IsEnabled}"
                         Command="{Binding RemoveSelectedBinding}"/>
 
-                <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Padding="0,5,5,3" Target="{Binding ElementName=CategoryCombo}"
+                <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Padding="0,5,5,3" Target="{Binding ElementName=ScopeCombo}"
                    Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsNewBindingCategory_Label}"/>
-                <ComboBox x:Name="CategoryCombo" Grid.Row="3" Grid.Column="0" ItemsSource="{Binding Source={StaticResource CategoryView}}"
-                          ItemTemplate="{StaticResource CategoryDataTemplate}" SelectedItem="{Binding SelectedCategory}"
+                <ComboBox x:Name="ScopeCombo" Grid.Row="3" Grid.Column="0" ItemsSource="{Binding Source={StaticResource ScopeView}}"
+                          ItemTemplate="{StaticResource ScopeDataTemplate}" SelectedItem="{Binding SelectedScope}"
                           TextSearch.TextPath="Name"/>
 
                 <Label Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" HorizontalAlignment="Left" Padding="0,5,5,3" Target="{Binding ElementName=GestureTextBox}"
