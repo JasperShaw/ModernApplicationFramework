@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
-using System.Linq;
 using System.Windows.Input;
 using System.Windows.Markup;
 
@@ -60,29 +59,6 @@ namespace ModernApplicationFramework.Input
         public MultiKeyGesture(Key key, ModifierKeys modifiers, string displayString)
             : base(key, modifiers, displayString) { }
 
-        public MultiKeyGesture(IEnumerable<Key> keys, ModifierKeys modifiers)
-            : this(Key.None, ModifierKeys.None)
-        {
-            if (keys == null)
-                throw new ArgumentNullException(nameof(keys));
-            var keyList = keys as IList<Key> ?? keys.ToList();
-            if (!keyList.Any())
-                throw new ArgumentException("At least one key must be specified.", nameof(keys));
-            if (keyList.Count == 1)
-                throw new ArgumentException("Do not use this constructor for a normal key gesture", nameof(keys));
-            if (keyList.Count > 2)
-                throw new ArgumentException($"Maximum input is 2 but given were: {keyList.Count}");
-
-            GestureCollection = new List<KeySequence>();
-            var index = 0;
-            foreach (var key in keyList)
-            {
-                GestureCollection.Add(index++ == 0
-                    ? new KeySequence(modifiers, key)
-                    : new KeySequence(ModifierKeys.None, key));
-            }
-        }
-
         public MultiKeyGesture(ICollection<KeySequence> gestureList) : base(Key.None, ModifierKeys.None)
         {
             if (gestureList == null)
@@ -93,10 +69,11 @@ namespace ModernApplicationFramework.Input
                 throw new ArgumentException("Do not use this constructor for a normal key gesture", nameof(gestureList));
             if (gestureList.Count == 0)
                 throw new ArgumentException("At least one key must be specified.", nameof(gestureList));
-
             GestureCollection = new List<KeySequence>();
             foreach (var gesturePair in gestureList)
             {
+                if (!gesturePair.IsValid())
+                    throw new ArgumentException("Used invalid key sequence");
                 if (gesturePair.Key == Key.None)
                     throw new ArgumentException("At least one key must be specified.", nameof(gesturePair));
                 GestureCollection.Add(gesturePair);
@@ -220,7 +197,7 @@ namespace ModernApplicationFramework.Input
                 return false;
             var realSequences = GetKeySequences(this);
             var realCount = realSequences.Count;
-                    
+
             if (checkCount > realCount)
                 return false;
             if (keySequences[0].Key != realSequences[0].Key || keySequences[0].Modifiers != realSequences[0].Modifiers)

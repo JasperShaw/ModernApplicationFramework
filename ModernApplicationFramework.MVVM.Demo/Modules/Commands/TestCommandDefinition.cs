@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Drawing;
 using System.Windows;
@@ -21,8 +22,12 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
         {
             var command = new UICommand(Test, CanTest);
             Command = command;
-                     
-            DefaultKeyGesture = new MultiKeyGesture(new[] { Key.W, Key.K }, ModifierKeys.Control);
+
+            DefaultKeyGesture = new MultiKeyGesture(new List<KeySequence>
+            {
+                new KeySequence(ModifierKeys.Control, Key.W),
+                new KeySequence(Key.K)
+            });
             DefaultGestureCategory = UndoRedoViewModel.UndoRedoCategory;
         }
 

@@ -74,7 +74,10 @@ namespace ModernApplicationFramework.Controls.TextBoxes
             if (modifier == ModifierKeys.None && !CheckForFunctionKey(key))
                     return false;
 
-            _keySequences[0] = new KeySequence(modifier, key);
+            var sequence = new KeySequence(modifier, key);
+            if (!sequence.IsValid())
+                return false;
+            _keySequences[0] = sequence;
             _isMultiState = true;
             return true;
         }
@@ -90,7 +93,10 @@ namespace ModernApplicationFramework.Controls.TextBoxes
             }          
             if (!ValidateBasicKeyInput(key))
                 return false;
-            _keySequences[1] = new KeySequence(modifier, key);
+            var sequence = new KeySequence(modifier, key);
+            if (!sequence.IsValid())
+                return false;
+            _keySequences[1] = sequence;
             return true;
         }
 

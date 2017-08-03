@@ -43,10 +43,5 @@ namespace ModernApplicationFramework.Input
         {
             
         }
-
-        public MultiKeyBinding(ICommand command, IEnumerable<Key> keys, ModifierKeys modifiers)
-            : base(command, new MultiKeyGesture(keys, modifiers))
-        {
-        }
     }
 }
