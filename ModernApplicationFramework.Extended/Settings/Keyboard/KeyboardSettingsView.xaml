@@ -26,7 +26,14 @@
                 <keyboard:CommandGestureScopeMappingViewSource.SortDescriptions>
                     <componentModel:SortDescription PropertyName="Name"/>
                 </keyboard:CommandGestureScopeMappingViewSource.SortDescriptions>
-            </keyboard:CommandGestureScopeMappingViewSource>
+            </keyboard:CommandGestureScopeMappingViewSource> 
+            
+            <keyboard:SchemeDefinitionViewSource x:Key="SchemesView" BoundPropertyName="Name"
+                                                           Source="{Binding Schemes}">
+                <keyboard:SchemeDefinitionViewSource.SortDescriptions>
+                    <componentModel:SortDescription PropertyName="Name"/>
+                </keyboard:SchemeDefinitionViewSource.SortDescriptions>
+            </keyboard:SchemeDefinitionViewSource>
 
 
             <CollectionViewSource x:Key="ScopeView" Source="{Binding Scopes}">
@@ -35,6 +42,13 @@
                 </CollectionViewSource.SortDescriptions>
             </CollectionViewSource>
 
+            <DataTemplate x:Key="SchemeDataTemplate">
+                <TextBlock>
+                    <TextBlock.Text>
+                        <Binding Path="Name"/>
+                    </TextBlock.Text>
+                </TextBlock>
+            </DataTemplate>
 
 
             <DataTemplate x:Key="DuplicateDataTemplate">
@@ -90,7 +104,8 @@
                     </Grid.RowDefinitions>
                     <Label Grid.ColumnSpan="3" Padding="0,5,5,3" Target="{Binding ElementName=SchemeCombo}"
                            Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsApplyScheme_Label}"/>
-                    <ComboBox x:Name="SchemeCombo" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch"/>
+                    <ComboBox x:Name="SchemeCombo" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch"
+                              ItemsSource="{Binding Source={StaticResource SchemesView}}"/>
                     <Button x:Name="ResetButton" Grid.Row="1"  Grid.Column="2" MinWidth="125" 
                             Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsResetScheme}" 
                             Command="{Binding ShowBindings}"/>

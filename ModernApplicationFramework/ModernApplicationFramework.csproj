@@ -242,8 +242,6 @@
     <Compile Include="Input\Command\GestureScope.cs" />
     <Compile Include="Input\ValidCheckMode.cs" />
     <Compile Include="Interfaces\ICanHaveInputBindings.cs" />
-    <Compile Include="Input\GestureCollectionChangedEventArgs.cs" />
-    <Compile Include="Input\GestureCollectionChangedType.cs" />
     <Compile Include="Input\KeySequence.cs" />
     <Compile Include="Input\MultiKeyBinding.cs" />
     <Compile Include="Input\MultiKeyGestureValueSerializer.cs" />

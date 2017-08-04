@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Globalization;
@@ -192,7 +193,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         public override void Activate()
         {
             SelectedCommandIndex = 0;
-            GestureInput = string.Empty;
+            //GestureInput = string.Empty;
         }
 
         private void UpdateDuplicate()
@@ -216,6 +217,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
 
         private void UpdateAvailableGestureBinding()
         {
+            AvailableGestureBindings = null;
             AvailableGestureBindings = SelectedCommand.Gestures;
             SelectedGestureScopeBinding = SelectedCommand.Gestures.Count > 0 ? SelectedCommand.Gestures[0] : null;
         }
@@ -240,8 +242,8 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
             var categoryKeyGesture = new GestureScopeMapping(category, CurrentKeyGesture);
             SelectedCommand.Gestures.Insert(0, categoryKeyGesture);
             UpdateAvailableGestureBinding();
+            //GestureInput = string.Empty;
             UpdateDuplicate();
-            GestureInput = string.Empty;
         }
 
         private void ExecuteMethod()

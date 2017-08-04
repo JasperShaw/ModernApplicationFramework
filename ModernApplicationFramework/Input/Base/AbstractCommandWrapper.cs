@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Input;
 
 namespace ModernApplicationFramework.Input.Base
@@ -39,6 +40,7 @@ namespace ModernApplicationFramework.Input.Base
             remove => CommandManager.RequerySuggested -= value;
         }
 
+        [DebuggerHidden]
         public void Execute(object parameter)
         {
             WrappedCommand.Execute(parameter);

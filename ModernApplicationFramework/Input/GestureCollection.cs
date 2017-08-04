@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 
 namespace ModernApplicationFramework.Input
 {
-    public class GestureCollection : IList<GestureScopeMapping>
+    public class GestureCollection : IList<GestureScopeMapping>, INotifyCollectionChanged
     {
-        public delegate void GestursChangedEventHandler(object sender, GestureCollectionChangedEventArgs e);
-
-        public event GestursChangedEventHandler GestursChanged;
-
-
         private List<GestureScopeMapping> _innerList;
 
         public IEnumerator<GestureScopeMapping> GetEnumerator()
@@ -31,14 +27,14 @@ namespace ModernApplicationFramework.Input
             if (_innerList == null)
                 _innerList = new List<GestureScopeMapping>(1);
             _innerList.Add(item);
-            OnGestureChanged(new GestureCollectionChangedEventArgs(GestureCollectionChangedType.Added, item));
+            OnGestureChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
         }
 
         public void Clear()
         {
             if (_innerList == null)
                 return;
-            OnGestureChanged(new GestureCollectionChangedEventArgs(GestureCollectionChangedType.Cleared, _innerList));
+            OnGestureChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset, _innerList));
             _innerList.Clear();
             _innerList = null;
         }
@@ -57,10 +53,9 @@ namespace ModernApplicationFramework.Input
         {
             if (_innerList == null)
                 return false;
-            var result = _innerList.Remove(item);
-            if (!result)
-                return false;
-            OnGestureChanged(new GestureCollectionChangedEventArgs(GestureCollectionChangedType.Removed, item));
+            var index = _innerList.IndexOf(item);
+            OnGestureChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, index));
+            _innerList.RemoveAt(index);
             return true;
         }
 
@@ -77,8 +72,10 @@ namespace ModernApplicationFramework.Input
 
         public void Insert(int index, GestureScopeMapping item)
         {
-            _innerList?.Insert(index, item);
-            OnGestureChanged(new GestureCollectionChangedEventArgs(GestureCollectionChangedType.Added, item));
+            if (_innerList == null)
+                _innerList = new List<GestureScopeMapping>(index + 1);
+            _innerList.Insert(index, item);
+            OnGestureChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index));
         }
 
         public void RemoveAt(int index)
@@ -87,7 +84,7 @@ namespace ModernApplicationFramework.Input
                 return;
             var item = _innerList[index];
             _innerList.RemoveAt(index);
-            OnGestureChanged(new GestureCollectionChangedEventArgs(GestureCollectionChangedType.Removed, item));
+            OnGestureChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, index));
         }
 
         public GestureScopeMapping this[int index]
@@ -101,9 +98,11 @@ namespace ModernApplicationFramework.Input
             }
         }
 
-        protected void OnGestureChanged(GestureCollectionChangedEventArgs e)
+        protected void OnGestureChanged(NotifyCollectionChangedEventArgs e)
         {
-            GestursChanged?.Invoke(this, e);
+            CollectionChanged?.Invoke(this, e);
         }
+
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
     }
 }

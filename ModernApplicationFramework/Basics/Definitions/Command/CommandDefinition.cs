@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -26,7 +27,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         protected CommandDefinition()
         {
             Gestures = new GestureCollection();
-            Gestures.GestursChanged += Gestures_GestursChanged;
+            Gestures.CollectionChanged += Gestures_GestursChanged;
             KeyGestures = new List<MultiKeyGesture>();
         }
 
@@ -119,24 +120,23 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         /// </summary>
         public IReadOnlyList<MultiKeyGesture> KeyGestures { get; private set; }
 
-
-        private void Gestures_GestursChanged(object sender, GestureCollectionChangedEventArgs e)
+        private void Gestures_GestursChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (_gestureService == null)
                 _gestureService = IoC.Get<IKeyGestureService>();
             
             KeyGestures = new ReadOnlyCollection<MultiKeyGesture>(Gestures.Select(x => x.KeyGesture).ToList());
-            switch (e.Type)
+            switch (e.Action)
             {
-                case GestureCollectionChangedType.Added:
-                    var mapping = new CommandGestureScopeMapping(this, e.CategoryKeyGesture.FirstOrDefault());
+                case NotifyCollectionChangedAction.Add:
+                    var mapping = new CommandGestureScopeMapping(this, e.NewItems.OfType<GestureScopeMapping>().FirstOrDefault());
                     _gestureService.AddKeyGestures(mapping);
                     break;
-                case GestureCollectionChangedType.Removed:
-                    _gestureService.RemoveKeyGesture(e.CategoryKeyGesture.FirstOrDefault());
+                case NotifyCollectionChangedAction.Remove:
+                    _gestureService.RemoveKeyGesture(e.OldItems.OfType<GestureScopeMapping>().FirstOrDefault());
                     break;
-                case GestureCollectionChangedType.Cleared:
-                    foreach (var gesture in e.CategoryKeyGesture)
+                case NotifyCollectionChangedAction.Reset:
+                    foreach (var gesture in e.NewItems.OfType<GestureScopeMapping>())
                         _gestureService.RemoveKeyGesture(gesture);
                     break;
                 default:

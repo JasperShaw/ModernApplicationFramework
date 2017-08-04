@@ -1,6 +1,7 @@
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Services;
 using ModernApplicationFramework.Controls.Utilities;
+using ModernApplicationFramework.Extended.Input;
 
 namespace ModernApplicationFramework.Extended.Settings.Keyboard
 {
@@ -15,6 +16,14 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
     public class CommandGestureScopeMappingViewSource : PropertyBoundFilteringCollectionViewSource<CommandGestureScopeMapping>
     {
         protected override bool AcceptItem(CommandGestureScopeMapping item)
+        {
+            return true;
+        }
+    }
+
+    public class SchemeDefinitionViewSource : PropertyBoundFilteringCollectionViewSource<SchemeDefinition>
+    {
+        protected override bool AcceptItem(SchemeDefinition item)
         {
             return true;
         }
