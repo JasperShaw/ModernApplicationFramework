@@ -105,10 +105,11 @@
                     <Label Grid.ColumnSpan="3" Padding="0,5,5,3" Target="{Binding ElementName=SchemeCombo}"
                            Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsApplyScheme_Label}"/>
                     <ComboBox x:Name="SchemeCombo" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch"
-                              ItemsSource="{Binding Source={StaticResource SchemesView}}"/>
+                              ItemsSource="{Binding Source={StaticResource SchemesView}}"
+                              ItemTemplate="{StaticResource SchemeDataTemplate}" SelectedItem="{Binding SelectedScheme, Mode=TwoWay}"/>
                     <Button x:Name="ResetButton" Grid.Row="1"  Grid.Column="2" MinWidth="125" 
                             Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsResetScheme}" 
-                            Command="{Binding ShowBindings}"/>
+                            Command="{Binding ResetSchemeCommand}"/>
                 </Grid>
                 <Label DockPanel.Dock="Top" HorizontalAlignment="Left" Padding="0,5,5,3" Target="{Binding ElementName=SearchTextBox}"
                        Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsSearch_Label}"/>

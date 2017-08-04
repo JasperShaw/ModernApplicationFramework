@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Extended.Commands;
+using ModernApplicationFramework.Extended.Input;
+using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
@@ -17,6 +18,7 @@ using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Settings;
 using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Settings.SettingsDialog;
+using ModernApplicationFramework.Utilities.Interfaces;
 using ModernApplicationFramework.Utilities.Interfaces.Settings;
 
 namespace ModernApplicationFramework.Extended.Settings.Keyboard
@@ -26,8 +28,8 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
     public class KeyboardSettingsViewModel : AbstractSettingsPage, IStretchSettingsPanelPanel
     {
         private readonly ISettingsManager _settingsManager;
-        private readonly IDialogProvider _dialogProvider;
         private readonly IKeyGestureService _gestureService;
+        private readonly IKeyBindingSchemeManager _schemeManager;
         private IEnumerable<CommandDefinition> _items;
         private string _searchFilter;
         private GestureCollection _availableGestureCommands;
@@ -37,13 +39,15 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         private string _gestureInput;
         private IEnumerable<CommandGestureScopeMapping> _duplicates;
         private int _selectedCommandIndex;
-        
+        private IEnumerable<SchemeDefinition> _schemes;
+        private SchemeDefinition _selectedScheme;
+
         public override uint SortOrder => 15;
         public override string Name => "Keyboard";
         public override ISettingsCategory Category => SettingsCategories.EnvironmentCategory;
 
 
-        public ICommand ShowBindings => new Command(ExecuteMethod);
+        public ICommand ResetSchemeCommand => new Command(ExecuteResetScheme, CanExecuteResetScheme);
         public ICommand RemoveSelectedBinding => new UICommand(ExecuteRemoveBinding, CanExecuteRemoveBinding);
         public ICommand AssignGesture => new UICommand(ExecuteAssignGesture, CanAssignGesture);
 
@@ -97,7 +101,8 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
                     return;
                 _selectedCommand = value;
                 OnPropertyChanged();
-                UpdateAvailableGestureBinding();
+                if (value != null)
+                    UpdateAvailableGestureBinding();
             }
         }
 
@@ -164,16 +169,43 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
             }
         }
 
+        public IEnumerable<SchemeDefinition> Schemes
+        {
+            get => _schemes;
+            set
+            {
+                if (Equals(_schemes, value))
+                    return;
+                _schemes = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public SchemeDefinition SelectedScheme
+        {
+            get => _selectedScheme;
+            set
+            {
+                if (Equals(_selectedScheme, value))
+                    return;
+                _selectedScheme = value;
+                OnPropertyChanged();
+            }
+        }
+
         public MultiKeyGesture CurrentKeyGesture { get; set; }
 
 
         [ImportingConstructor]
         public KeyboardSettingsViewModel(ISettingsManager settingsManager,
-            IDialogProvider dialogProvider, IKeyGestureService gestureService)
+            IKeyGestureService gestureService,
+            IKeyBindingSchemeManager schemeManager)
         {
             _settingsManager = settingsManager;
-            _dialogProvider = dialogProvider;
             _gestureService = gestureService;
+            _schemeManager = schemeManager;
+            Schemes = _schemeManager.SchemeDefinitions;
+            SelectedScheme = Schemes.First();
             AllCommands = gestureService.GetAllCommandDefinitions();
             Scopes = new BindableCollection<GestureScope>(gestureService.GetAllCommandGestureCategories());
             SelectedScope = GestureScopes.GlobalGestureScope;
@@ -194,6 +226,21 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         {
             SelectedCommandIndex = 0;
             GestureInput = string.Empty;
+        }
+
+        private void ExecuteResetScheme()
+        {
+            if (MessageBox.Show(KeyboardSettingsResources.KeyboardSettingsWarningApplyScheme, 
+                    IoC.Get<IEnvironmentVarirables>().ApplicationName, 
+                    MessageBoxButton.YesNo, MessageBoxImage.Exclamation) != MessageBoxResult.Yes)
+                return;
+            _schemeManager.SetScheme(SelectedScheme.Load());
+            UpdateAvailableGestureBinding();
+        }
+
+        private bool CanExecuteResetScheme()
+        {
+            return SelectedScheme != null;
         }
 
         private void UpdateDuplicate()
@@ -243,21 +290,6 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
             UpdateAvailableGestureBinding();
             GestureInput = string.Empty;
             UpdateDuplicate();
-        }
-
-        private void ExecuteMethod()
-        {
-            var b = _gestureService.GetAllBindings();
-
-            var message = b.Aggregate(string.Empty, (current, value) => current + (value + "\r\n"));
-
-            _dialogProvider.ShowMessage(message);
-
-
-            var ic = IoC.Get<ICommandService>().GetCommandDefinition(typeof(MultiUndoCommandDefinition)) as CommandDefinition;
-            if (ic == null)
-                return;
-
         }
 
         private void AddFilter()

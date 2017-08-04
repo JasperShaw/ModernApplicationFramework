@@ -140,5 +140,14 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard {
                 return ResourceManager.GetString("KeyboardSettingsSelectedBinding_Label", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Keyboard mappings will reset to their default values. Continue? ähnelt.
+        /// </summary>
+        public static string KeyboardSettingsWarningApplyScheme {
+            get {
+                return ResourceManager.GetString("KeyboardSettingsWarningApplyScheme", resourceCulture);
+            }
+        }
     }
 }

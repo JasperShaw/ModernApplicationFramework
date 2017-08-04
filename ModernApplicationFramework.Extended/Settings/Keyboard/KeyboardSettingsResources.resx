@@ -144,4 +144,7 @@
   <data name="KeyboardSettingsResetScheme" xml:space="preserve">
     <value>R_eset</value>
   </data>
+  <data name="KeyboardSettingsWarningApplyScheme" xml:space="preserve">
+    <value>Keyboard mappings will reset to their default values. Continue?</value>
+  </data>
 </root>

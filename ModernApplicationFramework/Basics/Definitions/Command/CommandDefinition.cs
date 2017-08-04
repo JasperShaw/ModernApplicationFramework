@@ -136,7 +136,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
                     _gestureService.RemoveKeyGesture(e.OldItems.OfType<GestureScopeMapping>().FirstOrDefault());
                     break;
                 case NotifyCollectionChangedAction.Reset:
-                    foreach (var gesture in e.NewItems.OfType<GestureScopeMapping>())
+                    foreach (var gesture in Gestures)
                         _gestureService.RemoveKeyGesture(gesture);
                     break;
                 default:

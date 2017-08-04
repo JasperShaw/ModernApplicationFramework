@@ -144,4 +144,7 @@
   <data name="KeyboardSettingsCurrentBindings_Label" xml:space="preserve">
     <value>Tastenkombination wird _momentan verwendet von:</value>
   </data>
+  <data name="KeyboardSettingsWarningApplyScheme" xml:space="preserve">
+    <value>Die Tastaturzuordnungen werden auf die Standardwerte zurückgesetzt. Möchten Sie fortfahren?</value>
+  </data>
 </root>

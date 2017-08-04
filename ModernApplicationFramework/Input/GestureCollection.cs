@@ -34,7 +34,7 @@ namespace ModernApplicationFramework.Input
         {
             if (_innerList == null)
                 return;
-            OnGestureChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset, _innerList));
+            OnGestureChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
             _innerList.Clear();
             _innerList = null;
         }
