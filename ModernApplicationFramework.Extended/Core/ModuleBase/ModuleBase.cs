@@ -5,7 +5,7 @@ using System.Windows;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Extended.ModuleBase
+namespace ModernApplicationFramework.Extended.Core.ModuleBase
 {
     public abstract class ModuleBase : DisposableObject, IModule
     {

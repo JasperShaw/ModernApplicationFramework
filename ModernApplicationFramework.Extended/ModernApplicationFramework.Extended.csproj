@@ -83,7 +83,12 @@
     <Compile Include="Core\LayoutManagement\WindowLayoutInfo.cs" />
     <Compile Include="Core\LayoutManagement\WindowLayoutSettings.cs" />
     <Compile Include="Core\LayoutManagement\WindowLayoutStore.cs" />
+    <Compile Include="Input\AbstractKeyBindingSchemeManager.cs" />
+    <Compile Include="Input\FileSchemeDefinition.cs" />
+    <Compile Include="Input\SchemeDefinition.cs" />
+    <Compile Include="Interfaces\IKeyBindingSchemeManager.cs" />
     <Compile Include="Input\KeyBindingScheme.cs" />
+    <Compile Include="Modules\KeyboardGestureServicesModule.cs" />
     <Compile Include="Interfaces\IApplicationEnvironment.cs" />
     <Compile Include="ExtendedBootstrapper.cs" />
     <Compile Include="Commands\CloseProgammCommandDefinition.cs" />
@@ -136,7 +141,7 @@
     <Compile Include="MenuDefinitions\ToolsMenuDefinitions.cs" />
     <Compile Include="MenuDefinitions\ViewMenuDefinitions.cs" />
     <Compile Include="MenuDefinitions\WindowMenuDefinitions.cs" />
-    <Compile Include="ModuleBase\ModuleBase.cs" />
+    <Compile Include="Core\ModuleBase\ModuleBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -1,9 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Input;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Basics.Services;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 
@@ -51,21 +48,13 @@ namespace ModernApplicationFramework.Interfaces.Services
 
         void RemoveKeyGesture(GestureScopeMapping keyGestureScope);
 
+        void LoadDefaultGestures();
+
 
         /// <summary>
         /// Removes all key gestures from all registered elements.
         /// </summary>
         void RemoveAllKeyGestures();
-
-        /// <summary>
-        /// Loads all available key gestures and applies them to their <see cref="CommandDefinition"/>
-        /// </summary>
-        void LoadGestures();
-
-        /// <summary>
-        /// Loads all default key gestures and applies them to their <see cref="CommandDefinition"/>
-        /// </summary>
-        void LoadDefaultGestures();
 
         IEnumerable<CommandGestureScopeMapping> GetAllBindings();
 

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
+using ModernApplicationFramework.Extended.Core.ModuleBase;
 using ModernApplicationFramework.Extended.Interfaces;
-using ModernApplicationFramework.Extended.ModuleBase;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
 {

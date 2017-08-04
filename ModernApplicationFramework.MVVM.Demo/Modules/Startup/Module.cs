@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Services;
+using ModernApplicationFramework.Extended.Core.ModuleBase;
 using ModernApplicationFramework.Extended.Interfaces;
-using ModernApplicationFramework.Extended.ModuleBase;
 using ModernApplicationFramework.Extended.Modules.InspectorTool;
 using ModernApplicationFramework.Extended.Modules.OutputTool;
 using ModernApplicationFramework.Interfaces.Services;

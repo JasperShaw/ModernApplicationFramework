@@ -5,7 +5,6 @@ using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Interfaces;
-using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Utilities.Interfaces;
 using ModernApplicationFramework.Utilities.Interfaces.Settings;
 
@@ -66,13 +65,11 @@ namespace ModernApplicationFramework.Extended.ApplicationEnvironment
             foreach (var globalResourceDictionary in module.GlobalResourceDictionaries)
                 Application.Current.Resources.MergedDictionaries.Add(globalResourceDictionary);
 
-
+            //TODO: Create a global Module-Manager
             foreach (var module in modules)
-                module.PreInitialize();
-            
-            
+                module.PreInitialize();       
         }
-
+        
         public virtual void PrepareClose()
         {
             var modules = IoC.GetAll<IModule>().ToList();

@@ -85,7 +85,6 @@ namespace ModernApplicationFramework.Basics.Services
             if (IsInitialized)
                 return;
             IsEnhancedMultiKeyGestureModeEnabled = true;
-            InitializeGestures();
             IsInitialized = true;
             OnInitialized();
         }
@@ -165,17 +164,8 @@ namespace ModernApplicationFramework.Basics.Services
         {
             if (!IsInitialized)
                 return;
-            lock (_lockObj)
-            {
-                var possibleElemetns = _elementMapping.SelectMany(x => x.Value);
-                foreach (var element in possibleElemetns)
-                {
-                    var bindings = new ArrayList(element.InputBindings);
-                    foreach (InputBinding binding in bindings)
-                        if (binding is MultiKeyBinding)
-                            element.InputBindings.Remove(binding);
-                }
-            }
+            foreach (var commandDefinition in _keyboardShortcuts)
+                commandDefinition.Gestures.Clear();
         }
 
         public void RemoveKeyGesture(GestureScopeMapping keyGestureScope)
@@ -201,16 +191,7 @@ namespace ModernApplicationFramework.Basics.Services
             }
         }
 
-
-        /// <inheritdoc />
-        /// <summary>
-        ///     Loads all available key gestures and applies them to their command
-        /// </summary>
-        public virtual void LoadGestures()
-        {
-        }
-
-        public virtual void LoadDefaultGestures()
+        public void LoadDefaultGestures()
         {
             var defaultCommands =
                 _keyboardShortcuts.Where(x => x.DefaultGestureScope != null && x.DefaultKeyGesture != null);
@@ -368,14 +349,6 @@ namespace ModernApplicationFramework.Basics.Services
             gesture.WasFoundDuringMulti = false;
         }
 
-        /// <summary>
-        ///     Performs the initial Gesture to Command  mapping
-        /// </summary>
-        protected virtual void InitializeGestures()
-        {
-            LoadDefaultGestures();
-        }
-
         protected virtual void OnInitialized()
         {
             Initialized?.Invoke(this, EventArgs.Empty);
@@ -420,7 +393,7 @@ namespace ModernApplicationFramework.Basics.Services
     }
 
     [Export(typeof(IKeyGestureService))]
-    public class DefaultKeyGestureService : KeyGestureService
+    public sealed class DefaultKeyGestureService : KeyGestureService
     {
         [ImportingConstructor]
         public DefaultKeyGestureService([ImportMany] CommandDefinitionBase[] keyboardShortcuts,

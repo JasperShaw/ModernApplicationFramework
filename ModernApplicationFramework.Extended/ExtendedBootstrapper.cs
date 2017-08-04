@@ -60,7 +60,6 @@ namespace ModernApplicationFramework.Extended
             base.OnStartup(sender, e);
             IoC.Get<IExtendedEnvironmentVarirables>().Setup();
             IoC.Get<IApplicationEnvironment>().Setup();
-            IoC.Get<IKeyGestureService>().Initialize();
             DisplayRootViewFor<IDockingMainWindowViewModel>();
         }
 

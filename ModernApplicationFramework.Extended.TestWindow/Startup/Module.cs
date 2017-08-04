@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using ModernApplicationFramework.Extended.Core.ModuleBase;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Modules.InspectorTool;
 using ModernApplicationFramework.Extended.Modules.OutputTool;
@@ -8,7 +9,7 @@ using ModernApplicationFramework.Extended.Modules.OutputTool;
 namespace ModernApplicationFramework.Extended.TestWindow.Startup
 {
     [Export(typeof(IModule))]
-    public class Module : ModuleBase.ModuleBase
+    public class Module : ModuleBase
     {
 
         private readonly IOutput _output;
