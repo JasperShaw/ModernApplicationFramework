@@ -213,7 +213,7 @@ namespace ModernApplicationFramework.Input
 
             if (keySequences[1].Key != realSequences[1].Key || keySequences[1].Modifiers != realSequences[1].Modifiers)
                 return false;
-            return false;
+            return true;
         }
 
         private void ResetState()

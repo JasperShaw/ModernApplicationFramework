@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Native.NativeMethods;
@@ -37,6 +38,16 @@ namespace ModernApplicationFramework.Controls.TextBoxes
             e.Handled = true;
             if (ValidateInput(e))
                 CreateText();
+        }
+
+        protected override void OnTextChanged(TextChangedEventArgs e)
+        {
+            base.OnTextChanged(e);
+            if (!string.IsNullOrEmpty(Text))
+                return;
+            _isMultiState = false;
+            _keySequences[0] = null;
+            _keySequences[1] = null;
         }
 
         private void CreateText()
