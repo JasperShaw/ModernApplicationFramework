@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Xml;
 
 namespace ModernApplicationFramework.Settings.Interfaces
@@ -15,6 +16,8 @@ namespace ModernApplicationFramework.Settings.Interfaces
         void AddToolsOptionsCategoryElement(string name);
 
         void AddToolsOptionsModelElement(string settingsModelName, string categoryName);
+
+        void AddCategoryElement(IEnumerable<ISettingsCategory> path, string name, bool navigateAttributeWise = true);
 
         void Save();
     }

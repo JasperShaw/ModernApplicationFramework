@@ -98,9 +98,10 @@ namespace ModernApplicationFramework.Settings.SettingsManager
                 if (node != null)
                     continue;
                 if (settingsCategory.IsToolsOptionsCategory)
-                    SettingsFile.AddToolsOptionsCategoryElement(name);   
+                    SettingsFile.AddToolsOptionsCategoryElement(name);
                 else
-                    throw new NotImplementedException();
+                    SettingsFile.AddCategoryElement(settingsCategory.Path, name);
+
             }
 
             foreach (var settingsModel in settingsModels)
@@ -186,7 +187,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
                 return GetValueResult.Corrupt;
             }
         }
-        
+
         private void SettingsManager_Initialized(object sender, EventArgs e)
         {
             Initialized -= SettingsManager_Initialized;

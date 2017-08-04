@@ -12,7 +12,7 @@ namespace ModernApplicationFramework.Settings.SettingsDialog
     {
         public int SettingsDialogWidth
         {
-            get => GetOrCreateSettingsValue(nameof(SettingsDialogWidth), 0);
+            get => GetOrCreatePropertyValueSetting(nameof(SettingsDialogWidth), 0);
             set
             {
                 if (SettingsDialogWidth == value || !TrySetLocalInt32Setting(nameof(SettingsDialogWidth), value))
@@ -23,7 +23,7 @@ namespace ModernApplicationFramework.Settings.SettingsDialog
 
         public int SettingsDialogHeight
         {
-            get => GetOrCreateSettingsValue(nameof(SettingsDialogHeight), 0);
+            get => GetOrCreatePropertyValueSetting(nameof(SettingsDialogHeight), 0);
             set
             {
                 if (SettingsDialogHeight == value || !TrySetLocalInt32Setting(nameof(SettingsDialogHeight), value))
@@ -48,15 +48,15 @@ namespace ModernApplicationFramework.Settings.SettingsDialog
 
         public override void StoreSettings()
         {
-            SetSettingsValue(nameof(SettingsDialogWidth), SettingsDialogWidth);
-            SetSettingsValue(nameof(SettingsDialogHeight), SettingsDialogHeight);
+            SetPropertyValue(nameof(SettingsDialogWidth), SettingsDialogWidth);
+            SetPropertyValue(nameof(SettingsDialogHeight), SettingsDialogHeight);
         }
 
         private bool TrySetLocalInt32Setting(string settingsName, int value)
         {
             try
             {
-                SetSettingsValue(settingsName, value);
+                SetPropertyValue(settingsName, value);
                 return true;
             }
             catch (Exception)

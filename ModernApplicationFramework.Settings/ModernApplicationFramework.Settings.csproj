@@ -95,6 +95,7 @@
     <Compile Include="Interfaces\IWriteableSettingsFile.cs" />
     <Compile Include="SettingsManager\SettingsFactory.cs" />
     <Compile Include="SettingDataModel\SettingsImportExportOptions.cs" />
+    <Compile Include="SettingsManager\SettingsFile.cs" />
     <Compile Include="SettingsManager\SettingsManager.cs" />
     <Compile Include="XPath\SettingsXPathCreator.cs" />
     <Compile Include="SettingsManager\UserSettingsFile.cs" />

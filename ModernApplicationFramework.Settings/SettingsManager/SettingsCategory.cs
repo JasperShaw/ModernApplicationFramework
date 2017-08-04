@@ -59,13 +59,12 @@ namespace ModernApplicationFramework.Settings.SettingsManager
             Text = text;
             Parent = parent;
             Children = new List<ISettingsCategory>();
-
+            IsToolsOptionsCategory = isToolsOptionsCategory;
             if (parent == null)
                 return;
 
             Parent.Children.Add(this);
-            Root = parent.Root;
-            IsToolsOptionsCategory = isToolsOptionsCategory;
+            Root = parent.Root; 
         }
 
         public SettingsCategory(string name, string text, uint sortOrder, bool isToolsOptionsCategory = true) 
@@ -91,6 +90,20 @@ namespace ModernApplicationFramework.Settings.SettingsManager
                     c = c.Parent;
                 }
                 return path;
+            }
+        }
+
+        public string PathString
+        {
+            get
+            {
+                var s = string.Empty;
+                foreach (var category in Path)
+                {
+                    if (category != this)
+                        s += category.Name + "/";
+                }
+                return s;
             }
         }
     }

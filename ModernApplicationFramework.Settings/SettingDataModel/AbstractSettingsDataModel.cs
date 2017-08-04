@@ -61,9 +61,9 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
         /// <param name="defaultValue">The default value.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="InvalidCastException">The type of the Property and the given type T do not match</exception>
-        protected void SetPropertyFromSettings<T>(string settingsName, string propertyName, T defaultValue = default(T))
+        protected void SetClassPropertyFromPropertyValue<T>(string settingsName, string propertyName, T defaultValue = default(T))
         {
-            SetPropertyFromSettings(this, settingsName, propertyName, defaultValue);
+            SetClassPropertyFromPropertyValue(this, settingsName, propertyName, defaultValue);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
         /// <param name="defaultValue">The default value.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="InvalidCastException">The type of the Property and the given type T do not match</exception>
-        protected void SetPropertyFromSettings<T>(object instance, string settingsName, string propertyName,
+        protected void SetClassPropertyFromPropertyValue<T>(object instance, string settingsName, string propertyName,
             T defaultValue = default(T))
         {
             var propertyInfo = instance.GetType().GetProperty(propertyName);
@@ -89,7 +89,7 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
             propertyInfo.SetValue(instance, value);
 
             if (result == GetValueResult.Corrupt)
-                SetSettingsValue(settingsName, value);
+                SetPropertyValue(settingsName, value);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
         /// <param name="settingsName">Name of the PropertyValue name element</param>
         /// <param name="defaultValue">The default value.</param>
         /// <returns></returns>
-        protected T GetOrCreateSettingsValue<T>(string settingsName, T defaultValue = default(T))
+        protected T GetOrCreatePropertyValueSetting<T>(string settingsName, T defaultValue = default(T))
         {
             var result = SettingsManager.GetOrCreatePropertyValue(SettingsFilePath, settingsName, out T value, defaultValue, true);
             return result == GetValueResult.Corrupt ? defaultValue : value;
@@ -112,7 +112,7 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
         /// <param name="settingsName">Name of the PropertyValue name element</param>
         /// <param name="defaultValue">The default value.</param>
         /// <returns></returns>
-        protected T GetSettingsValue<T>(string settingsName, T defaultValue = default(T))
+        protected T GetPropertyValueSetting<T>(string settingsName, T defaultValue = default(T))
         {
             var result = SettingsManager.GetPropertyValue(SettingsFilePath, settingsName, out T value, true);
             return result == GetValueResult.Corrupt ? defaultValue : value;
@@ -124,7 +124,7 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
         /// <typeparam name="T">The type of the value to </typeparam>
         /// <param name="settingsProperty">The settings property.</param>
         /// <param name="value">The value.</param>
-        protected void SetSettingsValue<T>(string settingsProperty, T value)
+        protected void SetPropertyValue<T>(string settingsProperty, T value)
         {
             SettingsManager.SetPropertyValueAsync(SettingsFilePath, settingsProperty, value.ToString(), true);
         }
@@ -135,7 +135,7 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
         /// <typeparam name="T">The type of the value to </typeparam>
         /// <param name="settingsProperty">The settings property.</param>
         /// <param name="value">The value.</param>
-        protected async Task SetSettingsValueAsync<T>(string settingsProperty, T value)
+        protected async Task SetPropertyValueAsync<T>(string settingsProperty, T value)
         {
             await SettingsManager.SetPropertyValueAsync(SettingsFilePath, settingsProperty, value.ToString(), true);
         }

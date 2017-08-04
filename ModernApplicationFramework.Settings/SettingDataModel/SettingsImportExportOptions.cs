@@ -29,12 +29,12 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
 
         public override void LoadOrCreate()
         {
-            GetOrCreateSettingsValue("AutoSaveFile", _environmentVarirables.SettingsFilePath);
+            GetOrCreatePropertyValueSetting("AutoSaveFile", _environmentVarirables.SettingsFilePath);
         }
 
         public override void StoreSettings()
         {
-            SetSettingsValue("AutoSaveFile", _environmentVarirables.SettingsFilePath);
+            SetPropertyValue("AutoSaveFile", _environmentVarirables.SettingsFilePath);
         }
     }
 }

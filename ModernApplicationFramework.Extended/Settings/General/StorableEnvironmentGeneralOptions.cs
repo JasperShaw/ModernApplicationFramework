@@ -26,28 +26,28 @@ namespace ModernApplicationFramework.Extended.Settings.General
 
         public override void LoadOrCreate()
         {
-            SetPropertyFromSettings(_generalOptions, "ShowStatusBar", nameof(_generalOptions.ShowStatusBar), true);
-            SetPropertyFromSettings(_generalOptions, "WindowMenuContainsNItems", nameof(_generalOptions.WindowListItems), 10);
-            SetPropertyFromSettings(_generalOptions, "MRUListContainsNItems", nameof(_generalOptions.MRUListItems), 10);
-            SetPropertyFromSettings<bool>(_generalOptions,"AutohidePinActiveTabOnly", nameof(_generalOptions.DockedWinAuto));
-            SetPropertyFromSettings(_generalOptions,"CloseButtonActiveTabOnly", nameof(_generalOptions.DockedWinClose), true);
-            SetPropertyFromSettings(_generalOptions,"UseTitleCaseOnMenu", nameof(_generalOptions.UseTitleCaseOnMenu), true);
-            SetPropertyFromSettings(_generalOptions,"UseHardwareAcceleration", nameof(_generalOptions.UseHardwareAcceleration), _generalOptions.IsHardwareAccelerationSupported);
-            SetPropertyFromSettings<bool>(_generalOptions,"RichClientExperienceOptions", nameof(_generalOptions.UseRichVisualExperience));
-            SetPropertyFromSettings<bool>(_generalOptions,"AutoAdjustExperience", nameof(_generalOptions.AutoAdjustExperience));
+            SetClassPropertyFromPropertyValue(_generalOptions, "ShowStatusBar", nameof(_generalOptions.ShowStatusBar), true);
+            SetClassPropertyFromPropertyValue(_generalOptions, "WindowMenuContainsNItems", nameof(_generalOptions.WindowListItems), 10);
+            SetClassPropertyFromPropertyValue(_generalOptions, "MRUListContainsNItems", nameof(_generalOptions.MRUListItems), 10);
+            SetClassPropertyFromPropertyValue<bool>(_generalOptions,"AutohidePinActiveTabOnly", nameof(_generalOptions.DockedWinAuto));
+            SetClassPropertyFromPropertyValue(_generalOptions,"CloseButtonActiveTabOnly", nameof(_generalOptions.DockedWinClose), true);
+            SetClassPropertyFromPropertyValue(_generalOptions,"UseTitleCaseOnMenu", nameof(_generalOptions.UseTitleCaseOnMenu), true);
+            SetClassPropertyFromPropertyValue(_generalOptions,"UseHardwareAcceleration", nameof(_generalOptions.UseHardwareAcceleration), _generalOptions.IsHardwareAccelerationSupported);
+            SetClassPropertyFromPropertyValue<bool>(_generalOptions,"RichClientExperienceOptions", nameof(_generalOptions.UseRichVisualExperience));
+            SetClassPropertyFromPropertyValue<bool>(_generalOptions,"AutoAdjustExperience", nameof(_generalOptions.AutoAdjustExperience));
         }
 
         public override void StoreSettings()
         {
-            SetSettingsValue("ShowStatusBar", _generalOptions.ShowStatusBar);
-            SetSettingsValue("WindowMenuContainsNItems", _generalOptions.WindowListItems);
-            SetSettingsValue("MRUListContainsNItems", _generalOptions.MRUListItems);
-            SetSettingsValue("AutohidePinActiveTabOnly", _generalOptions.DockedWinAuto);
-            SetSettingsValue("CloseButtonActiveTabOnly", _generalOptions.DockedWinClose);
-            SetSettingsValue("UseTitleCaseOnMenu", _generalOptions.UseTitleCaseOnMenu);
-            SetSettingsValue("UseHardwareAcceleration", _generalOptions.UseHardwareAcceleration);
-            SetSettingsValue("RichClientExperienceOptions", _generalOptions.UseRichVisualExperience);
-            SetSettingsValue("AutoAdjustExperience", _generalOptions.AutoAdjustExperience);
+            SetPropertyValue("ShowStatusBar", _generalOptions.ShowStatusBar);
+            SetPropertyValue("WindowMenuContainsNItems", _generalOptions.WindowListItems);
+            SetPropertyValue("MRUListContainsNItems", _generalOptions.MRUListItems);
+            SetPropertyValue("AutohidePinActiveTabOnly", _generalOptions.DockedWinAuto);
+            SetPropertyValue("CloseButtonActiveTabOnly", _generalOptions.DockedWinClose);
+            SetPropertyValue("UseTitleCaseOnMenu", _generalOptions.UseTitleCaseOnMenu);
+            SetPropertyValue("UseHardwareAcceleration", _generalOptions.UseHardwareAcceleration);
+            SetPropertyValue("RichClientExperienceOptions", _generalOptions.UseRichVisualExperience);
+            SetPropertyValue("AutoAdjustExperience", _generalOptions.AutoAdjustExperience);
         }
     }
 }
