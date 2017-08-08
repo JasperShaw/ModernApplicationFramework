@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using ModernApplicationFramework.Extended.Input;
+using ModernApplicationFramework.Extended.KeyBindingScheme;
 
 namespace ModernApplicationFramework.Extended.Interfaces
 {
@@ -10,6 +10,9 @@ namespace ModernApplicationFramework.Extended.Interfaces
         /// </summary>
         ICollection<SchemeDefinition> SchemeDefinitions { get; }
 
+
+        SchemeDefinition CurrentScheme { get; }
+
         /// <summary>
         /// Loads all available scheme definitions into working memory
         /// </summary>
@@ -19,7 +22,7 @@ namespace ModernApplicationFramework.Extended.Interfaces
         /// Clears all current bindings and applies this specified scheme
         /// </summary>
         /// <param name="scheme">The scheme.</param>
-        void SetScheme(KeyBindingScheme scheme);
+        void SetScheme(SchemeDefinition scheme);
 
         /// <summary>
         /// Selects a default scheme and applies it

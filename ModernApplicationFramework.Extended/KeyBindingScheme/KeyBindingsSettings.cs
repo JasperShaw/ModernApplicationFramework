@@ -4,7 +4,7 @@ using ModernApplicationFramework.Settings.SettingDataModel;
 using ModernApplicationFramework.Settings.SettingsManager;
 using ModernApplicationFramework.Utilities.Interfaces.Settings;
 
-namespace ModernApplicationFramework.Extended.Input
+namespace ModernApplicationFramework.Extended.KeyBindingScheme
 {
     [Export(typeof(ISettingsDataModel))]
     public class KeyBindingsSettings : AbstractSettingsDataModel
@@ -22,7 +22,6 @@ namespace ModernApplicationFramework.Extended.Input
 
         public override void LoadOrCreate()
         {
-            GetOrCreatePropertyValueSetting("Version", "Test");
         }
 
         public override void StoreSettings()

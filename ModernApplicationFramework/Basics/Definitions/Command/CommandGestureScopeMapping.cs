@@ -9,7 +9,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
 
         public GestureScopeMapping GestureScopeMapping { get; }
         
-        public string Name => $"{CommandDefinition.TrimmedCategoryCommandName} ({GestureScopeMapping.KeyGesture.DisplayString} ({GestureScopeMapping.Scope.Name}))";
+        public string Name => $"{CommandDefinition.TrimmedCategoryCommandName} ({GestureScopeMapping.KeyGesture.DisplayString} ({GestureScopeMapping.Scope.Text}))";
 
         public CommandGestureScopeMapping(GestureScope scope, CommandDefinition command,
             MultiKeyGesture gesture) : this(command, new GestureScopeMapping(scope, gesture))

@@ -85,6 +85,6 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest
         
         public UIElement BindableElement { get; private set; }
                
-        [Export] public static GestureScope UndoRedoScope = new GestureScope("UndoRedo");
+        [Export] public static GestureScope UndoRedoScope = new GestureScope("{C9D94614-906F-4960-BA79-58DED45722F0}", "UndoRedo");
     }
 }

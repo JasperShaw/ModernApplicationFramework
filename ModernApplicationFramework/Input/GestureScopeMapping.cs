@@ -18,7 +18,7 @@ namespace ModernApplicationFramework.Input
 
         public MultiKeyGesture KeyGesture { get; }
 
-        public string Text => $"{Converter.ConvertTo(null, CultureInfo.CurrentCulture, KeyGesture, typeof(string))} ({Scope.Name})";
+        public string Text => $"{Converter.ConvertTo(null, CultureInfo.CurrentCulture, KeyGesture, typeof(string))} ({Scope.Text})";
 
         public bool Equals(GestureScopeMapping other)
         {

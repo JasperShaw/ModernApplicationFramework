@@ -9,8 +9,8 @@ using System.Windows.Data;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Extended.Input;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Extended.KeyBindingScheme;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
@@ -205,7 +205,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
             _gestureService = gestureService;
             _schemeManager = schemeManager;
             Schemes = _schemeManager.SchemeDefinitions;
-            SelectedScheme = Schemes.First();
+            SelectedScheme = Schemes.FirstOrDefault();
             AllCommands = gestureService.GetAllCommandDefinitions();
             Scopes = new BindableCollection<GestureScope>(gestureService.GetAllCommandGestureCategories());
             SelectedScope = GestureScopes.GlobalGestureScope;
@@ -234,7 +234,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
                     IoC.Get<IEnvironmentVarirables>().ApplicationName, 
                     MessageBoxButton.YesNo, MessageBoxImage.Exclamation) != MessageBoxResult.Yes)
                 return;
-            _schemeManager.SetScheme(SelectedScheme.Load());
+            _schemeManager.SetScheme(SelectedScheme);
             UpdateAvailableGestureBinding();
         }
 

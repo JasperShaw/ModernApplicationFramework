@@ -1,4 +1,4 @@
-﻿namespace ModernApplicationFramework.Extended.Input
+﻿namespace ModernApplicationFramework.Extended.KeyBindingScheme
 {
     public abstract class SchemeDefinition
     {

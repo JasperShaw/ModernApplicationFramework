@@ -78,6 +78,7 @@
     </ApplicationDefinition>
     <Compile Include="DemoBootstrapper.cs" />
     <Compile Include="DemoEnvironmentVariables.cs" />
+    <Compile Include="FileKeySchemes\FileKeySchemeManager.cs" />
     <Compile Include="Modules\AppIcon\AppIcon.cs" />
     <Compile Include="Modules\ComboBoxMenuTest\Commands\ComboBoxCommandDefinition.cs" />
     <Compile Include="Modules\ComboBoxMenuTest\Commands\TestMenuControllerDefinition.cs" />

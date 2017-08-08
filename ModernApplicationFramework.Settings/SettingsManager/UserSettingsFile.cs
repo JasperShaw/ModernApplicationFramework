@@ -4,8 +4,8 @@ using System.Linq;
 using System.Xml;
 using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Settings.XPath;
-using ModernApplicationFramework.Utilities;
 using ModernApplicationFramework.Utilities.Interfaces.Settings;
+using ModernApplicationFramework.Utilities.Xml;
 
 namespace ModernApplicationFramework.Settings.SettingsManager
 {

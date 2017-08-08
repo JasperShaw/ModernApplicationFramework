@@ -17,5 +17,7 @@ namespace ModernApplicationFramework.Interfaces.Services
         ///  No <see cref="CommandDefinitionBase"/> was found
         /// </exception>
         CommandDefinitionBase GetCommandDefinition(Type definitionType);
+        
+        CommandDefinitionBase GetCommandDefinition(string definitionType);
     }
 }

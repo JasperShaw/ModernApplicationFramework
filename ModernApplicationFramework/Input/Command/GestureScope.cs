@@ -1,29 +1,34 @@
+using System;
+
 namespace ModernApplicationFramework.Input.Command
 {
     public class GestureScope
     {
-        public string Name { get; }
+        public string Text { get; }
         
-        public GestureScope(string name)
+        public Guid Id { get; }
+        
+        public GestureScope(string guid, string text)
         {
-            Name = name;
+            Id = Guid.Parse(guid);
+            Text = text;
         }
 
         public override bool Equals(object obj)
         {
             if (!(obj is GestureScope commandGesture))
                 return false;
-            return Name.Equals(commandGesture.Name);
+            return Id.Equals(commandGesture.Id);
         }
 
         protected bool Equals(GestureScope other)
         {
-            return string.Equals(Name, other.Name);
+            return Equals(Id, other.Id);
         }
 
         public override int GetHashCode()
         {
-            return Name != null ? Name.GetHashCode() : 0;
+            return Id.GetHashCode();
         }
     }
 }

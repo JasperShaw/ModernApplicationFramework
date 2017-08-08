@@ -39,5 +39,10 @@ namespace ModernApplicationFramework.Basics.Services
                     _commandDefinitions.First(x => x.GetType() == commandDefinitionType);
             return commandDefinition;
         }
+
+        public CommandDefinitionBase GetCommandDefinition(string typeName)
+        {
+            return _commandDefinitions.FirstOrDefault(x => x.GetType().Name.Equals(typeName));
+        }
     }
 }

@@ -1,6 +1,5 @@
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Extended.Core.ModuleBase;
-using ModernApplicationFramework.Extended.Input;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
 

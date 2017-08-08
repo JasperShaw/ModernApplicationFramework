@@ -1,7 +1,7 @@
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Services;
 using ModernApplicationFramework.Controls.Utilities;
-using ModernApplicationFramework.Extended.Input;
+using ModernApplicationFramework.Extended.KeyBindingScheme;
 
 namespace ModernApplicationFramework.Extended.Settings.Keyboard
 {

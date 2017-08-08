@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Xml;
 
-namespace ModernApplicationFramework.Utilities
+namespace ModernApplicationFramework.Utilities.Xml
 {
     public static class XmlUtilities
     {
