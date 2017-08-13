@@ -38,7 +38,7 @@ namespace ModernApplicationFramework.Basics.Services
         /// </summary>
         protected virtual IEnvironmentVarirables EnvironmentVariables => new FallbackEnvironmentVarirables();
 
-        public Bootstrapper()
+        public Bootstrapper(bool useApplication = true) : base(useApplication)
         {
 			PreInitialize();
             Initialize();
