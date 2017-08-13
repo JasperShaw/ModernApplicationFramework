@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using ModernApplicationFramework.Settings.SettingsDialog;
 using ModernApplicationFramework.Utilities.Interfaces;
 
 namespace ModernApplicationFramework.Settings.Interfaces
@@ -22,7 +23,7 @@ namespace ModernApplicationFramework.Settings.Interfaces
         /// <summary>
         /// The category of the settings page
         /// </summary>
-		ModernApplicationFramework.Settings.Interfaces.ISettingsCategory Category { get; }
+        SettingsPageCategory Category { get; }
 
         /// <summary>
         /// Applies all entered settings. 

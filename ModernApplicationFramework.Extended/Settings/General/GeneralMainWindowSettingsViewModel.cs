@@ -8,7 +8,7 @@ namespace ModernApplicationFramework.Extended.Settings.General
 {
     [Export(typeof(ISettingsPage))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class GeneralMainWindowSettingsViewModel : AbstractSettingsPage
+    public class GeneralMainWindowSettingsViewModel : SettingsPage
     {
         private readonly EnvironmentGeneralOptions _generalOptions;
         private readonly StorableEnvironmentGeneralOptions _storableOptions;
@@ -17,7 +17,7 @@ namespace ModernApplicationFramework.Extended.Settings.General
         private bool _autoHideAffectsOnlyActive;
         public override uint SortOrder => 3;
         public override string Name => GeneralSettingsResources.GeneralSettings_Name;
-        public override ISettingsCategory Category => SettingsCategories.EnvironmentCategory;
+        public override SettingsPageCategory Category => SettingsPageCategories.EnvironmentCategory;
 
         public bool ShowStatusBar
         {

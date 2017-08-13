@@ -3,23 +3,22 @@ using System.ComponentModel.Composition;
 using ModernApplicationFramework.Core;
 using ModernApplicationFramework.Utilities;
 using ModernApplicationFramework.Utilities.Interfaces;
-using ISettingsCategory = ModernApplicationFramework.Settings.Interfaces.ISettingsCategory;
 using ISettingsPage = ModernApplicationFramework.Settings.Interfaces.ISettingsPage;
 
 namespace ModernApplicationFramework.Settings.SettingsDialog
 {
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public abstract class AbstractSettingsPage : ViewModelBase, ISettingsPage
+    public abstract class SettingsPage : ViewModelBase, ISettingsPage
     {
         public abstract uint SortOrder { get; }
         public abstract string Name { get; }
-        public abstract ISettingsCategory Category { get; }
+        public abstract SettingsPageCategory Category { get; }
 
         public IDirtyObjectManager DirtyObjectManager { get; }
 
         IDirtyObjectManager ICanBeDirty.DirtyObjectManager => throw new NotImplementedException();
 
-        protected AbstractSettingsPage()
+        protected SettingsPage()
         {
             DirtyObjectManager = new DirtyObjectManager();
         }

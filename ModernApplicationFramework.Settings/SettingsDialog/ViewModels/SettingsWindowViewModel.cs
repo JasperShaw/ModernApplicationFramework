@@ -128,7 +128,7 @@ namespace ModernApplicationFramework.Settings.SettingsDialog.ViewModels
             return pages;
         }
 
-        private void FillRecursive(ISettingsCategory category, IList<SettingsPageContainerViewModel> pagesList)
+        private void FillRecursive(SettingsPageCategory category, IList<SettingsPageContainerViewModel> pagesList)
         {
             var subGroups = category.Children.OrderBy(x => x.SortOrder);
 

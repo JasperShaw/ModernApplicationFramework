@@ -14,7 +14,7 @@ namespace ModernApplicationFramework.Extended.Settings.SettingsImportExport
 {
     [Export(typeof(ISettingsPage))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class SettingsImportExportViewModel : AbstractSettingsPage
+    public class SettingsImportExportViewModel : SettingsPage
     {
         private readonly ISettingsManager _settingsManager;
         private readonly IExtendedEnvironmentVarirables _environmentVarirables;
@@ -22,7 +22,7 @@ namespace ModernApplicationFramework.Extended.Settings.SettingsImportExport
         private string _settingsPath;
         public override uint SortOrder => 5;
         public override string Name => SettingsImportExportResources.SettingsImportExport_Name;
-        public override ISettingsCategory Category => SettingsCategories.EnvironmentCategory;
+        public override SettingsPageCategory Category => SettingsPageCategories.EnvironmentCategory;
 
         public ICommand OpenFileDialogCommand => new Command(DoOpenFileDialog);
 

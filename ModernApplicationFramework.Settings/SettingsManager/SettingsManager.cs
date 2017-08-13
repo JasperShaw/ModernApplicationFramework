@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using System.Xml;
 using Caliburn.Micro;
 using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Utilities.Interfaces;
@@ -90,31 +91,21 @@ namespace ModernApplicationFramework.Settings.SettingsManager
                 LoadCurrent();
 
             var settingsModels = IoC.GetAll<ISettingsDataModel>();
-            var settingsCategories = IoC.GetAll<SettingsCategory>();
+            var settingsCategories = IoC.GetAll<ISettingsCategory>();
             foreach (var settingsCategory in settingsCategories)
-            {
-                var name = settingsCategory.Name;
-                var node = SettingsFile.GetSingleNode(name);
-                if (node != null)
-                    continue;
-                if (settingsCategory.IsToolsOptionsCategory)
-                    SettingsFile.AddToolsOptionsCategoryElement(name);
-                else
-                    SettingsFile.AddCategoryElement(settingsCategory.Path, name);
+                SettingsFile.AddCategoryElement(settingsCategory);
 
-            }
-
-            foreach (var settingsModel in settingsModels)
-            {
-                if (SettingsFile.GetSingleNode(settingsModel.SettingsFilePath) == null)
-                {
-                    if (settingsModel.Category.IsToolsOptionsCategory)
-                        SettingsFile.AddToolsOptionsModelElement(settingsModel.Name, settingsModel.Category.Name);
-                    else
-                        throw new NotImplementedException();
-                }
-                settingsModel.LoadOrCreate();
-            }
+            //foreach (var settingsModel in settingsModels)
+            //{
+            //    if (SettingsFile.GetSingleNode(settingsModel.SettingsFilePath) == null)
+            //    {
+            //        //if (settingsModel.Category.IsToolsOptionsCategory)
+            //            SettingsFile.AddToolsOptionsModelElement(settingsModel.Name, settingsModel.Category.Name);
+            //        //else
+            //        //    throw new NotImplementedException();
+            //    }
+            //    settingsModel.LoadOrCreate();
+            //}
             Initialized?.Invoke(this, EventArgs.Empty);
         }
 
@@ -147,6 +138,16 @@ namespace ModernApplicationFramework.Settings.SettingsManager
             });
             t.Start();
             return t;
+        }
+
+        public Task SetDocumentAsync(string path, XmlDocument document, bool navigateAttributeWise = true)
+        {
+            var task = new Task(() =>
+            {
+                SettingsFile.InsertDocument(path, document, navigateAttributeWise);
+            });
+            task.Start();
+            return task;
         }
 
         protected GetValueResult GetOrCreatePropertyValueInternal<T>(string propertyPath, string propertyName,

@@ -8,7 +8,7 @@ namespace ModernApplicationFramework.Settings.SettingsDialog
 {
     [Export(typeof(ISettingsDataModel))]
     [Export(typeof(ISettingsDialogSettings))]
-    internal class SettingsDialogSettings : AbstractSettingsDataModel, ISettingsDialogSettings
+    internal class SettingsDialogSettings : SettingsDataModel, ISettingsDialogSettings
     {
         public int SettingsDialogWidth
         {
@@ -32,7 +32,7 @@ namespace ModernApplicationFramework.Settings.SettingsDialog
             }
         }
 
-        public override ISettingsCategory Category => SettingsCategories.EnvironmentCategory;
+        public override ISettingsCategory Category => SettingsCategories.ToolsOptionEnvironmentCategory;
 
         public override string Name => "SettingsDialog";
 

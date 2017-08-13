@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Xml;
 using ModernApplicationFramework.Annotations;
 using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Utilities.Interfaces.Settings;
@@ -13,7 +14,7 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
     /// <seealso cref="ISettingsDataModel" />
     /// <inheritdoc />
     /// <seealso cref="ISettingsDataModel" />
-    public abstract class AbstractSettingsDataModel : ISettingsDataModel
+    public abstract class SettingsDataModel : ISettingsDataModel
     {
         /// <inheritdoc />
         /// <summary>
@@ -138,6 +139,12 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
         protected async Task SetPropertyValueAsync<T>(string settingsProperty, T value)
         {
             await SettingsManager.SetPropertyValueAsync(SettingsFilePath, settingsProperty, value.ToString(), true);
+        }
+
+
+        protected void SetDocument(XmlDocument document)
+        {
+            SettingsManager.SetDocumentAsync(SettingsFilePath, document);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading.Tasks;
+using System.Xml;
 
 namespace ModernApplicationFramework.Utilities.Interfaces.Settings
 {
@@ -76,5 +78,7 @@ namespace ModernApplicationFramework.Utilities.Interfaces.Settings
         /// Closes and removes the settings file from memory
         /// </summary>
         void Close();
+
+        Task SetDocumentAsync(string path, XmlDocument document, bool navigateAttributeWise = true);
     }
 }

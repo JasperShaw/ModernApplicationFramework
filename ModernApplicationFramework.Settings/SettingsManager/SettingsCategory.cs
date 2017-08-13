@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ModernApplicationFramework.Settings.Interfaces;
 
 namespace ModernApplicationFramework.Settings.SettingsManager
@@ -8,7 +9,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
     /// Category informations are required to manage and organize different settings. It has a A hierarchical structure 
     /// </summary>
     /// <seealso cref="ISettingsCategory" />
-    public class SettingsCategory : ISettingsCategory
+    public sealed class SettingsCategory : ISettingsCategory
     {
         /// <inheritdoc />
         /// <summary>
@@ -16,68 +17,37 @@ namespace ModernApplicationFramework.Settings.SettingsManager
         /// </summary>
         public ISettingsCategory Parent { get; }
 
+        public IList<ISettingsCategory> Children { get; }
+
+        public Guid Id { get; }
+        
+        public SettingsCategoryType CategoryType { get; }
+
         /// <inheritdoc />
         /// <summary>
         /// The name of the category.
         /// </summary>
         public string Name { get; }
 
-        /// <inheritdoc />
-        /// <summary>
-        /// The localized, displayed name of this category
-        /// </summary>
-        public string Text { get; }
 
-        /// <inheritdoc />
-        /// <summary>
-        /// The sorting order of this category
-        /// </summary>
-        public uint SortOrder { get; }
+        public bool HasChildren => Children.Count > 0;
 
-        /// <inheritdoc />
-        /// <summary>
-        /// The root Category. <see langword="null" /> when the current category is root
-        /// </summary>
-        public ISettingsCategory Root { get; }
-
-        /// <inheritdoc />
-        /// <summary>
-        /// All Sub categories
-        /// </summary>
-        public IList<ISettingsCategory> Children { get; }
-
-        /// <inheritdoc />
-        /// <summary>
-        /// Indicates whether this category will have an <c>ToolsOptionsCategory</c> XML-tag in the settings file
-        /// </summary>
-        public bool IsToolsOptionsCategory { get; } = true;
-
-        public SettingsCategory(string name, string text, uint sortOrder, ISettingsCategory parent, bool isToolsOptionsCategory = true)
+        public SettingsCategory(Guid id, SettingsCategoryType type, string name, ISettingsCategory parent)
         {
-            SortOrder = sortOrder;
-            Name = name;
-            Text = text;
-            Parent = parent;
             Children = new List<ISettingsCategory>();
-            IsToolsOptionsCategory = isToolsOptionsCategory;
-            if (parent == null)
-                return;
-
-            Parent.Children.Add(this);
-            Root = parent.Root; 
-        }
-
-        public SettingsCategory(string name, string text, uint sortOrder, bool isToolsOptionsCategory = true) 
-            : this(name, text, sortOrder,null, isToolsOptionsCategory)
-        {
-            Root = this;
+            CategoryType = type;
+            Name = name;
+            Parent = parent;
+           if (parent != null)
+               Parent.Children.Add(this);
+            Id = id;
         }
 
         /// <inheritdoc />
         /// <summary>
         /// All parents of this Category in a row
         /// </summary>
-        public IEnumerable<ISettingsCategory> Path 
+        public IEnumerable<ISettingsCategory> Path
         {
             get
             {
@@ -92,19 +62,12 @@ namespace ModernApplicationFramework.Settings.SettingsManager
                 return path;
             }
         }
+    }
 
-        public string PathString
-        {
-            get
-            {
-                var s = string.Empty;
-                foreach (var category in Path)
-                {
-                    if (category != this)
-                        s += category.Name + "/";
-                }
-                return s;
-            }
-        }
+    public enum SettingsCategoryType
+    {
+        Normal,
+        ToolsOption,
+        ToolsOptionSub,
     }
 }

@@ -61,11 +61,14 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GuidCollection.cs" />
     <Compile Include="Interfaces\IStretchSettingsPanelPanel.cs" />
     <Compile Include="Interfaces\ISettingsDialogSettings.cs" />
+    <Compile Include="SettingsPageCategories.cs" />
     <Compile Include="SettingsDialog\SettingsDialogSettings.cs" />
+    <Compile Include="SettingsDialog\SettingsPageCategory.cs" />
     <Compile Include="SettingsDialog\SettingsPageStackPanel.cs" />
-    <Compile Include="SettingDataModel\AbstractSettingsDataModel.cs" />
+    <Compile Include="SettingDataModel\SettingsDataModel.cs" />
     <Compile Include="Interfaces\ISettingsCategory.cs" />
     <Compile Include="Interfaces\ISettingsDataModel.cs" />
     <Compile Include="Interfaces\ISettingsPage.cs" />
@@ -84,7 +87,7 @@
     </Compile>
     <Compile Include="SettingsCategories.cs" />
     <Compile Include="SettingsManager\SettingsCategory.cs" />
-    <Compile Include="SettingsDialog\AbstractSettingsPage.cs" />
+    <Compile Include="SettingsDialog\SettingsPage.cs" />
     <Compile Include="SettingsDialog\ViewModels\SettingsPageContainerViewModel.cs" />
     <Compile Include="SettingsDialog\ViewModels\SettingsWindowViewModel.cs" />
     <Compile Include="SettingsDialog\Views\SettingsWindowView.xaml.cs">

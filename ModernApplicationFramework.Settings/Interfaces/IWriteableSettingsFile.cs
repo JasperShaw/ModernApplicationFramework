@@ -13,11 +13,13 @@ namespace ModernApplicationFramework.Settings.Interfaces
 
         void AddOrChangePropertyValueElement(string path, string propertyName, string value, bool navigateAttributeWise, bool changeValueIfExists);
 
-        void AddToolsOptionsCategoryElement(string name);
-
         void AddToolsOptionsModelElement(string settingsModelName, string categoryName);
+        
+        void AddCategoryElement(ISettingsCategory settingsCategory);
 
-        void AddCategoryElement(IEnumerable<ISettingsCategory> path, string name, bool navigateAttributeWise = true);
+
+        void InsertDocument(string path, XmlDocument document, bool navigateAttributeWise);
+
 
         void Save();
     }

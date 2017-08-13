@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics;
-using ModernApplicationFramework.Settings;
 using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Settings.SettingDataModel;
 using ModernApplicationFramework.Utilities.Interfaces.Settings;
@@ -9,7 +8,7 @@ namespace ModernApplicationFramework.Extended.Settings.General
 {
     [Export(typeof(ISettingsDataModel))]
     [Export(typeof(StorableEnvironmentGeneralOptions))]
-    public class StorableEnvironmentGeneralOptions : AbstractSettingsDataModel
+    public class StorableEnvironmentGeneralOptions : SettingsDataModel
     {
         private readonly EnvironmentGeneralOptions _generalOptions;
         public override ISettingsCategory Category { get; }
@@ -21,7 +20,7 @@ namespace ModernApplicationFramework.Extended.Settings.General
         {
             SettingsManager = settingsManager;
             _generalOptions = generalOptions;
-            Category = SettingsCategories.EnvironmentCategory;
+            Category = ToolsOptionsSubCategories.GeneralSubCategory;
         }
 
         public override void LoadOrCreate()

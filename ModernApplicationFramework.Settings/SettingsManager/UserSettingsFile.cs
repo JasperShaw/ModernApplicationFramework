@@ -130,38 +130,54 @@ namespace ModernApplicationFramework.Settings.SettingsManager
 
         #endregion
 
-        public override void AddToolsOptionsCategoryElement(string name)
+        public override  void AddCategoryElement(ISettingsCategory category)
         {
-            var toolsOptionsNode = GetSingleNode("ToolsOptions", false);
-            if (toolsOptionsNode == null)
+            foreach (var settingsCategory in category.Path)
             {
-                var root = SettingsSotrage.DocumentElement;
-                toolsOptionsNode = root?.AppendChild(CreateToolsOptionsElement(SettingsSotrage)); 
-            }
-            lock (SettingsSotrage)
-            {
-                var element = SettingsSotrage.CreateElement("ToolsOptionsCategory", string.Empty,
-                    new KeyValuePair<string, string>("name", name));
-                //If it is still null we want to throw an exception
-                if (toolsOptionsNode == null)
-                    throw new NullReferenceException(nameof(toolsOptionsNode));
-                toolsOptionsNode.AppendChild(element);
-            }
-        }
-
-        public override void AddCategoryElement(IEnumerable<ISettingsCategory> path, string name, bool navigateAttributeWise = true)
-        {
-            foreach (var category in path)
-            {
-                if (GetSingleNode(category.Name) != null)
+                if (GetSingleNode(settingsCategory.Name) != null)
                     continue;
-                var parentNode = category.Parent == null ? GetSingleNode(string.Empty, false) : GetSingleNode(category.Parent.Name);
-                parentNode.AppendChild(SettingsSotrage.CreateElement("Category", null,
-                    new KeyValuePair<string, string>("name", category.Name),
-                    new KeyValuePair<string, string>("RegisteredName", category.Name)));
-            }        
-        }
+                XmlNode parentNode;
+                if (settingsCategory.Parent == null)
+                {
+                    if (settingsCategory.CategoryType == SettingsCategoryType.ToolsOption)
+                        parentNode = GetSingleNode("ToolsOptions", false) ??
+                                     SettingsSotrage.DocumentElement?.AppendChild(
+                                         CreateToolsOptionsElement(SettingsSotrage));
+                    else
+                        parentNode = GetSingleNode(string.Empty, false);
+                }
+                else
+                {
+                    AddCategoryElement(settingsCategory.Parent);
+                    parentNode = GetSingleNode(settingsCategory.Parent.Name);
+                }
 
+                XmlElement element;
+                switch (settingsCategory.CategoryType)
+                {
+                    case SettingsCategoryType.ToolsOption:
+                        element = SettingsSotrage.CreateElement("ToolsOptionsCategory", string.Empty,
+                            new KeyValuePair<string, string>("name", settingsCategory.Name));
+                        break;
+                    case SettingsCategoryType.ToolsOptionSub:
+                        element = SettingsSotrage.CreateElement("ToolsOptionsSubCategory", string.Empty,
+                            new KeyValuePair<string, string>("name", settingsCategory.Name));
+                        break;
+                    case SettingsCategoryType.Normal:
+                        element = SettingsSotrage.CreateElement("Category", null,
+                            new KeyValuePair<string, string>("name", settingsCategory.Name),
+                            new KeyValuePair<string, string>("RegisteredName", settingsCategory.Name));
+                        if (!settingsCategory.HasChildren)
+                            element.SetAttribute("Category", settingsCategory.Id.ToString("B"));
+                        break;
+                    default:
+                        throw new NotSupportedException();
+                }
+                lock (SettingsSotrage)
+                    parentNode?.AppendChild(element);
+            }
+        }
+        
         public override void AddToolsOptionsModelElement(string settingsModelName, string categoryName)
         {
             var node = GetSingleNode(categoryName);
@@ -184,6 +200,22 @@ namespace ModernApplicationFramework.Settings.SettingsManager
                 .SelectSingleNode(SettingsXPathCreator.CreateElementAttributeValueXPath(xPath, attribute))
                 ?.Value;
             return value;
+        }
+
+
+        public override void InsertDocument(string path, XmlDocument document, bool navigateAttributeWise)
+        {
+            var node = GetSingleNode(path);
+            if (node == null)
+                return;
+
+            foreach (XmlNode childNode in document.ChildNodes)
+            {
+                var newNode = node.OwnerDocument?.ImportNode(childNode, true);
+                if (newNode == null)
+                    continue;
+                node.AppendChild(newNode);
+            }
         }
 
         public override XmlDocument CreateNewSettingsStore()

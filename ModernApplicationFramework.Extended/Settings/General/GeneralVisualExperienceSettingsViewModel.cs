@@ -12,7 +12,7 @@ namespace ModernApplicationFramework.Extended.Settings.General
 {
     [Export(typeof(ISettingsPage))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class GeneralVisualExperienceSettingsViewModel : AbstractSettingsPage
+    public class GeneralVisualExperienceSettingsViewModel : SettingsPage
     {
         private readonly IThemeManager _manager;
         private readonly EnvironmentGeneralOptions _generalOptions;
@@ -27,7 +27,7 @@ namespace ModernApplicationFramework.Extended.Settings.General
 
         public override uint SortOrder => uint.MinValue;
         public override string Name => GeneralSettingsResources.GeneralSettings_Name;
-        public override ISettingsCategory Category => SettingsCategories.EnvironmentCategory;
+        public override SettingsPageCategory Category => SettingsPageCategories.EnvironmentCategory;
 
 
         public IEnumerable<Theme> Themes => _manager.Themes;

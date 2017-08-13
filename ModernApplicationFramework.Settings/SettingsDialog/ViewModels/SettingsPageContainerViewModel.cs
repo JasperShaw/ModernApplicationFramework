@@ -12,7 +12,7 @@ namespace ModernApplicationFramework.Settings.SettingsDialog.ViewModels
 
         public string Text { get; set; }
 
-        public ISettingsCategory Category { get; set; }
+        public SettingsPageCategory Category { get; set; }
 
         public SettingsPageContainerViewModel()
         {

@@ -11,7 +11,7 @@ namespace ModernApplicationFramework.Settings.Interfaces
         /// <summary>
         /// The category of the data model
         /// </summary>
-        ModernApplicationFramework.Settings.Interfaces.ISettingsCategory Category { get; }
+        ISettingsCategory Category { get; }
 
         /// <summary>
         /// The name of the data model

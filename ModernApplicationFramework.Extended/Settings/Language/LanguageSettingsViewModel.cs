@@ -12,7 +12,7 @@ namespace ModernApplicationFramework.Extended.Settings.Language
 {
     [Export(typeof(ISettingsPage))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class LanguageSettingsViewModel : AbstractSettingsPage
+    public class LanguageSettingsViewModel : SettingsPage
     {
         private LanguageInfo _selectedLanguage;
 
@@ -47,7 +47,7 @@ namespace ModernApplicationFramework.Extended.Settings.Language
 
         public override uint SortOrder => 7;
         public override string Name => LanguageSettingsResources.LanguageSettings_Name;
-        public override ISettingsCategory Category => SettingsCategories.EnvironmentCategory;
+        public override SettingsPageCategory Category => SettingsPageCategories.EnvironmentCategory;
 
         protected override bool SetData()
         {

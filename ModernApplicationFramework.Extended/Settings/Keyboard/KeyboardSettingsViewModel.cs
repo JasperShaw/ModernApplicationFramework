@@ -25,7 +25,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
 {
     [Export(typeof(ISettingsPage))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class KeyboardSettingsViewModel : AbstractSettingsPage, IStretchSettingsPanelPanel
+    public class KeyboardSettingsViewModel : SettingsPage, IStretchSettingsPanelPanel
     {
         private readonly ISettingsManager _settingsManager;
         private readonly IKeyGestureService _gestureService;
@@ -44,7 +44,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
 
         public override uint SortOrder => 15;
         public override string Name => "Keyboard";
-        public override ISettingsCategory Category => SettingsCategories.EnvironmentCategory;
+        public override SettingsPageCategory Category => SettingsPageCategories.EnvironmentCategory;
 
 
         public ICommand ResetSchemeCommand => new Command(ExecuteResetScheme, CanExecuteResetScheme);

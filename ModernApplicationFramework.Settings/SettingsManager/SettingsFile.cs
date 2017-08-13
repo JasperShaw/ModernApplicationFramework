@@ -35,7 +35,9 @@ namespace ModernApplicationFramework.Settings.SettingsManager
             bool navigateAttributeWise = true,
             bool changeValueIfExists = true);
 
-        public abstract void AddToolsOptionsCategoryElement(string name);
+
+        public abstract void AddCategoryElement(ISettingsCategory settingsCategory);
+
         public abstract void AddToolsOptionsModelElement(string settingsModelName, string categoryName);
 
         public abstract string GetPropertyValueData(XmlNode node, string path, string propertyName,
@@ -47,8 +49,8 @@ namespace ModernApplicationFramework.Settings.SettingsManager
 
         public abstract void SetPropertyValueData(string path, string propertyName, string value,
             bool navigateAttributeWise = true);
-
-        public abstract void AddCategoryElement(IEnumerable<ISettingsCategory> path, string name, bool navigateAttributeWise = true);
+        
+        public abstract void InsertDocument(string path, XmlDocument document, bool navigateAttributeWise);
 
 
         /// <summary>

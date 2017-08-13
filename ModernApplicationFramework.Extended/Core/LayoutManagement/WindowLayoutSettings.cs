@@ -9,10 +9,10 @@ namespace ModernApplicationFramework.Extended.Core.LayoutManagement
 {
     [Export(typeof(ISettingsDataModel))]
     [Export(typeof(IWindowLayoutSettings))]
-    internal class WindowLayoutSettings : AbstractSettingsDataModel, IWindowLayoutSettings
+    internal class WindowLayoutSettings : SettingsDataModel, IWindowLayoutSettings
     {
 
-        public override ISettingsCategory Category => SettingsCategories.EnvironmentCategory;
+        public override ISettingsCategory Category => SettingsCategories.ToolsOptionEnvironmentCategory;
         public override string Name => "TabsAndWindows";
 
         public bool SkipApplyLayoutConfirmation

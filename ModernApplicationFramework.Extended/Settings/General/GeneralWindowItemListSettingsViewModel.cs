@@ -11,14 +11,14 @@ namespace ModernApplicationFramework.Extended.Settings.General
 {
     [Export(typeof(ISettingsPage))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class GeneralWindowItemListSettingsViewModel : AbstractSettingsPage
+    public class GeneralWindowItemListSettingsViewModel : SettingsPage
     {
         private readonly EnvironmentGeneralOptions _generalOptions;
         private readonly StorableEnvironmentGeneralOptions _storableOptions;
         private string _windowListItems;
         public override uint SortOrder => 1;
         public override string Name => GeneralSettingsResources.GeneralSettings_Name;
-        public override ISettingsCategory Category => SettingsCategories.EnvironmentCategory;
+        public override SettingsPageCategory Category => SettingsPageCategories.EnvironmentCategory;
 
 
         [ImportingConstructor]
