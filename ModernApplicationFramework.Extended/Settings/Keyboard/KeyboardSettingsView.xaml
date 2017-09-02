@@ -38,7 +38,7 @@
 
             <CollectionViewSource x:Key="ScopeView" Source="{Binding Scopes}">
                 <CollectionViewSource.SortDescriptions>
-                    <componentModel:SortDescription PropertyName="Name"/>
+                    <componentModel:SortDescription PropertyName="Text"/>
                 </CollectionViewSource.SortDescriptions>
             </CollectionViewSource>
 
@@ -62,7 +62,7 @@
             <DataTemplate x:Key="ScopeDataTemplate">
                 <TextBlock>
                     <TextBlock.Text>
-                        <Binding Path="Name"/>
+                        <Binding Path="Text"/>
                     </TextBlock.Text>
                 </TextBlock>
             </DataTemplate>
@@ -149,7 +149,7 @@
                        Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsSelectedBinding_Label}"/>
                 <ComboBox x:Name="SelectedBindingCombo" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
                           IsEnabled="{Binding SelectedGestureScopeBinding, Converter={StaticResource NullToBooleanConverter}}"
-                          ItemsSource="{Binding AvailableGestureBindings}" SelectedItem="{Binding SelectedGestureScopeBinding, Mode=TwoWay}"
+                          ItemsSource="{Binding AvailableGestureBindings, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedGestureScopeBinding, Mode=TwoWay}"
                           ItemTemplate="{StaticResource GestureScopeDataTemplate}"/>
 
                 <Button Grid.Row="1" Grid.Column="4" Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsRemoveCurrentBinding_Button}"
@@ -160,7 +160,7 @@
                    Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsNewBindingCategory_Label}"/>
                 <ComboBox x:Name="ScopeCombo" Grid.Row="3" Grid.Column="0" ItemsSource="{Binding Source={StaticResource ScopeView}}"
                           ItemTemplate="{StaticResource ScopeDataTemplate}" SelectedItem="{Binding SelectedScope}"
-                          TextSearch.TextPath="Name"/>
+                          TextSearch.TextPath="Text"/>
 
                 <Label Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" HorizontalAlignment="Left" Padding="0,5,5,3" Target="{Binding ElementName=GestureTextBox}"
                    Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsNewBinding_Label}"/>

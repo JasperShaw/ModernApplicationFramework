@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Globalization;
@@ -13,7 +14,6 @@ using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.KeyBindingScheme;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
-using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Settings;
 using ModernApplicationFramework.Settings.Interfaces;
@@ -32,7 +32,6 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         private readonly IKeyBindingSchemeManager _schemeManager;
         private IEnumerable<CommandDefinition> _items;
         private string _searchFilter;
-        private GestureCollection _availableGestureCommands;
         private CommandDefinition _selectedCommand;
         private GestureScopeMapping _selectedGestureScopeBinding;
         private GestureScope _selectedScope;
@@ -106,17 +105,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
             }
         }
 
-        public GestureCollection AvailableGestureBindings
-        {
-            get => _availableGestureCommands;
-            set
-            {
-                if (Equals(value, _availableGestureCommands))
-                    return;
-                _availableGestureCommands = value;
-                OnPropertyChanged();
-            }
-        }
+        public ObservableCollection<GestureScopeMapping> AvailableGestureBindings { get; set; }
 
         public GestureScopeMapping SelectedGestureScopeBinding
         {
@@ -209,6 +198,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
             AllCommands = gestureService.GetAllCommandDefinitions();
             Scopes = new BindableCollection<GestureScope>(gestureService.GetAllCommandGestureCategories());
             SelectedScope = GestureScopes.GlobalGestureScope;
+            AvailableGestureBindings = new ObservableCollection<GestureScopeMapping>();
             SetupCollectionViewSource();
         }
 
@@ -264,7 +254,12 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
 
         private void UpdateAvailableGestureBinding()
         {
-            AvailableGestureBindings = SelectedCommand.Gestures;
+            AvailableGestureBindings.Clear();
+            foreach (var gesture in SelectedCommand.Gestures)
+            {
+                AvailableGestureBindings.Add(gesture);
+            }
+
             SelectedGestureScopeBinding = SelectedCommand.Gestures.Count > 0 ? SelectedCommand.Gestures[0] : null;
         }
 
@@ -279,7 +274,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
             {
                 var exactDuplicate = _gestureService
                     .FindKeyGestures(MultiKeyGesture.GetKeySequences(CurrentKeyGesture),
-                        FindKeyGestureOption.Containing)
+                        FindKeyGestureOption.ExactMatch)
                     .FirstOrDefault(x => Equals(x.GestureScopeMapping.Scope, SelectedScope));
                 exactDuplicate?.CommandDefinition.Gestures.Remove(exactDuplicate.GestureScopeMapping);
             }
