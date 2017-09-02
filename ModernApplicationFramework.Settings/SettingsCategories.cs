@@ -16,5 +16,15 @@ namespace ModernApplicationFramework.Settings
         [Export]
         public static ISettingsCategory EnvironmentCategory =
             new SettingsCategory(GuidCollection.EnvironmentSettingsCategoryId, SettingsCategoryType.Normal, "Environment_Group", null);
+
+        [Export]
+        internal static ISettingsCategory SettingsDialogSubCategory =
+            new SettingsCategory(GuidCollection.ToolsOptionsSettingsDialogCategoryId,
+                SettingsCategoryType.ToolsOptionSub, "SettingsDialog", ToolsOptionEnvironmentCategory);
+
+        [Export]
+        internal static ISettingsCategory ExportSettingsSubCategory =
+            new SettingsCategory(GuidCollection.ToolsOptionsExportSettingsCategoryId,
+                SettingsCategoryType.ToolsOptionSub, "Import and Export Settings", ToolsOptionEnvironmentCategory);
     }
 }

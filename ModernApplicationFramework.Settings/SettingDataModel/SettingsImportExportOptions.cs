@@ -11,7 +11,7 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
     public sealed class SettingsImportExportOptions : SettingsDataModel
     {
         private readonly IExtendedEnvironmentVarirables _environmentVarirables;
-        public override ISettingsCategory Category => SettingsCategories.ToolsOptionEnvironmentCategory;
+        public override ISettingsCategory Category => SettingsCategories.ExportSettingsSubCategory;
         public override string Name => "Import and Export Settings";
 
         [ImportingConstructor]

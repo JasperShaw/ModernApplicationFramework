@@ -32,7 +32,7 @@ namespace ModernApplicationFramework.Settings.SettingsDialog
             }
         }
 
-        public override ISettingsCategory Category => SettingsCategories.ToolsOptionEnvironmentCategory;
+        public override ISettingsCategory Category => SettingsCategories.SettingsDialogSubCategory;
 
         public override string Name => "SettingsDialog";
 

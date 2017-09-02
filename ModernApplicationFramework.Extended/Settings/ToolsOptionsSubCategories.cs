@@ -10,5 +10,10 @@ namespace ModernApplicationFramework.Extended.Settings
         [Export] public static ISettingsCategory GeneralSubCategory =
             new SettingsCategory(GuidCollection.ToolsOptionsGeneralSettingsCategoryId,
                 SettingsCategoryType.ToolsOptionSub, "General", SettingsCategories.ToolsOptionEnvironmentCategory);
+
+        [Export]
+        public static ISettingsCategory TabsAndWindowsSubCategory =
+            new SettingsCategory(GuidCollection.ToolsOptionsTabsAndWindowsSettingsCategoryId,
+                SettingsCategoryType.ToolsOptionSub, "TabsAndWindows", SettingsCategories.ToolsOptionEnvironmentCategory);
     }
 }

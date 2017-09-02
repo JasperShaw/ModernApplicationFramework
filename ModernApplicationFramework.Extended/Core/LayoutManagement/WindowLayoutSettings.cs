@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel.Composition;
-using ModernApplicationFramework.Settings;
 using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Settings.SettingDataModel;
 using ModernApplicationFramework.Utilities.Interfaces.Settings;
@@ -11,8 +10,7 @@ namespace ModernApplicationFramework.Extended.Core.LayoutManagement
     [Export(typeof(IWindowLayoutSettings))]
     internal class WindowLayoutSettings : SettingsDataModel, IWindowLayoutSettings
     {
-
-        public override ISettingsCategory Category => SettingsCategories.ToolsOptionEnvironmentCategory;
+        public override ISettingsCategory Category => Settings.ToolsOptionsSubCategories.TabsAndWindowsSubCategory;
         public override string Name => "TabsAndWindows";
 
         public bool SkipApplyLayoutConfirmation

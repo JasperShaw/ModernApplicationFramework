@@ -11,6 +11,9 @@ namespace ModernApplicationFramework.Settings.SettingsManager
 {
     internal class UserSettingsFile : SettingsFile
     {
+
+        private object _lockObk = new object();
+
         public UserSettingsFile(ISettingsManager settingsManager) : base(settingsManager)
         {
         }
@@ -120,7 +123,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
                         continue;
                     element = child;
                 }
-            lock (SettingsSotrage)
+            lock (_lockObk)
             {
                 if (element == null)
                     throw new SettingsManagerException("The given Property Value could not be found");
@@ -173,7 +176,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
                     default:
                         throw new NotSupportedException();
                 }
-                lock (SettingsSotrage)
+                lock (_lockObk)
                     parentNode?.AppendChild(element);
             }
         }
@@ -185,7 +188,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
             if (node == null)
                 throw new ArgumentNullException(nameof(node));
 
-            lock (SettingsSotrage)
+            lock (_lockObk)
             {
                 var element = SettingsSotrage.CreateElement("ToolsOptionsCategory", string.Empty,
                     new KeyValuePair<string, string>("name", settingsModelName));
@@ -250,7 +253,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
         
         private XmlElement CreateApplicationVersionElement(XmlDocument document)
         {
-            lock (SettingsSotrage)
+            lock (_lockObk)
             {
                 return document.CreateElement("ApplicationIdentity", null,
                     new KeyValuePair<string, string>("version", SettingsManager.EnvironmentVarirables.ApplicationVersion));

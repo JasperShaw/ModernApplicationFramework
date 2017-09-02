@@ -95,17 +95,17 @@ namespace ModernApplicationFramework.Settings.SettingsManager
             foreach (var settingsCategory in settingsCategories)
                 SettingsFile.AddCategoryElement(settingsCategory);
 
-            //foreach (var settingsModel in settingsModels)
-            //{
-            //    if (SettingsFile.GetSingleNode(settingsModel.SettingsFilePath) == null)
-            //    {
-            //        //if (settingsModel.Category.IsToolsOptionsCategory)
-            //            SettingsFile.AddToolsOptionsModelElement(settingsModel.Name, settingsModel.Category.Name);
-            //        //else
-            //        //    throw new NotImplementedException();
-            //    }
-            //    settingsModel.LoadOrCreate();
-            //}
+            foreach (var settingsModel in settingsModels)
+            {
+                if (SettingsFile.GetSingleNode(settingsModel.SettingsFilePath) == null)
+                {
+                    //if (settingsModel.Category.IsToolsOptionsCategory)
+                    SettingsFile.AddToolsOptionsModelElement(settingsModel.Name, settingsModel.Category.Name);
+                    //else
+                    //    throw new NotImplementedException();
+                }
+                settingsModel.LoadOrCreate();
+            }
             Initialized?.Invoke(this, EventArgs.Empty);
         }
 

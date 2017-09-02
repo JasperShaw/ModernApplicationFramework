@@ -32,7 +32,7 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
         /// <summary>
         /// The path of the setting inside the document
         /// </summary>
-        public virtual string SettingsFilePath => $"{Category.Name}/{Name}/";
+        public virtual string SettingsFilePath => $"{Category.Name}";
 
         /// <summary>
         /// The instance an implementation of an <see cref="ISettingsManager"/>
