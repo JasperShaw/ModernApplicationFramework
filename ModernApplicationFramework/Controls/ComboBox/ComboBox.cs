@@ -175,9 +175,9 @@ namespace ModernApplicationFramework.Controls.ComboBox
         {
             if (!(_previousHwndFocus != IntPtr.Zero))
                 return;
-            var previsourHwndFocus = _previousHwndFocus;
+            var previousHwndFocus = _previousHwndFocus;
             _previousHwndFocus = IntPtr.Zero;
-            User32.SetFocus(previsourHwndFocus);
+            User32.SetFocus(previousHwndFocus);
         }
 
         private void OnEditableTextBoxPartPreviewLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)

@@ -34,7 +34,7 @@ namespace ModernApplicationFramework.Controls.Windows
     /// <seealso cref="T:System.Windows.Window" />
     public class ModernChromeWindow : Window
     {
-        private const int MonitorDefaulttonearest = 0x00000002;
+        private const int MonitorDefaultToNearest = 0x00000002;
 
         /// <summary>
         /// Indicates whether the window is in full screen mode
@@ -167,10 +167,10 @@ namespace ModernApplicationFramework.Controls.Windows
         {
             base.OnPropertyChanged(e);
             if (e.Property == FullScreenProperty)
-                ChangeFullScreenApperance(e.NewValue);
+                ChangeFullScreenAppearance(e.NewValue);
         }
 
-        private void ChangeFullScreenApperance(object newValue)
+        private void ChangeFullScreenAppearance(object newValue)
         {
             if ((bool) newValue)
                 ChangeToFullScreen();
@@ -311,7 +311,7 @@ namespace ModernApplicationFramework.Controls.Windows
         private void WnGetMinMaxInfo(IntPtr hwnd, IntPtr lparam)
         {
             var mmi = (Minmaxinfo) Marshal.PtrToStructure(lparam, typeof(Minmaxinfo));
-            var monitor = User32.MonitorFromWindow(hwnd, MonitorDefaulttonearest);
+            var monitor = User32.MonitorFromWindow(hwnd, MonitorDefaultToNearest);
 
             if (monitor != IntPtr.Zero)
             {
@@ -336,7 +336,7 @@ namespace ModernApplicationFramework.Controls.Windows
         private static Minmaxinfo AdjustWorkingAreaForAutoHide(IntPtr monitor, Minmaxinfo mmi)
         {
             var hwnd = User32.FindWindow("Shell_TrayWnd", null);
-            var monitorWithTaskBar = User32.MonitorFromWindow(hwnd, MonitorDefaulttonearest);
+            var monitorWithTaskBar = User32.MonitorFromWindow(hwnd, MonitorDefaultToNearest);
             if (!monitor.Equals(monitorWithTaskBar))
                 return mmi;
             var abd = new Appbardata();

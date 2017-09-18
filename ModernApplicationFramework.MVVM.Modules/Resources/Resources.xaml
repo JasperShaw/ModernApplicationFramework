@@ -25,7 +25,7 @@
                            HorizontalContentAlignment="Left"
                            VerticalAlignment="Center">
                         <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis"
-                                   Foreground="{DynamicResource {x:Static core:EnvironmentColors.GloablForeground}}" />
+                                   Foreground="{DynamicResource {x:Static core:EnvironmentColors.GlobalForeground}}" />
                     </Label>
                     <controls:SimpleGridSplitter Grid.Column="1" Width="5" ResizeBehavior="PreviousAndNext" />
                     <Border Grid.Column="2" Padding="0 2 5 2" VerticalAlignment="Center">

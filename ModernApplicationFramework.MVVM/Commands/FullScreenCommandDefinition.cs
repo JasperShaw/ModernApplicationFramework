@@ -65,7 +65,7 @@ namespace ModernApplicationFramework.MVVM.Commands
                 var item = new MenuItem
                 {
                     Command = Command,
-                    Header = "Restore to nomal size",
+                    Header = "Restore to normal size",
                     Icon = vb
                 };
 

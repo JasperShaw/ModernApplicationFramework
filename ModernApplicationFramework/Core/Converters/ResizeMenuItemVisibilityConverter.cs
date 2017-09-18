@@ -6,7 +6,7 @@ using ModernApplicationFramework.Utilities.Converters;
 
 namespace ModernApplicationFramework.Core.Converters
 {
-    internal class ResizeMenuItemVisiblilityConverter : ValueConverter<CommandBarDefinitionBase, Visibility>
+    internal class ResizeMenuItemVisibilityConverter : ValueConverter<CommandBarDefinitionBase, Visibility>
     {
         protected override Visibility Convert(CommandBarDefinitionBase value, object parameter, CultureInfo culture)
         {

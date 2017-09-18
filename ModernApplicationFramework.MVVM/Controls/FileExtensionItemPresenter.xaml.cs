@@ -91,7 +91,7 @@ namespace ModernApplicationFramework.MVVM.Controls
             var fileArgument = SelectedItem as ISupportedFileDefinition;
             return fileArgument == null
                 ? null
-                : new NewFileCommandArguments(name, fileArgument.FileType.FileExtension, fileArgument.PrefferedEditor);
+                : new NewFileCommandArguments(name, fileArgument.FileType.FileExtension, fileArgument.PreferredEditor);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

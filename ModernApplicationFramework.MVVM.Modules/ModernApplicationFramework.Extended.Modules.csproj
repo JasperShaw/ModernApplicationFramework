@@ -63,7 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InspectorTool\BoundPropertyDescriptor.cs" />
-    <Compile Include="InspectorTool\Commands\OpenInstectorCommandDefinition.cs" />
+    <Compile Include="InspectorTool\Commands\OpenInspectorCommandDefinition.cs" />
     <Compile Include="InspectorTool\Controls\InspectorGrid.cs" />
     <Compile Include="InspectorTool\Controls\InspectorItemTemplateSelector.cs" />
     <Compile Include="InspectorTool\Controls\SimpleGridSplitter.cs" />

@@ -63,7 +63,7 @@
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Commands\CloseActiveDocumentCommandDefinition.cs" />
-    <Compile Include="Commands\CloseProgammCommandDefinition.cs" />
+    <Compile Include="Commands\CloseProgramCommandDefinition.cs" />
     <Compile Include="Commands\OpenWithFileCommandDefinition.cs" />
     <Compile Include="Commands\RedoCommandDefinition.cs" />
     <Compile Include="Commands\NewFileCommandDefinition.cs" />
@@ -83,7 +83,7 @@
     </Compile>
     <Compile Include="Controls\Toolbars\StandardToolbarModel.cs" />
     <Compile Include="Controls\Toolbars\ToolBarDefinitions.cs" />
-    <Compile Include="Core\Behaviours\BindableSelectedItemBehavior.cs" />
+    <Compile Include="Core\Behaviors\BindableSelectedItemBehavior.cs" />
     <Compile Include="Core\CommandArguments\OpenFileWithCommandArguments.cs" />
     <Compile Include="Core\EditorProvider.cs" />
     <Compile Include="Core\EditorProviderHelper.cs" />
@@ -167,7 +167,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Resources\Icons\CloseProgramm_16x.xaml">
+    <Page Include="Resources\Icons\CloseProgram_16x.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

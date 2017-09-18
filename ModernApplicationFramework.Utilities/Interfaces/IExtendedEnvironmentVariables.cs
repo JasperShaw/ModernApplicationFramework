@@ -3,9 +3,9 @@ namespace ModernApplicationFramework.Utilities.Interfaces
 
     /// <inheritdoc />
     /// <summary>
-    /// Extends the <see cref="IEnvironmentVarirables" /> interface to settings aware variables
+    /// Extends the <see cref="IEnvironmentVariables" /> interface to settings aware variables
     /// </summary>
-    public interface IExtendedEnvironmentVarirables : IEnvironmentVarirables
+    public interface IExtendedEnvironmentVariables : IEnvironmentVariables
     {
         /// <summary>
         /// The current storage location of the settings file

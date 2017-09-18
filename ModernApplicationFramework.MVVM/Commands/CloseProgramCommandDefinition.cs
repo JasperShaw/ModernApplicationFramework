@@ -8,13 +8,13 @@ using ModernApplicationFramework.MVVM.Interfaces;
 namespace ModernApplicationFramework.MVVM.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
-    public sealed class CloseProgammCommandDefinition : CommandDefinition
+    public sealed class CloseProgramCommandDefinition : CommandDefinition
     {
 #pragma warning disable 649
         [Import] private IDockingMainWindowViewModel _shell;
 #pragma warning restore 649
 
-        public CloseProgammCommandDefinition()
+        public CloseProgramCommandDefinition()
         {
             Command = new GestureCommandWrapper(Close, CanClose, new KeyGesture(Key.F4, ModifierKeys.Alt));
         }
@@ -23,16 +23,16 @@ namespace ModernApplicationFramework.MVVM.Commands
         public override bool CanShowInToolbar => true;
         public override ICommand Command { get; }
 
-        public override string IconId => "CloseProgrammIcon";
+        public override string IconId => "CloseProgramIcon";
 
         public override Uri IconSource
             =>
-                new Uri("/ModernApplicationFramework.MVVM;component/Resources/Icons/CloseProgramm_16x.xaml",
+                new Uri("/ModernApplicationFramework.MVVM;component/Resources/Icons/CloseProgram_16x.xaml",
                     UriKind.RelativeOrAbsolute);
 
         public override string Name => "Close";
         public override string Text => Name;
-        public override string ToolTip => "Closes the Programm";
+        public override string ToolTip => "Closes the Program";
 
         private bool CanClose()
         {

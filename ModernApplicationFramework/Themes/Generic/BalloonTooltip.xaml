@@ -10,7 +10,7 @@
 		<ResourceDictionary Source="../../Resources/Icons/Icons.xaml"/>
 	</ResourceDictionary.MergedDictionaries>
 
-    <converters:EmptryStringToVisibilityConverter  x:Key="EmptryStringToVisibilityConverter"/>
+    <converters:EmptyStringToVisibilityConverter  x:Key="EmptyStringToVisibilityConverter"/>
 
     <Style TargetType="{x:Type this:BalloonTooltip}">
         <Setter Property="Background" Value="White"/>
@@ -60,9 +60,9 @@
                                     </Grid.RowDefinitions>
                                     <ContentPresenter x:Name="Image" Grid.Column="1" Grid.Row="1" Height="16" Width="16" VerticalAlignment="Center"
                                                           HorizontalAlignment="Right" Content="{StaticResource StatusErrorIcon}"
-                                                          Visibility="{Binding Path=TitleText ,RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource EmptryStringToVisibilityConverter}}"/>
+                                                          Visibility="{Binding Path=TitleText ,RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource EmptyStringToVisibilityConverter}}"/>
                                     <TextBlock Grid.Row="1" Grid.Column="2" FontSize="16" Text="{TemplateBinding TitleText}" Foreground="{TemplateBinding TitleForeground}"
-                                                   Visibility="{Binding Path=TitleText ,RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource EmptryStringToVisibilityConverter}}"
+                                                   Visibility="{Binding Path=TitleText ,RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource EmptyStringToVisibilityConverter}}"
                                                    Margin="5,0,0,0"/>
                                     <ScrollViewer Grid.Row="2" Grid.Column="2" VerticalScrollBarVisibility="Auto" MaxHeight="{TemplateBinding MaxHeight}" Margin="5,0,10,0">
                                         <TextBlock  TextWrapping="Wrap" Text="{TemplateBinding CaptionText}" Foreground="{TemplateBinding Foreground}"/>

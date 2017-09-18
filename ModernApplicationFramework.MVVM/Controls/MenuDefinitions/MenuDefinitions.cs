@@ -45,7 +45,7 @@ namespace ModernApplicationFramework.MVVM.Controls.MenuDefinitions
         public static MenuItemDefinitionOld FileMenuSeparatorLast = new MenuItemDefinitionOld("SeparatorLast", int.MaxValue, FileMenu, true);
 
         [Export]
-        public static MenuItemDefinitionOld CloseProgramm = new MenuItemDefinitionOld<CloseProgammCommandDefinition>("Close", int.MaxValue, FileMenu);
+        public static MenuItemDefinitionOld CloseProgram = new MenuItemDefinitionOld<CloseProgramCommandDefinition>("Close", int.MaxValue, FileMenu);
 
 
 

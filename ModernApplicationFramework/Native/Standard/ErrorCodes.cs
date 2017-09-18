@@ -127,7 +127,7 @@ namespace ModernApplicationFramework.Native.Standard
 
         /// <summary>Performs HRESULT_FROM_WIN32 conversion.</summary>
         /// <param name="error">The Win32 error being converted to an HRESULT.</param>
-        /// <returns>The equivilent HRESULT value.</returns>
+        /// <returns>The equivalent HRESULT value.</returns>
         public static explicit operator Hresult(Win32Error error)
         {
             // #define __HRESULT_FROM_WIN32(x) 
@@ -141,7 +141,7 @@ namespace ModernApplicationFramework.Native.Standard
 
         // Method version of the cast operation
         /// <summary>Performs HRESULT_FROM_WIN32 conversion.</summary>
-        /// <returns>The equivilent HRESULT value.</returns>
+        /// <returns>The equivalent HRESULT value.</returns>
         public Hresult ToHresult()
         {
             return (Hresult) this;

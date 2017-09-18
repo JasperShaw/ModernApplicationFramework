@@ -10,7 +10,7 @@ using ModernApplicationFramework.Input.Command;
 namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
-    public sealed class OpenInstectorCommandDefinition : CommandDefinition
+    public sealed class OpenInspectorCommandDefinition : CommandDefinition
     {
 #pragma warning disable 649
         [Import] private IDockingMainWindowViewModel _shell;
@@ -35,7 +35,7 @@ namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Commands
 
         public string MyText { get; set; }
 
-        public OpenInstectorCommandDefinition()
+        public OpenInspectorCommandDefinition()
         {
             var command = new UICommand(Open, CanOpen);
             Command = command;

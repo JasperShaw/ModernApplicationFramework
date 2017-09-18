@@ -47,7 +47,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
 
 
 
-            var w = new TestWindw
+            var w = new TestWindow
             {
                 Background = Brushes.Green,
                 Grid =

@@ -7,7 +7,7 @@ namespace ModernApplicationFramework.Core.Converters
     /// <summary>
     /// A <see cref="ValueConverter{TSource,TTarget}"/> that converts an empty <see langword="string"/> to <see cref="Visibility.Collapsed"/>
     /// </summary>
-    public class EmptryStringToVisibilityConverter  : ValueConverter<string, Visibility>
+    public class EmptyStringToVisibilityConverter  : ValueConverter<string, Visibility>
     {
         protected override Visibility Convert(string value, object parameter, CultureInfo culture)
         {

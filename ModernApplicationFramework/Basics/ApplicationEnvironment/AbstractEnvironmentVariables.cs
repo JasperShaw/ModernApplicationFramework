@@ -11,15 +11,15 @@ namespace ModernApplicationFramework.Basics.ApplicationEnvironment
     /// <summary>
     /// Basic implementation of a service that handles the application's environment variables
     /// </summary>
-    /// <seealso cref="T:ModernApplicationFramework.Utilities.Interfaces.IEnvironmentVarirables" />
-    public abstract class AbstractEnvironmentVarirables : IEnvironmentVarirables
+    /// <seealso cref="T:ModernApplicationFramework.Utilities.Interfaces.IEnvironmentVariables" />
+    public abstract class AbstractEnvironmentVariables : IEnvironmentVariables
     {
         protected const string ApplicationLocationKey = "ApplicationLocation";
         protected const string ProfileKey = "Profile";
 
         private string _registryRootPath;
 
-        protected AbstractEnvironmentVarirables()
+        protected AbstractEnvironmentVariables()
         {
             EnvironmentVariables = new Dictionary<string, string>();
         }
@@ -109,18 +109,18 @@ namespace ModernApplicationFramework.Basics.ApplicationEnvironment
         public string GetOrCreateRegistryVariable(string key, string path, string defaultValue)
         {
             var fullPath = path == null ? RegistryRootPath : Path.Combine(RegistryRootPath, path);
-            var value = RegirstryTools.GetValueCurrentUserRoot(fullPath, key);
+            var value = RegistryTools.GetValueCurrentUserRoot(fullPath, key);
             if (value == null)
             {
                 value = defaultValue;
-                RegirstryTools.SetValueCurrentUserRoot(fullPath, key, defaultValue);
+                RegistryTools.SetValueCurrentUserRoot(fullPath, key, defaultValue);
             }
 
             return value.ToString();
         }
 
         /// <summary>
-        /// Sets a HKCU regirsty entry
+        /// Sets a HKCU registry entry
         /// </summary>
         /// <param name="key">The key of the registry entry</param>
         /// <param name="value">The value to set</param>
@@ -129,11 +129,11 @@ namespace ModernApplicationFramework.Basics.ApplicationEnvironment
         public void SetRegistryVariable(string key, string value, string path)
         {
             var fullPath = path == null ? RegistryRootPath : Path.Combine(RegistryRootPath, path);
-            RegirstryTools.SetValueCurrentUserRoot(fullPath, key, value);
+            RegistryTools.SetValueCurrentUserRoot(fullPath, key, value);
         }
 
         /// <summary>
-        /// Gets an evironment variable
+        /// Gets an environment variable
         /// </summary>
         /// <param name="key">The the key of the variable</param>
         /// <param name="value">Pointer to the value of the variable. Is <see langword="null" /> of key was not found</param>
@@ -156,8 +156,8 @@ namespace ModernApplicationFramework.Basics.ApplicationEnvironment
         /// </summary>
         public virtual void Setup()
         {
-            if (!RegirstryTools.ExistsCurrentUserRoot(RegistryRootPath))
-                RegirstryTools.CreateCurrentUserRoot(RegistryRootPath);
+            if (!RegistryTools.ExistsCurrentUserRoot(RegistryRootPath))
+                RegistryTools.CreateCurrentUserRoot(RegistryRootPath);
             SetupApplicationLocation();
             SetupProfile();
         }
@@ -192,13 +192,13 @@ namespace ModernApplicationFramework.Basics.ApplicationEnvironment
         {
             string result;
 
-            if (!RegirstryTools.ExistsCurrentUserRoot(rootPath))
-                RegirstryTools.CreateCurrentUserRoot(rootPath);
+            if (!RegistryTools.ExistsCurrentUserRoot(rootPath))
+                RegistryTools.CreateCurrentUserRoot(rootPath);
 
-            var keyValue = RegirstryTools.GetValueCurrentUserRoot(rootPath, regKeyName);
+            var keyValue = RegistryTools.GetValueCurrentUserRoot(rootPath, regKeyName);
             if (keyValue == null)
             {
-                RegirstryTools.SetValueCurrentUserRoot(rootPath, regKeyName, defaultValue);
+                RegistryTools.SetValueCurrentUserRoot(rootPath, regKeyName, defaultValue);
                 result = defaultValue;
             }
             else

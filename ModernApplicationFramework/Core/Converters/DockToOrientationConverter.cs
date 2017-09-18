@@ -8,7 +8,7 @@ namespace ModernApplicationFramework.Core.Converters
     /// <summary>
     /// A <see cref="ValueConverter{TSource,TTarget}"/> that converts a <see cref="Dock"/> value to a <see cref="Orientation"/> value
     /// </summary>
-    public class DockToOrienationConverter : ValueConverter<Dock, Orientation>
+    public class DockToOrientationConverter : ValueConverter<Dock, Orientation>
     {
         protected override Orientation Convert(Dock value, object parameter, CultureInfo culture)
         {

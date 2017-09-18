@@ -22,7 +22,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
             if (presetDocument == null)
                 throw new ArgumentNullException();
             presetDocument.Save(path);
-            return new UserSettingsFile(settingsManager) {SettingsSotrage = presetDocument};
+            return new UserSettingsFile(settingsManager) {SettingsStorage = presetDocument};
         }
 
         public static ISettingsFile Create(string path, ISettingsManager settingsManager)

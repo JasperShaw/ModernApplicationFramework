@@ -4,12 +4,12 @@ using System.Xml;
 namespace ModernApplicationFramework.Utilities.Interfaces.Settings
 {
     /// <summary>
-    /// An <see cref="IPropteryValueManager"/> allows to get or set values of an 'PropertyValue' <see cref="XmlElement"/> in an <see cref="XmlDocument"/>. The 
+    /// An <see cref="IPropertyValueManager"/> allows to get or set values of an 'PropertyValue' <see cref="XmlElement"/> in an <see cref="XmlDocument"/>. The 
     /// </summary>
-    public interface IPropteryValueManager
+    public interface IPropertyValueManager
     {
         /// <summary>
-        /// Gets the value of a PropertyValue element. Creates a new ProertyValue if it could not be found
+        /// Gets the value of a PropertyValue element. Creates a new PropertyValue if it could not be found
         /// </summary>
         /// <typeparam name="T">The type of the value expected to get.</typeparam>
         /// <param name="propertyPath">The path pointing to the PropertyValue inside the document</param>

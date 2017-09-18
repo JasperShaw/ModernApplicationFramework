@@ -72,7 +72,7 @@ namespace ModernApplicationFramework.Docking.Layout
         /// <remarks>Please note that LayoutAnchorable also can be hidden. Usually user hide anchorables when click the 'X' button. To completely close 
         /// an anchorable the user should click the 'Close' menu item from the context menu. When an LayoutAnchorable is hidden its visibility changes to false and
         /// IsHidden property is set to true.
-        /// Hanlde the Hiding event for the LayoutAnchorable to cancel the hide operation.</remarks>
+        /// Handle the Hiding event for the LayoutAnchorable to cancel the hide operation.</remarks>
         public event EventHandler<CancelEventArgs> Closing;
 
         public event EventHandler IsActiveChanged;

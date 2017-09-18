@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
 {
     /// <summary>
-    /// Interaktionslogik für TestWindw.xaml
+    /// Interaktionslogik für TestWindow.xaml
     /// </summary>
-    public partial class TestWindw : Window
+    public partial class TestWindow : Window
     {
-        public TestWindw()
+        public TestWindow()
         {
             InitializeComponent();
         }

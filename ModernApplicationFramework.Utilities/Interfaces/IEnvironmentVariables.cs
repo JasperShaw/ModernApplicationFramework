@@ -5,7 +5,7 @@ namespace ModernApplicationFramework.Utilities.Interfaces
     /// <summary>
     /// Provides a service to handle application specific environment variables
     /// </summary>
-    public interface IEnvironmentVarirables
+    public interface IEnvironmentVariables
     {
         /// <summary>
         /// The name of the running application
@@ -28,7 +28,7 @@ namespace ModernApplicationFramework.Utilities.Interfaces
         void Setup();
 
         /// <summary>
-        /// Gets an evironment variable
+        /// Gets an environment variable
         /// </summary>
         /// <param name="key">The the key of the variable</param>
         /// <param name="value">Pointer to the value of the variable. Is <see langword="null"/> of key was not found</param>
@@ -62,7 +62,7 @@ namespace ModernApplicationFramework.Utilities.Interfaces
         string GetOrCreateRegistryVariable(string key, string path, string defaultValue);
 
         /// <summary>
-        /// Sets a HKCU regirsty entry
+        /// Sets a HKCU registry entry
         /// </summary>
         /// <param name="key">The key of the registry entry</param>
         /// <param name="value">The value to set</param>

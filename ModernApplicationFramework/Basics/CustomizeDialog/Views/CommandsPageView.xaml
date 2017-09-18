@@ -33,7 +33,7 @@
             <converters:EnumBooleanConverter x:Key="EnumBooleanConverter" />
             <customize:IsNotSeparatorModelConverter x:Key="IsNotSeparatorModelConverter" />
             <customize:IsSeparatorOrCustomizableModelConverter x:Key="IsSeparatorOrCustomizableModelConverter" />
-            <converters:ResizeMenuItemVisiblilityConverter x:Key="ResizeMenuItemVisiblilityConverter" />
+            <converters:ResizeMenuItemVisibilityConverter x:Key="ResizeMenuItemVisibilityConverter" />
             <customize:IsButtonModelConverter x:Key="IsButtonModelConverter" />
             <customize:BeginGroupIsEnabledConverter x:Key="BeginGroupIsEnabledConverter" />
             <customize:CanMoveUpMultiValueConverter x:Key="CanMoveUpMultiValueConverter" />
@@ -67,7 +67,7 @@
                         <Binding Mode="OneWay" Converter="{StaticResource IsCustomizableModelConverter}" />
                     </UIElement.IsEnabled>
                     <UIElement.Visibility>
-                        <Binding Mode="OneWay" Converter="{StaticResource ResizeMenuItemVisiblilityConverter}" />
+                        <Binding Mode="OneWay" Converter="{StaticResource ResizeMenuItemVisibilityConverter}" />
                     </UIElement.Visibility>
                     <menu:EditableMenuItem.ValidationRules>
                         <validationRules:ComboBoxWidthValidationRule />

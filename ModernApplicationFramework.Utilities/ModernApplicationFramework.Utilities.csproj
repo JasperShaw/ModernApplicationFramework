@@ -89,9 +89,9 @@
     <Compile Include="Imaging\ImageUtilities.cs" />
     <Compile Include="Interfaces\IDirtyObjectManager.cs" />
     <Compile Include="Interfaces\ICanBeDirty.cs" />
-    <Compile Include="Interfaces\IEnvironmentVarirables.cs" />
-    <Compile Include="Interfaces\IExtendedEnvironmentVarirables.cs" />
-    <Compile Include="Interfaces\Settings\IPropteryValueManager.cs" />
+    <Compile Include="Interfaces\IEnvironmentVariables.cs" />
+    <Compile Include="Interfaces\IExtendedEnvironmentVariables.cs" />
+    <Compile Include="Interfaces\Settings\IPropertyValueManager.cs" />
     <Compile Include="Interfaces\Settings\ISettingsManager.cs" />
     <Compile Include="Converters\LeftMarginMultiplierConverter.cs" />
     <Compile Include="MultiValueHelper.cs" />

@@ -61,7 +61,7 @@ namespace ModernApplicationFramework.MVVM.Commands
                                                              x =>
                                                                  x.FileType.FileExtension
                                                                  == Path.GetExtension(dialog.FileName));
-            var editorType = supportedFileDefinition?.PrefferedEditor;
+            var editorType = supportedFileDefinition?.PreferredEditor;
 
             _shell.DockingHost.OpenDocument(await EditorProviderHelper.GetEditor(dialog.FileName, editorType));
         }

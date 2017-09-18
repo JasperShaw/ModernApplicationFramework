@@ -21,6 +21,6 @@ namespace ModernApplicationFramework.Extended.Interfaces
 
         void LoadState(BinaryReader reader);
 
-        void SaveState(BinaryWriter wrtier);
+        void SaveState(BinaryWriter writer);
     }
 }

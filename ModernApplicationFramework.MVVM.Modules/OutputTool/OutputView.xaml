@@ -21,7 +21,7 @@
     <mafc:ScrollViewer VerticalScrollBarVisibility="Visible">
         <TextBox x:Name="outputText" IsReadOnly="True" VerticalAlignment="Stretch"
                  HorizontalAlignment="Stretch" AcceptsReturn="True" FontFamily="Consolas"
-                 Foreground="{DynamicResource {x:Static core:EnvironmentColors.GloablForeground}}"
+                 Foreground="{DynamicResource {x:Static core:EnvironmentColors.GlobalForeground}}"
                  Cursor="{x:Static Cursors.Arrow}" BorderThickness="0"
                  Background="{DynamicResource {x:Static core:EnvironmentColors.TextBoxBackground}}">
             <TextBox.ContextMenu>

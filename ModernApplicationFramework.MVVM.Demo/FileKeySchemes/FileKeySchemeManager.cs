@@ -14,7 +14,7 @@ namespace ModernApplicationFramework.MVVM.Demo.FileKeySchemes
     {
         public override void LoadSchemeDefinitions()
         {
-            var env = IoC.Get<IExtendedEnvironmentVarirables>();
+            var env = IoC.Get<IExtendedEnvironmentVariables>();
             env.GetEnvironmentVariable(env.ApplicationUserDirectoryKey, out var path);  
             var files = Directory.GetFiles(Environment.ExpandEnvironmentVariables(path), "*.mafk", SearchOption.TopDirectoryOnly);
             if (files.Length == 0)

@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:behaviours="clr-namespace:ModernApplicationFramework.MVVM.Core.Behaviours"
+             xmlns:behaviours="clr-namespace:ModernApplicationFramework.MVVM.Core.Behaviors"
              xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
         Background="{x:Static SystemColors.ControlBrush}" Width="760" Height="500" MinWidth="512" MinHeight="300" 

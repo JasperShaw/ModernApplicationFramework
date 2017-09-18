@@ -8,7 +8,7 @@ namespace ModernApplicationFramework.Core.Themes
     public static class EnvironmentColors
     {
         //Global
-        private static ComponentResourceKey _gloablForeground;
+        private static ComponentResourceKey _globalForeground;
         private static ComponentResourceKey _globalBackgroundColor;
         private static ComponentResourceKey _globalBackgroundColor2;
 
@@ -518,8 +518,8 @@ namespace ModernApplicationFramework.Core.Themes
         private static ComponentResourceKey _commandShelfHighlight;
 
         //QuickCustomizeButton
-        private static ComponentResourceKey _qickCustomizeButtonText;
-        private static ComponentResourceKey _qickCustomizeButtonGlyph;
+        private static ComponentResourceKey _quickCustomizeButtonText;
+        private static ComponentResourceKey _quickCustomizeButtonGlyph;
         private static ComponentResourceKey _quickCustomizeButtonBorder;
         private static ComponentResourceKey _quickCustomizeButton;
         private static ComponentResourceKey _quickCustomizeButtonTextHover;
@@ -547,11 +547,11 @@ namespace ModernApplicationFramework.Core.Themes
 
         #region QuickCustomizeButton
 
-        public static ComponentResourceKey QuickCustomizeButtonText => _qickCustomizeButtonText ??
-                                                                             (_qickCustomizeButtonText = new ComponentResourceKey(typeof(EnvironmentColors), "QuickCustomizeButtonText"));
+        public static ComponentResourceKey QuickCustomizeButtonText => _quickCustomizeButtonText ??
+                                                                             (_quickCustomizeButtonText = new ComponentResourceKey(typeof(EnvironmentColors), "QuickCustomizeButtonText"));
 
-        public static ComponentResourceKey QuickCustomizeButtonGlyph => _qickCustomizeButtonGlyph ??
-                                                                             (_qickCustomizeButtonGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "QuickCustomizeButtonGlyph"));
+        public static ComponentResourceKey QuickCustomizeButtonGlyph => _quickCustomizeButtonGlyph ??
+                                                                             (_quickCustomizeButtonGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "QuickCustomizeButtonGlyph"));
 
         public static ComponentResourceKey QuickCustomizeButtonBorder => _quickCustomizeButtonBorder ??
                                                                      (_quickCustomizeButtonBorder = new ComponentResourceKey(typeof(EnvironmentColors), "QuickCustomizeButtonBorder"));
@@ -870,8 +870,8 @@ namespace ModernApplicationFramework.Core.Themes
 
         #region Global
 
-        public static ComponentResourceKey GloablForeground => _gloablForeground ??
-                                                               (_gloablForeground = new ComponentResourceKey(typeof(EnvironmentColors), "GloablForeground"));
+        public static ComponentResourceKey GlobalForeground => _globalForeground ??
+                                                               (_globalForeground = new ComponentResourceKey(typeof(EnvironmentColors), "GlobalForeground"));
 
         public static ComponentResourceKey GlobalBackgroundColor => _globalBackgroundColor ??
                                                                     (_globalBackgroundColor = new ComponentResourceKey(typeof(EnvironmentColors), "GlobalBackgroundColor"));

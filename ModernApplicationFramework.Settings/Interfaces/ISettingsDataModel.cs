@@ -30,7 +30,7 @@ namespace ModernApplicationFramework.Settings.Interfaces
 
         /// <summary>
         /// Stores all settings into the Settings file. 
-        /// <remarks>This should not write the file to disk due to perfomence and possible mutexes.</remarks>
+        /// <remarks>This should not write the file to disk due to performance and possible mutexes.</remarks>
         /// </summary>
         void StoreSettings();
     }

@@ -36,7 +36,7 @@ namespace ModernApplicationFramework.Basics.Services
         /// <summary>
         /// Gets the environment variables for this application.
         /// </summary>
-        protected virtual IEnvironmentVarirables EnvironmentVariables => new FallbackEnvironmentVarirables();
+        protected virtual IEnvironmentVariables EnvironmentVariables => new FallbackEnvironmentVariables();
 
         public Bootstrapper(bool useApplication = true) : base(useApplication)
         {
@@ -48,7 +48,7 @@ namespace ModernApplicationFramework.Basics.Services
 	    internal IList<Assembly> PriorityAssemblies => _priorityAssemblies;
 
         /// <summary>
-        /// Performs actions before the bootstrapper gets initialied
+        /// Performs actions before the bootstrapper gets initialized.
         /// </summary>
         protected virtual void PreInitialize()
 	    {

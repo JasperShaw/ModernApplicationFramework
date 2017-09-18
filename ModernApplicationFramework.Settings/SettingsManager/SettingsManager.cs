@@ -21,7 +21,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
         public event EventHandler SettingsLocationChanged;
         public event EventHandler Initialized;
 
-        public IExtendedEnvironmentVarirables EnvironmentVarirables { get; }
+        public IExtendedEnvironmentVariables EnvironmentVariables { get; }
         public bool IsInitialized { get; private set; }
 
         protected ISettingsFile SettingsFile { get; set; }
@@ -29,21 +29,21 @@ namespace ModernApplicationFramework.Settings.SettingsManager
         protected SettingsValueSerializer ValueSerializer { get; }
 
         [ImportingConstructor]
-        public SettingsManager(IExtendedEnvironmentVarirables environmentVarirables)
+        public SettingsManager(IExtendedEnvironmentVariables environmentVariables)
         {
-            EnvironmentVarirables = environmentVarirables;
+            EnvironmentVariables = environmentVariables;
             ValueSerializer = new SettingsValueSerializer();
             Initialized += SettingsManager_Initialized;
         }
 
         public virtual void CreateNewSettingsFile()
         {
-            CreateNewSettingsFileInternal(EnvironmentVarirables.SettingsFilePath);
+            CreateNewSettingsFileInternal(EnvironmentVariables.SettingsFilePath);
         }
 
         public virtual void LoadCurrent()
         {
-            SettingsFile = SettingsFactory.Open(EnvironmentVarirables.SettingsFilePath, this);
+            SettingsFile = SettingsFactory.Open(EnvironmentVariables.SettingsFilePath, this);
         }
 
         public void SaveCurrent()
@@ -65,27 +65,27 @@ namespace ModernApplicationFramework.Settings.SettingsManager
                 if (string.IsNullOrEmpty(newDirectoryPath))
                     throw new ArgumentNullException();
                 new FileInfo(path).Directory.Create();
-                if (!File.Exists(EnvironmentVarirables.SettingsFilePath))
+                if (!File.Exists(EnvironmentVariables.SettingsFilePath))
                     CreateNewSettingsFileInternal(path);
                 else
-                    File.Copy(EnvironmentVarirables.SettingsFilePath, path, true);
+                    File.Copy(EnvironmentVariables.SettingsFilePath, path, true);
 
                 if (deleteCurrent)
                     DeleteCurrentSettingsFile();
-                EnvironmentVarirables.SettingsFilePath = path;
+                EnvironmentVariables.SettingsFilePath = path;
             }
             SettingsLocationChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void DeleteCurrentSettingsFile()
         {
-            if (File.Exists(EnvironmentVarirables.SettingsFilePath))
-                File.Delete(EnvironmentVarirables.SettingsFilePath);
+            if (File.Exists(EnvironmentVariables.SettingsFilePath))
+                File.Delete(EnvironmentVariables.SettingsFilePath);
         }
 
         public void Initialize()
         {
-            if (!File.Exists(EnvironmentVarirables.SettingsFilePath))
+            if (!File.Exists(EnvironmentVariables.SettingsFilePath))
                 CreateNewSettingsFile();
             else
                 LoadCurrent();
@@ -170,7 +170,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
 
         protected void CreateNewSettingsFileInternal(string path)
         {
-            SettingsFile = SettingsFactory.Create(EnvironmentVarirables.SettingsFilePath, this);
+            SettingsFile = SettingsFactory.Create(EnvironmentVariables.SettingsFilePath, this);
         }
 
         protected GetValueResult TryGetValue<T>(string data, out T value, T defaultValue = default(T))
@@ -193,7 +193,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
         {
             Initialized -= SettingsManager_Initialized;
             IsInitialized = true;
-            //TODO: Read real settingspath from file and update if neccessary
+            //TODO: Read real settingspath from file and update if necessary
         }
 
         private GetValueResult TryDeserialize<T>(string data, out T result, T defaultValue = default(T))

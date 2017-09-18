@@ -66,16 +66,16 @@ namespace ModernApplicationFramework.Docking.Layout.Serialization
                 var lcToFix in layout.Descendents().OfType<LayoutAnchorable>().Where(lc => lc.Content == null).ToArray()
                 )
             {
-                LayoutAnchorable previousAchorable = null;
+                LayoutAnchorable previousAnchorable = null;
                 if (lcToFix.ContentId != null)
                 {
                     //try find the content in replaced layout
-                    previousAchorable = _previousAnchorables.FirstOrDefault(a => a.ContentId == lcToFix.ContentId);
+                    previousAnchorable = _previousAnchorables.FirstOrDefault(a => a.ContentId == lcToFix.ContentId);
                 }
 
                 if (LayoutSerializationCallback != null)
                 {
-                    var args = new LayoutSerializationCallbackEventArgs(lcToFix, previousAchorable?.Content);
+                    var args = new LayoutSerializationCallbackEventArgs(lcToFix, previousAnchorable?.Content);
                     LayoutSerializationCallback(this, args);
                     if (args.Cancel)
                         lcToFix.Close();
@@ -84,12 +84,12 @@ namespace ModernApplicationFramework.Docking.Layout.Serialization
                     else if (args.Model.Content != null)
                         lcToFix.Hide(false);
                 }
-                else if (previousAchorable == null)
+                else if (previousAnchorable == null)
                     lcToFix.Hide(false);
                 else
                 {
-                    lcToFix.Content = previousAchorable.Content;
-                    lcToFix.IconSource = previousAchorable.IconSource;
+                    lcToFix.Content = previousAnchorable.Content;
+                    lcToFix.IconSource = previousAnchorable.IconSource;
                 }
             }
 

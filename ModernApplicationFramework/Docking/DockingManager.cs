@@ -1261,9 +1261,9 @@ namespace ModernApplicationFramework.Docking
             if (parentWindow == null)
                 yield break;
 
-            var windowParentHanlde = new WindowInteropHelper(parentWindow).EnsureHandle();
+            var windowParentHandle = new WindowInteropHelper(parentWindow).EnsureHandle();
 
-            var currentHandle = User32.GetWindow(windowParentHanlde,
+            var currentHandle = User32.GetWindow(windowParentHandle,
                 (int) GetWindowCmd.GwHwndfirst);
             while (currentHandle != IntPtr.Zero)
             {

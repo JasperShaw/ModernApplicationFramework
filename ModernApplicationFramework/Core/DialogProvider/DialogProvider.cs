@@ -2,7 +2,7 @@
 using System.Windows;
 using ModernApplicationFramework.Interfaces;
 
-namespace ModernApplicationFramework.Core.DialogProiver
+namespace ModernApplicationFramework.Core.DialogProvider
 {
     /// <inheritdoc />
     /// <summary>

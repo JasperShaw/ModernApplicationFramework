@@ -41,7 +41,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
 
             var s = new Bitmap(Properties.Resources.png_undo_16_16);
 
-            var w = new TestWindw
+            var w = new TestWindow
             {
                 Background = Brushes.Green,
                 Grid =

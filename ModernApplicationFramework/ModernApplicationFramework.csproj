@@ -228,8 +228,8 @@
     <Content Include="Info.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Basics\ApplicationEnvironment\AbstractEnvironmentVarirables.cs" />
-    <Compile Include="Basics\ApplicationEnvironment\FallbackEnvironmentVarirables.cs" />
+    <Compile Include="Basics\ApplicationEnvironment\AbstractEnvironmentVariables.cs" />
+    <Compile Include="Basics\ApplicationEnvironment\FallbackEnvironmentVariables.cs" />
     <Compile Include="Basics\Definitions\Command\ExcludedCommandDefinition.cs" />
     <Compile Include="Basics\Definitions\Command\CommandGestureScopeMapping.cs" />
     <Compile Include="Basics\Services\KeyboardInputService.cs" />
@@ -325,7 +325,7 @@
     <Compile Include="Controls\Dialogs\WaitDialog.cs" />
     <Compile Include="Controls\Utilities\HelperMethods.cs" />
     <Compile Include="Interfaces\Services\ILanguageManager.cs" />
-    <Compile Include="Core\Utilities\RegirstryTools.cs" />
+    <Compile Include="Core\Utilities\RegistryTools.cs" />
     <Compile Include="Controls\BalloonTooltip.cs" />
     <Compile Include="Controls\TextBoxes\ModernTextBox.cs" />
     <Compile Include="Controls\TopmostPopup.cs" />
@@ -333,9 +333,9 @@
     <Compile Include="Controls\GroupBox.cs" />
     <Compile Include="Controls\Utilities\Extensions.cs" />
     <Compile Include="Controls\TextBoxes\ValidateableTextBox.cs" />
-    <Compile Include="Core\Converters\EmptryStringToVisibilityConverter.cs" />
+    <Compile Include="Core\Converters\EmptyStringToVisibilityConverter.cs" />
     <Compile Include="Core\Converters\StringUppercaseConverter.cs" />
-    <Compile Include="Core\DialogProiver\DialogProvider.cs" />
+    <Compile Include="Core\DialogProvider\DialogProvider.cs" />
     <Compile Include="Core\ValidationRules\PositiveIntegerValidationRule.cs" />
     <Compile Include="Docking\CommandDefinitions\AutoHideAllWindowsCommandDefinition.cs" />
     <Compile Include="Docking\ContextMenuProviders\AnchorableContextMenuProvider.cs" />
@@ -456,11 +456,11 @@
     <Compile Include="Core\Converters\MultiCommandToVisibilityConverter.cs" />
     <Compile Include="Core\Converters\General\NegateBooleanConverter.cs" />
     <Compile Include="Core\Converters\General\OrBooleanConverter.cs" />
-    <Compile Include="Core\Converters\ResizeMenuItemVisiblilityConverter.cs" />
+    <Compile Include="Core\Converters\ResizeMenuItemVisibilityConverter.cs" />
     <Compile Include="Core\Converters\Customize\StylingFlagsConverter.cs" />
     <Compile Include="Core\Converters\ToolTipMultiConverter.cs" />
     <Compile Include="Core\Converters\General\VisibleIfNotNullConverter.cs" />
-    <Compile Include="Core\Converters\DockToOrienationConverter.cs" />
+    <Compile Include="Core\Converters\DockToOrientationConverter.cs" />
     <Compile Include="Core\Themes\StyleKey.cs" />
     <Compile Include="Core\Utilities\DteFocusHelper.cs" />
     <Compile Include="Core\Utilities\StyleUtilities.cs" />

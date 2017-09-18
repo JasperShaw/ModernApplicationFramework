@@ -119,7 +119,7 @@
                                                                    BorderThickness="1,0,1,1" Padding="0,3,0,0"
                                                                    AutomationProperties.AutomationId="Maximize"
                                                                    AutomationProperties.Name="Maximize"
-                                                                        IsAnchroableFloatingWindowTitleBarButton="True"
+                                                                        IsAnchorableFloatingWindowTitleBarButton="True"
                                                                    Command="{x:Static SystemCommands.MaximizeWindowCommand}"
                                                                    CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent}}"
                                                                    Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InverseBoolToVisibilityConverter}}" 
@@ -136,7 +136,7 @@
                                         <internals:WindowTitleBarButton x:Name="CloseButtonL" WindowChrome.IsHitTestVisibleInChrome="True" VerticalAlignment="Top"
                                                                    Focusable="False" BorderThickness="1,0,1,1" Margin="0,0,0,0"
                                                                    Command="{Binding HideWindowCommand, RelativeSource={RelativeSource TemplatedParent}}"
-                                                                   ToolTip="Close" Height="26" Width="34" IsAnchroableFloatingWindowTitleBarButton="True"
+                                                                   ToolTip="Close" Height="26" Width="34" IsAnchorableFloatingWindowTitleBarButton="True"
                                                                    Visibility="{Binding Path=Model.IsSinglePane, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InverseBoolToVisibilityConverter}}">
                                             <Path Width="10" Height="8" Stretch="Uniform"
                                                   Data="F1 M 0,0 L 2,0 5,3 8,0 10,0 6,4 10,8 8,8 5,5 2,8 0,8 4,4 0,0 Z">

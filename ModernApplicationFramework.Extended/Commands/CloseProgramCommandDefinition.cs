@@ -11,8 +11,8 @@ using ModernApplicationFramework.Input.Command;
 namespace ModernApplicationFramework.Extended.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
-    [Export(typeof(CloseProgammCommandDefinition))]
-    public sealed class CloseProgammCommandDefinition : CommandDefinition
+    [Export(typeof(CloseProgramCommandDefinition))]
+    public sealed class CloseProgramCommandDefinition : CommandDefinition
     {
 #pragma warning disable 649
         [Import] private IDockingMainWindowViewModel _shell;
@@ -23,19 +23,19 @@ namespace ModernApplicationFramework.Extended.Commands
         public override MultiKeyGesture DefaultKeyGesture { get; }
         public override GestureScope DefaultGestureScope { get; }
 
-        public override string IconId => "CloseProgrammIcon";
+        public override string IconId => "CloseProgramIcon";
 
         public override Uri IconSource
             =>
-                new Uri("/ModernApplicationFramework.Extended;component/Resources/Icons/CloseProgramm_16x.xaml",
+                new Uri("/ModernApplicationFramework.Extended;component/Resources/Icons/CloseProgram_16x.xaml",
                     UriKind.RelativeOrAbsolute);
 
-        public override string Text => Commands_Resources.CloseProgammCommandDefinition_Text;
+        public override string Text => Commands_Resources.CloseProgramCommandDefinition_Text;
         public override string ToolTip => null;
 
         public override CommandCategory Category => CommandCategories.FileCommandCategory;
 
-        public CloseProgammCommandDefinition()
+        public CloseProgramCommandDefinition()
         {
             var command = new UICommand(Close, CanClose);
             Command = command;

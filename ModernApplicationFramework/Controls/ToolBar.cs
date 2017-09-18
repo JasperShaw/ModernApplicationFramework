@@ -196,9 +196,9 @@ namespace ModernApplicationFramework.Controls
 
         private void ToolBar_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            var ancetor = this.FindAncestor<ToolBarTray>();
+            var ancestor = this.FindAncestor<ToolBarTray>();
 
-            foreach (var bar in ancetor.ToolBars)
+            foreach (var bar in ancestor.ToolBars)
                 bar.ClearValue(bar.Orientation == Orientation.Vertical ? HeightProperty : WidthProperty);
         }
 

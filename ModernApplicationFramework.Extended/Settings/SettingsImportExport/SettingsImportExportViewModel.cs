@@ -17,7 +17,7 @@ namespace ModernApplicationFramework.Extended.Settings.SettingsImportExport
     public class SettingsImportExportViewModel : SettingsPage
     {
         private readonly ISettingsManager _settingsManager;
-        private readonly IExtendedEnvironmentVarirables _environmentVarirables;
+        private readonly IExtendedEnvironmentVariables _environmentVariables;
         private readonly IDialogProvider _dialogProvider;
         private string _settingsPath;
         public override uint SortOrder => 5;
@@ -52,13 +52,13 @@ namespace ModernApplicationFramework.Extended.Settings.SettingsImportExport
         }
 
         [ImportingConstructor]
-        public SettingsImportExportViewModel(ISettingsManager settingsManager, IExtendedEnvironmentVarirables environmentVarirables,
+        public SettingsImportExportViewModel(ISettingsManager settingsManager, IExtendedEnvironmentVariables environmentVariables,
             IDialogProvider dialogProvider)
         {
             _settingsManager = settingsManager;
-            _environmentVarirables = environmentVarirables;
+            _environmentVariables = environmentVariables;
             _dialogProvider = dialogProvider;
-            _settingsPath = environmentVarirables.SettingsFilePath;
+            _settingsPath = environmentVariables.SettingsFilePath;
         }
 
         protected override bool SetData()
@@ -79,7 +79,7 @@ namespace ModernApplicationFramework.Extended.Settings.SettingsImportExport
 
         public override void Activate()
         {
-            _settingsPath = _environmentVarirables.SettingsFilePath;
+            _settingsPath = _environmentVariables.SettingsFilePath;
         }
     }
 }

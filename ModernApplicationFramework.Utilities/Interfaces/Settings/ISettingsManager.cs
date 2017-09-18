@@ -19,7 +19,7 @@ namespace ModernApplicationFramework.Utilities.Interfaces.Settings
     /// <summary>
     /// This interface provides the basic structure of a Settings Manager that holds settings locally on the computer
     /// </summary>
-    public interface ISettingsManager : IPropteryValueManager
+    public interface ISettingsManager : IPropertyValueManager
     {
         /// <summary>
         /// Fired when the storage location of the settings file was changed
@@ -32,9 +32,9 @@ namespace ModernApplicationFramework.Utilities.Interfaces.Settings
         event EventHandler Initialized;
 
         /// <summary>
-        /// An instance the the environment varibales object
+        /// An instance the the environment variables object
         /// </summary>
-        IExtendedEnvironmentVarirables EnvironmentVarirables { get; }
+        IExtendedEnvironmentVariables EnvironmentVariables { get; }
 
         /// <summary>
         /// Gets a value indicating whether this instance is initialized.
@@ -49,7 +49,7 @@ namespace ModernApplicationFramework.Utilities.Interfaces.Settings
         void ChangeSettingsFileLocation(string path, bool deleteCurrent);
 
         /// <summary>
-        /// Creates a new settings file at the current spezified storage location path.
+        /// Creates a new settings file at the current specified storage location path.
         /// </summary>
         void CreateNewSettingsFile();
 

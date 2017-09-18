@@ -20,6 +20,6 @@ namespace ModernApplicationFramework.MVVM.Core
                 UriKind.RelativeOrAbsolute);
 
         public FileType FileType => new FileType("TextFile", ".txt");
-        public Type PrefferedEditor => typeof(SimpleTextEditorViewModel);
+        public Type PreferredEditor => typeof(SimpleTextEditorViewModel);
     }
 }

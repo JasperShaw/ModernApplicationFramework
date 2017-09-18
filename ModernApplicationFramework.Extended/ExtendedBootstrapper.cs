@@ -19,14 +19,14 @@ namespace ModernApplicationFramework.Extended
     {
         protected virtual bool UseSettingsManager => true;
 
-        protected new virtual IExtendedEnvironmentVarirables EnvironmentVariables => new FallbackExtendedEnvironmentVarirables();
+        protected new virtual IExtendedEnvironmentVariables EnvironmentVariables => new FallbackExtendedEnvironmentVariables();
 
         internal IList<Assembly> PriorityAssemblies => _priorityAssemblies;
 
         protected override void BindServices(CompositionBatch batch)
         {
             batch.AddExportedValue(EnvironmentVariables);
-            batch.AddExportedValue<IEnvironmentVarirables>(EnvironmentVariables);
+            batch.AddExportedValue<IEnvironmentVariables>(EnvironmentVariables);
             base.BindServices(batch);
 	     	batch.AddExportedValue(this);
         }
@@ -58,7 +58,7 @@ namespace ModernApplicationFramework.Extended
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
             base.OnStartup(sender, e);
-            IoC.Get<IExtendedEnvironmentVarirables>().Setup();
+            IoC.Get<IExtendedEnvironmentVariables>().Setup();
             IoC.Get<IApplicationEnvironment>().Setup();
             DisplayRootViewFor<IDockingMainWindowViewModel>();
         }

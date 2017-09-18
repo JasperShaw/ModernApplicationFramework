@@ -5,7 +5,7 @@ using ModernApplicationFramework.Basics.Definitions.CommandBar;
 namespace ModernApplicationFramework.Interfaces
 {
     /// <summary>
-    /// A collection container holding all commandbar definitions and exlusions
+    /// A collection container holding all commandbar definitions and exclusions
     /// </summary>
     public interface ICommandBarDefinitionHost
     {

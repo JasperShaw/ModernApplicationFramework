@@ -10,15 +10,15 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
     [Export(typeof(SettingsImportExportOptions))]
     public sealed class SettingsImportExportOptions : SettingsDataModel
     {
-        private readonly IExtendedEnvironmentVarirables _environmentVarirables;
+        private readonly IExtendedEnvironmentVariables _environmentVariables;
         public override ISettingsCategory Category => SettingsCategories.ExportSettingsSubCategory;
         public override string Name => "Import and Export Settings";
 
         [ImportingConstructor]
-        public SettingsImportExportOptions(ISettingsManager settingsManager, IExtendedEnvironmentVarirables environmentVarirables)
+        public SettingsImportExportOptions(ISettingsManager settingsManager, IExtendedEnvironmentVariables environmentVariables)
         {
             SettingsManager = settingsManager;
-            _environmentVarirables = environmentVarirables;
+            _environmentVariables = environmentVariables;
             SettingsManager.SettingsLocationChanged += _settingsManager_SettingsLocationChanged;
         }
 
@@ -29,12 +29,12 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
 
         public override void LoadOrCreate()
         {
-            GetOrCreatePropertyValueSetting("AutoSaveFile", _environmentVarirables.SettingsFilePath);
+            GetOrCreatePropertyValueSetting("AutoSaveFile", _environmentVariables.SettingsFilePath);
         }
 
         public override void StoreSettings()
         {
-            SetPropertyValue("AutoSaveFile", _environmentVarirables.SettingsFilePath);
+            SetPropertyValue("AutoSaveFile", _environmentVariables.SettingsFilePath);
         }
     }
 }

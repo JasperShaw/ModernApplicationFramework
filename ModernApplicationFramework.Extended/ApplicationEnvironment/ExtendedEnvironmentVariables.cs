@@ -6,7 +6,7 @@ using ModernApplicationFramework.Utilities.Interfaces;
 
 namespace ModernApplicationFramework.Extended.ApplicationEnvironment
 {
-    public abstract class ExtendedEnvironmentVarirables : AbstractEnvironmentVarirables, IExtendedEnvironmentVarirables
+    public abstract class ExtendedEnvironmentVariables : AbstractEnvironmentVariables, IExtendedEnvironmentVariables
     {
         protected const string DefaultSettingsDirectoryKey = "DefaultSettingsDirectory";
         protected const string SettingsFilePathKey = "SaveFile";
@@ -24,7 +24,7 @@ namespace ModernApplicationFramework.Extended.ApplicationEnvironment
                 if (_settingsFilePath == value)
                     return;
                 _settingsFilePath = value;
-                RegirstryTools.SetValueCurrentUserRoot(Path.Combine(RegistryRootPath, ProfileKey), SettingsFilePathKey, value);
+                RegistryTools.SetValueCurrentUserRoot(Path.Combine(RegistryRootPath, ProfileKey), SettingsFilePathKey, value);
             }
         }
 

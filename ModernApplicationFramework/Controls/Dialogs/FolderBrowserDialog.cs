@@ -15,7 +15,7 @@ namespace ModernApplicationFramework.Controls.Dialogs
     /// Microsoft seems not to realize developers might need at some point a proper dialog to choose folders from explorer. 
     /// They accomplished that in their own tools by using the WindowsAPI but did not create an .NET version. 
     /// 
-    /// This sollution is based on Ookii's source code avaiable here: https://www.nuget.org/packages/Ookii.Dialogs/
+    /// This solution is based on Ookii's source code available here: https://www.nuget.org/packages/Ookii.Dialogs/
     /// </summary>
 
     [DefaultEvent("HelpRequest"),

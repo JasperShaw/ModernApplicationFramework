@@ -14,7 +14,7 @@ using ModernApplicationFramework.MVVM.Interfaces;
 namespace ModernApplicationFramework.MVVM.Core
 {
 
-    //TODO: At some point add a FileSystemWatcher so we can edit a file in mulpile editor instances without risking data gets lost
+    //TODO: At some point add a FileSystemWatcher so we can edit a file in multiple editor instances without risking data gets lost
     [Export(typeof(IEditorProvider))]
     public class EditorProvider : IEditorProvider
     {

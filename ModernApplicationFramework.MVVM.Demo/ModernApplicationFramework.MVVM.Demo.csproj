@@ -86,8 +86,8 @@
     <Compile Include="Modules\Commands\MenuDefinitions.cs" />
     <Compile Include="Modules\Commands\TestCommandDefinitionRealMulti.cs" />
     <Compile Include="Modules\Commands\TestCommandDefinition.cs" />
-    <Compile Include="Modules\Commands\TestWindw.xaml.cs">
-      <DependentUpon>TestWindw.xaml</DependentUpon>
+    <Compile Include="Modules\Commands\TestWindow.xaml.cs">
+      <DependentUpon>TestWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\DockingMainWindowViewModel.cs" />
     <Compile Include="Modules\Document\SampleView.xaml.cs">
@@ -115,7 +115,7 @@
     <Compile Include="Modules\UndoRedoTest\UndoRedoViewModel.cs" />
     <Compile Include="TestMenuDefinitions.cs" />
     <Compile Include="XmlFileDefinition.cs" />
-    <Page Include="Modules\Commands\TestWindw.xaml">
+    <Page Include="Modules\Commands\TestWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

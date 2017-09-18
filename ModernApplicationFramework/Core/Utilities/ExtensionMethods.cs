@@ -147,8 +147,8 @@ namespace ModernApplicationFramework.Core.Utilities
             }
             else
             {
-                var bitmaptSourceOrg = ImageConverter.BitmapSourceFromBitmap(b);
-                bitmapSource = ImageThemingUtilities.CreateThemedBitmapSource(bitmaptSourceOrg, backgroundColor, false, Color.FromArgb(64, 255, 255, 255), SystemParameters.HighContrast);
+                var bitmapSourceOrg = ImageConverter.BitmapSourceFromBitmap(b);
+                bitmapSource = ImageThemingUtilities.CreateThemedBitmapSource(bitmapSourceOrg, backgroundColor, false, Color.FromArgb(64, 255, 255, 255), SystemParameters.HighContrast);
             }
 
             i.Source = bitmapSource;
