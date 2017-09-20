@@ -175,7 +175,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Content Include="TODO Liste.txt" />
     <Resource Include="Docking\Themes\Generic\Images\DockBottom.PNG" />
     <Resource Include="Docking\Themes\Generic\Images\DockLeft.PNG" />
     <Resource Include="Docking\Themes\Generic\Images\DockPane.PNG" />
@@ -225,7 +224,6 @@
     <Resource Include="Docking\Themes\Generic\Images\PinMenu_Dark.png" />
     <Resource Include="Docking\Themes\Generic\Images\PinRestore_Black.png" />
     <Resource Include="Docking\Themes\Generic\Images\PinRestore_Dark.png" />
-    <Content Include="Info.txt" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Basics\ApplicationEnvironment\AbstractEnvironmentVariables.cs" />
@@ -1095,7 +1093,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

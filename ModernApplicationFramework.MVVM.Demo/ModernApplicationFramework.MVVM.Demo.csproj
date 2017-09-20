@@ -216,12 +216,6 @@
   <ItemGroup>
     <None Include="Resources\png_undo.16.16.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Commander Appo.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="VisualStudioLogo_noHalo.ico" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
