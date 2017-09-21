@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Media;
 using Caliburn.Micro;
+using JetBrains.Annotations;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Properties;
 
@@ -435,7 +436,7 @@ namespace ModernApplicationFramework.Basics.Services
             return brightness > 130 ? Brushes.Black : Brushes.White;
         }
 
-        [Annotations.NotifyPropertyChangedInvocator]
+        [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

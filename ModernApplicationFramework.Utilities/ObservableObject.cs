@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-using ModernApplicationFramework.Utilities.Annotations;
+using JetBrains.Annotations;
 
 namespace ModernApplicationFramework.Utilities
 {

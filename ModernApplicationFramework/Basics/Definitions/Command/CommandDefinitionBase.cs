@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.CompilerServices;
-using ModernApplicationFramework.Annotations;
+using JetBrains.Annotations;
 using ModernApplicationFramework.Core.Converters.AccessKey;
 
 namespace ModernApplicationFramework.Basics.Definitions.Command

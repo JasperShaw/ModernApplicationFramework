@@ -776,7 +776,6 @@
     <Compile Include="Interfaces\ViewModels\IMenuHostViewModel.cs" />
     <Compile Include="Interfaces\ViewModels\IToolBarHostViewModel.cs" />
     <Compile Include="Interfaces\ViewModels\IWindowViewModel.cs" />
-    <Compile Include="Properties\Annotations1.cs" />
     <Compile Include="Properties\KeyboardLocalizationResources.Designer.cs">
       <DependentUpon>KeyboardLocalizationResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -860,7 +859,6 @@
     <Compile Include="Basics\UndoRedoManager\UndoRedoManager.cs" />
     <Compile Include="Controls\Windows\MainWindowViewModel.cs" />
     <Compile Include="Core\ViewModelBase.cs" />
-    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controls\Primitives\ScrollBar.cs" />
     <Compile Include="Controls\Separator.cs" />
@@ -989,6 +987,9 @@
     </Reference>
     <Reference Include="Caliburn.Micro.Platform.Core, Version=3.0.3.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.3.1.0\lib\net45\Caliburn.Micro.Platform.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.Annotations, Version=11.0.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.11.0.0\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationCore" />
