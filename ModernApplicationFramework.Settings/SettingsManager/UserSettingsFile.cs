@@ -12,7 +12,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
     internal class UserSettingsFile : SettingsFile
     {
 
-        private object _lockObk = new object();
+        private readonly object _lockObk = new object();
 
         public UserSettingsFile(ISettingsManager settingsManager) : base(settingsManager)
         {
@@ -66,6 +66,16 @@ namespace ModernApplicationFramework.Settings.SettingsManager
             var result = SettingsStorage.SelectSingleNode(nodePath);
             var value = result?.InnerText;
             return value;
+        }
+
+        public override void RemoveNodeContent(string settingsFilePath)
+        {
+            var node = GetSingleNode(settingsFilePath);
+            var xmlNodeList = node?.ChildNodes[0]?.ChildNodes;
+            if (xmlNodeList == null)
+                return;
+            if (node is XmlElement e)
+                e.IsEmpty = true;
         }
 
         public override void AddPropertyValueElement(XmlNode parent, string propertyName, string value)
@@ -206,13 +216,17 @@ namespace ModernApplicationFramework.Settings.SettingsManager
         }
 
 
-        public override void InsertDocument(string path, XmlDocument document, bool navigateAttributeWise)
+        public override void InsertDocument(string path, XmlDocument document, bool insertRootNode)
         {
             var node = GetSingleNode(path);
             if (node == null)
                 return;
 
-            foreach (XmlNode childNode in document.ChildNodes)
+            var childs = !insertRootNode ? document.ChildNodes[0]?.ChildNodes : document.ChildNodes;
+            if (childs == null)
+                return;
+
+            foreach (XmlNode childNode in childs)
             {
                 var newNode = node.OwnerDocument?.ImportNode(childNode, true);
                 if (newNode == null)

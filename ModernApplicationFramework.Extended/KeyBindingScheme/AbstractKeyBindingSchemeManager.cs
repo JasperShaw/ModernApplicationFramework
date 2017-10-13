@@ -38,7 +38,7 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
             CurrentScheme = definition;
         }
 
-        public abstract void SetScheme();
+        public abstract void SetDefaultScheme();
     }
 
     [Export(typeof(IKeyBindingSchemeManager))]
@@ -49,7 +49,7 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
             CreateDefaultScheme();
         }
 
-        public override void SetScheme()
+        public override void SetDefaultScheme()
         {
             SetScheme(SchemeDefinitions.FirstOrDefault());
         }

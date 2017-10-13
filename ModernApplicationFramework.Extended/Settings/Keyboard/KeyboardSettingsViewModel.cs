@@ -30,6 +30,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         private readonly ISettingsManager _settingsManager;
         private readonly IKeyGestureService _gestureService;
         private readonly IKeyBindingSchemeManager _schemeManager;
+        private readonly KeyBindingsSettings _keyBindingsSettings;
         private IEnumerable<CommandDefinition> _items;
         private string _searchFilter;
         private CommandDefinition _selectedCommand;
@@ -188,13 +189,15 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         [ImportingConstructor]
         public KeyboardSettingsViewModel(ISettingsManager settingsManager,
             IKeyGestureService gestureService,
-            IKeyBindingSchemeManager schemeManager)
+            IKeyBindingSchemeManager schemeManager,
+            KeyBindingsSettings keyBindingsSettings)
         {
             _settingsManager = settingsManager;
             _gestureService = gestureService;
             _schemeManager = schemeManager;
+            _keyBindingsSettings = keyBindingsSettings;
             Schemes = _schemeManager.SchemeDefinitions;
-            SelectedScheme = Schemes.FirstOrDefault();
+            SelectedScheme = _schemeManager.CurrentScheme;
             AllCommands = gestureService.GetAllCommandDefinitions();
             Scopes = new BindableCollection<GestureScope>(gestureService.GetAllCommandGestureCategories());
             SelectedScope = GestureScopes.GlobalGestureScope;
@@ -225,6 +228,12 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
                     MessageBoxButton.YesNo, MessageBoxImage.Exclamation) != MessageBoxResult.Yes)
                 return;
             _schemeManager.SetScheme(SelectedScheme);
+
+
+            _keyBindingsSettings.KeyboardShortcuts.ShortcutsScheme = SelectedScheme.Name;
+            _keyBindingsSettings.StoreSettings();
+
+
             UpdateAvailableGestureBinding();
         }
 

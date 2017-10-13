@@ -132,6 +132,7 @@ namespace ModernApplicationFramework.Basics.ApplicationEnvironment
             RegistryTools.SetValueCurrentUserRoot(fullPath, key, value);
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets an environment variable
         /// </summary>

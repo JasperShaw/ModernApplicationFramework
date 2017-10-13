@@ -79,6 +79,12 @@ namespace ModernApplicationFramework.Utilities.Interfaces.Settings
         /// </summary>
         void Close();
 
-        Task SetDocumentAsync(string path, XmlDocument document, bool navigateAttributeWise = true);
+        Task SetDocumentAsync(string path, XmlDocument document, bool insertRootNode);
+
+
+
+        XmlNode GetDataModelNode(string settingsFilePath);
+
+        Task RemoveModelAsync(string settingsFilePath);
     }
 }

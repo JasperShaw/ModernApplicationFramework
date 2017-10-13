@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Xml;
 
 namespace ModernApplicationFramework.Settings.Interfaces
@@ -18,7 +17,9 @@ namespace ModernApplicationFramework.Settings.Interfaces
         void AddCategoryElement(ISettingsCategory settingsCategory);
 
 
-        void InsertDocument(string path, XmlDocument document, bool navigateAttributeWise);
+        void InsertDocument(string path, XmlDocument document, bool insertRootNode);
+
+        void RemoveNodeContent(string settingsFilePath);
 
 
         void Save();

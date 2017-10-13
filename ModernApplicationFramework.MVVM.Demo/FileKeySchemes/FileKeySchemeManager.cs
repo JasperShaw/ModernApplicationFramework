@@ -27,9 +27,11 @@ namespace ModernApplicationFramework.MVVM.Demo.FileKeySchemes
             }
         }
 
-        public override void SetScheme()
+        public override void SetDefaultScheme()
         {
-            SetScheme(SchemeDefinitions.FirstOrDefault());
+            var settings = IoC.Get<KeyBindingsSettings>();
+            var name = settings.KeyboardShortcuts.ShortcutsScheme;
+            SetScheme(SchemeDefinitions.LastOrDefault(x => x.Name == name));
         }
     }
 

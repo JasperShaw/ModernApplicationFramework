@@ -27,6 +27,6 @@ namespace ModernApplicationFramework.Extended.Interfaces
         /// <summary>
         /// Selects a default scheme and applies it
         /// </summary>
-        void SetScheme();
+        void SetDefaultScheme();
     }
 }

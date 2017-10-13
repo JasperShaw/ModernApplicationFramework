@@ -1,8 +1,10 @@
 using System;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Serialization;
 using JetBrains.Annotations;
 using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Utilities.Interfaces.Settings;
@@ -142,9 +144,33 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
         }
 
 
-        protected void SetDocument(XmlDocument document)
+        protected void SetSettingsModel<T>(T model, bool insertRoot = false)
         {
-            SettingsManager.SetDocumentAsync(SettingsFilePath, document);
+            SettingsManager.RemoveModelAsync(SettingsFilePath);
+            var document = new XmlDocument();
+            var nav = document.CreateNavigator();
+
+            using (var writer = nav.AppendChild())
+            {
+                var ns = new XmlSerializerNamespaces();
+                ns.Add("", "");
+                var ser = new XmlSerializer(typeof(T));
+                ser.Serialize(writer, model, ns);
+            }
+            SettingsManager.SetDocumentAsync(SettingsFilePath, document, insertRoot);
+        }
+
+        protected void GetDataModel<T>(out T o)
+        {
+            o = default(T);
+            var node = SettingsManager.GetDataModelNode(SettingsFilePath);
+            var stm = new MemoryStream();
+            var stw = new StreamWriter(stm);
+            stw.Write(node.OuterXml);
+            stw.Flush();
+            stm.Position = 0;
+            var ser = new XmlSerializer(typeof(T));
+            o = (T)ser.Deserialize(stm);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

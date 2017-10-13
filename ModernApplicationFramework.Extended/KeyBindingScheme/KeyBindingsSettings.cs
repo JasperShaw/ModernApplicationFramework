@@ -1,22 +1,30 @@
-﻿using System;
-using System.ComponentModel.Composition;
-using System.Xml;
-using System.Xml.Serialization;
+﻿using System.ComponentModel.Composition;
+using Caliburn.Micro;
 using ModernApplicationFramework.Settings;
 using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Settings.SettingDataModel;
 using ModernApplicationFramework.Settings.SettingsManager;
+using ModernApplicationFramework.Utilities.Interfaces;
 using ModernApplicationFramework.Utilities.Interfaces.Settings;
 
 namespace ModernApplicationFramework.Extended.KeyBindingScheme
 {
     [Export(typeof(ISettingsDataModel))]
-    public class KeyBindingsSettings : SettingsDataModel
+    [Export(typeof(KeyBindingsSettings))]
+    public sealed class KeyBindingsSettings : SettingsDataModel
     {
         public override ISettingsCategory Category => EnvironmentGroupSettingsCategories.KeyBindingsCategory;
         public override string Name => string.Empty;
-        
-        public KeyboardShortcutsSettingsCategory ShortcutsSettings { get; set; }
+
+        public string Version
+        {
+            get => ShortcutsSettings.Version;
+            set => ShortcutsSettings.Version = value;
+        }
+
+        public TestKeyboardShortcuts KeyboardShortcuts => ShortcutsSettings.KeyboardShortcuts;
+
+        private KeyBindingsSettingsDataModel ShortcutsSettings { get; set; }
 
         [ImportingConstructor]
         public KeyBindingsSettings(ISettingsManager settingsManager)
@@ -26,29 +34,20 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
 
         public override void LoadOrCreate()
         {
-            var c = new KeyboardShortcutsSettingsCategory();
-
-            c.Name = "Test";
-            c.Version = "1.1.5";
-            c.RegisteredName = "Test";
-            c.Category = Guid.NewGuid().ToString("B");
-
-            var detailDocument = new XmlDocument();
-            var nav = detailDocument.CreateNavigator();
-
-            using (var writer = nav.AppendChild())
+            GetDataModel<KeyBindingsSettingsDataModel>(out var model);
+            if (model == null || model.Version == null && model.KeyboardShortcuts == null)
             {
-                var ns = new XmlSerializerNamespaces();
-                ns.Add("", "");
-                var ser = new XmlSerializer(typeof(KeyboardShortcutsSettingsCategory));
-                ser.Serialize(writer, c, ns);
+                model = new KeyBindingsSettingsDataModel();
+                model.KeyboardShortcuts = new TestKeyboardShortcuts();
             }
-
-            SetDocument(detailDocument);
+            ShortcutsSettings = model;
+            Version = IoC.Get<IEnvironmentVariables>().ApplicationVersion;
+            StoreSettings();
         }
 
         public override void StoreSettings()
         {
+            SetSettingsModel(ShortcutsSettings);
         }
     }
 

@@ -8,36 +8,7 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
     [Serializable]
     [XmlType(AnonymousType = true)]
     [XmlRoot(ElementName = "Category")]
-    public abstract class CategorySettingsDocument
-    {
-        private string _nameField;
-        private string _registeredNameField;
-        private string _categoryFiled;
-
-        [XmlAttribute]
-        public string Name
-        {
-            get => _nameField;
-            set => _nameField = value;
-        }
-
-        [XmlAttribute]
-        public string RegisteredName
-        {
-            get => _registeredNameField;
-            set => _registeredNameField = value;
-        }
-
-        [XmlAttribute]
-        public string Category
-        {
-            get => _categoryFiled;
-            set => _categoryFiled = value;
-        }
-    }
-
-    [XmlRoot(ElementName = "Category")]
-    public class KeyboardShortcutsSettingsCategory : CategorySettingsDocument
+    public class KeyBindingsSettingsDataModel
     {
         /// <remarks/>
         [XmlElement(Form = XmlSchemaForm.Unqualified)]

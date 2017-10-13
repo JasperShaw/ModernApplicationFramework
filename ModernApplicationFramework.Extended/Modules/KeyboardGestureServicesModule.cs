@@ -7,7 +7,7 @@ namespace ModernApplicationFramework.Extended.Modules
 {
     /// <summary>
     /// A <see cref="ModuleBase"/> that initializes the an <see cref="IKeyboardInputService"/> and an <see cref="IKeyBindingSchemeManager"/>. 
-    /// Calls the <see cref="IKeyBindingSchemeManager.SetScheme()"/> methods afterwards.
+    /// Calls the <see cref="IKeyBindingSchemeManager.SetDefaultScheme"/> methods afterwards.
     /// </summary>
     /// <seealso cref="ModuleBase" />
     [Export(typeof(IModule))]
@@ -28,7 +28,7 @@ namespace ModernApplicationFramework.Extended.Modules
         {
             _gestureService.Initialize();
             _schemeManager.LoadSchemeDefinitions();
-            _schemeManager.SetScheme();
+            _schemeManager.SetDefaultScheme();
         }
     }
 }

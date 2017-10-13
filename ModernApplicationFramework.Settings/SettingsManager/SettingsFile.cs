@@ -50,7 +50,8 @@ namespace ModernApplicationFramework.Settings.SettingsManager
         public abstract void SetPropertyValueData(string path, string propertyName, string value,
             bool navigateAttributeWise = true);
         
-        public abstract void InsertDocument(string path, XmlDocument document, bool navigateAttributeWise);
+        public abstract void InsertDocument(string path, XmlDocument document, bool insertRootNode);
+        public abstract void RemoveNodeContent(string settingsFilePath);
 
 
         /// <summary>

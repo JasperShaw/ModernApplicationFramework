@@ -140,11 +140,26 @@ namespace ModernApplicationFramework.Settings.SettingsManager
             return t;
         }
 
-        public Task SetDocumentAsync(string path, XmlDocument document, bool navigateAttributeWise = true)
+        public Task SetDocumentAsync(string path, XmlDocument document, bool insertRootNode)
         {
             var task = new Task(() =>
             {
-                SettingsFile.InsertDocument(path, document, navigateAttributeWise);
+                SettingsFile.InsertDocument(path, document, insertRootNode);
+            });
+            task.Start();
+            return task;
+        }
+
+        public XmlNode GetDataModelNode(string settingsFilePath)
+        {
+            return SettingsFile.GetSingleNode(settingsFilePath);
+        }
+
+        public Task RemoveModelAsync(string settingsFilePath)
+        {
+            var task = new Task(() =>
+            {
+                SettingsFile.RemoveNodeContent(settingsFilePath);
             });
             task.Start();
             return task;
