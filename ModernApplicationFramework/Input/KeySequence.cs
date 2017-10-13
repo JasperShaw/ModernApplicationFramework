@@ -16,7 +16,7 @@ namespace ModernApplicationFramework.Input
         public KeySequence(ModifierKeys modifiers, Key key)
         {
             if (key == Key.None)
-                throw new ArgumentNullException(nameof(key));
+                throw new ArgumentException(nameof(key));
             Key = key;
             Modifiers = modifiers;
         }

@@ -296,8 +296,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         private void Filter(object sender, FilterEventArgs e)
         {
             // see Notes on Filter Methods:
-            var src = e.Item as CommandDefinition;
-            if (src == null)
+            if (!(e.Item is CommandDefinition src))
                 e.Accepted = false;
             else if (src.TrimmedCategoryCommandName != null &&
                      !Regex.IsMatch(src.TrimmedCategoryCommandName, SearchFilter,

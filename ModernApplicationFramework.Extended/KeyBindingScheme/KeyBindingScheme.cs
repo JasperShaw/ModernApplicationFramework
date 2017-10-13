@@ -37,8 +37,14 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
                 if (!Guid.TryParse(shortcut.Scope, out var scopeId))
                     continue;  
                 var scope =  scopes.FirstOrDefault(x => x.Id.Equals(scopeId));
-                list.Add(new CommandGestureScopeMapping(scope, cd,
-                    (MultiKeyGesture)new MultiKeyGestureConverter().ConvertFrom(null, CultureInfo.InvariantCulture, shortcut.Value)));       
+                try
+                {
+                    list.Add(new CommandGestureScopeMapping(scope, cd,
+                        (MultiKeyGesture)new MultiKeyGestureConverter().ConvertFrom(null, CultureInfo.InvariantCulture, shortcut.Value)));
+                }
+                catch (ArgumentException)
+                {
+                }
             }
             return new KeyBindingScheme(file.Name, list);
         }
