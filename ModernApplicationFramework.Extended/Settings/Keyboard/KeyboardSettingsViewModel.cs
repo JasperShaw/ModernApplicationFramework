@@ -221,7 +221,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         private void ExecuteResetScheme()
         {
             if (MessageBox.Show(KeyboardSettingsResources.KeyboardSettingsWarningApplyScheme, 
-                    IoC.Get<IEnvironmentVarirables>().ApplicationName, 
+                    IoC.Get<IEnvironmentVariables>().ApplicationName, 
                     MessageBoxButton.YesNo, MessageBoxImage.Exclamation) != MessageBoxResult.Yes)
                 return;
             _schemeManager.SetScheme(SelectedScheme);

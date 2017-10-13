@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Xml;
-using ModernApplicationFramework.Annotations;
+using JetBrains.Annotations;
 using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Utilities.Interfaces.Settings;
 

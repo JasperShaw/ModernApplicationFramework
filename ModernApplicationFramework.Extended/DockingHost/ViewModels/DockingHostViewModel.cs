@@ -146,7 +146,7 @@ namespace ModernApplicationFramework.Extended.DockingHost.ViewModels
             //   sets a new ActiveContent.
             // - We have a WPF binding from Caliburn.Micro's ActiveItem to AvalonDock's
             //   ActiveContent property, so ActiveItem gets updated.
-            // - The document no longer exists in Items, beacuse that collection was cleared,
+            // - The document no longer exists in Items, because that collection was cleared,
             //   but Caliburn.Micro helpfully adds it again - which causes the crash.
             //
             // My workaround is to use the following _closing variable, and ignore activation

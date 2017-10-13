@@ -9,9 +9,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using JetBrains.Annotations;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Interfaces.Utilities;
-using ModernApplicationFramework.MVVM.Annotations;
 using ModernApplicationFramework.MVVM.Core.CommandArguments;
 using ModernApplicationFramework.MVVM.Interfaces;
 
@@ -91,7 +91,7 @@ namespace ModernApplicationFramework.MVVM.Controls
             var fileArgument = SelectedItem as ISupportedFileDefinition;
             return fileArgument == null
                 ? null
-                : new NewFileCommandArguments(name, fileArgument.FileType.FileExtension, fileArgument.PrefferedEditor);
+                : new NewFileCommandArguments(name, fileArgument.FileType.FileExtension, fileArgument.PreferredEditor);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -25,10 +25,10 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
 
         public void CreateMenuBar(IMenuHostViewModel model)
         {
-            var topLeveDefinitions =
+            var topLevelDefinitions =
                 model.TopLevelDefinitions.Where(x => !model.DefinitionHost.ExcludedItemDefinitions.Contains(x));
 
-            foreach (var topLevelDefinition in topLeveDefinitions)
+            foreach (var topLevelDefinition in topLevelDefinitions)
             {
                 model.BuildLogical(topLevelDefinition);
                 var t = GetSingleSubDefinitions(topLevelDefinition);

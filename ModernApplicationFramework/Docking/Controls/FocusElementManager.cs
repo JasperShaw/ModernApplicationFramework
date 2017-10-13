@@ -100,7 +100,7 @@ namespace ModernApplicationFramework.Docking.Controls
             }
             else
             {
-                //Nasty Hack that focuses the first ContentControl if it does not select one element itself. This happes for some strange reasons.
+                //Nasty Hack that focuses the first ContentControl if it does not select one element itself. This happens for some strange reasons.
                 var layout = model as LayoutContent;
                 if (layout == null || Managers == null || Managers.Count <= 0)
                     return;

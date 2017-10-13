@@ -20,7 +20,7 @@ namespace ModernApplicationFramework.Core.Localization
     public sealed class LanguageManager : ILanguageManager
     {
         private const string SystemLanguageCode = "system";
-        private const string RegirstryKey = "InstalledApplicationLanguage";
+        private const string RegistryKey = "InstalledApplicationLanguage";
 
         /// <summary>
         ///     Fires when the Language was changed
@@ -65,8 +65,8 @@ namespace ModernApplicationFramework.Core.Localization
         {
             get
             {
-                var savedCode = IoC.Get<IEnvironmentVarirables>()
-                    .GetOrCreateRegistryVariable(RegirstryKey, null, SystemLanguageCode);
+                var savedCode = IoC.Get<IEnvironmentVariables>()
+                    .GetOrCreateRegistryVariable(RegistryKey, null, SystemLanguageCode);
                 //var savedCode = Settings.Default.LanguageCode;
                 var installedLanguages = GetInstalledLanguages();
                 if (string.IsNullOrEmpty(savedCode))
@@ -83,7 +83,7 @@ namespace ModernApplicationFramework.Core.Localization
         /// <param name="languageCode">The language information that should be saved</param>
         public void SaveLanguage(LanguageInfo languageCode)
         {
-            IoC.Get<IEnvironmentVarirables>().SetRegistryVariable(RegirstryKey, languageCode.Code, null);
+            IoC.Get<IEnvironmentVariables>().SetRegistryVariable(RegistryKey, languageCode.Code, null);
             OnRaiseLanguageChanged(new EventArgs());
         }
 

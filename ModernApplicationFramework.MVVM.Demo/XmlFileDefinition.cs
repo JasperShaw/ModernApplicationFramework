@@ -20,6 +20,6 @@ namespace ModernApplicationFramework.MVVM.Demo
                 UriKind.RelativeOrAbsolute);
 
         public FileType FileType => new FileType("XmlFile", ".xml");
-        public Type PrefferedEditor => typeof(MyTextEditorViewModel);
+        public Type PreferredEditor => typeof(MyTextEditorViewModel);
     }
 }

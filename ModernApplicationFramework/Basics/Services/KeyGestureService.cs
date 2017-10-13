@@ -149,14 +149,14 @@ namespace ModernApplicationFramework.Basics.Services
             if (commandKeyGestureScope?.CommandDefinition == null || commandKeyGestureScope.GestureScopeMapping == null)
                 return;
             
-            IEnumerable<UIElement> possibleElemetns;
+            IEnumerable<UIElement> possibleElements;
             lock (_lockObj)
             {
-                possibleElemetns = _elementMapping.Where(x => x.Key.Equals(commandKeyGestureScope.GestureScopeMapping.Scope))
+                possibleElements = _elementMapping.Where(x => x.Key.Equals(commandKeyGestureScope.GestureScopeMapping.Scope))
                     .SelectMany(x => x.Value);
             }
 
-            foreach (var element in possibleElemetns)
+            foreach (var element in possibleElements)
                 element.InputBindings.Add(new MultiKeyBinding(commandKeyGestureScope.CommandDefinition.Command, commandKeyGestureScope.GestureScopeMapping.KeyGesture));
         }
 
@@ -173,14 +173,14 @@ namespace ModernApplicationFramework.Basics.Services
             if (keyGestureScope?.KeyGesture == null || keyGestureScope.Scope == null)
                 return;
 
-            IEnumerable<UIElement> possibleElemetns;
+            IEnumerable<UIElement> possibleElements;
             lock (_lockObj)
             {
-                possibleElemetns = _elementMapping.Where(x => x.Key.Equals(keyGestureScope.Scope))
+                possibleElements = _elementMapping.Where(x => x.Key.Equals(keyGestureScope.Scope))
                     .SelectMany(x => x.Value);
             }
 
-            foreach (var element in possibleElemetns)
+            foreach (var element in possibleElements)
             {
                 var bindings = new ArrayList(element.InputBindings);
 

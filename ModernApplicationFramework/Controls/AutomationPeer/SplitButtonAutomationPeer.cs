@@ -68,7 +68,7 @@ namespace ModernApplicationFramework.Controls.AutomationPeer
             if (!owner.IsSubmenuOpen)
                 return new IRawElementProviderSimple[0];
             var containerGenerator = (IItemContainerGenerator) owner.ItemContainerGenerator;
-            var elementPProivderSimpleList = new List<IRawElementProviderSimple>();
+            var elementProviderSimpleList = new List<IRawElementProviderSimple>();
             var num = 0;
             using (containerGenerator.StartAt(new GeneratorPosition(-1, 0), GeneratorDirection.Forward))
             {
@@ -77,13 +77,13 @@ namespace ModernApplicationFramework.Controls.AutomationPeer
                     if (num++ < owner.SelectedIndex)
                     {
                         var peerForElement = CreatePeerForElement(next);
-                        elementPProivderSimpleList.Add(ProviderFromPeer(peerForElement));
+                        elementProviderSimpleList.Add(ProviderFromPeer(peerForElement));
                     }
                     else
                         break;
                 }
             }
-            return elementPProivderSimpleList.ToArray();
+            return elementProviderSimpleList.ToArray();
         }
 
         void IValueProvider.SetValue(string value)

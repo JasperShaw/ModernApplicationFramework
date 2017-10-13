@@ -36,7 +36,7 @@
     <converters:ToolTipMultiConverter x:Key="ToolTipMultiConverter"/>
     <general:NotNullConverter x:Key="NotNullConverter"/>
     <converters:CommandBarItemCommandConverter x:Key="CommandBarItemCommandConverter"/>
-    <converters:DockToOrienationConverter x:Key="DockToOrienationConverter"/>
+    <converters:DockToOrientationConverter x:Key="DockToOrientationConverter"/>
     <converters:CommandBarFormattedStringConverter x:Key="CommandBarFormattedStringConverter"/>
     <converters:IsSplitButtonModelConverter x:Key="IsSplitButtonModelConverter"/>
     <customize:IsNotSeparatorModelConverter x:Key="IsNotSeparatorModelConverter"/>

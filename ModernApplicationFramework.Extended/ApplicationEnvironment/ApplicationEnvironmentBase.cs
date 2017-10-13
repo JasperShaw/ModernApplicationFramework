@@ -13,11 +13,11 @@ namespace ModernApplicationFramework.Extended.ApplicationEnvironment
     [Export(typeof(IApplicationEnvironment))]
     public class ApplicationEnvironmentBase : IApplicationEnvironment
     {
-        private readonly IExtendedEnvironmentVarirables _environmentVarirables;
+        private readonly IExtendedEnvironmentVariables _environmentVariables;
         private readonly ISettingsManager _settingsManager;
 
         /// <summary>
-        /// Tells the Apllication to setup and use the settingsManager.
+        /// Tells the application to setup and use the settingsManager.
         /// <remarks>The SettingsCommand should be added to the exclude Commands list</remarks>
         /// </summary>
         protected virtual bool UseApplicationSettings => true;
@@ -26,24 +26,24 @@ namespace ModernApplicationFramework.Extended.ApplicationEnvironment
         public string LocalAppDataPath { get; }
 
         [ImportingConstructor]
-        public ApplicationEnvironmentBase(IExtendedEnvironmentVarirables environmentVarirables, ISettingsManager settingsManager)
+        public ApplicationEnvironmentBase(IExtendedEnvironmentVariables environmentVariables, ISettingsManager settingsManager)
         {
-            _environmentVarirables = environmentVarirables;
+            _environmentVariables = environmentVariables;
             _settingsManager = settingsManager;
 
             LocalAppDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                environmentVarirables.ApplicationName, environmentVarirables.ApplicationVersion);
+                environmentVariables.ApplicationName, environmentVariables.ApplicationVersion);
         }
 
         public virtual void Setup()
         {
-            _environmentVarirables.GetEnvironmentVariable(_environmentVarirables.ApplicationUserDirectoryKey,
+            _environmentVariables.GetEnvironmentVariable(_environmentVariables.ApplicationUserDirectoryKey,
                 out string location);
-            _environmentVarirables.GetEnvironmentVariable(_environmentVarirables.SettingsDirectoryKey,
+            _environmentVariables.GetEnvironmentVariable(_environmentVariables.SettingsDirectoryKey,
                 out var settingsLoc);
 
             var realLoc = Environment.ExpandEnvironmentVariables(location);
-            var realSettingsLoc = _environmentVarirables.ExpandEnvironmentVariables(settingsLoc);
+            var realSettingsLoc = _environmentVariables.ExpandEnvironmentVariables(settingsLoc);
 
             try
             {

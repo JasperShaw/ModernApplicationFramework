@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using ModernApplicationFramework.Annotations;
+using JetBrains.Annotations;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {

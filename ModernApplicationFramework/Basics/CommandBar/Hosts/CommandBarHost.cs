@@ -133,7 +133,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
         public void DeleteGroup(CommandBarGroupDefinition group, AppendTo option = AppendTo.Next)
         {
-            var definitionsInCurrnetGroup = group.Items;
+            var definitionsInCurrentGroup = group.Items;
             var newGroup = option == AppendTo.Next ? GetNextGroup(group) : GetPreviousGroup(group);
             var definitionsInNewGroup = newGroup.Items;
             var parent = group.Parent;
@@ -148,7 +148,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                 foreach (var itemDefinition in definitionsInNewGroup.ToList())
                     itemDefinition.SortOrder = newSortorder++;
 
-                foreach (var itemDefinition in definitionsInCurrnetGroup.ToList())
+                foreach (var itemDefinition in definitionsInCurrentGroup.ToList())
                     itemDefinition.Group = newGroup;
             }
             else
@@ -156,7 +156,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                 foreach (var itemDefinition in definitionsInNewGroup.ToList())
                     itemDefinition.SortOrder = newSortorder++;
 
-                foreach (var itemDefinition in definitionsInCurrnetGroup.ToList())
+                foreach (var itemDefinition in definitionsInCurrentGroup.ToList())
                 {
                     itemDefinition.Group = newGroup;
                     itemDefinition.SortOrder = newSortorder++;

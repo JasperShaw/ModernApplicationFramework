@@ -136,7 +136,7 @@ namespace ModernApplicationFramework.Extended.Core.LayoutManagement
                                 : null
                             // select the contract name if it is of type ILayoutItemBase. else null
                             let typeFromQualifiedName = GetTypeFromContractNameAsILayoutItem(att)
-                            // select the viewmodel tpye if it is of type ILayoutItemBase. else null
+                            // select the viewmodel type if it is of type ILayoutItemBase. else null
                             let typeFromViewModel =
                             layoutType.IsAssignableFrom(itemType) ? itemType : null
                             // att.ContractType overrides att.ContractName if both are set.

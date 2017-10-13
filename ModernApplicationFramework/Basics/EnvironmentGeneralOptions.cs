@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Interop;
 using System.Windows.Media;
 using Caliburn.Micro;
-using ModernApplicationFramework.Annotations;
+using JetBrains.Annotations;
 using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Basics

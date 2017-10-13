@@ -25,7 +25,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.AppIcon
  
                 var myResourceDictionary = new ResourceDictionary { Source = uri };
 
-                object pvar = myResourceDictionary["IconGeomitry"];
+                object pvar = myResourceDictionary["IconGeometry"];
 
                 try
                 {

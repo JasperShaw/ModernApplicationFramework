@@ -63,10 +63,10 @@ namespace ModernApplicationFramework.Controls.TextBoxes
             if (e.Command == ApplicationCommands.Cut || e.Command == ApplicationCommands.Delete)
             {
                 var start = SelectionStart;
-                var lenght = SelectionLength;
+                var length = SelectionLength;
 
-                if (lenght > 0)
-                    TextDelete(e, start, lenght);
+                if (length > 0)
+                    TextDelete(e, start, length);
                 return;
             }
             if (e.Command == ApplicationCommands.Paste)
@@ -101,12 +101,12 @@ namespace ModernApplicationFramework.Controls.TextBoxes
             if (e.Command == EditingCommands.Backspace)
             {
                 var start = SelectionStart;
-                var lenght = SelectionLength;
+                var length = SelectionLength;
 
-                if (lenght > 0 || start > 0)
+                if (length > 0 || start > 0)
                 {
-                    if (lenght > 0)
-                        TextDelete(e, start, lenght);
+                    if (length > 0)
+                        TextDelete(e, start, length);
                     else
                         TextDelete(e, start - 1, 1);
                 }

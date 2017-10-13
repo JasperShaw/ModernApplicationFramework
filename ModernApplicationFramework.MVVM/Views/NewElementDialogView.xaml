@@ -8,7 +8,7 @@
                    HasMaximizeButton="false" HasMinimizeButton="false" ResizeMode="CanResize" ShowInTaskbar="false"
                     SnapsToDevicePixels="true" WindowStartupLocation="Manual" Width="900" Height="600" Icon="{x:Null}"
                    FocusManager.FocusedElement="{Binding ElementName=OkButton}"
-                   TextElement.Foreground="{DynamicResource {x:Static themes:EnvironmentColors.GloablForeground}}">
+                   TextElement.Foreground="{DynamicResource {x:Static themes:EnvironmentColors.GlobalForeground}}">
     <mafc:DialogWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -46,7 +46,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto" MinWidth="272"/>
                 </Grid.ColumnDefinitions>
-                <Label VerticalAlignment="Center" Margin="7,0,0,0" Foreground="{DynamicResource {x:Static themes:EnvironmentColors.GloablForeground}}">Name:</Label>
+                <Label VerticalAlignment="Center" Margin="7,0,0,0" Foreground="{DynamicResource {x:Static themes:EnvironmentColors.GlobalForeground}}">Name:</Label>
                 <textBoxes:TextBox Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"
                      TextWrapping="NoWrap" AllowDrop="True" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
@@ -57,7 +57,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto" MinWidth="272"/>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Margin="7,0,0,0" Foreground="{DynamicResource {x:Static themes:EnvironmentColors.GloablForeground}}">Destination:</Label>
+                <Label Grid.Column="0" Margin="7,0,0,0" Foreground="{DynamicResource {x:Static themes:EnvironmentColors.GlobalForeground}}">Destination:</Label>
                 <textBoxes:TextBox Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{Binding Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <Button Grid.Column="2" MinWidth="85" Margin="14,0,6,0" Padding="6,2,6,2" 

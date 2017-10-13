@@ -21,6 +21,6 @@ namespace ModernApplicationFramework.MVVM.Interfaces
 
         void LoadState(BinaryReader reader);
 
-        void SaveState(BinaryWriter wrtier);
+        void SaveState(BinaryWriter writer);
     }
 }

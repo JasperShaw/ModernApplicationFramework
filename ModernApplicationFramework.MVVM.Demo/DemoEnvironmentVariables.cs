@@ -2,7 +2,7 @@
 
 namespace ModernApplicationFramework.MVVM.Demo
 {
-    public class DemoEnvironmentVariables : ExtendedEnvironmentVarirables
+    public class DemoEnvironmentVariables : ExtendedEnvironmentVariables
     {
         public override string ApplicationName => "Demo Tool";
     }

@@ -3,7 +3,7 @@
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes">
 
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
-                     ResourceId=GloablForeground}" Color="Black"/>
+                     ResourceId=GlobalForeground}" Color="Black"/>
 
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors},
                      ResourceId=GlobalBackgroundColor}" Color="#FFFEFEFE"/>
@@ -520,13 +520,13 @@
                      ResourceId=NavigatorWindowBorder}" Color="#8490A1"/>
     
      <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MavigatorWindowTextForeground}" Color="#1B293E"/>
+                     ResourceId=NavigatorWindowTextForeground}" Color="#1B293E"/>
     
      <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MavigatorWindowItemBackground}" Color="Transparent"/>
+                     ResourceId=NavigatorWindowItemBackground}" Color="Transparent"/>
     
      <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=MavigatorWindowItemForeground}" Color="#1B293E"/>
+                     ResourceId=NavigatorWindowItemForeground}" Color="#1B293E"/>
     
      <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
                      ResourceId=NavigatorWindowItemBackgroundChecked}" Color="#3398FE"/>

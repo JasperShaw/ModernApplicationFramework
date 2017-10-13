@@ -19,7 +19,7 @@ namespace ModernApplicationFramework.Extended.MenuDefinitions
             new CommandBarGroupDefinition(FileMenu, 3);
 
         [Export] public static CommandBarItemDefinition CloseProgram =
-            new CommandBarCommandItemDefinition<CloseProgammCommandDefinition>(CloseProgramGroup, 1);
+            new CommandBarCommandItemDefinition<CloseProgramCommandDefinition>(CloseProgramGroup, 1);
 
         [Export] public static CommandBarItemDefinition CloseActiveDocument =
             new CommandBarCommandItemDefinition<CloseDockedWindowCommandDefinition>(CloseLayoutItemGroup, 1);

@@ -116,7 +116,7 @@ namespace ModernApplicationFramework.MVVM.Core.Utilities
                                                : null
                                            // select the contract name if it is of type ILayoutItem. else null
                                            let typeFromQualifiedName = GetTypeFromContractNameAsILayoutItem(att)
-                                           // select the viewmodel tpye if it is of type ILayoutItem. else null
+                                           // select the viewmodel type if it is of type ILayoutItem. else null
                                            let typeFromViewModel =
                                                layoutType.IsAssignableFrom(itemType) ? itemType : null
                                            // att.ContractType overrides att.ContractName if both are set.

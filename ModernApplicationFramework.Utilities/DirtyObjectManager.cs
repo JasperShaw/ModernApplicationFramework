@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using ModernApplicationFramework.Utilities.Annotations;
+using JetBrains.Annotations;
 using ModernApplicationFramework.Utilities.Interfaces;
 
 namespace ModernApplicationFramework.Utilities

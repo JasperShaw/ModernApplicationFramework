@@ -1,4 +1,0 @@
-﻿Create Floating Window then Double Clicking on a Tab/Anchor with CTRL-Key pressed
-When selecting a floating window from tastbar it must be over main window
-when pressing ALT on floating windows the main window must appear and menu gets focus
-new anchor floating window design

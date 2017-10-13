@@ -21,14 +21,14 @@ namespace ModernApplicationFramework.Settings.SettingsManager
         public override XmlNode GetSingleNode(string path, bool navigateAttributeWise = true)
         {
             var xPath = new XPath.XPath(path, navigateAttributeWise);
-            var node = SettingsSotrage.SelectSingleNode(SettingsXPathCreator.CreateXPath(xPath));
+            var node = SettingsStorage.SelectSingleNode(SettingsXPathCreator.CreateXPath(xPath));
             return node;
         }
 
         public override IEnumerable<XmlNode> GetChildNodes(string path, bool navigateAttributeWise = true)
         {
             var xPath = new XPath.XPath(path, navigateAttributeWise);
-            var nodes = SettingsSotrage.SelectSingleNode(SettingsXPathCreator.CreateXPath(xPath));
+            var nodes = SettingsStorage.SelectSingleNode(SettingsXPathCreator.CreateXPath(xPath));
             if (nodes == null || !nodes.HasChildNodes)
                 return new List<XmlNode>();
             return nodes.ChildNodes.Cast<XmlNode>().ToList();
@@ -39,7 +39,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
         public override string GetPropertyValueData(string path, string propertyName, bool navigateAttributeWise = true)
         {
             var xPath = new XPath.XPath(path, navigateAttributeWise);
-            var node = SettingsSotrage.SelectSingleNode(
+            var node = SettingsStorage.SelectSingleNode(
                 SettingsXPathCreator.CreatePropertyValeXPath(xPath, propertyName));
             var value = node?.InnerText;
             return value;
@@ -53,7 +53,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
             var additPath =
                 nodePath + SettingsXPathCreator.CreatePropertyValeXPath(xPath, propertyName,
                     XPathCreationOptions.AllowEmpty);
-            var result = SettingsSotrage.SelectSingleNode(additPath);
+            var result = SettingsStorage.SelectSingleNode(additPath);
             var value = result?.InnerText;
             return value;
         }
@@ -63,7 +63,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
             var nodePath = SettingsXPathCreator.CreateNodeXPath(node) +
                            SettingsXPathCreator.CreatePropertyValeXPath(null, propertyName,
                                XPathCreationOptions.Absolute, false);
-            var result = SettingsSotrage.SelectSingleNode(nodePath);
+            var result = SettingsStorage.SelectSingleNode(nodePath);
             var value = result?.InnerText;
             return value;
         }
@@ -102,7 +102,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
                     node.InnerText = value;
                 return;
             }
-            var element = SettingsSotrage.CreateElement("PropertyValue", value,
+            var element = SettingsStorage.CreateElement("PropertyValue", value,
                 new KeyValuePair<string, string>("name", propertyName));
             parent.AppendChild(element);
         }
@@ -144,8 +144,8 @@ namespace ModernApplicationFramework.Settings.SettingsManager
                 {
                     if (settingsCategory.CategoryType == SettingsCategoryType.ToolsOption)
                         parentNode = GetSingleNode("ToolsOptions", false) ??
-                                     SettingsSotrage.DocumentElement?.AppendChild(
-                                         CreateToolsOptionsElement(SettingsSotrage));
+                                     SettingsStorage.DocumentElement?.AppendChild(
+                                         CreateToolsOptionsElement(SettingsStorage));
                     else
                         parentNode = GetSingleNode(string.Empty, false);
                 }
@@ -159,15 +159,15 @@ namespace ModernApplicationFramework.Settings.SettingsManager
                 switch (settingsCategory.CategoryType)
                 {
                     case SettingsCategoryType.ToolsOption:
-                        element = SettingsSotrage.CreateElement("ToolsOptionsCategory", string.Empty,
+                        element = SettingsStorage.CreateElement("ToolsOptionsCategory", string.Empty,
                             new KeyValuePair<string, string>("name", settingsCategory.Name));
                         break;
                     case SettingsCategoryType.ToolsOptionSub:
-                        element = SettingsSotrage.CreateElement("ToolsOptionsSubCategory", string.Empty,
+                        element = SettingsStorage.CreateElement("ToolsOptionsSubCategory", string.Empty,
                             new KeyValuePair<string, string>("name", settingsCategory.Name));
                         break;
                     case SettingsCategoryType.Normal:
-                        element = SettingsSotrage.CreateElement("Category", null,
+                        element = SettingsStorage.CreateElement("Category", null,
                             new KeyValuePair<string, string>("name", settingsCategory.Name),
                             new KeyValuePair<string, string>("RegisteredName", settingsCategory.Name));
                         if (!settingsCategory.HasChildren)
@@ -190,7 +190,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
 
             lock (_lockObk)
             {
-                var element = SettingsSotrage.CreateElement("ToolsOptionsCategory", string.Empty,
+                var element = SettingsStorage.CreateElement("ToolsOptionsCategory", string.Empty,
                     new KeyValuePair<string, string>("name", settingsModelName));
                 node.AppendChild(element);
             }
@@ -199,7 +199,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
         public override string GetAttributeValue(string path, string attribute, bool navigateAttributeWise = true)
         {
             var xPath = new XPath.XPath(path, navigateAttributeWise);
-            var value = SettingsSotrage
+            var value = SettingsStorage
                 .SelectSingleNode(SettingsXPathCreator.CreateElementAttributeValueXPath(xPath, attribute))
                 ?.Value;
             return value;
@@ -228,7 +228,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
             document.AppendChild(rootNode);
             rootNode.AppendChild(CreateApplicationVersionElement(document));
             rootNode.AppendChild(document.CreateElement("ToolsOptions"));
-            SettingsSotrage = document;
+            SettingsStorage = document;
             return document;
         }
 
@@ -241,13 +241,13 @@ namespace ModernApplicationFramework.Settings.SettingsManager
                 {
                     xmlTextReader.Normalization = false;
                     document.Load(xmlTextReader);
-                    SettingsSotrage = document;
+                    SettingsStorage = document;
                 }
-                SettingsSotrage = document;
+                SettingsStorage = document;
             }
             catch (XmlException)
             {
-                SettingsSotrage = CreateSettingsStoreBase();
+                SettingsStorage = CreateSettingsStoreBase();
             }
         }
         
@@ -256,7 +256,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
             lock (_lockObk)
             {
                 return document.CreateElement("ApplicationIdentity", null,
-                    new KeyValuePair<string, string>("version", SettingsManager.EnvironmentVarirables.ApplicationVersion));
+                    new KeyValuePair<string, string>("version", SettingsManager.EnvironmentVariables.ApplicationVersion));
             }
         }
 

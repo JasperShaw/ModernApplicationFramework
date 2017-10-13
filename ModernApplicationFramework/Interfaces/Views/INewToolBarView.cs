@@ -1,7 +1,7 @@
 ﻿namespace ModernApplicationFramework.Interfaces.Views
 {
     /// <summary>
-    /// Interaction assistence for a dialog to create new 
+    /// Interaction assistance for a dialog to create new 
     /// </summary>
     internal interface INewToolBarView
     {

@@ -39,7 +39,7 @@ namespace ModernApplicationFramework.Settings.Interfaces
 
         /// <summary>
         /// Usually gets called when the Hosting Dialog Window gets active. It should reload/set data in the SettingsPage.
-        /// This can be performence relevant, so only insert code that really needs to be reloaded manually.
+        /// This can be performance relevant, so only insert code that really needs to be reloaded manually.
         /// </summary>
         void Activate();
     }

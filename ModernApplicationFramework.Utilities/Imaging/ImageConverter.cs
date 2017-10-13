@@ -120,7 +120,7 @@ namespace ModernApplicationFramework.Utilities.Imaging
                     byte num4 = sourcePixels[index3 + 2];
                     byte num5 = sourceBitsPerPixel == 32 ? sourcePixels[index3 + 3] : byte.MaxValue;
                     cDisplayClass50.C = System.Drawing.Color.FromArgb(num4, num3, num2);
-                    if (Array.FindIndex(transparentColors, cDisplayClass50.IsEqals) != -1)
+                    if (Array.FindIndex(transparentColors, cDisplayClass50.IsEquals) != -1)
                         num5 = 0;
                     else if (flag)
                         num5 = byte.MaxValue;
@@ -143,7 +143,7 @@ namespace ModernApplicationFramework.Utilities.Imaging
         {
             public System.Drawing.Color C;
 
-            internal bool IsEqals(System.Drawing.Color transparentColor)
+            internal bool IsEquals(System.Drawing.Color transparentColor)
             {
                 return C == transparentColor;
             }

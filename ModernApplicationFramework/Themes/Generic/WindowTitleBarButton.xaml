@@ -23,13 +23,13 @@
                         <ContentPresenter TextElement.Foreground="{TemplateBinding Foreground}"/>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsAnchroableFloatingWindowTitleBarButton" Value="True">
+                        <Trigger Property="IsAnchorableFloatingWindowTitleBarButton" Value="True">
                             <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.FloatingWindowTitleBarGlyph}}"/>
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True"/>
-                                <Condition Property="IsAnchroableFloatingWindowTitleBarButton" Value="True"/>
+                                <Condition Property="IsAnchorableFloatingWindowTitleBarButton" Value="True"/>
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
                                 <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarGlyphActiveHover}}"/>
@@ -38,7 +38,7 @@
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsPressed" Value="True"/>
-                                <Condition Property="IsAnchroableFloatingWindowTitleBarButton" Value="True"/>
+                                <Condition Property="IsAnchorableFloatingWindowTitleBarButton" Value="True"/>
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
                                 <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarGlyphActiveDown}}"/>
@@ -47,7 +47,7 @@
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsEnabled" Value="False"/>
-                                <Condition Property="IsAnchroableFloatingWindowTitleBarButton" Value="True"/>
+                                <Condition Property="IsAnchorableFloatingWindowTitleBarButton" Value="True"/>
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
                                 <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.AnchorableFloatingWindowTitleBarGlyph}}"/>

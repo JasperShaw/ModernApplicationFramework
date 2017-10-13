@@ -19,7 +19,7 @@ namespace ModernApplicationFramework.Interfaces
 		bool Ask(string message);
 
         /// <summary>
-        /// Dispalys an error message
+        /// Displays an error message
         /// </summary>
         /// <param name="message">The error message</param>
 		void ShowError(string message);

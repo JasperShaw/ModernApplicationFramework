@@ -14,7 +14,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
 
         protected readonly ISettingsManager SettingsManager;
 
-        public XmlDocument SettingsSotrage { get; set; }
+        public XmlDocument SettingsStorage { get; set; }
 
         protected SettingsFile(ISettingsManager settingsManager)
         {
@@ -74,7 +74,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
         /// <summary>
         ///     Creates and assinges a new SettingsStore
         /// </summary>
-        /// <returns>returs the generated SettingsStore</returns>
+        /// <returns>returns the generated SettingsStore</returns>
         public abstract XmlDocument CreateNewSettingsStore();
 
 
@@ -86,7 +86,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
 
         public void Save()
         {
-            lock (SettingsSotrage)
+            lock (SettingsStorage)
             {
                 var settings =
                     new XmlWriterSettings
@@ -96,9 +96,9 @@ namespace ModernApplicationFramework.Settings.SettingsManager
                         NewLineChars = Environment.NewLine,
                         NewLineHandling = NewLineHandling.Replace
                     };
-                using (var w = XmlWriter.Create(SettingsManager.EnvironmentVarirables.SettingsFilePath, settings))
+                using (var w = XmlWriter.Create(SettingsManager.EnvironmentVariables.SettingsFilePath, settings))
                 {
-                    SettingsSotrage.Save(w);
+                    SettingsStorage.Save(w);
                 }
             }
         }
@@ -108,7 +108,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
             try
             {
                 Save();
-                SettingsSotrage = null;
+                SettingsStorage = null;
             }
             catch (Exception)
             {

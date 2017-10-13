@@ -18,7 +18,7 @@ namespace ModernApplicationFramework.Interfaces.Services
         LanguageInfo SavedLanguage { get; }
 
         /// <summary>
-        /// Gets all avaiable Languages on the Operating System
+        /// Gets all available Languages on the Operating System
         /// </summary>
         /// <returns>Returns an <see cref="IEnumerable{T}"/> with the founded languages</returns>
         IEnumerable<LanguageInfo> GetInstalledLanguages();

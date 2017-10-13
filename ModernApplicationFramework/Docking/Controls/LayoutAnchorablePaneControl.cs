@@ -69,9 +69,9 @@ namespace ModernApplicationFramework.Docking.Controls
 
         private void OnLayoutUpdated(object sender, EventArgs e)
         {
-            var modelWithAtcualSize = _model as ILayoutPositionableElementWithActualSize;
-            modelWithAtcualSize.ActualWidth = ActualWidth;
-            modelWithAtcualSize.ActualHeight = ActualHeight;
+            var modelWithActualSize = _model as ILayoutPositionableElementWithActualSize;
+            modelWithActualSize.ActualWidth = ActualWidth;
+            modelWithActualSize.ActualHeight = ActualHeight;
         }
     }
 }

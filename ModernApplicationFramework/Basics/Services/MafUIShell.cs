@@ -99,7 +99,7 @@ namespace ModernApplicationFramework.Basics.Services
         public int GetAppName(out string pbstrAppName)
         {
             pbstrAppName = string.Empty;
-            var env = IoC.Get<IEnvironmentVarirables>();
+            var env = IoC.Get<IEnvironmentVariables>();
             if (env == null)
                 return -1;
             pbstrAppName = env.ApplicationName;

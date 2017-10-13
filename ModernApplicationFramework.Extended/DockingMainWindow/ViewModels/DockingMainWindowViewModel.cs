@@ -129,7 +129,7 @@ namespace ModernApplicationFramework.Extended.DockingMainWindow.ViewModels
         /// <inheritdoc />
         /// <summary>
         ///     Contains the Movement Technique for the MainWindow
-        ///     SimpleMovemtn allows to move the Window by clicking/dragging anywhere on it
+        ///     SimpleMovement allows to move the Window by clicking/dragging anywhere on it
         /// </summary>
         public bool UseSimpleMovement
         {

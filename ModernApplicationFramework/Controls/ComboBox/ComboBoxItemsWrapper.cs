@@ -15,14 +15,14 @@ namespace ModernApplicationFramework.Controls.ComboBox
         /// </summary>
         public ObservableCollection<IHasTextProperty> Items { get; set; }
 
-        public ComboBoxItemsWrapper(IEnumerable<IHasTextProperty> colection)
+        public ComboBoxItemsWrapper(IEnumerable<IHasTextProperty> collection)
         {
             Items = new ObservableCollection<IHasTextProperty>();
-            if (colection == null)
+            if (collection == null)
                 return;
-            foreach (var item in colection)
+            foreach (var item in collection)
                 Items.Add(item);
-            if (colection is INotifyCollectionChanged observable)
+            if (collection is INotifyCollectionChanged observable)
                 observable.CollectionChanged += Observable_CollectionChanged;
         }
 

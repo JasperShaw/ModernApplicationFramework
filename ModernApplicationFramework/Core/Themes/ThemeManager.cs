@@ -44,7 +44,7 @@ namespace ModernApplicationFramework.Core.Themes
         {
             get
             {
-                var theme = IoC.Get<IEnvironmentVarirables>().GetOrCreateRegistryVariable(RegistryKey, null, DefaultThemeName);
+                var theme = IoC.Get<IEnvironmentVariables>().GetOrCreateRegistryVariable(RegistryKey, null, DefaultThemeName);
                 return _themes.FirstOrDefault(x => x.Name == theme);
             }
         }
@@ -84,7 +84,7 @@ namespace ModernApplicationFramework.Core.Themes
         /// <param name="theme">The theme that should be saved</param>
         public void SaveTheme(Theme theme)
         {
-            IoC.Get<IEnvironmentVarirables>().SetRegistryVariable(RegistryKey, theme.Name, null);
+            IoC.Get<IEnvironmentVariables>().SetRegistryVariable(RegistryKey, theme.Name, null);
         }
 
         protected virtual void OnRaiseThemeChanged(ThemeChangedEventArgs e)

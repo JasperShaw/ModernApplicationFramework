@@ -80,7 +80,7 @@ namespace ModernApplicationFramework.Interfaces.Services
         int SetVisibility(uint dwVisibility);
 
         /// <summary>
-        /// Retrieves the current visiblity state of the status bar.
+        /// Retrieves the current visibility state of the status bar.
         /// </summary>
         /// <returns><see langword="true"/> when the status bar is visible; <see langword="false"/> when not</returns>
         bool GetVisibility();

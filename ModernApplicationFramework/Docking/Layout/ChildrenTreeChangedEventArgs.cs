@@ -21,7 +21,7 @@ namespace ModernApplicationFramework.Docking.Layout
     public enum ChildrenTreeChange
     {
         /// <summary>
-        /// Direct insert/remove operation has been perfomed to the group
+        /// Direct insert/remove operation has been performed to the group
         /// </summary>
         DirectChildrenChanged,
 
