@@ -216,7 +216,7 @@ namespace ModernApplicationFramework.Basics.Services
             return new List<CommandDefinition>(_keyboardShortcuts);
         }
 
-        public IEnumerable<GestureScope> GetAllCommandGestureCategories()
+        public IEnumerable<GestureScope> GetAllCommandGestureScopes()
         {
             return new List<GestureScope>(_gestureScopes);
         }

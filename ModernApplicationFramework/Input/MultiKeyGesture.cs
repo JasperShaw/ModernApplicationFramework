@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
+using System.Linq;
 using System.Windows.Input;
 using System.Windows.Markup;
 
@@ -214,6 +215,26 @@ namespace ModernApplicationFramework.Input
             if (keySequences[1].Key != realSequences[1].Key || keySequences[1].Modifiers != realSequences[1].Modifiers)
                 return false;
             return true;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+            if (obj is MultiKeyGesture gesture)
+                return Equals(gesture);
+            return false;
+        }
+
+        protected bool Equals(MultiKeyGesture other)
+        {
+            if (IsRealMultiKeyGesture)
+            {
+                if (other.GestureCollection.All(other.GestureCollection.Contains))
+                    return true;
+                return false;
+            }
+            return Key == other.Key && Modifiers == other.Modifiers;
         }
 
         private void ResetState()

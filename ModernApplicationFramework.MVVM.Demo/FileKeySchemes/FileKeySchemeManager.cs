@@ -31,7 +31,7 @@ namespace ModernApplicationFramework.MVVM.Demo.FileKeySchemes
         {
             var settings = IoC.Get<KeyBindingsSettings>();
             var name = settings.KeyboardShortcuts.ShortcutsScheme;
-            SetScheme(SchemeDefinitions.LastOrDefault(x => x.Name == name));
+            ResetToScheme(SchemeDefinitions.LastOrDefault(x => x.Name == name));
         }
     }
 

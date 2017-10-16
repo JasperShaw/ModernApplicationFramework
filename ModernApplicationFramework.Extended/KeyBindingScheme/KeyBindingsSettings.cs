@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.Composition;
+using System.Linq;
 using Caliburn.Micro;
+using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Settings;
 using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Settings.SettingDataModel;
@@ -22,7 +24,7 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
             set => ShortcutsSettings.Version = value;
         }
 
-        public TestKeyboardShortcuts KeyboardShortcuts => ShortcutsSettings.KeyboardShortcuts;
+        public KeyboardShortcutsObject KeyboardShortcuts => ShortcutsSettings.KeyboardShortcuts;
 
         private KeyBindingsSettingsDataModel ShortcutsSettings { get; set; }
 
@@ -35,18 +37,15 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
         public override void LoadOrCreate()
         {
             GetDataModel<KeyBindingsSettingsDataModel>(out var model);
-            if (model == null || model.Version == null && model.KeyboardShortcuts == null)
-            {
-                model = new KeyBindingsSettingsDataModel();
-                model.KeyboardShortcuts = new TestKeyboardShortcuts();
-            }
+            if (model?.KeyboardShortcuts == null)
+                model = new KeyBindingsSettingsDataModel { KeyboardShortcuts = new KeyboardShortcutsObject() };
             ShortcutsSettings = model;
-            Version = IoC.Get<IEnvironmentVariables>().ApplicationVersion;
             StoreSettings();
         }
 
         public override void StoreSettings()
         {
+            Version = IoC.Get<IEnvironmentVariables>().ApplicationVersion;
             SetSettingsModel(ShortcutsSettings);
         }
     }

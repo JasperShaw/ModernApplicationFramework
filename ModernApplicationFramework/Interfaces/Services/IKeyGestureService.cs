@@ -60,7 +60,7 @@ namespace ModernApplicationFramework.Interfaces.Services
 
         IEnumerable<CommandDefinition> GetAllCommandDefinitions();
         
-        IEnumerable<GestureScope> GetAllCommandGestureCategories();
+        IEnumerable<GestureScope> GetAllCommandGestureScopes();
         
         IEnumerable<CommandGestureScopeMapping> FindKeyGestures(IList<KeySequence> sequences, FindKeyGestureOption option);
     }

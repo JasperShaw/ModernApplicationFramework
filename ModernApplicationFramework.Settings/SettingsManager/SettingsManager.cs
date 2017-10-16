@@ -53,6 +53,9 @@ namespace ModernApplicationFramework.Settings.SettingsManager
 
         public void Close()
         {
+            var settingsModels = IoC.GetAll<ISettingsDataModel>();
+            foreach (var settingsModel in settingsModels)
+                settingsModel.StoreSettings();
             SettingsFile?.Dispose();
             SettingsFile = null;
         }

@@ -31,6 +31,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         private readonly IKeyGestureService _gestureService;
         private readonly IKeyBindingSchemeManager _schemeManager;
         private readonly KeyBindingsSettings _keyBindingsSettings;
+        private readonly KeyBindingManager _keyBindingManager;
         private IEnumerable<CommandDefinition> _items;
         private string _searchFilter;
         private CommandDefinition _selectedCommand;
@@ -178,6 +179,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
             {
                 if (Equals(_selectedScheme, value))
                     return;
+                DirtyObjectManager.SetData(_selectedScheme, value);
                 _selectedScheme = value;
                 OnPropertyChanged();
             }
@@ -190,16 +192,18 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         public KeyboardSettingsViewModel(ISettingsManager settingsManager,
             IKeyGestureService gestureService,
             IKeyBindingSchemeManager schemeManager,
-            KeyBindingsSettings keyBindingsSettings)
+            KeyBindingsSettings keyBindingsSettings,
+            KeyBindingManager keyBindingManager)
         {
             _settingsManager = settingsManager;
             _gestureService = gestureService;
             _schemeManager = schemeManager;
             _keyBindingsSettings = keyBindingsSettings;
+            _keyBindingManager = keyBindingManager;
             Schemes = _schemeManager.SchemeDefinitions;
-            SelectedScheme = _schemeManager.CurrentScheme;
+            _selectedScheme = _schemeManager.CurrentScheme;
             AllCommands = gestureService.GetAllCommandDefinitions();
-            Scopes = new BindableCollection<GestureScope>(gestureService.GetAllCommandGestureCategories());
+            Scopes = new BindableCollection<GestureScope>(gestureService.GetAllCommandGestureScopes());
             SelectedScope = GestureScopes.GlobalGestureScope;
             AvailableGestureBindings = new ObservableCollection<GestureScopeMapping>();
             SetupCollectionViewSource();
@@ -207,6 +211,8 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
 
         protected override bool SetData()
         {
+            _keyBindingManager.SetKeyScheme(_selectedScheme);
+            _keyBindingManager.SaveCurrent();
             return true;
         }
 
@@ -227,13 +233,9 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
                     IoC.Get<IEnvironmentVariables>().ApplicationName, 
                     MessageBoxButton.YesNo, MessageBoxImage.Exclamation) != MessageBoxResult.Yes)
                 return;
-            _schemeManager.SetScheme(SelectedScheme);
-
-
+            _schemeManager.ResetToScheme(SelectedScheme);
             _keyBindingsSettings.KeyboardShortcuts.ShortcutsScheme = SelectedScheme.Name;
             _keyBindingsSettings.StoreSettings();
-
-
             UpdateAvailableGestureBinding();
         }
 
@@ -253,6 +255,8 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         {
             SelectedCommand.Gestures.Remove(SelectedGestureScopeBinding);
             UpdateAvailableGestureBinding();
+
+            _keyBindingManager.SaveCurrent();
         }
 
         private bool CanExecuteRemoveBinding()
@@ -294,6 +298,9 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
             UpdateAvailableGestureBinding();
             GestureInput = string.Empty;
             UpdateDuplicate();
+
+
+            _keyBindingManager.SaveCurrent();
         }
 
         private void AddFilter()

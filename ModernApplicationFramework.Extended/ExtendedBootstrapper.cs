@@ -10,7 +10,7 @@ using ModernApplicationFramework.Basics.Services;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Extended.ApplicationEnvironment;
 using ModernApplicationFramework.Extended.Interfaces;
-using ModernApplicationFramework.Interfaces.Services;
+using ModernApplicationFramework.Extended.KeyBindingScheme;
 using ModernApplicationFramework.Utilities.Interfaces;
 
 namespace ModernApplicationFramework.Extended
@@ -58,8 +58,9 @@ namespace ModernApplicationFramework.Extended
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
             base.OnStartup(sender, e);
-            IoC.Get<IExtendedEnvironmentVariables>().Setup();
+            IoC.Get<IExtendedEnvironmentVariables>().Setup();     
             IoC.Get<IApplicationEnvironment>().Setup();
+            IoC.Get<KeyBindingManager>();
             DisplayRootViewFor<IDockingMainWindowViewModel>();
         }
 

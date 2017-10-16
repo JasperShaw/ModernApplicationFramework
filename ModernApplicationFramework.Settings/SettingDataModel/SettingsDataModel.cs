@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;

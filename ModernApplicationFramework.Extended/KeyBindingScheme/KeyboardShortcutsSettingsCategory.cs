@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml.Serialization;
 using System.Xml.Schema;
+using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.Extended.KeyBindingScheme
 {
@@ -16,19 +17,19 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
 
         /// <remarks/>
         [XmlElement(Form = XmlSchemaForm.Unqualified)]
-        public TestKeyboardShortcuts KeyboardShortcuts { get; set; }
+        public KeyboardShortcutsObject KeyboardShortcuts { get; set; }
     }
 
     [Serializable]
     [XmlType(AnonymousType = true)]
-    public class TestKeyboardShortcuts
+    public class KeyboardShortcutsObject
     {
 
         private string _shortcutsSchemeField;
 
-        private TestKeyboardShortcutsScope[] _scopeDefinitionsField;
+        private KeyboardShortcutsScope[] _scopeDefinitionsField;
 
-        private TestKeyboardShortcutsUserShortcuts _userShortcutsField;
+        private KeyboardShortcutsUserShortcuts _userShortcutsField;
 
         /// <remarks/>
         [XmlElement(Form = XmlSchemaForm.Unqualified)]
@@ -42,7 +43,7 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
         [XmlArray(Form = XmlSchemaForm.Unqualified)]
         [XmlArrayItem("Scope", Form = XmlSchemaForm.Unqualified,
             IsNullable = false)]
-        public TestKeyboardShortcutsScope[] ScopeDefinitions
+        public KeyboardShortcutsScope[] ScopeDefinitions
         {
             get => _scopeDefinitionsField;
             set => _scopeDefinitionsField = value;
@@ -50,7 +51,7 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
 
         /// <remarks/>
         [XmlElement(Form = XmlSchemaForm.Unqualified)]
-        public TestKeyboardShortcutsUserShortcuts UserShortcuts
+        public KeyboardShortcutsUserShortcuts UserShortcuts
         {
             get => _userShortcutsField;
             set => _userShortcutsField = value;
@@ -59,7 +60,7 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
 
     [Serializable]
     [XmlType(AnonymousType = true)]
-    public class TestKeyboardShortcutsScope
+    public class KeyboardShortcutsScope
     {
 
         private string _nameField;
@@ -81,20 +82,31 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
             get => _idField;
             set => _idField = value;
         }
+
+        public KeyboardShortcutsScope()
+        {
+            
+        }
+
+        public KeyboardShortcutsScope(GestureScope scope)
+        {
+            Name = scope.Text;
+            ID = scope.Id.ToString("B");
+        }
     }
 
     [Serializable]
     [XmlType(AnonymousType = true)]
-    public class TestKeyboardShortcutsUserShortcuts
+    public class KeyboardShortcutsUserShortcuts
     {
 
-        private TestKeyboardShortcutsUserShortcutsShortcut[] _shortcutField;
+        private KeyboardShortcutsUserShortcutsShortcut[] _shortcutField;
 
-        private TestKeyboardShortcutsUserShortcutsRemoveShortcut[] _removeShortcutField;
+        private KeyboardShortcutsUserShortcutsRemoveShortcut[] _removeShortcutField;
 
         /// <remarks/>
         [XmlElement("Shortcut", Form = XmlSchemaForm.Unqualified, IsNullable = true)]
-        public TestKeyboardShortcutsUserShortcutsShortcut[] Shortcut
+        public KeyboardShortcutsUserShortcutsShortcut[] Shortcut
         {
             get => _shortcutField;
             set => _shortcutField = value;
@@ -102,7 +114,7 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
 
         /// <remarks/>
         [XmlElement("RemoveShortcut", Form = XmlSchemaForm.Unqualified, IsNullable = true)]
-        public TestKeyboardShortcutsUserShortcutsRemoveShortcut[] RemoveShortcut
+        public KeyboardShortcutsUserShortcutsRemoveShortcut[] RemoveShortcut
         {
             get => _removeShortcutField;
             set => _removeShortcutField = value;
@@ -111,7 +123,7 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
 
     [Serializable]
     [XmlType(AnonymousType = true)]
-    public class TestKeyboardShortcutsUserShortcutsShortcut
+    public class KeyboardShortcutsUserShortcutsShortcut
     {
 
         private string _commandField;
@@ -147,7 +159,7 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
 
     [Serializable]
     [XmlType(AnonymousType = true)]
-    public class TestKeyboardShortcutsUserShortcutsRemoveShortcut
+    public class KeyboardShortcutsUserShortcutsRemoveShortcut
     {
 
         private string _commandField;

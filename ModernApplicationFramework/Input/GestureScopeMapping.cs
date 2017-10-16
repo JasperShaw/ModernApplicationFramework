@@ -22,15 +22,14 @@ namespace ModernApplicationFramework.Input
 
         public bool Equals(GestureScopeMapping other)
         {
-            return other != null && Equals(Scope, other.Scope) && Equals(KeyGesture, other.KeyGesture);
+            return other != null && Scope.Equals(other.Scope) && KeyGesture.Equals(other.KeyGesture);
         }
 
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj))
                 return false;
-            var a = obj as GestureScopeMapping;
-            return a != null && Equals(a);
+            return obj is GestureScopeMapping a && Equals(a);
         }
 
         public override int GetHashCode()

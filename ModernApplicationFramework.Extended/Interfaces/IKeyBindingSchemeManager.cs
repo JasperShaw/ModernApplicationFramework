@@ -19,10 +19,16 @@ namespace ModernApplicationFramework.Extended.Interfaces
         void LoadSchemeDefinitions();
 
         /// <summary>
-        /// Clears all current bindings and applies this specified scheme
+        /// Loads a scheme into current key bindings
         /// </summary>
         /// <param name="scheme">The scheme.</param>
         void SetScheme(SchemeDefinition scheme);
+
+        /// <summary>
+        /// Clears all current bindings and applies this specified scheme
+        /// </summary>
+        /// <param name="scheme">The scheme.</param>
+        void ResetToScheme(SchemeDefinition scheme);
 
         /// <summary>
         /// Selects a default scheme and applies it

@@ -27,9 +27,14 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
         
         public void SetScheme(SchemeDefinition definition)
         {
+            //TODO
+        }
+
+        public void ResetToScheme(SchemeDefinition definition)
+        {
             if (definition == null)
                 return;
-            var scheme = definition.Load(); 
+            var scheme = definition.Load();
             if (!SchemeDefinitions.Contains(definition))
                 SchemeDefinitions.Add(definition);
             GestureService.RemoveAllKeyGestures();
@@ -51,7 +56,7 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
 
         public override void SetDefaultScheme()
         {
-            SetScheme(SchemeDefinitions.FirstOrDefault());
+            ResetToScheme(SchemeDefinitions.FirstOrDefault());
         }
 
         private void CreateDefaultScheme()

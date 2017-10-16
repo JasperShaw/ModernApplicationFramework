@@ -44,6 +44,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.3.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -86,6 +87,7 @@
     <Compile Include="GuidCollection.cs" />
     <Compile Include="KeyBindingScheme\AbstractKeyBindingSchemeManager.cs" />
     <Compile Include="KeyBindingScheme\FileSchemeDefinition.cs" />
+    <Compile Include="KeyBindingScheme\KeyBindingManager.cs" />
     <Compile Include="KeyBindingScheme\KeyBindingSchemeFile.cs" />
     <Compile Include="KeyBindingScheme\KeyBindingSchemeShortcut.cs" />
     <Compile Include="KeyBindingScheme\KeyBindingsSettings.cs" />
@@ -93,7 +95,6 @@
     <Compile Include="KeyBindingScheme\SchemeDefinition.cs" />
     <Compile Include="Interfaces\IKeyBindingSchemeManager.cs" />
     <Compile Include="KeyBindingScheme\KeyBindingScheme.cs" />
-    <Compile Include="Modules\KeyboardGestureServicesModule.cs" />
     <Compile Include="Interfaces\IApplicationEnvironment.cs" />
     <Compile Include="ExtendedBootstrapper.cs" />
     <Compile Include="Commands\CloseProgramCommandDefinition.cs" />
