@@ -27,21 +27,45 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class KeyboardSettingsViewModel : SettingsPage, IStretchSettingsPanelPanel
     {
-        private readonly ISettingsManager _settingsManager;
         private readonly IKeyGestureService _gestureService;
-        private readonly IKeyBindingSchemeManager _schemeManager;
-        private readonly KeyBindingsSettings _keyBindingsSettings;
         private readonly KeyBindingManager _keyBindingManager;
+        private readonly KeyBindingsSettings _keyBindingsSettings;
+        private readonly IKeyBindingSchemeManager _schemeManager;
+        private readonly ISettingsManager _settingsManager;
+        private IEnumerable<CommandGestureScopeMapping> _duplicates;
+        private string _gestureInput;
         private IEnumerable<CommandDefinition> _items;
+        private IEnumerable<SchemeDefinition> _schemes;
         private string _searchFilter;
         private CommandDefinition _selectedCommand;
-        private GestureScopeMapping _selectedGestureScopeBinding;
-        private GestureScope _selectedScope;
-        private string _gestureInput;
-        private IEnumerable<CommandGestureScopeMapping> _duplicates;
         private int _selectedCommandIndex;
-        private IEnumerable<SchemeDefinition> _schemes;
+        private GestureScopeMapping _selectedGestureScopeBinding;
         private SchemeDefinition _selectedScheme;
+        private GestureScope _selectedScope;
+
+        private bool _isChanged;
+
+
+        [ImportingConstructor]
+        public KeyboardSettingsViewModel(ISettingsManager settingsManager,
+            IKeyGestureService gestureService,
+            IKeyBindingSchemeManager schemeManager,
+            KeyBindingsSettings keyBindingsSettings,
+            KeyBindingManager keyBindingManager)
+        {
+            _settingsManager = settingsManager;
+            _gestureService = gestureService;
+            _schemeManager = schemeManager;
+            _keyBindingsSettings = keyBindingsSettings;
+            _keyBindingManager = keyBindingManager;
+            Schemes = _schemeManager.SchemeDefinitions;
+            _selectedScheme = _schemeManager.CurrentScheme;
+            AllCommands = gestureService.GetAllCommandDefinitions();
+            Scopes = new BindableCollection<GestureScope>(gestureService.GetAllCommandGestureScopes());
+            SelectedScope = GestureScopes.GlobalGestureScope;
+            AvailableGestureBindings = new ObservableCollection<GestureScopeMapping>();
+            SetupCollectionViewSource();
+        }
 
         public override uint SortOrder => 15;
         public override string Name => "Keyboard";
@@ -56,12 +80,25 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
 
         public IObservableCollection<GestureScope> Scopes { get; }
 
+        protected bool IsChanged
+        {
+            get => _isChanged;
+            set
+            {
+                if (value == _isChanged)
+                    return;
+                DirtyObjectManager.SetData(_isChanged, value);
+                _isChanged = value;
+                OnPropertyChanged();
+            }
+        }
+
         public int SelectedCommandIndex
         {
             get => _selectedCommandIndex;
             set
             {
-                if(value == _selectedCommandIndex)
+                if (value == _selectedCommandIndex)
                     return;
                 _selectedCommandIndex = value;
                 OnPropertyChanged();
@@ -142,7 +179,8 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
                     return;
                 _gestureInput = value;
                 OnPropertyChanged();
-                CurrentKeyGesture = (MultiKeyGesture)new MultiKeyGestureConverter().ConvertFrom(null, CultureInfo.CurrentCulture,
+                CurrentKeyGesture = (MultiKeyGesture) new MultiKeyGestureConverter().ConvertFrom(null,
+                    CultureInfo.CurrentCulture,
                     GestureInput);
                 UpdateDuplicate();
             }
@@ -187,33 +225,16 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
 
         public MultiKeyGesture CurrentKeyGesture { get; set; }
 
-
-        [ImportingConstructor]
-        public KeyboardSettingsViewModel(ISettingsManager settingsManager,
-            IKeyGestureService gestureService,
-            IKeyBindingSchemeManager schemeManager,
-            KeyBindingsSettings keyBindingsSettings,
-            KeyBindingManager keyBindingManager)
-        {
-            _settingsManager = settingsManager;
-            _gestureService = gestureService;
-            _schemeManager = schemeManager;
-            _keyBindingsSettings = keyBindingsSettings;
-            _keyBindingManager = keyBindingManager;
-            Schemes = _schemeManager.SchemeDefinitions;
-            _selectedScheme = _schemeManager.CurrentScheme;
-            AllCommands = gestureService.GetAllCommandDefinitions();
-            Scopes = new BindableCollection<GestureScope>(gestureService.GetAllCommandGestureScopes());
-            SelectedScope = GestureScopes.GlobalGestureScope;
-            AvailableGestureBindings = new ObservableCollection<GestureScopeMapping>();
-            SetupCollectionViewSource();
-        }
-
         protected override bool SetData()
         {
             _keyBindingManager.SetKeyScheme(_selectedScheme);
             _keyBindingManager.SaveCurrent();
             return true;
+        }
+
+        protected override void RestoreData()
+        {
+            _keyBindingManager.ApplyKeyBindingsFromSettings();
         }
 
         public override bool CanApply()
@@ -227,10 +248,15 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
             GestureInput = string.Empty;
         }
 
+        public override void Cancel()
+        {
+            _keyBindingManager.ApplyKeyBindingsFromSettings();
+        }
+
         private void ExecuteResetScheme()
         {
-            if (MessageBox.Show(KeyboardSettingsResources.KeyboardSettingsWarningApplyScheme, 
-                    IoC.Get<IEnvironmentVariables>().ApplicationName, 
+            if (MessageBox.Show(KeyboardSettingsResources.KeyboardSettingsWarningApplyScheme,
+                    IoC.Get<IEnvironmentVariables>().ApplicationName,
                     MessageBoxButton.YesNo, MessageBoxImage.Exclamation) != MessageBoxResult.Yes)
                 return;
             _schemeManager.ResetToScheme(SelectedScheme);
@@ -255,8 +281,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         {
             SelectedCommand.Gestures.Remove(SelectedGestureScopeBinding);
             UpdateAvailableGestureBinding();
-
-            _keyBindingManager.SaveCurrent();
+            IsChanged = true;
         }
 
         private bool CanExecuteRemoveBinding()
@@ -269,9 +294,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         {
             AvailableGestureBindings.Clear();
             foreach (var gesture in SelectedCommand.Gestures)
-            {
                 AvailableGestureBindings.Add(gesture);
-            }
 
             SelectedGestureScopeBinding = SelectedCommand.Gestures.Count > 0 ? SelectedCommand.Gestures[0] : null;
         }
@@ -298,9 +321,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
             UpdateAvailableGestureBinding();
             GestureInput = string.Empty;
             UpdateDuplicate();
-
-
-            _keyBindingManager.SaveCurrent();
+            IsChanged = true;
         }
 
         private void AddFilter()
@@ -316,13 +337,14 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
                 e.Accepted = false;
             else if (src.TrimmedCategoryCommandName != null &&
                      !Regex.IsMatch(src.TrimmedCategoryCommandName, SearchFilter,
-                         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.IgnorePatternWhitespace))
+                         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant |
+                         RegexOptions.IgnorePatternWhitespace))
                 e.Accepted = false;
         }
 
         private void SetupCollectionViewSource()
         {
-            var sd = new SortDescription { PropertyName = nameof(CommandDefinition.TrimmedCategoryCommandName) };
+            var sd = new SortDescription {PropertyName = nameof(CommandDefinition.TrimmedCategoryCommandName)};
             CollViewSource = new CommandDefinitionViewSource
             {
                 Source = AllCommands,

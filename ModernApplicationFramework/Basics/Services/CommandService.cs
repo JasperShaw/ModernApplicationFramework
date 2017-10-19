@@ -40,9 +40,28 @@ namespace ModernApplicationFramework.Basics.Services
             return commandDefinition;
         }
 
-        public CommandDefinitionBase GetCommandDefinition(string typeName)
+        public CommandDefinitionBase GetCommandDefinitionBy(string pattern, string input)
         {
-            return _commandDefinitions.FirstOrDefault(x => x.GetType().Name.Equals(typeName));
+            switch (pattern.ToLowerInvariant())
+            {
+                case "t":
+                    return GetFirst(x => x.GetType().Name.Equals(input));
+                case "nu":
+                    return GetFirst(x => x.NameUnlocalized.Equals(input));
+                case "nl":
+                    return GetFirst(x => x.Name.Equals(input));
+                case "cl":
+                    return GetFirst(x => x.TrimmedCategoryCommandName.Equals(input));
+                case "cu":
+                    return GetFirst(x => x.TrimmedCategoryCommandNameUnlocalized.Equals(input));
+                default:
+                    throw new FormatException();
+            }
+        }
+
+        private CommandDefinitionBase GetFirst(Func<CommandDefinitionBase, bool> predicate)
+        {
+            return _commandDefinitions.FirstOrDefault(predicate);
         }
     }
 }

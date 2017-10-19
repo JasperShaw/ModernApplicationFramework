@@ -31,7 +31,7 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
             var service = IoC.Get<ICommandService>();
             foreach (var shortcut in file.Shortcuts)
             {
-                var cdb = service.GetCommandDefinition(shortcut.Command);
+                var cdb = service.GetCommandDefinitionBy("t" ,shortcut.Command);
                 if (cdb == null || !(cdb is CommandDefinition cd))
                     continue;
                 if (!Guid.TryParse(shortcut.Scope, out var scopeId))

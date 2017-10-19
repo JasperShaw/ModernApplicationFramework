@@ -171,6 +171,8 @@ namespace ModernApplicationFramework.Settings.SettingsDialog.ViewModels
 
         private void Cancel()
         {
+            foreach (var settingPage in _settingPages)
+                settingPage.Cancel();
             TryClose(false);
         }
     }

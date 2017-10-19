@@ -4,9 +4,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Caliburn.Micro;
-using ModernApplicationFramework.Core.Converters.AccessKey;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
@@ -21,9 +19,6 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.Command.CommandDefinitionBase" />
     public abstract class CommandDefinition : CommandDefinitionBase
     {
-
-        protected virtual char Delimiter => '.';
-
         private IKeyGestureService _gestureService;
         
         protected CommandDefinition()
@@ -64,26 +59,6 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         /// </summary>
         public bool AllowExecution { get; set; } = true;
 
-
-        /// <summary>
-        /// The localized trimmed name of the command definition in this format:
-        /// {Category}{Delimiter}{Name}
-        /// </summary>
-        public string TrimmedCategoryCommandName
-        {
-            get
-            {
-                var name = (string) new AccessKeyRemovingConverter().Convert(Name, typeof(string), null,
-                    CultureInfo.CurrentCulture);
-                if (name == null)
-                    return string.Empty;
-
-                var category = Regex.Replace(Category.Name, @"\s+", "", RegexOptions.Compiled);
-                var trimmedName = Regex.Replace(name, @"\s+", "", RegexOptions.Compiled);
-
-                return $"{category}{Delimiter}{trimmedName}";
-            }
-        }
 
         /// <summary>
         /// The gesture text of the first known KeyGesture.

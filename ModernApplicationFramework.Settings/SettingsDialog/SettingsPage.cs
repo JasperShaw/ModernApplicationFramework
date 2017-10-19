@@ -35,11 +35,23 @@ namespace ModernApplicationFramework.Settings.SettingsDialog
             return true;
         }
 
+        public virtual void Cancel()
+        {
+            if (DirtyObjectManager.IsDirty)
+                RestoreData();
+            DirtyObjectManager.Clear();
+        }
+
         /// <summary>
         /// Sets the changed Values to the correct settings data model.
         /// </summary>
         /// <returns>Returns whether the progress was successful</returns>
         protected abstract bool SetData();
+
+        /// <summary>
+        /// Advanced Method to restore Data if dialog was canceled.
+        /// </summary>
+        protected virtual void RestoreData() { }
 
         public abstract bool CanApply();
 

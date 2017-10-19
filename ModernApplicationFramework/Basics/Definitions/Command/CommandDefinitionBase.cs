@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using JetBrains.Annotations;
 using ModernApplicationFramework.Core.Converters.AccessKey;
 
@@ -14,6 +15,9 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
     /// <seealso cref="T:System.ComponentModel.INotifyPropertyChanged" />
     public abstract class CommandDefinitionBase : INotifyPropertyChanged
     {
+        protected virtual char Delimiter => '.';
+
+
         /// <summary>
         /// Fires when a property was changed
         /// </summary>
@@ -61,6 +65,46 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         /// The type of this definition
         /// </summary>
         public abstract CommandControlTypes ControlType { get; }
+
+        /// <summary>
+        /// The localized trimmed name of the command definition in this format:
+        /// {Category}{Delimiter}{Name}
+        /// </summary>
+        public string TrimmedCategoryCommandName
+        {
+            get
+            {
+                var name = (string)new AccessKeyRemovingConverter().Convert(Name, typeof(string), null,
+                    CultureInfo.CurrentCulture);
+                if (name == null)
+                    return string.Empty;
+
+                var category = Regex.Replace(Category.Name, @"\s+", "", RegexOptions.Compiled);
+                var trimmedName = Regex.Replace(name, @"\s+", "", RegexOptions.Compiled);
+
+                return $"{category}{Delimiter}{trimmedName}";
+            }
+        }
+
+        /// <summary>
+        /// The localized trimmed name of the command definition in this format:
+        /// {Category}{Delimiter}{Name}
+        /// </summary>
+        public string TrimmedCategoryCommandNameUnlocalized
+        {
+            get
+            {
+                var name = (string)new AccessKeyRemovingConverter().Convert(NameUnlocalized, typeof(string), null,
+                    CultureInfo.CurrentCulture);
+                if (name == null)
+                    return string.Empty;
+
+                var category = Regex.Replace(Category.NameUnlocalized, @"\s+", "", RegexOptions.Compiled);
+                var trimmedName = Regex.Replace(name, @"\s+", "", RegexOptions.Compiled);
+
+                return $"{category}{Delimiter}{trimmedName}";
+            }
+        }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

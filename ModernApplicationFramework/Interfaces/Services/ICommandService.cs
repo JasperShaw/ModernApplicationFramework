@@ -18,6 +18,6 @@ namespace ModernApplicationFramework.Interfaces.Services
         /// </exception>
         CommandDefinitionBase GetCommandDefinition(Type definitionType);
         
-        CommandDefinitionBase GetCommandDefinition(string definitionType);
+        CommandDefinitionBase GetCommandDefinitionBy(string pattern, string input);
     }
 }

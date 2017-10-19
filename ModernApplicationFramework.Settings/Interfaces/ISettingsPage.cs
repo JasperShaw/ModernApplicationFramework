@@ -42,5 +42,10 @@ namespace ModernApplicationFramework.Settings.Interfaces
         /// This can be performance relevant, so only insert code that really needs to be reloaded manually.
         /// </summary>
         void Activate();
+
+        /// <summary>
+        /// Performs cleanups when main dialog is about to cancel.
+        /// </summary>
+        void Cancel();
     }
 }

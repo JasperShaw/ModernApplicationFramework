@@ -100,13 +100,13 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
     public class KeyboardShortcutsUserShortcuts
     {
 
-        private KeyboardShortcutsUserShortcutsShortcut[] _shortcutField;
+        private KeyboardShortcutsUserShortcutsData[] _shortcutField;
 
-        private KeyboardShortcutsUserShortcutsRemoveShortcut[] _removeShortcutField;
+        private KeyboardShortcutsUserShortcutsData[] _removeShortcutField;
 
         /// <remarks/>
         [XmlElement("Shortcut", Form = XmlSchemaForm.Unqualified, IsNullable = true)]
-        public KeyboardShortcutsUserShortcutsShortcut[] Shortcut
+        public KeyboardShortcutsUserShortcutsData[] Shortcut
         {
             get => _shortcutField;
             set => _shortcutField = value;
@@ -114,10 +114,45 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
 
         /// <remarks/>
         [XmlElement("RemoveShortcut", Form = XmlSchemaForm.Unqualified, IsNullable = true)]
-        public KeyboardShortcutsUserShortcutsRemoveShortcut[] RemoveShortcut
+        public KeyboardShortcutsUserShortcutsData[] RemoveShortcut
         {
             get => _removeShortcutField;
             set => _removeShortcutField = value;
+        }
+    }
+
+    [Serializable]
+    [XmlType(AnonymousType = true)]
+    public class KeyboardShortcutsUserShortcutsData
+    {
+        private string _commandField;
+
+        private string _scopeField;
+
+        private string _valueField;
+
+        /// <remarks/>
+        [XmlAttribute]
+        public string Command
+        {
+            get => _commandField;
+            set => _commandField = value;
+        }
+
+        /// <remarks/>
+        [XmlAttribute]
+        public string Scope
+        {
+            get => _scopeField;
+            set => _scopeField = value;
+        }
+
+        /// <remarks/>
+        [XmlText]
+        public string Value
+        {
+            get => _valueField;
+            set => _valueField = value;
         }
     }
 
