@@ -84,6 +84,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
         private sealed class ToolbarCommandDefinition : CommandDefinitionBase
         {
             public override string Name => null;
+            public override string NameUnlocalized => null;
             public override string Text => null;
             public override string ToolTip => null;
             public override Uri IconSource => null;

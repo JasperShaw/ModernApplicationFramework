@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
@@ -31,6 +32,11 @@ namespace ModernApplicationFramework.Extended.Commands
                     UriKind.RelativeOrAbsolute);
 
         public override string Text => Commands_Resources.CloseProgramCommandDefinition_Text;
+
+        public override string NameUnlocalized =>
+            Commands_Resources.ResourceManager.GetString("CloseProgramCommandDefinition_Text",
+                CultureInfo.InvariantCulture);
+
         public override string ToolTip => null;
 
         public override CommandCategory Category => CommandCategories.FileCommandCategory;

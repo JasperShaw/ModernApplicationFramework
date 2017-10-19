@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
@@ -32,6 +33,10 @@ namespace ModernApplicationFramework.Extended.Commands
 
         public override string Name => Commands_Resources.MultiRedoCommandDefinition_Name;
         public override string Text => Commands_Resources.MultiRedoCommandDefinition_Text;
+
+        public override string NameUnlocalized =>
+            Commands_Resources.ResourceManager.GetString("MultiRedoCommandDefinition_Text",
+                CultureInfo.InvariantCulture);
         public override string ToolTip => Commands_Resources.MultiRedoCommandDefinition_ToolTip;
 
         public override CommandCategory Category => CommandCategories.EditCommandCategory;

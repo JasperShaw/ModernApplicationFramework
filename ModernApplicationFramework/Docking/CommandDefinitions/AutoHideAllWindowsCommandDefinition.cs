@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.Linq;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
@@ -19,6 +20,10 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
         public override GestureScope DefaultGestureScope => null;
 
         public override string Name => Text;
+        public override string NameUnlocalized =>
+            DockingResources.ResourceManager.GetString("AutoHideAllWindowsCommandDefinition_Text",
+                CultureInfo.InvariantCulture);
+
         public override string Text => DockingResources.AutoHideAllWindowsCommandDefinition_Text;
         public override string ToolTip => null;
         public override Uri IconSource => null;

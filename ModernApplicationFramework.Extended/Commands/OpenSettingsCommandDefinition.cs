@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
@@ -30,6 +31,9 @@ namespace ModernApplicationFramework.Extended.Commands
                     UriKind.RelativeOrAbsolute);
 
         public override string Text => Commands_Resources.OpenSettingsCommandDefinition_Text;
+        public override string NameUnlocalized =>
+            Commands_Resources.ResourceManager.GetString("OpenSettingsCommandDefinition_Text",
+                CultureInfo.InvariantCulture);
         public override string ToolTip => Text;
 
         public override CommandCategory Category => CommandCategories.ToolsCommandCategory;

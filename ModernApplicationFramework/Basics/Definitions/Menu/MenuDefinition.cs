@@ -20,6 +20,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
         private sealed class MenuHeaderCommandDefinition : CommandDefinitionBase
         {
             public override string Name => null;
+            public override string NameUnlocalized => null;
             public override string Text => null;
             public override string ToolTip => null;
             public override Uri IconSource => null;

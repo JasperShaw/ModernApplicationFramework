@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
@@ -26,6 +27,10 @@ namespace ModernApplicationFramework.Extended.Commands
             =>
                 new Uri("/ModernApplicationFramework.Extended;component/Resources/Icons/FitToScreen_16x.xaml",
                     UriKind.RelativeOrAbsolute);
+
+        public override string NameUnlocalized =>
+            Commands_Resources.ResourceManager.GetString("FullScreenCommandDefinition_Text",
+                CultureInfo.InvariantCulture);
 
         public override string Text => Commands_Resources.FullScreenCommandDefinition_Text;
         public override string ToolTip => Text;

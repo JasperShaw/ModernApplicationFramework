@@ -9,7 +9,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Core.Converters.AccessKey;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
-
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Basics.Definitions.Command
@@ -21,6 +21,8 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.Command.CommandDefinitionBase" />
     public abstract class CommandDefinition : CommandDefinitionBase
     {
+
+        protected virtual char Delimiter => '.';
 
         private IKeyGestureService _gestureService;
         
@@ -64,8 +66,8 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
 
 
         /// <summary>
-        /// The trimmed name of the command definition in this format:
-        /// {Category}.{Name}
+        /// The localized trimmed name of the command definition in this format:
+        /// {Category}{Delimiter}{Name}
         /// </summary>
         public string TrimmedCategoryCommandName
         {
@@ -79,7 +81,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
                 var category = Regex.Replace(Category.Name, @"\s+", "", RegexOptions.Compiled);
                 var trimmedName = Regex.Replace(name, @"\s+", "", RegexOptions.Compiled);
 
-                return $"{category}.{trimmedName}";
+                return $"{category}{Delimiter}{trimmedName}";
             }
         }
 

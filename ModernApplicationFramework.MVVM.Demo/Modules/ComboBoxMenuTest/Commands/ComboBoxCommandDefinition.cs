@@ -12,6 +12,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.ComboBoxMenuTest.Commands
     public class ComboBoxCommandDefinition : CommandComboBoxDefinition
     {
         public override string Name => "Combobox";
+        public override string NameUnlocalized => Name;
         public override string Text => Name;
         public override string ToolTip => "ToolTip Test";
         public override Uri IconSource => null;

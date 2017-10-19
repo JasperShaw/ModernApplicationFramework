@@ -46,6 +46,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Commands
             public override MultiKeyGesture DefaultKeyGesture => null;
             public override GestureScope DefaultGestureScope => null;
             public override string Name => string.Empty;
+            public override string NameUnlocalized => string.Empty;
             public override string Text { get; }
             public override string ToolTip => string.Empty;
             public override Uri IconSource => null;

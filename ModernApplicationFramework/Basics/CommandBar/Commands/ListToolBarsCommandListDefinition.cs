@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using System.Globalization;
 using ModernApplicationFramework.Basics.Definitions.Command;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Commands
@@ -13,6 +14,10 @@ namespace ModernApplicationFramework.Basics.CommandBar.Commands
     public class ListToolBarsCommandListDefinition : CommandListDefinition
     {
         public override string Name => CommandBarResources.ListToolBarsCommandListDefinition_Name;
+
+        public override string NameUnlocalized =>
+            CommandBarResources.ResourceManager.GetString("ListToolBarsCommandListDefinition_Name",
+                CultureInfo.InvariantCulture);
 
         public override CommandCategory Category => CommandCategories.ViewCommandCategory;
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.CustomizeDialog.ViewModels;
 using ModernApplicationFramework.Basics.Definitions.Command;
@@ -22,6 +23,10 @@ namespace ModernApplicationFramework.Basics.CommandBar.Commands
 
         public override UICommand Command { get; }
         public override string Name => Text;
+
+        public override string NameUnlocalized =>
+            CommandBarResources.ResourceManager.GetString("CustomizeMenuCommandDefinition_Text",
+                CultureInfo.InvariantCulture);
         public override string Text => CommandBarResources.CustomizeMenuCommandDefinition_Text;
         public override string ToolTip => null;
         public override Uri IconSource => null;

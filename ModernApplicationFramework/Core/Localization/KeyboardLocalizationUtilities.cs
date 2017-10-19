@@ -23,24 +23,24 @@ namespace ModernApplicationFramework.Core.Localization
             var str = string.Empty;
 
             if ((modifiers & ModifierKeys.Control) == ModifierKeys.Control)
-                str += GetSingleCultureModifierName(ModifierKeys.Control);
+                str += GetSingleCultureModifierName(ModifierKeys.Control, culture);
             if ((modifiers & ModifierKeys.Shift) == ModifierKeys.Shift)
             {
                 if (str.Length > 0)
                     str += ModifierDelimiter;
-                str += GetSingleCultureModifierName(ModifierKeys.Shift);
+                str += GetSingleCultureModifierName(ModifierKeys.Shift, culture);
             }
             if ((modifiers & ModifierKeys.Alt) == ModifierKeys.Alt)
             {
                 if (str.Length > 0)
                     str += ModifierDelimiter;
-                str += GetSingleCultureModifierName(ModifierKeys.Alt);
+                str += GetSingleCultureModifierName(ModifierKeys.Alt, culture);
             }
             if ((modifiers & ModifierKeys.Windows) == ModifierKeys.Windows)
             {
                 if (str.Length > 0)
                     str += ModifierDelimiter;
-                str += GetSingleCultureModifierName(ModifierKeys.Windows);
+                str += GetSingleCultureModifierName(ModifierKeys.Windows, culture);
             }
             return str;
         }

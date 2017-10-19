@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Extended.Core.LayoutManagement;
@@ -16,6 +17,11 @@ namespace ModernApplicationFramework.Extended.Commands
         private readonly ILayoutManager _layoutManager;
         public override string Name => Commands_Resources.ManageLayoutCommandDefinition_Name;
         public override string Text => Commands_Resources.ManageLayoutCommandDefinition_Text;
+
+        public override string NameUnlocalized =>
+            Commands_Resources.ResourceManager.GetString("ManageLayoutCommandDefinition_Text",
+                CultureInfo.InvariantCulture);
+
         public override string ToolTip => null;
         public override Uri IconSource => null;
         public override string IconId => null;

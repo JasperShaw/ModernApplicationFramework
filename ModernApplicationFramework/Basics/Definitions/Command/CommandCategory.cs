@@ -10,8 +10,16 @@
         /// </summary>
         public string Name { get; }
 
-        public CommandCategory(string name)
+        public string NameUnlocalized { get; }
+
+        public CommandCategory(string name) : this(name, name)
         {
+            
+        }
+
+        public CommandCategory(string nameUnlocalized, string name)
+        {
+            NameUnlocalized = nameUnlocalized;
             Name = name;
         }
     }

@@ -44,6 +44,9 @@ namespace ModernApplicationFramework.Input
         /// </summary>
         public bool IsRealMultiKeyGesture => GestureCollection.Count == 2;
 
+        /// <summary>
+        /// Returns the displayed string value of the current gesture in current culture
+        /// </summary>
         public new string DisplayString => (string)
             KeyGestureConverter.ConvertTo(null, CultureInfo.CurrentCulture, this,
                 typeof(string));
@@ -215,6 +218,13 @@ namespace ModernApplicationFramework.Input
             if (keySequences[1].Key != realSequences[1].Key || keySequences[1].Modifiers != realSequences[1].Modifiers)
                 return false;
             return true;
+        }
+
+        public string GetCultureString(CultureInfo culture)
+        {
+            return (string)
+                KeyGestureConverter.ConvertTo(null, culture, this,
+                    typeof(string));
         }
 
         public override bool Equals(object obj)

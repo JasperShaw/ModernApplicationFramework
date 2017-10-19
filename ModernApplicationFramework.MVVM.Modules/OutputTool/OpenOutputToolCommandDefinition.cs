@@ -28,6 +28,7 @@ namespace ModernApplicationFramework.Extended.Modules.OutputTool
                     UriKind.RelativeOrAbsolute);
 
         public override string Name => "View.Output";
+        public override string NameUnlocalized => "Output";
         public override string Text => "Output";
         public override string ToolTip => "Output";
 

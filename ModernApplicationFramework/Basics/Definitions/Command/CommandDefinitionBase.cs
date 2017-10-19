@@ -25,6 +25,8 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         public virtual string Name => (string)AccessKeyRemovingConverter.Instance.Convert(Text, typeof(string), null,
             CultureInfo.CurrentCulture);
 
+        public abstract string NameUnlocalized { get; }
+
         /// <summary>
         /// The localized display text including possible mnemonic underlining
         /// </summary>

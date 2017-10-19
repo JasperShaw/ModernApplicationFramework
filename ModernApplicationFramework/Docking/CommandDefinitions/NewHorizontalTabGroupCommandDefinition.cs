@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.Windows.Controls;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
@@ -17,6 +18,11 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
         public override MultiKeyGesture DefaultKeyGesture => null;
         public override GestureScope DefaultGestureScope => null;
         public override string Name => Text;
+
+        public override string NameUnlocalized =>
+            DockingResources.ResourceManager.GetString("NewHorizontalTabGroupCommandDefinition_Text",
+                CultureInfo.InvariantCulture);
+
         public override string Text => DockingResources.NewHorizontalTabGroupCommandDefinition_Text;
         public override string ToolTip => null;
 

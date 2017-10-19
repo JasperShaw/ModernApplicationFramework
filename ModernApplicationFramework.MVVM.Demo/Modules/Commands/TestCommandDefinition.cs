@@ -85,6 +85,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Commands
         public override CommandCategory Category => new CommandCategory("Test");
         public override Uri IconSource => null;
         public override string Name => "MultiHotKey";
+        public override string NameUnlocalized => Name;
         public override string Text => Name;
         public override string ToolTip => Name;
 

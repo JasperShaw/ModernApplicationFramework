@@ -80,9 +80,9 @@ namespace ModernApplicationFramework.Input
             if (!gesture.IsRealMultiKeyGesture)
             {
                 if (gesture.Modifiers == ModifierKeys.None)
-                    return KeyboardLocalizationUtilities.GetKeyCultureName(gesture.Key);
-                return KeyboardLocalizationUtilities.GetCultureModifiersName(gesture.Modifiers) + "+" +
-                       KeyboardLocalizationUtilities.GetKeyCultureName(gesture.Key);
+                    return KeyboardLocalizationUtilities.GetKeyCultureName(gesture.Key, culture);
+                return KeyboardLocalizationUtilities.GetCultureModifiersName(gesture.Modifiers, culture) + "+" +
+                       KeyboardLocalizationUtilities.GetKeyCultureName(gesture.Key, culture);
             }
 
 

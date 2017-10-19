@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
@@ -30,6 +31,9 @@ namespace ModernApplicationFramework.Extended.Commands
                     UriKind.RelativeOrAbsolute);
 
         public override string Text => Commands_Resources.UndoCommandDefinition_Text;
+        public override string NameUnlocalized =>
+            Commands_Resources.ResourceManager.GetString("UndoCommandDefinition_Text",
+                CultureInfo.InvariantCulture);
         public override string ToolTip => Text;
 
         public override CommandCategory Category => CommandCategories.EditCommandCategory;

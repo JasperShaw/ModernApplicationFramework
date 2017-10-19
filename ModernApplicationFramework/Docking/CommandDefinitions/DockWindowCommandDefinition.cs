@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Docking.Controls;
@@ -19,6 +20,11 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
         public override GestureScope DefaultGestureScope => null;
 
         public override string Name => Text;
+
+        public override string NameUnlocalized =>
+            DockingResources.ResourceManager.GetString("DockWindowCommandDefinition_Text",
+                CultureInfo.InvariantCulture);
+
         public override string Text => DockingResources.DockWindowCommandDefinition_Text;
         public override string ToolTip => null;
         public override Uri IconSource => null;

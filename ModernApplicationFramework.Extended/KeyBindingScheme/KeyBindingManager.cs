@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.Linq;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
@@ -80,22 +81,14 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
             var bindings = _gestureService.GetAllBindings().ToList();
             var cs = _schemeManager.CurrentScheme.Load();
 
-            var list = new List<KeyboardShortcutsUserShortcutsRemoveShortcut>();
-
-            foreach (var mapping in cs.KeyGestureScopeMappings)
-            {
-                if (bindings.Any(x => x.CommandDefinition == mapping.CommandDefinition &&
-                                      x.GestureScopeMapping.Equals(mapping.GestureScopeMapping)))
-                    continue;
-                var ks = new KeyboardShortcutsUserShortcutsRemoveShortcut
+            return (from mapping in cs.KeyGestureScopeMappings
+                where !bindings.Any(x => x.CommandDefinition == mapping.CommandDefinition && x.GestureScopeMapping.Equals(mapping.GestureScopeMapping))
+                select new KeyboardShortcutsUserShortcutsRemoveShortcut
                 {
-                    Command = mapping.CommandDefinition.Name,
+                    Command = mapping.CommandDefinition.TrimmedCategoryCommandName,
                     Scope = mapping.GestureScopeMapping.Scope.Text,
-                    Value = mapping.GestureScopeMapping.KeyGesture.DisplayString
-                };
-                list.Add(ks);
-            }
-            return list;
+                    Value = mapping.GestureScopeMapping.KeyGesture.GetCultureString(CultureInfo.InvariantCulture)
+                }).ToList();
         }
 
         private IEnumerable<KeyboardShortcutsUserShortcutsShortcut> FindAditionalKeyBindings()
@@ -110,9 +103,9 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
                     x.GestureScopeMapping.Equals(binding.GestureScopeMapping))
                 select new KeyboardShortcutsUserShortcutsShortcut
                 {
-                    Command = binding.CommandDefinition.Name,
+                    //Command = binding.CommandDefinition.ToString("C", CultureInfo.InvariantCulture),
                     Scope = binding.GestureScopeMapping.Scope.Text,
-                    Value = binding.GestureScopeMapping.KeyGesture.DisplayString
+                    Value = binding.GestureScopeMapping.KeyGesture.GetCultureString(CultureInfo.InvariantCulture)
                 }).ToList();
         }
     }

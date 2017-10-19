@@ -17,6 +17,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.ComboBoxMenuTest.Commands
         public override Uri IconSource => null;
 
         public override string Name => "MenuController";
+        public override string NameUnlocalized => Text;
         public override string Text => "MenuController";
         public override string ToolTip => null;
 
