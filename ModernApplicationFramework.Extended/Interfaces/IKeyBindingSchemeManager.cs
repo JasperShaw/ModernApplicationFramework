@@ -23,16 +23,5 @@ namespace ModernApplicationFramework.Extended.Interfaces
         /// </summary>
         /// <param name="scheme">The scheme.</param>
         void SetScheme(SchemeDefinition scheme);
-
-        /// <summary>
-        /// Clears all current bindings and applies this specified scheme
-        /// </summary>
-        /// <param name="scheme">The scheme.</param>
-        void ResetToScheme(SchemeDefinition scheme);
-
-        /// <summary>
-        /// Selects a default scheme and applies it
-        /// </summary>
-        void SetDefaultScheme();
     }
 }

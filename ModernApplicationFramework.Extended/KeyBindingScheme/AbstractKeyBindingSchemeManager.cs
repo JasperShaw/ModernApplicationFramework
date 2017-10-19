@@ -12,7 +12,6 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
     public abstract class AbstractKeyBindingSchemeManager : IKeyBindingSchemeManager
     {      
         protected IKeyGestureService GestureService { get; }
-        
         public ICollection<SchemeDefinition> SchemeDefinitions { get; protected set; }
         
         public SchemeDefinition CurrentScheme { get; protected set; }
@@ -24,26 +23,13 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
         }
 
         public abstract void LoadSchemeDefinitions();
-        
+
         public void SetScheme(SchemeDefinition definition)
         {
-            //TODO
-        }
-
-        public void ResetToScheme(SchemeDefinition definition)
-        {
-            if (definition == null)
-                return;
-            var scheme = definition.Load();
             if (!SchemeDefinitions.Contains(definition))
                 SchemeDefinitions.Add(definition);
-            GestureService.RemoveAllKeyGestures();
-            foreach (var mapping in scheme.KeyGestureScopeMappings)
-                mapping.CommandDefinition.Gestures.Add(mapping.GestureScopeMapping);
             CurrentScheme = definition;
         }
-
-        public abstract void SetDefaultScheme();
     }
 
     [Export(typeof(IKeyBindingSchemeManager))]
@@ -52,11 +38,6 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
         public override void LoadSchemeDefinitions()
         {
             CreateDefaultScheme();
-        }
-
-        public override void SetDefaultScheme()
-        {
-            ResetToScheme(SchemeDefinitions.FirstOrDefault());
         }
 
         private void CreateDefaultScheme()

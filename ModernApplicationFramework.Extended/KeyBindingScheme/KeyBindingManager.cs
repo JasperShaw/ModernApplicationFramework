@@ -42,7 +42,7 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
 
         public void LoadDefaultScheme()
         {
-            _schemeManager.SetDefaultScheme();
+            ResetToKeyScheme(_schemeManager.SchemeDefinitions.FirstOrDefault());
         }
 
         public void SetKeyScheme(SchemeDefinition selectedScheme)
@@ -52,7 +52,13 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
 
         public void ResetToKeyScheme(SchemeDefinition selectedScheme)
         {
-            _schemeManager.ResetToScheme(selectedScheme);
+            if (selectedScheme == null)
+                return;
+            var scheme = selectedScheme.Load();
+            _gestureService.RemoveAllKeyGestures();
+            foreach (var mapping in scheme.KeyGestureScopeMappings)
+                mapping.CommandDefinition.Gestures.Add(mapping.GestureScopeMapping);
+            _schemeManager.SetScheme(selectedScheme);
         }
 
         public void ApplyKeyBindingsFromSettings()

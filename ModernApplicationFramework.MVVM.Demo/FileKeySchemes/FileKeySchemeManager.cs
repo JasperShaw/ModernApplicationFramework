@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.IO;
-using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.KeyBindingScheme;
@@ -25,13 +24,6 @@ namespace ModernApplicationFramework.MVVM.Demo.FileKeySchemes
                 var fileName = Path.GetFileNameWithoutExtension(file);
                 SchemeDefinitions.Add(new DefaultSchemeDefinition(fileName, file));
             }
-        }
-
-        public override void SetDefaultScheme()
-        {
-            var settings = IoC.Get<KeyBindingsSettings>();
-            var name = settings.KeyboardShortcuts.ShortcutsScheme;
-            ResetToScheme(SchemeDefinitions.LastOrDefault(x => x.Name == name));
         }
     }
 

@@ -259,7 +259,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
                     IoC.Get<IEnvironmentVariables>().ApplicationName,
                     MessageBoxButton.YesNo, MessageBoxImage.Exclamation) != MessageBoxResult.Yes)
                 return;
-            _schemeManager.ResetToScheme(SelectedScheme);
+            _keyBindingManager.ResetToKeyScheme(SelectedScheme);
             _keyBindingsSettings.KeyboardShortcuts.ShortcutsScheme = SelectedScheme.Name;
             _keyBindingsSettings.StoreSettings();
             UpdateAvailableGestureBinding();
