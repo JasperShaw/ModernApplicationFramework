@@ -12,29 +12,29 @@ using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Extended.KeyBindingScheme
 {
-    [Export(typeof(KeyBindingManager))]
-    public class KeyBindingManager
+    [Export(typeof(IKeyBindingManager))]
+    public class KeyBindingManager : IKeyBindingManager
     {
-        private readonly IKeyGestureService _gestureService;
-        private readonly IKeyBindingSchemeManager _schemeManager;
-        private readonly KeyBindingsSettings _keyBindingsSettings;
-        private readonly IApplicationEnvironment _environment;
         private readonly ICommandService _commandService;
+        private readonly KeyBindingsSettings _keyBindingsSettings;
+
+        public IKeyBindingSchemeManager SchemeManager { get; }
+        public IKeyGestureService KeyGestureService { get; }
 
         [ImportingConstructor]
-        public KeyBindingManager(IKeyGestureService gestureService, IKeyBindingSchemeManager schemeManager, 
-            KeyBindingsSettings keyBindingsSettings, IApplicationEnvironment environment, ICommandService commandService)
+        public KeyBindingManager(IKeyGestureService gestureService, IKeyBindingSchemeManager schemeManager,
+            KeyBindingsSettings keyBindingsSettings, IApplicationEnvironment environment,
+            ICommandService commandService)
         {
-            _gestureService = gestureService;
-            _schemeManager = schemeManager;
+            KeyGestureService = gestureService;
+            SchemeManager = schemeManager;
             _keyBindingsSettings = keyBindingsSettings;
-            _environment = environment;
             _commandService = commandService;
 
-            _gestureService.Initialize();
-            _schemeManager.LoadSchemeDefinitions();
+            gestureService.Initialize();
+            schemeManager.LoadSchemeDefinitions();
 
-            if (_environment.UseApplicationSettings)
+            if (environment.UseApplicationSettings)
                 ApplyKeyBindingsFromSettings();
             else
                 LoadDefaultScheme();
@@ -42,12 +42,38 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
 
         public void LoadDefaultScheme()
         {
-            ResetToKeyScheme(_schemeManager.SchemeDefinitions.FirstOrDefault());
+            ResetToKeyScheme(SchemeManager.SchemeDefinitions.FirstOrDefault());
         }
 
         public void SetKeyScheme(SchemeDefinition selectedScheme)
         {
+            if (selectedScheme == null)
+                return;
+            var scheme = selectedScheme.Load();
+            var allScopes = IoC.GetAll<GestureScope>().ToList();
 
+            ResetToKeyScheme(selectedScheme);
+
+            if (_keyBindingsSettings.KeyboardShortcuts.UserShortcuts.Shortcut != null)
+                foreach (var shortcutsData in _keyBindingsSettings.KeyboardShortcuts.UserShortcuts.Shortcut)
+                {
+                    var cmapping = GetCommandMapping(shortcutsData, allScopes);
+                    if (cmapping == null)
+                        continue;
+                    if (!scheme.KeyGestureScopeMappings.Contains(
+                        new CommandGestureScopeMapping(cmapping.CommandDefinition, cmapping.GestureScopeMapping)))
+                        cmapping.CommandDefinition.Gestures.Insert(0, cmapping.GestureScopeMapping);
+                }
+            if (_keyBindingsSettings.KeyboardShortcuts.UserShortcuts.RemoveShortcut != null)
+                foreach (var shortcutsData in _keyBindingsSettings.KeyboardShortcuts.UserShortcuts.RemoveShortcut)
+                {
+                    var cmapping = GetCommandMapping(shortcutsData, allScopes);
+                    if (cmapping == null)
+                        continue;
+                    if (scheme.KeyGestureScopeMappings.Contains(
+                        new CommandGestureScopeMapping(cmapping.CommandDefinition, cmapping.GestureScopeMapping)))
+                        cmapping.CommandDefinition.Gestures.Remove(cmapping.GestureScopeMapping);
+                }
         }
 
         public void ResetToKeyScheme(SchemeDefinition selectedScheme)
@@ -55,17 +81,20 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
             if (selectedScheme == null)
                 return;
             var scheme = selectedScheme.Load();
-            _gestureService.RemoveAllKeyGestures();
+            KeyGestureService.RemoveAllKeyGestures();
             foreach (var mapping in scheme.KeyGestureScopeMappings)
                 mapping.CommandDefinition.Gestures.Add(mapping.GestureScopeMapping);
-            _schemeManager.SetScheme(selectedScheme);
+            SchemeManager.SetScheme(selectedScheme);
+            _keyBindingsSettings.KeyboardShortcuts.ShortcutsScheme = selectedScheme.Name;
         }
 
         public void ApplyKeyBindingsFromSettings()
         {
             if (_keyBindingsSettings.KeyboardShortcuts == null)
                 throw new ArgumentNullException("Keyboard settings data was null");
-            var scheme = _schemeManager.SchemeDefinitions.First(x => x.Name == _keyBindingsSettings.KeyboardShortcuts.ShortcutsScheme);
+            var scheme =
+                SchemeManager.SchemeDefinitions.First(x =>
+                    x.Name == _keyBindingsSettings.KeyboardShortcuts.ShortcutsScheme);
             ResetToKeyScheme(scheme);
 
             if (_keyBindingsSettings.KeyboardShortcuts.UserShortcuts == null)
@@ -73,56 +102,30 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
             var allScopes = IoC.GetAll<GestureScope>().ToList();
 
             if (_keyBindingsSettings.KeyboardShortcuts.UserShortcuts.Shortcut != null)
-            {
                 foreach (var shortcut in _keyBindingsSettings.KeyboardShortcuts.UserShortcuts.Shortcut)
                 {
-                    var cdb = _commandService.GetCommandDefinitionBy("CU", shortcut.Command);
-                    if (cdb == null || !(cdb is CommandDefinition cb))
-                        continue;
-                    var mapping = GetMapping(shortcut, allScopes);
-                    if (mapping == null)
-                        continue;
-                    cb.Gestures.Insert(0, mapping);
+                    var cmapping = GetCommandMapping(shortcut, allScopes);
+                    cmapping?.CommandDefinition.Gestures.Insert(0, cmapping.GestureScopeMapping);
                 }
-            }
             if (_keyBindingsSettings.KeyboardShortcuts.UserShortcuts.RemoveShortcut != null)
-            {
                 foreach (var shortcut in _keyBindingsSettings.KeyboardShortcuts.UserShortcuts.RemoveShortcut)
                 {
-                    var cdb = _commandService.GetCommandDefinitionBy("CU", shortcut.Command);
-                    if (cdb == null || !(cdb is CommandDefinition cb))
-                        continue;
-                    var mapping = GetMapping(shortcut, allScopes);
-                    if (mapping == null)
-                        continue;
-                    cb.Gestures.Remove(mapping);
+                    var cmapping = GetCommandMapping(shortcut, allScopes);
+                    cmapping?.CommandDefinition.Gestures.Remove(cmapping.GestureScopeMapping);
                 }
-            }
         }
-
-        private GestureScopeMapping GetMapping(KeyboardShortcutsUserShortcutsData shortcut, IEnumerable<GestureScope> allScopes)
-        {
-            var scopeId =
-                _keyBindingsSettings.KeyboardShortcuts.ScopeDefinitions.FirstOrDefault(
-                        x => x.Name == shortcut.Scope)
-                    ?.ID;
-            if (string.IsNullOrEmpty(scopeId))
-                return null;
-            var scope = allScopes.FirstOrDefault(x => x.Id.Equals(new Guid(scopeId)));
-            if (scope == null)
-                return null;
-            return new GestureScopeMapping(scope,
-                (MultiKeyGesture)new MultiKeyGestureConverter().ConvertFrom(null, CultureInfo.InvariantCulture,
-                    shortcut.Value));
-        }
-
 
 
         public void SaveCurrent()
         {
-            _keyBindingsSettings.KeyboardShortcuts.ScopeDefinitions = _gestureService.GetAllCommandGestureScopes()
+            _keyBindingsSettings.StoreSettings();
+        }
+
+        public void BuildCurrent()
+        {
+            _keyBindingsSettings.KeyboardShortcuts.ScopeDefinitions = KeyGestureService.GetAllCommandGestureScopes()
                 .Select(scope => new KeyboardShortcutsScope(scope)).ToArray();
-            _keyBindingsSettings.KeyboardShortcuts.ShortcutsScheme = _schemeManager.CurrentScheme.Name;
+            _keyBindingsSettings.KeyboardShortcuts.ShortcutsScheme = SchemeManager.CurrentScheme.Name;
 
             var additionalBindings = FindAditionalKeyBindings();
             var omittedBindings = FindOmittedKeyBindings();
@@ -134,18 +137,48 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
                     Shortcut = additionalBindings.ToArray(),
                     RemoveShortcut = omittedBindings.ToArray()
                 };
-            _keyBindingsSettings.StoreSettings();
+        }
+
+        private GestureScopeMapping GetMapping(KeyboardShortcutsUserShortcutsData shortcut,
+            IEnumerable<GestureScope> allScopes)
+        {
+            var scopeId =
+                _keyBindingsSettings.KeyboardShortcuts.ScopeDefinitions.FirstOrDefault(
+                        x => x.Name == shortcut.Scope)
+                    ?.ID;
+            if (string.IsNullOrEmpty(scopeId))
+                return null;
+            var scope = allScopes.FirstOrDefault(x => x.Id.Equals(new Guid(scopeId)));
+            if (scope == null)
+                return null;
+            return new GestureScopeMapping(scope,
+                (MultiKeyGesture) new MultiKeyGestureConverter().ConvertFrom(null, CultureInfo.InvariantCulture,
+                    shortcut.Value));
+        }
+
+        private CommandGestureScopeMapping GetCommandMapping(KeyboardShortcutsUserShortcutsData shortcut,
+            IEnumerable<GestureScope> allScopes)
+        {
+            var cdb = _commandService.GetCommandDefinitionBy("CU", shortcut.Command);
+            if (cdb == null || !(cdb is CommandDefinition cb))
+                return null;
+            var mapping = GetMapping(shortcut, allScopes);
+            if (mapping == null)
+                return null;
+            return new CommandGestureScopeMapping(cb, mapping);
         }
 
         private IEnumerable<KeyboardShortcutsUserShortcutsData> FindOmittedKeyBindings()
         {
-            if (_schemeManager.CurrentScheme == null)
-                throw new NullReferenceException(nameof(_schemeManager.CurrentScheme));
-            var bindings = _gestureService.GetAllBindings().ToList();
-            var cs = _schemeManager.CurrentScheme.Load();
+            if (SchemeManager.CurrentScheme == null)
+                throw new NullReferenceException(nameof(SchemeManager.CurrentScheme));
+            var bindings = KeyGestureService.GetAllBindings().ToList();
+            var cs = SchemeManager.CurrentScheme.Load();
 
             return (from mapping in cs.KeyGestureScopeMappings
-                where !bindings.Any(x => x.CommandDefinition == mapping.CommandDefinition && x.GestureScopeMapping.Equals(mapping.GestureScopeMapping))
+                where !bindings.Any(x =>
+                    x.CommandDefinition == mapping.CommandDefinition &&
+                    x.GestureScopeMapping.Equals(mapping.GestureScopeMapping))
                 select new KeyboardShortcutsUserShortcutsData
                 {
                     Command = mapping.CommandDefinition.TrimmedCategoryCommandNameUnlocalized,
@@ -156,10 +189,10 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
 
         private IEnumerable<KeyboardShortcutsUserShortcutsData> FindAditionalKeyBindings()
         {
-            if (_schemeManager.CurrentScheme == null)
-                throw new NullReferenceException(nameof(_schemeManager.CurrentScheme));
-            var bindings = _gestureService.GetAllBindings().ToList();
-            var cs = _schemeManager.CurrentScheme.Load();
+            if (SchemeManager.CurrentScheme == null)
+                throw new NullReferenceException(nameof(SchemeManager.CurrentScheme));
+            var bindings = KeyGestureService.GetAllBindings().ToList();
+            var cs = SchemeManager.CurrentScheme.Load();
             return (from binding in bindings
                 where !cs.KeyGestureScopeMappings.Any(x =>
                     x.CommandDefinition == binding.CommandDefinition &&

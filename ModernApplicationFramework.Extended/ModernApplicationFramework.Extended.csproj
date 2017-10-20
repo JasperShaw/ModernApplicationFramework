@@ -87,6 +87,7 @@
     <Compile Include="GuidCollection.cs" />
     <Compile Include="KeyBindingScheme\AbstractKeyBindingSchemeManager.cs" />
     <Compile Include="KeyBindingScheme\FileSchemeDefinition.cs" />
+    <Compile Include="Interfaces\IKeyBindingManager.cs" />
     <Compile Include="KeyBindingScheme\KeyBindingManager.cs" />
     <Compile Include="KeyBindingScheme\KeyBindingSchemeFile.cs" />
     <Compile Include="KeyBindingScheme\KeyBindingSchemeShortcut.cs" />

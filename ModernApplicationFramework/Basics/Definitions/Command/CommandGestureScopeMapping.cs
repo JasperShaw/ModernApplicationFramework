@@ -21,5 +21,20 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
             CommandDefinition = commandDefinition;
             GestureScopeMapping = scopeMapping;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+            if (obj is CommandGestureScopeMapping cgsm)
+                return Equals(cgsm);
+            return false;
+        }
+
+        protected bool Equals(CommandGestureScopeMapping mapping)
+        {
+            return mapping.CommandDefinition == CommandDefinition &&
+                   mapping.GestureScopeMapping.Equals(GestureScopeMapping);
+        }
     }
 }

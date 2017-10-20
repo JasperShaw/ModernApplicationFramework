@@ -14,7 +14,6 @@ using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.KeyBindingScheme;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
-using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Settings;
 using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Settings.SettingsDialog;
@@ -27,11 +26,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class KeyboardSettingsViewModel : SettingsPage, IStretchSettingsPanelPanel
     {
-        private readonly IKeyGestureService _gestureService;
-        private readonly KeyBindingManager _keyBindingManager;
-        private readonly KeyBindingsSettings _keyBindingsSettings;
-        private readonly IKeyBindingSchemeManager _schemeManager;
-        private readonly ISettingsManager _settingsManager;
+        private readonly IKeyBindingManager _keyBindingManager;
         private IEnumerable<CommandGestureScopeMapping> _duplicates;
         private string _gestureInput;
         private IEnumerable<CommandDefinition> _items;
@@ -48,20 +43,13 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
 
         [ImportingConstructor]
         public KeyboardSettingsViewModel(ISettingsManager settingsManager,
-            IKeyGestureService gestureService,
-            IKeyBindingSchemeManager schemeManager,
-            KeyBindingsSettings keyBindingsSettings,
-            KeyBindingManager keyBindingManager)
+            IKeyBindingManager keyBindingManager)
         {
-            _settingsManager = settingsManager;
-            _gestureService = gestureService;
-            _schemeManager = schemeManager;
-            _keyBindingsSettings = keyBindingsSettings;
             _keyBindingManager = keyBindingManager;
-            Schemes = _schemeManager.SchemeDefinitions;
-            _selectedScheme = _schemeManager.CurrentScheme;
-            AllCommands = gestureService.GetAllCommandDefinitions();
-            Scopes = new BindableCollection<GestureScope>(gestureService.GetAllCommandGestureScopes());
+            Schemes = _keyBindingManager.SchemeManager.SchemeDefinitions;
+            _selectedScheme = _keyBindingManager.SchemeManager.CurrentScheme;
+            AllCommands = keyBindingManager.KeyGestureService.GetAllCommandDefinitions();
+            Scopes = new BindableCollection<GestureScope>(keyBindingManager.KeyGestureService.GetAllCommandGestureScopes());
             SelectedScope = GestureScopes.GlobalGestureScope;
             AvailableGestureBindings = new ObservableCollection<GestureScopeMapping>();
             SetupCollectionViewSource();
@@ -227,8 +215,11 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
 
         protected override bool SetData()
         {
+            _keyBindingManager.BuildCurrent();
             _keyBindingManager.SetKeyScheme(_selectedScheme);
+            _keyBindingManager.BuildCurrent();
             _keyBindingManager.SaveCurrent();
+            _isChanged = false;
             return true;
         }
 
@@ -260,8 +251,8 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
                     MessageBoxButton.YesNo, MessageBoxImage.Exclamation) != MessageBoxResult.Yes)
                 return;
             _keyBindingManager.ResetToKeyScheme(SelectedScheme);
-            _keyBindingsSettings.KeyboardShortcuts.ShortcutsScheme = SelectedScheme.Name;
-            _keyBindingsSettings.StoreSettings();
+            _keyBindingManager.BuildCurrent();
+            _keyBindingManager.SaveCurrent();        
             UpdateAvailableGestureBinding();
         }
 
@@ -272,7 +263,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
 
         private void UpdateDuplicate()
         {
-            Duplicates = _gestureService.FindKeyGestures(MultiKeyGesture.GetKeySequences(CurrentKeyGesture),
+            Duplicates = _keyBindingManager.KeyGestureService.FindKeyGestures(MultiKeyGesture.GetKeySequences(CurrentKeyGesture),
                 FindKeyGestureOption.Containing);
         }
 
@@ -308,7 +299,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
         {
             if (Duplicates.Any())
             {
-                var exactDuplicate = _gestureService
+                var exactDuplicate = _keyBindingManager.KeyGestureService
                     .FindKeyGestures(MultiKeyGesture.GetKeySequences(CurrentKeyGesture),
                         FindKeyGestureOption.ExactMatch)
                     .FirstOrDefault(x => Equals(x.GestureScopeMapping.Scope, SelectedScope));
