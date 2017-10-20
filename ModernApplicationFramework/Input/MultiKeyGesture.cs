@@ -238,13 +238,15 @@ namespace ModernApplicationFramework.Input
 
         protected bool Equals(MultiKeyGesture other)
         {
-            if (IsRealMultiKeyGesture)
+            if (IsRealMultiKeyGesture && other.IsRealMultiKeyGesture)
             {
-                if (other.GestureCollection.All(other.GestureCollection.Contains))
+                if (GestureCollection.SequenceEqual(other.GestureCollection))
                     return true;
                 return false;
             }
-            return Key == other.Key && Modifiers == other.Modifiers;
+            if (!other.IsRealMultiKeyGesture && !IsRealMultiKeyGesture)
+                return Key == other.Key && Modifiers == other.Modifiers;
+            return false;
         }
 
         private void ResetState()

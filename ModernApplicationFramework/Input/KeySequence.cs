@@ -58,5 +58,21 @@ namespace ModernApplicationFramework.Input
             builder.Append(KeyboardLocalizationUtilities.GetKeyCultureName(Key));
             return builder.ToString();
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+            if (obj is KeySequence sequence)
+                return Equals(sequence);
+            return false;
+        }
+
+        protected bool Equals(KeySequence sequence)
+        {
+            if (Key == sequence.Key && Modifiers == sequence.Modifiers)
+                return true;
+            return false;
+        }
     }
 }
