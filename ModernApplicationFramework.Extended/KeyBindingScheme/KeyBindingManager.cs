@@ -84,7 +84,7 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
         public void ResetToKeyScheme(SchemeDefinition selectedScheme)
         {
             if (selectedScheme == null)
-                throw new ArgumentNullException("No scheme specified");
+                return;
             var scheme = selectedScheme.Load();
             KeyGestureService.RemoveAllKeyGestures();
             foreach (var mapping in scheme.KeyGestureScopeMappings)
@@ -97,11 +97,11 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
         public void ApplyKeyBindingsFromSettings()
         {
             if (!_environment.UseApplicationSettings)
-                throw new NotSupportedException("Settings are not enabled in this application");
+                throw new NotSupportedException(KeyBindingResources.Exception_SettingsNotEnabled);
             if (_keyBindingsSettings.KeyboardShortcuts == null)
-                throw new ArgumentNullException("Keyboard settings data was null");
+                throw new ArgumentNullException(KeyBindingResources.Exception_NoSettingsFound);
             var scheme =
-                SchemeManager.SchemeDefinitions.First(x =>
+                SchemeManager.SchemeDefinitions.FirstOrDefault(x =>
                     x.Name == _keyBindingsSettings.KeyboardShortcuts.ShortcutsScheme);
             ResetToKeyScheme(scheme);
 
@@ -127,17 +127,18 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
         public void SaveCurrent()
         {
             if (!_environment.UseApplicationSettings)
-                throw new NotSupportedException("Settings are not enabled in this application");
+                throw new NotSupportedException(KeyBindingResources.Exception_SettingsNotEnabled);
             _keyBindingsSettings.StoreSettings();
         }
 
         public void BuildCurrent()
         {
             if (!_environment.UseApplicationSettings)
-                throw new NotSupportedException("Settings are not enabled in this application");
+                throw new NotSupportedException(KeyBindingResources.Exception_SettingsNotEnabled);
             _keyBindingsSettings.KeyboardShortcuts.ScopeDefinitions = KeyGestureService.GetAllCommandGestureScopes()
                 .Select(scope => new KeyboardShortcutsScope(scope)).ToArray();
-            _keyBindingsSettings.KeyboardShortcuts.ShortcutsScheme = SchemeManager.CurrentScheme.Name;
+
+            _keyBindingsSettings.KeyboardShortcuts.ShortcutsScheme = SchemeManager.CurrentScheme?.Name;
 
             var additionalBindings = FindAditionalKeyBindings();
             var omittedBindings = FindOmittedKeyBindings();
@@ -175,15 +176,13 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
             if (cdb == null || !(cdb is CommandDefinition cb))
                 return null;
             var mapping = GetMapping(shortcut, allScopes);
-            if (mapping == null)
-                return null;
-            return new CommandGestureScopeMapping(cb, mapping);
+            return mapping == null ? null : new CommandGestureScopeMapping(cb, mapping);
         }
 
         private IEnumerable<KeyboardShortcutsUserShortcutsData> FindOmittedKeyBindings()
         {
             if (SchemeManager.CurrentScheme == null)
-                throw new NullReferenceException(nameof(SchemeManager.CurrentScheme));
+                return new List<KeyboardShortcutsUserShortcutsData>();
             var bindings = KeyGestureService.GetAllBindings().ToList();
             var cs = SchemeManager.CurrentScheme.Load();
 
@@ -201,20 +200,32 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
 
         private IEnumerable<KeyboardShortcutsUserShortcutsData> FindAditionalKeyBindings()
         {
-            if (SchemeManager.CurrentScheme == null)
-                throw new NullReferenceException(nameof(SchemeManager.CurrentScheme));
-            var bindings = KeyGestureService.GetAllBindings().ToList();
-            var cs = SchemeManager.CurrentScheme.Load();
-            return (from binding in bindings
-                where !cs.KeyGestureScopeMappings.Any(x =>
-                    x.CommandDefinition == binding.CommandDefinition &&
-                    x.GestureScopeMapping.Equals(binding.GestureScopeMapping))
-                select new KeyboardShortcutsUserShortcutsData
-                {
-                    Command = binding.CommandDefinition.TrimmedCategoryCommandNameUnlocalized,
-                    Scope = binding.GestureScopeMapping.Scope.Text,
-                    Value = binding.GestureScopeMapping.KeyGesture.GetCultureString(CultureInfo.InvariantCulture)
-                }).ToList();
+            if (SchemeManager.CurrentScheme != null)
+            {
+                var bindings = KeyGestureService.GetAllBindings().ToList();
+                var cs = SchemeManager.CurrentScheme.Load();
+                return (from binding in bindings
+                    where !cs.KeyGestureScopeMappings.Any(x =>
+                        x.CommandDefinition == binding.CommandDefinition &&
+                        x.GestureScopeMapping.Equals(binding.GestureScopeMapping))
+                    select new KeyboardShortcutsUserShortcutsData
+                    {
+                        Command = binding.CommandDefinition.TrimmedCategoryCommandNameUnlocalized,
+                        Scope = binding.GestureScopeMapping.Scope.Text,
+                        Value = binding.GestureScopeMapping.KeyGesture.GetCultureString(CultureInfo.InvariantCulture)
+                    }).ToList();
+            }
+            else
+            {
+                var bindings = KeyGestureService.GetAllBindings().ToList();
+                return bindings.Select(binding => new KeyboardShortcutsUserShortcutsData
+                    {
+                        Command = binding.CommandDefinition.TrimmedCategoryCommandNameUnlocalized,
+                        Scope = binding.GestureScopeMapping.Scope.Text,
+                        Value = binding.GestureScopeMapping.KeyGesture.GetCultureString(CultureInfo.InvariantCulture)
+                    })
+                    .ToList();
+            }
         }
     }
 }

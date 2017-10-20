@@ -61,56 +61,20 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Einstellungsdateien (*.mafsettings)|*.mafsettings|Alle Dateien (*.*)|*.* ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Keyboard settings data was null ähnelt.
         /// </summary>
-        public static string SaveFileDialog_Filter {
+        public static string Exception_NoSettingsFound {
             get {
-                return ResourceManager.GetString("SaveFileDialog_Filter", resourceCulture);
+                return ResourceManager.GetString("Exception_NoSettingsFound", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Einstellungsdatei auswählen, die immer gespeichert wird. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Settings are not enabled in this application ähnelt.
         /// </summary>
-        public static string SaveFileDialog_Title {
+        public static string Exception_SettingsNotEnabled {
             get {
-                return ResourceManager.GetString("SaveFileDialog_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die _Durchsuchen... ähnelt.
-        /// </summary>
-        public static string SaveFileDialogButton_Text {
-            get {
-                return ResourceManager.GetString("SaveFileDialogButton_Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Der angegebene Pfad für die Datei mit den Einstellungen für das automatische Speichern ist ungültig. Geben Sie einen gültigen Pfad ein. ähnelt.
-        /// </summary>
-        public static string SelectedPathNull_Warning {
-            get {
-                return ResourceManager.GetString("SelectedPathNull_Warning", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Meine _Einstellungen automatisch in folgender Datei speichern: ähnelt.
-        /// </summary>
-        public static string SettingsFilePathCombo_Label {
-            get {
-                return ResourceManager.GetString("SettingsFilePathCombo_Label", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Einstellungen importieren/exportieren ähnelt.
-        /// </summary>
-        public static string SettingsImportExport_Name {
-            get {
-                return ResourceManager.GetString("SettingsImportExport_Name", resourceCulture);
+                return ResourceManager.GetString("Exception_SettingsNotEnabled", resourceCulture);
             }
         }
     }

@@ -106,7 +106,8 @@
                            Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsApplyScheme_Label}"/>
                     <ComboBox x:Name="SchemeCombo" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch"
                               ItemsSource="{Binding Source={StaticResource SchemesView}}"
-                              ItemTemplate="{StaticResource SchemeDataTemplate}" SelectedItem="{Binding SelectedScheme, Mode=TwoWay}"/>
+                              ItemTemplate="{StaticResource SchemeDataTemplate}" SelectedItem="{Binding SelectedScheme, Mode=TwoWay}"
+                              IsEnabled="{Binding RelativeSource={RelativeSource Self}, Path=HasItems}"/>
                     <Button x:Name="ResetButton" Grid.Row="1"  Grid.Column="2" MinWidth="125" 
                             Content="{x:Static keyboard:KeyboardSettingsResources.KeyboardSettingsResetScheme}" 
                             Command="{Binding ResetSchemeCommand}"/>

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -118,9 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Exception_NoSettingsFound" xml:space="preserve">
-    <value>Keyboard settings data was null</value>
+    <value>Tastatureinstellungen war null</value>
   </data>
   <data name="Exception_SettingsNotEnabled" xml:space="preserve">
-    <value>Settings are not enabled in this application</value>
+    <value>In dieser Anwendung sind keine Einstellungen aktiviert</value>
   </data>
 </root>

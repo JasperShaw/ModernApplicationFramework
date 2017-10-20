@@ -312,6 +312,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="KeyBindingScheme\KeyBindingResources.de.resx" />
+    <EmbeddedResource Include="KeyBindingScheme\KeyBindingResources.en.resx" />
     <EmbeddedResource Include="KeyBindingScheme\KeyBindingResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>KeyBindingResources.Designer.cs</LastGenOutput>
