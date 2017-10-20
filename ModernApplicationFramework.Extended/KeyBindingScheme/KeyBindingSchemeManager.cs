@@ -9,14 +9,14 @@ using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Extended.KeyBindingScheme
 {
-    public abstract class AbstractKeyBindingSchemeManager : IKeyBindingSchemeManager
+    public abstract class KeyBindingSchemeManager : IKeyBindingSchemeManager
     {      
         protected IKeyGestureService GestureService { get; }
         public ICollection<SchemeDefinition> SchemeDefinitions { get; protected set; }
         
         public SchemeDefinition CurrentScheme { get; protected set; }
 
-        protected AbstractKeyBindingSchemeManager()
+        protected KeyBindingSchemeManager()
         {
             SchemeDefinitions = new List<SchemeDefinition>();
             GestureService = IoC.Get<IKeyGestureService>();
@@ -33,7 +33,7 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
     }
 
     [Export(typeof(IKeyBindingSchemeManager))]
-    public sealed class DefaultKeyBindingSchemeManager : AbstractKeyBindingSchemeManager
+    public sealed class DefaultKeyBindingSchemeManager : KeyBindingSchemeManager
     {
         public override void LoadSchemeDefinitions()
         {

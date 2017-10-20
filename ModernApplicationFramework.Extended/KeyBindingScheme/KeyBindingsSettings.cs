@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel.Composition;
-using System.Linq;
 using Caliburn.Micro;
-using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Settings;
 using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Settings.SettingDataModel;
@@ -50,7 +48,7 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
         }
     }
 
-    public static class EnvironmentGroupSettingsCategories
+    internal static class EnvironmentGroupSettingsCategories
     {
         [Export] public static ISettingsCategory KeyBindingsCategory =
             new SettingsCategory(GuidCollection.KeyBindingSettingsCategoryId, SettingsCategoryType.Normal,

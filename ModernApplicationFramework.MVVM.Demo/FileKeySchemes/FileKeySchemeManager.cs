@@ -9,7 +9,7 @@ using ModernApplicationFramework.Utilities.Interfaces;
 namespace ModernApplicationFramework.MVVM.Demo.FileKeySchemes
 {
     [Export(typeof(IKeyBindingSchemeManager))]
-    public sealed class FileKeySchemeManager : AbstractKeyBindingSchemeManager
+    public sealed class FileKeySchemeManager : KeyBindingSchemeManager
     {
         public override void LoadSchemeDefinitions()
         {

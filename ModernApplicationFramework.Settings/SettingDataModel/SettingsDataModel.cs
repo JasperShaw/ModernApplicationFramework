@@ -145,6 +145,12 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
         }
 
 
+        /// <summary>
+        /// Inserts a XML model into the settings file.
+        /// </summary>
+        /// <typeparam name="T">The type of the model</typeparam>
+        /// <param name="model">The model.</param>
+        /// <param name="insertRoot">if set to <see langword="true"/> the XML's root will be inserted also</param>
         protected void SetSettingsModel<T>(T model, bool insertRoot = false)
         {
             SettingsManager.RemoveModelAsync(SettingsFilePath);
@@ -161,9 +167,14 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
             SettingsManager.SetDocumentAsync(SettingsFilePath, document, insertRoot);
         }
 
-        protected void GetDataModel<T>(out T o)
+        /// <summary>
+        /// Get a deserialized model object from the settings file
+        /// </summary>
+        /// <typeparam name="T">The expected type of the model</typeparam>
+        /// <param name="model">The model</param>
+        protected void GetDataModel<T>(out T model)
         {
-            o = default(T);
+            model = default(T);
             var node = SettingsManager.GetDataModelNode(SettingsFilePath);
             var stm = new MemoryStream();
             var stw = new StreamWriter(stm);
@@ -171,7 +182,7 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
             stw.Flush();
             stm.Position = 0;
             var ser = new XmlSerializer(typeof(T));
-            o = (T)ser.Deserialize(stm);
+            model = (T)ser.Deserialize(stm);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

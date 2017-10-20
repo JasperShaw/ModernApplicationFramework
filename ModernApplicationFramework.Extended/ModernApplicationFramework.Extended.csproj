@@ -85,12 +85,11 @@
     <Compile Include="Core\LayoutManagement\WindowLayoutSettings.cs" />
     <Compile Include="Core\LayoutManagement\WindowLayoutStore.cs" />
     <Compile Include="GuidCollection.cs" />
-    <Compile Include="KeyBindingScheme\AbstractKeyBindingSchemeManager.cs" />
+    <Compile Include="KeyBindingScheme\KeyBindingSchemeManager.cs" />
     <Compile Include="KeyBindingScheme\FileSchemeDefinition.cs" />
     <Compile Include="Interfaces\IKeyBindingManager.cs" />
     <Compile Include="KeyBindingScheme\KeyBindingManager.cs" />
     <Compile Include="KeyBindingScheme\KeyBindingSchemeFile.cs" />
-    <Compile Include="KeyBindingScheme\KeyBindingSchemeShortcut.cs" />
     <Compile Include="KeyBindingScheme\KeyBindingsSettings.cs" />
     <Compile Include="KeyBindingScheme\KeyboardShortcutsSettingsCategory.cs" />
     <Compile Include="KeyBindingScheme\SchemeDefinition.cs" />
@@ -141,6 +140,11 @@
     <Compile Include="Interfaces\ITool.cs" />
     <Compile Include="Interfaces\IUseDockingHost.cs" />
     <Compile Include="Interfaces\IWindow.cs" />
+    <Compile Include="KeyBindingScheme\KeyBindingResources.Designer.cs">
+      <DependentUpon>KeyBindingResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="MenuDefinitions\EditMenuDefinitions.cs" />
     <Compile Include="MenuDefinitions\FileMenuDefinitions.cs" />
     <Compile Include="MenuDefinitions\MainMenuBarDefinition.cs" />
@@ -308,6 +312,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="KeyBindingScheme\KeyBindingResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>KeyBindingResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\CommandBar.Resources.de.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>CommandBar.Resources.de.Designer.cs</LastGenOutput>
