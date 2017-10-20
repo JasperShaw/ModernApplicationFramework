@@ -17,6 +17,7 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
     {
         private readonly ICommandService _commandService;
         private readonly KeyBindingsSettings _keyBindingsSettings;
+        private readonly IApplicationEnvironment _environment;
 
         public IKeyBindingSchemeManager SchemeManager { get; }
         public IKeyGestureService KeyGestureService { get; }
@@ -29,6 +30,7 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
             KeyGestureService = gestureService;
             SchemeManager = schemeManager;
             _keyBindingsSettings = keyBindingsSettings;
+            _environment = environment;
             _commandService = commandService;
 
             gestureService.Initialize();
@@ -53,6 +55,9 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
             var allScopes = IoC.GetAll<GestureScope>().ToList();
 
             ResetToKeyScheme(selectedScheme);
+
+            if (!_environment.UseApplicationSettings)
+                return;
 
             if (_keyBindingsSettings.KeyboardShortcuts.UserShortcuts.Shortcut != null)
                 foreach (var shortcutsData in _keyBindingsSettings.KeyboardShortcuts.UserShortcuts.Shortcut)
@@ -79,17 +84,20 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
         public void ResetToKeyScheme(SchemeDefinition selectedScheme)
         {
             if (selectedScheme == null)
-                return;
+                throw new ArgumentNullException("No scheme specified");
             var scheme = selectedScheme.Load();
             KeyGestureService.RemoveAllKeyGestures();
             foreach (var mapping in scheme.KeyGestureScopeMappings)
                 mapping.CommandDefinition.Gestures.Add(mapping.GestureScopeMapping);
             SchemeManager.SetScheme(selectedScheme);
-            _keyBindingsSettings.KeyboardShortcuts.ShortcutsScheme = selectedScheme.Name;
+            if (_environment.UseApplicationSettings)
+                _keyBindingsSettings.KeyboardShortcuts.ShortcutsScheme = selectedScheme.Name;
         }
 
         public void ApplyKeyBindingsFromSettings()
         {
+            if (!_environment.UseApplicationSettings)
+                throw new NotSupportedException("Settings are not enabled in this application");
             if (_keyBindingsSettings.KeyboardShortcuts == null)
                 throw new ArgumentNullException("Keyboard settings data was null");
             var scheme =
@@ -118,11 +126,15 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
 
         public void SaveCurrent()
         {
+            if (!_environment.UseApplicationSettings)
+                throw new NotSupportedException("Settings are not enabled in this application");
             _keyBindingsSettings.StoreSettings();
         }
 
         public void BuildCurrent()
         {
+            if (!_environment.UseApplicationSettings)
+                throw new NotSupportedException("Settings are not enabled in this application");
             _keyBindingsSettings.KeyboardShortcuts.ScopeDefinitions = KeyGestureService.GetAllCommandGestureScopes()
                 .Select(scope => new KeyboardShortcutsScope(scope)).ToArray();
             _keyBindingsSettings.KeyboardShortcuts.ShortcutsScheme = SchemeManager.CurrentScheme.Name;
