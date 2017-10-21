@@ -1,7 +1,7 @@
 using System.Text;
 using ModernApplicationFramework.Utilities;
 
-namespace MordernApplicationFramework.WindowManagement
+namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 {
     public class WindowLayoutInfo
     {

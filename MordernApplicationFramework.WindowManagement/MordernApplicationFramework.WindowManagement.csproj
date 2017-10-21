@@ -53,20 +53,20 @@
   <ItemGroup>
     <Compile Include="Commands\ManageLayoutCommandDefinition.cs" />
     <Compile Include="Commands\SaveCurrentLayoutCommandDefinition.cs" />
-    <Compile Include="ILayoutManagementUserInput.cs" />
+    <Compile Include="LayoutManagement\ILayoutManagementUserInput.cs" />
     <Compile Include="ILayoutManager.cs" />
     <Compile Include="ILayoutManagerInternal.cs" />
-    <Compile Include="IWindowLayoutSettings.cs" />
-    <Compile Include="IWindowLayoutStore.cs" />
-    <Compile Include="LayoutItemViewModel.cs" />
+    <Compile Include="LayoutManagement\IWindowLayoutSettings.cs" />
+    <Compile Include="LayoutManagement\IWindowLayoutStore.cs" />
+    <Compile Include="LayoutManagement\LayoutItemViewModel.cs" />
     <Compile Include="LayoutManagementDialogUserInput.cs" />
-    <Compile Include="LayoutManagementUtilities.cs" />
+    <Compile Include="LayoutManagement\LayoutManagementUtilities.cs" />
     <Compile Include="LayoutManager.cs" />
     <Compile Include="ManageActions.cs" />
-    <Compile Include="ManageLayoutsDialog.xaml.cs">
+    <Compile Include="LayoutManagement\ManageLayoutsDialog.xaml.cs">
       <DependentUpon>ManageLayoutsDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ManageLayoutsViewModel.cs" />
+    <Compile Include="LayoutManagement\ManageLayoutsViewModel.cs" />
     <Compile Include="MenuDefinitions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -82,9 +82,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Settings.cs" />
-    <Compile Include="WindowLayoutInfo.cs" />
-    <Compile Include="WindowLayoutSettings.cs" />
-    <Compile Include="WindowLayoutStore.cs" />
+    <Compile Include="LayoutManagement\WindowLayoutInfo.cs" />
+    <Compile Include="LayoutManagement\WindowLayoutSettings.cs" />
+    <Compile Include="LayoutManagement\WindowLayoutStore.cs" />
     <EmbeddedResource Include="Properties\WindowManagement.Resources.de.resx" />
     <EmbeddedResource Include="Properties\WindowManagement.Resources.en.resx" />
     <EmbeddedResource Include="Properties\WindowManagement.Resources.resx">
@@ -116,7 +116,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="ManageLayoutsDialog.xaml">
+    <Page Include="LayoutManagement\ManageLayoutsDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

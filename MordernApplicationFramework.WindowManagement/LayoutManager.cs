@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using ModernApplicationFramework.Extended.Interfaces;
+using MordernApplicationFramework.WindowManagement.LayoutManagement;
 using MordernApplicationFramework.WindowManagement.Properties;
 
 namespace MordernApplicationFramework.WindowManagement

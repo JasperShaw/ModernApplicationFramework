@@ -4,7 +4,7 @@ using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Settings.SettingDataModel;
 using ModernApplicationFramework.Utilities.Interfaces.Settings;
 
-namespace MordernApplicationFramework.WindowManagement
+namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 {
     [Export(typeof(ISettingsDataModel))]
     [Export(typeof(IWindowLayoutSettings))]

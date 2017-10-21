@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Windows;
 using ModernApplicationFramework.Controls.Dialogs;
 using ModernApplicationFramework.Utilities;
+using MordernApplicationFramework.WindowManagement.LayoutManagement;
 
 namespace MordernApplicationFramework.WindowManagement
 {
@@ -59,7 +60,7 @@ namespace MordernApplicationFramework.WindowManagement
 
         public static IEnumerable<KeyValuePair<string, WindowLayoutInfo>> ShowManageLayoutsView(IEnumerable<KeyValuePair<string, WindowLayoutInfo>> layoutKeyInfoCollection)
         {
-            return ManageLayoutsDialog.Show(layoutKeyInfoCollection);
+            return LayoutManagement.ManageLayoutsDialog.Show(layoutKeyInfoCollection);
         }
 
         public static void ShowApplyLayoutError(string name)

@@ -1,6 +1,6 @@
 ﻿using ModernApplicationFramework.Utilities;
 
-namespace MordernApplicationFramework.WindowManagement
+namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 {
     internal sealed class LayoutItemViewModel : ObservableObject
     {

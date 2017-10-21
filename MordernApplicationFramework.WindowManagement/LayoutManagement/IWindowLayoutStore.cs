@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace MordernApplicationFramework.WindowManagement
+namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 {
     internal interface IWindowLayoutStore
     {

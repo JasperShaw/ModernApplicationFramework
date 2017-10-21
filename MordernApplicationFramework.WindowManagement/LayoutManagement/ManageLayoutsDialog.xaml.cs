@@ -8,7 +8,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Utilities;
 using Action = System.Action;
 
-namespace MordernApplicationFramework.WindowManagement
+namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 {
     public partial class ManageLayoutsDialog
     {
