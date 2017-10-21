@@ -212,6 +212,10 @@
       <Project>{74f6c6a1-64bb-47d4-9e7f-6cd5c4ca166c}</Project>
       <Name>ModernApplicationFramework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MordernApplicationFramework.WindowManagement\MordernApplicationFramework.WindowManagement.csproj">
+      <Project>{674f7d84-b3ae-4cd6-ad12-0afa4ace516a}</Project>
+      <Name>MordernApplicationFramework.WindowManagement</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\png_undo.16.16.png" />
