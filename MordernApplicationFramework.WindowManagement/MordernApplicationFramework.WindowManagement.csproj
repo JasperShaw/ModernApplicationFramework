@@ -68,7 +68,12 @@
     </Compile>
     <Compile Include="LayoutManagement\ManageLayoutsViewModel.cs" />
     <Compile Include="MenuDefinitions.cs" />
+    <Compile Include="Options\DockPreferenceToBooleanConverter.cs" />
+    <Compile Include="Options\TabsAndWindowsOptionsView.xaml.cs">
+      <DependentUpon>TabsAndWindowsOptionsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Options\TabsAndWindowsOptions.cs" />
+    <Compile Include="Options\TabsAndWindowsOptionsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -120,6 +125,10 @@
     <Page Include="LayoutManagement\ManageLayoutsDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Options\TabsAndWindowsOptionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup />

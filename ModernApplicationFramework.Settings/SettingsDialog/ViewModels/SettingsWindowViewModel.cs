@@ -8,7 +8,6 @@ using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Properties;
 using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Utilities.Interfaces.Settings;
-using ISettingsCategory = ModernApplicationFramework.Settings.Interfaces.ISettingsCategory;
 using ISettingsPage = ModernApplicationFramework.Settings.Interfaces.ISettingsPage;
 
 namespace ModernApplicationFramework.Settings.SettingsDialog.ViewModels
