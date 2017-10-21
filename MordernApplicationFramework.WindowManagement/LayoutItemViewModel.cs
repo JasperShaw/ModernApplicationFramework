@@ -1,7 +1,6 @@
-﻿using ModernApplicationFramework.Core.Utilities;
-using ModernApplicationFramework.Utilities;
+﻿using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Extended.Core.LayoutManagement
+namespace MordernApplicationFramework.WindowManagement
 {
     internal sealed class LayoutItemViewModel : ObservableObject
     {

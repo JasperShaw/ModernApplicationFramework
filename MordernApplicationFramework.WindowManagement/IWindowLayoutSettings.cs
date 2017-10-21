@@ -1,4 +1,4 @@
-namespace ModernApplicationFramework.Extended.Core.LayoutManagement
+namespace MordernApplicationFramework.WindowManagement
 {
     internal interface IWindowLayoutSettings
     {

@@ -5,7 +5,7 @@ using System.Windows.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Extended.Core.LayoutManagement
+namespace MordernApplicationFramework.WindowManagement
 {
     internal sealed class ManageLayoutsViewModel : ObservableObject
     {

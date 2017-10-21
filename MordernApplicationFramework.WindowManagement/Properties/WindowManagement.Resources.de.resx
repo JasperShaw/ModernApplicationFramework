@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,52 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CloseProgramCommandDefinition_Text" xml:space="preserve">
-    <value>&amp;Beenden</value>
+  <data name="ManageLayoutCommandDefinition_Name" xml:space="preserve">
+    <value>Fensterlayouts verwalten</value>
   </data>
-  <data name="FullScreenCommandDefinition_Text" xml:space="preserve">
-    <value>G&amp;anzer Bildschirm</value>
+  <data name="ManageLayoutCommandDefinition_Text" xml:space="preserve">
+    <value>Fensterlayouts &amp;verwalten</value>
   </data>
-  <data name="MultiRedoCommandDefinition_Name" xml:space="preserve">
-    <value>Wiederholen: MultiLevel</value>
+  <data name="SaveLayoutCommandDefinition_Name" xml:space="preserve">
+    <value>Fensterlayout speichern</value>
   </data>
-  <data name="MultiRedoCommandDefinition_StatusSuffix" xml:space="preserve">
-    <value>en</value>
+  <data name="SaveLayoutCommandDefinition_Text" xml:space="preserve">
+    <value>Fensterlayout &amp;speichern</value>
   </data>
-  <data name="MultiRedoCommandDefinition_StatusText" xml:space="preserve">
-    <value>{0} Aktion{1} wiederholen</value>
+  <data name="SaveLayoutCommandDefinitionMessageBox_Default" xml:space="preserve">
+    <value>Neues Layout {0}</value>
   </data>
-  <data name="MultiRedoCommandDefinition_Text" xml:space="preserve">
-    <value>Wieder&amp;holen</value>
+  <data name="SaveLayoutCommandDefinitionMessageBox_Label" xml:space="preserve">
+    <value>_Layoutname:</value>
   </data>
-  <data name="MultiRedoCommandDefinition_ToolTip" xml:space="preserve">
-    <value>Wiederholen</value>
-  </data>
-  <data name="MultiUndoCommandDefinition_Name" xml:space="preserve">
-    <value>Rückgängig: MultiLevel</value>
-  </data>
-  <data name="MultiUndoCommandDefinition_StatusSuffix" xml:space="preserve">
-    <value>en</value>
-  </data>
-  <data name="MultiUndoCommandDefinition_StatusText" xml:space="preserve">
-    <value>{0} Aktion{1} rückgängig machen</value>
-  </data>
-  <data name="MultiUndoCommandDefinition_Text" xml:space="preserve">
-    <value>&amp;Rückgängig</value>
-  </data>
-  <data name="MultiUndoCommandDefinition_ToolTip" xml:space="preserve">
-    <value>Rückgängig</value>
-  </data>
-  <data name="OpenSettingsCommandDefinition_Text" xml:space="preserve">
-    <value>&amp;Optionen...</value>
-  </data>
-  <data name="RedoCommandDefinition_Text" xml:space="preserve">
-    <value>Wieder&amp;holen</value>
-  </data>
-  <data name="SwitchToDocumentCommandListDefinition_Name" xml:space="preserve">
-    <value>Window List</value>
-  </data>
-  <data name="UndoCommandDefinition_Text" xml:space="preserve">
-    <value>&amp;Rückgängig</value>
+  <data name="SaveLayoutCommandDefinitionMessageBox_Title" xml:space="preserve">
+    <value>Fensterlayout speichern</value>
   </data>
 </root>

@@ -65,25 +65,6 @@
     <Compile Include="ApplicationEnvironment\ExtendedEnvironmentVariables.cs" />
     <Compile Include="ApplicationEnvironment\ApplicationEnvironmentBase.cs" />
     <Compile Include="ApplicationEnvironment\FallbackExtendedEnvironmentVariables.cs" />
-    <Compile Include="Commands\ManageLayoutCommandDefinition.cs" />
-    <Compile Include="Commands\SaveCurrentLayoutCommandDefinition.cs" />
-    <Compile Include="Core\LayoutManagement\ILayoutManagementUserInput.cs" />
-    <Compile Include="Core\LayoutManagement\ILayoutManager.cs" />
-    <Compile Include="Core\LayoutManagement\ILayoutManagerInternal.cs" />
-    <Compile Include="Core\LayoutManagement\IWindowLayoutSettings.cs" />
-    <Compile Include="Core\LayoutManagement\IWindowLayoutStore.cs" />
-    <Compile Include="Core\LayoutManagement\LayoutItemViewModel.cs" />
-    <Compile Include="Core\LayoutManagement\LayoutManagementDialogUserInput.cs" />
-    <Compile Include="Core\LayoutManagement\LayoutManagementUtilities.cs" />
-    <Compile Include="Core\LayoutManagement\LayoutManager.cs" />
-    <Compile Include="Core\LayoutManagement\ManageActions.cs" />
-    <Compile Include="Core\LayoutManagement\ManageLayoutsViewModel.cs" />
-    <Compile Include="Core\LayoutManagement\ManageLayoutsDialog.xaml.cs">
-      <DependentUpon>ManageLayoutsDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Core\LayoutManagement\WindowLayoutInfo.cs" />
-    <Compile Include="Core\LayoutManagement\WindowLayoutSettings.cs" />
-    <Compile Include="Core\LayoutManagement\WindowLayoutStore.cs" />
     <Compile Include="GuidCollection.cs" />
     <Compile Include="KeyBindingScheme\KeyBindingSchemeManager.cs" />
     <Compile Include="KeyBindingScheme\FileSchemeDefinition.cs" />
@@ -398,10 +379,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Core\LayoutManagement\ManageLayoutsDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="DockingHost\Views\DockingHostView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

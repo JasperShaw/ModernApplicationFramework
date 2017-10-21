@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using ModernApplicationFramework.Extended.Interfaces;
-using ModernApplicationFramework.Extended.Properties;
+using MordernApplicationFramework.WindowManagement.Properties;
 
-namespace ModernApplicationFramework.Extended.Core.LayoutManagement
+namespace MordernApplicationFramework.WindowManagement
 {
     [Export(typeof(ILayoutManager))]
     public class LayoutManager : ILayoutManager, ILayoutManagerInternal
@@ -40,7 +40,7 @@ namespace ModernApplicationFramework.Extended.Core.LayoutManagement
 
         public void SaveWindowLayout()
         {
-            var layoutNameFormat = Commands_Resources.SaveLayoutCommandDefinitionMessageBox_Default;
+            var layoutNameFormat = WindowManagement_Resources.SaveLayoutCommandDefinitionMessageBox_Default;
             var defaultLayoutNameIndex = GetDefaultLayoutNameIndex(layoutNameFormat);
             var defaultName = string.Format(CultureInfo.CurrentUICulture, layoutNameFormat, new object[]
             {

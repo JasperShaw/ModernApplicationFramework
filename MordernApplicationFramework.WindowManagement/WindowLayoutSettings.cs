@@ -4,13 +4,13 @@ using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Settings.SettingDataModel;
 using ModernApplicationFramework.Utilities.Interfaces.Settings;
 
-namespace ModernApplicationFramework.Extended.Core.LayoutManagement
+namespace MordernApplicationFramework.WindowManagement
 {
     [Export(typeof(ISettingsDataModel))]
     [Export(typeof(IWindowLayoutSettings))]
     internal class WindowLayoutSettings : SettingsDataModel, IWindowLayoutSettings
     {
-        public override ISettingsCategory Category => Settings.ToolsOptionsSubCategories.TabsAndWindowsSubCategory;
+        public override ISettingsCategory Category => Settings.TabsAndWindowsSubCategory;
         public override string Name => "TabsAndWindows";
 
         public bool SkipApplyLayoutConfirmation

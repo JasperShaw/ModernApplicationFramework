@@ -31,7 +31,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Caliburn.Micro, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.Core.3.2.0\lib\net45\Caliburn.Micro.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,27 +51,75 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\ManageLayoutCommandDefinition.cs" />
+    <Compile Include="Commands\SaveCurrentLayoutCommandDefinition.cs" />
+    <Compile Include="ILayoutManagementUserInput.cs" />
+    <Compile Include="ILayoutManager.cs" />
+    <Compile Include="ILayoutManagerInternal.cs" />
+    <Compile Include="IWindowLayoutSettings.cs" />
+    <Compile Include="IWindowLayoutStore.cs" />
+    <Compile Include="LayoutItemViewModel.cs" />
+    <Compile Include="LayoutManagementDialogUserInput.cs" />
+    <Compile Include="LayoutManagementUtilities.cs" />
+    <Compile Include="LayoutManager.cs" />
+    <Compile Include="ManageActions.cs" />
+    <Compile Include="ManageLayoutsDialog.xaml.cs">
+      <DependentUpon>ManageLayoutsDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ManageLayoutsViewModel.cs" />
+    <Compile Include="MenuDefinitions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
+    <Compile Include="Properties\WindowManagement.Resources.Designer.cs">
+      <DependentUpon>WindowManagement.Resources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <Compile Include="Settings.cs" />
+    <Compile Include="WindowLayoutInfo.cs" />
+    <Compile Include="WindowLayoutSettings.cs" />
+    <Compile Include="WindowLayoutStore.cs" />
+    <EmbeddedResource Include="Properties\WindowManagement.Resources.de.resx" />
+    <EmbeddedResource Include="Properties\WindowManagement.Resources.en.resx" />
+    <EmbeddedResource Include="Properties\WindowManagement.Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>WindowManagement.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ModernApplicationFramework.Extended\ModernApplicationFramework.Extended.csproj">
+      <Project>{51911695-6cdb-4833-9782-06c8821d1c4e}</Project>
+      <Name>ModernApplicationFramework.Extended</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework.Settings\ModernApplicationFramework.Settings.csproj">
+      <Project>{240cc7db-f3a0-48e7-a8eb-5785a90128be}</Project>
+      <Name>ModernApplicationFramework.Settings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework.Utilities\ModernApplicationFramework.Utilities.csproj">
+      <Project>{2B388979-5B07-4F0A-A302-0C575AAA21C0}</Project>
+      <Name>ModernApplicationFramework.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework\ModernApplicationFramework.csproj">
+      <Project>{74f6c6a1-64bb-47d4-9e7f-6cd5c4ca166c}</Project>
+      <Name>ModernApplicationFramework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="ManageLayoutsDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,4 @@
-namespace ModernApplicationFramework.Extended.Core.LayoutManagement
+namespace MordernApplicationFramework.WindowManagement
 {
     public interface ILayoutManager
     {

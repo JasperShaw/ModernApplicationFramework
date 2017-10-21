@@ -1,4 +1,4 @@
-﻿<mafc:DialogWindow x:Class="ModernApplicationFramework.Extended.Core.LayoutManagement.ManageLayoutsDialog"
+﻿<mafc:DialogWindow x:Class="MordernApplicationFramework.WindowManagement.ManageLayoutsDialog"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mafc="http://modern.framework.com/controls"

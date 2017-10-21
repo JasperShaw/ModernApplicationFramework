@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Extended.Core.LayoutManagement
+namespace MordernApplicationFramework.WindowManagement
 {
     internal static class LayoutManagementUtilities
     {

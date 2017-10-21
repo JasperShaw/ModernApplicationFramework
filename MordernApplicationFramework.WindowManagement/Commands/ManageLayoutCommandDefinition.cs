@@ -3,23 +3,24 @@ using System.ComponentModel.Composition;
 using System.Globalization;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Extended.Core.LayoutManagement;
-using ModernApplicationFramework.Extended.Properties;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
+using MordernApplicationFramework.WindowManagement.Properties;
 
-namespace ModernApplicationFramework.Extended.Commands
+namespace MordernApplicationFramework.WindowManagement.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
-    [Export(typeof(SaveCurrentLayoutCommandDefinition))]
-    public sealed class SaveCurrentLayoutCommandDefinition : CommandDefinition
+    [Export(typeof(ManageLayoutCommandDefinition))]
+    public sealed class ManageLayoutCommandDefinition : CommandDefinition
     {
         private readonly ILayoutManager _layoutManager;
-        public override string Name => Commands_Resources.SaveLayoutCommandDefinition_Name;
-        public override string Text => Commands_Resources.SaveLayoutCommandDefinition_Text;
+        public override string Name => WindowManagement_Resources.ManageLayoutCommandDefinition_Name;
+        public override string Text => WindowManagement_Resources.ManageLayoutCommandDefinition_Text;
+
         public override string NameUnlocalized =>
-            Commands_Resources.ResourceManager.GetString("SaveLayoutCommandDefinition_Text",
+            WindowManagement_Resources.ResourceManager.GetString("ManageLayoutCommandDefinition_Text",
                 CultureInfo.InvariantCulture);
+
         public override string ToolTip => null;
         public override Uri IconSource => null;
         public override string IconId => null;
@@ -27,26 +28,26 @@ namespace ModernApplicationFramework.Extended.Commands
 
         public override UICommand Command { get; }
 
-        public override MultiKeyGesture DefaultKeyGesture => null;
-        public override GestureScope DefaultGestureScope => null;
+        public override MultiKeyGesture DefaultKeyGesture { get; }
+        public override GestureScope DefaultGestureScope { get; }
 
         [ImportingConstructor]
-        public SaveCurrentLayoutCommandDefinition(ILayoutManager layoutManager)
+        public ManageLayoutCommandDefinition(ILayoutManager layoutManager)
         {
             _layoutManager = layoutManager;
 
-            var command = new UICommand(Save, CanSave);
+            var command = new UICommand(Manage, CanManage);
             Command = command;
         }
 
-        private bool CanSave()
+        private bool CanManage()
         {
             return true;
         }
 
-        private void Save()
+        private void Manage()
         {
-            _layoutManager.SaveWindowLayout();
+            _layoutManager.ManageWindowLayouts();
         }
     }
 }

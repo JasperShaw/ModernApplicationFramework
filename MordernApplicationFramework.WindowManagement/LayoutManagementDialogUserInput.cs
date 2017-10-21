@@ -5,7 +5,7 @@ using System.Windows;
 using ModernApplicationFramework.Controls.Dialogs;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Extended.Core.LayoutManagement
+namespace MordernApplicationFramework.WindowManagement
 {
     internal static class LayoutManagementDialogUserInput
     {

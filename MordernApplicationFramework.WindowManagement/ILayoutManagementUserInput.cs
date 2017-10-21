@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ModernApplicationFramework.Extended.Core.LayoutManagement
+namespace MordernApplicationFramework.WindowManagement
 {
     internal interface ILayoutManagementUserInput
     {
