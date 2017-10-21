@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -36,7 +37,7 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
             }
         }
 
-        internal ManageLayoutsViewModel(IEnumerable<KeyValuePair<string, WindowLayoutInfo>> layoutKeyInfoCollection)
+        internal ManageLayoutsViewModel(IEnumerable<KeyValuePair<string, WindowLayoutInfo>> layoutKeyInfoCollection, ILayoutManagementUserManageInput userInput)
         {
             Validate.IsNotNull(layoutKeyInfoCollection, "layoutKeyInfoCollection");
             RenameLayoutCommand = new ObjectCommand(OnRenameLayoutCommandExecuted, CanExecuteLayoutCommand);
@@ -149,5 +150,14 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
             for (var index = 0; index < Layouts.Count; ++index)
                 Layouts[index].Position = index;
         }
+    }
+
+    internal interface ILayoutManagementUserManageInput
+    {
+        bool GetRenamedLayoutName(string defaultName, Predicate<string> nameValidator, out string layoutName);
+
+        bool GetReplaceLayoutConfirmation(string name);
+
+        bool GetDeleteLayoutConfirmation(string name);
     }
 }

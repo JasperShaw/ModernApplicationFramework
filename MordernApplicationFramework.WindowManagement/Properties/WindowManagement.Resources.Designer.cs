@@ -62,6 +62,78 @@ namespace MordernApplicationFramework.WindowManagement.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string ApplyLayoutConfirmation {
+            get {
+                return ResourceManager.GetString("ApplyLayoutConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string ApplyLayoutConformation {
+            get {
+                return ResourceManager.GetString("ApplyLayoutConformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string ApplyLayoutFailedMessage {
+            get {
+                return ResourceManager.GetString("ApplyLayoutFailedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Apply Window Layout ähnelt.
+        /// </summary>
+        internal static string ApplyLayoutTitle {
+            get {
+                return ResourceManager.GetString("ApplyLayoutTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string DeleteLayoutConfirmation {
+            get {
+                return ResourceManager.GetString("DeleteLayoutConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string DeleteLayoutTitle {
+            get {
+                return ResourceManager.GetString("DeleteLayoutTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string DisableApplyLayoutWarning {
+            get {
+                return ResourceManager.GetString("DisableApplyLayoutWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string LayoutOverwriteMessage {
+            get {
+                return ResourceManager.GetString("LayoutOverwriteMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Fensterlayouts verwalten ähnelt.
         /// </summary>
         internal static string ManageLayoutCommandDefinition_Name {
@@ -76,6 +148,24 @@ namespace MordernApplicationFramework.WindowManagement.Properties {
         internal static string ManageLayoutCommandDefinition_Text {
             get {
                 return ResourceManager.GetString("ManageLayoutCommandDefinition_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string RenameLayoutMessage {
+            get {
+                return ResourceManager.GetString("RenameLayoutMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string RenameLayoutTitle {
+            get {
+                return ResourceManager.GetString("RenameLayoutTitle", resourceCulture);
             }
         }
         
@@ -121,6 +211,15 @@ namespace MordernApplicationFramework.WindowManagement.Properties {
         internal static string SaveLayoutCommandDefinitionMessageBox_Title {
             get {
                 return ResourceManager.GetString("SaveLayoutCommandDefinitionMessageBox_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string SaveLayoutTitle {
+            get {
+                return ResourceManager.GetString("SaveLayoutTitle", resourceCulture);
             }
         }
     }

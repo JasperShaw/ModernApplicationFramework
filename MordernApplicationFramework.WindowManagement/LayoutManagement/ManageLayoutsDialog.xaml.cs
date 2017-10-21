@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
-using Caliburn.Micro;
+using ModernApplicationFramework.Controls.Dialogs;
 using ModernApplicationFramework.Utilities;
+using MordernApplicationFramework.WindowManagement.Properties;
 using Action = System.Action;
 
 namespace MordernApplicationFramework.WindowManagement.LayoutManagement
@@ -23,25 +26,32 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
         internal static IEnumerable<KeyValuePair<string, WindowLayoutInfo>> Show(
             IEnumerable<KeyValuePair<string, WindowLayoutInfo>> layoutKeyInfoCollection)
         {
-            var dataContext = new ManageLayoutsViewModel(layoutKeyInfoCollection);
+            var dataContext = new ManageLayoutsViewModel(layoutKeyInfoCollection, new DialogUserInput());
             Show(dataContext);
             return dataContext.Layouts.Select(
                 layout => new KeyValuePair<string, WindowLayoutInfo>(layout.Key, layout.Info));
         }
 
-        private static void Show(ManageLayoutsViewModel dataContext)
+        internal static IEnumerable<KeyValuePair<string, WindowLayoutInfo>> Show(IEnumerable<KeyValuePair<string, WindowLayoutInfo>> layoutKeyInfoCollection, IWindowLayoutSettings settings = null)
+        {
+            ManageLayoutsViewModel dataContext = new ManageLayoutsViewModel(layoutKeyInfoCollection, new DialogUserInput());
+            Show(dataContext, settings);
+            return dataContext.Layouts.Select(layout => new KeyValuePair<string, WindowLayoutInfo>(layout.Key, layout.Info));
+        }
+
+        private static void Show(ManageLayoutsViewModel dataContext, IWindowLayoutSettings settings = null)
         {
             Validate.IsNotNull(dataContext, "DataContext");
             var manageLayoutsDialog = new ManageLayoutsDialog();
-            var settings = IoC.Get<IWindowLayoutSettings>();
-            if (settings == null)
-                return;
-            var layoutsDialogWidth = settings.ManageLayoutsDialogWidth;
-            if (layoutsDialogWidth != 0)
-                manageLayoutsDialog.Width = layoutsDialogWidth;
-            var layoutsDialogHeight = settings.ManageLayoutsDialogHeight;
-            if (layoutsDialogHeight != 0)
-                manageLayoutsDialog.Height = layoutsDialogHeight;
+            if (settings != null)
+            {
+                var layoutsDialogWidth = settings.ManageLayoutsDialogWidth;
+                if (layoutsDialogWidth != 0)
+                    manageLayoutsDialog.Width = layoutsDialogWidth;
+                var layoutsDialogHeight = settings.ManageLayoutsDialogHeight;
+                if (layoutsDialogHeight != 0)
+                    manageLayoutsDialog.Height = layoutsDialogHeight;
+            }       
             manageLayoutsDialog.DataContext = dataContext;
             dataContext.Layouts.CollectionChanged += manageLayoutsDialog.OnLayoutsCollectionChanged;
             try
@@ -52,6 +62,8 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
             {
                 dataContext.Layouts.CollectionChanged -= manageLayoutsDialog.OnLayoutsCollectionChanged;
             }
+            if (settings == null)
+                return;
             settings.ManageLayoutsDialogWidth = (int) manageLayoutsDialog.Width;
             settings.ManageLayoutsDialogHeight = (int) manageLayoutsDialog.Height;
         }
@@ -93,10 +105,35 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
         {
             if (!TryScrollToSelectedItem())
                 return;
-            var frameworkElement = LayoutList.ItemContainerGenerator.ContainerFromItem(LayoutList.SelectedItem) as FrameworkElement;
-            if (frameworkElement == null)
+            if (!(LayoutList.ItemContainerGenerator.ContainerFromItem(LayoutList.SelectedItem) is FrameworkElement frameworkElement))
                 return;
             Keyboard.Focus(frameworkElement);
+        }
+
+        private class DialogUserInput : ILayoutManagementUserManageInput
+        {
+            public bool GetRenamedLayoutName(string defaultName, Predicate<string> nameValidator, out string layoutName)
+            {
+                Validate.IsNotNull(defaultName, nameof(defaultName));
+                Validate.IsNotNull(nameValidator, nameof(nameValidator));
+                return TextInputDialog.Show(WindowManagement_Resources.RenameLayoutTitle, WindowManagement_Resources.RenameLayoutMessage, 100, defaultName, nameValidator, out layoutName);
+            }
+
+            public bool GetReplaceLayoutConfirmation(string name)
+            {
+                return MessageDialog.Show(WindowManagement_Resources.RenameLayoutTitle, string.Format(CultureInfo.CurrentUICulture, WindowManagement_Resources.LayoutOverwriteMessage, new[]
+                {
+                    (object) name
+                }), MessageDialogCommandSet.YesNo) == MessageDialogCommand.Yes;
+            }
+
+            public bool GetDeleteLayoutConfirmation(string name)
+            {
+                return MessageDialog.Show(WindowManagement_Resources.DeleteLayoutTitle, string.Format(CultureInfo.CurrentUICulture, WindowManagement_Resources.DeleteLayoutConfirmation, new[]
+                {
+                    (object) name
+                }), MessageDialogCommandSet.YesNo) == MessageDialogCommand.Yes;
+            }
         }
     }
 }

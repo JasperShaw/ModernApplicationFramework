@@ -11,12 +11,6 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 
         bool TryGetOverwriteLayoutConfirmation(string name);
 
-        bool GetRenamedLayoutName(string defaultName, Predicate<string> nameValidator, out string layoutName);
-
-        bool GetReplaceLayoutConfirmation(string name);
-
-        bool GetDeleteLayoutConfirmation(string name);
-
         IEnumerable<KeyValuePair<string, WindowLayoutInfo>> ShowManageLayoutsView(IEnumerable<KeyValuePair<string, WindowLayoutInfo>> layoutKeyInfoCollection);
 
         void ShowApplyLayoutError(string name);

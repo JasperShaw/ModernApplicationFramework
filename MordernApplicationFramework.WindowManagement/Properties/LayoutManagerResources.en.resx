@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,58 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ManageLayoutCommandDefinition_Name" xml:space="preserve">
-    <value>Fensterlayouts verwalten</value>
+  <data name="SaveLayoutStartedStatusFormat" xml:space="preserve">
+    <value>Saving window layout "{0}"...</value>
   </data>
-  <data name="ManageLayoutCommandDefinition_Text" xml:space="preserve">
-    <value>Fensterlayouts &amp;verwalten</value>
+  <data name="SaveLayoutCompletedStatusFormat" xml:space="preserve">
+    <value>Window layout "{0}" successfully saved.</value>
   </data>
-  <data name="SaveLayoutCommandDefinitionMessageBox_Default" xml:space="preserve">
-    <value>New Layout {0}</value>
+  <data name="SaveLayoutErrorStatusFormat" xml:space="preserve">
+    <value>Could not save window layout "{0}".</value>
   </data>
-  <data name="SaveLayoutCommandDefinitionMessageBox_Label" xml:space="preserve">
-    <value>_Layout name:</value>
-  </data>
-  <data name="SaveLayoutCommandDefinitionMessageBox_Title" xml:space="preserve">
-    <value>Save Window Layout</value>
-  </data>
-  <data name="SaveLayoutCommandDefinition_Name" xml:space="preserve">
-    <value>Save Window Layout</value>
-  </data>
-  <data name="SaveLayoutCommandDefinition_Text" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ApplyLayoutTitle" xml:space="preserve">
-    <value>Apply Window Layout</value>
-  </data>
-  <data name="ApplyLayoutConformation" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="DisableApplyLayoutWarning" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="SaveLayoutTitle" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="ApplyLayoutFailedMessage" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="ApplyLayoutConfirmation" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="LayoutOverwriteMessage" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="RenameLayoutTitle" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="RenameLayoutMessage" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="DeleteLayoutTitle" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="DeleteLayoutConfirmation" xml:space="preserve">
-    <value></value>
+  <data name="SaveLayoutErrorMaxLayoutsReached" xml:space="preserve">
+    <value>We could not save your layout. The total number of layouts reached maximum of {0}.
+
+Please delete one or more layouts before saving.</value>
   </data>
 </root>

@@ -129,4 +129,7 @@
   <data name="SaveLayoutCommandDefinitionMessageBox_Label" xml:space="preserve">
     <value> f</value>
   </data>
+  <data name="ApplyLayoutTitle" xml:space="preserve">
+    <value>Apply Window Layout</value>
+  </data>
 </root>
