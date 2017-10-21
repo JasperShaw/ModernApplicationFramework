@@ -68,6 +68,7 @@
     </Compile>
     <Compile Include="LayoutManagement\ManageLayoutsViewModel.cs" />
     <Compile Include="MenuDefinitions.cs" />
+    <Compile Include="Options\TabsAndWindowsOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -121,5 +122,6 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

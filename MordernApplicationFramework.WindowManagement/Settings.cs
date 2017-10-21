@@ -13,6 +13,6 @@ namespace MordernApplicationFramework.WindowManagement
         [Export]
         public static ISettingsCategory TabsAndWindowsSubCategory =
             new SettingsCategory(ToolsOptionsTabsAndWindowsSettingsCategoryId,
-                SettingsCategoryType.ToolsOptionSub, "TabsAndWindows", SettingsCategories.ToolsOptionEnvironmentCategory);
+                SettingsCategoryType.Normal, "TabsAndWindows", SettingsCategories.EnvironmentCategory);
     }
 }
