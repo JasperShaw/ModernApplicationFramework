@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -18,6 +19,9 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
     /// <seealso cref="ISettingsDataModel" />
     public abstract class SettingsDataModel : ISettingsDataModel
     {
+        public event EventHandler SettingsChanged;
+
+
         /// <inheritdoc />
         /// <summary>
         /// The category of the data model
@@ -188,11 +192,12 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
         }
 
         /// <summary>
-        /// Get a deserialized model object from the settings file
+        /// Get a single deserialized model object from the settings file. The stored model will be handled as one model only. 
+        /// For getting all stored data models use <see cref="GetAllDataModel{T}"/>
         /// </summary>
         /// <typeparam name="T">The expected type of the model</typeparam>
         /// <param name="model">The model</param>
-        protected void GetDataModel<T>(out T model)
+        protected void GetSingleDataModel<T>(out T model)
         {
             model = default(T);
             var node = SettingsManager.GetDataModelNode(SettingsFilePath);
@@ -203,6 +208,56 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
             stm.Position = 0;
             var ser = new XmlSerializer(typeof(T));
             model = (T)ser.Deserialize(stm);
+        }
+
+        /// <summary>
+        /// Get all deserialized model objects from the settings file
+        /// For getting a single stored data model use <see cref="GetDataModelAt{T}"/> or <see cref="GetSingleDataModel{T}"/> if the stored value should be handled as one model
+        /// </summary>
+        /// <typeparam name="T">The expected type of the models</typeparam>
+        /// <param name="models"><see cref="ICollection{T}"/> of the models</param>
+        protected void GetAllDataModel<T>(out ICollection<T> models)
+        {
+            models = new List<T>();
+            var node = SettingsManager.GetDataModelNode(SettingsFilePath); 
+            foreach (XmlNode childNode in node.ChildNodes)
+            {
+                var stm = new MemoryStream();
+                var stw = new StreamWriter(stm);
+                stw.Write(childNode.OuterXml);
+                stw.Flush();
+                stm.Position = 0;
+                var ser = new XmlSerializer(typeof(T));
+                var model = (T) ser.Deserialize(stm);
+                models.Add(model);
+            }
+        }
+
+        /// <summary>
+        /// Get a single deserialized model object from the settings file. The stored model will be handled as one model only. 
+        /// For getting all stored data models use <see cref="GetAllDataModel{T}"/>. For handling the stored data a one model only use <see cref="GetSingleDataModel{T}"/>
+        /// </summary>
+        /// <typeparam name="T">The expected type of the model</typeparam>
+        /// <param name="model">The model</param>
+        /// <param name="index">The index of the model</param>
+        protected void GetDataModelAt<T>(out T model, int index)
+        {
+            model = default(T);
+            var node = SettingsManager.GetDataModelNode(SettingsFilePath);
+            var stm = new MemoryStream();
+            var stw = new StreamWriter(stm);
+            if (node.ChildNodes[index] == null)
+                throw new IndexOutOfRangeException();
+            stw.Write(node.ChildNodes[index].OuterXml);
+            stw.Flush();
+            stm.Position = 0;
+            var ser = new XmlSerializer(typeof(T));
+            model = (T)ser.Deserialize(stm);
+        }
+
+        protected void OnSettingsChanged(EventArgs args)
+        {
+            SettingsChanged?.Invoke(this, args);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

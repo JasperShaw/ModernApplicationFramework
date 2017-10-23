@@ -34,7 +34,7 @@ namespace ModernApplicationFramework.Extended.KeyBindingScheme
 
         public override void LoadOrCreate()
         {
-            GetDataModel<KeyBindingsSettingsDataModel>(out var model);
+            GetSingleDataModel<KeyBindingsSettingsDataModel>(out var model);
             if (model?.KeyboardShortcuts == null)
                 model = new KeyBindingsSettingsDataModel { KeyboardShortcuts = new KeyboardShortcutsObject() };
             ShortcutsSettings = model;

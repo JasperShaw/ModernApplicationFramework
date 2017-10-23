@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 
 namespace ModernApplicationFramework.Settings.Interfaces
@@ -8,6 +9,9 @@ namespace ModernApplicationFramework.Settings.Interfaces
     /// </summary>
     public interface ISettingsDataModel : INotifyPropertyChanged
     {
+        event EventHandler SettingsChanged;
+
+
         /// <summary>
         /// The category of the data model
         /// </summary>

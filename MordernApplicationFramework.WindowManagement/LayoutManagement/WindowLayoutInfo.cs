@@ -6,7 +6,7 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 {
     [Serializable]
     [XmlType(AnonymousType = true)]
-    [XmlRoot(ElementName = "Layout", Namespace = "")]
+    [XmlRoot(ElementName = "Layout")]
     public class WindowLayoutInfo
     {
         private string _name;
