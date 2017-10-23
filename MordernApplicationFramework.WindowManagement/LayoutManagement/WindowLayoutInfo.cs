@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using System.Xml.Serialization;
+using ModernApplicationFramework.Docking.Layout;
 
 namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 {
@@ -12,6 +13,7 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
         private string _name;
         private int _position;
         private string _keyField;
+        private string _layoutRoot;
 
         [XmlAttribute]
         public string Key
@@ -34,16 +36,24 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
             set => _position = value;
         }
 
+        [XmlAttribute]
+        public string Payload
+        {
+            get => _layoutRoot;
+            set => _layoutRoot = value;
+        }
+
         public WindowLayoutInfo()
         {
             
         }
 
-        internal WindowLayoutInfo(string name, int position, string key)
+        internal WindowLayoutInfo(string name, int position, string key, string payload)
         {
             Name = name;
             Position = position;
             Key = key;
+            Payload = payload;
         }
 
         public override string ToString()

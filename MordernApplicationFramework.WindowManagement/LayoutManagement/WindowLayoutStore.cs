@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Text;
 using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Settings.SettingDataModel;
 using ModernApplicationFramework.Utilities;
@@ -77,7 +80,7 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
             var flag = !string.IsNullOrEmpty(keyValuePair.Key);
             var key = flag ? keyValuePair.Key : LayoutManagementUtilities.GenerateKey();
 
-            var info = new WindowLayoutInfo(layoutName, flag ? keyValuePair.Value.Position : CachedInfo.Count, key);
+            var info = new WindowLayoutInfo(layoutName, flag ? keyValuePair.Value.Position : CachedInfo.Count, key, CompressAndEncode(data));
             InsertSettingsModel(info, true);
             OnSettingsChanged();
             return key;
@@ -100,6 +103,23 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
         {
             GetAllDataModel(out ICollection<WindowLayoutInfo> models);
             return models;
+        }
+
+
+        private static string CompressAndEncode(string data)
+        {
+            return Convert.ToBase64String(Compress(Encoding.UTF8.GetBytes(data)));
+        }
+
+        public static byte[] Compress(byte[] data)
+        {
+            Validate.IsNotNull((object)data, nameof(data));
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                using (GZipStream gzipStream = new GZipStream((Stream)memoryStream, CompressionMode.Compress, true))
+                    gzipStream.Write(data, 0, data.Length);
+                return memoryStream.ToArray();
+            }
         }
     }
 }
