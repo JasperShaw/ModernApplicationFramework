@@ -22,7 +22,7 @@ namespace MordernApplicationFramework.WindowManagement.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class WindowManagement_Resources {
+    public class WindowManagement_Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace MordernApplicationFramework.WindowManagement.Properties {
         ///   Gibt die zwischengespeicherte ResourceManager-Instanz zurück, die von dieser Klasse verwendet wird.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MordernApplicationFramework.WindowManagement.Properties.WindowManagement.Resource" +
@@ -52,7 +52,7 @@ namespace MordernApplicationFramework.WindowManagement.Properties {
         ///   Ressourcenzuordnungen, die diese stark typisierte Ressourcenklasse verwenden.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -60,228 +60,257 @@ namespace MordernApplicationFramework.WindowManagement.Properties {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Are you sure you want to apply the layout &apos;{0}&apos; and discard your current window layout? ähnelt.
         /// </summary>
-        internal static string ApplyLayoutConfirmation {
+        public static string ApplyLayoutConfirmation {
             get {
                 return ResourceManager.GetString("ApplyLayoutConfirmation", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Could not apply layout &apos;{0}&apos;. ähnelt.
         /// </summary>
-        internal static string ApplyLayoutFailedMessage {
+        public static string ApplyLayoutFailedMessage {
             get {
                 return ResourceManager.GetString("ApplyLayoutFailedMessage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Apply Window Layout ähnelt.
         /// </summary>
-        internal static string ApplyLayoutTitle {
+        public static string ApplyLayoutTitle {
             get {
                 return ResourceManager.GetString("ApplyLayoutTitle", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Are you sure you want to delete the layout &apos;{0}&apos;? ähnelt.
         /// </summary>
-        internal static string DeleteLayoutConfirmation {
+        public static string DeleteLayoutConfirmation {
             get {
                 return ResourceManager.GetString("DeleteLayoutConfirmation", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Delete Window Layout ähnelt.
         /// </summary>
-        internal static string DeleteLayoutTitle {
+        public static string DeleteLayoutTitle {
             get {
                 return ResourceManager.GetString("DeleteLayoutTitle", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die _Don&apos;t show me this message again ähnelt.
         /// </summary>
-        internal static string DisableApplyLayoutWarning {
+        public static string DisableApplyLayoutWarning {
             get {
                 return ResourceManager.GetString("DisableApplyLayoutWarning", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die A layout named &apos;{0}&apos; already exists.
         ///Do you want to replace it? ähnelt.
         /// </summary>
-        internal static string LayoutOverwriteMessage {
+        public static string LayoutOverwriteMessage {
             get {
                 return ResourceManager.GetString("LayoutOverwriteMessage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
-        internal static string ManageLayoutCommandDefinition_Name {
+        public static string ManageLayoutCommandDefinition_Name {
             get {
                 return ResourceManager.GetString("ManageLayoutCommandDefinition_Name", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
-        internal static string ManageLayoutCommandDefinition_Text {
+        public static string ManageLayoutCommandDefinition_Text {
             get {
                 return ResourceManager.GetString("ManageLayoutCommandDefinition_Text", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Close ähnelt.
         /// </summary>
-        internal static string ManageLayoutsButton_Close {
+        public static string ManageLayoutsButton_Close {
             get {
                 return ResourceManager.GetString("ManageLayoutsButton_Close", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die _Delete ähnelt.
         /// </summary>
-        internal static string ManageLayoutsButton_Delete {
+        public static string ManageLayoutsButton_Delete {
             get {
                 return ResourceManager.GetString("ManageLayoutsButton_Delete", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die _Rename ähnelt.
         /// </summary>
-        internal static string ManageLayoutsButton_Rename {
+        public static string ManageLayoutsButton_Rename {
             get {
                 return ResourceManager.GetString("ManageLayoutsButton_Rename", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Move Down (Alt+Down) ähnelt.
         /// </summary>
-        internal static string ManageLayoutsButtonTooltip_IndexDown {
+        public static string ManageLayoutsButtonTooltip_IndexDown {
             get {
                 return ResourceManager.GetString("ManageLayoutsButtonTooltip_IndexDown", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Move Up (Alt+Up) ähnelt.
         /// </summary>
-        internal static string ManageLayoutsButtonTooltip_IndexUp {
+        public static string ManageLayoutsButtonTooltip_IndexUp {
             get {
                 return ResourceManager.GetString("ManageLayoutsButtonTooltip_IndexUp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die _Saved layouts: ähnelt.
         /// </summary>
-        internal static string ManageLayoutsDialogSavedLayouts {
+        public static string ManageLayoutsDialogSavedLayouts {
             get {
                 return ResourceManager.GetString("ManageLayoutsDialogSavedLayouts", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Manage Window Layouts ähnelt.
         /// </summary>
-        internal static string ManageLayoutsDialogTitle {
+        public static string ManageLayoutsDialogTitle {
             get {
                 return ResourceManager.GetString("ManageLayoutsDialogTitle", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die _Layout name: ähnelt.
         /// </summary>
-        internal static string RenameLayoutMessage {
+        public static string RenameLayoutMessage {
             get {
                 return ResourceManager.GetString("RenameLayoutMessage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Rename Window Layout ähnelt.
         /// </summary>
-        internal static string RenameLayoutTitle {
+        public static string RenameLayoutTitle {
             get {
                 return ResourceManager.GetString("RenameLayoutTitle", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Save Window Layout ähnelt.
         /// </summary>
-        internal static string SaveLayoutCommandDefinition_Name {
+        public static string SaveLayoutCommandDefinition_Name {
             get {
                 return ResourceManager.GetString("SaveLayoutCommandDefinition_Name", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
-        internal static string SaveLayoutCommandDefinition_Text {
+        public static string SaveLayoutCommandDefinition_Text {
             get {
                 return ResourceManager.GetString("SaveLayoutCommandDefinition_Text", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die New Layout {0} ähnelt.
         /// </summary>
-        internal static string SaveLayoutCommandDefinitionMessageBox_Default {
+        public static string SaveLayoutCommandDefinitionMessageBox_Default {
             get {
                 return ResourceManager.GetString("SaveLayoutCommandDefinitionMessageBox_Default", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die _Layout name: ähnelt.
         /// </summary>
-        internal static string SaveLayoutCommandDefinitionMessageBox_Label {
+        public static string SaveLayoutCommandDefinitionMessageBox_Label {
             get {
                 return ResourceManager.GetString("SaveLayoutCommandDefinitionMessageBox_Label", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Save Window Layout ähnelt.
         /// </summary>
-        internal static string SaveLayoutCommandDefinitionMessageBox_Title {
+        public static string SaveLayoutCommandDefinitionMessageBox_Title {
             get {
                 return ResourceManager.GetString("SaveLayoutCommandDefinitionMessageBox_Title", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Window layout &quot;{0}&quot; successfully saved. ähnelt.
+        /// </summary>
+        public static string SaveLayoutCompletedStatusFormat {
+            get {
+                return ResourceManager.GetString("SaveLayoutCompletedStatusFormat", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die We could not save your layout. The total number of layouts reached maximum of {0}.
+        ///
+        ///Please delete one or more layouts before saving. ähnelt.
+        /// </summary>
+        public static string SaveLayoutErrorMaxLayoutsReached {
+            get {
+                return ResourceManager.GetString("SaveLayoutErrorMaxLayoutsReached", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Could not save window layout &quot;{0}&quot;. ähnelt.
         /// </summary>
-        internal static string SaveLayoutErrorStatusFormat {
+        public static string SaveLayoutErrorStatusFormat {
             get {
                 return ResourceManager.GetString("SaveLayoutErrorStatusFormat", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Saving window layout &quot;{0}&quot;... ähnelt.
+        /// </summary>
+        public static string SaveLayoutStartedStatusFormat {
+            get {
+                return ResourceManager.GetString("SaveLayoutStartedStatusFormat", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Save Window Layout ähnelt.
         /// </summary>
-        internal static string SaveLayoutTitle {
+        public static string SaveLayoutTitle {
             get {
                 return ResourceManager.GetString("SaveLayoutTitle", resourceCulture);
             }

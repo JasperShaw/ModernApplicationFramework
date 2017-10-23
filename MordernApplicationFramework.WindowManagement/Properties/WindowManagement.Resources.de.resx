@@ -193,4 +193,10 @@ Möchten Sie das Layout ersetzen?</value>
   <data name="SaveLayoutErrorStatusFormat" xml:space="preserve">
     <value>Fensterlayout "{0}" konnte nicht gespeichert werden.</value>
   </data>
+  <data name="SaveLayoutStartedStatusFormat" xml:space="preserve">
+    <value>Fensterlayout "{0}" wird gespeichert...</value>
+  </data>
+  <data name="SaveLayoutCompletedStatusFormat" xml:space="preserve">
+    <value>Fensterlayout"{0}" wurde erfolgreich gespeichert.</value>
+  </data>
 </root>

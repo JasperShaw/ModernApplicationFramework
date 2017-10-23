@@ -184,4 +184,15 @@ Do you want to replace it?</value>
   <data name="SaveLayoutErrorStatusFormat" xml:space="preserve">
     <value>Could not save window layout "{0}".</value>
   </data>
+  <data name="SaveLayoutErrorMaxLayoutsReached" xml:space="preserve">
+    <value>We could not save your layout. The total number of layouts reached maximum of {0}.
+
+Please delete one or more layouts before saving.</value>
+  </data>
+  <data name="SaveLayoutStartedStatusFormat" xml:space="preserve">
+    <value>Saving window layout "{0}"...</value>
+  </data>
+  <data name="SaveLayoutCompletedStatusFormat" xml:space="preserve">
+    <value>Window layout "{0}" successfully saved.</value>
+  </data>
 </root>
