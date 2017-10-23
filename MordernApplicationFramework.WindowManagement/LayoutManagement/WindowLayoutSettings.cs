@@ -10,8 +10,8 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
     [Export(typeof(IWindowLayoutSettings))]
     internal class WindowLayoutSettings : SettingsDataModel, IWindowLayoutSettings
     {
-        public override ISettingsCategory Category => Settings.TabsAndWindowsSubCategory;
-        public override string Name => "TabsAndWindows";
+        public override ISettingsCategory Category => Settings.TabsAndWindowsCategory;
+        public override string Name => "Environment_TabsAndWindows";
 
         public bool SkipApplyLayoutConfirmation
         {

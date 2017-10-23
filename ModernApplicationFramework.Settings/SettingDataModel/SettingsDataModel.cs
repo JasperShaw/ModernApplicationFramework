@@ -2,7 +2,6 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
@@ -146,7 +145,7 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
 
 
         /// <summary>
-        /// Inserts a XML model into the settings file.
+        /// Sets and replaces a XML model into the settings file.
         /// </summary>
         /// <typeparam name="T">The type of the model</typeparam>
         /// <param name="model">The model.</param>
@@ -154,6 +153,27 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
         protected void SetSettingsModel<T>(T model, bool insertRoot = false)
         {
             SettingsManager.RemoveModelAsync(SettingsFilePath);
+            var document = new XmlDocument();
+            var nav = document.CreateNavigator();
+
+            using (var writer = nav.AppendChild())
+            {
+                var ns = new XmlSerializerNamespaces();
+                ns.Add("", "");
+                var ser = new XmlSerializer(typeof(T));
+                ser.Serialize(writer, model, ns);
+            }
+            SettingsManager.SetDocumentAsync(SettingsFilePath, document, insertRoot);
+        }
+
+        /// <summary>
+        /// Inserts a XML model into the settings file.
+        /// </summary>
+        /// <typeparam name="T">The type of the model</typeparam>
+        /// <param name="model">The model.</param>
+        /// <param name="insertRoot">if set to <see langword="true"/> the XML's root will be inserted also</param>
+        protected void InsertSettingsModel<T>(T model, bool insertRoot = false)
+        {
             var document = new XmlDocument();
             var nav = document.CreateNavigator();
 

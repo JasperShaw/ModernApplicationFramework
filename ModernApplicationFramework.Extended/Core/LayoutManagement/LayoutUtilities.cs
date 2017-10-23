@@ -8,7 +8,7 @@ using ModernApplicationFramework.Extended.Interfaces;
 
 namespace ModernApplicationFramework.Extended.Core.LayoutManagement
 {
-    internal static class LayoutUtilities
+    public static class LayoutUtilities
     {
         public static void LoadLayout(DockingManager manager, Stream stream, Action<ILayoutItem> addDocumentCallback,
             Action<ITool> addToolCallback, Dictionary<string, ILayoutItemBase> items)

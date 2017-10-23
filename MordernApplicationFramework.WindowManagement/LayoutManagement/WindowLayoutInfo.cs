@@ -1,37 +1,49 @@
+using System;
 using System.Text;
-using ModernApplicationFramework.Utilities;
+using System.Xml.Serialization;
 
 namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 {
+    [Serializable]
+    [XmlType(AnonymousType = true)]
+    [XmlRoot(ElementName = "Layout", Namespace = "")]
     public class WindowLayoutInfo
     {
         private string _name;
         private int _position;
+        private string _keyField;
 
+        [XmlAttribute]
+        public string Key
+        {
+            get => _keyField;
+            set => _keyField = value;
+        }
+
+        [XmlAttribute]
         public string Name
         {
             get => _name;
-            set
-            {
-                Validate.IsNotNullAndNotEmpty(value, "Name");
-                _name = value;     
-            }
+            set => _name = value;
         }
 
+        [XmlAttribute]
         public int Position
         {
             get => _position;
-            set
-            {
-                Validate.IsWithinRange(value, 0, int.MaxValue, "Position");
-                _position = value;
-            }
+            set => _position = value;
         }
 
-        internal WindowLayoutInfo(string name, int position)
+        public WindowLayoutInfo()
+        {
+            
+        }
+
+        internal WindowLayoutInfo(string name, int position, string key)
         {
             Name = name;
             Position = position;
+            Key = key;
         }
 
         public override string ToString()
@@ -45,8 +57,7 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 
         public override bool Equals(object obj)
         {
-            var windowLayoutInfo = obj as WindowLayoutInfo;
-            return windowLayoutInfo != null && Position == windowLayoutInfo.Position && Name.Equals(windowLayoutInfo.Name);
+            return obj is WindowLayoutInfo windowLayoutInfo && Position == windowLayoutInfo.Position && Name.Equals(windowLayoutInfo.Name);
         }
 
         public override int GetHashCode()

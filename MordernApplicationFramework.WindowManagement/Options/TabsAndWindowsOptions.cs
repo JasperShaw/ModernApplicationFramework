@@ -8,7 +8,7 @@ namespace MordernApplicationFramework.WindowManagement.Options
     [Export(typeof(TabsAndWindowsOptions))]
     public class TabsAndWindowsOptions : SettingsDataModel
     {
-        public override ISettingsCategory Category => Settings.TabsAndWindowsSubCategory;
+        public override ISettingsCategory Category => Settings.TabsAndWindowsCategory;
         public override string Name => "TabsAndWindows";
         public override void LoadOrCreate()
         {

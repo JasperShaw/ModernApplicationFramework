@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.IO;
+using System.Windows;
 using ModernApplicationFramework.Controls.Dialogs;
-using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Docking;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Utilities;
 using MordernApplicationFramework.WindowManagement.LayoutManagement;
@@ -15,7 +16,6 @@ namespace MordernApplicationFramework.WindowManagement
     [Export(typeof(ILayoutManager))]
     public class LayoutManager : ILayoutManager, ILayoutManagerInternal
     {
-        private readonly ILayoutItemStatePersister _layoutItemStatePersister;
         private readonly IStatusBarDataModelService _statusBar;
         private readonly IWindowLayoutSettings _layoutSettings;
         private readonly IWindowLayoutStore _layoutStore;
@@ -24,33 +24,47 @@ namespace MordernApplicationFramework.WindowManagement
         public int LayoutCount => _layoutStore.GetLayoutCount();
 
         [ImportingConstructor]
-        internal LayoutManager(ILayoutItemStatePersister layoutItemStatePersister, IStatusBarDataModelService statusBar, 
-            IWindowLayoutSettings layoutSettings)
+        internal LayoutManager(IStatusBarDataModelService statusBar, 
+            IWindowLayoutSettings layoutSettings, IWindowLayoutStore layoutStore)
         {
             Validate.IsNotNull(layoutSettings, nameof(layoutSettings));
-            _layoutItemStatePersister = layoutItemStatePersister;
             _statusBar = statusBar;
             _layoutSettings = layoutSettings;
             _layoutManagementUserInput = new DialogUserInput(layoutSettings);
 
-            _layoutStore = new WindowLayoutStore();
+            _layoutStore = layoutStore;
 
 
         }
 
         public string GetLayoutNameAt(int index)
         {
-            throw new NotImplementedException();
+            Validate.IsWithinRange(index, 0, LayoutCount - 1, nameof(index));
+            return _layoutStore.GetLayoutAt(index).Value.Name;
         }
 
         public string GetLayoutDataAt(int index)
         {
-            throw new NotImplementedException();
+            Validate.IsWithinRange(index, 0, LayoutCount - 1, nameof(index));
+            return _layoutStore.GetLayoutDataAt(index);
         }
 
         public void ApplyWindowLayout(int index)
         {
-            throw new NotImplementedException();
+            Validate.IsWithinRange(index, 0, LayoutCount -1, nameof(index));
+            var layoutAt = _layoutStore.GetLayoutAt(index);
+            var name = layoutAt.Value.Name;
+            var key = layoutAt.Key;
+            if (!_layoutSettings.SkipApplyLayoutConfirmation)
+            {
+                if (!_layoutManagementUserInput.TryGetApplyLayoutConfirmation(name, out var disableConfirmation))
+                    return;
+                if (disableConfirmation)
+                    _layoutSettings.SkipApplyLayoutConfirmation = true;
+            }
+            if (TryApplyWindowLayout(key, name, index))
+                return;
+            _layoutManagementUserInput.ShowApplyLayoutError(name);
         }
 
         public void SaveWindowLayout()
@@ -80,15 +94,24 @@ namespace MordernApplicationFramework.WindowManagement
 
         public void SaveWindowLayoutInternal(string layoutName, string layoutPayload, bool hadNameConflict)
         {
-            var str = string.Empty;
             try
             {
                 if (!hadNameConflict && 10 <= LayoutCount)
                 {
-
+                    _layoutManagementUserInput.ShowSaveLayoutError(string.Format(CultureInfo.CurrentUICulture,
+                        WindowManagement_Resources.SaveLayoutErrorMaxLayoutsReached, new object[]
+                        {
+                            10
+                        }));
+                }
+                else
+                {
+                    SetStatusBarMessage(WindowManagement_Resources.SaveLayoutStartedStatusFormat, layoutName);
+                    _layoutStore.SaveLayout(layoutName, layoutPayload);
+                    SetStatusBarMessage(WindowManagement_Resources.SaveLayoutCompletedStatusFormat, layoutName);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 SetStatusBarMessage(WindowManagement_Resources.SaveLayoutErrorStatusFormat, layoutName);
             }
@@ -105,13 +128,23 @@ namespace MordernApplicationFramework.WindowManagement
         public void ManageWindowLayoutsInternal(Func<IEnumerable<KeyValuePair<string, WindowLayoutInfo>>, IEnumerable<KeyValuePair<string, WindowLayoutInfo>>> layoutTransformation)
         {
             var keyValuePairs = LayoutManagementUtilities.EnumerateLayoutKeyInfo(_layoutStore);
-            //TODO: Update LayoutStore
-            layoutTransformation(keyValuePairs);
+            _layoutStore.UpdateLayouts(layoutTransformation(keyValuePairs));         
         }
 
         public void ApplyWindowLayoutInternal(int index)
         {
             throw new NotImplementedException();
+        }
+
+        private bool TryApplyWindowLayout(string key, string name, int index)
+        {
+            var layoutDataAt = GetLayoutDataAt(index);
+            if (string.IsNullOrEmpty(layoutDataAt))
+                return false;
+
+            //TODO
+
+            return true;
         }
 
         private int GetDefaultLayoutNameIndex(string defaultNameFormat)
@@ -143,6 +176,8 @@ namespace MordernApplicationFramework.WindowManagement
         {
             using (var memoryStream = new MemoryStream())
             {
+                if (DockingManager.Instace != null)
+                    ModernApplicationFramework.Extended.Core.LayoutManagement.LayoutUtilities.SaveLayout(DockingManager.Instace, memoryStream);
                 memoryStream.Seek(0L, SeekOrigin.Begin);
                 using (var streamReader = new StreamReader(memoryStream))
                 {
@@ -206,11 +241,9 @@ namespace MordernApplicationFramework.WindowManagement
                 DisplayError(message);
             }
 
-            private void DisplayError(string message)
+            private static void DisplayError(string message)
             {
-                Guid empty = Guid.Empty;
-                int pnResult;
-                //GlobalServices.UIShell.ShowMessageBox(0U, ref empty, (string)null, message, (string)null, 0U, OLEMSGBUTTON.OLEMSGBUTTON_OK, OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST, OLEMSGICON.OLEMSGICON_CRITICAL, 0, out pnResult);
+                MessageBox.Show(message, null, MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
             }
         }
     }
