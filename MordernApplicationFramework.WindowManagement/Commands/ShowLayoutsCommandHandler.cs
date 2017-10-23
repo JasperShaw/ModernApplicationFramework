@@ -8,6 +8,7 @@ using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Command;
 using MordernApplicationFramework.WindowManagement.LayoutManagement;
+using MordernApplicationFramework.WindowManagement.Properties;
 
 namespace MordernApplicationFramework.WindowManagement.Commands
 {
@@ -36,6 +37,7 @@ namespace MordernApplicationFramework.WindowManagement.Commands
                 .ThenBy(lvm => lvm.Name));
             if (layouts.Count == 0)
             {
+                commands.Add(new ShowLayoutCommandDefinition(WindowManagement_Resources.NoSavedLayouts));
                 return;
             }
             commands.AddRange(layouts.Select(layout => new ShowLayoutCommandDefinition(layout.Name)

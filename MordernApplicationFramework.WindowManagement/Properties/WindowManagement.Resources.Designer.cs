@@ -225,6 +225,15 @@ namespace MordernApplicationFramework.WindowManagement.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die No Saved Layouts ähnelt.
+        /// </summary>
+        internal static string NoSavedLayouts {
+            get {
+                return ResourceManager.GetString("NoSavedLayouts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die _Layout name: ähnelt.
         /// </summary>
         internal static string RenameLayoutMessage {
