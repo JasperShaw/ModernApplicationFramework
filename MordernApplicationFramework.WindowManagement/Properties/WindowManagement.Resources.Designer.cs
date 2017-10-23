@@ -62,7 +62,7 @@ namespace MordernApplicationFramework.WindowManagement.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Are you sure you want to apply the layout &apos;{0}&apos; and discard your current window layout? ähnelt.
         /// </summary>
         internal static string ApplyLayoutConfirmation {
             get {
@@ -71,16 +71,7 @@ namespace MordernApplicationFramework.WindowManagement.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
-        /// </summary>
-        internal static string ApplyLayoutConformation {
-            get {
-                return ResourceManager.GetString("ApplyLayoutConformation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Could not apply layout &apos;{0}&apos;. ähnelt.
         /// </summary>
         internal static string ApplyLayoutFailedMessage {
             get {
@@ -98,7 +89,7 @@ namespace MordernApplicationFramework.WindowManagement.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Are you sure you want to delete the layout &apos;{0}&apos;? ähnelt.
         /// </summary>
         internal static string DeleteLayoutConfirmation {
             get {
@@ -107,7 +98,7 @@ namespace MordernApplicationFramework.WindowManagement.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Delete Window Layout ähnelt.
         /// </summary>
         internal static string DeleteLayoutTitle {
             get {
@@ -116,7 +107,7 @@ namespace MordernApplicationFramework.WindowManagement.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Don&apos;t show me this message again ähnelt.
         /// </summary>
         internal static string DisableApplyLayoutWarning {
             get {
@@ -125,7 +116,8 @@ namespace MordernApplicationFramework.WindowManagement.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die A layout named &apos;{0}&apos; already exists.
+        ///Do you want to replace it? ähnelt.
         /// </summary>
         internal static string LayoutOverwriteMessage {
             get {
@@ -134,7 +126,7 @@ namespace MordernApplicationFramework.WindowManagement.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Fensterlayouts verwalten ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
         internal static string ManageLayoutCommandDefinition_Name {
             get {
@@ -143,7 +135,7 @@ namespace MordernApplicationFramework.WindowManagement.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Fensterlayouts &amp;verwalten ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
         internal static string ManageLayoutCommandDefinition_Text {
             get {
@@ -152,7 +144,70 @@ namespace MordernApplicationFramework.WindowManagement.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Close ähnelt.
+        /// </summary>
+        internal static string ManageLayoutsButton_Close {
+            get {
+                return ResourceManager.GetString("ManageLayoutsButton_Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Delete ähnelt.
+        /// </summary>
+        internal static string ManageLayoutsButton_Delete {
+            get {
+                return ResourceManager.GetString("ManageLayoutsButton_Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Rename ähnelt.
+        /// </summary>
+        internal static string ManageLayoutsButton_Rename {
+            get {
+                return ResourceManager.GetString("ManageLayoutsButton_Rename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Move Down (Alt+Down) ähnelt.
+        /// </summary>
+        internal static string ManageLayoutsButtonTooltip_IndexDown {
+            get {
+                return ResourceManager.GetString("ManageLayoutsButtonTooltip_IndexDown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Move Up (Alt+Up) ähnelt.
+        /// </summary>
+        internal static string ManageLayoutsButtonTooltip_IndexUp {
+            get {
+                return ResourceManager.GetString("ManageLayoutsButtonTooltip_IndexUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Saved layouts: ähnelt.
+        /// </summary>
+        internal static string ManageLayoutsDialogSavedLayouts {
+            get {
+                return ResourceManager.GetString("ManageLayoutsDialogSavedLayouts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Manage Window Layouts ähnelt.
+        /// </summary>
+        internal static string ManageLayoutsDialogTitle {
+            get {
+                return ResourceManager.GetString("ManageLayoutsDialogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Layout name: ähnelt.
         /// </summary>
         internal static string RenameLayoutMessage {
             get {
@@ -161,7 +216,7 @@ namespace MordernApplicationFramework.WindowManagement.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Rename Window Layout ähnelt.
         /// </summary>
         internal static string RenameLayoutTitle {
             get {
@@ -215,7 +270,16 @@ namespace MordernApplicationFramework.WindowManagement.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Could not save window layout &quot;{0}&quot;. ähnelt.
+        /// </summary>
+        internal static string SaveLayoutErrorStatusFormat {
+            get {
+                return ResourceManager.GetString("SaveLayoutErrorStatusFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Save Window Layout ähnelt.
         /// </summary>
         internal static string SaveLayoutTitle {
             get {

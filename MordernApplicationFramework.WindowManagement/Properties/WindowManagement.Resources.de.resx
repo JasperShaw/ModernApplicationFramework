@@ -138,4 +138,59 @@
   <data name="SaveLayoutCommandDefinitionMessageBox_Title" xml:space="preserve">
     <value>Fensterlayout speichern</value>
   </data>
+  <data name="ManageLayoutsDialogTitle" xml:space="preserve">
+    <value>Fensterlayouts verwalten</value>
+  </data>
+  <data name="ManageLayoutsDialogSavedLayouts" xml:space="preserve">
+    <value>Ge_speicherte Layouts:</value>
+  </data>
+  <data name="ManageLayoutsButton_Rename" xml:space="preserve">
+    <value>_Umbenennen</value>
+  </data>
+  <data name="ManageLayoutsButton_Delete" xml:space="preserve">
+    <value>_Löschen</value>
+  </data>
+  <data name="ManageLayoutsButton_Close" xml:space="preserve">
+    <value>Schließen</value>
+  </data>
+  <data name="ManageLayoutsButtonTooltip_IndexDown" xml:space="preserve">
+    <value>Nach unten (ALT+NACH-UNTEN)</value>
+  </data>
+  <data name="ManageLayoutsButtonTooltip_IndexUp" xml:space="preserve">
+    <value>Nach oben (ALT+NACH-OBEN)</value>
+  </data>
+  <data name="ApplyLayoutTitle" xml:space="preserve">
+    <value>Fensterlayout anwenden</value>
+  </data>
+  <data name="DisableApplyLayoutWarning" xml:space="preserve">
+    <value>_Diese Meldung nicht mehr anzeigen</value>
+  </data>
+  <data name="SaveLayoutTitle" xml:space="preserve">
+    <value>Fensterlayout speichern</value>
+  </data>
+  <data name="ApplyLayoutFailedMessage" xml:space="preserve">
+    <value>Layout '{0}' konnte nicht angewendet werden.</value>
+  </data>
+  <data name="ApplyLayoutConfirmation" xml:space="preserve">
+    <value>Möchten Sie das Layout „{0}“ wirklich anwenden und Ihr aktuelles Fensterlayout verwerfen?</value>
+  </data>
+  <data name="LayoutOverwriteMessage" xml:space="preserve">
+    <value>Ein Layout mit dem Namen „{0}“ ist bereits vorhanden.
+Möchten Sie das Layout ersetzen?</value>
+  </data>
+  <data name="RenameLayoutTitle" xml:space="preserve">
+    <value>Fensterlayout umbenennen</value>
+  </data>
+  <data name="RenameLayoutMessage" xml:space="preserve">
+    <value>_Layoutname:</value>
+  </data>
+  <data name="DeleteLayoutTitle" xml:space="preserve">
+    <value>Fensterlayout löschen</value>
+  </data>
+  <data name="DeleteLayoutConfirmation" xml:space="preserve">
+    <value>Möchten Sie das Layout '{0}' wirklich löschen?</value>
+  </data>
+  <data name="SaveLayoutErrorStatusFormat" xml:space="preserve">
+    <value>Fensterlayout "{0}" konnte nicht gespeichert werden.</value>
+  </data>
 </root>

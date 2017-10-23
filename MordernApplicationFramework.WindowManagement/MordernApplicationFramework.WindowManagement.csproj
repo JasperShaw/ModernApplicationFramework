@@ -56,10 +56,11 @@
     <Compile Include="LayoutManagement\ILayoutManagementUserInput.cs" />
     <Compile Include="ILayoutManager.cs" />
     <Compile Include="ILayoutManagerInternal.cs" />
+    <Compile Include="LayoutManagement\ILayoutManagementUserManageInput.cs" />
     <Compile Include="LayoutManagement\IWindowLayoutSettings.cs" />
     <Compile Include="LayoutManagement\IWindowLayoutStore.cs" />
     <Compile Include="LayoutManagement\LayoutItemViewModel.cs" />
-    <Compile Include="LayoutManagementDialogUserInput.cs" />
+    <Compile Include="LayoutManagement\LayoutManagementDialogUserInput.cs" />
     <Compile Include="LayoutManagement\LayoutManagementUtilities.cs" />
     <Compile Include="LayoutManager.cs" />
     <Compile Include="ManageActions.cs" />
@@ -77,11 +78,6 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\LayoutManagerResources.Designer.cs">
-      <DependentUpon>LayoutManagerResources.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Properties\WindowManagement.Resources.Designer.cs">
       <DependentUpon>WindowManagement.Resources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -96,12 +92,6 @@
     <Compile Include="LayoutManagement\WindowLayoutInfo.cs" />
     <Compile Include="LayoutManagement\WindowLayoutSettings.cs" />
     <Compile Include="LayoutManagement\WindowLayoutStore.cs" />
-    <EmbeddedResource Include="Properties\LayoutManagerResources.de.resx" />
-    <EmbeddedResource Include="Properties\LayoutManagerResources.en.resx" />
-    <EmbeddedResource Include="Properties\LayoutManagerResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>LayoutManagerResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\WindowManagement.Resources.de.resx" />
     <EmbeddedResource Include="Properties\WindowManagement.Resources.en.resx" />
     <EmbeddedResource Include="Properties\WindowManagement.Resources.resx">

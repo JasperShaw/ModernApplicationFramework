@@ -4,9 +4,8 @@ using System.Globalization;
 using System.Windows;
 using ModernApplicationFramework.Controls.Dialogs;
 using ModernApplicationFramework.Utilities;
-using MordernApplicationFramework.WindowManagement.LayoutManagement;
 
-namespace MordernApplicationFramework.WindowManagement
+namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 {
     internal static class LayoutManagementDialogUserInput
     {

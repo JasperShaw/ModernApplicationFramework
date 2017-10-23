@@ -5,7 +5,9 @@
              xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons;assembly=ModernApplicationFramework"
              xmlns:converters="clr-namespace:ModernApplicationFramework.Utilities.Converters;assembly=ModernApplicationFramework.Utilities"
              xmlns:imaging="clr-namespace:ModernApplicationFramework.Utilities.Imaging;assembly=ModernApplicationFramework.Utilities"
-             WindowStartupLocation="CenterOwner" HasDialogFrame="True" ShowInTaskbar="False" Title="Fensterlayouts verwalten"
+             xmlns:properties="clr-namespace:MordernApplicationFramework.WindowManagement.Properties"
+             WindowStartupLocation="CenterOwner" HasDialogFrame="True" ShowInTaskbar="False" 
+                   Title="{x:Static properties:WindowManagement_Resources.ManageLayoutsDialogTitle}"
                    ResizeMode="CanResizeWithGrip" Width="380" Height="380" MinWidth="380" MinHeight="380">
     <FrameworkElement.Resources>
 
@@ -31,23 +33,23 @@
         <KeyBinding Gesture="F2" Command="{Binding RenameLayoutCommand}"/>
     </UIElement.InputBindings>
     <DockPanel Margin="12">
-        <Label DockPanel.Dock="Top" Padding="0" Margin="0,0,0,2" Content="Ge_speicherte Layouts:">
+        <Label DockPanel.Dock="Top" Padding="0" Margin="0,0,0,2" Content="{x:Static properties:WindowManagement_Resources.ManageLayoutsDialogSavedLayouts}">
             <Label.Target>
                 <Binding ElementName="LayoutList"/>
             </Label.Target>
         </Label>
         <DockPanel DockPanel.Dock="Bottom">
-            <buttons:DialogButton Content="_Umbenennen" Margin="0" TabIndex="3" Command="{Binding RenameLayoutCommand}"/>
-            <buttons:DialogButton Content="_Löschen" Margin="6,0,0,0" TabIndex="4" Command="{Binding DeleteLayoutCommand}"/>
-            <buttons:DialogButton IsCancel="True" DockPanel.Dock="Right" HorizontalAlignment="Right" Content="Schließen" 
+            <buttons:DialogButton Content="{x:Static properties:WindowManagement_Resources.ManageLayoutsButton_Rename}" Margin="0" TabIndex="3" Command="{Binding RenameLayoutCommand}"/>
+            <buttons:DialogButton Content="{x:Static properties:WindowManagement_Resources.ManageLayoutsButton_Delete}" Margin="6,0,0,0" TabIndex="4" Command="{Binding DeleteLayoutCommand}"/>
+            <buttons:DialogButton IsCancel="True" DockPanel.Dock="Right" HorizontalAlignment="Right" Content="{x:Static properties:WindowManagement_Resources.ManageLayoutsButton_Close}" 
                                   Margin="0" TabIndex="5"/>
         </DockPanel>
         <StackPanel DockPanel.Dock="Right">
-            <Button Style="{StaticResource IconButtonStyle}" Name="MoveUp" ToolTip="Nach oben (ALT+NACH-OBEN)"
+            <Button Style="{StaticResource IconButtonStyle}" Name="MoveUp" ToolTip="{x:Static properties:WindowManagement_Resources.ManageLayoutsButtonTooltip_IndexUp}"
                     TabIndex="2" Command="{Binding MoveLayoutUpCommand}" Margin="0,0,0,6">
                 <ContentPresenter Width="16" Height="16" Content="{StaticResource MoveUpIcon}"/>
             </Button>
-            <Button Style="{StaticResource IconButtonStyle}" Name="MoveDown" ToolTip="Nach unten (ALT+NACH-UNTEN)"
+            <Button Style="{StaticResource IconButtonStyle}" Name="MoveDown" ToolTip="{x:Static properties:WindowManagement_Resources.ManageLayoutsButtonTooltip_IndexDown}"
                     TabIndex="2" Command="{Binding MoveLayoutDownCommand}">
                 <ContentPresenter Width="16" Height="16" Content="{StaticResource MoveDownIcon}"/>
             </Button>

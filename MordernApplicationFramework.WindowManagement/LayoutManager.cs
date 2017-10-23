@@ -90,7 +90,7 @@ namespace MordernApplicationFramework.WindowManagement
             }
             catch (Exception ex)
             {
-                SetStatusBarMessage(LayoutManagerResources.SaveLayoutErrorStatusFormat, layoutName);
+                SetStatusBarMessage(WindowManagement_Resources.SaveLayoutErrorStatusFormat, layoutName);
             }
         }
 
