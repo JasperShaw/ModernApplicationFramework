@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using ModernApplicationFramework.Utilities;
 
 namespace MordernApplicationFramework.WindowManagement.LayoutManagement
@@ -51,6 +53,15 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
         internal static string GenerateKey()
         {
             return Guid.NewGuid().ToString("N");
+        }
+
+        public static Stream ConvertLayoutPayloadToStream(string payload)
+        {
+            var memoryStream = new MemoryStream();
+            using (var streamWriter = new StreamWriter(memoryStream, Encoding.UTF8, 1024, true))
+                streamWriter.Write(payload);
+            memoryStream.Seek(0L, SeekOrigin.Begin);
+            return memoryStream;
         }
     }
 }

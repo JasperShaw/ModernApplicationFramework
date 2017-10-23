@@ -202,10 +202,13 @@ Möchten Sie das Layout ersetzen?</value>
   <data name="MenuDefinition_ApplyLayout" xml:space="preserve">
     <value>Fensterla&amp;yout anwenden</value>
   </data>
-  <data name="ApplyWindowLayoutListCommandDefinition" xml:space="preserve">
+  <data name="ApplyWindowLayoutListCommandDefinition_Name" xml:space="preserve">
     <value>Fensterlayoutliste anwenden</value>
   </data>
   <data name="NoSavedLayouts" xml:space="preserve">
     <value>Keine gespeicherten Layouts</value>
+  </data>
+  <data name="ApplyWindowLayoutCommantDefinition_Name" xml:space="preserve">
+    <value>Fensterlayout {0} anwenden</value>
   </data>
 </root>

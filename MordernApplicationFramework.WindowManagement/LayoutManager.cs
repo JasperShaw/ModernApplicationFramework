@@ -31,10 +31,7 @@ namespace MordernApplicationFramework.WindowManagement
             _statusBar = statusBar;
             _layoutSettings = layoutSettings;
             _layoutManagementUserInput = new DialogUserInput(layoutSettings);
-
             _layoutStore = layoutStore;
-
-
         }
 
         public string GetLayoutNameAt(int index)
@@ -142,8 +139,20 @@ namespace MordernApplicationFramework.WindowManagement
             if (string.IsNullOrEmpty(layoutDataAt))
                 return false;
 
-            //TODO
-
+            SetStatusBarMessage(WindowManagement_Resources.ApplyLayoutStartedStatusFormat, name);
+            try
+            {
+                using (var stream = LayoutManagementUtilities.ConvertLayoutPayloadToStream(layoutDataAt))
+                {
+                    //TODO: 
+                }
+                SetStatusBarMessage(WindowManagement_Resources.ApplyLayoutCompletedStatusFormat, name);
+            }
+            catch (Exception)
+            {
+                SetStatusBarMessage(WindowManagement_Resources.ApplyLayoutErrorStatusFormat, name);
+                return false;
+            }
             return true;
         }
 

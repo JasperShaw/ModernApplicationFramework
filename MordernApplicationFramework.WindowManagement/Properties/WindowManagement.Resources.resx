@@ -207,10 +207,22 @@ Please delete one or more layouts before saving.</value>
   <data name="MenuDefinition_ApplyLayout" xml:space="preserve">
     <value>Apply Window Layout</value>
   </data>
-  <data name="ApplyWindowLayoutListCommandDefinition" xml:space="preserve">
+  <data name="ApplyWindowLayoutListCommandDefinition_Name" xml:space="preserve">
     <value>Apply Window Layout List</value>
   </data>
   <data name="NoSavedLayouts" xml:space="preserve">
     <value>No Saved Layouts</value>
+  </data>
+  <data name="ApplyLayoutStartedStatusFormat" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="ApplyLayoutErrorStatusFormat" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="ApplyLayoutCompletedStatusFormat" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="ApplyWindowLayoutCommantDefinition_Name" xml:space="preserve">
+    <value>Apply Window Layout {0}</value>
   </data>
 </root>

@@ -40,10 +40,41 @@ namespace MordernApplicationFramework.WindowManagement.Commands
                 commands.Add(new ShowLayoutCommandDefinition(WindowManagement_Resources.NoSavedLayouts));
                 return;
             }
-            commands.AddRange(layouts.Select(layout => new ShowLayoutCommandDefinition(layout.Name)
+
+            for (var i = 0; i < layouts.Count; i++)
             {
-                CommandParamenter = layout.Info
-            }));
+                commands.Add(CreateCommand(i, layouts[i].Name));
+            }
+        }
+
+
+        private ApplyWindowLayoutBase CreateCommand(int index, string name)
+        {
+            switch (index)
+            {
+                case 1:
+                    return new ApplyWindowLayout1(name, _layoutManager);
+                case 2:
+                    return new ApplyWindowLayout2(name, _layoutManager);
+                case 3:
+                    return new ApplyWindowLayout3(name, _layoutManager);
+                case 4:
+                    return new ApplyWindowLayout4(name, _layoutManager);
+                case 5:
+                    return new ApplyWindowLayout5(name, _layoutManager);
+                case 6:
+                    return new ApplyWindowLayout6(name, _layoutManager);
+                case 7:
+                    return new ApplyWindowLayout7(name, _layoutManager);
+                case 8:
+                    return new ApplyWindowLayout8(name, _layoutManager);
+                case 9:
+                    return new ApplyWindowLayout9(name, _layoutManager);
+                case 0:
+                    return new ApplyWindowLayout10(name, _layoutManager);
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         private class ShowLayoutCommandDefinition : CommandDefinition

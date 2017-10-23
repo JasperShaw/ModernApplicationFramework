@@ -62,11 +62,29 @@ namespace MordernApplicationFramework.WindowManagement.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string ApplyLayoutCompletedStatusFormat {
+            get {
+                return ResourceManager.GetString("ApplyLayoutCompletedStatusFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Are you sure you want to apply the layout &apos;{0}&apos; and discard your current window layout? ähnelt.
         /// </summary>
         internal static string ApplyLayoutConfirmation {
             get {
                 return ResourceManager.GetString("ApplyLayoutConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string ApplyLayoutErrorStatusFormat {
+            get {
+                return ResourceManager.GetString("ApplyLayoutErrorStatusFormat", resourceCulture);
             }
         }
         
@@ -80,6 +98,15 @@ namespace MordernApplicationFramework.WindowManagement.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string ApplyLayoutStartedStatusFormat {
+            get {
+                return ResourceManager.GetString("ApplyLayoutStartedStatusFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Apply Window Layout ähnelt.
         /// </summary>
         internal static string ApplyLayoutTitle {
@@ -89,11 +116,20 @@ namespace MordernApplicationFramework.WindowManagement.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Apply Window Layout {0} ähnelt.
+        /// </summary>
+        internal static string ApplyWindowLayoutCommantDefinition_Name {
+            get {
+                return ResourceManager.GetString("ApplyWindowLayoutCommantDefinition_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Apply Window Layout List ähnelt.
         /// </summary>
-        internal static string ApplyWindowLayoutListCommandDefinition {
+        internal static string ApplyWindowLayoutListCommandDefinition_Name {
             get {
-                return ResourceManager.GetString("ApplyWindowLayoutListCommandDefinition", resourceCulture);
+                return ResourceManager.GetString("ApplyWindowLayoutListCommandDefinition_Name", resourceCulture);
             }
         }
         
