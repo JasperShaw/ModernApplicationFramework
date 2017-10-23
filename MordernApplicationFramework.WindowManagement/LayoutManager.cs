@@ -154,7 +154,7 @@ namespace MordernApplicationFramework.WindowManagement
             do
             {
                 ++num;
-                name = string.Format(CultureInfo.CurrentUICulture, defaultNameFormat, new[]
+                name = string.Format(CultureInfo.CurrentUICulture, defaultNameFormat, new object[]
                 {
                     num
                 });

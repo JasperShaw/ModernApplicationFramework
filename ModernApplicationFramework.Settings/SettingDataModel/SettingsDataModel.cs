@@ -255,7 +255,7 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
             model = (T)ser.Deserialize(stm);
         }
 
-        protected void OnSettingsChanged(EventArgs args)
+        protected void OnSettingsChanged(EventArgs args = null)
         {
             SettingsChanged?.Invoke(this, args);
         }

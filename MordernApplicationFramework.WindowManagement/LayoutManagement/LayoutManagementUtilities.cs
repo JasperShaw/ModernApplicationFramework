@@ -14,8 +14,7 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 
         internal static bool IsUniqueName(string name, IEnumerable<string> existingNames)
         {
-            int conflictingIndex;
-            return IsUniqueName(name, existingNames, out conflictingIndex);
+            return IsUniqueName(name, existingNames, out var conflictingIndex);
         }
 
         internal static bool IsUniqueName(string name, IEnumerable<string> existingNames, out int conflictingIndex)

@@ -79,7 +79,7 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 
             var info = new WindowLayoutInfo(layoutName, flag ? keyValuePair.Value.Position : CachedInfo.Count, key);
             InsertSettingsModel(info, true);
-            OnSettingsChanged(null);
+            OnSettingsChanged();
             return key;
         }
 
