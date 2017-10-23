@@ -56,13 +56,16 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 
         public KeyValuePair<string, WindowLayoutInfo> GetLayoutAt(int index)
         {
-            GetDataModelAt(out WindowLayoutInfo layout, index);
-            return new KeyValuePair<string, WindowLayoutInfo>(layout.Key, layout);
+            Validate.IsWithinRange(index, 0, CachedInfo.Count - 1, nameof(index));
+            return CachedInfo[index];
         }
 
         public string GetLayoutDataAt(int index)
         {
-            throw new NotImplementedException();
+
+            var payload = Encoding.UTF8.GetString(Decompress(Convert.FromBase64String(GetLayoutAt(index).Value.Payload), 4096));
+
+            return payload;
         }
 
         public int GetLayoutCount()
@@ -105,6 +108,12 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
             return models;
         }
 
+        private string GetLayoutKeyAt(int index)
+        {
+            Validate.IsWithinRange(index, 0, CachedInfo.Count - 1, nameof(index));
+            return CachedInfo[index].Key;
+        }
+
 
         private static string CompressAndEncode(string data)
         {
@@ -119,6 +128,31 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
                 using (GZipStream gzipStream = new GZipStream((Stream)memoryStream, CompressionMode.Compress, true))
                     gzipStream.Write(data, 0, data.Length);
                 return memoryStream.ToArray();
+            }
+        }
+
+        public static byte[] Decompress(byte[] data, int bufferSize = 4096)
+        {
+            Validate.IsNotNull(data, nameof(data));
+            Validate.IsWithinRange(bufferSize, 1, int.MaxValue, nameof(bufferSize));
+            using (MemoryStream memoryStream1 = new MemoryStream(data))
+            {
+                using (GZipStream gzipStream = new GZipStream((Stream)memoryStream1, CompressionMode.Decompress))
+                {
+                    using (MemoryStream memoryStream2 = new MemoryStream())
+                    {
+                        byte[] buffer = new byte[bufferSize];
+                        int count;
+                        do
+                        {
+                            count = gzipStream.Read(buffer, 0, bufferSize);
+                            if (count > 0)
+                                memoryStream2.Write(buffer, 0, count);
+                        }
+                        while (count > 0);
+                        return memoryStream2.ToArray();
+                    }
+                }
             }
         }
     }

@@ -43,7 +43,7 @@ namespace MordernApplicationFramework.WindowManagement.Commands
 
             for (var i = 0; i < layouts.Count; i++)
             {
-                commands.Add(CreateCommand(i, layouts[i].Name));
+                commands.Add(CreateCommand(i +1, layouts[i].Name));
             }
         }
 
@@ -70,7 +70,7 @@ namespace MordernApplicationFramework.WindowManagement.Commands
                     return new ApplyWindowLayout8(name, _layoutManager);
                 case 9:
                     return new ApplyWindowLayout9(name, _layoutManager);
-                case 0:
+                case 10:
                     return new ApplyWindowLayout10(name, _layoutManager);
                 default:
                     throw new ArgumentOutOfRangeException();

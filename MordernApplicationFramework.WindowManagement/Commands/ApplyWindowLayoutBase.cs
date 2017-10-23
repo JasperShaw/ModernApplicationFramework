@@ -1,6 +1,5 @@
 using System;
 using System.Globalization;
-using System.Windows;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input.Command;
@@ -50,9 +49,9 @@ namespace MordernApplicationFramework.WindowManagement.Commands
             return false;
         }
 
-        private static void ApplyLayout()
+        private void ApplyLayout()
         {
-            MessageBox.Show("Test");
+            LayoutManager.ApplyWindowLayout(Index - 1);
         }
     }
 }
