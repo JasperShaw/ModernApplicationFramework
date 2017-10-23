@@ -204,4 +204,10 @@ Please delete one or more layouts before saving.</value>
   <data name="SaveLayoutCompletedStatusFormat" xml:space="preserve">
     <value>Window layout "{0}" successfully saved.</value>
   </data>
+  <data name="MenuDefinition_ApplyLayout" xml:space="preserve">
+    <value>Apply Window Layout</value>
+  </data>
+  <data name="ApplyWindowLayoutListCommandDefinition" xml:space="preserve">
+    <value>Apply Window Layout List</value>
+  </data>
 </root>

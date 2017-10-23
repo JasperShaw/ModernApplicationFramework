@@ -51,8 +51,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\ListWindowLayoutsCommandDefinition.cs" />
     <Compile Include="Commands\ManageLayoutCommandDefinition.cs" />
     <Compile Include="Commands\SaveCurrentLayoutCommandDefinition.cs" />
+    <Compile Include="Commands\ShowLayoutsCommandHandler.cs" />
     <Compile Include="LayoutManagement\ILayoutManagementUserInput.cs" />
     <Compile Include="ILayoutManager.cs" />
     <Compile Include="ILayoutManagerInternal.cs" />

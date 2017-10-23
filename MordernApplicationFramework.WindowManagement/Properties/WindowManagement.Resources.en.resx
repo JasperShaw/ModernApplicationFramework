@@ -127,7 +127,7 @@
     <value>New Layout {0}</value>
   </data>
   <data name="SaveLayoutCommandDefinitionMessageBox_Label" xml:space="preserve">
-    <value> f</value>
+    <value>_Layout name:</value>
   </data>
   <data name="ApplyLayoutTitle" xml:space="preserve">
     <value>Apply Window Layout</value>
@@ -194,5 +194,11 @@ Please delete one or more layouts before saving.</value>
   </data>
   <data name="SaveLayoutCompletedStatusFormat" xml:space="preserve">
     <value>Window layout "{0}" successfully saved.</value>
+  </data>
+  <data name="MenuDefinition_ApplyLayout" xml:space="preserve">
+    <value>Apply Window Layout</value>
+  </data>
+  <data name="ApplyWindowLayoutListCommandDefinition" xml:space="preserve">
+    <value>Apply Window Layout List</value>
   </data>
 </root>

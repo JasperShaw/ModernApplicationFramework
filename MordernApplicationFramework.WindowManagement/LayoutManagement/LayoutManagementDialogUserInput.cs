@@ -59,7 +59,7 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 
         public static IEnumerable<KeyValuePair<string, WindowLayoutInfo>> ShowManageLayoutsView(IEnumerable<KeyValuePair<string, WindowLayoutInfo>> layoutKeyInfoCollection)
         {
-            return LayoutManagement.ManageLayoutsDialog.Show(layoutKeyInfoCollection);
+            return ManageLayoutsDialog.Show(layoutKeyInfoCollection);
         }
 
         public static void ShowApplyLayoutError(string name)

@@ -199,4 +199,10 @@ Möchten Sie das Layout ersetzen?</value>
   <data name="SaveLayoutCompletedStatusFormat" xml:space="preserve">
     <value>Fensterlayout"{0}" wurde erfolgreich gespeichert.</value>
   </data>
+  <data name="MenuDefinition_ApplyLayout" xml:space="preserve">
+    <value>Fensterla&amp;yout anwenden</value>
+  </data>
+  <data name="ApplyWindowLayoutListCommandDefinition" xml:space="preserve">
+    <value>Fensterlayoutliste anwenden</value>
+  </data>
 </root>
