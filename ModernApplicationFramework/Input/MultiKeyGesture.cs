@@ -95,12 +95,19 @@ namespace ModernApplicationFramework.Input
                 return true;
             }
 
-            if (!_isInMultiState && !IsRealMultiKeyGesture)
-                return base.Matches(targetElement, inputEventArgs);
-
-
             if (!(inputEventArgs is KeyEventArgs args))
                 return false;
+
+            if (!_isInMultiState && !IsRealMultiKeyGesture)
+            {
+                var flag =  base.Matches(targetElement, inputEventArgs);
+                inputEventArgs.Handled = false;
+                if (!flag)
+                    return false;
+                //We do not want ALTGr to trigger Gestures as this key should be reserved to use the keyboard normally when typing text
+                return !Keyboard.IsKeyDown(Key.RightAlt);
+            }
+                
 
             var key = args.Key != Key.System ? args.Key : args.SystemKey;
 
