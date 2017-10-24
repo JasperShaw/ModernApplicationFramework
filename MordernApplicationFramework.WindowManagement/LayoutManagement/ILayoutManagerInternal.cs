@@ -10,8 +10,8 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
         void SaveWindowLayoutInternal(string layoutName, string layoutPayload, bool hadNameConflict);
 
         void ManageWindowLayoutsInternal(
-            Func<IEnumerable<KeyValuePair<string, WindowLayoutInfo>>,
-                IEnumerable<KeyValuePair<string, WindowLayoutInfo>>> layoutTransformation);
+            Func<IEnumerable<KeyValuePair<string, WindowLayout>>,
+                IEnumerable<KeyValuePair<string, WindowLayout>>> layoutTransformation);
 
         void ApplyWindowLayoutInternal(int index);
     }

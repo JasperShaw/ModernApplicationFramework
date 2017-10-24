@@ -6,7 +6,7 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
     {
         internal string Key { get; }
 
-        internal WindowLayoutInfo Info { get; }
+        internal WindowLayout Info { get; }
 
         internal int Position
         {
@@ -26,7 +26,7 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
             }
         }
 
-        internal LayoutItemViewModel(string key, WindowLayoutInfo info)
+        internal LayoutItemViewModel(string key, WindowLayout info)
         {
             Validate.IsNotNullAndNotEmpty(key, "key");
             Key = key;

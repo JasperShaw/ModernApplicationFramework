@@ -125,7 +125,7 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
             }));
         }
 
-        public void ManageWindowLayoutsInternal(Func<IEnumerable<KeyValuePair<string, WindowLayoutInfo>>, IEnumerable<KeyValuePair<string, WindowLayoutInfo>>> layoutTransformation)
+        public void ManageWindowLayoutsInternal(Func<IEnumerable<KeyValuePair<string, WindowLayout>>, IEnumerable<KeyValuePair<string, WindowLayout>>> layoutTransformation)
         {
             var keyValuePairs = LayoutManagementUtilities.EnumerateLayoutKeyInfo(_layoutStore);
             _layoutStore.UpdateLayouts(layoutTransformation(keyValuePairs));
@@ -238,7 +238,7 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
                 }), MessageDialogCommandSet.YesNo) == MessageDialogCommand.Yes;
             }
 
-            public IEnumerable<KeyValuePair<string, WindowLayoutInfo>> ShowManageLayoutsView(IEnumerable<KeyValuePair<string, WindowLayoutInfo>> layoutKeyInfoCollection)
+            public IEnumerable<KeyValuePair<string, WindowLayout>> ShowManageLayoutsView(IEnumerable<KeyValuePair<string, WindowLayout>> layoutKeyInfoCollection)
             {
                 return ManageLayoutsDialog.Show(layoutKeyInfoCollection, _settings);
             }

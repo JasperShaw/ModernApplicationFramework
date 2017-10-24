@@ -1,13 +1,14 @@
 using System;
 using System.Text;
 using System.Xml.Serialization;
+using ModernApplicationFramework.Utilities;
 
 namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 {
     [Serializable]
     [XmlType(AnonymousType = true)]
     [XmlRoot(ElementName = "Layout")]
-    public class WindowLayoutInfo
+    public class WindowLayout
     {
         private string _name;
         private int _position;
@@ -42,17 +43,34 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
             set => _layoutRoot = value;
         }
 
-        public WindowLayoutInfo()
+        [XmlIgnore]
+        internal string DecompressedPayload
         {
-            
+            get
+            {
+                try
+                {
+                    return Encoding.UTF8.GetString(GZip.Decompress(Convert.FromBase64String(Payload)));
+                }
+                catch
+                {
+                    //Ignored
+                }
+                return string.Empty;
+            }
         }
 
-        internal WindowLayoutInfo(string name, int position, string key, string payload)
+        public WindowLayout()
+        {
+
+        }
+
+        internal WindowLayout(string name, int position, string key, string payload, bool compress)
         {
             Name = name;
             Position = position;
             Key = key;
-            Payload = payload;
+            Payload = compress ? CompressAndEncode(payload) : payload;
         }
 
         public override string ToString()
@@ -66,12 +84,18 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 
         public override bool Equals(object obj)
         {
-            return obj is WindowLayoutInfo windowLayoutInfo && Position == windowLayoutInfo.Position && Name.Equals(windowLayoutInfo.Name);
+            return obj is WindowLayout windowLayoutInfo && Position == windowLayoutInfo.Position &&
+                   Name.Equals(windowLayoutInfo.Name);
         }
 
         public override int GetHashCode()
         {
             return ToString().GetHashCode();
+        }
+
+        private static string CompressAndEncode(string data)
+        {
+            return Convert.ToBase64String(GZip.Compress(Encoding.UTF8.GetBytes(data)));
         }
     }
 }

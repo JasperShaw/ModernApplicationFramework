@@ -98,7 +98,7 @@ namespace MordernApplicationFramework.WindowManagement.Commands
 
             private bool CanShowLayout()
             {
-                return CommandParamenter is WindowLayoutInfo;
+                return CommandParamenter is WindowLayout;
             }
 
             private void ShowLayout()

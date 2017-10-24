@@ -40,10 +40,10 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
             return IsUniqueName(name, EnumerateLayoutKeyInfo(store).Select(info => info.Value.Name));
         }
 
-        internal static IEnumerable<KeyValuePair<string, WindowLayoutInfo>> EnumerateLayoutKeyInfo(IWindowLayoutStore store)
+        internal static IEnumerable<KeyValuePair<string, WindowLayout>> EnumerateLayoutKeyInfo(IWindowLayoutStore store)
         {
             Validate.IsNotNull(store, "store");
-            var keyValuePairList = new List<KeyValuePair<string, WindowLayoutInfo>>();
+            var keyValuePairList = new List<KeyValuePair<string, WindowLayout>>();
             var layoutCount = store.GetLayoutCount();
             for (var index = 0; index < layoutCount; ++index)
                 keyValuePairList.Add(store.GetLayoutAt(index));

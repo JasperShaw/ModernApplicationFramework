@@ -36,7 +36,7 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
             }
         }
 
-        internal ManageLayoutsViewModel(IEnumerable<KeyValuePair<string, WindowLayoutInfo>> layoutKeyInfoCollection, ILayoutManagementUserManageInput userInput)
+        internal ManageLayoutsViewModel(IEnumerable<KeyValuePair<string, WindowLayout>> layoutKeyInfoCollection, ILayoutManagementUserManageInput userInput)
         {
             Validate.IsNotNull(layoutKeyInfoCollection, "layoutKeyInfoCollection");
             RenameLayoutCommand = new ObjectCommand(OnRenameLayoutCommandExecuted, CanExecuteLayoutCommand);

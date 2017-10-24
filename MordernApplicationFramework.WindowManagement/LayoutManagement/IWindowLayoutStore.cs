@@ -4,7 +4,7 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 {
     internal interface IWindowLayoutStore
     {
-        KeyValuePair<string, WindowLayoutInfo> GetLayoutAt(int index);
+        KeyValuePair<string, WindowLayout> GetLayoutAt(int index);
 
         string GetLayoutDataAt(int index);
 
@@ -12,6 +12,6 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 
         string SaveLayout(string layoutName, string data);
 
-        void UpdateLayouts(IEnumerable<KeyValuePair<string, WindowLayoutInfo>> keyInfoCollection);
+        void UpdateLayouts(IEnumerable<KeyValuePair<string, WindowLayout>> keyInfoCollection);
     }
 }

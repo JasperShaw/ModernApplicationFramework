@@ -23,20 +23,20 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
             FocusHelper.FocusPossiblyUnloadedElement(LayoutList);
         }
 
-        internal static IEnumerable<KeyValuePair<string, WindowLayoutInfo>> Show(
-            IEnumerable<KeyValuePair<string, WindowLayoutInfo>> layoutKeyInfoCollection)
+        internal static IEnumerable<KeyValuePair<string, WindowLayout>> Show(
+            IEnumerable<KeyValuePair<string, WindowLayout>> layoutKeyInfoCollection)
         {
             var dataContext = new ManageLayoutsViewModel(layoutKeyInfoCollection, new DialogUserInput());
             Show(dataContext);
             return dataContext.Layouts.Select(
-                layout => new KeyValuePair<string, WindowLayoutInfo>(layout.Key, layout.Info));
+                layout => new KeyValuePair<string, WindowLayout>(layout.Key, layout.Info));
         }
 
-        internal static IEnumerable<KeyValuePair<string, WindowLayoutInfo>> Show(IEnumerable<KeyValuePair<string, WindowLayoutInfo>> layoutKeyInfoCollection, IWindowLayoutSettings settings = null)
+        internal static IEnumerable<KeyValuePair<string, WindowLayout>> Show(IEnumerable<KeyValuePair<string, WindowLayout>> layoutKeyInfoCollection, IWindowLayoutSettings settings = null)
         {
             ManageLayoutsViewModel dataContext = new ManageLayoutsViewModel(layoutKeyInfoCollection, new DialogUserInput());
             Show(dataContext, settings);
-            return dataContext.Layouts.Select(layout => new KeyValuePair<string, WindowLayoutInfo>(layout.Key, layout.Info));
+            return dataContext.Layouts.Select(layout => new KeyValuePair<string, WindowLayout>(layout.Key, layout.Info));
         }
 
         private static void Show(ManageLayoutsViewModel dataContext, IWindowLayoutSettings settings = null)

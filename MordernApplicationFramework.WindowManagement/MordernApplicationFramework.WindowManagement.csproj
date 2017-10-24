@@ -104,7 +104,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Settings.cs" />
-    <Compile Include="LayoutManagement\WindowLayoutInfo.cs" />
+    <Compile Include="LayoutManagement\WindowLayout.cs" />
     <Compile Include="LayoutManagement\WindowLayoutSettings.cs" />
     <Compile Include="LayoutManagement\WindowLayoutStore.cs" />
     <EmbeddedResource Include="Properties\WindowManagement.Resources.de.resx" />

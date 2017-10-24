@@ -11,7 +11,7 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 
         bool TryGetOverwriteLayoutConfirmation(string name);
 
-        IEnumerable<KeyValuePair<string, WindowLayoutInfo>> ShowManageLayoutsView(IEnumerable<KeyValuePair<string, WindowLayoutInfo>> layoutKeyInfoCollection);
+        IEnumerable<KeyValuePair<string, WindowLayout>> ShowManageLayoutsView(IEnumerable<KeyValuePair<string, WindowLayout>> layoutKeyInfoCollection);
 
         void ShowApplyLayoutError(string name);
 
