@@ -1,7 +1,6 @@
 using System;
 using System.Text;
 using System.Xml.Serialization;
-using ModernApplicationFramework.Docking.Layout;
 
 namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 {

@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using ModernApplicationFramework.Settings.Interfaces;
@@ -62,9 +60,7 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 
         public string GetLayoutDataAt(int index)
         {
-
-            var payload = Encoding.UTF8.GetString(Decompress(Convert.FromBase64String(GetLayoutAt(index).Value.Payload), 4096));
-
+            var payload = Encoding.UTF8.GetString(GZip.Decompress(Convert.FromBase64String(GetLayoutAt(index).Value.Payload)));
             return payload;
         }
 
@@ -117,43 +113,7 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 
         private static string CompressAndEncode(string data)
         {
-            return Convert.ToBase64String(Compress(Encoding.UTF8.GetBytes(data)));
-        }
-
-        public static byte[] Compress(byte[] data)
-        {
-            Validate.IsNotNull(data, nameof(data));
-            using (var memoryStream = new MemoryStream())
-            {
-                using (var gzipStream = new GZipStream(memoryStream, CompressionMode.Compress, true))
-                    gzipStream.Write(data, 0, data.Length);
-                return memoryStream.ToArray();
-            }
-        }
-
-        public static byte[] Decompress(byte[] data, int bufferSize = 4096)
-        {
-            Validate.IsNotNull(data, nameof(data));
-            Validate.IsWithinRange(bufferSize, 1, int.MaxValue, nameof(bufferSize));
-            using (MemoryStream memoryStream1 = new MemoryStream(data))
-            {
-                using (GZipStream gzipStream = new GZipStream((Stream)memoryStream1, CompressionMode.Decompress))
-                {
-                    using (MemoryStream memoryStream2 = new MemoryStream())
-                    {
-                        byte[] buffer = new byte[bufferSize];
-                        int count;
-                        do
-                        {
-                            count = gzipStream.Read(buffer, 0, bufferSize);
-                            if (count > 0)
-                                memoryStream2.Write(buffer, 0, count);
-                        }
-                        while (count > 0);
-                        return memoryStream2.ToArray();
-                    }
-                }
-            }
+            return Convert.ToBase64String(GZip.Compress(Encoding.UTF8.GetBytes(data)));
         }
     }
 }

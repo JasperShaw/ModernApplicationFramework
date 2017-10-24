@@ -103,8 +103,7 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
         private void OnRenameLayoutCommandExecuted(object parameter)
         {
             var selectedLayout = SelectedLayout;
-            string layoutName;
-            if (selectedLayout == null || !LayoutManagementDialogUserInput.GetRenamedLayoutName(selectedLayout.Name, HandleLayoutNameConflict, out layoutName))
+            if (selectedLayout == null || !LayoutManagementDialogUserInput.GetRenamedLayoutName(selectedLayout.Name, HandleLayoutNameConflict, out var layoutName))
                 return;
             selectedLayout.Name = LayoutManagementUtilities.NormalizeName(layoutName);
         }
@@ -115,8 +114,7 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
             var num = Layouts.IndexOf(SelectedLayout);
             if (num == -1)
                 return false;
-            int conflictingIndex;
-            if (!LayoutManagementUtilities.IsUniqueName(name, Layouts.Select(layout => layout.Name), out conflictingIndex) && conflictingIndex != num)
+            if (!LayoutManagementUtilities.IsUniqueName(name, Layouts.Select(layout => layout.Name), out var conflictingIndex) && conflictingIndex != num)
             {
                 if (!LayoutManagementDialogUserInput.GetReplaceLayoutConfirmation(name))
                     return false;
