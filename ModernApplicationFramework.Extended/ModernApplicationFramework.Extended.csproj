@@ -65,6 +65,7 @@
     <Compile Include="ApplicationEnvironment\ExtendedEnvironmentVariables.cs" />
     <Compile Include="ApplicationEnvironment\ApplicationEnvironmentBase.cs" />
     <Compile Include="ApplicationEnvironment\FallbackExtendedEnvironmentVariables.cs" />
+    <Compile Include="Core\LayoutManagement\ProcessStateOption.cs" />
     <Compile Include="Core\Services\WindowManagerService.cs" />
     <Compile Include="GuidCollection.cs" />
     <Compile Include="KeyBindingScheme\KeyBindingSchemeManager.cs" />

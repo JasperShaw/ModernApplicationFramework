@@ -5,19 +5,20 @@ namespace ModernApplicationFramework.Extended.Interfaces
 {
     public interface ILayoutItemStatePersister
     {
-        void Initialize(IDockingHostViewModel shell, IDockingHost shellView);
-        void LoadState();
-        void SaveState();
+        bool HasStateFile { get; }
 
+        void Initialize(IDockingHostViewModel shell, IDockingHost shellView);
 
         void SaveToStream(Stream stream, ProcessStateOption option);
 
+        void SaveToFile(string filePath, ProcessStateOption option);
 
-        bool HasStateFile { get; }
-        void LoadFromStream(Stream stream);
+        void SaveToFile(ProcessStateOption option);
 
+        void LoadFromStream(Stream stream, ProcessStateOption option);
 
+        void LoadFromFile(string filePath, ProcessStateOption option);
 
-        string StreamToString(Stream stream);
+        void LoadFromFile(ProcessStateOption option);
     }
 }

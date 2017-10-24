@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
+using ModernApplicationFramework.Extended.Core.LayoutManagement;
 using ModernApplicationFramework.Extended.Interfaces;
 
 namespace ModernApplicationFramework.Extended.DockingHost.ViewModels
@@ -152,7 +153,7 @@ namespace ModernApplicationFramework.Extended.DockingHost.ViewModels
             // requests that occur when _closing is true.
             _closing = true;
 
-            _layoutItemStatePersister.SaveState();
+            _layoutItemStatePersister.SaveToFile(ProcessStateOption.Complete | ProcessStateOption.UseShouldReopenOnStart);
 
             base.OnDeactivate(close);
         }
@@ -173,7 +174,7 @@ namespace ModernApplicationFramework.Extended.DockingHost.ViewModels
                     ShowTool((ITool) IoC.GetInstance(defaultTool, null));
             }
             else
-                _layoutItemStatePersister.LoadState();
+                _layoutItemStatePersister.LoadFromFile(ProcessStateOption.Complete);
 
             foreach (var module in _modules)
                 module.PostInitialize();

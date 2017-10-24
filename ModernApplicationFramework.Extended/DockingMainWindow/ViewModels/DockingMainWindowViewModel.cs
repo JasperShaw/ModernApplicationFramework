@@ -7,6 +7,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Interfaces.ViewModels;
 

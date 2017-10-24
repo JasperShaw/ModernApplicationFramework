@@ -3,6 +3,7 @@ using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.Controls.TextBoxes;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest

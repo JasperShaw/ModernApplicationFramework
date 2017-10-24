@@ -16,7 +16,7 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 
         internal static bool IsUniqueName(string name, IEnumerable<string> existingNames)
         {
-            return IsUniqueName(name, existingNames, out var conflictingIndex);
+            return IsUniqueName(name, existingNames, out var _);
         }
 
         internal static bool IsUniqueName(string name, IEnumerable<string> existingNames, out int conflictingIndex)
@@ -57,16 +57,20 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 
         public static Stream ConvertLayoutPayloadToStream(string payload)
         {
-
             var bytes = payload.Split('-').Select(s => Convert.ToByte(s, 10)).ToArray();
-            var m = new MemoryStream(bytes);
+            return new MemoryStream(bytes);
+        }
 
-            return m;
-
-            //using (var streamWriter = new StreamWriter(memoryStream, Encoding.UTF8, 1024, true))
-            //    streamWriter.Write(payload);
-            //memoryStream.Seek(0L, SeekOrigin.Begin);
-            //return memoryStream;
+        public static string ConvertLayoutStreamToString(IEnumerable<byte> data)
+        {
+            var sb = new StringBuilder();
+            foreach (var b in data)
+            {
+                sb.Append(b);
+                sb.Append('-');
+            }
+            sb.Remove(sb.Length - 1, 1);
+            return sb.ToString();
         }
     }
 }

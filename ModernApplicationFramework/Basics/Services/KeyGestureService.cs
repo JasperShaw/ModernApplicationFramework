@@ -11,6 +11,7 @@ using System.Windows.Threading;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Properties;

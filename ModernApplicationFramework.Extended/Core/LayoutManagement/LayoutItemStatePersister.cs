@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
-using System.Text;
 using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Interfaces;
 
@@ -36,236 +36,62 @@ namespace ModernApplicationFramework.Extended.Core.LayoutManagement
             _initialized = true;
         }
 
-        public void LoadState()
-        {
-            if (!_initialized)
-                throw new InvalidOperationException();
-            var absoluteFilePath = Path.Combine(_environment.LocalAppDataPath, ApplicationStateFilePath);
-            var layoutItems = new Dictionary<string, ILayoutItemBase>();
-
-            if (!File.Exists(absoluteFilePath))
-                return;
-
-            FileStream stream = null;
-
-            try
-            {
-                stream = new FileStream(absoluteFilePath, FileMode.Open, FileAccess.Read);
-
-                using (var reader = new BinaryReader(stream))
-                {
-                    stream = null;
-
-                    var count = reader.ReadInt32();
-
-                    for (var i = 0; i < count; i++)
-                    {
-                        var typeName = reader.ReadString();
-                        var contentId = reader.ReadString();
-                        var stateEndPosition = reader.ReadInt64();
-                        stateEndPosition += reader.BaseStream.Position;
-
-                        var contentType = Type.GetType(typeName);
-                        var skipStateData = true;
-
-                        if (contentType != null)
-                        {
-                            if (IoC.GetInstance(contentType, null) is ILayoutItemBase contentInstance)
-                            {
-                                layoutItems.Add(contentId, contentInstance);
-
-                                try
-                                {
-                                    contentInstance.LoadState(reader);
-                                    skipStateData = false;
-                                }
-                                catch
-                                {
-                                    skipStateData = true;
-                                }
-                            }
-                        }
-
-                        // Skip state data block if we couldn't read it.
-                        if (skipStateData)
-                            reader.BaseStream.Seek(stateEndPosition, SeekOrigin.Begin);
-                    }
-
-                    _dockingHost.LoadLayout(reader.BaseStream, _dockingHostViewModel.ShowTool, _dockingHostViewModel.OpenDocument, layoutItems);
-                }
-            }
-            catch
-            {
-                stream?.Close();
-            }
-        }
-
-        public void SaveState()
-        {
-            if (!_initialized)
-                throw new InvalidOperationException();
-
-            var absoluteFilePath = Path.Combine(_environment.LocalAppDataPath, ApplicationStateFilePath);
-            var absolutePath = Path.GetDirectoryName(absoluteFilePath);
-
-            if (string.IsNullOrEmpty(absolutePath))
-                return;
-
-            if (!Directory.Exists(absolutePath))
-                Directory.CreateDirectory(absolutePath);
-
-
-            FileStream stream = null;
-
-            try
-            {
-                stream = new FileStream(absoluteFilePath, FileMode.Create, FileAccess.Write);
-
-                using (var writer = new BinaryWriter(stream))
-                {
-                    stream = null;
-
-                    var itemStates = _dockingHostViewModel.Documents.Concat(_dockingHostViewModel.Tools.Cast<ILayoutItemBase>());
-
-                    var itemCount = 0;
-                    // reserve some space for items count, it'll be updated later
-                    writer.Write(itemCount);
-
-                    foreach (var item in itemStates)
-                    {
-                        if (!item.ShouldReopenOnStart)
-                            continue;
-
-                        var itemType = item.GetType();
-                        var exportAttributes = itemType
-                            .GetCustomAttributes(typeof(ExportAttribute), false)
-                            .Cast<ExportAttribute>()
-                            .ToList();
-
-                        var layoutType = typeof(ILayoutItemBase);
-                        // get exports with explicit types or names that inherit from ILayoutItemBase
-                        var exportTypes = (from att in exportAttributes
-                                               // select the contract type if it is of type ILayoutitem. else null
-                                           let typeFromContract = att.ContractType != null
-                                                                  && layoutType.IsAssignableFrom(att.ContractType)
-                                               ? att.ContractType
-                                               : null
-                                           // select the contract name if it is of type ILayoutItemBase. else null
-                                           let typeFromQualifiedName = GetTypeFromContractNameAsILayoutItem(att)
-                                           // select the viewmodel type if it is of type ILayoutItemBase. else null
-                                           let typeFromViewModel =
-                                           layoutType.IsAssignableFrom(itemType) ? itemType : null
-                                           // att.ContractType overrides att.ContractName if both are set.
-                                           // fall back to the ViewModel type of neither are defined.
-                                           let type = typeFromContract ?? typeFromQualifiedName ?? typeFromViewModel
-                                           where type != null
-                                           select type).ToList();
-
-                        // throw exceptions here, instead of failing silently. These are design time errors.
-                        var firstExport = exportTypes.FirstOrDefault();
-                        if (firstExport == null)
-                            throw new InvalidOperationException(
-                                $"A ViewModel that participates in LayoutItem.ShouldReopenOnStart must be decorated with an ExportAttribute who's ContractType that inherits from ILayoutItemBase, infringing type is {itemType}.");
-                        if (exportTypes.Count > 1)
-                            throw new InvalidOperationException(
-                                $"A ViewModel that participates in LayoutItem.ShouldReopenOnStart can't be decorated with more than one ExportAttribute which inherits from ILayoutItemBase. infringing type is {itemType}.");
-
-                        var selectedTypeName = firstExport.AssemblyQualifiedName;
-
-                        if (string.IsNullOrEmpty(selectedTypeName))
-                            throw new InvalidOperationException(
-                                $"Could not retrieve the assembly qualified type name for {firstExport}, most likely because the type is generic.");
-                        // TODO: it is possible to save generic types. It requires that every generic parameter is saved, along with its position in the generic tree... A lot of work.
-
-                        writer.Write(selectedTypeName);
-                        writer.Write(item.ContentId);
-
-                        // Here's the tricky part. Because some items might fail to save their state, or they might be removed (a plug-in assembly deleted and etc.)
-                        // we need to save the item's state size to be able to skip the data during deserialization.
-                        // Save current stream position. We'll need it later.
-                        var stateSizePosition = writer.BaseStream.Position;
-
-                        // Reserve some space for item state size
-                        writer.Write(0L);
-
-                        long stateSize;
-
-                        try
-                        {
-                            var stateStartPosition = writer.BaseStream.Position;
-                            item.SaveState(writer);
-                            stateSize = writer.BaseStream.Position - stateStartPosition;
-                        }
-                        catch
-                        {
-                            stateSize = 0;
-                        }
-
-                        // Go back to the position before item's state and write the actual value.
-                        writer.BaseStream.Seek(stateSizePosition, SeekOrigin.Begin);
-                        writer.Write(stateSize);
-
-                        if (stateSize > 0)
-                            writer.BaseStream.Seek(0, SeekOrigin.End);
-
-                        itemCount++;
-                    }
-
-                    writer.BaseStream.Seek(0, SeekOrigin.Begin);
-                    writer.Write(itemCount);
-                    writer.BaseStream.Seek(0, SeekOrigin.End);
-
-                    _dockingHost.SaveLayout(writer.BaseStream);
-                }
-            }
-            catch
-            {
-                stream?.Dispose();
-            }
-        }
-
-
-
         public void SaveToStream(Stream stream, ProcessStateOption option)
         {
-            InternalSaveState(option, StateSaveLocationOption.ToStream, stream);
+            InternalSaveState(option, stream);
         }
 
-
-        public void LoadFromStream(Stream stream)
+        public void SaveToFile(ProcessStateOption option)
         {
-            InternalLoadState(StateLoadLocationOption.FromStream, stream);
-
+            SaveToFile(null, option);
         }
 
-        private void InternalLoadState(StateLoadLocationOption locationOption, Stream inputStream)
+        public void SaveToFile(string filePath, ProcessStateOption option)
+        {
+            var stream = CreateFileStream(FileHandleMode.Create, filePath);
+            InternalSaveState(option, stream);
+        }
+
+
+        public void LoadFromStream(Stream stream, ProcessStateOption option)
+        {
+            InternalLoadState(option, stream);
+        }
+
+        public void LoadFromFile(string filePath, ProcessStateOption option)
+        {
+            var stream = CreateFileStream(FileHandleMode.Open, filePath);
+            InternalLoadState(option, stream);
+        }
+
+        public void LoadFromFile(ProcessStateOption option)
+        {
+            LoadFromFile(null, option);
+        }
+
+
+
+        private void InternalLoadState(ProcessStateOption processOption, Stream inputStream)
         {
             if (!_initialized)
                 throw new InvalidOperationException();
 
-            var layoutItems = new Dictionary<string, ILayoutItemBase>();
+            if (inputStream == null)
+                throw new ArgumentNullException("Stream must not be null");
 
-            Stream stream;
-            if (locationOption == StateLoadLocationOption.FromFile)
-            {
-                var absoluteFilePath = Path.Combine(_environment.LocalAppDataPath, ApplicationStateFilePath);
-                if (!File.Exists(absoluteFilePath))
-                    return;
-                stream = new FileStream(absoluteFilePath, FileMode.Open, FileAccess.Read);
-            }
-            else
-                stream = inputStream ?? throw new ArgumentNullException(nameof(inputStream));
+            if (processOption.HasFlag(ProcessStateOption.DocumentsOnly) && processOption.HasFlag(ProcessStateOption.ToolsOnly) ||
+                processOption.HasFlag(ProcessStateOption.Complete) && (processOption.HasFlag(ProcessStateOption.ToolsOnly) ||
+                                                                       processOption.HasFlag(ProcessStateOption.ToolsOnly)))
+                throw new InvalidEnumArgumentException();
+
+            var layoutItems = new Dictionary<string, ILayoutItemBase>();
 
             try
             {
-                using (var reader = new BinaryReader(stream))
+                using (var reader = new BinaryReader(inputStream))
                 {
 
-                    //stream = null;
-
                     var count = reader.ReadInt32();
-
-                    reader.BaseStream.Position = 4;
 
                     for (var i = 0; i < count; i++)
                     {
@@ -281,7 +107,9 @@ namespace ModernApplicationFramework.Extended.Core.LayoutManagement
                         {
                             if (IoC.GetInstance(contentType, null) is ILayoutItemBase contentInstance)
                             {
-                                layoutItems.Add(contentId, contentInstance);
+                                if (contentInstance is ITool && !processOption.HasFlag(ProcessStateOption.DocumentsOnly) ||
+                                    contentInstance is ILayoutItem && !processOption.HasFlag(ProcessStateOption.ToolsOnly))
+                                    layoutItems.Add(contentId, contentInstance);
 
                                 try
                                 {
@@ -303,51 +131,44 @@ namespace ModernApplicationFramework.Extended.Core.LayoutManagement
                     _dockingHost.LoadLayout(reader.BaseStream, _dockingHostViewModel.ShowTool, _dockingHostViewModel.OpenDocument, layoutItems);
                 }
             }
-            catch(Exception e)
+            catch
             {
-                stream?.Close();
+                inputStream.Close();
             }
 
 
         }
 
 
-        private void InternalSaveState(ProcessStateOption processOption, StateSaveLocationOption saveLocationOption, Stream inputStream)
+        private void InternalSaveState(ProcessStateOption processOption, Stream inputStream)
         {
             if (!_initialized)
                 throw new InvalidOperationException();
 
-            Stream stream;
-            if (saveLocationOption == StateSaveLocationOption.ToFile)
-            {
-                var absoluteFilePath = Path.Combine(_environment.LocalAppDataPath, ApplicationStateFilePath);
-                var absolutePath = Path.GetDirectoryName(absoluteFilePath);
+            if (inputStream == null)
+                throw new ArgumentNullException("Stream must not be null");
 
-                if (string.IsNullOrEmpty(absolutePath))
-                    return;
-
-                if (!Directory.Exists(absolutePath))
-                    Directory.CreateDirectory(absolutePath);
-
-                stream = new FileStream(absoluteFilePath, FileMode.Create, FileAccess.Write);
-            }
-            else
-                stream = inputStream ?? throw new ArgumentNullException(nameof(inputStream));
+            if (processOption.HasFlag(ProcessStateOption.DocumentsOnly) && processOption.HasFlag(ProcessStateOption.ToolsOnly) ||
+                processOption.HasFlag(ProcessStateOption.Complete) && (processOption.HasFlag(ProcessStateOption.ToolsOnly) ||
+                                                                       processOption.HasFlag(ProcessStateOption.ToolsOnly)))
+                throw new InvalidEnumArgumentException();
 
 
             try
             {
-                var writer = new BinaryWriter(stream);
-
+                var writer = new BinaryWriter(inputStream);
                 var itemStates = _dockingHostViewModel.Documents.Concat(_dockingHostViewModel.Tools.Cast<ILayoutItemBase>());
-
                 var itemCount = 0;
                 // reserve some space for items count, it'll be updated later
                 writer.Write(itemCount);
 
                 foreach (var item in itemStates)
                 {
-                    if (!item.ShouldReopenOnStart)
+                    if (item is ILayoutItem && processOption.HasFlag(ProcessStateOption.ToolsOnly))
+                        continue;
+                    if (item is ITool && processOption.HasFlag(ProcessStateOption.DocumentsOnly))
+                        continue;
+                    if (processOption.HasFlag(ProcessStateOption.UseShouldReopenOnStart) && !item.ShouldReopenOnStart)
                         continue;
 
                     var itemType = item.GetType();
@@ -433,74 +254,12 @@ namespace ModernApplicationFramework.Extended.Core.LayoutManagement
             }
             catch
             {
-                stream.Close();
+                inputStream.Close();
             }
         }
 
-        public string StreamToString(Stream stream)
-        {
-            var sb = new StringBuilder();
 
-            using (var reader = new BinaryReader(stream))
-            {
-                var count = reader.ReadInt32();
-                for (var i = 0; i < count; i++)
-                {
-                    var typeName = reader.ReadString();
-                    var contentId = reader.ReadString();
-                    var stateEndPosition = reader.ReadInt64();
-                    stateEndPosition += reader.BaseStream.Position;
-
-                    var contentType = Type.GetType(typeName);
-                    var skipStateData = true;
-
-                    if (contentType != null)
-                    {
-                        if (IoC.GetInstance(contentType, null) is ILayoutItemBase contentInstance)
-                        {
-                            try
-                            {
-                                contentInstance.LoadState(reader);
-                                skipStateData = false;
-                            }
-                            catch
-                            {
-                                skipStateData = true;
-                            }
-                        }
-                    }
-
-                    // Skip state data block if we couldn't read it.
-                    if (skipStateData)
-                        reader.BaseStream.Seek(stateEndPosition, SeekOrigin.Begin);
-                }
-
-                var pos = reader.BaseStream.Position;
-
-                stream.Seek(0, SeekOrigin.Begin);
-
-                while (stream.Position != pos)
-                {
-                    sb.Append(stream.ReadByte());
-                }
-
-                var sr = new StreamReader(stream);
-                sb.Append(sr.ReadToEnd());
-
-
-            }
-
-
-
-
-
-            return sb.ToString();
-        }
-
-
-
-
-        private Type GetTypeFromContractNameAsILayoutItem(ExportAttribute attribute)
+        private static Type GetTypeFromContractNameAsILayoutItem(ExportAttribute attribute)
         {
             if (attribute == null)
                 return null;
@@ -514,24 +273,30 @@ namespace ModernApplicationFramework.Extended.Core.LayoutManagement
                 return null;
             return type;
         }
-    }
 
-    public enum StateSaveLocationOption
-    {
-        ToFile,
-        ToStream
-    }
+        private Stream CreateFileStream(FileHandleMode mode, string filePath = null)
+        {
+            if (filePath == null)
+                filePath = Path.Combine(_environment.LocalAppDataPath, ApplicationStateFilePath);
+            if (mode == FileHandleMode.Open)
+            {
+                if (!File.Exists(filePath))
+                    throw new FileNotFoundException(nameof(filePath));
+                return new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            }
+            var absolutePath = Path.GetDirectoryName(filePath);
+            if (string.IsNullOrEmpty(absolutePath))
+                throw new ArgumentNullException(nameof(absolutePath));
+            if (!Directory.Exists(absolutePath))
+                Directory.CreateDirectory(absolutePath);
+            return new FileStream(filePath, FileMode.Create, FileAccess.Write);
+        }
 
-    public enum StateLoadLocationOption
-    {
-        FromFile,
-        FromStream
-    }
 
-    public enum ProcessStateOption
-    {
-        Complete,
-        ToolsOnly,
-        DocumentsOnly
+        private enum FileHandleMode
+        {
+            Open,
+            Create
+        }
     }
 }

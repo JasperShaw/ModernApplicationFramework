@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.Controls.Dialogs;
-using ModernApplicationFramework.Docking;
 using ModernApplicationFramework.Extended.Core.LayoutManagement;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
@@ -30,7 +27,7 @@ namespace MordernApplicationFramework.WindowManagement
         public int LayoutCount => _layoutStore.GetLayoutCount();
 
         [ImportingConstructor]
-        internal LayoutManager(IStatusBarDataModelService statusBar, 
+        internal LayoutManager(IStatusBarDataModelService statusBar,
             IWindowLayoutSettings layoutSettings, IWindowLayoutStore layoutStore,
             ILayoutItemStatePersister statePersister)
         {
@@ -56,10 +53,9 @@ namespace MordernApplicationFramework.WindowManagement
 
         public void ApplyWindowLayout(int index)
         {
-            Validate.IsWithinRange(index, 0, LayoutCount -1, nameof(index));
+            Validate.IsWithinRange(index, 0, LayoutCount - 1, nameof(index));
             var layoutAt = _layoutStore.GetLayoutAt(index);
             var name = layoutAt.Value.Name;
-            var key = layoutAt.Key;
             if (!_layoutSettings.SkipApplyLayoutConfirmation)
             {
                 if (!_layoutManagementUserInput.TryGetApplyLayoutConfirmation(name, out var disableConfirmation))
@@ -133,12 +129,15 @@ namespace MordernApplicationFramework.WindowManagement
         public void ManageWindowLayoutsInternal(Func<IEnumerable<KeyValuePair<string, WindowLayoutInfo>>, IEnumerable<KeyValuePair<string, WindowLayoutInfo>>> layoutTransformation)
         {
             var keyValuePairs = LayoutManagementUtilities.EnumerateLayoutKeyInfo(_layoutStore);
-            _layoutStore.UpdateLayouts(layoutTransformation(keyValuePairs));         
+            _layoutStore.UpdateLayouts(layoutTransformation(keyValuePairs));
         }
 
         public void ApplyWindowLayoutInternal(int index)
         {
-            throw new NotImplementedException();
+            Validate.IsWithinRange(index, 0, LayoutCount - 1, nameof(index));
+            var layoutAt = _layoutStore.GetLayoutAt(index);
+            var name = layoutAt.Value.Name;
+            TryApplyWindowLayout(name, index);
         }
 
         private bool TryApplyWindowLayout(string name, int index)
@@ -156,9 +155,7 @@ namespace MordernApplicationFramework.WindowManagement
                     var dh = IoC.Get<IDockingHostViewModel>();
                     if (dh == null)
                         throw new ArgumentNullException();
-                    //LayoutUtilities.LoadLayout(DockingManager.Instace, stream, dh.OpenDocument, dh.ShowTool, new Dictionary<string, ILayoutItemBase>());
-
-                    _layoutStatePersister.LoadFromStream(stream);
+                    _layoutStatePersister.LoadFromStream(stream, ProcessStateOption.ToolsOnly);
                 }
                 SetStatusBarMessage(WindowManagement_Resources.ApplyLayoutCompletedStatusFormat, name);
             }
@@ -197,40 +194,13 @@ namespace MordernApplicationFramework.WindowManagement
 
         private string GetCurrentLayoutData()
         {
-
-            try
+            using (var memoryStream = new MemoryStream())
             {
-                using (var memoryStream = new MemoryStream())
-                {
-                    //if (DockingManager.Instace != null)
-                    //    LayoutUtilities.SaveLayout(DockingManager.Instace, memoryStream);
-
-                    _layoutStatePersister.SaveToStream(memoryStream, ProcessStateOption.ToolsOnly);
-
-                    memoryStream.Seek(0L, SeekOrigin.Begin);
-
-                    var a = memoryStream.ToArray();
-
-
-                    return Convert(a);
-
-                    string Convert(byte[] data)
-                    {
-                        var sb = new StringBuilder();
-                        foreach (var b in data)
-                        {
-                            sb.Append(b);
-                            sb.Append('-');
-                        }
-                        sb.Remove(sb.Length - 1, 1);
-                        return sb.ToString();
-                    }
-                }
+                _layoutStatePersister.SaveToStream(memoryStream, ProcessStateOption.ToolsOnly);
+                memoryStream.Seek(0L, SeekOrigin.Begin);
+                var byteArray = memoryStream.ToArray();
+                return LayoutManagementUtilities.ConvertLayoutStreamToString(byteArray);
             }
-            catch (Exception e)
-            {
-                return string.Empty;
-            }    
         }
 
         private class DialogUserInput : ILayoutManagementUserInput

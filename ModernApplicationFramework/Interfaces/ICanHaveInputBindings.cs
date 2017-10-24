@@ -1,6 +1,7 @@
 using System.Windows;
+using ModernApplicationFramework.Input.Command;
 
-namespace ModernApplicationFramework.Input.Command
+namespace ModernApplicationFramework.Interfaces
 {
     public interface ICanHaveInputBindings
     {

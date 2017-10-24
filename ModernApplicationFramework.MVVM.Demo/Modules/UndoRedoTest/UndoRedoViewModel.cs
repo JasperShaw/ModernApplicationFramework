@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest
