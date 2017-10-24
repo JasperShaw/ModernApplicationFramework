@@ -41,8 +41,7 @@ namespace ModernApplicationFramework.Extended.DockingHost.ViewModels
 
                 _activeLayoutItemBase = value;
 
-                var item = value as ILayoutItem;
-                if (item != null)
+                if (value is ILayoutItem item)
                     ActivateItem(item);
 
                 NotifyOfPropertyChange(() => ActiveLayoutItemBase);
@@ -153,7 +152,7 @@ namespace ModernApplicationFramework.Extended.DockingHost.ViewModels
             // requests that occur when _closing is true.
             _closing = true;
 
-            _layoutItemStatePersister.SaveState(this, _dockingHostView);
+            _layoutItemStatePersister.SaveState();
 
             base.OnDeactivate(close);
         }
@@ -163,6 +162,9 @@ namespace ModernApplicationFramework.Extended.DockingHost.ViewModels
             foreach (var module in _modules)
                 module.Initialize();
             _dockingHostView = (IDockingHost) view;
+
+            _layoutItemStatePersister.Initialize(this, _dockingHostView);
+
             if (!_layoutItemStatePersister.HasStateFile)
             {
                 foreach (var defaultDocument in _modules.SelectMany(x => x.DefaultDocuments))
@@ -171,7 +173,7 @@ namespace ModernApplicationFramework.Extended.DockingHost.ViewModels
                     ShowTool((ITool) IoC.GetInstance(defaultTool, null));
             }
             else
-                _layoutItemStatePersister.LoadState(this, _dockingHostView);
+                _layoutItemStatePersister.LoadState();
 
             foreach (var module in _modules)
                 module.PostInitialize();

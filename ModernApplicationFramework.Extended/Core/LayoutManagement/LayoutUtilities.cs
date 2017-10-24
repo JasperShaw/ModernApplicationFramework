@@ -14,7 +14,8 @@ namespace ModernApplicationFramework.Extended.Core.LayoutManagement
             Action<ITool> addToolCallback, Dictionary<string, ILayoutItemBase> items)
         {
             var layoutSerializer = new XmlLayoutSerializer(manager);
-            layoutSerializer.LayoutSerializationCallback += (s, e) =>
+
+            layoutSerializer.LayoutSerializationCallback += delegate(object s, LayoutSerializationCallbackEventArgs e)
             {
                 ILayoutItemBase itemBase;
                 if (items.TryGetValue(e.Model.ContentId, out itemBase))

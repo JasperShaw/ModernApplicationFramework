@@ -122,10 +122,10 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 
         public static byte[] Compress(byte[] data)
         {
-            Validate.IsNotNull((object)data, nameof(data));
-            using (MemoryStream memoryStream = new MemoryStream())
+            Validate.IsNotNull(data, nameof(data));
+            using (var memoryStream = new MemoryStream())
             {
-                using (GZipStream gzipStream = new GZipStream((Stream)memoryStream, CompressionMode.Compress, true))
+                using (var gzipStream = new GZipStream(memoryStream, CompressionMode.Compress, true))
                     gzipStream.Write(data, 0, data.Length);
                 return memoryStream.ToArray();
             }

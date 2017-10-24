@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Windows;
+using Caliburn.Micro;
 using ModernApplicationFramework.Controls.Dialogs;
 using ModernApplicationFramework.Docking;
+using ModernApplicationFramework.Extended.Core.LayoutManagement;
+using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Utilities;
 using MordernApplicationFramework.WindowManagement.LayoutManagement;
@@ -20,18 +25,21 @@ namespace MordernApplicationFramework.WindowManagement
         private readonly IWindowLayoutSettings _layoutSettings;
         private readonly IWindowLayoutStore _layoutStore;
         private readonly ILayoutManagementUserInput _layoutManagementUserInput;
+        private readonly ILayoutItemStatePersister _layoutStatePersister;
 
         public int LayoutCount => _layoutStore.GetLayoutCount();
 
         [ImportingConstructor]
         internal LayoutManager(IStatusBarDataModelService statusBar, 
-            IWindowLayoutSettings layoutSettings, IWindowLayoutStore layoutStore)
+            IWindowLayoutSettings layoutSettings, IWindowLayoutStore layoutStore,
+            ILayoutItemStatePersister statePersister)
         {
             Validate.IsNotNull(layoutSettings, nameof(layoutSettings));
             _statusBar = statusBar;
             _layoutSettings = layoutSettings;
             _layoutManagementUserInput = new DialogUserInput(layoutSettings);
             _layoutStore = layoutStore;
+            _layoutStatePersister = statePersister;
         }
 
         public string GetLayoutNameAt(int index)
@@ -59,7 +67,7 @@ namespace MordernApplicationFramework.WindowManagement
                 if (disableConfirmation)
                     _layoutSettings.SkipApplyLayoutConfirmation = true;
             }
-            if (TryApplyWindowLayout(key, name, index))
+            if (TryApplyWindowLayout(name, index))
                 return;
             _layoutManagementUserInput.ShowApplyLayoutError(name);
         }
@@ -133,7 +141,7 @@ namespace MordernApplicationFramework.WindowManagement
             throw new NotImplementedException();
         }
 
-        private bool TryApplyWindowLayout(string key, string name, int index)
+        private bool TryApplyWindowLayout(string name, int index)
         {
             var layoutDataAt = GetLayoutDataAt(index);
             if (string.IsNullOrEmpty(layoutDataAt))
@@ -144,7 +152,13 @@ namespace MordernApplicationFramework.WindowManagement
             {
                 using (var stream = LayoutManagementUtilities.ConvertLayoutPayloadToStream(layoutDataAt))
                 {
-                    //TODO: 
+
+                    var dh = IoC.Get<IDockingHostViewModel>();
+                    if (dh == null)
+                        throw new ArgumentNullException();
+                    //LayoutUtilities.LoadLayout(DockingManager.Instace, stream, dh.OpenDocument, dh.ShowTool, new Dictionary<string, ILayoutItemBase>());
+
+                    _layoutStatePersister.LoadFromStream(stream);
                 }
                 SetStatusBarMessage(WindowManagement_Resources.ApplyLayoutCompletedStatusFormat, name);
             }
@@ -183,16 +197,40 @@ namespace MordernApplicationFramework.WindowManagement
 
         private string GetCurrentLayoutData()
         {
-            using (var memoryStream = new MemoryStream())
+
+            try
             {
-                if (DockingManager.Instace != null)
-                    ModernApplicationFramework.Extended.Core.LayoutManagement.LayoutUtilities.SaveLayout(DockingManager.Instace, memoryStream);
-                memoryStream.Seek(0L, SeekOrigin.Begin);
-                using (var streamReader = new StreamReader(memoryStream))
+                using (var memoryStream = new MemoryStream())
                 {
-                    return streamReader.ReadToEnd();
+                    //if (DockingManager.Instace != null)
+                    //    LayoutUtilities.SaveLayout(DockingManager.Instace, memoryStream);
+
+                    _layoutStatePersister.SaveToStream(memoryStream, ProcessStateOption.ToolsOnly);
+
+                    memoryStream.Seek(0L, SeekOrigin.Begin);
+
+                    var a = memoryStream.ToArray();
+
+
+                    return Convert(a);
+
+                    string Convert(byte[] data)
+                    {
+                        var sb = new StringBuilder();
+                        foreach (var b in data)
+                        {
+                            sb.Append(b);
+                            sb.Append('-');
+                        }
+                        sb.Remove(sb.Length - 1, 1);
+                        return sb.ToString();
+                    }
                 }
             }
+            catch (Exception e)
+            {
+                return string.Empty;
+            }    
         }
 
         private class DialogUserInput : ILayoutManagementUserInput

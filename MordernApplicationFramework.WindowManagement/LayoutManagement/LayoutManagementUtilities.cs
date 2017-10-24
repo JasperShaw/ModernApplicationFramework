@@ -57,11 +57,16 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 
         public static Stream ConvertLayoutPayloadToStream(string payload)
         {
-            var memoryStream = new MemoryStream();
-            using (var streamWriter = new StreamWriter(memoryStream, Encoding.UTF8, 1024, true))
-                streamWriter.Write(payload);
-            memoryStream.Seek(0L, SeekOrigin.Begin);
-            return memoryStream;
+
+            var bytes = payload.Split('-').Select(s => Convert.ToByte(s, 10)).ToArray();
+            var m = new MemoryStream(bytes);
+
+            return m;
+
+            //using (var streamWriter = new StreamWriter(memoryStream, Encoding.UTF8, 1024, true))
+            //    streamWriter.Write(payload);
+            //memoryStream.Seek(0L, SeekOrigin.Begin);
+            //return memoryStream;
         }
     }
 }
