@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ModernApplicationFramework.Extended.Core.LayoutManagement
+namespace MordernApplicationFramework.WindowManagement.LayoutState
 {
     [Flags]
     public enum ProcessStateOption

@@ -7,7 +7,7 @@ using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Interfaces;
 
-namespace ModernApplicationFramework.Extended.Core.LayoutManagement
+namespace MordernApplicationFramework.WindowManagement.LayoutState
 {
     [Export(typeof(ILayoutItemStatePersister))]
     public class LayoutItemStatePersister : ILayoutItemStatePersister
@@ -21,13 +21,11 @@ namespace ModernApplicationFramework.Extended.Core.LayoutManagement
 
         public bool HasStateFile => File.Exists(Path.Combine(_environment.LocalAppDataPath, ApplicationStateFilePath));
 
-
         [ImportingConstructor]
         public LayoutItemStatePersister(IApplicationEnvironment environment)
         {
             _environment = environment;
         }
-
 
         public void Initialize(IDockingHostViewModel shell, IDockingHost shellView)
         {
@@ -52,7 +50,6 @@ namespace ModernApplicationFramework.Extended.Core.LayoutManagement
             InternalSaveState(option, stream);
         }
 
-
         public void LoadFromStream(Stream stream, ProcessStateOption option)
         {
             InternalLoadState(option, stream);
@@ -68,8 +65,6 @@ namespace ModernApplicationFramework.Extended.Core.LayoutManagement
         {
             LoadFromFile(null, option);
         }
-
-
 
         private void InternalLoadState(ProcessStateOption processOption, Stream inputStream)
         {
@@ -138,7 +133,6 @@ namespace ModernApplicationFramework.Extended.Core.LayoutManagement
 
 
         }
-
 
         private void InternalSaveState(ProcessStateOption processOption, Stream inputStream)
         {
@@ -258,7 +252,6 @@ namespace ModernApplicationFramework.Extended.Core.LayoutManagement
             }
         }
 
-
         private static Type GetTypeFromContractNameAsILayoutItem(ExportAttribute attribute)
         {
             if (attribute == null)
@@ -291,7 +284,6 @@ namespace ModernApplicationFramework.Extended.Core.LayoutManagement
                 Directory.CreateDirectory(absolutePath);
             return new FileStream(filePath, FileMode.Create, FileAccess.Write);
         }
-
 
         private enum FileHandleMode
         {

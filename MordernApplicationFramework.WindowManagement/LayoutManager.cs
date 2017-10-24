@@ -6,11 +6,11 @@ using System.IO;
 using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.Controls.Dialogs;
-using ModernApplicationFramework.Extended.Core.LayoutManagement;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Utilities;
 using MordernApplicationFramework.WindowManagement.LayoutManagement;
+using MordernApplicationFramework.WindowManagement.LayoutState;
 using MordernApplicationFramework.WindowManagement.Properties;
 
 namespace MordernApplicationFramework.WindowManagement
@@ -151,7 +151,6 @@ namespace MordernApplicationFramework.WindowManagement
             {
                 using (var stream = LayoutManagementUtilities.ConvertLayoutPayloadToStream(layoutDataAt))
                 {
-
                     var dh = IoC.Get<IDockingHostViewModel>();
                     if (dh == null)
                         throw new ArgumentNullException();

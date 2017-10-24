@@ -4,7 +4,7 @@ using ModernApplicationFramework.Extended.DockingMainWindow.Views;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
 
-namespace ModernApplicationFramework.MVVM.Demo.Modules
+namespace ModernApplicationFramework.MVVM.Demo.Shell
 {
     [Export(typeof (IDockingMainWindowViewModel))]
     public class DockingMainWindowViewModel : Extended.DockingMainWindow.ViewModels.DockingMainWindowViewModel

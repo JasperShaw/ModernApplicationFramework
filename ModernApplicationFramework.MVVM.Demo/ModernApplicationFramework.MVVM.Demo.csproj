@@ -89,7 +89,8 @@
     <Compile Include="Modules\Commands\TestWindow.xaml.cs">
       <DependentUpon>TestWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Modules\DockingMainWindowViewModel.cs" />
+    <Compile Include="Shell\DockingHostViewModel.cs" />
+    <Compile Include="Shell\DockingMainWindowViewModel.cs" />
     <Compile Include="Modules\Document\SampleView.xaml.cs">
       <DependentUpon>SampleView.xaml</DependentUpon>
     </Compile>

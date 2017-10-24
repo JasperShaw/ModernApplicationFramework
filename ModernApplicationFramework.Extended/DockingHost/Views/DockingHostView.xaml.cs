@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using ModernApplicationFramework.Docking.Controls;
-using ModernApplicationFramework.Extended.Core.LayoutManagement;
+using ModernApplicationFramework.Extended.Core.Layout;
 using ModernApplicationFramework.Extended.DockingHost.ViewModels;
 using ModernApplicationFramework.Extended.Interfaces;
 
 namespace ModernApplicationFramework.Extended.DockingHost.Views
 {
-    /// <summary>
-    ///     Interaktionslogik für UserControl1.xaml
-    /// </summary>
     public partial class DockingHostView : IDockingHost
     {
         public DockingHostView()

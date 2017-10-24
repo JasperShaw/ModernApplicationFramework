@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
-using ModernApplicationFramework.Extended.Core.LayoutManagement;
 using ModernApplicationFramework.Extended.Interfaces;
 
 namespace ModernApplicationFramework.Extended.DockingHost.ViewModels
@@ -12,25 +10,22 @@ namespace ModernApplicationFramework.Extended.DockingHost.ViewModels
     [Export(typeof(IDockingHostViewModel))]
     public class DockingHostViewModel : Conductor<ILayoutItem>.Collection.OneActive, IDockingHostViewModel
     {
+        public event EventHandler ActiveDocumentChanged;
+        public event EventHandler ActiveDocumentChanging;
+
+
         private readonly BindableCollection<ITool> _tools;
         private ILayoutItemBase _activeLayoutItemBase;
         private bool _closing;
-        private IDockingHost _dockingHostView;
+        
 #pragma warning disable 649
-        [Import] private ILayoutItemStatePersister _layoutItemStatePersister;
-
         [ImportMany(typeof(IModule))] private IEnumerable<IModule> _modules;
 #pragma warning disable 649
         private bool _showFloatingWindowsInTaskbar;
 
-        public DockingHostViewModel()
-        {
-            ((IActivate) this).Activate();
-            _tools = new BindableCollection<ITool>();
-        }
+        protected IDockingHost DockingHostView;
 
-        public event EventHandler ActiveDocumentChanged;
-        public event EventHandler ActiveDocumentChanging;
+        public IObservableCollection<ITool> Tools => _tools;
 
         public ILayoutItemBase ActiveLayoutItemBase
         {
@@ -39,31 +34,11 @@ namespace ModernApplicationFramework.Extended.DockingHost.ViewModels
             {
                 if (ReferenceEquals(_activeLayoutItemBase, value))
                     return;
-
                 _activeLayoutItemBase = value;
-
                 if (value is ILayoutItem item)
                     ActivateItem(item);
-
                 NotifyOfPropertyChange(() => ActiveLayoutItemBase);
             }
-        }
-
-        public void Close()
-        {
-            Application.Current.MainWindow.Close();
-        }
-
-        public void CloseDocument(ILayoutItem document)
-        {
-            DeactivateItem(document, true);
-        }
-
-        public IObservableCollection<ILayoutItem> Documents => Items;
-
-        public void OpenDocument(ILayoutItem model)
-        {
-            ActivateItem(model);
         }
 
         public bool ShowFloatingWindowsInTaskbar
@@ -73,8 +48,31 @@ namespace ModernApplicationFramework.Extended.DockingHost.ViewModels
             {
                 _showFloatingWindowsInTaskbar = value;
                 NotifyOfPropertyChange(() => ShowFloatingWindowsInTaskbar);
-                _dockingHostView?.UpdateFloatingWindows();
+                DockingHostView?.UpdateFloatingWindows();
             }
+        }
+
+        public DockingHostViewModel()
+        {
+            ((IActivate) this).Activate();
+            _tools = new BindableCollection<ITool>();
+        }
+
+        public virtual void Close()
+        {
+            Application.Current.MainWindow?.Close();
+        }
+
+        public virtual void CloseDocument(ILayoutItem document)
+        {
+            DeactivateItem(document, true);
+        }
+
+        public IObservableCollection<ILayoutItem> Documents => Items;
+
+        public void OpenDocument(ILayoutItem model)
+        {
+            ActivateItem(model);
         }
 
         public void ShowTool<TTool>()
@@ -93,19 +91,13 @@ namespace ModernApplicationFramework.Extended.DockingHost.ViewModels
             ActiveLayoutItemBase = model;
         }
 
-        public IObservableCollection<ITool> Tools => _tools;
-
         public override void ActivateItem(ILayoutItem item)
         {
             if (_closing)
                 return;
-
             RaiseActiveDocumentChanging();
-
             var currentActiveItem = ActiveItem;
-
             base.ActivateItem(item);
-
             if (!ReferenceEquals(item, currentActiveItem))
                 RaiseActiveDocumentChanged();
         }
@@ -127,9 +119,9 @@ namespace ModernApplicationFramework.Extended.DockingHost.ViewModels
             base.OnActivationProcessed(item, success);
         }
 
-        protected override void OnDeactivate(bool close)
+        protected sealed override void OnDeactivate(bool close)
         {
-            // Workaround for a complex bug that occurs when
+            // Workaround for a complex _bug that occurs when
             // (a) the window has multiple documents open, and
             // (b) the last document is NOT active
             // 
@@ -152,30 +144,32 @@ namespace ModernApplicationFramework.Extended.DockingHost.ViewModels
             // My workaround is to use the following _closing variable, and ignore activation
             // requests that occur when _closing is true.
             _closing = true;
-
-            _layoutItemStatePersister.SaveToFile(ProcessStateOption.Complete | ProcessStateOption.UseShouldReopenOnStart);
-
+            PreviewDeactivating(close);
             base.OnDeactivate(close);
+        }
+
+        protected virtual void PreviewDeactivating(bool close)
+        {
+            
+        }
+
+        protected override void OnViewAttached(object view, object context)
+        {
+            DockingHostView = (IDockingHost)view;
+            base.OnViewAttached(view, context);
+        }
+
+
+        protected override void OnViewReady(object view)
+        {         
+            //TODO: Add Module Manager
+            foreach (var module in _modules)
+                module.Initialize();
+            base.OnViewReady(view);
         }
 
         protected override void OnViewLoaded(object view)
         {
-            foreach (var module in _modules)
-                module.Initialize();
-            _dockingHostView = (IDockingHost) view;
-
-            _layoutItemStatePersister.Initialize(this, _dockingHostView);
-
-            if (!_layoutItemStatePersister.HasStateFile)
-            {
-                foreach (var defaultDocument in _modules.SelectMany(x => x.DefaultDocuments))
-                    OpenDocument(defaultDocument);
-                foreach (var defaultTool in _modules.SelectMany(x => x.DefaultTools))
-                    ShowTool((ITool) IoC.GetInstance(defaultTool, null));
-            }
-            else
-                _layoutItemStatePersister.LoadFromFile(ProcessStateOption.Complete);
-
             foreach (var module in _modules)
                 module.PostInitialize();
             base.OnViewLoaded(view);

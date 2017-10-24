@@ -76,6 +76,9 @@
     <Compile Include="LayoutManagement\LayoutManagementDialogUserInput.cs" />
     <Compile Include="LayoutManagement\LayoutManagementUtilities.cs" />
     <Compile Include="LayoutManager.cs" />
+    <Compile Include="LayoutState\ILayoutItemStatePersister.cs" />
+    <Compile Include="LayoutState\LayoutItemStatePersister.cs" />
+    <Compile Include="LayoutState\ProcessStateOption.cs" />
     <Compile Include="ManageActions.cs" />
     <Compile Include="LayoutManagement\ManageLayoutsDialog.xaml.cs">
       <DependentUpon>ManageLayoutsDialog.xaml</DependentUpon>

@@ -65,7 +65,8 @@
     <Compile Include="ApplicationEnvironment\ExtendedEnvironmentVariables.cs" />
     <Compile Include="ApplicationEnvironment\ApplicationEnvironmentBase.cs" />
     <Compile Include="ApplicationEnvironment\FallbackExtendedEnvironmentVariables.cs" />
-    <Compile Include="Core\LayoutManagement\ProcessStateOption.cs" />
+    <Compile Include="Core\Layout\LayoutInitializer.cs" />
+    <Compile Include="Core\Layout\LayoutUtilities.cs" />
     <Compile Include="Core\Services\WindowManagerService.cs" />
     <Compile Include="GuidCollection.cs" />
     <Compile Include="KeyBindingScheme\KeyBindingSchemeManager.cs" />
@@ -93,9 +94,6 @@
     <Compile Include="Core\LayoutItems\Document.cs" />
     <Compile Include="Core\LayoutItems\LayoutItem.cs" />
     <Compile Include="Core\LayoutItems\LayoutItemBase.cs" />
-    <Compile Include="Core\LayoutManagement\LayoutInitializer.cs" />
-    <Compile Include="Core\LayoutManagement\LayoutItemStatePersister.cs" />
-    <Compile Include="Core\LayoutManagement\LayoutUtilities.cs" />
     <Compile Include="Core\Pane\PaneLocation.cs" />
     <Compile Include="Core\Pane\PanesStyleSelector.cs" />
     <Compile Include="Core\Pane\PanesTemplateSelector.cs" />
@@ -116,7 +114,6 @@
     <Compile Include="Interfaces\IDocument.cs" />
     <Compile Include="Interfaces\ILayoutItem.cs" />
     <Compile Include="Interfaces\ILayoutItemBase.cs" />
-    <Compile Include="Interfaces\ILayoutItemStatePersister.cs" />
     <Compile Include="Interfaces\IModule.cs" />
     <Compile Include="Interfaces\IOpenResult.cs" />
     <Compile Include="Interfaces\IStorableDocument.cs" />
@@ -442,6 +439,8 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ViewManager\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

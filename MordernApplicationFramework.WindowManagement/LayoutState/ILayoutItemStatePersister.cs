@@ -1,7 +1,7 @@
 ﻿using System.IO;
-using ModernApplicationFramework.Extended.Core.LayoutManagement;
+using ModernApplicationFramework.Extended.Interfaces;
 
-namespace ModernApplicationFramework.Extended.Interfaces
+namespace MordernApplicationFramework.WindowManagement.LayoutState
 {
     public interface ILayoutItemStatePersister
     {

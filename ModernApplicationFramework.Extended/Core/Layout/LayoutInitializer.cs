@@ -6,18 +6,16 @@ using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Extended.Core.Pane;
 using ModernApplicationFramework.Extended.Interfaces;
 
-namespace ModernApplicationFramework.Extended.Core.LayoutManagement
+namespace ModernApplicationFramework.Extended.Core.Layout
 {
-    public class LayoutInitializer : ILayoutUpdateStrategy
+    internal class LayoutInitializer : ILayoutUpdateStrategy
     {
         public void AfterInsertAnchorable(LayoutRoot layout, LayoutAnchorable anchorableShown)
         {
             // If this is the first anchorable added to this pane, then use the preferred size.
-            var tool = anchorableShown.Content as ITool;
-            if (tool != null)
+            if (anchorableShown.Content is ITool tool)
             {
-                var anchorablePane = anchorableShown.Parent as LayoutAnchorablePane;
-                if (anchorablePane != null && anchorablePane.ChildrenCount == 1)
+                if (anchorableShown.Parent is LayoutAnchorablePane anchorablePane && anchorablePane.ChildrenCount == 1)
                     switch (tool.PreferredLocation)
                     {
                         case PaneLocation.Left:
@@ -40,36 +38,32 @@ namespace ModernApplicationFramework.Extended.Core.LayoutManagement
         public bool BeforeInsertAnchorable(LayoutRoot layout, LayoutAnchorable anchorableToShow,
             ILayoutContainer destinationContainer)
         {
-            var tool = anchorableToShow.Content as ITool;
-            if (tool != null)
-            {
-                var preferredLocation = tool.PreferredLocation;
-                var paneName = GetPaneName(preferredLocation);
-                var toolsPane =
-                    layout.Descendents().OfType<LayoutAnchorablePane>().FirstOrDefault(d => d.Name == paneName);
-                if (toolsPane == null)
-                    switch (preferredLocation)
-                    {
-                        case PaneLocation.Left:
-                            toolsPane = CreateAnchorablePane(layout, Orientation.Horizontal, paneName,
-                                InsertPosition.Start);
-                            break;
-                        case PaneLocation.Right:
-                            toolsPane = CreateAnchorablePane(layout, Orientation.Horizontal, paneName,
-                                InsertPosition.End);
-                            break;
-                        case PaneLocation.Bottom:
-                            toolsPane =
-                                CreateAnchorablePane(layout, Orientation.Vertical, paneName, InsertPosition.End);
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-                toolsPane.Children.Add(anchorableToShow);
-                return true;
-            }
-
-            return false;
+            if (!(anchorableToShow.Content is ITool tool))
+                return false;
+            var preferredLocation = tool.PreferredLocation;
+            var paneName = GetPaneName(preferredLocation);
+            var toolsPane =
+                layout.Descendents().OfType<LayoutAnchorablePane>().FirstOrDefault(d => d.Name == paneName);
+            if (toolsPane == null)
+                switch (preferredLocation)
+                {
+                    case PaneLocation.Left:
+                        toolsPane = CreateAnchorablePane(layout, Orientation.Horizontal, paneName,
+                            InsertPosition.Start);
+                        break;
+                    case PaneLocation.Right:
+                        toolsPane = CreateAnchorablePane(layout, Orientation.Horizontal, paneName,
+                            InsertPosition.End);
+                        break;
+                    case PaneLocation.Bottom:
+                        toolsPane =
+                            CreateAnchorablePane(layout, Orientation.Vertical, paneName, InsertPosition.End);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            toolsPane.Children.Add(anchorableToShow);
+            return true;
         }
 
         public bool BeforeInsertDocument(LayoutRoot layout, LayoutDocument anchorableToShow,

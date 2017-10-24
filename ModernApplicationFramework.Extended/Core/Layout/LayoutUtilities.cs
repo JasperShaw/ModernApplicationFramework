@@ -6,9 +6,9 @@ using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Docking.Layout.Serialization;
 using ModernApplicationFramework.Extended.Interfaces;
 
-namespace ModernApplicationFramework.Extended.Core.LayoutManagement
+namespace ModernApplicationFramework.Extended.Core.Layout
 {
-    public static class LayoutUtilities
+    internal static class LayoutUtilities
     {
         public static void LoadLayout(DockingManager manager, Stream stream, Action<ILayoutItem> addDocumentCallback,
             Action<ITool> addToolCallback, Dictionary<string, ILayoutItemBase> items)
@@ -17,8 +17,7 @@ namespace ModernApplicationFramework.Extended.Core.LayoutManagement
 
             layoutSerializer.LayoutSerializationCallback += delegate(object s, LayoutSerializationCallbackEventArgs e)
             {
-                ILayoutItemBase itemBase;
-                if (items.TryGetValue(e.Model.ContentId, out itemBase))
+                if (items.TryGetValue(e.Model.ContentId, out var itemBase))
                 {
                     e.Content = itemBase;
 
@@ -49,7 +48,7 @@ namespace ModernApplicationFramework.Extended.Core.LayoutManagement
                         // and more documents are opened programmatically.
                         layoutDocument.GetType()
                             .GetProperty("IsLastFocusedDocument")
-                            .SetValue(layoutDocument, false, null);
+                            ?.SetValue(layoutDocument, false, null);
 
                         document.IsSelected = layoutDocument.IsSelected;
                         return;
