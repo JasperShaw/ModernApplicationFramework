@@ -110,7 +110,7 @@
     <EmbeddedResource Include="Properties\WindowManagement.Resources.de.resx" />
     <EmbeddedResource Include="Properties\WindowManagement.Resources.en.resx" />
     <EmbeddedResource Include="Properties\WindowManagement.Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>WindowManagement.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
