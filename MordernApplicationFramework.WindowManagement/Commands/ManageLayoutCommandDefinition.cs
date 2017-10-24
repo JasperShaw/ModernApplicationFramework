@@ -5,6 +5,7 @@ using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
+using MordernApplicationFramework.WindowManagement.LayoutManagement;
 using MordernApplicationFramework.WindowManagement.Properties;
 
 namespace MordernApplicationFramework.WindowManagement.Commands

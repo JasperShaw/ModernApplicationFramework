@@ -1,4 +1,4 @@
-namespace MordernApplicationFramework.WindowManagement
+namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 {
     public interface ILayoutManager
     {

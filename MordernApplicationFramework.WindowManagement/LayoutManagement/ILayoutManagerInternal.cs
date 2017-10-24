@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using MordernApplicationFramework.WindowManagement.LayoutManagement;
 
-namespace MordernApplicationFramework.WindowManagement
+namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 {
     public interface ILayoutManagerInternal
     {

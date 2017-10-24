@@ -9,11 +9,10 @@ using ModernApplicationFramework.Controls.Dialogs;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Utilities;
-using MordernApplicationFramework.WindowManagement.LayoutManagement;
 using MordernApplicationFramework.WindowManagement.LayoutState;
 using MordernApplicationFramework.WindowManagement.Properties;
 
-namespace MordernApplicationFramework.WindowManagement
+namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 {
     [Export(typeof(ILayoutManager))]
     public class LayoutManager : ILayoutManager, ILayoutManagerInternal
