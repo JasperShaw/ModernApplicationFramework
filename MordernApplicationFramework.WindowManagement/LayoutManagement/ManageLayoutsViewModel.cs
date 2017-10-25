@@ -29,20 +29,20 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
                 var flag = _selectedLayout == null != (value == null);
                 if (!(SetProperty(ref _selectedLayout, value) & flag))
                     return;
-                ((ObjectCommand)RenameLayoutCommand).RaiseCanExecuteChanged();
-                ((ObjectCommand)DeleteLayoutCommand).RaiseCanExecuteChanged();
-                ((ObjectCommand)MoveLayoutUpCommand).RaiseCanExecuteChanged();
-                ((ObjectCommand)MoveLayoutDownCommand).RaiseCanExecuteChanged();
+                ((DelegateCommand)RenameLayoutCommand).RaiseCanExecuteChanged();
+                ((DelegateCommand)DeleteLayoutCommand).RaiseCanExecuteChanged();
+                ((DelegateCommand)MoveLayoutUpCommand).RaiseCanExecuteChanged();
+                ((DelegateCommand)MoveLayoutDownCommand).RaiseCanExecuteChanged();
             }
         }
 
         internal ManageLayoutsViewModel(IEnumerable<KeyValuePair<string, WindowLayout>> layoutKeyInfoCollection, ILayoutManagementUserManageInput userInput)
         {
             Validate.IsNotNull(layoutKeyInfoCollection, "layoutKeyInfoCollection");
-            RenameLayoutCommand = new ObjectCommand(OnRenameLayoutCommandExecuted, CanExecuteLayoutCommand);
-            DeleteLayoutCommand = new ObjectCommand(OnDeleteLayoutCommandExecuted, CanExecuteLayoutCommand);
-            MoveLayoutUpCommand = new ObjectCommand(OnMoveLayoutUpExecuted, CanExecuteMoveUpCommand);
-            MoveLayoutDownCommand = new ObjectCommand(OnMoveLayoutDownExecuted, CanExecuteMoveDownCommand);
+            RenameLayoutCommand = new DelegateCommand(OnRenameLayoutCommandExecuted, CanExecuteLayoutCommand);
+            DeleteLayoutCommand = new DelegateCommand(OnDeleteLayoutCommandExecuted, CanExecuteLayoutCommand);
+            MoveLayoutUpCommand = new DelegateCommand(OnMoveLayoutUpExecuted, CanExecuteMoveUpCommand);
+            MoveLayoutDownCommand = new DelegateCommand(OnMoveLayoutDownExecuted, CanExecuteMoveDownCommand);
             Layouts = new ObservableCollection<LayoutItemViewModel>(layoutKeyInfoCollection.Select(kvp => new LayoutItemViewModel(kvp.Key, kvp.Value)).OrderBy(lvm => lvm.Position).ThenBy(lvm => lvm.Name));
             FixLayoutPositions();
             SelectedLayout = Layouts.FirstOrDefault();

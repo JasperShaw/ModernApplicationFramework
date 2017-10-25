@@ -334,23 +334,23 @@ namespace ModernApplicationFramework.Docking.Controls
 
         protected virtual void InitDefaultCommands()
         {
-            _defaultAddCommand = new ObjectCommand(ExecuteAddCommand, CanExecuteAddCommand);
-            _defaultCloseAllCommand = new ObjectCommand(p => ExecuteCloseAllCommand(),
+            _defaultAddCommand = new DelegateCommand(ExecuteAddCommand, CanExecuteAddCommand);
+            _defaultCloseAllCommand = new DelegateCommand(p => ExecuteCloseAllCommand(),
                 p => CanExecuteCloseAllCommand());
-            _defaultCloseCommand = new ObjectCommand(ExecuteCloseCommand, CanExecuteCloseCommand);
-            _defaultFloatCommand = new ObjectCommand(ExecuteFloatCommand, CanExecuteFloatCommand);
-            _defaultDockAsDocumentCommand = new ObjectCommand(ExecuteDockAsDocumentCommand,
+            _defaultCloseCommand = new DelegateCommand(ExecuteCloseCommand, CanExecuteCloseCommand);
+            _defaultFloatCommand = new DelegateCommand(ExecuteFloatCommand, CanExecuteFloatCommand);
+            _defaultDockAsDocumentCommand = new DelegateCommand(ExecuteDockAsDocumentCommand,
                 CanExecuteDockAsDocumentCommand);
-            _defaultCloseAllButThisCommand = new ObjectCommand(ExecuteCloseAllButThisCommand,
+            _defaultCloseAllButThisCommand = new DelegateCommand(ExecuteCloseAllButThisCommand,
                 CanExecuteCloseAllButThisCommand);
-            _defaultActivateCommand = new ObjectCommand(ExecuteActivateCommand, CanExecuteActivateCommand);
-            _defaultNewVerticalTabGroupCommand = new ObjectCommand(ExecuteNewVerticalTabGroupCommand,
+            _defaultActivateCommand = new DelegateCommand(ExecuteActivateCommand, CanExecuteActivateCommand);
+            _defaultNewVerticalTabGroupCommand = new DelegateCommand(ExecuteNewVerticalTabGroupCommand,
                 CanExecuteNewVerticalTabGroupCommand);
-            _defaultNewHorizontalTabGroupCommand = new ObjectCommand(ExecuteNewHorizontalTabGroupCommand,
+            _defaultNewHorizontalTabGroupCommand = new DelegateCommand(ExecuteNewHorizontalTabGroupCommand,
                 CanExecuteNewHorizontalTabGroupCommand);
-            _defaultMoveToNextTabGroupCommand = new ObjectCommand(ExecuteMoveToNextTabGroupCommand,
+            _defaultMoveToNextTabGroupCommand = new DelegateCommand(ExecuteMoveToNextTabGroupCommand,
                 CanExecuteMoveToNextTabGroupCommand);
-            _defaultMoveToPreviousTabGroupCommand = new ObjectCommand(ExecuteMoveToPreviousTabGroupCommand,
+            _defaultMoveToPreviousTabGroupCommand = new DelegateCommand(ExecuteMoveToPreviousTabGroupCommand,
                 CanExecuteMoveToPreviousTabGroupCommand);
         }
 

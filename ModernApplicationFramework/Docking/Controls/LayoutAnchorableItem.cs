@@ -102,9 +102,9 @@ namespace ModernApplicationFramework.Docking.Controls
 
         protected override void InitDefaultCommands()
         {
-            _defaultHideCommand = new ObjectCommand(ExecuteHideCommand, CanExecuteHideCommand);
-            _defaultAutoHideCommand = new ObjectCommand(ExecuteAutoHideCommand, CanExecuteAutoHideCommand);
-            _defaultDockCommand = new ObjectCommand(ExecuteDockCommand, CanExecuteDockCommand);
+            _defaultHideCommand = new DelegateCommand(ExecuteHideCommand, CanExecuteHideCommand);
+            _defaultAutoHideCommand = new DelegateCommand(ExecuteAutoHideCommand, CanExecuteAutoHideCommand);
+            _defaultDockCommand = new DelegateCommand(ExecuteDockCommand, CanExecuteDockCommand);
 
             base.InitDefaultCommands();
         }

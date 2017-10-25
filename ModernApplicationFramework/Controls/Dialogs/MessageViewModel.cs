@@ -162,7 +162,7 @@ namespace ModernApplicationFramework.Controls.Dialogs
         }
 
 
-        private class Command : ObjectCommand
+        private class Command : DelegateCommand
         {
             public string Name { get; }
 

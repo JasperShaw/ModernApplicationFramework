@@ -46,7 +46,7 @@
         </DockPanel>
         <StackPanel DockPanel.Dock="Right">
             <Button Style="{StaticResource IconButtonStyle}" Name="MoveUp" ToolTip="{x:Static properties:WindowManagement_Resources.ManageLayoutsButtonTooltip_IndexUp}"
-                    TabIndex="2" Command="{Binding MoveLayoutUpCommand}" Margin="0,0,0,6">
+                    TabIndex="1" Command="{Binding MoveLayoutUpCommand}" Margin="0,0,0,6">
                 <ContentPresenter Width="16" Height="16" Content="{StaticResource MoveUpIcon}"/>
             </Button>
             <Button Style="{StaticResource IconButtonStyle}" Name="MoveDown" ToolTip="{x:Static properties:WindowManagement_Resources.ManageLayoutsButtonTooltip_IndexDown}"

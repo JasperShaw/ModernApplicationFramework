@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.UndoRedoManager;
 using ModernApplicationFramework.Extended.Commands;
@@ -16,10 +14,7 @@ namespace ModernApplicationFramework.Extended.Core.LayoutItems
 
         private IUndoRedoManager _undoRedoManager;
 
-        public override ICommand CloseCommand
-        { 
-            get { return _closeCommand ?? (_closeCommand = new ObjectCommand(Close, p => true)); }
-        }
+        public override ICommand CloseCommand => _closeCommand ?? (_closeCommand = new DelegateCommand(Close));
 
         private void Close(object obj)
         {   
@@ -35,26 +30,6 @@ namespace ModernApplicationFramework.Extended.Core.LayoutItems
         protected virtual void PushUndoRedoManager(string sender, object value)
         {
             UndoRedoManager.Push(new UndoRedoAction(this, sender, value));
-        }
-
-        private bool CanRedo()
-        {
-            return UndoRedoManager.RedoStack.Any();
-        }
-
-        private bool CanUndo()
-        {
-            return UndoRedoManager.UndoStack.Any();
-        }
-
-        private async void Redo()
-        {
-            await Task.Run(() => UndoRedoManager.Redo(1));
-        }
-
-        private async void Undo()
-        {
-            await Task.Run(() => UndoRedoManager.Undo(1));
         }
     }
 }

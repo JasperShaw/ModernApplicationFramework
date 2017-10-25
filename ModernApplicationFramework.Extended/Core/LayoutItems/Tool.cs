@@ -18,7 +18,7 @@ namespace ModernApplicationFramework.Extended.Core.LayoutItems
 
         public override ICommand CloseCommand
         {
-            get { return _closeCommand ?? (_closeCommand = new ObjectCommand(p => IsVisible = false, p => true)); }
+            get { return _closeCommand ?? (_closeCommand = new DelegateCommand(p => IsVisible = false)); }
         }
 
         public override bool ShouldReopenOnStart => true;

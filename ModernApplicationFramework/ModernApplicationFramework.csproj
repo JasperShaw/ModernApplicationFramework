@@ -232,6 +232,7 @@
     <Compile Include="Basics\Definitions\Command\CommandGestureScopeMapping.cs" />
     <Compile Include="Basics\Services\KeyboardInputService.cs" />
     <Compile Include="Docking\DockPreference.cs" />
+    <Compile Include="Input\Command\DelegateCommand.cs" />
     <Compile Include="Input\GestureScopeMapping.cs" />
     <Compile Include="Input\CommandDefinitionGestureMappingStore.cs" />
     <Compile Include="Input\GestureCollection.cs" />
@@ -296,7 +297,6 @@
     <Compile Include="Basics\Definitions\CommandBar\CommandBarItemDefinitionT.cs" />
     <Compile Include="Basics\EnvironmentGeneralOptions.cs" />
     <Compile Include="Basics\EnvironmentRenderCapabilities.cs" />
-    <Compile Include="Input\Command\ObjectCommand.cs" />
     <Compile Include="Controls\Dialogs\DialogResourcesResources.de.Designer.cs">
       <DependentUpon>DialogResourcesResources.de.resx</DependentUpon>
       <AutoGen>True</AutoGen>
