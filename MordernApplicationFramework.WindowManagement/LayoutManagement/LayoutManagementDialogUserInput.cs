@@ -57,9 +57,9 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
                        "Rename"), MessageDialogCommandSet.YesNo) == MessageDialogCommand.Yes;
         }
 
-        public static void ShowManageLayoutsView(IEnumerable<KeyValuePair<string, WindowLayout>> layoutKeyInfoCollection)
+        public static IEnumerable<KeyValuePair<string, WindowLayout>> ShowManageLayoutsView(IEnumerable<KeyValuePair<string, WindowLayout>> layoutKeyInfoCollection)
         {
-            ManageLayoutsDialog.Show(layoutKeyInfoCollection);
+            return ManageLayoutsDialog.Show(layoutKeyInfoCollection);
         }
 
         public static void ShowApplyLayoutError(string name)

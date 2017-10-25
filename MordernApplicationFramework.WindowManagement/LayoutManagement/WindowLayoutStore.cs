@@ -83,10 +83,10 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
             return key;
         }
 
-        public void UpdateStore()
+        public void UpdateStore(IEnumerable<KeyValuePair<string, WindowLayout>> newLayouts)
         {
             RemoveAllModels();
-            foreach (var valuePair in CachedInfo)
+            foreach (var valuePair in newLayouts)
                 SaveLayout(valuePair.Value.Name, valuePair.Value.DecompressedPayload);
         }
 
