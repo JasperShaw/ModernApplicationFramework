@@ -8,13 +8,12 @@ using MordernApplicationFramework.WindowManagement.LayoutManagement;
 namespace MordernApplicationFramework.WindowManagement.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(ApplyWindowLayout5))]
     public sealed class ApplyWindowLayout5 : ApplyWindowLayoutBase
     {
         public override int Index => 5;
         public override MultiKeyGesture DefaultKeyGesture { get; }
         public override GestureScope DefaultGestureScope { get; }
-
-        public override string Text { get; }
 
         protected override ILayoutManager LayoutManager { get; }
 
@@ -24,11 +23,6 @@ namespace MordernApplicationFramework.WindowManagement.Commands
             LayoutManager = layoutManager;
             DefaultKeyGesture = new MultiKeyGesture(Key.D5, ModifierKeys.Control | ModifierKeys.Alt);
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
-        }
-
-        public ApplyWindowLayout5(string text, ILayoutManager layoutManager) : this(layoutManager)
-        {
-            Text = text;
         }
     }
 }

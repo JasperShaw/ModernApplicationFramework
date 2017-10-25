@@ -19,19 +19,47 @@ namespace MordernApplicationFramework.WindowManagement.Commands
     [Export(typeof(ICommandHandler))]
     public class ShowLayoutsCommandHandler : ICommandListHandler<ListWindowLayoutsCommandDefinition>
     {
-        private readonly ILayoutManager _layoutManager;
         private readonly IWindowLayoutStore _layoutStore;
+        private readonly ApplyWindowLayout1 _command1;
+        private readonly ApplyWindowLayout2 _command2;
+        private readonly ApplyWindowLayout3 _command3;
+        private readonly ApplyWindowLayout4 _command4;
+        private readonly ApplyWindowLayout5 _command5;
+        private readonly ApplyWindowLayout6 _command6;
+        private readonly ApplyWindowLayout7 _command7;
+        private readonly ApplyWindowLayout8 _command8;
+        private readonly ApplyWindowLayout9 _command9;
+        private readonly ApplyWindowLayout10 _command10;
 
         [ImportingConstructor]
-        internal ShowLayoutsCommandHandler(ILayoutManager layoutManager, IWindowLayoutStore layoutStore)
+        internal ShowLayoutsCommandHandler(IWindowLayoutStore layoutStore,
+            ApplyWindowLayout1 command1,
+            ApplyWindowLayout2 command2,
+            ApplyWindowLayout3 command3,
+            ApplyWindowLayout4 command4,
+            ApplyWindowLayout5 command5,
+            ApplyWindowLayout6 command6,
+            ApplyWindowLayout7 command7,
+            ApplyWindowLayout8 command8,
+            ApplyWindowLayout9 command9,
+            ApplyWindowLayout10 command10)
         {
-            _layoutManager = layoutManager;
             _layoutStore = layoutStore;
+            _command1 = command1;
+            _command2 = command2;
+            _command3 = command3;
+            _command4 = command4;
+            _command5 = command5;
+            _command6 = command6;
+            _command7 = command7;
+            _command8 = command8;
+            _command9 = command9;
+            _command10 = command10;
         }
 
         public void Populate(Command command, List<CommandDefinitionBase> commands)
         {
-            var layoutPairs  = LayoutManagementUtilities.EnumerateLayoutKeyInfo(_layoutStore);
+            var layoutPairs = LayoutManagementUtilities.EnumerateLayoutKeyInfo(_layoutStore);
             var layouts = new ObservableCollection<LayoutItemViewModel>(layoutPairs
                 .Select(kvp => new LayoutItemViewModel(kvp.Key, kvp.Value)).OrderBy(lvm => lvm.Position)
                 .ThenBy(lvm => lvm.Name));
@@ -41,10 +69,7 @@ namespace MordernApplicationFramework.WindowManagement.Commands
                 return;
             }
 
-            for (var i = 0; i < layouts.Count; i++)
-            {
-                commands.Add(CreateCommand(i +1, layouts[i].Name));
-            }
+            commands.AddRange(layouts.Select((t, i) => CreateCommand(i + 1, t.Name)));
         }
 
 
@@ -53,25 +78,35 @@ namespace MordernApplicationFramework.WindowManagement.Commands
             switch (index)
             {
                 case 1:
-                    return new ApplyWindowLayout1(name, _layoutManager);
+                    _command1.SetText(name);
+                    return _command1;
                 case 2:
-                    return new ApplyWindowLayout2(name, _layoutManager);
+                    _command2.SetText(name);
+                    return _command2;
                 case 3:
-                    return new ApplyWindowLayout3(name, _layoutManager);
+                    _command3.SetText(name);
+                    return _command3;
                 case 4:
-                    return new ApplyWindowLayout4(name, _layoutManager);
+                    _command4.SetText(name);
+                    return _command4;
                 case 5:
-                    return new ApplyWindowLayout5(name, _layoutManager);
+                    _command5.SetText(name);
+                    return _command5;
                 case 6:
-                    return new ApplyWindowLayout6(name, _layoutManager);
+                    _command6.SetText(name);
+                    return _command6;
                 case 7:
-                    return new ApplyWindowLayout7(name, _layoutManager);
+                    _command7.SetText(name);
+                    return _command7;
                 case 8:
-                    return new ApplyWindowLayout8(name, _layoutManager);
+                    _command8.SetText(name);
+                    return _command8;
                 case 9:
-                    return new ApplyWindowLayout9(name, _layoutManager);
+                    _command9.SetText(name);
+                    return _command9;
                 case 10:
-                    return new ApplyWindowLayout10(name, _layoutManager);
+                    _command10.SetText(name);
+                    return _command10;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

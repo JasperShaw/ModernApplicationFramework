@@ -8,13 +8,12 @@ using MordernApplicationFramework.WindowManagement.LayoutManagement;
 namespace MordernApplicationFramework.WindowManagement.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(ApplyWindowLayout8))]
     public sealed class ApplyWindowLayout8 : ApplyWindowLayoutBase
     {
         public override int Index => 8;
         public override MultiKeyGesture DefaultKeyGesture { get; }
         public override GestureScope DefaultGestureScope { get; }
-
-        public override string Text { get; }
 
         protected override ILayoutManager LayoutManager { get; }
 
@@ -26,9 +25,5 @@ namespace MordernApplicationFramework.WindowManagement.Commands
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
         }
 
-        public ApplyWindowLayout8(string text, ILayoutManager layoutManager) : this(layoutManager)
-        {
-            Text = text;
-        }
     }
 }

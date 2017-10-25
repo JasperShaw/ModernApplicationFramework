@@ -10,6 +10,7 @@ namespace MordernApplicationFramework.WindowManagement.Commands
 {
     public abstract class ApplyWindowLayoutBase : CommandDefinition
     {
+        private string _text;
         public abstract int Index { get; }
 
         public sealed override string IconId => null;
@@ -32,10 +33,16 @@ namespace MordernApplicationFramework.WindowManagement.Commands
             });
 
         public sealed override string ToolTip => Text;
+        public sealed override string Text => _text;
 
         public override UICommand Command { get; }
 
         protected abstract ILayoutManager LayoutManager { get; }
+
+        public void SetText(string text)
+        {
+            _text = text;
+        }
 
         protected ApplyWindowLayoutBase()
         {
