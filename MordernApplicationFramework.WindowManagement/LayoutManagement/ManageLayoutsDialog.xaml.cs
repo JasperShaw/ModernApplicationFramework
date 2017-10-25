@@ -29,14 +29,14 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
             var dataContext = new ManageLayoutsViewModel(layoutKeyInfoCollection, new DialogUserInput());
             Show(dataContext);
             return dataContext.Layouts.Select(
-                layout => new KeyValuePair<string, WindowLayout>(layout.Key, layout.Info));
+                layout => new KeyValuePair<string, WindowLayout>(layout.Key, layout.Layout));
         }
 
         internal static IEnumerable<KeyValuePair<string, WindowLayout>> Show(IEnumerable<KeyValuePair<string, WindowLayout>> layoutKeyInfoCollection, IWindowLayoutSettings settings = null)
         {
             ManageLayoutsViewModel dataContext = new ManageLayoutsViewModel(layoutKeyInfoCollection, new DialogUserInput());
             Show(dataContext, settings);
-            return dataContext.Layouts.Select(layout => new KeyValuePair<string, WindowLayout>(layout.Key, layout.Info));
+            return dataContext.Layouts.Select(layout => new KeyValuePair<string, WindowLayout>(layout.Key, layout.Layout));
         }
 
         private static void Show(ManageLayoutsViewModel dataContext, IWindowLayoutSettings settings = null)

@@ -6,31 +6,31 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
     {
         internal string Key { get; }
 
-        internal WindowLayout Info { get; }
+        internal WindowLayout Layout { get; }
 
         internal int Position
         {
-            get => Info.Position;
-            set => Info.Position = value;
+            get => Layout.Position;
+            set => Layout.Position = value;
         }
 
         public string Name
         {
-            get => Info.Name;
+            get => Layout.Name;
             set
             {
-                if (Info.Name == value)
+                if (Layout.Name == value)
                     return;
-                Info.Name = value;
+                Layout.Name = value;
                 NotifyPropertyChanged(nameof(Name));
             }
         }
 
-        internal LayoutItemViewModel(string key, WindowLayout info)
+        internal LayoutItemViewModel(string key, WindowLayout layout)
         {
             Validate.IsNotNullAndNotEmpty(key, "key");
             Key = key;
-            Info = info;
+            Layout = layout;
         }
     }
 }

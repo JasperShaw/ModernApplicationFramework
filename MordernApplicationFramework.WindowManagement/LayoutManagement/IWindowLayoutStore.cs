@@ -12,6 +12,6 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 
         string SaveLayout(string layoutName, string data);
 
-        void UpdateLayouts(IEnumerable<KeyValuePair<string, WindowLayout>> keyInfoCollection);
+        void UpdateStore();
     }
 }

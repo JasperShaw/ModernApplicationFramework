@@ -125,10 +125,11 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
             }));
         }
 
-        public void ManageWindowLayoutsInternal(Func<IEnumerable<KeyValuePair<string, WindowLayout>>, IEnumerable<KeyValuePair<string, WindowLayout>>> layoutTransformation)
+        public void ManageWindowLayoutsInternal(Action<IEnumerable<KeyValuePair<string, WindowLayout>>> layoutTransformation)
         {
             var keyValuePairs = LayoutManagementUtilities.EnumerateLayoutKeyInfo(_layoutStore);
-            _layoutStore.UpdateLayouts(layoutTransformation(keyValuePairs));
+            layoutTransformation(keyValuePairs);
+            _layoutStore.UpdateStore();
         }
 
         public void ApplyWindowLayoutInternal(int index)

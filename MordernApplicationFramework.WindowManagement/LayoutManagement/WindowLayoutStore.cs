@@ -83,9 +83,11 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
             return key;
         }
 
-        public void UpdateLayouts(IEnumerable<KeyValuePair<string, WindowLayout>> keyInfoCollection)
+        public void UpdateStore()
         {
-           // throw new System.NotImplementedException();
+            RemoveAllModels();
+            foreach (var valuePair in CachedInfo)
+                SaveLayout(valuePair.Value.Name, valuePair.Value.DecompressedPayload);
         }
 
         public override void LoadOrCreate()

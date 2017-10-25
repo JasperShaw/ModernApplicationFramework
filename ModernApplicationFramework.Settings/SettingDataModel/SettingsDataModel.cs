@@ -255,6 +255,14 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
             model = (T)ser.Deserialize(stm);
         }
 
+        /// <summary>
+        /// Removes all models.
+        /// </summary>
+        protected void RemoveAllModels()
+        {
+            SettingsManager.RemoveModelAsync(SettingsFilePath);
+        }
+
         protected void OnSettingsChanged(EventArgs args = null)
         {
             SettingsChanged?.Invoke(this, args);
