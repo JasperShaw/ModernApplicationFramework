@@ -47,15 +47,18 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 
         public static bool GetReplaceLayoutConfirmation(string name)
         {
-            return MessageDialog.Show(WindowManagement_Resources.RenameLayoutTitle, string.Format(
-                       CultureInfo.CurrentUICulture, WindowManagement_Resources.LayoutOverwriteMessage), MessageDialogCommandSet.YesNo) == MessageDialogCommand.Yes;
+            return MessageDialog.Show(WindowManagement_Resources.RenameLayoutTitle, string.Format(CultureInfo.CurrentUICulture, WindowManagement_Resources.LayoutOverwriteMessage, new object[]
+            {
+                name
+            }), MessageDialogCommandSet.YesNo) == MessageDialogCommand.Yes;
         }
 
         public static bool GetDeleteLayoutConfirmation(string name)
         {
-            return MessageDialog.Show(WindowManagement_Resources.DeleteLayoutTitle, string.Format(
-                       CultureInfo.CurrentUICulture,
-                       WindowManagement_Resources.DeleteLayoutConfirmation), MessageDialogCommandSet.YesNo) == MessageDialogCommand.Yes;
+            return MessageDialog.Show(WindowManagement_Resources.DeleteLayoutTitle, string.Format(CultureInfo.CurrentUICulture, WindowManagement_Resources.DeleteLayoutConfirmation, new object[]
+            {
+                name
+            }), MessageDialogCommandSet.YesNo) == MessageDialogCommand.Yes;
         }
 
         public static IEnumerable<KeyValuePair<string, WindowLayout>> ShowManageLayoutsView(IEnumerable<KeyValuePair<string, WindowLayout>> layoutKeyInfoCollection)
