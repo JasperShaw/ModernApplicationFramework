@@ -234,4 +234,7 @@ Löschen Sie vor dem Speichern mindestens ein Layout.</value>
   <data name="ResetLayoutCommandDefinition_Text" xml:space="preserve">
     <value>F&amp;ensterlayout zurücksetzen</value>
   </data>
+  <data name="ResetLayoutConfirmation" xml:space="preserve">
+    <value>Möchten Sie das Standardfensterlayout für die Umgebung wirklich wiederherstellen?</value>
+  </data>
 </root>

@@ -4,7 +4,9 @@
     {
         string LocalAppDataPath { get; }
 
-         bool UseApplicationSettings { get; }
+        string AppDataPath { get; }
+
+        bool UseApplicationSettings { get; }
 
         void Setup();
 

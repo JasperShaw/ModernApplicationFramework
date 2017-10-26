@@ -306,6 +306,15 @@ namespace MordernApplicationFramework.WindowManagement.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Are your sure you want tot restore the default window layout for the environment? ähnelt.
+        /// </summary>
+        public static string ResetLayoutConfirmation {
+            get {
+                return ResourceManager.GetString("ResetLayoutConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Save Window Layout ähnelt.
         /// </summary>
         public static string SaveLayoutCommandDefinition_Name {

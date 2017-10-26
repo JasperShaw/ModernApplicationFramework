@@ -16,6 +16,7 @@ namespace ModernApplicationFramework.Extended.ApplicationEnvironment
         private readonly IExtendedEnvironmentVariables _environmentVariables;
         private readonly ISettingsManager _settingsManager;
 
+       
         /// <summary>
         /// Tells the application to setup and use the settingsManager.
         /// <remarks>The SettingsCommand should be added to the exclude Commands list</remarks>
@@ -25,6 +26,8 @@ namespace ModernApplicationFramework.Extended.ApplicationEnvironment
 
         public string LocalAppDataPath { get; }
 
+        public string AppDataPath { get; }
+
         [ImportingConstructor]
         public ApplicationEnvironmentBase(IExtendedEnvironmentVariables environmentVariables, ISettingsManager settingsManager)
         {
@@ -32,6 +35,9 @@ namespace ModernApplicationFramework.Extended.ApplicationEnvironment
             _settingsManager = settingsManager;
 
             LocalAppDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                environmentVariables.ApplicationName, environmentVariables.ApplicationVersion);
+
+            AppDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 environmentVariables.ApplicationName, environmentVariables.ApplicationVersion);
         }
 

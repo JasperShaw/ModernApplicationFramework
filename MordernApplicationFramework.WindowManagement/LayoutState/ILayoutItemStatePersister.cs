@@ -5,6 +5,8 @@ namespace MordernApplicationFramework.WindowManagement.LayoutState
 {
     public interface ILayoutItemStatePersister
     {
+        string ApplicationStateDirectory { get; }
+
         bool HasStateFile { get; }
 
         void Initialize(IDockingHostViewModel shell, IDockingHost shellView);
@@ -20,5 +22,7 @@ namespace MordernApplicationFramework.WindowManagement.LayoutState
         void LoadFromFile(string filePath, ProcessStateOption option);
 
         void LoadFromFile(ProcessStateOption option);
+
+        string FileToPayloadData(string filePath);
     }
 }

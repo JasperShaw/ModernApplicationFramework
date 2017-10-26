@@ -234,4 +234,7 @@ Please delete one or more layouts before saving.</value>
   <data name="ResetLayoutCommandDefinition_Text" xml:space="preserve">
     <value>&amp;Reset Window Layout</value>
   </data>
+  <data name="ResetLayoutConfirmation" xml:space="preserve">
+    <value>Are your sure you want tot restore the default window layout for the environment?</value>
+  </data>
 </root>

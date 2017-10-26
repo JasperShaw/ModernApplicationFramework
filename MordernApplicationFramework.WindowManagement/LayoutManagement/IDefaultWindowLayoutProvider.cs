@@ -4,6 +4,6 @@
     {
         WindowLayout GetLayout();
 
-        void SetDefaultLayout(string compressedPayload);
+        void SetDefaultLayout(string uncompressedPayload);
     }
 }

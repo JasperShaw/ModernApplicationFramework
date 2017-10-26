@@ -1,10 +1,12 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Globalization;
+using System.Windows;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Utilities.Interfaces;
 using MordernApplicationFramework.WindowManagement.LayoutManagement;
 using MordernApplicationFramework.WindowManagement.Properties;
 
@@ -16,6 +18,7 @@ namespace MordernApplicationFramework.WindowManagement.Commands
     {
         private readonly ILayoutManagerInternal _layoutManager;
         private readonly IDefaultWindowLayoutProvider _defaultWindowLayout;
+        private readonly IExtendedEnvironmentVariables _environmentVariables;
         public override string Name => WindowManagement_Resources.ResetLayoutCommandDefinition_Name;
         public override string Text => WindowManagement_Resources.ResetLayoutCommandDefinition_Text;
 
@@ -30,14 +33,16 @@ namespace MordernApplicationFramework.WindowManagement.Commands
 
         public override UICommand Command { get; }
 
-        public override MultiKeyGesture DefaultKeyGesture { get; }
-        public override GestureScope DefaultGestureScope { get; }
+        public override MultiKeyGesture DefaultKeyGesture => null;
+        public override GestureScope DefaultGestureScope => null;
 
         [ImportingConstructor]
-        internal ResetLayoutCommandDefinition(ILayoutManagerInternal layoutManager, IDefaultWindowLayoutProvider defaultWindowLayout)
+        internal ResetLayoutCommandDefinition(ILayoutManagerInternal layoutManager, IDefaultWindowLayoutProvider defaultWindowLayout,
+            IExtendedEnvironmentVariables environmentVariables)
         {
             _layoutManager = layoutManager;
             _defaultWindowLayout = defaultWindowLayout;
+            _environmentVariables = environmentVariables;
 
             var command = new UICommand(Manage, CanManage);
             Command = command;
@@ -50,6 +55,10 @@ namespace MordernApplicationFramework.WindowManagement.Commands
 
         private void Manage()
         {
+            var result = MessageBox.Show(WindowManagement_Resources.ResetLayoutConfirmation, _environmentVariables.ApplicationName, MessageBoxButton.YesNo,
+                MessageBoxImage.Question, MessageBoxResult.Yes);
+            if (result != MessageBoxResult.Yes)
+                return;
             _layoutManager.ApplyWindowLayout(_defaultWindowLayout.GetLayout());
         }
     }

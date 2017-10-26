@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Interfaces;
+using MordernApplicationFramework.WindowManagement.LayoutManagement;
 
 namespace MordernApplicationFramework.WindowManagement.LayoutState
 {
@@ -17,9 +18,11 @@ namespace MordernApplicationFramework.WindowManagement.LayoutState
         private IDockingHost _dockingHost;
         private bool _initialized;
 
-        protected virtual string ApplicationStateFilePath => "ComponentModelCache\\Default.cache";
+        public string ApplicationStateDirectory => Path.Combine(_environment.AppDataPath, "WindowLayouts");
 
-        public bool HasStateFile => File.Exists(Path.Combine(_environment.LocalAppDataPath, ApplicationStateFilePath));
+        protected virtual string ApplicationStateFilePath => "WindowLayouts\\Default.winprf";
+
+        public bool HasStateFile => File.Exists(Path.Combine(_environment.AppDataPath, ApplicationStateFilePath));
 
         [ImportingConstructor]
         public LayoutItemStatePersister(IApplicationEnvironment environment)
@@ -64,6 +67,21 @@ namespace MordernApplicationFramework.WindowManagement.LayoutState
         public void LoadFromFile(ProcessStateOption option)
         {
             LoadFromFile(null, option);
+        }
+
+        public string FileToPayloadData(string filePath)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+
+                using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                {
+                    fs.CopyTo(memoryStream);
+                }
+                memoryStream.Seek(0L, SeekOrigin.Begin);
+                var byteArray = memoryStream.ToArray();
+                return LayoutManagementUtilities.ConvertLayoutStreamToString(byteArray);
+            }
         }
 
         private void InternalLoadState(ProcessStateOption processOption, Stream inputStream)
@@ -270,7 +288,7 @@ namespace MordernApplicationFramework.WindowManagement.LayoutState
         private Stream CreateFileStream(FileHandleMode mode, string filePath = null)
         {
             if (filePath == null)
-                filePath = Path.Combine(_environment.LocalAppDataPath, ApplicationStateFilePath);
+                filePath = Path.Combine(_environment.AppDataPath, ApplicationStateFilePath);
             if (mode == FileHandleMode.Open)
             {
                 if (!File.Exists(filePath))

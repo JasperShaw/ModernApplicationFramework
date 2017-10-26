@@ -14,9 +14,9 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
             return _windowLayout;
         }
 
-        public void SetDefaultLayout(string compressedPayload)
+        public void SetDefaultLayout(string uncompressedPayload)
         {
-            _windowLayout = new WindowLayout("default", -1, new Guid().ToString("N"), compressedPayload, false);
+            _windowLayout = new WindowLayout("default", -1, new Guid().ToString("N"), uncompressedPayload, true);
         }
     }
 }
