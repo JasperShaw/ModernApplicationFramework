@@ -37,5 +37,9 @@ namespace MordernApplicationFramework.WindowManagement
         [Export]
         public static CommandBarItemDefinition ManageLayouts =
             new CommandBarCommandItemDefinition<ManageLayoutCommandDefinition>(LayoutGroup, 2);
+
+        [Export]
+        public static CommandBarItemDefinition ResetLayout =
+            new CommandBarCommandItemDefinition<ResetLayoutCommandDefinition>(LayoutGroup, 3, true, false, false, true);
     }
 }

@@ -228,4 +228,10 @@ Möchten Sie das Layout ersetzen?</value>
 
 Löschen Sie vor dem Speichern mindestens ein Layout.</value>
   </data>
+  <data name="ResetLayoutCommandDefinition_Name" xml:space="preserve">
+    <value>Fensterlayout zurücksetzen</value>
+  </data>
+  <data name="ResetLayoutCommandDefinition_Text" xml:space="preserve">
+    <value>F&amp;ensterlayout zurücksetzen</value>
+  </data>
 </root>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 {
-    public interface ILayoutManagerInternal
+    internal interface ILayoutManagerInternal
     {
         void SaveWindowLayoutInternal(string layoutName, bool hadNameConflict);
 
@@ -12,5 +12,7 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
         void ManageWindowLayoutsInternal(Func<IEnumerable<KeyValuePair<string, WindowLayout>>, IEnumerable<KeyValuePair<string, WindowLayout>>> layoutTransformation);
 
         void ApplyWindowLayoutInternal(int index);
+
+        void ApplyWindowLayout(WindowLayout layout);
     }
 }

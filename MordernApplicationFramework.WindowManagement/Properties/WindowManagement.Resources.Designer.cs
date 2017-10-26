@@ -62,7 +62,7 @@ namespace MordernApplicationFramework.WindowManagement.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Window layout &quot;{0}&quot; successfully applied. ähnelt.
         /// </summary>
         public static string ApplyLayoutCompletedStatusFormat {
             get {
@@ -80,7 +80,7 @@ namespace MordernApplicationFramework.WindowManagement.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Could not apply window layout &quot;{0}&quot;. ähnelt.
         /// </summary>
         public static string ApplyLayoutErrorStatusFormat {
             get {
@@ -98,7 +98,7 @@ namespace MordernApplicationFramework.WindowManagement.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Applying window layout &quot;{0}&quot;... ähnelt.
         /// </summary>
         public static string ApplyLayoutStartedStatusFormat {
             get {
@@ -171,7 +171,7 @@ namespace MordernApplicationFramework.WindowManagement.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Manage Window Layouts ähnelt.
         /// </summary>
         public static string ManageLayoutCommandDefinition_Name {
             get {
@@ -180,7 +180,7 @@ namespace MordernApplicationFramework.WindowManagement.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Manage Window Layouts ähnelt.
         /// </summary>
         public static string ManageLayoutCommandDefinition_Text {
             get {
@@ -288,6 +288,24 @@ namespace MordernApplicationFramework.WindowManagement.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Reset Window Layout ähnelt.
+        /// </summary>
+        public static string ResetLayoutCommandDefinition_Name {
+            get {
+                return ResourceManager.GetString("ResetLayoutCommandDefinition_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Reset Window Layout ähnelt.
+        /// </summary>
+        public static string ResetLayoutCommandDefinition_Text {
+            get {
+                return ResourceManager.GetString("ResetLayoutCommandDefinition_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Save Window Layout ähnelt.
         /// </summary>
         public static string SaveLayoutCommandDefinition_Name {
@@ -297,7 +315,7 @@ namespace MordernApplicationFramework.WindowManagement.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Save Window Layout ähnelt.
         /// </summary>
         public static string SaveLayoutCommandDefinition_Text {
             get {

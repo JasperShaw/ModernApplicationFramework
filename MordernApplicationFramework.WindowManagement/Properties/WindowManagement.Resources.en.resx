@@ -228,4 +228,10 @@ Please delete one or more layouts before saving.</value>
   <data name="SaveLayoutCommandDefinition_Text" xml:space="preserve">
     <value>&amp;Save Window Layout</value>
   </data>
+  <data name="ResetLayoutCommandDefinition_Name" xml:space="preserve">
+    <value>Reset Window Layout</value>
+  </data>
+  <data name="ResetLayoutCommandDefinition_Text" xml:space="preserve">
+    <value>&amp;Reset Window Layout</value>
+  </data>
 </root>

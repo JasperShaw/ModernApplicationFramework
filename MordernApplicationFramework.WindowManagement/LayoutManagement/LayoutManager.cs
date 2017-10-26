@@ -4,9 +4,7 @@ using System.ComponentModel.Composition;
 using System.Globalization;
 using System.IO;
 using System.Windows;
-using Caliburn.Micro;
 using ModernApplicationFramework.Controls.Dialogs;
-using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Utilities;
 using MordernApplicationFramework.WindowManagement.LayoutState;
@@ -15,6 +13,7 @@ using MordernApplicationFramework.WindowManagement.Properties;
 namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 {
     [Export(typeof(ILayoutManager))]
+    [Export(typeof(ILayoutManagerInternal))]
     public class LayoutManager : ILayoutManager, ILayoutManagerInternal
     {
         private readonly IStatusBarDataModelService _statusBar;
@@ -140,27 +139,35 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
             TryApplyWindowLayout(name, index);
         }
 
+        public void ApplyWindowLayout(WindowLayout layout)
+        {
+            TryApplyWindowLayoutInternal(layout.DecompressedPayload);
+        }
+
         private bool TryApplyWindowLayout(string name, int index)
         {
             var layoutDataAt = GetLayoutDataAt(index);
-            if (string.IsNullOrEmpty(layoutDataAt))
-                return false;
-
             SetStatusBarMessage(WindowManagement_Resources.ApplyLayoutStartedStatusFormat, name);
+            if (TryApplyWindowLayoutInternal(layoutDataAt))
+            {
+                SetStatusBarMessage(WindowManagement_Resources.ApplyLayoutCompletedStatusFormat, name);
+                return true;
+            }
+            SetStatusBarMessage(WindowManagement_Resources.ApplyLayoutErrorStatusFormat, name);
+            return false;
+        }
+
+        private bool TryApplyWindowLayoutInternal(string payload)
+        {
+            if (string.IsNullOrEmpty(payload))
+                return false;
             try
             {
-                using (var stream = LayoutManagementUtilities.ConvertLayoutPayloadToStream(layoutDataAt))
-                {
-                    var dh = IoC.Get<IDockingHostViewModel>();
-                    if (dh == null)
-                        throw new ArgumentNullException();
+                using (var stream = LayoutManagementUtilities.ConvertLayoutPayloadToStream(payload))
                     _layoutStatePersister.LoadFromStream(stream, ProcessStateOption.ToolsOnly);
-                }
-                SetStatusBarMessage(WindowManagement_Resources.ApplyLayoutCompletedStatusFormat, name);
             }
-            catch (Exception)
+            catch
             {
-                SetStatusBarMessage(WindowManagement_Resources.ApplyLayoutErrorStatusFormat, name);
                 return false;
             }
             return true;
