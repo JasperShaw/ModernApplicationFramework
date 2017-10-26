@@ -219,4 +219,13 @@ Please delete one or more layouts before saving.</value>
   <data name="ApplyLayoutCompletedStatusFormat" xml:space="preserve">
     <value>Window layout "{0}" successfully applied.</value>
   </data>
+  <data name="ManageLayoutCommandDefinition_Name" xml:space="preserve">
+    <value>Manage Window Layouts</value>
+  </data>
+  <data name="ManageLayoutCommandDefinition_Text" xml:space="preserve">
+    <value>&amp;Manage Window Layouts</value>
+  </data>
+  <data name="SaveLayoutCommandDefinition_Text" xml:space="preserve">
+    <value>&amp;Save Window Layout</value>
+  </data>
 </root>

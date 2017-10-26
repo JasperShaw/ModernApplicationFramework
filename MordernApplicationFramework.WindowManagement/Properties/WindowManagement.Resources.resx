@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ManageLayoutCommandDefinition_Name" xml:space="preserve">
-    <value></value>
+    <value>Manage Window Layouts</value>
   </data>
   <data name="ManageLayoutCommandDefinition_Text" xml:space="preserve">
-    <value></value>
+    <value>&amp;Manage Window Layouts</value>
   </data>
   <data name="SaveLayoutCommandDefinitionMessageBox_Default" xml:space="preserve">
     <value>New Layout {0}</value>
@@ -136,7 +136,7 @@
     <value>Save Window Layout</value>
   </data>
   <data name="SaveLayoutCommandDefinition_Text" xml:space="preserve">
-    <value></value>
+    <value>&amp;Save Window Layout</value>
   </data>
   <data name="ApplyLayoutTitle" xml:space="preserve">
     <value>Apply Window Layout</value>
