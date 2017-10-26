@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -210,5 +210,22 @@ Möchten Sie das Layout ersetzen?</value>
   </data>
   <data name="ApplyWindowLayoutCommantDefinition_Name" xml:space="preserve">
     <value>Fensterlayout {0} anwenden</value>
+  </data>
+  <data name="SaveLayoutMessage" xml:space="preserve">
+    <value>_Layoutname:</value>
+  </data>
+  <data name="ApplyLayoutCompletedStatusFormat" xml:space="preserve">
+    <value>Fensterlayout „{0}“ wurde erfolgreich angewendet.</value>
+  </data>
+  <data name="ApplyLayoutErrorStatusFormat" xml:space="preserve">
+    <value>Fensterlayout "{0}" konnte nicht angewendet werden.</value>
+  </data>
+  <data name="ApplyLayoutStartedStatusFormat" xml:space="preserve">
+    <value>Fensterlayout "{0}" wird angewendet...</value>
+  </data>
+  <data name="SaveLayoutErrorMaxLayoutsReached" xml:space="preserve">
+    <value>Ihr Layout konnte nicht gespeichert werden. Die Gesamtlayoutanzahl hat das Maximum von {0} erreicht.
+
+Löschen Sie vor dem Speichern mindestens ein Layout.</value>
   </data>
 </root>

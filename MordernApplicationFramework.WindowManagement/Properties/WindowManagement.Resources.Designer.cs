@@ -362,6 +362,15 @@ namespace MordernApplicationFramework.WindowManagement.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die _Layout name: ähnelt.
+        /// </summary>
+        public static string SaveLayoutMessage {
+            get {
+                return ResourceManager.GetString("SaveLayoutMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Saving window layout &quot;{0}&quot;... ähnelt.
         /// </summary>
         public static string SaveLayoutStartedStatusFormat {

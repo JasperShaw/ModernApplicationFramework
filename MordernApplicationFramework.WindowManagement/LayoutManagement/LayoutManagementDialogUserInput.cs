@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Windows;
 using ModernApplicationFramework.Controls.Dialogs;
 using ModernApplicationFramework.Utilities;
+using MordernApplicationFramework.WindowManagement.Properties;
 
 namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 {
@@ -11,17 +12,18 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
     {
         public static bool TryGetSavedLayoutName(string defaultName, Predicate<string> nameValidator, out string layoutName)
         {
-            Validate.IsNotNull(defaultName, "defaultName");
-            Validate.IsNotNull(nameValidator, "nameValidator");
-            return TextInputDialog.Show("Save", "SaveMessage", 100, defaultName, nameValidator, out layoutName);
+            Validate.IsNotNull(defaultName, nameof(defaultName));
+            Validate.IsNotNull(nameValidator, nameof(nameValidator));
+            return TextInputDialog.Show(WindowManagement_Resources.SaveLayoutTitle,
+                WindowManagement_Resources.SaveLayoutMessage, 100, defaultName, nameValidator, out layoutName);
         }
 
         public static bool TryGetApplyLayoutConfirmation(string name, out bool disableConfirmation)
         {
-            if (MessageDialog.Show("Apply", string.Format(CultureInfo.CurrentUICulture, "ApplyConform {0}", new object[]
+            if (MessageDialog.Show(WindowManagement_Resources.ApplyLayoutTitle, string.Format(CultureInfo.CurrentUICulture, WindowManagement_Resources.ApplyLayoutConfirmation, new object[]
             {
                 name
-            }), MessageDialogCommandSet.OkCancel, "Not Showing", out disableConfirmation) != MessageDialogCommand.Cancel)
+            }), MessageDialogCommandSet.OkCancel, WindowManagement_Resources.DisableApplyLayoutWarning, out disableConfirmation) != MessageDialogCommand.Cancel)
                 return true;
             disableConfirmation = false;
             return false;
@@ -29,7 +31,7 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 
         public static bool TryGetOverwriteLayoutConfirmation(string name)
         {
-            return MessageDialog.Show("Save", string.Format(CultureInfo.CurrentUICulture, "Override {0}", new object[]
+            return MessageDialog.Show(WindowManagement_Resources.SaveLayoutTitle, string.Format(CultureInfo.CurrentUICulture, WindowManagement_Resources.LayoutOverwriteMessage, new object[]
             {
                 name
             }), MessageDialogCommandSet.YesNo) == MessageDialogCommand.Yes;
@@ -37,24 +39,23 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 
         public static bool GetRenamedLayoutName(string defaultName, Predicate<string> nameValidator, out string layoutName)
         {
-            Validate.IsNotNull(defaultName, "defaultName");
-            Validate.IsNotNull(nameValidator, "nameValidator");
-            return TextInputDialog.Show("Rename",
-                "Rename", 100, defaultName, nameValidator, out layoutName);
+            Validate.IsNotNull(defaultName, nameof(defaultName));
+            Validate.IsNotNull(nameValidator, nameof(nameValidator));
+            return TextInputDialog.Show(WindowManagement_Resources.RenameLayoutTitle, WindowManagement_Resources.RenameLayoutMessage,
+                100, defaultName, nameValidator, out layoutName);
         }
 
         public static bool GetReplaceLayoutConfirmation(string name)
         {
-            return MessageDialog.Show("Rename", string.Format(
-                       CultureInfo.CurrentUICulture,
-                       "Rename"), MessageDialogCommandSet.YesNo) == MessageDialogCommand.Yes;
+            return MessageDialog.Show(WindowManagement_Resources.RenameLayoutTitle, string.Format(
+                       CultureInfo.CurrentUICulture, WindowManagement_Resources.LayoutOverwriteMessage), MessageDialogCommandSet.YesNo) == MessageDialogCommand.Yes;
         }
 
         public static bool GetDeleteLayoutConfirmation(string name)
         {
-            return MessageDialog.Show("Rename", string.Format(
+            return MessageDialog.Show(WindowManagement_Resources.DeleteLayoutTitle, string.Format(
                        CultureInfo.CurrentUICulture,
-                       "Rename"), MessageDialogCommandSet.YesNo) == MessageDialogCommand.Yes;
+                       WindowManagement_Resources.DeleteLayoutConfirmation), MessageDialogCommandSet.YesNo) == MessageDialogCommand.Yes;
         }
 
         public static IEnumerable<KeyValuePair<string, WindowLayout>> ShowManageLayoutsView(IEnumerable<KeyValuePair<string, WindowLayout>> layoutKeyInfoCollection)
@@ -64,7 +65,7 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 
         public static void ShowApplyLayoutError(string name)
         {
-            DisplayError(string.Format(CultureInfo.CurrentUICulture, "Could not apply {0}", new object[]
+            DisplayError(string.Format(CultureInfo.CurrentUICulture, WindowManagement_Resources.ApplyLayoutFailedMessage, new object[]
             {
                 name
             }));

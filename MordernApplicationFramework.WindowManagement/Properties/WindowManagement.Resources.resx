@@ -214,15 +214,18 @@ Please delete one or more layouts before saving.</value>
     <value>No Saved Layouts</value>
   </data>
   <data name="ApplyLayoutStartedStatusFormat" xml:space="preserve">
-    <value></value>
+    <value>Applying window layout "{0}"...</value>
   </data>
   <data name="ApplyLayoutErrorStatusFormat" xml:space="preserve">
-    <value></value>
+    <value>Could not apply window layout "{0}".</value>
   </data>
   <data name="ApplyLayoutCompletedStatusFormat" xml:space="preserve">
-    <value></value>
+    <value>Window layout "{0}" successfully applied.</value>
   </data>
   <data name="ApplyWindowLayoutCommantDefinition_Name" xml:space="preserve">
     <value>Apply Window Layout {0}</value>
+  </data>
+  <data name="SaveLayoutMessage" xml:space="preserve">
+    <value>_Layout name:</value>
   </data>
 </root>
