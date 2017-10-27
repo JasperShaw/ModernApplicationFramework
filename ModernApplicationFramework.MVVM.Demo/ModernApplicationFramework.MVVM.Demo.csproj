@@ -90,6 +90,11 @@
       <DependentUpon>TestWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\DefaultWindowLayout\DefaultWindowLayoutModule.cs" />
+    <Compile Include="Modules\WindowProfileChange\Sample.cs" />
+    <Compile Include="Modules\WindowProfileChange\WindowProfileChangeView.xaml.cs">
+      <DependentUpon>WindowProfileChangeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\WindowProfileChange\WindowProfileChangeViewModel.cs" />
     <Compile Include="Shell\DockingHostViewModel.cs" />
     <Compile Include="Shell\DockingMainWindowViewModel.cs" />
     <Compile Include="Modules\Document\SampleView.xaml.cs">
@@ -105,7 +110,7 @@
       <DependentUpon>MyTextEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\MyEditor\MyTextEditorViewModel.cs" />
-    <Compile Include="Modules\Sample.cs" />
+    <Compile Include="Modules\UndoRedoTest\Sample.cs" />
     <Compile Include="Modules\StatusBar\ExtendedStatusBar.cs" />
     <Compile Include="Modules\StatusBar\ExtendedStatusBarService.cs" />
     <Compile Include="Modules\StatusBar\IStatusBarDataModel2.cs" />
@@ -130,6 +135,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Modules\UndoRedoTest\UndoRedoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\WindowProfileChange\WindowProfileChangeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

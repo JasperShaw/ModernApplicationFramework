@@ -1,13 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
-using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Controls.ComboBox;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
-using ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
 {
@@ -66,7 +64,7 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
 
         public void Activate(ISample sample)
         {
-            _dockingHostViewModel.OpenDocument(IoC.Get<UndoRedoViewModel>());
+            sample.Activate(_dockingHostViewModel);
         }
     }
 }

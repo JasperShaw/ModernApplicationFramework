@@ -1,20 +1,18 @@
 ﻿using System.ComponentModel.Composition;
-using System.Windows;
+using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.MVVM.Demo.Modules.Document;
 
-namespace ModernApplicationFramework.MVVM.Demo.Modules
+namespace ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest
 {
     [Export(typeof(ISample))]
     public class Sample : ISample
     {
-        public string Name => "Filter Designer";
+        public string Name => "Undo-Redo View";
 
         public void Activate(IDockingHostViewModel shell)
         {
-            if (shell == null)
-                MessageBox.Show("WTF");
-            //shell?.ShowTool<IOutput>();
+            shell?.OpenDocument(IoC.Get<UndoRedoViewModel>());
         }
     }
 }
