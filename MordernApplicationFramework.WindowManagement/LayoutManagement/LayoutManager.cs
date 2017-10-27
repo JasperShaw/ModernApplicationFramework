@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Globalization;
 using System.IO;
 using System.Windows;
@@ -12,19 +11,14 @@ using MordernApplicationFramework.WindowManagement.Properties;
 
 namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 {
-    [Export(typeof(ILayoutManager))]
-    [Export(typeof(ILayoutManagerInternal))]
     public class LayoutManager : ILayoutManager, ILayoutManagerInternal
     {
-        private readonly IStatusBarDataModelService _statusBar;
-        private readonly IWindowLayoutSettings _layoutSettings;
-        private readonly IWindowLayoutStore _layoutStore;
         private readonly ILayoutManagementUserInput _layoutManagementUserInput;
+        private readonly IWindowLayoutSettings _layoutSettings;
         private readonly ILayoutItemStatePersister _layoutStatePersister;
+        private readonly IWindowLayoutStore _layoutStore;
+        private readonly IStatusBarDataModelService _statusBar;
 
-        public int LayoutCount => _layoutStore.GetLayoutCount();
-
-        [ImportingConstructor]
         internal LayoutManager(IStatusBarDataModelService statusBar,
             IWindowLayoutSettings layoutSettings, IWindowLayoutStore layoutStore,
             ILayoutItemStatePersister statePersister)
@@ -36,6 +30,8 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
             _layoutStore = layoutStore;
             _layoutStatePersister = statePersister;
         }
+
+        public int LayoutCount => _layoutStore.GetLayoutCount();
 
         public string GetLayoutNameAt(int index)
         {
@@ -75,7 +71,8 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
                 defaultLayoutNameIndex
             });
             var hadNameConflict = false;
-            if (!LayoutManagementDialogUserInput.TryGetSavedLayoutName(defaultName, name => ValidateLayoutName(name, out hadNameConflict), out string layoutName))
+            if (!LayoutManagementDialogUserInput.TryGetSavedLayoutName(defaultName,
+                name => ValidateLayoutName(name, out hadNameConflict), out var layoutName))
                 return;
             SaveWindowLayoutInternal(LayoutManagementUtilities.NormalizeName(layoutName), hadNameConflict);
         }
@@ -116,15 +113,9 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
             }
         }
 
-        private void SetStatusBarMessage(string format, string layoutName)
-        {
-            _statusBar?.SetText(string.Format(CultureInfo.CurrentUICulture, format, new object[]
-            {
-                layoutName
-            }));
-        }
-
-        public void ManageWindowLayoutsInternal(Func<IEnumerable<KeyValuePair<string, WindowLayout>>, IEnumerable<KeyValuePair<string, WindowLayout>>> layoutTransformation)
+        public void ManageWindowLayoutsInternal(
+            Func<IEnumerable<KeyValuePair<string, WindowLayout>>, IEnumerable<KeyValuePair<string, WindowLayout>>>
+                layoutTransformation)
         {
             var keyValuePairs = LayoutManagementUtilities.EnumerateLayoutKeyInfo(_layoutStore);
             var newLayouts = layoutTransformation(keyValuePairs);
@@ -142,6 +133,25 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
         public void ApplyWindowLayout(WindowLayout layout)
         {
             TryApplyWindowLayoutInternal(layout.DecompressedPayload);
+        }
+
+        private void SetStatusBarMessage(string format, string layoutName)
+        {
+            _statusBar?.SetText(string.Format(CultureInfo.CurrentUICulture, format, new object[]
+            {
+                layoutName
+            }));
+        }
+
+        public static string GetCurrentLayoutData()
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                LayoutItemStatePersister.Instance.SaveToStream(memoryStream, ProcessStateOption.ToolsOnly);
+                memoryStream.Seek(0L, SeekOrigin.Begin);
+                var byteArray = memoryStream.ToArray();
+                return LayoutManagementUtilities.ConvertLayoutStreamToString(byteArray);
+            }
         }
 
         private bool TryApplyWindowLayout(string name, int index)
@@ -164,7 +174,9 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
             try
             {
                 using (var stream = LayoutManagementUtilities.ConvertLayoutPayloadToStream(payload))
+                {
                     _layoutStatePersister.LoadFromStream(stream, ProcessStateOption.ToolsOnly);
+                }
             }
             catch
             {
@@ -198,17 +210,6 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
             return LayoutManagementDialogUserInput.TryGetOverwriteLayoutConfirmation(name);
         }
 
-        private string GetCurrentLayoutData()
-        {
-            using (var memoryStream = new MemoryStream())
-            {
-                _layoutStatePersister.SaveToStream(memoryStream, ProcessStateOption.ToolsOnly);
-                memoryStream.Seek(0L, SeekOrigin.Begin);
-                var byteArray = memoryStream.ToArray();
-                return LayoutManagementUtilities.ConvertLayoutStreamToString(byteArray);
-            }
-        }
-
         private class DialogUserInput : ILayoutManagementUserInput
         {
             private readonly IWindowLayoutSettings _settings;
@@ -218,7 +219,8 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
                 _settings = settings;
             }
 
-            public bool TryGetSavedLayoutName(string defaultName, Predicate<string> nameValidator, out string layoutName)
+            public bool TryGetSavedLayoutName(string defaultName, Predicate<string> nameValidator,
+                out string layoutName)
             {
                 Validate.IsNotNull(defaultName, nameof(defaultName));
                 Validate.IsNotNull(nameValidator, nameof(nameValidator));
@@ -229,10 +231,13 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 
             public bool TryGetApplyLayoutConfirmation(string name, out bool disableConfirmation)
             {
-                if (MessageDialog.Show(WindowManagement_Resources.ApplyLayoutTitle, string.Format(CultureInfo.CurrentUICulture, WindowManagement_Resources.ApplyLayoutConfirmation, new object[1]
-                {
-                    name
-                }), MessageDialogCommandSet.OkCancel, WindowManagement_Resources.DisableApplyLayoutWarning, out disableConfirmation) != MessageDialogCommand.Cancel)
+                if (MessageDialog.Show(WindowManagement_Resources.ApplyLayoutTitle, string.Format(
+                            CultureInfo.CurrentUICulture, WindowManagement_Resources.ApplyLayoutConfirmation,
+                            new object[1]
+                            {
+                                name
+                            }), MessageDialogCommandSet.OkCancel, WindowManagement_Resources.DisableApplyLayoutWarning,
+                        out disableConfirmation) != MessageDialogCommand.Cancel)
                     return true;
                 disableConfirmation = false;
                 return false;
@@ -240,23 +245,26 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
 
             public bool TryGetOverwriteLayoutConfirmation(string name)
             {
-                return MessageDialog.Show(WindowManagement_Resources.SaveLayoutTitle, string.Format(CultureInfo.CurrentUICulture, WindowManagement_Resources.LayoutOverwriteMessage, new object[]
-                {
-                    name
-                }), MessageDialogCommandSet.YesNo) == MessageDialogCommand.Yes;
+                return MessageDialog.Show(WindowManagement_Resources.SaveLayoutTitle, string.Format(
+                           CultureInfo.CurrentUICulture, WindowManagement_Resources.LayoutOverwriteMessage, new object[]
+                           {
+                               name
+                           }), MessageDialogCommandSet.YesNo) == MessageDialogCommand.Yes;
             }
 
-            public IEnumerable<KeyValuePair<string, WindowLayout>> ShowManageLayoutsView(IEnumerable<KeyValuePair<string, WindowLayout>> layoutKeyInfoCollection)
+            public IEnumerable<KeyValuePair<string, WindowLayout>> ShowManageLayoutsView(
+                IEnumerable<KeyValuePair<string, WindowLayout>> layoutKeyInfoCollection)
             {
                 return ManageLayoutsDialog.Show(layoutKeyInfoCollection, _settings);
             }
 
             public void ShowApplyLayoutError(string name)
             {
-                DisplayError(string.Format(CultureInfo.CurrentUICulture, WindowManagement_Resources.ApplyLayoutFailedMessage, new object[]
-                {
-                    name
-                }));
+                DisplayError(string.Format(CultureInfo.CurrentUICulture,
+                    WindowManagement_Resources.ApplyLayoutFailedMessage, new object[]
+                    {
+                        name
+                    }));
             }
 
             public void ShowSaveLayoutError(string message)

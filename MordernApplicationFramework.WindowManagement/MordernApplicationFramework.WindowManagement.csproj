@@ -67,6 +67,8 @@
     <Compile Include="Commands\ManageLayoutCommandDefinition.cs" />
     <Compile Include="Commands\SaveCurrentLayoutCommandDefinition.cs" />
     <Compile Include="Commands\ShowLayoutsCommandHandler.cs" />
+    <Compile Include="LayoutManagementModule.cs" />
+    <Compile Include="LayoutManagementService.cs" />
     <Compile Include="LayoutManagement\DefaultWindowLayoutProvider.cs" />
     <Compile Include="LayoutManagement\IDefaultWindowLayoutProvider.cs" />
     <Compile Include="LayoutManagement\ILayoutManagementUserInput.cs" />
@@ -110,6 +112,9 @@
     <Compile Include="LayoutManagement\WindowLayout.cs" />
     <Compile Include="LayoutManagement\WindowLayoutSettings.cs" />
     <Compile Include="LayoutManagement\WindowLayoutStore.cs" />
+    <Compile Include="WindowProfile\WindowProfile.cs" />
+    <Compile Include="WindowProfile\WindowProfileEventArgs.cs" />
+    <Compile Include="WindowProfile\WindowProfileManager.cs" />
     <EmbeddedResource Include="Properties\WindowManagement.Resources.de.resx" />
     <EmbeddedResource Include="Properties\WindowManagement.Resources.en.resx" />
     <EmbeddedResource Include="Properties\WindowManagement.Resources.resx">

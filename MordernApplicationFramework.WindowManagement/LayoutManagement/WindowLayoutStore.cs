@@ -88,6 +88,8 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
             RemoveAllModels();
             foreach (var valuePair in newLayouts)
                 SaveLayout(valuePair.Value.Name, valuePair.Value.DecompressedPayload);
+            lock (_cachedInfoLock)
+                _cachedInfo = null;
         }
 
         public override void LoadOrCreate()

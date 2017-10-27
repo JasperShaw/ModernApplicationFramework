@@ -114,7 +114,7 @@ namespace MordernApplicationFramework.WindowManagement.Commands
 
         private class ShowLayoutCommandDefinition : CommandDefinition
         {
-            public override UICommand Command { get; }
+            public override UICommand Command => null;
             public override MultiKeyGesture DefaultKeyGesture => null;
             public override GestureScope DefaultGestureScope => null;
             public override string Name => string.Empty;
@@ -128,17 +128,6 @@ namespace MordernApplicationFramework.WindowManagement.Commands
             public ShowLayoutCommandDefinition(string name)
             {
                 Text = name;
-                Command = new UICommand(ShowLayout, CanShowLayout);
-            }
-
-            private bool CanShowLayout()
-            {
-                return CommandParamenter is WindowLayout;
-            }
-
-            private void ShowLayout()
-            {
-                //var toolBarDef = CommandParamenter as WindowLayoutInfo;
             }
         }
     }

@@ -4,8 +4,10 @@ using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
+using System.Text;
 using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Utilities;
 using MordernApplicationFramework.WindowManagement.LayoutManagement;
 
 namespace MordernApplicationFramework.WindowManagement.LayoutState
@@ -18,6 +20,8 @@ namespace MordernApplicationFramework.WindowManagement.LayoutState
         private IDockingHost _dockingHost;
         private bool _initialized;
 
+        public static LayoutItemStatePersister Instance { get; private set; }
+
         public string ApplicationStateDirectory => Path.Combine(_environment.AppDataPath, "WindowLayouts");
 
         protected virtual string ApplicationStateFilePath => "WindowLayouts\\Default.winprf";
@@ -27,6 +31,7 @@ namespace MordernApplicationFramework.WindowManagement.LayoutState
         [ImportingConstructor]
         public LayoutItemStatePersister(IApplicationEnvironment environment)
         {
+            Instance = this;
             _environment = environment;
         }
 
@@ -81,6 +86,20 @@ namespace MordernApplicationFramework.WindowManagement.LayoutState
                 memoryStream.Seek(0L, SeekOrigin.Begin);
                 var byteArray = memoryStream.ToArray();
                 return LayoutManagementUtilities.ConvertLayoutStreamToString(byteArray);
+            }
+        }
+
+        public void PayloadDataToFile(string filePath, string payload, bool decompress = true)
+        {
+            var data = payload;
+            if (decompress)
+                data = Encoding.UTF8.GetString(GZip.Decompress(Convert.FromBase64String(payload)));
+            using (var stream = LayoutManagementUtilities.ConvertLayoutPayloadToStream(data))
+            {
+                using (var fileStream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+                {
+                    stream.CopyTo(fileStream);
+                }
             }
         }
 

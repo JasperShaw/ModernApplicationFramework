@@ -5,7 +5,6 @@ using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
-using MordernApplicationFramework.WindowManagement.LayoutManagement;
 using MordernApplicationFramework.WindowManagement.Properties;
 
 namespace MordernApplicationFramework.WindowManagement.Commands
@@ -14,7 +13,6 @@ namespace MordernApplicationFramework.WindowManagement.Commands
     [Export(typeof(ManageLayoutCommandDefinition))]
     public sealed class ManageLayoutCommandDefinition : CommandDefinition
     {
-        private readonly ILayoutManager _layoutManager;
         public override string Name => WindowManagement_Resources.ManageLayoutCommandDefinition_Name;
         public override string Text => WindowManagement_Resources.ManageLayoutCommandDefinition_Text;
 
@@ -29,14 +27,12 @@ namespace MordernApplicationFramework.WindowManagement.Commands
 
         public override UICommand Command { get; }
 
-        public override MultiKeyGesture DefaultKeyGesture { get; }
-        public override GestureScope DefaultGestureScope { get; }
+        public override MultiKeyGesture DefaultKeyGesture => null;
+        public override GestureScope DefaultGestureScope => null;
 
         [ImportingConstructor]
-        public ManageLayoutCommandDefinition(ILayoutManager layoutManager)
+        public ManageLayoutCommandDefinition()
         {
-            _layoutManager = layoutManager;
-
             var command = new UICommand(Manage, CanManage);
             Command = command;
         }
@@ -48,7 +44,7 @@ namespace MordernApplicationFramework.WindowManagement.Commands
 
         private void Manage()
         {
-            _layoutManager.ManageWindowLayouts();
+            LayoutManagementService.Instance.LayoutManager.ManageWindowLayouts();
         }
     }
 }

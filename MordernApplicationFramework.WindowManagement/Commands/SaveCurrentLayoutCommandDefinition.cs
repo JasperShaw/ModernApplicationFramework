@@ -5,7 +5,6 @@ using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
-using MordernApplicationFramework.WindowManagement.LayoutManagement;
 using MordernApplicationFramework.WindowManagement.Properties;
 
 namespace MordernApplicationFramework.WindowManagement.Commands
@@ -14,7 +13,6 @@ namespace MordernApplicationFramework.WindowManagement.Commands
     [Export(typeof(SaveCurrentLayoutCommandDefinition))]
     public sealed class SaveCurrentLayoutCommandDefinition : CommandDefinition
     {
-        private readonly ILayoutManager _layoutManager;
         public override string Name => WindowManagement_Resources.SaveLayoutCommandDefinition_Name;
         public override string Text => WindowManagement_Resources.SaveLayoutCommandDefinition_Text;
         public override string NameUnlocalized =>
@@ -31,10 +29,8 @@ namespace MordernApplicationFramework.WindowManagement.Commands
         public override GestureScope DefaultGestureScope => null;
 
         [ImportingConstructor]
-        public SaveCurrentLayoutCommandDefinition(ILayoutManager layoutManager)
+        public SaveCurrentLayoutCommandDefinition()
         {
-            _layoutManager = layoutManager;
-
             var command = new UICommand(Save, CanSave);
             Command = command;
         }
@@ -46,7 +42,7 @@ namespace MordernApplicationFramework.WindowManagement.Commands
 
         private void Save()
         {
-            _layoutManager.SaveWindowLayout();
+            LayoutManagementService.Instance.LayoutManager.SaveWindowLayout();
         }
     }
 }

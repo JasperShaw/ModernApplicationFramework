@@ -16,7 +16,6 @@ namespace MordernApplicationFramework.WindowManagement.Commands
     [Export(typeof(ResetLayoutCommandDefinition))]
     public sealed class ResetLayoutCommandDefinition : CommandDefinition
     {
-        private readonly ILayoutManagerInternal _layoutManager;
         private readonly IDefaultWindowLayoutProvider _defaultWindowLayout;
         private readonly IExtendedEnvironmentVariables _environmentVariables;
         public override string Name => WindowManagement_Resources.ResetLayoutCommandDefinition_Name;
@@ -37,10 +36,9 @@ namespace MordernApplicationFramework.WindowManagement.Commands
         public override GestureScope DefaultGestureScope => null;
 
         [ImportingConstructor]
-        internal ResetLayoutCommandDefinition(ILayoutManagerInternal layoutManager, IDefaultWindowLayoutProvider defaultWindowLayout,
+        internal ResetLayoutCommandDefinition(IDefaultWindowLayoutProvider defaultWindowLayout,
             IExtendedEnvironmentVariables environmentVariables)
         {
-            _layoutManager = layoutManager;
             _defaultWindowLayout = defaultWindowLayout;
             _environmentVariables = environmentVariables;
 
@@ -59,7 +57,7 @@ namespace MordernApplicationFramework.WindowManagement.Commands
                 MessageBoxImage.Question, MessageBoxResult.Yes);
             if (result != MessageBoxResult.Yes)
                 return;
-            _layoutManager.ApplyWindowLayout(_defaultWindowLayout.GetLayout());
+            //LayoutManagementService.Instance.LayoutManager.ApplyWindowLayout(_defaultWindowLayout.GetLayout());
         }
     }
 }

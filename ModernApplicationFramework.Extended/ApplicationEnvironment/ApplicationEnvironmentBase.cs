@@ -23,7 +23,6 @@ namespace ModernApplicationFramework.Extended.ApplicationEnvironment
         /// </summary>
         public virtual bool UseApplicationSettings => true;
 
-
         public string LocalAppDataPath { get; }
 
         public string AppDataPath { get; }

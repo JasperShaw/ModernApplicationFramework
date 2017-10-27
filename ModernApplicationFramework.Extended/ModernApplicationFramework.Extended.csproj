@@ -67,7 +67,6 @@
     <Compile Include="ApplicationEnvironment\FallbackExtendedEnvironmentVariables.cs" />
     <Compile Include="Core\Layout\LayoutInitializer.cs" />
     <Compile Include="Core\Layout\LayoutUtilities.cs" />
-    <Compile Include="Core\Services\WindowManagerService.cs" />
     <Compile Include="GuidCollection.cs" />
     <Compile Include="KeyBindingScheme\KeyBindingSchemeManager.cs" />
     <Compile Include="KeyBindingScheme\FileSchemeDefinition.cs" />

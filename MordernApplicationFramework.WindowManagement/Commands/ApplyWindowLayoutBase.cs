@@ -3,7 +3,6 @@ using System.Globalization;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input.Command;
-using MordernApplicationFramework.WindowManagement.LayoutManagement;
 using MordernApplicationFramework.WindowManagement.Properties;
 
 namespace MordernApplicationFramework.WindowManagement.Commands
@@ -37,8 +36,6 @@ namespace MordernApplicationFramework.WindowManagement.Commands
 
         public override UICommand Command { get; }
 
-        protected abstract ILayoutManager LayoutManager { get; }
-
         public void SetText(string text)
         {
             _text = text;
@@ -52,14 +49,14 @@ namespace MordernApplicationFramework.WindowManagement.Commands
 
         private bool CanApplyLayout()
         {
-            if (Index <= LayoutManager.LayoutCount)
+            if (Index <= LayoutManagementService.Instance.LayoutManager.LayoutCount)
                 return true;
             return false;
         }
 
         private void ApplyLayout()
         {
-            LayoutManager.ApplyWindowLayout(Index - 1);
+            LayoutManagementService.Instance.LayoutManager.ApplyWindowLayout(Index - 1);
         }
     }
 }
