@@ -59,6 +59,8 @@ namespace MordernApplicationFramework.WindowManagement.Commands
 
         public void Populate(Command command, List<CommandDefinitionBase> commands)
         {
+            if (LayoutManagementService.Instance == null)
+                return;
             var layoutPairs = LayoutManagementUtilities.EnumerateLayoutKeyInfo(_layoutStore);
             var layouts = new ObservableCollection<LayoutItemViewModel>(layoutPairs
                 .Select(kvp => new LayoutItemViewModel(kvp.Key, kvp.Value)).OrderBy(lvm => lvm.Position)

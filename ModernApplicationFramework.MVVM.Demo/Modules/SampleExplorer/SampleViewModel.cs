@@ -7,7 +7,7 @@ using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
 
-namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
+namespace ModernApplicationFramework.MVVM.Demo.Modules.SampleExplorer
 {
     [Export(typeof(SampleViewModel))]
     public class SampleViewModel : Extended.Core.LayoutItems.LayoutItem

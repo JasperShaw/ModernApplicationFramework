@@ -4,7 +4,6 @@ using System.Windows.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Services;
 using MordernApplicationFramework.WindowManagement;
-using MordernApplicationFramework.WindowManagement.WindowProfile;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.WindowProfileChange
 {
@@ -13,11 +12,11 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.WindowProfileChange
     public sealed class WindowProfileChangeViewModel: Extended.Core.LayoutItems.LayoutItem
     {
         private readonly IStatusBarDataModelService _statusBar;
-        public ICommand SetDefaultCommand => new Command(SetDefault);
+        public ICommand SetDefaultCommand => new Command(SetDefault, CanSet);
 
-        public ICommand SetDesignCommand => new Command(SetDesign);
+        public ICommand SetDesignCommand => new Command(SetDesign, CanSet);
 
-        public ICommand SetDebugCommand => new Command(SetDebug);
+        public ICommand SetDebugCommand => new Command(SetDebug, CanSet);
 
         [ImportingConstructor]
         public WindowProfileChangeViewModel(IStatusBarDataModelService statusBar)
@@ -42,6 +41,11 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.WindowProfileChange
         {
             LayoutManagementService.Instance.LoadLayout("Debug");
             _statusBar.SetText(1, "Debug");
+        }
+
+        private static bool CanSet()
+        {
+            return LayoutManagementService.Instance != null;
         }
     }
 }

@@ -49,7 +49,7 @@ namespace MordernApplicationFramework.WindowManagement.Commands
 
         private bool CanApplyLayout()
         {
-            if (Index <= LayoutManagementService.Instance.LayoutManager.LayoutCount)
+            if (Index <= LayoutManagementService.Instance?.LayoutManager.LayoutCount)
                 return true;
             return false;
         }

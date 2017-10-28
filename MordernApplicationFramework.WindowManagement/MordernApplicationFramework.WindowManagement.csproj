@@ -67,7 +67,7 @@
     <Compile Include="Commands\ManageLayoutCommandDefinition.cs" />
     <Compile Include="Commands\SaveCurrentLayoutCommandDefinition.cs" />
     <Compile Include="Commands\ShowLayoutsCommandHandler.cs" />
-    <Compile Include="LayoutManagementModule.cs" />
+    <Compile Include="LayoutManagementPackage.cs" />
     <Compile Include="LayoutManagementService.cs" />
     <Compile Include="LayoutManagement\DefaultWindowLayoutProvider.cs" />
     <Compile Include="LayoutManagement\IDefaultWindowLayoutProvider.cs" />

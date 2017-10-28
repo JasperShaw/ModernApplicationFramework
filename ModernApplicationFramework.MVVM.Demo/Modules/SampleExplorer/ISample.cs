@@ -1,6 +1,6 @@
 ﻿using ModernApplicationFramework.Extended.Interfaces;
 
-namespace ModernApplicationFramework.MVVM.Demo.Modules.Document
+namespace ModernApplicationFramework.MVVM.Demo.Modules.SampleExplorer
 {
     public interface ISample
     {

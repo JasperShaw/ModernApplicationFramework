@@ -67,6 +67,8 @@
     <Compile Include="ApplicationEnvironment\FallbackExtendedEnvironmentVariables.cs" />
     <Compile Include="Core\Layout\LayoutInitializer.cs" />
     <Compile Include="Core\Layout\LayoutUtilities.cs" />
+    <Compile Include="Core\Package\Package.cs" />
+    <Compile Include="Core\Package\PackageManager.cs" />
     <Compile Include="GuidCollection.cs" />
     <Compile Include="KeyBindingScheme\KeyBindingSchemeManager.cs" />
     <Compile Include="KeyBindingScheme\FileSchemeDefinition.cs" />
@@ -113,7 +115,6 @@
     <Compile Include="Interfaces\IDocument.cs" />
     <Compile Include="Interfaces\ILayoutItem.cs" />
     <Compile Include="Interfaces\ILayoutItemBase.cs" />
-    <Compile Include="Interfaces\IModule.cs" />
     <Compile Include="Interfaces\IOpenResult.cs" />
     <Compile Include="Interfaces\IStorableDocument.cs" />
     <Compile Include="Interfaces\ITool.cs" />
@@ -131,7 +132,6 @@
     <Compile Include="MenuDefinitions\ToolsMenuDefinitions.cs" />
     <Compile Include="MenuDefinitions\ViewMenuDefinitions.cs" />
     <Compile Include="MenuDefinitions\WindowMenuDefinitions.cs" />
-    <Compile Include="Core\ModuleBase\ModuleBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

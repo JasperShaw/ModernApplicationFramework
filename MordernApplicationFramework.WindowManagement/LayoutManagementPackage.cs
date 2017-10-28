@@ -1,22 +1,19 @@
-﻿using System.ComponentModel.Composition;
-using ModernApplicationFramework.Extended.Core.ModuleBase;
-using ModernApplicationFramework.Extended.Interfaces;
+﻿using System;
+using System.ComponentModel.Composition;
+using ModernApplicationFramework.Extended.Core.Package;
 
 namespace MordernApplicationFramework.WindowManagement
 {
-    [Export(typeof(IModule))]
-    public sealed class LayoutManagementModule : ModuleBase
+    [Export(typeof(IMafPackage))]
+    public class LayoutManagementPackage : Package
     {
         private LayoutManagementService _layoutManagementService;
 
-        public override void PreInitialize()
-        {
-            _layoutManagementService = new LayoutManagementService();
-            base.PreInitialize();
-        }
+        public override Guid Id => new Guid("{BC313FD7-C2E3-4188-9C82-CFD5BEF6A822}");
 
         public override void Initialize()
         {
+            _layoutManagementService = new LayoutManagementService();
             _layoutManagementService.Initialize();
         }
 

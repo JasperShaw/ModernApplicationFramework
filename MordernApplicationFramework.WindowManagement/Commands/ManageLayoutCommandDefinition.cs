@@ -39,6 +39,8 @@ namespace MordernApplicationFramework.WindowManagement.Commands
 
         private bool CanManage()
         {
+            if (LayoutManagementService.Instance == null)
+                return false;
             return true;
         }
 

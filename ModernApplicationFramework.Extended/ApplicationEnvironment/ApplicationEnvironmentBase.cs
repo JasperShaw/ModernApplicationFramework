@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
+using ModernApplicationFramework.Extended.Core.Package;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Utilities.Interfaces;
 using ModernApplicationFramework.Utilities.Interfaces.Settings;
@@ -15,8 +16,9 @@ namespace ModernApplicationFramework.Extended.ApplicationEnvironment
     {
         private readonly IExtendedEnvironmentVariables _environmentVariables;
         private readonly ISettingsManager _settingsManager;
+        private IPackageManager _packageManager;
 
-       
+
         /// <summary>
         /// Tells the application to setup and use the settingsManager.
         /// <remarks>The SettingsCommand should be added to the exclude Commands list</remarks>
@@ -49,8 +51,11 @@ namespace ModernApplicationFramework.Extended.ApplicationEnvironment
         
         public virtual void PrepareClose()
         {
-            var modules = IoC.GetAll<IModule>().ToList();
-            modules.ForEach(x => x.Dispose());
+
+            _packageManager.ShutDown();
+
+            //var modules = IoC.GetAll<IModule>().ToList();
+            //modules.ForEach(x => x.Dispose());
             if (UseApplicationSettings)
                 _settingsManager.Close();
         }
@@ -91,14 +96,22 @@ namespace ModernApplicationFramework.Extended.ApplicationEnvironment
 
         protected virtual void SetupModules()
         {
-            var modules = IoC.GetAll<IModule>().ToList();
-            foreach (var module in modules)
-            foreach (var globalResourceDictionary in module.GlobalResourceDictionaries)
-                Application.Current.Resources.MergedDictionaries.Add(globalResourceDictionary);
+            _packageManager = new PackageManager();
+            _packageManager.Initialize();
 
-            //TODO: Create a global Module-Manager
-            foreach (var module in modules)
-                module.PreInitialize();
+            _packageManager.LoadPackages();
+
+
+
+
+            //var modules = IoC.GetAll<IModule>().ToList();
+            //foreach (var module in modules)
+            //foreach (var globalResourceDictionary in module.GlobalResourceDictionaries)
+            //    Application.Current.Resources.MergedDictionaries.Add(globalResourceDictionary);
+
+            ////TODO: Create a global Module-Manager
+            //foreach (var module in modules)
+            //    module.PreInitialize();
         }
     }
 }

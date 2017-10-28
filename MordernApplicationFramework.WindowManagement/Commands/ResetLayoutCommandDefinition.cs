@@ -48,6 +48,8 @@ namespace MordernApplicationFramework.WindowManagement.Commands
 
         private bool CanManage()
         {
+            if (LayoutManagementService.Instance == null)
+                return false;
             return _defaultWindowLayout.GetLayout() != null;
         }
 
@@ -57,6 +59,7 @@ namespace MordernApplicationFramework.WindowManagement.Commands
                 MessageBoxImage.Question, MessageBoxResult.Yes);
             if (result != MessageBoxResult.Yes)
                 return;
+            //TODO:
             //LayoutManagementService.Instance.LayoutManager.ApplyWindowLayout(_defaultWindowLayout.GetLayout());
         }
     }

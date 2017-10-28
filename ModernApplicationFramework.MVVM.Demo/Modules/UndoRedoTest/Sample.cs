@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Interfaces;
-using ModernApplicationFramework.MVVM.Demo.Modules.Document;
+using ModernApplicationFramework.MVVM.Demo.Modules.SampleExplorer;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.UndoRedoTest
 {

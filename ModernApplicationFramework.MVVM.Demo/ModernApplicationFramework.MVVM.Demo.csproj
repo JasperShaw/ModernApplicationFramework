@@ -89,7 +89,9 @@
     <Compile Include="Modules\Commands\TestWindow.xaml.cs">
       <DependentUpon>TestWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Modules\DefaultWindowLayout\DefaultWindowLayoutModule.cs" />
+    <Compile Include="Modules\DefaultWindowLayout\DefaultWindowLayoutPackage.cs" />
+    <Compile Include="Modules\SampleExplorer\SampleExplorerModule.cs" />
+    <Compile Include="Modules\Startup\StartupPackage.cs" />
     <Compile Include="Modules\WindowProfileChange\Sample.cs" />
     <Compile Include="Modules\WindowProfileChange\WindowProfileChangeView.xaml.cs">
       <DependentUpon>WindowProfileChangeView.xaml</DependentUpon>
@@ -97,15 +99,15 @@
     <Compile Include="Modules\WindowProfileChange\WindowProfileChangeViewModel.cs" />
     <Compile Include="Shell\DockingHostViewModel.cs" />
     <Compile Include="Shell\DockingMainWindowViewModel.cs" />
-    <Compile Include="Modules\Document\SampleView.xaml.cs">
+    <Compile Include="Modules\SampleExplorer\SampleView.xaml.cs">
       <DependentUpon>SampleView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Modules\Document\SampleViewModel.cs" />
+    <Compile Include="Modules\SampleExplorer\SampleViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Modules\Document\ISample.cs" />
+    <Compile Include="Modules\SampleExplorer\ISample.cs" />
     <Compile Include="Modules\MyEditor\MyTextEditorView.xaml.cs">
       <DependentUpon>MyTextEditorView.xaml</DependentUpon>
     </Compile>
@@ -126,7 +128,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Modules\Document\SampleView.xaml">
+    <Page Include="Modules\SampleExplorer\SampleView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -160,8 +162,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Modules\Document\Module.cs" />
-    <Compile Include="Modules\Startup\Module.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

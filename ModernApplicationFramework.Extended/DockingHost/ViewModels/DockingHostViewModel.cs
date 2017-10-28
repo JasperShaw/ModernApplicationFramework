@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Windows;
 using Caliburn.Micro;
@@ -17,10 +16,7 @@ namespace ModernApplicationFramework.Extended.DockingHost.ViewModels
         private readonly BindableCollection<ITool> _tools;
         private ILayoutItemBase _activeLayoutItemBase;
         private bool _closing;
-        
-#pragma warning disable 649
-        [ImportMany(typeof(IModule))] private IEnumerable<IModule> _modules;
-#pragma warning disable 649
+
         private bool _showFloatingWindowsInTaskbar;
 
         public IObservableCollection<ITool> Tools => _tools;
@@ -88,6 +84,23 @@ namespace ModernApplicationFramework.Extended.DockingHost.ViewModels
                 Tools.Add(model);
             model.IsSelected = true;
             ActiveLayoutItemBase = model;
+        }
+
+        public void HideTool<TTool>(bool remove)
+            where TTool : ITool
+        {
+            HideTool(IoC.Get<TTool>(), remove);
+        }
+
+        public void HideTool(ITool model, bool remove)
+        {
+            if (Tools.Contains(model))
+                model.IsVisible = false;
+            else
+                return;
+            if (!remove)
+                return;
+            Tools.Remove(model);
         }
 
         public override void ActivateItem(ILayoutItem item)
@@ -162,15 +175,15 @@ namespace ModernApplicationFramework.Extended.DockingHost.ViewModels
         protected override void OnViewReady(object view)
         {         
             //TODO: Add Module Manager
-            foreach (var module in _modules)
-                module.Initialize();
+            //foreach (var module in _modules)
+            //    module.Initialize();
             base.OnViewReady(view);
         }
 
         protected override void OnViewLoaded(object view)
         {
-            foreach (var module in _modules)
-                module.PostInitialize();
+            //foreach (var module in _modules)
+            //    module.PostInitialize();
             base.OnViewLoaded(view);
         }
 

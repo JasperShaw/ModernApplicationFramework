@@ -37,7 +37,7 @@ namespace MordernApplicationFramework.WindowManagement.Commands
 
         private bool CanSave()
         {
-            return true;
+            return LayoutManagementService.Instance != null;
         }
 
         private void Save()

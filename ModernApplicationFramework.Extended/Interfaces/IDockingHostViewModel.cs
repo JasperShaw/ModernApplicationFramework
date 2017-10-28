@@ -27,5 +27,9 @@ namespace ModernApplicationFramework.Extended.Interfaces
         void ShowTool<TTool>() where TTool : ITool;
 
         void ShowTool(ITool model);
+
+        void HideTool<TTool>(bool remove) where TTool : ITool;
+
+        void HideTool(ITool model, bool remove);
     }
 }
