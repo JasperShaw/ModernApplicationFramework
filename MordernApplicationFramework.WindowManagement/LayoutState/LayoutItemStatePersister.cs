@@ -12,8 +12,7 @@ using MordernApplicationFramework.WindowManagement.LayoutManagement;
 
 namespace MordernApplicationFramework.WindowManagement.LayoutState
 {
-    [Export(typeof(ILayoutItemStatePersister))]
-    public class LayoutItemStatePersister : ILayoutItemStatePersister
+    public class LayoutItemStatePersister
     {
         private readonly IApplicationEnvironment _environment;
         private IDockingHostViewModel _dockingHostViewModel;
@@ -35,10 +34,16 @@ namespace MordernApplicationFramework.WindowManagement.LayoutState
             _environment = environment;
         }
 
-        public void Initialize(IDockingHostViewModel shell, IDockingHost shellView)
+        public void Initialize()
         {
-            _dockingHostViewModel = shell;
-            _dockingHost = shellView;
+            _dockingHostViewModel = IoC.Get<IDockingHostViewModel>();
+            _dockingHostViewModel.ActivationProcessed += _dockingHostViewModel_ActivationProcessed;
+        }
+
+        private void _dockingHostViewModel_ActivationProcessed(object sender, ActivationProcessedEventArgs e)
+        {
+            _dockingHostViewModel.ActivationProcessed -= _dockingHostViewModel_ActivationProcessed;
+            _dockingHost = _dockingHostViewModel.DockingHostView;
             _initialized = true;
         }
 

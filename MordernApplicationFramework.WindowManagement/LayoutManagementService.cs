@@ -17,6 +17,7 @@ namespace MordernApplicationFramework.WindowManagement
         private readonly WindowProfileManager _profileManager;
         private ILayoutManager _layoutManager;
         private WindowProfile.WindowProfile _activeProfile;
+        private readonly LayoutItemStatePersister _statePersiter;
 
         public static LayoutManagementService Instance { get; private set; }
 
@@ -50,7 +51,7 @@ namespace MordernApplicationFramework.WindowManagement
                 _profileManager.AddProfile(value);
                 _activeProfile = value;
                 using (var stream = LayoutManagementUtilities.ConvertLayoutPayloadToStream(value.DecompressedPayload))
-                    LayoutItemStatePersister.Instance.LoadFromStream(stream, ProcessStateOption.ToolsOnly);
+                    _statePersiter.LoadFromStream(stream, ProcessStateOption.ToolsOnly);
             }
         }
 
@@ -60,6 +61,9 @@ namespace MordernApplicationFramework.WindowManagement
         {
             Instance = this;
             _profileManager = new WindowProfileManager(ProfileRootDirectory);
+
+            _statePersiter = new LayoutItemStatePersister(IoC.Get<IApplicationEnvironment>());
+            _statePersiter.Initialize();
         }
 
         internal WindowProfile.WindowProfile CreateProfileFromDefaultLayoutOrRegistry(string profileName)
@@ -138,8 +142,7 @@ namespace MordernApplicationFramework.WindowManagement
             var layoutStore = new WindowLayoutStore(settingsManager);
             var layoutSettings = new WindowLayoutSettings(settingsManager);
             var statusBar = IoC.Get<IStatusBarDataModelService>();
-            var statePersiter = IoC.Get<ILayoutItemStatePersister>();
-            _layoutManager = new LayoutManager(statusBar, layoutSettings, layoutStore, statePersiter);
+            _layoutManager = new LayoutManager(statusBar, layoutSettings, layoutStore);
         }
     }
 }

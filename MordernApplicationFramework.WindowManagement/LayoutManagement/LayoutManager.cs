@@ -15,20 +15,17 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
     {
         private readonly ILayoutManagementUserInput _layoutManagementUserInput;
         private readonly IWindowLayoutSettings _layoutSettings;
-        private readonly ILayoutItemStatePersister _layoutStatePersister;
         private readonly IWindowLayoutStore _layoutStore;
         private readonly IStatusBarDataModelService _statusBar;
 
         internal LayoutManager(IStatusBarDataModelService statusBar,
-            IWindowLayoutSettings layoutSettings, IWindowLayoutStore layoutStore,
-            ILayoutItemStatePersister statePersister)
+            IWindowLayoutSettings layoutSettings, IWindowLayoutStore layoutStore)
         {
             Validate.IsNotNull(layoutSettings, nameof(layoutSettings));
             _statusBar = statusBar;
             _layoutSettings = layoutSettings;
             _layoutManagementUserInput = new DialogUserInput(layoutSettings);
             _layoutStore = layoutStore;
-            _layoutStatePersister = statePersister;
         }
 
         public int LayoutCount => _layoutStore.GetLayoutCount();
@@ -175,7 +172,7 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
             {
                 using (var stream = LayoutManagementUtilities.ConvertLayoutPayloadToStream(payload))
                 {
-                    _layoutStatePersister.LoadFromStream(stream, ProcessStateOption.ToolsOnly);
+                    LayoutItemStatePersister.Instance.LoadFromStream(stream, ProcessStateOption.ToolsOnly);
                 }
             }
             catch

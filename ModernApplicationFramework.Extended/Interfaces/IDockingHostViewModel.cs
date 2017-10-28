@@ -10,6 +10,8 @@ namespace ModernApplicationFramework.Extended.Interfaces
 
         ILayoutItem ActiveItem { get; }
 
+        IDockingHost DockingHostView { get; }
+
         IObservableCollection<ILayoutItem> Documents { get; }
         IObservableCollection<ITool> Tools { get; }
 

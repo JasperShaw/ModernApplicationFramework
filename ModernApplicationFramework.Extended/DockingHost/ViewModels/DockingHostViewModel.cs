@@ -23,8 +23,6 @@ namespace ModernApplicationFramework.Extended.DockingHost.ViewModels
 #pragma warning disable 649
         private bool _showFloatingWindowsInTaskbar;
 
-        protected IDockingHost DockingHostView;
-
         public IObservableCollection<ITool> Tools => _tools;
 
         public ILayoutItemBase ActiveLayoutItemBase
@@ -68,6 +66,7 @@ namespace ModernApplicationFramework.Extended.DockingHost.ViewModels
             DeactivateItem(document, true);
         }
 
+        public IDockingHost DockingHostView { get; protected set; }
         public IObservableCollection<ILayoutItem> Documents => Items;
 
         public void OpenDocument(ILayoutItem model)
