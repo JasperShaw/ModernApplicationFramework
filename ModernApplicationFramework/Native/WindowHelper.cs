@@ -94,7 +94,7 @@ namespace ModernApplicationFramework.Native
             if (service == null)
                 throw new COMException("Cannot get IMafUIShell service.", -2147467259);
 
-            service.EnableModeless(0);
+            var handel = service.EnableModeless(0);
             try
             {
                 var helper = new WindowInteropHelper(window) {Owner = parent};
@@ -121,7 +121,7 @@ namespace ModernApplicationFramework.Native
             }
             finally
             {
-                service.EnableModeless(1);
+                service.EnableModeless(1, handel);
             }
         }
 

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.IO;
-using System.Linq;
-using System.Windows;
-using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Core.Package;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Utilities.Interfaces;
@@ -51,11 +48,8 @@ namespace ModernApplicationFramework.Extended.ApplicationEnvironment
         
         public virtual void PrepareClose()
         {
-
+            _packageManager.ClosePackages(PackageCloseOption.PreviewApplicationClosed);
             _packageManager.ShutDown();
-
-            //var modules = IoC.GetAll<IModule>().ToList();
-            //modules.ForEach(x => x.Dispose());
             if (UseApplicationSettings)
                 _settingsManager.Close();
         }
@@ -98,20 +92,7 @@ namespace ModernApplicationFramework.Extended.ApplicationEnvironment
         {
             _packageManager = new PackageManager();
             _packageManager.Initialize();
-
-            _packageManager.LoadPackages();
-
-
-
-
-            //var modules = IoC.GetAll<IModule>().ToList();
-            //foreach (var module in modules)
-            //foreach (var globalResourceDictionary in module.GlobalResourceDictionaries)
-            //    Application.Current.Resources.MergedDictionaries.Add(globalResourceDictionary);
-
-            ////TODO: Create a global Module-Manager
-            //foreach (var module in modules)
-            //    module.PreInitialize();
+            _packageManager.LoadPackages(PackageLoadOption.OnApplicationStart);
         }
     }
 }

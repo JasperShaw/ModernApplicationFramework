@@ -14,6 +14,9 @@ namespace ModernApplicationFramework.Extended.Core.Package
 
         protected IDockingMainWindowViewModel MainWindow => _useDockingHost;
 
+        public abstract PackageLoadOption LoadOption { get; }
+        public abstract PackageCloseOption CloseOption { get; }
+
         public bool Initialized { get; private set; }
 
         public abstract Guid Id { get; }
@@ -30,6 +33,8 @@ namespace ModernApplicationFramework.Extended.Core.Package
 
         public void Close()
         {
+            if (IsDisposed)
+                return;
             foreach (var defaultTool in DefaultTools)
             {
                 if (!defaultTool.IsAssignableFrom(typeof(ITool)))
@@ -52,20 +57,5 @@ namespace ModernApplicationFramework.Extended.Core.Package
 
         [Import] private IDockingHostViewModel _dockingHostViewModel;
 #pragma warning restore 649
-    }
-
-    public interface IMafPackage
-    {
-        bool Initialized { get; }
-
-        Guid Id { get; }
-
-        IEnumerable<Type> DefaultTools { get; }
-
-        IEnumerable<ResourceDictionary> GlobalResourceDictionaries { get; }
-
-        void Close();
-
-        void Initialize();
     }
 }

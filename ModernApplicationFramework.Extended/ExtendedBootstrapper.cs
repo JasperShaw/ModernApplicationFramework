@@ -10,7 +10,6 @@ using ModernApplicationFramework.Basics.Services;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Extended.ApplicationEnvironment;
 using ModernApplicationFramework.Extended.Interfaces;
-using ModernApplicationFramework.Extended.KeyBindingScheme;
 using ModernApplicationFramework.Utilities.Interfaces;
 
 namespace ModernApplicationFramework.Extended

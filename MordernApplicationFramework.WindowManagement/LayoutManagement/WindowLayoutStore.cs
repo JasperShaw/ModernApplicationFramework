@@ -78,7 +78,18 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
             var key = flag ? keyValuePair.Key : LayoutManagementUtilities.GenerateKey();
 
             var info = new WindowLayout(layoutName, flag ? keyValuePair.Value.Position : CachedInfo.Count, key, data, true);
-            InsertSettingsModel(info, true);
+            if (!flag)
+                InsertSettingsModel(info, true);
+            else
+            {
+                RemoveAllModels();
+                var list = CachedInfo;
+                list.RemoveAt(info.Position);
+                list.Add(new KeyValuePair<string, WindowLayout>(info.Key, info));
+                foreach (var valuePair in list.OrderBy(x => x.Value.Position))
+                    InsertSettingsModel(valuePair.Value, true);
+            }
+            
             OnSettingsChanged();
             return key;
         }

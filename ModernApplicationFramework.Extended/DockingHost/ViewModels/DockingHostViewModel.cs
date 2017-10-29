@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Windows;
 using Caliburn.Micro;
+using ModernApplicationFramework.Extended.Core.Package;
 using ModernApplicationFramework.Extended.Interfaces;
 
 namespace ModernApplicationFramework.Extended.DockingHost.ViewModels
@@ -157,6 +158,7 @@ namespace ModernApplicationFramework.Extended.DockingHost.ViewModels
             // requests that occur when _closing is true.
             _closing = true;
             PreviewDeactivating(close);
+            PackageManager.Instance.ClosePackages(PackageCloseOption.OnMainWindowClosed);
             base.OnDeactivate(close);
         }
 
@@ -168,23 +170,14 @@ namespace ModernApplicationFramework.Extended.DockingHost.ViewModels
         protected override void OnViewAttached(object view, object context)
         {
             DockingHostView = (IDockingHost)view;
+            PackageManager.Instance.LoadPackages(PackageLoadOption.PreviewWindowLoaded);
             base.OnViewAttached(view, context);
-        }
-
-
-        protected override void OnViewReady(object view)
-        {         
-            //TODO: Add Module Manager
-            //foreach (var module in _modules)
-            //    module.Initialize();
-            base.OnViewReady(view);
         }
 
         protected override void OnViewLoaded(object view)
         {
-            //foreach (var module in _modules)
-            //    module.PostInitialize();
             base.OnViewLoaded(view);
+            PackageManager.Instance.LoadPackages(PackageLoadOption.OnMainWindowLoaded);
         }
 
         private void RaiseActiveDocumentChanged()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Extended.Core.Package;
+using MordernApplicationFramework.WindowManagement;
 using MordernApplicationFramework.WindowManagement.LayoutManagement;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.DefaultWindowLayout
@@ -9,6 +10,9 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.DefaultWindowLayout
     public class DefaultWindowLayoutPackage : Package
     {
         private IDefaultWindowLayoutProvider _defaultWindowLayoutProvider;
+
+        public override PackageLoadOption LoadOption => PackageLoadOption.OnMainWindowLoaded;
+        public override PackageCloseOption CloseOption => PackageCloseOption.OnMainWindowClosed;
 
         public override Guid Id => new Guid("{DC9C672E-A0EB-4D77-A825-C8690DD115C1}");
 
@@ -21,6 +25,12 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.DefaultWindowLayout
         public override void Initialize()
         {
             base.Initialize();
+            LayoutManagementPackage.Instance.LayoutManagementSystem.LoadLayout("Default");
+        }
+
+        protected override void DisposeManagedResources()
+        {
+            LayoutManagementPackage.Instance.LayoutManagementSystem.SaveActiveFrameLayout();
         }
     }
 }

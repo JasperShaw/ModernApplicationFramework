@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Windows;
 using ModernApplicationFramework.Controls.Dialogs;
 using ModernApplicationFramework.Interfaces.Services;
@@ -17,11 +16,15 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
         private readonly IWindowLayoutSettings _layoutSettings;
         private readonly IWindowLayoutStore _layoutStore;
         private readonly IStatusBarDataModelService _statusBar;
+        private readonly LayoutManagementService _layoutSystem;
 
-        internal LayoutManager(IStatusBarDataModelService statusBar,
+        internal LayoutManager(LayoutManagementService layoutSystem,IStatusBarDataModelService statusBar,
             IWindowLayoutSettings layoutSettings, IWindowLayoutStore layoutStore)
         {
+            Validate.IsNotNull(layoutStore, nameof(layoutStore));
             Validate.IsNotNull(layoutSettings, nameof(layoutSettings));
+            Validate.IsNotNull(layoutSystem, nameof(layoutSystem));
+            _layoutSystem = layoutSystem;
             _statusBar = statusBar;
             _layoutSettings = layoutSettings;
             _layoutManagementUserInput = new DialogUserInput(layoutSettings);
@@ -140,15 +143,9 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
             }));
         }
 
-        public static string GetCurrentLayoutData()
+        private string GetCurrentLayoutData()
         {
-            using (var memoryStream = new MemoryStream())
-            {
-                LayoutItemStatePersister.Instance.SaveToStream(memoryStream, ProcessStateOption.ToolsOnly);
-                memoryStream.Seek(0L, SeekOrigin.Begin);
-                var byteArray = memoryStream.ToArray();
-                return LayoutManagementUtilities.ConvertLayoutStreamToString(byteArray);
-            }
+            return _layoutSystem.SaveFrameLayoutCollection(ProcessStateOption.ToolsOnly);
         }
 
         private bool TryApplyWindowLayout(string name, int index)
@@ -230,7 +227,7 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
             {
                 if (MessageDialog.Show(WindowManagement_Resources.ApplyLayoutTitle, string.Format(
                             CultureInfo.CurrentUICulture, WindowManagement_Resources.ApplyLayoutConfirmation,
-                            new object[1]
+                            new object[]
                             {
                                 name
                             }), MessageDialogCommandSet.OkCancel, WindowManagement_Resources.DisableApplyLayoutWarning,

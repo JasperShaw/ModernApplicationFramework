@@ -27,25 +27,25 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.WindowProfileChange
 
         private void SetDefault()
         {
-            LayoutManagementService.Instance.LoadLayout("Default");
+            LayoutManagementPackage.Instance.LayoutManagementSystem.LoadLayout("Default");
             _statusBar.SetText(1, "Default");
         }
 
         private void SetDesign()
         {
-            LayoutManagementService.Instance.LoadLayout("Design");
+            LayoutManagementPackage.Instance.LayoutManagementSystem.LoadLayout("Design");
             _statusBar.SetText(1, "Design");
         }
 
         private void SetDebug()
         {
-            LayoutManagementService.Instance.LoadLayout("Debug");
+            LayoutManagementPackage.Instance.LayoutManagementSystem.LoadLayout("Debug");
             _statusBar.SetText(1, "Debug");
         }
 
         private static bool CanSet()
         {
-            return LayoutManagementService.Instance != null;
+            return LayoutManagementPackage.Instance?.Initialized != null;
         }
     }
 }

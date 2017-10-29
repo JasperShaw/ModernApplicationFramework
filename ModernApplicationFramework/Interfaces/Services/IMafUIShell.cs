@@ -19,7 +19,7 @@ namespace ModernApplicationFramework.Interfaces.Services
         /// </summary>
         /// <param name="fEnable">1 when exiting a modal state. 0 when entering a modal state.</param>
         /// <returns>If the method succeeds, it returns 0. If it fails, it returns an error code.</returns>
-        int EnableModeless(int fEnable);
+        IntPtr EnableModeless(int fEnable);
 
         /// <summary>
         /// Centers the provided dialog box HWND on the parent HWND (if provided), or on the main window.
@@ -35,6 +35,6 @@ namespace ModernApplicationFramework.Interfaces.Services
         /// <param name="pbstrAppName">Pointer to the name of the application</param>
         /// <returns>If the method succeeds, it returns 0. If it fails, it returns an error code.</returns>
         int GetAppName(out string pbstrAppName);
-
+        void EnableModeless(int v, IntPtr handel);
     }
 }

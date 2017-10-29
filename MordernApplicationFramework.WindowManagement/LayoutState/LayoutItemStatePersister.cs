@@ -101,7 +101,7 @@ namespace MordernApplicationFramework.WindowManagement.LayoutState
                 data = Encoding.UTF8.GetString(GZip.Decompress(Convert.FromBase64String(payload)));
             using (var stream = LayoutManagementUtilities.ConvertLayoutPayloadToStream(data))
             {
-                using (var fileStream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+                using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None))
                 {
                     stream.CopyTo(fileStream);
                 }
@@ -164,8 +164,10 @@ namespace MordernApplicationFramework.WindowManagement.LayoutState
                         if (skipStateData)
                             reader.BaseStream.Seek(stateEndPosition, SeekOrigin.Begin);
                     }
-
+                    var active = _dockingHostViewModel.ActiveItem; 
                     _dockingHost.LoadLayout(reader.BaseStream, _dockingHostViewModel.ShowTool, _dockingHostViewModel.OpenDocument, layoutItems);
+                    if (_dockingHostViewModel.Documents.Contains(active))
+                        _dockingHostViewModel.OpenDocument(active);
                 }
             }
             catch

@@ -211,7 +211,6 @@ namespace ModernApplicationFramework.Settings.SettingsManager
         {
             Initialized -= SettingsManager_Initialized;
             IsInitialized = true;
-            //TODO: Read real settingspath from file and update if necessary
         }
 
         private GetValueResult TryDeserialize<T>(string data, out T result, T defaultValue = default(T))

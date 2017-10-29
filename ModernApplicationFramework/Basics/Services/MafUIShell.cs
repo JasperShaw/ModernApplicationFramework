@@ -43,16 +43,22 @@ namespace ModernApplicationFramework.Basics.Services
         /// <returns>
         /// If the method succeeds, it returns 0. If it fails, it returns an error code.
         /// </returns>
-        public int EnableModeless(int fEnable)
+        public IntPtr EnableModeless(int fEnable)
         {
             var handle = GetActiveWindowHandle();
+            EnableModeless(fEnable, handle);
+            return handle;
+        }
+
+
+        public void EnableModeless(int fEnable, IntPtr handle)
+        {
             if (handle == IntPtr.Zero)
-                return -1;
+                return;
             if (fEnable == 1)
                 User32.EnableWindow(handle, true);
             if (fEnable == 0)
                 User32.EnableWindow(handle, false);
-            return 0;
         }
 
         /// <inheritdoc />

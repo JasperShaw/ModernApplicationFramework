@@ -67,6 +67,7 @@
     <Compile Include="ApplicationEnvironment\FallbackExtendedEnvironmentVariables.cs" />
     <Compile Include="Core\Layout\LayoutInitializer.cs" />
     <Compile Include="Core\Layout\LayoutUtilities.cs" />
+    <Compile Include="Core\Package\IMafPackage.cs" />
     <Compile Include="Core\Package\Package.cs" />
     <Compile Include="Core\Package\PackageManager.cs" />
     <Compile Include="GuidCollection.cs" />

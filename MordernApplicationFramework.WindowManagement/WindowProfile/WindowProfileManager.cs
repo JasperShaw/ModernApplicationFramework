@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Utilities;
 using MordernApplicationFramework.WindowManagement.LayoutState;
 
@@ -63,7 +62,6 @@ namespace MordernApplicationFramework.WindowManagement.WindowProfile
                 return;
             SaveProfileToLocalStorage(profile);
         }
-
 
 
         public WindowProfile GetProfile(string profileName, bool fromBackup = false)

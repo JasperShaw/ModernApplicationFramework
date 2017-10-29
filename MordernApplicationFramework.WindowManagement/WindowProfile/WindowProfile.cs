@@ -4,9 +4,8 @@ using ModernApplicationFramework.Utilities;
 
 namespace MordernApplicationFramework.WindowManagement.WindowProfile
 {
-    public class WindowProfile
+    internal class WindowProfile
     {
-
         public string Name { get; private set; }
 
         public string StatePlayload { get; private set; }

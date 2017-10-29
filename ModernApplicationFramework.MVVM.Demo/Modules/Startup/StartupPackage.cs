@@ -15,6 +15,9 @@ namespace ModernApplicationFramework.MVVM.Demo.Modules.Startup
         private readonly IOutput _output;
         private readonly IInspectorTool _inspectorTool;
         private readonly IStatusBarDataModelService _statusBarService;
+        public override PackageLoadOption LoadOption => PackageLoadOption.OnMainWindowLoaded;
+        public override PackageCloseOption CloseOption => PackageCloseOption.OnMainWindowClosed;
+
         public override Guid Id => new Guid("{0C922534-3BBA-43D1-82DC-EBF3B024F13A}");
 
         public override IEnumerable<Type> DefaultTools

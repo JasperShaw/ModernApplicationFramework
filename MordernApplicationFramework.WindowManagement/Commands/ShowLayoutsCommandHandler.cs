@@ -116,7 +116,7 @@ namespace MordernApplicationFramework.WindowManagement.Commands
 
         private class ShowLayoutCommandDefinition : CommandDefinition
         {
-            public override UICommand Command => null;
+            public override UICommand Command => new UICommand(() => {}, () => false);
             public override MultiKeyGesture DefaultKeyGesture => null;
             public override GestureScope DefaultGestureScope => null;
             public override string Name => string.Empty;

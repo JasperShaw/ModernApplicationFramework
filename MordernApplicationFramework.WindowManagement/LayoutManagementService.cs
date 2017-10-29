@@ -12,7 +12,7 @@ using MordernApplicationFramework.WindowManagement.WindowProfile;
 
 namespace MordernApplicationFramework.WindowManagement
 {
-    public class LayoutManagementService : DisposableObject
+    internal class LayoutManagementService : DisposableObject, ILayoutManagementService
     {
         private readonly WindowProfileManager _profileManager;
         private ILayoutManager _layoutManager;
@@ -29,7 +29,6 @@ namespace MordernApplicationFramework.WindowManagement
                 return Path.Combine(pvar, "WindowLayouts");
             }
         }
-
 
         internal ILayoutManager LayoutManager
         {
@@ -55,7 +54,7 @@ namespace MordernApplicationFramework.WindowManagement
             }
         }
 
-        public IReadOnlyCollection<WindowProfile.WindowProfile> LoadedProfiles => _profileManager.Profiles.ToList();
+        internal IReadOnlyCollection<WindowProfile.WindowProfile> LoadedProfiles => _profileManager.Profiles.ToList();
 
         public LayoutManagementService()
         {
@@ -68,16 +67,29 @@ namespace MordernApplicationFramework.WindowManagement
 
         internal WindowProfile.WindowProfile CreateProfileFromDefaultLayoutOrRegistry(string profileName)
         {
-            var state = LayoutManagement.LayoutManager.GetCurrentLayoutData();
+            var state = SaveFrameLayoutCollection(ProcessStateOption.ToolsOnly);
             return new WindowProfile.WindowProfile(profileName, state);
         }
 
+        internal string SaveFrameLayoutCollection(ProcessStateOption toolsOnly)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                LayoutItemStatePersister.Instance.SaveToStream(memoryStream, ProcessStateOption.ToolsOnly);
+                memoryStream.Seek(0L, SeekOrigin.Begin);
+                var byteArray = memoryStream.ToArray();
+                return LayoutManagementUtilities.ConvertLayoutStreamToString(byteArray);
+            }
+        }
 
-        public void SaveActiveFrameLayoutEx(uint grfOptions)
+
+        public void SaveActiveFrameLayout()
         {
             ThrowIfDisposed();
             if (ActiveProfile == null)
                 return;
+            var currentPayload = SaveFrameLayoutCollection(ProcessStateOption.ToolsOnly);
+            ActiveProfile.DecompressedPayload = currentPayload;
             _profileManager.Save(ActiveProfile);
         }
 
@@ -97,7 +109,7 @@ namespace MordernApplicationFramework.WindowManagement
                 }
                 if (activeProfile != null)
                 {
-                    var currentPayload = LayoutManagement.LayoutManager.GetCurrentLayoutData();
+                    var currentPayload = SaveFrameLayoutCollection(ProcessStateOption.ToolsOnly);
                     activeProfile.DecompressedPayload = currentPayload;
                     _profileManager.Save(activeProfile);
                 }
@@ -139,10 +151,10 @@ namespace MordernApplicationFramework.WindowManagement
         private void InitializeLayoutManagement()
         {
             var settingsManager = IoC.Get<ISettingsManager>();
-            var layoutStore = new WindowLayoutStore(settingsManager);
+            var layoutStore = IoC.Get<IWindowLayoutStore>();
             var layoutSettings = new WindowLayoutSettings(settingsManager);
             var statusBar = IoC.Get<IStatusBarDataModelService>();
-            _layoutManager = new LayoutManager(statusBar, layoutSettings, layoutStore);
+            _layoutManager = new LayoutManager(this, statusBar, layoutSettings, layoutStore);
         }
     }
 }
