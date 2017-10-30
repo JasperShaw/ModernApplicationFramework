@@ -1,0 +1,15 @@
+﻿<Application x:Class="ModernApplicationFramework.Extended.DemoMin.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:demoMin="clr-namespace:ModernApplicationFramework.Extended.DemoMin">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <demoMin:DemoBootstrapper x:Key="bootstrapper"/>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+
+</Application>

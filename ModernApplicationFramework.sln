@@ -3,33 +3,39 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework", "ModernApplicationFramework\ModernApplicationFramework.csproj", "{74F6C6A1-64BB-47D4-9E7F-6CD5C4CA166C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework", "src\ModernApplicationFramework\ModernApplicationFramework.csproj", "{74F6C6A1-64BB-47D4-9E7F-6CD5C4CA166C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Themes.LightIDE", "ModernApplicationFramework.Themes.LightIDE\ModernApplicationFramework.Themes.LightIDE.csproj", "{845DE7C9-6217-479C-9F4F-D98E6A3B436B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Themes.LightIDE", "src\ModernApplicationFramework.Themes.LightIDE\ModernApplicationFramework.Themes.LightIDE.csproj", "{845DE7C9-6217-479C-9F4F-D98E6A3B436B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFrameworkTestSimpleWindow", "ModernApplicationFrameworkTestSimpleWindow\ModernApplicationFrameworkTestSimpleWindow.csproj", "{24998A06-26E8-42C4-A3FC-481A3B64D346}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFrameworkTestSimpleWindow", "samples\ModernApplicationFrameworkTestSimpleWindow\ModernApplicationFrameworkTestSimpleWindow.csproj", "{24998A06-26E8-42C4-A3FC-481A3B64D346}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.MVVM.Demo", "ModernApplicationFramework.MVVM.Demo\ModernApplicationFramework.MVVM.Demo.csproj", "{ACBF5195-D0C0-480D-84F0-C72F538830BA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Extended.Demo", "samples\ModernApplicationFramework.Extended.Demo\ModernApplicationFramework.Extended.Demo.csproj", "{ACBF5195-D0C0-480D-84F0-C72F538830BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.MVVM", "ModernApplicationFramework.MVVM\ModernApplicationFramework.MVVM.csproj", "{1F020157-699C-4E63-80CA-72D62191E063}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.MVVM", "src\ModernApplicationFramework.MVVM\ModernApplicationFramework.MVVM.csproj", "{1F020157-699C-4E63-80CA-72D62191E063}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Extended.Modules", "ModernApplicationFramework.MVVM.Modules\ModernApplicationFramework.Extended.Modules.csproj", "{96E6BB64-30EC-49DC-831A-C9D5E25AA46D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Extended.Modules", "src\ModernApplicationFramework.Extended.Modules\ModernApplicationFramework.Extended.Modules.csproj", "{96E6BB64-30EC-49DC-831A-C9D5E25AA46D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Themes.DarkIDE", "ModernApplicationFramework.Themes.DarkIDE\ModernApplicationFramework.Themes.DarkIDE.csproj", "{EB2B16AE-E6F6-4045-A578-D2C3E9A6652F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Themes.DarkIDE", "src\ModernApplicationFramework.Themes.DarkIDE\ModernApplicationFramework.Themes.DarkIDE.csproj", "{EB2B16AE-E6F6-4045-A578-D2C3E9A6652F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Tests", "UnitTestProject1\ModernApplicationFramework.Tests.csproj", "{D6FCAEAB-9B8C-42E2-997D-CF3B1B5DD2A8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Tests", "tests\ModernApplicationFramework.Tests\ModernApplicationFramework.Tests.csproj", "{D6FCAEAB-9B8C-42E2-997D-CF3B1B5DD2A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Extended", "ModernApplicationFramework.Extended\ModernApplicationFramework.Extended.csproj", "{51911695-6CDB-4833-9782-06C8821D1C4E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Extended", "src\ModernApplicationFramework.Extended\ModernApplicationFramework.Extended.csproj", "{51911695-6CDB-4833-9782-06C8821D1C4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Extended.TestWindow", "ModernApplicationFramework.Extended.TestWindow\ModernApplicationFramework.Extended.TestWindow.csproj", "{0DC20A43-D1AB-481B-A807-0E64B34977A5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.EditorBase", "src\ModernApplicationFramework.EditorBase\ModernApplicationFramework.EditorBase.csproj", "{C5F062E8-48C1-425E-831F-511A541E18D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.EditorBase", "ModernApplicationFramework.EditorBase\ModernApplicationFramework.EditorBase.csproj", "{C5F062E8-48C1-425E-831F-511A541E18D8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Settings", "src\ModernApplicationFramework.Settings\ModernApplicationFramework.Settings.csproj", "{240CC7DB-F3A0-48E7-A8EB-5785A90128BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Settings", "ModernApplicationFramework.Settings\ModernApplicationFramework.Settings.csproj", "{240CC7DB-F3A0-48E7-A8EB-5785A90128BE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Utilities", "src\ModernApplicationFramework.Utilities\ModernApplicationFramework.Utilities.csproj", "{2B388979-5B07-4F0A-A302-0C575AAA21C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Utilities", "ModernApplicationFramework.Utilities\ModernApplicationFramework.Utilities.csproj", "{2B388979-5B07-4F0A-A302-0C575AAA21C0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.WindowManagement", "src\ModernApplicationFramework.WindowManagement\ModernApplicationFramework.WindowManagement.csproj", "{674F7D84-B3AE-4CD6-AD12-0AFA4ACE516A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.WindowManagement", "ModernApplicationFramework.WindowManagement\ModernApplicationFramework.WindowManagement.csproj", "{674F7D84-B3AE-4CD6-AD12-0AFA4ACE516A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4D1C8100-FF4F-4F76-B4F3-AA904214A46E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{6930D16E-6FB9-4292-B9D4-55E4E9C458B9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D0CC4283-1D90-4E58-8AB5-4C40B1835720}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Extended.DemoMin", "samples\ModernApplicationFramework.Extended.DemoMin\ModernApplicationFramework.Extended.DemoMin.csproj", "{DE81D14D-7E6E-4441-A53E-57923E798697}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,10 +79,6 @@ Global
 		{51911695-6CDB-4833-9782-06C8821D1C4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51911695-6CDB-4833-9782-06C8821D1C4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51911695-6CDB-4833-9782-06C8821D1C4E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0DC20A43-D1AB-481B-A807-0E64B34977A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0DC20A43-D1AB-481B-A807-0E64B34977A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0DC20A43-D1AB-481B-A807-0E64B34977A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0DC20A43-D1AB-481B-A807-0E64B34977A5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C5F062E8-48C1-425E-831F-511A541E18D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C5F062E8-48C1-425E-831F-511A541E18D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5F062E8-48C1-425E-831F-511A541E18D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -93,9 +95,29 @@ Global
 		{674F7D84-B3AE-4CD6-AD12-0AFA4ACE516A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{674F7D84-B3AE-4CD6-AD12-0AFA4ACE516A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{674F7D84-B3AE-4CD6-AD12-0AFA4ACE516A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE81D14D-7E6E-4441-A53E-57923E798697}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE81D14D-7E6E-4441-A53E-57923E798697}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE81D14D-7E6E-4441-A53E-57923E798697}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE81D14D-7E6E-4441-A53E-57923E798697}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{74F6C6A1-64BB-47D4-9E7F-6CD5C4CA166C} = {4D1C8100-FF4F-4F76-B4F3-AA904214A46E}
+		{845DE7C9-6217-479C-9F4F-D98E6A3B436B} = {4D1C8100-FF4F-4F76-B4F3-AA904214A46E}
+		{24998A06-26E8-42C4-A3FC-481A3B64D346} = {6930D16E-6FB9-4292-B9D4-55E4E9C458B9}
+		{ACBF5195-D0C0-480D-84F0-C72F538830BA} = {6930D16E-6FB9-4292-B9D4-55E4E9C458B9}
+		{1F020157-699C-4E63-80CA-72D62191E063} = {4D1C8100-FF4F-4F76-B4F3-AA904214A46E}
+		{96E6BB64-30EC-49DC-831A-C9D5E25AA46D} = {4D1C8100-FF4F-4F76-B4F3-AA904214A46E}
+		{EB2B16AE-E6F6-4045-A578-D2C3E9A6652F} = {4D1C8100-FF4F-4F76-B4F3-AA904214A46E}
+		{D6FCAEAB-9B8C-42E2-997D-CF3B1B5DD2A8} = {D0CC4283-1D90-4E58-8AB5-4C40B1835720}
+		{51911695-6CDB-4833-9782-06C8821D1C4E} = {4D1C8100-FF4F-4F76-B4F3-AA904214A46E}
+		{C5F062E8-48C1-425E-831F-511A541E18D8} = {4D1C8100-FF4F-4F76-B4F3-AA904214A46E}
+		{240CC7DB-F3A0-48E7-A8EB-5785A90128BE} = {4D1C8100-FF4F-4F76-B4F3-AA904214A46E}
+		{2B388979-5B07-4F0A-A302-0C575AAA21C0} = {4D1C8100-FF4F-4F76-B4F3-AA904214A46E}
+		{674F7D84-B3AE-4CD6-AD12-0AFA4ACE516A} = {4D1C8100-FF4F-4F76-B4F3-AA904214A46E}
+		{DE81D14D-7E6E-4441-A53E-57923E798697} = {6930D16E-6FB9-4292-B9D4-55E4E9C458B9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3A9B2099-61B4-452F-BF63-91B31A07DD83}
