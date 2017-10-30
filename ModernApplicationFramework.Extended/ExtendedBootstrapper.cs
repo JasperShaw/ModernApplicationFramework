@@ -29,11 +29,6 @@ namespace ModernApplicationFramework.Extended
             batch.AddExportedValue(this);
         }
 
-        protected override void BuildUp(object instance)
-        {
-            Container.SatisfyImportsOnce(instance);
-        }
-
         protected override object GetInstance(Type serviceType, string key)
         {
             var contract = string.IsNullOrEmpty(key) ? AttributedModelServices.GetContractName(serviceType) : key;

@@ -9,7 +9,6 @@ using System.Reflection;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.ApplicationEnvironment;
 using ModernApplicationFramework.Core.Localization;
-using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Native.TrinetCoreNtfs;
 using ModernApplicationFramework.Utilities.Interfaces;
@@ -62,6 +61,15 @@ namespace ModernApplicationFramework.Basics.Services
         {
 	        var lm = Container.GetExportedValue<ILanguageManager>() as LanguageManager;
 			lm?.SetLanguage();
+        }
+
+        /// <summary>
+        /// Override this to provide an IoC specific implementation.
+        /// </summary>
+        /// <param name="instance">The instance to perform injection on.</param>
+        protected override void BuildUp(object instance)
+        {
+            Container.SatisfyImportsOnce(instance);
         }
 
         /// <summary>
