@@ -306,7 +306,7 @@ namespace ModernApplicationFramework.WindowManagement.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are your sure you want tot restore the default window layout for the environment?.
+        ///   Looks up a localized string similar to Are you sure you want to restore the default window layout for the environment?.
         /// </summary>
         public static string ResetLayoutConfirmation {
             get {

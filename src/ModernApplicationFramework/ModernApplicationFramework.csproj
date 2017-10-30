@@ -275,16 +275,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Basics\CommandBar\CommandBarResources.de.Designer.cs">
-      <DependentUpon>CommandBarResources.de.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Basics\CommandBar\CommandBarResources.en.Designer.cs">
-      <DependentUpon>CommandBarResources.en.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Basics\CommandBar\Creators\CreatorBase.cs" />
     <Compile Include="Basics\CommandBar\Creators\MenuCreatorBase.cs" />
     <Compile Include="Basics\CommandBar\Hosts\CommandBarHost.cs" />
@@ -297,18 +287,8 @@
     <Compile Include="Basics\Definitions\CommandBar\CommandBarItemDefinitionT.cs" />
     <Compile Include="Basics\EnvironmentGeneralOptions.cs" />
     <Compile Include="Basics\EnvironmentRenderCapabilities.cs" />
-    <Compile Include="Controls\Dialogs\DialogResourcesResources.de.Designer.cs">
-      <DependentUpon>DialogResourcesResources.de.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Controls\Dialogs\DialogResourcesResources.Designer.cs">
       <DependentUpon>DialogResourcesResources.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Controls\Dialogs\DialogResourcesResources.en.Designer.cs">
-      <DependentUpon>DialogResourcesResources.en.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -342,16 +322,6 @@
     <Compile Include="Interfaces\IDialogProvider.cs" />
     <Compile Include="Core\Localization\LanguageInfo.cs" />
     <Compile Include="Core\Localization\LanguageManager.cs" />
-    <Compile Include="Docking\DockingResources.de.Designer.cs">
-      <DependentUpon>DockingResources.de.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Docking\DockingResources.en.Designer.cs">
-      <DependentUpon>DockingResources.en.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Docking\DockingResources.Designer.cs">
       <DependentUpon>DockingResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -782,55 +752,20 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Properties\CommonUI.Resources.de1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CommonUI.Resources.de.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\CommonUI.Resources.Designer.cs">
       <DependentUpon>CommonUI.Resources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Properties\CommonUI.Resources.de.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CommonUI.Resources.de.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Basics\CustomizeDialog\Customize.Resources.de.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Customize.Resources.de.resx</DependentUpon>
     </Compile>
     <Compile Include="Basics\CustomizeDialog\Customize.Resources.Designer.cs">
       <DependentUpon>Customize.Resources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Basics\CustomizeDialog\Customize.Resources.en.Designer.cs">
-      <DependentUpon>Customize.Resources.en.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Properties\MainWindowResources.de.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MainWindowResources.de.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\MainWindowResources.Designer.cs">
       <DependentUpon>MainWindowResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Properties\MainWindowResources.en.Designer.cs">
-      <DependentUpon>MainWindowResources.en.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Properties\CommonUI.Resources.en.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CommonUI.Resources.en.resx</DependentUpon>
     </Compile>
     <Compile Include="Basics\CustomizeDialog\Views\CustomizeDialogView.xaml.cs">
       <DependentUpon>CustomizeDialogView.xaml</DependentUpon>
@@ -1104,36 +1039,37 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Basics\CommandBar\CommandBarResources.de.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommandBarResources.de.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Basics\CommandBar\CommandBarResources.en.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommandBarResources.en.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Basics\CommandBar\CommandBarResources.ru.resx" />
+    <EmbeddedResource Include="Basics\CustomizeDialog\Customize.Resources.ru.resx" />
     <EmbeddedResource Include="Controls\Dialogs\DialogResourcesResources.de.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DialogResourcesResources.de.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Dialogs\DialogResourcesResources.en.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>DialogResourcesResources.en.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Dialogs\DialogResourcesResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>DialogResourcesResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Dialogs\DialogResourcesResources.ru.resx" />
     <EmbeddedResource Include="Docking\DockingResources.de.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>DockingResources.de.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Docking\DockingResources.en.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>DockingResources.en.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Docking\DockingResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>DockingResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Docking\DockingResources.ru.resx" />
+    <EmbeddedResource Include="Properties\CommonUI.Resources.ru.resx">
+      <LastGenOutput>CommonUI.Resources.en.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\KeyboardLocalizationResources.de.resx" />
     <EmbeddedResource Include="Properties\KeyboardLocalizationResources.en.resx" />
@@ -1147,7 +1083,6 @@
       <LastGenOutput>CommonUI.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Basics\CustomizeDialog\Customize.Resources.de.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Customize.Resources.de.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1157,12 +1092,11 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Basics\CustomizeDialog\Customize.Resources.en.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Customize.Resources.en.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\KeyboardLocalizationResources.ru.resx" />
     <EmbeddedResource Include="Properties\MainWindowResources.de.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>MainWindowResources.de.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\MainWindowResources.resx">
@@ -1171,18 +1105,16 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\MainWindowResources.en.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>MainWindowResources.en.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\CommonUI.Resources.de.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>CommonUI.Resources.de1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\CommonUI.Resources.en.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommonUI.Resources.en.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\MainWindowResources.ru.resx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ModernApplicationFramework.Utilities\ModernApplicationFramework.Utilities.csproj">

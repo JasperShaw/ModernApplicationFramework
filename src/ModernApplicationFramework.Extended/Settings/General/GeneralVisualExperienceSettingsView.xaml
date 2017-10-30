@@ -23,7 +23,7 @@
         <mafc:GroupBox Height="190" Header="{x:Static general11:GeneralVisualExperienceSettingsResources.VisualExperienceGroupBox}">
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal">
-                    <Label Padding="5,5,55,5" Target="{Binding ElementName=ThemeCombo}">_Color theme:</Label>
+                    <Label Content="{x:Static general11:GeneralVisualExperienceSettingsResources.ColorThemeCombo_Label}" Padding="5,5,55,5" Target="{Binding ElementName=ThemeCombo}" />
                     <ComboBox x:Name="ThemeCombo" ItemsSource="{Binding Themes}" SelectedItem="{Binding SelectedTheme, Mode=TwoWay}" Width="175"
                               VerticalContentAlignment="Center">
                         <ComboBox.ItemTemplate>
@@ -54,6 +54,10 @@
         </mafc:GroupBox>
     </DockPanel>
 </UserControl>
+
+
+
+
 
 
 
