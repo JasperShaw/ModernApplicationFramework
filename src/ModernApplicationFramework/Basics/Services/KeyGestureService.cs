@@ -24,7 +24,8 @@ namespace ModernApplicationFramework.Basics.Services
     ///     A service to manage key input bindings
     /// </summary>
     /// <seealso cref="IKeyGestureService" />
-    public abstract class KeyGestureService : IKeyGestureService
+    [Export(typeof(IKeyGestureService))]
+    internal class KeyGestureService : IKeyGestureService
     {
         private readonly Dictionary<GestureScope, HashSet<UIElement>> _elementMapping;
         private readonly GestureScope[] _gestureScopes;
@@ -62,7 +63,8 @@ namespace ModernApplicationFramework.Basics.Services
             }
         }
 
-        protected KeyGestureService(CommandDefinitionBase[] keyboardShortcuts,GestureScope[] gestureScopes,
+        [ImportingConstructor]
+        public KeyGestureService([ImportMany] CommandDefinitionBase[] keyboardShortcuts,[ImportMany] GestureScope[] gestureScopes,
             IKeyboardInputService keyboardInputService, IStatusBarDataModelService statusBarDataModelService)
         {
             _gestureScopes = gestureScopes;
@@ -241,7 +243,7 @@ namespace ModernApplicationFramework.Basics.Services
         /// Checks a keyboard input for multi-key gestures.
         /// </summary>
         /// <param name="e">The <see cref="KeyEventArgs"/> instance containing the event data.</param>
-        protected virtual void CheckKeyInput(KeyEventArgs e)
+        private void CheckKeyInput(KeyEventArgs e)
         {
             if (_multiMode)
                 CheckMultiStateKeyInput(e);
@@ -269,7 +271,7 @@ namespace ModernApplicationFramework.Basics.Services
         /// Checks the keyboard input when the Service is in multi-key state
         /// </summary>
         /// <param name="e">The <see cref="KeyEventArgs"/> instance containing the event data.</param>
-        protected virtual void CheckMultiStateKeyInput(KeyEventArgs e)
+        private void CheckMultiStateKeyInput(KeyEventArgs e)
         {
             //Ignore Modifier keys
             if (IgnoreKey(e.Key))
@@ -308,7 +310,7 @@ namespace ModernApplicationFramework.Basics.Services
         /// Sets the multi-key state
         /// </summary>
         /// <param name="foundSequence">The found sequence.</param>
-        protected virtual void SetMultiState(KeySequence foundSequence)
+        private void SetMultiState(KeySequence foundSequence)
         {
             _multiMode = true;
             var message = string.Format(CommonUI_Resources.KeyGestureService_EnterMutliKeyState, foundSequence);
@@ -321,7 +323,7 @@ namespace ModernApplicationFramework.Basics.Services
         /// <param name="success">Flag that tells if the second, expected key sequence was found at all</param>
         /// <param name="newKeySequence">The second key sequence.</param>
         /// <param name="gesture">The gesture. May be <see langword="null"/></param>
-        protected virtual void ResetMultiState(bool success, KeySequence newKeySequence, MultiKeyGesture gesture)
+        private void ResetMultiState(bool success, KeySequence newKeySequence, MultiKeyGesture gesture)
         {
             _multiMode = false;
             _statusBarDataModelService.SetText(string.Empty);
@@ -350,7 +352,7 @@ namespace ModernApplicationFramework.Basics.Services
             gesture.WasFoundDuringMulti = false;
         }
 
-        protected virtual void OnInitialized()
+        private void OnInitialized()
         {
             Initialized?.Invoke(this, EventArgs.Empty);
         }
@@ -390,18 +392,6 @@ namespace ModernApplicationFramework.Basics.Services
                         e.Timestamp,
                         Key.None)
                 { RoutedEvent = Keyboard.KeyDownEvent });
-        }
-    }
-
-    [Export(typeof(IKeyGestureService))]
-    public sealed class DefaultKeyGestureService : KeyGestureService
-    {
-        [ImportingConstructor]
-        public DefaultKeyGestureService([ImportMany] CommandDefinitionBase[] keyboardShortcuts,
-            [ImportMany] GestureScope[] gestureScopes, IKeyboardInputService keyboardInputService, 
-            IStatusBarDataModelService statusBarDataModelService) : 
-            base(keyboardShortcuts, gestureScopes, keyboardInputService, statusBarDataModelService)
-        {
         }
     }
 }

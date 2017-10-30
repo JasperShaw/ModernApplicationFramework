@@ -11,11 +11,11 @@ namespace ModernApplicationFramework.Basics.Services
 {
     /// <inheritdoc />
     /// <summary>
-    /// An implementation of an <see cref="IKeyGestureService"/> using weak references for the registered windows
+    /// An implementation of an <see cref="IKeyboardInputService"/> using weak references for the registered windows
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Interfaces.Services.IKeyboardInputService" />
     [Export(typeof(IKeyboardInputService))]
-    public class KeyboardInputService : IKeyboardInputService
+    internal class KeyboardInputService : IKeyboardInputService
     {
         private static IKeyboardInputService _instance;
 

@@ -13,7 +13,7 @@ using ModernApplicationFramework.Interfaces.Services;
 namespace ModernApplicationFramework.Extended.KeyBindingScheme
 {
     [Export(typeof(IKeyBindingManager))]
-    public class KeyBindingManager : IKeyBindingManager
+    internal class KeyBindingManager : IKeyBindingManager
     {
         private readonly ICommandService _commandService;
         private readonly KeyBindingsSettings _keyBindingsSettings;

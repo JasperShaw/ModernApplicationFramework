@@ -240,7 +240,8 @@ namespace ModernApplicationFramework.Extended.DockingMainWindow.ViewModels
             window.SourceInitialized += _mainWindow_SourceInitialized;
             if (BindableElement == null)
                 return;
-            _commandKeyGestureService.AddModel(this);
+            //Do not use [Import] as this causes a cycle and fails to compose
+            IoC.Get<IKeyGestureService>().AddModel(this);
         }
 
         private async void _mainWindow_MouseDown(object sender, MouseButtonEventArgs e)
@@ -256,7 +257,6 @@ namespace ModernApplicationFramework.Extended.DockingMainWindow.ViewModels
 #pragma warning disable 649
         [Import] private IDockingHostViewModel _dockingHost;
         [Import] private IThemeManager _themeManager;
-        [Import] private IKeyGestureService _commandKeyGestureService;
 #pragma warning restore 649
         public GestureScope GestureScope => GestureScopes.GlobalGestureScope;
         public UIElement BindableElement => Window;
