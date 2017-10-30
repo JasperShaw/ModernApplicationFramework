@@ -7,7 +7,6 @@ using System.Reflection;
 using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Services;
-using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Extended.ApplicationEnvironment;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Utilities.Interfaces;
@@ -27,7 +26,7 @@ namespace ModernApplicationFramework.Extended
             batch.AddExportedValue(EnvironmentVariables);
             batch.AddExportedValue<IEnvironmentVariables>(EnvironmentVariables);
             base.BindServices(batch);
-	     	batch.AddExportedValue(this);
+            batch.AddExportedValue(this);
         }
 
         protected override void BuildUp(object instance)
@@ -37,27 +36,19 @@ namespace ModernApplicationFramework.Extended
 
         protected override object GetInstance(Type serviceType, string key)
         {
-            try
-            {
-                var contract = string.IsNullOrEmpty(key) ? AttributedModelServices.GetContractName(serviceType) : key;
-                var exports = Container.GetExportedValues<object>(contract);
+            var contract = string.IsNullOrEmpty(key) ? AttributedModelServices.GetContractName(serviceType) : key;
+            var exports = Container.GetExportedValues<object>(contract);
 
-                var enumerable = exports as object[] ?? exports.ToArray();
-                if (enumerable.Any())
-                    return enumerable.First();
-                throw new Exception($"Could not locate any instances of contract {contract}.");
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.UnwrapCompositionException().Message);
-            }
+            var enumerable = exports as object[] ?? exports.ToArray();
+            if (enumerable.Any())
+                return enumerable.First();
             return null;
         }
 
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
             base.OnStartup(sender, e);
-            IoC.Get<IExtendedEnvironmentVariables>().Setup();     
+            IoC.Get<IExtendedEnvironmentVariables>().Setup();
             IoC.Get<IApplicationEnvironment>().Setup();
             IoC.Get<IKeyBindingManager>();
             DisplayRootViewFor<IDockingMainWindowViewModel>();
