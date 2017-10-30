@@ -136,23 +136,8 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\CommandBar.Resources.de.Designer.cs">
-      <DependentUpon>CommandBar.Resources.de.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Properties\CommandBar.Resources.Designer.cs">
       <DependentUpon>CommandBar.Resources.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Properties\CommandBar.Resources.en.Designer.cs">
-      <DependentUpon>CommandBar.Resources.en.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Properties\Commands.Resources.de.Designer.cs">
-      <DependentUpon>Commands.Resources.de.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -160,11 +145,6 @@
       <DependentUpon>Commands.Resources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Properties\Commands.Resources.en.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Commands.Resources.en.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -186,33 +166,13 @@
       <DependentUpon>GeneralMainWindowSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\General\GeneralMainWindowSettingsViewModel.cs" />
-    <Compile Include="Settings\General\GeneralSettingsResources.de.Designer.cs">
-      <DependentUpon>GeneralSettingsResources.de.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Settings\General\GeneralSettingsResources.Designer.cs">
       <DependentUpon>GeneralSettingsResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Settings\General\GeneralSettingsResources.en.Designer.cs">
-      <DependentUpon>GeneralSettingsResources.en.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Settings\General\GeneralVisualExperienceSettingsResources.de.Designer.cs">
-      <DependentUpon>GeneralVisualExperienceSettingsResources.de.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Settings\General\GeneralVisualExperienceSettingsResources.Designer.cs">
       <DependentUpon>GeneralVisualExperienceSettingsResources.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Settings\General\GeneralVisualExperienceSettingsResources.en.Designer.cs">
-      <DependentUpon>GeneralVisualExperienceSettingsResources.en.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -232,18 +192,8 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Settings\Language\LanguageSettingsResources.de.Designer.cs">
-      <DependentUpon>LanguageSettingsResources.de.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Settings\Language\LanguageSettingsResources.Designer.cs">
       <DependentUpon>LanguageSettingsResources.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Settings\Language\LanguageSettingsResources.en.Designer.cs">
-      <DependentUpon>LanguageSettingsResources.en.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -251,16 +201,6 @@
       <DependentUpon>LanguageSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\Language\LanguageSettingsViewModel.cs" />
-    <Compile Include="Settings\SettingsImportExport\SettingsImportExportResources.de.Designer.cs">
-      <DependentUpon>SettingsImportExportResources.de.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Settings\SettingsImportExport\SettingsImportExportResources.en.Designer.cs">
-      <DependentUpon>SettingsImportExportResources.en.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Settings\SettingsImportExport\SettingsImportExportResources.Designer.cs">
       <DependentUpon>SettingsImportExportResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -298,8 +238,8 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>KeyBindingResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="KeyBindingScheme\KeyBindingResources.ru.resx" />
     <EmbeddedResource Include="Properties\CommandBar.Resources.de.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>CommandBar.Resources.de.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\CommandBar.Resources.resx">
@@ -307,11 +247,10 @@
       <LastGenOutput>CommandBar.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\CommandBar.Resources.en.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommandBar.Resources.en.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\CommandBar.Resources.ru.resx" />
     <EmbeddedResource Include="Properties\Commands.Resources.de.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Commands.Resources.de.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Commands.Resources.resx">
@@ -319,63 +258,60 @@
       <LastGenOutput>Commands.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Commands.Resources.en.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Commands.Resources.en.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Commands.Resources.ru.resx" />
     <EmbeddedResource Include="Settings\General\GeneralSettingsResources.de.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>GeneralSettingsResources.de.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings\General\GeneralSettingsResources.en.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>GeneralSettingsResources.en.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings\General\GeneralSettingsResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>GeneralSettingsResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Settings\General\GeneralSettingsResources.ru.resx" />
     <EmbeddedResource Include="Settings\General\GeneralVisualExperienceSettingsResources.de.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>GeneralVisualExperienceSettingsResources.de.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings\General\GeneralVisualExperienceSettingsResources.en.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>GeneralVisualExperienceSettingsResources.en.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings\General\GeneralVisualExperienceSettingsResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>GeneralVisualExperienceSettingsResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Settings\General\GeneralVisualExperienceSettingsResources.ru.resx" />
     <EmbeddedResource Include="Settings\Keyboard\KeyboardSettingsResources.de.resx" />
     <EmbeddedResource Include="Settings\Keyboard\KeyboardSettingsResources.en.resx" />
     <EmbeddedResource Include="Settings\Keyboard\KeyboardSettingsResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>KeyboardSettingsResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Settings\Keyboard\KeyboardSettingsResources.ru.resx" />
     <EmbeddedResource Include="Settings\Language\LanguageSettingsResources.de.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>LanguageSettingsResources.de.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings\Language\LanguageSettingsResources.en.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>LanguageSettingsResources.en.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings\Language\LanguageSettingsResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>LanguageSettingsResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Settings\Language\LanguageSettingsResources.ru.resx" />
     <EmbeddedResource Include="Settings\SettingsImportExport\SettingsImportExportResources.de.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SettingsImportExportResources.de.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings\SettingsImportExport\SettingsImportExportResources.en.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SettingsImportExportResources.en.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings\SettingsImportExport\SettingsImportExportResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SettingsImportExportResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Settings\SettingsImportExport\SettingsImportExportResources.ru.resx" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="DockingHost\Views\DockingHostView.xaml">

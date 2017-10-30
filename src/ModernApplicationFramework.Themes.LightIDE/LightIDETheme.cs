@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Core.Themes;
+using ModernApplicationFramework.Themes.LightIDE.Properties;
 
 namespace ModernApplicationFramework.Themes.LightIDE
 {
@@ -8,7 +9,7 @@ namespace ModernApplicationFramework.Themes.LightIDE
     public class LightTheme : Theme
     {
         public override string Name => "Light";
-        public override string Text => "Light";
+        public override string Text => Resources.ThemeLight_Name;
 
         public override Uri GetResourceUri()
         {
