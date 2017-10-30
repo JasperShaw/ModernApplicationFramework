@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ModernApplicationFramework.Themes.LightIDE.Properties {
+namespace ModernApplicationFramework.Themes.DarkIDE.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace ModernApplicationFramework.Themes.LightIDE.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ModernApplicationFramework.Themes.LightIDE.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ModernApplicationFramework.Themes.DarkIDE.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +61,11 @@ namespace ModernApplicationFramework.Themes.LightIDE.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Light.
+        ///   Looks up a localized string similar to Dark.
         /// </summary>
-        internal static string ThemeLight_Name {
+        internal static string ThemeDark_Name {
             get {
-                return ResourceManager.GetString("ThemeLight_Name", resourceCulture);
+                return ResourceManager.GetString("ThemeDark_Name", resourceCulture);
             }
         }
     }
