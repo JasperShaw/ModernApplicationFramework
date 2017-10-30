@@ -45,9 +45,6 @@ namespace MordernApplicationFramework.WindowManagement
             get => _activeProfile;
             set
             {
-                if (_activeProfile != null && _activeProfile.Equals(value))
-                    return;
-                _profileManager.AddProfile(value);
                 _activeProfile = value;
                 using (var stream = LayoutManagementUtilities.ConvertLayoutPayloadToStream(value.DecompressedPayload))
                     _statePersiter.LoadFromStream(stream, ProcessStateOption.ToolsOnly);
@@ -61,13 +58,17 @@ namespace MordernApplicationFramework.WindowManagement
             Instance = this;
             _profileManager = new WindowProfileManager(ProfileRootDirectory);
 
-            _statePersiter = new LayoutItemStatePersister(IoC.Get<IApplicationEnvironment>());
+            _statePersiter = new LayoutItemStatePersister();
             _statePersiter.Initialize();
         }
 
         internal WindowProfile.WindowProfile CreateProfileFromDefaultLayoutOrRegistry(string profileName)
         {
-            var state = SaveFrameLayoutCollection(ProcessStateOption.ToolsOnly);
+            var defaultProfileProvider = IoC.Get<IDefaultWindowProfileProvider>();
+            var profile = defaultProfileProvider?.GetLayout(profileName);
+            if (profile != null)
+                return profile;
+            var state = SaveFrameLayoutCollection(ProcessStateOption.ToolsOnly); 
             return new WindowProfile.WindowProfile(profileName, state);
         }
 
@@ -105,19 +106,38 @@ namespace MordernApplicationFramework.WindowManagement
                 {
                     profile = _profileManager.CreateProfile(profileName, CreateProfileFromDefaultLayoutOrRegistry);
                     _profileManager.Save(profile);
-                    //_profileManager.Backup(profile.Name);
+                    _profileManager.Backup(profile.Name);
+                    _profileManager. AddProfile(profile);
                 }
                 if (activeProfile != null)
                 {
                     var currentPayload = SaveFrameLayoutCollection(ProcessStateOption.ToolsOnly);
                     activeProfile.DecompressedPayload = currentPayload;
-                    _profileManager.Save(activeProfile);
-                }
-                   
+                    _profileManager.Save(activeProfile);          
+                }           
                 ActiveProfile = profile;
             }
         }
 
+        public void RestoreFrameLayoutCollection(Stream stream)
+        {
+            LayoutItemStatePersister.Instance.LoadFromStream(stream, ProcessStateOption.ToolsOnly);
+            Reload(false);
+        }
+
+        public void Reload()
+        {
+            Reload(true);
+        }
+
+        private void Reload(bool createBackup)
+        {
+            ThrowIfDisposed();
+            _profileManager.Reload(ActiveProfile.Name);
+            if (!createBackup)
+                return;
+            _profileManager.Backup(ActiveProfile.Name);
+        }
 
         internal void Initialize()
         {
@@ -155,6 +175,11 @@ namespace MordernApplicationFramework.WindowManagement
             var layoutSettings = new WindowLayoutSettings(settingsManager);
             var statusBar = IoC.Get<IStatusBarDataModelService>();
             _layoutManager = new LayoutManager(this, statusBar, layoutSettings, layoutStore);
+        }
+
+        internal void RestoreProfiles()
+        {
+            _profileManager.RestoreProfilesFromBackup();
         }
     }
 }

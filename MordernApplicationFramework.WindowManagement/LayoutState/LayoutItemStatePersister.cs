@@ -4,34 +4,22 @@ using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
-using System.Text;
 using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Interfaces;
-using ModernApplicationFramework.Utilities;
-using MordernApplicationFramework.WindowManagement.LayoutManagement;
 
 namespace MordernApplicationFramework.WindowManagement.LayoutState
 {
-    public class LayoutItemStatePersister
+    internal class LayoutItemStatePersister : ILayoutItemStatePersister
     {
-        private readonly IApplicationEnvironment _environment;
         private IDockingHostViewModel _dockingHostViewModel;
         private IDockingHost _dockingHost;
         private bool _initialized;
 
         public static LayoutItemStatePersister Instance { get; private set; }
 
-        public string ApplicationStateDirectory => Path.Combine(_environment.AppDataPath, "WindowLayouts");
-
-        protected virtual string ApplicationStateFilePath => "WindowLayouts\\Default.winprf";
-
-        public bool HasStateFile => File.Exists(Path.Combine(_environment.AppDataPath, ApplicationStateFilePath));
-
-        [ImportingConstructor]
-        public LayoutItemStatePersister(IApplicationEnvironment environment)
+        public LayoutItemStatePersister()
         {
             Instance = this;
-            _environment = environment;
         }
 
         public void Initialize()
@@ -52,11 +40,6 @@ namespace MordernApplicationFramework.WindowManagement.LayoutState
             InternalSaveState(option, stream);
         }
 
-        public void SaveToFile(ProcessStateOption option)
-        {
-            SaveToFile(null, option);
-        }
-
         public void SaveToFile(string filePath, ProcessStateOption option)
         {
             var stream = CreateFileStream(FileHandleMode.Create, filePath);
@@ -72,40 +55,6 @@ namespace MordernApplicationFramework.WindowManagement.LayoutState
         {
             var stream = CreateFileStream(FileHandleMode.Open, filePath);
             InternalLoadState(option, stream);
-        }
-
-        public void LoadFromFile(ProcessStateOption option)
-        {
-            LoadFromFile(null, option);
-        }
-
-        public string FileToPayloadData(string filePath)
-        {
-            using (var memoryStream = new MemoryStream())
-            {
-
-                using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-                {
-                    fs.CopyTo(memoryStream);
-                }
-                memoryStream.Seek(0L, SeekOrigin.Begin);
-                var byteArray = memoryStream.ToArray();
-                return LayoutManagementUtilities.ConvertLayoutStreamToString(byteArray);
-            }
-        }
-
-        public void PayloadDataToFile(string filePath, string payload, bool decompress = true)
-        {
-            var data = payload;
-            if (decompress)
-                data = Encoding.UTF8.GetString(GZip.Decompress(Convert.FromBase64String(payload)));
-            using (var stream = LayoutManagementUtilities.ConvertLayoutPayloadToStream(data))
-            {
-                using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None))
-                {
-                    stream.CopyTo(fileStream);
-                }
-            }
         }
 
         private void InternalLoadState(ProcessStateOption processOption, Stream inputStream)
@@ -163,6 +112,16 @@ namespace MordernApplicationFramework.WindowManagement.LayoutState
                         // Skip state data block if we couldn't read it.
                         if (skipStateData)
                             reader.BaseStream.Seek(stateEndPosition, SeekOrigin.Begin);
+                    }
+
+                    if (layoutItems.Count == 0)
+                    {
+                        if (processOption == ProcessStateOption.DocumentsOnly || processOption == ProcessStateOption.DocumentsOnly)
+                            _dockingHostViewModel.Documents.Clear();
+                        if (processOption == ProcessStateOption.ToolsOnly ||
+                            processOption == ProcessStateOption.Complete)
+                            _dockingHostViewModel.Tools.Clear();
+                        return;
                     }
                     var active = _dockingHostViewModel.ActiveItem; 
                     _dockingHost.LoadLayout(reader.BaseStream, _dockingHostViewModel.ShowTool, _dockingHostViewModel.OpenDocument, layoutItems);
@@ -311,10 +270,10 @@ namespace MordernApplicationFramework.WindowManagement.LayoutState
             return type;
         }
 
-        private Stream CreateFileStream(FileHandleMode mode, string filePath = null)
+        private Stream CreateFileStream(FileHandleMode mode, string filePath)
         {
             if (filePath == null)
-                filePath = Path.Combine(_environment.AppDataPath, ApplicationStateFilePath);
+                throw new ArgumentNullException(nameof(filePath));
             if (mode == FileHandleMode.Open)
             {
                 if (!File.Exists(filePath))

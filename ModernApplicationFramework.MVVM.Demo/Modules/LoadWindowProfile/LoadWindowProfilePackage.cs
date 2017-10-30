@@ -2,25 +2,16 @@
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Extended.Core.Package;
 using MordernApplicationFramework.WindowManagement;
-using MordernApplicationFramework.WindowManagement.LayoutManagement;
 
-namespace ModernApplicationFramework.MVVM.Demo.Modules.DefaultWindowLayout
+namespace ModernApplicationFramework.MVVM.Demo.Modules.LoadWindowProfile
 {
     [Export(typeof(IMafPackage))]
-    public class DefaultWindowLayoutPackage : Package
+    public class LoadWindowProfilePackage : Package
     {
-        private IDefaultWindowLayoutProvider _defaultWindowLayoutProvider;
-
         public override PackageLoadOption LoadOption => PackageLoadOption.OnMainWindowLoaded;
         public override PackageCloseOption CloseOption => PackageCloseOption.OnMainWindowClosed;
 
         public override Guid Id => new Guid("{DC9C672E-A0EB-4D77-A825-C8690DD115C1}");
-
-        [ImportingConstructor]
-        public DefaultWindowLayoutPackage(IDefaultWindowLayoutProvider defaultWindowLayoutProvider)
-        {
-            _defaultWindowLayoutProvider = defaultWindowLayoutProvider;
-        }
 
         public override void Initialize()
         {

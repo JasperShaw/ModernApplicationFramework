@@ -10,22 +10,33 @@ namespace MordernApplicationFramework.WindowManagement.WindowProfile
 {
     internal class WindowProfileManager
     {
-        private string _fileNameIndexFullPath;
-
+        public readonly ICollection<WindowProfile> Profiles = new List<WindowProfile>();
         private readonly Dictionary<string, string> _fileNameIndex = new Dictionary<string, string>();
+        private string _fileNameIndexFullPath;
 
 
         private bool _isFileNameIndexLoaded;
+
+
+        public WindowProfileManager(string profileRootDirectory)
+        {
+            Validate.IsNotNull(profileRootDirectory, nameof(profileRootDirectory));
+            if (!Path.IsPathRooted(profileRootDirectory))
+                throw new ArgumentException("Profile root directory must be a rooted path",
+                    nameof(profileRootDirectory));
+            ProfileRootDirectory = profileRootDirectory;
+        }
 
 
         public event EventHandler<WindowProfileEventArgs> ProfileAdded;
 
         public event EventHandler<WindowProfileEventArgs> ProfileSet;
 
-        public WindowProfile ActiveProfile { get; private set; }
+        private string FileNameIndexFullPath =>
+            _fileNameIndexFullPath ?? (_fileNameIndexFullPath = GetFileNameIndexFullPath());
 
 
-        public readonly ICollection<WindowProfile> Profiles = new List<WindowProfile>();
+        private string ProfileRootDirectory { get; }
 
         public void AddProfile(WindowProfile profile)
         {
@@ -41,26 +52,20 @@ namespace MordernApplicationFramework.WindowManagement.WindowProfile
             }
         }
 
-
-        private string ProfileRootDirectory { get; }
-
-        private string FileNameIndexFullPath => _fileNameIndexFullPath ?? (_fileNameIndexFullPath = GetFileNameIndexFullPath());
-
-
-        public WindowProfileManager(string profileRootDirectory)
+        public WindowProfile CreateProfile(string profileName, Func<string, WindowProfile> activator)
         {
-            Validate.IsNotNull(profileRootDirectory, nameof(profileRootDirectory));
-            if (!Path.IsPathRooted(profileRootDirectory))
-                throw new ArgumentException("Profile root directory must be a rooted path", nameof(profileRootDirectory));
-            ProfileRootDirectory = profileRootDirectory;
+            Validate.IsNotNullAndNotEmpty(profileName, nameof(profileName));
+            EnsureFileNameIndexLoaded();
+            var windowProfile = activator(profileName) ?? WindowProfile.Create(profileName);
+            AddProfile(windowProfile);
+            return windowProfile;
         }
 
-        public void Save(WindowProfile profile)
+        public WindowProfile GetOrCreateProfile(string profileName, Func<string, WindowProfile> activator)
         {
-            Validate.IsNotNull(profile, nameof(profile));
-            if (!EnsureLocalStorageDirectoryExists())
-                return;
-            SaveProfileToLocalStorage(profile);
+            Validate.IsNotNullAndNotEmpty(profileName, nameof(profileName));
+            Validate.IsNotNull(activator, nameof(activator));
+            return GetProfile(profileName) ?? CreateProfile(profileName, activator);
         }
 
 
@@ -70,35 +75,16 @@ namespace MordernApplicationFramework.WindowManagement.WindowProfile
             var profile = default(WindowProfile);
             if ((fromBackup || !TryGetProfile(profileName, out profile)) && IsProfileInIndex(profileName))
                 profile = LoadProfileFromLocalStorage(profileName, fromBackup);
+            if (profile != null)
+                AddProfile(profile);
             return profile;
         }
 
-        public WindowProfile CreateProfile(string profileName, Func<string, WindowProfile> activator)
+        public bool IsProfileInIndex(string profileName)
         {
             Validate.IsNotNullAndNotEmpty(profileName, nameof(profileName));
             EnsureFileNameIndexLoaded();
-            var windowProfile = activator(profileName) ?? WindowProfile.Create(profileName);
-            return windowProfile;
-        }
-
-
-        private void SaveProfileToLocalStorage(WindowProfile profile)
-        {
-            try
-            {
-                var statePersister = LayoutItemStatePersister.Instance;
-                if (statePersister == null)
-                    return;
-                statePersister.PayloadDataToFile(GetProfileFullPath(profile.Name), profile.StatePlayload);
-            }
-            catch (IOException ex)
-            {
-                //this.RaiseExceptionFilter((Exception)ex, "Failed to save window configuration.");
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                //this.RaiseExceptionFilter((Exception)ex, "Failed to save window configuration.");
-            }
+            return _fileNameIndex.ContainsKey(profileName);
         }
 
         public Stream OpenProfileLocalStorage(string profileName, FileAccess fileAccess)
@@ -109,23 +95,94 @@ namespace MordernApplicationFramework.WindowManagement.WindowProfile
             return File.Open(GetProfileFullPath(profileName), mode, fileAccess, share);
         }
 
-        private string GetProfileFullPath(string profileName)
+        public void Save(WindowProfile profile)
         {
-            EnsureFileNameIndexLoaded();
-            return GetOrCreateProfileFileName(profileName);
+            Validate.IsNotNull(profile, nameof(profile));
+            if (!EnsureLocalStorageDirectoryExists())
+                return;
+            SaveProfileToLocalStorage(profile);
         }
 
-        private WindowProfile LoadProfileFromLocalStorage(string profileName, bool fromBackup)
+        internal void Backup(string profileName)
         {
             try
             {
-                var payload = LayoutItemStatePersister.Instance.FileToPayloadData(GetProfileFullPath(profileName));
-                return new WindowProfile(profileName, payload);
+                if (!IsProfileInIndex(profileName))
+                    return;
+                if (TryGetProfile(profileName, out var profile))
+                    Save(profile);
+                using (var stream = OpenProfileLocalStorage(profileName, FileAccess.Read))
+                    using (var destination = OpenProfileBackupLocalStorage(profileName, FileAccess.Write))
+                        stream.CopyTo(destination);
             }
-            catch
+            catch (IOException ex)
             {
-                return null;
+                //this.RaiseExceptionFilter((Exception)ex, "Failed to create a backup of window configuration file.");
             }
+            catch (UnauthorizedAccessException ex)
+            {
+                //this.RaiseExceptionFilter((Exception)ex, "Failed to create a backup of window configuration file.");
+            }
+        }
+
+        public bool Reload(string profileName)
+        {
+            Validate.IsNotNullAndNotEmpty(profileName, nameof(profileName));
+            if (!IsProfileInIndex(profileName))
+                return false;
+            var windowProfile = LoadProfileFromLocalStorage(profileName);
+            if (windowProfile == null)
+                return false;
+            AddProfile(windowProfile);
+            return true;
+        }
+
+        internal void DeleteProfileBackupFiles()
+        {
+            try
+            {
+                foreach (string enumerateFile in Directory.EnumerateFiles(ProfileRootDirectory, "*.winprf_backup"))
+                    File.Delete(enumerateFile);
+            }
+            catch (IOException ex)
+            {
+                //this.RaiseExceptionFilter((Exception)ex, "Failed to delete window configuration backup file.");
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                //this.RaiseExceptionFilter((Exception)ex, "Failed to delete window configuration backup file.");
+            }
+        }
+
+        internal void RestoreProfilesFromBackup()
+        {
+            try
+            {
+                foreach (string enumerateFile in Directory.EnumerateFiles(ProfileRootDirectory, "*.winprf_backup"))
+                {
+                    string withoutExtension = Path.GetFileNameWithoutExtension(enumerateFile);
+                    using (Stream destination = OpenProfileLocalStorage(withoutExtension, FileAccess.Write))
+                    {
+                        using (Stream stream = File.Open(enumerateFile, FileMode.Open, FileAccess.Read, FileShare.Read))
+                            stream.CopyTo(destination);
+                    }
+                    if (TryGetProfile(withoutExtension, out var profile))
+                        Reload(withoutExtension);
+                }
+            }
+            catch (IOException ex)
+            {
+                //this.RaiseExceptionFilter((Exception)ex, "Failed to restor a window configuration file from backup.");
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                //this.RaiseExceptionFilter((Exception)ex, "Failed to restor a window configuration file from backup.");
+            }
+        }
+
+        protected void OnProfileAdded(WindowProfile newProfile)
+        {
+            ProfileAdded?.Invoke(this, new WindowProfileEventArgs(newProfile));
         }
 
 
@@ -134,27 +191,12 @@ namespace MordernApplicationFramework.WindowManagement.WindowProfile
             ProfileSet?.Invoke(this, new WindowProfileEventArgs(newProfile));
         }
 
-        protected void OnProfileAdded(WindowProfile newProfile)
+        private void EnsureFileNameIndexLoaded()
         {
-            ProfileAdded?.Invoke(this, new WindowProfileEventArgs(newProfile));
-        }
-
-        private string GetOrCreateProfileFileName(string profileName)
-        {
-            if (!_fileNameIndex.TryGetValue(profileName, out var profileFileName))
-            {
-                profileFileName = GenerateProfileFileName(profileName);
-                _fileNameIndex[profileName] = profileFileName;
-                SaveFileNameIndex();
-            }
-            return profileFileName;
-        }
-
-        private void SaveFileNameIndex()
-        {
-            if (!EnsureLocalStorageDirectoryExists())
+            if (_isFileNameIndexLoaded)
                 return;
-            SaveFileNameIndexToLocalStorage();
+            LoadFileNameIndexFromLocalStorage();
+            _isFileNameIndexLoaded = true;
         }
 
         private bool EnsureLocalStorageDirectoryExists()
@@ -179,8 +221,8 @@ namespace MordernApplicationFramework.WindowManagement.WindowProfile
 
         private string GenerateProfileFileName(string profileName)
         {
-            StringBuilder stringBuilder = new StringBuilder(profileName.Length > 50 ? profileName.Substring(0, 50) : profileName);
-            foreach (char invalidFileNameChar in Path.GetInvalidFileNameChars())
+            var stringBuilder = new StringBuilder(profileName.Length > 50 ? profileName.Substring(0, 50) : profileName);
+            foreach (var invalidFileNameChar in Path.GetInvalidFileNameChars())
                 stringBuilder.Replace(invalidFileNameChar, '_');
             stringBuilder.Append("_");
             stringBuilder.Append(Path.GetRandomFileName());
@@ -188,28 +230,38 @@ namespace MordernApplicationFramework.WindowManagement.WindowProfile
             return Path.Combine(ProfileRootDirectory, stringBuilder.ToString());
         }
 
-        private void EnsureFileNameIndexLoaded()
+
+        private string GetFileNameIndexFullPath()
         {
-            if (_isFileNameIndexLoaded)
-                return;
-            LoadFileNameIndexFromLocalStorage();
-            _isFileNameIndexLoaded = true;
+            var stringBuilder = new StringBuilder(ProfileRootDirectory);
+            stringBuilder.Append(Path.DirectorySeparatorChar);
+            stringBuilder.Append("Windows");
+            stringBuilder.Append(".index");
+            return stringBuilder.ToString();
         }
 
-        public bool IsProfileInIndex(string profileName)
+        private string GetOrCreateProfileFileName(string profileName)
         {
-            Validate.IsNotNullAndNotEmpty(profileName, nameof(profileName));
+            if (!_fileNameIndex.TryGetValue(profileName, out var profileFileName))
+            {
+                profileFileName = GenerateProfileFileName(profileName);
+                _fileNameIndex[profileName] = profileFileName;
+                SaveFileNameIndex();
+            }
+            return profileFileName;
+        }
+
+        private string GetProfileBackupFullPath(string profileName)
+        {
+            var stringBuilder = new StringBuilder(profileName);
+            stringBuilder.Append(".winprf_backup");
+            return Path.Combine(ProfileRootDirectory, stringBuilder.ToString());
+        }
+
+        private string GetProfileFullPath(string profileName)
+        {
             EnsureFileNameIndexLoaded();
-            return _fileNameIndex.ContainsKey(profileName);
-        }
-
-        private bool TryGetProfile(string profileName, out WindowProfile profile)
-        {
-            profile = null;
-            if (Profiles.All(x => x.Name != profileName))
-                return false;
-            profile = Profiles.First(x => x.Name == profileName);
-            return true;
+            return GetOrCreateProfileFileName(profileName);
         }
 
 
@@ -229,7 +281,8 @@ namespace MordernApplicationFramework.WindowManagement.WindowProfile
                         var index = 0;
                         while (index < strArray.Length)
                         {
-                            _fileNameIndex[strArray[index]] = Path.Combine(ProfileRootDirectory, Path.GetFileName(strArray[index + 1]));
+                            _fileNameIndex[strArray[index]] = Path.Combine(ProfileRootDirectory,
+                                Path.GetFileName(strArray[index + 1]));
                             index += 2;
                         }
                     }
@@ -244,6 +297,35 @@ namespace MordernApplicationFramework.WindowManagement.WindowProfile
             {
                 return false;
             }
+        }
+
+        private WindowProfile LoadProfileFromLocalStorage(string profileName, bool fromBackup = false)
+        {
+            try
+            {
+                var path = fromBackup ? GetProfileBackupFullPath(profileName) : GetProfileFullPath(profileName);
+                var payload = LayoutPayloadUtilities.FileToPayloadData(path);
+                return new WindowProfile(profileName, payload);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private Stream OpenProfileBackupLocalStorage(string profileName, FileAccess fileAccess)
+        {
+            Validate.IsNotNullAndNotEmpty(profileName, nameof(profileName));
+            var mode = fileAccess == FileAccess.Read ? FileMode.Open : FileMode.Create;
+            var share = fileAccess == FileAccess.Read ? FileShare.Read : FileShare.None;
+            return File.Open(GetProfileBackupFullPath(profileName), mode, fileAccess, share);
+        }
+
+        private void SaveFileNameIndex()
+        {
+            if (!EnsureLocalStorageDirectoryExists())
+                return;
+            SaveFileNameIndexToLocalStorage();
         }
 
 
@@ -280,15 +362,29 @@ namespace MordernApplicationFramework.WindowManagement.WindowProfile
         }
 
 
-        private string GetFileNameIndexFullPath()
+        private void SaveProfileToLocalStorage(WindowProfile profile)
         {
-            var stringBuilder = new StringBuilder(ProfileRootDirectory);
-            stringBuilder.Append(Path.DirectorySeparatorChar);
-            stringBuilder.Append("Windows");
-            stringBuilder.Append(".index");
-            return stringBuilder.ToString();
+            try
+            {
+                LayoutPayloadUtilities.PayloadDataToFile(GetProfileFullPath(profile.Name), profile.StatePlayload);
+            }
+            catch (IOException ex)
+            {
+                //this.RaiseExceptionFilter((Exception)ex, "Failed to save window configuration.");
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                //this.RaiseExceptionFilter((Exception)ex, "Failed to save window configuration.");
+            }
         }
 
-
+        private bool TryGetProfile(string profileName, out WindowProfile profile)
+        {
+            profile = null;
+            if (Profiles.All(x => x.Name != profileName))
+                return false;
+            profile = Profiles.First(x => x.Name == profileName);
+            return true;
+        }
     }
 }

@@ -7,7 +7,6 @@ using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Utilities.Interfaces;
-using MordernApplicationFramework.WindowManagement.LayoutManagement;
 using MordernApplicationFramework.WindowManagement.Properties;
 
 namespace MordernApplicationFramework.WindowManagement.Commands
@@ -16,7 +15,6 @@ namespace MordernApplicationFramework.WindowManagement.Commands
     [Export(typeof(ResetLayoutCommandDefinition))]
     public sealed class ResetLayoutCommandDefinition : CommandDefinition
     {
-        private readonly IDefaultWindowLayoutProvider _defaultWindowLayout;
         private readonly IExtendedEnvironmentVariables _environmentVariables;
         public override string Name => WindowManagement_Resources.ResetLayoutCommandDefinition_Name;
         public override string Text => WindowManagement_Resources.ResetLayoutCommandDefinition_Text;
@@ -36,10 +34,8 @@ namespace MordernApplicationFramework.WindowManagement.Commands
         public override GestureScope DefaultGestureScope => null;
 
         [ImportingConstructor]
-        internal ResetLayoutCommandDefinition(IDefaultWindowLayoutProvider defaultWindowLayout,
-            IExtendedEnvironmentVariables environmentVariables)
+        internal ResetLayoutCommandDefinition(IExtendedEnvironmentVariables environmentVariables)
         {
-            _defaultWindowLayout = defaultWindowLayout;
             _environmentVariables = environmentVariables;
 
             var command = new UICommand(Manage, CanManage);
@@ -50,7 +46,7 @@ namespace MordernApplicationFramework.WindowManagement.Commands
         {
             if (LayoutManagementService.Instance == null)
                 return false;
-            return _defaultWindowLayout.GetLayout() != null;
+            return true;
         }
 
         private void Manage()
@@ -59,8 +55,7 @@ namespace MordernApplicationFramework.WindowManagement.Commands
                 MessageBoxImage.Question, MessageBoxResult.Yes);
             if (result != MessageBoxResult.Yes)
                 return;
-            //TODO:
-            //LayoutManagementService.Instance.LayoutManager.ApplyWindowLayout(_defaultWindowLayout.GetLayout());
+            LayoutManagementService.Instance.RestoreProfiles();
         }
     }
 }

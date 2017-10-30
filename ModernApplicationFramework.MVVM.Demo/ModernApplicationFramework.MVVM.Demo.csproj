@@ -89,7 +89,8 @@
     <Compile Include="Modules\Commands\TestWindow.xaml.cs">
       <DependentUpon>TestWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Modules\DefaultWindowLayout\DefaultWindowLayoutPackage.cs" />
+    <Compile Include="Modules\DefaultWindowLayout\DefaultWindowProfileProvider.cs" />
+    <Compile Include="Modules\LoadWindowProfile\LoadWindowProfilePackage.cs" />
     <Compile Include="Modules\SampleExplorer\SampleExplorerModule.cs" />
     <Compile Include="Modules\Startup\StartupPackage.cs" />
     <Compile Include="Modules\WindowProfileChange\Sample.cs" />
@@ -229,6 +230,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\DefaultProfile.winprf" />
     <None Include="Resources\png_undo.16.16.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

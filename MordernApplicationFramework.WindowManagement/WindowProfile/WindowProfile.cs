@@ -4,7 +4,7 @@ using ModernApplicationFramework.Utilities;
 
 namespace MordernApplicationFramework.WindowManagement.WindowProfile
 {
-    internal class WindowProfile
+    public class WindowProfile
     {
         public string Name { get; private set; }
 

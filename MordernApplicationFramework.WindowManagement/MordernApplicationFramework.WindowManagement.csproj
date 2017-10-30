@@ -70,8 +70,9 @@
     <Compile Include="ILayoutManagementService.cs" />
     <Compile Include="LayoutManagementPackage.cs" />
     <Compile Include="LayoutManagementService.cs" />
-    <Compile Include="LayoutManagement\DefaultWindowLayoutProvider.cs" />
-    <Compile Include="LayoutManagement\IDefaultWindowLayoutProvider.cs" />
+    <Compile Include="LayoutState\ILayoutItemStatePersister.cs" />
+    <Compile Include="LayoutState\LayoutPayloadUtilities.cs" />
+    <Compile Include="WindowProfile\IDefaultWindowProfileProvider.cs" />
     <Compile Include="LayoutManagement\ILayoutManagementUserInput.cs" />
     <Compile Include="LayoutManagement\ILayoutManager.cs" />
     <Compile Include="LayoutManagement\ILayoutManagerInternal.cs" />

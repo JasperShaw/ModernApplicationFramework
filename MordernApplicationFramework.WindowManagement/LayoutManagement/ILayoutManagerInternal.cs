@@ -12,7 +12,5 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
         void ManageWindowLayoutsInternal(Func<IEnumerable<KeyValuePair<string, WindowLayout>>, IEnumerable<KeyValuePair<string, WindowLayout>>> layoutTransformation);
 
         void ApplyWindowLayoutInternal(int index);
-
-        void ApplyWindowLayout(WindowLayout layout);
     }
 }

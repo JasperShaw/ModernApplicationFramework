@@ -130,11 +130,6 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
             TryApplyWindowLayout(name, index);
         }
 
-        public void ApplyWindowLayout(WindowLayout layout)
-        {
-            TryApplyWindowLayoutInternal(layout.DecompressedPayload);
-        }
-
         private void SetStatusBarMessage(string format, string layoutName)
         {
             _statusBar?.SetText(string.Format(CultureInfo.CurrentUICulture, format, new object[]
@@ -152,13 +147,22 @@ namespace MordernApplicationFramework.WindowManagement.LayoutManagement
         {
             var layoutDataAt = GetLayoutDataAt(index);
             SetStatusBarMessage(WindowManagement_Resources.ApplyLayoutStartedStatusFormat, name);
-            if (TryApplyWindowLayoutInternal(layoutDataAt))
+
+
+            try
             {
-                SetStatusBarMessage(WindowManagement_Resources.ApplyLayoutCompletedStatusFormat, name);
-                return true;
+                using (var stream = LayoutManagementUtilities.ConvertLayoutPayloadToStream(layoutDataAt))
+                {
+                    _layoutSystem.RestoreFrameLayoutCollection(stream);
+                }
             }
-            SetStatusBarMessage(WindowManagement_Resources.ApplyLayoutErrorStatusFormat, name);
-            return false;
+            catch
+            {
+                SetStatusBarMessage(WindowManagement_Resources.ApplyLayoutErrorStatusFormat, name);
+                return false;
+            }
+            SetStatusBarMessage(WindowManagement_Resources.ApplyLayoutCompletedStatusFormat, name);
+            return true;
         }
 
         private bool TryApplyWindowLayoutInternal(string payload)

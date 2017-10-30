@@ -4,5 +4,6 @@
     {
         void LoadLayout(string profileName);
         void SaveActiveFrameLayout();
+        void Reload();
     }
 }
