@@ -220,13 +220,13 @@
       <Project>{2b388979-5b07-4f0a-a302-0c575aaa21c0}</Project>
       <Name>ModernApplicationFramework.Utilities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework.WindowManagement\ModernApplicationFramework.WindowManagement.csproj">
+      <Project>{674f7d84-b3ae-4cd6-ad12-0afa4ace516a}</Project>
+      <Name>ModernApplicationFramework.WindowManagement</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework\ModernApplicationFramework.csproj">
       <Project>{74f6c6a1-64bb-47d4-9e7f-6cd5c4ca166c}</Project>
       <Name>ModernApplicationFramework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MordernApplicationFramework.WindowManagement\MordernApplicationFramework.WindowManagement.csproj">
-      <Project>{674f7d84-b3ae-4cd6-ad12-0afa4ace516a}</Project>
-      <Name>MordernApplicationFramework.WindowManagement</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

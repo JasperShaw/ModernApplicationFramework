@@ -1,0 +1,71 @@
+﻿<mafc:DialogWindow x:Class="ModernApplicationFramework.WindowManagement.LayoutManagement.ManageLayoutsDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mafc="http://modern.framework.com/controls"
+             xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons;assembly=ModernApplicationFramework"
+             xmlns:converters="clr-namespace:ModernApplicationFramework.Utilities.Converters;assembly=ModernApplicationFramework.Utilities"
+             xmlns:imaging="clr-namespace:ModernApplicationFramework.Utilities.Imaging;assembly=ModernApplicationFramework.Utilities"
+             xmlns:properties="clr-namespace:ModernApplicationFramework.WindowManagement.Properties"
+             WindowStartupLocation="CenterOwner" HasDialogFrame="True" ShowInTaskbar="False" 
+                   Title="{x:Static properties:WindowManagement_Resources.ManageLayoutsDialogTitle}"
+                   ResizeMode="CanResizeWithGrip" Width="380" Height="380" MinWidth="380" MinHeight="380">
+    <FrameworkElement.Resources>
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ModernApplicationFramework.Extended;component/Resources/Icons/MoveUp.xaml"/>
+                <ResourceDictionary Source="/ModernApplicationFramework.Extended;component/Resources/Icons/MoveDown.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <converters:BrushToColorConverter x:Key="BrushToColorConverter"/>
+            <Style x:Key="IconButtonStyle" TargetType="{x:Type Button}">
+                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                <Setter Property="Width" Value="24"/>
+                <Setter Property="Height" Value="24"/>
+                <Setter Property="imaging:ImageThemingUtilities.ImageBackgroundColor"
+                        Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={StaticResource BrushToColorConverter}}"/>
+            </Style>
+        </ResourceDictionary>
+    </FrameworkElement.Resources>
+    <UIElement.InputBindings>
+        <KeyBinding Gesture="ALT+UP" Command="{Binding MoveLayoutUpCommand}"/>
+        <KeyBinding Gesture="ALT+DOWN" Command="{Binding MoveLayoutDownCommand}"/>
+        <KeyBinding Gesture="DEL" Command="{Binding DeleteLayoutCommand}"/>
+        <KeyBinding Gesture="F2" Command="{Binding RenameLayoutCommand}"/>
+    </UIElement.InputBindings>
+    <DockPanel Margin="12">
+        <Label DockPanel.Dock="Top" Padding="0" Margin="0,0,0,2" Content="{x:Static properties:WindowManagement_Resources.ManageLayoutsDialogSavedLayouts}">
+            <Label.Target>
+                <Binding ElementName="LayoutList"/>
+            </Label.Target>
+        </Label>
+        <DockPanel DockPanel.Dock="Bottom">
+            <buttons:DialogButton Content="{x:Static properties:WindowManagement_Resources.ManageLayoutsButton_Rename}" Margin="0" TabIndex="3" Command="{Binding RenameLayoutCommand}"/>
+            <buttons:DialogButton Content="{x:Static properties:WindowManagement_Resources.ManageLayoutsButton_Delete}" Margin="6,0,0,0" TabIndex="4" Command="{Binding DeleteLayoutCommand}"/>
+            <buttons:DialogButton IsCancel="True" DockPanel.Dock="Right" HorizontalAlignment="Right" Content="{x:Static properties:WindowManagement_Resources.ManageLayoutsButton_Close}" 
+                                  Margin="0" TabIndex="5"/>
+        </DockPanel>
+        <StackPanel DockPanel.Dock="Right">
+            <Button Style="{StaticResource IconButtonStyle}" Name="MoveUp" ToolTip="{x:Static properties:WindowManagement_Resources.ManageLayoutsButtonTooltip_IndexUp}"
+                    TabIndex="1" Command="{Binding MoveLayoutUpCommand}" Margin="0,0,0,6">
+                <ContentPresenter Width="16" Height="16" Content="{StaticResource MoveUpIcon}"/>
+            </Button>
+            <Button Style="{StaticResource IconButtonStyle}" Name="MoveDown" ToolTip="{x:Static properties:WindowManagement_Resources.ManageLayoutsButtonTooltip_IndexDown}"
+                    TabIndex="2" Command="{Binding MoveLayoutDownCommand}">
+                <ContentPresenter Width="16" Height="16" Content="{StaticResource MoveDownIcon}"/>
+            </Button>
+        </StackPanel>
+        <ListBox x:Name="LayoutList" DisplayMemberPath="Name" Margin="0,0,8,8" TabIndex="0" ItemsSource="{Binding Layouts}"
+                 SelectedItem="{Binding SelectedLayout, Mode=TwoWay}" GotKeyboardFocus="OnLayoutListGotKeyboardFocus">
+            <ItemsControl.ItemContainerStyle>
+                <Style>
+                    <Setter Property="AutomationProperties.Name">
+                        <Setter.Value>
+                            <Binding Path="Name"/>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </ListBox>
+    </DockPanel>
+</mafc:DialogWindow>
+

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Extended.Core.Package;
-using MordernApplicationFramework.WindowManagement;
+using ModernApplicationFramework.WindowManagement;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.LoadWindowProfile
 {

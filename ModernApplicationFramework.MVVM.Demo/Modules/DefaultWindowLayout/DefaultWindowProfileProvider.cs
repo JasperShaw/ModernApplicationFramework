@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Reflection;
-using MordernApplicationFramework.WindowManagement.LayoutState;
-using MordernApplicationFramework.WindowManagement.WindowProfile;
+using ModernApplicationFramework.WindowManagement.LayoutState;
+using ModernApplicationFramework.WindowManagement.WindowProfile;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.DefaultWindowLayout
 {

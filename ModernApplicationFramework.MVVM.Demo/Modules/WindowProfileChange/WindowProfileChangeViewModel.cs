@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Services;
-using MordernApplicationFramework.WindowManagement;
+using ModernApplicationFramework.WindowManagement;
 
 namespace ModernApplicationFramework.MVVM.Demo.Modules.WindowProfileChange
 {
