@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -146,5 +146,8 @@
   </data>
   <data name="KeyboardSettingsWarningApplyScheme" xml:space="preserve">
     <value>Keyboard mappings will reset to their default values. Continue?</value>
+  </data>
+  <data name="KeyboardSettings_Name" xml:space="preserve">
+    <value>Keyboard</value>
   </data>
 </root>

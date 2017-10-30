@@ -124,7 +124,7 @@
     <value> The visual experience settings automatically change based on system capabilities.</value>
   </data>
   <data name="ColorThemeCombo_Label" xml:space="preserve">
-    <value>&amp;Color theme:</value>
+    <value>_Color theme:</value>
   </data>
   <data name="HardwareRenderingStatus" xml:space="preserve">
     <value>This application is currently using hardware-accelerated rendering.</value>

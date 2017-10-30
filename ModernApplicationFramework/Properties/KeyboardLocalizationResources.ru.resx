@@ -117,124 +117,187 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ManageLayoutCommandDefinition_Name" xml:space="preserve">
-    <value>Manage Window Layouts</value>
+  <data name="KeyboardKey_Control" xml:space="preserve">
+    <value>Ctrl</value>
   </data>
-  <data name="ManageLayoutCommandDefinition_Text" xml:space="preserve">
-    <value>&amp;Manage Window Layouts</value>
+  <data name="KeyboardKey_Backspace" xml:space="preserve">
+    <value>Bkspce</value>
   </data>
-  <data name="SaveLayoutCommandDefinitionMessageBox_Default" xml:space="preserve">
-    <value>New Layout {0}</value>
+  <data name="KeyboardKey_Tab" xml:space="preserve">
+    <value>Tab</value>
   </data>
-  <data name="SaveLayoutCommandDefinitionMessageBox_Label" xml:space="preserve">
-    <value>_Layout name:</value>
+  <data name="KeyboardKey_Space" xml:space="preserve">
+    <value>Пробел</value>
   </data>
-  <data name="SaveLayoutCommandDefinitionMessageBox_Title" xml:space="preserve">
-    <value>Save Window Layout</value>
+  <data name="KeyboardKey_Alt" xml:space="preserve">
+    <value>Alt</value>
   </data>
-  <data name="SaveLayoutCommandDefinition_Name" xml:space="preserve">
-    <value>Save Window Layout</value>
+  <data name="KeyboardKey_Shift" xml:space="preserve">
+    <value>Shift</value>
   </data>
-  <data name="SaveLayoutCommandDefinition_Text" xml:space="preserve">
-    <value>&amp;Save Window Layout</value>
+  <data name="KeyboardKey_PageUp" xml:space="preserve">
+    <value>PgUp</value>
   </data>
-  <data name="ApplyLayoutTitle" xml:space="preserve">
-    <value>Apply Window Layout</value>
+  <data name="KeyboardKey_PageDown" xml:space="preserve">
+    <value>PgDn</value>
   </data>
-  <data name="DisableApplyLayoutWarning" xml:space="preserve">
-    <value>_Don't show me this message again</value>
+  <data name="KeyboardKey_Up" xml:space="preserve">
+    <value>Стрелка вверх</value>
   </data>
-  <data name="SaveLayoutTitle" xml:space="preserve">
-    <value>Save Window Layout</value>
+  <data name="KeyboardKey_Down" xml:space="preserve">
+    <value>Стрелка вниз</value>
   </data>
-  <data name="ApplyLayoutFailedMessage" xml:space="preserve">
-    <value>Could not apply layout '{0}'.</value>
+  <data name="KeyboardKey_Right" xml:space="preserve">
+    <value>Стрелка вправо</value>
   </data>
-  <data name="ApplyLayoutConfirmation" xml:space="preserve">
-    <value>Are you sure you want to apply the layout '{0}' and discard your current window layout?</value>
+  <data name="KeyboardKey_Left" xml:space="preserve">
+    <value>Стрелка влево</value>
   </data>
-  <data name="LayoutOverwriteMessage" xml:space="preserve">
-    <value>A layout named '{0}' already exists.
-Do you want to replace it?</value>
+  <data name="KeyboardKey_Insert" xml:space="preserve">
+    <value>Ins</value>
   </data>
-  <data name="RenameLayoutTitle" xml:space="preserve">
-    <value>Rename Window Layout</value>
+  <data name="KeyboardKey_Delete" xml:space="preserve">
+    <value>Del</value>
   </data>
-  <data name="RenameLayoutMessage" xml:space="preserve">
-    <value>_Layout name:</value>
+  <data name="KeyboardKey_End" xml:space="preserve">
+    <value>End</value>
   </data>
-  <data name="DeleteLayoutTitle" xml:space="preserve">
-    <value>Delete Window Layout</value>
+  <data name="KeyboardKey_Enter" xml:space="preserve">
+    <value>ВВОД</value>
   </data>
-  <data name="DeleteLayoutConfirmation" xml:space="preserve">
-    <value>Are you sure you want to delete the layout '{0}'?</value>
+  <data name="KeyboardKey_Escape" xml:space="preserve">
+    <value>Esc</value>
   </data>
-  <data name="ManageLayoutsDialogTitle" xml:space="preserve">
-    <value>Manage Window Layouts</value>
+  <data name="KeyboardKey_NumPad0" xml:space="preserve">
+    <value>Доп. кл. 0</value>
   </data>
-  <data name="ManageLayoutsDialogSavedLayouts" xml:space="preserve">
-    <value>_Saved layouts:</value>
+  <data name="KeyboardKey_NumPad1" xml:space="preserve">
+    <value>Доп. кл. 1</value>
   </data>
-  <data name="ManageLayoutsButton_Rename" xml:space="preserve">
-    <value>_Rename</value>
+  <data name="KeyboardKey_NumPad2" xml:space="preserve">
+    <value>Доп. кл. 2</value>
   </data>
-  <data name="ManageLayoutsButton_Delete" xml:space="preserve">
-    <value>_Delete</value>
+  <data name="KeyboardKey_NumPad3" xml:space="preserve">
+    <value>Доп. кл. 3</value>
   </data>
-  <data name="ManageLayoutsButton_Close" xml:space="preserve">
-    <value>Close</value>
+  <data name="KeyboardKey_NumPad4" xml:space="preserve">
+    <value>Доп. кл. 4</value>
   </data>
-  <data name="ManageLayoutsButtonTooltip_IndexDown" xml:space="preserve">
-    <value>Move Down (Alt+Down)</value>
+  <data name="KeyboardKey_NumPad5" xml:space="preserve">
+    <value>Доп. кл. 5</value>
   </data>
-  <data name="ManageLayoutsButtonTooltip_IndexUp" xml:space="preserve">
-    <value>Move Up (Alt+Up)</value>
+  <data name="KeyboardKey_NumPad6" xml:space="preserve">
+    <value>Доп. кл. 6</value>
   </data>
-  <data name="SaveLayoutErrorStatusFormat" xml:space="preserve">
-    <value>Could not save window layout "{0}".</value>
+  <data name="KeyboardKey_NumPad7" xml:space="preserve">
+    <value>Доп. кл. 7</value>
   </data>
-  <data name="SaveLayoutErrorMaxLayoutsReached" xml:space="preserve">
-    <value>We could not save your layout. The total number of layouts reached maximum of {0}.
-
-Please delete one or more layouts before saving.</value>
+  <data name="KeyboardKey_NumPad8" xml:space="preserve">
+    <value>Доп. кл. 8</value>
   </data>
-  <data name="SaveLayoutStartedStatusFormat" xml:space="preserve">
-    <value>Saving window layout "{0}"...</value>
+  <data name="KeyboardKey_NumPad9" xml:space="preserve">
+    <value>Доп. кл. 9</value>
   </data>
-  <data name="SaveLayoutCompletedStatusFormat" xml:space="preserve">
-    <value>Window layout "{0}" successfully saved.</value>
+  <data name="KeyboardKey_Multiplay" xml:space="preserve">
+    <value>Доп. кл. *</value>
   </data>
-  <data name="MenuDefinition_ApplyLayout" xml:space="preserve">
-    <value>Apply Window Layout</value>
+  <data name="KeyboardKey_Subtract" xml:space="preserve">
+    <value>Доп. кл. -</value>
   </data>
-  <data name="ApplyWindowLayoutListCommandDefinition_Name" xml:space="preserve">
-    <value>Apply Window Layout List</value>
+  <data name="KeyboardKey_Add" xml:space="preserve">
+    <value>Доп. кл. +</value>
   </data>
-  <data name="NoSavedLayouts" xml:space="preserve">
-    <value>No Saved Layouts</value>
+  <data name="KeyboardKey_Divide" xml:space="preserve">
+    <value>Доп. кл. /</value>
   </data>
-  <data name="ApplyLayoutStartedStatusFormat" xml:space="preserve">
-    <value>Applying window layout "{0}"...</value>
+  <data name="KeyboardKey_Decimal" xml:space="preserve">
+    <value>Доп. кл. .</value>
   </data>
-  <data name="ApplyLayoutErrorStatusFormat" xml:space="preserve">
-    <value>Could not apply window layout "{0}".</value>
+  <data name="KeyboardKey_Pause" xml:space="preserve">
+    <value>Break</value>
   </data>
-  <data name="ApplyLayoutCompletedStatusFormat" xml:space="preserve">
-    <value>Window layout "{0}" successfully applied.</value>
+  <data name="KeyboardKey_LeftWindows" xml:space="preserve">
+    <value>Левые окна</value>
   </data>
-  <data name="ApplyWindowLayoutCommantDefinition_Name" xml:space="preserve">
-    <value>Apply Window Layout {0}</value>
+  <data name="KeyboardKey_RightWindows" xml:space="preserve">
+    <value>Правые окна</value>
   </data>
-  <data name="SaveLayoutMessage" xml:space="preserve">
-    <value>_Layout name:</value>
+  <data name="KeyboardKey_Windows" xml:space="preserve">
+    <value>Окна</value>
   </data>
-  <data name="ResetLayoutCommandDefinition_Name" xml:space="preserve">
-    <value>Reset Window Layout</value>
+  <data name="KeyboardKey_Clear" xml:space="preserve">
+    <value>Clear</value>
   </data>
-  <data name="ResetLayoutCommandDefinition_Text" xml:space="preserve">
-    <value>&amp;Reset Window Layout</value>
+  <data name="KeyboardKey_F1" xml:space="preserve">
+    <value>F1</value>
   </data>
-  <data name="ResetLayoutConfirmation" xml:space="preserve">
-    <value>Are you sure you want to restore the default window layout for the environment?</value>
+  <data name="KeyboardKey_F2" xml:space="preserve">
+    <value>F2</value>
+  </data>
+  <data name="KeyboardKey_F3" xml:space="preserve">
+    <value>F3</value>
+  </data>
+  <data name="KeyboardKey_F4" xml:space="preserve">
+    <value>F4</value>
+  </data>
+  <data name="KeyboardKey_F5" xml:space="preserve">
+    <value>F5</value>
+  </data>
+  <data name="KeyboardKey_F6" xml:space="preserve">
+    <value>F6</value>
+  </data>
+  <data name="KeyboardKey_F7" xml:space="preserve">
+    <value>F7</value>
+  </data>
+  <data name="KeyboardKey_F8" xml:space="preserve">
+    <value>F8</value>
+  </data>
+  <data name="KeyboardKey_F9" xml:space="preserve">
+    <value>F9</value>
+  </data>
+  <data name="KeyboardKey_F10" xml:space="preserve">
+    <value>F10</value>
+  </data>
+  <data name="KeyboardKey_F11" xml:space="preserve">
+    <value>F11</value>
+  </data>
+  <data name="KeyboardKey_F12" xml:space="preserve">
+    <value>F12</value>
+  </data>
+  <data name="KeyboardKey_F13" xml:space="preserve">
+    <value>F13</value>
+  </data>
+  <data name="KeyboardKey_F14" xml:space="preserve">
+    <value>F14</value>
+  </data>
+  <data name="KeyboardKey_F15" xml:space="preserve">
+    <value>F15</value>
+  </data>
+  <data name="KeyboardKey_F16" xml:space="preserve">
+    <value>F16</value>
+  </data>
+  <data name="KeyboardKey_F17" xml:space="preserve">
+    <value>F17</value>
+  </data>
+  <data name="KeyboardKey_F18" xml:space="preserve">
+    <value>F18</value>
+  </data>
+  <data name="KeyboardKey_F19" xml:space="preserve">
+    <value>F19</value>
+  </data>
+  <data name="KeyboardKey_F20" xml:space="preserve">
+    <value>F20</value>
+  </data>
+  <data name="KeyboardKey_F21" xml:space="preserve">
+    <value>F21</value>
+  </data>
+  <data name="KeyboardKey_F22" xml:space="preserve">
+    <value>F22</value>
+  </data>
+  <data name="KeyboardKey_F23" xml:space="preserve">
+    <value>F23</value>
+  </data>
+  <data name="KeyboardKey_F24" xml:space="preserve">
+    <value>F24</value>
   </data>
 </root>

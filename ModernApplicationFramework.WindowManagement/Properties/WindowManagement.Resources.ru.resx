@@ -117,124 +117,124 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ManageLayoutCommandDefinition_Name" xml:space="preserve">
-    <value>Manage Window Layouts</value>
-  </data>
-  <data name="ManageLayoutCommandDefinition_Text" xml:space="preserve">
-    <value>&amp;Manage Window Layouts</value>
-  </data>
-  <data name="SaveLayoutCommandDefinitionMessageBox_Default" xml:space="preserve">
-    <value>New Layout {0}</value>
-  </data>
-  <data name="SaveLayoutCommandDefinitionMessageBox_Label" xml:space="preserve">
-    <value>_Layout name:</value>
-  </data>
-  <data name="SaveLayoutCommandDefinitionMessageBox_Title" xml:space="preserve">
-    <value>Save Window Layout</value>
-  </data>
-  <data name="SaveLayoutCommandDefinition_Name" xml:space="preserve">
-    <value>Save Window Layout</value>
-  </data>
-  <data name="SaveLayoutCommandDefinition_Text" xml:space="preserve">
-    <value>&amp;Save Window Layout</value>
-  </data>
   <data name="ApplyLayoutTitle" xml:space="preserve">
-    <value>Apply Window Layout</value>
-  </data>
-  <data name="DisableApplyLayoutWarning" xml:space="preserve">
-    <value>_Don't show me this message again</value>
-  </data>
-  <data name="SaveLayoutTitle" xml:space="preserve">
-    <value>Save Window Layout</value>
-  </data>
-  <data name="ApplyLayoutFailedMessage" xml:space="preserve">
-    <value>Could not apply layout '{0}'.</value>
-  </data>
-  <data name="ApplyLayoutConfirmation" xml:space="preserve">
-    <value>Are you sure you want to apply the layout '{0}' and discard your current window layout?</value>
+    <value>Применить макет окна</value>
   </data>
   <data name="LayoutOverwriteMessage" xml:space="preserve">
-    <value>A layout named '{0}' already exists.
-Do you want to replace it?</value>
-  </data>
-  <data name="RenameLayoutTitle" xml:space="preserve">
-    <value>Rename Window Layout</value>
-  </data>
-  <data name="RenameLayoutMessage" xml:space="preserve">
-    <value>_Layout name:</value>
-  </data>
-  <data name="DeleteLayoutTitle" xml:space="preserve">
-    <value>Delete Window Layout</value>
-  </data>
-  <data name="DeleteLayoutConfirmation" xml:space="preserve">
-    <value>Are you sure you want to delete the layout '{0}'?</value>
-  </data>
-  <data name="ManageLayoutsDialogTitle" xml:space="preserve">
-    <value>Manage Window Layouts</value>
-  </data>
-  <data name="ManageLayoutsDialogSavedLayouts" xml:space="preserve">
-    <value>_Saved layouts:</value>
-  </data>
-  <data name="ManageLayoutsButton_Rename" xml:space="preserve">
-    <value>_Rename</value>
-  </data>
-  <data name="ManageLayoutsButton_Delete" xml:space="preserve">
-    <value>_Delete</value>
-  </data>
-  <data name="ManageLayoutsButton_Close" xml:space="preserve">
-    <value>Close</value>
-  </data>
-  <data name="ManageLayoutsButtonTooltip_IndexDown" xml:space="preserve">
-    <value>Move Down (Alt+Down)</value>
-  </data>
-  <data name="ManageLayoutsButtonTooltip_IndexUp" xml:space="preserve">
-    <value>Move Up (Alt+Up)</value>
-  </data>
-  <data name="SaveLayoutErrorStatusFormat" xml:space="preserve">
-    <value>Could not save window layout "{0}".</value>
-  </data>
-  <data name="SaveLayoutErrorMaxLayoutsReached" xml:space="preserve">
-    <value>We could not save your layout. The total number of layouts reached maximum of {0}.
-
-Please delete one or more layouts before saving.</value>
-  </data>
-  <data name="SaveLayoutStartedStatusFormat" xml:space="preserve">
-    <value>Saving window layout "{0}"...</value>
-  </data>
-  <data name="SaveLayoutCompletedStatusFormat" xml:space="preserve">
-    <value>Window layout "{0}" successfully saved.</value>
-  </data>
-  <data name="MenuDefinition_ApplyLayout" xml:space="preserve">
-    <value>Apply Window Layout</value>
-  </data>
-  <data name="ApplyWindowLayoutListCommandDefinition_Name" xml:space="preserve">
-    <value>Apply Window Layout List</value>
-  </data>
-  <data name="NoSavedLayouts" xml:space="preserve">
-    <value>No Saved Layouts</value>
-  </data>
-  <data name="ApplyLayoutStartedStatusFormat" xml:space="preserve">
-    <value>Applying window layout "{0}"...</value>
+    <value>Макет с именем "{0}" уже существует.
+Вы хотите заменить его?</value>
   </data>
   <data name="ApplyLayoutErrorStatusFormat" xml:space="preserve">
-    <value>Could not apply window layout "{0}".</value>
+    <value>Не удалось применить макет окна "{0}".</value>
   </data>
   <data name="ApplyLayoutCompletedStatusFormat" xml:space="preserve">
-    <value>Window layout "{0}" successfully applied.</value>
+    <value>Макет окна "{0}" успешно применен.</value>
   </data>
-  <data name="ApplyWindowLayoutCommantDefinition_Name" xml:space="preserve">
-    <value>Apply Window Layout {0}</value>
+  <data name="ApplyLayoutConfirmation" xml:space="preserve">
+    <value>Вы действительно хотите применить макет "{0}" и отменить текущий макет окон?</value>
+  </data>
+  <data name="ApplyLayoutFailedMessage" xml:space="preserve">
+    <value>Не удалось применить макет "{0}".</value>
+  </data>
+  <data name="ApplyLayoutStartedStatusFormat" xml:space="preserve">
+    <value>Применение макета окна "{0}"...</value>
+  </data>
+  <data name="SaveLayoutTitle" xml:space="preserve">
+    <value>Сохранить макет окна</value>
+  </data>
+  <data name="SaveLayoutStartedStatusFormat" xml:space="preserve">
+    <value>Сохранение макета окна "{0}"...</value>
   </data>
   <data name="SaveLayoutMessage" xml:space="preserve">
-    <value>_Layout name:</value>
+    <value>_Имя макета:</value>
+  </data>
+  <data name="SaveLayoutErrorStatusFormat" xml:space="preserve">
+    <value>Не удалось сохранить макет окна "{0}".</value>
+  </data>
+  <data name="SaveLayoutErrorMaxLayoutsReached" xml:space="preserve">
+    <value>Не удалось сохранить макет. Общее количество макетов достигло максимума в {0}.
+
+Перед сохранением удалите один или несколько макетов.</value>
+  </data>
+  <data name="SaveLayoutCompletedStatusFormat" xml:space="preserve">
+    <value>Макет окна "{0}"; успешно сохранен.</value>
+  </data>
+  <data name="NoSavedLayouts" xml:space="preserve">
+    <value>Нет сохраненных макетов</value>
+  </data>
+  <data name="RenameLayoutMessage" xml:space="preserve">
+    <value>_Имя макета:</value>
+  </data>
+  <data name="RenameLayoutTitle" xml:space="preserve">
+    <value>Переименовать макет окон</value>
+  </data>
+  <data name="DisableApplyLayoutWarning" xml:space="preserve">
+    <value>Бо_льше не показывать это сообщение</value>
+  </data>
+  <data name="DeleteLayoutTitle" xml:space="preserve">
+    <value>Удалить макет окон</value>
+  </data>
+  <data name="DeleteLayoutConfirmation" xml:space="preserve">
+    <value>Вы действительно хотите удалить макет "{0}"?</value>
+  </data>
+  <data name="ManageLayoutsButtonTooltip_IndexDown" xml:space="preserve">
+    <value>Переместить вниз (ALT + DOWN)</value>
+  </data>
+  <data name="ManageLayoutsButtonTooltip_IndexUp" xml:space="preserve">
+    <value>Переместить вверх (ALT + UP)</value>
+  </data>
+  <data name="MenuDefinition_ApplyLayout" xml:space="preserve">
+    <value>Применить макет окна</value>
+  </data>
+  <data name="ManageLayoutsButton_Rename" xml:space="preserve">
+    <value>Пере_именовать</value>
+  </data>
+  <data name="ManageLayoutsButton_Delete" xml:space="preserve">
+    <value>_Удалить</value>
+  </data>
+  <data name="ManageLayoutsButton_Close" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="ManageLayoutsDialogSavedLayouts" xml:space="preserve">
+    <value>_Сохраненные макеты:</value>
+  </data>
+  <data name="ManageLayoutsDialogTitle" xml:space="preserve">
+    <value>Управление макетами окон</value>
+  </data>
+  <data name="ApplyWindowLayoutListCommandDefinition_Name" xml:space="preserve">
+    <value>Применить макет окна (список)</value>
+  </data>
+  <data name="ApplyWindowLayoutCommantDefinition_Name" xml:space="preserve">
+    <value>Применить макет окна {0}</value>
   </data>
   <data name="ResetLayoutCommandDefinition_Name" xml:space="preserve">
-    <value>Reset Window Layout</value>
+    <value>Сброс макета окна</value>
   </data>
   <data name="ResetLayoutCommandDefinition_Text" xml:space="preserve">
-    <value>&amp;Reset Window Layout</value>
+    <value>С&amp;брос макета окна</value>
   </data>
   <data name="ResetLayoutConfirmation" xml:space="preserve">
-    <value>Are you sure you want to restore the default window layout for the environment?</value>
+    <value>Вы действительно хотите восстановить для данного окружения макет окон по умолочанию?</value>
+  </data>
+  <data name="SaveLayoutCommandDefinition_Text" xml:space="preserve">
+    <value>&amp;Сохранить макет окна</value>
+  </data>
+  <data name="SaveLayoutCommandDefinition_Name" xml:space="preserve">
+    <value>Сохранить макет окна</value>
+  </data>
+  <data name="SaveLayoutCommandDefinitionMessageBox_Title" xml:space="preserve">
+    <value>Сохранить макет окна</value>
+  </data>
+  <data name="SaveLayoutCommandDefinitionMessageBox_Label" xml:space="preserve">
+    <value>_Имя макета:</value>
+  </data>
+  <data name="SaveLayoutCommandDefinitionMessageBox_Default" xml:space="preserve">
+    <value>Новый макет {0}</value>
+  </data>
+  <data name="ManageLayoutCommandDefinition_Text" xml:space="preserve">
+    <value>&amp;Управление макетами окон</value>
+  </data>
+  <data name="ManageLayoutCommandDefinition_Name" xml:space="preserve">
+    <value>Управление макетами окон</value>
   </data>
 </root>
