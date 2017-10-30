@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Themes.DarkIDE", "ModernApplicationFramework.Themes.DarkIDE\ModernApplicationFramework.Themes.DarkIDE.csproj", "{EB2B16AE-E6F6-4045-A578-D2C3E9A6652F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "UnitTestProject1\UnitTestProject1.csproj", "{D6FCAEAB-9B8C-42E2-997D-CF3B1B5DD2A8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Tests", "UnitTestProject1\ModernApplicationFramework.Tests.csproj", "{D6FCAEAB-9B8C-42E2-997D-CF3B1B5DD2A8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Extended", "ModernApplicationFramework.Extended\ModernApplicationFramework.Extended.csproj", "{51911695-6CDB-4833-9782-06C8821D1C4E}"
 EndProject
