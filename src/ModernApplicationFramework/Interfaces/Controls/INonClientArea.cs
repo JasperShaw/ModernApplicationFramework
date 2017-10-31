@@ -5,7 +5,7 @@ namespace ModernApplicationFramework.Interfaces.Controls
     /// <summary>
     /// Represents a visual element that may logically contain a non-client Win32 area when WM_NCHITTEST is sent to an HwndSource.
     /// </summary>
-    internal interface INonClientArea
+    public interface INonClientArea
     {
         /// <summary>
         /// Given a point, determines what the hit test result should be for WM_NCHITTEST.

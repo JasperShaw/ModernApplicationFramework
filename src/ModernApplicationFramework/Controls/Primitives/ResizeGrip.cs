@@ -2,11 +2,12 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
+using ModernApplicationFramework.Interfaces.Controls;
 using ModernApplicationFramework.Native.NativeMethods;
 
 namespace ModernApplicationFramework.Controls.Primitives
 {
-    internal class ResizeGrip : System.Windows.Controls.Primitives.ResizeGrip
+    internal class ResizeGrip : System.Windows.Controls.Primitives.ResizeGrip, INonClientArea
     {
         static ResizeGrip()
         {
@@ -24,6 +25,11 @@ namespace ModernApplicationFramework.Controls.Primitives
             if (hwndSource == null)
                 return;
             User32.SendMessage(hwndSource.Handle, 274, (IntPtr) (61440 + num), IntPtr.Zero);
+        }
+
+        public int HitTest(Point point)
+        {
+            return 0;
         }
     }
 }

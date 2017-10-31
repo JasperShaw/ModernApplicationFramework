@@ -16,27 +16,14 @@
 
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Native.NativeMethods;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-    public class AnchorablePaneTitle : Control
+    public class AnchorablePaneTitle : DragUndockHeader
     {
-        public static readonly DependencyProperty ModelProperty =
-            DependencyProperty.Register("Model", typeof (LayoutAnchorable), typeof (AnchorablePaneTitle),
-                new FrameworkPropertyMetadata(null, _OnModelChanged));
-
-        private static readonly DependencyPropertyKey LayoutItemPropertyKey
-            = DependencyProperty.RegisterReadOnly("LayoutItem", typeof (LayoutItem), typeof (AnchorablePaneTitle),
-                new FrameworkPropertyMetadata((LayoutItem) null));
-
-        public static readonly DependencyProperty LayoutItemProperty
-            = LayoutItemPropertyKey.DependencyProperty;
-
-
         private bool _isMouseDown;
 
         static AnchorablePaneTitle()
@@ -47,19 +34,6 @@ namespace ModernApplicationFramework.Docking.Controls
                 new FrameworkPropertyMetadata(typeof (AnchorablePaneTitle)));
         }
 
-        public LayoutItem LayoutItem => (LayoutItem) GetValue(LayoutItemProperty);
-
-        public LayoutAnchorable Model
-        {
-            get => (LayoutAnchorable) GetValue(ModelProperty);
-            set => SetValue(ModelProperty, value);
-        }
-
-        protected virtual void OnModelChanged(DependencyPropertyChangedEventArgs e)
-        {
-            SetLayoutItem(Model?.Root.Manager.GetLayoutItemFromModel(Model));
-        }
-
         protected override void OnMouseLeave(MouseEventArgs e)
         {
             base.OnMouseLeave(e);
@@ -67,8 +41,7 @@ namespace ModernApplicationFramework.Docking.Controls
             if (_isMouseDown && e.LeftButton == MouseButtonState.Pressed)
             {
                 var pane = this.FindVisualAncestor<LayoutAnchorablePaneControl>();
-                var paneModel = pane?.Model as LayoutAnchorablePane;
-                if (paneModel != null)
+                if (pane?.Model is LayoutAnchorablePane paneModel)
                 {
                     var manager = paneModel.Root.Manager;
 
@@ -144,16 +117,6 @@ namespace ModernApplicationFramework.Docking.Controls
                 _isMouseDown = false;
 
             base.OnMouseMove(e);
-        }
-
-        protected void SetLayoutItem(LayoutItem value)
-        {
-            SetValue(LayoutItemPropertyKey, value);
-        }
-
-        private static void _OnModelChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            ((AnchorablePaneTitle) sender).OnModelChanged(e);
         }
     }
 }

@@ -52,7 +52,7 @@ namespace ModernApplicationFramework.WindowManagement
         }
 
         internal IReadOnlyCollection<WindowProfile.WindowProfile> LoadedProfiles => _profileManager.Profiles.ToList();
-
+       
         public LayoutManagementService()
         {
             Instance = this;

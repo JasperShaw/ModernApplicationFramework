@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Text;
 using ModernApplicationFramework.Native.Platform.Enums;
@@ -255,5 +256,16 @@ namespace ModernApplicationFramework.Native.NativeMethods
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode, ExactSpelling = true)]
         internal static extern int ToUnicodeEx(uint wVirtKey, uint wScanCode, byte[] lpKeyState, [Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder pwszBuff, int cchBuff, uint wFlags, IntPtr dwhkl);
+
+        [DllImport("user32.dll")]
+        internal static extern IntPtr GetAncestor(IntPtr hWnd, int flags);
+
+        [SuppressMessage("Microsoft.Portability", "CA1901:PInvokeDeclarationsShouldBePortable")]
+        [DllImport("user32.dll")]
+        public static extern IntPtr WindowFromPoint(Point pt);
+
+        [DllImport("user32.dll")]
+        public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
+
     }
 }

@@ -25,20 +25,8 @@ using ModernApplicationFramework.Native.NativeMethods;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-    public class LayoutDocumentTabItem : Control
+    public class LayoutDocumentTabItem : DragUndockHeader
     {
-        public static readonly DependencyProperty ModelProperty =
-            DependencyProperty.Register("Model", typeof (LayoutContent), typeof (LayoutDocumentTabItem),
-                new FrameworkPropertyMetadata(null, OnModelChanged));
-
-        private static readonly DependencyPropertyKey LayoutItemPropertyKey
-            = DependencyProperty.RegisterReadOnly("LayoutItem", typeof (LayoutItem), typeof (LayoutDocumentTabItem),
-                new FrameworkPropertyMetadata((LayoutItem) null));
-
-        public static readonly DependencyProperty LayoutItemProperty
-            = LayoutItemPropertyKey.DependencyProperty;
-
-
         private bool _isMouseDown;
         private Point _mouseDownPoint;
         private List<TabItem> _otherTabs;
@@ -52,20 +40,6 @@ namespace ModernApplicationFramework.Docking.Controls
                 new FrameworkPropertyMetadata(typeof (LayoutDocumentTabItem)));
         }
 
-        public LayoutItem LayoutItem => (LayoutItem) GetValue(LayoutItemProperty);
-
-        public LayoutContent Model
-        {
-            get => (LayoutContent) GetValue(ModelProperty);
-            set => SetValue(ModelProperty, value);
-        }
-
-        protected virtual void OnModelChanged(DependencyPropertyChangedEventArgs e)
-        {
-            SetLayoutItem(Model?.Root.Manager.GetLayoutItemFromModel(Model));
-            //UpdateLogicalParent();
-        }
-
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Middle)
@@ -73,7 +47,6 @@ namespace ModernApplicationFramework.Docking.Controls
                 if (LayoutItem.CloseCommand.CanExecute(null))
                     LayoutItem.CloseCommand.Execute(null);
             }
-
             base.OnMouseDown(e);
         }
 
@@ -163,16 +136,6 @@ namespace ModernApplicationFramework.Docking.Controls
                 _parentDocumentTabPanel.UpdateLayout();
                 UpdateDragDetails();
             }
-        }
-
-        protected void SetLayoutItem(LayoutItem value)
-        {
-            SetValue(LayoutItemPropertyKey, value);
-        }
-
-        private static void OnModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((LayoutDocumentTabItem) d).OnModelChanged(e);
         }
 
         private void UpdateDragDetails()

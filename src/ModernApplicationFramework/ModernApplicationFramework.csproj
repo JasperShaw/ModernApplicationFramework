@@ -231,6 +231,8 @@
     <Compile Include="Basics\Definitions\Command\ExcludedCommandDefinition.cs" />
     <Compile Include="Basics\Definitions\Command\CommandGestureScopeMapping.cs" />
     <Compile Include="Basics\Services\KeyboardInputService.cs" />
+    <Compile Include="Core\Utilities\CaptureManager.cs" />
+    <Compile Include="Docking\Controls\DragUndockHeader.cs" />
     <Compile Include="Docking\DockPreference.cs" />
     <Compile Include="Input\Command\DelegateCommand.cs" />
     <Compile Include="Input\GestureScopeMapping.cs" />

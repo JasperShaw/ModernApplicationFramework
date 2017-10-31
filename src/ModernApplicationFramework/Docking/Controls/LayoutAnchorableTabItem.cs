@@ -16,27 +16,14 @@
 
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Native.NativeMethods;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-    public class LayoutAnchorableTabItem : Control
+    public class LayoutAnchorableTabItem : DragUndockHeader
     {
-        public static readonly DependencyProperty ModelProperty =
-            DependencyProperty.Register("Model", typeof (LayoutContent), typeof (LayoutAnchorableTabItem),
-                new FrameworkPropertyMetadata(null, OnModelChanged));
-
-        private static readonly DependencyPropertyKey LayoutItemPropertyKey
-            = DependencyProperty.RegisterReadOnly("LayoutItem", typeof (LayoutItem), typeof (LayoutAnchorableTabItem),
-                new FrameworkPropertyMetadata((LayoutItem) null));
-
-        public static readonly DependencyProperty LayoutItemProperty
-            = LayoutItemPropertyKey.DependencyProperty;
-
-
         private static LayoutAnchorableTabItem _draggingItem;
         private bool _isMouseDown;
 
@@ -44,19 +31,6 @@ namespace ModernApplicationFramework.Docking.Controls
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof (LayoutAnchorableTabItem),
                 new FrameworkPropertyMetadata(typeof (LayoutAnchorableTabItem)));
-        }
-
-        public LayoutItem LayoutItem => (LayoutItem) GetValue(LayoutItemProperty);
-
-        public LayoutContent Model
-        {
-            get => (LayoutContent) GetValue(ModelProperty);
-            set => SetValue(ModelProperty, value);
-        }
-
-        protected virtual void OnModelChanged(DependencyPropertyChangedEventArgs e)
-        {
-            SetLayoutItem(Model?.Root.Manager.GetLayoutItemFromModel(Model));
         }
 
         protected override void OnMouseEnter(MouseEventArgs e)
@@ -72,6 +46,14 @@ namespace ModernApplicationFramework.Docking.Controls
             var containerPane = model.Parent as ILayoutPane;
             var childrenList = container.Children.ToList();
             containerPane?.MoveChild(childrenList.IndexOf(_draggingItem.Model), childrenList.IndexOf(model));
+        }
+
+        protected override void OnMouseDown(MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Middle)
+                if (LayoutItem.CloseCommand.CanExecute(null))
+                    LayoutItem.CloseCommand.Execute(null);
+            base.OnMouseDown(e);
         }
 
         protected override void OnMouseLeave(MouseEventArgs e)
@@ -128,11 +110,6 @@ namespace ModernApplicationFramework.Docking.Controls
             base.OnPreviewDragEnter(e);
         }
 
-        protected void SetLayoutItem(LayoutItem value)
-        {
-            SetValue(LayoutItemPropertyKey, value);
-        }
-
         internal static LayoutAnchorableTabItem GetDraggingItem()
         {
             return _draggingItem;
@@ -146,11 +123,6 @@ namespace ModernApplicationFramework.Docking.Controls
         internal static void ResetDraggingItem()
         {
             _draggingItem = null;
-        }
-
-        private static void OnModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((LayoutAnchorableTabItem) d).OnModelChanged(e);
         }
     }
 }
