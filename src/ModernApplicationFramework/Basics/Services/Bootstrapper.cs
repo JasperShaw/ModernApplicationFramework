@@ -20,46 +20,61 @@ namespace ModernApplicationFramework.Basics.Services
     /// A minimal bootsrapper to launch the application
     /// </summary>
     /// <seealso cref="T:Caliburn.Micro.BootstrapperBase" />
-    public class Bootstrapper : BootstrapperBase
+    public abstract class Bootstrapper : BootstrapperBase
     {
         /// <summary>
         /// The container of all instances
         /// </summary>
-        protected CompositionContainer Container;
+        private CompositionContainer _container;
 
         /// <summary>
         /// The priority assemblies
         /// </summary>
-        protected List<Assembly> _priorityAssemblies;
+        private List<Assembly> _priorityAssemblies;
 
         /// <summary>
         /// Gets the environment variables for this application.
         /// </summary>
         protected virtual IEnvironmentVariables EnvironmentVariables => new FallbackEnvironmentVariables();
 
-        public Bootstrapper(bool useApplication = true) : base(useApplication)
+        protected Bootstrapper(bool useApplication = true) : base(useApplication)
         {
-			PreInitialize();
-            Initialize();
-	        SetLanguage();
         }
 
-	    internal IList<Assembly> PriorityAssemblies => _priorityAssemblies;
+	    public IEnumerable<Assembly> PriorityAssemblies => _priorityAssemblies;
+
+        protected new void Initialize()
+        {
+            PreInitialize();
+            base.Initialize();
+            PostInitialize();
+        }
 
         /// <summary>
         /// Performs actions before the bootstrapper gets initialized.
         /// </summary>
         protected virtual void PreInitialize()
-	    {
-		    
-	    }
+        {
+            var exassemlby = Assembly.GetExecutingAssembly().Location;
+            var directory = Path.GetDirectoryName(exassemlby);
+            // This makes sure we can share any applications through the Internet
+            ClearUrlZonesInDirectory(directory);
+        }
+
+        /// <summary>
+        /// Performs actions after the bootstrapper gets initialized.
+        /// </summary>
+        protected virtual void PostInitialize()
+        {
+            SetLanguage();
+        }
 
         /// <summary>
         /// Sets the language of the application.
         /// </summary>
-        protected void SetLanguage()
+        private void SetLanguage()
         {
-	        var lm = Container.GetExportedValue<ILanguageManager>() as LanguageManager;
+	        var lm = _container.GetExportedValue<ILanguageManager>() as LanguageManager;
 			lm?.SetLanguage();
         }
 
@@ -69,7 +84,7 @@ namespace ModernApplicationFramework.Basics.Services
         /// <param name="instance">The instance to perform injection on.</param>
         protected override void BuildUp(object instance)
         {
-            Container.SatisfyImportsOnce(instance);
+            _container.SatisfyImportsOnce(instance);
         }
 
         /// <summary>
@@ -82,23 +97,9 @@ namespace ModernApplicationFramework.Basics.Services
             batch.AddExportedValue<IEventAggregator>(new EventAggregator());
             batch.AddExportedValue<ILanguageManager>(new LanguageManager());
             batch.AddExportedValue(EnvironmentVariables);
-            batch.AddExportedValue(Container);
             batch.AddExportedValue(this);
         }
-
-        /// <inheritdoc />
-        /// <summary>
-        /// Provides an opportunity to hook into the application object.
-        /// </summary>
-        protected override void PrepareApplication()
-        {
-            base.PrepareApplication();
-            var exassemlby = Assembly.GetExecutingAssembly().Location;
-            var directory = Path.GetDirectoryName(exassemlby);
-            //This makes sure we can share any applications through the Internet
-            ClearUrlZonesInDirectory(directory);
-        }
-
+        
         /// <inheritdoc />
         /// <summary>
         /// Override to configure the framework and setup your IoC container.
@@ -122,23 +123,22 @@ namespace ModernApplicationFramework.Basics.Services
                     .Select(x => new AssemblyCatalog(x)));
             var mainProvider = new CatalogExportProvider(mainCatalog);
 
-            Container = new CompositionContainer(priorityProvider, mainProvider);
-            priorityProvider.SourceProvider = Container;
-            mainProvider.SourceProvider = Container;
+            _container = new CompositionContainer(priorityProvider, mainProvider);
+            priorityProvider.SourceProvider = _container;
+            mainProvider.SourceProvider = _container;
 
             var batch = new CompositionBatch();
 
             BindServices(batch);
-            batch.AddExportedValue(mainCatalog);
 
-            Container.Compose(batch);
+            _container.Compose(batch);
         }
 
         /// <summary>
         /// Clears the URL zones of all .dll files inside a given directory.
         /// </summary>
         /// <param name="directoryPath">The directory path.</param>
-        protected static void ClearUrlZonesInDirectory(string directoryPath)
+        private static void ClearUrlZonesInDirectory(string directoryPath)
         {
             foreach (var filePath in Directory.EnumerateFiles(directoryPath, "*.dll", SearchOption.AllDirectories))
             {
@@ -155,7 +155,7 @@ namespace ModernApplicationFramework.Basics.Services
         /// <returns></returns>
         protected override IEnumerable<object> GetAllInstances(Type serviceType)
         {
-            return Container.GetExportedValues<object>(AttributedModelServices.GetContractName(serviceType));
+            return _container.GetExportedValues<object>(AttributedModelServices.GetContractName(serviceType));
         }
 
         /// <inheritdoc />
@@ -169,11 +169,9 @@ namespace ModernApplicationFramework.Basics.Services
         protected override object GetInstance(Type serviceType, string key)
         {
             var contract = string.IsNullOrEmpty(key) ? AttributedModelServices.GetContractName(serviceType) : key;
-            var exports = Container.GetExportedValues<object>(contract);
-
-            var enumerable = exports as object[] ?? exports.ToArray();
-            if (enumerable.Any())
-                return enumerable.First();
+            var exports = _container.GetExportedValues<object>(contract).ToArray();
+            if (exports.Any())
+                return exports.First();
             throw new Exception($"Could not locate any instances of contract {contract}.");
         }
     }
