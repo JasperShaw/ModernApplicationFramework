@@ -27,7 +27,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.DefaultWindowLayout
         private void Setup()
         {
             using (var stream = Assembly.GetExecutingAssembly()
-                .GetManifestResourceStream("ModernApplicationFramework.MVVM.Demo.Resources.DefaultProfile.winprf"))
+                .GetManifestResourceStream("ModernApplicationFramework.Extended.Demo.Resources.DefaultProfile.winprf"))
             {
                 var payload = LayoutPayloadUtilities.StreamToPlayloadData(stream);
                 var profile = new WindowProfile("Default", payload);

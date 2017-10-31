@@ -20,7 +20,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.AppIcon
                     return _vectorIcon;
                 _isVectorIconInitialized = true;
 
-                var uri = new Uri("/ModernApplicationFramework.MVVM.Demo;component/Resources/Icon.xaml",
+                var uri = new Uri("/ModernApplicationFramework.Extended.Demo;component/Resources/Icon.xaml",
                     UriKind.RelativeOrAbsolute);
  
                 var myResourceDictionary = new ResourceDictionary { Source = uri };
