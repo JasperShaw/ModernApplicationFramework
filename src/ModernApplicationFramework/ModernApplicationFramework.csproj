@@ -232,6 +232,9 @@
     <Compile Include="Basics\Definitions\Command\CommandGestureScopeMapping.cs" />
     <Compile Include="Basics\Services\KeyboardInputService.cs" />
     <Compile Include="Core\Utilities\CaptureManager.cs" />
+    <Compile Include="Core\Utilities\CommandFocusManager.cs" />
+    <Compile Include="Core\Utilities\CommandNavigationHelper.cs" />
+    <Compile Include="Core\Utilities\HwndSourceTracker.cs" />
     <Compile Include="Docking\Controls\DragUndockHeader.cs" />
     <Compile Include="Docking\DockPreference.cs" />
     <Compile Include="Input\Command\DelegateCommand.cs" />

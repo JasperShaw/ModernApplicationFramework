@@ -285,6 +285,8 @@ namespace ModernApplicationFramework.Docking
             FocusableProperty.OverrideMetadata(typeof(DockingManager), new FrameworkPropertyMetadata(false));
             HwndSource.DefaultAcquireHwndFocusInMenuMode = false;
             CaptureManager.Initialize();
+            CommandFocusManager.Initialize();
+            HwndSourceTracker.Initialize();
         }
 
 

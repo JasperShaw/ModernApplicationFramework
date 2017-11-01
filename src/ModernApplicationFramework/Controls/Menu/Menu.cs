@@ -46,6 +46,11 @@ namespace ModernApplicationFramework.Controls.Menu
 
         public static ResourceKey SeparatorStyleKey => _separatorStyleKey ?? (_separatorStyleKey = new StyleKey<Menu>());
 
+        public Menu()
+        {
+            CommandModeHelper.RegisterMenu(this);
+        }
+
         protected override DependencyObject GetContainerForItemOverride()
         {
             var element = new MenuItem();

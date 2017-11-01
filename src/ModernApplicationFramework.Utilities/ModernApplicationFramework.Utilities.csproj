@@ -126,6 +126,7 @@
     <Compile Include="Settings\SettingsValueSerializer.cs" />
     <Compile Include="TreeViewItemExtensions.cs" />
     <Compile Include="Validate.cs" />
+    <Compile Include="WeakCollectionT.cs" />
     <Compile Include="Xml\XmlObjectParserT.cs" />
     <Compile Include="Xml\XmlUtilities.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

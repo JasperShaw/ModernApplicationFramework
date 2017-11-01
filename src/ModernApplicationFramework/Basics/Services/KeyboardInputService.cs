@@ -4,8 +4,12 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Interop;
 using Caliburn.Micro;
+using ModernApplicationFramework.Controls.Windows;
+using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces.Services;
+using ModernApplicationFramework.Native.NativeMethods;
 
 namespace ModernApplicationFramework.Basics.Services
 {
@@ -58,7 +62,10 @@ namespace ModernApplicationFramework.Basics.Services
         public void Register(Window window)
         {
             if (Enabled)
+            {
                 WeakEventManager<Window, EventArgs>.AddHandler(window, "PreviewKeyDown", Handler);
+                WeakEventManager<Window, EventArgs>.AddHandler(window, "PreviewKeyUp", UpHandler);
+            }
             _list.Add(new WeakReference(window));
         }
 
@@ -70,6 +77,7 @@ namespace ModernApplicationFramework.Basics.Services
         public void Unregister(Window window)
         {
             WeakEventManager<Window, EventArgs>.RemoveHandler(window, "PreviewKeyDown", Handler);
+            WeakEventManager<Window, EventArgs>.RemoveHandler(window, "PreviewKeyUp", UpHandler);
             _list.Remove(_list.Find(x => x.Target.Equals(window)));
         }
 
@@ -77,7 +85,11 @@ namespace ModernApplicationFramework.Basics.Services
         {
             foreach (var weakReference in _list.Where(x => x.IsAlive))
                 if (weakReference.Target is Window window)
+                {
                     WeakEventManager<Window, EventArgs>.RemoveHandler(window, "PreviewKeyDown", Handler);
+                    WeakEventManager<Window, EventArgs>.RemoveHandler(window, "PreviewKeyUp", UpHandler);
+                }
+                    
         }
 
         private void Handler(object sender, EventArgs eventArgs)
@@ -86,12 +98,52 @@ namespace ModernApplicationFramework.Basics.Services
                 OnPreviewKeyDown(e);
         }
 
+        private void UpHandler(object sender, EventArgs eventArgs)
+        {
+            if (eventArgs is KeyEventArgs e && Enabled)
+                OnPreviewKeyUp(e);
+        }
+
+        private void OnPreviewKeyUp(KeyEventArgs e)
+        {
+            var realKey = e.Key == Key.System ? e.SystemKey : e.Key;
+            e.Handled = CommandModeHelper.TranslateAccelerator(realKey, true);
+        }
+
         /// <summary>
         /// Raises the <see cref="E:PreviewKeyDown" /> event.
         /// </summary>
         /// <param name="e">The <see cref="KeyEventArgs"/> instance containing the event data.</param>
         protected virtual void OnPreviewKeyDown(KeyEventArgs e)
         {
+
+
+            if (e.Handled)
+                CommandModeHelper.ResetState();
+            else
+            {
+                if (!InputManager.Current.IsInMenuMode)
+                {
+                    if (Application.Current.MainWindow is MainWindow mainWindow)
+                    {
+                        if (PresentationSource.FromVisual(mainWindow) is IKeyboardInputSink keyboardInputSink)
+                        {
+                            ModifierKeys modifierKeys = NativeMethods.ModifierKeys;
+                            //keyboardInputSink.TranslateAccelerator(ref , modifierKeys);
+                        }
+                    }
+                }
+
+                var realKey = e.Key == Key.System ? e.SystemKey : e.Key;
+                e.Handled = CommandModeHelper.TranslateAccelerator(realKey, false);
+            }
+
+
+
+
+
+
+
             PreviewKeyDown?.Invoke(this, e);
         }
     }

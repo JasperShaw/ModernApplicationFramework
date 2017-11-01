@@ -16,6 +16,12 @@ namespace ModernApplicationFramework.Native.NativeMethods
             IntPtr hMenu, IntPtr hInstance, IntPtr lpParam);
 
         [DllImport("user32.dll")]
+        internal static extern uint MapVirtualKey(uint uCode, uint uMapType);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetDesktopWindow();
+
+        [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool EnumThreadWindows(uint dwThreadId, NativeMethods.EnumWindowsProc lpfn, IntPtr lParam);
 
@@ -155,6 +161,10 @@ namespace ModernApplicationFramework.Native.NativeMethods
         [DllImport("user32.dll")]
         internal static extern IntPtr PostMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
 
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool PostMessage(IntPtr hWnd, int nMsg, IntPtr wParam, IntPtr lParam);
+
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool ScreenToClient(IntPtr hWnd, ref Point point);
@@ -217,15 +227,23 @@ namespace ModernApplicationFramework.Native.NativeMethods
             IntPtr hInstance,
             int threadId);
 
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr SetWindowsHookEx(NativeMethods.WindowsHookType hookType, NativeMethods.WindowsHookProc hookProc, IntPtr module, uint threadId);
+
         [DllImport("user32.dll")]
         public static extern int CallNextHookEx(IntPtr hhook,
             int code, IntPtr wParam, IntPtr lParam);
 
         [DllImport("user32.dll")]
+        public static extern IntPtr CallNextHookEx(IntPtr hhk, NativeMethods.CbtHookAction code, IntPtr wParam, IntPtr lParam);
+
+        [DllImport("user32.dll")]
         public static extern IntPtr MonitorFromRect([In] ref RECT lprc, uint dwFlags);
 
         [DllImport("user32.dll")]
-        public static extern int UnhookWindowsHookEx(IntPtr hhook);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool UnhookWindowsHookEx(IntPtr hhook);
+
 
         [DllImport("user32.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
         internal static extern IntPtr GetParent(IntPtr hWnd);
