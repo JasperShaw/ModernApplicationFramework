@@ -6,31 +6,69 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Extended.Core.Package
+namespace ModernApplicationFramework.Extended.Package
 {
+    /// <summary>
+    /// <see cref="Package"/>s are modules that extend the application by providing UI elements, services, etc.
+    /// </summary>
+    /// <seealso cref="ModernApplicationFramework.Utilities.DisposableObject" />
+    /// <seealso cref="IMafPackage" />
     public abstract class Package : DisposableObject, IMafPackage
     {
+        /// <summary>
+        /// The docking shell of the application
+        /// </summary>
         protected IDockingHostViewModel DockingHostViewModel => _dockingHostViewModel;
 
+        /// <summary>
+        /// The Main Window of the application
+        /// </summary>
         protected IDockingMainWindowViewModel MainWindow => _useDockingHost;
 
+        /// <summary>
+        /// The load option.
+        /// </summary>
         public abstract PackageLoadOption LoadOption { get; }
+
+        /// <summary>
+        /// The close option.
+        /// </summary>
         public abstract PackageCloseOption CloseOption { get; }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Gets a value indicating whether this <see cref="T:ModernApplicationFramework.Extended.Package.IMafPackage" /> is initialized.
+        /// </summary>
         public bool Initialized { get; private set; }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// The identifier.
+        /// </summary>
         public abstract Guid Id { get; }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// The default tools of this <see cref="T:ModernApplicationFramework.Extended.Package.IMafPackage" />.
+        /// </summary>
         public virtual IEnumerable<Type> DefaultTools
         {
             get { yield break; }
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Global resource dictionaries of the <see cref="T:ModernApplicationFramework.Extended.Package.IMafPackage" />.
+        /// </summary>
         public virtual IEnumerable<ResourceDictionary> GlobalResourceDictionaries
         {
             get { yield break; }
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Closes this instance.
+        /// </summary>
         public void Close()
         {
             if (IsDisposed)
@@ -45,6 +83,10 @@ namespace ModernApplicationFramework.Extended.Core.Package
             Dispose(true);
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
         public virtual void Initialize()
         {
             foreach (var globalResourceDictionary in GlobalResourceDictionaries)

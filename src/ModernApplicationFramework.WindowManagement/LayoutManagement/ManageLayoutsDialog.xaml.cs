@@ -13,7 +13,7 @@ using Action = System.Action;
 
 namespace ModernApplicationFramework.WindowManagement.LayoutManagement
 {
-    public partial class ManageLayoutsDialog
+    internal partial class ManageLayoutsDialog
     {
         private bool _scrollPending;
 

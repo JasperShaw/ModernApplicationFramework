@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Services;
-using ModernApplicationFramework.Extended.Core.Package;
 using ModernApplicationFramework.Extended.Modules.InspectorTool;
 using ModernApplicationFramework.Extended.Modules.OutputTool;
+using ModernApplicationFramework.Extended.Package;
 using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.Startup
 {
     [Export(typeof(IMafPackage))]
-    public class StartupPackage : Package
+    public class StartupPackage : Package.Package
     {
         private readonly IOutput _output;
         private readonly IInspectorTool _inspectorTool;

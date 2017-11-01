@@ -8,7 +8,8 @@
              xmlns:properties="clr-namespace:ModernApplicationFramework.WindowManagement.Properties"
              WindowStartupLocation="CenterOwner" HasDialogFrame="True" ShowInTaskbar="False" 
                    Title="{x:Static properties:WindowManagement_Resources.ManageLayoutsDialogTitle}"
-                   ResizeMode="CanResizeWithGrip" Width="380" Height="380" MinWidth="380" MinHeight="380">
+                   ResizeMode="CanResizeWithGrip" Width="380" Height="380" MinWidth="380" MinHeight="380"
+                   x:ClassModifier="internal">
     <FrameworkElement.Resources>
 
         <ResourceDictionary>

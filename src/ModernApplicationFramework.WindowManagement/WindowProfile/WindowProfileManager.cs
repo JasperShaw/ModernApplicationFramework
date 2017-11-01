@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using ModernApplicationFramework.Utilities;
-using ModernApplicationFramework.WindowManagement.LayoutState;
+using ModernApplicationFramework.WindowManagement.Utilities;
 
 namespace ModernApplicationFramework.WindowManagement.WindowProfile
 {
@@ -18,16 +18,6 @@ namespace ModernApplicationFramework.WindowManagement.WindowProfile
         private bool _isFileNameIndexLoaded;
 
 
-        public WindowProfileManager(string profileRootDirectory)
-        {
-            Validate.IsNotNull(profileRootDirectory, nameof(profileRootDirectory));
-            if (!Path.IsPathRooted(profileRootDirectory))
-                throw new ArgumentException("Profile root directory must be a rooted path",
-                    nameof(profileRootDirectory));
-            ProfileRootDirectory = profileRootDirectory;
-        }
-
-
         public event EventHandler<WindowProfileEventArgs> ProfileAdded;
 
         public event EventHandler<WindowProfileEventArgs> ProfileSet;
@@ -37,6 +27,16 @@ namespace ModernApplicationFramework.WindowManagement.WindowProfile
 
 
         private string ProfileRootDirectory { get; }
+
+
+        public WindowProfileManager(string profileRootDirectory)
+        {
+            Validate.IsNotNull(profileRootDirectory, nameof(profileRootDirectory));
+            if (!Path.IsPathRooted(profileRootDirectory))
+                throw new ArgumentException("Profile root directory must be a rooted path",
+                    nameof(profileRootDirectory));
+            ProfileRootDirectory = profileRootDirectory;
+        }
 
         public void AddProfile(WindowProfile profile)
         {
@@ -95,6 +95,18 @@ namespace ModernApplicationFramework.WindowManagement.WindowProfile
             return File.Open(GetProfileFullPath(profileName), mode, fileAccess, share);
         }
 
+        public bool Reload(string profileName)
+        {
+            Validate.IsNotNullAndNotEmpty(profileName, nameof(profileName));
+            if (!IsProfileInIndex(profileName))
+                return false;
+            var windowProfile = LoadProfileFromLocalStorage(profileName);
+            if (windowProfile == null)
+                return false;
+            AddProfile(windowProfile);
+            return true;
+        }
+
         public void Save(WindowProfile profile)
         {
             Validate.IsNotNull(profile, nameof(profile));
@@ -112,45 +124,27 @@ namespace ModernApplicationFramework.WindowManagement.WindowProfile
                 if (TryGetProfile(profileName, out var profile))
                     Save(profile);
                 using (var stream = OpenProfileLocalStorage(profileName, FileAccess.Read))
-                    using (var destination = OpenProfileBackupLocalStorage(profileName, FileAccess.Write))
-                        stream.CopyTo(destination);
+                using (var destination = OpenProfileBackupLocalStorage(profileName, FileAccess.Write))
+                {
+                    stream.CopyTo(destination);
+                }
             }
-            catch (IOException ex)
+            catch
             {
-                //this.RaiseExceptionFilter((Exception)ex, "Failed to create a backup of window configuration file.");
+                //Ignored
             }
-            catch (UnauthorizedAccessException ex)
-            {
-                //this.RaiseExceptionFilter((Exception)ex, "Failed to create a backup of window configuration file.");
-            }
-        }
-
-        public bool Reload(string profileName)
-        {
-            Validate.IsNotNullAndNotEmpty(profileName, nameof(profileName));
-            if (!IsProfileInIndex(profileName))
-                return false;
-            var windowProfile = LoadProfileFromLocalStorage(profileName);
-            if (windowProfile == null)
-                return false;
-            AddProfile(windowProfile);
-            return true;
         }
 
         internal void DeleteProfileBackupFiles()
         {
             try
             {
-                foreach (string enumerateFile in Directory.EnumerateFiles(ProfileRootDirectory, "*.winprf_backup"))
+                foreach (var enumerateFile in Directory.EnumerateFiles(ProfileRootDirectory, "*.winprf_backup"))
                     File.Delete(enumerateFile);
             }
-            catch (IOException ex)
+            catch
             {
-                //this.RaiseExceptionFilter((Exception)ex, "Failed to delete window configuration backup file.");
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                //this.RaiseExceptionFilter((Exception)ex, "Failed to delete window configuration backup file.");
+                //Ignored
             }
         }
 
@@ -158,25 +152,23 @@ namespace ModernApplicationFramework.WindowManagement.WindowProfile
         {
             try
             {
-                foreach (string enumerateFile in Directory.EnumerateFiles(ProfileRootDirectory, "*.winprf_backup"))
+                foreach (var enumerateFile in Directory.EnumerateFiles(ProfileRootDirectory, "*.winprf_backup"))
                 {
-                    string withoutExtension = Path.GetFileNameWithoutExtension(enumerateFile);
-                    using (Stream destination = OpenProfileLocalStorage(withoutExtension, FileAccess.Write))
+                    var withoutExtension = Path.GetFileNameWithoutExtension(enumerateFile);
+                    using (var destination = OpenProfileLocalStorage(withoutExtension, FileAccess.Write))
                     {
                         using (Stream stream = File.Open(enumerateFile, FileMode.Open, FileAccess.Read, FileShare.Read))
+                        {
                             stream.CopyTo(destination);
+                        }
                     }
-                    if (TryGetProfile(withoutExtension, out var profile))
+                    if (TryGetProfile(withoutExtension, out var _))
                         Reload(withoutExtension);
                 }
             }
-            catch (IOException ex)
+            catch
             {
-                //this.RaiseExceptionFilter((Exception)ex, "Failed to restor a window configuration file from backup.");
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                //this.RaiseExceptionFilter((Exception)ex, "Failed to restor a window configuration file from backup.");
+                //Ignored
             }
         }
 
@@ -207,14 +199,8 @@ namespace ModernApplicationFramework.WindowManagement.WindowProfile
                     Directory.CreateDirectory(ProfileRootDirectory);
                 return true;
             }
-            catch (IOException ex)
+            catch
             {
-                //this.RaiseExceptionFilter((Exception)ex, "Failed to create window configuration storage directory.");
-                return false;
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                //this.RaiseExceptionFilter((Exception)ex, "Failed to create window configuration storage directory.");
                 return false;
             }
         }
@@ -282,18 +268,14 @@ namespace ModernApplicationFramework.WindowManagement.WindowProfile
                         while (index < strArray.Length)
                         {
                             _fileNameIndex[strArray[index]] = Path.Combine(ProfileRootDirectory,
-                                Path.GetFileName(strArray[index + 1]));
+                                Path.GetFileName(strArray[index + 1]) ?? throw new InvalidOperationException());
                             index += 2;
                         }
                     }
                 }
                 return true;
             }
-            catch (IOException ex)
-            {
-                return false;
-            }
-            catch (UnauthorizedAccessException ex)
+            catch
             {
                 return false;
             }
@@ -351,13 +333,9 @@ namespace ModernApplicationFramework.WindowManagement.WindowProfile
                     }
                 }
             }
-            catch (IOException ex)
+            catch
             {
-                //this.RaiseExceptionFilter((Exception)ex, "Failed to save window configuration index file.");
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                //this.RaiseExceptionFilter((Exception)ex, "Failed to save window configuration index file.");
+                //Ignored
             }
         }
 
@@ -368,13 +346,9 @@ namespace ModernApplicationFramework.WindowManagement.WindowProfile
             {
                 LayoutPayloadUtilities.PayloadDataToFile(GetProfileFullPath(profile.Name), profile.StatePlayload);
             }
-            catch (IOException ex)
+            catch
             {
-                //this.RaiseExceptionFilter((Exception)ex, "Failed to save window configuration.");
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                //this.RaiseExceptionFilter((Exception)ex, "Failed to save window configuration.");
+                //Ignored
             }
         }
 

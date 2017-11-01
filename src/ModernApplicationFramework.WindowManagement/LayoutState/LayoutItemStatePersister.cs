@@ -63,7 +63,7 @@ namespace ModernApplicationFramework.WindowManagement.LayoutState
                 throw new InvalidOperationException();
 
             if (inputStream == null)
-                throw new ArgumentNullException("Stream must not be null");
+                throw new ArgumentNullException(nameof(inputStream));
 
             if (processOption.HasFlag(ProcessStateOption.DocumentsOnly) && processOption.HasFlag(ProcessStateOption.ToolsOnly) ||
                 processOption.HasFlag(ProcessStateOption.Complete) && (processOption.HasFlag(ProcessStateOption.ToolsOnly) ||
@@ -143,7 +143,7 @@ namespace ModernApplicationFramework.WindowManagement.LayoutState
                 throw new InvalidOperationException();
 
             if (inputStream == null)
-                throw new ArgumentNullException("Stream must not be null");
+                throw new ArgumentNullException(nameof(inputStream));
 
             if (processOption.HasFlag(ProcessStateOption.DocumentsOnly) && processOption.HasFlag(ProcessStateOption.ToolsOnly) ||
                 processOption.HasFlag(ProcessStateOption.Complete) && (processOption.HasFlag(ProcessStateOption.ToolsOnly) ||

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
-using ModernApplicationFramework.Extended.Core.Package;
+using ModernApplicationFramework.Extended.Package;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.SampleExplorer
 {
     [Export(typeof(IMafPackage))]
-    public class SampleExplorerModule : Package
+    public class SampleExplorerModule : Package.Package
     {
         public override PackageLoadOption LoadOption => PackageLoadOption.OnMainWindowLoaded;
         public override PackageCloseOption CloseOption => PackageCloseOption.OnMainWindowClosed;

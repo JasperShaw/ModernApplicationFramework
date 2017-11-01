@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.IO;
-using ModernApplicationFramework.Extended.Core.Package;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Extended.Package;
 using ModernApplicationFramework.Utilities.Interfaces;
 using ModernApplicationFramework.Utilities.Interfaces.Settings;
 

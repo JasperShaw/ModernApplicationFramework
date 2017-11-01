@@ -5,6 +5,9 @@ using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.WindowManagement.LayoutManagement
 {
+    /// <summary>
+    /// A <see cref="WindowLayout"/> contains information to store and restore window layout configurations
+    /// </summary>
     [Serializable]
     [XmlType(AnonymousType = true)]
     [XmlRoot(ElementName = "Layout")]
@@ -15,6 +18,9 @@ namespace ModernApplicationFramework.WindowManagement.LayoutManagement
         private string _keyField;
         private string _layoutRoot;
 
+        /// <summary>
+        /// The unique key of the layout. Should not be set manually.
+        /// </summary>
         [XmlAttribute]
         public string Key
         {
@@ -22,6 +28,9 @@ namespace ModernApplicationFramework.WindowManagement.LayoutManagement
             set => _keyField = value;
         }
 
+        /// <summary>
+        /// The name of the layout. Should be unique in the application
+        /// </summary>
         [XmlAttribute]
         public string Name
         {
@@ -29,6 +38,9 @@ namespace ModernApplicationFramework.WindowManagement.LayoutManagement
             set => _name = value;
         }
 
+        /// <summary>
+        /// The index position of the layout. Used to create a mapping with the Apply#Command
+        /// </summary>
         [XmlAttribute]
         public int Position
         {
@@ -36,6 +48,9 @@ namespace ModernApplicationFramework.WindowManagement.LayoutManagement
             set => _position = value;
         }
 
+        /// <summary>
+        /// A payload string that contains the layout information
+        /// </summary>
         [XmlAttribute]
         public string Payload
         {

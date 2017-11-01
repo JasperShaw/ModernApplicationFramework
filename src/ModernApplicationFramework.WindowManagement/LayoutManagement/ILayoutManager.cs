@@ -1,6 +1,6 @@
 namespace ModernApplicationFramework.WindowManagement.LayoutManagement
 {
-    public interface ILayoutManager
+    internal interface ILayoutManager
     {
         int LayoutCount { get; }
 

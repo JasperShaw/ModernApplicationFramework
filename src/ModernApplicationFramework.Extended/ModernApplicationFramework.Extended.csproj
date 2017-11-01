@@ -67,9 +67,12 @@
     <Compile Include="ApplicationEnvironment\FallbackExtendedEnvironmentVariables.cs" />
     <Compile Include="Core\Layout\LayoutInitializer.cs" />
     <Compile Include="Core\Layout\LayoutUtilities.cs" />
-    <Compile Include="Core\Package\IMafPackage.cs" />
-    <Compile Include="Core\Package\Package.cs" />
-    <Compile Include="Core\Package\PackageManager.cs" />
+    <Compile Include="Package\IMafPackage.cs" />
+    <Compile Include="Package\IPackageManager.cs" />
+    <Compile Include="Package\Package.cs" />
+    <Compile Include="Package\PackageCloseOption.cs" />
+    <Compile Include="Package\PackageLoadOption.cs" />
+    <Compile Include="Package\PackageManager.cs" />
     <Compile Include="GuidCollection.cs" />
     <Compile Include="KeyBindingScheme\KeyBindingSchemeManager.cs" />
     <Compile Include="KeyBindingScheme\FileSchemeDefinition.cs" />

@@ -71,7 +71,7 @@
     <Compile Include="LayoutManagementPackage.cs" />
     <Compile Include="LayoutManagementService.cs" />
     <Compile Include="LayoutState\ILayoutItemStatePersister.cs" />
-    <Compile Include="LayoutState\LayoutPayloadUtilities.cs" />
+    <Compile Include="Utilities\LayoutPayloadUtilities.cs" />
     <Compile Include="WindowProfile\IDefaultWindowProfileProvider.cs" />
     <Compile Include="LayoutManagement\ILayoutManagementUserInput.cs" />
     <Compile Include="LayoutManagement\ILayoutManager.cs" />
@@ -84,7 +84,7 @@
     <Compile Include="LayoutManagement\LayoutManagementUtilities.cs" />
     <Compile Include="LayoutManagement\LayoutManager.cs" />
     <Compile Include="LayoutState\LayoutItemStatePersister.cs" />
-    <Compile Include="LayoutState\ProcessStateOption.cs" />
+    <Compile Include="ProcessStateOption.cs" />
     <Compile Include="LayoutManagement\ManageLayoutsDialog.xaml.cs">
       <DependentUpon>ManageLayoutsDialog.xaml</DependentUpon>
     </Compile>
@@ -157,8 +157,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Utilities\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

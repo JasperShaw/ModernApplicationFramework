@@ -2,8 +2,8 @@
 using System.ComponentModel.Composition;
 using System.Windows;
 using Caliburn.Micro;
-using ModernApplicationFramework.Extended.Core.Package;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Extended.Package;
 
 namespace ModernApplicationFramework.Extended.DockingHost.ViewModels
 {

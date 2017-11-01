@@ -10,7 +10,7 @@ using ModernApplicationFramework.WindowManagement.Properties;
 
 namespace ModernApplicationFramework.WindowManagement.LayoutManagement
 {
-    public class LayoutManager : ILayoutManager, ILayoutManagerInternal
+    internal class LayoutManager : ILayoutManager, ILayoutManagerInternal
     {
         private readonly ILayoutManagementUserInput _layoutManagementUserInput;
         private readonly IWindowLayoutSettings _layoutSettings;

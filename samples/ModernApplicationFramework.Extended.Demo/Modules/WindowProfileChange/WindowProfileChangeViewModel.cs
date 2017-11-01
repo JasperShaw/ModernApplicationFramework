@@ -27,19 +27,19 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.WindowProfileChange
 
         private void SetDefault()
         {
-            LayoutManagementPackage.Instance.LayoutManagementSystem.LoadLayout("Default");
+            LayoutManagementPackage.Instance.LayoutManagementSystem.LoadOrCreateProfile("Default");
             _statusBar.SetText(1, "Default");
         }
 
         private void SetDesign()
         {
-            LayoutManagementPackage.Instance.LayoutManagementSystem.LoadLayout("Design");
+            LayoutManagementPackage.Instance.LayoutManagementSystem.LoadOrCreateProfile("Design");
             _statusBar.SetText(1, "Design");
         }
 
         private void SetDebug()
         {
-            LayoutManagementPackage.Instance.LayoutManagementSystem.LoadLayout("Debug");
+            LayoutManagementPackage.Instance.LayoutManagementSystem.LoadOrCreateProfile("Debug");
             _statusBar.SetText(1, "Debug");
         }
 

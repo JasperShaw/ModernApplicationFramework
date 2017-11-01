@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using ModernApplicationFramework.Extended.Core.Package;
+using ModernApplicationFramework.Extended.Package;
 
 namespace ModernApplicationFramework.WindowManagement
 {
@@ -9,18 +9,26 @@ namespace ModernApplicationFramework.WindowManagement
     {
         private LayoutManagementService _layoutManagementService;
 
-        public override PackageLoadOption LoadOption => PackageLoadOption.OnApplicationStart;
+        /// <summary>
+        ///     The current instance.
+        /// </summary>
+        public static LayoutManagementPackage Instance { get; private set; }
+
         public override PackageCloseOption CloseOption => PackageCloseOption.PreviewApplicationClosed;
         public override Guid Id => new Guid("{BC313FD7-C2E3-4188-9C82-CFD5BEF6A822}");
 
-        public static LayoutManagementPackage Instance { get; private set; }
 
-        public LayoutManagementPackage()
+        /// <summary>
+        ///     The layout management system.
+        /// </summary>
+        public ILayoutManagementService LayoutManagementSystem { get; private set; }
+
+        public override PackageLoadOption LoadOption => PackageLoadOption.OnApplicationStart;
+
+        internal LayoutManagementPackage()
         {
             Instance = this;
         }
-
-        public ILayoutManagementService LayoutManagementSystem { get; private set; }
 
         public override void Initialize()
         {

@@ -44,6 +44,7 @@ using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Native;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Native.Platform.Enums;
+using ModernApplicationFramework.Utilities;
 using Action = System.Action;
 
 namespace ModernApplicationFramework.Docking

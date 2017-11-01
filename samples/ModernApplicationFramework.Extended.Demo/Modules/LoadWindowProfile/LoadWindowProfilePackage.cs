@@ -1,12 +1,12 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using ModernApplicationFramework.Extended.Core.Package;
+using ModernApplicationFramework.Extended.Package;
 using ModernApplicationFramework.WindowManagement;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.LoadWindowProfile
 {
     [Export(typeof(IMafPackage))]
-    public class LoadWindowProfilePackage : Package
+    public class LoadWindowProfilePackage : Package.Package
     {
         public override PackageLoadOption LoadOption => PackageLoadOption.OnMainWindowLoaded;
         public override PackageCloseOption CloseOption => PackageCloseOption.OnMainWindowClosed;
@@ -16,7 +16,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.LoadWindowProfile
         public override void Initialize()
         {
             base.Initialize();
-            LayoutManagementPackage.Instance.LayoutManagementSystem.LoadLayout("Default");
+            LayoutManagementPackage.Instance.LayoutManagementSystem.LoadOrCreateProfile("Default");
         }
 
         protected override void DisposeManagedResources()
