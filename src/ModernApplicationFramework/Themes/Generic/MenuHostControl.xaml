@@ -8,7 +8,7 @@
     <Control.Template>
         <ControlTemplate TargetType="{x:Type internals:MenuHostControl}">
             <DockPanel Background="{DynamicResource {x:Static themes:EnvironmentColors.CommandShelfBackground}}">
-                <menu:Menu Margin="2,0,6,0" ItemsSource="{Binding Path=Items}"/>
+                <menu:Menu Margin="2,0,6,0" ItemsSource="{Binding Path=Items}" IsMainMenu="False"/>
             </DockPanel>
         </ControlTemplate>
     </Control.Template>

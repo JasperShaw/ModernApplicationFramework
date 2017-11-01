@@ -1,16 +1,18 @@
 ﻿using System.Linq;
 using System.Windows;
+using ModernApplicationFramework.Core.MenuModeHelper;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls
 {
+    /// <inheritdoc />
     /// <summary>
-    /// A custom <see cref="System.Windows.Controls.ToolBarTray"/> control
+    /// A custom <see cref="T:System.Windows.Controls.ToolBarTray" /> control
     /// </summary>
-    /// <seealso cref="System.Windows.Controls.ToolBarTray" />
+    /// <seealso cref="T:System.Windows.Controls.ToolBarTray" />
     public class ToolBarTray : System.Windows.Controls.ToolBarTray
     {
-        public static readonly DependencyProperty IsMainToolBarTrayProperty = DependencyProperty.Register(
-            "IsMainToolBarTray", typeof(bool), typeof(ToolBarTray), new PropertyMetadata(default(bool)));
+        public static readonly DependencyProperty IsMainToolBarTrayProperty = DependencyProperty.Register(nameof(IsMainToolBarTray), typeof(bool), typeof(ToolBarTray), new FrameworkPropertyMetadata(Boxes.BooleanFalse, OnIsMainToolBarTrayChanged));
 
         public static readonly DependencyProperty ContainsVisibleToolBarsProperty = DependencyProperty.Register(
             "ContainsVisibleToolBars", typeof(bool), typeof(ToolBarTray), new PropertyMetadata(default(bool)));
@@ -73,8 +75,6 @@ namespace ModernApplicationFramework.Controls
             ToolBars.Clear();
         }
 
-        #region Override Methods 
-
         protected override Size ArrangeOverride(Size arrangeSize)
         {
             var size = base.ArrangeOverride(arrangeSize);
@@ -82,6 +82,13 @@ namespace ModernApplicationFramework.Controls
             return size;
         }
 
-        #endregion
+        private static void OnIsMainToolBarTrayChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var vsToolBarTray = (ToolBarTray)d;
+            if (vsToolBarTray.IsMainToolBarTray)
+                MenuModeHelper.RegisterMainToolBarTray(vsToolBarTray);
+            else
+                MenuModeHelper.UnregisterMainToolBarTray(vsToolBarTray);
+        }
     }
 }

@@ -21,7 +21,6 @@ using ModernApplicationFramework.Native.Platform.Enums;
 using ModernApplicationFramework.Native.Platform.Structs;
 using ModernApplicationFramework.Utilities;
 using DpiHelper = ModernApplicationFramework.Native.DpiHelper;
-using NativeMethods = ModernApplicationFramework.Native.NativeMethods.NativeMethods;
 using Point = System.Windows.Point;
 using RECT = ModernApplicationFramework.Native.Platform.Structs.RECT;
 

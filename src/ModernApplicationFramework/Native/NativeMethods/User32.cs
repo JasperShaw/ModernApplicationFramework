@@ -16,9 +16,6 @@ namespace ModernApplicationFramework.Native.NativeMethods
             IntPtr hMenu, IntPtr hInstance, IntPtr lpParam);
 
         [DllImport("user32.dll")]
-        internal static extern uint MapVirtualKey(uint uCode, uint uMapType);
-
-        [DllImport("user32.dll")]
         public static extern IntPtr GetDesktopWindow();
 
         [DllImport("user32.dll")]
@@ -158,9 +155,6 @@ namespace ModernApplicationFramework.Native.NativeMethods
         [DllImport("User32")]
         internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
 
-        [DllImport("user32.dll")]
-        internal static extern IntPtr PostMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
-
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool PostMessage(IntPtr hWnd, int nMsg, IntPtr wParam, IntPtr lParam);
@@ -168,9 +162,6 @@ namespace ModernApplicationFramework.Native.NativeMethods
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool ScreenToClient(IntPtr hWnd, ref Point point);
-
-        [DllImport("user32.dll", EntryPoint = "SetWindowLongPtr", SetLastError = true)]
-        internal static extern IntPtr IntSetWindowLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         internal static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
@@ -228,14 +219,14 @@ namespace ModernApplicationFramework.Native.NativeMethods
             int threadId);
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern IntPtr SetWindowsHookEx(NativeMethods.WindowsHookType hookType, NativeMethods.WindowsHookProc hookProc, IntPtr module, uint threadId);
+        public static extern IntPtr SetWindowsHookEx(WindowsHookType hookType, NativeMethods.WindowsHookProc hookProc, IntPtr module, uint threadId);
 
         [DllImport("user32.dll")]
         public static extern int CallNextHookEx(IntPtr hhook,
             int code, IntPtr wParam, IntPtr lParam);
 
         [DllImport("user32.dll")]
-        public static extern IntPtr CallNextHookEx(IntPtr hhk, NativeMethods.CbtHookAction code, IntPtr wParam, IntPtr lParam);
+        public static extern IntPtr CallNextHookEx(IntPtr hhk, CbtHookAction code, IntPtr wParam, IntPtr lParam);
 
         [DllImport("user32.dll")]
         public static extern IntPtr MonitorFromRect([In] ref RECT lprc, uint dwFlags);

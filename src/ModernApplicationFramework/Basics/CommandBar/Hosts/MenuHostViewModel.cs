@@ -1,15 +1,14 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Controls.Internals;
 using ModernApplicationFramework.Controls.Menu;
-using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
+using ContextMenu = System.Windows.Controls.ContextMenu;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 {
@@ -30,9 +29,9 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
         public ObservableCollection<MenuItem> Items { get; }
 
-        public ICommand RightClickCommand => new Command(ExecuteRightClick);
-
         public bool AllowOpenToolBarContextMenu { get; set; } = true;
+
+        public ContextMenu ContextMenu => _toolBarHost?.ContextMenu;
 
         public IMainWindowViewModel MainWindowViewModel
         {
@@ -49,10 +48,9 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             get => _menuHostControl;
             set
             {
-                if (_menuHostControl != null)
-                    _menuHostControl.MouseRightButtonDown -= _control_MouseRightButtonDown;
+                if (Equals(_menuHostControl, value))
+                    return;
                 _menuHostControl = value;
-                _menuHostControl.MouseRightButtonDown += _control_MouseRightButtonDown;
                 OnPropertyChanged();
             }
         }
@@ -103,21 +101,6 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         {
             base.DeleteItemDefinition(definition);
             Build(definition.Group.Parent);
-        }
-
-
-        private void ExecuteRightClick()
-        {
-            if (_toolBarHost == null)
-                return;
-
-            if (AllowOpenToolBarContextMenu && _toolBarHost.TopLevelDefinitions.Any())
-                _toolBarHost.OpenContextMenuCommand.Execute(null);
-        }
-
-        private void _control_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            RightClickCommand.Execute(null);
         }
     }
 }

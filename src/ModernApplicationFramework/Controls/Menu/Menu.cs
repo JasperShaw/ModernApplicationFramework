@@ -4,11 +4,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
-using ModernApplicationFramework.Controls.ListBoxes;
 using ModernApplicationFramework.Controls.Utilities;
+using ModernApplicationFramework.Core.MenuModeHelper;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces.Controls;
+using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.Native.NativeMethods;
 
 namespace ModernApplicationFramework.Controls.Menu
@@ -21,6 +22,8 @@ namespace ModernApplicationFramework.Controls.Menu
         private static ResourceKey _comboBoxStyleKey;
         private static ResourceKey _menuStyleKey;
         private static ResourceKey _separatorStyleKey;
+
+        private bool _openContextMenu;
 
         static Menu()
         {
@@ -48,7 +51,34 @@ namespace ModernApplicationFramework.Controls.Menu
 
         public Menu()
         {
-            CommandModeHelper.RegisterMenu(this);
+            MenuModeHelper.RegisterMenu(this);
+            DataContextChanged += Menu_DataContextChanged;
+            ContextMenuOpening += Menu_ContextMenuOpening;
+        }
+
+        private void Menu_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            if (!_openContextMenu)
+                e.Handled = true;
+        }
+
+        private void Menu_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.OldValue is IMenuHostViewModel oldHost)
+            {
+                oldHost.PropertyChanged -= MenuHost_PropertyChanged;
+            }
+            if (!(e.NewValue is IMenuHostViewModel menuHost))
+                return;
+            ContextMenu = menuHost.ContextMenu;
+            menuHost.PropertyChanged += MenuHost_PropertyChanged;
+            _openContextMenu = menuHost.AllowOpenToolBarContextMenu;
+        }
+
+        private void MenuHost_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(IMenuHostViewModel.AllowOpenToolBarContextMenu))
+                _openContextMenu = ((IMenuHostViewModel) sender).AllowOpenToolBarContextMenu;
         }
 
         protected override DependencyObject GetContainerForItemOverride()
@@ -73,6 +103,8 @@ namespace ModernApplicationFramework.Controls.Menu
 
         protected override void OnContextMenuOpening(ContextMenuEventArgs e)
         {
+            if (_openContextMenu)
+                return;
             MenuUtilities.HandleOnContextMenuOpening(e, base.OnContextMenuOpening);
         }
 

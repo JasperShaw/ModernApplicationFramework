@@ -18,7 +18,7 @@ using Point = System.Windows.Point;
 
 namespace ModernApplicationFramework.Native.NativeMethods
 {
-    internal static class NativeMethods
+    internal static partial class NativeMethods
     {
         private const int WsExDlgmodalframe = 0x0001;
         private const int SwpNosize = 0x0001;
@@ -575,38 +575,5 @@ namespace ModernApplicationFramework.Native.NativeMethods
         public delegate int HookProc(int code, IntPtr wParam, IntPtr lParam);
 
         public delegate IntPtr WindowsHookProc(CbtHookAction code, IntPtr wParam, IntPtr lParam);
-
-        public enum CbtHookAction
-        {
-            HCBT_MOVESIZE,
-            HCBT_MINMAX,
-            HCBT_QS,
-            HCBT_CREATEWND,
-            HCBT_DESTROYWND,
-            HCBT_ACTIVATE,
-            HCBT_CLICKSKIPPED,
-            HCBT_KEYSKIPPED,
-            HCBT_SYSCOMMAND,
-            HCBT_SETFOCUS,
-        }
-
-        public enum WindowsHookType
-        {
-            WH_JOURNALRECORD,
-            WH_JOURNALPLAYBACK,
-            WH_KEYBOARD,
-            WH_GETMESSAGE,
-            WH_CALLWNDPROC,
-            WH_CBT,
-            WH_SYSMSGFILTER,
-            WH_MOUSE,
-            WH_HARDWARE,
-            WH_DEBUG,
-            WH_SHELL,
-            WH_FOREGROUNDIDLE,
-            WH_CALLWNDPROCRET,
-            WH_KEYBOARD_LL,
-            WH_MOUSE_LL,
-        }
     }
 }

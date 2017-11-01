@@ -6,7 +6,7 @@ using ModernApplicationFramework.Docking.Controls;
 using ModernApplicationFramework.Interfaces.Controls;
 using ModernApplicationFramework.Native.NativeMethods;
 
-namespace ModernApplicationFramework.Core.Utilities
+namespace ModernApplicationFramework.Core.MouseCaputreManager
 {
     internal static class CaptureManager
     {

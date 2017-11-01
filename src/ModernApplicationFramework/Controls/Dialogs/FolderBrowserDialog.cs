@@ -7,7 +7,6 @@ using ModernApplicationFramework.Native.Platform.Enums;
 using ModernApplicationFramework.Native.Shell;
 using ModernApplicationFramework.Native.Standard;
 using IShellItem = ModernApplicationFramework.Native.Shell.IShellItem;
-using NativeMethods = ModernApplicationFramework.Native.NativeMethods.NativeMethods;
 
 namespace ModernApplicationFramework.Controls.Dialogs
 {

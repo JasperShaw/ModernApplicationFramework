@@ -9,7 +9,6 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
