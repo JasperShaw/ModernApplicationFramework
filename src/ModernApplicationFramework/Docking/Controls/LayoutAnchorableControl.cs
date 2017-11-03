@@ -33,6 +33,24 @@ namespace ModernApplicationFramework.Docking.Controls
         public static readonly DependencyProperty LayoutItemProperty
             = LayoutItemPropertyKey.DependencyProperty;
 
+        private AdornmentHostingPanel _adornmentHost;
+        private FrameworkElement _contentControl;
+
+
+        private AdornmentHostingPanel AdornmentHost
+        {
+            get
+            {
+                if (_adornmentHost == null)
+                {
+                    _adornmentHost = new AdornmentHostingPanel();
+                    Grid.SetRow(_adornmentHost, 0);
+                    Grid.SetColumn(_adornmentHost, 0);
+                    Grid.SetColumnSpan(_adornmentHost, 3);
+                }
+                return _adornmentHost;
+            }
+        }
 
         static LayoutAnchorableControl()
         {
@@ -94,6 +112,14 @@ namespace ModernApplicationFramework.Docking.Controls
         private static void OnModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((LayoutAnchorableControl) d).OnModelChanged(e);
+        }
+
+
+
+
+        private class AdornmentHostingPanel : StackPanel
+        {
+            
         }
     }
 }

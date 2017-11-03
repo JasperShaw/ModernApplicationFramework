@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Media;
 
 namespace ModernApplicationFramework.Controls.Utilities
 {
@@ -61,5 +57,15 @@ namespace ModernApplicationFramework.Controls.Utilities
 			var man = t.UintValue & 0x000fffffffffffff;
 			return (exp == 0x7ff0000000000000 || exp == 0xfff0000000000000) && (man != 0);
 		}
+
+	    public static bool IsNonreal(this double value)
+	    {
+	        return double.IsNaN(value) || double.IsInfinity(value);
+	    }
+
+	    public static bool GreaterThan(this double value, double input)
+	    {
+	        return value > input;
+	    }
     }
 }

@@ -15,5 +15,12 @@
         {
             return !value ? BooleanFalse : BooleanTrue;
         }
+
+        public static object Box(double value)
+        {
+            if (value != 0.0)
+                return value;
+            return DoubleZero;
+        }
     }
 }

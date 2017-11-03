@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using ModernApplicationFramework.Controls.InfoBar;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Utilities;
 
@@ -27,36 +28,27 @@ namespace ModernApplicationFramework.Core.MenuModeHelper
         {
             get
             {
-                if (!(Keyboard.FocusedElement is DependencyObject focusedElement))
-                    return CommandBarModeKind.None;
-                var dependencyObject1 = focusedElement;
-
-                DependencyObject Func1(DependencyObject e)
+                if (Keyboard.FocusedElement is DependencyObject focusedElement)
                 {
-                    return e.GetVisualOrLogicalParent();
+                    DependencyObject dependencyObject1 = focusedElement;
+                    DependencyObject Func1(DependencyObject e) => e.GetVisualOrLogicalParent();
+                    if (dependencyObject1.FindAncestorOrSelf<Menu, DependencyObject>(Func1) != null)
+                        return CommandBarModeKind.Menu;
+                    DependencyObject dependencyObject2 = focusedElement;
+                    DependencyObject Func2(DependencyObject e) => e.GetVisualOrLogicalParent();
+                    if (dependencyObject2.FindAncestorOrSelf<ToolBar, DependencyObject>(Func2) != null)
+                        return CommandBarModeKind.Toolbar;
+                    DependencyObject dependencyObject3 = focusedElement;
+                    DependencyObject Func3(DependencyObject e) => e.GetVisualOrLogicalParent();
+                    bool Func4(DependencyObject e) => e is IInfoBarHost;
+                    if (dependencyObject3.FindAncestorOrSelf(Func3, Func4) != null)
+                        return CommandBarModeKind.InfoBar; 
+                    DependencyObject dependencyObject5 = focusedElement;
+                    DependencyObject Func7(DependencyObject e) => e.GetVisualOrLogicalParent();
+                    Func<DependencyObject, bool> func8 = CommandBarNavigationHelper.GetIsCommandNavigable;
+                    if (dependencyObject5.FindAncestorOrSelf(Func7, func8) != null)
+                        return CommandBarModeKind.NavigableControl;
                 }
-
-                if (dependencyObject1.FindAncestorOrSelf<Menu, DependencyObject>(Func1) != null)
-                    return CommandBarModeKind.Menu;
-                var dependencyObject2 = focusedElement;
-
-                DependencyObject Func2(DependencyObject e)
-                {
-                    return e.GetVisualOrLogicalParent();
-                }
-
-                if (dependencyObject2.FindAncestorOrSelf<ToolBar, DependencyObject>(Func2) != null)
-                    return CommandBarModeKind.Toolbar;
-                var dependencyObject5 = focusedElement;
-
-                DependencyObject Func7(DependencyObject e)
-                {
-                    return e.GetVisualOrLogicalParent();
-                }
-
-                Func<DependencyObject, bool> func8 = CommandBarNavigationHelper.GetIsCommandNavigable;
-                if (dependencyObject5.FindAncestorOrSelf(Func7, func8) != null)
-                    return CommandBarModeKind.NavigableControl;
                 return CommandBarModeKind.None;
             }
         }

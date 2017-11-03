@@ -4,6 +4,7 @@ using System.Security.AccessControl;
 using System.Threading;
 using System.Windows;
 using System.Windows.Automation.Peers;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -68,20 +69,16 @@ namespace ModernApplicationFramework.Controls.Windows
             if (viewModel == null)
                 throw new ArgumentNullException(nameof(viewModel));
 
-            var minimizeButton = GetTemplateChild("MinimizeButton") as System.Windows.Controls.Button;
-            if (minimizeButton != null)
+            if (GetTemplateChild("MinimizeButton") is Button minimizeButton)
                 minimizeButton.Command = viewModel.MinimizeCommand;
 
-            var maximizeRestoreButton = GetTemplateChild("MaximizeRestoreButton") as System.Windows.Controls.Button;
-            if (maximizeRestoreButton != null)
+            if (GetTemplateChild("MaximizeRestoreButton") is Button maximizeRestoreButton)
                 maximizeRestoreButton.Command = viewModel.MaximizeResizeCommand;
 
-            var closeButton = GetTemplateChild("CloseButton") as System.Windows.Controls.Button;
-            if (closeButton != null)
+            if (GetTemplateChild("CloseButton") is Button closeButton)
                 closeButton.Command = viewModel.CloseCommand;
 
-            var menuHostControl = GetTemplateChild("MenuHostControl") as MenuHostControl;
-            if (menuHostControl != null)
+            if (GetTemplateChild("MenuHostControl") is MenuHostControl menuHostControl)
             {
                 var dataContext = menuHostControl.DataContext as IMenuHostViewModel;
                 viewModel.MenuHostViewModel = dataContext;
@@ -89,13 +86,14 @@ namespace ModernApplicationFramework.Controls.Windows
                     dataContext.MainWindowViewModel = viewModel;
             }
 
-            var toolbarHostControl = GetTemplateChild("ToolbarHostControl") as ToolBarHostControl;
-            if (toolbarHostControl != null)
+            if (GetTemplateChild("ToolbarHostControl") is ToolBarHostControl toolbarHostControl)
             {
                 var dataContext = toolbarHostControl.DataContext as IToolBarHostViewModel;
                 viewModel.ToolBarHostViewModel = dataContext;
                 if (dataContext != null)
                     dataContext.MainWindowViewModel = viewModel;
+
+                viewModel.InfoBarHost = toolbarHostControl.InfoBarHost;
             }
             base.OnApplyTemplate();
         }

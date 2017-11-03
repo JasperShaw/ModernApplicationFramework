@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
+using ModernApplicationFramework.Controls.InfoBar;
 using ModernApplicationFramework.Core;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.ViewModels;
@@ -23,6 +24,7 @@ namespace ModernApplicationFramework.Controls.Windows
         private bool _useSimpleMovement;
         private bool _useTitleBar;
         private bool _useMenu;
+        private IInfoBarHost _infoBarHost;
 
         public MainWindowViewModel(MainWindow mainWindow)
         {
@@ -36,6 +38,8 @@ namespace ModernApplicationFramework.Controls.Windows
 
         private bool ToolbarHostViewModelSetted => ToolBarHostViewModel != null;
 
+        public bool InfobarHostViewSetted => InfoBarHost != null;
+
 
         /// <inheritdoc />
         /// <summary>
@@ -48,7 +52,7 @@ namespace ModernApplicationFramework.Controls.Windows
             set
             {
                 if (MenuHostViewModelSetted)
-                    throw new InvalidOperationException("You can not change the MenuHostViewModel once it was seeted up");
+                    throw new InvalidOperationException("You can not change the MenuHostViewModel once it was setted up");
                 _menuHostViewModel = value;
             }
         }
@@ -65,8 +69,20 @@ namespace ModernApplicationFramework.Controls.Windows
             {
                 if (ToolbarHostViewModelSetted)
                     throw new InvalidOperationException(
-                        "You can not change the ToolBarHostViewModel once it was seeted up");
+                        "You can not change the ToolBarHostViewModel once it was setted up");
                 _toolBarHostViewModel = value;
+            }
+        }
+
+        public IInfoBarHost InfoBarHost
+        {
+            get => _infoBarHost;
+            set
+            {
+                if (InfobarHostViewSetted)
+                    throw new InvalidOperationException(
+                        "You can not change the InfoBarHost once it was setted up");
+                _infoBarHost = value;
             }
         }
 

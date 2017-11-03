@@ -1,4 +1,4 @@
-﻿<Application x:Class="ModernApplicationFramework.Extended.DemoMin.App"
+﻿<Application x:Class="ModernApplicationFramework.Extended.Demo.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:demo="clr-namespace:ModernApplicationFramework.Extended.Demo">

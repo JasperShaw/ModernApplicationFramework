@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
+using ModernApplicationFramework.Controls.InfoBar;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Input.Command;
@@ -30,6 +31,7 @@ namespace ModernApplicationFramework.Extended.DockingMainWindow.ViewModels
 
         public bool MenuHostViewModelSetted => MenuHostViewModel != null;
         public bool ToolbarHostViewModelSetted => ToolBarHostViewModel != null;
+        public bool InfoBarHostSetted => InfoBarHost != null;
 
         public Window Window { get; private set; }
         public WindowState WindowState { get; set; }
@@ -71,6 +73,18 @@ namespace ModernApplicationFramework.Extended.DockingMainWindow.ViewModels
                     throw new InvalidOperationException(
                         "You can not change the ToolBarHostViewModel once it was seeted up");
                 _toolBarHostViewModel = value;
+            }
+        }
+
+        public IInfoBarHost InfoBarHost
+        {
+            get => _infoBarHost;
+            set
+            {
+                if (InfoBarHostSetted)
+                    throw new InvalidOperationException(
+                        "You can not change the InfoBarHost once it was seeted up");
+                _infoBarHost = value;
             }
         }
 
@@ -257,6 +271,7 @@ namespace ModernApplicationFramework.Extended.DockingMainWindow.ViewModels
 #pragma warning disable 649
         [Import] private IDockingHostViewModel _dockingHost;
         [Import] private IThemeManager _themeManager;
+        private IInfoBarHost _infoBarHost;
 #pragma warning restore 649
         public GestureScope GestureScope => GestureScopes.GlobalGestureScope;
         public UIElement BindableElement => Window;

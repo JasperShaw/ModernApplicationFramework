@@ -1,4 +1,6 @@
-﻿namespace ModernApplicationFramework.Interfaces.ViewModels
+﻿using ModernApplicationFramework.Controls.InfoBar;
+
+namespace ModernApplicationFramework.Interfaces.ViewModels
 {
     /// <summary>
     /// This interface provides the view model for the main window
@@ -14,6 +16,11 @@
         /// A reference to an instance of <see cref="IToolBarHostViewModel"/>
         /// </summary>
         IToolBarHostViewModel ToolBarHostViewModel { get; set; }
+
+        /// <summary>
+        /// A reference to an instance of <see cref="IInfoBarHost"/>
+        /// </summary>
+        IInfoBarHost InfoBarHost { get; set; }
 
         /// <summary>
         /// Option to use a title bar or not

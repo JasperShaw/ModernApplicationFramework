@@ -1,4 +1,4 @@
-﻿namespace ModernApplicationFramework.Extended.DemoMin
+﻿namespace ModernApplicationFramework.Extended.Demo
 {
     public partial class App
     {

@@ -1,30 +1,95 @@
 ﻿using System.Windows;
 using System.Windows.Media;
+using ModernApplicationFramework.Interfaces.Controls;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.Buttons
 {
+    /// <inheritdoc cref="System.Windows.Controls.Button" />
     /// <summary>
     /// A simple button control that has a geometry icon
     /// </summary>
-    /// <seealso cref="ModernApplicationFramework.Controls.Buttons.Button" />
-    public class GlyphButton : Button
+    public class GlyphButton : System.Windows.Controls.Button, INonClientArea
     {
-        /// <summary>
-        /// The geometry data property
-        /// </summary>
-        public static readonly DependencyProperty GlyphDataProperty = DependencyProperty.Register(
-            "GlyphData", typeof(Geometry), typeof(GlyphButton), new PropertyMetadata(default(Geometry)));
+        public static readonly DependencyProperty PressedBackgroundProperty = DependencyProperty.Register(nameof(PressedBackground), typeof(Brush), typeof(GlyphButton));
+        public static readonly DependencyProperty PressedBorderBrushProperty = DependencyProperty.Register(nameof(PressedBorderBrush), typeof(Brush), typeof(GlyphButton));
+        public static readonly DependencyProperty PressedBorderThicknessProperty = DependencyProperty.Register(nameof(PressedBorderThickness), typeof(Thickness), typeof(GlyphButton));
+        public static readonly DependencyProperty HoverBackgroundProperty = DependencyProperty.Register(nameof(HoverBackground), typeof(Brush), typeof(GlyphButton));
+        public static readonly DependencyProperty HoverBorderBrushProperty = DependencyProperty.Register(nameof(HoverBorderBrush), typeof(Brush), typeof(GlyphButton));
+        public static readonly DependencyProperty HoverBorderThicknessProperty = DependencyProperty.Register(nameof(HoverBorderThickness), typeof(Thickness), typeof(GlyphButton));
+        public static readonly DependencyProperty GlyphForegroundProperty = DependencyProperty.Register(nameof(GlyphForeground), typeof(Brush), typeof(GlyphButton));
+        public static readonly DependencyProperty HoverForegroundProperty = DependencyProperty.Register(nameof(HoverForeground), typeof(Brush), typeof(GlyphButton));
+        public static readonly DependencyProperty PressedForegroundProperty = DependencyProperty.Register(nameof(PressedForeground), typeof(Brush), typeof(GlyphButton));
+        public static readonly DependencyProperty IsCheckedProperty = DependencyProperty.Register(nameof(IsChecked), typeof(bool), typeof(GlyphButton));
 
         static GlyphButton()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(GlyphButton),
-                new FrameworkPropertyMetadata(typeof(GlyphButton)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(GlyphButton), new FrameworkPropertyMetadata(typeof(GlyphButton)));
         }
 
-        public Geometry GlyphData
+        public Brush PressedBackground
         {
-            get => (Geometry) GetValue(GlyphDataProperty);
-            set => SetValue(GlyphDataProperty, value);
+            get => (Brush)GetValue(PressedBackgroundProperty);
+            set => SetValue(PressedBackgroundProperty, value);
+        }
+
+        public Brush PressedBorderBrush
+        {
+            get => (Brush)GetValue(PressedBorderBrushProperty);
+            set => SetValue(PressedBorderBrushProperty, value);
+        }
+
+        public Thickness PressedBorderThickness
+        {
+            get => (Thickness)GetValue(PressedBorderThicknessProperty);
+            set => SetValue(PressedBorderThicknessProperty, value);
+        }
+
+        public Brush HoverBackground
+        {
+            get => (Brush)GetValue(HoverBackgroundProperty);
+            set => SetValue(HoverBackgroundProperty, value);
+        }
+
+        public Brush HoverBorderBrush
+        {
+            get => (Brush)GetValue(HoverBorderBrushProperty);
+            set => SetValue(HoverBorderBrushProperty, value);
+        }
+
+        public Thickness HoverBorderThickness
+        {
+            get => (Thickness)GetValue(HoverBorderThicknessProperty);
+            set => SetValue(HoverBorderThicknessProperty, value);
+        }
+
+        public Brush GlyphForeground
+        {
+            get => (Brush)GetValue(GlyphForegroundProperty);
+            set => SetValue(GlyphForegroundProperty, value);
+        }
+
+        public Brush HoverForeground
+        {
+            get => (Brush)GetValue(HoverForegroundProperty);
+            set => SetValue(HoverForegroundProperty, value);
+        }
+
+        public Brush PressedForeground
+        {
+            get => (Brush)GetValue(PressedForegroundProperty);
+            set => SetValue(PressedForegroundProperty, value);
+        }
+
+        public bool IsChecked
+        {
+            get => (bool)GetValue(IsCheckedProperty);
+            set => SetValue(IsCheckedProperty, Boxes.Box(value));
+        }
+
+        int INonClientArea.HitTest(Point point)
+        {
+            return 1;
         }
     }
 }

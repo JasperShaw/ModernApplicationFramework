@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Caliburn.Micro;
+using ModernApplicationFramework.Controls.InfoBar;
 using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Controls.Internals
@@ -19,6 +20,19 @@ namespace ModernApplicationFramework.Controls.Internals
             new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
 
         private bool _contentLoaded;
+        private InfoBarHostControl _infoBarHost;
+
+
+        public InfoBarHostControl InfoBarHost
+        {
+            get
+            {
+                if (_infoBarHost == null)
+                    ApplyTemplate();
+                return _infoBarHost;
+            }
+        }
+
 
         public ToolBarHostControl()
         {
@@ -63,6 +77,7 @@ namespace ModernApplicationFramework.Controls.Internals
             ToolBarHostViewModel.BottomToolBarTray = GetTemplateChild("BottomDockTray") as ToolBarTray;
             ToolBarHostViewModel.Build();
             base.OnApplyTemplate();
+            _infoBarHost = GetTemplateChild("PART_InfoBarHost") as InfoBarHostControl;
         }
     }
 }

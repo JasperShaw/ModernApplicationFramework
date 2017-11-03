@@ -4,7 +4,9 @@
                           xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
                           xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
                           xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals"
-                          xmlns:window="clr-namespace:ModernApplicationFramework.Controls.Windows">
+                          xmlns:window="clr-namespace:ModernApplicationFramework.Controls.Windows"
+                          xmlns:infoBar="clr-namespace:ModernApplicationFramework.Controls.InfoBar"
+                          xmlns:menuModeHelper="clr-namespace:ModernApplicationFramework.Core.MenuModeHelper">
 
 
     <internals:ToolBarHostControl.Resources>
@@ -15,6 +17,7 @@
             <Grid SnapsToDevicePixels="True">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
@@ -24,22 +27,27 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <Border Name="TopDockBorder" Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type window:MainWindow}}, Path=FullScreen, Converter={StaticResource BooleanToVisibilityConverter}}"
-                        Grid.Row="0" Grid.ColumnSpan="3" Padding="9,1,6,1" Background="{DynamicResource {x:Static themes:EnvironmentColors.CommandShelfBackground}}">
+                        Grid.Row="0" Grid.ColumnSpan="3" Grid.Column="0" Padding="9,1,6,1" Background="{DynamicResource {x:Static themes:EnvironmentColors.CommandShelfBackground}}">
                     <local:ToolBarTray IsMainToolBarTray="True" Background="Transparent" x:Name="TopDockTray"/>
                 </Border>
+                <infoBar:InfoBarHostControl x:Name="PART_InfoBarHost" Grid.Row="1" Grid.Column="1"
+                                            KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.ControlTabNavigation="Cycle"
+                                            menuModeHelper:CommandBarNavigationHelper.CommandFocusMode="Container"
+                                            menuModeHelper:CommandBarNavigationHelper.IsCommandNavigable="True"
+                                            menuModeHelper:CommandBarNavigationHelper.CommandNavigationOrder="608"/>
                 <Border Name="LeftDockBorder" Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type window:MainWindow}}, Path=FullScreen, Converter={StaticResource BooleanToVisibilityConverter}}"
-                        Grid.Row="1" Grid.Column="0" Padding="2,0,1,0" Background="{DynamicResource {x:Static themes:EnvironmentColors.CommandShelfBackground}}">
+                        Grid.Row="2" Grid.Column="0" Padding="2,0,1,0" Background="{DynamicResource {x:Static themes:EnvironmentColors.CommandShelfBackground}}">
                     <local:ToolBarTray IsMainToolBarTray="True" Background="Transparent" x:Name="LeftDockTray" Orientation="Vertical"/>
                 </Border>
-                <AdornerDecorator Grid.Row="1" Grid.Column="1">
+                <AdornerDecorator Grid.Row="2" Grid.Column="1">
                     <ContentPresenter Content="{Binding RelativeSource={RelativeSource AncestorType={x:Type window:MainWindow}}, Path=Content}"/>
                 </AdornerDecorator>
                 <Border Name="RightDockBorder" Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type window:MainWindow}}, Path=FullScreen, Converter={StaticResource BooleanToVisibilityConverter}}"
-                        Grid.Row="1" Grid.Column="2" Padding="2,0,1,0" Background="{DynamicResource {x:Static themes:EnvironmentColors.CommandShelfBackground}}">
+                       Grid.Row="2" Grid.Column="2" Padding="2,0,1,0" Background="{DynamicResource {x:Static themes:EnvironmentColors.CommandShelfBackground}}">
                     <local:ToolBarTray x:Name="RightDockTray" Orientation="Vertical" IsMainToolBarTray="True" Background="Transparent"/>
                 </Border>
                 <Border Name="BottomDockBorder" Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type window:MainWindow}}, Path=FullScreen, Converter={StaticResource BooleanToVisibilityConverter}}"
-                        Grid.Row="2" Grid.ColumnSpan="3" Padding="9,2,6,1" Background="{DynamicResource {x:Static themes:EnvironmentColors.CommandShelfBackground}}">
+                        Grid.Row="3" Grid.ColumnSpan="3" Padding="9,2,6,1" Background="{DynamicResource {x:Static themes:EnvironmentColors.CommandShelfBackground}}">
                     <local:ToolBarTray x:Name="BottomDockTray" IsMainToolBarTray="True" Background="Transparent"/>
                 </Border>
             </Grid>

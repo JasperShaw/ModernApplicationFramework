@@ -147,5 +147,7 @@ namespace ModernApplicationFramework.Native
             rect.Top = Math.Max(rect.Top, monitorClippingRect.Top);
             return rect;
         }
+
+
     }
 }

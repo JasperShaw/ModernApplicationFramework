@@ -5,8 +5,8 @@
         None,
         Menu,
         Toolbar,
-        NavigableControl
-        //InfoBar,
+        NavigableControl,
+        InfoBar,
         //SearchControl,
     }
 }

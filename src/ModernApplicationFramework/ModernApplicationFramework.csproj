@@ -132,6 +132,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\Generic\InfoBarHostControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic\InfoBarControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\Generic\TreeView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -231,6 +239,39 @@
     <Compile Include="Basics\Definitions\Command\ExcludedCommandDefinition.cs" />
     <Compile Include="Basics\Definitions\Command\CommandGestureScopeMapping.cs" />
     <Compile Include="Basics\Services\KeyboardInputService.cs" />
+    <Compile Include="Controls\InfoBar\IInfoBarHost.cs" />
+    <Compile Include="Controls\InfoBar\InfoBarButton.cs" />
+    <Compile Include="Controls\InfoBar\Utilities\ActionViewModelListConverter.cs" />
+    <Compile Include="Controls\InfoBar\Utilities\CollectionAdapter.cs" />
+    <Compile Include="Controls\InfoBar\Utilities\EnumerableSnapshot.cs" />
+    <Compile Include="Controls\InfoBar\Utilities\HybridDictionary.cs" />
+    <Compile Include="Controls\InfoBar\IInfoBarActionItem.cs" />
+    <Compile Include="Controls\InfoBar\IInfoBarActionItemCollection.cs" />
+    <Compile Include="Controls\InfoBar\IInfoBarTextSpanCollection.cs" />
+    <Compile Include="Controls\InfoBar\InfoBarActionItem.cs" />
+    <Compile Include="Controls\InfoBar\IInfoBarTextSpan.cs" />
+    <Compile Include="Controls\InfoBar\InfoBarHyperlink.cs" />
+    <Compile Include="Controls\InfoBar\InfoBarTextSpan.cs" />
+    <Compile Include="Controls\InfoBar\IInfoBarUiElement.cs" />
+    <Compile Include="Controls\InfoBar\Utilities\InfoBarActionItemTemplateSelector.cs" />
+    <Compile Include="Controls\InfoBar\Utilities\SuspendableObservableCollection.cs" />
+    <Compile Include="Controls\InfoBar\Utilities\CookieTableCallback.cs" />
+    <Compile Include="Controls\InfoBar\Utilities\CookieTable.cs" />
+    <Compile Include="Controls\InfoBar\Utilities\CookieTraits.cs" />
+    <Compile Include="Controls\InfoBar\IInfoBarUiEvents.cs" />
+    <Compile Include="Controls\InfoBar\SpacingControls\AbstractPoint.cs" />
+    <Compile Include="Controls\InfoBar\SpacingControls\AbstractSize.cs" />
+    <Compile Include="Controls\InfoBar\Internal\InfoBarActionViewModel.cs" />
+    <Compile Include="Controls\InfoBar\InfoBarControl.cs" />
+    <Compile Include="Controls\InfoBar\InfoBarHostControl.cs" />
+    <Compile Include="Controls\InfoBar\InfoBarModel.cs" />
+    <Compile Include="Controls\InfoBar\Internal\InfoBarTextBlock.cs" />
+    <Compile Include="Controls\InfoBar\Internal\InfoBarTextPanel.cs" />
+    <Compile Include="Controls\InfoBar\Internal\InfoBarTextViewModel.cs" />
+    <Compile Include="Controls\InfoBar\Internal\InfoBarUIElement.cs" />
+    <Compile Include="Controls\InfoBar\Internal\InfoBarViewModel.cs" />
+    <Compile Include="Controls\InfoBar\SpacingControls\SpacingStackPanel.cs" />
+    <Compile Include="Controls\InfoBar\SpacingControls\SpacingWrapPanel.cs" />
     <Compile Include="Core\MouseCaputreManager\CaptureManager.cs" />
     <Compile Include="Core\CommandFocus\CommandFocusManager.cs" />
     <Compile Include="Core\MenuModeHelper\MenuModeHelper.cs" />

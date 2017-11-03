@@ -1,0 +1,223 @@
+﻿<infoBar:InfoBarControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                          xmlns:infoBar="clr-namespace:ModernApplicationFramework.Controls.InfoBar"
+                          xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons"
+                          xmlns:internal="clr-namespace:ModernApplicationFramework.Controls.InfoBar.Internal"
+                          xmlns:spacingControls="clr-namespace:ModernApplicationFramework.Controls.InfoBar.SpacingControls"
+                          xmlns:utilities="clr-namespace:ModernApplicationFramework.Controls.InfoBar.Utilities">
+    <FrameworkElement.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
+        <Style TargetType="{x:Type Hyperlink}">
+            <Setter Property="Foreground" Value="Blue"/>
+            <Setter Property="TextDecorations" Value="None"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="Red"/>
+                </Trigger>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter Property="Foreground" Value="Green"/>
+                    <Setter Property="TextDecorations" Value="Underline"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="InfobarButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle">
+                <Setter.Value>
+                    <x:NullExtension/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background" Value="Blue"/>
+            <Setter Property="Foreground" Value="Red"/>
+            <Setter Property="BorderBrush" Value="Green"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="3,0"/>
+            <Setter Property="MinWidth" Value="72"/>
+            <Setter Property="MinHeight" Value="16"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="ContentContainer" SnapsToDevicePixels="True"
+                                Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="UIElement.IsKeyboardFocused" Value="true">
+                    <Setter Property="Panel.Background" Value="Red"/>
+                    <Setter Property="TextElement.Foreground" Value="Green"/>
+                    <Setter Property="Border.BorderBrush" Value="Blue"/>
+                </Trigger>
+                <Trigger Property="UIElement.IsMouseOver" Value="true">
+                    <Setter Property="Panel.Background" Value="Yellow"/>
+                    <Setter Property="TextElement.Foreground" Value="Blue"/>
+                    <Setter Property="Border.BorderBrush" Value="DeepPink"/>
+                </Trigger>
+                <Trigger Property="Button.IsDefaulted" Value="true">
+                    <Setter Property="Panel.Background" Value="DeepPink"/>
+                    <Setter Property="TextElement.Foreground" Value="Aqua"/>
+                    <Setter Property="Border.BorderBrush" Value="CornflowerBlue"/>
+                </Trigger>
+                <Trigger Property="ButtonBase.IsPressed" Value="true">
+                    <Setter Property="Panel.Background" Value="CornflowerBlue"/>
+                    <Setter Property="TextElement.Foreground" Value="Black"/>
+                    <Setter Property="Border.BorderBrush" Value="Aqua"/>
+                </Trigger>
+                <Trigger Property="UIElement.IsEnabled" Value="false">
+                    <Setter Property="Panel.Background" Value="DarkOliveGreen"/>
+                    <Setter Property="TextElement.Foreground" Value="DarkSalmon"/>
+                    <Setter Property="Border.BorderBrush" Value="DarkRed"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <utilities:ActionViewModelListConverter x:Key="ActionViewModelListConverter"/>
+        <utilities:InfoBarActionItemTemplateSelector x:Key="InfoBarActionItemTemplateSelector">
+            <utilities:InfoBarActionItemTemplateSelector.ButtonTemplate>
+                <DataTemplate>
+                    <Button Style="{StaticResource InfobarButtonStyle}"
+                            Command="{Binding ClickActionItemCommand, Mode=OneTime}">
+                        <TextBlock x:Name="Text" TextTrimming="CharacterEllipsis" Text="{Binding Text, Mode=OneTime}"/>
+                    </Button>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Value="True" Binding="{Binding Bold, Mode=OneTime}">
+                            <Setter TargetName="Text" Property="FontWeight" Value="Bold"/>
+                        </DataTrigger>
+                        <DataTrigger Value="True" Binding="{Binding Italic, Mode=OneTime}">
+                            <Setter TargetName="Text" Property="FontStyle" Value="Italic"/>
+                        </DataTrigger>
+                        <DataTrigger Value="True" Binding="{Binding Underline, Mode=OneTime}">
+                            <Setter TargetName="Text" Property="TextDecorations" Value="Underline"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </utilities:InfoBarActionItemTemplateSelector.ButtonTemplate>
+            <utilities:InfoBarActionItemTemplateSelector.HyperlinkTemplate>
+                <DataTemplate>
+                    <internal:InfoBarTextBlock Margin="0,1,0,0" TextTrimming="CharacterEllipsis">
+                        <internal:InfoBarTextBlock.TextSource>
+                            <Binding Converter="{StaticResource ActionViewModelListConverter}"/>
+                        </internal:InfoBarTextBlock.TextSource>
+                    </internal:InfoBarTextBlock>
+                </DataTemplate>
+            </utilities:InfoBarActionItemTemplateSelector.HyperlinkTemplate>
+        </utilities:InfoBarActionItemTemplateSelector>
+        
+    </FrameworkElement.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0" VerticalAlignment="Top" Margin="6,0,0,0" Visibility="Hidden">
+            <TextBlock Visibility="Hidden" Margin="6,5"/>
+            <Image Width="16" Height="16" VerticalAlignment="Center"/>
+        </Grid>
+        <internal:InfoBarTextPanel Grid.Column="1" MinWidth="20" Margin="6,4,6,5">
+            <internal:InfoBarTextPanel.MainTextControl>
+                <internal:InfoBarTextBlock x:Name="maintext" TextWrapping="Wrap" Margin="0,1,0,0"
+                                          TextSource="{Binding MainText, Mode=OneTime}"/>
+            </internal:InfoBarTextPanel.MainTextControl>
+            <internal:InfoBarTextPanel.ActionItemsControl>
+                <ItemsControl IsTabStop="False"
+                              ItemsSource="{Binding ActionItems, Mode=OneTime}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <spacingControls:SpacingWrapPanel Orientation="Horizontal" HorizontalItemSpacing="8" VerticalItemSpacing="4"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </internal:InfoBarTextPanel.ActionItemsControl>
+        </internal:InfoBarTextPanel>
+        <buttons:GlyphButton x:Name="HideButton" Grid.Column="2" MinHeight="14" VerticalAlignment="Top" Focusable="True" Margin="0,6,6,0"
+                             GlyphForeground="Black"
+                             HoverBackground="Yellow"
+                             HoverBorderBrush="DarkOliveGreen"
+                             HoverForeground="Black"
+                             HoverBorderThickness="1"
+                             PressedBackground="Black"
+                             PressedBorderBrush="DarkOliveGreen"
+                             PressedForeground="Black"
+                             PressedBorderThickness="1"
+                             Command="{Binding CloseCommand}"
+                             Visibility="{Binding IsCloseButtonVisible, Mode=OneTime, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Path x:Name="HideButtonPath" Width="10" Height="8" Stretch="Uniform"
+                  Data="F1 M 0,0 L 2,0 5,3 8,0 10,0 6,4 10,8 8,8 5,5 2,8 0,8 4,4 0,0 Z">
+                <Shape.Fill>
+                    <Binding Path="(TextElement.Foreground)" RelativeSource="{RelativeSource Self}"/>
+                </Shape.Fill>
+            </Path>
+        </buttons:GlyphButton>
+
+    </Grid>
+</infoBar:InfoBarControl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
