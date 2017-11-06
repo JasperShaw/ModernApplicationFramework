@@ -13,14 +13,17 @@
    Stay informed: follow @datagrid on Twitter or Like facebook.com/datagrids
 
   **********************************************************************/
-
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using ModernApplicationFramework.Controls.InfoBar;
+using ModernApplicationFramework.Core.MenuModeHelper;
+using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-    public class LayoutAnchorableControl : Control
+    public class LayoutAnchorableControl : Control, IInfoBarUiEvents
     {
         public static readonly DependencyProperty ModelProperty =
             DependencyProperty.Register("Model", typeof (LayoutAnchorable), typeof (LayoutAnchorableControl),
@@ -34,7 +37,7 @@ namespace ModernApplicationFramework.Docking.Controls
             = LayoutItemPropertyKey.DependencyProperty;
 
         private AdornmentHostingPanel _adornmentHost;
-        private FrameworkElement _contentControl;
+        
 
 
         private AdornmentHostingPanel AdornmentHost
@@ -47,10 +50,53 @@ namespace ModernApplicationFramework.Docking.Controls
                     Grid.SetRow(_adornmentHost, 0);
                     Grid.SetColumn(_adornmentHost, 0);
                     Grid.SetColumnSpan(_adornmentHost, 3);
+                    HostingPanel.Children.Add(_adornmentHost);
                 }
                 return _adornmentHost;
             }
         }
+
+
+
+
+        private FrameworkElement _contentControl;
+        public FrameworkElement Content
+        {
+            get => _contentControl;
+            set
+            {
+                if (value == null)
+                {
+                    _contentControl = null;
+                }
+                else
+                {
+                    if (value is ContentHostingPanel)
+                        _contentControl = value;
+                    else
+                        HostingPanel.Content = value;
+                }
+            }
+        }
+
+        internal FrameworkElement InnerContent => Content;
+
+
+        private ContentHostingPanel HostingPanel
+        {
+            get
+            {
+                if (_contentControl == null)
+                {
+                    _contentControl = new ContentHostingPanel();
+                    //this.ConnectContentEvents();
+                }
+                return _contentControl as ContentHostingPanel;
+            }
+        }
+
+
+
 
         static LayoutAnchorableControl()
         {
@@ -67,7 +113,7 @@ namespace ModernApplicationFramework.Docking.Controls
             set => SetValue(ModelProperty, value);
         }
 
-        protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)
+        protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
         {
             if (Model != null)
                 Model.IsActive = true;
@@ -85,10 +131,41 @@ namespace ModernApplicationFramework.Docking.Controls
             if (Model != null)
             {
                 Model.PropertyChanged += Model_PropertyChanged;
-                SetLayoutItem(Model.Root.Manager.GetLayoutItemFromModel(Model));
+
+
+                var model = Model.Root.Manager.GetLayoutItemFromModel(Model);
+                Model.Root.Manager.InternalRemoveLogicalChild(model.View);
+
+                Content = model.View;
+
+
+
+
+                var i = AdornmentHost;
+                var ih = i.InfoBarHost;
+
+
+
+                var infoBarTextSpanArray = new[]
+                {
+                    new InfoBarTextSpan("Test Text "),
+                    new InfoBarHyperlink("www.google.de")
+                };
+
+                var imodel = new InfoBarModel(infoBarTextSpanArray);
+
+                var ui = ih.CreateInfoBar(this, imodel);
+
+                ih.AddInfoBar(ui);
+
+
+
+
+                //SetLayoutItem(Model.Root.Manager.GetLayoutItemFromModel(Model));
             }
             else
-                SetLayoutItem(null);
+                // SetLayoutItem(null);
+                Content = null;
         }
 
         private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -119,7 +196,91 @@ namespace ModernApplicationFramework.Docking.Controls
 
         private class AdornmentHostingPanel : StackPanel
         {
+            private InfoBarHostControl _infoBarHost;
+
+            public AdornmentHostingPanel()
+            {
+                SetResourceReference(BackgroundProperty, EnvironmentColors.CommandBarMenuBackgroundGradientBegin);
+                Focusable = false;
+                KeyboardNavigation.SetTabNavigation(this, KeyboardNavigationMode.Cycle);
+                KeyboardNavigation.SetDirectionalNavigation(this, KeyboardNavigationMode.Cycle);
+                KeyboardNavigation.SetControlTabNavigation(this, KeyboardNavigationMode.Cycle);
+            }
+
+            public InfoBarHostControl InfoBarHost
+            {
+                get
+                {
+                    if (_infoBarHost != null)
+                        return _infoBarHost;
+                    _infoBarHost = new InfoBarHostControl();
+                    Children.Add(_infoBarHost);
+                    CommandBarNavigationHelper.SetCommandFocusMode(_infoBarHost, CommandBarNavigationHelper.CommandFocusMode.Container);
+                    return _infoBarHost;
+                }
+            }
+        }
+
+
+        private class ContentHostingPanel : Grid
+        {
+            private FrameworkElement _content;
+
+            public ContentHostingPanel()
+            {
+                RowDefinitions.Add(new RowDefinition()
+                {
+                    Height = new GridLength(0.0, GridUnitType.Auto)
+                });
+                RowDefinitions.Add(new RowDefinition()
+                {
+                    Height = new GridLength(1.0, GridUnitType.Star)
+                });
+                RowDefinitions.Add(new RowDefinition()
+                {
+                    Height = new GridLength(0.0, GridUnitType.Auto)
+                });
+                ColumnDefinitions.Add(new ColumnDefinition()
+                {
+                    Width = new GridLength(0.0, GridUnitType.Auto)
+                });
+                ColumnDefinitions.Add(new ColumnDefinition()
+                {
+                    Width = new GridLength(1.0, GridUnitType.Star)
+                });
+                ColumnDefinitions.Add(new ColumnDefinition()
+                {
+                    Width = new GridLength(0.0, GridUnitType.Auto)
+                });
+            }
+
+            public FrameworkElement Content
+            {
+                get => _content;
+                set
+                {
+                    if (_content != null)
+                        Children.Remove(_content);
+                    _content = null;
+                    if (value == null)
+                        return;
+                    if (value.Parent is Panel parent)
+                        parent.Children.Remove(value);
+                    _content = value;
+                    SetRow(_content, 1);
+                    SetColumn(_content, 1);
+                    Children.Add(_content);
+                }
+            }
+        }
+
+        public void OnClosed(IInfoBarUiElement infoBarUiElement)
+        {
             
+        }
+
+        public void OnActionItemClicked(IInfoBarUiElement infoBarUiElement, IInfoBarActionItem actionItem)
+        {
         }
     }
 }
