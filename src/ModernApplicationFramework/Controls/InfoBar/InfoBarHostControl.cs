@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using ModernApplicationFramework.Controls.InfoBar.Internal;
 using ModernApplicationFramework.Controls.InfoBar.Utilities;
 using ModernApplicationFramework.Core.MenuModeHelper;
 using ModernApplicationFramework.Utilities;
@@ -36,11 +35,8 @@ namespace ModernApplicationFramework.Controls.InfoBar
         {
             _infoBars = new ObservableCollection<IInfoBarUiElement>();
             _infoBarFrameworkElements = new InfoBarFrameworkElementCollection(_infoBars);
-
-            Instance = this;
+            
         }
-
-        public static InfoBarHostControl Instance { get; private set; }
 
         public void AddInfoBar(IInfoBarUiElement uiElement)
         {
@@ -64,17 +60,6 @@ namespace ModernApplicationFramework.Controls.InfoBar
                 return;
             key.Unadvise(cookie);
             EventCookies.Remove(key);
-        }
-
-
-        public IInfoBarUiElement CreateInfoBar(IInfoBarUiEvents sender,InfoBarModel model)
-        {
-            var element = new InfoBarUiElement(model);
-
-            uint c = 0;
-
-            element.Advise(sender, out c);
-            return element;
         }
 
         protected override void OnKeyDown(KeyEventArgs e)

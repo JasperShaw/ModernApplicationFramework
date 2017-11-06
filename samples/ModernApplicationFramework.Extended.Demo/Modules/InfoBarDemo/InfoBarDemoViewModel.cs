@@ -2,8 +2,11 @@
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Windows.Input;
+using Caliburn.Micro;
 using ModernApplicationFramework.Controls.InfoBar;
+using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.InfoBarDemo
 {
@@ -11,7 +14,15 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.InfoBarDemo
     [Export(typeof(InfoBarDemoViewModel))]
     public sealed class InfoBarDemoViewModel : Core.LayoutItems.LayoutItem, IInfoBarUiEvents
     {
+        private readonly IDockingHostViewModel _dockingHost;
+        private readonly IDockingMainWindowViewModel _mainWindow;
         public ICommand ShowInfoBarCommand => new Command(ShowInfoBar);
+        public ICommand OpenDemoToolCommand => new Command(OpenDemoTool);
+
+        private void OpenDemoTool()
+        {
+            _dockingHost.ShowTool<InfoBarToolDemoViewModel>();
+        }
 
         private void ShowInfoBar()
         {
@@ -22,18 +33,19 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.InfoBarDemo
             };
 
             var model = new InfoBarModel(infoBarTextSpanArray);
+            var ui = IoC.Get<IInfoBarUiFactory>().CreateInfoBar(model);
 
-            var host = InfoBarHostControl.Instance;
+            ui.Advise(this, out var _);
 
-            var bar = host.CreateInfoBar(this, model);
-            host.AddInfoBar(bar);
-
+            _mainWindow.InfoBarHost.AddInfoBar(ui);
         }
 
 
         [ImportingConstructor]
-        public InfoBarDemoViewModel()
+        public InfoBarDemoViewModel(IDockingHostViewModel dockingHost, IDockingMainWindowViewModel mainWindow)
         {
+            _dockingHost = dockingHost;
+            _mainWindow = mainWindow;
             DisplayName = "Info Bar Demo";
         }
 
@@ -44,7 +56,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.InfoBarDemo
 
         void IInfoBarUiEvents.OnActionItemClicked(IInfoBarUiElement infoBarUiElement, IInfoBarActionItem actionItem)
         {
-            Process.Start("www.google.de");
+            Process.Start(actionItem.Text);
         }
     }
 }

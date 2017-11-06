@@ -22,6 +22,9 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using ModernApplicationFramework.Controls.InfoBar;
+using ModernApplicationFramework.Core.MenuModeHelper;
+using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Input.Command;
 
@@ -146,7 +149,7 @@ namespace ModernApplicationFramework.Docking.Controls
         private ICommand _defaultNewHorizontalTabGroupCommand;
         private ICommand _defaultNewVerticalTabGroupCommand;
         private ContentPresenter _view;
-
+        
         internal LayoutItem()
         {
         }
@@ -181,6 +184,145 @@ namespace ModernApplicationFramework.Docking.Controls
                 return _view;
             }
         }
+
+
+        #region MyRegion
+
+
+        private AdornmentHostingPanel AdornmentHost
+        {
+            get
+            {
+                if (_adornmentHost != null)
+                    return _adornmentHost;
+                _adornmentHost = new AdornmentHostingPanel();
+                Grid.SetRow(_adornmentHost, 0);
+                Grid.SetColumn(_adornmentHost, 0);
+                Grid.SetColumnSpan(_adornmentHost, 3);
+                HostingPanel.Children.Add(_adornmentHost);
+                return _adornmentHost;
+            }
+        }
+
+
+
+        private FrameworkElement _contentControl;
+        private AdornmentHostingPanel _adornmentHost;
+
+
+        private ContentHostingPanel HostingPanel
+        {
+            get
+            {
+                if (_contentControl == null)
+                    _contentControl = new ContentHostingPanel();
+                return _contentControl as ContentHostingPanel;
+            }
+        }
+
+        public InfoBarHostControl InfoBarHost => AdornmentHost.InfoBarHost;
+
+
+        public FrameworkElement Content
+        {
+            get => _contentControl;
+            set
+            {
+                if (value == null)
+                {
+                    _contentControl = null;
+                }
+                else
+                {
+                    if (value is ContentHostingPanel)
+                        _contentControl = value;
+                    else
+                        HostingPanel.Content = value;
+                }
+            }
+        }
+
+        private class ContentHostingPanel : Grid
+        {
+            private FrameworkElement _content;
+
+            public ContentHostingPanel()
+            {
+                RowDefinitions.Add(new RowDefinition()
+                {
+                    Height = new GridLength(0.0, GridUnitType.Auto)
+                });
+                RowDefinitions.Add(new RowDefinition()
+                {
+                    Height = new GridLength(1.0, GridUnitType.Star)
+                });
+                RowDefinitions.Add(new RowDefinition()
+                {
+                    Height = new GridLength(0.0, GridUnitType.Auto)
+                });
+                ColumnDefinitions.Add(new ColumnDefinition()
+                {
+                    Width = new GridLength(0.0, GridUnitType.Auto)
+                });
+                ColumnDefinitions.Add(new ColumnDefinition()
+                {
+                    Width = new GridLength(1.0, GridUnitType.Star)
+                });
+                ColumnDefinitions.Add(new ColumnDefinition()
+                {
+                    Width = new GridLength(0.0, GridUnitType.Auto)
+                });
+            }
+
+            public FrameworkElement Content
+            {
+                get => _content;
+                set
+                {
+                    if (_content != null)
+                        Children.Remove(_content);
+                    _content = null;
+                    if (value == null)
+                        return;
+                    if (value.Parent is Panel parent)
+                        parent.Children.Remove(value);
+                    _content = value;
+                    SetRow(_content, 1);
+                    SetColumn(_content, 1);
+                    Children.Add(_content);
+                }
+            }
+        }
+
+        private class AdornmentHostingPanel : StackPanel
+        {
+            private InfoBarHostControl _infoBarHost;
+
+            public AdornmentHostingPanel()
+            {
+                SetResourceReference(BackgroundProperty, EnvironmentColors.CommandBarMenuBackgroundGradientBegin);
+                Focusable = false;
+                KeyboardNavigation.SetTabNavigation(this, KeyboardNavigationMode.Cycle);
+                KeyboardNavigation.SetDirectionalNavigation(this, KeyboardNavigationMode.Cycle);
+                KeyboardNavigation.SetControlTabNavigation(this, KeyboardNavigationMode.Cycle);
+            }
+
+            public InfoBarHostControl InfoBarHost
+            {
+                get
+                {
+                    if (_infoBarHost != null)
+                        return _infoBarHost;
+                    _infoBarHost = new InfoBarHostControl();
+                    Children.Add(_infoBarHost);
+                    CommandBarNavigationHelper.SetCommandFocusMode(_infoBarHost, CommandBarNavigationHelper.CommandFocusMode.Container);
+                    return _infoBarHost;
+                }
+            }
+        }
+
+
+        #endregion
 
         public ICommand ActivateCommand
         {

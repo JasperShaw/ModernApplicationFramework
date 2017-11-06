@@ -29,10 +29,8 @@
                                 <avalonDockControls:AnchorablePaneTitle Model="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}"/>
                             </Border>
                             <Border x:Name="ToolWindowBorder" Grid.Row="1">
-                                <!--<ContentPresenter FlowDirection="{TemplateBinding FlowDirection}"
-                                                  Content="{Binding LayoutItem.View, RelativeSource={RelativeSource TemplatedParent}}"/>-->
-                                <ContentPresenter FlowDirection="{TemplateBinding FlowDirection}"
-                                                  Content="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                <ContentPresenter Content="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}"
+                                                  FlowDirection="{TemplateBinding FlowDirection}"/>
                             </Border>
                             
                         </Grid>

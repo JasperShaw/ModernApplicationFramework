@@ -238,9 +238,13 @@
     <Compile Include="Basics\ApplicationEnvironment\FallbackEnvironmentVariables.cs" />
     <Compile Include="Basics\Definitions\Command\ExcludedCommandDefinition.cs" />
     <Compile Include="Basics\Definitions\Command\CommandGestureScopeMapping.cs" />
+    <Compile Include="Interfaces\Services\IInfoBarUiFactory.cs" />
+    <Compile Include="Basics\Services\InfoBarUIFactoryService.cs" />
     <Compile Include="Basics\Services\KeyboardInputService.cs" />
     <Compile Include="Controls\InfoBar\IInfoBarHost.cs" />
+    <Compile Include="Controls\InfoBar\InfoBarActionItemEventArgs.cs" />
     <Compile Include="Controls\InfoBar\InfoBarButton.cs" />
+    <Compile Include="Controls\InfoBar\InfoBarEventArgs.cs" />
     <Compile Include="Controls\InfoBar\Utilities\ActionViewModelListConverter.cs" />
     <Compile Include="Controls\InfoBar\Utilities\CollectionAdapter.cs" />
     <Compile Include="Controls\InfoBar\Utilities\EnumerableSnapshot.cs" />

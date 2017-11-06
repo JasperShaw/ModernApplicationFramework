@@ -2362,5 +2362,10 @@ namespace ModernApplicationFramework.Docking
 
             Trace.WriteLine("ShowNavigatorWindow()");
         }
+
+        public void RemoveChild(object child)
+        {
+            RemoveLogicalChild(child);
+        }
     }
 }

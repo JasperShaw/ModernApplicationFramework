@@ -89,6 +89,10 @@
       <DependentUpon>TestWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\DefaultWindowLayout\DefaultWindowProfileProvider.cs" />
+    <Compile Include="Modules\InfoBarDemo\InfoBarToolDemoView.xaml.cs">
+      <DependentUpon>InfoBarToolDemoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\InfoBarDemo\InfoBarToolDemoViewModel.cs" />
     <Compile Include="Modules\InfoBarDemo\Sample.cs" />
     <Compile Include="Modules\InfoBarDemo\InfoBarDemoView.xaml.cs">
       <DependentUpon>InfoBarDemoView.xaml</DependentUpon>
@@ -136,6 +140,10 @@
     <Page Include="Modules\InfoBarDemo\InfoBarDemoView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\InfoBarDemo\InfoBarToolDemoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Modules\SampleExplorer\SampleView.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -12,7 +12,8 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
-            <Button Content="Show Info Bar" Margin="20,0,20,0" Command="{Binding ShowInfoBarCommand}"/>
+            <Button Content="Show Info Bar (Main Host)" Margin="20,0,20,0" Command="{Binding ShowInfoBarCommand}"/>
+            <Button Content="Open Demo Tool Window" Margin="20,0,20,0" Command="{Binding OpenDemoToolCommand}"/>
         </StackPanel>
     </Grid>
 </UserControl>
