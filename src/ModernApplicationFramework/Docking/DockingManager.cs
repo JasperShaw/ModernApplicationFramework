@@ -44,7 +44,6 @@ using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Native;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Native.Platform.Enums;
-using ModernApplicationFramework.Utilities;
 using Action = System.Action;
 
 namespace ModernApplicationFramework.Docking
@@ -608,8 +607,7 @@ namespace ModernApplicationFramework.Docking
 
             foreach (var areaHost in this.FindVisualChildren<LayoutDocumentPaneGroupControl>())
             {
-                var documentGroupModel = areaHost.Model as LayoutDocumentPaneGroup;
-                if (documentGroupModel != null && !documentGroupModel.Children.Any(c => c.IsVisible))
+                if (areaHost.Model is LayoutDocumentPaneGroup documentGroupModel && !documentGroupModel.Children.Any(c => c.IsVisible))
                     _areas.Add(new DropArea<LayoutDocumentPaneGroupControl>(
                         areaHost,
                         DropAreaType.DocumentPaneGroup));
@@ -1123,8 +1121,7 @@ namespace ModernApplicationFramework.Docking
             }
             else
             {
-                var pane = anchorable.Parent as LayoutAnchorablePane;
-                if (pane == null)
+                if (!(anchorable.Parent is LayoutAnchorablePane pane))
                     return;
                 foreach (var child in pane.Children.ToList())
                     child?.Hide();
@@ -1147,48 +1144,40 @@ namespace ModernApplicationFramework.Docking
         // ReSharper disable once InconsistentNaming
         internal UIElement CreateUIElementForModel(ILayoutElement model)
         {
-            var panel = model as LayoutPanel;
-            if (panel != null)
+            if (model is LayoutPanel panel)
                 return new LayoutPanelControl(panel);
-            var group = model as LayoutAnchorablePaneGroup;
-            if (group != null)
+            if (model is LayoutAnchorablePaneGroup group)
                 return new LayoutAnchorablePaneGroupControl(group);
-            var paneGroup = model as LayoutDocumentPaneGroup;
-            if (paneGroup != null)
+            if (model is LayoutDocumentPaneGroup paneGroup)
                 return new LayoutDocumentPaneGroupControl(paneGroup);
 
-            var side = model as LayoutAnchorSide;
-            if (side != null)
+            if (model is LayoutAnchorSide side)
             {
                 var templateModelView = new LayoutAnchorSideControl(side);
                 templateModelView.SetBinding(TemplateProperty, new Binding("AnchorSideTemplate") {Source = this});
                 return templateModelView;
             }
-            var anchorGroup = model as LayoutAnchorGroup;
-            if (anchorGroup != null)
+            if (model is LayoutAnchorGroup anchorGroup)
             {
                 var templateModelView = new LayoutAnchorGroupControl(anchorGroup);
                 templateModelView.SetBinding(TemplateProperty, new Binding("AnchorGroupTemplate") {Source = this});
                 return templateModelView;
             }
 
-            var documentPane = model as LayoutDocumentPane;
-            if (documentPane != null)
+            if (model is LayoutDocumentPane documentPane)
             {
                 var templateModelView = new LayoutDocumentPaneControl(documentPane);
                 templateModelView.SetBinding(StyleProperty, new Binding("DocumentPaneControlStyle") {Source = this});
                 return templateModelView;
             }
-            var pane = model as LayoutAnchorablePane;
-            if (pane != null)
+            if (model is LayoutAnchorablePane pane)
             {
                 var templateModelView = new LayoutAnchorablePaneControl(pane);
                 templateModelView.SetBinding(StyleProperty, new Binding("AnchorablePaneControlStyle") {Source = this});
                 return templateModelView;
             }
 
-            var fw = model as LayoutAnchorableFloatingWindow;
-            if (fw != null)
+            if (model is LayoutAnchorableFloatingWindow fw)
             {
                 if (DesignerProperties.GetIsInDesignMode(this))
                     return null;
@@ -1216,8 +1205,7 @@ namespace ModernApplicationFramework.Docking
                 return newFw;
             }
 
-            var window = model as LayoutDocumentFloatingWindow;
-            if (window != null)
+            if (model is LayoutDocumentFloatingWindow window)
             {
                 if (DesignerProperties.GetIsInDesignMode(this))
                     return null;
@@ -1245,8 +1233,7 @@ namespace ModernApplicationFramework.Docking
                 return newFw;
             }
 
-            var document = model as LayoutDocument;
-            if (document != null)
+            if (model is LayoutDocument document)
             {
                 var templateModelView = new LayoutDocumentControl {Model = document};
                 return templateModelView;
@@ -1346,8 +1333,7 @@ namespace ModernApplicationFramework.Docking
         {
             if (!contentModel.CanFloat)
                 return;
-            var contentModelAsAnchorable = contentModel as LayoutAnchorable;
-            if (contentModelAsAnchorable != null &&
+            if (contentModel is LayoutAnchorable contentModelAsAnchorable &&
                 contentModelAsAnchorable.IsAutoHidden)
                 contentModelAsAnchorable.ToggleAutoHide();
 
@@ -1955,8 +1941,7 @@ namespace ModernApplicationFramework.Docking
 
             _suspendLayoutItemCreation = false;
 
-            var anchorablesSourceAsNotifier = anchorablesSource as INotifyCollectionChanged;
-            if (anchorablesSourceAsNotifier != null)
+            if (anchorablesSource is INotifyCollectionChanged anchorablesSourceAsNotifier)
                 anchorablesSourceAsNotifier.CollectionChanged += AnchorablesSourceElementsChanged;
         }
 
@@ -2013,8 +1998,7 @@ namespace ModernApplicationFramework.Docking
             _suspendLayoutItemCreation = true;
 
 
-            var documentsSourceAsNotifier = documentsSource as INotifyCollectionChanged;
-            if (documentsSourceAsNotifier != null)
+            if (documentsSource is INotifyCollectionChanged documentsSourceAsNotifier)
                 documentsSourceAsNotifier.CollectionChanged += DocumentsSourceElementsChanged;
         }
 
@@ -2127,8 +2111,7 @@ namespace ModernApplicationFramework.Docking
                 RemoveViewFromLogicalChild(anchorableToRemove);
             }
 
-            var anchorablesSourceAsNotifier = anchorablesSource as INotifyCollectionChanged;
-            if (anchorablesSourceAsNotifier != null)
+            if (anchorablesSource is INotifyCollectionChanged anchorablesSourceAsNotifier)
                 anchorablesSourceAsNotifier.CollectionChanged -= AnchorablesSourceElementsChanged;
         }
 
@@ -2150,8 +2133,7 @@ namespace ModernApplicationFramework.Docking
                 RemoveViewFromLogicalChild(documentToRemove);
             }
 
-            var documentsSourceAsNotifier = documentsSource as INotifyCollectionChanged;
-            if (documentsSourceAsNotifier != null)
+            if (documentsSource is INotifyCollectionChanged documentsSourceAsNotifier)
                 documentsSourceAsNotifier.CollectionChanged -= DocumentsSourceElementsChanged;
         }
 
@@ -2339,8 +2321,7 @@ namespace ModernApplicationFramework.Docking
                     break;
                 case "ActiveContent":
                     if (Layout.ActiveContent != null)
-                        if (Layout.ActiveContent != null)
-                            FocusElementManager.SetFocusOnLastElement(Layout.ActiveContent);
+                        FocusElementManager.SetFocusOnLastElement(Layout.ActiveContent);
 
                     if (!_insideInternalSetActiveContent && Layout.ActiveContent != null)
                         ActiveContent = Layout.ActiveContent?.Content;
