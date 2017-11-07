@@ -6,12 +6,13 @@
                           xmlns:spacingControls="clr-namespace:ModernApplicationFramework.Controls.InfoBar.SpacingControls"
                           xmlns:infoBarUtilities="clr-namespace:ModernApplicationFramework.Core.InfoBarUtilities"
                           xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
-                          xmlns:imaging="clr-namespace:ModernApplicationFramework.Utilities.Imaging;assembly=ModernApplicationFramework.Utilities"
+                          xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
                           Background="{DynamicResource {x:Static themes:EnvironmentColors.InfoBarBackground}}"
                         Foreground="{DynamicResource {x:Static themes:EnvironmentColors.InfoBarBackgroundText}}"
-                        Focusable="True" IsTabStop="True" imaging:ImageThemingUtilities.ImageBackgroundColor="#F6F6F6">
+                        Focusable="True" IsTabStop="True">
     <FrameworkElement.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
         <Style TargetType="{x:Type Hyperlink}">
             <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.HyperlinkText}}"/>
@@ -83,6 +84,7 @@
             </Style.Triggers>
         </Style>
         <infoBarUtilities:ActionViewModelListConverter x:Key="ActionViewModelListConverter"/>
+        <converters:IconToVisibilityConverter x:Key="IconToVisibilityConverter"/>
         <infoBarUtilities:InfoBarActionItemTemplateSelector x:Key="InfoBarActionItemTemplateSelector">
             <infoBarUtilities:InfoBarActionItemTemplateSelector.ButtonTemplate>
                 <DataTemplate>
@@ -113,7 +115,7 @@
                 </DataTemplate>
             </infoBarUtilities:InfoBarActionItemTemplateSelector.HyperlinkTemplate>
         </infoBarUtilities:InfoBarActionItemTemplateSelector>
-        
+
     </FrameworkElement.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -121,9 +123,11 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0" VerticalAlignment="Top" Margin="6,0,0,0" Visibility="Hidden">
+        <Grid Grid.Column="0" VerticalAlignment="Top" Margin="6,0,0,0"
+              Visibility="{Binding Icon, Mode=OneTime, Converter={StaticResource IconToVisibilityConverter}}">
             <TextBlock Visibility="Hidden" Margin="6,5"/>
-            <Image Width="16" Height="16" VerticalAlignment="Center"/>
+            <ContentPresenter Width="16" Height="16" VerticalAlignment="Center" 
+                              Content="{Binding Icon}"/>
         </Grid>
         <internal:InfoBarTextPanel Grid.Column="1" MinWidth="20" Margin="6,4,6,5">
             <internal:InfoBarTextPanel.MainTextControl>

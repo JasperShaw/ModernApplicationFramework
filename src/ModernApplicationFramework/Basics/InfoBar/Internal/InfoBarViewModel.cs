@@ -1,19 +1,34 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using ModernApplicationFramework.Controls.Windows;
+using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Interfaces.Controls;
 using ModernApplicationFramework.Interfaces.Controls.InfoBar;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Basics.InfoBar.Internal
 {
-    internal sealed class InfoBarViewModel : ObservableObject
+    internal sealed class InfoBarViewModel : ObservableObject, IThemableIconContainer
     {
+        private object _icon;
         public bool IsCloseButtonVisible { get; }
 
         internal InfoBarUiElement Owner { get; set; }
 
         public ICommand CloseCommand { get; }
+
+        public object IconSource { get; private set; }
+
+        public object Icon { get; set; }
+
+        public bool IsEnabled => true;
 
         public IEnumerable<InfoBarTextViewModel> MainText { get; }
 
@@ -50,6 +65,22 @@ namespace ModernApplicationFramework.Basics.InfoBar.Internal
             MainText = barTextViewModelArray;
             ActionItems = barActionViewModelArray;
             CloseCommand = new DelegateCommand(OnCloseCommandExecuted, CanExecuteCloseCommand);
+
+
+            if (!infoBar.UseImageInfo)
+                return;
+
+            if (infoBar.ImageInfo.FromXamlResource == true)
+            {
+                var myResourceDictionary = new ResourceDictionary
+                {
+                    Source = infoBar.ImageInfo.Path
+                };
+                IconSource = myResourceDictionary[infoBar.ImageInfo.Id];
+                this.SetThemedIcon((Color) ColorConverter.ConvertFromString("#F6F6F6"));
+            }
+            else
+                Icon = new Image {Source = new BitmapImage(infoBar.ImageInfo.Path)};
         }
 
         private bool CanExecuteCloseCommand(object obj)

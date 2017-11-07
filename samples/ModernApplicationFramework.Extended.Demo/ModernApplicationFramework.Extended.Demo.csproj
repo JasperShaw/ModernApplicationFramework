@@ -247,7 +247,10 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\DefaultProfile.winprf" />
-    <None Include="Resources\png_undo.16.16.png" />
+    <Resource Include="Resources\png_undo.16.16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\StatusInformation_16x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

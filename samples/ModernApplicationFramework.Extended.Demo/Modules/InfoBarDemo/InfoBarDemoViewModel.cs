@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Windows.Input;
@@ -10,6 +9,7 @@ using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Controls.InfoBar;
 using ModernApplicationFramework.Interfaces.Services;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.InfoBarDemo
 {
@@ -40,7 +40,11 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.InfoBarDemo
                 new InfoBarButton("Test")
             };
 
-            var model = new InfoBarModel(infoBarTextSpanArray, ai);
+
+            var imageInfo = new ImageInfo("/ModernApplicationFramework.Extended.Demo;component/Resources/StatusInformation_16x.png");
+
+
+            var model = new InfoBarModel(infoBarTextSpanArray, ai, imageInfo);
             var ui = IoC.Get<IInfoBarUiFactory>().CreateInfoBar(model);
 
             ui.Advise(this, out var _);

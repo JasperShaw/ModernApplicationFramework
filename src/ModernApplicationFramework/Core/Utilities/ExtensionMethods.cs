@@ -121,23 +121,15 @@ namespace ModernApplicationFramework.Core.Utilities
             element.SetThemedIcon(element.IsEnabled);
         }
 
-        /// <summary>
-        ///  Sets a themed icon for an <see cref="IThemableIconContainer"/>. Supports gray scale if the element is not enabled
-        /// </summary>
-        /// <param name="element">The element.</param>
-        /// <param name="isEnabled">if set to <see langword="true"/> no gray scale will be applied</param>
-        public static void SetThemedIcon(this IThemableIconContainer element, bool isEnabled)
+
+        public static void SetThemedIcon(this IThemableIconContainer element, Color backgroundColor, bool isEnabled = true)
         {
-            var vb = element.IconSource as Viewbox;
-            if (vb == null)
+            if (!(element.IconSource is Viewbox vb))
                 return;
             var i = ImageUtilities.IconImageFromFrameworkElement(vb);
             RenderOptions.SetBitmapScalingMode(i, BitmapScalingMode.Linear);
 
             var b = ImageUtilities.BitmapFromBitmapSource((BitmapSource)i.Source);
-
-            var backgroundColor = ImageThemingUtilities.GetImageBackgroundColor(element as DependencyObject);
-
 
             BitmapSource bitmapSource;
             if (isEnabled)
@@ -153,6 +145,18 @@ namespace ModernApplicationFramework.Core.Utilities
 
             i.Source = bitmapSource;
             element.Icon = i;
+        }
+
+
+        /// <summary>
+        ///  Sets a themed icon for an <see cref="IThemableIconContainer"/>. Supports gray scale if the element is not enabled
+        /// </summary>
+        /// <param name="element">The element.</param>
+        /// <param name="isEnabled">if set to <see langword="true"/> no gray scale will be applied</param>
+        public static void SetThemedIcon(this IThemableIconContainer element, bool isEnabled)
+        {
+            var backgroundColor = ImageThemingUtilities.GetImageBackgroundColor(element as DependencyObject);
+            SetThemedIcon(element, backgroundColor, isEnabled);
         }
 
         internal static void AddSorted<T>(this IList<T> list, T item, IComparer<T> comparer = null)

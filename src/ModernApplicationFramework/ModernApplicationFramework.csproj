@@ -238,6 +238,7 @@
     <Compile Include="Basics\ApplicationEnvironment\FallbackEnvironmentVariables.cs" />
     <Compile Include="Basics\Definitions\Command\ExcludedCommandDefinition.cs" />
     <Compile Include="Basics\Definitions\Command\CommandGestureScopeMapping.cs" />
+    <Compile Include="Core\Converters\IconToVisibilityConverter.cs" />
     <Compile Include="Interfaces\Services\IInfoBarUiFactory.cs" />
     <Compile Include="Basics\Services\InfoBarUIFactoryService.cs" />
     <Compile Include="Basics\Services\KeyboardInputService.cs" />
@@ -1181,7 +1182,6 @@
       <Name>ModernApplicationFramework.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

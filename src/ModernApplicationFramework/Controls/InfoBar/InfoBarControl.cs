@@ -1,6 +1,13 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using Caliburn.Micro;
+using ModernApplicationFramework.Basics.InfoBar.Internal;
+using ModernApplicationFramework.Core.Events;
+using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Interfaces.Controls;
+using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Controls.InfoBar
 {

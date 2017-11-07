@@ -8,6 +8,7 @@ using ModernApplicationFramework.Extended.Core.Pane;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Controls.InfoBar;
 using ModernApplicationFramework.Interfaces.Services;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.InfoBarDemo
 {
@@ -36,7 +37,11 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.InfoBarDemo
                 new InfoBarTextSpan("Test Text "),
                 new InfoBarHyperlink("www.google.de")
             };
-            var model = new InfoBarModel(infoBarTextSpanArray);
+
+            var imageInfo = new ImageInfo("StatusInfoIcon",
+                "/ModernApplicationFramework;component/Resources/Icons/StatusInfo.xaml", true);
+
+            var model = new InfoBarModel(infoBarTextSpanArray, imageInfo);
             AddInfoBar(model);
         }
     }

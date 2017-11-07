@@ -14,29 +14,34 @@ namespace ModernApplicationFramework.Basics.InfoBar
 
         public IInfoBarTextSpanCollection TextSpans { get;}
 
+        public ImageInfo ImageInfo { get; }
 
-        public InfoBarModel(string text, bool isCloseButtonVisible = true)
+        public bool UseImageInfo => ImageInfo.Id != null && ImageInfo.Path != null && ImageInfo.FromXamlResource != null;
+
+
+        public InfoBarModel(string text, ImageInfo image = default(ImageInfo), bool isCloseButtonVisible = true)
             : this(new IInfoBarTextSpan[]
             {
                 new InfoBarTextSpan(text)
-            }, Enumerable.Empty<IInfoBarActionItem>(), (isCloseButtonVisible ? 1 : 0) != 0)
+            }, Enumerable.Empty<IInfoBarActionItem>(), image, (isCloseButtonVisible ? 1 : 0) != 0)
         {
         }
 
-        public InfoBarModel(IEnumerable<IInfoBarTextSpan> textSpans, bool isCloseButtonVisible = true)
-            : this(textSpans, Enumerable.Empty<IInfoBarActionItem>(), isCloseButtonVisible)
+        public InfoBarModel(IEnumerable<IInfoBarTextSpan> textSpans, ImageInfo image = default(ImageInfo), bool isCloseButtonVisible = true)
+            : this(textSpans, Enumerable.Empty<IInfoBarActionItem>(), image, isCloseButtonVisible)
         {
+            
         }
 
-        public InfoBarModel(string text, IEnumerable<IInfoBarActionItem> actionItems, bool isCloseButtonVisible = true)
+        public InfoBarModel(string text, IEnumerable<IInfoBarActionItem> actionItems, ImageInfo image = default(ImageInfo), bool isCloseButtonVisible = true)
             : this(new IInfoBarTextSpan[]
             {
                 new InfoBarTextSpan(text)
-            }, actionItems, (isCloseButtonVisible ? 1 : 0) != 0)
+            }, actionItems, image, (isCloseButtonVisible ? 1 : 0) != 0)
         {
         }
 
-        public InfoBarModel(IEnumerable<IInfoBarTextSpan> textSpans, IEnumerable<IInfoBarActionItem> actionItems, bool isCloseButtonVisible = true)
+        public InfoBarModel(IEnumerable<IInfoBarTextSpan> textSpans, IEnumerable<IInfoBarActionItem> actionItems, ImageInfo image = default(ImageInfo), bool isCloseButtonVisible = true)
         {
             Validate.IsNotNull(textSpans, nameof(textSpans));
             Validate.IsNotNull(actionItems, nameof(actionItems));
@@ -44,6 +49,7 @@ namespace ModernApplicationFramework.Basics.InfoBar
             IsCloseButtonVisible = isCloseButtonVisible;
             TextSpans = new TextSpanCollection(textSpans);
             ActionItems = new ActionItemCollection(actionItems);
+            ImageInfo = image;
         }
 
         private class ActionItemCollection : IInfoBarActionItemCollection
