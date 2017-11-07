@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using ModernApplicationFramework.Basics.InfoBar.Internal;
 
 namespace ModernApplicationFramework.Controls.InfoBar.Internal
 {

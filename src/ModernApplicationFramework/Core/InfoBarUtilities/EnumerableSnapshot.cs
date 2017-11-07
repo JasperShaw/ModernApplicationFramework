@@ -5,7 +5,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Controls.InfoBar.Utilities
+namespace ModernApplicationFramework.Core.InfoBarUtilities
 {
     internal sealed class EnumerableSnapshot : DisposableObject, IEnumerable
     {

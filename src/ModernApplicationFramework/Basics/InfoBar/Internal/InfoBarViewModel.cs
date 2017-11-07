@@ -2,9 +2,10 @@
 using System.Text;
 using System.Windows.Input;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Interfaces.Controls.InfoBar;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Controls.InfoBar.Internal
+namespace ModernApplicationFramework.Basics.InfoBar.Internal
 {
     internal sealed class InfoBarViewModel : ObservableObject
     {

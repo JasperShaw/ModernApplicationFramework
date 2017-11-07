@@ -1,7 +1,8 @@
 ﻿using System;
+using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Controls.InfoBar
+namespace ModernApplicationFramework.Basics.InfoBar
 {
     public class InfoBarEventArgs : EventArgs
     {

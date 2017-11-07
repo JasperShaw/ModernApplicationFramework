@@ -1,7 +1,8 @@
 ﻿using System.Windows.Input;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Interfaces.Controls.InfoBar;
 
-namespace ModernApplicationFramework.Controls.InfoBar.Internal
+namespace ModernApplicationFramework.Basics.InfoBar.Internal
 {
     internal class InfoBarActionViewModel : InfoBarTextViewModel
     {

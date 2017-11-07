@@ -1,4 +1,5 @@
 ﻿using ModernApplicationFramework.Controls.InfoBar;
+using ModernApplicationFramework.Interfaces.Controls.InfoBar;
 
 namespace ModernApplicationFramework.Interfaces.ViewModels
 {

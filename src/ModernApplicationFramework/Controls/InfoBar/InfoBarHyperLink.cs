@@ -1,4 +1,6 @@
-﻿namespace ModernApplicationFramework.Controls.InfoBar
+﻿using ModernApplicationFramework.Interfaces.Controls.InfoBar;
+
+namespace ModernApplicationFramework.Controls.InfoBar
 {
     public class InfoBarHyperlink : InfoBarActionItem
     {

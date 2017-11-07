@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Controls.InfoBar.Utilities
+namespace ModernApplicationFramework.Core.InfoBarUtilities
 {
     internal class HybridDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {

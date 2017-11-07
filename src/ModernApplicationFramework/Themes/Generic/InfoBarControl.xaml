@@ -4,7 +4,7 @@
                           xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons"
                           xmlns:internal="clr-namespace:ModernApplicationFramework.Controls.InfoBar.Internal"
                           xmlns:spacingControls="clr-namespace:ModernApplicationFramework.Controls.InfoBar.SpacingControls"
-                          xmlns:utilities="clr-namespace:ModernApplicationFramework.Controls.InfoBar.Utilities">
+                          xmlns:infoBarUtilities="clr-namespace:ModernApplicationFramework.Core.InfoBarUtilities">
     <FrameworkElement.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
@@ -77,9 +77,9 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        <utilities:ActionViewModelListConverter x:Key="ActionViewModelListConverter"/>
-        <utilities:InfoBarActionItemTemplateSelector x:Key="InfoBarActionItemTemplateSelector">
-            <utilities:InfoBarActionItemTemplateSelector.ButtonTemplate>
+        <infoBarUtilities:ActionViewModelListConverter x:Key="ActionViewModelListConverter"/>
+        <infoBarUtilities:InfoBarActionItemTemplateSelector x:Key="InfoBarActionItemTemplateSelector">
+            <infoBarUtilities:InfoBarActionItemTemplateSelector.ButtonTemplate>
                 <DataTemplate>
                     <Button Style="{StaticResource InfobarButtonStyle}"
                             Command="{Binding ClickActionItemCommand, Mode=OneTime}">
@@ -97,8 +97,8 @@
                         </DataTrigger>
                     </DataTemplate.Triggers>
                 </DataTemplate>
-            </utilities:InfoBarActionItemTemplateSelector.ButtonTemplate>
-            <utilities:InfoBarActionItemTemplateSelector.HyperlinkTemplate>
+            </infoBarUtilities:InfoBarActionItemTemplateSelector.ButtonTemplate>
+            <infoBarUtilities:InfoBarActionItemTemplateSelector.HyperlinkTemplate>
                 <DataTemplate>
                     <internal:InfoBarTextBlock Margin="0,1,0,0" TextTrimming="CharacterEllipsis">
                         <internal:InfoBarTextBlock.TextSource>
@@ -106,8 +106,8 @@
                         </internal:InfoBarTextBlock.TextSource>
                     </internal:InfoBarTextBlock>
                 </DataTemplate>
-            </utilities:InfoBarActionItemTemplateSelector.HyperlinkTemplate>
-        </utilities:InfoBarActionItemTemplateSelector>
+            </infoBarUtilities:InfoBarActionItemTemplateSelector.HyperlinkTemplate>
+        </infoBarUtilities:InfoBarActionItemTemplateSelector>
         
     </FrameworkElement.Resources>
     <Grid>

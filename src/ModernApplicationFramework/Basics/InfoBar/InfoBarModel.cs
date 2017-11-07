@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
+using ModernApplicationFramework.Controls.InfoBar;
+using ModernApplicationFramework.Interfaces.Controls.InfoBar;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Controls.InfoBar
+namespace ModernApplicationFramework.Basics.InfoBar
 {
     public class InfoBarModel
     {

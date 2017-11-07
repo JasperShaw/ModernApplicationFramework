@@ -1,8 +1,10 @@
 using System.Windows;
-using ModernApplicationFramework.Controls.InfoBar.Utilities;
+using ModernApplicationFramework.Controls.InfoBar;
+using ModernApplicationFramework.Core.InfoBarUtilities;
+using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Controls.InfoBar.Internal
+namespace ModernApplicationFramework.Basics.InfoBar.Internal
 {
     internal class InfoBarUiElement : IInfoBarUiElement
     {

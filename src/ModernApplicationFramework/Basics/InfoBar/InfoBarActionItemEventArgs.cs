@@ -1,6 +1,8 @@
-﻿using ModernApplicationFramework.Utilities;
+﻿using ModernApplicationFramework.Interfaces.Controls.InfoBar;
+using ModernApplicationFramework.Interfaces.Services;
+using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Controls.InfoBar
+namespace ModernApplicationFramework.Basics.InfoBar
 {
     public class InfoBarActionItemEventArgs : InfoBarEventArgs
     {

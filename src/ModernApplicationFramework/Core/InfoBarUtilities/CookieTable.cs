@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ModernApplicationFramework.Controls.InfoBar.Utilities
+namespace ModernApplicationFramework.Core.InfoBarUtilities
 {
     internal class CookieTable<TCookie, TValue> where TCookie : IComparable<TCookie>
     {

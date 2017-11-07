@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using ModernApplicationFramework.Controls.InfoBar;
+using ModernApplicationFramework.Interfaces.Controls.InfoBar;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Utilities;
 

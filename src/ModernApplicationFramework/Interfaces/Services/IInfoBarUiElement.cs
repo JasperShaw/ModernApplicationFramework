@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace ModernApplicationFramework.Controls.InfoBar
+namespace ModernApplicationFramework.Interfaces.Services
 {
     public interface IInfoBarUiElement
     {

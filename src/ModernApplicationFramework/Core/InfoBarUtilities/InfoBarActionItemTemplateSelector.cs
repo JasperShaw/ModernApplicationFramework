@@ -1,8 +1,9 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using ModernApplicationFramework.Basics.InfoBar.Internal;
 using ModernApplicationFramework.Controls.InfoBar.Internal;
 
-namespace ModernApplicationFramework.Controls.InfoBar.Utilities
+namespace ModernApplicationFramework.Core.InfoBarUtilities
 {
     internal class InfoBarActionItemTemplateSelector : DataTemplateSelector
     {

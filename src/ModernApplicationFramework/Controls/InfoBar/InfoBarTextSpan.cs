@@ -1,4 +1,5 @@
-﻿using ModernApplicationFramework.Utilities;
+﻿using ModernApplicationFramework.Interfaces.Controls.InfoBar;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.InfoBar
 {

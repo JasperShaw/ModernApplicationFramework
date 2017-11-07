@@ -1,4 +1,4 @@
-﻿namespace ModernApplicationFramework.Controls.InfoBar
+﻿namespace ModernApplicationFramework.Interfaces.Controls.InfoBar
 {
     public interface IInfoBarTextSpanCollection
     {

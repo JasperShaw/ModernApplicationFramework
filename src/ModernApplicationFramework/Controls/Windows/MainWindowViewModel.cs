@@ -4,6 +4,7 @@ using System.Windows.Input;
 using ModernApplicationFramework.Controls.InfoBar;
 using ModernApplicationFramework.Core;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Interfaces.Controls.InfoBar;
 using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Controls.Windows

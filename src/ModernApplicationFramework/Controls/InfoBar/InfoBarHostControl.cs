@@ -4,8 +4,10 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using ModernApplicationFramework.Controls.InfoBar.Utilities;
+using ModernApplicationFramework.Core.InfoBarUtilities;
 using ModernApplicationFramework.Core.MenuModeHelper;
+using ModernApplicationFramework.Interfaces.Controls.InfoBar;
+using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.InfoBar

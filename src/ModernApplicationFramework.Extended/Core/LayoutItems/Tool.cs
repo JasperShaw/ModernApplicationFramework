@@ -4,11 +4,13 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.InfoBar;
 using ModernApplicationFramework.Controls.InfoBar;
 using ModernApplicationFramework.Docking.Controls;
 using ModernApplicationFramework.Extended.Core.Pane;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Interfaces.Controls.InfoBar;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Utilities;
 

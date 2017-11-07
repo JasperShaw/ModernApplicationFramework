@@ -1,6 +1,7 @@
+using ModernApplicationFramework.Interfaces.Controls.InfoBar;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Controls.InfoBar.Internal
+namespace ModernApplicationFramework.Basics.InfoBar.Internal
 {
     internal class InfoBarTextViewModel
     {

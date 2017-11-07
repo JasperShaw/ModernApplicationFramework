@@ -1,4 +1,6 @@
-﻿namespace ModernApplicationFramework.Controls.InfoBar
+﻿using ModernApplicationFramework.Interfaces.Services;
+
+namespace ModernApplicationFramework.Interfaces.Controls.InfoBar
 {
     public interface IInfoBarHost
     {

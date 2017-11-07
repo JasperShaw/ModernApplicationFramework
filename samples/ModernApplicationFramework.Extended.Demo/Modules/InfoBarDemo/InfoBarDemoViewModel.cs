@@ -3,9 +3,11 @@ using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Windows.Input;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.InfoBar;
 using ModernApplicationFramework.Controls.InfoBar;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Interfaces.Controls.InfoBar;
 using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.InfoBarDemo

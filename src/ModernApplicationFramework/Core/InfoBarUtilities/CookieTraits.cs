@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ModernApplicationFramework.Controls.InfoBar.Utilities
+namespace ModernApplicationFramework.Core.InfoBarUtilities
 {
     internal abstract class CookieTraits<T> where T : IComparable<T>
     {

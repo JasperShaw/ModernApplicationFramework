@@ -1,4 +1,6 @@
-﻿namespace ModernApplicationFramework.Controls.InfoBar
+﻿using ModernApplicationFramework.Controls.InfoBar;
+
+namespace ModernApplicationFramework.Interfaces.Controls.InfoBar
 {
     public abstract class InfoBarActionItem : InfoBarTextSpan, IInfoBarActionItem
     {

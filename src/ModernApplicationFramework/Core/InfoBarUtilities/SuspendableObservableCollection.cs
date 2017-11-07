@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Controls.InfoBar.Utilities
+namespace ModernApplicationFramework.Core.InfoBarUtilities
 {
     internal class SuspendableObservableCollection<T> : ObservableCollection<T>
     {
