@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Windows.Input;
@@ -31,10 +32,15 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.InfoBarDemo
             var infoBarTextSpanArray = new[]
             {
                 new InfoBarTextSpan("Test Text "),
-                new InfoBarHyperlink("www.google.de")
+                new  InfoBarButton("www.google.de")
             };
 
-            var model = new InfoBarModel(infoBarTextSpanArray);
+            var ai = new[]
+            {
+                new InfoBarButton("Test")
+            };
+
+            var model = new InfoBarModel(infoBarTextSpanArray, ai);
             var ui = IoC.Get<IInfoBarUiFactory>().CreateInfoBar(model);
 
             ui.Advise(this, out var _);
@@ -58,7 +64,15 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.InfoBarDemo
 
         void IInfoBarUiEvents.OnActionItemClicked(IInfoBarUiElement infoBarUiElement, IInfoBarActionItem actionItem)
         {
-            Process.Start(actionItem.Text);
+            try
+            {
+                Process.Start(actionItem.Text);
+            }
+            catch
+            {
+                //Ignored
+            }
+           
         }
     }
 }

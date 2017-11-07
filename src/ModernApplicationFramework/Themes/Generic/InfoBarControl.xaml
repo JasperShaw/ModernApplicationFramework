@@ -4,19 +4,24 @@
                           xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons"
                           xmlns:internal="clr-namespace:ModernApplicationFramework.Controls.InfoBar.Internal"
                           xmlns:spacingControls="clr-namespace:ModernApplicationFramework.Controls.InfoBar.SpacingControls"
-                          xmlns:infoBarUtilities="clr-namespace:ModernApplicationFramework.Core.InfoBarUtilities">
+                          xmlns:infoBarUtilities="clr-namespace:ModernApplicationFramework.Core.InfoBarUtilities"
+                          xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
+                          xmlns:imaging="clr-namespace:ModernApplicationFramework.Utilities.Imaging;assembly=ModernApplicationFramework.Utilities"
+                          Background="{DynamicResource {x:Static themes:EnvironmentColors.InfoBarBackground}}"
+                        Foreground="{DynamicResource {x:Static themes:EnvironmentColors.InfoBarBackgroundText}}"
+                        Focusable="True" IsTabStop="True" imaging:ImageThemingUtilities.ImageBackgroundColor="#F6F6F6">
     <FrameworkElement.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
         <Style TargetType="{x:Type Hyperlink}">
-            <Setter Property="Foreground" Value="Blue"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.HyperlinkText}}"/>
             <Setter Property="TextDecorations" Value="None"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Foreground" Value="Red"/>
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.HyperlinkMouseOverText}}"/>
                 </Trigger>
                 <Trigger Property="IsKeyboardFocused" Value="True">
-                    <Setter Property="Foreground" Value="Green"/>
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.HyperlinkMouseDownText}}"/>
                     <Setter Property="TextDecorations" Value="Underline"/>
                 </Trigger>
             </Style.Triggers>
@@ -27,9 +32,9 @@
                     <x:NullExtension/>
                 </Setter.Value>
             </Setter>
-            <Setter Property="Background" Value="Blue"/>
-            <Setter Property="Foreground" Value="Red"/>
-            <Setter Property="BorderBrush" Value="Green"/>
+            <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.InfoBarButtonBackground}}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.InfoBarButtonText}}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.InfoBarButtonBorder}}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -51,29 +56,29 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="UIElement.IsKeyboardFocused" Value="true">
-                    <Setter Property="Panel.Background" Value="Red"/>
-                    <Setter Property="TextElement.Foreground" Value="Green"/>
-                    <Setter Property="Border.BorderBrush" Value="Blue"/>
+                    <Setter Property="Panel.Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.InfoBarButtonFocusBackground}}"/>
+                    <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.InfoBarButtonFocusText}}"/>
+                    <Setter Property="Border.BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.InfoBarButtonFocusBorder}}"/>
                 </Trigger>
                 <Trigger Property="UIElement.IsMouseOver" Value="true">
-                    <Setter Property="Panel.Background" Value="Yellow"/>
-                    <Setter Property="TextElement.Foreground" Value="Blue"/>
-                    <Setter Property="Border.BorderBrush" Value="DeepPink"/>
+                    <Setter Property="Panel.Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.InfoBarButtonMouseOverBackground}}"/>
+                    <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.InfoBarButtonMouseOverText}}"/>
+                    <Setter Property="Border.BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.InfoBarButtonMouseOverBorder}}"/>
                 </Trigger>
                 <Trigger Property="Button.IsDefaulted" Value="true">
-                    <Setter Property="Panel.Background" Value="DeepPink"/>
-                    <Setter Property="TextElement.Foreground" Value="Aqua"/>
-                    <Setter Property="Border.BorderBrush" Value="CornflowerBlue"/>
+                    <Setter Property="Panel.Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.InfoBarButtonBackground}}"/>
+                    <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.InfoBarButtonText}}"/>
+                    <Setter Property="Border.BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.InfoBarButtonBorder}}"/>
                 </Trigger>
                 <Trigger Property="ButtonBase.IsPressed" Value="true">
-                    <Setter Property="Panel.Background" Value="CornflowerBlue"/>
-                    <Setter Property="TextElement.Foreground" Value="Black"/>
-                    <Setter Property="Border.BorderBrush" Value="Aqua"/>
+                    <Setter Property="Panel.Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.InfoBarButtonMouseDownBackground}}"/>
+                    <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.InfoBarButtonMouseDownText}}"/>
+                    <Setter Property="Border.BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.InfoBarButtonMouseDownBorder}}"/>
                 </Trigger>
                 <Trigger Property="UIElement.IsEnabled" Value="false">
-                    <Setter Property="Panel.Background" Value="DarkOliveGreen"/>
-                    <Setter Property="TextElement.Foreground" Value="DarkSalmon"/>
-                    <Setter Property="Border.BorderBrush" Value="DarkRed"/>
+                    <Setter Property="Panel.Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.InfoBarButtonDisabledBackground}}"/>
+                    <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.InfoBarButtonMouseDownText}}"/>
+                    <Setter Property="Border.BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.InfoBarButtonDisabledBorder}}"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -122,11 +127,12 @@
         </Grid>
         <internal:InfoBarTextPanel Grid.Column="1" MinWidth="20" Margin="6,4,6,5">
             <internal:InfoBarTextPanel.MainTextControl>
-                <internal:InfoBarTextBlock x:Name="maintext" TextWrapping="Wrap" Margin="0,1,0,0"
+                <internal:InfoBarTextBlock TextWrapping="Wrap" Margin="0,1,0,0"
                                           TextSource="{Binding MainText, Mode=OneTime}"/>
             </internal:InfoBarTextPanel.MainTextControl>
             <internal:InfoBarTextPanel.ActionItemsControl>
                 <ItemsControl IsTabStop="False"
+                              ItemTemplateSelector="{StaticResource InfoBarActionItemTemplateSelector}"
                               ItemsSource="{Binding ActionItems, Mode=OneTime}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -137,14 +143,14 @@
             </internal:InfoBarTextPanel.ActionItemsControl>
         </internal:InfoBarTextPanel>
         <buttons:GlyphButton x:Name="HideButton" Grid.Column="2" MinHeight="14" VerticalAlignment="Top" Focusable="True" Margin="0,6,6,0"
-                             GlyphForeground="Black"
-                             HoverBackground="Yellow"
-                             HoverBorderBrush="DarkOliveGreen"
-                             HoverForeground="Black"
+                             GlyphForeground="{DynamicResource {x:Static themes:EnvironmentColors.CloseButtonGlyph}}"
+                             HoverBackground="{DynamicResource {x:Static themes:EnvironmentColors.CloseButtonHoverBackground}}"
+                             HoverBorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.CloseButtonHoverBorder}}"
+                             HoverForeground="{DynamicResource {x:Static themes:EnvironmentColors.CloseButtonHoverGlyph}}"
                              HoverBorderThickness="1"
-                             PressedBackground="Black"
-                             PressedBorderBrush="DarkOliveGreen"
-                             PressedForeground="Black"
+                             PressedBackground="{DynamicResource {x:Static themes:EnvironmentColors.CloseButtonDownBackground}}"
+                             PressedBorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.CloseButtonDownBorder}}"
+                             PressedForeground="{DynamicResource {x:Static themes:EnvironmentColors.CloseButtonDownGlyph}}"
                              PressedBorderThickness="1"
                              Command="{Binding CloseCommand}"
                              Visibility="{Binding IsCloseButtonVisible, Mode=OneTime, Converter={StaticResource BooleanToVisibilityConverter}}">

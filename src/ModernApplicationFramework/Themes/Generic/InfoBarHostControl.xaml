@@ -1,11 +1,12 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:infoBar="clr-namespace:ModernApplicationFramework.Controls.InfoBar"
-                    xmlns:spacingControls="clr-namespace:ModernApplicationFramework.Controls.InfoBar.SpacingControls">
+                    xmlns:spacingControls="clr-namespace:ModernApplicationFramework.Controls.InfoBar.SpacingControls"
+                    xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes">
 
     <Style TargetType="{x:Type infoBar:InfoBarHostControl}">
         <Setter Property="BorderThickness" Value="0,1"/>
-        <Setter Property="BorderBrush" Value="Yellow"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.InfoBarBorder}}"/>
         <Setter Property="MaxHeight" Value="79"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="Template">

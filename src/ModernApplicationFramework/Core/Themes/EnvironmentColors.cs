@@ -529,6 +529,132 @@ namespace ModernApplicationFramework.Core.Themes
         private static ComponentResourceKey _systemWindow;
         private static ComponentResourceKey _systemGrayText;
 
+        //InfoBar
+        private static ComponentResourceKey _infoBarButtonBackground;
+        private static ComponentResourceKey _infoBarButtonText;
+        private static ComponentResourceKey _infoBarButtonBorder;
+        private static ComponentResourceKey _infoBarButtonDisabledBackground;
+        private static ComponentResourceKey _infoBarButtonDisabledText;
+        private static ComponentResourceKey _infoBarButtonDisabledBorder;
+        private static ComponentResourceKey _infoBarButtonFocusBackground;
+        private static ComponentResourceKey _infoBarButtonFocusText;
+        private static ComponentResourceKey _infoBarButtonFocusBorder;
+        private static ComponentResourceKey _infoBarButtonMouseDownBackground;
+        private static ComponentResourceKey _infoBarButtonMouseDownText;
+        private static ComponentResourceKey _infoBarButtonMouseDownBorder;
+        private static ComponentResourceKey _infoBarButtonMouseOverBackground;
+        private static ComponentResourceKey _infoBarButtonMouseOverText;
+        private static ComponentResourceKey _infoBarButtonMouseOverBorder;
+        private static ComponentResourceKey _closeButtonBackground;
+        private static ComponentResourceKey _closeButtonBorder;
+        private static ComponentResourceKey _closeButtonDownBackground;
+        private static ComponentResourceKey _closeButtonDownBorder;
+        private static ComponentResourceKey _closeButtonDownGlyph;
+        private static ComponentResourceKey _closeButtonGlyph;
+        private static ComponentResourceKey _closeButtonHoverBackground;
+        private static ComponentResourceKey _closeButtonHoverBorder;
+        private static ComponentResourceKey _closeButtonHoverGlyph;
+        private static ComponentResourceKey _hyperlinkText;
+        private static ComponentResourceKey _hyperlinkMouseDownText;
+        private static ComponentResourceKey _hyperlinkMouseOverText;
+        private static ComponentResourceKey _infoBarBackground;
+        private static ComponentResourceKey _infoBarBackgroundText;
+        private static ComponentResourceKey _infoBarBorder;
+
+        #region InfoBar
+
+        public static ComponentResourceKey InfoBarButtonBackground => _infoBarButtonBackground ??
+                                                                     (_infoBarButtonBackground = new ComponentResourceKey(typeof(EnvironmentColors), "InfoBarButtonBackground"));
+
+        public static ComponentResourceKey InfoBarButtonText => _infoBarButtonText ??
+                                                                      (_infoBarButtonText = new ComponentResourceKey(typeof(EnvironmentColors), "InfoBarButtonText"));
+
+        public static ComponentResourceKey InfoBarButtonBorder => _infoBarButtonBorder ??
+                                                                      (_infoBarButtonBorder = new ComponentResourceKey(typeof(EnvironmentColors), "InfoBarButtonBorder"));
+
+        public static ComponentResourceKey InfoBarButtonDisabledBackground => _infoBarButtonDisabledBackground ??
+                                                                      (_infoBarButtonDisabledBackground = new ComponentResourceKey(typeof(EnvironmentColors), "InfoBarButtonDisabledBackground"));
+
+        public static ComponentResourceKey InfoBarButtonDisabledText => _infoBarButtonDisabledText ??
+                                                                      (_infoBarButtonDisabledText = new ComponentResourceKey(typeof(EnvironmentColors), "InfoBarButtonDisabledText"));
+
+        public static ComponentResourceKey InfoBarButtonDisabledBorder => _infoBarButtonDisabledBorder ??
+                                                                      (_infoBarButtonDisabledBorder = new ComponentResourceKey(typeof(EnvironmentColors), "InfoBarButtonDisabledBorder"));
+
+        public static ComponentResourceKey InfoBarButtonFocusBackground => _infoBarButtonFocusBackground ??
+                                                                      (_infoBarButtonFocusBackground = new ComponentResourceKey(typeof(EnvironmentColors), "InfoBarButtonFocusBackground"));
+
+        public static ComponentResourceKey InfoBarButtonFocusText => _infoBarButtonFocusText ??
+                                                                      (_infoBarButtonFocusText = new ComponentResourceKey(typeof(EnvironmentColors), "InfoBarButtonFocusText"));
+
+        public static ComponentResourceKey InfoBarButtonFocusBorder => _infoBarButtonFocusBorder ??
+                                                                      (_infoBarButtonFocusBorder = new ComponentResourceKey(typeof(EnvironmentColors), "InfoBarButtonFocusBorder"));
+
+        public static ComponentResourceKey InfoBarButtonMouseDownBackground => _infoBarButtonMouseDownBackground ??
+                                                                      (_infoBarButtonMouseDownBackground = new ComponentResourceKey(typeof(EnvironmentColors), "InfoBarButtonMouseDownBackground"));
+
+        public static ComponentResourceKey InfoBarButtonMouseDownText => _infoBarButtonMouseDownText ??
+                                                                      (_infoBarButtonMouseDownText = new ComponentResourceKey(typeof(EnvironmentColors), "InfoBarButtonMouseDownText"));
+
+        public static ComponentResourceKey InfoBarButtonMouseDownBorder => _infoBarButtonMouseDownBorder ??
+                                                                      (_infoBarButtonMouseDownBorder = new ComponentResourceKey(typeof(EnvironmentColors), "InfoBarButtonMouseDownBorder"));
+
+        public static ComponentResourceKey InfoBarButtonMouseOverBackground => _infoBarButtonMouseOverBackground ??
+                                                                      (_infoBarButtonMouseOverBackground = new ComponentResourceKey(typeof(EnvironmentColors), "InfoBarButtonMouseOverBackground"));
+
+        public static ComponentResourceKey InfoBarButtonMouseOverText => _infoBarButtonMouseOverText ??
+                                                                      (_infoBarButtonMouseOverText = new ComponentResourceKey(typeof(EnvironmentColors), "InfoBarButtonMouseOverText"));
+
+        public static ComponentResourceKey InfoBarButtonMouseOverBorder => _infoBarButtonMouseOverBorder ??
+                                                                      (_infoBarButtonMouseOverBorder = new ComponentResourceKey(typeof(EnvironmentColors), "InfoBarButtonMouseOverBorder"));
+
+        public static ComponentResourceKey CloseButtonBackground => _closeButtonBackground ??
+                                                                      (_closeButtonBackground = new ComponentResourceKey(typeof(EnvironmentColors), "CloseButtonBackground"));
+
+        public static ComponentResourceKey CloseButtonBorder => _closeButtonBorder ??
+                                                                      (_closeButtonBorder = new ComponentResourceKey(typeof(EnvironmentColors), "CloseButtonBorder"));
+
+        public static ComponentResourceKey CloseButtonDownBackground => _closeButtonDownBackground ??
+                                                                      (_closeButtonDownBackground = new ComponentResourceKey(typeof(EnvironmentColors), "CloseButtonDownBackground"));
+
+        public static ComponentResourceKey CloseButtonDownBorder => _closeButtonDownBorder ??
+                                                                      (_closeButtonDownBorder = new ComponentResourceKey(typeof(EnvironmentColors), "CloseButtonDownBorder"));
+
+        public static ComponentResourceKey CloseButtonDownGlyph => _closeButtonDownGlyph ??
+                                                                      (_closeButtonDownGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "CloseButtonDownGlyph"));
+
+        public static ComponentResourceKey CloseButtonGlyph => _closeButtonGlyph ??
+                                                                      (_closeButtonGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "CloseButtonGlyph"));
+
+        public static ComponentResourceKey CloseButtonHoverBackground => _closeButtonHoverBackground ??
+                                                                      (_closeButtonHoverBackground = new ComponentResourceKey(typeof(EnvironmentColors), "CloseButtonHoverBackground"));
+
+        public static ComponentResourceKey CloseButtonHoverBorder => _closeButtonHoverBorder ??
+                                                                      (_closeButtonHoverBorder = new ComponentResourceKey(typeof(EnvironmentColors), "CloseButtonHoverBorder"));
+
+        public static ComponentResourceKey CloseButtonHoverGlyph => _closeButtonHoverGlyph ??
+                                                                      (_closeButtonHoverGlyph = new ComponentResourceKey(typeof(EnvironmentColors), "CloseButtonHoverGlyph"));
+
+        public static ComponentResourceKey HyperlinkText => _hyperlinkText ??
+                                                                      (_hyperlinkText = new ComponentResourceKey(typeof(EnvironmentColors), "HyperlinkText"));
+
+        public static ComponentResourceKey HyperlinkMouseDownText => _hyperlinkMouseDownText ??
+                                                                      (_hyperlinkMouseDownText = new ComponentResourceKey(typeof(EnvironmentColors), "HyperlinkMouseDownText"));
+
+        public static ComponentResourceKey HyperlinkMouseOverText => _hyperlinkMouseOverText ??
+                                                                      (_hyperlinkMouseOverText = new ComponentResourceKey(typeof(EnvironmentColors), "HyperlinkMouseOverText"));
+
+        public static ComponentResourceKey InfoBarBackground => _infoBarBackground ??
+                                                                      (_infoBarBackground = new ComponentResourceKey(typeof(EnvironmentColors), "InfoBarBackground"));
+
+        public static ComponentResourceKey InfoBarBackgroundText => _infoBarBackgroundText ??
+                                                                      (_infoBarBackgroundText = new ComponentResourceKey(typeof(EnvironmentColors), "InfoBarBackgroundText"));
+
+        public static ComponentResourceKey InfoBarBorder => _infoBarBorder ??
+                                                                      (_infoBarBorder = new ComponentResourceKey(typeof(EnvironmentColors), "InfoBarBorder"));
+        #endregion
+
+
         #region SystemColors
 
         public static ComponentResourceKey SystemWindow => _systemWindow ??
