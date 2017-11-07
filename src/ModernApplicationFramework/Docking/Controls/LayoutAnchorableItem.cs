@@ -16,8 +16,13 @@
 
 using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Xml.Serialization;
+using ModernApplicationFramework.Controls.InfoBar;
+using ModernApplicationFramework.Core.MenuModeHelper;
+using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Input.Command;
 
@@ -26,37 +31,38 @@ namespace ModernApplicationFramework.Docking.Controls
     public class LayoutAnchorableItem : LayoutItem
     {
         public static readonly DependencyProperty HideCommandProperty =
-            DependencyProperty.Register("HideCommand", typeof (ICommand), typeof (LayoutAnchorableItem),
+            DependencyProperty.Register("HideCommand", typeof(ICommand), typeof(LayoutAnchorableItem),
                 new FrameworkPropertyMetadata(null,
                     OnHideCommandChanged,
                     CoerceHideCommandValue));
 
         public static readonly DependencyProperty AutoHideCommandProperty =
-            DependencyProperty.Register("AutoHideCommand", typeof (ICommand), typeof (LayoutAnchorableItem),
+            DependencyProperty.Register("AutoHideCommand", typeof(ICommand), typeof(LayoutAnchorableItem),
                 new FrameworkPropertyMetadata(null,
                     OnAutoHideCommandChanged,
                     CoerceAutoHideCommandValue));
 
         public static readonly DependencyProperty DockCommandProperty =
-            DependencyProperty.Register("DockCommand", typeof (ICommand), typeof (LayoutAnchorableItem),
+            DependencyProperty.Register("DockCommand", typeof(ICommand), typeof(LayoutAnchorableItem),
                 new FrameworkPropertyMetadata(null,
                     OnDockCommandChanged,
                     CoerceDockCommandValue));
 
         public static readonly DependencyProperty CanHideProperty =
-            DependencyProperty.Register("CanHide", typeof (bool), typeof (LayoutAnchorableItem),
+            DependencyProperty.Register("CanHide", typeof(bool), typeof(LayoutAnchorableItem),
                 new FrameworkPropertyMetadata(true, OnCanHideChanged));
 
 
         private readonly ReentrantFlag _visibilityReentrantFlag = new ReentrantFlag();
+        private AdornmentHostingPanel _adornmentHost;
         private LayoutAnchorable _anchorable;
+
+
+        private FrameworkElement _contentControl;
         private ICommand _defaultAutoHideCommand;
         private ICommand _defaultDockCommand;
         private ICommand _defaultHideCommand;
 
-        internal LayoutAnchorableItem()
-        {
-        }
 
         public ICommand AutoHideCommand
         {
@@ -70,6 +76,26 @@ namespace ModernApplicationFramework.Docking.Controls
             set => SetValue(CanHideProperty, value);
         }
 
+        [XmlIgnore]
+        public FrameworkElement Content
+        {
+            get => _contentControl;
+            set
+            {
+                if (value == null)
+                {
+                    _contentControl = null;
+                }
+                else
+                {
+                    if (value is ContentHostingPanel)
+                        _contentControl = value;
+                    else
+                        HostingPanel.Content = value;
+                }
+            }
+        }
+
         public ICommand DockCommand
         {
             get => (ICommand) GetValue(DockCommandProperty);
@@ -80,6 +106,56 @@ namespace ModernApplicationFramework.Docking.Controls
         {
             get => (ICommand) GetValue(HideCommandProperty);
             set => SetValue(HideCommandProperty, value);
+        }
+
+        [XmlIgnore]
+        public InfoBarHostControl InfoBarHost => AdornmentHost.InfoBarHost;
+
+        [XmlIgnore]
+        private AdornmentHostingPanel AdornmentHost
+        {
+            get
+            {
+                if (_adornmentHost != null)
+                    return _adornmentHost;
+                _adornmentHost = new AdornmentHostingPanel();
+                Grid.SetRow(_adornmentHost, 0);
+                Grid.SetColumn(_adornmentHost, 0);
+                Grid.SetColumnSpan(_adornmentHost, 3);
+                HostingPanel.Children.Add(_adornmentHost);
+                return _adornmentHost;
+            }
+        }
+
+        [XmlIgnore]
+        private ContentHostingPanel HostingPanel
+        {
+            get
+            {
+                if (_contentControl == null)
+                    _contentControl = new ContentHostingPanel();
+                return _contentControl as ContentHostingPanel;
+            }
+        }
+
+        internal LayoutAnchorableItem()
+        {
+        }
+
+        internal override void Attach(LayoutContent model)
+        {
+            _anchorable = model as LayoutAnchorable;
+            if (_anchorable != null)
+                _anchorable.IsVisibleChanged += _anchorable_IsVisibleChanged;
+
+            base.Attach(model);
+        }
+
+        internal override void Detach()
+        {
+            _anchorable.IsVisibleChanged -= _anchorable_IsVisibleChanged;
+            _anchorable = null;
+            base.Detach();
         }
 
         protected override void ClearDefaultBindings()
@@ -130,9 +206,7 @@ namespace ModernApplicationFramework.Docking.Controls
         protected override void OnVisibilityChanged()
         {
             if (_anchorable?.Root != null)
-            {
                 if (_visibilityReentrantFlag.CanEnter)
-                {
                     using (_visibilityReentrantFlag.Enter())
                     {
                         if (Visibility == Visibility.Hidden)
@@ -140,8 +214,6 @@ namespace ModernApplicationFramework.Docking.Controls
                         else if (Visibility == Visibility.Visible)
                             _anchorable.Show();
                     }
-                }
-            }
 
             base.OnVisibilityChanged();
         }
@@ -157,22 +229,6 @@ namespace ModernApplicationFramework.Docking.Controls
 
             Visibility = _anchorable.IsVisible ? Visibility.Visible : Visibility.Hidden;
             base.SetDefaultBindings();
-        }
-
-        internal override void Attach(LayoutContent model)
-        {
-            _anchorable = model as LayoutAnchorable;
-            if (_anchorable != null)
-                _anchorable.IsVisibleChanged += _anchorable_IsVisibleChanged;
-
-            base.Attach(model);
-        }
-
-        internal override void Detach()
-        {
-            _anchorable.IsVisibleChanged -= _anchorable_IsVisibleChanged;
-            _anchorable = null;
-            base.Detach();
         }
 
         private static object CoerceAutoHideCommandValue(DependencyObject d, object value)
@@ -255,6 +311,86 @@ namespace ModernApplicationFramework.Docking.Controls
         private void ExecuteHideCommand(object parameter)
         {
             _anchorable?.Root?.Manager?._ExecuteHideCommand(_anchorable);
+        }
+
+        private class AdornmentHostingPanel : StackPanel
+        {
+            private InfoBarHostControl _infoBarHost;
+
+            public InfoBarHostControl InfoBarHost
+            {
+                get
+                {
+                    if (_infoBarHost != null)
+                        return _infoBarHost;
+                    _infoBarHost = new InfoBarHostControl();
+                    Children.Add(_infoBarHost);
+                    CommandBarNavigationHelper.SetCommandFocusMode(_infoBarHost,
+                        CommandBarNavigationHelper.CommandFocusMode.Container);
+                    return _infoBarHost;
+                }
+            }
+
+            public AdornmentHostingPanel()
+            {
+                SetResourceReference(BackgroundProperty, EnvironmentColors.CommandBarMenuBackgroundGradientBegin);
+                Focusable = false;
+                KeyboardNavigation.SetTabNavigation(this, KeyboardNavigationMode.Cycle);
+                KeyboardNavigation.SetDirectionalNavigation(this, KeyboardNavigationMode.Cycle);
+                KeyboardNavigation.SetControlTabNavigation(this, KeyboardNavigationMode.Cycle);
+            }
+        }
+
+        private class ContentHostingPanel : Grid
+        {
+            private FrameworkElement _content;
+
+            public FrameworkElement Content
+            {
+                get => _content;
+                set
+                {
+                    if (_content != null)
+                        Children.Remove(_content);
+                    _content = null;
+                    if (value == null)
+                        return;
+                    if (value.Parent is Panel parent)
+                        parent.Children.Remove(value);
+                    _content = value;
+                    SetRow(_content, 1);
+                    SetColumn(_content, 1);
+                    Children.Add(_content);
+                }
+            }
+
+            public ContentHostingPanel()
+            {
+                RowDefinitions.Add(new RowDefinition
+                {
+                    Height = new GridLength(0.0, GridUnitType.Auto)
+                });
+                RowDefinitions.Add(new RowDefinition
+                {
+                    Height = new GridLength(1.0, GridUnitType.Star)
+                });
+                RowDefinitions.Add(new RowDefinition
+                {
+                    Height = new GridLength(0.0, GridUnitType.Auto)
+                });
+                ColumnDefinitions.Add(new ColumnDefinition
+                {
+                    Width = new GridLength(0.0, GridUnitType.Auto)
+                });
+                ColumnDefinitions.Add(new ColumnDefinition
+                {
+                    Width = new GridLength(1.0, GridUnitType.Star)
+                });
+                ColumnDefinitions.Add(new ColumnDefinition
+                {
+                    Width = new GridLength(0.0, GridUnitType.Auto)
+                });
+            }
         }
     }
 }

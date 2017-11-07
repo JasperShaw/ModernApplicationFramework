@@ -25,7 +25,7 @@ namespace ModernApplicationFramework.Extended.Core.LayoutItems
         private ICommand _closeCommand;
         private bool _isVisible;
 
-        private Docking.Controls.LayoutItem _frame;
+        private LayoutAnchorableItem _frame;
 
         private ConditionalWeakTable<InfoBarModel, IInfoBarUiElement> _infoBars;
 
@@ -104,11 +104,9 @@ namespace ModernApplicationFramework.Extended.Core.LayoutItems
             }
             if (!(view is UIElement uiElement))
                 throw new InvalidCastException("View is not typeof UIElement");
-            _frame = uiElement.FindLogicalAncestor<LayoutAnchorableControl>().LayoutItem;
-
-
+            _frame = uiElement.FindLogicalAncestor<LayoutAnchorableControl>().LayoutItem as LayoutAnchorableItem;
             if (_frame == null)
-                throw new InvalidCastException("View parent is not typeof LayoutAnchorableControl"); ;
+                throw new InvalidCastException("View parent is not typeof LayoutAnchorableItem"); ;
             OnToolWindowCreated();
         }
 

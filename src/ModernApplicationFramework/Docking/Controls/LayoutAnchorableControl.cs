@@ -68,11 +68,12 @@ namespace ModernApplicationFramework.Docking.Controls
             if (Model != null)
             {
                 Model.PropertyChanged += Model_PropertyChanged;
-                var model = Model.Root.Manager.GetLayoutItemFromModel(Model);
+                if (!(Model.Root.Manager.GetLayoutItemFromModel(Model) is LayoutAnchorableItem model))
+                    return;
                 Model.Root.Manager.RemoveChild(model.View);
                 SetLayoutItem(model);
                 model.Content = model.View;
-                Content = model.Content;            
+                Content = model.Content;
             }
             else
             {
