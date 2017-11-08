@@ -15,13 +15,15 @@
   **********************************************************************/
 
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using JetBrains.Annotations;
 using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-    public class LayoutDocumentControl : Control
+    public class LayoutDocumentControl : Control, INotifyPropertyChanged
     {
         public static readonly DependencyProperty ModelProperty =
             DependencyProperty.Register("Model", typeof (LayoutContent), typeof (LayoutDocumentControl),
@@ -33,6 +35,8 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public static readonly DependencyProperty LayoutItemProperty
             = LayoutItemPropertyKey.DependencyProperty;
+
+        private FrameworkElement _content;
 
 
         static LayoutDocumentControl()
@@ -50,6 +54,17 @@ namespace ModernApplicationFramework.Docking.Controls
             set => SetValue(ModelProperty, value);
         }
 
+        public FrameworkElement Content
+        {
+            get => _content;
+            private set
+            {
+                if (Equals(value, _content)) return;
+                _content = value;
+                OnPropertyChanged();
+            }
+        }
+
         protected virtual void OnModelChanged(DependencyPropertyChangedEventArgs e)
         {
             if (e.OldValue != null)
@@ -60,10 +75,18 @@ namespace ModernApplicationFramework.Docking.Controls
             if (Model != null)
             {
                 Model.PropertyChanged += Model_PropertyChanged;
-                SetLayoutItem(Model.Root.Manager.GetLayoutItemFromModel(Model));
+                var model = Model.Root.Manager.GetLayoutItemFromModel(Model);
+                Model.Root.Manager.RemoveChild(model.View);
+                SetLayoutItem(model);
+                model.Content = model.View;
+                Content = model.Content;
             }
             else
+            {
                 SetLayoutItem(null);
+                Content = null;  
+            }
+                
         }
 
         private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -94,6 +117,14 @@ namespace ModernApplicationFramework.Docking.Controls
         private static void OnModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((LayoutDocumentControl) d).OnModelChanged(e);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

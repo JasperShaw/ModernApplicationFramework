@@ -77,6 +77,7 @@ namespace ModernApplicationFramework.Docking.Controls
             }
             else
             {
+                SetLayoutItem(null);
                 Content = null;
             }
         }

@@ -106,9 +106,9 @@ namespace ModernApplicationFramework.Extended.Core.LayoutItems
             }
             if (!(view is UIElement uiElement))
                 throw new InvalidCastException("View is not typeof UIElement");
-            _frame = uiElement.FindLogicalAncestor<LayoutAnchorableControl>().LayoutItem as LayoutAnchorableItem;
-            if (_frame == null)
-                throw new InvalidCastException("View parent is not typeof LayoutAnchorableItem"); ;
+            _frame = uiElement.FindLogicalAncestor<LayoutAnchorableControl>()?.LayoutItem as LayoutAnchorableItem;
+            //if (_frame == null)
+            //    throw new InvalidCastException("View parent is not typeof LayoutAnchorableItem"); ;
             OnToolWindowCreated();
         }
 

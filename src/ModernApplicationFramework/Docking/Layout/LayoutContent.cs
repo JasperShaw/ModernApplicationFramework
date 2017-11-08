@@ -365,6 +365,7 @@ namespace ModernApplicationFramework.Docking.Layout
             }
         }
 
+        [XmlIgnore]
         public bool IsLastFocusedDocument
         {
             get { return _isLastFocusedDocument; }

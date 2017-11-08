@@ -7,7 +7,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type avalonDockControls:LayoutDocumentControl}">
                     <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                        <ContentPresenter Content="{Binding LayoutItem.View, RelativeSource={RelativeSource TemplatedParent}}"/>
+                        <ContentPresenter Content="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

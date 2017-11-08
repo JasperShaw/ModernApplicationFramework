@@ -76,26 +76,6 @@ namespace ModernApplicationFramework.Docking.Controls
             set => SetValue(CanHideProperty, value);
         }
 
-        [XmlIgnore]
-        public FrameworkElement Content
-        {
-            get => _contentControl;
-            set
-            {
-                if (value == null)
-                {
-                    _contentControl = null;
-                }
-                else
-                {
-                    if (value is ContentHostingPanel)
-                        _contentControl = value;
-                    else
-                        HostingPanel.Content = value;
-                }
-            }
-        }
-
         public ICommand DockCommand
         {
             get => (ICommand) GetValue(DockCommandProperty);
@@ -124,17 +104,6 @@ namespace ModernApplicationFramework.Docking.Controls
                 Grid.SetColumnSpan(_adornmentHost, 3);
                 HostingPanel.Children.Add(_adornmentHost);
                 return _adornmentHost;
-            }
-        }
-
-        [XmlIgnore]
-        private ContentHostingPanel HostingPanel
-        {
-            get
-            {
-                if (_contentControl == null)
-                    _contentControl = new ContentHostingPanel();
-                return _contentControl as ContentHostingPanel;
             }
         }
 
@@ -338,58 +307,6 @@ namespace ModernApplicationFramework.Docking.Controls
                 KeyboardNavigation.SetTabNavigation(this, KeyboardNavigationMode.Cycle);
                 KeyboardNavigation.SetDirectionalNavigation(this, KeyboardNavigationMode.Cycle);
                 KeyboardNavigation.SetControlTabNavigation(this, KeyboardNavigationMode.Cycle);
-            }
-        }
-
-        private class ContentHostingPanel : Grid
-        {
-            private FrameworkElement _content;
-
-            public FrameworkElement Content
-            {
-                get => _content;
-                set
-                {
-                    if (_content != null)
-                        Children.Remove(_content);
-                    _content = null;
-                    if (value == null)
-                        return;
-                    if (value.Parent is Panel parent)
-                        parent.Children.Remove(value);
-                    _content = value;
-                    SetRow(_content, 1);
-                    SetColumn(_content, 1);
-                    Children.Add(_content);
-                }
-            }
-
-            public ContentHostingPanel()
-            {
-                RowDefinitions.Add(new RowDefinition
-                {
-                    Height = new GridLength(0.0, GridUnitType.Auto)
-                });
-                RowDefinitions.Add(new RowDefinition
-                {
-                    Height = new GridLength(1.0, GridUnitType.Star)
-                });
-                RowDefinitions.Add(new RowDefinition
-                {
-                    Height = new GridLength(0.0, GridUnitType.Auto)
-                });
-                ColumnDefinitions.Add(new ColumnDefinition
-                {
-                    Width = new GridLength(0.0, GridUnitType.Auto)
-                });
-                ColumnDefinitions.Add(new ColumnDefinition
-                {
-                    Width = new GridLength(1.0, GridUnitType.Star)
-                });
-                ColumnDefinitions.Add(new ColumnDefinition
-                {
-                    Width = new GridLength(0.0, GridUnitType.Auto)
-                });
             }
         }
     }

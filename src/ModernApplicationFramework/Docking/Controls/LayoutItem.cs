@@ -15,6 +15,7 @@
   **********************************************************************/
 
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Windows;
@@ -22,6 +23,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Xml.Serialization;
 using ModernApplicationFramework.Controls.InfoBar;
 using ModernApplicationFramework.Core.MenuModeHelper;
 using ModernApplicationFramework.Core.Themes;
@@ -513,12 +515,12 @@ namespace ModernApplicationFramework.Docking.Controls
             LayoutElement.IsActiveChanged += LayoutElement_IsActiveChanged;
 
             DataContext = this;
-            System.Diagnostics.Trace.WriteLine($"Attach({LayoutElement.Title})");
+            Trace.WriteLine($"Attach({LayoutElement.Title})");
         }
 
         internal virtual void Detach()
         {
-            System.Diagnostics.Trace.WriteLine($"Detach({LayoutElement.Title})");
+            Trace.WriteLine($"Detach({LayoutElement.Title})");
             LayoutElement.IsSelectedChanged -= LayoutElement_IsSelectedChanged;
             LayoutElement.IsActiveChanged -= LayoutElement_IsActiveChanged;
             LayoutElement = null;
@@ -725,7 +727,7 @@ namespace ModernApplicationFramework.Docking.Controls
         {
 #if DEBUG
             if (LayoutElement != null)
-                System.Diagnostics.Trace.WriteLine(
+                Trace.WriteLine(
                     $"CanExecuteCloseCommand({LayoutElement.Title}) = {LayoutElement.CanClose}");
 #endif
             return LayoutElement != null && LayoutElement.CanClose;
@@ -938,6 +940,92 @@ namespace ModernApplicationFramework.Docking.Controls
         {
             if (LayoutElement != null)
                 LayoutElement.ToolTip = ToolTip;
+        }
+
+
+        private FrameworkElement _contentControl;
+
+        [XmlIgnore]
+        public FrameworkElement Content
+        {
+            get => _contentControl;
+            set
+            {
+                if (value == null)
+                {
+                    _contentControl = null;
+                }
+                else
+                {
+                    if (value is ContentHostingPanel)
+                        _contentControl = value;
+                    else
+                        HostingPanel.Content = value;
+                }
+            }
+        }
+
+        [XmlIgnore]
+        protected ContentHostingPanel HostingPanel
+        {
+            get
+            {
+                if (_contentControl == null)
+                    _contentControl = new ContentHostingPanel();
+                return _contentControl as ContentHostingPanel;
+            }
+        }
+
+        protected class ContentHostingPanel : Grid
+        {
+            private FrameworkElement _content;
+
+            public FrameworkElement Content
+            {
+                get => _content;
+                set
+                {
+                    if (_content != null)
+                        Children.Remove(_content);
+                    _content = null;
+                    if (value == null)
+                        return;
+                    if (value.Parent is Panel parent)
+                        parent.Children.Remove(value);
+                    _content = value;
+                    SetRow(_content, 1);
+                    SetColumn(_content, 1);
+                    Children.Add(_content);
+                }
+            }
+
+            public ContentHostingPanel()
+            {
+                RowDefinitions.Add(new RowDefinition
+                {
+                    Height = new GridLength(0.0, GridUnitType.Auto)
+                });
+                RowDefinitions.Add(new RowDefinition
+                {
+                    Height = new GridLength(1.0, GridUnitType.Star)
+                });
+                RowDefinitions.Add(new RowDefinition
+                {
+                    Height = new GridLength(0.0, GridUnitType.Auto)
+                });
+                ColumnDefinitions.Add(new ColumnDefinition
+                {
+                    Width = new GridLength(0.0, GridUnitType.Auto)
+                });
+                ColumnDefinitions.Add(new ColumnDefinition
+                {
+                    Width = new GridLength(1.0, GridUnitType.Star)
+                });
+                ColumnDefinitions.Add(new ColumnDefinition
+                {
+                    Width = new GridLength(0.0, GridUnitType.Auto)
+                });
+            }
         }
     }
 }
