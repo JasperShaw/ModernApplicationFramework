@@ -17,6 +17,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -289,8 +290,16 @@ namespace ModernApplicationFramework.Docking
             CaptureManager.Initialize();
             CommandFocusManager.Initialize();
             HwndSourceTracker.Initialize();
+            DocumentPaneTabPanel.SelectedItemHidden += DocumentPaneTabPanel_SelectedItemHidden;
         }
 
+        private static void DocumentPaneTabPanel_SelectedItemHidden(object sender, SelectedItemHiddenEventArgs e)
+        {
+            foreach (var indexChange in e.ViewsToMove)
+            {
+                //Instace.Layout.
+            }
+        }
 
         public DockingManager()
         {
@@ -1988,6 +1997,8 @@ namespace ModernApplicationFramework.Docking
                             "Layout must contains at least one LayoutDocumentPane in order to host documents");
 
                     documentPane.Children.Add(documentToImport);
+
+                    //documentPane.Children.Insert(0, documentToImport);
                 }
 
                 LayoutUpdateStrategy?.AfterInsertDocument(layout, documentToImport);

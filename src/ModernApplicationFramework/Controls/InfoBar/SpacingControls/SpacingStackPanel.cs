@@ -74,7 +74,7 @@ namespace ModernApplicationFramework.Controls.InfoBar.SpacingControls
         private static bool ValidateSpacing(object value)
         {
             double num = (double)value;
-            if (!num.IsNonreal())
+            if (!ExtensionMethods.IsNonreal(num))
                 return num >= 0.0;
             return false;
         }
