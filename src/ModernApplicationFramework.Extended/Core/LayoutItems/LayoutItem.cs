@@ -16,11 +16,6 @@ namespace ModernApplicationFramework.Extended.Core.LayoutItems
 
         public override ICommand CloseCommand => _closeCommand ?? (_closeCommand = new DelegateCommand(Close));
 
-        private void Close(object obj)
-        {   
-            TryClose(null);
-        }
-
         public ICommand RedoCommand => IoC.Get<RedoCommandDefinition>().Command;
 
         public ICommand UndoCommand => IoC.Get<UndoCommandDefinition>().Command;
@@ -30,6 +25,11 @@ namespace ModernApplicationFramework.Extended.Core.LayoutItems
         protected virtual void PushUndoRedoManager(string sender, object value)
         {
             UndoRedoManager.Push(new UndoRedoAction(this, sender, value));
+        }
+
+        private void Close(object obj)
+        {
+            TryClose(null);
         }
     }
 }

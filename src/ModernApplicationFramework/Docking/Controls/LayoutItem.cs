@@ -163,6 +163,55 @@ namespace ModernApplicationFramework.Docking.Controls
                 new FrameworkPropertyMetadata(Visibility.Visible, OnVisibilityChanged));
         }
 
+        [XmlIgnore]
+        public InfoBarHostControl InfoBarHost => AdornmentHost.InfoBarHost;
+
+        private AdornmentHostingPanel _adornmentHost;
+
+        [XmlIgnore]
+        private AdornmentHostingPanel AdornmentHost
+        {
+            get
+            {
+                if (_adornmentHost != null)
+                    return _adornmentHost;
+                _adornmentHost = new AdornmentHostingPanel();
+                Grid.SetRow(_adornmentHost, 0);
+                Grid.SetColumn(_adornmentHost, 0);
+                Grid.SetColumnSpan(_adornmentHost, 3);
+                HostingPanel.Children.Add(_adornmentHost);
+                return _adornmentHost;
+            }
+        }
+
+        private class AdornmentHostingPanel : StackPanel
+        {
+            private InfoBarHostControl _infoBarHost;
+
+            public InfoBarHostControl InfoBarHost
+            {
+                get
+                {
+                    if (_infoBarHost != null)
+                        return _infoBarHost;
+                    _infoBarHost = new InfoBarHostControl();
+                    Children.Add(_infoBarHost);
+                    CommandBarNavigationHelper.SetCommandFocusMode(_infoBarHost,
+                        CommandBarNavigationHelper.CommandFocusMode.Container);
+                    return _infoBarHost;
+                }
+            }
+
+            public AdornmentHostingPanel()
+            {
+                SetResourceReference(BackgroundProperty, EnvironmentColors.CommandBarMenuBackgroundGradientBegin);
+                Focusable = false;
+                KeyboardNavigation.SetTabNavigation(this, KeyboardNavigationMode.Cycle);
+                KeyboardNavigation.SetDirectionalNavigation(this, KeyboardNavigationMode.Cycle);
+                KeyboardNavigation.SetControlTabNavigation(this, KeyboardNavigationMode.Cycle);
+            }
+        }
+
         public ContentPresenter View
         {
             get
@@ -750,13 +799,12 @@ namespace ModernApplicationFramework.Docking.Controls
                 return false;
 
             var parentDocumentGroup = LayoutElement.FindParent<LayoutDocumentPaneGroup>();
-            var parentDocumentPane = LayoutElement.Parent as LayoutDocumentPane;
-            return (parentDocumentGroup != null &&
-                    parentDocumentPane != null &&
-                    parentDocumentGroup.ChildrenCount > 1 &&
-                    parentDocumentGroup.IndexOfChild(parentDocumentPane) < parentDocumentGroup.ChildrenCount - 1 &&
-                    parentDocumentGroup.Children[parentDocumentGroup.IndexOfChild(parentDocumentPane) + 1] is
-                        LayoutDocumentPane);
+            return parentDocumentGroup != null &&
+                   LayoutElement.Parent is LayoutDocumentPane parentDocumentPane &&
+                   parentDocumentGroup.ChildrenCount > 1 &&
+                   parentDocumentGroup.IndexOfChild(parentDocumentPane) < parentDocumentGroup.ChildrenCount - 1 &&
+                   parentDocumentGroup.Children[parentDocumentGroup.IndexOfChild(parentDocumentPane) + 1] is
+                       LayoutDocumentPane;
         }
 
         private bool CanExecuteMoveToPreviousTabGroupCommand(object parameter)
@@ -764,13 +812,12 @@ namespace ModernApplicationFramework.Docking.Controls
             if (LayoutElement == null)
                 return false;
             var parentDocumentGroup = LayoutElement.FindParent<LayoutDocumentPaneGroup>();
-            var parentDocumentPane = LayoutElement.Parent as LayoutDocumentPane;
-            return (parentDocumentGroup != null &&
-                    parentDocumentPane != null &&
-                    parentDocumentGroup.ChildrenCount > 1 &&
-                    parentDocumentGroup.IndexOfChild(parentDocumentPane) > 0 &&
-                    parentDocumentGroup.Children[parentDocumentGroup.IndexOfChild(parentDocumentPane) - 1] is
-                        LayoutDocumentPane);
+            return parentDocumentGroup != null &&
+                   LayoutElement.Parent is LayoutDocumentPane parentDocumentPane &&
+                   parentDocumentGroup.ChildrenCount > 1 &&
+                   parentDocumentGroup.IndexOfChild(parentDocumentPane) > 0 &&
+                   parentDocumentGroup.Children[parentDocumentGroup.IndexOfChild(parentDocumentPane) - 1] is
+                       LayoutDocumentPane;
         }
 
         private bool CanExecuteNewHorizontalTabGroupCommand(object parameter)
@@ -778,12 +825,11 @@ namespace ModernApplicationFramework.Docking.Controls
             if (LayoutElement == null)
                 return false;
             var parentDocumentGroup = LayoutElement.FindParent<LayoutDocumentPaneGroup>();
-            var parentDocumentPane = LayoutElement.Parent as LayoutDocumentPane;
             return (parentDocumentGroup == null ||
                     parentDocumentGroup.ChildrenCount == 1 ||
                     parentDocumentGroup.Root.Manager.AllowMixedOrientation ||
                     parentDocumentGroup.Orientation == Orientation.Vertical) &&
-                   parentDocumentPane != null &&
+                   LayoutElement.Parent is LayoutDocumentPane parentDocumentPane &&
                    parentDocumentPane.ChildrenCount > 1;
         }
 
@@ -792,13 +838,12 @@ namespace ModernApplicationFramework.Docking.Controls
             if (LayoutElement == null)
                 return false;
             var parentDocumentGroup = LayoutElement.FindParent<LayoutDocumentPaneGroup>();
-            var parentDocumentPane = LayoutElement.Parent as LayoutDocumentPane;
-            return ((parentDocumentGroup == null ||
-                     parentDocumentGroup.ChildrenCount == 1 ||
-                     parentDocumentGroup.Root.Manager.AllowMixedOrientation ||
-                     parentDocumentGroup.Orientation == Orientation.Horizontal) &&
-                    parentDocumentPane != null &&
-                    parentDocumentPane.ChildrenCount > 1);
+            return (parentDocumentGroup == null ||
+                    parentDocumentGroup.ChildrenCount == 1 ||
+                    parentDocumentGroup.Root.Manager.AllowMixedOrientation ||
+                    parentDocumentGroup.Orientation == Orientation.Horizontal) &&
+                   LayoutElement.Parent is LayoutDocumentPane parentDocumentPane &&
+                   parentDocumentPane.ChildrenCount > 1;
         }
 
         private void ExecuteActivateCommand(object parameter)
