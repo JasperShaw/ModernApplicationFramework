@@ -118,6 +118,12 @@ namespace ModernApplicationFramework.Docking.Controls
             dockingManager._ExecuteCloseCommand(_anchorable);
         }
 
+        protected override void Pin()
+        {
+            var dockingManager = _anchorable.Root.Manager;
+            dockingManager._ExecutePinCommand(_anchorable);
+        }
+
         protected override void InitDefaultCommands()
         {
             _defaultHideCommand = new DelegateCommand(ExecuteHideCommand, CanExecuteHideCommand);

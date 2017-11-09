@@ -22,7 +22,7 @@
                                 </Grid.ColumnDefinitions>
                                 <Border Grid.ColumnSpan="2" Background="Transparent"/>
                                 <DockPanel Grid.Column="0">
-                                    <buttons:Button x:Name="DocumentCloseButton" DockPanel.Dock="Right" Margin="5,0,0,0" Visibility="Hidden" BorderThickness="1"
+                                    <buttons:Button x:Name="HideButton" DockPanel.Dock="Right" Margin="5,0,0,0" Visibility="Hidden" BorderThickness="1"
                                                  Command="{Binding Path=LayoutItem.CloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
                                                  ToolTip="Close" Height="15" Width="15"
 													 Background="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBackground}}"
@@ -30,6 +30,29 @@
                                         <Path x:Name="HideButtonPath" Fill="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyph}}" Width="10" Height="8" Stretch="Uniform"
                                           Data="F1 M 0,0 L 2,0 5,3 8,0 10,0 6,4 10,8 8,8 5,5 2,8 0,8 4,4 0,0 Z"/>
                                     </buttons:Button>
+                                    <buttons:GlyphButton x:Name="PinButton" DockPanel.Dock="Right" Visibility="Visible"
+                                                         Command="{Binding Path=LayoutItem.PinCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                         GlyphForeground="Transparent"
+                                                         HoverBackground="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBackgroundHover}}"
+                                                         HoverBorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBorderHover}}"
+                                                         HoverForeground="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyphHover}}"
+                                                         HoverBorderThickness="1"
+                                                         PressedBackground="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBackgroundDown}}"
+                                                         PressedBorderBrush="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBorderDown}}"
+                                                         PressedForeground="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyphHover}}"
+                                                         PressedBorderThickness="1"
+                                                         Margin="3,0,0,0"
+                                                         ToolTip="Pin">
+                                        <FrameworkElement.Width>
+                                            <Binding Path="ActualWidth" ElementName="HideButton"/>
+                                        </FrameworkElement.Width>
+                                        <Path x:Name="PinnedButtonPath" Width="10" Height="8" Stretch="Uniform"
+                                              Data="F1 M 4,8 L 4,5 1,5 1,4 2,4 2,1 2,0 7,0 7,1 7,4 8,4 8,5 5,5 5,8 4,8 M 3,1 L 3,4 5,4 5,1 3,1 Z">
+                                            <Shape.Fill>
+                                                <Binding Path="(TextElement.Foreground)" RelativeSource="{RelativeSource Self}"/>
+                                            </Shape.Fill>
+                                        </Path>
+                                    </buttons:GlyphButton>
                                     <ContentPresenter Margin="6,0,6,0" x:Name="Content" Content="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}" TextElement.Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}, Mode=FindAncestor}, Path=Foreground}"
                                             ContentTemplate="{Binding DocumentHeaderTemplate, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"
                                             ContentTemplateSelector="{Binding DocumentHeaderTemplateSelector, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}"/>
@@ -39,12 +62,14 @@
                     </avalonDockControls:DropDownControlArea>
 					<ControlTemplate.Triggers>
 						<DataTrigger Binding="{Binding Path=IsSelected}" Value="true">
-							<Setter Property="Visibility" Value="Visible" TargetName="DocumentCloseButton"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="HideButton"/>
 							<Setter TargetName="HideButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyphActive}}"/>
 							<Setter TargetName="Content" Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemTextActive}}"/>
-							<Setter TargetName="DocumentCloseButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBackgroundActive}}"/>
-							<Setter TargetName="DocumentCloseButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBorderActive}}"/>
-						</DataTrigger>
+                            <Setter TargetName="HideButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBackgroundActive}}"/>
+                            <Setter TargetName="HideButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBackgroundActive}}"/>
+                            <Setter TargetName="HideButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBorderActive}}"/>
+                            <Setter TargetName="PinButton" Property="GlyphForeground" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyphActive}}"/>
+                        </DataTrigger>
 						<MultiDataTrigger>
 							<MultiDataTrigger.Conditions>
 								<Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type avalonDockControls:LayoutDocumentPaneControl}, Mode=FindAncestor}, Path=SelectedContent.IsActive}" Value="false"/>
@@ -53,26 +78,28 @@
 							</MultiDataTrigger.Conditions>
 							<MultiDataTrigger.Setters>
 								<Setter TargetName="Content" Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemTextLastActive}}"/>
-								<Setter TargetName="DocumentCloseButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBackgroundActive}}"/>
-								<Setter TargetName="DocumentCloseButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBorderActive}}"/>
-								<Setter TargetName="HideButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyphLastActive}}"></Setter>
+                                <Setter TargetName="HideButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBackgroundActive}}"/>
+                                <Setter TargetName="HideButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBorderActive}}"/>
+								<Setter TargetName="HideButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyphLastActive}}"/>
+                                <Setter TargetName="PinButton" Property="GlyphForeground" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyphLastActive}}"/>
 							</MultiDataTrigger.Setters>
 						</MultiDataTrigger>
 						<Trigger Property="IsMouseOver" Value="True">
-							<Setter Property="Visibility" Value="Visible" TargetName="DocumentCloseButton"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="HideButton"/>
 							<Setter TargetName="Content" Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemTextHover}}"/>
+						    <Setter TargetName="PinButton" Property="GlyphForeground" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyphActive}}"/>
 						</Trigger>
 						<DataTrigger Binding="{Binding Path=CanClose}" Value="false">
-							<Setter Property="Visibility" Value="Hidden" TargetName="DocumentCloseButton"/>
+                            <Setter Property="Visibility" Value="Hidden" TargetName="HideButton"/>
 						</DataTrigger>
-						<Trigger SourceName="DocumentCloseButton" Property="IsMouseOver" Value="True">
-							<Setter TargetName="DocumentCloseButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBackgroundHover}}"/>
-							<Setter TargetName="DocumentCloseButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBorderHover}}"/>
+                        <Trigger SourceName="HideButton" Property="IsMouseOver" Value="True">
+                            <Setter TargetName="HideButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBackgroundHover}}"/>
+                            <Setter TargetName="HideButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBorderHover}}"/>
 							<Setter TargetName="HideButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyphHover}}"/>
 						</Trigger>
-						<Trigger SourceName="DocumentCloseButton" Property="IsPressed" Value="True">
-							<Setter TargetName="DocumentCloseButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBackgroundDown}}"/>
-							<Setter TargetName="DocumentCloseButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBorderDown}}"/>
+                        <Trigger SourceName="HideButton" Property="IsPressed" Value="True">
+                            <Setter TargetName="HideButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBackgroundDown}}"/>
+                            <Setter TargetName="HideButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBorderDown}}"/>
 							<Setter TargetName="HideButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyphDown}}"/>
 						</Trigger>
                         <MultiDataTrigger>
@@ -80,28 +107,29 @@
                                 <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}, Mode=FindAncestor}, Path=IsMouseOver}" Value="true"/>
 							</MultiDataTrigger.Conditions>
                             <MultiDataTrigger.Setters>
-                                <Setter Property="Visibility" Value="Visible" TargetName="DocumentCloseButton"/>
+                                <Setter Property="Visibility" Value="Visible" TargetName="HideButton"/>
+                                <Setter TargetName="PinButton" Property="GlyphForeground" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyphActive}}"/>
                             </MultiDataTrigger.Setters>
 						</MultiDataTrigger>
 						<MultiDataTrigger>
 							<MultiDataTrigger.Conditions>
 								<Condition Binding="{Binding Path=IsSelected}" Value="True"/>
-								<Condition Binding="{Binding ElementName=DocumentCloseButton, Path=IsMouseOver}" Value="True"/>
+								<Condition Binding="{Binding ElementName=HideButton, Path=IsMouseOver}" Value="True"/>
 							</MultiDataTrigger.Conditions>
 							<MultiDataTrigger.Setters>
-								<Setter TargetName="DocumentCloseButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBackgroundActiveHover}}"/>
-								<Setter TargetName="DocumentCloseButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBorderActiveHover}}"/>
+                                <Setter TargetName="HideButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBackgroundActiveHover}}"/>
+                                <Setter TargetName="HideButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBorderActiveHover}}"/>
 								<Setter TargetName="HideButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyphActiveHover}}"/>
 							</MultiDataTrigger.Setters>
 						</MultiDataTrigger>
 						<MultiDataTrigger>
 							<MultiDataTrigger.Conditions>
 								<Condition Binding="{Binding Path=IsSelected}" Value="True"/>
-								<Condition Binding="{Binding ElementName=DocumentCloseButton, Path=IsPressed}" Value="True"/>
+                                <Condition Binding="{Binding ElementName=HideButton, Path=IsPressed}" Value="True"/>
 							</MultiDataTrigger.Conditions>
 							<MultiDataTrigger.Setters>
-								<Setter TargetName="DocumentCloseButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBackgroundActiveDown}}"/>
-								<Setter TargetName="DocumentCloseButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBorderActiveDown}}"/>
+                                <Setter TargetName="HideButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBackgroundActiveDown}}"/>
+                                <Setter TargetName="HideButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBorderActiveDown}}"/>
 								<Setter TargetName="HideButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyphActiveDown}}"/>
 							</MultiDataTrigger.Setters>
 						</MultiDataTrigger>
@@ -110,11 +138,11 @@
 								<Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type avalonDockControls:LayoutDocumentPaneControl}, Mode=FindAncestor}, Path=SelectedContent.IsActive}" Value="false"/>
 								<Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type avalonDockControls:LayoutDocumentPaneControl}, Mode=FindAncestor}, Path=SelectedContent.IsLastFocusedDocument}" Value="True"/>
 								<Condition Binding="{Binding Path=IsSelected}" Value="True"/>
-								<Condition Binding="{Binding ElementName=DocumentCloseButton, Path=IsMouseOver}" Value="True"/>
+                                <Condition Binding="{Binding ElementName=HideButton, Path=IsMouseOver}" Value="True"/>
 							</MultiDataTrigger.Conditions>
 							<MultiDataTrigger.Setters>
-								<Setter TargetName="DocumentCloseButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBackgroundLastActiveHover}}"/>
-								<Setter TargetName="DocumentCloseButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBorderLastActiveHover}}"/>
+                                <Setter TargetName="HideButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBackgroundLastActiveHover}}"/>
+                                <Setter TargetName="HideButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBorderLastActiveHover}}"/>
 								<Setter TargetName="HideButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyphLastActiveHover}}"/>
 							</MultiDataTrigger.Setters>
 						</MultiDataTrigger>
@@ -123,11 +151,11 @@
 								<Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type avalonDockControls:LayoutDocumentPaneControl}, Mode=FindAncestor}, Path=SelectedContent.IsActive}" Value="false"/>
 								<Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type avalonDockControls:LayoutDocumentPaneControl}, Mode=FindAncestor}, Path=SelectedContent.IsLastFocusedDocument}" Value="True"/>
 								<Condition Binding="{Binding Path=IsSelected}" Value="True"/>
-								<Condition Binding="{Binding ElementName=DocumentCloseButton, Path=IsPressed}" Value="True"/>
+                                <Condition Binding="{Binding ElementName=HideButton, Path=IsPressed}" Value="True"/>
 							</MultiDataTrigger.Conditions>
 							<MultiDataTrigger.Setters>
-								<Setter TargetName="DocumentCloseButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBackgroundLastActiveDown}}"/>
-								<Setter TargetName="DocumentCloseButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBorderLastActiveDown}}"/>
+                                <Setter TargetName="HideButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBackgroundLastActiveDown}}"/>
+                                <Setter TargetName="HideButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBorderLastActiveDown}}"/>
 								<Setter TargetName="HideButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyphLastActiveDown}}"/>
 							</MultiDataTrigger.Setters>
 						</MultiDataTrigger>
@@ -160,8 +188,8 @@
 							<MultiDataTrigger.Setters>
 								<Setter TargetName="Content" Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemTextLastActive}}"/>
 								<Setter TargetName="HideButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyphLastActive}}"/>
-								<Setter TargetName="DocumentCloseButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBackgroundLastActive}}"/>
-								<Setter TargetName="DocumentCloseButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBorderLastActive}}"/>
+                                <Setter TargetName="HideButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBackgroundLastActive}}"/>
+                                <Setter TargetName="HideButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBorderLastActive}}"/>
 							</MultiDataTrigger.Setters>
 						</MultiDataTrigger>
 						<MultiDataTrigger>
@@ -169,11 +197,11 @@
 								<Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type avalonDockControls:LayoutDocumentPaneControl}, Mode=FindAncestor}, Path=SelectedContent.IsActive}" Value="false"/>
 								<Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type avalonDockControls:LayoutDocumentPaneControl}, Mode=FindAncestor}, Path=SelectedContent.IsLastFocusedDocument}" Value="false"/>
 								<Condition Binding="{Binding Path=IsSelected}" Value="True"/>
-								<Condition Binding="{Binding ElementName=DocumentCloseButton, Path=IsMouseOver}" Value="True"/>
+                                <Condition Binding="{Binding ElementName=HideButton, Path=IsMouseOver}" Value="True"/>
 							</MultiDataTrigger.Conditions>
 							<MultiDataTrigger.Setters>
-								<Setter TargetName="DocumentCloseButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBackgroundLastActiveHover}}"/>
-								<Setter TargetName="DocumentCloseButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBorderLastActiveHover}}"/>
+                                <Setter TargetName="HideButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBackgroundLastActiveHover}}"/>
+                                <Setter TargetName="HideButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBorderLastActiveHover}}"/>
 								<Setter TargetName="HideButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyphLastActiveHover}}"/>
 							</MultiDataTrigger.Setters>
 						</MultiDataTrigger>
@@ -182,14 +210,34 @@
 								<Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type avalonDockControls:LayoutDocumentPaneControl}, Mode=FindAncestor}, Path=SelectedContent.IsActive}" Value="false"/>
 								<Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type avalonDockControls:LayoutDocumentPaneControl}, Mode=FindAncestor}, Path=SelectedContent.IsLastFocusedDocument}" Value="false"/>
 								<Condition Binding="{Binding Path=IsSelected}" Value="True"/>
-								<Condition Binding="{Binding ElementName=DocumentCloseButton, Path=IsPressed}" Value="True"/>
+                                <Condition Binding="{Binding ElementName=HideButton, Path=IsPressed}" Value="True"/>
 							</MultiDataTrigger.Conditions>
 							<MultiDataTrigger.Setters>
-								<Setter TargetName="DocumentCloseButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBackgroundLastActiveDown}}"/>
-								<Setter TargetName="DocumentCloseButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBorderLastActiveDown}}"/>
+                                <Setter TargetName="HideButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBackgroundLastActiveDown}}"/>
+                                <Setter TargetName="HideButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBorderLastActiveDown}}"/>
 								<Setter TargetName="HideButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyphLastActiveDown}}"/>
 							</MultiDataTrigger.Setters>
 						</MultiDataTrigger>
+                        <DataTrigger Value="False" Binding="{Binding IsPinned}">
+                            <Setter TargetName="PinnedButtonPath" Property="Width" Value="8"/>
+                            <Setter TargetName="PinnedButtonPath" Property="Height" Value="10"/>
+                            <Setter TargetName="PinnedButtonPath" Property="Path.Data"
+                                    Value="F1 M 0,4 L 3,4 3,1 4,1 4,2 7,2 8,2 8,7 7,7 4,7 4,8 3,8 3,5 0,5 0,4 M 7,3 L 4,3 4,5 7,5 7,3 Z"/>
+                        </DataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsSelected}" Value="false"/>
+                                <Condition Binding="{Binding IsPinned}" Value="True"/>
+                                <Condition Value="False">
+                                    <Condition.Binding>
+                                        <Binding Path="(UIElement.IsMouseOver)" RelativeSource="{RelativeSource Self}"/>
+                                    </Condition.Binding>
+                                </Condition>
+                            </MultiDataTrigger.Conditions>
+                            <MultiDataTrigger.Setters>
+                                <Setter TargetName="PinButton" Property="GlyphForeground" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyphLastActive}}"/>
+                            </MultiDataTrigger.Setters>
+                        </MultiDataTrigger>
                     </ControlTemplate.Triggers>
 				</ControlTemplate>
             </Setter.Value>

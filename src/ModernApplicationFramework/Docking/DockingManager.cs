@@ -1093,6 +1093,18 @@ namespace ModernApplicationFramework.Docking
             }
         }
 
+
+
+        internal void _ExecutePinCommand(LayoutContent layoutContent)
+        {
+            if (layoutContent == null)
+                return;
+            layoutContent.IsPinned = !layoutContent.IsPinned;
+        }
+
+
+
+
         private void RemoveViewFromLogicalChild(LayoutContent layoutContent)
         {
             if (layoutContent == null)

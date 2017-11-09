@@ -43,6 +43,12 @@ namespace ModernApplicationFramework.Docking.Controls
             dockingManager._ExecuteCloseCommand(_document);
         }
 
+        protected override void Pin()
+        {
+            var dockingManager = _document.Root.Manager;
+            dockingManager._ExecutePinCommand(_document);
+        }
+
         protected virtual void OnDescriptionChanged(DependencyPropertyChangedEventArgs e)
         {
             _document.Description = (string) e.NewValue;

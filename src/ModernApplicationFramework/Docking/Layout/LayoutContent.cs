@@ -56,6 +56,7 @@ namespace ModernApplicationFramework.Docking.Layout
         [field: NonSerialized] private ILayoutContainer _previousContainer;
         [field: NonSerialized] private int _previousContainerIndex = -1;
         private object _toolTip;
+        private bool _isPinned;
 
         internal LayoutContent()
         {
@@ -190,6 +191,8 @@ namespace ModernApplicationFramework.Docking.Layout
 
             if (reader.MoveToAttribute("IsSelected"))
                 IsSelected = bool.Parse(reader.Value);
+            if (reader.MoveToAttribute("IsPinned"))
+                IsPinned = bool.Parse(reader.Value);
             if (reader.MoveToAttribute("ContentId"))
                 ContentId = reader.Value;
             if (reader.MoveToAttribute("IsLastFocusedDocument"))
@@ -229,6 +232,9 @@ namespace ModernApplicationFramework.Docking.Layout
 
             if (IsSelected)
                 writer.WriteAttributeString("IsSelected", IsSelected.ToString());
+
+            if (IsPinned)
+                writer.WriteAttributeString("IsPinned", IsPinned.ToString());
 
             if (IsLastFocusedDocument)
                 writer.WriteAttributeString("IsLastFocusedDocument", IsLastFocusedDocument.ToString());
@@ -380,6 +386,20 @@ namespace ModernApplicationFramework.Docking.Layout
             }
         }
 
+        public bool IsPinned
+        {
+            get => _isPinned;
+            set
+            {
+                if (_isPinned == value)
+                    return;
+                var oldValue = _isPinned;
+                RaisePropertyChanging(nameof(IsPinned));
+                _isPinned = value;
+                RaisePropertyChanged(nameof(IsPinned));
+            }
+        }
+
         public bool IsSelected
         {
             get => _isSelected;
@@ -523,8 +543,7 @@ namespace ModernApplicationFramework.Docking.Layout
         /// </summary>
         public void DockAsDocument()
         {
-            var root = Root as LayoutRoot;
-            if (root == null)
+            if (!(Root is LayoutRoot root))
                 throw new InvalidOperationException();
             if (Parent is LayoutDocumentPane)
                 return;
