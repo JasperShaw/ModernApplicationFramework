@@ -24,8 +24,6 @@ using System.Linq;
 using System.Windows.Markup;
 using System.Xml;
 using Caliburn.Micro;
-using ModernApplicationFramework.Docking.Controls;
-using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Docking.Layout
 {
@@ -230,7 +228,6 @@ namespace ModernApplicationFramework.Docking.Layout
         {
             if (Parent is LayoutDocumentPaneGroup)
                 return ChildrenCount > 0;
-
             return true;
         }
 
@@ -307,7 +304,7 @@ namespace ModernApplicationFramework.Docking.Layout
             }
         }
 
-        private void HandleRemovedPinnedViews(IList oldViews)
+        private void HandleRemovedPinnedViews(IEnumerable oldViews)
         {
             if (_pinnedViews.Count == 0)
                 return;

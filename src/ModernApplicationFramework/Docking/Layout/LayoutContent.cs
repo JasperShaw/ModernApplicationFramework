@@ -81,12 +81,8 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public int CompareTo(LayoutContent other)
         {
-            var contentAsComparable = Content as IComparable;
-            if (contentAsComparable != null)
-            {
+            if (Content is IComparable contentAsComparable)
                 return contentAsComparable.CompareTo(other.Content);
-            }
-
             return _comparer.Compare(Title, other.Title);
         }
 
@@ -158,7 +154,7 @@ namespace ModernApplicationFramework.Docking.Layout
         [XmlIgnore]
         ILayoutContainer ILayoutPreviousContainer.PreviousContainer
         {
-            get { return _previousContainer; }
+            get => _previousContainer;
             set
             {
                 if (_previousContainer != value)
@@ -166,8 +162,7 @@ namespace ModernApplicationFramework.Docking.Layout
                     _previousContainer = value;
                     RaisePropertyChanged("PreviousContainer");
 
-                    var paneSerializable = _previousContainer as ILayoutPaneSerializable;
-                    if (paneSerializable != null &&
+                    if (_previousContainer is ILayoutPaneSerializable paneSerializable &&
                         paneSerializable.Id == null)
                         paneSerializable.Id = Guid.NewGuid().ToString();
                 }
@@ -267,8 +262,7 @@ namespace ModernApplicationFramework.Docking.Layout
                 writer.WriteAttributeString("LastActivationTimeStamp",
                     LastActivationTimeStamp.Value.ToString(CultureInfo.InvariantCulture));
 
-            var paneSerializable = _previousContainer as ILayoutPaneSerializable;
-            if (paneSerializable == null)
+            if (!(_previousContainer is ILayoutPaneSerializable paneSerializable))
                 return;
             writer.WriteAttributeString("PreviousContainerId", paneSerializable.Id);
             writer.WriteAttributeString("PreviousContainerIndex", _previousContainerIndex.ToString());
@@ -374,7 +368,7 @@ namespace ModernApplicationFramework.Docking.Layout
         [XmlIgnore]
         public bool IsLastFocusedDocument
         {
-            get { return _isLastFocusedDocument; }
+            get => _isLastFocusedDocument;
             internal set
             {
                 if (_isLastFocusedDocument != value)
@@ -393,15 +387,10 @@ namespace ModernApplicationFramework.Docking.Layout
             {
                 if (_isPinned == value)
                     return;
-                var oldValue = _isPinned;
                 RaisePropertyChanging(nameof(IsPinned));
                 _isPinned = value;
-
-
                 var ldp = Parent as LayoutDocumentPane;
                 ldp?.OnChildPinnedStatusChanged(this);
-
-
                 RaisePropertyChanged(nameof(IsPinned));
             }
         }
@@ -416,7 +405,7 @@ namespace ModernApplicationFramework.Docking.Layout
                 bool oldValue = _isSelected;
                 RaisePropertyChanging("IsSelected");
                 _isSelected = value;
-                var parentSelector = (Parent as ILayoutContentSelector);
+                var parentSelector = (ILayoutContentSelector) Parent;
                 if (parentSelector != null)
                     parentSelector.SelectedContentIndex = _isSelected ? parentSelector.IndexOf(this) : -1;
                 OnIsSelectedChanged(oldValue, value);
@@ -589,8 +578,7 @@ namespace ModernApplicationFramework.Docking.Layout
             if (PreviousContainer?.FindParent<LayoutFloatingWindow>() != null)
             {
                 var currentContainer = Parent as ILayoutPane;
-                var layoutGroup = currentContainer as ILayoutGroup;
-                if (layoutGroup != null)
+                if (currentContainer is ILayoutGroup layoutGroup)
                 {
                     var currentContainerIndex = layoutGroup.IndexOfChild(this);
                     var previousContainerAsLayoutGroup = PreviousContainer as ILayoutGroup;
@@ -750,10 +738,11 @@ namespace ModernApplicationFramework.Docking.Layout
 
                     MethodInfo methodInfo = GetType()
                         .GetMethod("SetXmlAttributeValue", BindingFlags.Instance | BindingFlags.NonPublic);
-                    methodInfo.Invoke(this, new object[]
-                    {
-                        name, valueString
-                    });
+                    if (methodInfo != null)
+                        methodInfo.Invoke(this, new object[]
+                        {
+                            name, valueString
+                        });
                 }
             }
 
@@ -787,17 +776,12 @@ namespace ModernApplicationFramework.Docking.Layout
         private bool _isEnabled = true;
         public bool IsEnabled
         {
-            get
-            {
-                return _isEnabled;
-            }
+            get => _isEnabled;
             set
             {
-                if (_isEnabled != value)
-                {
-                    _isEnabled = value;
-                    RaisePropertyChanged("IsEnabled");
-                }
+                if (_isEnabled == value) return;
+                _isEnabled = value;
+                RaisePropertyChanged("IsEnabled");
             }
         }
     }
