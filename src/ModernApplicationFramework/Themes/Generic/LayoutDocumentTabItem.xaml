@@ -105,13 +105,47 @@
                         <MultiDataTrigger>
 							<MultiDataTrigger.Conditions>
                                 <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}, Mode=FindAncestor}, Path=IsMouseOver}" Value="true"/>
+							    <Condition Binding="{Binding Path=IsSelected}" Value="False"/>
 							</MultiDataTrigger.Conditions>
                             <MultiDataTrigger.Setters>
                                 <Setter Property="Visibility" Value="Visible" TargetName="HideButton"/>
-                                <Setter TargetName="PinButton" Property="GlyphForeground" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyphActive}}"/>
+                                <Setter TargetName="PinButton" Property="GlyphForeground" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyph}}"/>
                             </MultiDataTrigger.Setters>
 						</MultiDataTrigger>
-						<MultiDataTrigger>
+					    <MultiDataTrigger>
+					        <MultiDataTrigger.Conditions>
+					            <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}, Mode=FindAncestor}, Path=IsMouseOver}" Value="true"/>
+					            <Condition Binding="{Binding Path=IsSelected}" Value="False"/>
+					            <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type avalonDockControls:LayoutDocumentPaneControl}, Mode=FindAncestor}, Path=SelectedContent.IsLastFocusedDocument}" Value="True"/>
+					        </MultiDataTrigger.Conditions>
+					        <MultiDataTrigger.Setters>
+					            <Setter Property="Visibility" Value="Visible" TargetName="HideButton"/>
+					            <Setter TargetName="PinButton" Property="GlyphForeground" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyph}}"/>
+					        </MultiDataTrigger.Setters>
+					    </MultiDataTrigger>
+					    <MultiDataTrigger>
+					        <MultiDataTrigger.Conditions>
+					            <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}, Mode=FindAncestor}, Path=IsMouseOver}" Value="true"/>
+                                <Condition Binding="{Binding Path=IsSelected}" Value="True"/>
+                            </MultiDataTrigger.Conditions>
+					        <MultiDataTrigger.Setters>
+					            <Setter Property="Visibility" Value="Visible" TargetName="HideButton"/>
+					            <Setter TargetName="PinButton" Property="GlyphForeground" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyphActive}}"/>
+					        </MultiDataTrigger.Setters>
+					    </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}, Mode=FindAncestor}, Path=IsMouseOver}" Value="true"/>
+                                <Condition Binding="{Binding Path=IsSelected}" Value="True"/>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type avalonDockControls:LayoutDocumentPaneControl}, Mode=FindAncestor}, Path=SelectedContent.IsLastFocusedDocument}" Value="True"/>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type avalonDockControls:LayoutDocumentPaneControl}, Mode=FindAncestor}, Path=SelectedContent.IsActive}" Value="False"/>
+                            </MultiDataTrigger.Conditions>
+                            <MultiDataTrigger.Setters>
+                                <Setter Property="Visibility" Value="Visible" TargetName="HideButton"/>
+                                <Setter TargetName="PinButton" Property="GlyphForeground" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyph}}"/>
+                            </MultiDataTrigger.Setters>
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
 							<MultiDataTrigger.Conditions>
 								<Condition Binding="{Binding Path=IsSelected}" Value="True"/>
 								<Condition Binding="{Binding ElementName=HideButton, Path=IsMouseOver}" Value="True"/>
