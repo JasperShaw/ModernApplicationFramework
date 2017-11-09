@@ -96,10 +96,11 @@ namespace ModernApplicationFramework.Docking.Controls
             base.OnMouseLeftButtonUp(e);
         }
 
-        protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
+        protected override void OnPreviewMouseUp(MouseButtonEventArgs e)
         {
-            base.OnPreviewMouseDown(e);
-            Model.IsActive = true;
+            base.OnPreviewMouseUp(e);
+            if (IsMouseDirectlyOver)
+                Model.IsActive = true;
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
@@ -141,7 +142,6 @@ namespace ModernApplicationFramework.Docking.Controls
                 var containerPane = Model.Parent as ILayoutPane;
                 var childrenList = container.Children.ToList();
                 containerPane?.MoveChild(childrenList.IndexOf(Model), childrenList.IndexOf(targetModel));
-                Model.IsActive = true;
                 _parentDocumentTabPanel.UpdateLayout();
                 UpdateDragDetails();
             }
