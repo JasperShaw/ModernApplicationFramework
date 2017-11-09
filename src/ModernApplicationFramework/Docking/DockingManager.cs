@@ -17,7 +17,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -297,7 +296,11 @@ namespace ModernApplicationFramework.Docking
         {
             foreach (var indexChange in e.ViewsToMove)
             {
-                //Instace.Layout.
+                if (!(indexChange.View.Parent is LayoutGroup<LayoutContent> lg))
+                    return;
+
+                lg.MoveChild(indexChange.NewIndex, indexChange.NewIndex -1);
+                break;
             }
         }
 

@@ -434,8 +434,6 @@ namespace ModernApplicationFramework.Docking.Controls
                 viewsToMove.Add(new SelectedItemHiddenEventArgs.ViewIndexChange(GetView(selected), newIndex));
                 if (!TabFitsOnCurrentRow(selected))
                 {
-                    var w = GetView(selected);
-
                     foreach (var tabItem in source.ToList())
                     {
                         var view = GetView(tabItem);
