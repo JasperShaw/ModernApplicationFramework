@@ -405,8 +405,7 @@ namespace ModernApplicationFramework.Docking.Layout
                 bool oldValue = _isSelected;
                 RaisePropertyChanging("IsSelected");
                 _isSelected = value;
-                var parentSelector = (ILayoutContentSelector) Parent;
-                if (parentSelector != null)
+                if (Parent is ILayoutContentSelector parentSelector)
                     parentSelector.SelectedContentIndex = _isSelected ? parentSelector.IndexOf(this) : -1;
                 OnIsSelectedChanged(oldValue, value);
                 RaisePropertyChanged("IsSelected");
