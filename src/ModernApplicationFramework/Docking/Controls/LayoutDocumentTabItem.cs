@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -36,17 +37,24 @@ namespace ModernApplicationFramework.Docking.Controls
 
         static LayoutDocumentTabItem()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof (LayoutDocumentTabItem),
-                new FrameworkPropertyMetadata(typeof (LayoutDocumentTabItem)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(LayoutDocumentTabItem),
+                new FrameworkPropertyMetadata(typeof(LayoutDocumentTabItem)));
+        }
+
+        protected override void OnModelChanged(DependencyPropertyChangedEventArgs e)
+        {
+            base.OnModelChanged(e);
+            if (e.OldValue is LayoutContent oldModel)
+                oldModel.PropertyChanged -= OldModel_PropertyChanged;
+            if (e.NewValue is LayoutContent newModel)
+                newModel.PropertyChanged += OldModel_PropertyChanged;
         }
 
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Middle)
-            {
                 if (LayoutItem.CloseCommand.CanExecute(null))
                     LayoutItem.CloseCommand.Execute(null);
-            }
             base.OnMouseDown(e);
         }
 
@@ -65,7 +73,6 @@ namespace ModernApplicationFramework.Docking.Controls
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
-
             Model.IsActive = true;
 
             if (e.ClickCount == 2)
@@ -78,13 +85,6 @@ namespace ModernApplicationFramework.Docking.Controls
                 _mouseDownPoint = this.PointToScreenDpi(e.GetPosition(this));
                 _isMouseDown = true;
             }
-           
-        }
-
-        protected override void OnMouseRightButtonDown(MouseButtonEventArgs e)
-        {
-            base.OnMouseRightButtonDown(e);
-            LayoutItem.ActivateCommand.Execute(null);
         }
 
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
@@ -96,13 +96,19 @@ namespace ModernApplicationFramework.Docking.Controls
             base.OnMouseLeftButtonUp(e);
         }
 
+        protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
+        {
+            base.OnPreviewMouseDown(e);
+            Model.IsActive = true;
+        }
+
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
 
             if (_isMouseDown)
             {
-                Point ptMouseMove = this.PointToScreenDpi(e.GetPosition(this));
+                var ptMouseMove = this.PointToScreenDpi(e.GetPosition(this));
 
                 if (Math.Abs(ptMouseMove.X - _mouseDownPoint.X) > SystemParameters.MinimumHorizontalDragDistance ||
                     Math.Abs(ptMouseMove.Y - _mouseDownPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
@@ -124,10 +130,13 @@ namespace ModernApplicationFramework.Docking.Controls
             }
             else
             {
-                int indexOfTabItemWithMouseOver = _otherTabsScreenArea.FindIndex(r => r.Contains(mousePosInScreenCoord));
+                var indexOfTabItemWithMouseOver =
+                    _otherTabsScreenArea.FindIndex(r => r.Contains(mousePosInScreenCoord));
                 if (indexOfTabItemWithMouseOver < 0)
                     return;
                 var targetModel = _otherTabs[indexOfTabItemWithMouseOver].Content as LayoutContent;
+                if (targetModel != null && Model.IsPinned != targetModel.IsPinned)
+                    return;
                 var container = Model.Parent;
                 var containerPane = Model.Parent as ILayoutPane;
                 var childrenList = container.Children.ToList();
@@ -138,13 +147,25 @@ namespace ModernApplicationFramework.Docking.Controls
             }
         }
 
+        protected override void OnMouseRightButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseRightButtonDown(e);
+            LayoutItem.ActivateCommand.Execute(null);
+        }
+
+        private void OldModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsPinned")
+                this.FindLogicalAncestor<DocumentPaneTabPanel>()?.InvalidateMeasure();
+        }
+
         private void UpdateDragDetails()
         {
             _parentDocumentTabPanel = this.FindLogicalAncestor<DocumentPaneTabPanel>();
             _parentDocumentTabPanelScreenArea = _parentDocumentTabPanel.GetScreenArea();
             _otherTabs = _parentDocumentTabPanel.Children.Cast<TabItem>().Where(ch =>
                 ch.Visibility != Visibility.Collapsed).ToList();
-            Rect currentTabScreenArea = this.FindLogicalAncestor<TabItem>().GetScreenArea();
+            var currentTabScreenArea = this.FindLogicalAncestor<TabItem>().GetScreenArea();
             _otherTabsScreenArea = _otherTabs.Select(ti =>
             {
                 var screenArea = ti.GetScreenArea();

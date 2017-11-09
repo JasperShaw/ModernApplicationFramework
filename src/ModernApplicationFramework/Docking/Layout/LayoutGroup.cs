@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
@@ -259,10 +260,10 @@ namespace ModernApplicationFramework.Docking.Layout
         }
 
         private void _children_CollectionChanged(object sender,
-            System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+            NotifyCollectionChangedEventArgs e)
         {
-            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove ||
-                e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace)
+            if (e.Action == NotifyCollectionChangedAction.Remove ||
+                e.Action == NotifyCollectionChangedAction.Replace)
             {
                 if (e.OldItems != null)
                 {
@@ -275,8 +276,8 @@ namespace ModernApplicationFramework.Docking.Layout
                 }
             }
 
-            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add ||
-                e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace)
+            if (e.Action == NotifyCollectionChangedAction.Add ||
+                e.Action == NotifyCollectionChangedAction.Replace)
             {
                 if (e.NewItems != null)
                 {
@@ -294,6 +295,11 @@ namespace ModernApplicationFramework.Docking.Layout
             OnChildrenCollectionChanged();
             NotifyChildrenTreeChanged(ChildrenTreeChange.DirectChildrenChanged);
             RaisePropertyChanged("ChildrenCount");
+            OnChildrenChanged(e);
+        }
+
+        protected internal virtual void OnChildrenChanged(NotifyCollectionChangedEventArgs args)
+        {
         }
 
         private void UpdateParentVisibility()

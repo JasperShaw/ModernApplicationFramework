@@ -195,8 +195,8 @@ namespace ModernApplicationFramework.Docking.Layout
                 IsPinned = bool.Parse(reader.Value);
             if (reader.MoveToAttribute("ContentId"))
                 ContentId = reader.Value;
-            if (reader.MoveToAttribute("IsLastFocusedDocument"))
-                IsLastFocusedDocument = bool.Parse(reader.Value);
+            //if (reader.MoveToAttribute("IsLastFocusedDocument"))
+            //    IsLastFocusedDocument = bool.Parse(reader.Value);
             if (reader.MoveToAttribute("PreviousContainerId"))
                 PreviousContainerId = reader.Value;
             if (reader.MoveToAttribute("PreviousContainerIndex"))
@@ -236,8 +236,8 @@ namespace ModernApplicationFramework.Docking.Layout
             if (IsPinned)
                 writer.WriteAttributeString("IsPinned", IsPinned.ToString());
 
-            if (IsLastFocusedDocument)
-                writer.WriteAttributeString("IsLastFocusedDocument", IsLastFocusedDocument.ToString());
+            //if (IsLastFocusedDocument)
+            //    writer.WriteAttributeString("IsLastFocusedDocument", IsLastFocusedDocument.ToString());
 
             if (!string.IsNullOrWhiteSpace(ContentId))
                 writer.WriteAttributeString("ContentId", ContentId);
@@ -396,6 +396,12 @@ namespace ModernApplicationFramework.Docking.Layout
                 var oldValue = _isPinned;
                 RaisePropertyChanging(nameof(IsPinned));
                 _isPinned = value;
+
+
+                var ldp = Parent as LayoutDocumentPane;
+                ldp?.OnChildPinnedStatusChanged(this);
+
+
                 RaisePropertyChanged(nameof(IsPinned));
             }
         }
