@@ -122,7 +122,7 @@ namespace ModernApplicationFramework.Docking.Controls
         {
             HorizontalAlignment = HorizontalAlignment.Left;
 
-            SetValue(SeparatePinnedTabsFromUnpinnedTabsProperty, true);
+            SetValue(SeparatePinnedTabsFromUnpinnedTabsProperty, false);
             
         }
 

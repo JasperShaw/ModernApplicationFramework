@@ -20,8 +20,10 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Reflection;
+using System.Windows.Threading;
 using System.Xml;
 using System.Xml.Serialization;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Docking.Layout
 {
@@ -31,6 +33,7 @@ namespace ModernApplicationFramework.Docking.Layout
     {
         private readonly ObservableCollection<T> _children = new ObservableCollection<T>();
         private bool _isVisible = true;
+        protected Suspender ChildReorderSuspender = new Suspender();
 
         internal LayoutGroup()
         {
@@ -152,12 +155,26 @@ namespace ModernApplicationFramework.Docking.Layout
             IsVisible = GetVisibility();
         }
 
-        public void MoveChild(int oldIndex, int newIndex)
+        public MoveResult MoveChild(int oldIndex, int newIndex)
         {
+            Validate.IsWithinRange(oldIndex, 0, Children.Count - 1, nameof(oldIndex));
+            Validate.IsWithinRange(newIndex, 0, Children.Count - 1, nameof(newIndex));
             if (oldIndex == newIndex)
-                return;
-            _children.Move(oldIndex, newIndex);
-            ChildMoved(oldIndex, newIndex);
+                return MoveResult.NotNeeded;
+            if (ChildReorderSuspender.IsSuspended)
+            {
+                return MoveResult.Scheduled;
+            }
+            try
+            {
+                Children.Move(oldIndex, newIndex);
+                ChildMoved(oldIndex, newIndex);
+                return MoveResult.Moved;
+            }
+            catch (InvalidOperationException)
+            {
+                return MoveResult.Scheduled;
+            }
         }
 
         protected virtual void ChildMoved(int oldIndex, int newIndex)
@@ -307,5 +324,12 @@ namespace ModernApplicationFramework.Docking.Layout
             var parentPane = Parent as ILayoutElementWithVisibility;
             parentPane?.ComputeVisibility();
         }
+    }
+
+    public enum MoveResult
+    {
+        NotNeeded,
+        Moved,
+        Scheduled,
     }
 }

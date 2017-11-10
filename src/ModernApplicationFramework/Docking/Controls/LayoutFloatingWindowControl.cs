@@ -342,6 +342,7 @@ namespace ModernApplicationFramework.Docking.Controls
             ((LayoutFloatingWindowControl) d).OnIsDraggingChanged(e);
         }
 
+        [DebuggerStepThrough]
         private void OnActivated(object sender, EventArgs e)
         {
             Activated -= OnActivated;
