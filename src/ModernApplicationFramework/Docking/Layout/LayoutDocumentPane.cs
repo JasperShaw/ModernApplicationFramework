@@ -25,7 +25,6 @@ using System.Windows.Markup;
 using System.Windows.Threading;
 using System.Xml;
 using Caliburn.Micro;
-using ModernApplicationFramework.Utilities;
 using Action = System.Action;
 
 namespace ModernApplicationFramework.Docking.Layout
@@ -36,10 +35,13 @@ namespace ModernApplicationFramework.Docking.Layout
         ILayoutContentSelector,
         ILayoutPaneSerializable
     {
-        private string _id;
         private readonly ObservableCollection<LayoutContent> _pinnedViews;
 
         private readonly BindableCollection<LayoutContent> _readOnlyPinnedViews;
+
+
+        private DispatcherOperation _asyncChildReorderOperation;
+        private string _id;
         private int _selectedIndex = -1;
 
         public IEnumerable<LayoutContent> ChildrenSorted
@@ -289,11 +291,11 @@ namespace ModernApplicationFramework.Docking.Layout
             {
                 while (enumerator.MoveNext())
                 {
-                    if (MoveChild(Children.ToList().IndexOf((LayoutContent)enumerator.Current), num1++) != MoveResult.Scheduled)
+                    if (MoveChild(Children.ToList().IndexOf((LayoutContent) enumerator.Current), num1++) !=
+                        MoveResult.Scheduled)
                         break;
                     ScheduleAsyncChildReorder();
                 }
-
             }
             finally
             {
@@ -319,10 +321,10 @@ namespace ModernApplicationFramework.Docking.Layout
             if (_pinnedViews.Count == 0)
                 return;
             var count = _pinnedViews.Count;
-            if (oldViews.Cast<LayoutContent>().Select(oldView => Children.IndexOf(oldView)).Where(oldIndex => oldIndex != -1).Any(oldIndex => oldIndex != -1 && MoveChild(oldIndex, count++) == MoveResult.Scheduled))
-            {
+            if (oldViews.Cast<LayoutContent>().Select(oldView => Children.IndexOf(oldView))
+                .Where(oldIndex => oldIndex != -1).Any(oldIndex =>
+                    oldIndex != -1 && MoveChild(oldIndex, count++) == MoveResult.Scheduled))
                 ScheduleAsyncChildReorder();
-            }
         }
 
         private bool IsPinnedIndex(int index)
@@ -379,38 +381,22 @@ namespace ModernApplicationFramework.Docking.Layout
             }
             var array = source.OrderBy(bundle => bundle.PinnedIndex).ToArray();
             for (var index1 = 0; index1 < array.Length - 1; ++index1)
-                for (var index2 = index1 + 1; index2 < array.Length; ++index2)
-                    if (array[index1].ChildIndex > array[index2].ChildIndex)
-                        ++array[index2].ChildIndex;
+            for (var index2 = index1 + 1; index2 < array.Length; ++index2)
+                if (array[index1].ChildIndex > array[index2].ChildIndex)
+                    ++array[index2].ChildIndex;
             var num1 = PinnedViews.Count - source.Count;
             foreach (var oldIndex in array.Select(bundle => bundle.ChildIndex))
                 MoveChild(oldIndex, num1++);
-        }
-
-        private void UpdateParentVisibility()
-        {
-            var parentPane = Parent as ILayoutElementWithVisibility;
-            parentPane?.ComputeVisibility();
-        }
-
-
-
-
-        private DispatcherOperation _asyncChildReorderOperation;
-
-        private IDisposable SuspendChildValidation()
-        {
-            return null;
         }
 
         private void ScheduleAsyncChildReorder()
         {
             if (_asyncChildReorderOperation != null)
                 return;
-            IDisposable suspendValidationScope = SuspendChildValidation();
+            var suspendValidationScope = SuspendChildValidation();
             try
             {
-                _asyncChildReorderOperation = Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Action)(() =>
+                _asyncChildReorderOperation = Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Action) (() =>
                 {
                     using (suspendValidationScope)
                     {
@@ -426,15 +412,22 @@ namespace ModernApplicationFramework.Docking.Layout
             }
         }
 
+        private IDisposable SuspendChildValidation()
+        {
+            return null;
+        }
 
-
-
+        private void UpdateParentVisibility()
+        {
+            var parentPane = Parent as ILayoutElementWithVisibility;
+            parentPane?.ComputeVisibility();
+        }
 
 
         private struct IndexBundle
         {
-            public int ChildIndex;
             public readonly int PinnedIndex;
+            public int ChildIndex;
 
             public IndexBundle(int childIndex, int pinnedIndex)
             {
@@ -443,63 +436,4 @@ namespace ModernApplicationFramework.Docking.Layout
             }
         }
     }
-
-
-    public sealed class Suspender : ISuspendable
-    {
-        private int _suspendCount;
-        private readonly Action _resumeAction;
-
-        public Suspender(Action resumeAction = null)
-        {
-            _resumeAction = resumeAction;
-        }
-
-        public IDisposable Suspend()
-        {
-            return new SuspendScope(this);
-        }
-
-        public bool IsSuspended => _suspendCount > 0;
-
-        public int SuspendCount => _suspendCount;
-
-        void ISuspendable.Suspend()
-        {
-            _suspendCount = _suspendCount + 1;
-        }
-
-        void ISuspendable.Resume()
-        {
-            int num = _suspendCount - 1;
-            _suspendCount = num;
-            if (num != 0 || _resumeAction == null)
-                return;
-            _resumeAction();
-        }
-
-        private class SuspendScope : DisposableObject
-        {
-            private readonly ISuspendable _suspendable;
-
-            public SuspendScope(ISuspendable suspender)
-            {
-                _suspendable = suspender;
-                _suspendable.Suspend();
-            }
-
-            protected override void DisposeManagedResources()
-            {
-                _suspendable.Resume();
-            }
-        }
-    }
-
-    internal interface ISuspendable
-    {
-        void Suspend();
-
-        void Resume();
-    }
-
 }

@@ -20,9 +20,9 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Reflection;
-using System.Windows.Threading;
 using System.Xml;
 using System.Xml.Serialization;
+using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Docking.Layout
@@ -324,12 +324,5 @@ namespace ModernApplicationFramework.Docking.Layout
             var parentPane = Parent as ILayoutElementWithVisibility;
             parentPane?.ComputeVisibility();
         }
-    }
-
-    public enum MoveResult
-    {
-        NotNeeded,
-        Moved,
-        Scheduled,
     }
 }
