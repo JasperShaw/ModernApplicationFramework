@@ -43,16 +43,16 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         private bool CanCloseAllDockedWindows()
         {
-            if (DockingManager.Instace == null)
+            if (DockingManager.Instance == null)
                 return false;
-            var root = DockingManager.Instace.Layout.ActiveContent?.Root;
+            var root = DockingManager.Instance.Layout.ActiveContent?.Root;
             if (root == null)
                 return false;
 
-            if (!DockingManager.Instace.CanCloseAll)
+            if (!DockingManager.Instance.CanCloseAll)
                 return false;
 
-            return DockingManager.Instace.Layout
+            return DockingManager.Instance.Layout
                 .Descendents()
                 .OfType<LayoutContent>()
                 .Any(d => d.Parent is LayoutDocumentPane || d.Parent is LayoutDocumentFloatingWindow);
@@ -60,7 +60,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         private void CloseAllDockedWindows()
         {
-            DockingManager.Instace?._ExecuteCloseAllCommand();
+            DockingManager.Instance?._ExecuteCloseAllCommand();
         }
     }
 }

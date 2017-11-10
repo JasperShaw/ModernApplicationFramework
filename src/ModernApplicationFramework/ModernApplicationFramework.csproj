@@ -239,6 +239,7 @@
     <Compile Include="Basics\Definitions\Command\ExcludedCommandDefinition.cs" />
     <Compile Include="Basics\Definitions\Command\CommandGestureScopeMapping.cs" />
     <Compile Include="Core\Converters\IconToVisibilityConverter.cs" />
+    <Compile Include="Docking\DockingManagerPreferences.cs" />
     <Compile Include="Interfaces\Utilities\ISuspendable.cs" />
     <Compile Include="Docking\Layout\MoveResult.cs" />
     <Compile Include="Core\Utilities\Suspender.cs" />

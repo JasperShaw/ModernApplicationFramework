@@ -38,10 +38,10 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         private bool CanFloatDockedWindow()
         {
-            var dc = DockingManager.Instace?.Layout.ActiveContent;
+            var dc = DockingManager.Instance?.Layout.ActiveContent;
             if (dc == null)
                 return false;
-            var di = DockingManager.Instace?.GetLayoutItemFromModel(dc);
+            var di = DockingManager.Instance?.GetLayoutItemFromModel(dc);
 
             if (di?.LayoutElement.FindParent<LayoutFloatingWindow>() == null)
                 return true;
@@ -50,10 +50,10 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         private void FloatDockedWindow()
         {
-            var dc = DockingManager.Instace?.Layout.ActiveContent;
+            var dc = DockingManager.Instance?.Layout.ActiveContent;
             if (dc == null)
                 return;
-            var di = DockingManager.Instace?.GetLayoutItemFromModel(dc);
+            var di = DockingManager.Instance?.GetLayoutItemFromModel(dc);
             di?.FloatCommand.Execute(null);
         }
     }

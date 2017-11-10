@@ -214,8 +214,8 @@ namespace ModernApplicationFramework.Docking.Layout
             foreach (LayoutContent viewElement in arrayList2)
                 if (viewElement is LayoutContent view && view.IsPinned)
                 {
-                    //if (!ViewManager.Instance.Preferences.MaintainPinStatus)
-                    //    view.IsPinned = false;
+                    if (!DockingManager.Instance.Preferences.MaintainPinStatus)
+                        view.IsPinned = false;
                     _pinnedViews.Remove(view);
                 }
 

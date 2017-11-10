@@ -55,7 +55,7 @@ namespace ModernApplicationFramework.Docking.Controls
                 ModernChromeWindow.ShowWindowMenu(source, this, e.GetPosition(this), RenderSize);
             else
             {
-                var ctxMenu = DockingManager.Instace.AnchorableContextMenu;
+                var ctxMenu = DockingManager.Instance.AnchorableContextMenu;
                 if (ctxMenu != null)
                 {
                     ctxMenu.PlacementTarget = null;

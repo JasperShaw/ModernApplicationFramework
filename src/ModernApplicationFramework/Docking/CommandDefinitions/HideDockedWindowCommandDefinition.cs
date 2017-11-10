@@ -43,14 +43,14 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         private bool CanHideDockedWindow()
         {
-            var dm = DockingManager.Instace?.Layout.ActiveContent;
+            var dm = DockingManager.Instance?.Layout.ActiveContent;
             return dm is LayoutAnchorable;
         }
 
         private void HideDockedWindow()
         {
-            var dm = DockingManager.Instace?.Layout.ActiveContent;
-            var item = DockingManager.Instace?.GetLayoutItemFromModel(dm) as LayoutAnchorableItem;
+            var dm = DockingManager.Instance?.Layout.ActiveContent;
+            var item = DockingManager.Instance?.GetLayoutItemFromModel(dm) as LayoutAnchorableItem;
             item?.HideCommand.Execute(null);
         }
     }

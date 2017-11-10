@@ -7,7 +7,7 @@ namespace ModernApplicationFramework.Docking.ContextMenuProviders
     {
         public ContextMenu Provide(object dataContext)
         {
-            return DockingManager.Instace.AnchorableContextMenu;
+            return DockingManager.Instance.AnchorableContextMenu;
         }
     }
 }

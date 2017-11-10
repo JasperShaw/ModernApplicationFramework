@@ -39,13 +39,13 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         private bool CanAutoHideAllWindows()
         {
-            return DockingManager.Instace != null && DockingManager.Instace.Layout.Descendents()
+            return DockingManager.Instance != null && DockingManager.Instance.Layout.Descendents()
                        .OfType<LayoutAnchorable>().Any(x => !x.IsAutoHidden);
         }
 
         private void AutoHideAllWindows()
         {
-            var layoutAnchorables = DockingManager.Instace?.Layout.Descendents().OfType<LayoutAnchorable>();
+            var layoutAnchorables = DockingManager.Instance?.Layout.Descendents().OfType<LayoutAnchorable>();
             if (layoutAnchorables == null)
                 return;
 

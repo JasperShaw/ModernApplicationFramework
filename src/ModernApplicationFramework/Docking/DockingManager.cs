@@ -279,6 +279,7 @@ namespace ModernApplicationFramework.Docking
         internal bool SuspendAnchorablesSourceBinding = false;
 
         internal bool SuspendDocumentsSourceBinding = false;
+        private DockingManagerPreferences _preferences;
 
         static DockingManager()
         {
@@ -317,10 +318,10 @@ namespace ModernApplicationFramework.Docking
 
 
             _contextMenuHost = IoC.Get<IContextMenuHost>();
-            Instace = this;
+            Instance = this;
         }
 
-        public static DockingManager Instace { get; private set; }
+        public static DockingManager Instance { get; private set; }
 
         public LayoutAutoHideWindowControl AutoHideWindow
             => (LayoutAutoHideWindowControl) GetValue(AutoHideWindowProperty);
@@ -579,6 +580,8 @@ namespace ModernApplicationFramework.Docking
             get => (LayoutAnchorSideControl) GetValue(TopSidePanelProperty);
             set => SetValue(TopSidePanelProperty, value);
         }
+
+        public DockingManagerPreferences Preferences => _preferences ?? (_preferences = new DockingManagerPreferences());
 
         protected override IEnumerator LogicalChildren
         {

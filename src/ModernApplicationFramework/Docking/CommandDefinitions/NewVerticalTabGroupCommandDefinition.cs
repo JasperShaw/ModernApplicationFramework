@@ -40,11 +40,11 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         private bool CanCreateNewVerticalTabGroup()
         {
-            if (DockingManager.Instace?.Layout.ActiveContent == null)
+            if (DockingManager.Instance?.Layout.ActiveContent == null)
                 return false;
-            var parentDocumentGroup = DockingManager.Instace?.Layout.ActiveContent
+            var parentDocumentGroup = DockingManager.Instance?.Layout.ActiveContent
                 .FindParent<LayoutDocumentPaneGroup>();
-            var parentDocumentPane = DockingManager.Instace?.Layout.ActiveContent.Parent as LayoutDocumentPane;
+            var parentDocumentPane = DockingManager.Instance?.Layout.ActiveContent.Parent as LayoutDocumentPane;
             return (parentDocumentGroup == null ||
                     parentDocumentGroup.ChildrenCount == 1 ||
                     parentDocumentGroup.Root.Manager.AllowMixedOrientation ||
@@ -55,7 +55,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         private void CreateNewVerticalTabGroup()
         {
-            var layoutElement = DockingManager.Instace?.Layout.ActiveContent;
+            var layoutElement = DockingManager.Instance?.Layout.ActiveContent;
             if (layoutElement == null)
                 return;
             var parentDocumentGroup = layoutElement.FindParent<LayoutDocumentPaneGroup>();

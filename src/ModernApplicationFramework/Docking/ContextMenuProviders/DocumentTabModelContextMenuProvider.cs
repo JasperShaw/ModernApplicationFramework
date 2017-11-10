@@ -9,8 +9,8 @@ namespace ModernApplicationFramework.Docking.ContextMenuProviders
         public ContextMenu Provide(object dataContext)
         {
             if (dataContext is LayoutAnchorable)
-                return DockingManager.Instace.AnchorableAsDocumentContextMenu;
-            return DockingManager.Instace.DocumentContextMenu;
+                return DockingManager.Instance.AnchorableAsDocumentContextMenu;
+            return DockingManager.Instance.DocumentContextMenu;
         }
     }
 }

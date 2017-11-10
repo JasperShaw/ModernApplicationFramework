@@ -40,10 +40,10 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         private bool CanDockWindow()
         {
-            var dc = DockingManager.Instace?.Layout.ActiveContent;
+            var dc = DockingManager.Instance?.Layout.ActiveContent;
             if (dc == null)
                 return false;
-            var di = DockingManager.Instace?.GetLayoutItemFromModel(dc);
+            var di = DockingManager.Instance?.GetLayoutItemFromModel(dc);
 
             return di?.LayoutElement?.FindParent<LayoutFloatingWindow>() != null ||
                    di?.LayoutElement?.FindParent<LayoutDocumentPane>() != null && di.LayoutElement is LayoutAnchorable || 
@@ -52,10 +52,10 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         private void DockWindow()
         {
-            var dc = DockingManager.Instace?.Layout.ActiveContent;
+            var dc = DockingManager.Instance?.Layout.ActiveContent;
             if (dc == null)
                 return;
-            var di = DockingManager.Instace?.GetLayoutItemFromModel(dc);
+            var di = DockingManager.Instance?.GetLayoutItemFromModel(dc);
 
             if (di is LayoutAnchorableItem anchorableItem)
                 anchorableItem.DockCommand.Execute(null);
