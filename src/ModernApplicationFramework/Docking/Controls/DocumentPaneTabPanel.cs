@@ -20,6 +20,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Utilities;
 
@@ -69,11 +70,6 @@ namespace ModernApplicationFramework.Docking.Controls
                     FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
 
 
-        private int _indexOfFirstVisibleElement;
-        private int _indexOfLastVisibleElement;
-        private Size _oldFinalSize;
-        private int _selectedIndex;
-
         public static event EventHandler<SelectedItemHiddenEventArgs> SelectedItemHidden;
 
         public LayoutDocumentPane DocumentPane
@@ -121,9 +117,13 @@ namespace ModernApplicationFramework.Docking.Controls
         public DocumentPaneTabPanel()
         {
             HorizontalAlignment = HorizontalAlignment.Left;
+            BindingOperations.SetBinding(this, SeparatePinnedTabsFromUnpinnedTabsProperty, new Binding
+            {
+                Source = DockingManagerPreferences.Instance,
+                Path = new PropertyPath(DockingManagerPreferences.IsPinnedTabPanelSeparateProperty),
+                Mode = BindingMode.OneWay
+            });
 
-            SetValue(SeparatePinnedTabsFromUnpinnedTabsProperty, false);
-            
         }
 
 

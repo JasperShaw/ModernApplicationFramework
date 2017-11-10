@@ -279,7 +279,6 @@ namespace ModernApplicationFramework.Docking
         internal bool SuspendAnchorablesSourceBinding = false;
 
         internal bool SuspendDocumentsSourceBinding = false;
-        private DockingManagerPreferences _preferences;
 
         static DockingManager()
         {
@@ -580,8 +579,6 @@ namespace ModernApplicationFramework.Docking
             get => (LayoutAnchorSideControl) GetValue(TopSidePanelProperty);
             set => SetValue(TopSidePanelProperty, value);
         }
-
-        public DockingManagerPreferences Preferences => _preferences ?? (_preferences = new DockingManagerPreferences());
 
         protected override IEnumerator LogicalChildren
         {
@@ -2268,7 +2265,11 @@ namespace ModernApplicationFramework.Docking
                                 throw new InvalidOperationException(
                                     "Layout must contains at least one LayoutDocumentPane in order to host documents");
 
-                            documentPane.Children.Add(documentToImport);
+                            if (DockingManagerPreferences.Instance.DocumentDockPreference ==
+                                DockPreference.DockAtBeginning)
+                                documentPane.Children.Insert(0, documentToImport);
+                            else
+                                documentPane.Children.Add(documentToImport);
                         }
 
                         LayoutUpdateStrategy?.AfterInsertDocument(Layout, documentToImport);

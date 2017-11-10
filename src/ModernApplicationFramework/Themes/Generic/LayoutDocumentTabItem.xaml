@@ -15,6 +15,9 @@
                     <avalonDockControls:DropDownControlArea ContextMenuProvider="{StaticResource DocumentTabModelToContextMenuConverter}">
                         <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
                                 BorderThickness="{TemplateBinding BorderThickness}" Padding="0,2,0,0">
+                            <FrameworkElement.ToolTip>
+                                <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Model.ToolTip"/>
+                            </FrameworkElement.ToolTip>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -180,20 +183,19 @@
                                 <Setter TargetName="HideButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyphLastActiveHover}}"/>
                             </MultiDataTrigger.Setters>
 						</MultiDataTrigger>
-						<MultiDataTrigger>
-							<MultiDataTrigger.Conditions>
-								<Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type avalonDockControls:LayoutDocumentPaneControl}, Mode=FindAncestor}, Path=SelectedContent.IsActive}" Value="false"/>
-								<Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type avalonDockControls:LayoutDocumentPaneControl}, Mode=FindAncestor}, Path=SelectedContent.IsLastFocusedDocument}" Value="True"/>
-								<Condition Binding="{Binding Path=IsSelected}" Value="True"/>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type avalonDockControls:LayoutDocumentPaneControl}, Mode=FindAncestor}, Path=SelectedContent.IsActive}" Value="false"/>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type avalonDockControls:LayoutDocumentPaneControl}, Mode=FindAncestor}, Path=SelectedContent.IsLastFocusedDocument}" Value="True"/>
+                                <Condition Binding="{Binding Path=IsSelected}" Value="True"/>
                                 <Condition Binding="{Binding ElementName=HideButton, Path=IsPressed}" Value="True"/>
-							</MultiDataTrigger.Conditions>
-							<MultiDataTrigger.Setters>
+                            </MultiDataTrigger.Conditions>
+                            <MultiDataTrigger.Setters>
                                 <Setter TargetName="HideButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBackgroundLastActiveDown}}"/>
                                 <Setter TargetName="HideButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBorderLastActiveDown}}"/>
                                 <Setter TargetName="HideButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyphLastActiveDown}}"/>
                             </MultiDataTrigger.Setters>
-						</MultiDataTrigger>
-
+                        </MultiDataTrigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type avalonDockControls:LayoutDocumentPaneControl}, Mode=FindAncestor}, Path=SelectedContent.IsActive}" Value="false"/>
@@ -220,8 +222,6 @@
                                 <Setter TargetName="PinButton" Property="PressedForeground" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyphLastActiveDown}}"/>
                             </MultiDataTrigger.Setters>
                         </MultiDataTrigger>
-
-
                         <MultiDataTrigger>
 							<MultiDataTrigger.Conditions>
 								<Condition Binding="{Binding Path=IsSelected}" Value="true"/>
@@ -269,8 +269,6 @@
 								<Setter TargetName="HideButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyphLastActiveHover}}"/>
 							</MultiDataTrigger.Setters>
 						</MultiDataTrigger>
-
-
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type avalonDockControls:LayoutDocumentPaneControl}, Mode=FindAncestor}, Path=SelectedContent.IsActive}" Value="false"/>
@@ -284,24 +282,19 @@
                                 <Setter TargetName="PinButton" Property="HoverForeground" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyphLastActiveHover}}"/>
                             </MultiDataTrigger.Setters>
                         </MultiDataTrigger>
-
-
-
                         <MultiDataTrigger>
-							<MultiDataTrigger.Conditions>
-								<Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type avalonDockControls:LayoutDocumentPaneControl}, Mode=FindAncestor}, Path=SelectedContent.IsActive}" Value="false"/>
-								<Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type avalonDockControls:LayoutDocumentPaneControl}, Mode=FindAncestor}, Path=SelectedContent.IsLastFocusedDocument}" Value="false"/>
-								<Condition Binding="{Binding Path=IsSelected}" Value="True"/>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type avalonDockControls:LayoutDocumentPaneControl}, Mode=FindAncestor}, Path=SelectedContent.IsActive}" Value="false"/>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type avalonDockControls:LayoutDocumentPaneControl}, Mode=FindAncestor}, Path=SelectedContent.IsLastFocusedDocument}" Value="false"/>
+                                <Condition Binding="{Binding Path=IsSelected}" Value="True"/>
                                 <Condition Binding="{Binding ElementName=HideButton, Path=IsPressed}" Value="True"/>
-							</MultiDataTrigger.Conditions>
-							<MultiDataTrigger.Setters>
+                            </MultiDataTrigger.Conditions>
+                            <MultiDataTrigger.Setters>
                                 <Setter TargetName="HideButton" Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBackgroundLastActiveDown}}"/>
                                 <Setter TargetName="HideButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemButtonBorderLastActiveDown}}"/>
-								<Setter TargetName="HideButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyphLastActiveDown}}"/>
-							</MultiDataTrigger.Setters>
-						</MultiDataTrigger>
-
-
+                                <Setter TargetName="HideButtonPath" Property="Fill" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyphLastActiveDown}}"/>
+                            </MultiDataTrigger.Setters>
+                        </MultiDataTrigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type avalonDockControls:LayoutDocumentPaneControl}, Mode=FindAncestor}, Path=SelectedContent.IsActive}" Value="false"/>
@@ -335,6 +328,17 @@
                             <MultiDataTrigger.Setters>
                                 <Setter TargetName="PinButton" Property="GlyphForeground" Value="{DynamicResource {x:Static themes:EnvironmentColors.DocumentTabItemGlyphLastActive}}"/>
                             </MultiDataTrigger.Setters>
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsPinned}" Value="False"/>
+                                <Condition Value="False">
+                                    <Condition.Binding>
+                                        <Binding Source="{x:Static avalonDock:DockingManagerPreferences.Instance}" Path="ShowPinButtonInUnpinnedTabs"/>
+                                    </Condition.Binding>
+                                </Condition>
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="PinButton" Property="Visibility" Value="Collapsed"/>
                         </MultiDataTrigger>
                     </ControlTemplate.Triggers>
 				</ControlTemplate>

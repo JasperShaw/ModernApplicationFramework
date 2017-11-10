@@ -94,7 +94,7 @@
     <Compile Include="Options\TabsAndWindowsOptionsView.xaml.cs">
       <DependentUpon>TabsAndWindowsOptionsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Options\TabsAndWindowsOptions.cs" />
+    <Compile Include="Options\StorableTabsAndWindowsOptions.cs" />
     <Compile Include="Options\TabsAndWindowsOptionsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

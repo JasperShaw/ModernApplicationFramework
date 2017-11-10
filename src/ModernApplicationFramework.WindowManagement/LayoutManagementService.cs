@@ -20,6 +20,7 @@ namespace ModernApplicationFramework.WindowManagement
         private ILayoutManager _layoutManager;
 
         private ProcessStateOption _tempOptions;
+        private WindowLayoutSettings _layoutSettings;
 
         public static LayoutManagementService Instance { get; private set; }
 
@@ -54,6 +55,16 @@ namespace ModernApplicationFramework.WindowManagement
             {
                 var pvar = IoC.Get<IApplicationEnvironment>().AppDataPath;
                 return Path.Combine(pvar, "WindowLayouts");
+            }
+        }
+
+        public IWindowLayoutSettings LayoutSettings
+        {
+            get
+            {
+                if (_layoutSettings == null)
+                    InitializeLayoutManagement();
+                return _layoutSettings;
             }
         }
 
@@ -175,9 +186,9 @@ namespace ModernApplicationFramework.WindowManagement
         {
             var settingsManager = IoC.Get<ISettingsManager>();
             var layoutStore = IoC.Get<IWindowLayoutStore>();
-            var layoutSettings = new WindowLayoutSettings(settingsManager);
+            _layoutSettings = new WindowLayoutSettings(settingsManager);
             var statusBar = IoC.Get<IStatusBarDataModelService>();
-            _layoutManager = new LayoutManager(this, statusBar, layoutSettings, layoutStore);
+            _layoutManager = new LayoutManager(this, statusBar, _layoutSettings, layoutStore);
         }
 
         private void ProfileManager_ProfileSet(object sender, WindowProfileEventArgs args)

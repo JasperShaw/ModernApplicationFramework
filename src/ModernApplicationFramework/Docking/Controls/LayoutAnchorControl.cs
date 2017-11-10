@@ -17,9 +17,11 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
 using ModernApplicationFramework.Docking.Layout;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
@@ -29,14 +31,24 @@ namespace ModernApplicationFramework.Docking.Controls
             = DependencyProperty.RegisterReadOnly("Side", typeof (AnchorSide), typeof (LayoutAnchorControl),
                 new FrameworkPropertyMetadata(AnchorSide.Left));
 
+
+        private static readonly DependencyProperty ShowOnMouseHoverProperty =
+            DependencyProperty.Register(nameof(ShowOnMouseHover), typeof(bool),
+                typeof(DocumentPaneTabPanel),
+                new FrameworkPropertyMetadata(Boxes.BooleanFalse,
+                    FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
+
+
         public static readonly DependencyProperty SideProperty = SidePropertyKey.DependencyProperty;
+
+        public bool ShowOnMouseHover => (bool)GetValue(ShowOnMouseHoverProperty);
 
 
         private readonly LayoutAnchorable _model;
 
         DispatcherTimer _openUpTimer;
 
-        internal LayoutAnchorControl(LayoutAnchorable model)
+        internal LayoutAnchorControl(LayoutAnchorable model) : this()
         {
             _model = model;
             _model.IsActiveChanged += _model_IsActiveChanged;
@@ -50,6 +62,16 @@ namespace ModernApplicationFramework.Docking.Controls
             DefaultStyleKeyProperty.OverrideMetadata(typeof (LayoutAnchorControl),
                 new FrameworkPropertyMetadata(typeof (LayoutAnchorControl)));
             IsHitTestVisibleProperty.AddOwner(typeof (LayoutAnchorControl), new FrameworkPropertyMetadata(true));
+        }
+
+        public LayoutAnchorControl()
+        {
+            BindingOperations.SetBinding(this, ShowOnMouseHoverProperty, new Binding
+            {
+                Source = DockingManagerPreferences.Instance,
+                Path = new PropertyPath(DockingManagerPreferences.ShowAutoHiddenWindowsOnHoverProperty),
+                Mode = BindingMode.OneWay
+            });
         }
 
         public ILayoutElement Model => _model;
@@ -74,13 +96,13 @@ namespace ModernApplicationFramework.Docking.Controls
         protected override void OnMouseEnter(MouseEventArgs e)
         {
             base.OnMouseEnter(e);
-            if (!_model.ShowOnMouseOver)
+            if (!ShowOnMouseHover)
                 return;
             if (e.Handled)
                 return;
             _openUpTimer = new DispatcherTimer(DispatcherPriority.ApplicationIdle)
             {
-                Interval = TimeSpan.FromMilliseconds(400)
+                Interval = DockingManagerPreferences.Instance.AutoHideHoverDelay
             };
             _openUpTimer.Tick += _openUpTimer_Tick;
             _openUpTimer.Start();
@@ -88,7 +110,7 @@ namespace ModernApplicationFramework.Docking.Controls
 
         protected override void OnMouseLeave(MouseEventArgs e)
         {
-            if (!_model.ShowOnMouseOver)
+            if (!ShowOnMouseHover)
                 return;
             if (_openUpTimer != null)
             {

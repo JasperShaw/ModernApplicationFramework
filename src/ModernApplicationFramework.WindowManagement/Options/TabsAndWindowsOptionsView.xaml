@@ -21,16 +21,6 @@
                               IsChecked="{Binding DocumentDockPreference, Converter={StaticResource DockPreferenceToBooleanConverter}}">
                         <AccessText x:Name="NewTabsOnRight_Text" Text="Neue _Registerkarten rechts von vorhandenen Registerkarten einfügen" TextWrapping="Wrap"></AccessText>
                     </CheckBox>
-                    <CheckBox x:Name="EnableOwnedPopupTabWell" Margin="2,3,2,2"
-                              IsChecked="{Binding EnableIndependentTabWell, Converter={StaticResource NegateBooleanConverter}}">
-                        <AccessText x:Name="EnableOwnedPopupTabWell_Text" Text="Registerkartenleisten für _unverankerte Registerkarten bleiben immer oberhalb des Hauptfensters" TextWrapping="Wrap"></AccessText>
-                    </CheckBox>
-                    <CheckBox x:Name="EnableOwnedPopupToolWindows" Margin="20,3,2,2"
-                              IsChecked="{Binding EnableIndependentToolWindows, Converter={StaticResource NegateBooleanConverter}}"
-                              IsEnabled="{Binding IsChecked, ElementName=EnableOwnedPopupTabWell, Converter={StaticResource NegateBooleanConverter}}">
-                        <AccessText x:Name="EnableOwnedPopupToolWindows_Text" TextWrapping="Wrap"
-                                    Text="Unverankerte _Toolfenster bleiben immer oberhalb des Hauptfensters"/>
-                    </CheckBox>
                 </StackPanel>
             </mafc:GroupBox>
             <mafc:GroupBox Header="Angeheftete Registerkarten" Padding="4,3,4,2" 
