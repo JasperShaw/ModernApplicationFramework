@@ -55,7 +55,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
             SetupCollectionViewSource();
         }
 
-        public override uint SortOrder => 15;
+        public override uint SortOrder => 10;
         public override string Name => KeyboardSettingsResources.KeyboardSettings_Name;
         public override SettingsPageCategory Category => SettingsPageCategories.EnvironmentCategory;
 

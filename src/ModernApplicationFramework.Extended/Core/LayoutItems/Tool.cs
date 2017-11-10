@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.InfoBar;
-using ModernApplicationFramework.Controls.InfoBar;
 using ModernApplicationFramework.Docking.Controls;
 using ModernApplicationFramework.Extended.Core.Pane;
 using ModernApplicationFramework.Extended.Interfaces;
@@ -27,7 +26,7 @@ namespace ModernApplicationFramework.Extended.Core.LayoutItems
         private ICommand _closeCommand;
         private bool _isVisible;
 
-        private LayoutAnchorableItem _frame;
+        private Docking.Controls.LayoutItem _frame;
 
         private ConditionalWeakTable<InfoBarModel, IInfoBarUiElement> _infoBars;
 
@@ -106,9 +105,10 @@ namespace ModernApplicationFramework.Extended.Core.LayoutItems
             }
             if (!(view is UIElement uiElement))
                 throw new InvalidCastException("View is not typeof UIElement");
-            _frame = uiElement.FindLogicalAncestor<LayoutAnchorableControl>()?.LayoutItem as LayoutAnchorableItem;
-            //if (_frame == null)
-            //    throw new InvalidCastException("View parent is not typeof LayoutAnchorableItem"); ;
+            _frame = uiElement.FindLogicalAncestor<LayoutAnchorableControl>()?.LayoutItem ?? 
+                uiElement.FindLogicalAncestor<LayoutDocumentControl>()?.LayoutItem;
+            if (_frame == null)
+                throw new ArgumentException("Could not find any host control for Tool");
             OnToolWindowCreated();
         }
 
@@ -223,7 +223,5 @@ namespace ModernApplicationFramework.Extended.Core.LayoutItems
                 _pane.OnInfoBarClosed(infoBarUiElement, _infoBar);
             }
         }
-
-
     }
 }

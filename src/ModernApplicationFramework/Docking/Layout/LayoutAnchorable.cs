@@ -129,18 +129,6 @@ namespace ModernApplicationFramework.Docking.Layout
             }
         }
 
-        public bool ShowOnMouseOver
-        {
-            get => _showOnMouseOver;
-            set
-            {
-                if (_showOnMouseOver == value)
-                    return;
-                _showOnMouseOver = value;
-                RaisePropertyChanged("ShowOnMouseOver");
-            }
-        }
-
         /// <summary>
         /// Add the anchorable to a DockingManager layout
         /// </summary>
@@ -266,8 +254,6 @@ namespace ModernApplicationFramework.Docking.Layout
         {
             if (reader.MoveToAttribute("CanHide"))
                 CanHide = bool.Parse(reader.Value);
-            if (reader.MoveToAttribute("ShowOnMouseOver"))
-                ShowOnMouseOver = bool.Parse(reader.Value);
             if (reader.MoveToAttribute("CanAutoHide"))
                 CanAutoHide = bool.Parse(reader.Value);
             if (reader.MoveToAttribute("AutoHideWidth"))
@@ -499,8 +485,6 @@ namespace ModernApplicationFramework.Docking.Layout
         {
             if (!CanHide)
                 writer.WriteAttributeString("CanHide", CanHide.ToString());
-            if (!ShowOnMouseOver)
-                writer.WriteAttributeString("ShowOnMouseOver", ShowOnMouseOver.ToString());
             if (!CanAutoHide)
                 writer.WriteAttributeString("CanAutoHide", CanAutoHide.ToString(CultureInfo.InvariantCulture));
             if (AutoHideWidth > 0)
@@ -596,9 +580,6 @@ namespace ModernApplicationFramework.Docking.Layout
             {
                 case "CanHide":
                     CanHide = bool.Parse(valueString);
-                    break;
-                case "ShowOnMouseOver":
-                    ShowOnMouseOver = bool.Parse(valueString);
                     break;
                 case "CanAutoHide":
                     CanAutoHide = bool.Parse(valueString);

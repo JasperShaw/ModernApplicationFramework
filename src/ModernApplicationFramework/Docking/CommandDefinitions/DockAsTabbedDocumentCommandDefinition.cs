@@ -39,20 +39,20 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         private bool CanDockAsTabbedDocument()
         {
-            var dc = DockingManager.Instace.Layout.ActiveContent;
+            var dc = DockingManager.Instance.Layout.ActiveContent;
             if (dc == null)
                 return false;
 
-            var di = DockingManager.Instace.GetLayoutItemFromModel(dc);
+            var di = DockingManager.Instance.GetLayoutItemFromModel(dc);
             return di?.LayoutElement != null && di.LayoutElement.FindParent<LayoutAnchorablePane>() != null;
         }
 
         private void DockAsTabbedDocument()
         {
-            var dc = DockingManager.Instace.Layout.ActiveContent;
+            var dc = DockingManager.Instance.Layout.ActiveContent;
             if (dc == null)
                 return;
-            var di = DockingManager.Instace.GetLayoutItemFromModel(dc);
+            var di = DockingManager.Instance.GetLayoutItemFromModel(dc);
             di?.DockAsDocumentCommand.Execute(null);
         }
     }

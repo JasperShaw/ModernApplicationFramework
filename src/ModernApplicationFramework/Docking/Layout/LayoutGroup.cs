@@ -17,10 +17,13 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
 using System.Xml.Serialization;
+using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Docking.Layout
 {
@@ -30,6 +33,7 @@ namespace ModernApplicationFramework.Docking.Layout
     {
         private readonly ObservableCollection<T> _children = new ObservableCollection<T>();
         private bool _isVisible = true;
+        protected Suspender ChildReorderSuspender = new Suspender();
 
         internal LayoutGroup()
         {
@@ -151,12 +155,26 @@ namespace ModernApplicationFramework.Docking.Layout
             IsVisible = GetVisibility();
         }
 
-        public void MoveChild(int oldIndex, int newIndex)
+        public MoveResult MoveChild(int oldIndex, int newIndex)
         {
+            Validate.IsWithinRange(oldIndex, 0, Children.Count - 1, nameof(oldIndex));
+            Validate.IsWithinRange(newIndex, 0, Children.Count - 1, nameof(newIndex));
             if (oldIndex == newIndex)
-                return;
-            _children.Move(oldIndex, newIndex);
-            ChildMoved(oldIndex, newIndex);
+                return MoveResult.NotNeeded;
+            if (ChildReorderSuspender.IsSuspended)
+            {
+                return MoveResult.Scheduled;
+            }
+            try
+            {
+                Children.Move(oldIndex, newIndex);
+                ChildMoved(oldIndex, newIndex);
+                return MoveResult.Moved;
+            }
+            catch (InvalidOperationException)
+            {
+                return MoveResult.Scheduled;
+            }
         }
 
         protected virtual void ChildMoved(int oldIndex, int newIndex)
@@ -259,10 +277,10 @@ namespace ModernApplicationFramework.Docking.Layout
         }
 
         private void _children_CollectionChanged(object sender,
-            System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+            NotifyCollectionChangedEventArgs e)
         {
-            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove ||
-                e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace)
+            if (e.Action == NotifyCollectionChangedAction.Remove ||
+                e.Action == NotifyCollectionChangedAction.Replace)
             {
                 if (e.OldItems != null)
                 {
@@ -275,8 +293,8 @@ namespace ModernApplicationFramework.Docking.Layout
                 }
             }
 
-            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add ||
-                e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace)
+            if (e.Action == NotifyCollectionChangedAction.Add ||
+                e.Action == NotifyCollectionChangedAction.Replace)
             {
                 if (e.NewItems != null)
                 {
@@ -294,6 +312,11 @@ namespace ModernApplicationFramework.Docking.Layout
             OnChildrenCollectionChanged();
             NotifyChildrenTreeChanged(ChildrenTreeChange.DirectChildrenChanged);
             RaisePropertyChanged("ChildrenCount");
+            OnChildrenChanged(e);
+        }
+
+        protected internal virtual void OnChildrenChanged(NotifyCollectionChangedEventArgs args)
+        {
         }
 
         private void UpdateParentVisibility()

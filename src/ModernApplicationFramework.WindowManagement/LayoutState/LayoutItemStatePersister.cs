@@ -25,12 +25,12 @@ namespace ModernApplicationFramework.WindowManagement.LayoutState
         public void Initialize()
         {
             _dockingHostViewModel = IoC.Get<IDockingHostViewModel>();
-            _dockingHostViewModel.ActivationProcessed += _dockingHostViewModel_ActivationProcessed;
+            if (_dockingHostViewModel is ViewAware va)
+                va.ViewAttached += Va_ViewAttached;
         }
 
-        private void _dockingHostViewModel_ActivationProcessed(object sender, ActivationProcessedEventArgs e)
+        private void Va_ViewAttached(object sender, ViewAttachedEventArgs e)
         {
-            _dockingHostViewModel.ActivationProcessed -= _dockingHostViewModel_ActivationProcessed;
             _dockingHost = _dockingHostViewModel.DockingHostView;
             _initialized = true;
         }
@@ -60,7 +60,7 @@ namespace ModernApplicationFramework.WindowManagement.LayoutState
         private void InternalLoadState(ProcessStateOption processOption, Stream inputStream)
         {
             if (!_initialized)
-                throw new InvalidOperationException();
+                throw new InvalidOperationException("Layout State Persister not initialized");
 
             if (inputStream == null)
                 throw new ArgumentNullException(nameof(inputStream));

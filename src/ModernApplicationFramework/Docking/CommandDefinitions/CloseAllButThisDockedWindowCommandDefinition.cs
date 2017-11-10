@@ -39,16 +39,16 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         private bool CanCloseAllButThisDockedWindows()
         {
-            if (DockingManager.Instace == null)
+            if (DockingManager.Instance == null)
                 return false;
-            var root = DockingManager.Instace.Layout.ActiveContent?.Root;
+            var root = DockingManager.Instance.Layout.ActiveContent?.Root;
             if (root == null)
                 return false;
 
-            if (!DockingManager.Instace.Layout.ActiveContent.Root.Manager.CanCloseAllButThis)
+            if (!DockingManager.Instance.Layout.ActiveContent.Root.Manager.CanCloseAllButThis)
                 return false;
 
-            return DockingManager.Instace.Layout.ActiveContent.Root.Manager.Layout.Descendents()
+            return DockingManager.Instance.Layout.ActiveContent.Root.Manager.Layout.Descendents()
                 .OfType<LayoutContent>()
                 .Any(
                     d =>
@@ -59,8 +59,8 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         private void CloseAllButThisDockedWindows()
         {
-            var dm = DockingManager.Instace?.Layout.ActiveContent;
-            DockingManager.Instace?._ExecuteCloseAllButThisCommand(dm);
+            var dm = DockingManager.Instance?.Layout.ActiveContent;
+            DockingManager.Instance?._ExecuteCloseAllButThisCommand(dm);
         }
     }
 }

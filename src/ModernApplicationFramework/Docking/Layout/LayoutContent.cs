@@ -56,6 +56,7 @@ namespace ModernApplicationFramework.Docking.Layout
         [field: NonSerialized] private ILayoutContainer _previousContainer;
         [field: NonSerialized] private int _previousContainerIndex = -1;
         private object _toolTip;
+        private bool _isPinned;
 
         internal LayoutContent()
         {
@@ -80,12 +81,8 @@ namespace ModernApplicationFramework.Docking.Layout
 
         public int CompareTo(LayoutContent other)
         {
-            var contentAsComparable = Content as IComparable;
-            if (contentAsComparable != null)
-            {
+            if (Content is IComparable contentAsComparable)
                 return contentAsComparable.CompareTo(other.Content);
-            }
-
             return _comparer.Compare(Title, other.Title);
         }
 
@@ -157,7 +154,7 @@ namespace ModernApplicationFramework.Docking.Layout
         [XmlIgnore]
         ILayoutContainer ILayoutPreviousContainer.PreviousContainer
         {
-            get { return _previousContainer; }
+            get => _previousContainer;
             set
             {
                 if (_previousContainer != value)
@@ -165,8 +162,7 @@ namespace ModernApplicationFramework.Docking.Layout
                     _previousContainer = value;
                     RaisePropertyChanged("PreviousContainer");
 
-                    var paneSerializable = _previousContainer as ILayoutPaneSerializable;
-                    if (paneSerializable != null &&
+                    if (_previousContainer is ILayoutPaneSerializable paneSerializable &&
                         paneSerializable.Id == null)
                         paneSerializable.Id = Guid.NewGuid().ToString();
                 }
@@ -190,10 +186,12 @@ namespace ModernApplicationFramework.Docking.Layout
 
             if (reader.MoveToAttribute("IsSelected"))
                 IsSelected = bool.Parse(reader.Value);
+            if (reader.MoveToAttribute("IsPinned"))
+                IsPinned = bool.Parse(reader.Value);
             if (reader.MoveToAttribute("ContentId"))
                 ContentId = reader.Value;
-            if (reader.MoveToAttribute("IsLastFocusedDocument"))
-                IsLastFocusedDocument = bool.Parse(reader.Value);
+            //if (reader.MoveToAttribute("IsLastFocusedDocument"))
+            //    IsLastFocusedDocument = bool.Parse(reader.Value);
             if (reader.MoveToAttribute("PreviousContainerId"))
                 PreviousContainerId = reader.Value;
             if (reader.MoveToAttribute("PreviousContainerIndex"))
@@ -230,8 +228,11 @@ namespace ModernApplicationFramework.Docking.Layout
             if (IsSelected)
                 writer.WriteAttributeString("IsSelected", IsSelected.ToString());
 
-            if (IsLastFocusedDocument)
-                writer.WriteAttributeString("IsLastFocusedDocument", IsLastFocusedDocument.ToString());
+            if (IsPinned)
+                writer.WriteAttributeString("IsPinned", IsPinned.ToString());
+
+            //if (IsLastFocusedDocument)
+            //    writer.WriteAttributeString("IsLastFocusedDocument", IsLastFocusedDocument.ToString());
 
             if (!string.IsNullOrWhiteSpace(ContentId))
                 writer.WriteAttributeString("ContentId", ContentId);
@@ -261,8 +262,7 @@ namespace ModernApplicationFramework.Docking.Layout
                 writer.WriteAttributeString("LastActivationTimeStamp",
                     LastActivationTimeStamp.Value.ToString(CultureInfo.InvariantCulture));
 
-            var paneSerializable = _previousContainer as ILayoutPaneSerializable;
-            if (paneSerializable == null)
+            if (!(_previousContainer is ILayoutPaneSerializable paneSerializable))
                 return;
             writer.WriteAttributeString("PreviousContainerId", paneSerializable.Id);
             writer.WriteAttributeString("PreviousContainerIndex", _previousContainerIndex.ToString());
@@ -368,7 +368,7 @@ namespace ModernApplicationFramework.Docking.Layout
         [XmlIgnore]
         public bool IsLastFocusedDocument
         {
-            get { return _isLastFocusedDocument; }
+            get => _isLastFocusedDocument;
             internal set
             {
                 if (_isLastFocusedDocument != value)
@@ -377,6 +377,21 @@ namespace ModernApplicationFramework.Docking.Layout
                     _isLastFocusedDocument = value;
                     RaisePropertyChanged("IsLastFocusedDocument");
                 }
+            }
+        }
+
+        public bool IsPinned
+        {
+            get => _isPinned;
+            set
+            {
+                if (_isPinned == value)
+                    return;
+                RaisePropertyChanging(nameof(IsPinned));
+                _isPinned = value;
+                var ldp = Parent as LayoutDocumentPane;
+                ldp?.OnChildPinnedStatusChanged(this);
+                RaisePropertyChanged(nameof(IsPinned));
             }
         }
 
@@ -390,8 +405,7 @@ namespace ModernApplicationFramework.Docking.Layout
                 bool oldValue = _isSelected;
                 RaisePropertyChanging("IsSelected");
                 _isSelected = value;
-                var parentSelector = (Parent as ILayoutContentSelector);
-                if (parentSelector != null)
+                if (Parent is ILayoutContentSelector parentSelector)
                     parentSelector.SelectedContentIndex = _isSelected ? parentSelector.IndexOf(this) : -1;
                 OnIsSelectedChanged(oldValue, value);
                 RaisePropertyChanged("IsSelected");
@@ -523,8 +537,7 @@ namespace ModernApplicationFramework.Docking.Layout
         /// </summary>
         public void DockAsDocument()
         {
-            var root = Root as LayoutRoot;
-            if (root == null)
+            if (!(Root is LayoutRoot root))
                 throw new InvalidOperationException();
             if (Parent is LayoutDocumentPane)
                 return;
@@ -564,8 +577,7 @@ namespace ModernApplicationFramework.Docking.Layout
             if (PreviousContainer?.FindParent<LayoutFloatingWindow>() != null)
             {
                 var currentContainer = Parent as ILayoutPane;
-                var layoutGroup = currentContainer as ILayoutGroup;
-                if (layoutGroup != null)
+                if (currentContainer is ILayoutGroup layoutGroup)
                 {
                     var currentContainerIndex = layoutGroup.IndexOfChild(this);
                     var previousContainerAsLayoutGroup = PreviousContainer as ILayoutGroup;
@@ -725,10 +737,11 @@ namespace ModernApplicationFramework.Docking.Layout
 
                     MethodInfo methodInfo = GetType()
                         .GetMethod("SetXmlAttributeValue", BindingFlags.Instance | BindingFlags.NonPublic);
-                    methodInfo.Invoke(this, new object[]
-                    {
-                        name, valueString
-                    });
+                    if (methodInfo != null)
+                        methodInfo.Invoke(this, new object[]
+                        {
+                            name, valueString
+                        });
                 }
             }
 
@@ -762,17 +775,12 @@ namespace ModernApplicationFramework.Docking.Layout
         private bool _isEnabled = true;
         public bool IsEnabled
         {
-            get
-            {
-                return _isEnabled;
-            }
+            get => _isEnabled;
             set
             {
-                if (_isEnabled != value)
-                {
-                    _isEnabled = value;
-                    RaisePropertyChanged("IsEnabled");
-                }
+                if (_isEnabled == value) return;
+                _isEnabled = value;
+                RaisePropertyChanged("IsEnabled");
             }
         }
     }

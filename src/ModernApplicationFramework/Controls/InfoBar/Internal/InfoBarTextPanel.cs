@@ -70,7 +70,7 @@ namespace ModernApplicationFramework.Controls.InfoBar.Internal
         private static bool IsNonNegativeValueValid(object value)
         {
             double num = (double)value;
-            if (!num.IsNonreal())
+            if (!ExtensionMethods.IsNonreal(num))
                 return num >= 0.0;
             return false;
         }
@@ -94,7 +94,7 @@ namespace ModernApplicationFramework.Controls.InfoBar.Internal
             if (mainTextControl == null || actionItemsControl == null)
                 return base.MeasureOverride(availableSize);
             bool flag = false;
-            if (availableSize.Width.IsNonreal())
+            if (ExtensionMethods.IsNonreal(availableSize.Width))
             {
                 mainTextControl.Measure(availableSize);
                 actionItemsControl.Measure(availableSize);

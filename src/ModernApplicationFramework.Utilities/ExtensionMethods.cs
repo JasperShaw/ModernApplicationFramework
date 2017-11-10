@@ -16,6 +16,11 @@ namespace ModernApplicationFramework.Utilities
             RaiseEvent(eventHandler, source, EventArgs.Empty);
         }
 
+        public static void RaiseEvent<T>(this EventHandler<T> eventHandler, object source, T args) where T : class
+        {
+            eventHandler?.Invoke(source, args);
+        }
+
         public static void RaiseEvent(this EventHandler eventHandler, object source, EventArgs args)
         {
             eventHandler?.Invoke(source, args);
@@ -139,6 +144,42 @@ namespace ModernApplicationFramework.Utilities
                         action(obj1);
                 }
             }
+        }
+
+        public static bool IsSignificantlyGreaterThan(this double value1, double value2)
+        {
+            return value1.GreaterThan(value2);
+        }
+
+        public static bool GreaterThan(this double value1, double value2)
+        {
+            if (value1 > value2)
+                return !value1.AreClose(value2);
+            return false;
+        }
+
+        public static bool AreClose(this double value1, double value2)
+        {
+            if (value1.IsNonreal() || value2.IsNonreal())
+                return value1.CompareTo(value2) == 0;
+            if (value1 == value2)
+                return true;
+            double num = value1 - value2;
+            if (num < 1.53E-06)
+                return num > -1.53E-06;
+            return false;
+        }
+
+        public static bool IsNonreal(this double value)
+        {
+            if (!double.IsNaN(value))
+                return double.IsInfinity(value);
+            return true;
+        }
+
+        public static bool IsNearlyEqual(this double value1, double value2)
+        {
+            return value1.AreClose(value2);
         }
     }
 }

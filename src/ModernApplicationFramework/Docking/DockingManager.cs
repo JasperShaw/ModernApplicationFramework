@@ -289,8 +289,20 @@ namespace ModernApplicationFramework.Docking
             CaptureManager.Initialize();
             CommandFocusManager.Initialize();
             HwndSourceTracker.Initialize();
+            DocumentPaneTabPanel.SelectedItemHidden += DocumentPaneTabPanel_SelectedItemHidden;
         }
 
+        private static void DocumentPaneTabPanel_SelectedItemHidden(object sender, SelectedItemHiddenEventArgs e)
+        {
+            foreach (var indexChange in e.ViewsToMove)
+            {
+                if (!(indexChange.View.Parent is LayoutGroup<LayoutContent> lg))
+                    return;
+
+                lg.MoveChild(indexChange.NewIndex, indexChange.NewIndex -1);
+                break;
+            }
+        }
 
         public DockingManager()
         {
@@ -305,10 +317,10 @@ namespace ModernApplicationFramework.Docking
 
 
             _contextMenuHost = IoC.Get<IContextMenuHost>();
-            Instace = this;
+            Instance = this;
         }
 
-        public static DockingManager Instace { get; private set; }
+        public static DockingManager Instance { get; private set; }
 
         public LayoutAutoHideWindowControl AutoHideWindow
             => (LayoutAutoHideWindowControl) GetValue(AutoHideWindowProperty);
@@ -1080,6 +1092,18 @@ namespace ModernApplicationFramework.Docking
                 DocumentClosed(this, evargs);
             }
         }
+
+
+
+        internal void _ExecutePinCommand(LayoutContent layoutContent)
+        {
+            if (layoutContent == null)
+                return;
+            layoutContent.IsPinned = !layoutContent.IsPinned;
+        }
+
+
+
 
         private void RemoveViewFromLogicalChild(LayoutContent layoutContent)
         {
@@ -1988,6 +2012,8 @@ namespace ModernApplicationFramework.Docking
                             "Layout must contains at least one LayoutDocumentPane in order to host documents");
 
                     documentPane.Children.Add(documentToImport);
+
+                    //documentPane.Children.Insert(0, documentToImport);
                 }
 
                 LayoutUpdateStrategy?.AfterInsertDocument(layout, documentToImport);
@@ -2239,7 +2265,11 @@ namespace ModernApplicationFramework.Docking
                                 throw new InvalidOperationException(
                                     "Layout must contains at least one LayoutDocumentPane in order to host documents");
 
-                            documentPane.Children.Add(documentToImport);
+                            if (DockingManagerPreferences.Instance.DocumentDockPreference ==
+                                DockPreference.DockAtBeginning)
+                                documentPane.Children.Insert(0, documentToImport);
+                            else
+                                documentPane.Children.Add(documentToImport);
                         }
 
                         LayoutUpdateStrategy?.AfterInsertDocument(Layout, documentToImport);

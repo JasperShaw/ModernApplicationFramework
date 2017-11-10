@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using Caliburn.Micro;
-using ModernApplicationFramework.Core.CommandFocus;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Utilities;
@@ -20,6 +19,9 @@ namespace ModernApplicationFramework.WindowManagement
         private WindowProfile.WindowProfile _activeProfile;
         private ILayoutManager _layoutManager;
 
+        private ProcessStateOption _tempOptions;
+        private WindowLayoutSettings _layoutSettings;
+
         public static LayoutManagementService Instance { get; private set; }
 
         internal WindowProfile.WindowProfile ActiveProfile
@@ -30,7 +32,7 @@ namespace ModernApplicationFramework.WindowManagement
                 _activeProfile = value;
                 using (var stream = LayoutManagementUtilities.ConvertLayoutPayloadToStream(value.DecompressedPayload))
                 {
-                    _statePersiter.LoadFromStream(stream, ProcessStateOption.ToolsOnly);
+                    _statePersiter.LoadFromStream(stream, _tempOptions);
                 }
             }
         }
@@ -53,6 +55,16 @@ namespace ModernApplicationFramework.WindowManagement
             {
                 var pvar = IoC.Get<IApplicationEnvironment>().AppDataPath;
                 return Path.Combine(pvar, "WindowLayouts");
+            }
+        }
+
+        public IWindowLayoutSettings LayoutSettings
+        {
+            get
+            {
+                if (_layoutSettings == null)
+                    InitializeLayoutManagement();
+                return _layoutSettings;
             }
         }
 
@@ -91,7 +103,9 @@ namespace ModernApplicationFramework.WindowManagement
                     activeProfile.DecompressedPayload = currentPayload;
                     _profileManager.Save(activeProfile);
                 }
+                _tempOptions = loadOptions;
                 ActiveProfile = profile;
+                _tempOptions = ProcessStateOption.ToolsOnly;
             }
         }
 
@@ -141,11 +155,11 @@ namespace ModernApplicationFramework.WindowManagement
             _profileManager.RestoreProfilesFromBackup();
         }
 
-        internal string SaveFrameLayoutCollection(ProcessStateOption toolsOnly)
+        internal string SaveFrameLayoutCollection(ProcessStateOption options)
         {
             using (var memoryStream = new MemoryStream())
             {
-                LayoutItemStatePersister.Instance.SaveToStream(memoryStream, ProcessStateOption.ToolsOnly);
+                LayoutItemStatePersister.Instance.SaveToStream(memoryStream, options);
                 memoryStream.Seek(0L, SeekOrigin.Begin);
                 var byteArray = memoryStream.ToArray();
                 return LayoutManagementUtilities.ConvertLayoutStreamToString(byteArray);
@@ -172,9 +186,9 @@ namespace ModernApplicationFramework.WindowManagement
         {
             var settingsManager = IoC.Get<ISettingsManager>();
             var layoutStore = IoC.Get<IWindowLayoutStore>();
-            var layoutSettings = new WindowLayoutSettings(settingsManager);
+            _layoutSettings = new WindowLayoutSettings(settingsManager);
             var statusBar = IoC.Get<IStatusBarDataModelService>();
-            _layoutManager = new LayoutManager(this, statusBar, layoutSettings, layoutStore);
+            _layoutManager = new LayoutManager(this, statusBar, _layoutSettings, layoutStore);
         }
 
         private void ProfileManager_ProfileSet(object sender, WindowProfileEventArgs args)

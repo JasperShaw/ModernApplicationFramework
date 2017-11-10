@@ -4,63 +4,51 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mafc="http://modern.framework.com/controls"
-             xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General;assembly=ModernApplicationFramework"
-             xmlns:options1="clr-namespace:ModernApplicationFramework.WindowManagement.Options"
+             xmlns:options="clr-namespace:ModernApplicationFramework.WindowManagement.Options"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="480">
     <FrameworkElement.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-        <general:NegateBooleanConverter x:Key="NegateBooleanConverter"/>
-        <options1:DockPreferenceToBooleanConverter x:Key="DockPreferenceToBooleanConverter"/>
+        <options:DockPreferenceToBooleanConverter x:Key="DockPreferenceToBooleanConverter"/>
     </FrameworkElement.Resources>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Orientation="Vertical">
-            <mafc:GroupBox Header="Registerkartenleiste" Padding="4,3,4,2" Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}">
+            <mafc:GroupBox Header="{x:Static options:TabsWindowsOptions_Resources.TabWellGroup}" Padding="4,3,4,2" Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}">
                 <StackPanel Orientation="Vertical">
                     <CheckBox Margin="2,3,2,2"
                               IsChecked="{Binding DocumentDockPreference, Converter={StaticResource DockPreferenceToBooleanConverter}}">
-                        <AccessText x:Name="NewTabsOnRight_Text" Text="Neue _Registerkarten rechts von vorhandenen Registerkarten einfügen" TextWrapping="Wrap"></AccessText>
-                    </CheckBox>
-                    <CheckBox x:Name="EnableOwnedPopupTabWell" Margin="2,3,2,2"
-                              IsChecked="{Binding EnableIndependentTabWell, Converter={StaticResource NegateBooleanConverter}}">
-                        <AccessText x:Name="EnableOwnedPopupTabWell_Text" Text="Registerkartenleisten für _unverankerte Registerkarten bleiben immer oberhalb des Hauptfensters" TextWrapping="Wrap"></AccessText>
-                    </CheckBox>
-                    <CheckBox x:Name="EnableOwnedPopupToolWindows" Margin="20,3,2,2"
-                              IsChecked="{Binding EnableIndependentToolWindows, Converter={StaticResource NegateBooleanConverter}}"
-                              IsEnabled="{Binding IsChecked, ElementName=EnableOwnedPopupTabWell, Converter={StaticResource NegateBooleanConverter}}">
-                        <AccessText x:Name="EnableOwnedPopupToolWindows_Text" TextWrapping="Wrap"
-                                    Text="Unverankerte _Toolfenster bleiben immer oberhalb des Hauptfensters"/>
+                        <AccessText x:Name="NewTabsOnRight_Text" Text="{x:Static options:TabsWindowsOptions_Resources.DocumentDockPreference}" TextWrapping="Wrap"></AccessText>
                     </CheckBox>
                 </StackPanel>
             </mafc:GroupBox>
-            <mafc:GroupBox Header="Angeheftete Registerkarten" Padding="4,3,4,2" 
+            <mafc:GroupBox Header="{x:Static options:TabsWindowsOptions_Resources.PinnedTabsGroup}" Padding="4,3,4,2" 
                            Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}">
                 <StackPanel Orientation="Vertical">
                     <CheckBox Margin="2,3,2,2" IsChecked="{Binding ShowPinnedTabsInSeparateRow}">
                         <AccessText x:Name="ShowPinnedTabsInSeparateRow_Text" TextWrapping="Wrap"
-                                    Text="Angeheftete Regi_sterkarten in einer separaten Zeile anzeigen"/>
+                                    Text="{x:Static options:TabsWindowsOptions_Resources.ShowPinnedTabsInNewRow}"/>
                     </CheckBox>
                     <CheckBox Margin="2,3,2,2" IsChecked="{Binding ShowPinButtonInUnpinnedTabs}">
                         <AccessText x:Name="ShowPinButtonInUnpinnedTabs_Text" TextWrapping="Wrap"
-                                    Text="An_heftschaltfläche auf nicht angehefteten Registerkarten anzeigen"/>
+                                    Text="{x:Static options:TabsWindowsOptions_Resources.ShowPinButton}"/>
                     </CheckBox>
                     <CheckBox Margin="2,3,2,2" IsChecked="{Binding MaintainPinStatus}">
                         <AccessText x:Name="MaintainPinStatus_Text" TextWrapping="Wrap"
-                                    Text="Anheftstatus beibehalten, wenn das Doku_ment aus der Leiste entfernt wird"/>
+                                    Text="{x:Static options:TabsWindowsOptions_Resources.MaintainPinStatus}"/>
                     </CheckBox>
                 </StackPanel>
             </mafc:GroupBox>
-            <mafc:GroupBox Header="Toolfenster" Padding="4,3,4,2" 
+            <mafc:GroupBox Header="{x:Static options:TabsWindowsOptions_Resources.ToolWindowsGroup}" Padding="4,3,4,2" 
                            Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}">
                 <StackPanel Orientation="Vertical">
                     <CheckBox x:Name="ShowAutoHiddenWindowsOnHover" Margin="2,3" IsChecked="{Binding ShowAutoHiddenWindowsOnHover}">
                         <AccessText x:Name="ShowAutoHiddenWindowsOnHover_Text" TextWrapping="Wrap"
-                                    Text="Automatisch ausgeblendete _Fenster beim Überfahren mit dem Mauszeiger anzeigen"/>
+                                    Text="{x:Static options:TabsWindowsOptions_Resources.ShowToolsOnHover}"/>
                     </CheckBox>
                     <CheckBox x:Name="ShowApplyLayoutConfirmation" Margin="2,3" IsChecked="{Binding ShowApplyLayoutConfirmation}"
                               Visibility="{Binding EnableCustomLayouts, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <AccessText x:Name="ShowApplyLayoutConfirmation_Text" TextWrapping="Wrap"
-                                    Text="_Vor dem Übernehmen eines benutzerdefinierten Fensterlayouts bestätigen"/>
+                                    Text="{x:Static options:TabsWindowsOptions_Resources.ApplyLayoutConfirmation}"/>
                     </CheckBox>
                 </StackPanel>
             </mafc:GroupBox>

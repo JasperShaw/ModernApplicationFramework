@@ -16,13 +16,8 @@
 
 using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Xml.Serialization;
-using ModernApplicationFramework.Controls.InfoBar;
-using ModernApplicationFramework.Core.MenuModeHelper;
-using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Input.Command;
 
@@ -54,11 +49,8 @@ namespace ModernApplicationFramework.Docking.Controls
 
 
         private readonly ReentrantFlag _visibilityReentrantFlag = new ReentrantFlag();
-        private AdornmentHostingPanel _adornmentHost;
         private LayoutAnchorable _anchorable;
 
-
-        private FrameworkElement _contentControl;
         private ICommand _defaultAutoHideCommand;
         private ICommand _defaultDockCommand;
         private ICommand _defaultHideCommand;
@@ -86,25 +78,6 @@ namespace ModernApplicationFramework.Docking.Controls
         {
             get => (ICommand) GetValue(HideCommandProperty);
             set => SetValue(HideCommandProperty, value);
-        }
-
-        [XmlIgnore]
-        public InfoBarHostControl InfoBarHost => AdornmentHost.InfoBarHost;
-
-        [XmlIgnore]
-        private AdornmentHostingPanel AdornmentHost
-        {
-            get
-            {
-                if (_adornmentHost != null)
-                    return _adornmentHost;
-                _adornmentHost = new AdornmentHostingPanel();
-                Grid.SetRow(_adornmentHost, 0);
-                Grid.SetColumn(_adornmentHost, 0);
-                Grid.SetColumnSpan(_adornmentHost, 3);
-                HostingPanel.Children.Add(_adornmentHost);
-                return _adornmentHost;
-            }
         }
 
         internal LayoutAnchorableItem()
@@ -143,6 +116,12 @@ namespace ModernApplicationFramework.Docking.Controls
         {
             var dockingManager = _anchorable.Root.Manager;
             dockingManager._ExecuteCloseCommand(_anchorable);
+        }
+
+        protected override void Pin()
+        {
+            var dockingManager = _anchorable.Root.Manager;
+            dockingManager._ExecutePinCommand(_anchorable);
         }
 
         protected override void InitDefaultCommands()
@@ -280,34 +259,6 @@ namespace ModernApplicationFramework.Docking.Controls
         private void ExecuteHideCommand(object parameter)
         {
             _anchorable?.Root?.Manager?._ExecuteHideCommand(_anchorable);
-        }
-
-        private class AdornmentHostingPanel : StackPanel
-        {
-            private InfoBarHostControl _infoBarHost;
-
-            public InfoBarHostControl InfoBarHost
-            {
-                get
-                {
-                    if (_infoBarHost != null)
-                        return _infoBarHost;
-                    _infoBarHost = new InfoBarHostControl();
-                    Children.Add(_infoBarHost);
-                    CommandBarNavigationHelper.SetCommandFocusMode(_infoBarHost,
-                        CommandBarNavigationHelper.CommandFocusMode.Container);
-                    return _infoBarHost;
-                }
-            }
-
-            public AdornmentHostingPanel()
-            {
-                SetResourceReference(BackgroundProperty, EnvironmentColors.CommandBarMenuBackgroundGradientBegin);
-                Focusable = false;
-                KeyboardNavigation.SetTabNavigation(this, KeyboardNavigationMode.Cycle);
-                KeyboardNavigation.SetDirectionalNavigation(this, KeyboardNavigationMode.Cycle);
-                KeyboardNavigation.SetControlTabNavigation(this, KeyboardNavigationMode.Cycle);
-            }
         }
     }
 }

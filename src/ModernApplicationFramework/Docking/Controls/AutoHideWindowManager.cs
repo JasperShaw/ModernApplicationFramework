@@ -15,6 +15,7 @@
   **********************************************************************/
 
 using System;
+using System.Threading;
 using System.Windows.Threading;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Docking.Layout;
@@ -53,20 +54,25 @@ namespace ModernApplicationFramework.Docking.Controls
             StopCloseTimer();
             _currentAutohiddenAnchor = new WeakReference(anchor);
             _manager.AutoHideWindow.Show(anchor);
-            StartCloseTimer();
+                StartCloseTimer();
         }
 
         private void SetupCloseTimer()
         {
-            _closeTimer = new DispatcherTimer(DispatcherPriority.Background) {Interval = TimeSpan.FromMilliseconds(0)};
-            //Was 1500
+            _closeTimer = new DispatcherTimer(DispatcherPriority.Background)
+            {
+                Interval = DockingManagerPreferences.Instance.AutoHideMouseExitGracePeriod
+            };
             _closeTimer.Tick += (s, e) =>
             {
                 if (_manager.AutoHideWindow.IsWin32MouseOver ||
                     ((LayoutAnchorable) _manager.AutoHideWindow.Model).IsActive ||
                     _manager.AutoHideWindow.IsResizing)
+                {
+                    _closeTimer.Stop();
+                    _closeTimer.Start();
                     return;
-
+                }
                 StopCloseTimer();
             };
         }

@@ -90,6 +90,7 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
             if (propertyInfo == null)
                 throw new ArgumentNullException($"The Property {propertyName} does not exist in this context");
             if (typeof(T) != propertyInfo.PropertyType)
+                if (!(propertyInfo.PropertyType.IsEnum && (typeof(T) == typeof(int) || typeof(T) == typeof(uint) || typeof(T) == typeof(byte) || typeof(T) == typeof(sbyte))))
                 throw new InvalidCastException("The type of the Property and the given type T do not match");
 
             var result = SettingsManager.GetOrCreatePropertyValue(SettingsFilePath, settingsName, out T value, defaultValue, true);

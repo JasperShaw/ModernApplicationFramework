@@ -132,6 +132,14 @@ namespace ModernApplicationFramework.Docking.Controls
                     CoerceCloseAllCommandValue));
 
 
+        public static readonly DependencyProperty PinCommandProperty =
+            DependencyProperty.Register("PinCommand", typeof(ICommand), typeof(LayoutItem),
+                new FrameworkPropertyMetadata(null,
+                    OnPinCommandChanged,
+                    CoercePinCommandValue));
+
+
+
         public static readonly DependencyProperty IsFloatingProperty = DependencyProperty.Register("IsFloating",
             typeof (bool), typeof (LayoutItem),
             new UIPropertyMetadata(false));
@@ -150,6 +158,7 @@ namespace ModernApplicationFramework.Docking.Controls
         private ICommand _defaultMoveToPreviousTabGroupCommand;
         private ICommand _defaultNewHorizontalTabGroupCommand;
         private ICommand _defaultNewVerticalTabGroupCommand;
+        private ICommand _defaultPinCommand;
         private ContentPresenter _view;
         
         internal LayoutItem()
@@ -161,6 +170,55 @@ namespace ModernApplicationFramework.Docking.Controls
             ToolTipProperty.OverrideMetadata(typeof (LayoutItem), new FrameworkPropertyMetadata(null, OnToolTipChanged));
             VisibilityProperty.OverrideMetadata(typeof (LayoutItem),
                 new FrameworkPropertyMetadata(Visibility.Visible, OnVisibilityChanged));
+        }
+
+        [XmlIgnore]
+        public InfoBarHostControl InfoBarHost => AdornmentHost.InfoBarHost;
+
+        private AdornmentHostingPanel _adornmentHost;
+
+        [XmlIgnore]
+        private AdornmentHostingPanel AdornmentHost
+        {
+            get
+            {
+                if (_adornmentHost != null)
+                    return _adornmentHost;
+                _adornmentHost = new AdornmentHostingPanel();
+                Grid.SetRow(_adornmentHost, 0);
+                Grid.SetColumn(_adornmentHost, 0);
+                Grid.SetColumnSpan(_adornmentHost, 3);
+                HostingPanel.Children.Add(_adornmentHost);
+                return _adornmentHost;
+            }
+        }
+
+        private class AdornmentHostingPanel : StackPanel
+        {
+            private InfoBarHostControl _infoBarHost;
+
+            public InfoBarHostControl InfoBarHost
+            {
+                get
+                {
+                    if (_infoBarHost != null)
+                        return _infoBarHost;
+                    _infoBarHost = new InfoBarHostControl();
+                    Children.Add(_infoBarHost);
+                    CommandBarNavigationHelper.SetCommandFocusMode(_infoBarHost,
+                        CommandBarNavigationHelper.CommandFocusMode.Container);
+                    return _infoBarHost;
+                }
+            }
+
+            public AdornmentHostingPanel()
+            {
+                SetResourceReference(BackgroundProperty, EnvironmentColors.CommandBarMenuBackgroundGradientBegin);
+                Focusable = false;
+                KeyboardNavigation.SetTabNavigation(this, KeyboardNavigationMode.Cycle);
+                KeyboardNavigation.SetDirectionalNavigation(this, KeyboardNavigationMode.Cycle);
+                KeyboardNavigation.SetControlTabNavigation(this, KeyboardNavigationMode.Cycle);
+            }
         }
 
         public ContentPresenter View
@@ -259,6 +317,12 @@ namespace ModernApplicationFramework.Docking.Controls
             set => SetValue(IsActiveProperty, value);
         }
 
+        public ICommand PinCommand
+        {
+            get => (ICommand)GetValue(PinCommandProperty);
+            set => SetValue(PinCommandProperty, value);
+        }
+
         public bool IsFloating
         {
             [ExcludeFromCodeCoverage] get { return (bool) GetValue(IsFloatingProperty); }
@@ -329,9 +393,13 @@ namespace ModernApplicationFramework.Docking.Controls
                 BindingOperations.ClearBinding(this, MoveToNextTabGroupCommandProperty);
             if (MoveToPreviousTabGroupCommand == _defaultMoveToPreviousTabGroupCommand)
                 BindingOperations.ClearBinding(this, MoveToPreviousTabGroupCommandProperty);
+            if (PinCommand == _defaultPinCommand)
+                BindingOperations.ClearBinding(this, PinCommandProperty);
         }
 
         protected abstract void Close();
+
+        protected abstract void Pin();
 
         protected virtual void Float()
         {
@@ -357,6 +425,17 @@ namespace ModernApplicationFramework.Docking.Controls
                 CanExecuteMoveToNextTabGroupCommand);
             _defaultMoveToPreviousTabGroupCommand = new DelegateCommand(ExecuteMoveToPreviousTabGroupCommand,
                 CanExecuteMoveToPreviousTabGroupCommand);
+            _defaultPinCommand = new DelegateCommand(ExecutePinCommand, CanExecutePinCommand);
+        }
+
+        private bool CanExecutePinCommand(object obj)
+        {
+            return LayoutElement?.Parent is LayoutDocumentPane;
+        }
+
+        private void ExecutePinCommand(object obj)
+        {
+            Pin();
         }
 
         protected virtual void OnActivateCommandChanged(DependencyPropertyChangedEventArgs e)
@@ -388,6 +467,10 @@ namespace ModernApplicationFramework.Docking.Controls
         }
 
         protected virtual void OnCloseCommandChanged(DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+        protected virtual void OnPinCommandChanged(DependencyPropertyChangedEventArgs e)
         {
         }
 
@@ -488,6 +571,8 @@ namespace ModernApplicationFramework.Docking.Controls
                 AddCommand = _defaultAddCommand;
             if (CloseAllCommand == null)
                 CloseAllCommand = _defaultCloseAllCommand;
+            if (PinCommand == null)
+                PinCommand = _defaultPinCommand;
 
 
             IsSelected = LayoutElement.IsSelected;
@@ -558,6 +643,11 @@ namespace ModernApplicationFramework.Docking.Controls
         }
 
         private static object CoerceFloatCommandValue(DependencyObject d, object value)
+        {
+            return value;
+        }
+
+        private static object CoercePinCommandValue(DependencyObject d, object value)
         {
             return value;
         }
@@ -664,6 +754,11 @@ namespace ModernApplicationFramework.Docking.Controls
             ((LayoutItem) s).OnVisibilityChanged();
         }
 
+        private static void OnPinCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((LayoutItem)d).OnPinCommandChanged(e);
+        }
+
         private bool CanExecuteActivateCommand(object parameter)
         {
             return LayoutElement != null;
@@ -750,13 +845,12 @@ namespace ModernApplicationFramework.Docking.Controls
                 return false;
 
             var parentDocumentGroup = LayoutElement.FindParent<LayoutDocumentPaneGroup>();
-            var parentDocumentPane = LayoutElement.Parent as LayoutDocumentPane;
-            return (parentDocumentGroup != null &&
-                    parentDocumentPane != null &&
-                    parentDocumentGroup.ChildrenCount > 1 &&
-                    parentDocumentGroup.IndexOfChild(parentDocumentPane) < parentDocumentGroup.ChildrenCount - 1 &&
-                    parentDocumentGroup.Children[parentDocumentGroup.IndexOfChild(parentDocumentPane) + 1] is
-                        LayoutDocumentPane);
+            return parentDocumentGroup != null &&
+                   LayoutElement.Parent is LayoutDocumentPane parentDocumentPane &&
+                   parentDocumentGroup.ChildrenCount > 1 &&
+                   parentDocumentGroup.IndexOfChild(parentDocumentPane) < parentDocumentGroup.ChildrenCount - 1 &&
+                   parentDocumentGroup.Children[parentDocumentGroup.IndexOfChild(parentDocumentPane) + 1] is
+                       LayoutDocumentPane;
         }
 
         private bool CanExecuteMoveToPreviousTabGroupCommand(object parameter)
@@ -764,13 +858,12 @@ namespace ModernApplicationFramework.Docking.Controls
             if (LayoutElement == null)
                 return false;
             var parentDocumentGroup = LayoutElement.FindParent<LayoutDocumentPaneGroup>();
-            var parentDocumentPane = LayoutElement.Parent as LayoutDocumentPane;
-            return (parentDocumentGroup != null &&
-                    parentDocumentPane != null &&
-                    parentDocumentGroup.ChildrenCount > 1 &&
-                    parentDocumentGroup.IndexOfChild(parentDocumentPane) > 0 &&
-                    parentDocumentGroup.Children[parentDocumentGroup.IndexOfChild(parentDocumentPane) - 1] is
-                        LayoutDocumentPane);
+            return parentDocumentGroup != null &&
+                   LayoutElement.Parent is LayoutDocumentPane parentDocumentPane &&
+                   parentDocumentGroup.ChildrenCount > 1 &&
+                   parentDocumentGroup.IndexOfChild(parentDocumentPane) > 0 &&
+                   parentDocumentGroup.Children[parentDocumentGroup.IndexOfChild(parentDocumentPane) - 1] is
+                       LayoutDocumentPane;
         }
 
         private bool CanExecuteNewHorizontalTabGroupCommand(object parameter)
@@ -778,12 +871,11 @@ namespace ModernApplicationFramework.Docking.Controls
             if (LayoutElement == null)
                 return false;
             var parentDocumentGroup = LayoutElement.FindParent<LayoutDocumentPaneGroup>();
-            var parentDocumentPane = LayoutElement.Parent as LayoutDocumentPane;
             return (parentDocumentGroup == null ||
                     parentDocumentGroup.ChildrenCount == 1 ||
                     parentDocumentGroup.Root.Manager.AllowMixedOrientation ||
                     parentDocumentGroup.Orientation == Orientation.Vertical) &&
-                   parentDocumentPane != null &&
+                   LayoutElement.Parent is LayoutDocumentPane parentDocumentPane &&
                    parentDocumentPane.ChildrenCount > 1;
         }
 
@@ -792,13 +884,12 @@ namespace ModernApplicationFramework.Docking.Controls
             if (LayoutElement == null)
                 return false;
             var parentDocumentGroup = LayoutElement.FindParent<LayoutDocumentPaneGroup>();
-            var parentDocumentPane = LayoutElement.Parent as LayoutDocumentPane;
-            return ((parentDocumentGroup == null ||
-                     parentDocumentGroup.ChildrenCount == 1 ||
-                     parentDocumentGroup.Root.Manager.AllowMixedOrientation ||
-                     parentDocumentGroup.Orientation == Orientation.Horizontal) &&
-                    parentDocumentPane != null &&
-                    parentDocumentPane.ChildrenCount > 1);
+            return (parentDocumentGroup == null ||
+                    parentDocumentGroup.ChildrenCount == 1 ||
+                    parentDocumentGroup.Root.Manager.AllowMixedOrientation ||
+                    parentDocumentGroup.Orientation == Orientation.Horizontal) &&
+                   LayoutElement.Parent is LayoutDocumentPane parentDocumentPane &&
+                   parentDocumentPane.ChildrenCount > 1;
         }
 
         private void ExecuteActivateCommand(object parameter)
