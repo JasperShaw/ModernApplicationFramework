@@ -14,8 +14,8 @@ namespace ModernApplicationFramework.WindowManagement.Options
     {
         private readonly StorableTabsAndWindowsOptions _storableTabsAndWindowsOptions;
         private IWindowLayoutSettings _layoutSettings;
-        public override uint SortOrder => 3;
-        public override string Name => "Tabs";
+        public override uint SortOrder => 13;
+        public override string Name => TabsWindowsOptions_Resources.TabsAndWindowSettingsTitle;
         public override SettingsPageCategory Category => SettingsPageCategories.EnvironmentCategory;
 
         public DockPreference DocumentDockPreference
