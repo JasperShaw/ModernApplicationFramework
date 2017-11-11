@@ -55,6 +55,14 @@
     <Reference Include="Caliburn.Micro.Platform.Core, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Caliburn.Micro.3.2.0\lib\net45\Caliburn.Micro.Platform.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.Threading, Version=15.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Threading.15.4.4\lib\net45\Microsoft.VisualStudio.Threading.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Validation, Version=15.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Validation.15.3.15\lib\net45\Microsoft.VisualStudio.Validation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Drawing" />
@@ -101,6 +109,11 @@
     <Compile Include="Modules\LoadWindowProfile\LoadWindowProfilePackage.cs" />
     <Compile Include="Modules\SampleExplorer\SampleExplorerModule.cs" />
     <Compile Include="Modules\Startup\StartupPackage.cs" />
+    <Compile Include="Modules\WaitingWindow\WaitingDialogDemoView.xaml.cs">
+      <DependentUpon>WaitingDialogDemoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\WaitingWindow\WaitingDialogDemoViewModel.cs" />
+    <Compile Include="Modules\WaitingWindow\Sample.cs" />
     <Compile Include="Modules\WindowProfileChange\Sample.cs" />
     <Compile Include="Modules\WindowProfileChange\WindowProfileChangeView.xaml.cs">
       <DependentUpon>WindowProfileChangeView.xaml</DependentUpon>
@@ -156,6 +169,10 @@
     <Page Include="Modules\UndoRedoTest\UndoRedoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\WaitingWindow\WaitingDialogDemoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Modules\WindowProfileChange\WindowProfileChangeView.xaml">
       <SubType>Designer</SubType>
