@@ -312,8 +312,7 @@ namespace ModernApplicationFramework.Basics.Services
             var ready = MainWindowResources.StatusBarText_Ready;
             lock (_syncObj)
             {
-                if (string.IsNullOrEmpty(Text))
-                    Text = ready;
+                Text = ready;
             }
         }
 
