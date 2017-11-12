@@ -1,28 +1,127 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Threading;
+using Caliburn.Micro;
 using ModernApplicationFramework.Controls.Windows;
-using ModernApplicationFramework.Utilities;
+using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Controls;
+using ModernApplicationFramework.Interfaces.Services;
+using Action = System.Action;
 
 namespace ModernApplicationFramework.Controls.Dialogs
 {
-    //TODO: Restyle and improve
-    /// <summary>
-    /// A dialog showing a progress bar
-    /// </summary>
-    /// <seealso cref="ModernApplicationFramework.Controls.Windows.ModernChromeWindow" />
-    public class WaitDialog : ModernChromeWindow
+    internal class WaitDialog : ModernChromeWindow, IWaitDialog
     {
-        private readonly IWaitDialogCallback _callback;
+        public static readonly DependencyProperty CaptionProperty = DependencyProperty.Register(
+            "Caption", typeof(string), typeof(WaitDialog), new PropertyMetadata(default(string)));
 
-        public static readonly DependencyProperty MessageTextProperty =
-            DependencyProperty.Register("MessageText", typeof(string), typeof(WaitDialog),
-                new FrameworkPropertyMetadata("Preparing..."));
+        public static readonly DependencyProperty CurrentStepProperty = DependencyProperty.Register(
+            "CurrentStep", typeof(double), typeof(WaitDialog), new PropertyMetadata(default(double)));
 
-        private readonly Dispatcher _dispatcher;
+        public static readonly DependencyProperty IsCancelableProperty = DependencyProperty.Register(
+            "IsCancelable", typeof(bool), typeof(WaitDialog), new PropertyMetadata(default(bool)));
+
+        public static readonly DependencyProperty ProgressTextProperty = DependencyProperty.Register(
+            "ProgressText", typeof(string), typeof(WaitDialog), new PropertyMetadata(default(string)));
+
+        public static readonly DependencyProperty ShowMarqueeProgressProperty = DependencyProperty.Register(
+            "ShowMarqueeProgress", typeof(bool), typeof(WaitDialog), new PropertyMetadata(default(bool)));
+
+        public static readonly DependencyProperty ShowProgressProperty = DependencyProperty.Register(
+            "ShowProgress", typeof(bool), typeof(WaitDialog), new PropertyMetadata(default(bool)));
+
+        public static readonly DependencyProperty TotalStepsProperty = DependencyProperty.Register(
+            "TotalSteps", typeof(double), typeof(WaitDialog), new PropertyMetadata(default(double)));
+
+        public static readonly DependencyProperty WaitMessageProperty = DependencyProperty.Register(
+            "WaitMessage", typeof(string), typeof(WaitDialog), new PropertyMetadata(default(string)));
+
+        private readonly IStatusBarDataModelService _statusBar;
+
+        private readonly TimerCallback _timerCallback = TimerCallbackLogic;
+        private bool _canceled;
+        private bool _executionDone;
+
+        private bool _isClosing;
+        private string _statusBarText;
+        private Thread _thread;
+        private Timer _timer;
+
+        public ICommand CancelCommand => new Command(Cancel, () => IsCancelable);
+
+        public IWaitDialogCallback CancellationCallback { get; private set; }
+
+        public string Caption
+        {
+            get => (string) GetValue(CaptionProperty);
+            set => SetValue(CaptionProperty, value);
+        }
+
+        public double CurrentStep
+        {
+            get => (double) GetValue(CurrentStepProperty);
+            set => SetValue(CurrentStepProperty, value);
+        }
+
+        public int DelayToShow { get; set; }
+
+        public bool IsCancelable
+        {
+            get => (bool) GetValue(IsCancelableProperty);
+            set => SetValue(IsCancelableProperty, value);
+        }
+
+        public string ProgressText
+        {
+            get => (string) GetValue(ProgressTextProperty);
+            set => SetValue(ProgressTextProperty, value);
+        }
+
+        public bool ShowMarqueeProgress
+        {
+            get => (bool) GetValue(ShowMarqueeProgressProperty);
+            set => SetValue(ShowMarqueeProgressProperty, value);
+        }
+
+        public bool ShowProgress
+        {
+            get => (bool) GetValue(ShowProgressProperty);
+            set => SetValue(ShowProgressProperty, value);
+        }
+
+        public string StatusBarText
+        {
+            get => _statusBarText;
+            set
+            {
+                _statusBarText = value;
+                _statusBar?.SetText(value);
+            }
+        }
+
+        public double TotalSteps
+        {
+            get => (double) GetValue(TotalStepsProperty);
+            set
+            {
+                SetValue(TotalStepsProperty, value);
+                ShowMarqueeProgress = value == 0;
+            }
+        }
+
+        public string WaitMessage
+        {
+            get => (string) GetValue(WaitMessageProperty);
+            set => SetValue(WaitMessageProperty, value);
+        }
+
+        private Action Action { get; set; }
+
+        private Func<Task> Function { get; set; }
 
         static WaitDialog()
         {
@@ -30,418 +129,205 @@ namespace ModernApplicationFramework.Controls.Dialogs
                 new FrameworkPropertyMetadata(typeof(WaitDialog)));
         }
 
-        public WaitDialog(IWaitDialogCallback callback) : this()
-        {
-            _callback = callback;
-        }
-
         public WaitDialog()
         {
-            _dispatcher = Dispatcher.CurrentDispatcher;
-            Height = 130;
-            Width = 450;
-        }
-
-        public string MessageText
-        {
-            get => (string) GetValue(MessageTextProperty);
-            set => SetValue(MessageTextProperty, value);
-        }
-
-        public bool ActionWasAborted { get; private set; }
-
-
-        public bool? ShowDialog(Func<Task> func)
-        {
-            bool? result = true;
-
-            var t = new Thread(async () =>
-            {
-                // start the submitted action
-                try
-                {
-                    await func.Invoke();
-                }
-                catch
-                {
-                    
-                }
-                finally
-                {
-                    DoClose();
-                }
-            });
-            _thread = t;
-            t.Start();
-
-
-            if (t.ThreadState != ThreadState.Stopped)
-            {
-                result = ShowDialog();
-            }
-            return result;
-        }
-
-
-        //public bool? ShowDialog(Action action)
-        //{
-        //    bool? result = true;
-        //    // start a new thread to start the submitted action
-        //    var t = new Thread(() =>
-        //    {
-        //        // start the submitted action
-        //        try
-        //        {
-        //            action.Invoke();
-        //        }
-        //        finally
-        //        {
-        //            DoClose();
-        //        }
-        //    });
-        //    _thread = t;
-        //    t.Start();
-
-        //    if (t.ThreadState != ThreadState.Stopped)
-        //    {
-        //        result = ShowDialog();
-        //    }
-        //    return result;
-        //}
-
-        private Thread _thread;
-
-        private void DoClose()
-        {
-            _dispatcher.BeginInvoke(new ThreadStart(Close));
-        }
-
-        private new bool? ShowDialog()
-        {
-            Topmost = true;
-            base.ShowDialog();
-            return true;
-        }
-
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            base.OnClosing(e);
-            _callback?.OnCanceled();
-        }
-
-        protected override void OnClosed(EventArgs e)
-        {
-            if (_thread.IsAlive)
-                ActionWasAborted = true;
-            _thread?.Abort();
-            DoClose();
-            base.OnClosed(e);
-
-        }
-    }
-
-    public interface IWaitDialog
-    {
-        void StartWaitDialog(string caption, string waitMessage, string progressText, string statusBarText, int delayToShowDialog, bool isCacelable, bool showMarqueeProgress);
-
-        void StartWaitDialogWithPercentageProgress(string caption, string waitMessage, string progressText, string statusBarText, int delayToShowDialog, bool isCacelable, int totalSteps, int currentStep);
-
-        void StartWaitDialogWithCallback(string caption, string waitMessage, string progressText, string statusBarText, bool isCancelable, int delayToShowDialog, bool showProgress, int totalSteps, int currentStep, IWaitDialogCallback callback);
-
-        void EndWaitDialog(out bool canceled);
-
-        void UpdateProgress(string waitMessage, string progressText, string statusBarText, int currentStep, int totalSteps, bool disableCancel, out bool canceled);
-
-        void HasCanceled(out bool canceled);
-    }
-
-    public interface IWaitDialogCallback
-    {
-        void OnCanceled();
-    }
-
-    public static class WaitDialogHelper
-    {
-        //public static IWaitDialog CreateInstance(this IWaitDialogFactory factory)
-        //{
-        //    Validate.IsNotNull(factory, nameof(factory));
-        //    factory.CreateInstance(out var waitDialog);
-        //    return waitDialog;
-        //}
-
-        //public static Session StartWaitDialog(this IWaitDialogFactory dialogFactory, string waitCaption,
-        //    WaitDialogProgressData initialProgress = null, TimeSpan delayToShowDialog = default(TimeSpan))
-        //{
-        //    Validate.IsNotNull(dialogFactory, nameof(dialogFactory));
-        //    var instance = dialogFactory.CreateInstance();
-        //    var cancellationTokenSource = new CancellationTokenSource();
-        //    var progress = (IProgress<WaitDialogProgressData>)new ProgressAdapter(instance, cancellationTokenSource);
-        //    var cancellationCallback = new CancellationCallback(cancellationTokenSource);
-        //    instance.StartWaitDialogWithCallback(waitCaption,
-        //        initialProgress?.WaitMessage, initialProgress?.ProgressText,
-        //        initialProgress?.StatusBarText, initialProgress != null && initialProgress.IsCancelable,
-        //        (int)delayToShowDialog.TotalSeconds, true, initialProgress?.TotalSteps ?? 0,
-        //        initialProgress?.CurrentStep ?? 0, cancellationCallback);
-        //    return new Session(instance, progress, cancellationTokenSource.Token);
-        //}
-
-
-        public static SessionEx CreateSession(WaitDialogProgressData initialProgress = null,
-            TimeSpan delayToShowDialog = default(TimeSpan))
-        {
-            var cancellationTokenSource = new CancellationTokenSource();
-            var progress = (IProgress<WaitDialogProgressData>)new ProgressAdapterEx(cancellationTokenSource);
-
-            var cancellationCallback = new CancellationCallback(cancellationTokenSource);
-
-            return new SessionEx(progress, cancellationTokenSource.Token, cancellationCallback);
-        }
-
-        public static bool EndWaitDialog(this IWaitDialog dialog)
-        {
-            Validate.IsNotNull(dialog, nameof(dialog));
-            dialog.EndWaitDialog(out var canceled);
-            return canceled;
-        }
-
-
-
-        public class SessionEx : IDisposable
-        {
-            private bool _disposed;
-
-            public IProgress<WaitDialogProgressData> Progress { get; }
-
-            public CancellationToken UserCancellationToken { get; }
-            public IWaitDialogCallback Callback { get; }
-
-            internal SessionEx(IProgress<WaitDialogProgressData> progress, CancellationToken token, IWaitDialogCallback callback)
-            {
-                Validate.IsNotNull(progress, nameof(progress));
-                Progress = progress;
-                UserCancellationToken = token;
-                Callback = callback;
-            }
-
-            public void Dispose()
-            {
-                var session = this;
-                if (session._disposed)
-                    return;
-                session._disposed = true;
-            }
-        }
-
-        //public class Session : IDisposable
-        //{
-        //    private readonly IWaitDialog _dialog;
-        //    private bool _disposed;
-
-        //    public IProgress<WaitDialogProgressData> Progress { get; }
-
-        //    public CancellationToken UserCancellationToken { get; }
-
-        //    internal Session(IWaitDialog dialog, IProgress<WaitDialogProgressData> progress, CancellationToken token)
-        //    {
-        //        Validate.IsNotNull(dialog, nameof(dialog));
-        //        Validate.IsNotNull(progress, nameof(progress));
-        //        _dialog = dialog;
-        //        Progress = progress;
-        //        UserCancellationToken = token;
-        //    }
-
-        //    public void Dispose()
-        //    {
-        //        new JoinableTaskFactory(new JoinableTaskContext()).Run(InternalDispose);
-        //    }
-
-        //    private async Task InternalDispose()
-        //    {
-        //        Session session = this;
-        //        if (session._disposed)
-        //            return;
-        //        session._disposed = true;
-        //        await new JoinableTaskFactory(new JoinableTaskContext()).SwitchToMainThreadAsync();
-        //        session._dialog.EndWaitDialog();
-        //    }
-        //}
-
-        private class ProgressAdapterEx : IProgress<WaitDialogProgressData>
-        {
-            private readonly CancellationTokenSource _cancellationTokenSource;
-
-            internal ProgressAdapterEx(CancellationTokenSource cancellationTokenSource)
-            {
-                _cancellationTokenSource = cancellationTokenSource;
-            }
-
-            public void Report(WaitDialogProgressData value)
-            {
-                if (value == null)
-                    return;
-                try
-                {
-                    //_dialog.UpdateProgress(value.WaitMessage, value.ProgressText, value.StatusBarText,
-                    //    value.CurrentStep, value.TotalSteps, !value.IsCancelable, out var pfCanceled);
-
-                    //if (!pfCanceled || _cancellationTokenSource == null)
-                    //    return;
-                    //_cancellationTokenSource.Cancel();
-                }
-                catch
-                {
-                    // ignored
-                }
-            }
-        }
-
-
-
-
-        private class CancellationCallback : IWaitDialogCallback
-        {
-            private readonly CancellationTokenSource _cancellationSource;
-
-            internal CancellationCallback(CancellationTokenSource cancellationSource)
-            {
-                Validate.IsNotNull(cancellationSource, nameof(cancellationSource));
-                _cancellationSource = cancellationSource;
-            }
-
-            public void OnCanceled()
-            {
-                _cancellationSource.Cancel();
-            }
-        }
-
-        //private class ProgressAdapter : IProgress<WaitDialogProgressData>
-        //{
-        //    private readonly IWaitDialog _dialog;
-        //    private readonly CancellationTokenSource _cancellationTokenSource;
-
-        //    internal ProgressAdapter(IWaitDialog dialog, CancellationTokenSource cancellationTokenSource)
-        //    {
-        //        Validate.IsNotNull(dialog, nameof(dialog));
-        //        _dialog = dialog;
-        //        _cancellationTokenSource = cancellationTokenSource;
-        //    }
-
-        //    public void Report(WaitDialogProgressData value)
-        //    {
-        //        if (value == null)
-        //            return;
-        //        try
-        //        {
-        //            _dialog.UpdateProgress(value.WaitMessage, value.ProgressText, value.StatusBarText,
-        //                value.CurrentStep, value.TotalSteps, !value.IsCancelable, out var pfCanceled);
-
-        //            if (!pfCanceled || _cancellationTokenSource == null)
-        //                return;
-        //            _cancellationTokenSource.Cancel();
-        //        }
-        //        catch
-        //        {
-        //            // ignored
-        //        }
-        //    }
-        //}
-
-    }
-
-    public class WaitDialogProgressData
-    {
-        public WaitDialogProgressData(string waitMessage, string progressText = null, string statusBarText = null, bool isCancelable = false)
-            : this(waitMessage, progressText, statusBarText, isCancelable, 0, 0)
-        {
-        }
-
-        public WaitDialogProgressData(string waitMessage, string progressText, string statusBarText, bool isCancelable, int currentStep, int totalSteps)
-        {
-            WaitMessage = waitMessage;
-            ProgressText = progressText;
-            StatusBarText = statusBarText;
-            IsCancelable = isCancelable;
-            CurrentStep = currentStep;
-            TotalSteps = totalSteps;
-        }
-
-        public string WaitMessage { get; }
-
-        public string ProgressText { get; }
-
-        public string StatusBarText { get; }
-
-        public int CurrentStep { get; }
-
-        public int TotalSteps { get; }
-
-        public bool IsCancelable { get; }
-
-        public WaitDialogProgressData NextStep()
-        {
-            return new WaitDialogProgressData(WaitMessage, ProgressText, StatusBarText, IsCancelable, CurrentStep + 1, TotalSteps);
-        }
-    }
-
-    public interface IWaitDialogFactory
-    {
-        void CreateInstance(out IWaitDialog waitDialog);
-    }
-
-    public class WaitDialogFactory : IWaitDialogFactory
-    {
-        public void CreateInstance(out IWaitDialog waitDialog)
-        {
-            waitDialog = new WaitDialogEx();
-        }
-    }
-
-
-    public class WaitDialogEx : Window, IWaitDialog
-    {
-        private IWaitDialogCallback _callback;
-
-        public void StartWaitDialog(string caption, string waitMessage, string progressText, string statusBarText,
-            int delayToShowDialog, bool isCacelable, bool showMarqueeProgress)
-        {
-            
-        }
-
-        public void StartWaitDialogWithPercentageProgress(string caption, string waitMessage, string progressText,
-            string statusBarText, int delayToShowDialog, bool isCacelable, int totalSteps, int currentStep)
-        {
-
-        }
-
-        public void StartWaitDialogWithCallback(string caption, string waitMessage, string progressText, string statusBarText,
-            bool isCancelable, int delayToShowDialog, bool showProgress, int totalSteps, int currentStep,
-            IWaitDialogCallback callback)
-        {
-            Show();
-            _callback = callback;
+            _statusBar = IoC.Get<IStatusBarDataModelService>();
+            Width = 465;
         }
 
         public void EndWaitDialog(out bool canceled)
-        {    
-            canceled = false;
-            Close();
-        }
-
-        public void UpdateProgress(string waitMessage, string progressText, string statusBarText, int currentStep, int totalSteps,
-            bool disableCancel, out bool canceled)
         {
-            canceled = false;
+            canceled = _canceled;
+            InternalClose();
         }
 
         public void HasCanceled(out bool canceled)
         {
-            canceled = false;
+            canceled = _canceled;
         }
 
-        protected override void OnClosing(CancelEventArgs e)
+        public void SetAction(Action action)
         {
-            base.OnClosing(e);
-            _callback.OnCanceled();
+            Action = action;
+        }
+
+        public void SetFunction(Func<Task> func)
+        {
+            Function = func;
+        }
+
+        public void StartWaitDialog(string caption, string waitMessage, string progressText, string statusBarText,
+            int delayToShowDialog, bool isCancelable, bool showMarqueeProgress)
+        {
+            Caption = caption;
+            WaitMessage = waitMessage;
+            ProgressText = progressText;
+            StatusBarText = statusBarText;
+            IsCancelable = isCancelable;
+            DelayToShow = delayToShowDialog;
+            ShowProgress = true;
+            TotalSteps = 0;
+            Execute();
+            InternalShow();
+        }
+
+        public void StartWaitDialogWithCallback(string caption, string waitMessage, string progressText,
+            string statusBarText,
+            bool isCancelable, int delayToShowDialog, bool showProgress, int totalSteps, int currentStep,
+            IWaitDialogCallback callback)
+        {
+            Caption = caption;
+            WaitMessage = waitMessage;
+            ProgressText = progressText;
+            StatusBarText = statusBarText;
+            IsCancelable = isCancelable;
+            DelayToShow = delayToShowDialog;
+            ShowProgress = showProgress;
+            TotalSteps = totalSteps;
+            CurrentStep = currentStep;
+            CancellationCallback = callback;
+            Execute();
+            InternalShow();
+        }
+
+        public void StartWaitDialogWithPercentageProgress(string caption, string waitMessage, string progressText,
+            string statusBarText, int delayToShowDialog, bool isCancelable, int totalSteps, int currentStep)
+        {
+            Caption = caption;
+            WaitMessage = waitMessage;
+            ProgressText = progressText;
+            StatusBarText = statusBarText;
+            IsCancelable = isCancelable;
+            DelayToShow = delayToShowDialog;
+            ShowProgress = true;
+            TotalSteps = totalSteps;
+            CurrentStep = currentStep;
+            Execute();
+            InternalShow();
+        }
+
+        public void UpdateProgress(string waitMessage, string progressText, string statusBarText, int currentStep,
+            int totalSteps,
+            bool disableCancel, out bool canceled)
+        {
+            Caliburn.Micro.Execute.OnUIThreadAsync(() =>
+            {
+                WaitMessage = waitMessage;
+                ProgressText = progressText;
+                StatusBarText = statusBarText;
+                CurrentStep = currentStep;
+                TotalSteps = totalSteps;
+                IsCancelable = !disableCancel;
+            });
+
+            canceled = _canceled;
+        }
+
+        protected override void OnPreviewKeyDown(KeyEventArgs e)
+        {
+            if (e.Key == Key.System && e.SystemKey == Key.F4)
+            {
+                if (IsCancelable)
+                    CancelCommand.Execute(null);
+                e.Handled = true;
+            }
+            base.OnPreviewKeyDown(e);
+        }
+
+        private static void TimerCallbackLogic(object state)
+        {
+            var waitDialog = (WaitDialog) state;
+            waitDialog._timer.Dispose();
+
+            if (waitDialog._executionDone)
+                return;
+
+            if (waitDialog.Action == null && waitDialog.Function == null)
+                waitDialog.Dispatcher.Invoke(DispatcherPriority.Loaded, new ThreadStart(waitDialog.Show));
+            else
+                waitDialog.Dispatcher.Invoke(DispatcherPriority.Loaded, new ThreadStart(() => waitDialog.ShowDialog()));
+        }
+
+        private void Cancel()
+        {
+            CancellationCallback?.OnCanceled();
+            _canceled = true;
+            InternalClose();
+        }
+
+        private void Execute()
+        {
+            Thread thread;
+            if (Function != null)
+                thread = ExecuteFunction();
+            else if (Action != null)
+                thread = ExecuteAction();
+            else
+                thread = null;
+            _thread = thread;
+            thread?.Start();
+        }
+
+        private Thread ExecuteAction()
+        {
+            var t = new Thread(() =>
+            {
+                try
+                {
+                    Action();
+                }
+                catch (TaskCanceledException)
+                {
+                }
+                finally
+                {
+                    _executionDone = true;
+                    InternalClose();
+                }
+            });
+            return t;
+        }
+
+        private Thread ExecuteFunction()
+        {
+            var t = new Thread(async () =>
+            {
+                try
+                {
+                    await Function();
+                }
+                catch (TaskCanceledException)
+                {
+                }
+                finally
+                {
+                    _executionDone = true;
+                    InternalClose();
+                }
+            });
+            return t;
+        }
+
+        private void InternalClose()
+        {
+            if (_isClosing)
+                return;
+            _isClosing = true;
+            if (_thread != null && _thread.IsAlive)
+                _thread.Interrupt();
+            CancellationCallback = null;
+            Function = null;
+            Action = null;
+            _statusBar.SetReadyText();
+            if (Dispatcher.CheckAccess())
+                Close();
+            else
+                Dispatcher.Invoke(DispatcherPriority.Normal, new ThreadStart(Close));
+        }
+
+        private void InternalShow()
+        {
+            _timer = new Timer(_timerCallback, this, DelayToShow * 1000, -1);
         }
     }
 }

@@ -7,13 +7,15 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
-            <Button Content="Show Dialog" Margin="20,0,20,0" Command="{Binding ShowWaitDialogCommand}"/>
-            <Button Content="Show Cancel Dialog" Margin="20,0,20,0" Command="{Binding ShowCancelWaitDialogCommand}"/>
+        <StackPanel Orientation="Vertical" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <Button Content="Show Dialog (MafTaskHelper)" Margin="20,0,20,0" Command="{Binding MafCommand}"/>
+            <Button Content="Show Dialog (MafTaskHelper | Cancelable)" Margin="20,0,20,0" Command="{Binding MafCancelCommand}"/>
+            <Button Content="Show Dialog (Sync Action)" Margin="20,0,20,0" Command="{Binding ActionCommand}"/>
+            <Button Content="Show Dialog (Manual Method Invokation)" Margin="20,0,20,0" Command="{Binding ManualCommand}"/>
+            <Button Content="Show Dialog (Update Messages)" Margin="20,0,20,0" Command="{Binding UpdateMessageCommand}"/>
         </StackPanel>
     </Grid>
 </UserControl>

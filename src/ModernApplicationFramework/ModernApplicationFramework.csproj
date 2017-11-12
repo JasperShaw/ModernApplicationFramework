@@ -238,6 +238,13 @@
     <Compile Include="Basics\ApplicationEnvironment\FallbackEnvironmentVariables.cs" />
     <Compile Include="Basics\Definitions\Command\ExcludedCommandDefinition.cs" />
     <Compile Include="Basics\Definitions\Command\CommandGestureScopeMapping.cs" />
+    <Compile Include="Basics\Threading\MafTaskHelper.cs" />
+    <Compile Include="Basics\Services\WaitDialogFactory.cs" />
+    <Compile Include="Basics\Threading\WaitDialogHelper.cs" />
+    <Compile Include="Basics\Threading\WaitDialogProgressData.cs" />
+    <Compile Include="Interfaces\IWaitDialogCallback.cs" />
+    <Compile Include="Interfaces\Services\IWaitDialogFactory.cs" />
+    <Compile Include="Interfaces\Controls\IWaitDialog.cs" />
     <Compile Include="Core\Converters\IconToVisibilityConverter.cs" />
     <Compile Include="Interfaces\Services\IInfoBarUiFactory.cs" />
     <Compile Include="Basics\Services\InfoBarUIFactoryService.cs" />
