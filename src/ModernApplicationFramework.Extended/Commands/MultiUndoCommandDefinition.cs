@@ -40,6 +40,7 @@ namespace ModernApplicationFramework.Extended.Commands
         public override string ToolTip => Commands_Resources.MultiUndoCommandDefinition_ToolTip;
 
         public override CommandCategory Category => CommandCategories.EditCommandCategory;
+        public override Guid Id => new Guid("{D2043E14-F0AF-4C12-933A-F753BA1F9488}");
 
         [ImportingConstructor]
         public MultiUndoCommandDefinition(CommandBarUndoRedoManagerWatcher watcher)

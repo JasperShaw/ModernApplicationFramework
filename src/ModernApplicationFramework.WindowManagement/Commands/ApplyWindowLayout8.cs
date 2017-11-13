@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics.Definitions.Command;
@@ -21,5 +22,6 @@ namespace ModernApplicationFramework.WindowManagement.Commands
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
         }
 
+        public override Guid Id => new Guid("{E95C96CE-2D44-4EE7-AC18-0AFBA0BFA3F7}");
     }
 }

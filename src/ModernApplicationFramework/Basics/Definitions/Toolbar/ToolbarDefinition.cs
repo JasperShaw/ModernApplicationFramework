@@ -93,6 +93,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
             public override CommandCategory Category => null;
 
             public override CommandControlTypes ControlType => CommandControlTypes.Menu;
+            public override Guid Id => new Guid("{18C535DB-1E23-4B27-9BB9-A38F0BC6E036}");
         }
     }
 }

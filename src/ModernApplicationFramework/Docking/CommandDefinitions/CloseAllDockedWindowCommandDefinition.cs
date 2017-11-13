@@ -35,6 +35,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
         public override string IconId => "CloseDocumentGroup";
 
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
+        public override Guid Id => new Guid("{343572A0-6C5A-4FFE-9E84-E1B6E68C82FB}");
 
         public CloseAllDockedWindowCommandDefinition()
         {

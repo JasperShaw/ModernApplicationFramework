@@ -40,6 +40,7 @@ namespace ModernApplicationFramework.Extended.Commands
         public override string ToolTip => null;
 
         public override CommandCategory Category => CommandCategories.FileCommandCategory;
+        public override Guid Id => new Guid("{78CD7FA8-147F-4464-814B-DB36438145CB}");
 
         public CloseProgramCommandDefinition()
         {

@@ -97,8 +97,8 @@ namespace ModernApplicationFramework.Basics.Services
                     else if (groupItem is CommandBarItemDefinition commandItem)
                         itemElement = document.CreateElement("ItemDefinition", string.Empty, 
                             new KeyValuePair<string, string>("IsVisible", commandItem.IsVisible.ToString()),
-                            new KeyValuePair<string, string>("IsVisible", commandItem.IsVisible.ToString()),
-                            new KeyValuePair<string, string>("CommandType", commandItem.CommandDefinition.Name));
+                            new KeyValuePair<string, string>("SortOrder", commandItem.SortOrder.ToString()),
+                            new KeyValuePair<string, string>("Command", commandItem.CommandDefinition.Id.ToString("B")));
                     else
                         continue;
                     ExplodeGroups(groupItem, itemElement, document);

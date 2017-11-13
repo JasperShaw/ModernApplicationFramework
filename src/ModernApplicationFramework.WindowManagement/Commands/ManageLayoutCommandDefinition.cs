@@ -24,6 +24,7 @@ namespace ModernApplicationFramework.WindowManagement.Commands
         public override Uri IconSource => null;
         public override string IconId => null;
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
+        public override Guid Id => new Guid("{F843A14E-3840-4CC9-AA3F-D70B04DD0ED3}");
 
         public override UICommand Command { get; }
 

@@ -30,6 +30,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
         public override string IconId => null;
 
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
+        public override Guid Id => new Guid("{A4C7C240-998D-40CF-9BA0-D9BD0AE2BC1D}");
 
         public FloatDockedWindowCommandDefinition()
         {
