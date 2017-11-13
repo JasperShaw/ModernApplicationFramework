@@ -7,7 +7,6 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
-using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.Utilities.Xml;
 
@@ -87,35 +86,13 @@ namespace ModernApplicationFramework.Basics.Services
 
                 foreach (var groupItem in group.Items.OrderBy(x => x.SortOrder))
                 {
-                    XmlElement itemElement;
+                    XmlElement itemElement =null;
                     if (groupItem is MenuDefinition menuDefinition)
-                        itemElement = document.CreateElement("MenuDefinition", string.Empty,
-                            new KeyValuePair<string, string>("SortOrder", menuDefinition.SortOrder.ToString()),
-                            new KeyValuePair<string, string>("IsVisible", menuDefinition.IsVisible.ToString()));
+                        itemElement = CreateElement(CreationType.MenuDefinition, document, menuDefinition);
                     else if (groupItem is CommandBarMenuControllerDefinition menuController)
-                    {
-                        itemElement = document.CreateElement("MenuControllerDefinition", string.Empty,
-                            new KeyValuePair<string, string>("AnchroItem",
-                                menuController.AnchorItem?.CommandDefinition?.Id.ToString()),
-                            new KeyValuePair<string, string>("IsVisible", menuController.IsVisible.ToString()));
-
-                        if (menuController.CommandDefinition is CommandMenuControllerDefinition controllerDefinition)
-                            foreach (var item in controllerDefinition.Items)
-                            {
-                                var innerItemElement =  document.CreateElement("ItemDefinition", string.Empty,
-                                    new KeyValuePair<string, string>("Command",
-                                        item.CommandDefinition.Id.ToString("B")));
-                                itemElement.AppendChild(innerItemElement);
-                            }
-                    }
+                        itemElement = CreateElement(CreationType.MenuControllerDefinition, document, menuController);
                     else if (groupItem is CommandBarItemDefinition commandItem)
-                        itemElement = document.CreateElement("ItemDefinition", string.Empty,
-                            new KeyValuePair<string, string>("IsVisible", commandItem.IsVisible.ToString()),
-                            new KeyValuePair<string, string>("SortOrder", commandItem.SortOrder.ToString()),
-                            new KeyValuePair<string, string>("Command",
-                                commandItem.CommandDefinition.Id.ToString("B")));
-                    else
-                        continue;
+                        itemElement = CreateElement(CreationType.ItemDefinition, document, commandItem);
                     ExplodeGroups(groupItem, itemElement, document);
                     groupElement.AppendChild(itemElement);
                 }
@@ -124,7 +101,6 @@ namespace ModernApplicationFramework.Basics.Services
                 parentXmlElement.AppendChild(groupElement);
             }
         }
-
 
         private XmlDocument CreateDocument()
         {
@@ -139,10 +115,59 @@ namespace ModernApplicationFramework.Basics.Services
             return xmlDocument;
         }
 
-        private void CreateElement()
+        private XmlElement CreateElement(CreationType type, XmlDocument document, CommandBarItemDefinition commandBarDefinition)
         {
+            XmlElement itemElement;
+
+            switch (type)
+            {
+                case CreationType.MenuDefinition:
+                    itemElement = document.CreateElement(string.Empty, "MenuDefinition", string.Empty);
+                    break;
+                case CreationType.MenuControllerDefinition:
+
+                    var menuController = commandBarDefinition as CommandBarMenuControllerDefinition;
+
+                    itemElement = document.CreateElement("MenuControllerDefinition", string.Empty,
+                        new KeyValuePair<string, string>("AnchroItem",
+                            menuController.AnchorItem?.CommandDefinition?.Id.ToString()),
+                        new KeyValuePair<string, string>("IsVisible", commandBarDefinition.IsVisible.ToString()));
+
+                    if (commandBarDefinition.CommandDefinition is CommandMenuControllerDefinition controllerDefinition)
+                        foreach (var item in controllerDefinition.Items)
+                        {
+                            var innerItemElement = document.CreateElement("ItemDefinition", string.Empty,
+                                new KeyValuePair<string, string>("Command",
+                                    item.CommandDefinition.Id.ToString("B")));
+                            itemElement.AppendChild(innerItemElement);
+                        }
+                    break;
+                case CreationType.ItemDefinition:
+                    itemElement = document.CreateElement("ItemDefinition", string.Empty,
+                        new KeyValuePair<string, string>("Command",
+                            commandBarDefinition.CommandDefinition.Id.ToString("B")));
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            }
+
+
+            itemElement.SetAttribute("SortOrder", commandBarDefinition.SortOrder.ToString());
+            itemElement.SetAttribute("Flags", commandBarDefinition.Flags.AllFlags.ToString());
+
+
+            return itemElement;
+        }
+
+        private enum CreationType
+        {
+            MenuDefinition,
+            MenuControllerDefinition,
+            ItemDefinition
         }
     }
+
+
 
     public interface ICommandBarSerializer
     {
