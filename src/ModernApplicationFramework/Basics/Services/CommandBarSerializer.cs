@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Xml;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Interfaces;
@@ -17,10 +18,7 @@ namespace ModernApplicationFramework.Basics.Services
     {
         public void Serialize()
         {
-
-
             var xmlDocument = CreateDocument();
-
 
 
             SerializeMenuBars(xmlDocument.LastChild);
@@ -29,14 +27,14 @@ namespace ModernApplicationFramework.Basics.Services
 
 
             xmlDocument.Save(@"C:\Test\CommandBar.xml");
-
         }
 
         private void SerializeContextMenus(XmlNode parentElement)
         {
             if (parentElement.OwnerDocument == null)
                 throw new InvalidOperationException();
-            var contextMenusElement = parentElement.OwnerDocument.CreateElement(string.Empty, "ContextMenus", string.Empty);
+            var contextMenusElement =
+                parentElement.OwnerDocument.CreateElement(string.Empty, "ContextMenus", string.Empty);
 
             parentElement.AppendChild(contextMenusElement);
         }
@@ -63,8 +61,8 @@ namespace ModernApplicationFramework.Basics.Services
 
             foreach (var menuBar in menuBars)
             {
-                var menuBarElement = document.CreateElement("MenuBar", string.Empty, 
-                    new KeyValuePair<string, string>("Name", menuBar.InternalName), 
+                var menuBarElement = document.CreateElement("MenuBar", string.Empty,
+                    new KeyValuePair<string, string>("Name", menuBar.InternalName),
                     new KeyValuePair<string, string>("SortOrder", menuBar.SortOrder.ToString()));
 
 
@@ -94,17 +92,33 @@ namespace ModernApplicationFramework.Basics.Services
                         itemElement = document.CreateElement("MenuDefinition", string.Empty,
                             new KeyValuePair<string, string>("SortOrder", menuDefinition.SortOrder.ToString()),
                             new KeyValuePair<string, string>("IsVisible", menuDefinition.IsVisible.ToString()));
+                    else if (groupItem is CommandBarMenuControllerDefinition menuController)
+                    {
+                        itemElement = document.CreateElement("MenuControllerDefinition", string.Empty,
+                            new KeyValuePair<string, string>("AnchroItem",
+                                menuController.AnchorItem?.CommandDefinition?.Id.ToString()),
+                            new KeyValuePair<string, string>("IsVisible", menuController.IsVisible.ToString()));
+
+                        if (menuController.CommandDefinition is CommandMenuControllerDefinition controllerDefinition)
+                            foreach (var item in controllerDefinition.Items)
+                            {
+                                var innerItemElement =  document.CreateElement("ItemDefinition", string.Empty,
+                                    new KeyValuePair<string, string>("Command",
+                                        item.CommandDefinition.Id.ToString("B")));
+                                itemElement.AppendChild(innerItemElement);
+                            }
+                    }
                     else if (groupItem is CommandBarItemDefinition commandItem)
-                        itemElement = document.CreateElement("ItemDefinition", string.Empty, 
+                        itemElement = document.CreateElement("ItemDefinition", string.Empty,
                             new KeyValuePair<string, string>("IsVisible", commandItem.IsVisible.ToString()),
                             new KeyValuePair<string, string>("SortOrder", commandItem.SortOrder.ToString()),
-                            new KeyValuePair<string, string>("Command", commandItem.CommandDefinition.Id.ToString("B")));
+                            new KeyValuePair<string, string>("Command",
+                                commandItem.CommandDefinition.Id.ToString("B")));
                     else
                         continue;
                     ExplodeGroups(groupItem, itemElement, document);
                     groupElement.AppendChild(itemElement);
                 }
-
 
 
                 parentXmlElement.AppendChild(groupElement);
@@ -127,9 +141,7 @@ namespace ModernApplicationFramework.Basics.Services
 
         private void CreateElement()
         {
-            
         }
-
     }
 
     public interface ICommandBarSerializer

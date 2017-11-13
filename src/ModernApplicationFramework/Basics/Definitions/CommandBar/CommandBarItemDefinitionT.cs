@@ -51,9 +51,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 			}
 		}
 
-		protected CommandBarItemDefinition(string text, uint sortOrder, CommandBarGroupDefinition @group, CommandDefinitionBase definition, 
+		protected CommandBarItemDefinition(string text, uint sortOrder, CommandBarGroupDefinition group, CommandDefinitionBase definition, 
 			bool visible, bool isChecked, bool isCustom, bool isCustomizable) 
-			: base(text, sortOrder, @group, definition, visible, isChecked, isCustom, isCustomizable)
+			: base(text, sortOrder, group, definition, visible, isChecked, isCustom, isCustomizable)
 		{
 			CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
 			Text = CommandDefinition.Text;

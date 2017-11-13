@@ -3,6 +3,7 @@ using ModernApplicationFramework.Basics.Creators;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Extended.Commands;
+using ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest.Commands;
 using ModernApplicationFramework.Extended.Demo.Modules.Commands;
 using ModernApplicationFramework.Extended.MenuDefinitions;
 
@@ -28,7 +29,7 @@ namespace ModernApplicationFramework.Extended.Demo
 
         [Export] public static CommandBarItemDefinition TestSubSub = new MenuDefinition(TestGroup2, 0, "TestSub", true);
 
-        //[Export] public static CommandBarItemDefinition MenuControllerItemMenu = new CommandBarMenuControllerDefinitionT<TestMenuControllerDefinition>(TestGroup1, uint.MinValue);
+        [Export] public static CommandBarItemDefinition MenuControllerItemMenu = new CommandBarMenuControllerDefinition<TestMenuControllerDefinition>(TestGroup1, uint.MinValue);
 
         [Export] public static CommandBarGroupDefinition TestGroup4 = new CommandBarGroupDefinition(TestSubSub, int.MaxValue);
 
