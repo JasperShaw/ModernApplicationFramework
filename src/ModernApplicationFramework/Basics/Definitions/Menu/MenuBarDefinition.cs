@@ -1,4 +1,5 @@
-﻿using ModernApplicationFramework.Basics.Definitions.CommandBar;
+﻿using System;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
 
 namespace ModernApplicationFramework.Basics.Definitions.Menu
 {
@@ -25,8 +26,11 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
             }
         }
 
-        public MenuBarDefinition(string text, uint sortOrder) : base(text, sortOrder, null, false, false, false)
+        public override Guid Id { get; }
+
+        public MenuBarDefinition(Guid id, string text, uint sortOrder) : base(text, sortOrder, null, false, false, false)
         {
+            Id = id;
             _internalName = text;
         }
     }

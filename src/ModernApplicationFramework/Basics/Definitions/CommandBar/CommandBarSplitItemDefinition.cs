@@ -1,4 +1,5 @@
-﻿using ModernApplicationFramework.Basics.Definitions.Command;
+﻿using System;
+using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Interfaces.Utilities;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
@@ -51,25 +52,29 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         public IStatusStringCreator StringCreator { get; set; }
 
 
-        private CommandBarSplitItemDefinition(CommandBarGroupDefinition group, uint sortOrder,
+	    public override Guid Id { get; }
+
+
+        private CommandBarSplitItemDefinition(Guid id, CommandBarGroupDefinition group, uint sortOrder,
             bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true)
             : base(null, sortOrder, group, null, isVisible, isChecked, isCustom, isCustomizable)
         {
+            Id = id;
         }
 
-        public CommandBarSplitItemDefinition(string statusString, CommandBarGroupDefinition group, uint sortOrder,
+        public CommandBarSplitItemDefinition(Guid id, string statusString, CommandBarGroupDefinition group, uint sortOrder,
             bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true)
-            : this(group, sortOrder, isVisible, isChecked, isCustom, isCustomizable)
+            : this(id, group, sortOrder, isVisible, isChecked, isCustom, isCustomizable)
         {
             _statusString = statusString;
         }
 
-        public CommandBarSplitItemDefinition(IStatusStringCreator statusStringCreator, CommandBarGroupDefinition group, uint sortOrder,
+        public CommandBarSplitItemDefinition(Guid id, IStatusStringCreator statusStringCreator, CommandBarGroupDefinition group, uint sortOrder,
             bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true)
-            : this(group, sortOrder, isVisible, isChecked, isCustom, isCustomizable)
+            : this(id, group, sortOrder, isVisible, isChecked, isCustom, isCustomizable)
         {
             StringCreator = statusStringCreator;
             _statusString = StringCreator.CreateMessage(1);
         }
-    }
+	}
 }

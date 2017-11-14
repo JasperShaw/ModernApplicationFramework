@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using ModernApplicationFramework.Basics.Definitions.Command;
@@ -48,7 +49,7 @@ namespace ModernApplicationFramework.Controls.Menu
             var startIndex = _parent.Items.IndexOf(this) + 1;
             foreach (var command in listCommands)
             {
-                var id = new CommandBarCommandItemDefinition((uint) startIndex ,command);
+                var id = new CommandBarCommandItemDefinition(Guid.Empty, (uint) startIndex ,command);
                 var newMenuItem = new MenuItem(id);
                 if (command is CommandDefinition commandDefinition && commandDefinition.IsChecked)
                     id.IsChecked = true;

@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Core.Converters.AccessKey;
 using ModernApplicationFramework.Interfaces;
@@ -36,6 +37,8 @@ namespace ModernApplicationFramework.Basics.Definitions.ContextMenu
             }
         }
 
+        public override Guid Id { get; }
+
         /// <inheritdoc />
         /// <summary>
         /// The unlocalized internal name of the object
@@ -51,9 +54,10 @@ namespace ModernApplicationFramework.Basics.Definitions.ContextMenu
             }
         }
 
-        public ContextMenuDefinition(ContextMenuCategory category, string text, bool isCustomizable = true) : base(text,
+        public ContextMenuDefinition(Guid id, ContextMenuCategory category, string text, bool isCustomizable = true) : base(text,
             uint.MinValue, null, false, isCustomizable, false)
         {
+            Id = id;
             Category = category;
             _text = $"{category.CategoryName} | {text}";
 

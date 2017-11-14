@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Interfaces.Services;
@@ -14,11 +15,14 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     public sealed class CommandBarMenuControllerDefinition<T> : CommandBarMenuControllerDefinition where T : CommandDefinitionBase
 	{
 	    public override CommandDefinitionBase CommandDefinition { get; }
+	    public override Guid Id { get; }
 
-        public CommandBarMenuControllerDefinition(CommandBarGroupDefinition group, uint sortOrder,
+	    public CommandBarMenuControllerDefinition(Guid id, CommandBarGroupDefinition group, uint sortOrder,
             bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true)
             : base(null, sortOrder, group, null, isVisible, isChecked, isCustom, isCustomizable)
-        {
+	    {
+	        Id = id;
+
             Flags.TextIsAnchor = true;
 
             CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));

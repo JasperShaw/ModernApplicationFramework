@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -134,6 +135,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
                 OnPropertyChanged();
             }
         }
+
+        public abstract Guid Id { get; }
 
         protected CommandBarDefinitionBase(string text, uint sortOrder, CommandDefinitionBase definition, bool isCustom,
             bool isCustomizable, bool isChecked)

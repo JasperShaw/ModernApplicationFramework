@@ -15,6 +15,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         /// </summary>
         public static CommandBarSeparatorDefinition SeparatorDefinition => new CommandBarSeparatorDefinition();
 
+        public override Guid Id => Guid.Empty;
+
         private CommandBarSeparatorDefinition() : base(null, uint.MaxValue, null, new SeparatorCommandDefinition(),
             true, false, false, false)
         {

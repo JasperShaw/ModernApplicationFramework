@@ -28,8 +28,8 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest.Comm
         {
             Items = new ObservableCollection<CommandBarItemDefinition>
             {
-                new CommandBarCommandItemDefinition(int.MaxValue, IoC.Get<UndoCommandDefinition>()),
-                new CommandBarCommandItemDefinition(0, IoC.Get<OpenSettingsCommandDefinition>())
+                new CommandBarCommandItemDefinition(Guid.Empty, int.MaxValue, IoC.Get<UndoCommandDefinition>()),
+                new CommandBarCommandItemDefinition(Guid.Empty, 0, IoC.Get<OpenSettingsCommandDefinition>())
             };
         }
 

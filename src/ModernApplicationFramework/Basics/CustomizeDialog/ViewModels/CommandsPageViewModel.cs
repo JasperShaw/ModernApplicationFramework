@@ -322,7 +322,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
 
         private void HandleCommandAddNewMenu()
         {
-            var newMenuItem = new MenuDefinition(null, 0, CommandBarResources.NewMenuDefaultName, true);
+            var newMenuItem = new MenuDefinition(Guid.Empty, null, 0, CommandBarResources.NewMenuDefaultName, true);
 
             InternalAddItem(newMenuItem);
             BuildItemSources(SelectedOption);

@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Data;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Controls.Windows;
 using ModernApplicationFramework.Extended.Commands;
 
@@ -14,7 +13,8 @@ namespace ModernApplicationFramework.Extended.MenuDefinitions
     public class MenuBarItemDefinitions
     {
         [Export] public static CommandBarItemDefinition FullScreenTopMenuItem =
-            new CommandBarCommandItemDefinition<FullScreenCommandDefinition>(MainMenuBarDefinition.MainMenuBarGroup, uint.MaxValue, false, true, false, false, false);
+            new CommandBarCommandItemDefinition<FullScreenCommandDefinition>(new Guid("{53AC01F9-CBA7-49D8-A746-D6FE0B37CF35}"), MainMenuBarDefinition.MainMenuBarGroup,
+                uint.MaxValue, false, true, false, false, false);
 
         static MenuBarItemDefinitions()
         {

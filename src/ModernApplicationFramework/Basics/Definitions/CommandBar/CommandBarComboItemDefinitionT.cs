@@ -1,4 +1,5 @@
-﻿using ModernApplicationFramework.Basics.Definitions.Command;
+﻿using System;
+using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Controls.ComboBox;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
@@ -13,6 +14,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 	{
         private ComboBoxDataSource _dataSource;
         private ComboBoxVisualSource _visualSource;
+
+	    public override Guid Id { get; }
 
         /// <summary>
         /// The <see cref="ComboBoxDataSource"/> of the combo box item
@@ -42,10 +45,11 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-        public CommandBarComboItemDefinition(CommandBarGroupDefinition group, uint sortOrder, bool isEditable, bool stretchHorizontally, bool showText,
+        public CommandBarComboItemDefinition(Guid id, CommandBarGroupDefinition group, uint sortOrder, bool isEditable, bool stretchHorizontally, bool showText,
             bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true)
             : base(null, sortOrder, group, null, isVisible, isChecked, isCustom, isCustomizable)
         {
+            Id = id;
             Flags.PictAndText = showText;
 
             VisualSource = new ComboBoxVisualSource();
@@ -55,5 +59,5 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             if (CommandDefinition is CommandComboBoxDefinition comboBoxDefinition)
                 DataSource = comboBoxDefinition.DataSource;
         }
-    }
+	}
 }

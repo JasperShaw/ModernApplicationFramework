@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Input;
@@ -90,14 +91,13 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
                 return;
 	        Items = (from commandDefinition in AllCommandDefinitions
 		        where commandDefinition.Category == SelectedCategory
-		        select new CommandBarCommandItemDefinition(0, commandDefinition)).ToList(); //Slower to .ToList but actually fixes the CustomSort not beeing used
+		        select new CommandBarCommandItemDefinition(Guid.Empty, 0, commandDefinition)).ToList(); //Slower to .ToList but actually fixes the CustomSort not beeing used
         }
 
         protected override void OnViewLoaded(object view)
         {
             base.OnViewLoaded(view);
-            var v = view as AddCommandDialogView;
-            if (!Categories.Any() || v == null)
+            if (!Categories.Any() || !(view is AddCommandDialogView v))
                 return;
             //This fixes an issue with themed icons
             v.CategoriesListView.SelectedIndex = 0;

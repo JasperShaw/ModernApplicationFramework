@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Windows;
@@ -67,7 +68,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             var result = windowManager.ShowDialog(customizeDialog);
             if (!result.HasValue || !result.Value)
                 return;
-            var def = new ToolbarDefinition(customizeDialog.ToolbarName, int.MaxValue, true, Dock.Top, true, true);
+            var def = new ToolbarDefinition(Guid.Empty, customizeDialog.ToolbarName, int.MaxValue, true, Dock.Top, true, true);
             IoC.Get<IToolBarHostViewModel>().AddToolbarDefinition(def);
             SelectedToolbarDefinition = def;
             _control.ToolBarListBox.ScrollIntoView(def);

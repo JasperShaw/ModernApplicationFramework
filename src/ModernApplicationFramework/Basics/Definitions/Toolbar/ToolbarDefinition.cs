@@ -70,10 +70,13 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
             }
         }
 
-        public ToolbarDefinition(string text, uint sortOrder, bool visible, Dock position, bool isCustomizable = true,
+        public override Guid Id { get; }
+
+        public ToolbarDefinition(Guid id, string text, uint sortOrder, bool visible, Dock position, bool isCustomizable = true,
             bool isCustom = false) : base(text, sortOrder, new ToolbarCommandDefinition(), isCustom, isCustomizable,
             false)
         {
+            Id = id;
             _position = position;
             _isVisible = visible;
             _internalName = new AccessKeyRemovingConverter()
