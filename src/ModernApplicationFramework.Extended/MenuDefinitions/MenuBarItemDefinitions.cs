@@ -25,8 +25,6 @@ namespace ModernApplicationFramework.Extended.MenuDefinitions
             };
             ((ModernChromeWindow) Application.Current.MainWindow).SetBinding(ModernChromeWindow.FullScreenProperty,
                 myBinding);
-            FullScreenTopMenuItem.Flags.TextOnly = true;
-            FullScreenTopMenuItem.Flags.Pict = true;
         }
     }
 }
