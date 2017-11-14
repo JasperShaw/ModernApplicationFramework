@@ -22,6 +22,13 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.CommandBarSerializati
         public override void Initialize()
         {
             base.Initialize();
+            _serializer.Deserialize();
+
+        }
+
+        protected override void DisposeManagedResources()
+        {
+            base.DisposeManagedResources();
             _serializer.Serialize();
         }
     }

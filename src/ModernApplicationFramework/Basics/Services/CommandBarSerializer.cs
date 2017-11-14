@@ -7,6 +7,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.Utilities.Xml;
 
@@ -27,6 +28,48 @@ namespace ModernApplicationFramework.Basics.Services
 
             xmlDocument.Save(@"C:\Test\CommandBar.xml");
         }
+
+        public void Deserialize()
+        {
+            ClearCurrentLayout();
+            DeserializeMenuBars();
+        }
+
+        private void DeserializeMenuBars()
+        {
+            var menuBarHost = IoC.Get<IMenuHostViewModel>();
+            menuBarHost.TopLevelDefinitions.Clear();
+            menuBarHost.Build();
+
+
+            var document = new XmlDocument();
+            document.Load(@"C:\Test\CommandBar.xml");
+
+            var menuBarsNode = document.DocumentElement?.SelectSingleNode("/CommandBarDefinitions/MenuBars");
+
+            if (menuBarsNode == null || !menuBarsNode.HasChildNodes)
+                return;
+
+            foreach (var menuBarNode in menuBarsNode.ChildNodes)
+            {
+            }
+
+
+
+            menuBarHost.Build();
+        }
+
+        private void ClearCurrentLayout()
+        {
+            var definitionHost = IoC.Get<ICommandBarDefinitionHost>();
+            definitionHost.ItemGroupDefinitions.Clear();
+            definitionHost.ItemDefinitions.Clear();
+            definitionHost.ExcludedItemDefinitions.Clear();
+        }
+
+
+
+        #region Serialize
 
         private void SerializeContextMenus(XmlNode parentElement)
         {
@@ -86,7 +129,7 @@ namespace ModernApplicationFramework.Basics.Services
 
                 foreach (var groupItem in group.Items.OrderBy(x => x.SortOrder))
                 {
-                    XmlElement itemElement =null;
+                    XmlElement itemElement = null;
                     if (groupItem is MenuDefinition menuDefinition)
                         itemElement = CreateElement(CreationType.MenuDefinition, document, menuDefinition);
                     else if (groupItem is CommandBarMenuControllerDefinition menuController)
@@ -159,6 +202,9 @@ namespace ModernApplicationFramework.Basics.Services
             return itemElement;
         }
 
+        #endregion
+
+
         private enum CreationType
         {
             MenuDefinition,
@@ -172,5 +218,6 @@ namespace ModernApplicationFramework.Basics.Services
     public interface ICommandBarSerializer
     {
         void Serialize();
+        void Deserialize();
     }
 }
