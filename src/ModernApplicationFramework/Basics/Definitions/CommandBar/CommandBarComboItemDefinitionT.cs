@@ -14,20 +14,16 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarItemDefinition`1" />
     public sealed class CommandBarComboItemDefinition<T> : CommandBarComboItemDefinition where T : CommandDefinitionBase
 	{
-        public override Guid Id { get; }
-
 	    public override CommandDefinitionBase CommandDefinition { get; }
 
         public CommandBarComboItemDefinition(Guid id, CommandBarGroupDefinition group, uint sortOrder, bool isEditable, bool stretchHorizontally, bool showText,
             bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true)
-            : base(null, sortOrder, group, null, isVisible, isChecked, isCustom, isCustomizable)
+            : base(id, null, sortOrder, group, null, isVisible, isChecked, isCustom, isCustomizable)
         {
-            Id = id;
             Flags.PictAndText = showText;
 
             CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
 
-            VisualSource = new ComboBoxVisualSource();
             VisualSource.Flags.StretchHorizontally = stretchHorizontally;
             VisualSource.IsEditable = isEditable;
 
@@ -36,10 +32,12 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         }
 	}
 
-    public abstract class CommandBarComboItemDefinition : CommandBarItemDefinition
+    public class CommandBarComboItemDefinition : CommandBarItemDefinition
     {
         private ComboBoxDataSource _dataSource;
         private ComboBoxVisualSource _visualSource;
+
+        public override Guid Id { get; }
 
         /// <summary>
         /// The <see cref="ComboBoxDataSource"/> of the combo box item
@@ -69,9 +67,14 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-        protected CommandBarComboItemDefinition(string text, uint sortOrder, CommandBarGroupDefinition group, CommandDefinitionBase definition, bool visible, bool isChecked, bool isCustom, bool isCustomizable) 
-            : base(text, sortOrder, @group, definition, visible, isChecked, isCustom, isCustomizable)
+        internal CommandBarComboItemDefinition(Guid id, string text, uint sortOrder, CommandBarGroupDefinition group, CommandDefinitionBase definition,
+            bool visible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true) 
+            : base(text, sortOrder, group, definition, visible, isChecked, isCustom, isCustomizable)
         {
+            Id = id;
+            VisualSource = new ComboBoxVisualSource();
+            if (definition is CommandComboBoxDefinition comboBoxDefinition)
+                DataSource = comboBoxDefinition.DataSource;
         }
     }
 }

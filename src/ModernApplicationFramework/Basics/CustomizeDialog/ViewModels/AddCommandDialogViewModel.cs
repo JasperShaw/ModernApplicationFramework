@@ -89,9 +89,25 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         {
             if (!AllCommandDefinitions.Any())
                 return;
-	        Items = (from commandDefinition in AllCommandDefinitions
-		        where commandDefinition.Category == SelectedCategory
-		        select new CommandBarCommandItemDefinition(Guid.Empty, 0, commandDefinition)).ToList(); //Slower to .ToList but actually fixes the CustomSort not beeing used
+            List<CommandBarItemDefinition> list = new List<CommandBarItemDefinition>();
+            foreach (var commandDefinition in AllCommandDefinitions)
+            {
+                if (commandDefinition.Category == SelectedCategory && !(commandDefinition is CommandMenuControllerDefinition))
+                {
+                    if (commandDefinition.ControlType == CommandControlTypes.SplitDropDown)
+                    {
+                        list.Add(new CommandBarSplitItemDefinition(Guid.Empty, commandDefinition.Text, 0, null, commandDefinition, true, false, true));
+                    }
+                    else if (commandDefinition.ControlType == CommandControlTypes.Combobox)
+                    {
+                        list.Add(new CommandBarComboItemDefinition(Guid.Empty, commandDefinition.Text, 0, null,
+                            commandDefinition, true, false, true));
+                    }
+                    else
+                        list.Add(new CommandBarCommandItemDefinition(Guid.Empty, 0, commandDefinition, true));
+                }          
+            }
+            Items = list; //Slower to .ToList but actually fixes the CustomSort not being used
         }
 
         protected override void OnViewLoaded(object view)

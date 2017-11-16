@@ -10,6 +10,7 @@ using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.Utilities.Xml;
+using static System.Globalization.CultureInfo;
 
 namespace ModernApplicationFramework.Basics.Services
 {
@@ -44,17 +45,17 @@ namespace ModernApplicationFramework.Basics.Services
 
         public void Deserialize()
         {
-            //EnsureInitialized();
+            EnsureInitialized();
 
-            //_allMenuBars = IoC.GetAll<MenuBarDefinition>();
-            //_allCommandBarItems = IoC.GetAll<CommandBarItemDefinition>();
+            _allMenuBars = IoC.GetAll<MenuBarDefinition>();
+            _allCommandBarItems = IoC.GetAll<CommandBarItemDefinition>();
 
-            //_allDefinitions.AddRange(_allMenuBars);
-            //_allDefinitions.AddRange(_allCommandBarItems);
+            _allDefinitions.AddRange(_allMenuBars);
+            _allDefinitions.AddRange(_allCommandBarItems);
 
 
-            //ClearCurrentLayout();
-            //DeserializeMenuBars();
+            ClearCurrentLayout();
+            DeserializeMenuBars();
         }
 
         #region Deserialize
@@ -97,6 +98,8 @@ namespace ModernApplicationFramework.Basics.Services
                     CreateCommandBarItem(parentDefinition, childNode);
                 else if (childNode.Name == "MenuControllerDefinition")
                     CreateCommandBarMenuControllerItem(parentDefinition, childNode);
+                else if (childNode.Name == "ComboBoxDefinition")
+                    CreateCommandBarComboBoxItem(parentDefinition, childNode);
             }
         }
 
@@ -175,6 +178,34 @@ namespace ModernApplicationFramework.Basics.Services
             SetFlags(menuController, childNode);
             menuController.SortOrder = sortOrder;
             _definitionHost.ItemDefinitions.Add(menuController);
+        }
+
+        private void CreateCommandBarComboBoxItem(CommandBarDefinitionBase parentDefinition, XmlNode childNode)
+        {
+            var guid = childNode.TryGetAttributeValue<Guid>("Id");
+            var sortOrder = childNode.TryGetAttributeValue<uint>("SortOrder");
+            var vFlags = childNode.TryGetAttributeValue<int>("VisualFlags");
+            var editable = childNode.TryGetAttributeValue<bool>("IsEditable");
+            var dropDownWidth = childNode.TryGetAttributeValue<double>("DropDownWidth");
+
+            CommandBarComboItemDefinition comboboxItem = null;
+            if (guid == Guid.Empty)
+            {
+
+            }
+            else
+                comboboxItem = FindCommandBarDefinitionById<CommandBarComboItemDefinition>(guid);
+
+            if (comboboxItem == null)
+                throw new ArgumentNullException("CommandBarComboItemDefinition not found");
+
+            AssignGroup(comboboxItem, parentDefinition);
+            SetFlags(comboboxItem, childNode);
+            comboboxItem.SortOrder = sortOrder;
+            comboboxItem.VisualSource.Flags.EnableStyleFlags((CommandBarFlags) vFlags);
+            comboboxItem.VisualSource.IsEditable = editable;
+            comboboxItem.VisualSource.DropDownWidth = dropDownWidth;
+            _definitionHost.ItemDefinitions.Add(comboboxItem);
         }
 
         #endregion
@@ -343,20 +374,13 @@ namespace ModernApplicationFramework.Basics.Services
                 new KeyValuePair<string, string>("Command", comboDefinition.CommandDefinition.Id.ToString("B")),
                 new KeyValuePair<string, string>("VisualFlags", comboDefinition.VisualSource.Flags.AllFlags.ToString()),
                 new KeyValuePair<string, string>("IsEditable", comboDefinition.VisualSource.IsEditable.ToString()),
-                new KeyValuePair<string, string>("DropDownWidth", comboDefinition.VisualSource.DropDownWidth.ToString("N")));
+                new KeyValuePair<string, string>("DropDownWidth", comboDefinition.VisualSource.DropDownWidth.ToString(InvariantCulture)));
 
 
             return element;
         }
 
         #endregion
-
-        private T FindCommandBarDefinitionById<T>(string id) where T : CommandBarDefinitionBase
-        {
-            if (!Guid.TryParse(id, out var guid))
-                throw new ArgumentException("Could not parse id");
-            return FindCommandBarDefinitionById<T>(guid);
-        }
 
         private T FindCommandBarDefinitionById<T>(Guid guid) where T : CommandBarDefinitionBase
         {
