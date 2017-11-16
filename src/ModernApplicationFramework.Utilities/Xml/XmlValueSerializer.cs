@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Globalization;
 using System.Windows;
 
-namespace ModernApplicationFramework.Utilities.Settings
+namespace ModernApplicationFramework.Utilities.Xml
 {
-    public class SettingsValueSerializer
+    public class XmlValueSerializer
     {
         private static readonly Dictionary<string, Tuple<Type, TypeConverter>> SpecialTypes;
 
-        static SettingsValueSerializer()
+        static XmlValueSerializer()
         {
             SpecialTypes = new Dictionary<string, Tuple<Type, TypeConverter>>();
             Type[] typeArray = {
@@ -28,7 +27,7 @@ namespace ModernApplicationFramework.Utilities.Settings
                 typeof (double),
                 typeof (float),
                 typeof (Guid),
-                typeof (Decimal),
+                typeof (decimal),
                 typeof (DateTime),
                 typeof (DateTimeOffset),
                 typeof (TimeSpan),
@@ -39,55 +38,21 @@ namespace ModernApplicationFramework.Utilities.Settings
                 SpecialTypes.Add(type.FullName, Tuple.Create(type, (TypeConverter)null));
         }
 
-        public string Serialize(object obj, Type type)
-        {
-            if (obj == null)
-                return String.Format(CultureInfo.InvariantCulture, "{0}{1}{2}", '*', "null", '*');
-            string str = null;
-            if (type.IsEnum)
-            {
-                type = type.GetEnumUnderlyingType();
-                str = ((Enum)obj).ToString("d");
-            }
-            else if (obj is DateTime)
-                str = ((DateTime)obj).ToString("o", CultureInfo.InvariantCulture);
-            else if (obj is DateTimeOffset)
-                str = ((DateTimeOffset)obj).ToString("o", CultureInfo.InvariantCulture);
-            TypeConverter converter = GetConverter(type.FullName);
-            if (converter == null)
-                throw new InvalidOperationException();
-            if (str == null)
-                str = converter.ConvertToInvariantString(obj);
-            return string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}{3}", '*', type.FullName, '*', str);
-        }
-
-        public GetValueResult Deserialize<T>(string s, out T result, T defaultValue = default (T))
+        public GetValueResult Deserialize<T>(string str, out T result, T defaultValue = default(T))
         {
             result = defaultValue;
-
-            int num = s.IndexOf('*', 1);
-
-            if (num < 0 || num == 1)
-                return GetValueResult.Corrupt;
-
-            string typeName = s.Substring(1, num - 1);
-            string str = s.Substring(num + 1);
             object obj;
-            if (typeName == "null")
-                obj = null;
-            else
+
+            var converter = GetConverter(typeof(T).FullName);
+            if (converter == null)
+                return GetValueResult.Corrupt;
+            try
             {
-                TypeConverter converter = GetConverter(typeName);
-                if (converter == null)
-                    return GetValueResult.Corrupt;
-                try
-                {
-                    obj = converter.ConvertFromInvariantString(str);
-                }
-                catch (Exception)
-                {
-                    return GetValueResult.Corrupt;
-                }
+                obj = converter.ConvertFromInvariantString(str);
+            }
+            catch (Exception)
+            {
+                return GetValueResult.Corrupt;
             }
             try
             {
@@ -429,7 +394,6 @@ namespace ModernApplicationFramework.Utilities.Settings
             }
             return true;
         }
-
 
         private static TypeConverter GetConverter(string typeName)
         {

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using Caliburn.Micro;
 using ModernApplicationFramework.Settings.Interfaces;
+using ModernApplicationFramework.Utilities;
 using ModernApplicationFramework.Utilities.Interfaces;
 using ModernApplicationFramework.Utilities.Interfaces.Settings;
 using ModernApplicationFramework.Utilities.Settings;

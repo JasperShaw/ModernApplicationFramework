@@ -8,6 +8,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using JetBrains.Annotations;
 using ModernApplicationFramework.Settings.Interfaces;
+using ModernApplicationFramework.Utilities;
 using ModernApplicationFramework.Utilities.Interfaces.Settings;
 
 namespace ModernApplicationFramework.Settings.SettingDataModel

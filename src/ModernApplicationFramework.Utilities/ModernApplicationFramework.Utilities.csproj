@@ -96,6 +96,7 @@
     <Compile Include="Interfaces\ICanBeDirty.cs" />
     <Compile Include="Interfaces\IEnvironmentVariables.cs" />
     <Compile Include="Interfaces\IExtendedEnvironmentVariables.cs" />
+    <Compile Include="GetValueResult.cs" />
     <Compile Include="Interfaces\Settings\IPropertyValueManager.cs" />
     <Compile Include="Interfaces\Settings\ISettingsManager.cs" />
     <Compile Include="Converters\LeftMarginMultiplierConverter.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="WeakCollectionT.cs" />
     <Compile Include="Xml\XmlObjectParserT.cs" />
     <Compile Include="Xml\XmlUtilities.cs" />
+    <Compile Include="Xml\XmlValueSerializer.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

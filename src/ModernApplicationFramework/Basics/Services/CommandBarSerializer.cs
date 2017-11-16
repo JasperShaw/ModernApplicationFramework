@@ -55,9 +55,6 @@ namespace ModernApplicationFramework.Basics.Services
 
             ClearCurrentLayout();
             DeserializeMenuBars();
-
-
-
         }
 
         private void DeserializeMenuBars()
@@ -77,7 +74,8 @@ namespace ModernApplicationFramework.Basics.Services
 
             foreach (XmlNode menuBarNode in menuBarsNode.ChildNodes)
             {
-                var menuBar = FindCommandBarDefinitionById<MenuBarDefinition>(menuBarNode.Attributes["Id"].Value);
+                var guid = menuBarNode.TryGetAttributeValue<Guid>("Id");
+                var menuBar = FindCommandBarDefinitionById<MenuBarDefinition>(guid);
                 BuildCommandBar(menuBarNode, menuBar);
                 menuBarHost.TopLevelDefinitions.Add(menuBar);
             }
@@ -89,63 +87,114 @@ namespace ModernApplicationFramework.Basics.Services
             parentDefinition.ContainedGroups.Clear();
             foreach (XmlNode childNode in parentNode.ChildNodes)
             {
-                if (!uint.TryParse(childNode.Attributes["SortOrder"].Value, out var sortOrder))
-                    throw new ArgumentException("Could not parse sort order");
-
                 if (childNode.Name == "GroupDefinition")
-                {
-                    var group = CreateGroup(parentDefinition, sortOrder);
-                    group.ContainedGroups.Clear();
-                    BuildCommandBar(childNode, group);
-                    _definitionHost.ItemGroupDefinitions.Add(group);
-                }
+                    CreateCommandBarGroup(parentDefinition, childNode);
                 else if (childNode.Name == "MenuDefinition")
-                {
-                    if (!Guid.TryParse(childNode.Attributes["Id"].Value, out var guid))
-                        throw new ArgumentException("Could not parse id");
-                    MenuDefinition menu = null;
-                    if (guid == Guid.Empty)
-                    {
-                        //TODO
-                    }
-                    else
-                    {
-                        menu = FindCommandBarDefinitionById<MenuDefinition>(guid);
-                    }
-                    if (menu == null)
-                        throw new ArgumentException("MenuDefinition not found");
-
-                    menu.ContainedGroups.Clear();
-                    if (parentDefinition is CommandBarGroupDefinition parentGroup)
-                        menu.Group = parentGroup;
-                    _definitionHost.ItemDefinitions.Add(menu);
-                }
+                    CreateCommandBarMenu(parentDefinition, childNode);
                 else if (childNode.Name == "ItemDefinition")
+                    CreateCommandBarItem(parentDefinition, childNode);
+                else if (childNode.Name == "MenuControllerDefinition")
                 {
-                    if (!Guid.TryParse(childNode.Attributes["Id"].Value, out var guid))
-                        throw new ArgumentException("Could not parse id");
+                    var guid = childNode.TryGetAttributeValue<Guid>("Id");
+                    var sortOrder = childNode.TryGetAttributeValue<uint>("SortOrder");
 
-                    CommandBarItemDefinition item = null;
+                    CommandBarMenuControllerDefinition menuController = null;
+
                     if (guid == Guid.Empty)
                     {
-
+                        
                     }
                     else
-                        item = FindCommandBarDefinitionById<CommandBarItemDefinition>(guid);
+                        menuController = FindCommandBarDefinitionById<CommandBarMenuControllerDefinition>(guid);
 
-                    if (item == null)
-                        continue; //TODO throw
-                    item.ContainedGroups.Clear();
-                    if (parentDefinition is CommandBarGroupDefinition parentGroup)
-                        item.Group = parentGroup;
-                    _definitionHost.ItemDefinitions.Add(item);
+                    if (menuController == null)
+                        throw new ArgumentNullException("CommandBarMenuControllerDefinition not found");
+
+                    AssignGroup(menuController, parentDefinition);
+                    SetFlags(menuController, childNode);
+                    menuController.SortOrder = sortOrder;
+                    _definitionHost.ItemDefinitions.Add(menuController);
                 }
             }
         }
 
+        private void CreateCommandBarGroup(CommandBarDefinitionBase parentDefinition, XmlNode childNode)
+        {
+            var sortOrder = childNode.TryGetAttributeValue<uint>("SortOrder");
+            var group = CreateGroup(parentDefinition, sortOrder);
+            group.ContainedGroups.Clear();
+            BuildCommandBar(childNode, group);
+            group.SortOrder = sortOrder;
+            _definitionHost.ItemGroupDefinitions.Add(group);
+        }
+
+        private void CreateCommandBarMenu(CommandBarDefinitionBase parentDefinition, XmlNode childNode)
+        {
+            var guid = childNode.TryGetAttributeValue<Guid>("Id");
+            var sortOrder = childNode.TryGetAttributeValue<uint>("SortOrder");
+            MenuDefinition menu = null;
+            if (guid == Guid.Empty)
+            {
+                //TODO
+            }
+            else
+                menu = FindCommandBarDefinitionById<MenuDefinition>(guid);
+
+            if (menu == null)
+                throw new ArgumentNullException("MenuDefinition not found");
+
+            AssignGroup(menu, parentDefinition);
+            SetFlags(menu, childNode);
+            menu.SortOrder = sortOrder;
+
+            BuildCommandBar(childNode, menu);
+
+            _definitionHost.ItemDefinitions.Add(menu);
+        }
+
+
+        private void CreateCommandBarItem(CommandBarDefinitionBase parentDefinition, XmlNode childNode)
+        {
+            var guid = childNode.TryGetAttributeValue<Guid>("Id");
+            var sortOrder = childNode.TryGetAttributeValue<uint>("SortOrder");
+
+            CommandBarItemDefinition item = null;
+            if (guid == Guid.Empty)
+            {
+
+            }
+            else
+                item = FindCommandBarDefinitionById<CommandBarItemDefinition>(guid);
+
+            if (item == null)
+                throw new ArgumentNullException("ItemDefinition not found");
+
+            AssignGroup(item, parentDefinition);
+            SetFlags(item, childNode);
+            item.SortOrder = sortOrder;
+            _definitionHost.ItemDefinitions.Add(item);
+        }
+
+
+
+
+
         private CommandBarGroupDefinition CreateGroup(CommandBarDefinitionBase parent, uint sortOrder)
         {
             return new CommandBarGroupDefinition(parent, sortOrder);
+        }
+
+        private void AssignGroup(CommandBarItemDefinition item, CommandBarDefinitionBase parentDefinition)
+        {
+            item.ContainedGroups.Clear();
+            if (parentDefinition is CommandBarGroupDefinition parentGroup)
+                item.Group = parentGroup;
+        }
+
+        private void SetFlags(CommandBarItemDefinition item, XmlNode node)
+        {
+            var flags = node.TryGetAttributeValue<int>("Flags");
+            item.Flags.EnableStyleFlags((CommandBarFlags)flags);
         }
 
 
