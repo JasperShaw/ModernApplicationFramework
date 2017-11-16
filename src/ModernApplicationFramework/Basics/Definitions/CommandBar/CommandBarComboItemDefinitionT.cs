@@ -1,6 +1,8 @@
 ﻿using System;
+using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Controls.ComboBox;
+using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
@@ -10,12 +12,34 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     /// </summary>
     /// <typeparam name="T">The type of the command definition this item should have</typeparam>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarItemDefinition`1" />
-    public sealed class CommandBarComboItemDefinition<T> : CommandBarItemDefinition<T> where T : CommandDefinitionBase
+    public sealed class CommandBarComboItemDefinition<T> : CommandBarComboItemDefinition where T : CommandDefinitionBase
 	{
+        public override Guid Id { get; }
+
+	    public override CommandDefinitionBase CommandDefinition { get; }
+
+        public CommandBarComboItemDefinition(Guid id, CommandBarGroupDefinition group, uint sortOrder, bool isEditable, bool stretchHorizontally, bool showText,
+            bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true)
+            : base(null, sortOrder, group, null, isVisible, isChecked, isCustom, isCustomizable)
+        {
+            Id = id;
+            Flags.PictAndText = showText;
+
+            CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
+
+            VisualSource = new ComboBoxVisualSource();
+            VisualSource.Flags.StretchHorizontally = stretchHorizontally;
+            VisualSource.IsEditable = isEditable;
+
+            if (CommandDefinition is CommandComboBoxDefinition comboBoxDefinition)
+                DataSource = comboBoxDefinition.DataSource;
+        }
+	}
+
+    public abstract class CommandBarComboItemDefinition : CommandBarItemDefinition
+    {
         private ComboBoxDataSource _dataSource;
         private ComboBoxVisualSource _visualSource;
-
-	    public override Guid Id { get; }
 
         /// <summary>
         /// The <see cref="ComboBoxDataSource"/> of the combo box item
@@ -45,19 +69,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-        public CommandBarComboItemDefinition(Guid id, CommandBarGroupDefinition group, uint sortOrder, bool isEditable, bool stretchHorizontally, bool showText,
-            bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true)
-            : base(null, sortOrder, group, null, isVisible, isChecked, isCustom, isCustomizable)
+        protected CommandBarComboItemDefinition(string text, uint sortOrder, CommandBarGroupDefinition group, CommandDefinitionBase definition, bool visible, bool isChecked, bool isCustom, bool isCustomizable) 
+            : base(text, sortOrder, @group, definition, visible, isChecked, isCustom, isCustomizable)
         {
-            Id = id;
-            Flags.PictAndText = showText;
-
-            VisualSource = new ComboBoxVisualSource();
-            VisualSource.Flags.StretchHorizontally = stretchHorizontally;
-            VisualSource.IsEditable = isEditable;
-
-            if (CommandDefinition is CommandComboBoxDefinition comboBoxDefinition)
-                DataSource = comboBoxDefinition.DataSource;
         }
-	}
+    }
 }
