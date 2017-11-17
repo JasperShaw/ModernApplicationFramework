@@ -244,8 +244,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
         private void _toolbarDefinitions_ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var definition = sender as ToolbarDefinition;
-            if (definition == null)
+            if (!(sender is ToolbarDefinition definition))
                 return;
 
             if (e.PropertyName == nameof(ToolbarDefinition.IsVisible))
@@ -260,7 +259,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                 BottomToolBarTray == null)
                 throw new NullReferenceException("Could not find all 4 ToolbarTrays");
             if (!TopLevelDefinitions.Contains(definition))
-                throw new ToolBarNotFoundException();
+                return;
             if (string.IsNullOrEmpty(definition.Text))
                 throw new ArgumentNullException(nameof(definition.Text));
             if (definition.IsVisible)
@@ -275,7 +274,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                 BottomToolBarTray == null)
                 throw new NullReferenceException("Could not find all 4 ToolbarTrays");
             if (!TopLevelDefinitions.Contains(definition))
-                throw new ToolBarNotFoundException();
+                return;
             if (string.IsNullOrEmpty(definition.Text))
                 throw new ArgumentNullException(nameof(definition.Text));
             InternalChangePosition(definition);

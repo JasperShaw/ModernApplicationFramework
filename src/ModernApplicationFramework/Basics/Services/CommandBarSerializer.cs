@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Windows.Controls;
 using System.Xml;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.ContextMenu;
 using ModernApplicationFramework.Basics.Definitions.Menu;
+using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.Utilities.Xml;
@@ -17,10 +20,11 @@ namespace ModernApplicationFramework.Basics.Services
     [Export(typeof(ICommandBarSerializer))]
     public class CommandBarSerializer : ICommandBarSerializer
     {
-        private IEnumerable<MenuBarDefinition> _allMenuBars;
+        //private IEnumerable<MenuBarDefinition> _allMenuBars;
         private readonly List<CommandBarDefinitionBase> _allDefinitions = new List<CommandBarDefinitionBase>();
         private ICommandBarDefinitionHost _definitionHost;
         private IEnumerable<CommandBarItemDefinition> _allCommandBarItems;
+        private IEnumerable<CommandDefinitionBase> _allCommandDefintions;
 
 
         private void EnsureInitialized()
@@ -47,42 +51,73 @@ namespace ModernApplicationFramework.Basics.Services
         {
             EnsureInitialized();
 
-            _allMenuBars = IoC.GetAll<MenuBarDefinition>();
+            var allMenuBars = IoC.GetAll<MenuBarDefinition>();
+            var allToolBars = IoC.GetAll<ToolbarDefinition>();
             _allCommandBarItems = IoC.GetAll<CommandBarItemDefinition>();
+            _allCommandDefintions = IoC.GetAll<CommandDefinitionBase>();
 
-            _allDefinitions.AddRange(_allMenuBars);
+            _allDefinitions.AddRange(allMenuBars);
+            _allDefinitions.AddRange(allToolBars);
             _allDefinitions.AddRange(_allCommandBarItems);
 
 
+
             ClearCurrentLayout();
-            DeserializeMenuBars();
-        }
-
-        #region Deserialize
-
-        private void DeserializeMenuBars()
-        {
-            var menuBarHost = IoC.Get<IMenuHostViewModel>();
-            menuBarHost.TopLevelDefinitions.Clear();
-            menuBarHost.Build();
-
 
             var document = new XmlDocument();
             document.Load(@"C:\Test\CommandBar.xml");
 
-            var menuBarsNode = document.DocumentElement?.SelectSingleNode("/CommandBarDefinitions/MenuBars");
+            DeserializeCommandBar<MenuBarDefinition, IMenuHostViewModel>(document, "/CommandBarDefinitions/MenuBars");
+            DeserializeCommandBar<ToolbarDefinition, IToolBarHostViewModel>(document, "/CommandBarDefinitions/Toolbars");
+        }
 
-            if (menuBarsNode == null || !menuBarsNode.HasChildNodes)
+        #region Deserialize
+
+        private void DeserializeCommandBar<T, TV>(XmlDocument document,  string path) where T : CommandBarDefinitionBase
+            where TV : ICommandBarHost
+        {
+
+            var commandBarHost = IoC.Get<TV>();
+            commandBarHost.TopLevelDefinitions.Clear();
+            commandBarHost.Build();
+
+            var node = document.DocumentElement?.SelectSingleNode(path);
+
+            if (node == null || !node.HasChildNodes)
                 return;
 
-            foreach (XmlNode menuBarNode in menuBarsNode.ChildNodes)
+            foreach (XmlNode commandBarNode in node.ChildNodes)
             {
-                var guid = menuBarNode.GetAttributeValue<Guid>("Id");
-                var menuBar = FindCommandBarDefinitionById<MenuBarDefinition>(guid);
-                BuildCommandBar(menuBarNode, menuBar);
-                menuBarHost.TopLevelDefinitions.Add(menuBar);
+
+                var guid = commandBarNode.GetAttributeValue<Guid>("Id");
+                commandBarNode.TryGetValueResult<string>("Text", out var text);
+                commandBarNode.TryGetValueResult<uint>("SortOrder", out var sortOrder);
+                commandBarNode.TryGetValueResult<bool>("IsVisible", out var visible);
+                commandBarNode.TryGetValueResult<int>("Position", out var position);
+                CommandBarDefinitionBase commandBar = null;
+                if (guid == Guid.Empty)
+                {
+                    if (typeof(T) == typeof(ToolbarDefinition))
+                    {
+                        commandBar = new ToolbarDefinition(guid, text, sortOrder, visible,(Dock) position, true, true);
+                    }
+                    else if (typeof(T) == typeof(ContextMenuDefinition))
+                    {
+                        
+                    }
+                }
+                else
+                    commandBar = FindCommandBarDefinitionById<T>(guid);
+
+                if (commandBar is ToolbarDefinition toolbar)
+                {
+                    toolbar.Position = (Dock)position;
+                    toolbar.IsVisible = visible;
+                }
+                BuildCommandBar(commandBarNode, commandBar);
+                commandBarHost.TopLevelDefinitions.Add(commandBar);
             }
-            menuBarHost.Build();
+            commandBarHost.Build();
         }
 
         private void BuildCommandBar(XmlNode parentNode, CommandBarDefinitionBase parentDefinition)
@@ -117,7 +152,7 @@ namespace ModernApplicationFramework.Basics.Services
                 var commandId = childNode.GetAttributeValue<Guid>("Command");
                 if (commandId == Guid.Empty)
                     throw new NotSupportedException("CommandId cannot be 'Guid.Empty'");
-                var command = IoC.GetAll<CommandDefinitionBase>().FirstOrDefault(x => x.Id.Equals(commandId));
+                var command = _allCommandDefintions.FirstOrDefault(x => x.Id.Equals(commandId));
                 if (command == null)
                     throw new ArgumentNullException("Command was not found");
                 item = new CommandBarSplitItemDefinition(guid, text, sortOrder, null, command, true, false, true);
@@ -186,7 +221,7 @@ namespace ModernApplicationFramework.Basics.Services
                 var commandId = childNode.GetAttributeValue<Guid>("Command");
                 if (commandId == Guid.Empty)
                     throw new NotSupportedException("CommandId cannot be 'Guid.Empty'");
-                var command = IoC.GetAll<CommandDefinitionBase>().FirstOrDefault(x => x.Id.Equals(commandId));
+                var command = _allCommandDefintions.FirstOrDefault(x => x.Id.Equals(commandId));
                 if (command == null)
                     throw new ArgumentNullException("Command was not found");
                 item = new CommandBarCommandItemDefinition(guid, sortOrder, command);
@@ -238,7 +273,7 @@ namespace ModernApplicationFramework.Basics.Services
                 var commandId = childNode.GetAttributeValue<Guid>("Command");
                 if (commandId == Guid.Empty)
                     throw new NotSupportedException("CommandId cannot be 'Guid.Empty'");
-                var command = IoC.GetAll<CommandDefinitionBase>().FirstOrDefault(x => x.Id.Equals(commandId));
+                var command = _allCommandDefintions.FirstOrDefault(x => x.Id.Equals(commandId));
                 if (command == null)
                     throw new ArgumentNullException("Command was not found");
                 comboboxItem =
@@ -279,7 +314,30 @@ namespace ModernApplicationFramework.Basics.Services
         {
             if (parentElement.OwnerDocument == null)
                 throw new InvalidOperationException();
+
+            var document = parentElement.OwnerDocument;
+
             var toolBarsElement = parentElement.OwnerDocument.CreateElement(string.Empty, "Toolbars", string.Empty);
+
+
+            var toolBars = IoC.Get<IToolBarHostViewModel>().GetMenuHeaderItemDefinitions()
+                .Where(x => x is ToolbarDefinition).Cast<ToolbarDefinition>();
+
+            foreach (var toolBar in toolBars)
+            {
+                var toolBarElement = document.CreateElement("ToolBar", string.Empty,
+                    new KeyValuePair<string, string>("Id", toolBar.Id.ToString("B")),
+                    new KeyValuePair<string, string>("Position", ((int)toolBar.Position).ToString()),
+                    new KeyValuePair<string, string>("IsVisible", toolBar.IsVisible.ToString()),
+                    new KeyValuePair<string, string>("SortOrder", toolBar.SortOrder.ToString()));
+                ExplodeGroups(toolBar, toolBarElement, document);
+
+                if (toolBar.IsCustom)
+                    toolBarElement.SetAttribute("Text", toolBar.Text);
+
+                toolBarsElement.AppendChild(toolBarElement);
+            }
+
 
             parentElement.AppendChild(toolBarsElement);
         }
