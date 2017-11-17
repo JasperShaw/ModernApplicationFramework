@@ -17,13 +17,6 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 	    public override CommandDefinitionBase CommandDefinition { get; }
 
 
-	    private CommandBarSplitItemDefinition(Guid id, CommandBarGroupDefinition group, uint sortOrder,
-            bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true)
-            : base(id, null, sortOrder, group, null, isVisible, isChecked, isCustom, isCustomizable)
-        {
-            CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
-        }
-
         public CommandBarSplitItemDefinition(Guid id, string statusString, CommandBarGroupDefinition group, uint sortOrder,
             bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true)
             : this(id, group, sortOrder, isVisible, isChecked, isCustom, isCustomizable)
@@ -31,12 +24,18 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             StatusString = statusString;
         }
 
-        public CommandBarSplitItemDefinition(Guid id, IStatusStringCreator statusStringCreator, CommandBarGroupDefinition group, uint sortOrder,
+        public CommandBarSplitItemDefinition(Guid id, CommandBarGroupDefinition group, uint sortOrder,
             bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true)
-            : this(id, group, sortOrder, isVisible, isChecked, isCustom, isCustomizable)
+            : base(id, null, sortOrder, group, null, isVisible, isChecked, isCustom, isCustomizable)
         {
-            StringCreator = statusStringCreator;
-            StatusString = StringCreator.CreateMessage(1);
+
+            CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
+            Text = CommandDefinition.Text;
+
+            if (CommandDefinition is CommandSplitButtonDefinition splitButtonDefinition)
+                StringCreator = splitButtonDefinition.StatusStringCreator;
+
+            StatusString = StringCreator?.CreateDefaultMessage();
         }
 	}
 
@@ -87,6 +86,11 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             : base(text, sortOrder, group, definition, visible, isChecked, isCustom, isCustomizable)
         {
             Id = id;
+
+            if (definition is CommandSplitButtonDefinition splitButtonDefinition)
+                StringCreator = splitButtonDefinition.StatusStringCreator;
+
+            StatusString = StringCreator?.CreateDefaultMessage();
         }
 
         public override Guid Id { get; }

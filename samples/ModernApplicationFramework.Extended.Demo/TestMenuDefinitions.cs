@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using ModernApplicationFramework.Basics.Creators;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Extended.Commands;
@@ -52,8 +51,7 @@ namespace ModernApplicationFramework.Extended.Demo
 
         [Export] public static CommandBarItemDefinition SplitItem =
             new CommandBarSplitItemDefinition<MultiUndoCommandDefinition>(
-                new Guid("{D7CBAF7A-724D-427F-8B14-319740835130}"),
-                new NumberStatusStringCreator("Undo {0} Action{1}", "s"), TestGroup1, 0);
+                new Guid("{D7CBAF7A-724D-427F-8B14-319740835130}"), TestGroup1, 0);
 
         [Export] public static CommandBarItemDefinition ComboItem =
             new CommandBarComboItemDefinition<ComboBoxCommandDefinition>(

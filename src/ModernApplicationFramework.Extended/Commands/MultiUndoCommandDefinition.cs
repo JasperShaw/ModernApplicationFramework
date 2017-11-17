@@ -4,12 +4,14 @@ using System.Globalization;
 using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
+using ModernApplicationFramework.Basics.Creators;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Extended.Core;
 using ModernApplicationFramework.Extended.Properties;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Utilities;
 
 namespace ModernApplicationFramework.Extended.Commands
 {
@@ -63,6 +65,11 @@ namespace ModernApplicationFramework.Extended.Commands
         }
 
         public override IObservableCollection<IHasTextProperty> Items { get; set; }
+
+        public override IStatusStringCreator StatusStringCreator =>
+            new NumberStatusStringCreator(Commands_Resources.MultiUndoCommandDefinition_StatusText,
+                Commands_Resources.MultiRedoCommandDefinition_StatusSuffix);
+
         public override void Execute(int count)
         {
             _watcher.UndoRedoManager?.Undo(count);
