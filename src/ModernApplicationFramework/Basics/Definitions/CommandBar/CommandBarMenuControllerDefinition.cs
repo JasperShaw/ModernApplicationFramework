@@ -30,15 +30,22 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 	        }
 	    }
 
-	    public override Guid Id { get; }
+	    public override void Reset()
+	    {
+	        IsTextModified = false;
+	        _text = OriginalText;
+	        UpdateInternalName();
+	        OnPropertyChanged(nameof(Text));
+	        Flags.EnableStyleFlags((CommandBarFlags)OriginalFlagStore.AllFlags);
+        }
+
+        public override Guid Id { get; }
 
 	    public CommandBarMenuControllerDefinition(Guid id, CommandBarGroupDefinition group, uint sortOrder,
-            bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true)
-            : base(null, sortOrder, group, null, isVisible, isChecked, isCustom, isCustomizable)
+            bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true, CommandBarFlags flags = CommandBarFlags.CommandFlagTextIsAnchor)
+            : base(null, sortOrder, group, null, isVisible, isChecked, isCustom, isCustomizable, flags)
 	    {
 	        Id = id;
-
-            Flags.TextIsAnchor = true;
 
             CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
             _text = CommandDefinition.Text;
@@ -67,7 +74,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-        protected CommandBarMenuControllerDefinition(string text, uint sortOrder, CommandBarGroupDefinition @group, CommandDefinitionBase definition, bool visible, bool isChecked, bool isCustom, bool isCustomizable) : base(text, sortOrder, @group, definition, visible, isChecked, isCustom, isCustomizable)
+        protected CommandBarMenuControllerDefinition(string text, uint sortOrder, CommandBarGroupDefinition group, CommandDefinitionBase definition, bool visible, bool isChecked, bool isCustom, bool isCustomizable, CommandBarFlags flags)
+            : base(text, sortOrder, group, definition, visible, isChecked, isCustom, isCustomizable, flags)
         {
         }
     }

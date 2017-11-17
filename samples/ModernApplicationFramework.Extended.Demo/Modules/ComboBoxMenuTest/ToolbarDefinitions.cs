@@ -16,7 +16,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest
 
         [Export] public static CommandBarGroupDefinition Group1 = new CommandBarGroupDefinition(ComboBox, 0);
 
-        [Export] public static CommandBarItemDefinition ComboItem = new CommandBarComboItemDefinition<ComboBoxCommandDefinition>(new Guid("{D142CB05-16D2-4C89-A953-924A3F4CF972}"), Group1, 0, false, false, false);
+        [Export] public static CommandBarItemDefinition ComboItem = new CommandBarComboItemDefinition<ComboBoxCommandDefinition>(new Guid("{D142CB05-16D2-4C89-A953-924A3F4CF972}"), Group1, 0, false, false);
 
 
         [Export]

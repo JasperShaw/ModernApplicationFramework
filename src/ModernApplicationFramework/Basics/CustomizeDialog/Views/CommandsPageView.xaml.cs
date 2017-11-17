@@ -32,6 +32,12 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.Views
             var model = DataContext as CommandsPageViewModel;
             model?.HandleAddOrRemoveGroupCommand.Execute(((CheckedMenuItem) sender).IsChecked);
         }
+
+        private void HandleResetItem(object sender, RoutedEventArgs e)
+        {
+            var model = DataContext as CommandsPageViewModel;
+            model?.HandleResetItemCommand.Execute(null);
+        }
     }
 
     public interface ICommandsPageView

@@ -16,12 +16,10 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 	{
 	    public override CommandDefinitionBase CommandDefinition { get; }
 
-        public CommandBarComboItemDefinition(Guid id, CommandBarGroupDefinition group, uint sortOrder, bool isEditable, bool stretchHorizontally, bool showText,
-            bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true)
-            : base(id, null, sortOrder, group, null, isVisible, isChecked, isCustom, isCustomizable)
+        public CommandBarComboItemDefinition(Guid id, CommandBarGroupDefinition group, uint sortOrder, bool isEditable, bool stretchHorizontally,
+            bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true, CommandBarFlags flags = CommandBarFlags.CommandFlagPictAndText)
+            : base(id, null, sortOrder, group, null, isVisible, isChecked, isCustom, isCustomizable, flags)
         {
-            Flags.PictAndText = showText;
-
             CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
 
             VisualSource.Flags.StretchHorizontally = stretchHorizontally;
@@ -68,8 +66,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         }
 
         internal CommandBarComboItemDefinition(Guid id, string text, uint sortOrder, CommandBarGroupDefinition group, CommandDefinitionBase definition,
-            bool visible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true) 
-            : base(text, sortOrder, group, definition, visible, isChecked, isCustom, isCustomizable)
+            bool visible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true, CommandBarFlags flags = CommandBarFlags.CommandFlagNone) 
+            : base(text, sortOrder, group, definition, visible, isChecked, isCustom, isCustomizable, flags)
         {
             Id = id;
             VisualSource = new ComboBoxVisualSource();

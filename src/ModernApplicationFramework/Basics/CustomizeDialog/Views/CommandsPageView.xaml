@@ -45,7 +45,8 @@
                 </CollectionViewSource.SortDescriptions>
             </CollectionViewSource>
             <ContextMenu x:Key="ModifySelectionCommandsMenu">
-                <MenuItem Header="{x:Static customizeDialog:Customize_Resources.CommandsPage_Reset}">
+                <MenuItem Header="{x:Static customizeDialog:Customize_Resources.CommandsPage_Reset}"
+                          Click="HandleResetItem">
                     <UIElement.IsEnabled>
                         <Binding Mode="OneWay" Converter="{StaticResource IsCustomizableModelConverter}" />
                     </UIElement.IsEnabled>

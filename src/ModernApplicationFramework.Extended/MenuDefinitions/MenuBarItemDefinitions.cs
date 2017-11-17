@@ -14,7 +14,7 @@ namespace ModernApplicationFramework.Extended.MenuDefinitions
     {
         [Export] public static CommandBarItemDefinition FullScreenTopMenuItem =
             new CommandBarCommandItemDefinition<FullScreenCommandDefinition>(new Guid("{53AC01F9-CBA7-49D8-A746-D6FE0B37CF35}"), MainMenuBarDefinition.MainMenuBarGroup,
-                uint.MaxValue, false, true, false, false, false);
+                uint.MaxValue, false, true, false, false, false, CommandBarFlags.CommandFlagPictAndText);
 
         static MenuBarItemDefinitions()
         {

@@ -55,7 +55,7 @@ namespace ModernApplicationFramework.Extended.Demo
 
         [Export] public static CommandBarItemDefinition ComboItem =
             new CommandBarComboItemDefinition<ComboBoxCommandDefinition>(
-                new Guid("{25EEF4F2-6B3E-4C38-AF3E-F4342426CD4F}"), TestGroup1, 0, false, false, false);
+                new Guid("{25EEF4F2-6B3E-4C38-AF3E-F4342426CD4F}"), TestGroup1, 0, false, false);
 
 
         //[Export] public static CommandBarItemDefinition MenuControllerItem = new CommandBarMenuControllerDefinitionT<TestMenuControllerDefinition>(MainMenuBarDefinition.MainMenuBarGroup, uint.MinValue);

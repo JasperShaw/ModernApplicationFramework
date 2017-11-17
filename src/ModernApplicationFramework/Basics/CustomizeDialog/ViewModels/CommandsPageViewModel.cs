@@ -53,6 +53,12 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         public ICommand HandleMoveDownCommand => new Command(HandleCommandMoveDown);
 
         public ICommand HandleAddOrRemoveGroupCommand => new DelegateCommand(HandleCommandAddOrRemoveGroup);
+        public ICommand HandleResetItemCommand => new Command(HandleResetItem);
+
+        private void HandleResetItem()
+        {
+            SelectedListBoxDefinition.Reset();
+        }
 
         public ICommand HandleStylingFlagChangeCommand => new DelegateCommand(HandleStylingFlagChange);
         public Command DropDownClickCommand => new Command(ExecuteDropDownClick);

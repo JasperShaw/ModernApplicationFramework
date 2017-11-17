@@ -30,8 +30,17 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 	        }
 	    }
 
+	    public override void Reset()
+	    {
+	        IsTextModified = false;
+	        _text = OriginalText;
+	        UpdateInternalName();
+	        OnPropertyChanged(nameof(Text));
+	        Flags.EnableStyleFlags((CommandBarFlags)OriginalFlagStore.AllFlags);
+        }
 
-	    public CommandBarSplitItemDefinition(Guid id, string statusString, CommandBarGroupDefinition group, uint sortOrder,
+
+        public CommandBarSplitItemDefinition(Guid id, string statusString, CommandBarGroupDefinition group, uint sortOrder,
             bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true)
             : this(id, group, sortOrder, isVisible, isChecked, isCustom, isCustomizable)
         {
