@@ -78,8 +78,10 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             get => _text;
             set
             {
-                if (value == _text) return;
+                if (value == _text)
+                    return;
                 _text = value;
+                IsTextModified = true;
                 OnPropertyChanged();
             }
         }
@@ -135,6 +137,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
                 OnPropertyChanged();
             }
         }
+
+        public virtual bool IsTextModified { get; protected set; }
 
         public abstract Guid Id { get; }
 

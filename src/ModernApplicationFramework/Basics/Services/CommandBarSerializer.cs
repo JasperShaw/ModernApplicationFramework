@@ -77,7 +77,7 @@ namespace ModernApplicationFramework.Basics.Services
 
             foreach (XmlNode menuBarNode in menuBarsNode.ChildNodes)
             {
-                var guid = menuBarNode.TryGetAttributeValue<Guid>("Id");
+                var guid = menuBarNode.GetAttributeValue<Guid>("Id");
                 var menuBar = FindCommandBarDefinitionById<MenuBarDefinition>(guid);
                 BuildCommandBar(menuBarNode, menuBar);
                 menuBarHost.TopLevelDefinitions.Add(menuBar);
@@ -100,12 +100,45 @@ namespace ModernApplicationFramework.Basics.Services
                     CreateCommandBarMenuControllerItem(parentDefinition, childNode);
                 else if (childNode.Name == "ComboBoxDefinition")
                     CreateCommandBarComboBoxItem(parentDefinition, childNode);
+                else if (childNode.Name == "SplitButtonDefinition")
+                    CreateCommandSplitButtonItem(parentDefinition, childNode);
             }
+        }
+
+        private void CreateCommandSplitButtonItem(CommandBarDefinitionBase parentDefinition, XmlNode childNode)
+        {
+            var guid = childNode.GetAttributeValue<Guid>("Id");
+            var sortOrder = childNode.GetAttributeValue<uint>("SortOrder");
+            childNode.TryGetValueResult<string>("Text", out var text);
+
+            CommandBarSplitItemDefinition item;
+            if (guid == Guid.Empty)
+            {
+                var commandId = childNode.GetAttributeValue<Guid>("Command");
+                if (commandId == Guid.Empty)
+                    throw new NotSupportedException("CommandId cannot be 'Guid.Empty'");
+                var command = IoC.GetAll<CommandDefinitionBase>().FirstOrDefault(x => x.Id.Equals(commandId));
+                if (command == null)
+                    throw new ArgumentNullException("Command was not found");
+                item = new CommandBarSplitItemDefinition(guid, text, sortOrder, null, command, true, false, true);
+            }
+            else
+                item = FindCommandBarDefinitionById<CommandBarSplitItemDefinition>(guid);
+
+            if (item == null)
+                throw new ArgumentNullException("CommandBarSplitItemDefinition not found");
+
+            AssignGroup(item, parentDefinition);
+            SetFlags(item, childNode);
+            item.SortOrder = sortOrder;
+            if (text != null)
+                item.Text = text;
+            _definitionHost.ItemDefinitions.Add(item);
         }
 
         private void CreateCommandBarGroup(CommandBarDefinitionBase parentDefinition, XmlNode childNode)
         {
-            var sortOrder = childNode.TryGetAttributeValue<uint>("SortOrder");
+            var sortOrder = childNode.GetAttributeValue<uint>("SortOrder");
             var group = CreateGroup(parentDefinition, sortOrder);
             group.ContainedGroups.Clear();
             BuildCommandBar(childNode, group);
@@ -115,12 +148,15 @@ namespace ModernApplicationFramework.Basics.Services
 
         private void CreateCommandBarMenu(CommandBarDefinitionBase parentDefinition, XmlNode childNode)
         {
-            var guid = childNode.TryGetAttributeValue<Guid>("Id");
-            var sortOrder = childNode.TryGetAttributeValue<uint>("SortOrder");
-            MenuDefinition menu = null;
+            var guid = childNode.GetAttributeValue<Guid>("Id");
+            var sortOrder = childNode.GetAttributeValue<uint>("SortOrder");
+            childNode.TryGetValueResult<string>("Text", out var text);
+            MenuDefinition menu;
             if (guid == Guid.Empty)
             {
-                //TODO
+                if (!(parentDefinition is CommandBarGroupDefinition group))
+                    throw new ArgumentException("Parent must be a group");
+                menu = new MenuDefinition(guid, group, sortOrder, text, true);
             }
             else
                 menu = FindCommandBarDefinitionById<MenuDefinition>(guid);
@@ -131,7 +167,8 @@ namespace ModernApplicationFramework.Basics.Services
             AssignGroup(menu, parentDefinition);
             SetFlags(menu, childNode);
             menu.SortOrder = sortOrder;
-
+            if (text != null)
+                menu.Text = text;
             BuildCommandBar(childNode, menu);
 
             _definitionHost.ItemDefinitions.Add(menu);
@@ -139,13 +176,20 @@ namespace ModernApplicationFramework.Basics.Services
 
         private void CreateCommandBarItem(CommandBarDefinitionBase parentDefinition, XmlNode childNode)
         {
-            var guid = childNode.TryGetAttributeValue<Guid>("Id");
-            var sortOrder = childNode.TryGetAttributeValue<uint>("SortOrder");
+            var guid = childNode.GetAttributeValue<Guid>("Id");
+            var sortOrder = childNode.GetAttributeValue<uint>("SortOrder");
+            childNode.TryGetValueResult<string>("Text", out var text);
 
-            CommandBarItemDefinition item = null;
+            CommandBarItemDefinition item;
             if (guid == Guid.Empty)
             {
-
+                var commandId = childNode.GetAttributeValue<Guid>("Command");
+                if (commandId == Guid.Empty)
+                    throw new NotSupportedException("CommandId cannot be 'Guid.Empty'");
+                var command = IoC.GetAll<CommandDefinitionBase>().FirstOrDefault(x => x.Id.Equals(commandId));
+                if (command == null)
+                    throw new ArgumentNullException("Command was not found");
+                item = new CommandBarCommandItemDefinition(guid, sortOrder, command);
             }
             else
                 item = FindCommandBarDefinitionById<CommandBarItemDefinition>(guid);
@@ -156,20 +200,19 @@ namespace ModernApplicationFramework.Basics.Services
             AssignGroup(item, parentDefinition);
             SetFlags(item, childNode);
             item.SortOrder = sortOrder;
+            if (text != null)
+                item.Text = text;
             _definitionHost.ItemDefinitions.Add(item);
         }
 
         private void CreateCommandBarMenuControllerItem(CommandBarDefinitionBase parentDefinition, XmlNode childNode)
         {
-            var guid = childNode.TryGetAttributeValue<Guid>("Id");
-            var sortOrder = childNode.TryGetAttributeValue<uint>("SortOrder");
-            CommandBarMenuControllerDefinition menuController = null;
+            var guid = childNode.GetAttributeValue<Guid>("Id");
+            var sortOrder = childNode.GetAttributeValue<uint>("SortOrder");
             if (guid == Guid.Empty)
-            {
+                throw new NotSupportedException("Menu Controller can not be custom");
 
-            }
-            else
-                menuController = FindCommandBarDefinitionById<CommandBarMenuControllerDefinition>(guid);
+            var menuController = FindCommandBarDefinitionById<CommandBarMenuControllerDefinition>(guid);
 
             if (menuController == null)
                 throw new ArgumentNullException("CommandBarMenuControllerDefinition not found");
@@ -182,16 +225,24 @@ namespace ModernApplicationFramework.Basics.Services
 
         private void CreateCommandBarComboBoxItem(CommandBarDefinitionBase parentDefinition, XmlNode childNode)
         {
-            var guid = childNode.TryGetAttributeValue<Guid>("Id");
-            var sortOrder = childNode.TryGetAttributeValue<uint>("SortOrder");
-            var vFlags = childNode.TryGetAttributeValue<int>("VisualFlags");
-            var editable = childNode.TryGetAttributeValue<bool>("IsEditable");
-            var dropDownWidth = childNode.TryGetAttributeValue<double>("DropDownWidth");
+            var guid = childNode.GetAttributeValue<Guid>("Id");
+            var sortOrder = childNode.GetAttributeValue<uint>("SortOrder");
+            var vFlags = childNode.GetAttributeValue<int>("VisualFlags");
+            var editable = childNode.GetAttributeValue<bool>("IsEditable");
+            var dropDownWidth = childNode.GetAttributeValue<double>("DropDownWidth");
+            childNode.TryGetValueResult<string>("Text", out var text);
 
-            CommandBarComboItemDefinition comboboxItem = null;
+            CommandBarComboItemDefinition comboboxItem;
             if (guid == Guid.Empty)
             {
-
+                var commandId = childNode.GetAttributeValue<Guid>("Command");
+                if (commandId == Guid.Empty)
+                    throw new NotSupportedException("CommandId cannot be 'Guid.Empty'");
+                var command = IoC.GetAll<CommandDefinitionBase>().FirstOrDefault(x => x.Id.Equals(commandId));
+                if (command == null)
+                    throw new ArgumentNullException("Command was not found");
+                comboboxItem =
+                    new CommandBarComboItemDefinition(guid, text, sortOrder, null, command, true, false, true);
             }
             else
                 comboboxItem = FindCommandBarDefinitionById<CommandBarComboItemDefinition>(guid);
@@ -205,6 +256,8 @@ namespace ModernApplicationFramework.Basics.Services
             comboboxItem.VisualSource.Flags.EnableStyleFlags((CommandBarFlags) vFlags);
             comboboxItem.VisualSource.IsEditable = editable;
             comboboxItem.VisualSource.DropDownWidth = dropDownWidth;
+            if (text != null)
+                comboboxItem.Text = text;
             _definitionHost.ItemDefinitions.Add(comboboxItem);
         }
 
@@ -278,6 +331,9 @@ namespace ModernApplicationFramework.Basics.Services
                         case CommandBarComboItemDefinition comboItemDefinition:
                             itemElement = CreateElement(CreationType.ComboBoxItemDefinition, document, comboItemDefinition);
                             break;
+                        case CommandBarSplitItemDefinition splitItemDefinition:
+                            itemElement = CreateElement(CreationType.SplitButtonItemDefinition, document, splitItemDefinition);
+                            break;
                         case CommandBarItemDefinition commandItem:
                             itemElement = CreateElement(CreationType.ItemDefinition, document, commandItem);
                             break;
@@ -322,6 +378,9 @@ namespace ModernApplicationFramework.Basics.Services
                 case CreationType.ComboBoxItemDefinition:
                     itemElement = CreateComboBoxItemElement(document, commandBarDefinition);
                     break;
+                case CreationType.SplitButtonItemDefinition:
+                    itemElement = CreateSplitButtonItemElement(document, commandBarDefinition);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
@@ -330,8 +389,18 @@ namespace ModernApplicationFramework.Basics.Services
             itemElement.SetAttribute("SortOrder", commandBarDefinition.SortOrder.ToString());
             itemElement.SetAttribute("Flags", commandBarDefinition.Flags.AllFlags.ToString());
 
+            if (commandBarDefinition.IsTextModified || commandBarDefinition.IsCustom)
+
+                itemElement.SetAttribute("Text", commandBarDefinition.Text);
+
 
             return itemElement;
+        }
+
+        private XmlElement CreateSplitButtonItemElement(XmlDocument document, CommandBarItemDefinition commandBarDefinition)
+        {
+            return document.CreateElement("SplitButtonDefinition", string.Empty,
+                new KeyValuePair<string, string>("Command", commandBarDefinition.CommandDefinition.Id.ToString("B")));
         }
 
         private static XmlElement CreateMenuDefinitionElement(XmlDocument document)
@@ -411,7 +480,7 @@ namespace ModernApplicationFramework.Basics.Services
 
         private static void SetFlags(CommandBarDefinitionBase item, XmlNode node)
         {
-            var flags = node.TryGetAttributeValue<int>("Flags");
+            var flags = node.GetAttributeValue<int>("Flags");
             item.Flags.EnableStyleFlags((CommandBarFlags)flags);
         }
 
@@ -421,6 +490,7 @@ namespace ModernApplicationFramework.Basics.Services
             MenuDefinition,
             MenuControllerDefinition,
             ComboBoxItemDefinition,
+            SplitButtonItemDefinition,
             ItemDefinition
         }
     }

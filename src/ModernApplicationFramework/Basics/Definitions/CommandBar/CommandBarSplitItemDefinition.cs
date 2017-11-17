@@ -14,10 +14,24 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarItemDefinition`1" />
     public sealed class CommandBarSplitItemDefinition<T> : CommandBarSplitItemDefinition where T : CommandDefinitionBase
 	{
+	    private string _text;
 	    public override CommandDefinitionBase CommandDefinition { get; }
 
+	    public override string Text
+	    {
+	        get => _text;
+	        set
+	        {
+	            if (value == _text)
+                    return;
+	            IsTextModified = true;
+	            _text = value;
+	            OnPropertyChanged();
+	        }
+	    }
 
-        public CommandBarSplitItemDefinition(Guid id, string statusString, CommandBarGroupDefinition group, uint sortOrder,
+
+	    public CommandBarSplitItemDefinition(Guid id, string statusString, CommandBarGroupDefinition group, uint sortOrder,
             bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true)
             : this(id, group, sortOrder, isVisible, isChecked, isCustom, isCustomizable)
         {
@@ -30,7 +44,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         {
 
             CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
-            Text = CommandDefinition.Text;
+            _text = CommandDefinition.Text;
 
             if (CommandDefinition is CommandSplitButtonDefinition splitButtonDefinition)
                 StringCreator = splitButtonDefinition.StatusStringCreator;

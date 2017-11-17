@@ -16,7 +16,29 @@ namespace ModernApplicationFramework.Utilities.Xml
             return element;
         }
 
-        public static T TryGetAttributeValue<T>(this XmlNode node, string attributeName)
+        public static GetValueResult TryGetValueResult<T>(this XmlNode node, string attributeName, out T result, T defaultValue = default(T))
+        {
+            result = defaultValue;
+
+            string value;
+            try
+            {
+                value = node.Attributes[attributeName].Value;
+            }
+            catch
+            {
+                return GetValueResult.Missing;
+            }
+            var serializer = new XmlValueSerializer();
+            return serializer.Deserialize(value, out result);
+        }
+
+        public static string GetAttributeValue(this XmlNode node, string attributeName)
+        {
+            return node.GetAttributeValue<string>(attributeName);
+        }
+
+        public static T GetAttributeValue<T>(this XmlNode node, string attributeName)
         {
             string value;
             try

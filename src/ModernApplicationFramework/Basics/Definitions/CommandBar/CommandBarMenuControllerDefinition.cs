@@ -14,7 +14,22 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarItemDefinition`1" />
     public sealed class CommandBarMenuControllerDefinition<T> : CommandBarMenuControllerDefinition where T : CommandDefinitionBase
 	{
+	    private string _text;
 	    public override CommandDefinitionBase CommandDefinition { get; }
+
+	    public override string Text
+	    {
+	        get => _text;
+	        set
+	        {
+	            if (value == _text)
+                    return;
+	            IsTextModified = true;
+	            _text = value;
+	            OnPropertyChanged();
+	        }
+	    }
+
 	    public override Guid Id { get; }
 
 	    public CommandBarMenuControllerDefinition(Guid id, CommandBarGroupDefinition group, uint sortOrder,
@@ -26,7 +41,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             Flags.TextIsAnchor = true;
 
             CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
-            Text = CommandDefinition.Text;
+            _text = CommandDefinition.Text;
             Name = CommandDefinition.Name;
 
             if (CommandDefinition is CommandMenuControllerDefinition menuControllerDefinition)

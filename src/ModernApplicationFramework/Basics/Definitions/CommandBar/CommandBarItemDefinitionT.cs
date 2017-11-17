@@ -32,6 +32,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 			{
 				if (value == _text) return;
 				_text = value;
+			    IsTextModified = true;
 				OnPropertyChanged();
 			}
 		}
@@ -56,8 +57,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 			: base(text, sortOrder, group, definition, visible, isChecked, isCustom, isCustomizable)
 		{
 			CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
-			Text = CommandDefinition.Text;
-			Name = CommandDefinition.Name;
+			_text = CommandDefinition.Text;
+			_name = CommandDefinition.Name;
 		}
 	}
 }
