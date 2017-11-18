@@ -20,7 +20,6 @@ namespace ModernApplicationFramework.Basics.Services
     [Export(typeof(ICommandBarSerializer))]
     public class CommandBarSerializer : ICommandBarSerializer
     {
-        //private IEnumerable<MenuBarDefinition> _allMenuBars;
         private readonly List<CommandBarDefinitionBase> _allDefinitions = new List<CommandBarDefinitionBase>();
         private ICommandBarDefinitionHost _definitionHost;
         private IEnumerable<CommandBarItemDefinition> _allCommandBarItems;
@@ -38,10 +37,27 @@ namespace ModernApplicationFramework.Basics.Services
 
             var xmlDocument = CreateDocument();
 
+            SerializeCommandBarRoot<IMenuHostViewModel, MenuBarDefinition>(xmlDocument.LastChild, "MenuBars",
+                (document, definition) => document.CreateElement("MenuBar", string.Empty,
+                    new KeyValuePair<string, string>("Id", definition.Id.ToString("B")),
+                    new KeyValuePair<string, string>("SortOrder", definition.SortOrder.ToString())));
 
-            SerializeMenuBars(xmlDocument.LastChild);
-            SerializeToolBars(xmlDocument.LastChild);
-            SerializeContextMenus(xmlDocument.LastChild);
+            SerializeCommandBarRoot<IToolBarHostViewModel, ToolbarDefinition>(xmlDocument.LastChild, "Toolbars",
+                (document, definition) =>
+                {
+                    var toolBarElement = document.CreateElement("ToolBar", string.Empty,
+                        new KeyValuePair<string, string>("Id", definition.Id.ToString("B")),
+                        new KeyValuePair<string, string>("Position", ((int)definition.Position).ToString()),
+                        new KeyValuePair<string, string>("IsVisible", definition.IsVisible.ToString()),
+                        new KeyValuePair<string, string>("SortOrder", definition.SortOrder.ToString()));
+                    if (definition.IsCustom)
+                        toolBarElement.SetAttribute("Text", definition.Text);
+                    return toolBarElement;
+                });
+
+            SerializeCommandBarRoot<IContextMenuHost, ContextMenuDefinition>(xmlDocument.LastChild, "ContextMenus",
+                (document, definition) => document.CreateElement("ContextMenu", string.Empty,
+                    new KeyValuePair<string, string>("Id", definition.Id.ToString("B"))));
 
 
             xmlDocument.Save(@"C:\Test\CommandBar.xml");
@@ -53,14 +69,14 @@ namespace ModernApplicationFramework.Basics.Services
 
             var allMenuBars = IoC.GetAll<MenuBarDefinition>();
             var allToolBars = IoC.GetAll<ToolbarDefinition>();
+            var allcontextMenus = IoC.GetAll<ContextMenuDefinition>();
             _allCommandBarItems = IoC.GetAll<CommandBarItemDefinition>();
             _allCommandDefintions = IoC.GetAll<CommandDefinitionBase>();
 
             _allDefinitions.AddRange(allMenuBars);
             _allDefinitions.AddRange(allToolBars);
+            _allDefinitions.AddRange(allcontextMenus);
             _allDefinitions.AddRange(_allCommandBarItems);
-
-
 
             ClearCurrentLayout();
 
@@ -68,52 +84,47 @@ namespace ModernApplicationFramework.Basics.Services
             document.Load(@"C:\Test\CommandBar.xml");
 
             DeserializeCommandBar<MenuBarDefinition, IMenuHostViewModel>(document, "/CommandBarDefinitions/MenuBars");
-            DeserializeCommandBar<ToolbarDefinition, IToolBarHostViewModel>(document, "/CommandBarDefinitions/Toolbars");
+            DeserializeCommandBar<ToolbarDefinition, IToolBarHostViewModel>(document,
+                "/CommandBarDefinitions/Toolbars", delegate (XmlNode node)
+                {
+                    node.TryGetValueResult<string>("Text", out var text);
+                    node.TryGetValueResult<uint>("SortOrder", out var sortOrder);
+                    node.TryGetValueResult<bool>("IsVisible", out var visible);
+                    node.TryGetValueResult<int>("Position", out var position);
+                    return new ToolbarDefinition(Guid.Empty, text, sortOrder, visible, (Dock)position, true, true);
+                }, (definition, node) =>
+                {
+                    if (!(definition is ToolbarDefinition toolbar))
+                        return;
+                    node.TryGetValueResult<bool>("IsVisible", out var visible);
+                    node.TryGetValueResult<int>("Position", out var position);
+                    toolbar.Position = (Dock)position;
+                    toolbar.IsVisible = visible;
+                });
+            DeserializeCommandBar<ContextMenuDefinition, IContextMenuHost>(document, "/CommandBarDefinitions/ContextMenus");
         }
 
         #region Deserialize
 
-        private void DeserializeCommandBar<T, TV>(XmlDocument document,  string path) where T : CommandBarDefinitionBase
+        private void DeserializeCommandBar<T, TV>(XmlDocument document, string path,
+            Func<XmlNode, CommandBarDefinitionBase> guidEmptyFunc = null, Action<T, XmlNode> prefillFunc = null)
+            where T : CommandBarDefinitionBase
             where TV : ICommandBarHost
         {
-
             var commandBarHost = IoC.Get<TV>();
             commandBarHost.TopLevelDefinitions.Clear();
             commandBarHost.Build();
-
             var node = document.DocumentElement?.SelectSingleNode(path);
 
             if (node == null || !node.HasChildNodes)
                 return;
-
             foreach (XmlNode commandBarNode in node.ChildNodes)
             {
-
                 var guid = commandBarNode.GetAttributeValue<Guid>("Id");
-                commandBarNode.TryGetValueResult<string>("Text", out var text);
-                commandBarNode.TryGetValueResult<uint>("SortOrder", out var sortOrder);
-                commandBarNode.TryGetValueResult<bool>("IsVisible", out var visible);
-                commandBarNode.TryGetValueResult<int>("Position", out var position);
-                CommandBarDefinitionBase commandBar = null;
-                if (guid == Guid.Empty)
-                {
-                    if (typeof(T) == typeof(ToolbarDefinition))
-                    {
-                        commandBar = new ToolbarDefinition(guid, text, sortOrder, visible,(Dock) position, true, true);
-                    }
-                    else if (typeof(T) == typeof(ContextMenuDefinition))
-                    {
-                        
-                    }
-                }
-                else
-                    commandBar = FindCommandBarDefinitionById<T>(guid);
-
-                if (commandBar is ToolbarDefinition toolbar)
-                {
-                    toolbar.Position = (Dock)position;
-                    toolbar.IsVisible = visible;
-                }
+                if (guid == Guid.Empty && guidEmptyFunc == null)
+                    throw new NotSupportedException("Custom CommandBarRootItem not supported");
+                var commandBar = guid == Guid.Empty ? guidEmptyFunc(commandBarNode) : FindCommandBarDefinitionById<T>(guid);
+                prefillFunc?.Invoke((T)commandBar, commandBarNode);
                 BuildCommandBar(commandBarNode, commandBar);
                 commandBarHost.TopLevelDefinitions.Add(commandBar);
             }
@@ -288,7 +299,7 @@ namespace ModernApplicationFramework.Basics.Services
             AssignGroup(comboboxItem, parentDefinition);
             SetFlags(comboboxItem, childNode);
             comboboxItem.SortOrder = sortOrder;
-            comboboxItem.VisualSource.Flags.EnableStyleFlags((CommandBarFlags) vFlags);
+            comboboxItem.VisualSource.Flags.EnableStyleFlags((CommandBarFlags)vFlags);
             comboboxItem.VisualSource.IsEditable = editable;
             comboboxItem.VisualSource.DropDownWidth = dropDownWidth;
             if (text != null)
@@ -300,70 +311,26 @@ namespace ModernApplicationFramework.Basics.Services
 
         #region Serialize
 
-        private void SerializeContextMenus(XmlNode parentElement)
-        {
-            if (parentElement.OwnerDocument == null)
-                throw new InvalidOperationException();
-            var contextMenusElement =
-                parentElement.OwnerDocument.CreateElement(string.Empty, "ContextMenus", string.Empty);
-
-            parentElement.AppendChild(contextMenusElement);
-        }
-
-        private void SerializeToolBars(XmlNode parentElement)
-        {
-            if (parentElement.OwnerDocument == null)
-                throw new InvalidOperationException();
-
-            var document = parentElement.OwnerDocument;
-
-            var toolBarsElement = parentElement.OwnerDocument.CreateElement(string.Empty, "Toolbars", string.Empty);
-
-
-            var toolBars = IoC.Get<IToolBarHostViewModel>().GetMenuHeaderItemDefinitions()
-                .Where(x => x is ToolbarDefinition).Cast<ToolbarDefinition>();
-
-            foreach (var toolBar in toolBars)
-            {
-                var toolBarElement = document.CreateElement("ToolBar", string.Empty,
-                    new KeyValuePair<string, string>("Id", toolBar.Id.ToString("B")),
-                    new KeyValuePair<string, string>("Position", ((int)toolBar.Position).ToString()),
-                    new KeyValuePair<string, string>("IsVisible", toolBar.IsVisible.ToString()),
-                    new KeyValuePair<string, string>("SortOrder", toolBar.SortOrder.ToString()));
-                ExplodeGroups(toolBar, toolBarElement, document);
-
-                if (toolBar.IsCustom)
-                    toolBarElement.SetAttribute("Text", toolBar.Text);
-
-                toolBarsElement.AppendChild(toolBarElement);
-            }
-
-
-            parentElement.AppendChild(toolBarsElement);
-        }
-
-        private void SerializeMenuBars(XmlNode parentElement)
+        private void SerializeCommandBarRoot<T, TV>(XmlNode parentElement, string path, Func<XmlDocument, TV, XmlElement> createElementFunc)
+            where T : ICommandBarHost
+            where TV : CommandBarDefinitionBase
         {
             if (parentElement.OwnerDocument == null)
                 throw new InvalidOperationException();
             var document = parentElement.OwnerDocument;
-            var menuBarsElement = document.CreateElement(string.Empty, "MenuBars", string.Empty);
-
-            var menuBars = IoC.Get<IMenuHostViewModel>().GetMenuHeaderItemDefinitions()
-                .Where(x => x is MenuBarDefinition).Cast<MenuBarDefinition>();
-
-            foreach (var menuBar in menuBars)
+            var rootElement = parentElement.OwnerDocument.CreateElement(string.Empty, path, string.Empty);
+            var commandBarRootItems = IoC.Get<T>().GetMenuHeaderItemDefinitions()
+                .Where(x => x is TV).Cast<TV>();
+            foreach (var item in commandBarRootItems)
             {
-                var menuBarElement = document.CreateElement("MenuBar", string.Empty,
-                    new KeyValuePair<string, string>("Id", menuBar.Id.ToString("B")),
-                    new KeyValuePair<string, string>("SortOrder", menuBar.SortOrder.ToString()));
-                ExplodeGroups(menuBar, menuBarElement, document);
-                menuBarsElement.AppendChild(menuBarElement);
+                var element = createElementFunc(document, item);
+                ExplodeGroups(item, element, document);
+                rootElement.AppendChild(element);
             }
-            parentElement.AppendChild(menuBarsElement);
+            parentElement.AppendChild(rootElement);
         }
 
-        private void ExplodeGroups(CommandBarDefinitionBase definition, XmlNode parentXmlElement, XmlDocument document)
+        private static void ExplodeGroups(CommandBarDefinitionBase definition, XmlNode parentXmlElement, XmlDocument document)
         {
             if (definition.ContainedGroups == null || definition.ContainedGroups.Count == 0)
                 return;
@@ -381,19 +348,57 @@ namespace ModernApplicationFramework.Basics.Services
                     switch (groupItem)
                     {
                         case MenuDefinition menuDefinition:
-                            itemElement = CreateElement(CreationType.MenuDefinition, document, menuDefinition);
+                            itemElement = CreateElement(document, "MenuDefinition", menuDefinition);
                             break;
                         case CommandBarMenuControllerDefinition menuController:
-                            itemElement = CreateElement(CreationType.MenuControllerDefinition, document, menuController);
+                            itemElement = CreateElement(document, "MenuControllerDefinition",
+                                menuController,
+                                element =>
+                                {
+                                    element.SetAttribute("AnchroItem",
+                                        menuController.AnchorItem?.CommandDefinition?.Id.ToString("B"));
+                                    element.SetAttribute("IsVisible", menuController.IsVisible.ToString());
+
+                                    if (!(definition.CommandDefinition is CommandMenuControllerDefinition controllerDefinition))
+                                        return;
+                                    foreach (var item in controllerDefinition.Items)
+                                    {
+                                        var innerItemElement = document.CreateElement("ItemDefinition", string.Empty,
+                                            new KeyValuePair<string, string>("Command",
+                                                item.CommandDefinition.Id.ToString("B")));
+                                        element.AppendChild(innerItemElement);
+                                    }
+                                });
                             break;
                         case CommandBarComboItemDefinition comboItemDefinition:
-                            itemElement = CreateElement(CreationType.ComboBoxItemDefinition, document, comboItemDefinition);
+                            itemElement = CreateElement(document, "ComboBoxDefinition", comboItemDefinition,
+                                element =>
+                                {
+                                    element.SetAttribute("Command",
+                                        comboItemDefinition.CommandDefinition.Id.ToString("B"));
+                                    element.SetAttribute("VisualFlags",
+                                        comboItemDefinition.VisualSource.Flags.AllFlags.ToString());
+                                    element.SetAttribute("IsEditable",
+                                        comboItemDefinition.VisualSource.IsEditable.ToString());
+                                    element.SetAttribute("DropDownWidth", comboItemDefinition.VisualSource.DropDownWidth.ToString(InvariantCulture));
+                                });
                             break;
                         case CommandBarSplitItemDefinition splitItemDefinition:
-                            itemElement = CreateElement(CreationType.SplitButtonItemDefinition, document, splitItemDefinition);
+                            itemElement = CreateElement(document,
+                                "SplitButtonDefinition", splitItemDefinition,
+                                element =>
+                                {
+                                    element.SetAttribute("Command",
+                                        splitItemDefinition.CommandDefinition.Id.ToString("B"));
+                                });
                             break;
                         case CommandBarItemDefinition commandItem:
-                            itemElement = CreateElement(CreationType.ItemDefinition, document, commandItem);
+                            itemElement = CreateElement(document, "ItemDefinition", commandItem,
+                                element =>
+                            {
+                                element.SetAttribute("Command",
+                                    commandItem.CommandDefinition.Id.ToString("B"));
+                            });
                             break;
                     }
                     ExplodeGroups(groupItem, itemElement, document);
@@ -418,91 +423,19 @@ namespace ModernApplicationFramework.Basics.Services
             return xmlDocument;
         }
 
-        private XmlElement CreateElement(CreationType type, XmlDocument document, CommandBarItemDefinition commandBarDefinition)
+        private static XmlElement CreateElement(XmlDocument document, string name, CommandBarDefinitionBase commandBarDefinition,
+            Action<XmlElement> fillElementFunc = null)
         {
-            XmlElement itemElement;
+            var element = document.CreateElement(name);
 
-            switch (type)
-            {
-                case CreationType.MenuDefinition:
-                    itemElement = CreateMenuDefinitionElement(document);
-                    break;
-                case CreationType.MenuControllerDefinition:
-                    itemElement = CreateMenuControllerElement(document, commandBarDefinition);
-                    break;
-                case CreationType.ItemDefinition:
-                    itemElement = CreateCommandBarItemElement(document, commandBarDefinition);
-                    break;
-                case CreationType.ComboBoxItemDefinition:
-                    itemElement = CreateComboBoxItemElement(document, commandBarDefinition);
-                    break;
-                case CreationType.SplitButtonItemDefinition:
-                    itemElement = CreateSplitButtonItemElement(document, commandBarDefinition);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
-            }
-
-            itemElement.SetAttribute("Id", commandBarDefinition.Id.ToString("B"));
-            itemElement.SetAttribute("SortOrder", commandBarDefinition.SortOrder.ToString());
-            itemElement.SetAttribute("Flags", commandBarDefinition.Flags.AllFlags.ToString());
+            element.SetAttribute("Id", commandBarDefinition.Id.ToString("B"));
+            element.SetAttribute("SortOrder", commandBarDefinition.SortOrder.ToString());
+            element.SetAttribute("Flags", commandBarDefinition.Flags.AllFlags.ToString());
 
             if (commandBarDefinition.IsTextModified || commandBarDefinition.IsCustom)
+                element.SetAttribute("Text", commandBarDefinition.Text);
 
-                itemElement.SetAttribute("Text", commandBarDefinition.Text);
-
-
-            return itemElement;
-        }
-
-        private XmlElement CreateSplitButtonItemElement(XmlDocument document, CommandBarItemDefinition commandBarDefinition)
-        {
-            return document.CreateElement("SplitButtonDefinition", string.Empty,
-                new KeyValuePair<string, string>("Command", commandBarDefinition.CommandDefinition.Id.ToString("B")));
-        }
-
-        private static XmlElement CreateMenuDefinitionElement(XmlDocument document)
-        {
-            return document.CreateElement(string.Empty, "MenuDefinition", string.Empty);
-        }
-
-        private static XmlElement CreateMenuControllerElement(XmlDocument document, CommandBarItemDefinition definition)
-        {
-            var menuController = definition as CommandBarMenuControllerDefinition;
-            var element = document.CreateElement("MenuControllerDefinition", string.Empty,
-                new KeyValuePair<string, string>("AnchroItem",
-                    menuController.AnchorItem?.CommandDefinition?.Id.ToString("B")),
-                new KeyValuePair<string, string>("IsVisible", definition.IsVisible.ToString()));
-
-            if (!(definition.CommandDefinition is CommandMenuControllerDefinition controllerDefinition))
-                return element;
-            foreach (var item in controllerDefinition.Items)
-            {
-                var innerItemElement = document.CreateElement("ItemDefinition", string.Empty,
-                    new KeyValuePair<string, string>("Command",
-                        item.CommandDefinition.Id.ToString("B")));
-                element.AppendChild(innerItemElement);
-            }
-            return element;
-        }
-
-        private static XmlElement CreateCommandBarItemElement(XmlDocument document, CommandBarItemDefinition definition)
-        {
-            return document.CreateElement("ItemDefinition", string.Empty,
-                new KeyValuePair<string, string>("Command",
-                    definition.CommandDefinition.Id.ToString("B")));
-        }
-
-        private static XmlElement CreateComboBoxItemElement(XmlDocument document, CommandBarItemDefinition definition)
-        {
-            var comboDefinition = definition as CommandBarComboItemDefinition;
-
-            var element =  document.CreateElement("ComboBoxDefinition", string.Empty,
-                new KeyValuePair<string, string>("Command", comboDefinition.CommandDefinition.Id.ToString("B")),
-                new KeyValuePair<string, string>("VisualFlags", comboDefinition.VisualSource.Flags.AllFlags.ToString()),
-                new KeyValuePair<string, string>("IsEditable", comboDefinition.VisualSource.IsEditable.ToString()),
-                new KeyValuePair<string, string>("DropDownWidth", comboDefinition.VisualSource.DropDownWidth.ToString(InvariantCulture)));
-
+            fillElementFunc?.Invoke(element);
 
             return element;
         }
@@ -540,16 +473,6 @@ namespace ModernApplicationFramework.Basics.Services
         {
             var flags = node.GetAttributeValue<int>("Flags");
             item.Flags.EnableStyleFlags((CommandBarFlags)flags);
-        }
-
-
-        private enum CreationType
-        {
-            MenuDefinition,
-            MenuControllerDefinition,
-            ComboBoxItemDefinition,
-            SplitButtonItemDefinition,
-            ItemDefinition
         }
     }
 
