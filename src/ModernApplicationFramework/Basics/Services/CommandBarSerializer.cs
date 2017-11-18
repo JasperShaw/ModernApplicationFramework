@@ -168,14 +168,14 @@ namespace ModernApplicationFramework.Basics.Services
                     throw new NotSupportedException("CommandId cannot be 'Guid.Empty'");
                 var command = _allCommandDefintions.FirstOrDefault(x => x.Id.Equals(commandId));
                 if (command == null)
-                    throw new ArgumentNullException("Command was not found");
+                    throw new ArgumentNullException(nameof(parentDefinition));
                 item = new CommandBarSplitItemDefinition(guid, text, sortOrder, null, command, true, false, true);
             }
             else
                 item = FindCommandBarDefinitionById<CommandBarSplitItemDefinition>(guid);
 
             if (item == null)
-                throw new ArgumentNullException("CommandBarSplitItemDefinition not found");
+                throw new ArgumentNullException(nameof(parentDefinition));
 
             AssignGroup(item, parentDefinition);
             SetFlags(item, childNode);
@@ -211,7 +211,7 @@ namespace ModernApplicationFramework.Basics.Services
                 menu = FindCommandBarDefinitionById<MenuDefinition>(guid);
 
             if (menu == null)
-                throw new ArgumentNullException("MenuDefinition not found");
+                throw new ArgumentNullException(nameof(parentDefinition));
 
             AssignGroup(menu, parentDefinition);
             SetFlags(menu, childNode);
@@ -237,14 +237,14 @@ namespace ModernApplicationFramework.Basics.Services
                     throw new NotSupportedException("CommandId cannot be 'Guid.Empty'");
                 var command = _allCommandDefintions.FirstOrDefault(x => x.Id.Equals(commandId));
                 if (command == null)
-                    throw new ArgumentNullException("Command was not found");
+                    throw new ArgumentNullException(nameof(parentDefinition));
                 item = new CommandBarCommandItemDefinition(guid, sortOrder, command);
             }
             else
                 item = FindCommandBarDefinitionById<CommandBarItemDefinition>(guid);
 
             if (item == null)
-                throw new ArgumentNullException("ItemDefinition not found");
+                throw new ArgumentNullException(nameof(parentDefinition));
 
             AssignGroup(item, parentDefinition);
             SetFlags(item, childNode);
@@ -264,7 +264,7 @@ namespace ModernApplicationFramework.Basics.Services
             var menuController = FindCommandBarDefinitionById<CommandBarMenuControllerDefinition>(guid);
 
             if (menuController == null)
-                throw new ArgumentNullException("CommandBarMenuControllerDefinition not found");
+                throw new ArgumentNullException(nameof(parentDefinition));
 
             AssignGroup(menuController, parentDefinition);
             SetFlags(menuController, childNode);
@@ -289,7 +289,7 @@ namespace ModernApplicationFramework.Basics.Services
                     throw new NotSupportedException("CommandId cannot be 'Guid.Empty'");
                 var command = _allCommandDefintions.FirstOrDefault(x => x.Id.Equals(commandId));
                 if (command == null)
-                    throw new ArgumentNullException("Command was not found");
+                    throw new ArgumentNullException(nameof(parentDefinition));
                 comboboxItem =
                     new CommandBarComboItemDefinition(guid, text, sortOrder, null, command, true, false, true);
             }
@@ -297,7 +297,7 @@ namespace ModernApplicationFramework.Basics.Services
                 comboboxItem = FindCommandBarDefinitionById<CommandBarComboItemDefinition>(guid);
 
             if (comboboxItem == null)
-                throw new ArgumentNullException("CommandBarComboItemDefinition not found");
+                throw new ArgumentNullException(nameof(parentDefinition));
 
             AssignGroup(comboboxItem, parentDefinition);
             SetFlags(comboboxItem, childNode);
