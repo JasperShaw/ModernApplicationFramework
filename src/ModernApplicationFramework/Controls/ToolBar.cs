@@ -109,6 +109,15 @@ namespace ModernApplicationFramework.Controls
         protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             base.OnPropertyChanged(e);
+
+            if (e.Property == BandIndexProperty)
+            {
+                if (!(DataContext is CommandBarDefinitionBase cbdb))
+                    return;
+                if (e.NewValue != null)
+                    cbdb.SortOrder = Convert.ToUInt32(e.NewValue);
+            }
+
             if (e.Property != HasOverflowItemsProperty && e.Property != IsQuickCustomizeEnabledProperty)
                 return;
             Dispatcher.BeginInvoke(DispatcherPriority.Send,
@@ -174,9 +183,8 @@ namespace ModernApplicationFramework.Controls
 
         private bool IsComboBoxFocused()
         {
-            var focusedElement = Keyboard.FocusedElement as UIElement;
-            if (focusedElement != null)
-                return true;
+            if (Keyboard.FocusedElement is UIElement focusedElement)
+                return focusedElement.FindAncestorOrSelf<ComboBox.ComboBox>() != null;
             return false;
         }
 
@@ -201,8 +209,6 @@ namespace ModernApplicationFramework.Controls
             foreach (var bar in ancestor.ToolBars)
                 bar.ClearValue(bar.Orientation == Orientation.Vertical ? HeightProperty : WidthProperty);
         }
-
-
 
         private static ResourceKey _buttonStyleKey;
         private static ResourceKey _menuControllerStyleKey;

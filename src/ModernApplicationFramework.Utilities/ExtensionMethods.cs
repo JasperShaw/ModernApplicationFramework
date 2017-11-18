@@ -61,6 +61,11 @@ namespace ModernApplicationFramework.Utilities
             return LogicalTreeHelper.GetParent(sourceElement);
         }
 
+        public static TAncestorType FindAncestorOrSelf<TAncestorType>(this Visual obj) where TAncestorType : DependencyObject
+        {
+            return obj.FindAncestorOrSelf<TAncestorType, DependencyObject>(GetVisualOrLogicalParent);
+        }
+
         public static TAncestorType FindAncestorOrSelf<TAncestorType, TElementType>(this TElementType obj, Func<TElementType, TElementType> parentEvaluator) where TAncestorType : DependencyObject
         {
             TAncestorType ancestorType = (object)obj as TAncestorType;

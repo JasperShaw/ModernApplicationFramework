@@ -25,7 +25,7 @@ namespace ModernApplicationFramework.Controls.Internals
 
         protected override Size MeasureOverride(Size constraint)
         {
-            Size size = base.MeasureOverride(constraint);
+            var size = MeasureWithCollapsePrevention(constraint);
             if (Orientation == Orientation.Horizontal && constraint.Width < double.MaxValue || Orientation == Orientation.Vertical && constraint.Height < double.MaxValue)
             {
                 if (IsStretching)
@@ -41,14 +41,12 @@ namespace ModernApplicationFramework.Controls.Internals
                 else
                     size.Height += 3.0;
             }
-            System.Windows.Controls.ToolBar templatedParent = TemplatedParent as System.Windows.Controls.ToolBar;
-            if (templatedParent != null && templatedParent.Orientation == Orientation.Vertical)
+            if (TemplatedParent is System.Windows.Controls.ToolBar templatedParent && templatedParent.Orientation == Orientation.Vertical)
             {
                 double val2 = 0.0;
                 for (int index = 0; index < templatedParent.Items.Count; ++index)
                 {
-                    var frameworkElement = templatedParent.ItemContainerGenerator.ContainerFromIndex(index) as FrameworkElement;
-                    if (frameworkElement != null && !System.Windows.Controls.ToolBar.GetIsOverflowItem(frameworkElement))
+                    if (templatedParent.ItemContainerGenerator.ContainerFromIndex(index) is FrameworkElement frameworkElement && !System.Windows.Controls.ToolBar.GetIsOverflowItem(frameworkElement))
                         val2 = Math.Max(frameworkElement.DesiredSize.Width, val2);
                     else
                         break;
@@ -168,8 +166,7 @@ namespace ModernApplicationFramework.Controls.Internals
 
         private bool IsStretchingComboBox(UIElement uiElement)
         {
-            FrameworkElement frameworkElement = uiElement as FrameworkElement;
-            if (frameworkElement == null)
+            if (!(uiElement is FrameworkElement frameworkElement))
                 return false;
             if (!(frameworkElement.DataContext is CommandBarDefinitionBase definitionBase))
                 return false;
