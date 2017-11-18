@@ -49,6 +49,7 @@ namespace ModernApplicationFramework.Basics.Services
                         new KeyValuePair<string, string>("Id", definition.Id.ToString("B")),
                         new KeyValuePair<string, string>("Position", ((int)definition.Position).ToString()),
                         new KeyValuePair<string, string>("IsVisible", definition.IsVisible.ToString()),
+                        new KeyValuePair<string, string>("PlacementSlot", definition.PlacementSlot.ToString()),
                         new KeyValuePair<string, string>("SortOrder", definition.SortOrder.ToString()));
                     if (definition.IsCustom)
                         toolBarElement.SetAttribute("Text", definition.Text);
@@ -98,8 +99,10 @@ namespace ModernApplicationFramework.Basics.Services
                         return;
                     node.TryGetValueResult<bool>("IsVisible", out var visible);
                     node.TryGetValueResult<int>("Position", out var position);
+                    node.TryGetValueResult<int>("PlacementSlot", out var placementSlot);
                     toolbar.Position = (Dock)position;
                     toolbar.IsVisible = visible;
+                    toolbar.PlacementSlot =  placementSlot;
                 });
             DeserializeCommandBar<ContextMenuDefinition, IContextMenuHost>(document, "/CommandBarDefinitions/ContextMenus");
         }
@@ -311,7 +314,7 @@ namespace ModernApplicationFramework.Basics.Services
 
         #region Serialize
 
-        private void SerializeCommandBarRoot<T, TV>(XmlNode parentElement, string path, Func<XmlDocument, TV, XmlElement> createElementFunc)
+        private static void SerializeCommandBarRoot<T, TV>(XmlNode parentElement, string path, Func<XmlDocument, TV, XmlElement> createElementFunc)
             where T : ICommandBarHost
             where TV : CommandBarDefinitionBase
         {

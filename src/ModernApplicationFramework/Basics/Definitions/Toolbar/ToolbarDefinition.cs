@@ -19,6 +19,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
         private Dock _position;
         private bool _isVisible;
         private string _internalName;
+        private int _placementSlot;
 
 
         /// <summary>
@@ -29,9 +30,22 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
             get => _position;
             set
             {
-                if (value == _position) return;
+                if (value == _position)
+                    return;
                 LastPosition = _position;
                 _position = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int PlacementSlot
+        {
+            get => _placementSlot;
+            set
+            {
+                if (value == _placementSlot)
+                    return;
+                _placementSlot = value;
                 OnPropertyChanged();
             }
         }

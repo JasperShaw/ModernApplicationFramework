@@ -1342,7 +1342,12 @@
         </Setter>
         <Setter Property="Band">
             <Setter.Value>
-                <Binding Path="BandIndex" Mode="TwoWay"/>
+                <Binding Path="PlacementSlot" Mode="TwoWay"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BandIndex">
+            <Setter.Value>
+                <Binding Path="SortOrder" Mode="TwoWay"/>
             </Setter.Value>
         </Setter>
         <Setter Property="Margin" Value="0"/>
