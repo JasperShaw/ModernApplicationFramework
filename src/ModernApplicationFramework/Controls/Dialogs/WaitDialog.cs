@@ -242,6 +242,9 @@ namespace ModernApplicationFramework.Controls.Dialogs
             if (waitDialog._executionDone)
                 return;
 
+            if (waitDialog._isClosing)
+                return;
+
             if (waitDialog.Action == null && waitDialog.Function == null)
                 waitDialog.Dispatcher.Invoke(DispatcherPriority.Loaded, new ThreadStart(waitDialog.Show));
             else

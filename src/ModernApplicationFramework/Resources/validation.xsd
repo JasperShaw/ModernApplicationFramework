@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
+  <xs:element name="CommandBarDefinitions" type="CommandBarDefinitionsType"/>
+  <xs:simpleType name="guid">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\{[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}\}"/>
+        </xs:restriction>
+    </xs:simpleType>
+  <xs:complexType name="ItemDefinitionType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="guid" name="Id" use="required"/>
+        <xs:attribute type="xs:byte" name="SortOrder" use="optional"/>
+        <xs:attribute type="xs:byte" name="Flags" use="required"/>
+        <xs:attribute type="guid" name="Command" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="GroupDefinitionType">
+    <xs:choice maxOccurs="unbounded" minOccurs="0">
+      <xs:element type="ItemDefinitionType" name="ItemDefinition"/>
+      <xs:element type="MenuDefinitionType" name="MenuDefinition"/>
+      <xs:element type="ComboBoxDefinitionType" name="ComboBoxDefinition"/>
+      <xs:element type="SplitButtonDefinitionType" name="SplitButtonDefinition"/>
+      <xs:element type="MenuControllerDefinitionType" name="MenuControllerDefinition"/>
+    </xs:choice>
+    <xs:attribute type="xs:byte" name="SortOrder" use="optional"/>
+    <xs:attribute type="xs:byte" name="ItemCount" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="MenuDefinitionType" mixed="true">
+    <xs:sequence>
+      <xs:element type="GroupDefinitionType" name="GroupDefinition" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="guid" name="Id" use="required"/>
+    <xs:attribute type="xs:byte" name="SortOrder" use="optional"/>
+    <xs:attribute type="xs:byte" name="Flags" use="required"/>
+    <xs:attribute type="guid" name="Command" use="optional"/>
+    <xs:attribute type="xs:string" name="Text" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="ComboBoxDefinitionType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="guid" name="Id" use="required"/>
+        <xs:attribute type="xs:byte" name="SortOrder" use="optional"/>
+        <xs:attribute type="xs:byte" name="Flags" use="required"/>
+        <xs:attribute type="guid" name="Command" use="required"/>
+        <xs:attribute type="xs:byte" name="VisualFlags" use="required"/>
+        <xs:attribute type="xs:string" name="IsEditable" use="required"/>
+        <xs:attribute type="xs:byte" name="DropDownWidth" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="SplitButtonDefinitionType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="guid" name="Id" use="required"/>
+        <xs:attribute type="xs:byte" name="SortOrder" use="optional"/>
+        <xs:attribute type="xs:byte" name="Flags" use="required"/>
+        <xs:attribute type="guid" name="Command" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="MenuControllerDefinitionType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="guid" name="Id" use="required"/>
+        <xs:attribute type="xs:byte" name="SortOrder" use="optional"/>
+        <xs:attribute type="xs:byte" name="Flags" use="required"/>
+        <xs:attribute type="xs:string" name="AnchroItem" use="required"/>
+        <xs:attribute type="xs:string" name="IsVisible" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="MenuBarType">
+    <xs:sequence>
+      <xs:element type="GroupDefinitionType" name="GroupDefinition"/>
+    </xs:sequence>
+    <xs:attribute type="guid" name="Id" use="required"/>
+    <xs:attribute type="xs:byte" name="SortOrder"/>
+  </xs:complexType>
+  <xs:complexType name="MenuBarsType">
+    <xs:sequence>
+      <xs:element type="MenuBarType" name="MenuBar"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ToolBarType">
+    <xs:sequence>
+      <xs:element type="GroupDefinitionType" name="GroupDefinition"/>
+    </xs:sequence>
+    <xs:attribute type="guid" name="Id" use="required"/>
+    <xs:attribute type="xs:byte" name="Position" use="required"/>
+    <xs:attribute type="xs:string" name="IsVisible" use="required"/>
+    <xs:attribute type="xs:byte" name="PlacementSlot" use="required"/>
+    <xs:attribute type="xs:byte" name="SortOrder" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="ToolbarsType">
+    <xs:sequence>
+      <xs:element type="ToolBarType" name="ToolBar" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ContextMenuType">
+    <xs:sequence>
+      <xs:element type="GroupDefinitionType" name="GroupDefinition" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="guid" name="Id" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="ContextMenusType">
+    <xs:sequence>
+      <xs:element type="ContextMenuType" name="ContextMenu" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CommandBarDefinitionsType">
+    <xs:sequence>
+      <xs:element type="MenuBarsType" name="MenuBars"/>
+      <xs:element type="ToolbarsType" name="Toolbars"/>
+      <xs:element type="ContextMenusType" name="ContextMenus"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

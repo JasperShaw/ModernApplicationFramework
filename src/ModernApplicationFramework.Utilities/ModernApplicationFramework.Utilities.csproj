@@ -131,6 +131,7 @@
     <Compile Include="WeakCollectionT.cs" />
     <Compile Include="Xml\XmlObjectParserT.cs" />
     <Compile Include="Xml\XmlUtilities.cs" />
+    <Compile Include="Xml\XmlValidator.cs" />
     <Compile Include="Xml\XmlValueSerializer.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

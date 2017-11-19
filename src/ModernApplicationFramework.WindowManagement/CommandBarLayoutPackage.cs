@@ -1,12 +1,13 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.IO;
 using ModernApplicationFramework.Basics.Services;
 using ModernApplicationFramework.Extended.Package;
 
-namespace ModernApplicationFramework.Extended.Demo.Modules.CommandBarSerialization
+namespace ModernApplicationFramework.WindowManagement
 {
     [Export(typeof(IMafPackage))]
-    public class Package : Extended.Package.Package
+    public class CommandBarLayoutPackage : Package
     {
         private readonly ICommandBarSerializer _serializer;
         public override PackageLoadOption LoadOption => PackageLoadOption.OnMainWindowLoaded;
@@ -14,7 +15,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.CommandBarSerializati
         public override Guid Id => new Guid("{016D9005-A120-4E35-8BCE-33CF48250C20}");
 
         [ImportingConstructor]
-        public Package(ICommandBarSerializer serializer)
+        public CommandBarLayoutPackage(ICommandBarSerializer serializer)
         {
             _serializer = serializer;
         }
@@ -22,14 +23,30 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.CommandBarSerializati
         public override void Initialize()
         {
             base.Initialize();
-            _serializer.Deserialize();
+            Deserialize();
+        }
 
+
+        private void Deserialize()
+        {
+            using (var stream = new FileStream(@"C:\Test\CommandBar.xml", FileMode.Open, FileAccess.Read))
+            {
+                if (_serializer.Validate(stream))
+                {
+                    stream.Seek(0L, SeekOrigin.Begin);
+                    _serializer.Deserialize(stream);
+                }
+            }
         }
 
         protected override void DisposeManagedResources()
         {
             base.DisposeManagedResources();
-            _serializer.Serialize();
+
+            using (var stream = new FileStream(@"C:\Test\CommandBar.xml", FileMode.Create, FileAccess.Write))
+            {
+                _serializer.Serialize(stream);
+            }
         }
     }
 }

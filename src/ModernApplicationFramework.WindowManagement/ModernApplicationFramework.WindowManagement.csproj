@@ -76,6 +76,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="CommandBarLayoutPackage.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\LayoutPayloadUtilities.cs" />
     <Compile Include="WindowProfile\IDefaultWindowProfileProvider.cs" />
     <Compile Include="LayoutManagement\ILayoutManagementUserInput.cs" />
@@ -126,6 +132,10 @@
     <EmbeddedResource Include="Options\TabsWindowsOptions.Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>TabsWindowsOptions.Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\WindowManagement.Resources.de.resx" />
     <EmbeddedResource Include="Properties\WindowManagement.Resources.en.resx" />

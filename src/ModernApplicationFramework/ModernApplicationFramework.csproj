@@ -245,6 +245,7 @@
     <Compile Include="Basics\Services\WaitDialogFactory.cs" />
     <Compile Include="Basics\Threading\WaitDialogHelper.cs" />
     <Compile Include="Basics\Threading\WaitDialogProgressData.cs" />
+    <Compile Include="Core\Utilities\StringExtensions.cs" />
     <Compile Include="Interfaces\IWaitDialogCallback.cs" />
     <Compile Include="Interfaces\Services\IWaitDialogFactory.cs" />
     <Compile Include="Interfaces\Controls\IWaitDialog.cs" />
@@ -879,6 +880,11 @@
     <Compile Include="Controls\ToolBar.cs" />
     <Compile Include="Controls\ToolBarTray.cs" />
     <Compile Include="Controls\Windows\ModernChromeWindow.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Themes\BlueTheme.cs" />
     <Compile Include="Themes\GenericTheme.cs" />
     <Page Include="Themes\Generic\AnchorablePaneTitle.xaml">
@@ -1107,6 +1113,9 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <Resource Include="Resources\validation.xsd">
+      <SubType>Designer</SubType>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Basics\CommandBar\CommandBarResources.resx">
@@ -1191,6 +1200,10 @@
       <LastGenOutput>CommonUI.Resources.en.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\MainWindowResources.ru.resx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ModernApplicationFramework.Utilities\ModernApplicationFramework.Utilities.csproj">

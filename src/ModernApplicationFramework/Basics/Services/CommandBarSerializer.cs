@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.IO;
 using System.Linq;
 using System.Windows.Controls;
 using System.Xml;
@@ -10,6 +11,7 @@ using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.ContextMenu;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
+using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.Utilities.Xml;
@@ -25,13 +27,12 @@ namespace ModernApplicationFramework.Basics.Services
         private IEnumerable<CommandBarItemDefinition> _allCommandBarItems;
         private IEnumerable<CommandDefinitionBase> _allCommandDefintions;
 
-
         private void EnsureInitialized()
         {
             _definitionHost = IoC.Get<ICommandBarDefinitionHost>();
         }
 
-        public void Serialize()
+        public void Serialize(Stream stream)
         {
             EnsureInitialized();
 
@@ -61,30 +62,21 @@ namespace ModernApplicationFramework.Basics.Services
                     new KeyValuePair<string, string>("Id", definition.Id.ToString("B"))));
 
 
-            xmlDocument.Save(@"C:\Test\CommandBar.xml");
+            xmlDocument.Save(stream);
         }
 
-        public void Deserialize()
+        public void Deserialize(Stream stream)
         {
             EnsureInitialized();
-
-            var allMenuBars = IoC.GetAll<MenuBarDefinition>();
-            var allToolBars = IoC.GetAll<ToolbarDefinition>();
-            var allcontextMenus = IoC.GetAll<ContextMenuDefinition>();
-            _allCommandBarItems = IoC.GetAll<CommandBarItemDefinition>();
-            _allCommandDefintions = IoC.GetAll<CommandDefinitionBase>();
-
-            _allDefinitions.AddRange(allMenuBars);
-            _allDefinitions.AddRange(allToolBars);
-            _allDefinitions.AddRange(allcontextMenus);
-            _allDefinitions.AddRange(_allCommandBarItems);
+            PrepareDeserialize();
 
             ClearCurrentLayout();
 
             var document = new XmlDocument();
-            document.Load(@"C:\Test\CommandBar.xml");
+            document.Load(stream);
 
-            DeserializeCommandBar<MenuBarDefinition, IMenuHostViewModel>(document, "/CommandBarDefinitions/MenuBars");
+            DeserializeCommandBar<MenuBarDefinition, IMenuHostViewModel>(document,
+                "/CommandBarDefinitions/MenuBars");
             DeserializeCommandBar<ToolbarDefinition, IToolBarHostViewModel>(document,
                 "/CommandBarDefinitions/Toolbars", delegate (XmlNode node)
                 {
@@ -102,9 +94,32 @@ namespace ModernApplicationFramework.Basics.Services
                     node.TryGetValueResult<int>("PlacementSlot", out var placementSlot);
                     toolbar.Position = (Dock)position;
                     toolbar.IsVisible = visible;
-                    toolbar.PlacementSlot =  placementSlot;
+                    toolbar.PlacementSlot = placementSlot;
                 });
-            DeserializeCommandBar<ContextMenuDefinition, IContextMenuHost>(document, "/CommandBarDefinitions/ContextMenus");
+            DeserializeCommandBar<ContextMenuDefinition, IContextMenuHost>(document,
+                "/CommandBarDefinitions/ContextMenus");
+        }
+
+        public bool Validate(Stream stream)
+        {
+            var validator = new XmlValidator(Properties.Resources.validation.ToStream());
+            if (!validator.Validate(stream))
+                return false;
+            return true;
+        }
+
+        private void PrepareDeserialize()
+        {
+            var allMenuBars = IoC.GetAll<MenuBarDefinition>();
+            var allToolBars = IoC.GetAll<ToolbarDefinition>();
+            var allcontextMenus = IoC.GetAll<ContextMenuDefinition>();
+            _allCommandBarItems = IoC.GetAll<CommandBarItemDefinition>();
+            _allCommandDefintions = IoC.GetAll<CommandDefinitionBase>();
+
+            _allDefinitions.AddRange(allMenuBars);
+            _allDefinitions.AddRange(allToolBars);
+            _allDefinitions.AddRange(allcontextMenus);
+            _allDefinitions.AddRange(_allCommandBarItems);
         }
 
         #region Deserialize
@@ -117,6 +132,7 @@ namespace ModernApplicationFramework.Basics.Services
             var commandBarHost = IoC.Get<TV>();
             commandBarHost.TopLevelDefinitions.Clear();
             commandBarHost.Build();
+
             var node = document.DocumentElement?.SelectSingleNode(path);
 
             if (node == null || !node.HasChildNodes)
@@ -127,6 +143,8 @@ namespace ModernApplicationFramework.Basics.Services
                 if (guid == Guid.Empty && guidEmptyFunc == null)
                     throw new NotSupportedException("Custom CommandBarRootItem not supported");
                 var commandBar = guid == Guid.Empty ? guidEmptyFunc(commandBarNode) : FindCommandBarDefinitionById<T>(guid);
+                if (commandBar == null)
+                    continue;
                 prefillFunc?.Invoke((T)commandBar, commandBarNode);
                 BuildCommandBar(commandBarNode, commandBar);
                 commandBarHost.TopLevelDefinitions.Add(commandBar);
@@ -175,7 +193,7 @@ namespace ModernApplicationFramework.Basics.Services
                 item = FindCommandBarDefinitionById<CommandBarSplitItemDefinition>(guid);
 
             if (item == null)
-                throw new ArgumentNullException(nameof(parentDefinition));
+                return;
 
             AssignGroup(item, parentDefinition);
             SetFlags(item, childNode);
@@ -211,7 +229,7 @@ namespace ModernApplicationFramework.Basics.Services
                 menu = FindCommandBarDefinitionById<MenuDefinition>(guid);
 
             if (menu == null)
-                throw new ArgumentNullException(nameof(parentDefinition));
+                return;
 
             AssignGroup(menu, parentDefinition);
             SetFlags(menu, childNode);
@@ -244,7 +262,7 @@ namespace ModernApplicationFramework.Basics.Services
                 item = FindCommandBarDefinitionById<CommandBarItemDefinition>(guid);
 
             if (item == null)
-                throw new ArgumentNullException(nameof(parentDefinition));
+                return;
 
             AssignGroup(item, parentDefinition);
             SetFlags(item, childNode);
@@ -264,7 +282,7 @@ namespace ModernApplicationFramework.Basics.Services
             var menuController = FindCommandBarDefinitionById<CommandBarMenuControllerDefinition>(guid);
 
             if (menuController == null)
-                throw new ArgumentNullException(nameof(parentDefinition));
+               return;
 
             AssignGroup(menuController, parentDefinition);
             SetFlags(menuController, childNode);
@@ -297,7 +315,7 @@ namespace ModernApplicationFramework.Basics.Services
                 comboboxItem = FindCommandBarDefinitionById<CommandBarComboItemDefinition>(guid);
 
             if (comboboxItem == null)
-                throw new ArgumentNullException(nameof(parentDefinition));
+                return;
 
             AssignGroup(comboboxItem, parentDefinition);
             SetFlags(comboboxItem, childNode);
@@ -448,8 +466,6 @@ namespace ModernApplicationFramework.Basics.Services
         private T FindCommandBarDefinitionById<T>(Guid guid) where T : CommandBarDefinitionBase
         {
             var definition = _allDefinitions.FirstOrDefault(x => x.Id.Equals(guid));
-            if (definition == null)
-                throw new ArgumentException("Definition not found");
             return (T)definition;
         }
 
@@ -483,7 +499,10 @@ namespace ModernApplicationFramework.Basics.Services
 
     public interface ICommandBarSerializer
     {
-        void Serialize();
-        void Deserialize();
+        void Serialize(Stream stream);
+
+        void Deserialize(Stream stream);
+
+        bool Validate(Stream stream);
     }
 }

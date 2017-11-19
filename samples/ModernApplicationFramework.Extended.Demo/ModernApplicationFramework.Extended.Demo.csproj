@@ -82,7 +82,6 @@
     <Compile Include="Modules\ComboBoxMenuTest\Commands\ComboBoxCommandDefinition.cs" />
     <Compile Include="Modules\ComboBoxMenuTest\Commands\TestMenuControllerDefinition.cs" />
     <Compile Include="Modules\ComboBoxMenuTest\ToolbarDefinitions.cs" />
-    <Compile Include="Modules\CommandBarSerialization\Package.cs" />
     <Compile Include="Modules\Commands\MenuDefinitions.cs" />
     <Compile Include="Modules\Commands\TestCommandDefinitionRealMulti.cs" />
     <Compile Include="Modules\Commands\TestCommandDefinition.cs" />
