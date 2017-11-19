@@ -385,7 +385,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Are you sure you want to reset the changes made to the &quot;{0}&quot; context menu?.
         /// </summary>
         public static string Prompt_ResetContextMenuConfirmation {
             get {
@@ -394,7 +394,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Are you sure you want to reset the changes made to the &quot;{0}&quot; menu?.
         /// </summary>
         public static string Prompt_ResetMenuConfirmation {
             get {
@@ -403,7 +403,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Are you sure you want to reset the changes made to the &quot;{0}&quot; toolbar?.
         /// </summary>
         public static string Prompt_ResetToolBarConfirmation {
             get {

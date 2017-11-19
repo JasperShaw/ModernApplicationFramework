@@ -51,6 +51,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandBarLayoutBackupPackage.cs" />
     <Compile Include="Commands\ApplyWindowLayout1.cs" />
     <Compile Include="Commands\ApplyWindowLayout10.cs" />
     <Compile Include="Commands\ApplyWindowLayout2.cs" />

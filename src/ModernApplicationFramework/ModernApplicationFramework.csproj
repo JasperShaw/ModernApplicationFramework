@@ -240,6 +240,7 @@
     <Compile Include="Basics\ApplicationEnvironment\FallbackEnvironmentVariables.cs" />
     <Compile Include="Basics\Definitions\Command\ExcludedCommandDefinition.cs" />
     <Compile Include="Basics\Definitions\Command\CommandGestureScopeMapping.cs" />
+    <Compile Include="Basics\Services\CommandBarLayoutBackupProvider.cs" />
     <Compile Include="Basics\Services\CommandBarSerializer.cs" />
     <Compile Include="Basics\Threading\MafTaskHelper.cs" />
     <Compile Include="Basics\Services\WaitDialogFactory.cs" />

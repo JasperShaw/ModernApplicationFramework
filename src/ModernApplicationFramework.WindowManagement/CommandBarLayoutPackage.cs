@@ -29,6 +29,9 @@ namespace ModernApplicationFramework.WindowManagement
 
         private void Deserialize()
         {
+            //Disable because startup gets very slow with attached debugger
+            if (System.Diagnostics.Debugger.IsAttached)
+                return;
             using (var stream = new FileStream(@"C:\Test\CommandBar.xml", FileMode.Open, FileAccess.Read))
             {
                 if (_serializer.Validate(stream))

@@ -67,13 +67,17 @@ namespace ModernApplicationFramework.Basics.Services
 
         public void Deserialize(Stream stream)
         {
+            var document = new XmlDocument();
+            document.Load(stream);
+            Deserialize(document);         
+        }
+
+        public void Deserialize(XmlDocument document)
+        {
             EnsureInitialized();
             PrepareDeserialize();
 
             ClearCurrentLayout();
-
-            var document = new XmlDocument();
-            document.Load(stream);
 
             DeserializeCommandBar<MenuBarDefinition, IMenuHostViewModel>(document,
                 "/CommandBarDefinitions/MenuBars");
@@ -106,6 +110,34 @@ namespace ModernApplicationFramework.Basics.Services
             if (!validator.Validate(stream))
                 return false;
             return true;
+        }
+
+        public void ResetFromBackup(XmlDocument backup, CommandBarDefinitionBase item)
+        {
+            var currentLayout = new XmlDocument();
+            using (var stream = new MemoryStream())
+            {
+                Serialize(stream);
+                stream.Seek(0L, SeekOrigin.Begin);
+                currentLayout.Load(stream);
+            }
+
+            var backupNode = backup.SelectSingleNode($"//*[@Id='{item.Id:B}']");
+            var currentNode = currentLayout.SelectSingleNode($"//*[@Id='{item.Id:B}']");
+
+            if (currentNode == null)
+                throw new ArgumentNullException(nameof(currentNode));
+
+            if (backupNode == null)
+            {
+                foreach (var group in item.ContainedGroups.ToList())
+                    _definitionHost.ItemGroupDefinitions.Remove(group);
+                item.ContainedGroups.Clear();
+                return;
+            }
+            var replaceNode = currentLayout.ImportNode(backupNode, true);
+            currentNode.ParentNode?.ReplaceChild(replaceNode, currentNode);
+            Deserialize(currentLayout);
         }
 
         private void PrepareDeserialize()
@@ -503,6 +535,10 @@ namespace ModernApplicationFramework.Basics.Services
 
         void Deserialize(Stream stream);
 
+        void Deserialize(XmlDocument document);
+
         bool Validate(Stream stream);
+
+        void ResetFromBackup(XmlDocument backup, CommandBarDefinitionBase item);
     }
 }
