@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.Services;
 using ModernApplicationFramework.Extended.Package;
+using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.WindowManagement.CommandBarLayout
 {

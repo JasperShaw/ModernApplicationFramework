@@ -4,6 +4,7 @@ using System.IO;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Services;
 using ModernApplicationFramework.Extended.Package;
+using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.WindowManagement.CommandBarLayout
 {
