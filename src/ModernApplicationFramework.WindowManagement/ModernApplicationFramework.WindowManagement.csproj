@@ -51,7 +51,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandBarLayoutBackupPackage.cs" />
+    <Compile Include="CommandBarLayout\CommandBarLayoutBackupPackage.cs" />
+    <Compile Include="CommandBarLayout\CommandBarLayoutSettings.cs" />
     <Compile Include="Commands\ApplyWindowLayout1.cs" />
     <Compile Include="Commands\ApplyWindowLayout10.cs" />
     <Compile Include="Commands\ApplyWindowLayout2.cs" />
@@ -77,7 +78,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="CommandBarLayoutPackage.cs" />
+    <Compile Include="CommandBarLayout\CommandBarLayoutPackage.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

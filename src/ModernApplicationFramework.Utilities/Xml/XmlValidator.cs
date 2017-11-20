@@ -24,22 +24,33 @@ namespace ModernApplicationFramework.Utilities.Xml
 
         private Stream SchemeFileStream { get; }
 
-        public bool Validate(string filePath)
+        public bool Validate(string filePath, ConformanceLevel conformanceLevel = ConformanceLevel.Auto)
         {
             if (!File.Exists(filePath))
                 throw new FileNotFoundException(nameof(filePath));
             using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                return InternalValidate(stream);
+                return InternalValidate(stream, conformanceLevel);
             }
         }
 
-        public bool Validate(Stream fileStream)
+        public bool Validate(Stream fileStream, ConformanceLevel conformanceLevel = ConformanceLevel.Auto)
         {
-            return InternalValidate(fileStream);
+            return InternalValidate(fileStream, conformanceLevel);
         }
 
-        private bool InternalValidate(Stream fileStream)
+        public bool Validate(XmlNode node, ConformanceLevel conformanceLevel = ConformanceLevel.Auto)
+        {
+            var doc = new XmlDocument();
+            doc.AppendChild(doc.ImportNode(node, true));
+            using (var stream = new MemoryStream())
+            {
+                doc.Save(stream);
+                return InternalValidate(stream, conformanceLevel);
+            }
+        }
+
+        private bool InternalValidate(Stream fileStream, ConformanceLevel conformanceLevel)
         {
             fileStream.Position = 0;
             SchemeFileStream.Position = 0;
@@ -49,6 +60,7 @@ namespace ModernApplicationFramework.Utilities.Xml
                 var settings = new XmlReaderSettings { ValidationType = ValidationType.Schema };
                 settings.ValidationFlags |= XmlSchemaValidationFlags.ProcessSchemaLocation |
                                             XmlSchemaValidationFlags.ReportValidationWarnings;
+                settings.ConformanceLevel = conformanceLevel;
                 settings.ValidationEventHandler += Settings_ValidationEventHandler;
                 if (SchemeFileStream != null)
                     using (var schemaReader = XmlReader.Create(SchemeFileStream))

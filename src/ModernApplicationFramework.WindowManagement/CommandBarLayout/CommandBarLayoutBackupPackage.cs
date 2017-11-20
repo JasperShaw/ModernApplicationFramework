@@ -5,10 +5,10 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Services;
 using ModernApplicationFramework.Extended.Package;
 
-namespace ModernApplicationFramework.WindowManagement
+namespace ModernApplicationFramework.WindowManagement.CommandBarLayout
 {
     [Export(typeof(IMafPackage))]
-    public class CommandBarLayoutBackupPackage : Package
+    internal class CommandBarLayoutBackupPackage : Package
     {
         private readonly ICommandBarSerializer _serializer;
         public override PackageLoadOption LoadOption => PackageLoadOption.PreviewWindowLoaded;
@@ -26,7 +26,6 @@ namespace ModernApplicationFramework.WindowManagement
             base.Initialize();
             Serialize();
         }
-
 
         private void Serialize()
         {

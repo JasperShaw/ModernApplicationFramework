@@ -13,6 +13,7 @@ using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.Utilities.Xml;
 using static System.Globalization.CultureInfo;
@@ -74,15 +75,20 @@ namespace ModernApplicationFramework.Basics.Services
 
         public void Deserialize(XmlDocument document)
         {
+            Deserialize(document.DocumentElement);
+        }
+
+        public void Deserialize(XmlNode xmlRootNode)
+        {
             EnsureInitialized();
             PrepareDeserialize();
 
             ClearCurrentLayout();
 
-            DeserializeCommandBar<MenuBarDefinition, IMenuHostViewModel>(document,
-                "/CommandBarDefinitions/MenuBars");
-            DeserializeCommandBar<ToolbarDefinition, IToolBarHostViewModel>(document,
-                "/CommandBarDefinitions/Toolbars", delegate (XmlNode node)
+            DeserializeCommandBar<MenuBarDefinition, IMenuHostViewModel>(xmlRootNode,
+                "//MenuBars");
+            DeserializeCommandBar<ToolbarDefinition, IToolBarHostViewModel>(xmlRootNode,
+                "//Toolbars", delegate (XmlNode node)
                 {
                     node.TryGetValueResult<string>("Text", out var text);
                     node.TryGetValueResult<uint>("SortOrder", out var sortOrder);
@@ -100,14 +106,22 @@ namespace ModernApplicationFramework.Basics.Services
                     toolbar.IsVisible = visible;
                     toolbar.PlacementSlot = placementSlot;
                 });
-            DeserializeCommandBar<ContextMenuDefinition, IContextMenuHost>(document,
-                "/CommandBarDefinitions/ContextMenus");
+            DeserializeCommandBar<ContextMenuDefinition, IContextMenuHost>(xmlRootNode,
+                "//ContextMenus");
         }
 
         public bool Validate(Stream stream)
         {
             var validator = new XmlValidator(Properties.Resources.validation.ToStream());
             if (!validator.Validate(stream))
+                return false;
+            return true;
+        }
+
+        public bool Validate(XmlNode node)
+        {
+            var validator = new XmlValidator(Properties.Resources.validation.ToStream());
+            if (!validator.Validate(node, ConformanceLevel.Fragment))
                 return false;
             return true;
         }
@@ -156,7 +170,7 @@ namespace ModernApplicationFramework.Basics.Services
 
         #region Deserialize
 
-        private void DeserializeCommandBar<T, TV>(XmlDocument document, string path,
+        private void DeserializeCommandBar<T, TV>(XmlNode rootXmlElement, string path,
             Func<XmlNode, CommandBarDefinitionBase> guidEmptyFunc = null, Action<T, XmlNode> prefillFunc = null)
             where T : CommandBarDefinitionBase
             where TV : ICommandBarHost
@@ -165,8 +179,7 @@ namespace ModernApplicationFramework.Basics.Services
             commandBarHost.TopLevelDefinitions.Clear();
             commandBarHost.Build();
 
-            var node = document.DocumentElement?.SelectSingleNode(path);
-
+            var node = rootXmlElement.SelectSingleNode(path);
             if (node == null || !node.HasChildNodes)
                 return;
             foreach (XmlNode commandBarNode in node.ChildNodes)
@@ -525,20 +538,5 @@ namespace ModernApplicationFramework.Basics.Services
             var flags = node.GetAttributeValue<int>("Flags");
             item.Flags.EnableStyleFlags((CommandBarFlags)flags);
         }
-    }
-
-
-
-    public interface ICommandBarSerializer
-    {
-        void Serialize(Stream stream);
-
-        void Deserialize(Stream stream);
-
-        void Deserialize(XmlDocument document);
-
-        bool Validate(Stream stream);
-
-        void ResetFromBackup(XmlDocument backup, CommandBarDefinitionBase item);
     }
 }

@@ -148,7 +148,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
         {
             var task = new Task(() =>
             {
-                SettingsFile.InsertDocument(path, document, insertRootNode);
+                SettingsFile.InsertDocument(path, document, insertRootNode);              
             });
             task.Start();
             return task;
