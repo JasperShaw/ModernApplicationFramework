@@ -237,4 +237,7 @@ Löschen Sie vor dem Speichern mindestens ein Layout.</value>
   <data name="ResetLayoutConfirmation" xml:space="preserve">
     <value>Möchten Sie das Standardfensterlayout für die Umgebung wirklich wiederherstellen?</value>
   </data>
+  <data name="ErrorLoadCommandBarLayout" xml:space="preserve">
+    <value>Das gespeicherte Kommandoleistenlayout konnte nicht geladen werden. Das Standardlayout wurde angewendet.  </value>
+  </data>
 </root>
