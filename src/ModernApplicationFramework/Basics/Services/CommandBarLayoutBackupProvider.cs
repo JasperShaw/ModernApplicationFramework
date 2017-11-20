@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.IO;
 using System.Xml;
+using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Basics.Services
 {
@@ -16,12 +17,5 @@ namespace ModernApplicationFramework.Basics.Services
             xmlDoc.Load(stream);
             Backup = xmlDoc;
         }
-    }
-
-    public interface ICommandBarLayoutBackupProvider
-    {
-        XmlDocument Backup { get; }
-
-        void CreateBackupFromStream(Stream stream);
     }
 }
