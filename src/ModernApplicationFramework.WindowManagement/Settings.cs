@@ -22,5 +22,13 @@ namespace ModernApplicationFramework.WindowManagement
             new SettingsCategory(WindowLayoutsSettingsCategoryId,
                 SettingsCategoryType.Normal, "Environment_WindowLayoutStore", SettingsCategories.EnvironmentCategory);
 
+
+        public static Guid CommandBarLayoutCategoryId = new Guid("{20234054-C143-4E02-BEED-BE19A185A5C3}");
+
+        [Export]
+        public static ISettingsCategory CommandBarLayoutCategory =
+            new SettingsCategory(CommandBarLayoutCategoryId,
+                SettingsCategoryType.Normal, "Environment_CommandBars", SettingsCategories.EnvironmentCategory);
+
     }
 }

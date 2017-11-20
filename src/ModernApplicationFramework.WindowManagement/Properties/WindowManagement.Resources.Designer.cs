@@ -161,6 +161,15 @@ namespace ModernApplicationFramework.WindowManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not load Commandbar layout from settings. Restored default layout..
+        /// </summary>
+        public static string ErrorLoadCommandBarLayout {
+            get {
+                return ResourceManager.GetString("ErrorLoadCommandBarLayout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A layout named &apos;{0}&apos; already exists.
         ///Do you want to replace it?.
         /// </summary>

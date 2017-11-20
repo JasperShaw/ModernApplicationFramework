@@ -90,6 +90,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.Commands
         }
         public override string IconId => null;
         public override CommandCategory Category => new CommandCategory("Test");
+        public override Guid Id => new Guid("{1AED966A-B5D4-4982-B518-1A1D6AB656CD}");
         public override Uri IconSource => null;
         public override string Name => "RealMultiHotKey";
         public override string NameUnlocalized => Name;

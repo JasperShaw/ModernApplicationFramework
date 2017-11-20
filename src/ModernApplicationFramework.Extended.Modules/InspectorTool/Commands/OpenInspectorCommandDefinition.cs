@@ -35,6 +35,7 @@ namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Commands
         public override string ToolTip => "Inspector";
 
         public override CommandCategory Category => CommandCategories.ViewCommandCategory;
+        public override Guid Id => new Guid("{A948FC05-72EF-4309-BF54-E697F42C32D1}");
 
         public string MyText { get; set; }
 

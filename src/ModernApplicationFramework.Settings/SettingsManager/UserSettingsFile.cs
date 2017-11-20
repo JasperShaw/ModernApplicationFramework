@@ -120,19 +120,19 @@ namespace ModernApplicationFramework.Settings.SettingsManager
         public override void SetPropertyValueData(string path, string propertyName, string value,
              bool navigateAttributeWise = true)
         {
-                var node = GetSingleNode(path, navigateAttributeWise);
-                if (node == null || !node.HasChildNodes)
-                    throw new SettingsManagerException("The given Property Value could not be found");
+            var node = GetSingleNode(path, navigateAttributeWise);
+            if (node == null || !node.HasChildNodes)
+                AddPropertyValueElement(node, propertyName, value);
 
-                XmlNode element = null;
+            XmlNode element = null;
 
-                foreach (XmlNode child in node.ChildNodes)
-                {
-                    if (child.Attributes?["name"] == null || !child.Attributes["name"].Value
-                            .Equals(propertyName, StringComparison.CurrentCultureIgnoreCase))
-                        continue;
-                    element = child;
-                }
+            foreach (XmlNode child in node.ChildNodes)
+            {
+                if (child.Attributes?["name"] == null || !child.Attributes["name"].Value
+                        .Equals(propertyName, StringComparison.CurrentCultureIgnoreCase))
+                    continue;
+                element = child;
+            }
             lock (_lockObk)
             {
                 if (element == null)
@@ -143,7 +143,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
 
         #endregion
 
-        public override  void AddCategoryElement(ISettingsCategory category)
+        public override void AddCategoryElement(ISettingsCategory category)
         {
             foreach (var settingsCategory in category.Path)
             {
@@ -190,7 +190,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
                     parentNode?.AppendChild(element);
             }
         }
-        
+
         public override void AddToolsOptionsModelElement(string settingsModelName, string categoryName)
         {
             var node = GetSingleNode(categoryName);
@@ -221,7 +221,6 @@ namespace ModernApplicationFramework.Settings.SettingsManager
             var node = GetSingleNode(path);
             if (node == null)
                 return;
-
             var childs = !insertRootNode ? document.ChildNodes[0]?.ChildNodes : document.ChildNodes;
             if (childs == null)
                 return;
@@ -231,7 +230,10 @@ namespace ModernApplicationFramework.Settings.SettingsManager
                 var newNode = node.OwnerDocument?.ImportNode(childNode, true);
                 if (newNode == null)
                     continue;
-                node.AppendChild(newNode);
+                lock (_lockObk)
+                {
+                    node.AppendChild(newNode);
+                }           
             }
         }
 
@@ -264,7 +266,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
                 SettingsStorage = CreateSettingsStoreBase();
             }
         }
-        
+
         private XmlElement CreateApplicationVersionElement(XmlDocument document)
         {
             lock (_lockObk)

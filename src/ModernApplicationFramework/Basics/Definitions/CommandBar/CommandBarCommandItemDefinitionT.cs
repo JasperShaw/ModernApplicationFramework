@@ -1,7 +1,6 @@
 ﻿using System;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input.Base;
-using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
@@ -31,35 +30,35 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
                 {
                     if (!(CommandDefinition is CommandDefinition commandDefinition))
                         return;
-                    var commandWrapper = commandDefinition.Command as AbstractCommandWrapper;
-                    if (commandWrapper != null)
+                    if (commandDefinition.Command is AbstractCommandWrapper commandWrapper)
                         commandWrapper.CanExecuteChanged += CommandWrapper_CanExecuteChanged;
                 }
                 else
                 {
                     if (!(CommandDefinition is CommandDefinition commandDefinition))
                         return;
-                    var commandWrapper = commandDefinition.Command as AbstractCommandWrapper;
-                    if (commandWrapper != null)
+                    if (commandDefinition.Command is AbstractCommandWrapper commandWrapper)
                         commandWrapper.CanExecuteChanged -= CommandWrapper_CanExecuteChanged;
                 }
             }
         }
 
-        public CommandBarCommandItemDefinition(CommandBarGroupDefinition group, uint sortOrder,
+	    public override Guid Id { get; }
+
+        public CommandBarCommandItemDefinition(Guid id, CommandBarGroupDefinition group, uint sortOrder,
             bool isVisible = true, bool isChecked = false, bool isCustom = false,
-            bool registerVisibilityToCommand = false, bool isCustomizable = true)
-            : base(null, sortOrder, group, null, isVisible, isChecked, isCustom, isCustomizable)
+            bool registerVisibilityToCommand = false, bool isCustomizable = true, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
+            : base(null, sortOrder, group, null, isVisible, isChecked, isCustom, isCustomizable, flags)
         {
+            Id = id;
             RegisterVisibilityToCommand = registerVisibilityToCommand;
         }
 
         private void CommandWrapper_CanExecuteChanged(object sender, EventArgs e)
         {
-            var cd = CommandDefinition as CommandDefinition;
-            if (cd == null)
+            if (!(CommandDefinition is CommandDefinition cd))
                 return;
             IsVisible = cd.Command.CanExecute(null);
         }
-    }
+	}
 }

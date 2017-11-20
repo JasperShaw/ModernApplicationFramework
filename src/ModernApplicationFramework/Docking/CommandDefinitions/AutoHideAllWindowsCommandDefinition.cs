@@ -32,6 +32,8 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
 
+        public override Guid Id => new Guid("{ABF14EC8-CC6D-4B2A-A1A1-9A0F44690266}");
+
         public AutoHideAllWindowsCommandDefinition()
         {
             Command = new UICommand(AutoHideAllWindows, CanAutoHideAllWindows);

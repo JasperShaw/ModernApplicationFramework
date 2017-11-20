@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Reflection;
-using ModernApplicationFramework.WindowManagement.LayoutState;
 using ModernApplicationFramework.WindowManagement.Utilities;
 using ModernApplicationFramework.WindowManagement.WindowProfile;
 

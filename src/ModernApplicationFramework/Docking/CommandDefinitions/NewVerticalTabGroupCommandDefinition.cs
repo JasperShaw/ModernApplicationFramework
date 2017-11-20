@@ -32,6 +32,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public override string IconId => "SplitScreenVertical";
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
+        public override Guid Id => new Guid("{5667C276-A91F-428A-86A3-7D95814B4B9F}");
 
         public NewVerticalTabGroupCommandDefinition()
         {

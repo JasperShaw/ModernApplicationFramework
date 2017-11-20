@@ -37,6 +37,7 @@ namespace ModernApplicationFramework.Extended.Commands
         public override string ToolTip => Text;
 
         public override CommandCategory Category => CommandCategories.EditCommandCategory;
+        public override Guid Id => new Guid("{1A236C59-DA8D-424F-804B-22D80CFA15D6}");
 
         [ImportingConstructor]
         public UndoCommandDefinition(CommandBarUndoRedoManagerWatcher watcher)

@@ -58,6 +58,7 @@ namespace ModernApplicationFramework.Extended.Commands
             public override Uri IconSource => null;
             public override string IconId => null;
             public override CommandCategory Category => null;
+            public override Guid Id => new Guid("{332801C8-4E96-4C16-9369-E17C845B5848}");
 
             public ShowSelectedDocumentCommandDefinition(string name)
             {

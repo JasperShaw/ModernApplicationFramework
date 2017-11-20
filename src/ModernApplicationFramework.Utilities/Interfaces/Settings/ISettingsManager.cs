@@ -4,17 +4,6 @@ using System.Xml;
 
 namespace ModernApplicationFramework.Utilities.Interfaces.Settings
 {
-    public enum GetValueResult
-    {
-        Success,
-        Created,
-        Missing,
-        Corrupt,
-        IncompatibleType,
-        ObsoleteFormat,
-        UnknownError
-    }
-
     /// <inheritdoc />
     /// <summary>
     /// This interface provides the basic structure of a Settings Manager that holds settings locally on the computer

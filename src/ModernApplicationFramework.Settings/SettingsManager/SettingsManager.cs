@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using Caliburn.Micro;
 using ModernApplicationFramework.Settings.Interfaces;
+using ModernApplicationFramework.Utilities;
 using ModernApplicationFramework.Utilities.Interfaces;
 using ModernApplicationFramework.Utilities.Interfaces.Settings;
 using ModernApplicationFramework.Utilities.Settings;
@@ -147,7 +148,7 @@ namespace ModernApplicationFramework.Settings.SettingsManager
         {
             var task = new Task(() =>
             {
-                SettingsFile.InsertDocument(path, document, insertRootNode);
+                SettingsFile.InsertDocument(path, document, insertRootNode);              
             });
             task.Start();
             return task;

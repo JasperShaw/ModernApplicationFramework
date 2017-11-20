@@ -29,6 +29,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
         public override string IconId => null;
 
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
+        public override Guid Id => new Guid("{5702930A-708C-44EB-9A14-7783FFF3503B}");
 
         public MoveToNextTabGroupCommandDefinition()
         {

@@ -35,6 +35,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
         public override string IconId => "HideToolWindow";
 
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
+        public override Guid Id => new Guid("{E1BBFA22-EADF-445D-810A-4984E91D17B7}");
 
         public HideDockedWindowCommandDefinition()
         {

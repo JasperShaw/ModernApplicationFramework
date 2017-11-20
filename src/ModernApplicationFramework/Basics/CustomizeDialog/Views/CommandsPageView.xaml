@@ -45,7 +45,8 @@
                 </CollectionViewSource.SortDescriptions>
             </CollectionViewSource>
             <ContextMenu x:Key="ModifySelectionCommandsMenu">
-                <MenuItem Header="{x:Static customizeDialog:Customize_Resources.CommandsPage_Reset}">
+                <MenuItem Header="{x:Static customizeDialog:Customize_Resources.CommandsPage_Reset}"
+                          Click="HandleResetItem">
                     <UIElement.IsEnabled>
                         <Binding Mode="OneWay" Converter="{StaticResource IsCustomizableModelConverter}" />
                     </UIElement.IsEnabled>
@@ -283,7 +284,8 @@
                                  Converter="{StaticResource IsNotSeparatorModelConverter}" />
                     </UIElement.IsEnabled>
                 </buttons:DropDownDialogButton>
-                <buttons:DialogButton x:Name="ResetAllButon" Content="{x:Static customizeDialog:Customize_Resources.CommandsPage_ResetAll}">
+                <buttons:DialogButton x:Name="ResetAllButon" Content="{x:Static customizeDialog:Customize_Resources.CommandsPage_ResetAll}"
+                                      Command="{Binding ResetAllCommand}">
                     <UIElement.IsEnabled>
                         <MultiBinding Converter="{StaticResource OrBooleanConverter}">
                             <Binding ElementName="ToolBarCombo" Path="IsEnabled"

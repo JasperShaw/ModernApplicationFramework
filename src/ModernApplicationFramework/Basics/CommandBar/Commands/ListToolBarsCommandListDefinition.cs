@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using System.Globalization;
 using ModernApplicationFramework.Basics.Definitions.Command;
 
@@ -20,5 +21,6 @@ namespace ModernApplicationFramework.Basics.CommandBar.Commands
                 CultureInfo.InvariantCulture);
 
         public override CommandCategory Category => CommandCategories.ViewCommandCategory;
+        public override Guid Id => new Guid("{C9D83419-A523-4E38-B2A9-063744C29C8F}");
     }
 }

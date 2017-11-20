@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ModernApplicationFramework.Core.Comparers;
 using ModernApplicationFramework.Core.Utilities;
@@ -42,6 +43,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         /// The collection of all containing command bar items
         /// </summary>
         public List<CommandBarItemDefinition> Items { get; set; }
+
+        public override Guid Id => Guid.Empty;
 
         public CommandBarGroupDefinition(CommandBarDefinitionBase parent, uint sortOrder)
             : base(null, sortOrder, null, false, false, false)

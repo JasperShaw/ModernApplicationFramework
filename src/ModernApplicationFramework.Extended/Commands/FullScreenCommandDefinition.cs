@@ -36,6 +36,7 @@ namespace ModernApplicationFramework.Extended.Commands
         public override string ToolTip => Text;
 
         public override CommandCategory Category => CommandCategories.ViewCommandCategory;
+        public override Guid Id => new Guid("{9EE995EC-45C6-40B9-A3D6-8A9F486D59C9}");
 
         public override bool IsChecked { get; set; }
 

@@ -8,6 +8,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using JetBrains.Annotations;
 using ModernApplicationFramework.Settings.Interfaces;
+using ModernApplicationFramework.Utilities;
 using ModernApplicationFramework.Utilities.Interfaces.Settings;
 
 namespace ModernApplicationFramework.Settings.SettingDataModel
@@ -172,6 +173,17 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
         }
 
         /// <summary>
+        /// Sets and replaces a XML model into the settings file.
+        /// </summary>
+        /// <param name="document">The document.</param>
+        /// <param name="insertRoot">if set to <see langword="true"/> the XML's root will be inserted also</param>
+        protected void SetSettingsModel(XmlDocument document, bool insertRoot = false)
+        {
+            SettingsManager.RemoveModelAsync(SettingsFilePath);
+            SettingsManager.SetDocumentAsync(SettingsFilePath, document, insertRoot);
+        }
+
+        /// <summary>
         /// Inserts a XML model into the settings file.
         /// </summary>
         /// <typeparam name="T">The type of the model</typeparam>
@@ -190,6 +202,14 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
                 ser.Serialize(writer, model, ns);
             }
             SettingsManager.SetDocumentAsync(SettingsFilePath, document, insertRoot);
+        }
+
+        /// <summary>
+        /// Gets a single <see cref="XmlNode"/> from the settings file. The stored model will be handled as one model only. 
+        /// </summary>
+        protected XmlNode GetSingleDataModel()
+        {
+            return SettingsManager.GetDataModelNode(SettingsFilePath);
         }
 
         /// <summary>

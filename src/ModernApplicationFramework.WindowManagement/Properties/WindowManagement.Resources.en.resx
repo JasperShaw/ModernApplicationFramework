@@ -237,4 +237,7 @@ Please delete one or more layouts before saving.</value>
   <data name="ResetLayoutConfirmation" xml:space="preserve">
     <value>Are you sure you want to restore the default window layout for the environment?</value>
   </data>
+  <data name="ErrorLoadCommandBarLayout" xml:space="preserve">
+    <value>Could not load Commandbar layout from settings. Restored default layout.</value>
+  </data>
 </root>

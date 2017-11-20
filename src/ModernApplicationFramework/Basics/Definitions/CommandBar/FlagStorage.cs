@@ -143,6 +143,12 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
                     PictAndText = true;
                     TextOnly = true;
                     break;
+                case CommandBarFlags.CommandFlagTextIsAnchor:
+                    TextIsAnchor = true;
+                    break;
+                case CommandBarFlags.CommandStretchHorizontally:
+                    StretchHorizontally = true;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

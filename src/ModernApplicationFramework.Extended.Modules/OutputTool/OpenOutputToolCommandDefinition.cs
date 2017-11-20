@@ -33,6 +33,7 @@ namespace ModernApplicationFramework.Extended.Modules.OutputTool
         public override string ToolTip => "Output";
 
         public override CommandCategory Category => CommandCategories.ViewCommandCategory;
+        public override Guid Id => new Guid("{ED3DC8E1-F15B-4DBD-8C8E-272194C0642D}");
 
         public string MyText { get; set; }
 

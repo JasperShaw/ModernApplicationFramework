@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input;
@@ -20,6 +21,8 @@ namespace ModernApplicationFramework.WindowManagement.Commands
         {
             DefaultKeyGesture = new MultiKeyGesture(Key.D1, ModifierKeys.Control | ModifierKeys.Alt);
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
-        } 
+        }
+
+        public override Guid Id => new Guid("{C17FB832-108A-4863-9CD0-F3596BAC1CF3}");
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Utilities;
 
 namespace ModernApplicationFramework.Basics.Definitions.Command
 {
@@ -16,6 +17,8 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         /// The collection of all items of the drop down list
         /// </summary>
         public abstract IObservableCollection<IHasTextProperty> Items { get; set; }
+
+        public abstract IStatusStringCreator StatusStringCreator { get; }
 
         /// <summary>
         /// The action performed after selecting items in the drop down list 

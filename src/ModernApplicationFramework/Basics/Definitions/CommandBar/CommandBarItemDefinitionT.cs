@@ -32,6 +32,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 			{
 				if (value == _text) return;
 				_text = value;
+			    IsTextModified = true;
 				OnPropertyChanged();
 			}
 		}
@@ -51,13 +52,23 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 			}
 		}
 
-		protected CommandBarItemDefinition(string text, uint sortOrder, CommandBarGroupDefinition @group, CommandDefinitionBase definition, 
-			bool visible, bool isChecked, bool isCustom, bool isCustomizable) 
-			: base(text, sortOrder, @group, definition, visible, isChecked, isCustom, isCustomizable)
+		protected CommandBarItemDefinition(string text, uint sortOrder, CommandBarGroupDefinition group, CommandDefinitionBase definition, 
+			bool visible, bool isChecked, bool isCustom, bool isCustomizable, CommandBarFlags flags) 
+			: base(text, sortOrder, group, definition, visible, isChecked, isCustom, isCustomizable, flags)
 		{
 			CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
-			Text = CommandDefinition.Text;
-			Name = CommandDefinition.Name;
+		    OriginalText = CommandDefinition.Text;
+            _text = CommandDefinition.Text;
+			_name = CommandDefinition.Name;
 		}
-	}
+
+	    public override void Reset()
+	    {
+	        IsTextModified = false;
+	        _text = OriginalText;
+	        UpdateInternalName();
+	        OnPropertyChanged(nameof(Text));
+	        Flags.EnableStyleFlags((CommandBarFlags)OriginalFlagStore.AllFlags);
+        }
+    }
 }

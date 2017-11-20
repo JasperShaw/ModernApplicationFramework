@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.InfoBar;
 using ModernApplicationFramework.Basics.InfoBar.Internal;
-using ModernApplicationFramework.Controls.InfoBar;
-using ModernApplicationFramework.Controls.InfoBar.Internal;
 using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Basics.Services

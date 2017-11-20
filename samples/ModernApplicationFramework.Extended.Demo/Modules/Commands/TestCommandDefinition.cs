@@ -83,6 +83,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.Commands
         }
         public override string IconId => null;
         public override CommandCategory Category => new CommandCategory("Test");
+        public override Guid Id => new Guid("{837D016F-1B20-45AC-B86F-BEE2555406B0}");
         public override Uri IconSource => null;
         public override string Name => "MultiHotKey";
         public override string NameUnlocalized => Name;

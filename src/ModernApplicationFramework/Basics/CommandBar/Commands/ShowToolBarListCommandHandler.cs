@@ -52,6 +52,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Commands
             public override Uri IconSource => null;
             public override string IconId => null;
             public override CommandCategory Category => null;
+            public override Guid Id => new Guid("{12D2820B-940A-4494-8418-16794D89924F}");
 
             public ShowSelectedToolBarCommandDefinition(string name)
             {

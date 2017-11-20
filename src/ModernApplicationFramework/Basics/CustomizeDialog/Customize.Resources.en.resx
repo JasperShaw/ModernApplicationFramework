@@ -226,13 +226,13 @@
     <value>OK</value>
   </data>
   <data name="Prompt_ResetContextMenuConfirmation" xml:space="preserve">
-    <value />
+    <value>Are you sure you want to reset the changes made to the "{0}" context menu?</value>
   </data>
   <data name="Prompt_ResetMenuConfirmation" xml:space="preserve">
-    <value />
+    <value>Are you sure you want to reset the changes made to the "{0}" menu?</value>
   </data>
   <data name="Prompt_ResetToolBarConfirmation" xml:space="preserve">
-    <value />
+    <value>Are you sure you want to reset the changes made to the "{0}" toolbar?</value>
   </data>
   <data name="Prompt_ToolbarDeleteConfirmation" xml:space="preserve">
     <value>Are you sure you want to delete the "{0}" toolbar?</value>

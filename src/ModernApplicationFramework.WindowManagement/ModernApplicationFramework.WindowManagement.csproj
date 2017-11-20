@@ -51,6 +51,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandBarLayout\CommandBarLayoutBackupPackage.cs" />
+    <Compile Include="CommandBarLayout\CommandBarLayoutSettings.cs" />
     <Compile Include="Commands\ApplyWindowLayout1.cs" />
     <Compile Include="Commands\ApplyWindowLayout10.cs" />
     <Compile Include="Commands\ApplyWindowLayout2.cs" />
@@ -75,6 +77,12 @@
       <DependentUpon>TabsWindowsOptions.Resources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CommandBarLayout\CommandBarLayoutPackage.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Utilities\LayoutPayloadUtilities.cs" />
     <Compile Include="WindowProfile\IDefaultWindowProfileProvider.cs" />
@@ -127,6 +135,10 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>TabsWindowsOptions.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\WindowManagement.Resources.de.resx" />
     <EmbeddedResource Include="Properties\WindowManagement.Resources.en.resx" />
     <EmbeddedResource Include="Properties\WindowManagement.Resources.resx">
@@ -168,6 +180,8 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\StatusInformation_16x.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

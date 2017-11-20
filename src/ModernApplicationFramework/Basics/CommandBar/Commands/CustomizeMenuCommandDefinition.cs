@@ -33,6 +33,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Commands
         public override string IconId => null;
 
         public override CommandCategory Category => CommandCategories.ViewCommandCategory;
+        public override Guid Id => new Guid("{3D393097-6CCB-470C-931D-08096338F31A}");
 
         public CustomizeMenuCommandDefinition()
         {

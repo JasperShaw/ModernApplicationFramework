@@ -15,6 +15,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         /// </summary>
         public static CommandBarSeparatorDefinition SeparatorDefinition => new CommandBarSeparatorDefinition();
 
+        public override Guid Id => Guid.Empty;
+
         private CommandBarSeparatorDefinition() : base(null, uint.MaxValue, null, new SeparatorCommandDefinition(),
             true, false, false, false)
         {
@@ -31,6 +33,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             public override bool IsList => false;
             public override CommandCategory Category => null;
             public override CommandControlTypes ControlType => CommandControlTypes.Separator;
+            public override Guid Id => new Guid("{7951DD77-A074-4489-9037-8CEEEC630C5C}");
         }
     }
 }

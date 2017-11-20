@@ -1017,7 +1017,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="26" SharedSizeGroup="MenuItemIconColumnGroup"/>
                             <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition MinWidth="90" Width="*"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Rectangle x:Name="Bg" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="0" Grid.ColumnSpan="3"/>
                         <ContentPresenter Grid.Column="0" x:Name="Icon" Margin="2,1,4,1" Width="16" Height="16" VerticalAlignment="Center" ContentSource="Icon"
@@ -1025,9 +1025,9 @@
                         <ContentPresenter Grid.Column="1" ContentSource="Header" Margin="8,1,0,1" VerticalAlignment="Center" RecognizesAccessKey="True"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         <comboBox:ComboBox x:Name="PART_FocusTarget" Margin="7,2,2,2" Grid.Column="2" TextSearch.TextPath="Text"
-                                       IsEnabled="{TemplateBinding IsEnabled}" ShouldPreserveUserEnteredPrefix="True"
-                                       IsEmbeddedInMenu="true" 
-                                       IsEditable="{Binding VisualSource.IsEditable}" DataSource="{Binding DataSource}" VisualDataSource="{Binding VisualSource}">
+                                           IsEnabled="{TemplateBinding IsEnabled}" ShouldPreserveUserEnteredPrefix="True"
+                                           IsEmbeddedInMenu="true"  IsEditable="{Binding VisualSource.IsEditable}" 
+                                           DataSource="{Binding DataSource}" VisualDataSource="{Binding VisualSource}">
                             <ItemsControl.ItemsSource>
                                 <Binding Path="DataSource.Items"/>
                             </ItemsControl.ItemsSource>
@@ -1342,7 +1342,12 @@
         </Setter>
         <Setter Property="Band">
             <Setter.Value>
-                <Binding Path="BandIndex" Mode="TwoWay"/>
+                <Binding Path="PlacementSlot" Mode="TwoWay"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BandIndex">
+            <Setter.Value>
+                <Binding Path="SortOrder" Mode="TwoWay"/>
             </Setter.Value>
         </Setter>
         <Setter Property="Margin" Value="0"/>

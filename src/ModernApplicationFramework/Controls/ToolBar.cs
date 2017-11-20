@@ -174,9 +174,8 @@ namespace ModernApplicationFramework.Controls
 
         private bool IsComboBoxFocused()
         {
-            var focusedElement = Keyboard.FocusedElement as UIElement;
-            if (focusedElement != null)
-                return true;
+            if (Keyboard.FocusedElement is UIElement focusedElement)
+                return focusedElement.FindAncestorOrSelf<ComboBox.ComboBox>() != null;
             return false;
         }
 
@@ -201,8 +200,6 @@ namespace ModernApplicationFramework.Controls
             foreach (var bar in ancestor.ToolBars)
                 bar.ClearValue(bar.Orientation == Orientation.Vertical ? HeightProperty : WidthProperty);
         }
-
-
 
         private static ResourceKey _buttonStyleKey;
         private static ResourceKey _menuControllerStyleKey;

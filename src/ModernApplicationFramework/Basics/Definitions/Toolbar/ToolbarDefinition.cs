@@ -19,6 +19,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
         private Dock _position;
         private bool _isVisible;
         private string _internalName;
+        private int _placementSlot;
 
 
         /// <summary>
@@ -29,9 +30,22 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
             get => _position;
             set
             {
-                if (value == _position) return;
+                if (value == _position)
+                    return;
                 LastPosition = _position;
                 _position = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int PlacementSlot
+        {
+            get => _placementSlot;
+            set
+            {
+                if (value == _placementSlot)
+                    return;
+                _placementSlot = value;
                 OnPropertyChanged();
             }
         }
@@ -70,10 +84,13 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
             }
         }
 
-        public ToolbarDefinition(string text, uint sortOrder, bool visible, Dock position, bool isCustomizable = true,
+        public override Guid Id { get; }
+
+        public ToolbarDefinition(Guid id, string text, uint sortOrder, bool visible, Dock position, bool isCustomizable = true,
             bool isCustom = false) : base(text, sortOrder, new ToolbarCommandDefinition(), isCustom, isCustomizable,
             false)
         {
+            Id = id;
             _position = position;
             _isVisible = visible;
             _internalName = new AccessKeyRemovingConverter()
@@ -93,6 +110,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
             public override CommandCategory Category => null;
 
             public override CommandControlTypes ControlType => CommandControlTypes.Menu;
+            public override Guid Id => new Guid("{18C535DB-1E23-4B27-9BB9-A38F0BC6E036}");
         }
     }
 }

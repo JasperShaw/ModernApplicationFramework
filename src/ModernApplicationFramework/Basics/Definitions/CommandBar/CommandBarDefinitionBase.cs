@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -25,6 +26,12 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         private bool _acquireFocus;
         private bool _isEnabled = true;
 
+        protected string OriginalText { get; set; }
+        private FlagStorage _originalFlagStore;
+
+        protected internal FlagStorage OriginalFlagStore =>
+            _originalFlagStore ?? (_originalFlagStore = new FlagStorage());
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ObservableCollection<CommandBarItemDefinition> Items { get; set; }
@@ -32,7 +39,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         /// <summary>
         /// The <see cref="FlagStorage"/> of this definition
         /// </summary>
-        public virtual FlagStorage Flags => _flagStorage ?? (_flagStorage = new FlagStorage());
+        public FlagStorage Flags => _flagStorage ?? (_flagStorage = new FlagStorage());
 
         /// <summary>
         /// Indicates whether this definition was created by the application's user
@@ -77,8 +84,10 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             get => _text;
             set
             {
-                if (value == _text) return;
+                if (value == _text)
+                    return;
                 _text = value;
+                IsTextModified = true;
                 OnPropertyChanged();
             }
         }
@@ -135,17 +144,32 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
+        public virtual bool IsTextModified { get; protected set; }
+
+        public abstract Guid Id { get; }
+
         protected CommandBarDefinitionBase(string text, uint sortOrder, CommandDefinitionBase definition, bool isCustom,
-            bool isCustomizable, bool isChecked)
+            bool isCustomizable, bool isChecked, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
         {
             _sortOrder = sortOrder;
             _text = text;
+            OriginalText = text;
 	        _name = text;
             CommandDefinition = definition;
             IsCustom = isCustom;
             _isChecked = isChecked;
             IsCustomizable = isCustomizable;
             ContainedGroups = new List<CommandBarGroupDefinition>();
+            Flags.EnableStyleFlags(flags);
+            OriginalFlagStore.EnableStyleFlags(flags);
+        }
+
+        public virtual void Reset()
+        {
+            IsTextModified = false;
+            _text = OriginalText;
+            OnPropertyChanged(nameof(Text));
+            Flags.EnableStyleFlags((CommandBarFlags)OriginalFlagStore.AllFlags);
         }
 
         [NotifyPropertyChangedInvocator]

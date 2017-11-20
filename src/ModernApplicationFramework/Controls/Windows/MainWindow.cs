@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Security.AccessControl;
 using System.Threading;
@@ -105,6 +106,8 @@ namespace ModernApplicationFramework.Controls.Windows
             Keyboard.Focus(this);
         }
 
+        [DebuggerHidden]
+        [DebuggerStepThrough]
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);

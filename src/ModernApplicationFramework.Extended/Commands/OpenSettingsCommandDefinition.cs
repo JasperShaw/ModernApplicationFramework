@@ -37,6 +37,7 @@ namespace ModernApplicationFramework.Extended.Commands
         public override string ToolTip => Text;
 
         public override CommandCategory Category => CommandCategories.ToolsCommandCategory;
+        public override Guid Id => new Guid("{71F57742-F483-4E3C-A5DD-79596A86CEC7}");
 
         public OpenSettingsCommandDefinition()
         {

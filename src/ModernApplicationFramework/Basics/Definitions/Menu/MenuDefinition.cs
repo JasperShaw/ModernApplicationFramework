@@ -11,10 +11,13 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarItemDefinition" />
     public class MenuDefinition : CommandBarItemDefinition
     {
-        public MenuDefinition(CommandBarGroupDefinition group, uint sortOrder, string text, bool isCustom = false,
+        public override Guid Id { get; }
+
+        public MenuDefinition(Guid id, CommandBarGroupDefinition group, uint sortOrder, string text, bool isCustom = false,
             bool isCustomizable = true)
             : base(text, sortOrder, group, new MenuHeaderCommandDefinition(), true, false, isCustom, isCustomizable)
         {
+            Id = id;
         }
 
         private sealed class MenuHeaderCommandDefinition : CommandDefinitionBase
@@ -28,6 +31,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Menu
             public override bool IsList => false;
             public override CommandCategory Category => null;
             public override CommandControlTypes ControlType => CommandControlTypes.Menu;
+            public override Guid Id => new Guid("{BED985A2-2FE6-4FA1-AD74-731EFEBFF786}");
         }
     }
 }

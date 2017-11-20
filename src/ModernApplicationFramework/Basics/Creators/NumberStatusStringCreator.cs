@@ -38,14 +38,14 @@ namespace ModernApplicationFramework.Basics.Creators
 
         /// <inheritdoc />
         /// <summary>
-        /// Creates a default message with the number 0.
+        /// Creates a default message with the number 1.
         /// </summary>
         /// <returns>
         /// Returns the message
         /// </returns>
         public string CreateDefaultMessage()
         {
-            return CreateMessage(0);
+            return CreateMessage(1);
         }
     }
 }

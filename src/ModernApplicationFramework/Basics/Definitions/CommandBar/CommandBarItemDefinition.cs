@@ -91,8 +91,10 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             get => _text;
             set
             {
-                if (value == _text) return;
+                if (value == _text)
+                    return;
                 _text = value;
+                IsTextModified = true;
                 OnPropertyChanged();
                 UpdateInternalName();
                 UpdateName();
@@ -138,8 +140,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 
         protected CommandBarItemDefinition(string text, uint sortOrder, CommandBarGroupDefinition group,
             CommandDefinitionBase definition, bool visible,
-            bool isChecked, bool isCustom, bool isCustomizable)
-            : base(text, sortOrder, definition, isCustom, isCustomizable, isChecked)
+            bool isChecked, bool isCustom, bool isCustomizable, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
+            : base(text, sortOrder, definition, isCustom, isCustomizable, isChecked, flags)
         {
             _isVisible = visible;
             _group = group;
@@ -161,6 +163,16 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             {
                 _internalName = internalName;
             }
+        }
+
+        public override void Reset()
+        {
+            IsTextModified = false;
+            _text = OriginalText;
+            UpdateInternalName();
+            UpdateName();
+            OnPropertyChanged(nameof(Text));
+            Flags.EnableStyleFlags((CommandBarFlags)OriginalFlagStore.AllFlags);
         }
 
         /// <summary>

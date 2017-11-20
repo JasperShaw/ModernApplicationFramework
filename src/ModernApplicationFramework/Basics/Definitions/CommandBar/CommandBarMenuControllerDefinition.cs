@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 {
@@ -9,8 +12,52 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     /// </summary>
     /// <typeparam name="T">The type of the command definition this item should have</typeparam>
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarItemDefinition`1" />
-    public sealed class CommandBarMenuControllerDefinition<T> : CommandBarItemDefinition<T> where T : CommandDefinitionBase
+    public sealed class CommandBarMenuControllerDefinition<T> : CommandBarMenuControllerDefinition where T : CommandDefinitionBase
 	{
+	    private string _text;
+	    public override CommandDefinitionBase CommandDefinition { get; }
+
+	    public override string Text
+	    {
+	        get => _text;
+	        set
+	        {
+	            if (value == _text)
+                    return;
+	            IsTextModified = true;
+	            _text = value;
+	            OnPropertyChanged();
+	        }
+	    }
+
+	    public override void Reset()
+	    {
+	        IsTextModified = false;
+	        _text = OriginalText;
+	        UpdateInternalName();
+	        OnPropertyChanged(nameof(Text));
+	        Flags.EnableStyleFlags((CommandBarFlags)OriginalFlagStore.AllFlags);
+        }
+
+        public override Guid Id { get; }
+
+	    public CommandBarMenuControllerDefinition(Guid id, CommandBarGroupDefinition group, uint sortOrder,
+            bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true, CommandBarFlags flags = CommandBarFlags.CommandFlagTextIsAnchor)
+            : base(null, sortOrder, group, null, isVisible, isChecked, isCustom, isCustomizable, flags)
+	    {
+	        Id = id;
+
+            CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
+            _text = CommandDefinition.Text;
+            Name = CommandDefinition.Name;
+
+            if (CommandDefinition is CommandMenuControllerDefinition menuControllerDefinition)
+                AnchorItem = menuControllerDefinition.Items.FirstOrDefault();
+        }
+    }
+
+    public abstract class CommandBarMenuControllerDefinition : CommandBarItemDefinition
+    {
         private CommandBarItemDefinition _anchorItem;
 
         /// <summary>
@@ -27,14 +74,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             }
         }
 
-        public CommandBarMenuControllerDefinition(CommandBarGroupDefinition group, uint sortOrder,
-            bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true)
-            : base(null, sortOrder, group, null, isVisible, isChecked, isCustom, isCustomizable)
+        protected CommandBarMenuControllerDefinition(string text, uint sortOrder, CommandBarGroupDefinition group, CommandDefinitionBase definition, bool visible, bool isChecked, bool isCustom, bool isCustomizable, CommandBarFlags flags)
+            : base(text, sortOrder, group, definition, visible, isChecked, isCustom, isCustomizable, flags)
         {
-            Flags.TextIsAnchor = true;
-
-            if (CommandDefinition is CommandMenuControllerDefinition menuControllerDefinition)
-                AnchorItem = menuControllerDefinition.Items.FirstOrDefault();
         }
     }
 }

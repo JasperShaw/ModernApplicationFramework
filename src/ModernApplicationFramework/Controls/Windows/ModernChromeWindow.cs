@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -241,6 +242,8 @@ namespace ModernApplicationFramework.Controls.Windows
             ((ModernChromeWindow) obj).UpdateGlowColors();
         }
 
+        [DebuggerHidden]
+        [DebuggerStepThrough]
         protected override void OnSourceInitialized(EventArgs e)
         {
             var hwndSource = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);

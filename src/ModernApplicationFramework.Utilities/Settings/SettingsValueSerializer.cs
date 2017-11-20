@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
-using ModernApplicationFramework.Utilities.Interfaces.Settings;
 
 namespace ModernApplicationFramework.Utilities.Settings
 {
@@ -36,7 +35,7 @@ namespace ModernApplicationFramework.Utilities.Settings
                 typeof (Size),
                 typeof (Point)
             };
-            foreach (Type type in typeArray)
+            foreach (var type in typeArray)
                 SpecialTypes.Add(type.FullName, Tuple.Create(type, (TypeConverter)null));
         }
 

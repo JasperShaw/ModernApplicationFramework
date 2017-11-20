@@ -22,13 +22,14 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest.Comm
         public override string ToolTip => null;
 
         public override CommandCategory Category => CommandCategories.EditCommandCategory;
+        public override Guid Id => new Guid("{624FF898-788B-476D-B269-879729431260}");
 
         public TestMenuControllerDefinition()
         {
             Items = new ObservableCollection<CommandBarItemDefinition>
             {
-                new CommandBarCommandItemDefinition(int.MaxValue, IoC.Get<UndoCommandDefinition>()),
-                new CommandBarCommandItemDefinition(0, IoC.Get<OpenSettingsCommandDefinition>())
+                new CommandBarCommandItemDefinition(Guid.Empty, int.MaxValue, IoC.Get<UndoCommandDefinition>()),
+                new CommandBarCommandItemDefinition(Guid.Empty, 0, IoC.Get<OpenSettingsCommandDefinition>())
             };
         }
 

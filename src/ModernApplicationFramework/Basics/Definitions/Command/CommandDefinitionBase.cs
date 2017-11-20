@@ -106,6 +106,8 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
             }
         }
 
+        public abstract Guid Id { get; }
+
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
