@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2005
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework", "src\ModernApplicationFramework\ModernApplicationFramework.csproj", "{74F6C6A1-64BB-47D4-9E7F-6CD5C4CA166C}"
 EndProject
@@ -36,6 +36,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D0CC4283-1D90-4E58-8AB5-4C40B1835720}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Extended.DemoMin", "samples\ModernApplicationFramework.Extended.DemoMin\ModernApplicationFramework.Extended.DemoMin.csproj", "{DE81D14D-7E6E-4441-A53E-57923E798697}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.DynamicModule", "samples\ModernApplicationFramework.DynamicModule\ModernApplicationFramework.DynamicModule.csproj", "{2275835A-0A8B-4863-9B7D-6516E04C6398}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -99,6 +101,10 @@ Global
 		{DE81D14D-7E6E-4441-A53E-57923E798697}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE81D14D-7E6E-4441-A53E-57923E798697}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE81D14D-7E6E-4441-A53E-57923E798697}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2275835A-0A8B-4863-9B7D-6516E04C6398}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2275835A-0A8B-4863-9B7D-6516E04C6398}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2275835A-0A8B-4863-9B7D-6516E04C6398}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2275835A-0A8B-4863-9B7D-6516E04C6398}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -118,6 +124,7 @@ Global
 		{2B388979-5B07-4F0A-A302-0C575AAA21C0} = {4D1C8100-FF4F-4F76-B4F3-AA904214A46E}
 		{674F7D84-B3AE-4CD6-AD12-0AFA4ACE516A} = {4D1C8100-FF4F-4F76-B4F3-AA904214A46E}
 		{DE81D14D-7E6E-4441-A53E-57923E798697} = {6930D16E-6FB9-4292-B9D4-55E4E9C458B9}
+		{2275835A-0A8B-4863-9B7D-6516E04C6398} = {6930D16E-6FB9-4292-B9D4-55E4E9C458B9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3A9B2099-61B4-452F-BF63-91B31A07DD83}
