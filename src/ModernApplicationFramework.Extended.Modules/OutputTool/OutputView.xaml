@@ -4,8 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:core="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
-             xmlns:mafc="http://modern.framework.com/controls"
              xmlns:menu="clr-namespace:ModernApplicationFramework.Controls.Menu;assembly=ModernApplicationFramework"
+             xmlns:textBoxes="clr-namespace:ModernApplicationFramework.Controls.TextBoxes;assembly=ModernApplicationFramework"
+             xmlns:mafc="http://modern.framework.com/controls"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
@@ -18,8 +19,10 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <mafc:ScrollViewer VerticalScrollBarVisibility="Visible">
-        <TextBox x:Name="outputText" IsReadOnly="True" VerticalAlignment="Stretch"
+
+    <mafc:ScrollViewer x:Name="ScrollViewer" VerticalScrollBarVisibility="Visible">
+    
+    <TextBox x:Name="OutputText" IsReadOnly="True" VerticalAlignment="Stretch"
                  HorizontalAlignment="Stretch" AcceptsReturn="True" FontFamily="Consolas"
                  Foreground="{DynamicResource {x:Static core:EnvironmentColors.GlobalForeground}}"
                  Cursor="{x:Static Cursors.Arrow}" BorderThickness="0"
@@ -27,9 +30,11 @@
             <TextBox.ContextMenu>
                 <menu:ContextMenu>
                     <menu:ContextMenuItem Header="Clear" Command="{Binding ClearCommand}"
-                                          Icon="{StaticResource ClearContentIcon}" />
+                                              Icon="{StaticResource ClearContentIcon}" />
                 </menu:ContextMenu>
-            </TextBox.ContextMenu>
-        </TextBox>
+        </TextBox.ContextMenu>
+    </TextBox>
     </mafc:ScrollViewer>
+
+
 </UserControl>

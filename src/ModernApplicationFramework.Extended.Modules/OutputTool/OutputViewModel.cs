@@ -17,6 +17,17 @@ namespace ModernApplicationFramework.Extended.Modules.OutputTool
         private readonly OutputWriter _writer;
         private IOutputView _view;
 
+        public IOutputView View
+        {
+            get => _view;
+            set
+            {
+                if (Equals(value, _view)) return;
+                _view = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public ICommand ClearCommand => new Command(Clear);
 
         public OutputViewModel()
@@ -39,7 +50,7 @@ namespace ModernApplicationFramework.Extended.Modules.OutputTool
 
         public void AppendLine(string text)
         {
-            Append(text + System.Environment.NewLine);
+            Append(text + Environment.NewLine);
         }
 
         public void Append(string text)

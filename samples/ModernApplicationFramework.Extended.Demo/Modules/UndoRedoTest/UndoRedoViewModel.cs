@@ -1,19 +1,17 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.Composition;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using Caliburn.Micro;
+using ModernApplicationFramework.Extended.Core.LayoutItems;
+using ModernApplicationFramework.Extended.Modules.OutputTool;
 using ModernApplicationFramework.Input.Command;
-using ModernApplicationFramework.Interfaces;
-using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.UndoRedoTest
 {
     [DisplayName("UndoRedoTest")]
     [Export(typeof(UndoRedoViewModel))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public sealed class UndoRedoViewModel : Extended.Core.LayoutItems.LayoutItem, ICanHaveInputBindings
+    public sealed class UndoRedoViewModel : KeyBindingLayoutItem
     {
         public override bool ShouldReopenOnStart => true;
 
@@ -22,17 +20,8 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.UndoRedoTest
         public UndoRedoViewModel()
         {
             DisplayName = "UndoRedoTest";
-
-            Deactivated += UndoRedoViewModel_Deactivated;
         }
 
-        private void UndoRedoViewModel_Deactivated(object sender, DeactivationEventArgs e)
-        {
-            if (!e.WasClosed)
-                return;
-            IoC.Get<IKeyGestureService>().RemoveModel(this);
-            BindableElement = null;
-        }
 
         [DisplayName("Text"), Description("Nothing special"), Category("Text")]
         public string Text
@@ -66,26 +55,14 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.UndoRedoTest
 
         public ICommand SetValueCommand => new Command(SetValue);
 
-
-        protected override void OnViewLoaded(object view)
-        {
-            if (view is Control element)
-            {
-                BindableElement = element;
-                IoC.Get<IKeyGestureService>().AddModel(this);
-            }
-        }
-
-
         private void SetValue()
         {
             Text += "5";
+            IoC.Get<IOutput>().AppendLine("Test");
         }
 
-        public GestureScope GestureScope => UndoRedoScope;
+        public override GestureScope GestureScope => UndoRedoScope;
         
-        public UIElement BindableElement { get; private set; }
-               
         [Export] public static GestureScope UndoRedoScope = new GestureScope("{C9D94614-906F-4960-BA79-58DED45722F0}", "UndoRedo");
     }
 }

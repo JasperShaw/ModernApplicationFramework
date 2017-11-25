@@ -6,10 +6,10 @@ namespace ModernApplicationFramework.Utilities.NativeMethods
     public static class User32
     {
         [DllImport("user32.dll")]
-        internal static extern IntPtr GetFocus();
+        public static extern IntPtr GetFocus();
 
         [DllImport("user32.dll")]
-        internal static extern IntPtr SetFocus(IntPtr hWnd);
+        public static extern IntPtr SetFocus(IntPtr hWnd);
 
         [DllImport("User32.dll", CallingConvention = CallingConvention.StdCall)]
         internal static extern IntPtr GetDC(IntPtr hWnd);
