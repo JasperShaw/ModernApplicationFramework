@@ -817,8 +817,6 @@
     <Compile Include="Docking\Layout\Serialization\XmlLayoutSerializer.cs" />
     <Compile Include="Core\Utilities\MathHelper.cs" />
     <Compile Include="Native\WindowHelper.cs" />
-    <Compile Include="Interfaces\Utilities\IExtensionDefinition.cs" />
-    <Compile Include="Interfaces\Utilities\ISupportedFileDefinition.cs" />
     <Compile Include="Interfaces\Utilities\IToolbarCreator.cs" />
     <Compile Include="Interfaces\Services\IKeyGestureService.cs" />
     <Compile Include="Interfaces\ViewModels\IMainWindowViewModel.cs" />
@@ -862,8 +860,6 @@
     <Compile Include="Basics\CustomizeDialog\ViewModels\ToolBarsPageViewModel.cs" />
     <Compile Include="Basics\CommandBar\Hosts\MenuHostViewModel.cs" />
     <Compile Include="Basics\CommandBar\Hosts\ToolbarHostViewModel.cs" />
-    <Compile Include="Basics\FileDefinitionManager.cs" />
-    <Compile Include="Basics\FileType.cs" />
     <Compile Include="Basics\Services\KeyGestureService.cs" />
     <Compile Include="Basics\CommandBar\Creators\ToolbarCreator.cs" />
     <Compile Include="Basics\CommandBar\Creators\MenuCreator.cs" />

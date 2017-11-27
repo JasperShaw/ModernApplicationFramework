@@ -41,6 +41,9 @@
     <Reference Include="Caliburn.Micro.Platform.Core, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Caliburn.Micro.3.2.0\lib\net45\Caliburn.Micro.Platform.Core.dll</HintPath>
     </Reference>
+    <Reference Include="JetBrains.Annotations, Version=11.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JetBrains.Annotations.11.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
@@ -61,6 +64,37 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandBarDefinitions\MenuDefinitions\FileMenuDefinitions.cs" />
+    <Compile Include="Commands\CloseActiveDocumentCommandDefinition.cs" />
+    <Compile Include="Commands\NewFileCommandDefinition.cs" />
+    <Compile Include="Controls\DockingMainWindowViewModel.cs" />
+    <Compile Include="Controls\FileExtensionItemPresenter.xaml.cs">
+      <DependentUpon>FileExtensionItemPresenter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\NewElementDialog\NewElementDialogView.xaml.cs">
+      <DependentUpon>NewElementDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\NewElementDialog\NewElementDialogViewModel.cs" />
+    <Compile Include="Controls\SaveDirtyDocumentsDialog\SaveDirtyDocumentItem.cs" />
+    <Compile Include="Controls\SaveDirtyDocumentsDialog\SaveDirtyDocumentsDialog.xaml.cs">
+      <DependentUpon>SaveDirtyDocumentsDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SimpleTextEditor\SimpleTextEditorView.xaml.cs">
+      <DependentUpon>SimpleTextEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SimpleTextEditor\SimpleTextEditorViewModel.cs" />
+    <Compile Include="Core\NewFileCommandArguments.cs" />
+    <Compile Include="Core\OpenFileWithCommandArguments.cs" />
+    <Compile Include="EditorProvider\EditorProvider.cs" />
+    <Compile Include="EditorProvider\EditorProviderHelper.cs" />
+    <Compile Include="FileDefinitionManager.cs" />
+    <Compile Include="FileType.cs" />
+    <Compile Include="Interfaces\IEditorProvider.cs" />
+    <Compile Include="Interfaces\IExtensionDefinition.cs" />
+    <Compile Include="Interfaces\IExtensionDialogItemPresenter.cs" />
+    <Compile Include="Interfaces\INewElementDialogModel.cs" />
+    <Compile Include="Interfaces\ISaveDirtyDocumentsDialog.cs" />
+    <Compile Include="Interfaces\ISupportedFileDefinition.cs" />
     <Compile Include="Interfaces\Layout\IDocument.cs" />
     <Compile Include="Interfaces\Layout\IStorableDocument.cs" />
     <Compile Include="Layout\Document.cs" />
@@ -73,22 +107,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
     <Compile Include="ResultDialogs\OpenDocumentResult.cs" />
     <Compile Include="ResultDialogs\Show.cs" />
+    <Compile Include="TextFileDefinition.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ModernApplicationFramework.Extended\ModernApplicationFramework.Extended.csproj">
@@ -101,7 +127,27 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Commands\" />
+    <Page Include="Controls\FileExtensionItemPresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\NewElementDialog\NewElementDialogView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\SaveDirtyDocumentsDialog\SaveDirtyDocumentsDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\SimpleTextEditor\SimpleTextEditorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DataTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

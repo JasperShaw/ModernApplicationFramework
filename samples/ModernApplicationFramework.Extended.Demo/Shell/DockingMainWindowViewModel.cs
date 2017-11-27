@@ -7,7 +7,7 @@ using DockingMainWindowView = ModernApplicationFramework.Extended.Controls.Docki
 namespace ModernApplicationFramework.Extended.Demo.Shell
 {
     [Export(typeof (IDockingMainWindowViewModel))]
-    public class DockingMainWindowViewModel : Controls.DockingMainWindow.ViewModels.DockingMainWindowViewModel
+    public class DockingMainWindowViewModel : EditorBase.Controls.DockingMainWindowViewModel
     {
         static DockingMainWindowViewModel()
         {

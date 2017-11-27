@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using ModernApplicationFramework.Basics;
+using ModernApplicationFramework.EditorBase;
+using ModernApplicationFramework.EditorBase.Interfaces;
 using ModernApplicationFramework.Extended.Demo.Modules.MyEditor;
-using ModernApplicationFramework.Interfaces.Utilities;
 
 namespace ModernApplicationFramework.Extended.Demo
 {

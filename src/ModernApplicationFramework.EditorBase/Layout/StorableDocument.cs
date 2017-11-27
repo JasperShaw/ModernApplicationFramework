@@ -2,7 +2,6 @@
 using System.IO;
 using System.Threading.Tasks;
 using ModernApplicationFramework.EditorBase.Interfaces.Layout;
-using ModernApplicationFramework.Extended.Interfaces;
 
 namespace ModernApplicationFramework.EditorBase.Layout
 {

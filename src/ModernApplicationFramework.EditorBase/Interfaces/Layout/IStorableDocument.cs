@@ -2,15 +2,20 @@
 
 namespace ModernApplicationFramework.EditorBase.Interfaces.Layout
 {
-    public interface IStorableDocument
+    public interface IStorableDocument : IDocument
     {
         string FileName { get; }
 
         string FilePath { get; }
+
+        bool IsDirty { get; set; }
+
         bool IsNew { get; }
+
         Task Load(string filePath);
 
         Task New(string fileName);
+
         Task Save(string filePath);
     }
 }
