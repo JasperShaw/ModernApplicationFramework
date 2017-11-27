@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
+using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.WindowManagement;
@@ -9,7 +10,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.WindowProfileChange
 {
     [DisplayName("WindowProfile")]
     [Export(typeof(WindowProfileChangeViewModel))]
-    public sealed class WindowProfileChangeViewModel: Core.LayoutItems.LayoutItem
+    public sealed class WindowProfileChangeViewModel: LayoutItem
     {
         private readonly IStatusBarDataModelService _statusBar;
         public ICommand SetDefaultCommand => new Command(SetDefault, CanSet);

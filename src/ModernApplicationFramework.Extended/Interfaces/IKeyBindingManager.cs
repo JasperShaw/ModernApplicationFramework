@@ -1,5 +1,5 @@
 ﻿using System;
-using ModernApplicationFramework.Extended.KeyBindingScheme;
+using ModernApplicationFramework.Extended.Input.KeyBindingScheme;
 using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Extended.Interfaces

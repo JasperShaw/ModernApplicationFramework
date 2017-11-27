@@ -65,9 +65,9 @@
     <Compile Include="ApplicationEnvironment\ExtendedEnvironmentVariables.cs" />
     <Compile Include="ApplicationEnvironment\ApplicationEnvironmentBase.cs" />
     <Compile Include="ApplicationEnvironment\FallbackExtendedEnvironmentVariables.cs" />
-    <Compile Include="Core\LayoutItems\KeyBindingLayoutItem.cs" />
-    <Compile Include="Core\Layout\LayoutInitializer.cs" />
-    <Compile Include="Core\Layout\LayoutUtilities.cs" />
+    <Compile Include="Layout\KeyBindingLayoutItem.cs" />
+    <Compile Include="Layout\LayoutInitializer.cs" />
+    <Compile Include="Layout\LayoutUtilities.cs" />
     <Compile Include="Package\IMafPackage.cs" />
     <Compile Include="Package\IPackageManager.cs" />
     <Compile Include="Package\Package.cs" />
@@ -75,16 +75,16 @@
     <Compile Include="Package\PackageLoadOption.cs" />
     <Compile Include="Package\PackageManager.cs" />
     <Compile Include="GuidCollection.cs" />
-    <Compile Include="KeyBindingScheme\KeyBindingSchemeManager.cs" />
-    <Compile Include="KeyBindingScheme\FileSchemeDefinition.cs" />
+    <Compile Include="Input\KeyBindingScheme\KeyBindingSchemeManager.cs" />
+    <Compile Include="Input\KeyBindingScheme\FileSchemeDefinition.cs" />
     <Compile Include="Interfaces\IKeyBindingManager.cs" />
-    <Compile Include="KeyBindingScheme\KeyBindingManager.cs" />
-    <Compile Include="KeyBindingScheme\KeyBindingSchemeFile.cs" />
-    <Compile Include="KeyBindingScheme\KeyBindingsSettings.cs" />
-    <Compile Include="KeyBindingScheme\KeyboardShortcutsSettingsCategory.cs" />
-    <Compile Include="KeyBindingScheme\SchemeDefinition.cs" />
+    <Compile Include="Input\KeyBindingScheme\KeyBindingManager.cs" />
+    <Compile Include="Input\KeyBindingScheme\KeyBindingSchemeFile.cs" />
+    <Compile Include="Input\KeyBindingScheme\KeyBindingsSettings.cs" />
+    <Compile Include="Input\KeyBindingScheme\KeyboardShortcutsSettingsCategory.cs" />
+    <Compile Include="Input\KeyBindingScheme\SchemeDefinition.cs" />
     <Compile Include="Interfaces\IKeyBindingSchemeManager.cs" />
-    <Compile Include="KeyBindingScheme\KeyBindingScheme.cs" />
+    <Compile Include="Input\KeyBindingScheme\KeyBindingScheme.cs" />
     <Compile Include="Interfaces\IApplicationEnvironment.cs" />
     <Compile Include="ExtendedBootstrapper.cs" />
     <Compile Include="Commands\CloseProgramCommandDefinition.cs" />
@@ -96,47 +96,43 @@
     <Compile Include="Commands\SwitchToDocumentListCommandHandler.cs" />
     <Compile Include="Commands\UndoCommandDefinition.cs" />
     <Compile Include="Commands\MultiUndoCommandDefinition.cs" />
-    <Compile Include="Core\CommandRouter.cs" />
-    <Compile Include="Core\LayoutItems\Document.cs" />
-    <Compile Include="Core\LayoutItems\LayoutItem.cs" />
-    <Compile Include="Core\LayoutItems\LayoutItemBase.cs" />
-    <Compile Include="Core\Pane\PaneLocation.cs" />
-    <Compile Include="Core\Pane\PanesStyleSelector.cs" />
-    <Compile Include="Core\Pane\PanesTemplateSelector.cs" />
-    <Compile Include="Core\LayoutItems\StorableDocument.cs" />
-    <Compile Include="Core\LayoutItems\Tool.cs" />
-    <Compile Include="Core\CommandBarUndoRedoManagerWatcher.cs" />
-    <Compile Include="DockingHost\ViewModels\DockingHostViewModel.cs" />
-    <Compile Include="DockingHost\Views\DockingHostView.xaml.cs">
+    <Compile Include="Input\CommandRouter.cs" />
+    <Compile Include="Layout\LayoutItem.cs" />
+    <Compile Include="Layout\LayoutItemBase.cs" />
+    <Compile Include="Utilities\PaneUtilities\PaneLocation.cs" />
+    <Compile Include="Utilities\PaneUtilities\PanesStyleSelector.cs" />
+    <Compile Include="Utilities\PaneUtilities\PanesTemplateSelector.cs" />
+    <Compile Include="Layout\Tool.cs" />
+    <Compile Include="UndoRedoManager\CommandBarUndoRedoManagerWatcher.cs" />
+    <Compile Include="Controls\DockingHost\ViewModels\DockingHostViewModel.cs" />
+    <Compile Include="Controls\DockingHost\Views\DockingHostView.xaml.cs">
       <DependentUpon>DockingHostView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DockingMainWindow\ViewModels\DockingMainWindowViewModel.cs" />
-    <Compile Include="DockingMainWindow\Views\DockingMainWindowView.xaml.cs">
+    <Compile Include="Controls\DockingMainWindow\ViewModels\DockingMainWindowViewModel.cs" />
+    <Compile Include="Controls\DockingMainWindow\Views\DockingMainWindowView.xaml.cs">
       <DependentUpon>DockingMainWindowView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IDockingHost.cs" />
     <Compile Include="Interfaces\IDockingHostViewModel.cs" />
     <Compile Include="Interfaces\IDockingMainWindowViewModel.cs" />
-    <Compile Include="Interfaces\IDocument.cs" />
     <Compile Include="Interfaces\ILayoutItem.cs" />
     <Compile Include="Interfaces\ILayoutItemBase.cs" />
     <Compile Include="Interfaces\IOpenResult.cs" />
-    <Compile Include="Interfaces\IStorableDocument.cs" />
     <Compile Include="Interfaces\ITool.cs" />
     <Compile Include="Interfaces\IUseDockingHost.cs" />
     <Compile Include="Interfaces\IWindow.cs" />
-    <Compile Include="KeyBindingScheme\KeyBindingResources.Designer.cs">
+    <Compile Include="Input\KeyBindingScheme\KeyBindingResources.Designer.cs">
       <DependentUpon>KeyBindingResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="MenuDefinitions\EditMenuDefinitions.cs" />
-    <Compile Include="MenuDefinitions\FileMenuDefinitions.cs" />
-    <Compile Include="MenuDefinitions\MainMenuBarDefinition.cs" />
-    <Compile Include="MenuDefinitions\MenuBarItemDefinitions.cs" />
-    <Compile Include="MenuDefinitions\ToolsMenuDefinitions.cs" />
-    <Compile Include="MenuDefinitions\ViewMenuDefinitions.cs" />
-    <Compile Include="MenuDefinitions\WindowMenuDefinitions.cs" />
+    <Compile Include="CommandBarDefinitions\MenuDefinitions\EditMenuDefinitions.cs" />
+    <Compile Include="CommandBarDefinitions\MenuDefinitions\FileMenuDefinitions.cs" />
+    <Compile Include="CommandBarDefinitions\MenuDefinitions\MainMenuBarDefinition.cs" />
+    <Compile Include="CommandBarDefinitions\MenuDefinitions\MenuBarItemDefinitions.cs" />
+    <Compile Include="CommandBarDefinitions\MenuDefinitions\ToolsMenuDefinitions.cs" />
+    <Compile Include="CommandBarDefinitions\MenuDefinitions\ViewMenuDefinitions.cs" />
+    <Compile Include="CommandBarDefinitions\MenuDefinitions\WindowMenuDefinitions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -155,7 +151,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ResultDialogs\OpenDocumentResult.cs" />
     <Compile Include="ResultDialogs\OpenResultBase.cs" />
     <Compile Include="ResultDialogs\Show.cs" />
     <Compile Include="ResultDialogs\ShowCommonDialogResult.cs" />
@@ -214,7 +209,7 @@
       <DependentUpon>SettingsImportExportView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\SettingsImportExport\SettingsImportExportViewModel.cs" />
-    <Compile Include="ToolbarDefinitions\StandardToolbarDefinition.cs" />
+    <Compile Include="CommandBarDefinitions\ToolbarDefinitions\StandardToolbarDefinition.cs" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -236,13 +231,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="KeyBindingScheme\KeyBindingResources.de.resx" />
-    <EmbeddedResource Include="KeyBindingScheme\KeyBindingResources.en.resx" />
-    <EmbeddedResource Include="KeyBindingScheme\KeyBindingResources.resx">
+    <EmbeddedResource Include="Input\KeyBindingScheme\KeyBindingResources.de.resx" />
+    <EmbeddedResource Include="Input\KeyBindingScheme\KeyBindingResources.en.resx" />
+    <EmbeddedResource Include="Input\KeyBindingScheme\KeyBindingResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>KeyBindingResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="KeyBindingScheme\KeyBindingResources.ru.resx" />
+    <EmbeddedResource Include="Input\KeyBindingScheme\KeyBindingResources.ru.resx" />
     <EmbeddedResource Include="Properties\CommandBar.Resources.de.resx">
       <LastGenOutput>CommandBar.Resources.de.Designer.cs</LastGenOutput>
     </EmbeddedResource>
@@ -318,11 +313,11 @@
     <EmbeddedResource Include="Settings\SettingsImportExport\SettingsImportExportResources.ru.resx" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="DockingHost\Views\DockingHostView.xaml">
+    <Page Include="Controls\DockingHost\Views\DockingHostView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="DockingMainWindow\Views\DockingMainWindowView.xaml">
+    <Page Include="Controls\DockingMainWindow\Views\DockingMainWindowView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -379,8 +374,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewManager\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

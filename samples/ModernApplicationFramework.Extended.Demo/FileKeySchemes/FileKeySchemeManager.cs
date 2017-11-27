@@ -2,8 +2,8 @@
 using System.ComponentModel.Composition;
 using System.IO;
 using Caliburn.Micro;
+using ModernApplicationFramework.Extended.Input.KeyBindingScheme;
 using ModernApplicationFramework.Extended.Interfaces;
-using ModernApplicationFramework.Extended.KeyBindingScheme;
 using ModernApplicationFramework.Utilities.Interfaces;
 
 namespace ModernApplicationFramework.Extended.Demo.FileKeySchemes
@@ -33,9 +33,9 @@ namespace ModernApplicationFramework.Extended.Demo.FileKeySchemes
         {
         }
 
-        public override KeyBindingScheme.KeyBindingScheme Load()
+        public override KeyBindingScheme Load()
         {
-            return KeyBindingScheme.KeyBindingScheme.LoadFromFile(FileLocation);
+            return KeyBindingScheme.LoadFromFile(FileLocation);
         }
     }
 }

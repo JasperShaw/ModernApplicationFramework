@@ -1,4 +1,4 @@
-﻿using ModernApplicationFramework.Extended.Core.Pane;
+﻿using ModernApplicationFramework.Extended.Utilities.PaneUtilities;
 
 namespace ModernApplicationFramework.Extended.Interfaces
 {

@@ -8,7 +8,7 @@ using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Threading;
 using ModernApplicationFramework.Controls.Dialogs;
-using ModernApplicationFramework.Extended.Core.LayoutItems;
+using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;

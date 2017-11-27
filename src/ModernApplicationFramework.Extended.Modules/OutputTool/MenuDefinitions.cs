@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Extended.CommandBarDefinitions.MenuDefinitions;
 
 namespace ModernApplicationFramework.Extended.Modules.OutputTool
 {
@@ -8,6 +9,6 @@ namespace ModernApplicationFramework.Extended.Modules.OutputTool
     {
         [Export] public static CommandBarItemDefinition Output =
             new CommandBarCommandItemDefinition<OpenOutputToolCommandDefinition>(new Guid("{F1605A96-5EDF-48B7-A63A-3402FC3710CA}"), 
-                Extended.MenuDefinitions.ViewMenuDefinitions.ToolsViewGroup, 2);
+                ViewMenuDefinitions.ToolsViewGroup, 2);
     }
 }

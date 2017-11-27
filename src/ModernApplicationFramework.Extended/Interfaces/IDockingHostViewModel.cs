@@ -6,6 +6,7 @@ namespace ModernApplicationFramework.Extended.Interfaces
     public interface IDockingHostViewModel : IGuardClose, IDeactivate, IConductor
     {
         event EventHandler ActiveDocumentChanged;
+
         event EventHandler ActiveDocumentChanging;
 
         ILayoutItem ActiveItem { get; }

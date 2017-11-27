@@ -4,8 +4,8 @@ using System.IO;
 using System.Text;
 using System.Windows.Input;
 using Caliburn.Micro;
-using ModernApplicationFramework.Extended.Core.LayoutItems;
-using ModernApplicationFramework.Extended.Core.Pane;
+using ModernApplicationFramework.Extended.Layout;
+using ModernApplicationFramework.Extended.Utilities.PaneUtilities;
 using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.Extended.Modules.OutputTool

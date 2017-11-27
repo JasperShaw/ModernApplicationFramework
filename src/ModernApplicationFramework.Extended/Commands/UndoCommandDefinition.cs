@@ -5,8 +5,8 @@ using System.Linq;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Extended.Core;
 using ModernApplicationFramework.Extended.Properties;
+using ModernApplicationFramework.Extended.UndoRedoManager;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 

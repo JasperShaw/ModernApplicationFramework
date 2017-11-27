@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.IO;
 using System.Threading.Tasks;
-using ModernApplicationFramework.Extended.Core.LayoutItems;
+using ModernApplicationFramework.EditorBase.Layout;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.MyEditor
 {

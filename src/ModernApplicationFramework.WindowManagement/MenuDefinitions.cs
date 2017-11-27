@@ -2,7 +2,7 @@
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
-using ModernApplicationFramework.Extended.MenuDefinitions;
+using ModernApplicationFramework.Extended.CommandBarDefinitions.MenuDefinitions;
 using ModernApplicationFramework.WindowManagement.Commands;
 using ModernApplicationFramework.WindowManagement.Properties;
 

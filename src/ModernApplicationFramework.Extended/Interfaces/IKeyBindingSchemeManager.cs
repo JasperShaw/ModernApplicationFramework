@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using ModernApplicationFramework.Extended.KeyBindingScheme;
+using ModernApplicationFramework.Extended.Input.KeyBindingScheme;
 
 namespace ModernApplicationFramework.Extended.Interfaces
 {

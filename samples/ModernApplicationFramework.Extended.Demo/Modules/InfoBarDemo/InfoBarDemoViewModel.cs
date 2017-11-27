@@ -6,6 +6,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Basics.InfoBar;
 using ModernApplicationFramework.Controls.InfoBar;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Controls.InfoBar;
 using ModernApplicationFramework.Interfaces.Services;
@@ -15,7 +16,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.InfoBarDemo
 {
     [DisplayName("Info Bar Demo")]
     [Export(typeof(InfoBarDemoViewModel))]
-    public sealed class InfoBarDemoViewModel : Core.LayoutItems.LayoutItem, IInfoBarUiEvents
+    public sealed class InfoBarDemoViewModel : LayoutItem, IInfoBarUiEvents
     {
         private readonly IDockingHostViewModel _dockingHost;
         private readonly IDockingMainWindowViewModel _mainWindow;

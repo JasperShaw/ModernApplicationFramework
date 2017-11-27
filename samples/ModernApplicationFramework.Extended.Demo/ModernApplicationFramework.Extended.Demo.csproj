@@ -99,6 +99,7 @@
     </Compile>
     <Compile Include="Modules\InfoBarDemo\InfoBarDemoViewModel.cs" />
     <Compile Include="Modules\LoadWindowProfile\LoadWindowProfilePackage.cs" />
+    <Compile Include="Modules\MyEditor\Sample.cs" />
     <Compile Include="Modules\SampleExplorer\SampleExplorerModule.cs" />
     <Compile Include="Modules\Startup\StartupPackage.cs" />
     <Compile Include="Modules\WaitingWindow\WaitingDialogDemoView.xaml.cs">
@@ -126,7 +127,6 @@
     <Compile Include="Modules\StatusBar\ExtendedStatusBar.cs" />
     <Compile Include="Modules\StatusBar\ExtendedStatusBarService.cs" />
     <Compile Include="Modules\StatusBar\IStatusBarDataModel2.cs" />
-    <Compile Include="Modules\TestPanel\TestPanelViewModel.cs" />
     <Compile Include="Modules\UndoRedoTest\UndoRedoTextBox.cs" />
     <Compile Include="Modules\UndoRedoTest\UndoRedoView.xaml.cs">
       <DependentUpon>UndoRedoView.xaml</DependentUpon>

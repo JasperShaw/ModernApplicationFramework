@@ -22,22 +22,6 @@ namespace ModernApplicationFramework.Extended.ResultDialogs
             return new ShowToolResult<TTool>(tool);
         }
 
-        public static OpenDocumentResult Document(IDocument document)
-        {
-            return new OpenDocumentResult(document);
-        }
-
-        public static OpenDocumentResult Document(string path)
-        {
-            return new OpenDocumentResult(path);
-        }
-
-        public static OpenDocumentResult Document<T>()
-            where T : IDocument
-        {
-            return new OpenDocumentResult(typeof(T));
-        }
-
         public static ShowWindowResult<TWindow> Window<TWindow>()
             where TWindow : IWindow
         {

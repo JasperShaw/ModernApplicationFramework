@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel.Composition;
 using Caliburn.Micro;
-using ModernApplicationFramework.Extended.DockingMainWindow.Views;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
+using DockingMainWindowView = ModernApplicationFramework.Extended.Controls.DockingMainWindow.Views.DockingMainWindowView;
 
 namespace ModernApplicationFramework.Extended.Demo.Shell
 {
     [Export(typeof (IDockingMainWindowViewModel))]
-    public class DockingMainWindowViewModel : DockingMainWindow.ViewModels.DockingMainWindowViewModel
+    public class DockingMainWindowViewModel : Controls.DockingMainWindow.ViewModels.DockingMainWindowViewModel
     {
         static DockingMainWindowViewModel()
         {

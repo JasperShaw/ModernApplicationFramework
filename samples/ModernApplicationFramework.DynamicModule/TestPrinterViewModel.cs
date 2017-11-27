@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
-using ModernApplicationFramework.Extended.Core.LayoutItems;
-using ModernApplicationFramework.Extended.Core.Pane;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Extended.Layout;
+using ModernApplicationFramework.Extended.Utilities.PaneUtilities;
 
 namespace ModernApplicationFramework.DynamicModule
 {

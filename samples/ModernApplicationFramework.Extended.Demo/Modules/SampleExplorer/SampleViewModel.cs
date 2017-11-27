@@ -4,13 +4,14 @@ using System.Windows.Input;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Controls.ComboBox;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.SampleExplorer
 {
     [Export(typeof(SampleViewModel))]
-    public class SampleViewModel : Extended.Core.LayoutItems.LayoutItem
+    public class SampleViewModel : LayoutItem
     {
         private readonly IDockingHostViewModel _dockingHostViewModel;
         private ComboBoxDataSource _dataSource;
