@@ -43,7 +43,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
         public ContextMenu ContextMenu { get; }
 
-        public ICommand OpenContextMenuCommand => new Command(OpenContextMenu, CanOpenContextMenu);
+        public ICommand OpenContextMenuCommand => new DelegateCommand(o => OpenContextMenu(), p => CanOpenContextMenu());
 
         public IMainWindowViewModel MainWindowViewModel { get; set; }
 
@@ -223,6 +223,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
         private void ToolBarTay_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (OpenContextMenuCommand.CanExecute(null))
             OpenContextMenuCommand.Execute(null);
         }
 
