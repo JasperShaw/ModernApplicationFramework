@@ -242,6 +242,7 @@
     <Compile Include="Basics\Definitions\Command\CommandGestureScopeMapping.cs" />
     <Compile Include="Basics\Services\CommandBarLayoutBackupProvider.cs" />
     <Compile Include="Basics\Services\CommandBarSerializer.cs" />
+    <Compile Include="Core\Exception\ContractNotFoundException.cs" />
     <Compile Include="Interfaces\Services\ICommandBarLayoutBackupProvider.cs" />
     <Compile Include="Interfaces\Services\ICommandBarSerializer.cs" />
     <Compile Include="Basics\Threading\MafTaskHelper.cs" />

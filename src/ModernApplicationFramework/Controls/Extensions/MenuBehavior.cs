@@ -2,6 +2,7 @@
 using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.Controls.Menu;
+using ModernApplicationFramework.Core.Exception;
 using ModernApplicationFramework.Interfaces.Command;
 using ModernApplicationFramework.Interfaces.Controls;
 
@@ -53,9 +54,15 @@ namespace ModernApplicationFramework.Controls.Extensions
             var menuItems = contextMenu.Items.OfType<IDummyListMenuItem>().ToList();
             if (menuItems.Count == 0)
                 return;
-            var commandRouter = IoC.Get<ICommandRouter>();
-            foreach (var item in menuItems)
-                item.Update(commandRouter.GetCommandHandler(item.CommandBarItemDefinition.CommandDefinition));
+            try
+            {
+                var commandRouter = IoC.Get<ICommandRouter>();
+                foreach (var item in menuItems)
+                    item.Update(commandRouter.GetCommandHandler(item.CommandBarItemDefinition.CommandDefinition));
+            }
+            catch (ContractNotFoundException)
+            {
+            }
         }
 
         private static void OnSubmenuOpened(object sender, RoutedEventArgs e)

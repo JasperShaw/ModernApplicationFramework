@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.ApplicationEnvironment;
+using ModernApplicationFramework.Core.Exception;
 using ModernApplicationFramework.Core.Localization;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Native.TrinetCoreNtfs;
@@ -172,7 +173,7 @@ namespace ModernApplicationFramework.Basics.Services
             var exports = _container.GetExportedValues<object>(contract).ToArray();
             if (exports.Any())
                 return exports.First();
-            throw new Exception($"Could not locate any instances of contract {contract}.");
+            throw new ContractNotFoundException($"Could not locate any instances of contract {contract}.");
         }
     }
 }
