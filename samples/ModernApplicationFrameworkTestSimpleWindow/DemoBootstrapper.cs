@@ -4,7 +4,7 @@ namespace ModernApplicationFrameworkTestSimpleWindow
 {
     public sealed class DemoBootstrapper : Bootstrapper
     {
-        public DemoBootstrapper()
+        public DemoBootstrapper() : base(false)
         {
             Initialize();
         }

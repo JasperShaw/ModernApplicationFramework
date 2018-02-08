@@ -242,6 +242,14 @@
     <Compile Include="Basics\Definitions\Command\CommandGestureScopeMapping.cs" />
     <Compile Include="Basics\Services\CommandBarLayoutBackupProvider.cs" />
     <Compile Include="Basics\Services\CommandBarSerializer.cs" />
+    <Compile Include="Basics\WindowModels\MainWindowViewModelConductorAllActive.cs" />
+    <Compile Include="Basics\WindowModels\MainWindowViewModelConductorOneActive.cs" />
+    <Compile Include="Basics\WindowModels\MainWindowViewModelConductor.cs" />
+    <Compile Include="Basics\WindowModels\WindowViewModelConductorAllActive.cs" />
+    <Compile Include="Basics\WindowModels\WindowViewModelConductorOneActive.cs" />
+    <Compile Include="Basics\WindowModels\WindowViewModelConductor.cs" />
+    <Compile Include="Basics\WindowModels\WindowViewModelScreen.cs" />
+    <Compile Include="Basics\WindowModels\MainWindowViewModelScreen.cs" />
     <Compile Include="Core\Exception\ContractNotFoundException.cs" />
     <Compile Include="Interfaces\Services\ICommandBarLayoutBackupProvider.cs" />
     <Compile Include="Interfaces\Services\ICommandBarSerializer.cs" />
@@ -868,7 +876,6 @@
     <Compile Include="Interfaces\IUndoRedoManager.cs" />
     <Compile Include="Basics\UndoRedoManager\UndoRedoAction.cs" />
     <Compile Include="Basics\UndoRedoManager\UndoRedoManager.cs" />
-    <Compile Include="Controls\Windows\MainWindowViewModel.cs" />
     <Compile Include="Core\ViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controls\Primitives\ScrollBar.cs" />

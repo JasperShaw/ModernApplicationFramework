@@ -83,7 +83,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
+    <Compile Include="Shell\MainWindowViewModel.cs" />
+    <Compile Include="TestScreen\TestScreenView.xaml.cs">
+      <DependentUpon>TestScreenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TestScreen\TestScreenViewModel.cs" />
+    <Page Include="Shell\MainWindowView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -92,10 +97,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DemoBootstrapper.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="Shell\MainWindowView.xaml.cs">
+      <DependentUpon>MainWindowView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="TestScreen\TestScreenView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
