@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.Composition;
 using Caliburn.Micro;
-using ModernApplicationFramework.Extended.DockingMainWindow.Views;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
 using DockingMainWindowView = ModernApplicationFramework.Extended.Controls.DockingMainWindow.Views.DockingMainWindowView;
