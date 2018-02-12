@@ -10,11 +10,14 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using JetBrains.Annotations;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Controls.ComboBox;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.EditorBase.Core;
 using ModernApplicationFramework.EditorBase.Interfaces;
+using ModernApplicationFramework.Interfaces;
 
-namespace ModernApplicationFramework.EditorBase.Controls
+namespace ModernApplicationFramework.EditorBase.Controls.NewFileExtension
 {
 
     public partial class FileExtensionItemPresenter : IExtensionDialogItemPresenter, INotifyPropertyChanged
@@ -22,6 +25,7 @@ namespace ModernApplicationFramework.EditorBase.Controls
         private IEnumerable<IExtensionDefinition> _itemSource;
 
         private EventHandler<ItemDoubleClickedEventArgs> _itemDoubleClicked;
+        private ComboBoxDataSource _sortDataSource;
 
 
         public event EventHandler<ItemDoubleClickedEventArgs> ItemDoubledClicked
@@ -54,6 +58,13 @@ namespace ModernApplicationFramework.EditorBase.Controls
 
         public FileExtensionItemPresenter()
         {
+            SortItems = new ObservableCollection<IHasTextProperty>
+            {
+                new TextCommandBarItemDefinition("Test"),
+                new TextCommandBarItemDefinition("Test2"),
+                new TextCommandBarItemDefinition("Test3"),
+            };
+            SortDataSource = new ComboBoxDataSource(SortItems);
             InitializeComponent();
         }
 
@@ -82,7 +93,20 @@ namespace ModernApplicationFramework.EditorBase.Controls
             }
         }
 
-        public bool UsesNameProperty => true;
+        public ObservableCollection<IHasTextProperty> SortItems { get; set; }
+
+        public ComboBoxDataSource SortDataSource
+        {
+            get => _sortDataSource;
+            set
+            {
+                if (Equals(value, _sortDataSource)) return;
+                _sortDataSource = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool UsesNameProperty => false;
         public bool UsesPathProperty => false;
 
         public object CreateResult(string name, string path)

@@ -68,7 +68,7 @@
     <Compile Include="Commands\CloseActiveDocumentCommandDefinition.cs" />
     <Compile Include="Commands\NewFileCommandDefinition.cs" />
     <Compile Include="Controls\DockingMainWindowViewModel.cs" />
-    <Compile Include="Controls\FileExtensionItemPresenter.xaml.cs">
+    <Compile Include="Controls\NewFileExtension\FileExtensionItemPresenter.xaml.cs">
       <DependentUpon>FileExtensionItemPresenter.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\NewElementDialog\NewElementDialogView.xaml.cs">
@@ -121,13 +121,17 @@
       <Project>{51911695-6cdb-4833-9782-06c8821d1c4e}</Project>
       <Name>ModernApplicationFramework.Extended</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework.Utilities\ModernApplicationFramework.Utilities.csproj">
+      <Project>{2b388979-5b07-4f0a-a302-0c575aaa21c0}</Project>
+      <Name>ModernApplicationFramework.Utilities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework\ModernApplicationFramework.csproj">
       <Project>{74f6c6a1-64bb-47d4-9e7f-6cd5c4ca166c}</Project>
       <Name>ModernApplicationFramework</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Controls\FileExtensionItemPresenter.xaml">
+    <Page Include="Controls\NewFileExtension\FileExtensionItemPresenter.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
