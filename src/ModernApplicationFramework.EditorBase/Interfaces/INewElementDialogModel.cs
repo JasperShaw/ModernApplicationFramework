@@ -9,12 +9,16 @@ namespace ModernApplicationFramework.EditorBase.Interfaces
 
         ICommand BrowseCommand { get; }
 
-        object ResultData { get; }
-
-        IExtensionDialogItemPresenter ItemPresenter { get; set; }
-
         string Name { get; set; }
 
         string Path { get; set; }
+    }
+
+
+    public interface INewElementDialogModel<T> : INewElementDialogModel
+    {
+        T ItemPresenter { get; set; }
+
+        T ResultData { get; }
     }
 }

@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Caliburn.Micro;
 using ModernApplicationFramework.Controls.ComboBox;
 using ModernApplicationFramework.Interfaces;
-using ModernApplicationFramework.Interfaces.Controls;
 
 namespace ModernApplicationFramework.EditorBase.Interfaces
 {
-    public interface IExtensionDialogItemPresenter : IListViewContainer
+    public interface IExtensionDialogItemPresenter<out T> : IScreen
     {
         bool UsesNameProperty { get; }
 
@@ -18,8 +18,10 @@ namespace ModernApplicationFramework.EditorBase.Interfaces
 
         ComboBoxDataSource SortDataSource { get; set; }
 
-        object CreateResult(string name, string path);
+        T CreateResult(string name, string path);
 
-        IExtensionDefinition SelectedItem { get; }
+        IExtensionDefinition SelectedItem { get; set; }
+
+        int SelectedIndex { get; set; }
     }
 }

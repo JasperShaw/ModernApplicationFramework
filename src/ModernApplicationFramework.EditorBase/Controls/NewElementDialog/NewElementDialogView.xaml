@@ -2,8 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mafc="http://modern.framework.com/controls"
-             xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
              xmlns:textBoxes="clr-namespace:ModernApplicationFramework.Controls.TextBoxes;assembly=ModernApplicationFramework"
+             xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
              MinWidth="800" MinHeight="450" Background="{DynamicResource {x:Static themes:EnvironmentColors.GlobalBackgroundColor2}}"
                    HasMaximizeButton="false" HasMinimizeButton="false" ResizeMode="CanResize" ShowInTaskbar="false"
                     SnapsToDevicePixels="true" WindowStartupLocation="Manual" Width="900" Height="600" Icon="{x:Null}"
@@ -25,9 +25,9 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Border Background="{DynamicResource {x:Static themes:EnvironmentColors.GlobalBackgroundColor}}" 
+        <Border Background="LightBlue" 
                 Grid.Row="0" Grid.RowSpan="2" SnapsToDevicePixels="True" Padding="0,0,0,3">
-            <ContentControl Content="{Binding ItemPresenter}" />
+            <ContentControl x:Name="ActiveItem"/>
         </Border>
 
         <Grid x:Name="PropertyGrid" Row="2" ShowGridLines="False" Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type mafc:DialogWindow}}, Path=Background}">

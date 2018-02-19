@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using ModernApplicationFramework.Controls.Primitives;
+using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Native;
 using ModernApplicationFramework.Native.NativeMethods;
 

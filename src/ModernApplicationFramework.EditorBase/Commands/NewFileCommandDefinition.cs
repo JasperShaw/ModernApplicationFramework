@@ -6,6 +6,8 @@ using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.EditorBase.Controls;
+using ModernApplicationFramework.EditorBase.Controls.NewElementDialog;
 using ModernApplicationFramework.EditorBase.Controls.NewFileExtension;
 using ModernApplicationFramework.EditorBase.Core;
 using ModernApplicationFramework.EditorBase.Interfaces;
@@ -17,6 +19,7 @@ using ModernApplicationFramework.Input.Command;
 namespace ModernApplicationFramework.EditorBase.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
+    [Export(typeof(NewFileCommandDefinition))]
     public sealed class NewFileCommandDefinition : CommandDefinition
     {
 
@@ -63,34 +66,39 @@ namespace ModernApplicationFramework.EditorBase.Commands
 
         private void CreateNewFile()
         {
-            var vm = (INewElementDialogModel) IoC.GetInstance(typeof(INewElementDialogModel), null);
+            new TestWindow().ShowDialog();
 
-            vm.ItemPresenter = new FileExtensionItemPresenter {ItemSource = EditorProvider.SupportedFileDefinitions};
-            vm.DisplayName = "New File";
 
-            var windowManager = IoC.Get<IWindowManager>();
-            if (windowManager.ShowDialog(vm) != true)
-                return;
+            //var vm = new NewElementDialogViewModel<NewFileCommandArguments>();
 
-            if (!(vm.ResultData is NewFileCommandArguments ca))
-                return;
+            //var presenter = IoC.Get<NewFileSelectionScreenViewModel>();
+            //presenter.ItemSource = EditorProvider.SupportedFileDefinitions;
 
-            var editor = EditorProvider?.Create(ca.PreferredEditor);
-            var viewAware = (IViewAware) editor;
-            if (viewAware != null)
-                viewAware.ViewAttached += (sender, e) =>
-                {
-                    var frameworkElement = (FrameworkElement) e.View;
+            //vm.ItemPresenter = presenter;
+            //vm.DisplayName = "New File";
 
-                    async void LoadedHandler(object sender2, RoutedEventArgs e2)
-                    {
-                        frameworkElement.Loaded -= LoadedHandler;
-                        await EditorProvider.New((IStorableDocument) editor, ca.FileName + ca.FileExtension);
-                    }
+            //var windowManager = IoC.Get<IWindowManager>();
+            //if (windowManager.ShowDialog(vm) != true)
+            //    return;
 
-                    frameworkElement.Loaded += LoadedHandler;
-                };
-            IoC.Get<IDockingMainWindowViewModel>().DockingHost.OpenDocument(editor);
+            //NewFileCommandArguments result = vm.ResultData;
+
+            //var editor = EditorProvider?.Create(result.PreferredEditor);
+            //var viewAware = (IViewAware) editor;
+            //if (viewAware != null)
+            //    viewAware.ViewAttached += (sender, e) =>
+            //    {
+            //        var frameworkElement = (FrameworkElement) e.View;
+
+            //        async void LoadedHandler(object sender2, RoutedEventArgs e2)
+            //        {
+            //            frameworkElement.Loaded -= LoadedHandler;
+            //            await EditorProvider.New((IStorableDocument) editor, result.FileName + result.FileExtension);
+            //        }
+
+            //        frameworkElement.Loaded += LoadedHandler;
+            //    };
+            //IoC.Get<IDockingMainWindowViewModel>().DockingHost.OpenDocument(editor);
         }
     }
 }

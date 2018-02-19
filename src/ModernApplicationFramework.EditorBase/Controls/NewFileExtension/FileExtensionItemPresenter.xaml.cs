@@ -20,7 +20,7 @@ using ModernApplicationFramework.Interfaces;
 namespace ModernApplicationFramework.EditorBase.Controls.NewFileExtension
 {
 
-    public partial class FileExtensionItemPresenter : IExtensionDialogItemPresenter, INotifyPropertyChanged
+    public partial class FileExtensionItemPresenter
     {
         private IEnumerable<IExtensionDefinition> _itemSource;
 

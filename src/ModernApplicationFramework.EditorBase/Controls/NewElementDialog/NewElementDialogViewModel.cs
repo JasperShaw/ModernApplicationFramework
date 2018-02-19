@@ -5,13 +5,12 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Controls.Dialogs;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.EditorBase.Interfaces;
-using ModernApplicationFramework.Input.Base;
 using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
 {
     [Export(typeof(INewElementDialogModel))]
-    public class NewElementDialogViewModel : Screen, INewElementDialogModel
+    public class NewElementDialogViewModel<T> : Conductor<IExtensionDialogItemPresenter<T>>, INewElementDialogModel
     {
         private string _name;
 
@@ -41,9 +40,9 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
             }
         }
 
-        private IExtensionDialogItemPresenter _itemPresenter;
+        private IExtensionDialogItemPresenter<T> _itemPresenter;
 
-        public IExtensionDialogItemPresenter ItemPresenter
+        public IExtensionDialogItemPresenter<T> ItemPresenter
         {
             get => _itemPresenter;
             set
@@ -52,15 +51,16 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
                     return;
                 if (_itemPresenter != null)
                 {
-                    _itemPresenter.OnSelectedItemChanged -= _itemPresenter_OnSelectedItemChanged;
-                    _itemPresenter.ItemDoubledClicked -= _itemPresenter_ItemDoubledClicked;
+                    //_itemPresenter.OnSelectedItemChanged -= _itemPresenter_OnSelectedItemChanged;
+                    //_itemPresenter.ItemDoubledClicked -= _itemPresenter_ItemDoubledClicked;
                 }
                 _itemPresenter = value;
                 var firstOrDefault = _itemPresenter.ItemSource.FirstOrDefault();
                 if (firstOrDefault != null)
                     Name = firstOrDefault.PresetElementName;
-                _itemPresenter.OnSelectedItemChanged += _itemPresenter_OnSelectedItemChanged;
-                _itemPresenter.ItemDoubledClicked += _itemPresenter_ItemDoubledClicked;
+                //_itemPresenter.OnSelectedItemChanged += _itemPresenter_OnSelectedItemChanged;
+                //_itemPresenter.ItemDoubledClicked += _itemPresenter_ItemDoubledClicked;
+                ActivateItem(value);
             }
         }
 
@@ -79,7 +79,8 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
         public ICommand ApplyCommand => new UICommand(Apply, CanApply);
 
         public ICommand BrowseCommand => new UICommand(Browse, CanBrowse);
-        public object ResultData { get; protected set; }
+
+        public T ResultData { get; protected set; }
 
         private void Apply()
         {
@@ -99,7 +100,9 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
 
         private bool CanApply()
         {
-            var result = !(ItemPresenter.UsesPathProperty && !WindowsFileNameHelper.IsValidPath(Path));
+            if (!ItemPresenter.UsesNameProperty && !ItemPresenter.UsesPathProperty && ItemPresenter.SelectedItem != null)
+                return true;
+            bool result = !(ItemPresenter.UsesPathProperty && !WindowsFileNameHelper.IsValidPath(Path));
             if (ItemPresenter.UsesNameProperty && !WindowsFileNameHelper.IsValidFileName(Name))
                 result = false;
             if (ItemPresenter.SelectedItem == null)

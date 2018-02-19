@@ -461,8 +461,8 @@ namespace ModernApplicationFramework.Controls.ComboBox
                 _controllingDataSource.Dispose();
                 _controllingDataSource = null;
             }
-            var newValue = e.NewValue as ComboBoxDataSource;
-            if (newValue == null)
+
+            if (!(e.NewValue is ComboBoxDataSource newValue))
                 return;
             _controllingDataSource = newValue;
         }
@@ -475,8 +475,8 @@ namespace ModernApplicationFramework.Controls.ComboBox
                 _controllingVisualSource.Dispose();
                 _controllingVisualSource = null;
             }
-            var newValue = e.NewValue as ComboBoxVisualSource;
-            if (newValue == null)
+
+            if (!(e.NewValue is ComboBoxVisualSource newValue))
                 return;
             _controllingVisualSource = newValue;
 
@@ -494,8 +494,7 @@ namespace ModernApplicationFramework.Controls.ComboBox
 
         private void UnsubscribeFromPropertyChanges(ComboBoxDataSource dataSource)
         {
-            var ds = dataSource as INotifyPropertyChanged;
-            if (ds == null)
+            if (!(dataSource is INotifyPropertyChanged ds))
                 return;
             foreach (var propertyName in PropertiesToObserve)
                 PropertyChangedEventManager.RemoveListener(ds, this, propertyName);
@@ -516,8 +515,7 @@ namespace ModernApplicationFramework.Controls.ComboBox
 
         private void SubscribeToPropertyChanges(ComboBoxVisualSource visualSource)
         {
-            var vs = visualSource as INotifyPropertyChanged;
-            if (vs == null)
+            if (!(visualSource is INotifyPropertyChanged vs))
                 return;
             foreach (var propertyName in PropertiesToObserve)
                 PropertyChangedEventManager.AddListener(vs, this, propertyName);

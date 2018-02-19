@@ -86,7 +86,7 @@ namespace ModernApplicationFramework.Controls.ComboBox
                 var displayedItem = DisplayedItem;
                 if (displayedItem == null)
                     return -1;
-                return Items.IndexOf(displayedItem as IHasTextProperty);
+                return Items.IndexOf(displayedItem);
             }
         }
 
