@@ -66,9 +66,6 @@ namespace ModernApplicationFramework.EditorBase.Commands
 
         private void CreateNewFile()
         {
-            new TestWindow().ShowDialog();
-
-
             //var vm = new NewElementDialogViewModel<NewFileCommandArguments>();
 
             //var presenter = IoC.Get<NewFileSelectionScreenViewModel>();
