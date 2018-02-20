@@ -90,6 +90,7 @@
     <Compile Include="Controls\SimpleTextEditor\SimpleTextEditorViewModel.cs" />
     <Compile Include="Core\NewFileCommandArguments.cs" />
     <Compile Include="Core\OpenFileWithCommandArguments.cs" />
+    <Compile Include="Core\Styles\StyleResourceKeys.cs" />
     <Compile Include="EditorProvider\EditorProvider.cs" />
     <Compile Include="EditorProvider\EditorProviderHelper.cs" />
     <Compile Include="FileDefinitionManager.cs" />

@@ -4,6 +4,7 @@
              xmlns:mafc="http://modern.framework.com/controls"
              xmlns:textBoxes="clr-namespace:ModernApplicationFramework.Controls.TextBoxes;assembly=ModernApplicationFramework"
              xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
+             xmlns:styles="clr-namespace:ModernApplicationFramework.Core.Styles;assembly=ModernApplicationFramework"
              MinWidth="800" MinHeight="450" Background="{DynamicResource {x:Static themes:EnvironmentColors.GlobalBackgroundColor2}}"
                    HasMaximizeButton="false" HasMinimizeButton="false" ResizeMode="CanResize" ShowInTaskbar="false"
                     SnapsToDevicePixels="true" WindowStartupLocation="Manual" Width="900" Height="600" Icon="{x:Null}"
@@ -11,9 +12,6 @@
                    TextElement.Foreground="{DynamicResource {x:Static themes:EnvironmentColors.GlobalForeground}}">
     <mafc:DialogWindow.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/ModernApplicationFramework;component/Themes/Generic/Button.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
             <BooleanToVisibilityConverter x:Key="BoolToVis" />
         </ResourceDictionary>
     </mafc:DialogWindow.Resources>
@@ -67,9 +65,9 @@
         </Grid>
         <StackPanel Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type mafc:DialogWindow}}, Path=Background}" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
             <Button x:Name="OkButton" MinWidth="75" MinHeight="23" Margin="0,3,6,6" IsDefault="true" TabIndex="-1" Command="{Binding ApplyCommand}" 
-                    Template="{StaticResource NormalButtonWithFocusStyle}">OK</Button>
+                    Style="{DynamicResource {x:Static styles:StyleResourceKeys.ThemedDialogButtonStyleKey}}">OK</Button>
             <Button MinWidth="75" MinHeight="23" Margin="0,3,12,6" Padding="6,2,6,2" IsCancel="true"
-                    Template="{StaticResource NormalButtonWithFocusStyle}">Cancel</Button>
+                    Style="{DynamicResource {x:Static styles:StyleResourceKeys.ThemedDialogButtonStyleKey}}">Cancel</Button>
         </StackPanel>
     </Grid>
 </mafc:DialogWindow>

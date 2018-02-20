@@ -6,14 +6,12 @@
              xmlns:interfaces="clr-namespace:ModernApplicationFramework.EditorBase.Interfaces"
              xmlns:mafc="http://modern.framework.com/controls"
              xmlns:newElementDialog="clr-namespace:ModernApplicationFramework.EditorBase.Controls.NewElementDialog"
+             xmlns:styles="clr-namespace:ModernApplicationFramework.Core.Styles;assembly=ModernApplicationFramework"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/ModernApplicationFramework;component/Themes/Generic/ListViewItem.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/ModernApplicationFramework;component/Themes/Generic/ListView.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/ModernApplicationFramework;component/Themes/Generic/ComboBox.xaml"/>
                 <ResourceDictionary Source="../../DataTemplates.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
@@ -98,17 +96,26 @@
                 </Grid>
             </DockPanel>
             <Grid Grid.Row="1" Grid.Column="0">
-                <ListView x:Name="ListView" Style="{DynamicResource ListViewStyle}" SelectionMode="Single" 
+                <ListView x:Name="ListView" 
+                          Style="{DynamicResource {x:Static styles:StyleResourceKeys.ThemedListViewStyleKey}}" 
+                          SelectionMode="Single" 
 					Loaded="ListView_OnLoaded" SizeChanged="ListView_OnSizeChanged"
-					ItemContainerStyle="{DynamicResource ListViewItemStyle}"
-					FocusVisualStyle="{x:Null}" ItemsSource="{Binding ItemSource}" 
+					ItemContainerStyle="{DynamicResource {x:Static styles:StyleResourceKeys.ThemedListViewItemStyleKey}}" 
+                          ItemsSource="{Binding ItemSource}" 
                           SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
                           SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
                     <ListView.View>
-                        <GridView ColumnHeaderContainerStyle="{StaticResource NoGridViewHeader}">
+                        <GridView>
                             <GridViewColumn CellTemplate="{StaticResource IExtensionDefinitionViewTemplate}" Header="Name"/>
                         </GridView>
                     </ListView.View>
+                    <!--<TextSearch.TextPath>
+                    </TextSearch.TextPath>
+                    <ItemsControl.IsTextSearchEnabled>
+                    </ItemsControl.IsTextSearchEnabled>-->
+                    <FrameworkElement.FocusVisualStyle>
+                        <x:NullExtension/>
+                    </FrameworkElement.FocusVisualStyle>
                 </ListView>
             </Grid>
             <Border Grid.Row="1" Grid.Column="1" Margin="1,0,0,0" BorderThickness="0">

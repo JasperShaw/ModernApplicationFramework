@@ -1,44 +1,50 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-					xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes">
+					xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
+					xmlns:styles="clr-namespace:ModernApplicationFramework.Core.Styles">
 
-	<Style x:Key="ListViewItemStyle" TargetType="{x:Type ListViewItem}">
-            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+    <Style x:Key="ListViewItemStyle" TargetType="{x:Type ListViewItem}">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.ListViewItemBackground}}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:EnvironmentColors.ListViewItemBackground}}"/>
         <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.ListViewItemForeground}}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ListViewItem}">
-                        <Border x:Name="ItemBorder" SnapsToDevicePixels="True" Background="{TemplateBinding Background}"
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                    <Border x:Name="ItemBorder" SnapsToDevicePixels="True" Background="{TemplateBinding Background}"
                                 BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
-                            <Grid>
-                                <GridViewRowPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                        <Grid>
+                            <GridViewRowPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
                                                       SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                            </Grid>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.ListViewItemBackgroundHover}}"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.ListViewItemForegroundHover}}"/>
                         </Trigger>
-                            <Trigger Property="IsSelected" Value="True">
+                        <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.ListViewItemBackgroundSelected}}"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.ListViewItemForegroundSelected}}"/>
-                            </Trigger>
-                            <MultiTrigger>
-                                <MultiTrigger.Conditions>
-                                    <Condition Property="ListBoxItem.IsSelected" Value="true"/>
-                                    <Condition Property="Selector.IsSelectionActive" Value="false"/>
-                                </MultiTrigger.Conditions>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="ListBoxItem.IsSelected" Value="true"/>
+                                <Condition Property="Selector.IsSelectionActive" Value="false"/>
+                            </MultiTrigger.Conditions>
                             <Setter Property="Background" Value="{DynamicResource {x:Static themes:EnvironmentColors.ListViewItemBackgroundSelectedInactive}}"/>
                             <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.ListViewItemForegroundSelectedInactive}}"/>
-                            </MultiTrigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type styles:StyleResourceKeys},
+                     ResourceId=ThemedListViewItemStyleKey}" BasedOn="{StaticResource ListViewItemStyle}"
+           TargetType="{x:Type ListViewItem}"/>
+
 </ResourceDictionary>

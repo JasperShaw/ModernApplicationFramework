@@ -4,7 +4,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mafc="http://modern.framework.com/controls"
              xmlns:comboBox="clr-namespace:ModernApplicationFramework.Controls.ComboBox;assembly=ModernApplicationFramework"
-             xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:interfaces="clr-namespace:ModernApplicationFramework.EditorBase.Interfaces"
              x:Class="ModernApplicationFramework.EditorBase.Controls.NewFileExtension.FileExtensionItemPresenter"
              mc:Ignorable="d" MinWidth="680" DataContext="{Binding RelativeSource={RelativeSource Self}}"

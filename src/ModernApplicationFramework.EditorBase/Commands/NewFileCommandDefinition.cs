@@ -66,36 +66,36 @@ namespace ModernApplicationFramework.EditorBase.Commands
 
         private void CreateNewFile()
         {
-            //var vm = new NewElementDialogViewModel<NewFileCommandArguments>();
+            var vm = new NewElementDialogViewModel<NewFileCommandArguments>();
 
-            //var presenter = IoC.Get<NewFileSelectionScreenViewModel>();
-            //presenter.ItemSource = EditorProvider.SupportedFileDefinitions;
+            var presenter = IoC.Get<NewFileSelectionScreenViewModel>();
+            presenter.ItemSource = EditorProvider.SupportedFileDefinitions;
 
-            //vm.ItemPresenter = presenter;
-            //vm.DisplayName = "New File";
+            vm.ItemPresenter = presenter;
+            vm.DisplayName = "New File";
 
-            //var windowManager = IoC.Get<IWindowManager>();
-            //if (windowManager.ShowDialog(vm) != true)
-            //    return;
+            var windowManager = IoC.Get<IWindowManager>();
+            if (windowManager.ShowDialog(vm) != true)
+                return;
 
-            //NewFileCommandArguments result = vm.ResultData;
+            NewFileCommandArguments result = vm.ResultData;
 
-            //var editor = EditorProvider?.Create(result.PreferredEditor);
-            //var viewAware = (IViewAware) editor;
-            //if (viewAware != null)
-            //    viewAware.ViewAttached += (sender, e) =>
-            //    {
-            //        var frameworkElement = (FrameworkElement) e.View;
+            var editor = EditorProvider?.Create(result.PreferredEditor);
+            var viewAware = (IViewAware)editor;
+            if (viewAware != null)
+                viewAware.ViewAttached += (sender, e) =>
+                {
+                    var frameworkElement = (FrameworkElement)e.View;
 
-            //        async void LoadedHandler(object sender2, RoutedEventArgs e2)
-            //        {
-            //            frameworkElement.Loaded -= LoadedHandler;
-            //            await EditorProvider.New((IStorableDocument) editor, result.FileName + result.FileExtension);
-            //        }
+                    async void LoadedHandler(object sender2, RoutedEventArgs e2)
+                    {
+                        frameworkElement.Loaded -= LoadedHandler;
+                        await EditorProvider.New((IStorableDocument)editor, result.FileName + result.FileExtension);
+                    }
 
-            //        frameworkElement.Loaded += LoadedHandler;
-            //    };
-            //IoC.Get<IDockingMainWindowViewModel>().DockingHost.OpenDocument(editor);
+                    frameworkElement.Loaded += LoadedHandler;
+                };
+            IoC.Get<IDockingMainWindowViewModel>().DockingHost.OpenDocument(editor);
         }
     }
 }

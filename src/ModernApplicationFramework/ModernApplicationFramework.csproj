@@ -251,6 +251,7 @@
     <Compile Include="Basics\WindowModels\WindowViewModelScreen.cs" />
     <Compile Include="Basics\WindowModels\MainWindowViewModelScreen.cs" />
     <Compile Include="Core\Exception\ContractNotFoundException.cs" />
+    <Compile Include="Core\Styles\StyleResourceKeys.cs" />
     <Compile Include="Interfaces\Services\ICommandBarLayoutBackupProvider.cs" />
     <Compile Include="Interfaces\Services\ICommandBarSerializer.cs" />
     <Compile Include="Basics\Threading\MafTaskHelper.cs" />
