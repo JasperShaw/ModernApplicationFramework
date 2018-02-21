@@ -12,6 +12,8 @@ namespace ModernApplicationFramework.EditorBase.Interfaces
         string Name { get; set; }
 
         string Path { get; set; }
+
+        string OkButtonText { get; set; }
     }
 
 

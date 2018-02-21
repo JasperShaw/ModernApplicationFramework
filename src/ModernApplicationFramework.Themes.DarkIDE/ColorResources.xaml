@@ -1,0 +1,51 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework">
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:ColorResources},
+                     ResourceId=BackgroundLowerRegionBrush}" Color="#FF252526"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:ColorResources},
+                     ResourceId=BackgroundLowerRegionTextBrush}" Color="#FFF1F1F1"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:ColorResources},
+                     ResourceId=BackgroundBrush}" Color="#FF2D2D30"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:ColorResources},
+                     ResourceId=ContentBrush}" Color="#FF252526"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:ColorResources},
+                     ResourceId=ContentTextBrush}" Color="#FFF1F1F1"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:ColorResources},
+                     ResourceId=WindowText}" Color="#FFF1F1F1"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:ColorResources},
+                     ResourceId=ContentMouseOverBrush}" Color="#FF3F3F40"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:ColorResources},
+                     ResourceId=ContentMouseOverTextBrush}" Color="#FFF1F1F1"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:ColorResources},
+                     ResourceId=ContentSelectedBrush}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:ColorResources},
+                     ResourceId=ContentSelectedTextBrush}" Color="#FFFFFFFF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:ColorResources},
+                     ResourceId=ContentSelectedBorderBrush}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:ColorResources},
+                     ResourceId=ContentInactiveSelectedBrush}" Color="#FF3F3F46"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:ColorResources},
+                     ResourceId=ContentInactiveSelectedTextBrush}" Color="#FFF1F1F1"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:ColorResources},
+                     ResourceId=DetailsBrush}" Color="#FF2D2D30"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:ColorResources},
+                     ResourceId=DetailsTextBrush}" Color="#FFF1F1F1"/>
+
+
+</ResourceDictionary>

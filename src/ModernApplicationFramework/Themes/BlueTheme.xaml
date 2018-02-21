@@ -3,6 +3,7 @@
     <ResourceDictionary.MergedDictionaries>
 
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/Brushes.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/ColorResources.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

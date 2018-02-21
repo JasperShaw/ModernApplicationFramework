@@ -13,6 +13,8 @@ namespace ModernApplicationFramework.EditorBase.Interfaces
 
         bool UsesPathProperty { get; }
 
+        bool CanOpenWith { get; }
+
         IEnumerable<IExtensionDefinition> ItemSource { get; set; }
 
         ObservableCollection<IHasTextProperty> SortItems { get; set; }

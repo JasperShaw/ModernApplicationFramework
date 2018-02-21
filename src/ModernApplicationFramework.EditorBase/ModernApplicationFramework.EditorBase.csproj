@@ -78,6 +78,7 @@
       <DependentUpon>NewElementDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\NewElementDialog\NewElementDialogViewModel.cs" />
+    <Compile Include="Controls\NewElementDialog\NewElementScreenViewModelBase.cs" />
     <Compile Include="Controls\NewFileExtension\NewFileSelectionScreenViewModel.cs" />
     <Compile Include="Controls\SaveDirtyDocumentsDialog\SaveDirtyDocumentItem.cs" />
     <Compile Include="Controls\SaveDirtyDocumentsDialog\SaveDirtyDocumentsDialog.xaml.cs">

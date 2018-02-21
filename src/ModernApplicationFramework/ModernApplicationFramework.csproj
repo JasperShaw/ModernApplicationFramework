@@ -126,6 +126,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\Generic\ColorResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\Generic\Dialogs\MessageDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -139,6 +143,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Generic\InfoBarControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic\DialogSplitDropDownButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -250,8 +258,10 @@
     <Compile Include="Basics\WindowModels\WindowViewModelConductor.cs" />
     <Compile Include="Basics\WindowModels\WindowViewModelScreen.cs" />
     <Compile Include="Basics\WindowModels\MainWindowViewModelScreen.cs" />
+    <Compile Include="Controls\Buttons\DialogSplitDropDownButton.cs" />
     <Compile Include="Core\Exception\ContractNotFoundException.cs" />
     <Compile Include="Core\Styles\StyleResourceKeys.cs" />
+    <Compile Include="Core\Themes\ColorResources.cs" />
     <Compile Include="Interfaces\Services\ICommandBarLayoutBackupProvider.cs" />
     <Compile Include="Interfaces\Services\ICommandBarSerializer.cs" />
     <Compile Include="Basics\Threading\MafTaskHelper.cs" />

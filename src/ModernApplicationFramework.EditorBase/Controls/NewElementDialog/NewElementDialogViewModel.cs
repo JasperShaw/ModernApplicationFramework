@@ -13,7 +13,8 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
     public class NewElementDialogViewModel<T> : Conductor<IExtensionDialogItemPresenter<T>>, INewElementDialogModel
     {
         private string _name;
-
+        private IExtensionDialogItemPresenter<T> _itemPresenter;
+        private string _okButtonText;
         private string _path;
 
         public string Name
@@ -40,7 +41,17 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
             }
         }
 
-        private IExtensionDialogItemPresenter<T> _itemPresenter;
+        public string OkButtonText
+        {
+            get => _okButtonText;
+            set
+            {
+                if (value == _okButtonText) return;
+                _okButtonText = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
 
         public IExtensionDialogItemPresenter<T> ItemPresenter
         {
@@ -51,7 +62,7 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
                     return;
                 if (_itemPresenter != null)
                 {
-                    _itemPresenter.PropertyChanged += _itemPresenter_PropertyChanged;
+                    _itemPresenter.PropertyChanged -= _itemPresenter_PropertyChanged;
                     _itemPresenter.ItemDoubledClicked -= _itemPresenter_ItemDoubledClicked;
                 }
                 _itemPresenter = value;
@@ -60,6 +71,9 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
                     Name = firstOrDefault.PresetElementName;
                 _itemPresenter.PropertyChanged += _itemPresenter_PropertyChanged;
                 _itemPresenter.ItemDoubledClicked += _itemPresenter_ItemDoubledClicked;
+
+                OkButtonText = _itemPresenter.CanOpenWith ? "Open" : "OK";
+
                 ActivateItem(value);
             }
         }
