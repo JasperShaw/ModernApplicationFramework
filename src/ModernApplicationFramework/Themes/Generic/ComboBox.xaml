@@ -320,7 +320,7 @@
         </Setter>
         <Setter Property="DisplayedItem">
             <Setter.Value>
-                <Binding Mode="TwoWay" Path="DataSource.DisplayedItem"/>
+                <Binding Mode="TwoWay" Path="DataSource.DisplayedItem" RelativeSource="{RelativeSource Self}"/>
             </Setter.Value>
         </Setter>
         <Setter Property="FocusVisualStyle" Value="{StaticResource ComboBoxFocusVisual}"/>
@@ -473,7 +473,7 @@
                            VisualDataSource="{Binding VisualSource}" DataSource="{Binding DataSource}">
 
                 <ItemsControl.ItemsSource>
-                    <Binding Path="DataSource.Items"/>
+                    <Binding Path="DataSource.Items" RelativeSource="{RelativeSource Self}"/>
                 </ItemsControl.ItemsSource>
                 <comboBox:ComboBox.IsEmbeddedInMenu>
                     <Binding Mode="OneWay" RelativeSource="{RelativeSource Self}" Path="ParentMenuItem" Converter="{StaticResource NotNullConverter}"/>
