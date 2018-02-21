@@ -68,7 +68,6 @@
     <Compile Include="Commands\CloseActiveDocumentCommandDefinition.cs" />
     <Compile Include="Commands\NewFileCommandDefinition.cs" />
     <Compile Include="Controls\DockingMainWindowViewModel.cs" />
-    <Compile Include="Controls\NewElementDialog\NewElementDialogScreenBase.cs" />
     <Compile Include="Controls\NewElementDialog\NewElementPresenterView.xaml.cs">
       <DependentUpon>NewElementPresenterView.xaml</DependentUpon>
     </Compile>

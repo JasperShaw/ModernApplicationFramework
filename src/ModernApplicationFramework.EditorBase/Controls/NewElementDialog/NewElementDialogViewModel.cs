@@ -51,17 +51,24 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
                     return;
                 if (_itemPresenter != null)
                 {
-                    //_itemPresenter.OnSelectedItemChanged -= _itemPresenter_OnSelectedItemChanged;
-                    //_itemPresenter.ItemDoubledClicked -= _itemPresenter_ItemDoubledClicked;
+                    _itemPresenter.PropertyChanged += _itemPresenter_PropertyChanged;
+                    _itemPresenter.ItemDoubledClicked -= _itemPresenter_ItemDoubledClicked;
                 }
                 _itemPresenter = value;
                 var firstOrDefault = _itemPresenter.ItemSource?.FirstOrDefault();
                 if (firstOrDefault != null)
                     Name = firstOrDefault.PresetElementName;
-                //_itemPresenter.OnSelectedItemChanged += _itemPresenter_OnSelectedItemChanged;
-                //_itemPresenter.ItemDoubledClicked += _itemPresenter_ItemDoubledClicked;
+                _itemPresenter.PropertyChanged += _itemPresenter_PropertyChanged;
+                _itemPresenter.ItemDoubledClicked += _itemPresenter_ItemDoubledClicked;
                 ActivateItem(value);
             }
+        }
+
+        private void _itemPresenter_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(ItemPresenter.SelectedItem))
+                Name = ItemPresenter.SelectedItem.PresetElementName;
+
         }
 
         private void _itemPresenter_ItemDoubledClicked(object sender, ModernApplicationFramework.Core.Events.ItemDoubleClickedEventArgs e)
@@ -69,11 +76,6 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
             if (!CanApply())
                 return;
             Apply();
-        }
-
-        private void _itemPresenter_OnSelectedItemChanged(object sender, System.Windows.Controls.Primitives.ItemsChangedEventArgs e)
-        {
-            Name = ItemPresenter.SelectedItem.PresetElementName;
         }
 
         public ICommand ApplyCommand => new UICommand(Apply, CanApply);

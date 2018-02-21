@@ -4,11 +4,11 @@ namespace ModernApplicationFramework.Core.Events
 {
     public class ItemDoubleClickedEventArgs : EventArgs
     {
-        public object Extension { get;}
+        public object Item { get;}
 
         public ItemDoubleClickedEventArgs(object extension)
         {
-            Extension = extension;
+            Item = extension;
         }
     }
 }

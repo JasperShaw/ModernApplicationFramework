@@ -3,10 +3,11 @@ using System.Collections.ObjectModel;
 using Caliburn.Micro;
 using ModernApplicationFramework.Controls.ComboBox;
 using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Controls;
 
 namespace ModernApplicationFramework.EditorBase.Interfaces
 {
-    public interface IExtensionDialogItemPresenter<out T> : IScreen
+    public interface IExtensionDialogItemPresenter<out T> : IScreen, IItemDoubleClickable
     {
         bool UsesNameProperty { get; }
 

@@ -1,13 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
+using System.Threading;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Controls.ComboBox;
+using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.EditorBase.Controls.NewElementDialog;
 using ModernApplicationFramework.EditorBase.Core;
 using ModernApplicationFramework.EditorBase.Interfaces;
 using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Controls;
 
 namespace ModernApplicationFramework.EditorBase.Controls.NewFileExtension
 {
@@ -15,7 +19,7 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewFileExtension
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class NewFileSelectionScreenViewModel : NewElementScreenViewModelBase<NewFileCommandArguments>
     {
-        public override bool UsesNameProperty => false;
+        public override bool UsesNameProperty => true;
 
         public override bool UsesPathProperty => false;
         public override string NoItemsMessage => "Not file templates found";
@@ -35,6 +39,35 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewFileExtension
         private IExtensionDefinition _selectedItem;
         private ComboBoxDataSource _sortDataSource;
         private IEnumerable<IExtensionDefinition> _itemSource;
+        private EventHandler<ItemDoubleClickedEventArgs> _itemDoubleClicked;
+   
+        public event EventHandler<ItemDoubleClickedEventArgs> ItemDoubledClicked
+        {
+            add
+            {
+                var eventHandler = _itemDoubleClicked;
+                EventHandler<ItemDoubleClickedEventArgs> comparand;
+                do
+                {
+                    comparand = eventHandler;
+                    eventHandler =
+                        Interlocked.CompareExchange(ref _itemDoubleClicked,
+                            (EventHandler<ItemDoubleClickedEventArgs>)Delegate.Combine(comparand, value), comparand);
+                } while (eventHandler != comparand);
+            }
+            remove
+            {
+                var eventHandler = _itemDoubleClicked;
+                EventHandler<ItemDoubleClickedEventArgs> comparand;
+                do
+                {
+                    comparand = eventHandler;
+                    eventHandler = Interlocked.CompareExchange(ref _itemDoubleClicked,
+                        (EventHandler<ItemDoubleClickedEventArgs>)Delegate.Remove(comparand, value), comparand);
+                }
+                while (eventHandler != comparand);
+            }
+        }
 
         public abstract bool UsesNameProperty { get; }
 
@@ -105,5 +138,17 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewFileExtension
         }
 
         public abstract T CreateResult(string name, string path);
+
+        protected override void OnViewAttached(object view, object context)
+        {
+            base.OnViewAttached(view, context);
+            if (view is IItemDoubleClickable doubleClickable)
+                doubleClickable.ItemDoubledClicked += DoubleClickable_ItemDoubledClicked;
+        }
+
+        private void DoubleClickable_ItemDoubledClicked(object sender, ItemDoubleClickedEventArgs e)
+        {
+            _itemDoubleClicked?.Invoke(this, e);
+        }
     }
 }
