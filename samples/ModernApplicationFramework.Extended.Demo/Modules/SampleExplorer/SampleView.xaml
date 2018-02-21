@@ -10,7 +10,7 @@
              xmlns:extensions="clr-namespace:ModernApplicationFramework.Controls.Extensions;assembly=ModernApplicationFramework"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-<Border Padding="20">
+    <Border Padding="20">
         <Border.Background>
             <RadialGradientBrush GradientOrigin="0,0" RadiusX="1" RadiusY="1">
                 <GradientStop Offset="0.3" Color="Purple" />

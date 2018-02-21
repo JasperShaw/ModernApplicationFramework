@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
-using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Controls.ComboBox;
+using ModernApplicationFramework.EditorBase.Controls.NewElementDialog;
 using ModernApplicationFramework.EditorBase.Core;
 using ModernApplicationFramework.EditorBase.Interfaces;
 using ModernApplicationFramework.Interfaces;
@@ -18,6 +18,8 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewFileExtension
         public override bool UsesNameProperty => false;
 
         public override bool UsesPathProperty => false;
+        public override string NoItemsMessage => "Not file templates found";
+        public override string NoItemSelectedMessage => "No item selected";
 
         public override NewFileCommandArguments CreateResult(string name, string path)
         {
@@ -38,6 +40,10 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewFileExtension
 
         public abstract bool UsesPathProperty { get; }
 
+        public abstract string NoItemsMessage { get; }
+
+        public abstract string NoItemSelectedMessage { get; }
+
         public IEnumerable<IExtensionDefinition> ItemSource
         {
             get => _itemSource;
@@ -46,7 +52,6 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewFileExtension
                 if (Equals(value, _itemSource)) return;
                 _itemSource = value;
                 NotifyOfPropertyChange();
-                SelectedIndex = 0;
             }
         }
 
@@ -87,6 +92,7 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewFileExtension
 
         protected NewElementScreenViewModelBase()
         {
+            ViewModelBinder.Bind(this, new NewElementPresenterView(), null);
 
             SortItems = new ObservableCollection<IHasTextProperty>
             {

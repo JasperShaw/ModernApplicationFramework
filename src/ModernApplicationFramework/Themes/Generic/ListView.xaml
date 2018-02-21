@@ -4,10 +4,6 @@
                     xmlns:mafc="clr-namespace:ModernApplicationFramework.Controls"
                     xmlns:styles="clr-namespace:ModernApplicationFramework.Core.Styles">
 
-    <Style x:Key="NoGridViewHeader">
-        <Setter Property="UIElement.Visibility" Value="Collapsed"/>
-    </Style>
-
     <Style x:Key="ListViewStyle" TargetType="{x:Type ListView}">
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="BorderThickness" Value="0"/>

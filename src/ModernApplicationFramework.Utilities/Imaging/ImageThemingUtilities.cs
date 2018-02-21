@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media;
@@ -12,6 +14,10 @@ namespace ModernApplicationFramework.Utilities.Imaging
     public static class ImageThemingUtilities
     {
         public static readonly DependencyProperty ImageBackgroundColorProperty;
+
+        private static readonly
+            ConcurrentDictionary<WeakImageCacheKey, ConditionalWeakTable<BitmapSource, BitmapSource>> WeakImageCache =
+                new ConcurrentDictionary<WeakImageCacheKey, ConditionalWeakTable<BitmapSource, BitmapSource>>();
 
         static ImageThemingUtilities()
         {
@@ -46,6 +52,16 @@ namespace ModernApplicationFramework.Utilities.Imaging
         public static Bitmap GetThemedBitmap(Bitmap source, uint backgroundColor)
         {
             return GetThemedBitmap(source, backgroundColor, SystemParameters.HighContrast);
+        }
+
+        public static BitmapSource GetOrCreateThemedBitmapSource(BitmapSource inputImage, Color backgroundColor, bool isEnabled, Color grayscaleBiasColor, bool isHighContrast)
+        {
+            Validate.IsNotNull(inputImage, nameof(inputImage));
+            WeakImageCacheKey key = new WeakImageCacheKey(backgroundColor, grayscaleBiasColor, isEnabled);
+            return WeakImageCache.GetOrAdd(key, c => new ConditionalWeakTable<BitmapSource, BitmapSource>()).GetValue(
+                inputImage,
+                innerInputImage => CreateThemedBitmapSource(innerInputImage, backgroundColor, isEnabled,
+                    grayscaleBiasColor, isHighContrast));
         }
 
         public static Bitmap GetThemedBitmap(Bitmap source, uint backgroundColor, bool isHighContrast)
@@ -211,6 +227,40 @@ namespace ModernApplicationFramework.Utilities.Imaging
                 pixels[index + 2] = (byte)(num2 * (double)biasColor.R);
                 pixels[index + 3] = (byte)(num1 * (double)pixels[index + 3]);
                 index += 4;
+            }
+        }
+
+        private struct WeakImageCacheKey : IEquatable<WeakImageCacheKey>
+        {
+            private Color _background;
+            private Color _grayscaleBias;
+            private readonly bool _isEnabled;
+
+            public WeakImageCacheKey(Color background, Color grayscaleBias, bool isEnabled)
+            {
+                _background = background;
+                _grayscaleBias = isEnabled ? Colors.Transparent : grayscaleBias;
+                _isEnabled = isEnabled;
+            }
+
+            public override string ToString()
+            {
+                return $"{_background}, {_grayscaleBias}, {(_isEnabled ? "enabled" : "disabled")}";
+            }
+
+            public override bool Equals(object obj)
+            {
+                return obj is WeakImageCacheKey key && Equals(key);
+            }
+
+            public override int GetHashCode()
+            {
+                return HashHelpers.CombineHashes(HashHelpers.CombineHashes(HashHelpers.CombineHashes(514229, _background.GetHashCode()), _grayscaleBias.GetHashCode()), Convert.ToInt32(_isEnabled));
+            }
+
+            public bool Equals(WeakImageCacheKey other)
+            {
+                return !(_background != other._background) && !(_grayscaleBias != other._grayscaleBias) && _isEnabled == other._isEnabled;
             }
         }
     }

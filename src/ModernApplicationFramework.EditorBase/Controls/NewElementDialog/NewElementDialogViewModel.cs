@@ -55,7 +55,7 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
                     //_itemPresenter.ItemDoubledClicked -= _itemPresenter_ItemDoubledClicked;
                 }
                 _itemPresenter = value;
-                var firstOrDefault = _itemPresenter.ItemSource.FirstOrDefault();
+                var firstOrDefault = _itemPresenter.ItemSource?.FirstOrDefault();
                 if (firstOrDefault != null)
                     Name = firstOrDefault.PresetElementName;
                 //_itemPresenter.OnSelectedItemChanged += _itemPresenter_OnSelectedItemChanged;

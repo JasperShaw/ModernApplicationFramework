@@ -7,11 +7,9 @@ namespace ModernApplicationFramework.Utilities.Converters
     {
         protected override Color Convert(Brush value, object parameter, CultureInfo culture)
         {
-            SolidColorBrush solidColorBrush = value as SolidColorBrush;
-            if (solidColorBrush != null)
+            if (value is SolidColorBrush solidColorBrush)
                 return solidColorBrush.Color;
-            GradientBrush gradientBrush = value as GradientBrush;
-            if (gradientBrush != null && gradientBrush.GradientStops.Count > 0)
+            if (value is GradientBrush gradientBrush && gradientBrush.GradientStops.Count > 0)
                 return gradientBrush.GradientStops[0].Color;
             if (value == null)
                 return Colors.Transparent;

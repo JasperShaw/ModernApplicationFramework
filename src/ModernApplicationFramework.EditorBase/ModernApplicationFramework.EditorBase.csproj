@@ -69,6 +69,9 @@
     <Compile Include="Commands\NewFileCommandDefinition.cs" />
     <Compile Include="Controls\DockingMainWindowViewModel.cs" />
     <Compile Include="Controls\NewElementDialog\NewElementDialogScreenBase.cs" />
+    <Compile Include="Controls\NewElementDialog\NewElementPresenterView.xaml.cs">
+      <DependentUpon>NewElementPresenterView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\NewFileExtension\FileExtensionItemPresenter.xaml.cs">
       <DependentUpon>FileExtensionItemPresenter.xaml</DependentUpon>
     </Compile>
@@ -76,9 +79,6 @@
       <DependentUpon>NewElementDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\NewElementDialog\NewElementDialogViewModel.cs" />
-    <Compile Include="Controls\NewFileExtension\NewFileSelectionScreenView.xaml.cs">
-      <DependentUpon>NewFileSelectionScreenView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\NewFileExtension\NewFileSelectionScreenViewModel.cs" />
     <Compile Include="Controls\SaveDirtyDocumentsDialog\SaveDirtyDocumentItem.cs" />
     <Compile Include="Controls\SaveDirtyDocumentsDialog\SaveDirtyDocumentsDialog.xaml.cs">
@@ -137,6 +137,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\NewElementDialog\NewElementPresenterView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\NewFileExtension\FileExtensionItemPresenter.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -144,10 +148,6 @@
     <Page Include="Controls\NewElementDialog\NewElementDialogView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Controls\NewFileExtension\NewFileSelectionScreenView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\SaveDirtyDocumentsDialog\SaveDirtyDocumentsDialog.xaml">
       <Generator>MSBuild:Compile</Generator>

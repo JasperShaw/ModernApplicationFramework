@@ -1,11 +1,11 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace ModernApplicationFramework.EditorBase.Controls.NewFileExtension
+namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
 {
-    public partial class NewFileSelectionScreenView
+    public partial class NewElementPresenterView
     {
-        public NewFileSelectionScreenView()
+        public NewElementPresenterView()
         {
             InitializeComponent();
         }
