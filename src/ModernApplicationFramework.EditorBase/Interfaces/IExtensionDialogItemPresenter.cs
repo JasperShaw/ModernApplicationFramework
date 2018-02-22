@@ -15,6 +15,12 @@ namespace ModernApplicationFramework.EditorBase.Interfaces
 
         bool CanOpenWith { get; }
 
+        bool IsLargeIconsViewButtonVisible { get; }
+
+        bool IsSmallIconsViewButtonVisible { get; }
+
+        bool IsMediumIconsViewButtonVisible { get; }
+
         IEnumerable<IExtensionDefinition> ItemSource { get; set; }
 
         ObservableCollection<IHasTextProperty> SortItems { get; set; }

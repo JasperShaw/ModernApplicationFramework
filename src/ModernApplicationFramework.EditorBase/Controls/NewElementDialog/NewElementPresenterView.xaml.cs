@@ -13,6 +13,11 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
 {
     public partial class NewElementPresenterView : IItemDoubleClickable
     {
+        public static readonly DependencyProperty ActiveViewProperty = DependencyProperty.Register(nameof(ActiveView),
+            typeof(ViewStyle), typeof(NewElementPresenterView),
+            new FrameworkPropertyMetadata(ViewStyle.MediumIcons, FrameworkPropertyMetadataOptions.None, null, null));
+
+
         public event EventHandler<ItemDoubleClickedEventArgs> ItemDoubledClicked
         {
             add
@@ -42,10 +47,66 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
         }
 
         private EventHandler<ItemDoubleClickedEventArgs> _itemDoubleClicked;
+        private readonly DataTemplate _mMediumIconTemplate;
+        private readonly DataTemplate _mSmallIconTemplate;
+        private readonly DataTemplate _mLargeIconTemplate;
+
+        public ViewStyle ActiveView
+        {
+            get => (ViewStyle) GetValue(ActiveViewProperty);
+            set
+            {
+                if (ActiveView == value)
+                    return;
+                SetValue(ActiveViewProperty, value);
+
+                if (BtntMediumIcons == null || BtntLargeIcons == null || BtntSmallIcons == null)
+                    return;
+                switch (value)
+                {
+                    case ViewStyle.SmallIcons:
+                        BtntLargeIcons.IsEnabled = BtntMediumIcons.IsEnabled = true;
+                        BtntLargeIcons.IsChecked = false;
+                        BtntMediumIcons.IsChecked = false;
+                        BtntSmallIcons.IsChecked = true;
+                        ListView.ItemTemplate = _mSmallIconTemplate;
+                        break;
+                    case ViewStyle.LargeIcons:
+                        BtntMediumIcons.IsEnabled = BtntSmallIcons.IsEnabled = true;
+                        BtntLargeIcons.IsChecked = true;
+                        BtntMediumIcons.IsChecked = false;
+                        BtntSmallIcons.IsChecked = false;
+                        ListView.ItemTemplate = _mLargeIconTemplate;
+                        break;
+                    default:
+                        BtntLargeIcons.IsEnabled = BtntSmallIcons.IsEnabled = true;
+                        BtntLargeIcons.IsChecked = false;
+                        BtntMediumIcons.IsChecked = true;
+                        BtntSmallIcons.IsChecked = false;
+                        ListView.ItemTemplate = _mMediumIconTemplate;
+                        break;
+                }
+            }
+        }
 
         public NewElementPresenterView()
         {
             InitializeComponent();
+            _mMediumIconTemplate = (DataTemplate) Resources["MediumIconTemplate"];
+            _mSmallIconTemplate = (DataTemplate) Resources["SmallIconTemplate"];
+            _mLargeIconTemplate = (DataTemplate) Resources["LargeIconTemplate"];
+            Loaded += NewElementPresenterView_Loaded;  
+        }
+
+        private void NewElementPresenterView_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (BtntMediumIcons.Visibility == Visibility.Visible)
+                ActiveView = ViewStyle.MediumIcons;
+            else if (BtntMediumIcons.Visibility == Visibility.Collapsed &&
+                     BtntLargeIcons.Visibility == Visibility.Visible)
+                ActiveView = ViewStyle.LargeIcons;
+            else
+                ActiveView = ViewStyle.SmallIcons;
         }
 
         private void ListView_OnLoaded(object sender, RoutedEventArgs e)
@@ -55,8 +116,7 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
 
         private void ResizeColumn()
         {
-            var gridView = ListView.View as GridView;
-            if (gridView?.Columns == null)
+            if (!(ListView.View is GridView gridView) || gridView.Columns.Count != 1 || ActiveView != ViewStyle.MediumIcons)
                 return;
             gridView.Columns[0].Width = ListView.ActualWidth - 25.0;
         }
@@ -73,7 +133,7 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
             _itemDoubleClicked(this, new ItemDoubleClickedEventArgs(ListView.SelectedItem));
         }
 
-        private bool ButtonBaseInVisualTree(object parent, DependencyObject child)
+        private static bool ButtonBaseInVisualTree(object parent, DependencyObject child)
         {
             for (; child != null && child != parent; child = child is Visual || child is Visual3D ? VisualTreeHelper.GetParent(child) : LogicalTreeHelper.GetParent(child))
             {
@@ -82,5 +142,22 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
             }
             return false;
         }
+
+        private void Btnt_OnChecked(object sender, RoutedEventArgs e)
+        {
+            if (Equals(sender, BtntLargeIcons))
+                ActiveView = ViewStyle.LargeIcons;
+            else if (Equals(sender, BtntMediumIcons))
+                ActiveView = ViewStyle.MediumIcons;
+            else
+                ActiveView = ViewStyle.SmallIcons;
+        }
+    }
+
+    public enum ViewStyle
+    {
+        SmallIcons,
+        MediumIcons,
+        LargeIcons
     }
 }

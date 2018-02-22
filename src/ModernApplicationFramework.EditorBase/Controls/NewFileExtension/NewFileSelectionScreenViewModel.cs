@@ -12,8 +12,11 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewFileExtension
         public override bool UsesNameProperty => true;
 
         public override bool UsesPathProperty => false;
+
         public override bool CanOpenWith => true;
+
         public override string NoItemsMessage => "Not file templates found";
+
         public override string NoItemSelectedMessage => "No item selected";
 
         public override NewFileCommandArguments CreateResult(string name, string path)

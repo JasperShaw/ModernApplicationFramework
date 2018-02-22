@@ -13,6 +13,11 @@ namespace ModernApplicationFramework.Extended.Demo
         public BitmapSource MediumThumbnailImage => new BitmapImage(new Uri(
             "pack://application:,,,/ModernApplicationFramework.Extended.Demo;component/Resources/XMLFile_32x.png",
             UriKind.RelativeOrAbsolute));
+
+        public BitmapSource SmallThumbnailImage => new BitmapImage(new Uri(
+            "pack://application:,,,/ModernApplicationFramework.Extended.Demo;component/Resources/XMLFile_16x.png",
+            UriKind.RelativeOrAbsolute));
+
         public string Name => "Xml File";
         public string PresetElementName => "NewXmlfile";
         public int SortOrder => 2;

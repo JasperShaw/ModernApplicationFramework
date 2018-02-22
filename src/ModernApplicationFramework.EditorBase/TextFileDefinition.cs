@@ -12,6 +12,10 @@ namespace ModernApplicationFramework.EditorBase
         public BitmapSource MediumThumbnailImage => new BitmapImage(new Uri(
             "pack://application:,,,/ModernApplicationFramework.EditorBase;component/Resources/Images/TextFile_32x.png",
             UriKind.RelativeOrAbsolute));
+
+        public BitmapSource SmallThumbnailImage => new BitmapImage(new Uri(
+            "pack://application:,,,/ModernApplicationFramework.EditorBase;component/Resources/Images/TextFile_16x.png",
+        UriKind.RelativeOrAbsolute));
         public string Name => "Text File";
         public string PresetElementName => "NewTextfile";
         public int SortOrder => 1;

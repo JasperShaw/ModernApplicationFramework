@@ -53,6 +53,9 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
         public abstract bool UsesPathProperty { get; }
 
         public abstract bool CanOpenWith { get; }
+        public virtual bool IsLargeIconsViewButtonVisible => false;
+        public virtual bool IsSmallIconsViewButtonVisible => true;
+        public virtual bool IsMediumIconsViewButtonVisible => true;
 
         public abstract string NoItemsMessage { get; }
 
