@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace ModernApplicationFramework.Controls.Buttons
+namespace ModernApplicationFramework.Controls.Buttons.ImageButtons
 {
     /// <inheritdoc />
     /// <summary>

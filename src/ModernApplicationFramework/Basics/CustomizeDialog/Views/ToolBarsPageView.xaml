@@ -12,6 +12,7 @@
              xmlns:menu="clr-namespace:ModernApplicationFramework.Controls.Menu"
              xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons"
              xmlns:listBoxes="clr-namespace:ModernApplicationFramework.Controls.ListBoxes"
+             xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons"
              mc:Ignorable="d"
              d:DesignHeight="400" d:DesignWidth="360">
     <FrameworkElement.Resources>
@@ -124,9 +125,9 @@
                 <general:AndBooleanConverter x:Key="AndBooleanConverter" />
                 <general:NotNullConverter x:Key="NotNullConverter" />
             </FrameworkElement.Resources>
-            <buttons:DialogButton x:Name="NewToolBarButton" Content="{x:Static customizeDialog:Customize_Resources.ToolbarsPage_NewToolbar}"
+            <dialogButtons:DialogButton x:Name="NewToolBarButton" Content="{x:Static customizeDialog:Customize_Resources.ToolbarsPage_NewToolbar}"
                                    Command="{Binding CreateNewToolbarCommand}" />
-            <buttons:DialogButton Content="{x:Static customizeDialog:Customize_Resources.ToolbarsPage_DeleteToolbar}" Command="{Binding DeleteSelectedToolbarCommand}">
+            <dialogButtons:DialogButton Content="{x:Static customizeDialog:Customize_Resources.ToolbarsPage_DeleteToolbar}" Command="{Binding DeleteSelectedToolbarCommand}">
                 <UIElement.IsEnabled>
                     <MultiBinding Converter="{StaticResource AndBooleanConverter}">
                         <Binding ElementName="ListBox" Path="SelectedItem"
@@ -134,7 +135,7 @@
                         <Binding ElementName="ListBox" Path="SelectedItem.IsCustom" Mode="OneWay" />
                     </MultiBinding>
                 </UIElement.IsEnabled>
-            </buttons:DialogButton>
+            </dialogButtons:DialogButton>
             <buttons:DropDownDialogButton x:Name="DropDownButton" Content="{x:Static customizeDialog:Customize_Resources.ToolbarsPage_ModifyToolbar}"
                                            DropDownMenu="{DynamicResource ModifySelectionToolBarsMenu}"
                                            Command="{Binding DropDownClickCommand}" />

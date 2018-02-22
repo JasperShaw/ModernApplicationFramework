@@ -1,7 +1,8 @@
-﻿<buttons:DialogSplitDropDownButton xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<dialogButtons:DialogSplitDropDownButton xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                           xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons"
                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                                   HorizontalContentAlignment="Stretch">
+                          xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons"
+                          HorizontalContentAlignment="Stretch">
     
     <FrameworkElement.Resources>
         <ResourceDictionary>
@@ -60,7 +61,7 @@
                                     <DataTrigger.Binding>
                                         <Binding Path="IsDropDownButtonVisible">
                                             <Binding.RelativeSource>
-                                                <RelativeSource Mode="FindAncestor" AncestorType="{x:Type buttons:DialogSplitDropDownButton}"/>
+                                                <RelativeSource Mode="FindAncestor" AncestorType="{x:Type dialogButtons:DialogSplitDropDownButton}"/>
                                             </Binding.RelativeSource>
                                         </Binding>
                                     </DataTrigger.Binding>
@@ -90,7 +91,15 @@
             </Style.Triggers>
         </Style>
     </FrameworkElement.Style>
-</buttons:DialogSplitDropDownButton>
+</dialogButtons:DialogSplitDropDownButton>
+
+
+
+
+
+
+
+
 
 
 

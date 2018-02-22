@@ -6,6 +6,7 @@
                        xmlns:dialogs="clr-namespace:ModernApplicationFramework.Controls.Dialogs"
                        xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons"
                        xmlns:listBoxes="clr-namespace:ModernApplicationFramework.Controls.ListBoxes"
+                       xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons"
                        ShowInTaskbar="False" Title="Add Command" ResizeMode="CanResizeWithGrip"
                        Height="370" Width="585" MinHeight="250" MinWidth="500" WindowStartupLocation="CenterOwner">
     <FocusManager.FocusedElement>
@@ -76,14 +77,14 @@
 
         <StackPanel Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"
                     Orientation="Horizontal" Margin="0,0,2,0">
-            <buttons:DialogButton x:Name="OKButton" IsDefault="True" Content="{x:Static customizeDialog:Customize_Resources.Prompt_Ok}" VerticalAlignment="Center"
+            <dialogButtons:DialogButton x:Name="OKButton" IsDefault="True" Content="{x:Static customizeDialog:Customize_Resources.Prompt_Ok}" VerticalAlignment="Center"
                                    Command="{Binding OkClickCommand}">
                 <UIElement.IsEnabled>
                     <Binding Path="SelectedItem" ElementName="CommandsListView"
                              Converter="{StaticResource NotNullConverter}" />
                 </UIElement.IsEnabled>
-            </buttons:DialogButton>
-            <buttons:DialogButton x:Name="CancelButton" IsCancel="True" Content="{x:Static customizeDialog:Customize_Resources.Prompt_Cancel}" VerticalAlignment="Center" />
+            </dialogButtons:DialogButton>
+            <dialogButtons:DialogButton x:Name="CancelButton" IsCancel="True" Content="{x:Static customizeDialog:Customize_Resources.Prompt_Cancel}" VerticalAlignment="Center" />
         </StackPanel>
     </Grid>
 </dialogs:DialogWindow>

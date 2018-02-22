@@ -16,6 +16,7 @@
              xmlns:menu="clr-namespace:ModernApplicationFramework.Controls.Menu"
              xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons"
              xmlns:listBoxes="clr-namespace:ModernApplicationFramework.Controls.ListBoxes"
+             xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons"
              mc:Ignorable="d"
              d:DesignHeight="400" d:DesignWidth="360">
     <FrameworkElement.Resources>
@@ -248,25 +249,25 @@
                         <Setter Property="HorizontalAlignment" Value="Stretch" />
                     </Style>
                 </FrameworkElement.Resources>
-                <buttons:DialogButton x:Name="AddCommandButton" Content="{x:Static customizeDialog:Customize_Resources.CommandsPage_AddCommand}"
+                <dialogButtons:DialogButton x:Name="AddCommandButton" Content="{x:Static customizeDialog:Customize_Resources.CommandsPage_AddCommand}"
                                        Command="{Binding HandleAddCommand}" />
-                <buttons:DialogButton x:Name="AddNewMenu" Content="{x:Static customizeDialog:Customize_Resources.CommandsPage_AddNewMenu}"
+                <dialogButtons:DialogButton x:Name="AddNewMenu" Content="{x:Static customizeDialog:Customize_Resources.CommandsPage_AddNewMenu}"
                                        Command="{Binding HandleAddNewMenuCommand}" />
-                <buttons:DialogButton x:Name="DeleteButton" Content="{x:Static customizeDialog:Customize_Resources.CommandsPage_Delete}" Command="{Binding HandleDeleteCommand}">
+                <dialogButtons:DialogButton x:Name="DeleteButton" Content="{x:Static customizeDialog:Customize_Resources.CommandsPage_Delete}" Command="{Binding HandleDeleteCommand}">
                     <UIElement.IsEnabled>
                         <Binding Path="SelectedListBoxDefinition"
                                  Converter="{StaticResource IsSeparatorOrCustomizableModelConverter}" />
                     </UIElement.IsEnabled>
-                </buttons:DialogButton>
-                <buttons:DialogButton x:Name="MoveUpButton" Content="{x:Static customizeDialog:Customize_Resources.CommandsPage_MoveUp}" Command="{Binding HandleMoveUpCommand}">
+                </dialogButtons:DialogButton>
+                <dialogButtons:DialogButton x:Name="MoveUpButton" Content="{x:Static customizeDialog:Customize_Resources.CommandsPage_MoveUp}" Command="{Binding HandleMoveUpCommand}">
                     <UIElement.IsEnabled>
                         <MultiBinding Converter="{StaticResource CanMoveUpMultiValueConverter}">
                             <Binding ElementName="ControlsListBox" Path="SelectedIndex" />
                             <Binding ElementName="ControlsListBox" Path="SelectedItem" />
                         </MultiBinding>
                     </UIElement.IsEnabled>
-                </buttons:DialogButton>
-                <buttons:DialogButton x:Name="MoveDownButton" Content="{x:Static customizeDialog:Customize_Resources.CommandsPage_MoveDown}"
+                </dialogButtons:DialogButton>
+                <dialogButtons:DialogButton x:Name="MoveDownButton" Content="{x:Static customizeDialog:Customize_Resources.CommandsPage_MoveDown}"
                                        Command="{Binding HandleMoveDownCommand}">
                     <UIElement.IsEnabled>
                         <MultiBinding Converter="{StaticResource CanMoveDownMultiValueConverter}">
@@ -275,7 +276,7 @@
                             <Binding ElementName="ControlsListBox" Path="SelectedItem" />
                         </MultiBinding>
                     </UIElement.IsEnabled>
-                </buttons:DialogButton>
+                </dialogButtons:DialogButton>
                 <buttons:DropDownDialogButton x:Name="DropDownButton" Command="{Binding DropDownClickCommand}"
                                                Content="{x:Static customizeDialog:Customize_Resources.CommandsPage_ModifySelection}"
                                                DropDownMenu="{DynamicResource ModifySelectionCommandsMenu}">
@@ -284,7 +285,7 @@
                                  Converter="{StaticResource IsNotSeparatorModelConverter}" />
                     </UIElement.IsEnabled>
                 </buttons:DropDownDialogButton>
-                <buttons:DialogButton x:Name="ResetAllButon" Content="{x:Static customizeDialog:Customize_Resources.CommandsPage_ResetAll}"
+                <dialogButtons:DialogButton x:Name="ResetAllButon" Content="{x:Static customizeDialog:Customize_Resources.CommandsPage_ResetAll}"
                                       Command="{Binding ResetAllCommand}">
                     <UIElement.IsEnabled>
                         <MultiBinding Converter="{StaticResource OrBooleanConverter}">
@@ -294,7 +295,7 @@
                                      Converter="{StaticResource NegateBooleanConverter}" />
                         </MultiBinding>
                     </UIElement.IsEnabled>
-                </buttons:DialogButton>
+                </dialogButtons:DialogButton>
             </StackPanel>
         </Grid>
     </Grid>

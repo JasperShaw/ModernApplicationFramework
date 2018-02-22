@@ -5,6 +5,7 @@
                        xmlns:customizeDialog="clr-namespace:ModernApplicationFramework.Basics.CustomizeDialog"
                        xmlns:dialogs="clr-namespace:ModernApplicationFramework.Controls.Dialogs"
                        xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons"
+                       xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons"
                        Title="New Toolbar"
                        ShowInTaskbar="False"
                        ResizeMode="NoResize" WindowStartupLocation="CenterOwner" SizeToContent="WidthAndHeight">
@@ -28,8 +29,8 @@
             </TextBox>
         </Grid>
         <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Grid.Row="2">
-            <buttons:DialogButton x:Name="OkButton" Content="{x:Static customizeDialog:Customize_Resources.Prompt_Ok}" IsDefault="True" Command="{Binding OkClickCommand}" />
-            <buttons:DialogButton x:Name="Cancel" Content="{x:Static customizeDialog:Customize_Resources.Prompt_Cancel}" IsCancel="True"/>
+            <dialogButtons:DialogButton x:Name="OkButton" Content="{x:Static customizeDialog:Customize_Resources.Prompt_Ok}" IsDefault="True" Command="{Binding OkClickCommand}" />
+            <dialogButtons:DialogButton x:Name="Cancel" Content="{x:Static customizeDialog:Customize_Resources.Prompt_Cancel}" IsCancel="True"/>
         </StackPanel>
     </Grid>
 </dialogs:DialogWindow>

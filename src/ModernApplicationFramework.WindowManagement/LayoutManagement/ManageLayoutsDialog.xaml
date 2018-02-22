@@ -6,6 +6,7 @@
              xmlns:converters="clr-namespace:ModernApplicationFramework.Utilities.Converters;assembly=ModernApplicationFramework.Utilities"
              xmlns:imaging="clr-namespace:ModernApplicationFramework.Utilities.Imaging;assembly=ModernApplicationFramework.Utilities"
              xmlns:properties="clr-namespace:ModernApplicationFramework.WindowManagement.Properties"
+             xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons;assembly=ModernApplicationFramework"
              WindowStartupLocation="CenterOwner" HasDialogFrame="True" ShowInTaskbar="False" 
                    Title="{x:Static properties:WindowManagement_Resources.ManageLayoutsDialogTitle}"
                    ResizeMode="CanResizeWithGrip" Width="380" Height="380" MinWidth="380" MinHeight="380"
@@ -40,9 +41,9 @@
             </Label.Target>
         </Label>
         <DockPanel DockPanel.Dock="Bottom">
-            <buttons:DialogButton Content="{x:Static properties:WindowManagement_Resources.ManageLayoutsButton_Rename}" Margin="0" TabIndex="3" Command="{Binding RenameLayoutCommand}"/>
-            <buttons:DialogButton Content="{x:Static properties:WindowManagement_Resources.ManageLayoutsButton_Delete}" Margin="6,0,0,0" TabIndex="4" Command="{Binding DeleteLayoutCommand}"/>
-            <buttons:DialogButton IsCancel="True" DockPanel.Dock="Right" HorizontalAlignment="Right" Content="{x:Static properties:WindowManagement_Resources.ManageLayoutsButton_Close}" 
+            <dialogButtons:DialogButton Content="{x:Static properties:WindowManagement_Resources.ManageLayoutsButton_Rename}" Margin="0" TabIndex="3" Command="{Binding RenameLayoutCommand}"/>
+            <dialogButtons:DialogButton Content="{x:Static properties:WindowManagement_Resources.ManageLayoutsButton_Delete}" Margin="6,0,0,0" TabIndex="4" Command="{Binding DeleteLayoutCommand}"/>
+            <dialogButtons:DialogButton IsCancel="True" DockPanel.Dock="Right" HorizontalAlignment="Right" Content="{x:Static properties:WindowManagement_Resources.ManageLayoutsButton_Close}" 
                                   Margin="0" TabIndex="5"/>
         </DockPanel>
         <StackPanel DockPanel.Dock="Right">

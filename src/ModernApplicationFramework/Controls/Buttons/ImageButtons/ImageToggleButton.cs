@@ -2,7 +2,7 @@
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 
-namespace ModernApplicationFramework.Controls.Buttons
+namespace ModernApplicationFramework.Controls.Buttons.ImageButtons
 {
     /// <inheritdoc />
     /// <summary>

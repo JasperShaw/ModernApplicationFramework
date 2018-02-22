@@ -5,7 +5,8 @@
                      xmlns:dialogs="clr-namespace:ModernApplicationFramework.Controls.Dialogs"
                      xmlns:windows="clr-namespace:ModernApplicationFramework.Controls.Windows"
                      xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons"
-                     xmlns:converters="clr-namespace:ModernApplicationFramework.Docking.Converters">
+                     xmlns:converters="clr-namespace:ModernApplicationFramework.Docking.Converters"
+                     xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons">
 
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     
@@ -58,7 +59,7 @@
                                         <ProgressBar Grid.Column="0" Grid.Row="1" Height="15" IsIndeterminate="{TemplateBinding ShowMarqueeProgress}"
                                                      Maximum="{TemplateBinding TotalSteps}" Value="{TemplateBinding CurrentStep}" VerticalAlignment="Bottom"
                                                      Visibility="{TemplateBinding ShowProgress, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                                        <buttons:DialogButton Content="Cancel" Grid.Column="1" Grid.Row="1" Margin="12,0,0,0" Height="21" VerticalAlignment="Bottom"
+                                        <dialogButtons:DialogButton Content="Cancel" Grid.Column="1" Grid.Row="1" Margin="12,0,0,0" Height="21" VerticalAlignment="Bottom"
                                                               MinWidth="85"
                                                               Visibility="{TemplateBinding IsCancelable, Converter={StaticResource BoolToVisibilityConverter}}"
                                                               Command="{Binding CancelCommand, RelativeSource={RelativeSource TemplatedParent}}"/>

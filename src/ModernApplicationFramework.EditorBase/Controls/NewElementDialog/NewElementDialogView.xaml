@@ -5,6 +5,7 @@
              xmlns:textBoxes="clr-namespace:ModernApplicationFramework.Controls.TextBoxes;assembly=ModernApplicationFramework"
              xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
              xmlns:styles="clr-namespace:ModernApplicationFramework.Core.Styles;assembly=ModernApplicationFramework"
+             xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons;assembly=ModernApplicationFramework"
              MinWidth="800" MinHeight="450" Background="{DynamicResource {x:Static themes:ColorResources.BackgroundLowerRegionBrush}}"
                    HasMaximizeButton="false" HasMinimizeButton="false" ResizeMode="CanResize" ShowInTaskbar="false"
                     SnapsToDevicePixels="true" WindowStartupLocation="Manual" Width="900" Height="600" Icon="{x:Null}"
@@ -72,18 +73,24 @@
             </Grid>
         </Grid>
         <StackPanel Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type mafc:DialogWindow}}, Path=Background}" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-            <mafc:DialogSplitDropDownButton x:Name="OkButton" MinWidth="75" MinHeight="23" Margin="0,3,6,6" IsDefault="true" Command="{Binding ApplyCommand}"
+            <dialogButtons:DialogSplitDropDownButton x:Name="OkButton" MinWidth="75" MinHeight="23" Margin="0,3,6,6" IsDefault="true" Command="{Binding ApplyCommand}"
                                             IsDropDownButtonVisible="{Binding ItemPresenter.CanOpenWith}" Content="{Binding OkButtonText}">
-                <mafc:DialogSplitDropDownButton.DropDownMenu>
+                <dialogButtons:DialogSplitDropDownButton.DropDownMenu>
                     <ContextMenu>
                         <MenuItem Header="Open" Command="{Binding ApplyCommand}"/>
                         <MenuItem Header="Open With..." Command="{Binding OpenWithCommand}"/>
                     </ContextMenu>
-                </mafc:DialogSplitDropDownButton.DropDownMenu>
-            </mafc:DialogSplitDropDownButton>
+                </dialogButtons:DialogSplitDropDownButton.DropDownMenu>
+            </dialogButtons:DialogSplitDropDownButton>
             <Button MinWidth="75" MinHeight="23" Margin="0,3,12,6" Padding="6,2,6,2" IsCancel="true"
                     Style="{DynamicResource {x:Static styles:StyleResourceKeys.ThemedDialogButtonStyleKey}}">Cancel</Button>
         </StackPanel>
     </Grid>
 </mafc:DialogWindow>
+
+
+
+
+
+
 

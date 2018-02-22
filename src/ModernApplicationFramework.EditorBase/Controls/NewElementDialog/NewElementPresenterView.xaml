@@ -257,6 +257,13 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </mafc:ComboBox>
+                    <Grid DockPanel.Dock="Right">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                    </Grid>
                 </StackPanel>
                 <Grid HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>

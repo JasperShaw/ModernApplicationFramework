@@ -3,7 +3,8 @@
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:utilities="clr-namespace:ModernApplicationFramework.Core.Utilities"
                     xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons"
-                    xmlns:styles="clr-namespace:ModernApplicationFramework.Core.Styles">
+                    xmlns:styles="clr-namespace:ModernApplicationFramework.Core.Styles"
+                    xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons">
 
     <ResourceDictionary.MergedDictionaries>
 		<ResourceDictionary Source="Brushes.xaml"/>
@@ -85,7 +86,7 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type buttons:DialogButton}" BasedOn="{StaticResource {x:Type Button}}">
+    <Style TargetType="{x:Type dialogButtons:DialogButton}" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="MinWidth" Value="75"/>
         <Setter Property="MinHeight" Value="23"/>
         <Setter Property="Margin" Value="0,0,10,10"/>

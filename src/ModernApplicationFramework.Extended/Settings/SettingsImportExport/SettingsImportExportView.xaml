@@ -5,13 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:settingsImportExport="clr-namespace:ModernApplicationFramework.Extended.Settings.SettingsImportExport"
              xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons;assembly=ModernApplicationFramework"
+             xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons;assembly=ModernApplicationFramework"
              mc:Ignorable="d" d:DesignWidth="460" d:DesignHeight="300" Width="460" HorizontalAlignment="Left">
     <StackPanel>
         <StackPanel Orientation="Vertical">
             <Label HorizontalAlignment="Left" Padding="0,5,5,3" Target="{Binding ElementName=TextBox}"
                    Content="{x:Static settingsImportExport:SettingsImportExportResources.SettingsFilePathCombo_Label}"/>
             <DockPanel>
-                <buttons:DialogButton x:Name="Button" DockPanel.Dock="Right" Margin="5,0,0,0" Command="{Binding OpenFileDialogCommand}"
+                <dialogButtons:DialogButton x:Name="Button" DockPanel.Dock="Right" Margin="5,0,0,0" Command="{Binding OpenFileDialogCommand}"
                                    Content="{x:Static settingsImportExport:SettingsImportExportResources.SaveFileDialogButton_Text}"/>
                 <TextBox x:Name="TextBox" Text="{Binding SettingsPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Left" HorizontalAlignment="Stretch" 
                          VerticalContentAlignment="Center"/>
