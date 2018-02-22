@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.Composition;
+using ModernApplicationFramework.EditorBase.Commands;
 using ModernApplicationFramework.EditorBase.Controls.NewElementDialog;
-using ModernApplicationFramework.EditorBase.Core;
 using ModernApplicationFramework.EditorBase.Interfaces;
 
-namespace ModernApplicationFramework.EditorBase.Controls.NewFileExtension
+namespace ModernApplicationFramework.EditorBase.Controls.NewFileSectionExtension
 {
     [Export(typeof(NewFileSelectionScreenViewModel))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
@@ -15,7 +15,7 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewFileExtension
 
         public override bool CanOpenWith => true;
 
-        public override string NoItemsMessage => "Not file templates found";
+        public override string NoItemsMessage => "No file templates found";
 
         public override string NoItemSelectedMessage => "No item selected";
 

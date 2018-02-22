@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using Caliburn.Micro;
 using ModernApplicationFramework.Controls.ComboBox;
-using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Controls;
 
 namespace ModernApplicationFramework.EditorBase.Interfaces
@@ -23,7 +22,7 @@ namespace ModernApplicationFramework.EditorBase.Interfaces
 
         IEnumerable<IExtensionDefinition> ItemSource { get; set; }
 
-        ObservableCollection<IHasTextProperty> SortItems { get; set; }
+        ObservableCollection<ISortingComboboxItem> SortItems { get; set; }
 
         ComboBoxDataSource SortDataSource { get; set; }
 

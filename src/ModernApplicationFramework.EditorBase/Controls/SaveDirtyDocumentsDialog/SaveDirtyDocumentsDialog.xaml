@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:saveDirtyDocumentsDialog="clr-namespace:ModernApplicationFramework.EditorBase.Controls.SaveDirtyDocumentsDialog"
+             xmlns:styles="clr-namespace:ModernApplicationFramework.Core.Styles;assembly=ModernApplicationFramework"
              mc:Ignorable="d" ResizeMode="NoResize" WindowStartupLocation="CenterOwner"
              Height="325" Width="425" Background="{x:Static SystemColors.ControlBrush}"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
@@ -16,7 +17,7 @@
     <Grid>
         <Grid.Resources>
             <DataTemplate x:Key="ItemTemplate" DataType="{x:Type saveDirtyDocumentsDialog:SaveDirtyDocumentItem}">
-                <TextBlock Text="{Binding Name}"></TextBlock>
+                <TextBlock Text="{Binding Name}"/>
             </DataTemplate>
         </Grid.Resources>
         <Grid.RowDefinitions>
@@ -31,11 +32,11 @@
                       ItemTemplate="{DynamicResource ItemTemplate}"/>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
             <Button x:Name="YesButton" MinWidth="75" MinHeight="23" Margin="0,3,6,6" IsDefault="true" TabIndex="0" 
-                    Template="{StaticResource NormalButtonWithFocusStyle}" Click="Button_ClickedYes">Yes</Button>
+                    Style="{DynamicResource {x:Static styles:StyleResourceKeys.ThemedDialogButtonStyleKey}}" Click="Button_ClickedYes">Yes</Button>
             <Button MinWidth="75" MinHeight="23" Margin="0,3,6,6" Padding="6,2,6,2" TabIndex="1" 
-                    Template="{StaticResource NormalButtonWithFocusStyle}" Click="Button_ClickedNo">No</Button>
+                    Style="{DynamicResource {x:Static styles:StyleResourceKeys.ThemedDialogButtonStyleKey}}" Click="Button_ClickedNo">No</Button>
            <Button MinWidth="75" MinHeight="23" Margin="0,3,12,6" Padding="6,2,6,2" TabIndex="2" 
-                   Template="{StaticResource NormalButtonWithFocusStyle}" Click="Button_ClickedCancel">Cancel</Button>
+                   Style="{DynamicResource {x:Static styles:StyleResourceKeys.ThemedDialogButtonStyleKey}}" Click="Button_ClickedCancel">Cancel</Button>
        </StackPanel>
     </Grid>
 </Window>

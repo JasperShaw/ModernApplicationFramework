@@ -10,7 +10,6 @@
              xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
              xmlns:vsutil="clr-namespace:ModernApplicationFramework.Utilities;assembly=ModernApplicationFramework.Utilities"
              xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons;assembly=ModernApplicationFramework"
-             xmlns:controls="clr-namespace:ModernApplicationFramework.EditorBase.Controls"
              mc:Ignorable="d" Background="{DynamicResource {x:Static themes:ColorResources.BackgroundBrush}}"
              d:DesignHeight="300" d:DesignWidth="600">
     <imaging:ImageThemingUtilities.ImageBackgroundColor>
@@ -89,7 +88,7 @@
                 </mafc:ScrollViewer>
             </DataTemplate>
 
-          <ControlTemplate x:Key="NoItemsTemplate" TargetType="{x:Type ListView}">
+            <ControlTemplate x:Key="NoItemsTemplate" TargetType="{x:Type ListView}">
                 <Grid Background="{DynamicResource {x:Static themes:ColorResources.ContentBrush}}">
                     <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Margin="20">
                         <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource {x:Static themes:ColorResources.ContentTextBrush}}">
@@ -100,6 +99,10 @@
                     </Grid>
                 </Grid>
             </ControlTemplate>
+
+            <ItemsPanelTemplate x:Key="WrapStyleTemplate">
+                <WrapPanel Orientation="Vertical"/>
+            </ItemsPanelTemplate>
 
             <DataTemplate x:Key="SmallIconTemplate" DataType="{x:Type interfaces:IExtensionDefinition}">
                 <StackPanel Orientation="Horizontal">
@@ -185,25 +188,16 @@
                     </Setter.Value>
                 </Setter>
                 <Style.Triggers>
-                    <!--<DataTrigger Value="LargeIcons">
-                        <DataTrigger.Binding>
-                            <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}" Path="ActiveView"/>
-                        </DataTrigger.Binding>
-                        <Setter Property="ItemsControl.ItemsPanel" Value="{StaticResource WrapStyleTemplate}"/>
-                    </DataTrigger>
-                    <DataTrigger Value="SmallIcons">
-                        <DataTrigger.Binding>
-                            <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}" Path="ActiveView"/>
-                        </DataTrigger.Binding>
-                        <Setter Property="ItemsControl.ItemsPanel" Value="{StaticResource WrapStyleTemplate}"/>
-                        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
-                    </DataTrigger>
-                    <DataTrigger Value="MediumIcons">
-                        <DataTrigger.Binding>
-                            <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}" Path="ActiveView"/>
-                        </DataTrigger.Binding>
+                    <Trigger Property="ItemTemplate" Value="{StaticResource LargeIconTemplate}">
+                        <Setter Property="ItemsPanel" Value="{StaticResource WrapStyleTemplate}"/>
+                    </Trigger>
+                    <Trigger Property="ItemTemplate" Value="{StaticResource SmallIconTemplate}">
+                        <Setter Property="ItemsPanel" Value="{StaticResource WrapStyleTemplate}"/>
                         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
-                    </DataTrigger>-->
+                    </Trigger>
+                    <Trigger Property="ItemTemplate" Value="{StaticResource MediumIconTemplate}">
+                        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+                    </Trigger>
                     <DataTrigger>
                         <DataTrigger.Binding>
                             <Binding RelativeSource="{RelativeSource Self}" Path="ItemsSource"/>
@@ -315,7 +309,7 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <dialogButtons:DialogToggleButton x:Name="BtntLargeIcons" Grid.Column="0" VerticalAlignment="Center"
-                                                          BorderBrush="Transparent" Background="Transparent" TabIndex="2"
+                                                          BorderBrush="Transparent" Background="Transparent" IsChecked="True" TabIndex="2"
                                                           ToolTip="Large Icons" Height="Auto" Margin="2,0,0,0"
                                                           Checked="Btnt_OnChecked" Visibility="{Binding IsLargeIconsViewButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <Image Height="Auto" Width="16" RenderOptions.EdgeMode="Aliased" 
@@ -378,7 +372,7 @@
                           Style="{DynamicResource ExtensionsListViewStyle}" SelectionMode="Single" 
                           ItemContainerStyle="{DynamicResource ExtensionsViewItemStyle}" 
                           Loaded="ListView_OnLoaded" SizeChanged="ListView_OnSizeChanged"
-                          MouseDoubleClick="ListView_OnMouseDoubleClick"
+                          MouseDoubleClick="ListView_OnMouseDoubleClick" VirtualizingPanel.IsVirtualizing ="True"
                           ItemsSource="{Binding ItemSource}"
                           SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
                           SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
@@ -410,6 +404,3 @@
         </Grid>
     </Grid>
 </UserControl>
-
-
-

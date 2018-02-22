@@ -68,18 +68,17 @@
     <Compile Include="Commands\CloseActiveDocumentCommandDefinition.cs" />
     <Compile Include="Commands\NewFileCommandDefinition.cs" />
     <Compile Include="Controls\DockingMainWindowViewModel.cs" />
+    <Compile Include="Core\ListSortDirection.cs" />
     <Compile Include="Controls\NewElementDialog\NewElementPresenterView.xaml.cs">
       <DependentUpon>NewElementPresenterView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\NewFileExtension\FileExtensionItemPresenter.xaml.cs">
-      <DependentUpon>FileExtensionItemPresenter.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Core\SortingComboboxItem.cs" />
     <Compile Include="Controls\NewElementDialog\NewElementDialogView.xaml.cs">
       <DependentUpon>NewElementDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\NewElementDialog\NewElementDialogViewModel.cs" />
     <Compile Include="Controls\NewElementDialog\NewElementScreenViewModelBase.cs" />
-    <Compile Include="Controls\NewFileExtension\NewFileSelectionScreenViewModel.cs" />
+    <Compile Include="Controls\NewFileSectionExtension\NewFileSelectionScreenViewModel.cs" />
     <Compile Include="Controls\SaveDirtyDocumentsDialog\SaveDirtyDocumentItem.cs" />
     <Compile Include="Controls\SaveDirtyDocumentsDialog\SaveDirtyDocumentsDialog.xaml.cs">
       <DependentUpon>SaveDirtyDocumentsDialog.xaml</DependentUpon>
@@ -88,8 +87,8 @@
       <DependentUpon>SimpleTextEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\SimpleTextEditor\SimpleTextEditorViewModel.cs" />
-    <Compile Include="Core\NewFileCommandArguments.cs" />
-    <Compile Include="Core\OpenFileWithCommandArguments.cs" />
+    <Compile Include="Commands\NewFileCommandArguments.cs" />
+    <Compile Include="Commands\OpenFileWithCommandArguments.cs" />
     <Compile Include="Core\Styles\StyleResourceKeys.cs" />
     <Compile Include="EditorProvider\EditorProvider.cs" />
     <Compile Include="EditorProvider\EditorProviderHelper.cs" />
@@ -100,6 +99,7 @@
     <Compile Include="Interfaces\IExtensionDialogItemPresenter.cs" />
     <Compile Include="Interfaces\INewElementDialogModel.cs" />
     <Compile Include="Interfaces\ISaveDirtyDocumentsDialog.cs" />
+    <Compile Include="Interfaces\ISortingComboboxItem.cs" />
     <Compile Include="Interfaces\ISupportedFileDefinition.cs" />
     <Compile Include="Interfaces\Layout\IDocument.cs" />
     <Compile Include="Interfaces\Layout\IStorableDocument.cs" />
@@ -138,10 +138,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Controls\NewElementDialog\NewElementPresenterView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Controls\NewFileExtension\FileExtensionItemPresenter.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

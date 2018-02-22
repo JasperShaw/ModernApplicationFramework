@@ -14,6 +14,7 @@ namespace ModernApplicationFramework.EditorBase.Interfaces
         bool Handles(string path);
 
         Task New(IStorableDocument document, string name);
+
         Task Open(IStorableDocument document, string path);
     }
 }

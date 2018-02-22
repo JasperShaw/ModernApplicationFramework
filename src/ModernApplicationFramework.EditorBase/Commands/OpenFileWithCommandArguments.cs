@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ModernApplicationFramework.EditorBase.Core
+namespace ModernApplicationFramework.EditorBase.Commands
 {
     public class OpenFileWithCommandArguments
     {
