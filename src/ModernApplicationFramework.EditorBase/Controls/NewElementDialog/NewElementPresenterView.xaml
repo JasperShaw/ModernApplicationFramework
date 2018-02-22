@@ -8,6 +8,7 @@
              xmlns:imaging="clr-namespace:ModernApplicationFramework.Utilities.Imaging;assembly=ModernApplicationFramework.Utilities"
              xmlns:converters="clr-namespace:ModernApplicationFramework.Utilities.Converters;assembly=ModernApplicationFramework.Utilities"
              xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
+             xmlns:vsutil="clr-namespace:ModernApplicationFramework.Utilities;assembly=ModernApplicationFramework.Utilities"
              mc:Ignorable="d" Background="{DynamicResource {x:Static themes:ColorResources.BackgroundBrush}}"
              d:DesignHeight="300" d:DesignWidth="600">
     <imaging:ImageThemingUtilities.ImageBackgroundColor>
@@ -94,12 +95,14 @@
                     </Grid.ColumnDefinitions>
                     <Image Grid.Column="0" Height="32" Width="32" StretchDirection="DownOnly" Stretch="Uniform"
                            Margin="0,2,4,2">
-                        <!--<MultiBinding Converter="{StaticResource ThemedImageSourceConverter}">
-                            <Binding Path="IconSource"/>
-                            <Binding Path="(imaging:ImageThemingUtilities.ImageBackgroundColor)"
-                                     RelativeSource="{RelativeSource Self}"/>
-                            <Binding Source="{x:Static vsutil:Boxes.BooleanTrue}"/>
-                        </MultiBinding>-->
+                        <Image.Source>
+                            <MultiBinding Converter="{StaticResource ThemedImageSourceConverter}">
+                                <Binding Path="MediumThumbnailImage"/>
+                                <Binding Path="(imaging:ImageThemingUtilities.ImageBackgroundColor)"
+                                         RelativeSource="{RelativeSource Self}"/>
+                                <Binding Source="{x:Static vsutil:Boxes.BooleanTrue}"/>
+                            </MultiBinding>
+                        </Image.Source>
                     </Image>
                     <TextBlock Grid.Column="1" Margin="8,0,0,0" VerticalAlignment="Center"
                                TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip="{Binding Name}"/>

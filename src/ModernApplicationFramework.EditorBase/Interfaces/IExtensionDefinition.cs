@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Media.Imaging;
 
 namespace ModernApplicationFramework.EditorBase.Interfaces
 {
@@ -6,7 +7,7 @@ namespace ModernApplicationFramework.EditorBase.Interfaces
     {
         string ApplicationContext { get; }
         string Description { get; }
-        Uri IconSource { get; }
+        BitmapSource MediumThumbnailImage { get; }
         string Name { get; }
         string PresetElementName { get; }
         int SortOrder { get; }

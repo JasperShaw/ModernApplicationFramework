@@ -78,7 +78,7 @@ namespace ModernApplicationFramework.EditorBase.Commands
             if (windowManager.ShowDialog(vm) != true)
                 return;
 
-            NewFileCommandArguments result = vm.ResultData;
+            var result = vm.ResultData;
 
             var editor = EditorProvider?.Create(result.PreferredEditor);
             var viewAware = (IViewAware)editor;
