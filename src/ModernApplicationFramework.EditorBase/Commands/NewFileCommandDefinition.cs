@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
@@ -95,5 +98,119 @@ namespace ModernApplicationFramework.EditorBase.Commands
                 };
             IoC.Get<IDockingMainWindowViewModel>().DockingHost.OpenDocument(editor);
         }
+    }
+
+    [Export(typeof(INewElementExtensionsProvider))]
+    [Export(typeof(InstalledFilesExtensionProvider))]
+    public class InstalledFilesExtensionProvider : NewElementExtensionProvider
+    {
+        public override string Text => "Installed";
+        public override uint SortOrder => 0;
+
+        protected override NewElementExtesionRootTreeNode ConstructTree()
+        {
+            //var fileTypes = IoC.Get<IEditorProvider>().SupportedFileDefinitions;
+            var rootNode = new NewElementExtesionRootTreeNode();
+            var node = new NewElementExtensionTreeNode(rootNode, "All Files");
+            rootNode.AddNode(node);
+            return rootNode;
+        }
+    }
+
+    public interface INewElementExtensionsProvider
+    {
+        string Text { get; }
+
+        uint SortOrder { get; }
+
+        INewElementExtensionTreeNode ExtensionsTree { get; }
+    }
+
+    public abstract class NewElementExtensionProvider : INewElementExtensionsProvider
+    {
+        private readonly Lazy<NewElementExtesionRootTreeNode> _rootNode;
+
+        public abstract string Text { get; }
+
+        public abstract uint SortOrder { get; }
+
+        public INewElementExtensionTreeNode ExtensionsTree => _rootNode.Value;
+
+        protected NewElementExtensionProvider()
+        {
+            _rootNode = new Lazy<NewElementExtesionRootTreeNode>(ConstructTree);
+        }
+
+        protected virtual NewElementExtesionRootTreeNode ConstructTree()
+        {
+            var rootNode = new NewElementExtesionRootTreeNode();
+            var node = new NewElementExtensionTreeNode(rootNode, "All Files");
+            rootNode.AddNode(node);
+            return rootNode;
+        }
+    }
+
+
+
+    public interface INewElementExtensionTreeNode
+    {
+        string Text { get; }
+
+        IList<INewElementExtensionTreeNode> Nodes { get; }
+
+        INewElementExtensionTreeNode Parent { get; }
+
+        bool IsSelected { get; set; }
+
+        bool IsExpanded { get; set; }
+    }
+
+    public class NewElementExtesionRootTreeNode : INewElementExtensionTreeNode
+    {
+        private readonly List<INewElementExtensionTreeNode> _cildNodes;
+        public string Text => string.Empty;
+        public IList<INewElementExtensionTreeNode> Nodes => _cildNodes;
+        public INewElementExtensionTreeNode Parent => null;
+        public bool IsSelected { get; set; }
+        public bool IsExpanded { get; set; }
+
+        public NewElementExtesionRootTreeNode()
+        {
+            _cildNodes = new List<INewElementExtensionTreeNode>();
+        }
+
+        public void AddNode(INewElementExtensionTreeNode node)
+        {
+            _cildNodes.Add(node);
+        }
+    }
+
+    public class NewElementExtensionTreeNode : INewElementExtensionTreeNode, INotifyPropertyChanged
+    {
+        public string Text { get; }
+
+        public IList<INewElementExtensionTreeNode> Nodes => null;
+
+        public INewElementExtensionTreeNode Parent { get; }
+
+        public bool IsSelected { get; set; }
+
+        public bool IsExpanded { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public NewElementExtensionTreeNode(INewElementExtensionTreeNode parent, string text)
+        {
+            Parent = parent;
+            Text = text;
+        }
+    }
+
+    public class ExtensionsCollection : ObservableCollection<IExtensionDefinition>
+    {
+    }
+
+    internal class ExtensionsProviderCollection : ObservableCollection<INewElementExtensionsProvider>
+    {
     }
 }

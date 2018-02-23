@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -7,6 +8,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using ModernApplicationFramework.Core.Events;
+using ModernApplicationFramework.EditorBase.Commands;
+using ModernApplicationFramework.EditorBase.Interfaces;
 using ModernApplicationFramework.Interfaces.Controls;
 
 namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
@@ -95,7 +98,8 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
             _mMediumIconTemplate = (DataTemplate) Resources["MediumIconTemplate"];
             _mSmallIconTemplate = (DataTemplate) Resources["SmallIconTemplate"];
             _mLargeIconTemplate = (DataTemplate) Resources["LargeIconTemplate"];
-            Loaded += NewElementPresenterView_Loaded;  
+            ProvidersTreeView.Items.SortDescriptions.Add(new SortDescription("SortOrder", ListSortDirection.Ascending));
+            Loaded += NewElementPresenterView_Loaded;
         }
 
         private void NewElementPresenterView_Loaded(object sender, RoutedEventArgs e)
@@ -107,6 +111,7 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
                 ActiveView = ViewStyle.LargeIcons;
             else
                 ActiveView = ViewStyle.SmallIcons;
+            ProvidersTreeView.Focus();
         }
 
         private void ListView_OnLoaded(object sender, RoutedEventArgs e)
@@ -151,6 +156,30 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
                 ActiveView = ViewStyle.MediumIcons;
             else
                 ActiveView = ViewStyle.SmallIcons;
+        }
+
+        private void ProvidersTreeView_OnExpanded(object sender, RoutedEventArgs e)
+        {
+            if (!(e.OriginalSource is TreeViewItem treeViewItem))
+                return;
+            if (!treeViewItem.IsSelected)
+                treeViewItem.IsSelected = true;
+            e.Handled = true;
+        }
+
+        private void ProvidersTreeView_OnSelected(object sender, RoutedEventArgs e)
+        {
+            var treeViewItem = e.OriginalSource as TreeViewItem;
+            if (!(treeViewItem?.DataContext is INewElementExtensionsProvider dataContext))
+                return;
+            var extensionsTreeNodes = dataContext.ExtensionsTree?.Nodes;
+            treeViewItem.ItemsSource = extensionsTreeNodes;
+
+            if (DataContext is IExtensionDialogItemPresenter presenter)
+            {
+                presenter.SelectedProvider = dataContext;
+            }
+
         }
     }
 

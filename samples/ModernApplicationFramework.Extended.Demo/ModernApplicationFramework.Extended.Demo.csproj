@@ -100,6 +100,7 @@
     <Compile Include="Modules\InfoBarDemo\InfoBarDemoViewModel.cs" />
     <Compile Include="Modules\LoadWindowProfile\LoadWindowProfilePackage.cs" />
     <Compile Include="Modules\MyEditor\Sample.cs" />
+    <Compile Include="Modules\NewFileExtension\InstalledFilesExtensionProviderEx.cs" />
     <Compile Include="Modules\SampleExplorer\SampleExplorerModule.cs" />
     <Compile Include="Modules\Startup\StartupPackage.cs" />
     <Compile Include="Modules\WaitingWindow\WaitingDialogDemoView.xaml.cs">

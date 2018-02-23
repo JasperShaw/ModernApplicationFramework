@@ -90,6 +90,7 @@
     <Compile Include="Commands\NewFileCommandArguments.cs" />
     <Compile Include="Commands\OpenFileWithCommandArguments.cs" />
     <Compile Include="Core\Styles\StyleResourceKeys.cs" />
+    <Compile Include="Core\TreeNodeStyleSelector.cs" />
     <Compile Include="EditorProvider\EditorProvider.cs" />
     <Compile Include="EditorProvider\EditorProviderHelper.cs" />
     <Compile Include="FileDefinitionManager.cs" />
