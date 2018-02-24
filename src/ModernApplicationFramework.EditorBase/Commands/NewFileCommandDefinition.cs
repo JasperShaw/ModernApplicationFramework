@@ -70,7 +70,7 @@ namespace ModernApplicationFramework.EditorBase.Commands
             var vm = new NewElementDialogViewModel<NewFileCommandArguments>();
 
             var presenter = IoC.Get<NewFileSelectionScreenViewModel>();
-            presenter.ItemSource = EditorProvider.SupportedFileDefinitions;
+            //presenter.ItemSource = EditorProvider.SupportedFileDefinitions;
 
             vm.ItemPresenter = presenter;
             vm.DisplayName = "New File";
@@ -109,10 +109,12 @@ namespace ModernApplicationFramework.EditorBase.Commands
 
         protected override NewElementExtesionRootTreeNode ConstructTree()
         {
-            //var fileTypes = IoC.Get<IEditorProvider>().SupportedFileDefinitions;
+            var fileTypes = IoC.Get<IEditorProvider>().SupportedFileDefinitions;
             var rootNode = new NewElementExtesionRootTreeNode();
-            var node = new NewElementExtensionTreeNode(rootNode, "All Files");
+            var node = new NewElementExtensionTreeNode(rootNode, "All Files", fileTypes);
             rootNode.AddNode(node);
+            var nodeEmpty = new NewElementExtensionTreeNode(rootNode, "Empty", new List<IExtensionDefinition>());
+            rootNode.AddNode(nodeEmpty);
             return rootNode;
         }
     }
@@ -141,13 +143,7 @@ namespace ModernApplicationFramework.EditorBase.Commands
             _rootNode = new Lazy<NewElementExtesionRootTreeNode>(ConstructTree);
         }
 
-        protected virtual NewElementExtesionRootTreeNode ConstructTree()
-        {
-            var rootNode = new NewElementExtesionRootTreeNode();
-            var node = new NewElementExtensionTreeNode(rootNode, "All Files");
-            rootNode.AddNode(node);
-            return rootNode;
-        }
+        protected abstract NewElementExtesionRootTreeNode ConstructTree();
     }
 
 
@@ -160,6 +156,8 @@ namespace ModernApplicationFramework.EditorBase.Commands
 
         INewElementExtensionTreeNode Parent { get; }
 
+        IList<IExtensionDefinition> Extensions { get; }
+
         bool IsSelected { get; set; }
 
         bool IsExpanded { get; set; }
@@ -171,6 +169,7 @@ namespace ModernApplicationFramework.EditorBase.Commands
         public string Text => string.Empty;
         public IList<INewElementExtensionTreeNode> Nodes => _cildNodes;
         public INewElementExtensionTreeNode Parent => null;
+        public IList<IExtensionDefinition> Extensions => null;
         public bool IsSelected { get; set; }
         public bool IsExpanded { get; set; }
 
@@ -187,11 +186,14 @@ namespace ModernApplicationFramework.EditorBase.Commands
 
     public class NewElementExtensionTreeNode : INewElementExtensionTreeNode, INotifyPropertyChanged
     {
+        private readonly ObservableCollection<IExtensionDefinition> _extensions;
+
         public string Text { get; }
 
         public IList<INewElementExtensionTreeNode> Nodes => null;
 
         public INewElementExtensionTreeNode Parent { get; }
+        public IList<IExtensionDefinition> Extensions => _extensions;
 
         public bool IsSelected { get; set; }
 
@@ -199,10 +201,22 @@ namespace ModernApplicationFramework.EditorBase.Commands
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public NewElementExtensionTreeNode(INewElementExtensionTreeNode parent, string text)
+        public NewElementExtensionTreeNode(INewElementExtensionTreeNode parent, string text, IEnumerable<IExtensionDefinition> extensions)
         {
             Parent = parent;
             Text = text;
+            if (extensions == null)
+                throw new ArgumentNullException("Extensions cannot be null");
+            _extensions = new ObservableCollection<IExtensionDefinition>();
+            foreach (var extension in extensions)
+                AddItemToExtensionsList(extension);
+        }
+
+        private void AddItemToExtensionsList(IExtensionDefinition extension)
+        {
+            if (extension == null)
+                return;
+            _extensions.Add(extension);
         }
     }
 

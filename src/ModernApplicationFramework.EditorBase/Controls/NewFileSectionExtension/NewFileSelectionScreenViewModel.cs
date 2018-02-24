@@ -27,7 +27,7 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewFileSectionExtension
 
         public override NewFileCommandArguments CreateResult(string name, string path)
         {
-            return !(SelectedItem is ISupportedFileDefinition fileArgument)
+            return !(SelectedExtension is ISupportedFileDefinition fileArgument)
                 ? null
                 : new NewFileCommandArguments(name, fileArgument.FileType.FileExtension, fileArgument.PreferredEditor);
         }

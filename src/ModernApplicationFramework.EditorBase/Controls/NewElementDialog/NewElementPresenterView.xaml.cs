@@ -8,8 +8,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using ModernApplicationFramework.Core.Events;
-using ModernApplicationFramework.EditorBase.Commands;
-using ModernApplicationFramework.EditorBase.Interfaces;
 using ModernApplicationFramework.Interfaces.Controls;
 
 namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
@@ -165,21 +163,6 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
             if (!treeViewItem.IsSelected)
                 treeViewItem.IsSelected = true;
             e.Handled = true;
-        }
-
-        private void ProvidersTreeView_OnSelected(object sender, RoutedEventArgs e)
-        {
-            var treeViewItem = e.OriginalSource as TreeViewItem;
-            if (!(treeViewItem?.DataContext is INewElementExtensionsProvider dataContext))
-                return;
-            var extensionsTreeNodes = dataContext.ExtensionsTree?.Nodes;
-            treeViewItem.ItemsSource = extensionsTreeNodes;
-
-            if (DataContext is IExtensionDialogItemPresenter presenter)
-            {
-                presenter.SelectedProvider = dataContext;
-            }
-
         }
     }
 

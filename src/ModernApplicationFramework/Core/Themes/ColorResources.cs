@@ -19,6 +19,15 @@ namespace ModernApplicationFramework.Core.Themes
         private static ComponentResourceKey _contentInactiveSelectedTextBrush;
         private static ComponentResourceKey _detailsBrush;
         private static ComponentResourceKey _detailsTextBrush;
+        private static ComponentResourceKey _wonderbarTextBrush;
+        private static ComponentResourceKey _wonderbarBrush;
+        private static ComponentResourceKey _wonderbarTreeSelectedBrush;
+        private static ComponentResourceKey _wonderbarTreeSelectedTextBrush;
+        private static ComponentResourceKey _wonderbarSelectedBorderBrush;
+        private static ComponentResourceKey _wonderbarMouseOverTextBrush;
+        private static ComponentResourceKey _wonderbarMouseOverBrush;
+        private static ComponentResourceKey _wonderbarTreeInactiveSelectedBrush;
+        private static ComponentResourceKey _wonderbarTreeInactiveSelectedTextBrush;
 
 
         public static ComponentResourceKey BackgroundLowerRegionBrush => _backgroundLowerRegionBrush ??
@@ -76,5 +85,41 @@ namespace ModernApplicationFramework.Core.Themes
         public static ComponentResourceKey DetailsTextBrush => _detailsTextBrush ?? (_detailsTextBrush = new ComponentResourceKey(
                                                                typeof(ColorResources),
                                                                nameof(DetailsTextBrush)));
+
+        public static ComponentResourceKey WonderbarTextBrush => _wonderbarTextBrush ?? (_wonderbarTextBrush = new ComponentResourceKey(
+                                                                   typeof(ColorResources),
+                                                                   nameof(WonderbarTextBrush)));
+
+        public static ComponentResourceKey WonderbarBrush => _wonderbarBrush ?? (_wonderbarBrush = new ComponentResourceKey(
+                                                                     typeof(ColorResources),
+                                                                     nameof(WonderbarBrush)));
+
+        public static ComponentResourceKey WonderbarSelectedBorderBrush => _wonderbarSelectedBorderBrush ?? (_wonderbarSelectedBorderBrush = new ComponentResourceKey(
+                                                                     typeof(ColorResources),
+                                                                     nameof(WonderbarSelectedBorderBrush)));
+
+        public static ComponentResourceKey WonderbarMouseOverTextBrush => _wonderbarMouseOverTextBrush ?? (_wonderbarMouseOverTextBrush = new ComponentResourceKey(
+                                                                     typeof(ColorResources),
+                                                                     nameof(WonderbarMouseOverTextBrush)));
+
+        public static ComponentResourceKey WonderbarMouseOverBrush => _wonderbarMouseOverBrush ?? (_wonderbarMouseOverBrush = new ComponentResourceKey(
+                                                                     typeof(ColorResources),
+                                                                     nameof(WonderbarMouseOverBrush)));
+
+        public static ComponentResourceKey WonderbarTreeInactiveSelectedTextBrush => _wonderbarTreeInactiveSelectedTextBrush ?? (_wonderbarTreeInactiveSelectedTextBrush = new ComponentResourceKey(
+                                                                     typeof(ColorResources),
+                                                                     nameof(WonderbarTreeInactiveSelectedTextBrush)));
+
+        public static ComponentResourceKey WonderbarTreeInactiveSelectedBrush => _wonderbarTreeInactiveSelectedBrush ?? (_wonderbarTreeInactiveSelectedBrush = new ComponentResourceKey(
+                                                                     typeof(ColorResources),
+                                                                     nameof(WonderbarTreeInactiveSelectedBrush)));
+
+        public static ComponentResourceKey WonderbarTreeSelectedTextBrush => _wonderbarTreeSelectedTextBrush ?? (_wonderbarTreeSelectedTextBrush = new ComponentResourceKey(
+                                                                     typeof(ColorResources),
+                                                                     nameof(WonderbarTreeSelectedTextBrush)));
+
+        public static ComponentResourceKey WonderbarTreeSelectedBrush => _wonderbarTreeSelectedBrush ?? (_wonderbarTreeSelectedBrush = new ComponentResourceKey(
+                                                                     typeof(ColorResources),
+                                                                     nameof(WonderbarTreeSelectedBrush)));
     }
 }

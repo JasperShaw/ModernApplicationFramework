@@ -8,10 +8,12 @@
              xmlns:imaging="clr-namespace:ModernApplicationFramework.Utilities.Imaging;assembly=ModernApplicationFramework.Utilities"
              xmlns:converters="clr-namespace:ModernApplicationFramework.Utilities.Converters;assembly=ModernApplicationFramework.Utilities"
              xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
-             xmlns:vsutil="clr-namespace:ModernApplicationFramework.Utilities;assembly=ModernApplicationFramework.Utilities"
+             xmlns:util="clr-namespace:ModernApplicationFramework.Utilities;assembly=ModernApplicationFramework.Utilities"
              xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons;assembly=ModernApplicationFramework"
              xmlns:core="clr-namespace:ModernApplicationFramework.EditorBase.Core"
              xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General;assembly=ModernApplicationFramework"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:newElementDialog="clr-namespace:ModernApplicationFramework.EditorBase.Controls.NewElementDialog"
              mc:Ignorable="d" Background="{DynamicResource {x:Static themes:ColorResources.BackgroundBrush}}"
              d:DesignHeight="300" d:DesignWidth="600">
     <imaging:ImageThemingUtilities.ImageBackgroundColor>
@@ -30,6 +32,7 @@
             <converters:ThemedImageSourceConverter x:Key="ThemedImageSourceConverter"/>
             <converters:BrushToColorConverter x:Key="BrushToColorConverter"/>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <general:AreEqualConverter x:Key="AreEqualConverter"/>
 
             <ControlTemplate x:Key="NoItemSelected">
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0">
@@ -138,7 +141,7 @@
                                 <Binding Path="MediumThumbnailImage"/>
                                 <Binding Path="(imaging:ImageThemingUtilities.ImageBackgroundColor)"
                                          RelativeSource="{RelativeSource Self}"/>
-                                <Binding Source="{x:Static vsutil:Boxes.BooleanTrue}"/>
+                                <Binding Source="{x:Static util:Boxes.BooleanTrue}"/>
                             </MultiBinding>
                         </Image.Source>
                     </Image>
@@ -161,7 +164,7 @@
                                         <Binding Path="MediumThumbnailImage"/>
                                         <Binding Path="(imaging:ImageThemingUtilities.ImageBackgroundColor)"
                                                  RelativeSource="{RelativeSource Self}"/>
-                                        <Binding Source="{x:Static vsutil:Boxes.BooleanTrue}"/>
+                                        <Binding Source="{x:Static util:Boxes.BooleanTrue}"/>
                                     </MultiBinding>
                                 </Image.Source>
                             </Image>
@@ -302,6 +305,15 @@
             </Style>
 
             <Style x:Key="ProviderTreeViewItemStyle" TargetType="{x:Type TreeViewItem}">
+                <Setter Property="IsExpanded">
+                    <Setter.Value>
+                        <MultiBinding Converter="{StaticResource AreEqualConverter}">
+                            <Binding/>
+                            <Binding Path="DataContext.SelectedProvider"
+                                     RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type TreeViewItem}">
@@ -322,10 +334,11 @@
                                     <DockPanel LastChildFill="True">
                                         <ToggleButton x:Name="HeaderExpanderArrow" ClickMode="Press"
                                                       Style="{StaticResource ExpandCollapseToggleStyle}"
-                                                      IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                      IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
+                                                      Foreground="{Binding ElementName=HeaderPresenter, Path=Foreground}"/>
                                         <TextBlock x:Name="HeaderPresenter" Padding="3,5,15,5"
-                                                   TextTrimming="CharacterEllipsis" TextWrapping="NoWrap"
-                                                   HorizontalAlignment="Left">
+                                                   TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" HorizontalAlignment="Left" 
+                                                   Foreground="{DynamicResource {x:Static themes:ColorResources.WonderbarTextBrush}}">
                                             <TextBlock.Text>
                                                 <Binding Path="Text"/>
                                             </TextBlock.Text>
@@ -335,23 +348,25 @@
                                         </TextBlock>
                                     </DockPanel>
                                 </Border>
-                                <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4">
+                                <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"
+                                        Background="{DynamicResource {x:Static themes:ColorResources.WonderbarBrush}}">
                                     <ItemsPresenter x:Name="ProviderItemsHost" Margin="0,7"/>
                                 </Border>
                             </Grid>
                             <ControlTemplate.Triggers>
-                                <!--<Trigger Property="IsSelected" Value="True">
-                                    <Setter TargetName="HeaderBorder" Property="BorderBrush" Value="Gray"/>
-                                </Trigger>-->
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter TargetName="HeaderBorder" Property="BorderBrush" 
+                                            Value="{DynamicResource {x:Static themes:ColorResources.WonderbarSelectedBorderBrush}}"/>
+                                </Trigger>
                                 <Trigger Property="IsExpanded" Value="False">
                                     <Setter TargetName="ProviderItemsHost" Property="Visibility" Value="Collapsed"/>
                                 </Trigger>
-                                <!--<Trigger Property="UIElement.IsMouseOver" Value="true">
+                                <Trigger Property="UIElement.IsMouseOver" Value="true">
                                     <Setter TargetName="HeaderPresenter"
-                                            Value="{DynamicResource {x:Static themes:ColorResources.WonderbarMouseOverTextBrushKey}}"
+                                            Value="{DynamicResource {x:Static themes:ColorResources.WonderbarMouseOverTextBrush}}"
                                             Property="TextElement.Foreground"/>
                                     <Setter x:Uid="Setter_50" TargetName="HeaderGrid"
-                                            Value="{DynamicResource {x:Static themes:ColorResources.WonderbarMouseOverBrushKey}}"
+                                            Value="{DynamicResource {x:Static themes:ColorResources.WonderbarMouseOverBrush}}"
                                             Property="Panel.Background"/>
                                 </Trigger>
                                 <MultiTrigger>
@@ -360,19 +375,24 @@
                                         <Condition Property="Selector.IsSelectionActive" Value="false"/>
                                     </MultiTrigger.Conditions>
                                     <Setter TargetName="HeaderPresenter"
-                                            Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTreeInactiveSelectedTextBrushKey}}"
+                                            Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTreeInactiveSelectedTextBrush}}"
                                             Property="TextElement.Foreground"/>
                                     <Setter TargetName="HeaderGrid"
-                                            Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTreeInactiveSelectedBrushKey}}"
+                                            Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTreeInactiveSelectedBrush}}"
                                             Property="Panel.Background"/>
                                     <Setter TargetName="HeaderBorder" Property="Border.BorderBrush" Value="Transparent"/>
-                                </MultiTrigger>-->
+                                </MultiTrigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
             </Style>
             <Style x:Key="CategoryTreeViewItemStyle" TargetType="{x:Type TreeViewItem}">
+                <Setter Property="TextElement.Foreground"
+                        Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTextBrush}}"/>
+                <Setter Property="Panel.Background"
+                        Value="{DynamicResource {x:Static themes:ColorResources.WonderbarBrush}}"/>
+                <Setter Property="Border.BorderBrush" Value="Transparent"/>
                 <Setter Property="IsSelected">
                     <Setter.Value>
                         <Binding Path="IsSelected" Mode="TwoWay"/>
@@ -391,7 +411,7 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type TreeViewItem}">
-                            <Grid>
+                            <Grid Background="{DynamicResource {x:Static themes:ColorResources.WonderbarBrush}}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition MinWidth="19" Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
@@ -418,12 +438,30 @@
                                 <ItemsPresenter x:Name="ItemsHost" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"/>
                             </Grid>
                             <ControlTemplate.Triggers>
+                                <Trigger Property="TreeViewItem.IsSelected" Value="true">
+                                    <Setter TargetName="CategoryName"
+                                            Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTreeSelectedTextBrush}}"
+                                            Property="TextElement.Foreground"/>
+                                    <Setter TargetName="CategoryName"
+                                            Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTreeSelectedBrush}}"
+                                            Property="TextElement.Background"/>
+                                </Trigger>
                                 <Trigger Property="TreeViewItem.IsExpanded" Value="false">
                                     <Setter TargetName="ItemsHost" Property="UIElement.Visibility" Value="Collapsed"/>
                                 </Trigger>
                                 <Trigger Property="ItemsControl.HasItems" Value="false">
                                     <Setter TargetName="Expander" Property="UIElement.Visibility" Value="Hidden"/>
                                 </Trigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="TreeViewItem.IsSelected" Value="true"/>
+                                        <Condition Property="Selector.IsSelectionActive" Value="false"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter TargetName="CategoryName" Property="TextElement.Foreground"
+                                            Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTreeInactiveSelectedTextBrush}}"/>
+                                    <Setter TargetName="CategoryName" Property="TextElement.Background"
+                                            Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTreeInactiveSelectedBrush}}"/>
+                                </MultiTrigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Setter.Value>
@@ -446,12 +484,14 @@
         <Grid>
             <TreeView x:Name="ProvidersTreeView" Background="{DynamicResource {x:Static themes:ColorResources.BackgroundBrush}}"
                       Padding="0" BorderBrush="Transparent" BorderThickness="1" 
-                      TreeViewItem.Selected="ProvidersTreeView_OnSelected"
                       TreeViewItem.Expanded="ProvidersTreeView_OnExpanded"
                       ItemContainerStyleSelector="{StaticResource ProviderTreeStyleSelector}">
                 <TreeView.ItemsSource>
                     <Binding Path="Providers"/>
                 </TreeView.ItemsSource>
+                <i:Interaction.Behaviors>
+                    <util:BindableSelectedItemBehavior SelectedItem="{Binding SelectedProviderTreeItem, Mode=TwoWay}" />
+                </i:Interaction.Behaviors>
             </TreeView>
         </Grid>
         <Grid Grid.Column="2" Margin="0">
@@ -496,7 +536,7 @@
                                         <Binding Source="{imaging:ImageSource ../../Resources/Images/Medium.png}"/>
                                         <Binding Path="(imaging:ImageThemingUtilities.ImageBackgroundColor)"
                                                  RelativeSource="{RelativeSource Self}"/>
-                                        <Binding Source="{x:Static vsutil:Boxes.BooleanTrue}"></Binding>
+                                        <Binding Source="{x:Static util:Boxes.BooleanTrue}"></Binding>
                                     </MultiBinding>
                                 </Image.Source>
                             </Image>
@@ -512,7 +552,7 @@
                                         <Binding Source="{imaging:ImageSource ../../Resources/Images/List.png}"/>
                                         <Binding Path="(imaging:ImageThemingUtilities.ImageBackgroundColor)"
                                                  RelativeSource="{RelativeSource Self}"/>
-                                        <Binding Source="{x:Static vsutil:Boxes.BooleanTrue}"></Binding>
+                                        <Binding Source="{x:Static util:Boxes.BooleanTrue}"></Binding>
                                     </MultiBinding>
                                 </Image.Source>
                             </Image>
@@ -528,7 +568,7 @@
                                         <Binding Source="{imaging:ImageSource ../../Resources/Images/Details.png}"/>
                                         <Binding Path="(imaging:ImageThemingUtilities.ImageBackgroundColor)"
                                                  RelativeSource="{RelativeSource Self}"/>
-                                        <Binding Source="{x:Static vsutil:Boxes.BooleanTrue}"></Binding>
+                                        <Binding Source="{x:Static util:Boxes.BooleanTrue}"></Binding>
                                     </MultiBinding>
                                 </Image.Source>
                             </Image>
@@ -550,9 +590,9 @@
                           ItemContainerStyle="{DynamicResource ExtensionsViewItemStyle}" 
                           Loaded="ListView_OnLoaded" SizeChanged="ListView_OnSizeChanged"
                           MouseDoubleClick="ListView_OnMouseDoubleClick" VirtualizingPanel.IsVirtualizing ="True"
-                          ItemsSource="{Binding ItemSource}"
-                          SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
-                          SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+                          ItemsSource="{Binding Extensions}"
+                          SelectedIndex="{Binding SelectedExtensionIndex, Mode=TwoWay}"
+                          SelectedItem="{Binding SelectedExtension, Mode=TwoWay}">
                     <ListView.View>
                         <GridView>
                             <GridView.ColumnHeaderContainerStyle>
@@ -563,10 +603,6 @@
                             <GridViewColumn/>
                         </GridView>
                     </ListView.View>
-                    <!--<TextSearch.TextPath>
-                    </TextSearch.TextPath>
-                    <ItemsControl.IsTextSearchEnabled>
-                    </ItemsControl.IsTextSearchEnabled>-->
                     <FrameworkElement.FocusVisualStyle>
                         <x:NullExtension/>
                     </FrameworkElement.FocusVisualStyle>

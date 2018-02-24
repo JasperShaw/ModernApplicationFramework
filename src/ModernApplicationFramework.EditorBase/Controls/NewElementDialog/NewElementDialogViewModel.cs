@@ -66,7 +66,7 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
                     _itemPresenter.ItemDoubledClicked -= _itemPresenter_ItemDoubledClicked;
                 }
                 _itemPresenter = value;
-                var firstOrDefault = _itemPresenter.ItemSource?.FirstOrDefault();
+                var firstOrDefault = _itemPresenter.Extensions?.FirstOrDefault();
                 if (firstOrDefault != null)
                     Name = firstOrDefault.PresetElementName;
                 _itemPresenter.PropertyChanged += _itemPresenter_PropertyChanged;
@@ -80,8 +80,8 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
 
         private void _itemPresenter_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(ItemPresenter.SelectedItem))
-                Name = ItemPresenter.SelectedItem.PresetElementName;
+            if (e.PropertyName == nameof(ItemPresenter.SelectedExtension))
+                Name = ItemPresenter.SelectedExtension.PresetElementName;
 
         }
 
@@ -116,12 +116,12 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
 
         private bool CanApply()
         {
-            if (!ItemPresenter.UsesNameProperty && !ItemPresenter.UsesPathProperty && ItemPresenter.SelectedItem != null)
+            if (!ItemPresenter.UsesNameProperty && !ItemPresenter.UsesPathProperty && ItemPresenter.SelectedExtension != null)
                 return true;
             bool result = !(ItemPresenter.UsesPathProperty && !WindowsFileNameHelper.IsValidPath(Path));
             if (ItemPresenter.UsesNameProperty && !WindowsFileNameHelper.IsValidFileName(Name))
                 result = false;
-            if (ItemPresenter.SelectedItem == null)
+            if (ItemPresenter.SelectedExtension == null)
                 result = false;
             return result;
         }

@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using Caliburn.Micro;
 using ModernApplicationFramework.Controls.ComboBox;
@@ -26,6 +27,10 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
         private IEnumerable<IExtensionDefinition> _itemSource;
         private EventHandler<ItemDoubleClickedEventArgs> _itemDoubleClicked;
         private INewElementExtensionsProvider _selectedProvider;
+        private object _selectedProviderTreeItem;
+
+        private TreeView _providerTreeView;
+        private INewElementExtensionTreeNode _selectedCategory;
 
         // ReSharper disable once StaticMemberInGenericType
         private static readonly Func<IExtensionDefinition, IExtensionDefinition, int> NameCompare = (s, t) =>
@@ -59,6 +64,7 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
             }
         }
         public event RoutedPropertyChangedEventHandler<object> ProviderSelectionChanged;
+        public event RoutedPropertyChangedEventHandler<object> CategorySelectionChanged;
 
         public abstract bool UsesNameProperty { get; }
         public abstract bool UsesPathProperty { get; }
@@ -70,6 +76,23 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
         public abstract string NoItemSelectedMessage { get; }
         public abstract ObservableCollection<INewElementExtensionsProvider> Providers { get; }
 
+        public object SelectedProviderTreeItem
+        {
+            get => _selectedProviderTreeItem;
+            set
+            {
+                if (Equals(value, _selectedProviderTreeItem)) return;
+                _selectedProviderTreeItem = value;
+                NotifyOfPropertyChange();
+
+                if (value is INewElementExtensionsProvider provider)
+                    SelectedProvider = provider;
+                if (value is INewElementExtensionTreeNode node)
+                    SelectedCategory = node;
+
+            }
+        }
+
         public INewElementExtensionsProvider SelectedProvider
         {
             get => _selectedProvider;
@@ -79,11 +102,28 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
                     return;
                 var tmp = _selectedProvider;
                 _selectedProvider = value;
-                OnProviderSelectionChanged(new RoutedPropertyChangedEventArgs<object>(tmp, value));
+                ProviderSelected(value);
+                NotifyOfPropertyChange();
+                OnProviderSelectionChanged(new RoutedPropertyChangedEventArgs<object>(tmp, value));   
             }
         }
 
-        public IEnumerable<IExtensionDefinition> ItemSource
+        public INewElementExtensionTreeNode SelectedCategory
+        {
+            get => _selectedCategory;
+            set
+            {
+                if (Equals(value, _selectedCategory))
+                    return;
+                var tmp = _selectedCategory;
+                _selectedCategory = value;
+                NotifyOfPropertyChange();
+                CategorySelected(value);
+                OnCategorySelectionChanged(new RoutedPropertyChangedEventArgs<object>(tmp, value));
+            }
+        }
+
+        public IEnumerable<IExtensionDefinition> Extensions
         {
             get => _itemSource;
             set
@@ -95,7 +135,7 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
             }
         }
 
-        public IExtensionDefinition SelectedItem
+        public IExtensionDefinition SelectedExtension
         {
             get => _selectedItem;
             set
@@ -106,7 +146,7 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
             }
         }
 
-        public int SelectedIndex
+        public int SelectedExtensionIndex
         {
             get => _selectedIndex;
             set
@@ -160,20 +200,68 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
         protected override void OnViewReady(object view)
         {
             base.OnViewReady(view);
-            SortDataSource = new ComboBoxDataSource(SortItems);
 
+            if (view is NewElementPresenterView presenterView)
+                _providerTreeView = presenterView.ProvidersTreeView;
+
+            SortDataSource = new ComboBoxDataSource(SortItems);
             if (SortItems != null && SortItems.Count > 0 && SortDataSource.SelectedIndex < 0)
                 SortDataSource.ChangeDisplayedItem(0);
             SortDataSource.PropertyChanged += SortDataSource_PropertyChanged;
         }
 
+        protected override void OnViewLoaded(object view)
+        {
+            base.OnViewLoaded(view);
+            PreSelectProvider();
+            SelectedProviderTreeItem = Providers.First();
+        }
+
+        protected virtual void PreSelectProvider()
+        {
+            if (Providers == null || Providers.Count == 0)
+                return;
+            var firstProvider = Providers.First();
+            SelectedProviderTreeItem = firstProvider;
+            firstProvider.ExtensionsTree.IsExpanded = true;
+        }
+
+        protected virtual void ProviderSelected(INewElementExtensionsProvider provider)
+        {
+            if (!(_providerTreeView.ItemContainerGenerator.ContainerFromItem(provider) is TreeViewItem treeViewItem))
+                return;
+            var extensionsTreeNodes = provider.ExtensionsTree?.Nodes;
+            treeViewItem.ItemsSource = extensionsTreeNodes;
+            SelectedProvider = provider;
+            SelectedCategory = provider.ExtensionsTree?.Nodes[0];
+        }
+
+        protected virtual void CategorySelected(INewElementExtensionTreeNode category)
+        {
+            if (category == null)
+                return;
+            Extensions = category.Extensions;
+        }
+
+        protected virtual void OnCategorySelectionChanged(RoutedPropertyChangedEventArgs<object> e)
+        {
+            CategorySelectionChanged?.Invoke(this, e);
+            ChangeSorting(SortDataSource.DisplayedItem as ISortingComboboxItem);
+            OnUIThread(() =>
+            {
+                if (Extensions.Any() && SelectedExtensionIndex < 0)
+                    SelectedExtensionIndex = 0;
+            });
+        }
+
         protected virtual void OnProviderSelectionChanged(RoutedPropertyChangedEventArgs<object> e)
         {
             ProviderSelectionChanged?.Invoke(this, e);
+            ChangeSorting(SortDataSource.DisplayedItem as ISortingComboboxItem);
             OnUIThread(() =>
             {
-                if (ItemSource.Any() && SelectedIndex < 0)
-                    SelectedIndex = 0;
+                if (Extensions.Any() && SelectedExtensionIndex < 0)
+                    SelectedExtensionIndex = 0;
             });
         }
 
@@ -185,9 +273,9 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
 
         private void ChangeSorting(IComparer sortOrder)
         {
-            if (ItemSource == null)
+            if (Extensions == null)
                 return;
-            if (!(CollectionViewSource.GetDefaultView(ItemSource) is ListCollectionView defaultView) || defaultView.CustomSort == sortOrder)
+            if (!(CollectionViewSource.GetDefaultView(Extensions) is ListCollectionView defaultView) || Equals(defaultView.CustomSort, sortOrder))
                 return;
             defaultView.CustomSort = sortOrder;
             defaultView.Refresh();

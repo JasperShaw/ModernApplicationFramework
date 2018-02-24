@@ -11,6 +11,7 @@ namespace ModernApplicationFramework.EditorBase.Interfaces
     public interface IExtensionDialogItemPresenter : IScreen, IItemDoubleClickable
     {
         event RoutedPropertyChangedEventHandler<object> ProviderSelectionChanged;
+        event RoutedPropertyChangedEventHandler<object> CategorySelectionChanged;
 
         bool UsesNameProperty { get; }
 
@@ -28,16 +29,22 @@ namespace ModernApplicationFramework.EditorBase.Interfaces
 
         ObservableCollection<INewElementExtensionsProvider> Providers { get; }
 
-        IEnumerable<IExtensionDefinition> ItemSource { get; set; }
+        IEnumerable<IExtensionDefinition> Extensions { get; set; }
 
         ObservableCollection<ISortingComboboxItem> SortItems { get; set; }
 
         ComboBoxDataSource SortDataSource { get; set; }
 
 
-        IExtensionDefinition SelectedItem { get; set; }
+        IExtensionDefinition SelectedExtension { get; set; }
 
-        int SelectedIndex { get; set; }
+        int SelectedExtensionIndex { get; set; }
+
+
+        object SelectedProviderTreeItem { get; set; }
+
+        INewElementExtensionTreeNode SelectedCategory { get; set; }
+
     }
 
     public interface IExtensionDialogItemPresenter<out T> : IExtensionDialogItemPresenter

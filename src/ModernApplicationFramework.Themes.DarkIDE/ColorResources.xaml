@@ -48,4 +48,32 @@
                      ResourceId=DetailsTextBrush}" Color="#FFF1F1F1"/>
 
 
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:ColorResources},
+                     ResourceId=WonderbarTextBrush}" Color="#FFF1F1F1"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:ColorResources},
+                     ResourceId=WonderbarBrush}" Color="#FF2D2D30"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:ColorResources},
+                     ResourceId=WonderbarSelectedBorderBrush}" Color="#FF3399FF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:ColorResources},
+                     ResourceId=WonderbarMouseOverTextBrush}" Color="#FFF1F1F1"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:ColorResources},
+                     ResourceId=WonderbarMouseOverBrush}" Color="#FF252526"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:ColorResources},
+                     ResourceId=WonderbarTreeInactiveSelectedTextBrush}" Color="#FFF1F1F1"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:ColorResources},
+                     ResourceId=WonderbarTreeInactiveSelectedBrush}" Color="#FF3F3F46"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:ColorResources},
+                     ResourceId=WonderbarTreeSelectedTextBrush}" Color="#FFFFFFFF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:ColorResources},
+                     ResourceId=WonderbarTreeSelectedBrush}" Color="#FF007ACC"/>
+
+
 </ResourceDictionary>
