@@ -101,7 +101,7 @@
     <Compile Include="EditorProvider\EditorProvider.cs" />
     <Compile Include="EditorProvider\EditorProviderHelper.cs" />
     <Compile Include="FileDefinitionManager.cs" />
-    <Compile Include="FileType.cs" />
+    <Compile Include="FileSupport\FileType.cs" />
     <Compile Include="Interfaces\IEditorProvider.cs" />
     <Compile Include="Interfaces\NewElement\IExtensionDefinition.cs" />
     <Compile Include="Interfaces\NewElement\IExtensionDialogItemPresenter.cs" />
@@ -123,7 +123,7 @@
     </Compile>
     <Compile Include="ResultDialogs\OpenDocumentResult.cs" />
     <Compile Include="ResultDialogs\Show.cs" />
-    <Compile Include="TextFileDefinition.cs" />
+    <Compile Include="FileSupport\TextFileDefinition.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -160,10 +160,6 @@
     <Page Include="Controls\SimpleTextEditor\SimpleTextEditorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="DataTemplates.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

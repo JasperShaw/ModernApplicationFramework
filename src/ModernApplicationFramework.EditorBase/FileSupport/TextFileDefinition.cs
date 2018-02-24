@@ -4,7 +4,7 @@ using System.Windows.Media.Imaging;
 using ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor;
 using ModernApplicationFramework.EditorBase.Interfaces;
 
-namespace ModernApplicationFramework.EditorBase
+namespace ModernApplicationFramework.EditorBase.FileSupport
 {
     [Export(typeof(ISupportedFileDefinition))]
     public class TextFileDefinition : ISupportedFileDefinition

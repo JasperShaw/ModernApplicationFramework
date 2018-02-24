@@ -1,4 +1,4 @@
-﻿namespace ModernApplicationFramework.EditorBase
+﻿namespace ModernApplicationFramework.EditorBase.FileSupport
 {
     public class FileType
     {

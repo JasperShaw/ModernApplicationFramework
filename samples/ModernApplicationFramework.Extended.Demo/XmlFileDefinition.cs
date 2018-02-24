@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Windows.Media.Imaging;
-using ModernApplicationFramework.EditorBase;
+using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces;
 using ModernApplicationFramework.Extended.Demo.Modules.MyEditor;
 

@@ -76,8 +76,9 @@ namespace ModernApplicationFramework.EditorBase.Commands
 
             var result = vm.ResultData;
 
+            //TODO: Rework whole file creation
             var editor = EditorProvider?.Create(result.PreferredEditor);
-            var viewAware = (IViewAware)editor;
+            var viewAware = (IViewAware) editor;
             if (viewAware != null)
                 viewAware.ViewAttached += (sender, e) =>
                 {
