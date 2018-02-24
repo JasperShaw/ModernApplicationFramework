@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
@@ -9,10 +6,10 @@ using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.EditorBase.Controls.NewElementDialog;
-using ModernApplicationFramework.EditorBase.Controls.NewFileSectionExtension;
 using ModernApplicationFramework.EditorBase.Interfaces;
 using ModernApplicationFramework.EditorBase.Interfaces.Layout;
+using ModernApplicationFramework.EditorBase.NewElementDialog;
+using ModernApplicationFramework.EditorBase.NewElementDialog.ViewModels;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
@@ -69,9 +66,7 @@ namespace ModernApplicationFramework.EditorBase.Commands
         {
             var vm = new NewElementDialogViewModel<NewFileCommandArguments>();
 
-            var presenter = IoC.Get<NewFileSelectionScreenViewModel>();
-            //presenter.ItemSource = EditorProvider.SupportedFileDefinitions;
-
+            var presenter = IoC.Get<INewFileSelectionModel>();
             vm.ItemPresenter = presenter;
             vm.DisplayName = "New File";
 
@@ -98,133 +93,5 @@ namespace ModernApplicationFramework.EditorBase.Commands
                 };
             IoC.Get<IDockingMainWindowViewModel>().DockingHost.OpenDocument(editor);
         }
-    }
-
-    [Export(typeof(INewElementExtensionsProvider))]
-    [Export(typeof(InstalledFilesExtensionProvider))]
-    public class InstalledFilesExtensionProvider : NewElementExtensionProvider
-    {
-        public override string Text => "Installed";
-        public override uint SortOrder => 0;
-
-        protected override NewElementExtesionRootTreeNode ConstructTree()
-        {
-            var fileTypes = IoC.Get<IEditorProvider>().SupportedFileDefinitions;
-            var rootNode = new NewElementExtesionRootTreeNode();
-            var node = new NewElementExtensionTreeNode(rootNode, "All Files", fileTypes);
-            rootNode.AddNode(node);
-            var nodeEmpty = new NewElementExtensionTreeNode(rootNode, "Empty", new List<IExtensionDefinition>());
-            rootNode.AddNode(nodeEmpty);
-            return rootNode;
-        }
-    }
-
-    public interface INewElementExtensionsProvider
-    {
-        string Text { get; }
-
-        uint SortOrder { get; }
-
-        INewElementExtensionTreeNode ExtensionsTree { get; }
-    }
-
-    public abstract class NewElementExtensionProvider : INewElementExtensionsProvider
-    {
-        private readonly Lazy<NewElementExtesionRootTreeNode> _rootNode;
-
-        public abstract string Text { get; }
-
-        public abstract uint SortOrder { get; }
-
-        public INewElementExtensionTreeNode ExtensionsTree => _rootNode.Value;
-
-        protected NewElementExtensionProvider()
-        {
-            _rootNode = new Lazy<NewElementExtesionRootTreeNode>(ConstructTree);
-        }
-
-        protected abstract NewElementExtesionRootTreeNode ConstructTree();
-    }
-
-
-
-    public interface INewElementExtensionTreeNode
-    {
-        string Text { get; }
-
-        IList<INewElementExtensionTreeNode> Nodes { get; }
-
-        INewElementExtensionTreeNode Parent { get; }
-
-        IList<IExtensionDefinition> Extensions { get; }
-
-        bool IsSelected { get; set; }
-
-        bool IsExpanded { get; set; }
-    }
-
-    public class NewElementExtesionRootTreeNode : INewElementExtensionTreeNode
-    {
-        private readonly List<INewElementExtensionTreeNode> _cildNodes;
-        public string Text => string.Empty;
-        public IList<INewElementExtensionTreeNode> Nodes => _cildNodes;
-        public INewElementExtensionTreeNode Parent => null;
-        public IList<IExtensionDefinition> Extensions => null;
-        public bool IsSelected { get; set; }
-        public bool IsExpanded { get; set; }
-
-        public NewElementExtesionRootTreeNode()
-        {
-            _cildNodes = new List<INewElementExtensionTreeNode>();
-        }
-
-        public void AddNode(INewElementExtensionTreeNode node)
-        {
-            _cildNodes.Add(node);
-        }
-    }
-
-    public class NewElementExtensionTreeNode : INewElementExtensionTreeNode, INotifyPropertyChanged
-    {
-        private readonly ObservableCollection<IExtensionDefinition> _extensions;
-
-        public string Text { get; }
-
-        public IList<INewElementExtensionTreeNode> Nodes => null;
-
-        public INewElementExtensionTreeNode Parent { get; }
-        public IList<IExtensionDefinition> Extensions => _extensions;
-
-        public bool IsSelected { get; set; }
-
-        public bool IsExpanded { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public NewElementExtensionTreeNode(INewElementExtensionTreeNode parent, string text, IEnumerable<IExtensionDefinition> extensions)
-        {
-            Parent = parent;
-            Text = text;
-            if (extensions == null)
-                throw new ArgumentNullException("Extensions cannot be null");
-            _extensions = new ObservableCollection<IExtensionDefinition>();
-            foreach (var extension in extensions)
-                AddItemToExtensionsList(extension);
-        }
-
-        private void AddItemToExtensionsList(IExtensionDefinition extension)
-        {
-            if (extension == null)
-                return;
-            _extensions.Add(extension);
-        }
-    }
-
-    public class ExtensionsCollection : ObservableCollection<IExtensionDefinition>
-    {
-    }
-
-    internal class ExtensionsProviderCollection : ObservableCollection<INewElementExtensionsProvider>
-    {
     }
 }

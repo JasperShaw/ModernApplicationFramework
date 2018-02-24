@@ -66,19 +66,25 @@
   <ItemGroup>
     <Compile Include="CommandBarDefinitions\MenuDefinitions\FileMenuDefinitions.cs" />
     <Compile Include="Commands\CloseActiveDocumentCommandDefinition.cs" />
+    <Compile Include="Interfaces\NewElement\INewElementExtensionsProvider.cs" />
+    <Compile Include="Interfaces\NewElement\INewElementExtensionTreeNode.cs" />
+    <Compile Include="NewElementDialog\NewElementExtensionProvider.cs" />
+    <Compile Include="NewElementDialog\NewElementExtensionTreeNode.cs" />
+    <Compile Include="NewElementDialog\NewElementExtesionRootTreeNode.cs" />
     <Compile Include="Commands\NewFileCommandDefinition.cs" />
     <Compile Include="Controls\DockingMainWindowViewModel.cs" />
+    <Compile Include="Core\Converters\ProviderTreeViewVisibilityConverter.cs" />
     <Compile Include="Core\ListSortDirection.cs" />
-    <Compile Include="Controls\NewElementDialog\NewElementPresenterView.xaml.cs">
+    <Compile Include="NewElementDialog\Views\NewElementPresenterView.xaml.cs">
       <DependentUpon>NewElementPresenterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\SortingComboboxItem.cs" />
-    <Compile Include="Controls\NewElementDialog\NewElementDialogView.xaml.cs">
+    <Compile Include="NewElementDialog\Views\NewElementDialogView.xaml.cs">
       <DependentUpon>NewElementDialogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\NewElementDialog\NewElementDialogViewModel.cs" />
-    <Compile Include="Controls\NewElementDialog\NewElementScreenViewModelBase.cs" />
-    <Compile Include="Controls\NewFileSectionExtension\NewFileSelectionScreenViewModel.cs" />
+    <Compile Include="NewElementDialog\ViewModels\NewElementDialogViewModel.cs" />
+    <Compile Include="NewElementDialog\ViewModels\NewElementScreenViewModelBase.cs" />
+    <Compile Include="NewElementDialog\NewFileSelectionScreenViewModel.cs" />
     <Compile Include="Controls\SaveDirtyDocumentsDialog\SaveDirtyDocumentItem.cs" />
     <Compile Include="Controls\SaveDirtyDocumentsDialog\SaveDirtyDocumentsDialog.xaml.cs">
       <DependentUpon>SaveDirtyDocumentsDialog.xaml</DependentUpon>
@@ -96,9 +102,9 @@
     <Compile Include="FileDefinitionManager.cs" />
     <Compile Include="FileType.cs" />
     <Compile Include="Interfaces\IEditorProvider.cs" />
-    <Compile Include="Interfaces\IExtensionDefinition.cs" />
-    <Compile Include="Interfaces\IExtensionDialogItemPresenter.cs" />
-    <Compile Include="Interfaces\INewElementDialogModel.cs" />
+    <Compile Include="Interfaces\NewElement\IExtensionDefinition.cs" />
+    <Compile Include="Interfaces\NewElement\IExtensionDialogItemPresenter.cs" />
+    <Compile Include="Interfaces\NewElement\INewElementDialogModel.cs" />
     <Compile Include="Interfaces\ISaveDirtyDocumentsDialog.cs" />
     <Compile Include="Interfaces\ISortingComboboxItem.cs" />
     <Compile Include="Interfaces\ISupportedFileDefinition.cs" />
@@ -138,11 +144,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Controls\NewElementDialog\NewElementPresenterView.xaml">
+    <Page Include="NewElementDialog\Views\NewElementPresenterView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\NewElementDialog\NewElementDialogView.xaml">
+    <Page Include="NewElementDialog\Views\NewElementDialogView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -170,5 +176,6 @@
   <ItemGroup>
     <Resource Include="Resources\Images\TextFile_16x.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

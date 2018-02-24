@@ -4,10 +4,10 @@ using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Controls.Dialogs;
 using ModernApplicationFramework.Core.Utilities;
-using ModernApplicationFramework.EditorBase.Interfaces;
+using ModernApplicationFramework.EditorBase.Interfaces.NewElement;
 using ModernApplicationFramework.Input.Command;
 
-namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
+namespace ModernApplicationFramework.EditorBase.NewElementDialog.ViewModels
 {
     [Export(typeof(INewElementDialogModel))]
     public class NewElementDialogViewModel<T> : Conductor<IExtensionDialogItemPresenter<T>>, INewElementDialogModel

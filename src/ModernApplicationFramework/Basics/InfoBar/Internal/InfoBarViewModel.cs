@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using ModernApplicationFramework.Controls.Windows;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Controls;
@@ -17,14 +15,13 @@ namespace ModernApplicationFramework.Basics.InfoBar.Internal
 {
     internal sealed class InfoBarViewModel : ObservableObject, IThemableIconContainer
     {
-        private object _icon;
         public bool IsCloseButtonVisible { get; }
 
         internal InfoBarUiElement Owner { get; set; }
 
         public ICommand CloseCommand { get; }
 
-        public object IconSource { get; private set; }
+        public object IconSource { get; }
 
         public object Icon { get; set; }
 

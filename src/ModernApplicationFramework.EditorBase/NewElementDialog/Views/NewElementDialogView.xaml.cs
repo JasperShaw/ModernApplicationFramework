@@ -1,6 +1,4 @@
-﻿using System.Windows.Input;
-
-namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
+﻿namespace ModernApplicationFramework.EditorBase.NewElementDialog.Views
 {
     public partial class NewElementDialogView
     {

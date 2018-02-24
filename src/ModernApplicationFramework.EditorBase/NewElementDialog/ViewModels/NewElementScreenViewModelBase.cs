@@ -11,13 +11,14 @@ using System.Windows.Data;
 using Caliburn.Micro;
 using ModernApplicationFramework.Controls.ComboBox;
 using ModernApplicationFramework.Core.Events;
-using ModernApplicationFramework.EditorBase.Commands;
 using ModernApplicationFramework.EditorBase.Core;
 using ModernApplicationFramework.EditorBase.Interfaces;
+using ModernApplicationFramework.EditorBase.Interfaces.NewElement;
 using ModernApplicationFramework.Interfaces.Controls;
 using ListSortDirection = ModernApplicationFramework.EditorBase.Core.ListSortDirection;
+using NewElementPresenterView = ModernApplicationFramework.EditorBase.NewElementDialog.Views.NewElementPresenterView;
 
-namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
+namespace ModernApplicationFramework.EditorBase.NewElementDialog.ViewModels
 {
     public abstract class NewElementScreenViewModelBase<T> : Screen, IExtensionDialogItemPresenter<T>
     {
@@ -123,6 +124,9 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
             }
         }
 
+        public bool ProvidersUsed => Providers != null && Providers.Count != 0;
+
+
         public IEnumerable<IExtensionDefinition> Extensions
         {
             get => _itemSource;
@@ -214,6 +218,8 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
         {
             base.OnViewLoaded(view);
             PreSelectProvider();
+            if (Providers == null || !Providers.Any())
+                return;
             SelectedProviderTreeItem = Providers.First();
         }
 
@@ -221,7 +227,7 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
         {
             if (Providers == null || Providers.Count == 0)
                 return;
-            var firstProvider = Providers.First();
+            var firstProvider = Providers?.First();
             SelectedProviderTreeItem = firstProvider;
             firstProvider.ExtensionsTree.IsExpanded = true;
         }
@@ -240,7 +246,10 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
         {
             if (category == null)
                 return;
-            Extensions = category.Extensions;
+            if (category.Extensions == null || category.Extensions.Count == 0)
+                Extensions = new List<IExtensionDefinition>();
+            else
+                Extensions = category.Extensions;
         }
 
         protected virtual void OnCategorySelectionChanged(RoutedPropertyChangedEventArgs<object> e)

@@ -2,14 +2,15 @@
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using ModernApplicationFramework.EditorBase.Commands;
-using ModernApplicationFramework.EditorBase.Controls.NewElementDialog;
 using ModernApplicationFramework.EditorBase.Interfaces;
+using ModernApplicationFramework.EditorBase.Interfaces.NewElement;
+using ModernApplicationFramework.EditorBase.NewElementDialog.ViewModels;
 
-namespace ModernApplicationFramework.EditorBase.Controls.NewFileSectionExtension
+namespace ModernApplicationFramework.EditorBase.NewElementDialog
 {
-    [Export(typeof(NewFileSelectionScreenViewModel))]
+    [Export(typeof(INewFileSelectionModel))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class NewFileSelectionScreenViewModel : NewElementScreenViewModelBase<NewFileCommandArguments>
+    public class NewFileSelectionScreenViewModel : NewElementScreenViewModelBase<NewFileCommandArguments>, INewFileSelectionModel
     {
         public override bool UsesNameProperty => true;
 
@@ -20,10 +21,19 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewFileSectionExtension
         public override string NoItemsMessage => "No file templates found";
 
         public override string NoItemSelectedMessage => "No item selected";
-        public override ObservableCollection<INewElementExtensionsProvider> Providers => new ObservableCollection<INewElementExtensionsProvider>
+
+        public override ObservableCollection<INewElementExtensionsProvider> Providers => null;
+
+        protected override void OnInitialize()
         {
-            IoC.Get<InstalledFilesExtensionProvider>()
-        };
+            base.OnInitialize();
+            SetupExtensions();
+        }
+
+        protected virtual void SetupExtensions()
+        {
+            Extensions = IoC.Get<IEditorProvider>().SupportedFileDefinitions;
+        }
 
         public override NewFileCommandArguments CreateResult(string name, string path)
         {
@@ -31,5 +41,10 @@ namespace ModernApplicationFramework.EditorBase.Controls.NewFileSectionExtension
                 ? null
                 : new NewFileCommandArguments(name, fileArgument.FileType.FileExtension, fileArgument.PreferredEditor);
         }
+    }
+
+    public interface INewFileSelectionModel : IExtensionDialogItemPresenter<NewFileCommandArguments>
+    {
+
     }
 }

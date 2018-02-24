@@ -1,8 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:utilities="clr-namespace:ModernApplicationFramework.EditorBase.Interfaces">
+                    xmlns:utilities="clr-namespace:ModernApplicationFramework.EditorBase.Interfaces"
+                    xmlns:newElement="clr-namespace:ModernApplicationFramework.EditorBase.Interfaces.NewElement">
 
-    <DataTemplate x:Key="IExtensionDefinitionViewTemplate" DataType="{x:Type utilities:IExtensionDefinition}">
+    <DataTemplate x:Key="IExtensionDefinitionViewTemplate" DataType="{x:Type newElement:IExtensionDefinition}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="38"/>

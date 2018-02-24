@@ -10,7 +10,7 @@ using System.Windows.Media.Media3D;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Interfaces.Controls;
 
-namespace ModernApplicationFramework.EditorBase.Controls.NewElementDialog
+namespace ModernApplicationFramework.EditorBase.NewElementDialog.Views
 {
     public partial class NewElementPresenterView : IItemDoubleClickable
     {

@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
 using Caliburn.Micro;
 
-namespace ModernApplicationFramework.EditorBase.Interfaces
+namespace ModernApplicationFramework.EditorBase.Interfaces.NewElement
 {
     public interface INewElementDialogModel : IScreen
     {

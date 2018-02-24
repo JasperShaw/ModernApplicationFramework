@@ -1,11 +1,12 @@
 ﻿using System;
-using ModernApplicationFramework.Basics;
+using ModernApplicationFramework.EditorBase.Interfaces.NewElement;
 
 namespace ModernApplicationFramework.EditorBase.Interfaces
 {
     public interface ISupportedFileDefinition : IExtensionDefinition
     {      
         FileType FileType { get; }
+
         Type PreferredEditor { get; }     
     }
 }

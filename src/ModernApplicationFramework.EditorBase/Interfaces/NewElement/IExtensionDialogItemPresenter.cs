@@ -3,10 +3,9 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.Controls.ComboBox;
-using ModernApplicationFramework.EditorBase.Commands;
 using ModernApplicationFramework.Interfaces.Controls;
 
-namespace ModernApplicationFramework.EditorBase.Interfaces
+namespace ModernApplicationFramework.EditorBase.Interfaces.NewElement
 {
     public interface IExtensionDialogItemPresenter : IScreen, IItemDoubleClickable
     {
@@ -28,6 +27,8 @@ namespace ModernApplicationFramework.EditorBase.Interfaces
         INewElementExtensionsProvider SelectedProvider { get; set; }
 
         ObservableCollection<INewElementExtensionsProvider> Providers { get; }
+
+        bool ProvidersUsed { get; }
 
         IEnumerable<IExtensionDefinition> Extensions { get; set; }
 
