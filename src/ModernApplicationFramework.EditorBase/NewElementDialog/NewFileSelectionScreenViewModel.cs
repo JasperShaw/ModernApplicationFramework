@@ -12,7 +12,7 @@ namespace ModernApplicationFramework.EditorBase.NewElementDialog
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class NewFileSelectionScreenViewModel : NewElementScreenViewModelBase<NewFileCommandArguments>, INewFileSelectionModel
     {
-        public override bool UsesNameProperty => true;
+        public override bool UsesNameProperty => false;
 
         public override bool UsesPathProperty => false;
 
@@ -41,10 +41,5 @@ namespace ModernApplicationFramework.EditorBase.NewElementDialog
                 ? null
                 : new NewFileCommandArguments(name, fileArgument.FileType.FileExtension, fileArgument.PreferredEditor);
         }
-    }
-
-    public interface INewFileSelectionModel : IExtensionDialogItemPresenter<NewFileCommandArguments>
-    {
-
     }
 }

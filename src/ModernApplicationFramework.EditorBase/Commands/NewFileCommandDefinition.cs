@@ -8,7 +8,7 @@ using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.EditorBase.Interfaces;
 using ModernApplicationFramework.EditorBase.Interfaces.Layout;
-using ModernApplicationFramework.EditorBase.NewElementDialog;
+using ModernApplicationFramework.EditorBase.Interfaces.NewElement;
 using ModernApplicationFramework.EditorBase.NewElementDialog.ViewModels;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Input;
