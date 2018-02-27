@@ -21,9 +21,10 @@ namespace ModernApplicationFramework.Extended.Interfaces
         bool ShowFloatingWindowsInTaskbar { get; set; }
 
         void Close();
-        void CloseDocument(ILayoutItem document);
 
-        void OpenDocument(ILayoutItem model);
+        void CloseLayoutItem(ILayoutItem document);
+
+        void OpenLayoutItem(ILayoutItem model);
 
         void ShowTool<TTool>() where TTool : ITool;
 

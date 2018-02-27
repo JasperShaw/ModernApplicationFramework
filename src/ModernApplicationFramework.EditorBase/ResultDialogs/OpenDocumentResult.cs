@@ -51,15 +51,15 @@ namespace ModernApplicationFramework.EditorBase.ResultDialogs
 
             OnConfigure?.Invoke(editor);
 
-            editor.Deactivated += (s, e) =>
-            {
-                if (!e.WasClosed)
-                    return;
+            //editor.Deactivated += (s, e) =>
+            //{
+            //    if (!e.WasClosed)
+            //        return;
 
-                OnShutDown?.Invoke(editor);
-            };
+            //    OnShutDown?.Invoke(editor);
+            //};
 
-            _shell.OpenDocument(editor);
+            //_shell.OpenLayoutItem(editor);
 
             OnCompleted(null, false);
         }

@@ -12,7 +12,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.UndoRedoTest
 
         public void Activate(IDockingHostViewModel shell)
         {
-            shell?.OpenDocument(IoC.Get<UndoRedoViewModel>());
+            shell?.OpenLayoutItem(IoC.Get<UndoRedoViewModel>());
         }
     }
 }

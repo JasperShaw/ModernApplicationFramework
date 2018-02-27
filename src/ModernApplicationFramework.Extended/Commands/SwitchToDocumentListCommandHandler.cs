@@ -73,7 +73,7 @@ namespace ModernApplicationFramework.Extended.Commands
 
             private void ShowSelectedItem()
             {
-                IoC.Get<IDockingHostViewModel>().OpenDocument((ILayoutItem) CommandParamenter);
+                IoC.Get<IDockingHostViewModel>().OpenLayoutItem((ILayoutItem) CommandParamenter);
             }
         }
     }

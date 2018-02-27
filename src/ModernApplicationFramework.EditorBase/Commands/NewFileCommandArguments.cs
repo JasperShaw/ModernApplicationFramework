@@ -1,19 +1,23 @@
 ﻿using System;
+using ModernApplicationFramework.EditorBase.Interfaces;
 
 namespace ModernApplicationFramework.EditorBase.Commands
 {
     public class NewFileCommandArguments
     {
-        public NewFileCommandArguments(string name, string extension, Type editor)
+        public NewFileCommandArguments(ISupportedFileDefinition fileDefinition, string name, Type choosenEditor = null)
         {
-            FileName = name;
-            FileExtension = extension;
-            PreferredEditor = editor;
+            FileDefinition = fileDefinition ?? throw new ArgumentNullException();
+            FileName = name;    
+            if (choosenEditor == null)
+                Editor = fileDefinition.PreferredEditor;
+
         }
 
-        public string FileExtension { get; }
+        public ISupportedFileDefinition FileDefinition { get; }
+
         public string FileName { get; }
 
-        public Type PreferredEditor { get; }
+        public Type Editor { get; }
     }
 }

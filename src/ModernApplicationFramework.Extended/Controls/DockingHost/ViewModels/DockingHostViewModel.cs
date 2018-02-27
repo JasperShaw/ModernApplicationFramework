@@ -58,7 +58,7 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
             Application.Current.MainWindow?.Close();
         }
 
-        public virtual void CloseDocument(ILayoutItem document)
+        public virtual void CloseLayoutItem(ILayoutItem document)
         {
             DeactivateItem(document, true);
         }
@@ -66,7 +66,7 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
         public IDockingHost DockingHostView { get; protected set; }
         public IObservableCollection<ILayoutItem> Documents => Items;
 
-        public void OpenDocument(ILayoutItem model)
+        public void OpenLayoutItem(ILayoutItem model)
         {
             ActivateItem(model);
         }

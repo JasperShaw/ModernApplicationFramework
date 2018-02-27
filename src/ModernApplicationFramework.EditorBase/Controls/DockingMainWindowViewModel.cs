@@ -21,7 +21,7 @@ namespace ModernApplicationFramework.EditorBase.Controls
                 return;
             }
 
-            var saveList = storableDocuments.Select(item => new SaveDirtyDocumentItem(item.DisplayName)).ToList();
+            var saveList = storableDocuments.Select(item => new SaveDirtyDocumentItem(item.FileName)).ToList();
             var result = SaveDirtyDocumentsDialog.SaveDirtyDocumentsDialog.Show(saveList);
             switch (result)
             {

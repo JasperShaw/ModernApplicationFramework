@@ -12,7 +12,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.WindowProfileChange
 
         public void Activate(IDockingHostViewModel shell)
         {
-            shell?.OpenDocument(IoC.Get<WindowProfileChangeViewModel>());
+            shell?.OpenLayoutItem(IoC.Get<WindowProfileChangeViewModel>());
         }
     }
 }

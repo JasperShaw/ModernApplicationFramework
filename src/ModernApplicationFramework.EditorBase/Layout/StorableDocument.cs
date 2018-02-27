@@ -6,7 +6,8 @@ using ModernApplicationFramework.EditorBase.Interfaces.Layout;
 namespace ModernApplicationFramework.EditorBase.Layout
 {
     //TODO: At some point make it possible to change file properties (name/path/extension) in inspector
-    public abstract class StorableDocument : Document, IStorableDocument
+    //TODO: Then ResetState() should be removed
+    public sealed class StorableDocument : Document, IStorableDocument
     {
         private bool _isDirty;
 
@@ -18,67 +19,68 @@ namespace ModernApplicationFramework.EditorBase.Layout
                 if (value == _isDirty)
                     return;
                 _isDirty = value;
-                NotifyOfPropertyChange();
-                UpdateDisplayName();
+                OnPropertyChanged();
             }
         }
 
-        protected virtual bool AskForClose => true;
+        public bool AskForClose => true;
 
         public string FileName { get; private set; }
         public string FilePath { get; private set; }
 
         public bool IsNew { get; private set; }
 
+        private StorableDocument(string filePath, string fileName, bool isNew, bool isDirty)
+        {
+            FilePath = filePath;
+            FileName = fileName;
+            IsNew = isNew;
+            IsDirty = isDirty;
+        }
+
+        private StorableDocument(string fileName, bool isNew, bool isDirty) : this(null, fileName, isNew, isDirty)
+        {
+        }
+
         public async Task Load(string filePath)
         {
             FilePath = filePath;
             FileName = Path.GetFileName(filePath);
-            UpdateDisplayName();
 
             IsNew = false;
             IsDirty = false;
 
-            await LoadFile(filePath);
-        }
-
-        public async Task New(string fileName)
-        {
-            FileName = fileName;
-            UpdateDisplayName();
-
-            IsNew = true;
-            IsDirty = false;
-
-            await CreateNewFile();
+            //await LoadFile(filePath);
         }
 
         public async Task Save(string filePath)
         {
             FilePath = filePath;
             FileName = Path.GetFileName(filePath);
-            UpdateDisplayName();
 
-            await SaveFile(filePath);
+            //await SaveFile(filePath);
 
             IsDirty = false;
             IsNew = false;
         }
 
-        public override void CanClose(Action<bool> callback)
+        public void ResetState()
         {
-            callback(AskForClose);
+            IsDirty = false;
+            IsNew = false;
         }
 
-        protected abstract Task CreateNewFile();
-
-        protected abstract Task LoadFile(string filePath);
-
-        protected abstract Task SaveFile(string filePath);
-
-        private void UpdateDisplayName()
+        public static StorableDocument CreateNew(string fileName)
         {
-            DisplayName = IsDirty ? FileName + "*" : FileName;
+            return new StorableDocument(fileName, true, false);
+        }
+
+        public static StorableDocument OpenExisting(string filePath)
+        {
+            if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
+                throw new ArgumentException("File was not found");
+            var document = new StorableDocument(filePath, Path.GetFileName(filePath), false, false);
+            return document;
         }
     }
 }

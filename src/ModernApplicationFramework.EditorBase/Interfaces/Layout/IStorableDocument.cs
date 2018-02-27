@@ -14,8 +14,8 @@ namespace ModernApplicationFramework.EditorBase.Interfaces.Layout
 
         Task Load(string filePath);
 
-        Task New(string fileName);
-
         Task Save(string filePath);
+
+        void ResetState();
     }
 }

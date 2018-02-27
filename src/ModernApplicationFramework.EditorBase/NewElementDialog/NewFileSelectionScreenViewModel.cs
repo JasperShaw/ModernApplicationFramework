@@ -1,7 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
+using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.EditorBase.Commands;
+using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces;
 using ModernApplicationFramework.EditorBase.Interfaces.NewElement;
 using ModernApplicationFramework.EditorBase.NewElementDialog.ViewModels;
@@ -32,14 +34,15 @@ namespace ModernApplicationFramework.EditorBase.NewElementDialog
 
         protected virtual void SetupExtensions()
         {
-            Extensions = IoC.Get<IEditorProvider>().SupportedFileDefinitions;
+            Extensions = IoC.Get<FileDefinitionManager>().SupportedFileDefinitions
+                .Where(x => x.SupportedFileOperation.HasFlag(SupportedFileOperation.Create));
         }
 
         public override NewFileCommandArguments CreateResult(string name, string path)
         {
             return !(SelectedExtension is ISupportedFileDefinition fileArgument)
                 ? null
-                : new NewFileCommandArguments(name, fileArgument.FileType.FileExtension, fileArgument.PreferredEditor);
+                : new NewFileCommandArguments(fileArgument, "UniqueName");
         }
     }
 }

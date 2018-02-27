@@ -7,8 +7,10 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor;
 using ModernApplicationFramework.EditorBase.Interfaces;
 using ModernApplicationFramework.EditorBase.Interfaces.Layout;
+using ModernApplicationFramework.EditorBase.Layout;
 
 namespace ModernApplicationFramework.EditorBase.EditorProvider
 {
@@ -17,10 +19,10 @@ namespace ModernApplicationFramework.EditorBase.EditorProvider
     [Export(typeof(IEditorProvider))]
     public class EditorProvider : IEditorProvider
     {
-        private readonly FileDefinitionManager _fileDefinitionManager;
+        private readonly IFileDefinitionManager _fileDefinitionManager;
 
         [ImportingConstructor]
-        public EditorProvider(FileDefinitionManager fileDefinitionManager)
+        public EditorProvider(IFileDefinitionManager fileDefinitionManager)
         {
             _fileDefinitionManager = fileDefinitionManager;
         }
@@ -34,22 +36,21 @@ namespace ModernApplicationFramework.EditorBase.EditorProvider
             return extension != null && _fileDefinitionManager.GetDefinitionByExtension(extension) != null;
         }
 
-        public IDocument Create(Type editorType)
+        public IEditor Create(Type editorType)
         {
             var method = typeof(IoC).GetMethod("Get");
             method = method.MakeGenericMethod(editorType);
-            var editorToProve = method.Invoke(this, new object[] {null});
+            var editorToProve = method.Invoke(this, new object[] { null });
 
-            if (!(editorToProve is IDocument editor))
+            if (!(editorToProve is IEditor editor))
                 throw new NotSupportedException("The specified type was not from type IDocument");
 
             return editor;
         }
 
-        public async Task New(IStorableDocument document, string name)
+        public async Task New(IStorableEditor editor, string name)
         {
-            await document.New(name);
-
+            await editor.LoadFile(StorableDocument.CreateNew(name), name);
         }
 
         public async Task Open(IStorableDocument document, string path)

@@ -15,7 +15,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.SampleExplorer
 
         public override void Initialize()
         {
-            DockingHostViewModel.OpenDocument(IoC.Get<SampleViewModel>());
+            DockingHostViewModel.OpenLayoutItem(IoC.Get<SampleViewModel>());
             base.Initialize();
         }
     }

@@ -6,8 +6,10 @@ namespace ModernApplicationFramework.EditorBase.Interfaces
 {
     public interface ISupportedFileDefinition : IExtensionDefinition
     {      
-        FileType FileType { get; }
+        string FileExtension { get; }
 
-        Type PreferredEditor { get; }     
+        Type PreferredEditor { get; }    
+        
+        SupportedFileOperation SupportedFileOperation { get; }
     }
 }

@@ -1,50 +1,95 @@
 ﻿using System.ComponentModel.Composition;
 using System.IO;
 using System.Threading.Tasks;
-using ModernApplicationFramework.EditorBase.Layout;
+using ModernApplicationFramework.EditorBase.Interfaces.Layout;
+using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Extended.Layout;
+using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor
 {
     [Export(typeof(SimpleTextEditorViewModel))]
     [PartCreationPolicy(CreationPolicy.NonShared)] //Ensures we can create multiple documents at the same type
-    public class SimpleTextEditorViewModel : StorableDocument
+    public class SimpleTextEditorViewModel : StorableEditor
     {
-        private string _originalText;
+        private string _originalText = string.Empty;
 
-        private SimpleTextEditorView _view;
+        private string _text;
 
-        protected override Task CreateNewFile()
+        public string Text
         {
-            _originalText = string.Empty;
-            ApplyOriginalText();
-            return Task.FromResult(true);
+            get => _text;
+            set
+            {
+                if (value == _text)
+                    return;
+                _text = value;
+                Document.IsDirty = string.CompareOrdinal(_originalText, value) != 0;
+                UpdateDisplayName();
+                NotifyOfPropertyChange();
+            }
         }
 
-        protected override Task LoadFile(string filePath)
-        {
-            _originalText = File.ReadAllText(filePath);
-            ApplyOriginalText();
-            return Task.FromResult(true);
-        }
+        public override GestureScope GestureScope => GestureScopes.GlobalGestureScope;
 
-        protected override void OnViewLoaded(object view)
+        public override Task LoadFile(IStorableDocument document, string name)
         {
-            _view = (SimpleTextEditorView) view;
+            DisplayName = name;
+            Document = document;
+            if (!string.IsNullOrEmpty(document.FilePath) && File.Exists(document.FilePath))
+                _originalText = File.ReadAllText(document.FilePath);
+            return Task.FromResult(true);
         }
 
         protected override Task SaveFile(string filePath)
         {
-            var newText = _view.TextBox.Text;
-            File.WriteAllText(filePath, newText);
-            _originalText = newText;
+            File.WriteAllText(filePath, _text);
+            _originalText = _text;
             return Task.FromResult(true);
         }
+    }
 
-        private void ApplyOriginalText()
+    public abstract class StorableEditor : KeyBindingLayoutItem, IStorableEditor
+    {
+        public IStorableDocument Document { get; protected set; }
+
+        public async Task SaveFile()
         {
-            _view.TextBox.Text = _originalText;
-            _view.TextBox.TextChanged +=
-                delegate { IsDirty = string.CompareOrdinal(_originalText, _view.TextBox.Text) != 0; };
+            var filePath = Path.GetFileName(Document.FilePath);
+            await SaveFile(filePath);
+            Document.ResetState();
+        }
+
+        protected abstract Task SaveFile(string filePath);
+
+        public abstract Task LoadFile(IStorableDocument document, string name);
+        public virtual void UpdateDisplayName()
+        {
+            DisplayName = Document.IsDirty ? Document.FileName + "*" : Document.FileName;
         }
     }
+
+    public interface IStorableEditor : IEditor<IStorableDocument>
+    {
+        IStorableDocument Document { get; }
+
+        Task SaveFile();
+    }
+
+    public interface INormalEditor : IEditor<IDocument>
+    {
+        IDocument Document { get; }
+    }
+
+    public interface IEditor<in T> : IEditor where T : IDocument
+    {
+        Task LoadFile(T document, string name);
+    }
+
+    public interface IEditor : ILayoutItem, ICanHaveInputBindings
+    {
+        void UpdateDisplayName();
+    }
+
 }

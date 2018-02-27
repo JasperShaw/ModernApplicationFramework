@@ -2,15 +2,13 @@
 {
     public class FileType
     {
-        public FileType(string name, string fileExtension)
+        public FileType(string fileExtension)
         {
-            Name = name;
             FileExtension = fileExtension;
         }
 
         public FileType() {}
 
         public string FileExtension { get; set; }
-        public string Name { get; set; }
     }
 }

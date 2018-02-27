@@ -5,6 +5,7 @@ using ModernApplicationFramework.EditorBase.Layout;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.MyEditor
 {
+    /**
     [Export(typeof(MyTextEditorViewModel))]
     [PartCreationPolicy(CreationPolicy.NonShared)] //Ensures we can create multiple documents at the same type
     public class MyTextEditorViewModel : StorableDocument
@@ -47,4 +48,6 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.MyEditor
                 delegate { IsDirty = string.CompareOrdinal(_originalText, _view.TextBox.Text) != 0; };
         }
     }
+
+    **/
 }

@@ -124,9 +124,9 @@ namespace ModernApplicationFramework.WindowManagement.LayoutState
                         return;
                     }
                     var active = _dockingHostViewModel.ActiveItem; 
-                    _dockingHost.LoadLayout(reader.BaseStream, _dockingHostViewModel.ShowTool, _dockingHostViewModel.OpenDocument, layoutItems);
+                    _dockingHost.LoadLayout(reader.BaseStream, _dockingHostViewModel.ShowTool, _dockingHostViewModel.OpenLayoutItem, layoutItems);
                     if (_dockingHostViewModel.Documents.Contains(active))
-                        _dockingHostViewModel.OpenDocument(active);
+                        _dockingHostViewModel.OpenLayoutItem(active);
                 }
             }
             catch

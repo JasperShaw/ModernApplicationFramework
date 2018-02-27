@@ -21,7 +21,10 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
         public int SortOrder => 1;
         public string ApplicationContext => "General";
         public string Description => "Opens a plain text file";
-        public FileType FileType => new FileType("TextFile", ".txt");
+
+        public string FileExtension => ".txt";
+
         public Type PreferredEditor => typeof(SimpleTextEditorViewModel);
+        public SupportedFileOperation SupportedFileOperation => SupportedFileOperation.OpenCreate;
     }
 }

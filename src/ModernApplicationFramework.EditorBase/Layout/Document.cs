@@ -1,17 +1,16 @@
-﻿using System.Threading.Tasks;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using JetBrains.Annotations;
 using Microsoft.Win32;
 using ModernApplicationFramework.EditorBase.Interfaces.Layout;
-using ModernApplicationFramework.Extended.Interfaces;
-using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.EditorBase.Layout
 {
-    public abstract class Document : KeyBindingLayoutItem, IDocument
+    public abstract class Document : IDocument
     {
-        public override GestureScope GestureScope => GestureScopes.GlobalGestureScope;
-
         public ICommand SaveFileAsCommand => new Command(SaveFileAs, CanSaveFileAs);
         public ICommand SaveFileCommand => new Command(SaveFile, CanSaveFile);
 
@@ -77,6 +76,14 @@ namespace ModernApplicationFramework.EditorBase.Layout
                 return;
 
             await DoSaveAs(storableDocument);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

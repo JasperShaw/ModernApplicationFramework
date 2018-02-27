@@ -6,6 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-          <TextBox x:Name="TextBox" x:FieldModifier="public" TextWrapping="Wrap" AcceptsReturn="True"/>  
+          <TextBox x:Name="TextBox" x:FieldModifier="public" TextWrapping="Wrap" AcceptsReturn="True"
+                   Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"/>  
     </Grid>
 </UserControl>

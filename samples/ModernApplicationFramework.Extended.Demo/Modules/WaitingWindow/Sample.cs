@@ -12,7 +12,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.WaitingWindow
 
         public void Activate(IDockingHostViewModel shell)
         {
-            shell?.OpenDocument(IoC.Get<WaitingDialogDemoViewModel>());
+            shell?.OpenLayoutItem(IoC.Get<WaitingDialogDemoViewModel>());
         }
     }
 }

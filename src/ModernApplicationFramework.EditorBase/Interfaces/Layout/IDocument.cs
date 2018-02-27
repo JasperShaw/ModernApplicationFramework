@@ -1,9 +1,9 @@
-﻿using System.Windows.Input;
-using ModernApplicationFramework.Extended.Interfaces;
+﻿using System.ComponentModel;
+using System.Windows.Input;
 
 namespace ModernApplicationFramework.EditorBase.Interfaces.Layout
 {
-    public interface IDocument : ILayoutItem
+    public interface IDocument : INotifyPropertyChanged
     {
         ICommand SaveFileAsCommand { get; }
 

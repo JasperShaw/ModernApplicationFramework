@@ -6,8 +6,8 @@ using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor;
 using ModernApplicationFramework.EditorBase.Interfaces;
-using ModernApplicationFramework.EditorBase.Interfaces.Layout;
 using ModernApplicationFramework.EditorBase.Interfaces.NewElement;
 using ModernApplicationFramework.EditorBase.NewElementDialog.ViewModels;
 using ModernApplicationFramework.Extended.Interfaces;
@@ -76,23 +76,22 @@ namespace ModernApplicationFramework.EditorBase.Commands
 
             var result = vm.ResultData;
 
-            //TODO: Rework whole file creation
-            var editor = EditorProvider?.Create(result.PreferredEditor);
+            var editor = EditorProvider?.Create(result.Editor);
             var viewAware = (IViewAware) editor;
             if (viewAware != null)
                 viewAware.ViewAttached += (sender, e) =>
                 {
                     var frameworkElement = (FrameworkElement)e.View;
+                    frameworkElement.Loaded += LoadedHandler;
 
                     async void LoadedHandler(object sender2, RoutedEventArgs e2)
                     {
                         frameworkElement.Loaded -= LoadedHandler;
-                        await EditorProvider.New((IStorableDocument)editor, result.FileName + result.FileExtension);
+                        await EditorProvider.New((IStorableEditor) editor,
+                            result.FileName + result.FileDefinition.FileExtension);
                     }
-
-                    frameworkElement.Loaded += LoadedHandler;
                 };
-            IoC.Get<IDockingMainWindowViewModel>().DockingHost.OpenDocument(editor);
+            IoC.Get<IDockingMainWindowViewModel>().DockingHost.OpenLayoutItem(editor);
         }
     }
 }

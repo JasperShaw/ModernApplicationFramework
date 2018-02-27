@@ -12,7 +12,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.InfoBarDemo
 
         public void Activate(IDockingHostViewModel shell)
         {
-            shell?.OpenDocument(IoC.Get<InfoBarDemoViewModel>());
+            shell?.OpenLayoutItem(IoC.Get<InfoBarDemoViewModel>());
         }
     }
 }

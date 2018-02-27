@@ -5,14 +5,14 @@ using ModernApplicationFramework.Extended.Interfaces;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.MyEditor
 {
-    [Export(typeof(ISample))]
-    public class Sample : ISample
-    {
-        public string Name => "Simple Editor";
+    //[Export(typeof(ISample))]
+    //public class Sample : ISample
+    //{
+    //    public string Name => "Simple Editor";
 
-        public void Activate(IDockingHostViewModel shell)
-        {
-            shell?.OpenDocument(IoC.Get<MyTextEditorViewModel>());
-        }
-    }
+    //    public void Activate(IDockingHostViewModel shell)
+    //    {
+    //        shell?.OpenLayoutItem(IoC.Get<MyTextEditorViewModel>());
+    //    }
+    //}
 }
