@@ -28,11 +28,4 @@ namespace ModernApplicationFramework.EditorBase
             return SupportedFileDefinitions.FirstOrDefault(l => l.FileExtension.Contains(extension));
         }
     }
-
-    public interface IFileDefinitionManager
-    {
-        IEnumerable<ISupportedFileDefinition> SupportedFileDefinitions { get; }
-
-        ISupportedFileDefinition GetDefinitionByExtension(string extension);
-    }
 }

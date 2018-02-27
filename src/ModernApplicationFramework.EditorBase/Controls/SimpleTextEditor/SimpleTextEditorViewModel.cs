@@ -64,6 +64,7 @@ namespace ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor
         protected abstract Task SaveFile(string filePath);
 
         public abstract Task LoadFile(IStorableDocument document, string name);
+
         public virtual void UpdateDisplayName()
         {
             DisplayName = Document.IsDirty ? Document.FileName + "*" : Document.FileName;
