@@ -14,6 +14,7 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:converters1="clr-namespace:ModernApplicationFramework.EditorBase.Core.Converters"
              xmlns:newElement="clr-namespace:ModernApplicationFramework.EditorBase.Interfaces.NewElement"
+             xmlns:newElementDialog="clr-namespace:ModernApplicationFramework.EditorBase.NewElementDialog"
              mc:Ignorable="d" Background="{DynamicResource {x:Static themes:ColorResources.BackgroundBrush}}"
              d:DesignHeight="300" d:DesignWidth="600">
     <imaging:ImageThemingUtilities.ImageBackgroundColor>
@@ -72,7 +73,8 @@
                         </Grid.RowDefinitions>
                         <StackPanel Grid.Row="0" VerticalAlignment="Top" Orientation="Vertical" Margin="8,3,8,0">
                             <StackPanel Orientation="Horizontal" Margin="0,3,0,0">
-                                <TextBlock Text="Type:" FontWeight="Bold" Margin="0,0,0,0"/>
+                                <TextBlock Text="{x:Static newElementDialog:NewElementDialogResources.NewElementDetailsTypeLabel}" 
+                                           FontWeight="Bold" Margin="0,0,0,0"/>
                                 <TextBlock Margin="8,0,0,0" Text="{Binding Name}">
                                     <TextBlock.ToolTip>
                                         <TextBlock Style="{StaticResource TileToolTipStyle}" Text="{Binding Name}"/>
@@ -505,7 +507,9 @@
             </Grid.ColumnDefinitions>
             <DockPanel Grid.Row="0" Grid.ColumnSpan="3">
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" HorizontalAlignment="Stretch">
-                    <TextBlock VerticalAlignment="Center" Margin="4,0,4,0" DockPanel.Dock="Left" Text="Sort by:" Focusable="False"
+                    <TextBlock VerticalAlignment="Center" Margin="4,0,4,0" DockPanel.Dock="Left" 
+                               Text="{x:Static newElementDialog:NewElementDialogResources.NewElementSortByLabel}" 
+                               Focusable="False"
                                Foreground="{DynamicResource {x:Static themes:ColorResources.ContentTextBrush}}"/>
                     <mafc:ComboBox Width="160" x:Name="SortComboBox" VerticalAlignment="Center" DockPanel.Dock="Left" TabIndex="1" Margin="0,0,4,0"
                                    DataSource="{Binding SortDataSource}" ItemsSource="{Binding SortItems}">
@@ -552,7 +556,7 @@
                                         <Binding Source="{imaging:ImageSource ../../Resources/Images/List.png}"/>
                                         <Binding Path="(imaging:ImageThemingUtilities.ImageBackgroundColor)"
                                                  RelativeSource="{RelativeSource Self}"/>
-                                        <Binding Source="{x:Static util:Boxes.BooleanTrue}"></Binding>
+                                        <Binding Source="{x:Static util:Boxes.BooleanTrue}"/>
                                     </MultiBinding>
                                 </Image.Source>
                             </Image>

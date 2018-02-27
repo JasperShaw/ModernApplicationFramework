@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using JetBrains.Annotations;
 using ModernApplicationFramework.EditorBase.Interfaces.NewElement;
 
 namespace ModernApplicationFramework.EditorBase.NewElementDialog
@@ -39,6 +41,12 @@ namespace ModernApplicationFramework.EditorBase.NewElementDialog
             if (extension == null)
                 return;
             _extensions.Add(extension);
+        }
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

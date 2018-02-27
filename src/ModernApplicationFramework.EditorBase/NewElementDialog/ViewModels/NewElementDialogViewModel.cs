@@ -72,7 +72,9 @@ namespace ModernApplicationFramework.EditorBase.NewElementDialog.ViewModels
                 _itemPresenter.PropertyChanged += _itemPresenter_PropertyChanged;
                 _itemPresenter.ItemDoubledClicked += _itemPresenter_ItemDoubledClicked;
 
-                OkButtonText = _itemPresenter.CanOpenWith ? "Open" : "OK";
+                OkButtonText = _itemPresenter.CanOpenWith
+                    ? NewElementDialogResources.NewElementOpenButton
+                    : NewElementDialogResources.NewElementOkButton;
 
                 ActivateItem(value);
             }

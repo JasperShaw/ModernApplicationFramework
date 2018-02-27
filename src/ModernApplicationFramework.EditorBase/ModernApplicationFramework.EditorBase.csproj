@@ -69,6 +69,11 @@
     <Compile Include="Interfaces\NewElement\INewElementExtensionsProvider.cs" />
     <Compile Include="Interfaces\NewElement\INewElementExtensionTreeNode.cs" />
     <Compile Include="Interfaces\NewElement\INewFileSelectionModel.cs" />
+    <Compile Include="NewElementDialog\NewElementDialogResources.Designer.cs">
+      <DependentUpon>NewElementDialogResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="NewElementDialog\NewElementExtensionProvider.cs" />
     <Compile Include="NewElementDialog\NewElementExtensionTreeNode.cs" />
     <Compile Include="NewElementDialog\NewElementExtesionRootTreeNode.cs" />
@@ -124,6 +129,13 @@
     <Compile Include="ResultDialogs\OpenDocumentResult.cs" />
     <Compile Include="ResultDialogs\Show.cs" />
     <Compile Include="FileSupport\TextFileDefinition.cs" />
+    <EmbeddedResource Include="NewElementDialog\NewElementDialogResources.de.resx" />
+    <EmbeddedResource Include="NewElementDialog\NewElementDialogResources.en.resx" />
+    <EmbeddedResource Include="NewElementDialog\NewElementDialogResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>NewElementDialogResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewElementDialog\NewElementDialogResources.ru.resx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

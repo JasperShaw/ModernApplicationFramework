@@ -18,9 +18,9 @@ namespace ModernApplicationFramework.EditorBase.NewElementDialog
 
         public override bool CanOpenWith => true;
 
-        public override string NoItemsMessage => "No file templates found";
+        public override string NoItemsMessage => NewElementDialogResources.NewFileExtensionMessageNoItems;
 
-        public override string NoItemSelectedMessage => "No item selected";
+        public override string NoItemSelectedMessage => NewElementDialogResources.NewFileExtensionMessageNoSelectedItem;
 
         public override ObservableCollection<INewElementExtensionsProvider> Providers => null;
 

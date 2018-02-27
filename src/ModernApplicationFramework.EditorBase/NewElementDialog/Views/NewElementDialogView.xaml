@@ -6,6 +6,7 @@
              xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
              xmlns:styles="clr-namespace:ModernApplicationFramework.Core.Styles;assembly=ModernApplicationFramework"
              xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons;assembly=ModernApplicationFramework"
+             xmlns:newElementDialog="clr-namespace:ModernApplicationFramework.EditorBase.NewElementDialog"
              MinWidth="800" MinHeight="450" Background="{DynamicResource {x:Static themes:ColorResources.BackgroundLowerRegionBrush}}"
                    HasMaximizeButton="false" HasMinimizeButton="false" ResizeMode="CanResize" ShowInTaskbar="false"
                     SnapsToDevicePixels="true" WindowStartupLocation="Manual" Width="900" Height="600" Icon="{x:Null}"
@@ -44,7 +45,8 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto" MinWidth="272"/>
                 </Grid.ColumnDefinitions>
-                <Label VerticalAlignment="Center" Margin="7,0,0,0" Foreground="{DynamicResource {x:Static themes:ColorResources.BackgroundLowerRegionTextBrush}}" Content="Name:">
+                <Label VerticalAlignment="Center" Margin="7,0,0,0" Foreground="{DynamicResource {x:Static themes:ColorResources.BackgroundLowerRegionTextBrush}}" 
+                       Content="{x:Static newElementDialog:NewElementDialogResources.NewElementNameLabel}">
                     <Label.Target>
                         <Binding ElementName="CmbName"/>
                     </Label.Target>
@@ -60,7 +62,8 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto" MinWidth="272"/>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Margin="7,0,0,0" Foreground="{DynamicResource {x:Static themes:ColorResources.BackgroundLowerRegionTextBrush}}" Content="Destination:">
+                <Label Grid.Column="0" Margin="7,0,0,0" Foreground="{DynamicResource {x:Static themes:ColorResources.BackgroundLowerRegionTextBrush}}" 
+                       Content="{x:Static newElementDialog:NewElementDialogResources.NewElementDestinationLabel}">
                     <Label.Target>
                         <Binding ElementName="CmbLocation"/>
                     </Label.Target>
@@ -69,7 +72,8 @@
                                          Text="{Binding Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <Button Grid.Column="2" MinWidth="85" Margin="14,0,6,0" Padding="6,2,6,2" 
-                    VerticalAlignment="Center" HorizontalAlignment="Left" Command="{Binding BrowseCommand}">Browse...</Button>
+                    VerticalAlignment="Center" HorizontalAlignment="Left" Command="{Binding BrowseCommand}"
+                        Content="{x:Static newElementDialog:NewElementDialogResources.NewElementBrowseButton}"/>
             </Grid>
         </Grid>
         <StackPanel Background="{Binding RelativeSource={RelativeSource AncestorType={x:Type mafc:DialogWindow}}, Path=Background}" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
@@ -77,13 +81,15 @@
                                             IsDropDownButtonVisible="{Binding ItemPresenter.CanOpenWith}" Content="{Binding OkButtonText}">
                 <dialogButtons:DialogSplitDropDownButton.DropDownMenu>
                     <ContextMenu>
-                        <MenuItem Header="Open" Command="{Binding ApplyCommand}"/>
-                        <MenuItem Header="Open With..." Command="{Binding OpenWithCommand}"/>
+                        <MenuItem Header="{x:Static newElementDialog:NewElementDialogResources.NewElementOpenButtonItem}" 
+                                  Command="{Binding ApplyCommand}"/>
+                        <MenuItem Header="{x:Static newElementDialog:NewElementDialogResources.NewElementOpenWithButtonItem}" Command="{Binding OpenWithCommand}"/>
                     </ContextMenu>
                 </dialogButtons:DialogSplitDropDownButton.DropDownMenu>
             </dialogButtons:DialogSplitDropDownButton>
             <Button MinWidth="75" MinHeight="23" Margin="0,3,12,6" Padding="6,2,6,2" IsCancel="true"
-                    Style="{DynamicResource {x:Static styles:StyleResourceKeys.ThemedDialogButtonStyleKey}}">Cancel</Button>
+                    Style="{DynamicResource {x:Static styles:StyleResourceKeys.ThemedDialogButtonStyleKey}}"
+                    Content="{x:Static newElementDialog:NewElementDialogResources.NewElementCancelButton}"/>
         </StackPanel>
     </Grid>
 </mafc:DialogWindow>

@@ -166,14 +166,14 @@ namespace ModernApplicationFramework.EditorBase.NewElementDialog.ViewModels
         public virtual ObservableCollection<ISortingComboboxItem> SortItems { get; set; } =
             new ObservableCollection<ISortingComboboxItem>
             {
-                new SortingComboboxItem("Standard", ListSortDirection.Ascending, (s, t) =>
+                new SortingComboboxItem(NewElementDialogResources.NewElementSortDefault, ListSortDirection.Ascending, (s, t) =>
                     {
                         if ( s.SortOrder == t.SortOrder && s.Name != null && t.Name != null)
                             return string.Compare(s.Name, t.Name, StringComparison.CurrentCulture);
                         return s.SortOrder.CompareTo(t.SortOrder);
                     }),
-                new SortingComboboxItem("Name ascending", ListSortDirection.Ascending, NameCompare),
-                new SortingComboboxItem("Name descending", ListSortDirection.Descending, NameCompare)
+                new SortingComboboxItem(NewElementDialogResources.NewElementSortNameAsc, ListSortDirection.Ascending, NameCompare),
+                new SortingComboboxItem(NewElementDialogResources.NewElementSortNameDesc, ListSortDirection.Descending, NameCompare)
             };
 
         public ComboBoxDataSource SortDataSource
