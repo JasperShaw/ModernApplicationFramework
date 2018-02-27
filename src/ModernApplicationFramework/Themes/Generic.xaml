@@ -86,7 +86,9 @@
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/BalloonTooltip.xaml"/>
 
 
-        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/InfoBarHostControl.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/InfoBarHostControl.xaml"
+                            />
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/FormsListBoxItem.xaml"/>
         
     </ResourceDictionary.MergedDictionaries>
 

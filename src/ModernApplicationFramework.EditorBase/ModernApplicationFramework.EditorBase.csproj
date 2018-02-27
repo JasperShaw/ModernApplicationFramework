@@ -66,6 +66,10 @@
   <ItemGroup>
     <Compile Include="CommandBarDefinitions\MenuDefinitions\FileMenuDefinitions.cs" />
     <Compile Include="Commands\CloseActiveDocumentCommandDefinition.cs" />
+    <Compile Include="Controls\EditorSelectorDialog\EditorSelectorView.xaml.cs">
+      <DependentUpon>EditorSelectorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EditorSelectorDialog\EditorSelectorViewModel.cs" />
     <Compile Include="Interfaces\IFileDefinitionManager.cs" />
     <Compile Include="Interfaces\NewElement\INewElementExtensionsProvider.cs" />
     <Compile Include="Interfaces\NewElement\INewElementExtensionTreeNode.cs" />
@@ -159,6 +163,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\EditorSelectorDialog\EditorSelectorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="NewElementDialog\Views\NewElementPresenterView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

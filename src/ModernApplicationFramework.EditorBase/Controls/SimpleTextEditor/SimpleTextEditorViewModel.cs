@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using System.IO;
 using System.Threading.Tasks;
 using ModernApplicationFramework.EditorBase.Interfaces.Layout;
@@ -9,9 +10,10 @@ using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor
 {
+    [Export(typeof(IEditor))]
     [Export(typeof(SimpleTextEditorViewModel))]
     [PartCreationPolicy(CreationPolicy.NonShared)] //Ensures we can create multiple documents at the same type
-    public class SimpleTextEditorViewModel : StorableEditor
+    public sealed class SimpleTextEditorViewModel : StorableEditor
     {
         private string _originalText = string.Empty;
 
@@ -42,6 +44,9 @@ namespace ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor
             return Task.FromResult(true);
         }
 
+        public override Guid EditorId => new Guid("{8DC81487-9A02-4C83-847D-C5869BC6F647}");
+        public override string Name => "Simple TextEditor";
+
         protected override Task SaveFile(string filePath)
         {
             File.WriteAllText(filePath, _text);
@@ -64,6 +69,9 @@ namespace ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor
         protected abstract Task SaveFile(string filePath);
 
         public abstract Task LoadFile(IStorableDocument document, string name);
+
+        public abstract Guid EditorId { get; }
+        public abstract string Name { get; }
 
         public virtual void UpdateDisplayName()
         {
@@ -90,6 +98,10 @@ namespace ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor
 
     public interface IEditor : ILayoutItem, ICanHaveInputBindings
     {
+        Guid EditorId { get; }
+
+        string Name { get; }
+
         void UpdateDisplayName();
     }
 

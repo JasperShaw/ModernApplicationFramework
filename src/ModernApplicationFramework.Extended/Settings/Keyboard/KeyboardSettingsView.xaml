@@ -9,6 +9,7 @@
              xmlns:comparers="clr-namespace:ModernApplicationFramework.Core.Comparers;assembly=ModernApplicationFramework"
              xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General;assembly=ModernApplicationFramework"
+             xmlns:styles="clr-namespace:ModernApplicationFramework.Core.Styles;assembly=ModernApplicationFramework"
              mc:Ignorable="d" d:DesignWidth="460" d:DesignHeight="300">
     <FrameworkElement.Resources>
 
@@ -126,7 +127,7 @@
                                          TextSearch.TextPath="TrimmedCategoryCommandName"
                                          ItemTemplate="{StaticResource CommandNameDataTemplate}"
                                          CustomSort="{StaticResource CategoryCommandTextComparer}"
-                                         ItemContainerStyle="{StaticResource FormsListBoxItemStyle}">
+                                         ItemContainerStyle="{DynamicResource {x:Static styles:StyleResourceKeys.FormsListViewItemStyleKey}}">
             </listBoxes:CustomSortListBox>
 
             <Grid Grid.Row="2">

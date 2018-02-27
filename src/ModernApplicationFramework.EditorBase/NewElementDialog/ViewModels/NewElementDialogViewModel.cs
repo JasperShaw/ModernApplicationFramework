@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Input;
 using Caliburn.Micro;
@@ -95,6 +96,7 @@ namespace ModernApplicationFramework.EditorBase.NewElementDialog.ViewModels
         }
 
         public ICommand ApplyCommand => new UICommand(Apply, CanApply);
+        public ICommand OpenWithCommand => new UICommand(OpenWith, CanOpenWith);
 
         public ICommand BrowseCommand => new UICommand(Browse, CanBrowse);
 
@@ -103,6 +105,16 @@ namespace ModernApplicationFramework.EditorBase.NewElementDialog.ViewModels
         private void Apply()
         {
             ResultData = ItemPresenter.CreateResult(Name, Path);
+            if (ResultData == null)
+                TryClose(false);
+            TryClose(true);
+        }
+
+        private void OpenWith()
+        {
+            if (!ItemPresenter.CanOpenWith)
+                throw new InvalidOperationException("Can not perform OpenWith() action in non OpenWith context");
+            ResultData = ItemPresenter.CreateResultOpenWith(Name, Path);
             if (ResultData == null)
                 TryClose(false);
             TryClose(true);
@@ -120,12 +132,17 @@ namespace ModernApplicationFramework.EditorBase.NewElementDialog.ViewModels
         {
             if (!ItemPresenter.UsesNameProperty && !ItemPresenter.UsesPathProperty && ItemPresenter.SelectedExtension != null)
                 return true;
-            bool result = !(ItemPresenter.UsesPathProperty && !WindowsFileNameHelper.IsValidPath(Path));
+            var result = !(ItemPresenter.UsesPathProperty && !WindowsFileNameHelper.IsValidPath(Path));
             if (ItemPresenter.UsesNameProperty && !WindowsFileNameHelper.IsValidFileName(Name))
                 result = false;
             if (ItemPresenter.SelectedExtension == null)
                 result = false;
             return result;
+        }
+
+        private bool CanOpenWith()
+        {
+            return _itemPresenter.CanOpenWith && CanApply();
         }
 
         private bool CanBrowse() => ItemPresenter.UsesPathProperty;

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Controls.ComboBox;
 using ModernApplicationFramework.Interfaces.Controls;
@@ -51,5 +52,7 @@ namespace ModernApplicationFramework.EditorBase.Interfaces.NewElement
     public interface IExtensionDialogItemPresenter<out T> : IExtensionDialogItemPresenter
     {
         T CreateResult(string name, string path);
+
+        T CreateResultOpenWith(string name, string path);
     }
 }

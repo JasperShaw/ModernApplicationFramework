@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.EditorBase.Commands;
+using ModernApplicationFramework.EditorBase.Controls.EditorSelectorDialog;
 using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces;
 using ModernApplicationFramework.EditorBase.Interfaces.NewElement;
@@ -43,6 +44,17 @@ namespace ModernApplicationFramework.EditorBase.NewElementDialog
             return !(SelectedExtension is ISupportedFileDefinition fileArgument)
                 ? null
                 : new NewFileCommandArguments(fileArgument, "UniqueName");
+        }
+
+        public override NewFileCommandArguments CreateResultOpenWith(string name, string path)
+        {
+            var selectorModel = IoC.Get<IEditorSelectorViewModel>();
+            selectorModel.TargetExtension = SelectedExtension;
+            if (IoC.Get<IWindowManager>().ShowDialog(selectorModel) != true)
+                return null;
+            if (!(SelectedExtension is ISupportedFileDefinition fileArgument))
+                return null;
+            return new NewFileCommandArguments(fileArgument, "UniqueName", selectorModel.Result.GetType());
         }
     }
 }

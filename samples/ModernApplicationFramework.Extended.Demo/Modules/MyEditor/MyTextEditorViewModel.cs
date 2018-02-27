@@ -1,53 +1,57 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using System.IO;
 using System.Threading.Tasks;
-using ModernApplicationFramework.EditorBase.Layout;
+using ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor;
+using ModernApplicationFramework.EditorBase.Interfaces.Layout;
+using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.MyEditor
 {
-    /**
     [Export(typeof(MyTextEditorViewModel))]
-    [PartCreationPolicy(CreationPolicy.NonShared)] //Ensures we can create multiple documents at the same type
-    public class MyTextEditorViewModel : StorableDocument
+    [Export(typeof(IEditor))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
+    public class MyTextEditorViewModel : StorableEditor
     {
-        private string _originalText;
+        public override GestureScope GestureScope => GestureScopes.GlobalGestureScope;
 
-        private MyTextEditorView _view;
+        public override Guid EditorId => new Guid("{4198960C-B3DA-4319-885B-7F6E13F1FAAF}");
+        public override string Name => "Simple BlackEditor";
 
-        protected override Task CreateNewFile()
+
+        private string _originalText = string.Empty;
+
+        private string _text;
+
+        public string Text
         {
-            _originalText = string.Empty;
-            ApplyOriginalText();
-            return Task.FromResult(true);
+            get => _text;
+            set
+            {
+                if (value == _text)
+                    return;
+                _text = value;
+                Document.IsDirty = string.CompareOrdinal(_originalText, value) != 0;
+                UpdateDisplayName();
+                NotifyOfPropertyChange();
+            }
         }
 
-        protected override Task LoadFile(string filePath)
+        public override Task LoadFile(IStorableDocument document, string name)
         {
-            _originalText = File.ReadAllText(filePath);
-            ApplyOriginalText();
+            DisplayName = name;
+            Document = document;
+            if (!string.IsNullOrEmpty(document.FilePath) && File.Exists(document.FilePath))
+                _originalText = File.ReadAllText(document.FilePath);
             return Task.FromResult(true);
-        }
-
-        protected override void OnViewLoaded(object view)
-        {
-            _view = (MyTextEditorView) view;
         }
 
         protected override Task SaveFile(string filePath)
         {
-            var newText = _view.TextBox.Text;
-            File.WriteAllText(filePath, newText);
-            _originalText = newText;
+            File.WriteAllText(filePath, _text);
+            _originalText = _text;
             return Task.FromResult(true);
         }
 
-        private void ApplyOriginalText()
-        {
-            _view.TextBox.Text = _originalText;
-            _view.TextBox.TextChanged +=
-                delegate { IsDirty = string.CompareOrdinal(_originalText, _view.TextBox.Text) != 0; };
-        }
     }
-
-    **/
 }

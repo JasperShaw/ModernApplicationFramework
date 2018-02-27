@@ -7,6 +7,7 @@ namespace ModernApplicationFramework.Core.Styles
         private static ComponentResourceKey _themedDialogButtonStyleKey;
         private static ComponentResourceKey _themedListViewStyleKey;
         private static ComponentResourceKey _themedListViewItemStyleKey;
+        private static ComponentResourceKey _formsListViewItemStyleKey;
 
         public static ComponentResourceKey ThemedDialogButtonStyleKey => _themedDialogButtonStyleKey ??
                                                                      (_themedDialogButtonStyleKey = new ComponentResourceKey(typeof(StyleResourceKeys), nameof(ThemedDialogButtonStyleKey)));
@@ -16,5 +17,8 @@ namespace ModernApplicationFramework.Core.Styles
 
         public static ComponentResourceKey ThemedListViewItemStyleKey => _themedListViewItemStyleKey ??
                                                                      (_themedListViewItemStyleKey = new ComponentResourceKey(typeof(StyleResourceKeys), nameof(ThemedListViewItemStyleKey)));
+
+        public static ComponentResourceKey FormsListViewItemStyleKey => _formsListViewItemStyleKey ??
+                                                                         (_formsListViewItemStyleKey = new ComponentResourceKey(typeof(StyleResourceKeys), nameof(FormsListViewItemStyleKey)));
     }
 }

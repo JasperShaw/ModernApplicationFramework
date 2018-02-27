@@ -194,6 +194,8 @@ namespace ModernApplicationFramework.EditorBase.NewElementDialog.ViewModels
 
         public abstract T CreateResult(string name, string path);
 
+        public abstract T CreateResultOpenWith(string name, string path);
+
         protected override void OnViewAttached(object view, object context)
         {
             base.OnViewAttached(view, context);

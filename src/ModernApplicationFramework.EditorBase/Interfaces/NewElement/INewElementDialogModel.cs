@@ -7,6 +7,8 @@ namespace ModernApplicationFramework.EditorBase.Interfaces.NewElement
     {
         ICommand ApplyCommand { get; }
 
+        ICommand OpenWithCommand { get; }
+
         ICommand BrowseCommand { get; }
 
         string Name { get; set; }

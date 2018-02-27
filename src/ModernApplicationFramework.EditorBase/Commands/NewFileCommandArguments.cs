@@ -8,9 +8,8 @@ namespace ModernApplicationFramework.EditorBase.Commands
         public NewFileCommandArguments(ISupportedFileDefinition fileDefinition, string name, Type choosenEditor = null)
         {
             FileDefinition = fileDefinition ?? throw new ArgumentNullException();
-            FileName = name;    
-            if (choosenEditor == null)
-                Editor = fileDefinition.PreferredEditor;
+            FileName = name;
+            Editor = choosenEditor == null ? fileDefinition.PreferredEditor : choosenEditor;
 
         }
 

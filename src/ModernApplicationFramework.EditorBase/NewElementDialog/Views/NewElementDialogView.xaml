@@ -83,7 +83,8 @@
                     <ContextMenu>
                         <MenuItem Header="{x:Static newElementDialog:NewElementDialogResources.NewElementOpenButtonItem}" 
                                   Command="{Binding ApplyCommand}"/>
-                        <MenuItem Header="{x:Static newElementDialog:NewElementDialogResources.NewElementOpenWithButtonItem}" Command="{Binding OpenWithCommand}"/>
+                        <MenuItem Header="{x:Static newElementDialog:NewElementDialogResources.NewElementOpenWithButtonItem}" 
+                                  Command="{Binding OpenWithCommand}"/>
                     </ContextMenu>
                 </dialogButtons:DialogSplitDropDownButton.DropDownMenu>
             </dialogButtons:DialogSplitDropDownButton>
