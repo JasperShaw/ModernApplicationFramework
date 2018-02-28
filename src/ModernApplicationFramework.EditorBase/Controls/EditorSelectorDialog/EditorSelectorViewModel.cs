@@ -5,6 +5,7 @@ using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor;
 using ModernApplicationFramework.EditorBase.Interfaces;
+using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.NewElement;
 using ModernApplicationFramework.EditorBase.Interfaces.Settings;
 using ModernApplicationFramework.Input.Command;

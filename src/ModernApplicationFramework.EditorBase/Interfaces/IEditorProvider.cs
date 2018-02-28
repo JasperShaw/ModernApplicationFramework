@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor;
-using ModernApplicationFramework.EditorBase.Interfaces.Layout;
+using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 
 namespace ModernApplicationFramework.EditorBase.Interfaces
 {

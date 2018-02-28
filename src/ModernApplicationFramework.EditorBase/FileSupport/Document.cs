@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using JetBrains.Annotations;
 using Microsoft.Win32;
-using ModernApplicationFramework.EditorBase.Interfaces.Layout;
+using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Input.Command;
 
-namespace ModernApplicationFramework.EditorBase.Layout
+namespace ModernApplicationFramework.EditorBase.FileSupport
 {
     public abstract class Document : IDocument
     {

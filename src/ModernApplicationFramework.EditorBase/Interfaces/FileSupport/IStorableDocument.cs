@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace ModernApplicationFramework.EditorBase.Interfaces.Layout
+namespace ModernApplicationFramework.EditorBase.Interfaces.FileSupport
 {
     public interface IStorableDocument : IDocument
     {

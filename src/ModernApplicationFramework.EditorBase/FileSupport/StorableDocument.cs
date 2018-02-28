@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using ModernApplicationFramework.EditorBase.Interfaces.Layout;
+using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 
-namespace ModernApplicationFramework.EditorBase.Layout
+namespace ModernApplicationFramework.EditorBase.FileSupport
 {
     //TODO: At some point make it possible to change file properties (name/path/extension) in inspector
     //TODO: Then ResetState() should be removed

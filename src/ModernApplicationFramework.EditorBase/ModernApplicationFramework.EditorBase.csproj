@@ -80,7 +80,7 @@
     <Compile Include="Interfaces\IEditorSelectorViewModel.cs" />
     <Compile Include="Interfaces\IEditorSelectorViewModelInternal.cs" />
     <Compile Include="Guids.cs" />
-    <Compile Include="Interfaces\IFileDefinitionManager.cs" />
+    <Compile Include="Interfaces\FileSupport\IFileDefinitionManager.cs" />
     <Compile Include="Interfaces\NewElement\INewElementExtensionsProvider.cs" />
     <Compile Include="Interfaces\NewElement\INewElementExtensionTreeNode.cs" />
     <Compile Include="Interfaces\NewElement\INewFileSelectionModel.cs" />
@@ -121,7 +121,7 @@
     <Compile Include="Core\TreeNodeStyleSelector.cs" />
     <Compile Include="EditorProvider\EditorProvider.cs" />
     <Compile Include="EditorProvider\EditorProviderHelper.cs" />
-    <Compile Include="FileDefinitionManager.cs" />
+    <Compile Include="FileSupport\FileDefinitionManager.cs" />
     <Compile Include="FileSupport\FileType.cs" />
     <Compile Include="Interfaces\IEditorProvider.cs" />
     <Compile Include="Interfaces\NewElement\IExtensionDefinition.cs" />
@@ -129,11 +129,11 @@
     <Compile Include="Interfaces\NewElement\INewElementDialogModel.cs" />
     <Compile Include="Interfaces\ISaveDirtyDocumentsDialog.cs" />
     <Compile Include="Interfaces\ISortingComboboxItem.cs" />
-    <Compile Include="Interfaces\ISupportedFileDefinition.cs" />
-    <Compile Include="Interfaces\Layout\IDocument.cs" />
-    <Compile Include="Interfaces\Layout\IStorableDocument.cs" />
-    <Compile Include="Layout\Document.cs" />
-    <Compile Include="Layout\StorableDocument.cs" />
+    <Compile Include="Interfaces\FileSupport\ISupportedFileDefinition.cs" />
+    <Compile Include="Interfaces\FileSupport\IDocument.cs" />
+    <Compile Include="Interfaces\FileSupport\IStorableDocument.cs" />
+    <Compile Include="FileSupport\Document.cs" />
+    <Compile Include="FileSupport\StorableDocument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

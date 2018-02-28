@@ -2,7 +2,7 @@
 using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.NewElement;
 
-namespace ModernApplicationFramework.EditorBase.Interfaces
+namespace ModernApplicationFramework.EditorBase.Interfaces.FileSupport
 {
     public interface ISupportedFileDefinition : IExtensionDefinition
     {      

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ModernApplicationFramework.EditorBase.Interfaces
+namespace ModernApplicationFramework.EditorBase.Interfaces.FileSupport
 {
     public interface IFileDefinitionManager
     {

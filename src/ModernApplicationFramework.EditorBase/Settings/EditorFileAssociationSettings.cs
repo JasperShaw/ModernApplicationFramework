@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor;
 using ModernApplicationFramework.EditorBase.Interfaces;
+using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.Settings;
 using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Settings.SettingDataModel;

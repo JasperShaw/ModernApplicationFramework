@@ -1,4 +1,4 @@
-﻿using ModernApplicationFramework.EditorBase.Interfaces.Layout;
+﻿using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 
 namespace ModernApplicationFramework.EditorBase.ResultDialogs
 {

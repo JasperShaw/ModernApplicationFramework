@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows.Input;
 
-namespace ModernApplicationFramework.EditorBase.Interfaces.Layout
+namespace ModernApplicationFramework.EditorBase.Interfaces.FileSupport
 {
     public interface IDocument : INotifyPropertyChanged
     {

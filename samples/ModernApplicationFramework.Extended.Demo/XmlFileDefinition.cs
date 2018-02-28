@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.Windows.Media.Imaging;
 using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces;
+using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Extended.Demo.Modules.MyEditor;
 
 namespace ModernApplicationFramework.Extended.Demo

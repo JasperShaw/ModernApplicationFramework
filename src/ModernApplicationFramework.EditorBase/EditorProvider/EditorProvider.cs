@@ -8,9 +8,9 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor;
+using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces;
-using ModernApplicationFramework.EditorBase.Interfaces.Layout;
-using ModernApplicationFramework.EditorBase.Layout;
+using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 
 namespace ModernApplicationFramework.EditorBase.EditorProvider
 {

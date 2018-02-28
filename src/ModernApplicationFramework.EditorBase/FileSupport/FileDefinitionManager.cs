@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using ModernApplicationFramework.EditorBase.Interfaces;
+using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 
-namespace ModernApplicationFramework.EditorBase
+namespace ModernApplicationFramework.EditorBase.FileSupport
 {
     [Export(typeof(IFileDefinitionManager))]
     public class FileDefinitionManager : IFileDefinitionManager

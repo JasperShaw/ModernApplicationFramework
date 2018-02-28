@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
 using ModernApplicationFramework.EditorBase.Controls.SaveDirtyDocumentsDialog;
-using ModernApplicationFramework.EditorBase.Interfaces.Layout;
+using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Extended.Interfaces;
 
 namespace ModernApplicationFramework.EditorBase.Controls

@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Threading.Tasks;
 using ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor;
-using ModernApplicationFramework.EditorBase.Interfaces.Layout;
+using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.MyEditor

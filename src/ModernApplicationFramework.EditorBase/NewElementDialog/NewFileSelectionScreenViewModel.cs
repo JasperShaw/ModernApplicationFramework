@@ -6,6 +6,7 @@ using ModernApplicationFramework.EditorBase.Commands;
 using ModernApplicationFramework.EditorBase.Controls.EditorSelectorDialog;
 using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces;
+using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.NewElement;
 using ModernApplicationFramework.EditorBase.NewElementDialog.ViewModels;
 
