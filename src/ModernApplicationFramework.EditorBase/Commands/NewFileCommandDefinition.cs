@@ -9,6 +9,7 @@ using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor;
 using ModernApplicationFramework.EditorBase.Interfaces;
 using ModernApplicationFramework.EditorBase.Interfaces.NewElement;
+using ModernApplicationFramework.EditorBase.NewElementDialog;
 using ModernApplicationFramework.EditorBase.NewElementDialog.ViewModels;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Input;
@@ -20,11 +21,30 @@ namespace ModernApplicationFramework.EditorBase.Commands
     [Export(typeof(NewFileCommandDefinition))]
     public sealed class NewFileCommandDefinition : CommandDefinition
     {
-
         private IEditorProvider _editorProvider;
 
         private IEditorProvider EditorProvider => _editorProvider ?? (_editorProvider = IoC.Get<IEditorProvider>());
 
+        public override UICommand Command { get; }
+
+        public override MultiKeyGesture DefaultKeyGesture { get; }
+        public override GestureScope DefaultGestureScope { get; }
+
+        public override string IconId => "NewFileIcon";
+
+        public override CommandCategory Category => CommandCategories.FileCommandCategory;
+
+        public override Guid Id => new Guid("{B33B7AA8-2FB6-4F80-88A2-3F97878273F3}");
+
+        public override Uri IconSource
+            =>
+                new Uri("/ModernApplicationFramework.EditorBase;component/Resources/Icons/VSO_NewFile_16x.xaml",
+                    UriKind.RelativeOrAbsolute);
+
+        public override string Name => CommandsResources.NewFileCommandName;
+        public override string NameUnlocalized => "New File";
+        public override string Text => Name;
+        public override string ToolTip => Name;
 
         public NewFileCommandDefinition()
         {
@@ -33,29 +53,6 @@ namespace ModernApplicationFramework.EditorBase.Commands
             DefaultKeyGesture = new MultiKeyGesture(Key.N, ModifierKeys.Control);
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
         }
-
-        public override UICommand Command { get; }
-
-        public override MultiKeyGesture DefaultKeyGesture { get; }
-        public override GestureScope DefaultGestureScope { get; }
-
-        //public override string IconId => "NewFileIcon";
-        public override string IconId => null;
-        public override CommandCategory Category => CommandCategories.FileCommandCategory;
-
-        public override Guid Id => new Guid("{B33B7AA8-2FB6-4F80-88A2-3F97878273F3}");
-
-        public override Uri IconSource => null; 
-
-        //public override Uri IconSource
-        //    =>
-        //        new Uri("/ModernApplicationFramework.MVVM;component/Resources/Icons/NewFile_16x.xaml",
-        //            UriKind.RelativeOrAbsolute);
-
-        public override string Name => "New File";
-        public override string NameUnlocalized => "New File";
-        public override string Text => Name;
-        public override string ToolTip => Name;
 
         private bool CanCreateNewFile()
         {
@@ -68,7 +65,7 @@ namespace ModernApplicationFramework.EditorBase.Commands
 
             var presenter = IoC.Get<INewFileSelectionModel>();
             vm.ItemPresenter = presenter;
-            vm.DisplayName = "New File";
+            vm.DisplayName = NewElementDialogResources.NewFileDialogWindowTitle;
 
             var windowManager = IoC.Get<IWindowManager>();
             if (windowManager.ShowDialog(vm) != true)

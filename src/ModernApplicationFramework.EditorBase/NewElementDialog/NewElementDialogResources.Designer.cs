@@ -178,6 +178,15 @@ namespace ModernApplicationFramework.EditorBase.NewElementDialog {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die New File ähnelt.
+        /// </summary>
+        public static string NewFileDialogWindowTitle {
+            get {
+                return ResourceManager.GetString("NewFileDialogWindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die No file templates found ähnelt.
         /// </summary>
         public static string NewFileExtensionMessageNoItems {

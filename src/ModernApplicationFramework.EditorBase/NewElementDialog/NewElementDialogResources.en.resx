@@ -162,4 +162,7 @@
   <data name="NewFileExtensionMessageNoSelectedItem" xml:space="preserve">
     <value>No item selected</value>
   </data>
+  <data name="NewFileDialogWindowTitle" xml:space="preserve">
+    <value>New File</value>
+  </data>
 </root>

@@ -67,6 +67,11 @@
   <ItemGroup>
     <Compile Include="CommandBarDefinitions\MenuDefinitions\FileMenuDefinitions.cs" />
     <Compile Include="Commands\CloseActiveDocumentCommandDefinition.cs" />
+    <Compile Include="Commands\CommandsResources.Designer.cs">
+      <DependentUpon>CommandsResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Controls\EditorSelectorDialog\EditorListItem.cs" />
     <Compile Include="Controls\EditorSelectorDialog\EditorSelectorView.xaml.cs">
       <DependentUpon>EditorSelectorView.xaml</DependentUpon>
@@ -147,6 +152,12 @@
     <Compile Include="Settings\EditorFileAssociationSettings.cs" />
     <Compile Include="Settings\EditorSettingsCategory.cs" />
     <Compile Include="Interfaces\Settings\IEditorFileAssociationSettings.cs" />
+    <EmbeddedResource Include="Commands\CommandsResources.de.resx" />
+    <EmbeddedResource Include="Commands\CommandsResources.en.resx" />
+    <EmbeddedResource Include="Commands\CommandsResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommandsResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\EditorSelectorDialog\EditorSelectorResources.de.resx" />
     <EmbeddedResource Include="Controls\EditorSelectorDialog\EditorSelectorResources.en.resx" />
     <EmbeddedResource Include="Controls\EditorSelectorDialog\EditorSelectorResources.resx">
@@ -202,6 +213,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\SimpleTextEditor\SimpleTextEditorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Icons\VSO_NewFile_16x.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

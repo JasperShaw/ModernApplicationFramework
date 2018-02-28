@@ -117,52 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NewElementNameLabel" xml:space="preserve">
-    <value>_Name:</value>
-  </data>
-  <data name="NewElementDestinationLabel" xml:space="preserve">
-    <value>Speicher_ort</value>
-  </data>
-  <data name="NewElementBrowseButton" xml:space="preserve">
-    <value>_Durchsuchen...</value>
-  </data>
-  <data name="NewElementCancelButton" xml:space="preserve">
-    <value>Abbrechen</value>
-  </data>
-  <data name="NewElementOpenButtonItem" xml:space="preserve">
-    <value>Öffnen</value>
-  </data>
-  <data name="NewElementOpenWithButtonItem" xml:space="preserve">
-    <value>Öffnen mit...</value>
-  </data>
-  <data name="NewElementOpenButton" xml:space="preserve">
-    <value>Ö_ffnen</value>
-  </data>
-  <data name="NewElementOkButton" xml:space="preserve">
-    <value>OK</value>
-  </data>
-  <data name="NewElementSortByLabel" xml:space="preserve">
-    <value>Sortieren nach:</value>
-  </data>
-  <data name="NewElementDetailsTypeLabel" xml:space="preserve">
-    <value>Typ:</value>
-  </data>
-  <data name="NewElementSortDefault" xml:space="preserve">
-    <value>Standard</value>
-  </data>
-  <data name="NewElementSortNameAsc" xml:space="preserve">
-    <value>Name (aufsteigend)</value>
-  </data>
-  <data name="NewElementSortNameDesc" xml:space="preserve">
-    <value>Name (absteigend)</value>
-  </data>
-  <data name="NewFileExtensionMessageNoItems" xml:space="preserve">
-    <value>Keine Dateivorlagen gefunden</value>
-  </data>
-  <data name="NewFileExtensionMessageNoSelectedItem" xml:space="preserve">
-    <value>Kein Element ausgewählt</value>
-  </data>
-  <data name="NewFileDialogWindowTitle" xml:space="preserve">
-    <value>Neue Datai</value>
+  <data name="NewFileCommandName" xml:space="preserve">
+    <value>&amp;File...</value>
   </data>
 </root>
