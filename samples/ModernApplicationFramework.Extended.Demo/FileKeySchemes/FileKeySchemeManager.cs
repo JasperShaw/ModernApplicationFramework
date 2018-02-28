@@ -8,7 +8,7 @@ using ModernApplicationFramework.Utilities.Interfaces;
 
 namespace ModernApplicationFramework.Extended.Demo.FileKeySchemes
 {
-    [Export(typeof(IKeyBindingSchemeManager))]
+    //[Export(typeof(IKeyBindingSchemeManager))]
     public sealed class FileKeySchemeManager : KeyBindingSchemeManager
     {
         public override void LoadSchemeDefinitions()
