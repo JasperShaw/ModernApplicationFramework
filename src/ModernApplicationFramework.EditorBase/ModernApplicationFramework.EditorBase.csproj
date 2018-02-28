@@ -72,6 +72,11 @@
       <DependentUpon>EditorSelectorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\EditorSelectorDialog\EditorSelectorViewModel.cs" />
+    <Compile Include="Controls\EditorSelectorDialog\EditorSelectorResources.Designer.cs">
+      <DependentUpon>EditorSelectorResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Interfaces\IEditorSelectorViewModel.cs" />
     <Compile Include="Interfaces\IEditorSelectorViewModelInternal.cs" />
     <Compile Include="Guids.cs" />
@@ -144,6 +149,12 @@
     <Compile Include="Settings\EditorFileAssociationSettings.cs" />
     <Compile Include="Settings\EditorSettingsCategory.cs" />
     <Compile Include="Interfaces\Settings\IEditorFileAssociationSettings.cs" />
+    <EmbeddedResource Include="Controls\EditorSelectorDialog\EditorSelectorResources.de.resx" />
+    <EmbeddedResource Include="Controls\EditorSelectorDialog\EditorSelectorResources.en.resx" />
+    <EmbeddedResource Include="Controls\EditorSelectorDialog\EditorSelectorResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>EditorSelectorResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="NewElementDialog\NewElementDialogResources.de.resx" />
     <EmbeddedResource Include="NewElementDialog\NewElementDialogResources.en.resx" />
     <EmbeddedResource Include="NewElementDialog\NewElementDialogResources.resx">

@@ -6,6 +6,7 @@
         xmlns:mafc="http://modern.framework.com/controls"
         xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons;assembly=ModernApplicationFramework"
         xmlns:styles="clr-namespace:ModernApplicationFramework.Core.Styles;assembly=ModernApplicationFramework"
+        xmlns:editorSelectorDialog="clr-namespace:ModernApplicationFramework.EditorBase.Controls.EditorSelectorDialog"
         mc:Ignorable="d" Height="377" Width="576" Background="{x:Static SystemColors.ControlBrush}">
     <FrameworkElement.Resources>
         <ResourceDictionary>
@@ -28,7 +29,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="150"/>
             </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.ColumnSpan="2" Margin="7,14,0,0" Content="Choose tool to open file:" VerticalAlignment="Center">
+            <Label Grid.Row="0" Grid.ColumnSpan="2" Margin="7,14,0,0" Content="{x:Static editorSelectorDialog:EditorSelectorResources.ListBoxLabel}" VerticalAlignment="Center">
                 <Label.Target>
                     <Binding ElementName="ListView"/>
                 </Label.Target>
@@ -38,15 +39,18 @@
                      ItemContainerStyle="{DynamicResource {x:Static styles:StyleResourceKeys.FormsListViewItemStyleKey}}"
                      ItemTemplate="{StaticResource EditorItemTemplate}"/>
             <Grid Grid.Column="1" Grid.Row="1">
-                <dialogButtons:DialogButton Content="As default..." MinWidth="117" Margin="14,0,6,0" Padding="6,2,6,2" MinHeight="26"
+                <dialogButtons:DialogButton Content="{x:Static editorSelectorDialog:EditorSelectorResources.AsDefaultButton}" 
+                                            MinWidth="117" Margin="14,0,6,0" Padding="6,2,6,2" MinHeight="26"
                                             VerticalAlignment="Top" HorizontalAlignment="Left"
                                             Command="{Binding SetDefaultCommand}"/>
             </Grid>
         </Grid>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,17,0,6">
             <dialogButtons:DialogButton MinWidth="117" MinHeight="26" Margin="0,3,6,6" IsDefault="true" 
-                                        Content="OK" Command="{Binding OkCommand}"/>
-            <dialogButtons:DialogButton MinWidth="117" MinHeight="26" Margin="0,3,12,6" IsCancel="true" Content="Cancel"/>
+                                        Content="{x:Static editorSelectorDialog:EditorSelectorResources.OkButton}" 
+                                        Command="{Binding OkCommand}"/>
+            <dialogButtons:DialogButton MinWidth="117" MinHeight="26" Margin="0,3,12,6" IsCancel="true" 
+                                        Content="{x:Static editorSelectorDialog:EditorSelectorResources.CancelButton}"/>
         </StackPanel>
     </Grid>
 </mafc:DialogWindow>

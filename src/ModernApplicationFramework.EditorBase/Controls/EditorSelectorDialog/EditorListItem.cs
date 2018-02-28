@@ -12,7 +12,7 @@ namespace ModernApplicationFramework.EditorBase.Controls.EditorSelectorDialog
         private string _name;
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private static readonly string DefaultSuffix = " (Default)";
+        private static readonly string DefaultSuffix = EditorSelectorResources.DefaultSuffix;
 
         public bool IsDefault
         {

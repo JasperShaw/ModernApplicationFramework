@@ -49,6 +49,7 @@ namespace ModernApplicationFramework.EditorBase.Controls.EditorSelectorDialog
         [ImportingConstructor]
         public EditorSelectorViewModel([ImportMany] IEditor[] editors, IEditorFileAssociationSettings settings)
         {
+            DisplayName = EditorSelectorResources.WindowTitle;
             _settings = settings;
             var items = editors.Select(editor => new EditorListItem(editor)).ToList();
             Editors = new List<EditorListItem>(items);
