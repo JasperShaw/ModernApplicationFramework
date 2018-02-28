@@ -177,26 +177,6 @@ namespace ModernApplicationFramework.Extended.Controls.DockingMainWindow.ViewMod
 
         protected virtual bool CanClose()
         {
-            //TODO: This is part of the Editor Base
-            //var items = DockingHost.Documents.OfType<StorableDocument>().Where(x => x.IsDirty);
-            //var storableDocuments = items as IList<StorableDocument> ?? items.ToList();
-            //if (!storableDocuments.Any())
-            //    return true;
-
-            //var saveList = storableDocuments.Select(item => new SaveDirtyDocumentItem(item.DisplayName)).ToList();
-
-            //var result = SaveDirtyDocumentsDialog.Show(saveList);
-            //switch (result)
-            //{
-            //    case MessageBoxResult.Yes:
-            //        foreach (var item in storableDocuments)
-            //            item.SaveFileCommand.Execute(null);
-            //        return true;
-            //    case MessageBoxResult.No:
-            //        Application.Current.Shutdown(0);
-            //        return true;
-            //}
-            //return false;
             return true;
         }
 

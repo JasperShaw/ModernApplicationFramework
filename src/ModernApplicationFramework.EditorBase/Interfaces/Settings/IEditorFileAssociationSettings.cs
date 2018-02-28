@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor;
+using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Settings.Interfaces;
 

@@ -1,12 +1,10 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.IO;
-using System.Threading.Tasks;
+using ModernApplicationFramework.EditorBase.Editor;
+using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
-using ModernApplicationFramework.Extended.Interfaces;
-using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Input.Command;
-using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor
 {
@@ -52,61 +50,4 @@ namespace ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor
                 _originalText = File.ReadAllText(document.FilePath);
         }
     }
-
-    public abstract class StorableEditor : KeyBindingLayoutItem, IStorableEditor
-    {
-        public IStorableDocument Document { get; protected set; }
-
-        public async Task SaveFile()
-        {
-            var filePath = Path.GetFileName(Document.FilePath);
-            await Document.Save(() => SaveFile(filePath));
-        }
-
-        protected abstract void SaveFile(string filePath);
-
-        protected abstract void LoadFile(IStorableDocument document);
-
-        public async Task LoadFile(IStorableDocument document, string name)
-        {
-            DisplayName = name;
-            Document = document;
-            await Document.Load(() => LoadFile(document));
-        }
-
-        public abstract Guid EditorId { get; }
-        public abstract string Name { get; }
-
-        public virtual void UpdateDisplayName()
-        {
-            DisplayName = Document.IsDirty ? Document.FileName + "*" : Document.FileName;
-        }
-    }
-
-    public interface IStorableEditor : IEditor<IStorableDocument>
-    {
-        IStorableDocument Document { get; }
-
-        Task SaveFile();
-    }
-
-    public interface INormalEditor : IEditor<IDocument>
-    {
-        IDocument Document { get; }
-    }
-
-    public interface IEditor<in T> : IEditor where T : IDocument
-    {
-        Task LoadFile(T document, string name);
-    }
-
-    public interface IEditor : ILayoutItem, ICanHaveInputBindings
-    {
-        Guid EditorId { get; }
-
-        string Name { get; }
-
-        void UpdateDisplayName();
-    }
-
 }

@@ -2,6 +2,8 @@
 using System.ComponentModel.Composition;
 using System.IO;
 using ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor;
+using ModernApplicationFramework.EditorBase.Editor;
+using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Input.Command;
 

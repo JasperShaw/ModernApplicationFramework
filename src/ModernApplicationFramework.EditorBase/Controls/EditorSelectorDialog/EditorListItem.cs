@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor;
+using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 
 namespace ModernApplicationFramework.EditorBase.Controls.EditorSelectorDialog
 {
