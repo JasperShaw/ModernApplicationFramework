@@ -144,4 +144,7 @@
   <data name="NewMenuDefaultName" xml:space="preserve">
     <value>Neues Menü</value>
   </data>
+  <data name="DisabledCustomMenuTooltip" xml:space="preserve">
+    <value>Durch Hinzufügen von untergeordneten Elementen wird dieses Menü aktiviert.</value>
+  </data>
 </root>

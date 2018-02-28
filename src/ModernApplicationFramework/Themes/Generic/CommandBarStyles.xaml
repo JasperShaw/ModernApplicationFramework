@@ -789,7 +789,7 @@
                     <Condition Property="menu:MenuItem.IsUserCreatedMenu" Value="true"/>
                 </MultiTrigger.Conditions>
                 <Setter Property="FrameworkElement.ToolTip"
-                        Value="Adding child items to this menu will enable it"/>
+                        Value="{x:Static commandBar:CommandBarResources.DisabledCustomMenuTooltip}"/>
                 <Setter Property="ToolTipService.ShowOnDisabled" Value="true"/>
             </MultiTrigger>
         </Style.Triggers>

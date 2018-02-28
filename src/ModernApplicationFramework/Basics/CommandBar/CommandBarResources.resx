@@ -144,4 +144,7 @@
   <data name="NewMenuDefaultName" xml:space="preserve">
     <value>New Menu</value>
   </data>
+  <data name="DisabledCustomMenuTooltip" xml:space="preserve">
+    <value>Adding child items to this menu will enable it</value>
+  </data>
 </root>
