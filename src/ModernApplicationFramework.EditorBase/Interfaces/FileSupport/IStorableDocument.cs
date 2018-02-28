@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Action = System.Action;
 
 namespace ModernApplicationFramework.EditorBase.Interfaces.FileSupport
 {
@@ -12,10 +13,8 @@ namespace ModernApplicationFramework.EditorBase.Interfaces.FileSupport
 
         bool IsNew { get; }
 
-        Task Load(string filePath);
+        Task Load(Action action);
 
-        Task Save(string filePath);
-
-        void ResetState();
+        Task Save(Action action);
     }
 }

@@ -40,7 +40,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
             var filePath = dialog.FileName;
 
             // Save file.
-            await storableDocument.Save(filePath);
+            //await storableDocument.Save(filePath);
         }
 
         private bool CanSaveFile()
@@ -67,7 +67,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
             }
             // Save file.
             var filePath = storableDocument.FilePath;
-            await storableDocument.Save(filePath);
+            //await storableDocument.Save(filePath);
         }
 
         private async void SaveFileAs()

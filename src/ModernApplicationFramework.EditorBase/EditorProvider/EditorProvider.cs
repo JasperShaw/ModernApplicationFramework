@@ -58,7 +58,7 @@ namespace ModernApplicationFramework.EditorBase.EditorProvider
 
         public async Task Open(IStorableDocument document, string path)
         {
-            await document.Load(path);
+            // await document.Load(path);
         }
 
         public static MethodInfo GetMethod<T>(Expression<Action<T>> expr)
