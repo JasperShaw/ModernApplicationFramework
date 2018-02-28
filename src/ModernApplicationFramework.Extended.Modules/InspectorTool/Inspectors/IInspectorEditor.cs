@@ -1,6 +1,6 @@
 ﻿namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Inspectors
 {
-    public interface IEditor : IInspector
+    public interface IInspectorEditor : IInspector
     {
         BoundPropertyDescriptor BoundPropertyDescriptor { get; set; }
     }

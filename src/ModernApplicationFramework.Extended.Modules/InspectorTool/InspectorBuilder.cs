@@ -28,24 +28,24 @@ namespace ModernApplicationFramework.Extended.Modules.InspectorTool
 
         public TBuilder WithCheckBoxEditor<T>(T instance, Expression<Func<T, bool>> propertyExpression)
         {
-            return WithEditor<T, bool, CheckBoxEditorViewModel>(instance, propertyExpression);
+            return WithEditor<T, bool, CheckBoxInspectorEditorViewModel>(instance, propertyExpression);
         }
 
         public TBuilder WithEnumEditor<T, TProperty>(T instance, Expression<Func<T, TProperty>> propertyExpression)
         {
-            return WithEditor<T, TProperty, EnumEditorViewModel<TProperty>>(instance, propertyExpression);
+            return WithEditor<T, TProperty, EnumInspectorEditorViewModel<TProperty>>(instance, propertyExpression);
         }
 
 
         public TBuilder WithEditor<T, TProperty, TEditor>(T instance, Expression<Func<T, TProperty>> propertyExpression)
-            where TEditor : IEditor, new()
+            where TEditor : IInspectorEditor, new()
         {
             return WithEditor(instance, propertyExpression, new TEditor());
         }
 
         public TBuilder WithEditor<T, TProperty, TEditor>(T instance, Expression<Func<T, TProperty>> propertyExpression,
             TEditor editor)
-            where TEditor : IEditor
+            where TEditor : IInspectorEditor
         {
             var propertyName = ExpressionUtility.GetPropertyName(propertyExpression);
             editor.BoundPropertyDescriptor = BoundPropertyDescriptor.FromProperty(instance, propertyName);

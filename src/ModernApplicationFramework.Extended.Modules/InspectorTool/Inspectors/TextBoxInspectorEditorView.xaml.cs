@@ -1,8 +1,8 @@
 ﻿namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Inspectors
 {
-    public partial class CollapsibleGroupView
+    public partial class TextBoxInspectorEditorView
     {
-        public CollapsibleGroupView()
+        public TextBoxInspectorEditorView()
         {
             InitializeComponent();
         }

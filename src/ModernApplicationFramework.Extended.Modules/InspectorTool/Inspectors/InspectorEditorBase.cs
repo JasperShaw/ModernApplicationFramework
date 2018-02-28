@@ -4,7 +4,7 @@ using ModernApplicationFramework.Extended.Interfaces;
 
 namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Inspectors
 {
-    public abstract class EditorBase<TValue> : InspectorBase, IEditor, IDisposable
+    public abstract class InspectorEditorBase<TValue> : InspectorBase, IInspectorEditor, IDisposable
     {
         private BoundPropertyDescriptor _boundPropertyDescriptor;
 

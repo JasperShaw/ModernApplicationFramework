@@ -11,9 +11,9 @@ namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Conventions
             return typeof(Enum).IsAssignableFrom(propertyDescriptor.PropertyType);
         }
 
-        public override IEditor BuildEditor(PropertyDescriptor propertyDescriptor)
+        public override IInspectorEditor BuildEditor(PropertyDescriptor propertyDescriptor)
         {
-            return new EnumEditorViewModel(propertyDescriptor.PropertyType);
+            return new EnumInspectorEditorViewModel(propertyDescriptor.PropertyType);
         }
     }
 }

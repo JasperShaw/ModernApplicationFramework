@@ -77,31 +77,31 @@
     <Compile Include="InspectorTool\IInspectorTool.cs" />
     <Compile Include="InspectorTool\InspectableObject.cs" />
     <Compile Include="InspectorTool\InspectorBuilder.cs" />
-    <Compile Include="InspectorTool\Inspectors\BitmapSourceEditorView.xaml.cs">
-      <DependentUpon>BitmapSourceEditorView.xaml</DependentUpon>
+    <Compile Include="InspectorTool\Inspectors\BitmapSourceInspectorEditorView.xaml.cs">
+      <DependentUpon>BitmapSourceInspectorEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="InspectorTool\Inspectors\BitmapSourceEditorViewModel.cs" />
-    <Compile Include="InspectorTool\Inspectors\CheckBoxEditorView.xaml.cs">
-      <DependentUpon>CheckBoxEditorView.xaml</DependentUpon>
+    <Compile Include="InspectorTool\Inspectors\BitmapSourceInspectorEditorViewModel.cs" />
+    <Compile Include="InspectorTool\Inspectors\CheckBoxInspectorEditorView.xaml.cs">
+      <DependentUpon>CheckBoxInspectorEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="InspectorTool\Inspectors\CheckBoxEditorViewModel.cs" />
+    <Compile Include="InspectorTool\Inspectors\CheckBoxInspectorEditorViewModel.cs" />
     <Compile Include="InspectorTool\Inspectors\CollapsibleGroupBuilder.cs" />
     <Compile Include="InspectorTool\Inspectors\CollapsibleGroupView.xaml.cs">
       <DependentUpon>CollapsibleGroupView.xaml</DependentUpon>
     </Compile>
     <Compile Include="InspectorTool\Inspectors\CollapsibleGroupViewModel.cs" />
-    <Compile Include="InspectorTool\Inspectors\EditorBase.cs" />
-    <Compile Include="InspectorTool\Inspectors\EnumEditorView.xaml.cs">
-      <DependentUpon>EnumEditorView.xaml</DependentUpon>
+    <Compile Include="InspectorTool\Inspectors\InspectorEditorBase.cs" />
+    <Compile Include="InspectorTool\Inspectors\EnumInspectorEditorView.xaml.cs">
+      <DependentUpon>EnumInspectorEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="InspectorTool\Inspectors\EnumEditorViewModel.cs" />
-    <Compile Include="InspectorTool\Inspectors\IEditor.cs" />
+    <Compile Include="InspectorTool\Inspectors\EnumInspectorEditorViewModel.cs" />
+    <Compile Include="InspectorTool\Inspectors\IInspectorEditor.cs" />
     <Compile Include="InspectorTool\Inspectors\ILabelledInspector.cs" />
     <Compile Include="InspectorTool\Inspectors\InspectorBase.cs" />
-    <Compile Include="InspectorTool\Inspectors\TextBoxEditorView.xaml.cs">
-      <DependentUpon>TextBoxEditorView.xaml</DependentUpon>
+    <Compile Include="InspectorTool\Inspectors\TextBoxInspectorEditorView.xaml.cs">
+      <DependentUpon>TextBoxInspectorEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="InspectorTool\Inspectors\TextBoxEditorViewModel.cs" />
+    <Compile Include="InspectorTool\Inspectors\TextBoxInspectorEditorViewModel.cs" />
     <Compile Include="InspectorTool\MenuDefinitions.cs" />
     <Compile Include="InspectorTool\Util\ExpressionUtility.cs" />
     <Compile Include="InspectorTool\ViewModels\InspectorViewModel.cs" />
@@ -137,11 +137,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="InspectorTool\Inspectors\BitmapSourceEditorView.xaml">
+    <Page Include="InspectorTool\Inspectors\BitmapSourceInspectorEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="InspectorTool\Inspectors\CheckBoxEditorView.xaml">
+    <Page Include="InspectorTool\Inspectors\CheckBoxInspectorEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -149,11 +149,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="InspectorTool\Inspectors\EnumEditorView.xaml">
+    <Page Include="InspectorTool\Inspectors\EnumInspectorEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="InspectorTool\Inspectors\TextBoxEditorView.xaml">
+    <Page Include="InspectorTool\Inspectors\TextBoxInspectorEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

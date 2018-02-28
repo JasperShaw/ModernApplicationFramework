@@ -17,20 +17,20 @@ namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Conventions
             {
                 new EnumPropertyEditorBuilder(),
 
-                new StandardPropertyEditorBuilder<bool, CheckBoxEditorViewModel>(),
-                new StandardPropertyEditorBuilder<double, TextBoxEditorViewModel<double>>(),
-                new StandardPropertyEditorBuilder<float, TextBoxEditorViewModel<float>>(),
-                new StandardPropertyEditorBuilder<int, TextBoxEditorViewModel<int>>(),
-                new StandardPropertyEditorBuilder<double?, TextBoxEditorViewModel<double?>>(),
-                new StandardPropertyEditorBuilder<float?, TextBoxEditorViewModel<float?>>(),
-                new StandardPropertyEditorBuilder<int?, TextBoxEditorViewModel<int?>>(),
-                new StandardPropertyEditorBuilder<string, TextBoxEditorViewModel<string>>(),
+                new StandardPropertyEditorBuilder<bool, CheckBoxInspectorEditorViewModel>(),
+                new StandardPropertyEditorBuilder<double, TextBoxInspectorEditorViewModel<double>>(),
+                new StandardPropertyEditorBuilder<float, TextBoxInspectorEditorViewModel<float>>(),
+                new StandardPropertyEditorBuilder<int, TextBoxInspectorEditorViewModel<int>>(),
+                new StandardPropertyEditorBuilder<double?, TextBoxInspectorEditorViewModel<double?>>(),
+                new StandardPropertyEditorBuilder<float?, TextBoxInspectorEditorViewModel<float?>>(),
+                new StandardPropertyEditorBuilder<int?, TextBoxInspectorEditorViewModel<int?>>(),
+                new StandardPropertyEditorBuilder<string, TextBoxInspectorEditorViewModel<string>>(),
 
-                new StandardPropertyEditorBuilder<BitmapSource, BitmapSourceEditorViewModel>()
+                new StandardPropertyEditorBuilder<BitmapSource, BitmapSourceInspectorEditorViewModel>()
             };
         }
 
-        public static IEditor CreateEditor(PropertyDescriptor propertyDescriptor)
+        public static IInspectorEditor CreateEditor(PropertyDescriptor propertyDescriptor)
         {
             foreach (var inspectorBuilder in InspectorBuilders)
                 if (inspectorBuilder.IsApplicable(propertyDescriptor))

@@ -2,7 +2,7 @@
 
 namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Inspectors
 {
-    public class BitmapSourceEditorViewModel : EditorBase<BitmapSource>, ILabelledInspector
+    public class BitmapSourceInspectorEditorViewModel : InspectorEditorBase<BitmapSource>, ILabelledInspector
     {
         //TODO: Decide what to do with this...
         //public IEnumerable<IResult> Choose()

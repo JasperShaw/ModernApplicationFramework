@@ -10,12 +10,12 @@ namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Inspectors
         public string Text { get; set; }
     }
 
-    public class EnumEditorViewModel<TEnum> : EditorBase<TEnum>, ILabelledInspector
+    public class EnumInspectorEditorViewModel<TEnum> : InspectorEditorBase<TEnum>, ILabelledInspector
     {
         private readonly List<EnumValueViewModel<TEnum>> _items;
         public IEnumerable<EnumValueViewModel<TEnum>> Items => _items;
 
-        public EnumEditorViewModel()
+        public EnumInspectorEditorViewModel()
         {
             _items = Enum.GetValues(typeof(TEnum))
                 .Cast<TEnum>()
@@ -34,12 +34,12 @@ namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Inspectors
         public string Text { get; set; }
     }
 
-    public class EnumEditorViewModel : EditorBase<Enum>, ILabelledInspector
+    public class EnumInspectorEditorViewModel : InspectorEditorBase<Enum>, ILabelledInspector
     {
         private readonly List<EnumValueViewModel> _items;
         public IEnumerable<EnumValueViewModel> Items => _items;
 
-        public EnumEditorViewModel(Type enumType)
+        public EnumInspectorEditorViewModel(Type enumType)
         {
             _items = Enum.GetValues(enumType)
                 .Cast<object>()
