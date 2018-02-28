@@ -117,7 +117,6 @@
     <Compile Include="Interfaces\IDockingMainWindowViewModel.cs" />
     <Compile Include="Interfaces\ILayoutItem.cs" />
     <Compile Include="Interfaces\ILayoutItemBase.cs" />
-    <Compile Include="Interfaces\IOpenResult.cs" />
     <Compile Include="Interfaces\ITool.cs" />
     <Compile Include="Interfaces\IUseDockingHost.cs" />
     <Compile Include="Interfaces\IWindow.cs" />
@@ -151,12 +150,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ResultDialogs\OpenResultBase.cs" />
-    <Compile Include="ResultDialogs\Show.cs" />
-    <Compile Include="ResultDialogs\ShowCommonDialogResult.cs" />
-    <Compile Include="ResultDialogs\ShowDialogResult.cs" />
-    <Compile Include="ResultDialogs\ShowToolResult.cs" />
-    <Compile Include="ResultDialogs\ShowWindowResult.cs" />
     <Compile Include="Settings\General\GeneralWindowItemListSettingsView.xaml.cs">
       <DependentUpon>GeneralWindowItemListSettingsView.xaml</DependentUpon>
     </Compile>

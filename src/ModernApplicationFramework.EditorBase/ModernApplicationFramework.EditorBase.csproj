@@ -142,8 +142,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ResultDialogs\OpenDocumentResult.cs" />
-    <Compile Include="ResultDialogs\Show.cs" />
     <Compile Include="FileSupport\TextFileDefinition.cs" />
     <Compile Include="Settings\EditorFileAssociation.cs" />
     <Compile Include="Settings\EditorFileAssociationSettings.cs" />
