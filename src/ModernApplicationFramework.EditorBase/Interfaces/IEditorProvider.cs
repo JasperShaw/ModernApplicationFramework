@@ -11,7 +11,7 @@ namespace ModernApplicationFramework.EditorBase.Interfaces
         IEnumerable<ISupportedFileDefinition> SupportedFileDefinitions { get; }
 
         //IDocument Create(Type editorType);
-        IEditor Create(Type editorType);
+        IEditor Get(Guid editorId);
 
         bool Handles(string path);
 

@@ -44,6 +44,7 @@
     <Reference Include="JetBrains.Annotations, Version=11.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\..\packages\JetBrains.Annotations.11.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Build.Tasks.v4.0" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
@@ -66,10 +67,14 @@
   <ItemGroup>
     <Compile Include="CommandBarDefinitions\MenuDefinitions\FileMenuDefinitions.cs" />
     <Compile Include="Commands\CloseActiveDocumentCommandDefinition.cs" />
+    <Compile Include="Controls\EditorSelectorDialog\EditorListItem.cs" />
     <Compile Include="Controls\EditorSelectorDialog\EditorSelectorView.xaml.cs">
       <DependentUpon>EditorSelectorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\EditorSelectorDialog\EditorSelectorViewModel.cs" />
+    <Compile Include="Interfaces\IEditorSelectorViewModel.cs" />
+    <Compile Include="Interfaces\IEditorSelectorViewModelInternal.cs" />
+    <Compile Include="Guids.cs" />
     <Compile Include="Interfaces\IFileDefinitionManager.cs" />
     <Compile Include="Interfaces\NewElement\INewElementExtensionsProvider.cs" />
     <Compile Include="Interfaces\NewElement\INewElementExtensionTreeNode.cs" />
@@ -135,6 +140,10 @@
     <Compile Include="ResultDialogs\OpenDocumentResult.cs" />
     <Compile Include="ResultDialogs\Show.cs" />
     <Compile Include="FileSupport\TextFileDefinition.cs" />
+    <Compile Include="Settings\EditorFileAssociation.cs" />
+    <Compile Include="Settings\EditorFileAssociationSettings.cs" />
+    <Compile Include="Settings\EditorSettingsCategory.cs" />
+    <Compile Include="Interfaces\Settings\IEditorFileAssociationSettings.cs" />
     <EmbeddedResource Include="NewElementDialog\NewElementDialogResources.de.resx" />
     <EmbeddedResource Include="NewElementDialog\NewElementDialogResources.en.resx" />
     <EmbeddedResource Include="NewElementDialog\NewElementDialogResources.resx">
@@ -152,6 +161,10 @@
     <ProjectReference Include="..\ModernApplicationFramework.Extended\ModernApplicationFramework.Extended.csproj">
       <Project>{51911695-6cdb-4833-9782-06c8821d1c4e}</Project>
       <Name>ModernApplicationFramework.Extended</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework.Settings\ModernApplicationFramework.Settings.csproj">
+      <Project>{240cc7db-f3a0-48e7-a8eb-5785a90128be}</Project>
+      <Name>ModernApplicationFramework.Settings</Name>
     </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework.Utilities\ModernApplicationFramework.Utilities.csproj">
       <Project>{2b388979-5b07-4f0a-a302-0c575aaa21c0}</Project>

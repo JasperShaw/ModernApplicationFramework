@@ -2,7 +2,7 @@
 
 namespace ModernApplicationFramework.Extended
 {
-    internal static class GuidCollection
+    public static class GuidCollection
     {
         public static Guid EnvironmentSettingsCategoryId = new Guid("{5A28ECB8-D4D3-4291-8001-4789DF064E0C}");
         public static Guid ToolsOptionsGeneralSettingsCategoryId = new Guid("{5A28ECB8-D4D3-4291-8001-4789DF064E0C}");

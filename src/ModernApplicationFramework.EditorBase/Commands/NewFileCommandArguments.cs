@@ -5,11 +5,11 @@ namespace ModernApplicationFramework.EditorBase.Commands
 {
     public class NewFileCommandArguments
     {
-        public NewFileCommandArguments(ISupportedFileDefinition fileDefinition, string name, Type choosenEditor = null)
+        public NewFileCommandArguments(ISupportedFileDefinition fileDefinition, string name, Guid choosenEditor = default(Guid))
         {
             FileDefinition = fileDefinition ?? throw new ArgumentNullException();
             FileName = name;
-            Editor = choosenEditor == null ? fileDefinition.PreferredEditor : choosenEditor;
+            Editor = choosenEditor == Guid.Empty ? fileDefinition.PreferredEditor : choosenEditor;
 
         }
 
@@ -17,6 +17,6 @@ namespace ModernApplicationFramework.EditorBase.Commands
 
         public string FileName { get; }
 
-        public Type Editor { get; }
+        public Guid Editor { get; }
     }
 }

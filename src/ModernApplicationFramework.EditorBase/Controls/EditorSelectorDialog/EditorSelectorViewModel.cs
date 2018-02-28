@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor;
+using ModernApplicationFramework.EditorBase.Interfaces;
 using ModernApplicationFramework.EditorBase.Interfaces.NewElement;
+using ModernApplicationFramework.EditorBase.Interfaces.Settings;
 using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.EditorBase.Controls.EditorSelectorDialog
@@ -12,10 +15,12 @@ namespace ModernApplicationFramework.EditorBase.Controls.EditorSelectorDialog
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public sealed class EditorSelectorViewModel : Screen, IEditorSelectorViewModel, IEditorSelectorViewModelInternal
     {
-        private IEditor _selectedEditor;
-        public IEnumerable<IEditor> Editors { get; }
+        private readonly IEditorFileAssociationSettings _settings;
+        private EditorListItem _selectedEditor;
+        private IExtensionDefinition _targetExtension;
+        public IEnumerable<EditorListItem> Editors { get; }
 
-        public IEditor SelectedEditor
+        public EditorListItem SelectedEditor
         {
             get => _selectedEditor;
             set
@@ -27,19 +32,31 @@ namespace ModernApplicationFramework.EditorBase.Controls.EditorSelectorDialog
         }
 
         public ICommand OkCommand => new UICommand(CreateResult, CanCreateResult);
+        public ICommand SetDefaultCommand => new UICommand(SetActiveItemAsDefault, CanSetActiveItemAsDefault);
 
-        public IExtensionDefinition TargetExtension { get; set; }
+        public IExtensionDefinition TargetExtension
+        {
+            get => _targetExtension;
+            set
+            {
+                _targetExtension = value;
+                GetDefaultEditor(value);
+            }
+        }
+
         public IEditor Result { get; private set; }
 
         [ImportingConstructor]
-        public EditorSelectorViewModel([ImportMany] IEditor[] editors)
+        public EditorSelectorViewModel([ImportMany] IEditor[] editors, IEditorFileAssociationSettings settings)
         {
-            Editors = editors;
+            _settings = settings;
+            var items = editors.Select(editor => new EditorListItem(editor)).ToList();
+            Editors = new List<EditorListItem>(items);
         }
 
         private void CreateResult()
         {
-            Result = SelectedEditor;
+            Result = SelectedEditor.Editor;
             TryClose(true);
         }
 
@@ -47,21 +64,32 @@ namespace ModernApplicationFramework.EditorBase.Controls.EditorSelectorDialog
         {
             return SelectedEditor != null;
         }
-    }
 
-    public interface IEditorSelectorViewModel
-    {
-        IExtensionDefinition TargetExtension { get; set; }
+        private void GetDefaultEditor(IExtensionDefinition file)
+        {
+            var editor = _settings.GetAssociatedEditor((ISupportedFileDefinition) file);
+            var item = Editors.FirstOrDefault(x => x.Editor.EditorId == editor.EditorId);
+            if (item == null)
+                return;
+            item.IsDefault = true;
+            SelectedEditor = item;
+        }
 
-        IEditor Result { get; }
-    }
+        private void SetActiveItemAsDefault()
+        {
+            var item = Editors.FirstOrDefault(x => x.IsDefault);
+            if (item == null)
+                return;
+            if (item == SelectedEditor)
+                return;
+            item.IsDefault = false;
+            _settings.CreateAssociation(SelectedEditor.Editor, (ISupportedFileDefinition) TargetExtension);
+            SelectedEditor.IsDefault = true;
+        }
 
-    internal interface IEditorSelectorViewModelInternal : IScreen
-    {
-        IEnumerable<IEditor> Editors { get; }
-
-        IEditor SelectedEditor { get; set; }
-
-        ICommand OkCommand { get; }
+        private bool CanSetActiveItemAsDefault()
+        {
+            return SelectedEditor != null;
+        }
     }
 }

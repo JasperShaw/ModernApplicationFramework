@@ -19,11 +19,13 @@ namespace ModernApplicationFramework.EditorBase.EditorProvider
     [Export(typeof(IEditorProvider))]
     public class EditorProvider : IEditorProvider
     {
+        private readonly IEnumerable<IEditor> _editors;
         private readonly IFileDefinitionManager _fileDefinitionManager;
 
         [ImportingConstructor]
-        public EditorProvider(IFileDefinitionManager fileDefinitionManager)
+        public EditorProvider([ImportMany] IEnumerable<IEditor> editors, IFileDefinitionManager fileDefinitionManager)
         {
+            _editors = editors;
             _fileDefinitionManager = fileDefinitionManager;
         }
 
@@ -36,14 +38,15 @@ namespace ModernApplicationFramework.EditorBase.EditorProvider
             return extension != null && _fileDefinitionManager.GetDefinitionByExtension(extension) != null;
         }
 
-        public IEditor Create(Type editorType)
+        public IEditor Get(Guid editorId)
         {
+            var editorType = _editors.FirstOrDefault(x => x.EditorId == editorId)?.GetType();
             var method = typeof(IoC).GetMethod("Get");
             method = method.MakeGenericMethod(editorType);
             var editorToProve = method.Invoke(this, new object[] { null });
 
             if (!(editorToProve is IEditor editor))
-                throw new NotSupportedException("The specified type was not from type IDocument");
+                throw new NotSupportedException("The specified type was not from type IEditor");
 
             return editor;
         }

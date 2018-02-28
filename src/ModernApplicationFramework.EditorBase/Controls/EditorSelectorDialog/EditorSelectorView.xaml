@@ -39,7 +39,8 @@
                      ItemTemplate="{StaticResource EditorItemTemplate}"/>
             <Grid Grid.Column="1" Grid.Row="1">
                 <dialogButtons:DialogButton Content="As default..." MinWidth="117" Margin="14,0,6,0" Padding="6,2,6,2" MinHeight="26"
-                                            VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                                            VerticalAlignment="Top" HorizontalAlignment="Left"
+                                            Command="{Binding SetDefaultCommand}"/>
             </Grid>
         </Grid>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,17,0,6">

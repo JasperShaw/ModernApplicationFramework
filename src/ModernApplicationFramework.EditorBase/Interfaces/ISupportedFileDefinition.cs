@@ -8,7 +8,7 @@ namespace ModernApplicationFramework.EditorBase.Interfaces
     {      
         string FileExtension { get; }
 
-        Type PreferredEditor { get; }    
+        Guid PreferredEditor { get; }    
         
         SupportedFileOperation SupportedFileOperation { get; }
     }

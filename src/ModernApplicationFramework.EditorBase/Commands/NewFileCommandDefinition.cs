@@ -76,7 +76,7 @@ namespace ModernApplicationFramework.EditorBase.Commands
 
             var result = vm.ResultData;
 
-            var editor = EditorProvider?.Create(result.Editor);
+            var editor = EditorProvider?.Get(result.Editor);
             var viewAware = (IViewAware) editor;
             if (viewAware != null)
                 viewAware.ViewAttached += (sender, e) =>

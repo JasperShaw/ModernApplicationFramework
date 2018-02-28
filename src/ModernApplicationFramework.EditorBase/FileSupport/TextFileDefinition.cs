@@ -24,7 +24,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
 
         public string FileExtension => ".txt";
 
-        public Type PreferredEditor => typeof(SimpleTextEditorViewModel);
+        public Guid PreferredEditor => Guids.SimpleEditorId;
         public SupportedFileOperation SupportedFileOperation => SupportedFileOperation.OpenCreate;
     }
 }

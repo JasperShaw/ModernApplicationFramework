@@ -13,9 +13,11 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.MyEditor
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class MyTextEditorViewModel : StorableEditor
     {
+        public static Guid MyTextEditorId = new Guid("{4198960C-B3DA-4319-885B-7F6E13F1FAAF}");
+
         public override GestureScope GestureScope => GestureScopes.GlobalGestureScope;
 
-        public override Guid EditorId => new Guid("{4198960C-B3DA-4319-885B-7F6E13F1FAAF}");
+        public override Guid EditorId => MyTextEditorId;
         public override string Name => "Simple BlackEditor";
 
 

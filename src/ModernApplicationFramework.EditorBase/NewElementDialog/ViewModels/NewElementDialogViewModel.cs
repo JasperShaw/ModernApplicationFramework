@@ -115,9 +115,8 @@ namespace ModernApplicationFramework.EditorBase.NewElementDialog.ViewModels
             if (!ItemPresenter.CanOpenWith)
                 throw new InvalidOperationException("Can not perform OpenWith() action in non OpenWith context");
             ResultData = ItemPresenter.CreateResultOpenWith(Name, Path);
-            if (ResultData == null)
-                TryClose(false);
-            TryClose(true);
+            if (ResultData != null)
+                TryClose(true);
         }
 
         private void Browse()

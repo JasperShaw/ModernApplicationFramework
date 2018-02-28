@@ -54,7 +54,7 @@ namespace ModernApplicationFramework.EditorBase.NewElementDialog
                 return null;
             if (!(SelectedExtension is ISupportedFileDefinition fileArgument))
                 return null;
-            return new NewFileCommandArguments(fileArgument, "UniqueName", selectorModel.Result.GetType());
+            return new NewFileCommandArguments(fileArgument, "UniqueName", selectorModel.Result.EditorId);
         }
     }
 }
