@@ -14,7 +14,7 @@ namespace ModernApplicationFramework.Extended.Layout
 
         private IUndoRedoManager _undoRedoManager;
 
-        public override ICommand CloseCommand => _closeCommand ?? (_closeCommand = new DelegateCommand(Close));
+        //public override ICommand CloseCommand => _closeCommand ?? (_closeCommand = new DelegateCommand(Close));
 
         public ICommand RedoCommand => IoC.Get<RedoCommandDefinition>().Command;
 

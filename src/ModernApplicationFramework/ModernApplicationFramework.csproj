@@ -267,6 +267,8 @@
     <Compile Include="Core\Exception\ContractNotFoundException.cs" />
     <Compile Include="Core\Styles\StyleResourceKeys.cs" />
     <Compile Include="Core\Themes\ColorResources.cs" />
+    <Compile Include="Docking\DocumentsClosedEventArgs.cs" />
+    <Compile Include="Docking\DocumentsClosingEventArgs.cs" />
     <Compile Include="Interfaces\Services\ICommandBarLayoutBackupProvider.cs" />
     <Compile Include="Interfaces\Services\ICommandBarSerializer.cs" />
     <Compile Include="Basics\Threading\MafTaskHelper.cs" />

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
@@ -117,7 +118,8 @@ namespace ModernApplicationFramework.Extended.Controls.DockingMainWindow.ViewMod
 
         public IDockingHostViewModel DockingHost => _dockingHost;
 
-        public ICommand CloseCommand => new Command(Close, CanClose);
+        public event EventHandler<CancelEventArgs> WindowClosing;
+        public ICommand CloseCommand => new Command(InternalClose, CanClose);
 
         /// <inheritdoc />
         /// <summary>
@@ -248,6 +250,18 @@ namespace ModernApplicationFramework.Extended.Controls.DockingMainWindow.ViewMod
             MainWindowInitialized = true;
         }
 
+        private void InternalClose()
+        {
+            if (WindowClosing != null)
+            {
+                var eventargs = new CancelEventArgs();
+                OnWindowClosing(eventargs);
+                if (eventargs.Cancel)
+                    return;
+            }
+            Close();
+        }
+
 #pragma warning disable 649
         [Import] private IDockingHostViewModel _dockingHost;
         [Import] private IThemeManager _themeManager;
@@ -255,5 +269,10 @@ namespace ModernApplicationFramework.Extended.Controls.DockingMainWindow.ViewMod
 #pragma warning restore 649
         public GestureScope GestureScope => GestureScopes.GlobalGestureScope;
         public UIElement BindableElement => Window;
+
+        protected virtual void OnWindowClosing(CancelEventArgs e)
+        {
+            WindowClosing?.Invoke(this, e);
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Input;
@@ -10,24 +11,21 @@ namespace ModernApplicationFramework.Basics.WindowModels
 {
     /// <inheritdoc cref="IWindowViewModel" />
     /// <summary>
-    /// View model for a <see cref="Window"/> that is an instance of <see cref="Conductor{T}.Collection.AllActive"/> where T is <see langowrd="object"/>
+    ///     View model for a <see cref="Window" /> that is an instance of <see cref="Conductor{T}.Collection.AllActive" />
+    ///     where T is <see langowrd="object" />
     /// </summary>
-    /// <seealso cref="Conductor{T}.Collection.AllActive"/>
+    /// <seealso cref="Conductor{T}.Collection.AllActive" />
     /// <seealso cref="T:ModernApplicationFramework.Interfaces.ViewModels.IWindowViewModel" />
-    public class WindowViewModelConductorAllActive : Conductor<object>.Collection.AllActive, IWindowViewModel, IPartImportsSatisfiedNotification
+    public class WindowViewModelConductorAllActive : Conductor<object>.Collection.AllActive, IWindowViewModel,
+        IPartImportsSatisfiedNotification
     {
         protected bool WindowInitialized;
-        private Window _window;
         private bool _isSimpleWindow;
         private bool _useSimpleMovement;
+        private Window _window;
 
-        protected override void OnViewAttached(object view, object context)
-        {
-            _window = view as Window;
-            if (_window != null)
-                _window.SourceInitialized += _mainWindow_SourceInitialized;
-            base.OnViewAttached(view, context);
-        }
+        public event EventHandler<CancelEventArgs> WindowClosing;
+        public ICommand CloseCommand => new Command(InternalClose, CanClose);
 
         /// <inheritdoc />
         /// <summary>
@@ -44,6 +42,12 @@ namespace ModernApplicationFramework.Basics.WindowModels
                 NotifyOfPropertyChange();
             }
         }
+
+        public ICommand MaximizeResizeCommand => new Command(MaximizeResize, CanMaximizeResize);
+
+        public ICommand MinimizeCommand => new Command(Minimize, CanMinimize);
+
+        public ICommand SimpleMoveWindowCommand => new Command(MoveSimpleWindow, CanMoveSimpleWindow);
 
         /// <inheritdoc />
         /// <summary>
@@ -63,6 +67,54 @@ namespace ModernApplicationFramework.Basics.WindowModels
             }
         }
 
+        public virtual bool CanMoveSimpleWindow()
+        {
+            return UseSimpleMovement;
+        }
+
+        public virtual void MoveSimpleWindow()
+        {
+            if (Mouse.LeftButton == MouseButtonState.Pressed)
+                _window?.DragMove();
+        }
+
+        public virtual void OnImportsSatisfied()
+        {
+        }
+
+        protected virtual bool CanClose()
+        {
+            return true;
+        }
+
+        protected virtual bool CanMaximizeResize()
+        {
+            return true;
+        }
+
+        protected virtual bool CanMinimize()
+        {
+            return _window.WindowState != WindowState.Minimized;
+        }
+
+        protected virtual void Close()
+        {
+            SystemCommands.CloseWindow(_window);
+        }
+
+        protected virtual void MaximizeResize()
+        {
+            if (_window.WindowState == WindowState.Maximized)
+                SystemCommands.RestoreWindow(_window);
+            else
+                SystemCommands.MaximizeWindow(_window);
+        }
+
+        protected virtual void Minimize()
+        {
+            SystemCommands.MinimizeWindow(_window);
+        }
+
         /// <summary>
         ///     Handles what happens after UseSimpleMovement was changed
         /// </summary>
@@ -76,6 +128,19 @@ namespace ModernApplicationFramework.Basics.WindowModels
                 _window.MouseDown -= _mainWindow_MouseDown;
         }
 
+        protected override void OnViewAttached(object view, object context)
+        {
+            _window = view as Window;
+            if (_window != null)
+                _window.SourceInitialized += _mainWindow_SourceInitialized;
+            base.OnViewAttached(view, context);
+        }
+
+        protected virtual void OnWindowClosing(CancelEventArgs e)
+        {
+            WindowClosing?.Invoke(this, e);
+        }
+
         private async void _mainWindow_MouseDown(object sender, MouseButtonEventArgs e)
         {
             await ((Command) SimpleMoveWindowCommand).Execute();
@@ -86,64 +151,17 @@ namespace ModernApplicationFramework.Basics.WindowModels
             WindowInitialized = true;
         }
 
-        #region Commands
-
-        public ICommand MinimizeCommand => new Command(Minimize, CanMinimize);
-
-        protected virtual void Minimize()
+        private void InternalClose()
         {
-            SystemCommands.MinimizeWindow(_window);
-        }
+            if (WindowClosing != null)
+            {
+                var eventargs = new CancelEventArgs();
+                OnWindowClosing(eventargs);
+                if (eventargs.Cancel)
+                    return;
+            }
 
-        protected virtual bool CanMinimize()
-        {
-            return _window.WindowState != WindowState.Minimized;
-        }
-
-        public ICommand MaximizeResizeCommand => new Command(MaximizeResize, CanMaximizeResize);
-
-        protected virtual void MaximizeResize()
-        {
-            if (_window.WindowState == WindowState.Maximized)
-                SystemCommands.RestoreWindow(_window);
-            else
-                SystemCommands.MaximizeWindow(_window);
-        }
-
-        protected virtual bool CanMaximizeResize()
-        {
-            return true;
-        }
-
-        public ICommand CloseCommand => new Command(Close, CanClose);
-
-        protected virtual void Close()
-        {
-            SystemCommands.CloseWindow(_window);
-        }
-
-        protected virtual bool CanClose()
-        {
-            return true;
-        }
-
-        public ICommand SimpleMoveWindowCommand => new Command(MoveSimpleWindow, CanMoveSimpleWindow);
-
-        public virtual void MoveSimpleWindow()
-        {
-            if (Mouse.LeftButton == MouseButtonState.Pressed)
-                _window?.DragMove();
-        }
-
-        public virtual bool CanMoveSimpleWindow()
-        {
-            return UseSimpleMovement;
-        }
-
-        #endregion
-
-        public virtual void OnImportsSatisfied()
-        {
+            Close();
         }
     }
 }

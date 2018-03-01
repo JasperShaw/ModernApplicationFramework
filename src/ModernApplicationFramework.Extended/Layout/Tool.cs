@@ -30,7 +30,7 @@ namespace ModernApplicationFramework.Extended.Layout
 
         private ConditionalWeakTable<InfoBarModel, IInfoBarUiElement> _infoBars;
 
-        public override ICommand CloseCommand
+        public ICommand CloseCommand
         {
             get { return _closeCommand ?? (_closeCommand = new DelegateCommand(p => IsVisible = false)); }
         }

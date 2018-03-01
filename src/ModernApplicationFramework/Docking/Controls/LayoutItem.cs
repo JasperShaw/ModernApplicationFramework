@@ -397,7 +397,7 @@ namespace ModernApplicationFramework.Docking.Controls
                 BindingOperations.ClearBinding(this, PinCommandProperty);
         }
 
-        protected abstract void Close();
+        protected abstract void Close(object parameter);
 
         protected abstract void Pin();
 
@@ -914,7 +914,7 @@ namespace ModernApplicationFramework.Docking.Controls
 
         private void ExecuteCloseCommand(object parameter)
         {
-            Close();
+            Close(parameter);
         }
 
         private void ExecuteDockAsDocumentCommand(object parameter)

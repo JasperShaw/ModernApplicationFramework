@@ -7,7 +7,7 @@ namespace ModernApplicationFramework.Extended.Interfaces
 {
     public interface ILayoutItemBase : IScreen
     {
-        ICommand CloseCommand { get; }
+        //ICommand CloseCommand { get; }
 
         string ContentId { get; }
 

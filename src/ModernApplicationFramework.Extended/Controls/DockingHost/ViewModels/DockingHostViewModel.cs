@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Windows;
 using Caliburn.Micro;
+using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Package;
 
@@ -64,6 +65,7 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
         }
 
         public IDockingHost DockingHostView { get; protected set; }
+
         public IObservableCollection<ILayoutItem> Documents => Items;
 
         public void OpenLayoutItem(ILayoutItem model)
@@ -170,8 +172,14 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
         protected override void OnViewAttached(object view, object context)
         {
             DockingHostView = (IDockingHost)view;
+            DockingHostView.LayoutItemsClosed += DockingHostViewLayoutItemsClosed;
             PackageManager.Instance.LoadPackages(PackageLoadOption.PreviewWindowLoaded);
             base.OnViewAttached(view, context);
+        }
+
+        private void DockingHostViewLayoutItemsClosed(object sender, Views.LayoutItemsClosedEventArgs e)
+        {
+            e.LayoutItems.ForEach(x => DeactivateItem(x, true));
         }
 
         protected override void OnViewLoaded(object view)

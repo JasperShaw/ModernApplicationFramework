@@ -82,6 +82,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="FileSupport\DirtyDocumentClosingWatcher.cs" />
     <Compile Include="Interfaces\Editor\IEditor.cs" />
     <Compile Include="Interfaces\Editor\INormalEditor.cs" />
     <Compile Include="Interfaces\Editor\IStorableEditor.cs" />
@@ -103,7 +104,6 @@
     <Compile Include="NewElementDialog\NewElementExtensionTreeNode.cs" />
     <Compile Include="NewElementDialog\NewElementExtesionRootTreeNode.cs" />
     <Compile Include="Commands\NewFileCommandDefinition.cs" />
-    <Compile Include="Controls\DockingMainWindowViewModel.cs" />
     <Compile Include="Core\Converters\ProviderTreeViewVisibilityConverter.cs" />
     <Compile Include="Core\ListSortDirection.cs" />
     <Compile Include="NewElementDialog\Views\NewElementPresenterView.xaml.cs">
@@ -131,7 +131,6 @@
     <Compile Include="EditorProvider\EditorProvider.cs" />
     <Compile Include="EditorProvider\EditorProviderHelper.cs" />
     <Compile Include="FileSupport\FileDefinitionManager.cs" />
-    <Compile Include="FileSupport\FileType.cs" />
     <Compile Include="Interfaces\IEditorProvider.cs" />
     <Compile Include="Interfaces\NewElement\IExtensionDefinition.cs" />
     <Compile Include="Interfaces\NewElement\IExtensionDialogItemPresenter.cs" />

@@ -37,10 +37,14 @@ namespace ModernApplicationFramework.Docking.Controls
             set => SetValue(DescriptionProperty, value);
         }
 
-        protected override void Close()
+        protected override void Close(object parameter)
         {
             var dockingManager = _document.Root.Manager;
-            dockingManager._ExecuteCloseCommand(_document);
+
+            if (parameter is bool flag)
+                dockingManager._ExecuteCloseCommand(_document, flag);
+            else
+                dockingManager._ExecuteCloseCommand(_document);
         }
 
         protected override void Pin()

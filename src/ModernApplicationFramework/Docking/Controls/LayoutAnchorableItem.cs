@@ -112,7 +112,7 @@ namespace ModernApplicationFramework.Docking.Controls
             base.ClearDefaultBindings();
         }
 
-        protected override void Close()
+        protected override void Close(object parameter)
         {
             var dockingManager = _anchorable.Root.Manager;
             dockingManager._ExecuteCloseCommand(_anchorable);

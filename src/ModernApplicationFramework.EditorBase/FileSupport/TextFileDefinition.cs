@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Windows.Media.Imaging;
-using ModernApplicationFramework.EditorBase.Interfaces;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 
 namespace ModernApplicationFramework.EditorBase.FileSupport

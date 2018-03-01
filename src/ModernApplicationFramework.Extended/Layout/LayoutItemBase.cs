@@ -10,7 +10,7 @@ namespace ModernApplicationFramework.Extended.Layout
     public abstract class LayoutItemBase : Screen, ILayoutItemBase
     {
         private bool _isSelected;
-        public abstract ICommand CloseCommand { get; }
+        //public abstract ICommand CloseCommand { get; }
 
         [Browsable(false)]
         public virtual string ContentId => Id.ToString();

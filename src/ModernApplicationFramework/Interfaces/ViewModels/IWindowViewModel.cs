@@ -1,4 +1,7 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace ModernApplicationFramework.Interfaces.ViewModels
 {
@@ -7,6 +10,11 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
     /// </summary>
     public interface IWindowViewModel
     {
+        /// <summary>
+        /// Gets fired when the windows is about to close
+        /// </summary>
+        event EventHandler<CancelEventArgs> WindowClosing;
+        
         /// <summary>
         /// The command to close the window
         /// </summary>
