@@ -197,11 +197,11 @@ namespace ModernApplicationFramework.Native.Shell
         // the proper HRESULT
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime),
         PreserveSig]
-        Hresult OnFileOk([In, MarshalAs(UnmanagedType.Interface)] IFileDialog pfd);
+        HResult OnFileOk([In, MarshalAs(UnmanagedType.Interface)] IFileDialog pfd);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime),
         PreserveSig]
-        Hresult OnFolderChanging([In, MarshalAs(UnmanagedType.Interface)] IFileDialog pfd, [In, MarshalAs(UnmanagedType.Interface)] IShellItem psiFolder);
+        HResult OnFolderChanging([In, MarshalAs(UnmanagedType.Interface)] IFileDialog pfd, [In, MarshalAs(UnmanagedType.Interface)] IShellItem psiFolder);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void OnFolderChange([In, MarshalAs(UnmanagedType.Interface)] IFileDialog pfd);
@@ -324,4 +324,183 @@ namespace ModernApplicationFramework.Native.Shell
         void MakeProminent([In] int dwIdCtl);
     }
 
+    [ComImport, Guid(IidGuid.FileDialogControlEvents), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    internal interface IFileDialogControlEvents
+    {
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void OnItemSelected([In, MarshalAs(UnmanagedType.Interface)] IFileDialogCustomize pfdc, [In] int dwIDCtl, [In] int dwIDItem);
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void OnButtonClicked([In, MarshalAs(UnmanagedType.Interface)] IFileDialogCustomize pfdc, [In] int dwIDCtl);
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void OnCheckButtonToggled([In, MarshalAs(UnmanagedType.Interface)] IFileDialogCustomize pfdc, [In] int dwIDCtl, [In] bool bChecked);
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void OnControlActivating([In, MarshalAs(UnmanagedType.Interface)] IFileDialogCustomize pfdc, [In] int dwIDCtl);
+    }
+
+    [ComImport,Guid(IidGuid.FileSaveDialog), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    internal interface IFileSaveDialog : IFileDialog
+    {
+        // Defined on IModalWindow - repeated here due to requirements of COM interop layer
+        // --------------------------------------------------------------------------------
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime),
+        PreserveSig]
+        int Show([In] IntPtr parent);
+
+        // Defined on IFileDialog - repeated here due to requirements of COM interop layer
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void SetFileTypes([In] uint cFileTypes, [In] ref ComdlgFilterspec rgFilterSpec);
+
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void SetFileTypeIndex([In] uint iFileType);
+
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void GetFileTypeIndex(out uint piFileType);
+
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void Advise([In, MarshalAs(UnmanagedType.Interface)] IFileDialogEvents pfde, out uint pdwCookie);
+
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void Unadvise([In] uint dwCookie);
+
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void SetOptions([In] Fos fos);
+
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void GetOptions(out Fos pfos);
+
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void SetDefaultFolder([In, MarshalAs(UnmanagedType.Interface)] IShellItem psi);
+
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void SetFolder([In, MarshalAs(UnmanagedType.Interface)] IShellItem psi);
+
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void GetFolder([MarshalAs(UnmanagedType.Interface)] out IShellItem ppsi);
+
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void GetCurrentSelection([MarshalAs(UnmanagedType.Interface)] out IShellItem ppsi);
+
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void SetFileName([In, MarshalAs(UnmanagedType.LPWStr)] string pszName);
+
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void GetFileName([MarshalAs(UnmanagedType.LPWStr)] out string pszName);
+
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void SetTitle([In, MarshalAs(UnmanagedType.LPWStr)] string pszTitle);
+
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void SetOkButtonLabel([In, MarshalAs(UnmanagedType.LPWStr)] string pszText);
+
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void SetFileNameLabel([In, MarshalAs(UnmanagedType.LPWStr)] string pszLabel);
+
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void GetResult([MarshalAs(UnmanagedType.Interface)] out IShellItem ppsi);
+
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void AddPlace([In, MarshalAs(UnmanagedType.Interface)] IShellItem psi, Fdap fdap);
+
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void SetDefaultExtension([In, MarshalAs(UnmanagedType.LPWStr)] string pszDefaultExtension);
+
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void Close([MarshalAs(UnmanagedType.Error)] int hr);
+
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void SetClientGuid([In] ref Guid guid);
+
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void ClearClientData();
+
+        // Not supported:  IShellItemFilter is not defined, converting to IntPtr
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void SetFilter([MarshalAs(UnmanagedType.Interface)] IntPtr pFilter);
+
+        // Defined by IFileSaveDialog interface
+        // -----------------------------------------------------------------------------------
+
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void SetSaveAsItem([In, MarshalAs(UnmanagedType.Interface)] IShellItem psi);
+
+        // Not currently supported: IPropertyStore
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void SetProperties([In, MarshalAs(UnmanagedType.Interface)] IntPtr pStore);
+
+        // Not currently supported: IPropertyDescriptionList
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void SetCollectedProperties([In, MarshalAs(UnmanagedType.Interface)] IntPtr pList, [In] int fAppendDefault);
+
+        // Not currently supported: IPropertyStore
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void GetProperties([MarshalAs(UnmanagedType.Interface)] out IntPtr ppStore);
+
+        // Not currently supported: IPropertyStore, IFileOperationProgressSink
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void ApplyProperties([In, MarshalAs(UnmanagedType.Interface)] IShellItem psi, [In, MarshalAs(UnmanagedType.Interface)] IntPtr pStore, [In, ComAliasName("Interop.wireHWND")] ref IntPtr hwnd, [In, MarshalAs(UnmanagedType.Interface)] IntPtr pSink);
+    }
+
+    [ComImport]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [Guid("00000002-0000-0000-C000-000000000046")]
+    internal interface IMalloc
+    {
+        /// <summary>
+        /// Allocate a block of memory
+        /// </summary>
+        /// <param name="cb">Size, in bytes, of the memory block to be allocated.</param>
+        /// <returns>a pointer to the allocated memory block.</returns>
+        [PreserveSig]
+        IntPtr Alloc(
+            [In] UInt32 cb);
+
+        /// <summary>
+        /// Changes the size of a previously allocated memory block.
+        /// </summary>
+        /// <param name="pv">Pointer to the memory block to be reallocated</param>
+        /// <param name="cb">Size of the memory block, in bytes, to be reallocated.</param>
+        /// <returns>reallocated memory block</returns>
+        [PreserveSig]
+        IntPtr Realloc(
+            [In] IntPtr pv,
+            [In] UInt32 cb);
+
+        /// <summary>
+        /// Free a previously allocated block of memory.
+        /// </summary>
+        /// <param name="pv">Pointer to the memory block to be freed.</param>
+        [PreserveSig]
+        void Free(
+            [In] IntPtr pv);
+
+
+
+        /// <summary>
+        /// This method returns the size, in bytes, of a memory block previously allocated with IMalloc::Alloc or IMalloc::Realloc.
+        /// </summary>
+        /// <param name="pv">Pointer to the memory block for which the size is requested</param>
+        /// <returns>The size of the allocated memory block in bytes.</returns>
+        [PreserveSig]
+        UInt32 GetSize(
+            [In] IntPtr pv);
+
+        /// <summary>
+        /// This method determines whether this allocator was used to allocate the specified block of memory.
+        /// </summary>
+        /// <param name="pv">Pointer to the memory block</param>
+        /// <returns>
+        /// 1 - allocated 
+        /// 0 - not allocated by this IMalloc Instance.
+        /// -1 if DidAlloc is unable to determine whether or not it allocated the memory block.
+        /// </returns>
+        [PreserveSig]
+        Int16 DidAlloc(
+            [In] IntPtr pv);
+
+        /// <summary>
+        /// Minimizes the heap by releasing unused memory to the operating system.
+        /// </summary>
+        [PreserveSig]
+        void HeapMinimize();
+    }
 }

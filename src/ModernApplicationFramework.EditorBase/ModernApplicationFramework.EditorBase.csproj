@@ -72,6 +72,8 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Commands\OpenFileCommandDefinition.cs" />
+    <Compile Include="Controls\Dialogs\OpenWithFileDialog.cs" />
     <Compile Include="Controls\EditorSelectorDialog\EditorListItem.cs" />
     <Compile Include="Controls\EditorSelectorDialog\EditorSelectorView.xaml.cs">
       <DependentUpon>EditorSelectorView.xaml</DependentUpon>

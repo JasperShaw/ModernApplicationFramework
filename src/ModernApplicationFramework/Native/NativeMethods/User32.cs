@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using ModernApplicationFramework.Native.Platform.Enums;
 using ModernApplicationFramework.Native.Platform.Structs;
+using ModernApplicationFramework.Native.Shell;
 using RECT = ModernApplicationFramework.Native.Platform.Structs.RECT;
 
 namespace ModernApplicationFramework.Native.NativeMethods
@@ -77,6 +78,9 @@ namespace ModernApplicationFramework.Native.NativeMethods
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         internal static extern IntPtr SendMessage(IntPtr hWnd, int nMsg, IntPtr wParam, IntPtr lParam);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        public static extern IntPtr SendMessage(IntPtr hWnd, FolderBrowserDialogMessage msg, IntPtr wParam, string lParam);
 
         [DllImport("user32.dll", EntryPoint = "SetWindowLong", CharSet = CharSet.Auto)]
         internal static extern IntPtr SetWindowLongPtr32(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
@@ -275,6 +279,9 @@ namespace ModernApplicationFramework.Native.NativeMethods
 
         [DllImport("user32.dll")]
         public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
+
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        public static extern int LoadString(SafeModuleHandle hInstance, uint uID, StringBuilder lpBuffer, int nBufferMax);
 
     }
 }

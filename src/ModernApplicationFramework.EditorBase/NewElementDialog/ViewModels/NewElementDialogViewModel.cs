@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Input;
 using Caliburn.Micro;
-using ModernApplicationFramework.Controls.Dialogs;
+using ModernApplicationFramework.Controls.Dialogs.Native;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.EditorBase.Interfaces.NewElement;
 using ModernApplicationFramework.Input.Command;
@@ -121,7 +121,7 @@ namespace ModernApplicationFramework.EditorBase.NewElementDialog.ViewModels
 
         private void Browse()
         {
-            var dialog = new FolderBrowserDialog();
+            var dialog = new NativeFolderBrowserDialog();
             if (dialog.ShowDialog() != true)
                 return;
             Path = dialog.SelectedPath;

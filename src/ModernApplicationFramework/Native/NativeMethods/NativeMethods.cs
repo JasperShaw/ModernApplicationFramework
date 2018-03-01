@@ -18,7 +18,7 @@ using Point = System.Windows.Point;
 
 namespace ModernApplicationFramework.Native.NativeMethods
 {
-    internal static partial class NativeMethods
+    internal static class NativeMethods
     {
         private const int WsExDlgmodalframe = 0x0001;
         private const int SwpNosize = 0x0001;
@@ -37,6 +37,12 @@ namespace ModernApplicationFramework.Native.NativeMethods
 
         internal static int NotifyOwnerActivate => User32.RegisterWindowMessage(
             "NOTIFYOWNERACTIVATE{A982313C-756C-4da9-8BD0-0C375A45784B}");
+
+        public static bool IsWindowsVistaOrLater => Environment.OSVersion.Platform == PlatformID.Win32NT &&
+                                                    Environment.OSVersion.Version >= new Version(6, 0, 6000);
+
+        public static bool IsWindowsXpOrLater => Environment.OSVersion.Platform == PlatformID.Win32NT &&
+                                                 Environment.OSVersion.Version >= new Version(5, 1, 2600);
 
 
         internal static unsafe ModifierKeys ModifierKeys

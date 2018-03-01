@@ -264,6 +264,13 @@
     <Compile Include="Basics\WindowModels\MainWindowViewModelScreen.cs" />
     <Compile Include="Controls\Buttons\DialogButtons\DialogSplitDropDownButton.cs" />
     <Compile Include="Controls\Buttons\DialogButtons\DialogToggleButton.cs" />
+    <Compile Include="Controls\Dialogs\NativeSaveFileDialog.cs" />
+    <Compile Include="Controls\Dialogs\Native\ComDlgResources.cs" />
+    <Compile Include="Controls\Dialogs\Native\CustomNativeSaveFileDialog.cs" />
+    <Compile Include="Controls\Dialogs\Native\CustomNativeOpenFileDialog.cs" />
+    <Compile Include="Controls\Dialogs\Native\NativeFileDialog.cs" />
+    <Compile Include="Controls\Dialogs\Native\NativeFileDialogEvents.cs" />
+    <Compile Include="Controls\Dialogs\Native\NativeOpenFileDialog.cs" />
     <Compile Include="Core\Exception\ContractNotFoundException.cs" />
     <Compile Include="Core\Styles\StyleResourceKeys.cs" />
     <Compile Include="Core\Themes\ColorResources.cs" />
@@ -604,7 +611,13 @@
     <Compile Include="Interfaces\Utilities\IContextMenuCreator.cs" />
     <Compile Include="Interfaces\ViewModels\ICommandBarHost.cs" />
     <Compile Include="Interfaces\Views\IToolBarsPageView.cs" />
+    <Compile Include="Native\Platform\Enums\BrowseInfoFlags.cs" />
     <Compile Include="Native\Platform\Enums\CbtHookAction.cs" />
+    <Compile Include="Native\Platform\Enums\FolderBrowserDialogMessage.cs" />
+    <Compile Include="Native\Platform\Enums\FormatMessageFlags.cs" />
+    <Compile Include="Native\Platform\Enums\HResult.cs" />
+    <Compile Include="Native\Platform\Enums\LoadLibraryExFlags.cs" />
+    <Compile Include="Native\Platform\Enums\Sigdn.cs" />
     <Compile Include="Native\Platform\Enums\WindowsHookType.cs" />
     <Compile Include="Native\Platform\Enums\Cdcontrolstate.cs" />
     <Compile Include="Native\Platform\Enums\CombineMode.cs" />
@@ -620,6 +633,7 @@
     <Compile Include="Native\Platform\Enums\SystemCommands.cs" />
     <Compile Include="Native\Platform\Enums\WindowsMessage.cs" />
     <Compile Include="Native\Platform\Enums\WindowStyles.cs" />
+    <Compile Include="Native\Platform\Structs\BrowseInfo.cs" />
     <Compile Include="Native\Platform\Structs\ComdlgFilterspec.cs" />
     <Compile Include="Native\Platform\Structs\LargeInteger.cs" />
     <Compile Include="Native\Platform\Structs\Propertykey.cs" />
@@ -639,8 +653,10 @@
     <Compile Include="Native\Platform\Enums\TextChangedType.cs" />
     <Compile Include="Native\Platform\Structs\Win32Size.cs" />
     <Compile Include="Native\Platform\Structs\WndClass.cs" />
+    <Compile Include="Native\Shell\SafeModuleHandle.cs" />
     <Compile Include="Native\Shell\ShellComInterfaces.cs" />
     <Compile Include="Native\Shell\ShellWrapperDefinitions.cs" />
+    <Compile Include="Native\Shell\Win32Resources.cs" />
     <Compile Include="Native\Standard\ErrorCodes.cs" />
     <Compile Include="Core\Themes\ThemeManager.cs" />
     <Compile Include="Native\TrinetCoreNtfs\AlternateDataStreamInfo.cs" />
@@ -654,7 +670,7 @@
     <Compile Include="Controls\Utilities\PropertyBoundFilteringCollectionViewSource.cs" />
     <Compile Include="Controls\Utilities\ToolbarsCollectionViewSource.cs" />
     <Compile Include="Core\Utilities\WindowsFileNameHelper.cs" />
-    <Compile Include="Controls\Dialogs\FolderBrowserDialog.cs" />
+    <Compile Include="Controls\Dialogs\Native\NativeFolderBrowserDialog.cs" />
     <Compile Include="Core\ValidationRules\ToolbarNameNotEmptyValidationRule.cs" />
     <Compile Include="Core\ValidationRules\ToolbarNameUniqueValidationRule.cs" />
     <Compile Include="Core\ValidationRules\ToolbarNameUniqueValidationRuleDataContext.cs" />

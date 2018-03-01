@@ -1,10 +1,12 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.ConstrainedExecution;
 using System.Runtime.InteropServices;
 using System.Text;
 using Microsoft.Win32.SafeHandles;
 using ModernApplicationFramework.Native.Platform.Enums;
 using ModernApplicationFramework.Native.Platform.Structs;
+using ModernApplicationFramework.Native.Shell;
 using ModernApplicationFramework.Native.TrinetCoreNtfs;
 
 namespace ModernApplicationFramework.Native.NativeMethods
@@ -29,6 +31,11 @@ namespace ModernApplicationFramework.Native.NativeMethods
             StringBuilder lpBuffer,
             int nSize,
             IntPtr vaListArguments);
+
+        [DllImport("Kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern uint FormatMessage([MarshalAs(UnmanagedType.U4)] FormatMessageFlags dwFlags, IntPtr lpSource,
+            uint dwMessageId, uint dwLanguageId, ref IntPtr lpBuffer,
+            uint nSize, string[] Arguments);
 
         [DllImport("kernel32", CharSet = CharSet.Unicode, SetLastError = true)]
         internal static extern int GetFileAttributes(string fileName);
@@ -85,5 +92,20 @@ namespace ModernApplicationFramework.Native.NativeMethods
             out int bytesSeekedLow,
             out int bytesSeekedHigh,
             ref IntPtr context);
+
+        [DllImport("kernel32", SetLastError = true),
+         ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool FreeLibrary(IntPtr hModule);
+
+        [DllImport("kernel32", CharSet = CharSet.Unicode, SetLastError = true)]
+        public static extern SafeModuleHandle LoadLibraryEx(
+            string lpFileName,
+            IntPtr hFile,
+            LoadLibraryExFlags dwFlags
+        );
+
+        [DllImport("kernel32.dll"), ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+        public static extern void ReleaseActCtx(IntPtr hActCtx);
     }
 }
