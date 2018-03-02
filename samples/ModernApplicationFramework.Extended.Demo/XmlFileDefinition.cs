@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Windows.Media.Imaging;
+using Caliburn.Micro;
 using ModernApplicationFramework.EditorBase.FileSupport;
-using ModernApplicationFramework.EditorBase.Interfaces;
+using ModernApplicationFramework.EditorBase.FileSupport.TextFile;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Extended.Demo.Modules.MyEditor;
 
@@ -25,7 +27,13 @@ namespace ModernApplicationFramework.Extended.Demo
         public string ApplicationContext => "General";
         public string Description => "Opens a plain xml file";
         public string FileExtension => ".xml";
+        public IEnumerable<IFileDefinitionContext> FileContexts { get; }
         public Guid PreferredEditor => MyTextEditorViewModel.MyTextEditorId;
         public SupportedFileOperation SupportedFileOperation => SupportedFileOperation.OpenCreate;
+
+        private XmlFileDefinition()
+        {
+            FileContexts = new List<IFileDefinitionContext>{ IoC.Get<TextFileDefinitionContext>() };
+        }
     }
 }

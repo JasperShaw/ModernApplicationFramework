@@ -7,7 +7,7 @@
         xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons;assembly=ModernApplicationFramework"
         xmlns:styles="clr-namespace:ModernApplicationFramework.Core.Styles;assembly=ModernApplicationFramework"
         xmlns:editorSelectorDialog="clr-namespace:ModernApplicationFramework.EditorBase.Controls.EditorSelectorDialog"
-        mc:Ignorable="d" Height="377" Width="576" Background="{x:Static SystemColors.ControlBrush}">
+        mc:Ignorable="d" Height="377" Width="576" Background="{x:Static SystemColors.ControlBrush}" ResizeMode="NoResize">
     <FrameworkElement.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="EditorItemTemplate">

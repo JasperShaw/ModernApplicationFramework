@@ -73,6 +73,11 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Commands\OpenFileCommandDefinition.cs" />
+    <Compile Include="Controls\Dialogs\DialogResources.Designer.cs">
+      <DependentUpon>DialogResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Controls\Dialogs\OpenWithFileDialog.cs" />
     <Compile Include="Controls\EditorSelectorDialog\EditorListItem.cs" />
     <Compile Include="Controls\EditorSelectorDialog\EditorSelectorView.xaml.cs">
@@ -84,13 +89,21 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="FileSupport\FileSupportResources.Designer.cs">
+      <DependentUpon>FileSupportResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="FileSupport\DirtyDocumentClosingWatcher.cs" />
     <Compile Include="FileSupport\DocumentBase.cs" />
+    <Compile Include="FileSupport\OpenFileHelper.cs" />
+    <Compile Include="FileSupport\TextFile\TextFileDefinitionContext.cs" />
     <Compile Include="Interfaces\FileSupport\IDocumentBase.cs" />
     <Compile Include="Interfaces\Editor\IEditor.cs" />
     <Compile Include="Interfaces\Editor\INormalEditor.cs" />
     <Compile Include="Interfaces\Editor\IStorableEditor.cs" />
     <Compile Include="Editor\EditorBase.cs" />
+    <Compile Include="Interfaces\FileSupport\IFileDefinitionContext.cs" />
     <Compile Include="Interfaces\IEditorSelectorViewModel.cs" />
     <Compile Include="Interfaces\IEditorSelectorViewModelInternal.cs" />
     <Compile Include="Guids.cs" />
@@ -154,7 +167,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="FileSupport\TextFileDefinition.cs" />
+    <Compile Include="FileSupport\TextFile\TextFileDefinition.cs" />
     <Compile Include="Settings\EditorFileAssociation.cs" />
     <Compile Include="Settings\EditorFileAssociationSettings.cs" />
     <Compile Include="Settings\EditorSettingsCategory.cs" />
@@ -165,11 +178,23 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommandsResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Dialogs\DialogResources.de.resx" />
+    <EmbeddedResource Include="Controls\Dialogs\DialogResources.en.resx" />
+    <EmbeddedResource Include="Controls\Dialogs\DialogResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DialogResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\EditorSelectorDialog\EditorSelectorResources.de.resx" />
     <EmbeddedResource Include="Controls\EditorSelectorDialog\EditorSelectorResources.en.resx" />
     <EmbeddedResource Include="Controls\EditorSelectorDialog\EditorSelectorResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>EditorSelectorResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FileSupport\FileSupportResources.de.resx" />
+    <EmbeddedResource Include="FileSupport\FileSupportResources.en.resx" />
+    <EmbeddedResource Include="FileSupport\FileSupportResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>FileSupportResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="NewElementDialog\NewElementDialogResources.de.resx" />
     <EmbeddedResource Include="NewElementDialog\NewElementDialogResources.en.resx" />

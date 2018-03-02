@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 
@@ -40,6 +41,7 @@ namespace ModernApplicationFramework.EditorBase.Commands
 
         private void OpenFile()
         {
+            OpenFileHelper.ShowOpenFilesDialog();
         }
     }
 }

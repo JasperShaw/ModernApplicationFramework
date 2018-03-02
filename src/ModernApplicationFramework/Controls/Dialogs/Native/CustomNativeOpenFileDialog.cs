@@ -1,6 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using System.Windows;
+using Caliburn.Micro;
 using Microsoft.Win32;
 using ModernApplicationFramework.Native.Shell;
+using ModernApplicationFramework.Utilities.Interfaces;
 
 namespace ModernApplicationFramework.Controls.Dialogs.Native
 {
@@ -30,10 +34,33 @@ namespace ModernApplicationFramework.Controls.Dialogs.Native
         [DefaultValue(false)]
         public bool IsCustom { get; set; }
 
+        [Description(
+            "Function that evaluates the selected files when pressing the custom button. The operation will canceled if the evaluation returns false")]
+        [Category("Behavior")]
+        public abstract Func<bool> CustomEvaluationFunc { get; }
+
+        public abstract string EvaluationFailedMessage { get; }
+
         protected CustomNativeOpenFileDialog()
         {
             if (!IsVistaFileDialogSupported)
                 DownlevelDialog = new OpenFileDialog();
+            FileOk += CustomNativeOpenFileDialog_FileOk;
+        }
+
+        private void CustomNativeOpenFileDialog_FileOk(object sender, CancelEventArgs e)
+        {
+            if (CustomEvaluationFunc != null && CustomSelected)
+            {
+                var flag = CustomEvaluationFunc();
+                if (!flag)
+                {
+                    var caption = IoC.Get<IEnvironmentVariables>().ApplicationName;
+                    MessageBox.Show(EvaluationFailedMessage, caption, MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                }
+                    
+                e.Cancel = !CustomEvaluationFunc();
+            }
         }
 
         public override void Reset()
@@ -62,7 +89,6 @@ namespace ModernApplicationFramework.Controls.Dialogs.Native
                 customize.GetSelectedControlItem(OpenDropDownId, out var selected);
                 CustomSelected = selected == CustomItemId;
             }
-
             base.GetResult(dialog);
         }
     }
