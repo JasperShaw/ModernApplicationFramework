@@ -6,17 +6,18 @@ using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.EditorBase.Interfaces.Editor
 {
-    public interface IEditor<in T> : IEditor where T : IDocument
-    {
-        Task LoadFile(T document, string name);
-    }
-
     public interface IEditor : ILayoutItem, ICanHaveInputBindings
     {
         Guid EditorId { get; }
 
         string Name { get; }
 
-        void UpdateDisplayName();
+        IDocumentBase Document { get; }
+
+        bool IsReadOnly { get; }
+
+        Task LoadFile(IDocumentBase document, string name);
+
+        Task SaveFile();
     }
 }

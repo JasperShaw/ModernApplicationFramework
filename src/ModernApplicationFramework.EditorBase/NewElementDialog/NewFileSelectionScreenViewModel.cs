@@ -14,7 +14,7 @@ namespace ModernApplicationFramework.EditorBase.NewElementDialog
 {
     [Export(typeof(INewFileSelectionModel))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class NewFileSelectionScreenViewModel : NewElementScreenViewModelBase<NewFileCommandArguments>, INewFileSelectionModel
+    public class NewFileSelectionScreenViewModel : NewElementScreenViewModelBase<NewFileArguments>, INewFileSelectionModel
     {
         public override bool UsesNameProperty => false;
 
@@ -40,14 +40,14 @@ namespace ModernApplicationFramework.EditorBase.NewElementDialog
                 .Where(x => x.SupportedFileOperation.HasFlag(SupportedFileOperation.Create));
         }
 
-        public override NewFileCommandArguments CreateResult(string name, string path)
+        public override NewFileArguments CreateResult(string name, string path)
         {
             return !(SelectedExtension is ISupportedFileDefinition fileArgument)
                 ? null
-                : new NewFileCommandArguments(fileArgument, "UniqueName");
+                : new NewFileArguments(fileArgument, "UniqueName");
         }
 
-        public override NewFileCommandArguments CreateResultOpenWith(string name, string path)
+        public override NewFileArguments CreateResultOpenWith(string name, string path)
         {
             var selectorModel = IoC.Get<IEditorSelectorViewModel>();
             selectorModel.TargetExtension = SelectedExtension;
@@ -55,7 +55,7 @@ namespace ModernApplicationFramework.EditorBase.NewElementDialog
                 return null;
             if (!(SelectedExtension is ISupportedFileDefinition fileArgument))
                 return null;
-            return new NewFileCommandArguments(fileArgument, "UniqueName", selectorModel.Result.EditorId);
+            return new NewFileArguments(fileArgument, "UniqueName", selectorModel.Result.EditorId);
         }
     }
 }

@@ -1,8 +1,8 @@
-﻿using ModernApplicationFramework.EditorBase.Commands;
+﻿using ModernApplicationFramework.EditorBase.FileSupport;
 
 namespace ModernApplicationFramework.EditorBase.Interfaces.NewElement
 {
-    public interface INewFileSelectionModel : IExtensionDialogItemPresenter<NewFileCommandArguments>
+    public interface INewFileSelectionModel : IExtensionDialogItemPresenter<NewFileArguments>
     {
 
     }

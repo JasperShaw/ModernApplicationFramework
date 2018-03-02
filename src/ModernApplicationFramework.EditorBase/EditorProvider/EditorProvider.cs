@@ -6,12 +6,14 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Windows;
 using Caliburn.Micro;
-using ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor;
+using ModernApplicationFramework.EditorBase.Commands;
 using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
+using ModernApplicationFramework.Extended.Interfaces;
 
 namespace ModernApplicationFramework.EditorBase.EditorProvider
 {
@@ -48,13 +50,26 @@ namespace ModernApplicationFramework.EditorBase.EditorProvider
 
             if (!(editorToProve is IEditor editor))
                 throw new NotSupportedException("The specified type was not from type IEditor");
-
             return editor;
         }
 
-        public async Task New(IStorableEditor editor, string name)
+        public void New(NewFileArguments arguments)
         {
-            await editor.LoadFile(StorableDocument.CreateNew(name), name);
+            var editor = Get(arguments.Editor);
+            var viewAware = (IViewAware)editor;
+            if (viewAware != null)
+                viewAware.ViewAttached += (sender, e) =>
+                {
+                    var frameworkElement = (FrameworkElement)e.View;
+                    frameworkElement.Loaded += LoadedHandler;
+
+                    async void LoadedHandler(object sender2, RoutedEventArgs e2)
+                    {
+                        frameworkElement.Loaded -= LoadedHandler;
+                        await editor.LoadFile(StorableDocument.CreateNew(arguments.FileName), arguments.FileName);
+                    }
+                };
+            IoC.Get<IDockingMainWindowViewModel>().DockingHost.OpenLayoutItem(editor);
         }
 
         public async Task Open(IStorableDocument document, string path)

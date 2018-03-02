@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.IO;
-using ModernApplicationFramework.EditorBase.Editor;
+using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Input.Command;
@@ -11,7 +11,7 @@ namespace ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor
     [Export(typeof(IEditor))]
     [Export(typeof(SimpleTextEditorViewModel))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public sealed class SimpleTextEditorViewModel : StorableEditor
+    public sealed class SimpleTextEditorViewModel : Editor.EditorBase
     {
         private string _originalText = string.Empty;
 
@@ -25,7 +25,8 @@ namespace ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor
                 if (value == _text)
                     return;
                 _text = value;
-                Document.IsDirty = string.CompareOrdinal(_originalText, value) != 0;
+                if (!IsReadOnly && Document is IStorableDocument storableDocument)
+                    storableDocument.IsDirty = string.CompareOrdinal(_originalText, value) != 0;
                 UpdateDisplayName();
                 NotifyOfPropertyChange();
             }
@@ -43,11 +44,20 @@ namespace ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor
             _originalText = _text;
         }
 
-        protected override void LoadFile(IStorableDocument document)
+        protected override void LoadFile(IDocumentBase document)
         {
-            Document = document;
+            base.LoadFile(document);
             if (!string.IsNullOrEmpty(document.FilePath) && File.Exists(document.FilePath))
                 _originalText = File.ReadAllText(document.FilePath);
+        }
+
+        protected override void UpdateDisplayName()
+        {
+            if (!(Document is IStorableDocument storableDocument)) return;
+            if (storableDocument.IsDirty)
+                DisplayName = Document.FileName + "*";
+            else
+                DisplayName = Document.FileName;
         }
     }
 }

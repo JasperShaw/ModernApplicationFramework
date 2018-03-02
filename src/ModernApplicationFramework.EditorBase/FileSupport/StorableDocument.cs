@@ -1,12 +1,11 @@
 ﻿using System;
-using System.IO;
 using System.Threading.Tasks;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 
 namespace ModernApplicationFramework.EditorBase.FileSupport
 {
     //TODO: At some point make it possible to change file properties (name/path/extension) in inspector
-    public sealed class StorableDocument : Document, IStorableDocument
+    public sealed class StorableDocument : DocumentBase, IStorableDocument
     {
         private bool _isDirty;
 
@@ -24,24 +23,19 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
 
         public bool AskForClose => true;
 
-        public string FileName { get; }
-        public string FilePath { get; }
-
         public bool IsNew { get; private set; }
 
-        private StorableDocument(string filePath, string fileName, bool isNew, bool isDirty)
+        public StorableDocument(string filePath, string fileName, bool isNew, bool isDirty) : base(filePath, fileName)
         {
-            FilePath = filePath;
-            FileName = fileName;
             IsNew = isNew;
             IsDirty = isDirty;
         }
 
-        private StorableDocument(string fileName, bool isNew, bool isDirty) : this(null, fileName, isNew, isDirty)
+        public StorableDocument(string fileName, bool isNew, bool isDirty) : this(null, fileName, isNew, isDirty)
         {
         }
 
-        public Task Load(Action loadAction)
+        public override Task Load(Action loadAction)
         {
             loadAction();
             IsDirty = false;
@@ -61,12 +55,12 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
             return new StorableDocument(fileName, true, false);
         }
 
-        public static StorableDocument OpenExisting(string filePath)
-        {
-            if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
-                throw new ArgumentException("File was not found");
-            var document = new StorableDocument(filePath, Path.GetFileName(filePath), false, false);
-            return document;
-        }
+        //public static StorableDocument OpenExisting(string filePath)
+        //{
+        //    if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
+        //        throw new ArgumentException("File was not found");
+        //    var document = new StorableDocument(filePath, Path.GetFileName(filePath), false, false);
+        //    return document;
+        //}
     }
 }

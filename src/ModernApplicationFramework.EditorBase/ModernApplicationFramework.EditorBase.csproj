@@ -85,10 +85,12 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="FileSupport\DirtyDocumentClosingWatcher.cs" />
+    <Compile Include="FileSupport\DocumentBase.cs" />
+    <Compile Include="Interfaces\FileSupport\IDocumentBase.cs" />
     <Compile Include="Interfaces\Editor\IEditor.cs" />
     <Compile Include="Interfaces\Editor\INormalEditor.cs" />
     <Compile Include="Interfaces\Editor\IStorableEditor.cs" />
-    <Compile Include="Editor\StorableEditor.cs" />
+    <Compile Include="Editor\EditorBase.cs" />
     <Compile Include="Interfaces\IEditorSelectorViewModel.cs" />
     <Compile Include="Interfaces\IEditorSelectorViewModelInternal.cs" />
     <Compile Include="Guids.cs" />
@@ -126,8 +128,8 @@
       <DependentUpon>SimpleTextEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\SimpleTextEditor\SimpleTextEditorViewModel.cs" />
-    <Compile Include="Commands\NewFileCommandArguments.cs" />
-    <Compile Include="Commands\OpenFileWithCommandArguments.cs" />
+    <Compile Include="FileSupport\NewFileArguments.cs" />
+    <Compile Include="FileSupport\OpenFileArguments.cs" />
     <Compile Include="Core\Styles\StyleResourceKeys.cs" />
     <Compile Include="Core\TreeNodeStyleSelector.cs" />
     <Compile Include="EditorProvider\EditorProvider.cs" />

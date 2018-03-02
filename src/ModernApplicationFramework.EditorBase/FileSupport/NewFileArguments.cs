@@ -1,12 +1,11 @@
 ﻿using System;
-using ModernApplicationFramework.EditorBase.Interfaces;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 
-namespace ModernApplicationFramework.EditorBase.Commands
+namespace ModernApplicationFramework.EditorBase.FileSupport
 {
-    public class NewFileCommandArguments
+    public class NewFileArguments
     {
-        public NewFileCommandArguments(ISupportedFileDefinition fileDefinition, string name, Guid choosenEditor = default(Guid))
+        public NewFileArguments(ISupportedFileDefinition fileDefinition, string name, Guid choosenEditor = default(Guid))
         {
             FileDefinition = fileDefinition ?? throw new ArgumentNullException();
             FileName = name;

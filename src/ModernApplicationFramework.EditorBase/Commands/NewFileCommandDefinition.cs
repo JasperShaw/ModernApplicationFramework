@@ -1,17 +1,15 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces;
-using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.NewElement;
 using ModernApplicationFramework.EditorBase.NewElementDialog;
 using ModernApplicationFramework.EditorBase.NewElementDialog.ViewModels;
-using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 
@@ -61,7 +59,7 @@ namespace ModernApplicationFramework.EditorBase.Commands
 
         private void CreateNewFile()
         {
-            var vm = new NewElementDialogViewModel<NewFileCommandArguments>();
+            var vm = new NewElementDialogViewModel<NewFileArguments>();
 
             var presenter = IoC.Get<INewFileSelectionModel>();
             vm.ItemPresenter = presenter;
@@ -70,25 +68,8 @@ namespace ModernApplicationFramework.EditorBase.Commands
             var windowManager = IoC.Get<IWindowManager>();
             if (windowManager.ShowDialog(vm) != true)
                 return;
-
-            var result = vm.ResultData;
-
-            var editor = EditorProvider?.Get(result.Editor);
-            var viewAware = (IViewAware) editor;
-            if (viewAware != null)
-                viewAware.ViewAttached += (sender, e) =>
-                {
-                    var frameworkElement = (FrameworkElement)e.View;
-                    frameworkElement.Loaded += LoadedHandler;
-
-                    async void LoadedHandler(object sender2, RoutedEventArgs e2)
-                    {
-                        frameworkElement.Loaded -= LoadedHandler;
-                        await EditorProvider.New((IStorableEditor) editor,
-                            result.FileName + result.FileDefinition.FileExtension);
-                    }
-                };
-            IoC.Get<IDockingMainWindowViewModel>().DockingHost.OpenLayoutItem(editor);
+            var args = vm.ResultData;
+            EditorProvider.New(args);
         }
     }
 }

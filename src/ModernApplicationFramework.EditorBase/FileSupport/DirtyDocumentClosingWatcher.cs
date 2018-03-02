@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using ModernApplicationFramework.EditorBase.Controls.SaveDirtyDocumentsDialog;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
+using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Extended.Package;
 
 namespace ModernApplicationFramework.EditorBase.FileSupport
@@ -32,7 +33,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
 
         private async void MainWindow_WindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            var storableEditors = DockingHostViewModel.Documents.OfType<IStorableEditor>().ToList();
+            var storableEditors = DockingHostViewModel.Documents.OfType<IEditor>().ToList();
             if (!storableEditors.Any())
                 return;
             e.Cancel = await HanldeClose(storableEditors);
@@ -40,16 +41,16 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
 
         private static async void DockingHostViewLayoutItemsClosing(object sender, Extended.Controls.DockingHost.Views.LayoutItemsClosingEventArgs e)
         {
-            var storableEditors = e.LayoutItems.OfType<IStorableEditor>().ToList();
+            var storableEditors = e.LayoutItems.OfType<IEditor>().ToList();
             if (!storableEditors.Any())
                 return;
             e.Cancel = await HanldeClose(storableEditors);
         }
 
-        private static async Task<bool> HanldeClose(IEnumerable<IStorableEditor> storableEditors)
+        private static async Task<bool> HanldeClose(IEnumerable<IEditor> storableEditors)
         {
-            var items = storableEditors.Where(x => x.Document.IsDirty);
-            var storableDocuments = items as IList<IStorableEditor> ?? items.ToList();
+            var items = storableEditors.Where(x => x.Document is IStorableDocument storableDocument && storableDocument.IsDirty);
+            var storableDocuments = items as IList<IEditor> ?? items.ToList();
             if (!storableDocuments.Any())
                 return false;
 
