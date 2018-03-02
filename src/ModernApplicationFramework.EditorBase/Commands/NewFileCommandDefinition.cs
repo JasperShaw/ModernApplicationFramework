@@ -41,10 +41,10 @@ namespace ModernApplicationFramework.EditorBase.Commands
                 new Uri("/ModernApplicationFramework.EditorBase;component/Resources/Icons/VSO_NewFile_16x.xaml",
                     UriKind.RelativeOrAbsolute);
 
-        public override string Name => CommandsResources.NewFileCommandName;
+        public override string Name => "NewFile";
         public override string NameUnlocalized => "New File";
-        public override string Text => Name;
-        public override string ToolTip => Name;
+        public override string Text => CommandsResources.NewFileCommandName;
+        public override string ToolTip => Text;
 
         public NewFileCommandDefinition()
         {

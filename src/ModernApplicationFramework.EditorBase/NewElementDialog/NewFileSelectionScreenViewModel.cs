@@ -18,7 +18,7 @@ namespace ModernApplicationFramework.EditorBase.NewElementDialog
     {
         public override bool UsesNameProperty => false;
 
-        public override bool UsesPathProperty => true;
+        public override bool UsesPathProperty => false;
 
         public override bool CanOpenWith => true;
 

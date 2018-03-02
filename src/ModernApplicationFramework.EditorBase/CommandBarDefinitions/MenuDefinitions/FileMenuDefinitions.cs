@@ -29,9 +29,13 @@ namespace ModernApplicationFramework.EditorBase.CommandBarDefinitions.MenuDefini
             new MenuDefinition(new Guid("{36D45A3A-9A2D-4142-9659-9CC046E2C14F}"), OpenNewFileGroup, 1, "&Open");
 
         [Export]
-        public static CommandBarGroupDefinition OpenGroup =
-            new CommandBarGroupDefinition(OpenMenu, 0);
+        public static CommandBarGroupDefinition OpenFileGroup =
+            new CommandBarGroupDefinition(OpenMenu, 2);
 
+        [Export]
+        public static CommandBarItemDefinition OpenFile =
+            new CommandBarCommandItemDefinition<OpenFileCommandDefinition>(
+                new Guid("{0A8C3DE8-A864-4CBD-B2D9-3C97787C85F0}"), OpenFileGroup, 2);
 
 
 
