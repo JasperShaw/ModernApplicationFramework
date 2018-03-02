@@ -2,7 +2,6 @@
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using ModernApplicationFramework.EditorBase.Interfaces.NewElement;
-using ModernApplicationFramework.EditorBase.NewElementDialog;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.NewFileExtension
 {

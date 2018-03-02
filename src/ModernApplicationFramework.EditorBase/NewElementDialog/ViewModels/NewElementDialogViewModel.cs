@@ -84,7 +84,7 @@ namespace ModernApplicationFramework.EditorBase.NewElementDialog.ViewModels
         private void _itemPresenter_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(ItemPresenter.SelectedExtension))
-                Name = ItemPresenter.SelectedExtension.PresetElementName;
+                Name = ItemPresenter.SelectedExtension?.PresetElementName;
 
         }
 

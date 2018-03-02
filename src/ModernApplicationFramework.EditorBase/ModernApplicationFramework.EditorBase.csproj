@@ -89,6 +89,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Core\OpenSaveDialogFilters\FilterData.cs" />
+    <Compile Include="Core\OpenSaveDialogFilters\FilterDataEntry.cs" />
+    <Compile Include="FileSupport\FileDefinitionContextManager.cs" />
+    <Compile Include="Interfaces\FileSupport\IFileDefinitionContextManager.cs" />
+    <Compile Include="FileSupport\TextFile\TextFileDefinitionContext.cs" />
     <Compile Include="FileSupport\FileSupportResources.Designer.cs">
       <DependentUpon>FileSupportResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -97,7 +102,6 @@
     <Compile Include="FileSupport\DirtyDocumentClosingWatcher.cs" />
     <Compile Include="FileSupport\DocumentBase.cs" />
     <Compile Include="FileSupport\OpenFileHelper.cs" />
-    <Compile Include="FileSupport\TextFile\TextFileDefinitionContext.cs" />
     <Compile Include="Interfaces\FileSupport\IDocumentBase.cs" />
     <Compile Include="Interfaces\Editor\IEditor.cs" />
     <Compile Include="Interfaces\Editor\INormalEditor.cs" />

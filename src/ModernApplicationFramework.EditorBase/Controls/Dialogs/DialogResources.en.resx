@@ -118,7 +118,8 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="OpenFileDialogOpenWithErrorMessage" xml:space="preserve">
-    <value>Open With can only be used to open multiple files if those files all have identical extensions.\n\nReduce the selection until it contains only files with identical extensions.</value>
+    <value>Open With can only be used to open multiple files if those files all have identical extensions.
+Reduce the selection until it contains only files with identical extensions.</value>
   </data>
   <data name="OpenFileDialogButtonOpenWith" xml:space="preserve">
     <value>Open &amp;With...</value>

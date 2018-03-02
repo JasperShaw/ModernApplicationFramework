@@ -118,7 +118,8 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="OpenFileDialogOpenWithErrorMessage" xml:space="preserve">
-    <value>\"Öffnen mit\" kann nur zum Öffnen von mehreren Dateien verwendet werden, wenn diese Dateien alle die gleiche Erweiterung haben.\n\nVerkleinern Sie die Auswahl so, dass sie nur Dateien mit der gleichen Erweiterung enthält.</value>
+    <value>"Öffnen mit" kann nur zum Öffnen von mehreren Dateien verwendet werden, wenn diese Dateien alle die gleiche Erweiterung haben.
+Verkleinern Sie die Auswahl so, dass sie nur Dateien mit der gleichen Erweiterung enthält.</value>
   </data>
   <data name="OpenFileDialogButtonOpenWith" xml:space="preserve">
     <value>&amp;Öffnen mit...</value>

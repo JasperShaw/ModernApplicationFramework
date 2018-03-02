@@ -129,4 +129,7 @@
   <data name="TextFileDefinitionName" xml:space="preserve">
     <value>Textdatei</value>
   </data>
+  <data name="OpenSaveFileFilterAnyText" xml:space="preserve">
+    <value>Alle Dateien</value>
+  </data>
 </root>

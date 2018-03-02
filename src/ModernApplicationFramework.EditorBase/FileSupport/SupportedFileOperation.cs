@@ -5,8 +5,9 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
     [Flags]
     public enum SupportedFileOperation
     {
-        Open = 0,
-        Create = 1,
+        None = 0,
+        Open = 1,
+        Create = 2,
         OpenCreate = Open | Create
     }
 }

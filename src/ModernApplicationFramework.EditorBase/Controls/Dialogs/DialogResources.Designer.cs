@@ -79,7 +79,8 @@ namespace ModernApplicationFramework.EditorBase.Controls.Dialogs {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Open With can only be used to open multiple files if those files all have identical extensions.\n\nReduce the selection until it contains only files with identical extensions. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Open With can only be used to open multiple files if those files all have identical extensions.
+        ///Reduce the selection until it contains only files with identical extensions. ähnelt.
         /// </summary>
         public static string OpenFileDialogOpenWithErrorMessage {
             get {

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using Caliburn.Micro;
+using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces;
 using ModernApplicationFramework.EditorBase.Interfaces.NewElement;
 using ModernApplicationFramework.EditorBase.NewElementDialog;
@@ -16,7 +18,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.NewFileExtension
 
         protected override NewElementExtesionRootTreeNode ConstructTree()
         {
-            var fileTypes = IoC.Get<IEditorProvider>().SupportedFileDefinitions;
+            var fileTypes = IoC.Get<IEditorProvider>().SupportedFileDefinitions.Where(x => x.SupportedFileOperation.HasFlag(SupportedFileOperation.Create));
             var rootNode = new NewElementExtesionRootTreeNode();
             var node = new NewElementExtensionTreeNode(rootNode, "All Files", fileTypes);
             rootNode.AddNode(node);

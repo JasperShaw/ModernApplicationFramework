@@ -61,6 +61,15 @@ namespace ModernApplicationFramework.EditorBase.FileSupport {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die All Files ähnelt.
+        /// </summary>
+        public static string OpenSaveFileFilterAnyText {
+            get {
+                return ResourceManager.GetString("OpenSaveFileFilterAnyText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die General ähnelt.
         /// </summary>
         public static string TextFileDefinitionApplicationContext {

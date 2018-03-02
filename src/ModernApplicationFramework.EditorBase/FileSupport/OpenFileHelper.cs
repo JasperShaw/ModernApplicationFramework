@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.EditorBase.Controls.Dialogs;
+using ModernApplicationFramework.EditorBase.Core.OpenSaveDialogFilters;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 
 namespace ModernApplicationFramework.EditorBase.FileSupport
@@ -23,31 +23,27 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
                 IsCustom = true,
                 Multiselect = true,
                 Filter = filterData.Filter,
-                FilterIndex = filterData.Index
+                FilterIndex = filterData.MaxIndex
             };
-
-            dialog.ShowDialog(Application.Current.MainWindow);
+            dialog.ShowDialog();
             
             return null;
         }
 
         internal static FilterData BuildFilter(IEnumerable<ISupportedFileDefinition> fileDefinitions)
         {
-            var filter = new FilterData(string.Empty, 0);
-            return filter;
-        }
+            var filter = new FilterData();
 
-        internal struct FilterData
-        {
-            public int Index { get; }
+            var availableContexts = IoC.Get<IFileDefinitionContextManager>().GetRegisteredFileDefinitionContexts;
 
-            public string Filter { get; }
-
-            public FilterData(string filter, int selectIndex)
+            foreach (var context in availableContexts)
             {
-                Filter = filter;
-                Index = selectIndex;
+                var t = fileDefinitions.Where(x => x.FileContexts.Contains(context)).Select(x => x.FileExtension).ToList();
+                filter.AddFilter(new FilterDataEntry(context.Context, t));
             }
+            filter.AddFilterAnyFileAtEnd = true;
+            filter.AddFilterAnyFile(FileSupportResources.OpenSaveFileFilterAnyText);
+            return filter;
         }
     }
 }
