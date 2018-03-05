@@ -254,6 +254,7 @@
     <Compile Include="Basics\Definitions\Command\CommandGestureScopeMapping.cs" />
     <Compile Include="Basics\Services\CommandBarLayoutBackupProvider.cs" />
     <Compile Include="Basics\Services\CommandBarSerializer.cs" />
+    <Compile Include="Basics\Threading\TaskResult.cs" />
     <Compile Include="Basics\WindowModels\MainWindowViewModelConductorAllActive.cs" />
     <Compile Include="Basics\WindowModels\MainWindowViewModelConductorOneActive.cs" />
     <Compile Include="Basics\WindowModels\MainWindowViewModelConductor.cs" />
@@ -613,6 +614,7 @@
     <Compile Include="Interfaces\Views\IToolBarsPageView.cs" />
     <Compile Include="Native\Platform\Enums\BrowseInfoFlags.cs" />
     <Compile Include="Native\Platform\Enums\CbtHookAction.cs" />
+    <Compile Include="Native\Platform\Enums\ShellFileType.cs" />
     <Compile Include="Native\Platform\Enums\FolderBrowserDialogMessage.cs" />
     <Compile Include="Native\Platform\Enums\FormatMessageFlags.cs" />
     <Compile Include="Native\Platform\Enums\HResult.cs" />
@@ -637,6 +639,7 @@
     <Compile Include="Native\Platform\Structs\ComdlgFilterspec.cs" />
     <Compile Include="Native\Platform\Structs\LargeInteger.cs" />
     <Compile Include="Native\Platform\Structs\Propertykey.cs" />
+    <Compile Include="Native\Platform\Structs\ShFileInfo.cs" />
     <Compile Include="Native\Platform\Structs\Win32StreamId.cs" />
     <Compile Include="Native\Platform\Structs\Win32StreamInfo.cs" />
     <Compile Include="Native\Shell\COMGuids.cs" />

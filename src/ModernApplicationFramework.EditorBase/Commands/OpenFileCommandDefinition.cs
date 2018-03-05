@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Windows.Input;
+using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.EditorBase.FileSupport;
+using ModernApplicationFramework.EditorBase.Interfaces;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 
@@ -41,7 +45,23 @@ namespace ModernApplicationFramework.EditorBase.Commands
 
         private void OpenFile()
         {
-            OpenFileHelper.ShowOpenFilesDialog();
+            var arguments = OpenFileHelper.ShowOpenFilesDialog();
+            if (!arguments.Any())
+                return;
+            var editorProvider = IoC.Get<IEditorProvider>();
+
+            var supportedFiles = new List<OpenFileArguments>();
+            var unsupportedFiles = new List<OpenFileArguments>();
+            foreach (var argument in arguments)
+            {
+                if (editorProvider.Handles(argument.Path))
+                    supportedFiles.Add(argument);
+                else
+                    unsupportedFiles.Add(argument);
+            }
+
+            OpenFileHelper.OpenSupportedFiles(supportedFiles);
+            OpenFileHelper.OpenUnsupportedFiles(unsupportedFiles);
         }
     }
 }

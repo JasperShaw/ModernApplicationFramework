@@ -19,5 +19,7 @@ namespace ModernApplicationFramework.EditorBase.Interfaces.Editor
         Task LoadFile(IDocumentBase document, string name);
 
         Task SaveFile();
+
+        bool CanHandleFile(ISupportedFileDefinition fileDefinition);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.IO;
+using ModernApplicationFramework.Basics.Threading;
 using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
@@ -36,6 +37,11 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.MyEditor
 
         public override GestureScope GestureScope => GestureScopes.GlobalGestureScope;
 
+        public override bool CanHandleFile(ISupportedFileDefinition fileDefinition)
+        {
+            return fileDefinition != null;
+        }
+
         public override Guid EditorId => MyTextEditorId;
         public override string Name => "My TextEditor";
 
@@ -49,7 +55,11 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.MyEditor
         {
             base.LoadFile(document);
             if (!string.IsNullOrEmpty(document.FilePath) && File.Exists(document.FilePath))
+            {
+                _text = File.ReadAllText(document.FilePath);
                 _originalText = File.ReadAllText(document.FilePath);
+                NotifyOfPropertyChange(nameof(Text));
+            }
         }
 
         protected override void UpdateDisplayName()

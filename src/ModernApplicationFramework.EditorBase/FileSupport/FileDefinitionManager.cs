@@ -13,7 +13,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
         [ImportMany] private ISupportedFileDefinition[] _supportedFileDefinitions;
 #pragma warning restore 649
 
-        public IEnumerable<ISupportedFileDefinition> SupportedFileDefinitions
+        public IReadOnlyCollection<ISupportedFileDefinition> SupportedFileDefinitions
         {
             get
             {

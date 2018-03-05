@@ -7,7 +7,6 @@ using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Threading;
-using ModernApplicationFramework.Controls.Dialogs;
 using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
@@ -35,10 +34,26 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.WaitingWindow
             DisplayName = "Wait Dialog";
         }
 
-        private static async Task AsyncMethod(IProgress<WaitDialogProgressData> progress)
+        private static async Task AsyncMethod2(IProgress<WaitDialogProgressData> progress, CancellationToken token)
         {
-            await Task.Delay(5000);
-            MessageBox.Show("Completed");
+            try
+            {
+                progress.Report(new WaitDialogProgressData("Wait", string.Empty, "Working", true, 0, 5));
+                await Task.Delay(1000, token);
+                progress.Report(new WaitDialogProgressData("Wait", "1", "Working", true, 1, 5));
+                await Task.Delay(1000, token);
+                progress.Report(new WaitDialogProgressData("Wait", "2", "Working", true, 2, 5));
+                await Task.Delay(1000, token);
+                progress.Report(new WaitDialogProgressData("Wait", "3", "Working", true, 3, 5));
+                await Task.Delay(1000, token);
+                progress.Report(new WaitDialogProgressData("Wait", "4", "Working", true, 4, 5));
+                await Task.Delay(1000, token);
+                progress.Report(new WaitDialogProgressData("Wait", "5", "Working", true, 5, 5));
+                MessageBox.Show("Completed");
+            }
+            catch (TaskCanceledException)
+            {
+            }
         }
 
         private static async Task AsyncMethod(CancellationToken token)
@@ -69,15 +84,15 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.WaitingWindow
             MessageBox.Show("Completed");
         }
 
-        private void MafTaskHelperCancel()
+        private async void MafTaskHelperCancel()
         {
-            MafTaskHelper.Run("Wait", AsyncMethodCancel);
+            await MafTaskHelper.Run("Wait", "", AsyncMethodCancel);
         }
 
 
-        private void MafTaskHelperNormal()
+        private async void MafTaskHelperNormal()
         {
-            MafTaskHelper.Run("Wait", AsyncMethod);
+            await MafTaskHelper.Run("Wait", "", AsyncMethod);
         }
 
         private async void ManualMode()
@@ -86,10 +101,9 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.WaitingWindow
             f.CreateInstance(out var window);
 
             var cancellationTokenSource = new CancellationTokenSource();
-            window.StartWaitDialog("Wait", "Wait", "Wait", string.Empty, 2, true, true);
             window.StartWaitDialogWithCallback("Wait", "Wait", "Wait", string.Empty, true, 2, true, 0, 0,
                 new PrivateCallback(cancellationTokenSource));
-            await Task.Run(() => AsyncMethod(cancellationTokenSource.Token), cancellationTokenSource.Token);
+            await Task.Run(() => AsyncMethod2(WaitDialogHelper.CreateSession(window).Progress, cancellationTokenSource.Token), cancellationTokenSource.Token);
             window.EndWaitDialog(out var canceled);
             if (canceled)
                 MessageBox.Show("Canceled");
@@ -107,9 +121,9 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.WaitingWindow
             }
         }
 
-        private void UpdateMessage()
+        private async void UpdateMessage()
         {
-            MafTaskHelper.Run("Wait", UpdatingMethodCancel, TimeSpan.FromSeconds(0));
+            await MafTaskHelper.Run("Wait", "" , UpdatingMethodCancel);
         }
 
 

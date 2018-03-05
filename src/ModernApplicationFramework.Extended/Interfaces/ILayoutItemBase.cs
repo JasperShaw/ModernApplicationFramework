@@ -1,14 +1,11 @@
 ﻿using System;
 using System.IO;
-using System.Windows.Input;
 using Caliburn.Micro;
 
 namespace ModernApplicationFramework.Extended.Interfaces
 {
-    public interface ILayoutItemBase : IScreen
+    public interface ILayoutItemBase : IScreen, IViewAware
     {
-        //ICommand CloseCommand { get; }
-
         string ContentId { get; }
 
         Uri IconSource { get; }

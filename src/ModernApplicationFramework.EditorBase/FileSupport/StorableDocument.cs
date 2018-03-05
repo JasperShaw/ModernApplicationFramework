@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 
@@ -55,12 +56,12 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
             return new StorableDocument(fileName, true, false);
         }
 
-        //public static StorableDocument OpenExisting(string filePath)
-        //{
-        //    if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
-        //        throw new ArgumentException("File was not found");
-        //    var document = new StorableDocument(filePath, Path.GetFileName(filePath), false, false);
-        //    return document;
-        //}
+        public static StorableDocument OpenExisting(string filePath)
+        {
+            if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
+                throw new ArgumentException("File was not found");
+            var document = new StorableDocument(filePath, Path.GetFileName(filePath), false, false);
+            return document;
+        }
     }
 }

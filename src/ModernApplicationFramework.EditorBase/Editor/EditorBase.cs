@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Extended.Layout;
@@ -11,6 +10,7 @@ namespace ModernApplicationFramework.EditorBase.Editor
     public abstract class EditorBase : KeyBindingLayoutItem, IEditor
     {
         private bool _isReadOnly;
+
         public IDocumentBase Document { get; protected set; }
 
         public virtual bool IsReadOnly
@@ -23,6 +23,12 @@ namespace ModernApplicationFramework.EditorBase.Editor
                 NotifyOfPropertyChange();
             }
         }
+
+        public abstract Guid EditorId { get; }
+
+        public abstract string Name { get; }
+
+        public abstract bool CanHandleFile(ISupportedFileDefinition fileDefinition);
 
         public async Task SaveFile()
         {
@@ -37,9 +43,6 @@ namespace ModernApplicationFramework.EditorBase.Editor
             Document = document;
             await Document.Load(() => LoadFile(document));
         }
-
-        public abstract Guid EditorId { get; }
-        public abstract string Name { get; }
 
         protected virtual void UpdateDisplayName()
         {

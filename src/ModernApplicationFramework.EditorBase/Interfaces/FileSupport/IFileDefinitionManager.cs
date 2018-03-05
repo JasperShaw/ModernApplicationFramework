@@ -4,7 +4,7 @@ namespace ModernApplicationFramework.EditorBase.Interfaces.FileSupport
 {
     public interface IFileDefinitionManager
     {
-        IEnumerable<ISupportedFileDefinition> SupportedFileDefinitions { get; }
+        IReadOnlyCollection<ISupportedFileDefinition> SupportedFileDefinitions { get; }
 
         ISupportedFileDefinition GetDefinitionByExtension(string extension);
     }

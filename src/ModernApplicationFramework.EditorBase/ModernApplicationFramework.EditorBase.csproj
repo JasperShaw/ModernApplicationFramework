@@ -91,6 +91,9 @@
     </Compile>
     <Compile Include="Core\OpenSaveDialogFilters\FilterData.cs" />
     <Compile Include="Core\OpenSaveDialogFilters\FilterDataEntry.cs" />
+    <Compile Include="Editor\EditorException.cs" />
+    <Compile Include="Editor\EditorNotFoundException.cs" />
+    <Compile Include="FileSupport\Exceptions\FileNotSupportedException.cs" />
     <Compile Include="FileSupport\FileDefinitionContextManager.cs" />
     <Compile Include="Interfaces\FileSupport\IFileDefinitionContextManager.cs" />
     <Compile Include="FileSupport\TextFile\TextFileDefinitionContext.cs" />
@@ -116,6 +119,8 @@
     <Compile Include="Interfaces\NewElement\INewElementExtensionTreeNode.cs" />
     <Compile Include="Interfaces\NewElement\INewFileSelectionModel.cs" />
     <Compile Include="FileSupport\SupportedFileOperation.cs" />
+    <Compile Include="NativeMethods\NativeMethods.cs" />
+    <Compile Include="NativeMethods\Shell32.cs" />
     <Compile Include="NewElementDialog\NewElementDialogResources.Designer.cs">
       <DependentUpon>NewElementDialogResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -149,8 +154,8 @@
     <Compile Include="FileSupport\OpenFileArguments.cs" />
     <Compile Include="Core\Styles\StyleResourceKeys.cs" />
     <Compile Include="Core\TreeNodeStyleSelector.cs" />
-    <Compile Include="EditorProvider\EditorProvider.cs" />
-    <Compile Include="EditorProvider\EditorProviderHelper.cs" />
+    <Compile Include="Editor\EditorProvider.cs" />
+    <Compile Include="Editor\EditorProviderHelper.cs" />
     <Compile Include="FileSupport\FileDefinitionManager.cs" />
     <Compile Include="Interfaces\IEditorProvider.cs" />
     <Compile Include="Interfaces\NewElement\IExtensionDefinition.cs" />

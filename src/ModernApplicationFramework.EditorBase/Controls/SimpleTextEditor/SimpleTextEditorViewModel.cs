@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.IO;
-using ModernApplicationFramework.EditorBase.FileSupport;
+using ModernApplicationFramework.Basics.Threading;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Input.Command;
@@ -34,6 +34,13 @@ namespace ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor
 
         public override GestureScope GestureScope => GestureScopes.GlobalGestureScope;
 
+        public override bool CanHandleFile(ISupportedFileDefinition fileDefinition)
+        {
+            //Accept all supported files
+            return fileDefinition != null;
+            
+        }
+
         public override Guid EditorId => Guids.SimpleEditorId;
 
         public override string Name => "Simple TextEditor";
@@ -48,7 +55,11 @@ namespace ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor
         {
             base.LoadFile(document);
             if (!string.IsNullOrEmpty(document.FilePath) && File.Exists(document.FilePath))
+            {
+                _text = File.ReadAllText(document.FilePath);
                 _originalText = File.ReadAllText(document.FilePath);
+                NotifyOfPropertyChange(nameof(Text));
+            }
         }
 
         protected override void UpdateDisplayName()

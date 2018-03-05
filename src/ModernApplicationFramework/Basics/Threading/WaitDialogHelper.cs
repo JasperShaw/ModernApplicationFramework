@@ -44,7 +44,7 @@ namespace ModernApplicationFramework.Basics.Threading
         /// <param name="delayToShowDialog">The delay to show the dialog.</param>
         public static void StartWaitDialog(this IWaitDialogFactory factory,
             Func<IProgress<WaitDialogProgressData>, CancellationToken, Task> asyncFunc, string waitCaption,
-            WaitDialogProgressData initialProgress = null, TimeSpan delayToShowDialog = default(TimeSpan))
+            WaitDialogProgressData initialProgress = null, TimeSpan delayToShowDialog = default)
         {
             var instance = factory.CreateInstance();
             var session = CreateSession(instance);
@@ -90,7 +90,7 @@ namespace ModernApplicationFramework.Basics.Threading
         }
 
 
-        private static Session CreateSession(IWaitDialog waitDialog)
+        public static Session CreateSession(IWaitDialog waitDialog)
         {
             var cancellationTokenSource = new CancellationTokenSource();
             var progress = (IProgress<WaitDialogProgressData>) new ProgressAdapter(waitDialog, cancellationTokenSource);

@@ -11,33 +11,98 @@ namespace ModernApplicationFramework.Basics.Threading
     /// </summary>
     public static class MafTaskHelper
     {
-        /// <summary>
-        /// Runs a cancelable task asynchronously and shows a waiting dialog
-        /// </summary>
-        /// <param name="waitCaption">Caption for the wait dialog.</param>
-        /// <param name="asyncMethod">The asynchronous method.</param>
-        /// <param name="delayToShowDialog">The delay in seconds to show the wait dialog.</param>
-        public static void Run(string waitCaption,
-            Func<IProgress<WaitDialogProgressData>, CancellationToken, Task> asyncMethod,
-            TimeSpan? delayToShowDialog = null)
+        internal static async Task<TaskResult> Run<T>(string title, WaitDialogProgressData progressData, Func<T, IProgress<WaitDialogProgressData>, CancellationToken, Task> a, T param,
+            bool cancelable, TimeSpan delayToShowDialog = default)
         {
-            var factory = IoC.Get<IWaitDialogFactory>();
-            var initialProgress = new WaitDialogProgressData(null, null, null, true);
-            factory.StartWaitDialog(asyncMethod, waitCaption, initialProgress, delayToShowDialog ?? TimeSpan.FromSeconds(2));
+            var f = IoC.Get<IWaitDialogFactory>();
+            f.CreateInstance(out var window);
+
+            var waitSeconds = (int)delayToShowDialog.TotalSeconds;
+
+            var session = WaitDialogHelper.CreateSession(window);
+            window.StartWaitDialogWithCallback(title, progressData.WaitMessage, progressData.ProgressText,
+                progressData.StatusBarText, cancelable, waitSeconds, true, progressData.TotalSteps, progressData.CurrentStep,
+                session.Callback);
+
+            await Task.Run(async () => await a(param, session.Progress, session.UserCancellationToken));
+
+            window.EndWaitDialog(out var canceled);
+            return canceled ? TaskResult.Canceled : TaskResult.Completed;
         }
 
-        /// <summary>
-        /// Runs a task asynchronously and shows a waiting dialog
-        /// </summary>
-        /// <param name="waitCaption">Caption for the wait dialog.</param>
-        /// <param name="asyncMethod">The asynchronous method.</param>
-        /// <param name="delayToShowDialog">The delay in seconds to show the wait dialog.</param>
-        public static void Run(string waitCaption, Func<IProgress<WaitDialogProgressData>, Task> asyncMethod,
+        public static async Task<TaskResult> Run(string title, string message, Func<IProgress<WaitDialogProgressData>, CancellationToken, Task> task,
             TimeSpan? delayToShowDialog = null)
         {
-            var factory = IoC.Get<IWaitDialogFactory>();
-            var initialProgress = new WaitDialogProgressData(null);
-            factory.StartWaitDialog(asyncMethod, waitCaption, initialProgress, delayToShowDialog ?? TimeSpan.FromSeconds(2));
+            var data = new WaitDialogProgressData(message);
+            return await Run(title, data, task, true, delayToShowDialog ?? TimeSpan.FromSeconds(2));
+        }
+
+        public static async Task<TaskResult> Run(string title, string message, Func<IProgress<WaitDialogProgressData>, Task> task,
+            TimeSpan? delayToShowDialog = null)
+        {
+            var data = new WaitDialogProgressData(message);
+            return await Run(title, data, (progress, cancellation) => task(progress), false, delayToShowDialog ?? TimeSpan.FromSeconds(2));
+        }
+
+        public static async Task<TaskResult> Run(string title, string message, Func<CancellationToken, Task> task,
+            TimeSpan? delayToShowDialog = null)
+        {
+            var data = new WaitDialogProgressData(message);
+            return await Run(title, data, (progress, cancellation) => task(cancellation), true, delayToShowDialog ?? TimeSpan.FromSeconds(2));
+        }
+
+        public static async Task<TaskResult> Run(string title, string message, Func<Task> task,
+            TimeSpan? delayToShowDialog = null)
+        {
+            var data = new WaitDialogProgressData(message);
+            return await Run(title, data, (progress, cancellation) => task(), true, delayToShowDialog ?? TimeSpan.FromSeconds(2));
+        }
+
+
+        internal static async Task<TaskResult> Run(string title, WaitDialogProgressData progressData, Func<IProgress<WaitDialogProgressData>, CancellationToken, Task> task,
+            bool cancelable, TimeSpan delayToShowDialog = default)
+        {
+            var f = IoC.Get<IWaitDialogFactory>();
+            f.CreateInstance(out var window);
+
+            var waitSeconds = (int)delayToShowDialog.TotalSeconds;
+
+            var session = WaitDialogHelper.CreateSession(window);
+            window.StartWaitDialogWithCallback(title, progressData.WaitMessage, progressData.ProgressText,
+                progressData.StatusBarText, cancelable, waitSeconds, true, 0, 0,
+                session.Callback);
+
+            await Task.Run(async () => await task(session.Progress, session.UserCancellationToken));
+
+            window.EndWaitDialog(out var canceled);
+            return canceled ? TaskResult.Canceled : TaskResult.Completed;
+        }
+
+        public static async Task<TaskResult> Run<T>(string title, string message, Func<T, IProgress<WaitDialogProgressData>, CancellationToken, Task> task, 
+            T param, TimeSpan? delayToShowDialog = null)
+        {
+            var data = new WaitDialogProgressData(message);
+            return await Run(title, data, task, param, true, delayToShowDialog ?? TimeSpan.FromSeconds(2));
+        }
+
+        public static async Task<TaskResult> Run<T>(string title, string message, Func<T, Task> task, T param, TimeSpan? delayToShowDialog = null)
+        {
+            var data = new WaitDialogProgressData(message);
+            return await Run(title, data, (p1, progress, cancellation) => task(p1), param, false, delayToShowDialog ?? TimeSpan.FromSeconds(2));
+        }
+
+        public static async Task<TaskResult> Run<T>(string title, string message, Func<T, IProgress<WaitDialogProgressData>, Task> task, T param,
+            TimeSpan? delayToShowDialog = null)
+        {
+            var data = new WaitDialogProgressData(message);
+            return await Run(title, data, (p1, progress, cancellation) => task(p1, progress), param, false, delayToShowDialog ?? TimeSpan.FromSeconds(2));
+        }
+
+        public static async Task<TaskResult> Run<T>(string title, string message, Func<T, CancellationToken, Task> task, T param,
+            TimeSpan? delayToShowDialog = null)
+        {
+            var data = new WaitDialogProgressData(message);
+            return await Run(title, data, (p1, progress, cancellation) => task(p1, cancellation), param, true, delayToShowDialog ?? TimeSpan.FromSeconds(2));
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
@@ -20,6 +19,6 @@ namespace ModernApplicationFramework.EditorBase.Interfaces
 
         void New(NewFileArguments arguments);
 
-        Task Open(IStorableDocument document, string path);
+        void Open(OpenFileArguments arguments);
     }
 }

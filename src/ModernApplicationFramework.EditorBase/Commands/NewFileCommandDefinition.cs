@@ -1,17 +1,20 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.EditorBase.FileSupport;
+using ModernApplicationFramework.EditorBase.FileSupport.Exceptions;
 using ModernApplicationFramework.EditorBase.Interfaces;
 using ModernApplicationFramework.EditorBase.Interfaces.NewElement;
 using ModernApplicationFramework.EditorBase.NewElementDialog;
 using ModernApplicationFramework.EditorBase.NewElementDialog.ViewModels;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Utilities.Interfaces;
 
 namespace ModernApplicationFramework.EditorBase.Commands
 {
@@ -69,7 +72,16 @@ namespace ModernApplicationFramework.EditorBase.Commands
             if (windowManager.ShowDialog(vm) != true)
                 return;
             var args = vm.ResultData;
-            EditorProvider.New(args);
+            try
+            {
+                EditorProvider.New(args);
+            }
+            catch (FileNotSupportedException exception)
+            {
+                MessageBox.Show(exception.Message, IoC.Get<IEnvironmentVariables>().ApplicationName,
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            
         }
     }
 }

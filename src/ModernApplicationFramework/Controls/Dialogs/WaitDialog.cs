@@ -246,9 +246,17 @@ namespace ModernApplicationFramework.Controls.Dialogs
                 return;
 
             if (waitDialog.Action == null && waitDialog.Function == null)
-                waitDialog.Dispatcher.Invoke(DispatcherPriority.Loaded, new ThreadStart(waitDialog.Show));
+                waitDialog.Dispatcher.Invoke(DispatcherPriority.Loaded, new ThreadStart(() =>
+                    {
+                        waitDialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                        waitDialog.ShowDialog();
+                    }));
             else
-                waitDialog.Dispatcher.Invoke(DispatcherPriority.Loaded, new ThreadStart(() => waitDialog.ShowDialog()));
+                waitDialog.Dispatcher.Invoke(DispatcherPriority.Loaded, new ThreadStart(() =>
+                    {
+                        waitDialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                        waitDialog.ShowDialog();
+                    }));
         }
 
         private void Cancel()

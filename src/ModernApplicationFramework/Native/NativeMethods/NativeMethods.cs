@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.Permissions;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
@@ -307,6 +308,7 @@ namespace ModernApplicationFramework.Native.NativeMethods
                 if (MaxPath <= result.Length)
                     result = LongPathPrefix + result;
             }
+
             return result;
         }
 
@@ -506,7 +508,7 @@ namespace ModernApplicationFramework.Native.NativeMethods
             interop.EnsureHandle();
             var handle = interop.Handle;
             var hMonitor = User32.MonitorFromWindow(handle, 2);
-            var monitorInfo = new Monitorinfo { CbSize = (uint)Marshal.SizeOf(typeof(Monitorinfo)) };
+            var monitorInfo = new Monitorinfo {CbSize = (uint) Marshal.SizeOf(typeof(Monitorinfo))};
             User32.GetMonitorInfo(hMonitor, ref monitorInfo);
             return monitorInfo;
         }
@@ -514,21 +516,23 @@ namespace ModernApplicationFramework.Native.NativeMethods
         internal static Monitorinfo MonitorInfoFromWindow(IntPtr hWnd)
         {
             var hMonitor = User32.MonitorFromWindow(hWnd, 2);
-            var monitorInfo = new Monitorinfo { CbSize = (uint)Marshal.SizeOf(typeof(Monitorinfo)) };
+            var monitorInfo = new Monitorinfo {CbSize = (uint) Marshal.SizeOf(typeof(Monitorinfo))};
             User32.GetMonitorInfo(hMonitor, ref monitorInfo);
             return monitorInfo;
         }
 
-        internal static void FindMaximumSingleMonitorRectangle(RECT windowRect, out RECT screenSubRect, out RECT monitorRect)
+        internal static void FindMaximumSingleMonitorRectangle(RECT windowRect, out RECT screenSubRect,
+            out RECT monitorRect)
         {
             List<RECT> rects = new List<RECT>();
-            User32.EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero, (IntPtr hMonitor, IntPtr hdcMonitor, ref RECT rect, IntPtr lpData) =>
-            {
-                var monitorInfo = new Monitorinfo {CbSize = (uint) Marshal.SizeOf(typeof(Monitorinfo))};
-                User32.GetMonitorInfo(hMonitor, ref monitorInfo);
-                rects.Add(monitorInfo.RcWork);
-                return true;
-            }, IntPtr.Zero);
+            User32.EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero,
+                (IntPtr hMonitor, IntPtr hdcMonitor, ref RECT rect, IntPtr lpData) =>
+                {
+                    var monitorInfo = new Monitorinfo {CbSize = (uint) Marshal.SizeOf(typeof(Monitorinfo))};
+                    User32.GetMonitorInfo(hMonitor, ref monitorInfo);
+                    rects.Add(monitorInfo.RcWork);
+                    return true;
+                }, IntPtr.Zero);
             long num1 = 0;
             screenSubRect = new RECT()
             {
