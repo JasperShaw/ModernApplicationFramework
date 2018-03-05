@@ -49,7 +49,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
 
         private static async Task<bool> HanldeClose(IEnumerable<IEditor> storableEditors)
         {
-            var items = storableEditors.Where(x => x.Document is IStorableDocument storableDocument && storableDocument.IsDirty);
+            var items = storableEditors.Where(x => x.Document is IStorableFile storableDocument && storableDocument.IsDirty);
             var storableDocuments = items as IList<IEditor> ?? items.ToList();
             if (!storableDocuments.Any())
                 return false;

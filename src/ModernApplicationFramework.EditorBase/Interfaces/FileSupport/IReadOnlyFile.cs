@@ -1,8 +1,6 @@
-﻿using ModernApplicationFramework.EditorBase.FileSupport;
-
-namespace ModernApplicationFramework.EditorBase.Interfaces.FileSupport
+﻿namespace ModernApplicationFramework.EditorBase.Interfaces.FileSupport
 {
-    public interface IDocument : IDocumentBase
+    public interface IReadOnlyFile : IFile
     {
         //ICommand SaveFileAsCommand { get; }
 

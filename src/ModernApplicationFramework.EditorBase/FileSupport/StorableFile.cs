@@ -6,7 +6,7 @@ using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 namespace ModernApplicationFramework.EditorBase.FileSupport
 {
     //TODO: At some point make it possible to change file properties (name/path/extension) in inspector
-    public sealed class StorableDocument : DocumentBase, IStorableDocument
+    public sealed class StorableFile : MafFile, IStorableFile
     {
         private bool _isDirty;
 
@@ -26,13 +26,13 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
 
         public bool IsNew { get; private set; }
 
-        public StorableDocument(string filePath, string fileName, bool isNew, bool isDirty) : base(filePath, fileName)
+        public StorableFile(string filePath, string fileName, bool isNew, bool isDirty) : base(filePath, fileName)
         {
             IsNew = isNew;
             IsDirty = isDirty;
         }
 
-        public StorableDocument(string fileName, bool isNew, bool isDirty) : this(null, fileName, isNew, isDirty)
+        public StorableFile(string fileName, bool isNew, bool isDirty) : this(null, fileName, isNew, isDirty)
         {
         }
 
@@ -51,16 +51,16 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
             return Task.CompletedTask;
         }
 
-        public static StorableDocument CreateNew(string fileName)
+        public static StorableFile CreateNew(string fileName)
         {
-            return new StorableDocument(fileName, true, false);
+            return new StorableFile(fileName, true, false);
         }
 
-        public static StorableDocument OpenExisting(string filePath)
+        public static StorableFile OpenExisting(string filePath)
         {
             if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
                 throw new ArgumentException("File was not found");
-            var document = new StorableDocument(filePath, Path.GetFileName(filePath), false, false);
+            var document = new StorableFile(filePath, Path.GetFileName(filePath), false, false);
             return document;
         }
     }

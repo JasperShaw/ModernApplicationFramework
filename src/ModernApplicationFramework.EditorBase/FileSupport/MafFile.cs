@@ -7,7 +7,7 @@ using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 
 namespace ModernApplicationFramework.EditorBase.FileSupport
 {
-    public abstract class DocumentBase : IDocumentBase
+    public abstract class MafFile : IFile
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -15,7 +15,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
 
         public string FilePath { get; }
 
-        protected DocumentBase(string path, string name)
+        protected MafFile(string path, string name)
         {
             FileName = name;
             FilePath = path;

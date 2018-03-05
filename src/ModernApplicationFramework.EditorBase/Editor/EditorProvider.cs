@@ -6,14 +6,12 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.Threading;
 using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.FileSupport.Exceptions;
 using ModernApplicationFramework.EditorBase.Interfaces;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Extended.Interfaces;
-using ModernApplicationFramework.Utilities.Interfaces;
 
 namespace ModernApplicationFramework.EditorBase.Editor
 {
@@ -59,7 +57,7 @@ namespace ModernApplicationFramework.EditorBase.Editor
             var editor = Get(arguments.Editor);
             if (!editor.CanHandleFile(arguments.FileDefinition))
                 throw new FileNotSupportedException("The specified file is not supported by this editor");
-            editor.LoadFile(StorableDocument.CreateNew(arguments.FileName), arguments.FileName);
+            editor.LoadFile(StorableFile.CreateNew(arguments.FileName), arguments.FileName);
             IoC.Get<IDockingMainWindowViewModel>().DockingHost.OpenLayoutItem(editor);
         }
 
@@ -69,18 +67,12 @@ namespace ModernApplicationFramework.EditorBase.Editor
             if (!editor.CanHandleFile(args.FileDefinition))
                 throw new FileNotSupportedException("The specified file is not supported by this editor");
 
-            IDocumentBase document;
+            IFile document;
             if (!args.FileDefinition.SupportedFileOperation.HasFlag(SupportedFileOperation.Create))
-                document = Document.OpenExisting(args.Path);
+                document = ReadOnlyFile.OpenExisting(args.Path);
             else
-                document = StorableDocument.OpenExisting(args.Path);
-
-            await MafTaskHelper.Run(IoC.Get<IEnvironmentVariables>().ApplicationName ,"Opening File...", async () =>
-            {
-                await editor.LoadFile(document, args.Name);
-            });
-
-
+                document = StorableFile.OpenExisting(args.Path);
+            await editor.LoadFile(document, args.Name);
             IoC.Get<IDockingMainWindowViewModel>().DockingHost.OpenLayoutItem(editor);
         }
 

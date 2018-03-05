@@ -11,7 +11,7 @@ namespace ModernApplicationFramework.EditorBase.Editor
     {
         private bool _isReadOnly;
 
-        public IDocumentBase Document { get; protected set; }
+        public IFile Document { get; protected set; }
 
         public virtual bool IsReadOnly
         {
@@ -33,11 +33,11 @@ namespace ModernApplicationFramework.EditorBase.Editor
         public async Task SaveFile()
         {
             var filePath = Path.GetFileName(Document.FilePath);
-            if (Document is IStorableDocument storableDocument)
+            if (Document is IStorableFile storableDocument)
                 await storableDocument.Save(() => SaveFile(filePath));
         }
 
-        public async Task LoadFile(IDocumentBase document, string name)
+        public async Task LoadFile(IFile document, string name)
         {
             DisplayName = name;
             Document = document;
@@ -51,10 +51,10 @@ namespace ModernApplicationFramework.EditorBase.Editor
 
         protected abstract void SaveFile(string filePath);
 
-        protected virtual void LoadFile(IDocumentBase document)
+        protected virtual void LoadFile(IFile document)
         {
             Document = document;
-            IsReadOnly = !(document is IStorableDocument);
+            IsReadOnly = !(document is IStorableFile);
         }
     }
 }

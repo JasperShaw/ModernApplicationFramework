@@ -5,7 +5,7 @@ using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 
 namespace ModernApplicationFramework.EditorBase.FileSupport
 {
-    public sealed class Document : DocumentBase, IDocument
+    public sealed class ReadOnlyFile : MafFile, IReadOnlyFile
     {
         //public ICommand SaveFileAsCommand => new Command(SaveFileAs, CanSaveFileAs);
         //public ICommand SaveFileCommand => new Command(SaveFile, CanSaveFile);
@@ -75,7 +75,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
         //}
 
 
-        public Document(string path, string name) : base(path, name)
+        public ReadOnlyFile(string path, string name) : base(path, name)
         {
         }
 
@@ -85,11 +85,11 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
             return Task.CompletedTask;
         }
 
-        public static Document OpenExisting(string filePath)
+        public static ReadOnlyFile OpenExisting(string filePath)
         {
             if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
                 throw new ArgumentException("File was not found");
-            var document = new Document(filePath, Path.GetFileName(filePath));
+            var document = new ReadOnlyFile(filePath, Path.GetFileName(filePath));
             return document;
         }
     }

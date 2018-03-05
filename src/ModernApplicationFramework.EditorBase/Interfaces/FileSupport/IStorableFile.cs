@@ -1,10 +1,9 @@
 ﻿using System.Threading.Tasks;
-using ModernApplicationFramework.EditorBase.FileSupport;
 using Action = System.Action;
 
 namespace ModernApplicationFramework.EditorBase.Interfaces.FileSupport
 {
-    public interface IStorableDocument : IDocumentBase
+    public interface IStorableFile : IFile
     {
         bool IsDirty { get; set; }
 

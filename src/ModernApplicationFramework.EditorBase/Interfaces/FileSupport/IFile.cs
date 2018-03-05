@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace ModernApplicationFramework.EditorBase.Interfaces.FileSupport
 {
-    public interface IDocumentBase : INotifyPropertyChanged
+    public interface IFile : INotifyPropertyChanged
     {
         string FileName { get; }
 

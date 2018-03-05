@@ -95,6 +95,7 @@
     <Compile Include="Editor\EditorNotFoundException.cs" />
     <Compile Include="FileSupport\Exceptions\FileNotSupportedException.cs" />
     <Compile Include="FileSupport\FileDefinitionContextManager.cs" />
+    <Compile Include="FileSupport\FileService.cs" />
     <Compile Include="Interfaces\FileSupport\IFileDefinitionContextManager.cs" />
     <Compile Include="FileSupport\TextFile\TextFileDefinitionContext.cs" />
     <Compile Include="FileSupport\FileSupportResources.Designer.cs">
@@ -103,9 +104,9 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="FileSupport\DirtyDocumentClosingWatcher.cs" />
-    <Compile Include="FileSupport\DocumentBase.cs" />
+    <Compile Include="FileSupport\MafFile.cs" />
     <Compile Include="FileSupport\OpenFileHelper.cs" />
-    <Compile Include="Interfaces\FileSupport\IDocumentBase.cs" />
+    <Compile Include="Interfaces\FileSupport\IFile.cs" />
     <Compile Include="Interfaces\Editor\IEditor.cs" />
     <Compile Include="Interfaces\Editor\INormalEditor.cs" />
     <Compile Include="Interfaces\Editor\IStorableEditor.cs" />
@@ -164,10 +165,10 @@
     <Compile Include="Interfaces\ISaveDirtyDocumentsDialog.cs" />
     <Compile Include="Interfaces\ISortingComboboxItem.cs" />
     <Compile Include="Interfaces\FileSupport\ISupportedFileDefinition.cs" />
-    <Compile Include="Interfaces\FileSupport\IDocument.cs" />
-    <Compile Include="Interfaces\FileSupport\IStorableDocument.cs" />
-    <Compile Include="FileSupport\Document.cs" />
-    <Compile Include="FileSupport\StorableDocument.cs" />
+    <Compile Include="Interfaces\FileSupport\IReadOnlyFile.cs" />
+    <Compile Include="Interfaces\FileSupport\IStorableFile.cs" />
+    <Compile Include="FileSupport\ReadOnlyFile.cs" />
+    <Compile Include="FileSupport\StorableFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

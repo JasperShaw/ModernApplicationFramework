@@ -12,11 +12,11 @@ namespace ModernApplicationFramework.EditorBase.Interfaces.Editor
 
         string Name { get; }
 
-        IDocumentBase Document { get; }
+        IFile Document { get; }
 
         bool IsReadOnly { get; }
 
-        Task LoadFile(IDocumentBase document, string name);
+        Task LoadFile(IFile document, string name);
 
         Task SaveFile();
 

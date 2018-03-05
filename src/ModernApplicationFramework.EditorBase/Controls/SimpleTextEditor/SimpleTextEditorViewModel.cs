@@ -25,7 +25,7 @@ namespace ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor
                 if (value == _text)
                     return;
                 _text = value;
-                if (!IsReadOnly && Document is IStorableDocument storableDocument)
+                if (!IsReadOnly && Document is IStorableFile storableDocument)
                     storableDocument.IsDirty = string.CompareOrdinal(_originalText, value) != 0;
                 UpdateDisplayName();
                 NotifyOfPropertyChange();
@@ -51,7 +51,7 @@ namespace ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor
             _originalText = _text;
         }
 
-        protected override void LoadFile(IDocumentBase document)
+        protected override void LoadFile(IFile document)
         {
             base.LoadFile(document);
             if (!string.IsNullOrEmpty(document.FilePath) && File.Exists(document.FilePath))
@@ -64,7 +64,7 @@ namespace ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor
 
         protected override void UpdateDisplayName()
         {
-            if (!(Document is IStorableDocument storableDocument)) return;
+            if (!(Document is IStorableFile storableDocument)) return;
             if (storableDocument.IsDirty)
                 DisplayName = Document.FileName + "*";
             else
