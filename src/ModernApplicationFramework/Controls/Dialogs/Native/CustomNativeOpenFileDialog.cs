@@ -39,7 +39,11 @@ namespace ModernApplicationFramework.Controls.Dialogs.Native
         [Category("Behavior")]
         public abstract Func<bool> CustomEvaluationFunc { get; }
 
+        public abstract Func<bool> CustomExeuteFunc { get; }
+
         public abstract string EvaluationFailedMessage { get; }
+
+        public object CustomResultData { get; protected set; }
 
         protected CustomNativeOpenFileDialog()
         {
@@ -52,14 +56,15 @@ namespace ModernApplicationFramework.Controls.Dialogs.Native
         {
             if (CustomEvaluationFunc != null && CustomSelected)
             {
-                var flag = CustomEvaluationFunc();
-                if (!flag)
+                if (!CustomEvaluationFunc())
                 {
                     var caption = IoC.Get<IEnvironmentVariables>().ApplicationName;
                     MessageBox.Show(EvaluationFailedMessage, caption, MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                    e.Cancel = true;
+                    return;
                 }
-                    
-                e.Cancel = !CustomEvaluationFunc();
+
+                e.Cancel = !CustomExeuteFunc();
             }
         }
 

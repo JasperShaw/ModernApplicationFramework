@@ -9,6 +9,7 @@ using ModernApplicationFramework.EditorBase.Controls.Dialogs;
 using ModernApplicationFramework.EditorBase.Core.OpenSaveDialogFilters;
 using ModernApplicationFramework.EditorBase.FileSupport.Exceptions;
 using ModernApplicationFramework.EditorBase.Interfaces;
+using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Native.Platform.Enums;
 using ModernApplicationFramework.Utilities.Interfaces;
@@ -32,10 +33,10 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
             };
             return dialog.ShowDialog() != true
                 ? new List<OpenFileArguments>()
-                : CreateOpenFileArguments(dialog.FileNames);
+                : CreateOpenFileArguments(dialog.FileNames, dialog.CustomResultData as IEditor);
         }
 
-        private static IReadOnlyCollection<OpenFileArguments> CreateOpenFileArguments(IReadOnlyCollection<string> files)
+        private static IReadOnlyCollection<OpenFileArguments> CreateOpenFileArguments(IReadOnlyCollection<string> files, IEditor preferrEditor)
         {
             var arguments = new List<OpenFileArguments>();
             if (!files.Any())
@@ -45,7 +46,10 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
             foreach (var file in files)
             {
                 var fileDefinition = fdm.GetDefinitionByExtension(Path.GetExtension(file));
-                var argument = new OpenFileArguments(fileDefinition, file, Guid.Empty);
+                var editorId = Guid.Empty;
+                if (preferrEditor != null)
+                    editorId = preferrEditor.EditorId;
+                var argument = new OpenFileArguments(fileDefinition, file, editorId);
                 arguments.Add(argument);
             }
             return arguments;
