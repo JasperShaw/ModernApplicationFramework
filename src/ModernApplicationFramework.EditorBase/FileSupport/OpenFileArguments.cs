@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 
 namespace ModernApplicationFramework.EditorBase.FileSupport

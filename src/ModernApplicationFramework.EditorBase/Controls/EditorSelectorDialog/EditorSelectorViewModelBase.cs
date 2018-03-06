@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Input;
 using Caliburn.Micro;
@@ -12,9 +11,7 @@ using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.EditorBase.Controls.EditorSelectorDialog
 {
-    [Export(typeof(IEditorSelectorViewModel))]
-    [PartCreationPolicy(CreationPolicy.NonShared)]
-    public sealed class EditorSelectorViewModel : Screen, IEditorSelectorViewModel, IEditorSelectorViewModelInternal
+    public abstract class EditorSelectorViewModelBase : Screen, IEditorSelectorViewModel, IEditorSelectorViewModelInternal
     {
         private readonly IEditorFileAssociationSettings _settings;
         private EditorListItem _selectedEditor;
@@ -47,10 +44,8 @@ namespace ModernApplicationFramework.EditorBase.Controls.EditorSelectorDialog
 
         public IEditor Result { get; private set; }
 
-        [ImportingConstructor]
-        public EditorSelectorViewModel([ImportMany] IEditor[] editors, IEditorFileAssociationSettings settings)
+        protected EditorSelectorViewModelBase(IEnumerable<IEditor> editors, IEditorFileAssociationSettings settings)
         {
-            DisplayName = EditorSelectorResources.WindowTitle;
             _settings = settings;
             var items = editors.Select(editor => new EditorListItem(editor)).ToList();
             Editors = new List<EditorListItem>(items);
@@ -70,6 +65,8 @@ namespace ModernApplicationFramework.EditorBase.Controls.EditorSelectorDialog
         private void GetDefaultEditor(IExtensionDefinition file)
         {
             var editor = _settings.GetAssociatedEditor((ISupportedFileDefinition) file);
+            if (editor == null)
+                return;
             var item = Editors.FirstOrDefault(x => x.Editor.EditorId == editor.EditorId);
             if (item == null)
                 return;

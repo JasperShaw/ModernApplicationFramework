@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.IO;
-using ModernApplicationFramework.Basics.Threading;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Input.Command;
@@ -42,6 +41,8 @@ namespace ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor
         }
 
         public override Guid EditorId => Guids.SimpleEditorId;
+
+        public override string LocalizedName => "Simple TextEditor";
 
         public override string Name => "Simple TextEditor";
 

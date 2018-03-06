@@ -1,4 +1,5 @@
-﻿using ModernApplicationFramework.Basics.Services;
+﻿using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Services;
 
 namespace ModernApplicationFrameworkTestSimpleWindow
 {
@@ -7,6 +8,10 @@ namespace ModernApplicationFrameworkTestSimpleWindow
         public DemoBootstrapper() : base(false)
         {
             Initialize();
+
+            var baseGetLog = LogManager.GetLog;
+
+            LogManager.GetLog = t => t == typeof(ViewModelBinder) ? new DebugLog(t) : baseGetLog(t);
         }
     }
 }

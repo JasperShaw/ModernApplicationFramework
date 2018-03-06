@@ -10,7 +10,7 @@ namespace ModernApplicationFramework.EditorBase.Editor
     public abstract class EditorBase : KeyBindingLayoutItem, IEditor
     {
         private bool _isReadOnly;
-
+        public abstract string Name { get; }
         public IFile Document { get; protected set; }
 
         public virtual bool IsReadOnly
@@ -26,7 +26,7 @@ namespace ModernApplicationFramework.EditorBase.Editor
 
         public abstract Guid EditorId { get; }
 
-        public abstract string Name { get; }
+        public abstract string LocalizedName { get; }
 
         public abstract bool CanHandleFile(ISupportedFileDefinition fileDefinition);
 

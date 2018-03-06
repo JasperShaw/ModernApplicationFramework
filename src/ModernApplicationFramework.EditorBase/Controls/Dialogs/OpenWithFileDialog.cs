@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.Controls.Dialogs.Native;
-using ModernApplicationFramework.EditorBase.Interfaces;
+using ModernApplicationFramework.EditorBase.Controls.EditorSelectorDialog;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 
 namespace ModernApplicationFramework.EditorBase.Controls.Dialogs
@@ -29,7 +29,7 @@ namespace ModernApplicationFramework.EditorBase.Controls.Dialogs
 
         public override Func<bool> CustomExeuteFunc => delegate
         {
-            var selectorModel = IoC.Get<IEditorSelectorViewModel>();
+            var selectorModel = IoC.Get<OpenFileEditorSelectorViewModel>();
             selectorModel.TargetExtension = IoC.Get<IFileDefinitionManager>()
                 .GetDefinitionByExtension(Path.GetExtension(FileNames.FirstOrDefault()));
             if (IoC.Get<IWindowManager>().ShowDialog(selectorModel) != true)

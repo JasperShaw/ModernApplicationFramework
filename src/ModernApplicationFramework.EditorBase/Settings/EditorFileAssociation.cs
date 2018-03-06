@@ -9,35 +9,45 @@ namespace ModernApplicationFramework.EditorBase.Settings
     [XmlRoot(ElementName = "Editor")]
     public class EditorFileAssociation
     {
-        private string _idField;
-        private List<EditorSupportedFileDefinition> _supportedFileDefinitionField;
+        private List<EditorSupportedFileDefinition> _createWithDefaultExtension;
+        private List<EditorSupportedFileDefinition> _defaultExtension;
 
         [XmlAttribute]
-        public string Id
+        public string Id { get; set; }
+
+        [XmlAttribute]
+        public string Name { get; set; }
+
+        [XmlElement("CreateWithDefaultExtension", Form = System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable = true)]
+        public List<EditorSupportedFileDefinition> CreateWithDefaultExtension
         {
-            get => _idField;
-            set => _idField = value;
+            get => _createWithDefaultExtension;
+            set => _createWithDefaultExtension = value;
         }
 
-        [XmlElement("DefaultFileExtension", Form = System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable = true)]
-        public List<EditorSupportedFileDefinition> SupportedFileDefinition
+        [XmlElement("DefaultExtension", Form = System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable = true)]
+        public List<EditorSupportedFileDefinition> DefaultExtension
         {
-            get => _supportedFileDefinitionField;
-            set => _supportedFileDefinitionField = value;
+            get => _defaultExtension;
+            set => _defaultExtension = value;
         }
 
-        public EditorFileAssociation(string id, IEnumerable<string> extensions)
+        public EditorFileAssociation(string id, string name)
         {
             Id = id;
-            SupportedFileDefinition = new List<EditorSupportedFileDefinition>();
-            foreach (var extension in extensions)
-                SupportedFileDefinition.Add(new EditorSupportedFileDefinition(extension));
+            Name = name;
+            CreateWithDefaultExtension = new List<EditorSupportedFileDefinition>();
+            DefaultExtension = new List<EditorSupportedFileDefinition>();
         }
 
-        public EditorFileAssociation(string id)
+        internal void AddRange(IEnumerable<string> extensions, AddOption option)
         {
-            Id = id;
-            SupportedFileDefinition = new List<EditorSupportedFileDefinition>();
+            if (option == AddOption.NewFile)
+                foreach (var extension in extensions)
+                    CreateWithDefaultExtension.Add(new EditorSupportedFileDefinition(extension));
+            else if (option == AddOption.OpenFile)
+                foreach (var extension in extensions)
+                    DefaultExtension.Add(new EditorSupportedFileDefinition(extension));
         }
 
         public EditorFileAssociation()
@@ -68,5 +78,11 @@ namespace ModernApplicationFramework.EditorBase.Settings
         {
 
         }
+    }
+
+    internal enum AddOption
+    {
+        NewFile,
+        OpenFile
     }
 }

@@ -80,15 +80,20 @@
     </Compile>
     <Compile Include="Controls\Dialogs\OpenWithFileDialog.cs" />
     <Compile Include="Controls\EditorSelectorDialog\EditorListItem.cs" />
-    <Compile Include="Controls\EditorSelectorDialog\EditorSelectorView.xaml.cs">
-      <DependentUpon>EditorSelectorView.xaml</DependentUpon>
+    <Compile Include="Controls\EditorSelectorDialog\OpenFileEditorSelectorView.xaml.cs">
+      <DependentUpon>OpenFileEditorSelectorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\EditorSelectorDialog\EditorSelectorViewModel.cs" />
+    <Compile Include="Controls\EditorSelectorDialog\NewFileEditorSelectorView.xaml.cs">
+      <DependentUpon>NewFileEditorSelectorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EditorSelectorDialog\EditorSelectorViewModelBase.cs" />
     <Compile Include="Controls\EditorSelectorDialog\EditorSelectorResources.Designer.cs">
       <DependentUpon>EditorSelectorResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Controls\EditorSelectorDialog\OpenFileEditorSelectorViewModel.cs" />
+    <Compile Include="Controls\EditorSelectorDialog\NewFileEditorSelectorViewModel.cs" />
     <Compile Include="Core\OpenSaveDialogFilters\FilterData.cs" />
     <Compile Include="Core\OpenSaveDialogFilters\FilterDataEntry.cs" />
     <Compile Include="Editor\EditorException.cs" />
@@ -96,6 +101,7 @@
     <Compile Include="FileSupport\Exceptions\FileNotSupportedException.cs" />
     <Compile Include="FileSupport\FileDefinitionContextManager.cs" />
     <Compile Include="FileSupport\FileService.cs" />
+    <Compile Include="FileSupport\SupportedFileDefinition.cs" />
     <Compile Include="Interfaces\FileSupport\IFileDefinitionContextManager.cs" />
     <Compile Include="FileSupport\TextFile\TextFileDefinitionContext.cs" />
     <Compile Include="FileSupport\FileSupportResources.Designer.cs">
@@ -238,7 +244,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Controls\EditorSelectorDialog\EditorSelectorView.xaml">
+    <Page Include="Controls\EditorSelectorDialog\OpenFileEditorSelectorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\EditorSelectorDialog\NewFileEditorSelectorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

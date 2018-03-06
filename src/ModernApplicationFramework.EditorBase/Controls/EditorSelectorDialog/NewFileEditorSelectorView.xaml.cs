@@ -1,8 +1,8 @@
 ﻿namespace ModernApplicationFramework.EditorBase.Controls.EditorSelectorDialog
 {
-    public partial class EditorSelectorView
+    public partial class NewFileEditorSelectorView
     {
-        public EditorSelectorView()
+        public NewFileEditorSelectorView()
         {
             InitializeComponent();
         }

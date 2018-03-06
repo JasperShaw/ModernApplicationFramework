@@ -11,6 +11,8 @@ namespace ModernApplicationFramework.EditorBase.Interfaces.FileSupport
 
         IEnumerable<IFileDefinitionContext> FileContexts { get; }
 
+        Guid DefaultEditor { get; }
+
         Guid PreferredEditor { get; }
 
         SupportedFileOperation SupportedFileOperation { get; }

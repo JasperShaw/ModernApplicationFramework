@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor;
-using ModernApplicationFramework.EditorBase.Interfaces;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.Settings;
@@ -14,28 +12,15 @@ using ModernApplicationFramework.Utilities.Interfaces.Settings;
 
 namespace ModernApplicationFramework.EditorBase.Settings
 {
-    [Export(typeof(ISettingsDataModel))]
-    [Export(typeof(IEditorFileAssociationSettings))]
-    internal class EditorFileAssociationSettings : SettingsDataModel, IEditorFileAssociationSettings
+    internal abstract class EditorFileAssociationSettings : SettingsDataModel, IEditorFileAssociationSettings
     {
-        private readonly IEditor[] _editors;
-        private readonly IFileDefinitionManager _fileDefinitionManager;
-
-        [Export]
-        public static ISettingsCategory EditorFileAssociationCategory =
-            new SettingsCategory(Guids.EditorFileAssociationId, SettingsCategoryType.Normal,
-                "Editors_FileAssociations", EditorSettingsCategory.EditorCategory);
-
+        protected readonly IEditor[] Editors;
+        protected readonly IFileDefinitionManager FileDefinitionManager;
         private IList<KeyValuePair<string, EditorFileAssociation>> _cachedAssociations;
         private readonly object _cachedInfoLock = new object();
 
 
-        public override ISettingsCategory Category => EditorFileAssociationCategory;
-
-        public override string Name => "Editors_FileAssociations";
-
-
-        private IList<KeyValuePair<string, EditorFileAssociation>> CachedAssociations
+        protected IList<KeyValuePair<string, EditorFileAssociation>> CachedAssociations
         {
             get
             {
@@ -51,34 +36,18 @@ namespace ModernApplicationFramework.EditorBase.Settings
             }
         }
 
-        [ImportingConstructor]
-        public EditorFileAssociationSettings([ImportMany] IEditor[] editors ,ISettingsManager settingsManager, IFileDefinitionManager fileDefinitionManager)
+        protected EditorFileAssociationSettings(IEditor[] editors, IFileDefinitionManager fileDefinitionManager)
         {
-            _editors = editors;
-            _fileDefinitionManager = fileDefinitionManager;
-            SettingsManager = settingsManager;
             SettingsChanged += EditorFileAssociationSettings_SettingsChanged;
+            Editors = editors;
+            FileDefinitionManager = fileDefinitionManager;
         }
 
-        public IEditor GetAssociatedEditor(ISupportedFileDefinition association)
-        {
-            var id = Guid.Empty;
-            foreach (var cachedAssociation in CachedAssociations)
-            {
-                foreach (var definition in cachedAssociation.Value.SupportedFileDefinition)
-                {
-                    if (!definition.Extension.Equals(association.FileExtension))
-                        continue;
-                    id = new Guid(cachedAssociation.Key);
-                    break;
-                }
-            }
-            return id == Guid.Empty ? null : _editors.FirstOrDefault(x => x.EditorId == id);
-        }
+        public abstract IEditor GetAssociatedEditor(ISupportedFileDefinition association);
 
         public void CreateAssociation(IEditor editor, ISupportedFileDefinition association)
         {
-            CreateAssociations(editor, new List<ISupportedFileDefinition>{association});
+            CreateAssociations(editor, new List<ISupportedFileDefinition> { association });
         }
 
         public void CreateAssociations(IEditor editor, IEnumerable<ISupportedFileDefinition> associations, bool ignoreDuplicateCheck = false)
@@ -95,7 +64,7 @@ namespace ModernApplicationFramework.EditorBase.Settings
             if (!ignoreDuplicateCheck)
                 RemoveAssociations(newAssociations);
 
-            var editorFileAssociation = new EditorFileAssociation(editor.EditorId.ToString("B"), fullList);
+            var editorFileAssociation = CreateAssociation(editor, fullList);
 
             if (!flag)
                 InsertSettingsModel(editorFileAssociation, true);
@@ -111,22 +80,20 @@ namespace ModernApplicationFramework.EditorBase.Settings
             OnSettingsChanged();
         }
 
+        protected abstract EditorFileAssociation CreateAssociation(IEditor editor, IEnumerable<string> list);
+
         public void CreateDefaultAssociations(IEditor editor)
         {
             var definitions =
-                _fileDefinitionManager.SupportedFileDefinitions.Where(x => x.PreferredEditor == editor.EditorId)
+                FileDefinitionManager.SupportedFileDefinitions.Where(x => x.DefaultEditor == editor.EditorId)
                     .Where(x => GetAssociatedEditor(x) == null);
             CreateAssociations(editor, definitions, true);
         }
 
         public override void LoadOrCreate()
         {
-            foreach (var editor in _editors)
-            {
-                var editorEntry = CachedAssociations.FirstOrDefault(k => k.Key.Equals(editor.EditorId.ToString("B"))).Value;
-                if (editorEntry == null)
-                    CreateDefaultAssociations(editor);
-            }
+            foreach (var editor in Editors)
+                CreateDefaultAssociations(editor);
         }
 
         public override void StoreSettings()
@@ -146,7 +113,56 @@ namespace ModernApplicationFramework.EditorBase.Settings
             return models;
         }
 
-        private void RemoveAssociations(IEnumerable<string> associations)
+        protected abstract void RemoveAssociations(IEnumerable<string> associations);
+
+        protected abstract IEnumerable<string> GetAssociations(IEditor editor);
+    }
+
+    [Export(typeof(ISettingsDataModel))]
+    [Export(typeof(INewFileEditorAssociationSettings))]
+    internal class NewFileEditorAssociationSettings : EditorFileAssociationSettings, INewFileEditorAssociationSettings
+    {
+        [Export]
+        public static ISettingsCategory NewFileEditorAssociationCategory =
+            new SettingsCategory(Guids.NewFileEditorAssociationId, SettingsCategoryType.Normal,
+                "Editors_NewFileAssociations", EditorSettingsCategory.EditorCategory);
+
+
+        public override ISettingsCategory Category => NewFileEditorAssociationCategory;
+
+        public override string Name => "Editors_NewFileAssociations";
+
+        [ImportingConstructor]
+        public NewFileEditorAssociationSettings([ImportMany] IEditor[] editors, ISettingsManager settingsManager, IFileDefinitionManager fileDefinitionManager) : base(editors, fileDefinitionManager)
+        {
+            SettingsManager = settingsManager;
+        }
+
+
+        public override IEditor GetAssociatedEditor(ISupportedFileDefinition association)
+        {
+            var id = Guid.Empty;
+            foreach (var cachedAssociation in CachedAssociations)
+            {
+                foreach (var definition in cachedAssociation.Value.CreateWithDefaultExtension)
+                {
+                    if (!definition.Extension.Equals(association.FileExtension))
+                        continue;
+                    id = new Guid(cachedAssociation.Key);
+                    break;
+                }
+            }
+            return id == Guid.Empty ? null : Editors.FirstOrDefault(x => x.EditorId == id);
+        }
+
+        protected override EditorFileAssociation CreateAssociation(IEditor editor, IEnumerable<string> list)
+        {
+            var association = new EditorFileAssociation(editor.EditorId.ToString("B"), editor.Name);
+            association.AddRange(list, AddOption.NewFile);
+            return association;
+        }
+
+        protected override void RemoveAssociations(IEnumerable<string> associations)
         {
             if (associations == null || !associations.Any())
                 return;
@@ -157,24 +173,109 @@ namespace ModernApplicationFramework.EditorBase.Settings
                 foreach (var cachedAssociation in cache)
                 {
                     EditorSupportedFileDefinition def = null;
-                    foreach (var definition in cachedAssociation.Value.SupportedFileDefinition)
+                    foreach (var definition in cachedAssociation.Value.CreateWithDefaultExtension)
                     {
                         if (!definition.Extension.Equals(extension))
                             continue;
                         def = definition;
                     }
                     if (def != null)
-                        cachedAssociation.Value.SupportedFileDefinition.Remove(def);
-                }   
+                        cachedAssociation.Value.CreateWithDefaultExtension.Remove(def);
+                }
             }
         }
 
-        private IEnumerable<string> GetAssociations(IEditor editor)
+        protected override IEnumerable<string> GetAssociations(IEditor editor)
         {
             return (from valuePair in CachedAssociations
-                where valuePair.Key == editor.EditorId.ToString("B")
-                from definition in valuePair.Value.SupportedFileDefinition
-                select definition.Extension).ToList();
+                    where valuePair.Key == editor.EditorId.ToString("B")
+                    from definition in valuePair.Value.CreateWithDefaultExtension
+                    select definition.Extension).ToList();
         }
+    }
+
+
+    [Export(typeof(ISettingsDataModel))]
+    [Export(typeof(IOpenFileEditorAssociationSettings))]
+    internal class OpenFileEditorAssociationSettings : EditorFileAssociationSettings, IOpenFileEditorAssociationSettings
+    {
+        [Export]
+        public static ISettingsCategory OpenFileEditorAssociationCategory =
+            new SettingsCategory(Guids.OpenFileEditorAssociationId, SettingsCategoryType.Normal,
+                "Editors_OpenFileAssociations", EditorSettingsCategory.EditorCategory);
+
+
+        public override ISettingsCategory Category => OpenFileEditorAssociationCategory;
+
+        public override string Name => "Editors_OpenFileAssociations";
+
+        [ImportingConstructor]
+        public OpenFileEditorAssociationSettings([ImportMany] IEditor[] editors, ISettingsManager settingsManager, IFileDefinitionManager fileDefinitionManager) : base(editors, fileDefinitionManager)
+        {
+            SettingsManager = settingsManager;
+        }
+
+
+        public override IEditor GetAssociatedEditor(ISupportedFileDefinition association)
+        {
+            var id = Guid.Empty;
+            foreach (var cachedAssociation in CachedAssociations)
+            {
+                foreach (var definition in cachedAssociation.Value.DefaultExtension)
+                {
+                    if (!definition.Extension.Equals(association.FileExtension))
+                        continue;
+                    id = new Guid(cachedAssociation.Key);
+                    break;
+                }
+            }
+            return id == Guid.Empty ? null : Editors.FirstOrDefault(x => x.EditorId == id);
+        }
+
+        protected override EditorFileAssociation CreateAssociation(IEditor editor, IEnumerable<string> list)
+        {
+            var association = new EditorFileAssociation(editor.EditorId.ToString("B"), editor.Name);
+            association.AddRange(list, AddOption.OpenFile);
+            return association;
+        }
+
+        protected override void RemoveAssociations(IEnumerable<string> associations)
+        {
+            if (associations == null || !associations.Any())
+                return;
+            var cache = CachedAssociations.ToList();
+
+            foreach (var extension in associations.ToList())
+            {
+                foreach (var cachedAssociation in cache)
+                {
+                    EditorSupportedFileDefinition def = null;
+                    foreach (var definition in cachedAssociation.Value.DefaultExtension)
+                    {
+                        if (!definition.Extension.Equals(extension))
+                            continue;
+                        def = definition;
+                    }
+                    if (def != null)
+                        cachedAssociation.Value.DefaultExtension.Remove(def);
+                }
+            }
+        }
+
+        protected override IEnumerable<string> GetAssociations(IEditor editor)
+        {
+            return (from valuePair in CachedAssociations
+                    where valuePair.Key == editor.EditorId.ToString("B")
+                    from definition in valuePair.Value.DefaultExtension
+                    select definition.Extension).ToList();
+        }
+    }
+
+    public interface INewFileEditorAssociationSettings : IEditorFileAssociationSettings
+    {
+    }
+
+    public interface IOpenFileEditorAssociationSettings : IEditorFileAssociationSettings
+    {
     }
 }

@@ -41,6 +41,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.MyEditor
         }
 
         public override Guid EditorId => MyTextEditorId;
+        public override string LocalizedName => "My TextEditor";
         public override string Name => "My TextEditor";
 
         protected override void SaveFile(string filePath)

@@ -49,7 +49,7 @@ namespace ModernApplicationFramework.EditorBase.NewElementDialog
 
         public override NewFileArguments CreateResultOpenWith(string name, string path)
         {
-            var selectorModel = IoC.Get<IEditorSelectorViewModel>();
+            var selectorModel = IoC.Get<NewFileEditorSelectorViewModel>();
             selectorModel.TargetExtension = SelectedExtension;
             if (IoC.Get<IWindowManager>().ShowDialog(selectorModel) != true)
                 return null;

@@ -10,6 +10,8 @@ namespace ModernApplicationFramework.EditorBase.Interfaces.Editor
     {
         Guid EditorId { get; }
 
+        string LocalizedName { get; }
+
         string Name { get; }
 
         IFile Document { get; }

@@ -47,9 +47,9 @@ namespace ModernApplicationFramework.EditorBase.Controls.EditorSelectorDialog
 
         public EditorListItem(IEditor editor)
         {
-            _editorName = editor.Name;
+            _editorName = editor.DisplayName;
             Editor = editor;
-            Name = editor.Name;
+            Name = editor.DisplayName;
         }
 
         [NotifyPropertyChangedInvocator]
