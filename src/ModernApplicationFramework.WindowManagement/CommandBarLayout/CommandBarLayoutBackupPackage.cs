@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.IO;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Services;
+using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Package;
 using ModernApplicationFramework.Interfaces.Services;
 

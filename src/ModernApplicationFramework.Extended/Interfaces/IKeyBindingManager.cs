@@ -4,6 +4,9 @@ using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Extended.Interfaces
 {
+    /// <summary>
+    /// An <see cref="IKeyBindingManager"/> manages the key bindings in this application
+    /// </summary>
     public interface IKeyBindingManager
     {
         /// <summary>

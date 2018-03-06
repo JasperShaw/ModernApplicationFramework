@@ -64,7 +64,7 @@ namespace ModernApplicationFramework.Extended.UndoRedoManager
 
             UndoItems = new BindableCollection<IHasTextProperty>();
             RedoItems = new BindableCollection<IHasTextProperty>();
-            shell.ActiveDocumentChanged += Shell_ActiveDocumentChanged;
+            shell.ActiveLayoutItemChanged += ShellActiveLayoutItemChanged;
             UndoRedoManager = shell.ActiveItem?.UndoRedoManager;
         }
 
@@ -96,7 +96,7 @@ namespace ModernApplicationFramework.Extended.UndoRedoManager
             Refresh();
         }
 
-        private void Shell_ActiveDocumentChanged(object sender, EventArgs e)
+        private void ShellActiveLayoutItemChanged(object sender, EventArgs e)
         {
             UndoRedoManager = _shell.ActiveItem?.UndoRedoManager;
         }

@@ -117,7 +117,7 @@ namespace ModernApplicationFramework.WindowManagement.LayoutState
                     if (layoutItems.Count == 0)
                     {
                         if (processOption == ProcessStateOption.DocumentsOnly || processOption == ProcessStateOption.DocumentsOnly)
-                            _dockingHostViewModel.Documents.Clear();
+                            _dockingHostViewModel.LayoutItems.Clear();
                         if (processOption == ProcessStateOption.ToolsOnly ||
                             processOption == ProcessStateOption.Complete)
                             _dockingHostViewModel.Tools.Clear();
@@ -125,7 +125,7 @@ namespace ModernApplicationFramework.WindowManagement.LayoutState
                     }
                     var active = _dockingHostViewModel.ActiveItem; 
                     _dockingHost.LoadLayout(reader.BaseStream, _dockingHostViewModel.ShowTool, _dockingHostViewModel.OpenLayoutItem, layoutItems);
-                    if (_dockingHostViewModel.Documents.Contains(active))
+                    if (_dockingHostViewModel.LayoutItems.Contains(active))
                         _dockingHostViewModel.OpenLayoutItem(active);
                 }
             }
@@ -154,7 +154,7 @@ namespace ModernApplicationFramework.WindowManagement.LayoutState
             try
             {
                 var writer = new BinaryWriter(inputStream);
-                var itemStates = _dockingHostViewModel.Documents.Concat(_dockingHostViewModel.Tools.Cast<ILayoutItemBase>());
+                var itemStates = _dockingHostViewModel.LayoutItems.Concat(_dockingHostViewModel.Tools.Cast<ILayoutItemBase>());
                 var itemCount = 0;
                 // reserve some space for items count, it'll be updated later
                 writer.Write(itemCount);

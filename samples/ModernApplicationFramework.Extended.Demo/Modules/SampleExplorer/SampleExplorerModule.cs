@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
+using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Package;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.SampleExplorer

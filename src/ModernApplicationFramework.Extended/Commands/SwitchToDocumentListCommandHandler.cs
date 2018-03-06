@@ -24,13 +24,13 @@ namespace ModernApplicationFramework.Extended.Commands
 
         public void Populate(Command command, List<CommandDefinitionBase> commands)
         {
-            var activeFiles = _shell.Documents.Count;
+            var activeFiles = _shell.LayoutItems.Count;
             var maxFiles = IoC.Get<EnvironmentGeneralOptions>().WindowListItems;
             var fileCount = activeFiles < maxFiles ? activeFiles : maxFiles;
 
             for (var i = 0; i < fileCount; i++)
             {
-                var document = _shell.Documents[i];
+                var document = _shell.LayoutItems[i];
 
                 var definition =
                     new ShowSelectedDocumentCommandDefinition($"&{i + 1} {document.DisplayName}")

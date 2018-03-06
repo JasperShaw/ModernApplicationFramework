@@ -7,6 +7,7 @@ using System.Windows;
 using ModernApplicationFramework.EditorBase.Controls.SaveDirtyDocumentsDialog;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
+using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Package;
 
 namespace ModernApplicationFramework.EditorBase.FileSupport
@@ -33,7 +34,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
 
         private async void MainWindow_WindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            var storableEditors = DockingHostViewModel.Documents.OfType<IEditor>().ToList();
+            var storableEditors = DockingHostViewModel.LayoutItems.OfType<IEditor>().ToList();
             if (!storableEditors.Any())
                 return;
             e.Cancel = await HanldeClose(storableEditors);

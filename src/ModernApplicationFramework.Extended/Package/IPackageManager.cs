@@ -1,4 +1,5 @@
 ﻿using System;
+using ModernApplicationFramework.Extended.Interfaces;
 
 namespace ModernApplicationFramework.Extended.Package
 {

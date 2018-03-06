@@ -119,7 +119,6 @@
     <Compile Include="Interfaces\ILayoutItemBase.cs" />
     <Compile Include="Interfaces\ITool.cs" />
     <Compile Include="Interfaces\IUseDockingHost.cs" />
-    <Compile Include="Interfaces\IWindow.cs" />
     <Compile Include="Input\KeyBindingScheme\KeyBindingResources.Designer.cs">
       <DependentUpon>KeyBindingResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>

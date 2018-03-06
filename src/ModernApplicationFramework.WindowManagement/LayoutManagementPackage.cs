@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Package;
 
 namespace ModernApplicationFramework.WindowManagement

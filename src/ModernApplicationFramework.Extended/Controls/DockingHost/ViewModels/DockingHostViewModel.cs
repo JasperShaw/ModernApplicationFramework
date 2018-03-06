@@ -11,8 +11,8 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
     [Export(typeof(IDockingHostViewModel))]
     public class DockingHostViewModel : Conductor<ILayoutItem>.Collection.OneActive, IDockingHostViewModel
     {
-        public event EventHandler ActiveDocumentChanged;
-        public event EventHandler ActiveDocumentChanging;
+        public event EventHandler ActiveLayoutItemChanged;
+        public event EventHandler ActiveLayoutItemChanging;
 
 
         private readonly BindableCollection<ITool> _tools;
@@ -66,7 +66,7 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
 
         public IDockingHost DockingHostView { get; protected set; }
 
-        public IObservableCollection<ILayoutItem> Documents => Items;
+        public IObservableCollection<ILayoutItem> LayoutItems => Items;
 
         public void OpenLayoutItem(ILayoutItem model)
         {
@@ -190,13 +190,13 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
 
         private void RaiseActiveDocumentChanged()
         {
-            var handler = ActiveDocumentChanged;
+            var handler = ActiveLayoutItemChanged;
             handler?.Invoke(this, EventArgs.Empty);
         }
 
         private void RaiseActiveDocumentChanging()
         {
-            var handler = ActiveDocumentChanging;
+            var handler = ActiveLayoutItemChanging;
             handler?.Invoke(this, EventArgs.Empty);
         }
     }

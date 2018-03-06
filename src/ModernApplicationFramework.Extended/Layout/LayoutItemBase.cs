@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
-using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Interfaces;
 
@@ -14,9 +13,6 @@ namespace ModernApplicationFramework.Extended.Layout
 
         [Browsable(false)]
         public virtual string ContentId => Id.ToString();
-
-        [Browsable(false)]
-        public virtual Uri IconSource => null;
 
         [Browsable(false)]
         public Guid Id { get; } = Guid.NewGuid();
