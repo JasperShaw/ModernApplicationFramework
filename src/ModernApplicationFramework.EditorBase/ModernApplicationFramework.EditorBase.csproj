@@ -109,6 +109,7 @@
     <Compile Include="Editor\EditorException.cs" />
     <Compile Include="Editor\EditorNotFoundException.cs" />
     <Compile Include="FileSupport\Exceptions\FileNotSupportedException.cs" />
+    <Compile Include="FileSupport\FileChangeService.cs" />
     <Compile Include="FileSupport\FileChangeWatcher.cs" />
     <Compile Include="FileSupport\FileDefinitionContextManager.cs" />
     <Compile Include="FileSupport\FileService.cs" />
@@ -195,6 +196,16 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="FileSupport\TextFile\TextFileDefinition.cs" />
+    <Compile Include="Settings\Documents\DocumentsSettingsResources.Designer.cs">
+      <DependentUpon>DocumentsSettingsResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Settings\Documents\DocumentsSettingsView.xaml.cs">
+      <DependentUpon>DocumentsSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\Documents\DocumentsSettingsViewModel.cs" />
+    <Compile Include="Settings\Documents\ExternalChangeSettings.cs" />
     <Compile Include="Settings\EditorAssociation\EditorFileAssociation.cs" />
     <Compile Include="Settings\EditorAssociation\EditorFileAssociationSettings.cs" />
     <Compile Include="Settings\EditorAssociation\EditorSettingsCategory.cs" />
@@ -243,6 +254,12 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\Documents\DocumentsSettingsResources.de.resx" />
+    <EmbeddedResource Include="Settings\Documents\DocumentsSettingsResources.en.resx" />
+    <EmbeddedResource Include="Settings\Documents\DocumentsSettingsResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DocumentsSettingsResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
   </ItemGroup>
@@ -296,6 +313,10 @@
     <Page Include="Resources\Icons\VSO_NewFile_16x.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Settings\Documents\DocumentsSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

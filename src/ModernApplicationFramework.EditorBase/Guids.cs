@@ -11,5 +11,7 @@ namespace ModernApplicationFramework.EditorBase
         public static Guid OpenFileEditorAssociationId = new Guid("{FCDA73C1-CB08-4DD6-B656-C6AD8998A4A9}");
 
         public static Guid SimpleEditorId = new Guid("{8DC81487-9A02-4C83-847D-C5869BC6F647}");
+
+        public static Guid DocumentsToolsOptionsCategoryId = new Guid("{EF928BCD-C7D9-4DF5-983B-C1B5677FB3FE}");
     }
 }
