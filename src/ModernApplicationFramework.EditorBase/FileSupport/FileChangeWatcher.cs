@@ -135,9 +135,16 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
         {
             await Task.Delay(TimeSpan.FromSeconds(0.5)).ConfigureAwait(false);
             var editorProvider = IoC.Get<IEditorProvider>();
+            var flag = false;
             foreach (var file in _queue.ToList())
             {
-                if (!editorProvider.IsFileOpen(file.FullFilePath, out var editor)) await file.Unload();
+                if (!editorProvider.IsFileOpen(file.FullFilePath, out var editor))
+                    await file.Unload();
+                if (flag)
+                {
+                    await Application.Current.Dispatcher.BeginInvoke((System.Action)(async () => { await editor.Reload(); }));
+                    continue;
+                }
                 var dialog = new FileChangeDialogViewModel(file);
                 var result = dialog.ShowDialog();
                 if (result == ReloadFileDialogResult.NoAll)
@@ -148,8 +155,8 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
                     await Application.Current.Dispatcher.BeginInvoke((System.Action) (async () => { await editor.Reload(); }));
                 if (result == ReloadFileDialogResult.YesAll)
                 {
+                    flag = true;
                     await Application.Current.Dispatcher.BeginInvoke((System.Action)(async () => { await editor.Reload(); }));
-                    break;
                 }
             }
             _queue.Clear();
