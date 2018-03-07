@@ -113,13 +113,4 @@ namespace ModernApplicationFramework.EditorBase.Settings
 
         protected abstract IEnumerable<string> GetAssociations(IEditor editor);
     }
-
-
-    public interface INewFileEditorAssociationSettings : IEditorFileAssociationSettings
-    {
-    }
-
-    public interface IOpenFileEditorAssociationSettings : IEditorFileAssociationSettings
-    {
-    }
 }

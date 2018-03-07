@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
-using ModernApplicationFramework.EditorBase.Settings;
+using ModernApplicationFramework.EditorBase.Interfaces.Settings;
 
 namespace ModernApplicationFramework.EditorBase.FileSupport
 {
