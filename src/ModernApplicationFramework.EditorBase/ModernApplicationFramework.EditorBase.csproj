@@ -94,6 +94,16 @@
     </Compile>
     <Compile Include="Controls\EditorSelectorDialog\OpenFileEditorSelectorViewModel.cs" />
     <Compile Include="Controls\EditorSelectorDialog\NewFileEditorSelectorViewModel.cs" />
+    <Compile Include="Controls\FileChangedDialog\FileChangedDialogResources.Designer.cs">
+      <DependentUpon>FileChangedDialogResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Controls\FileChangedDialog\FileChangeDialogView.xaml.cs">
+      <DependentUpon>FileChangeDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\FileChangedDialog\FileChangeDialogViewModel.cs" />
+    <Compile Include="Controls\FileChangedDialog\ReloadFileDialogResult.cs" />
     <Compile Include="Core\OpenSaveDialogFilters\FilterData.cs" />
     <Compile Include="Core\OpenSaveDialogFilters\FilterDataEntry.cs" />
     <Compile Include="Editor\EditorException.cs" />
@@ -207,6 +217,12 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>EditorSelectorResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\FileChangedDialog\FileChangedDialogResources.de.resx" />
+    <EmbeddedResource Include="Controls\FileChangedDialog\FileChangedDialogResources.en.resx" />
+    <EmbeddedResource Include="Controls\FileChangedDialog\FileChangedDialogResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>FileChangedDialogResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="FileSupport\FileSupportResources.de.resx" />
     <EmbeddedResource Include="FileSupport\FileSupportResources.en.resx" />
     <EmbeddedResource Include="FileSupport\FileSupportResources.resx">
@@ -250,6 +266,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\EditorSelectorDialog\NewFileEditorSelectorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\FileChangedDialog\FileChangeDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

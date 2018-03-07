@@ -1,9 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Threading;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Extended.Layout;
+using ModernApplicationFramework.Utilities.Interfaces;
 
 namespace ModernApplicationFramework.EditorBase.Editor
 {
@@ -30,6 +33,11 @@ namespace ModernApplicationFramework.EditorBase.Editor
 
         public abstract bool CanHandleFile(ISupportedFileDefinition fileDefinition);
 
+        public virtual async Task Reload()
+        {
+            await LoadFile(Document, Document.FileName);
+        }
+
         public async Task SaveFile()
         {
             var filePath = Path.GetFileName(Document.FullFilePath);
@@ -41,7 +49,11 @@ namespace ModernApplicationFramework.EditorBase.Editor
         {
             DisplayName = name;
             Document = document;
-            await Document.Load(() => LoadFile(document));
+
+            await MafTaskHelper.Run(IoC.Get<IEnvironmentVariables>().ApplicationName, "Opening File...", async () =>
+            {
+                await Document.Load(() => LoadFile(document));
+            });
         }
 
         protected virtual void UpdateDisplayName()
@@ -55,6 +67,16 @@ namespace ModernApplicationFramework.EditorBase.Editor
         {
             Document = document;
             IsReadOnly = !(document is IStorableFile);
+        }
+
+        protected override void OnDeactivate(bool close)
+        {
+            if (close)
+            {
+                Document.Unload();
+                Document = null;
+            }
+            base.OnDeactivate(close);
         }
     }
 }

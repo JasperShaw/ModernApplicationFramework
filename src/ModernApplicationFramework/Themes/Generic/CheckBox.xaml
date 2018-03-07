@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:this="clr-namespace:ModernApplicationFramework.Controls"
-                    xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes">
+                    xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
+                    xmlns:styles="clr-namespace:ModernApplicationFramework.Core.Styles">
 
     <Style TargetType="{x:Type this:CheckBox}">
         <Setter Property="Margin" Value="0,0,0,10"/>
@@ -60,6 +61,16 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type styles:StyleResourceKeys},
+                     ResourceId=FormsCheckBoxStyle}" TargetType="{x:Type CheckBox}">
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
 
     <Style x:Key="FormsCheckBoxStyle" TargetType="{x:Type CheckBox}">
         <Style.Triggers>

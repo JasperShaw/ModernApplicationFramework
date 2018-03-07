@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -232,6 +233,12 @@ namespace ModernApplicationFramework.Controls.Dialogs
                 e.Handled = true;
             }
             base.OnPreviewKeyDown(e);
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            _isClosing = true;
+            base.OnClosing(e);
         }
 
         private static void TimerCallbackLogic(object state)

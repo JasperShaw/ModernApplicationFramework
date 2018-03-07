@@ -88,7 +88,6 @@ namespace ModernApplicationFramework.EditorBase.Editor
             editor = null;
             if (string.IsNullOrEmpty(filePath))
                 return false;
-            //TODO: Use filewatcher here
             var editors = _dockingMainWindow.DockingHost.LayoutItems.OfType<IEditor>();
             editor = editors.FirstOrDefault(x => x.Document.FullFilePath.Equals(filePath));
             if (editor != null)

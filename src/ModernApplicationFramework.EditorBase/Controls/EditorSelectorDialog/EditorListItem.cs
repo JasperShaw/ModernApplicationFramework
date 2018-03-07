@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
-using ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 
 namespace ModernApplicationFramework.EditorBase.Controls.EditorSelectorDialog
@@ -47,9 +46,9 @@ namespace ModernApplicationFramework.EditorBase.Controls.EditorSelectorDialog
 
         public EditorListItem(IEditor editor)
         {
-            _editorName = editor.DisplayName;
+            _editorName = editor.LocalizedName;
             Editor = editor;
-            Name = editor.DisplayName;
+            Name = editor.LocalizedName;
         }
 
         [NotifyPropertyChangedInvocator]

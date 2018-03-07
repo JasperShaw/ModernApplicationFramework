@@ -27,6 +27,12 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
 
         public abstract Task Load(Action action);
 
+        public virtual Task Unload()
+        {
+            FileChangeService.Instance.UnadviseFileChange(this);
+            return Task.CompletedTask;
+        }
+
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

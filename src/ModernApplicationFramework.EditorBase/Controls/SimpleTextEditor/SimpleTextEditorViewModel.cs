@@ -46,10 +46,13 @@ namespace ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor
 
         public override string Name => "Simple TextEditor";
 
-        protected override void SaveFile(string filePath)
+        protected override async void SaveFile(string filePath)
         {
-            File.WriteAllText(filePath, _text);
-            _originalText = _text;
+            using (var reader = File.OpenText(filePath))
+            {
+                _text = await reader.ReadToEndAsync();
+                _originalText = _text;
+            }            
         }
 
         protected override void LoadFile(IFile document)

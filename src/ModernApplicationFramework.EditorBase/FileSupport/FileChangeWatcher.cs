@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Caliburn.Micro;
 using ModernApplicationFramework.Core;
+using ModernApplicationFramework.EditorBase.Controls.FileChangedDialog;
+using ModernApplicationFramework.EditorBase.Interfaces;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 
 namespace ModernApplicationFramework.EditorBase.FileSupport
@@ -14,13 +17,14 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
         static readonly WpfSynchronizeInvoke SynchronizingObject = new WpfSynchronizeInvoke(Application.Current.MainWindow?.Dispatcher);
 
         private IFile _file;
-        FileSystemWatcher _watcher;
-        private bool _wasChangedExternally = false;
+        private FileSystemWatcher _watcher;
+        public bool WasChangedExternally { get; set; }
 
         public FileChangeWatcher(IFile file)
         {
             _file = file ?? throw new ArgumentNullException(nameof(file));
-            Application.Current.MainWindow.Activated += MainWindow_Activated;
+            if (Application.Current.MainWindow != null)
+                Application.Current.MainWindow.Activated += MainWindow_Activated;
             RegisterEvents();
         }
 
@@ -40,8 +44,6 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
                 {
                     _watcher = new FileSystemWatcher {SynchronizingObject = SynchronizingObject};
                     _watcher.Changed += OnFileChangedEvent;
-                    _watcher.Created += OnFileChangedEvent;
-                    _watcher.Renamed += OnFileChangedEvent;
                 }
 
                 _watcher.Path = _file.Path;
@@ -58,7 +60,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
                 _watcher?.Dispose();
                 _watcher = null;
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
                 _watcher?.Dispose();
                 _watcher = null;
@@ -69,20 +71,23 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
         {
             if (_file == null)
                 return;
-            if (!_wasChangedExternally)
-            {
-                _wasChangedExternally = true;
-                if (Application.Current.MainWindow.IsActive)
-                {
-                    InvokeDelayed(delegate { MainWindow_Activated(this, EventArgs.Empty); });
-                }    
-            }
+            //if (!WasChangedExternally)
+            //{
+            //    WasChangedExternally = true;
+
+            //    //if (Application.Current.MainWindow != null && Application.Current.MainWindow.IsActive)
+            //    //    InvokeDelayed(delegate { MainWindow_Activated(this, EventArgs.Empty); });
+            //}
+
+            FileChangeService.Instance.PushNotification(_file);
         }
 
         public void Dispose()
         {
             if (_file != null)
             {
+                if (Application.Current.MainWindow != null)
+                    Application.Current.MainWindow.Activated -= MainWindow_Activated;
                 _file = null;
             }
             if (_watcher != null)
@@ -93,21 +98,21 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
         }
 
 
-        private async void InvokeDelayed(Action action)
-        {
-            await Task.Delay(TimeSpan.FromSeconds(0.5)).ConfigureAwait(false);
-            Application.Current.Dispatcher.BeginInvoke(action);
-        }
+        //private static async void InvokeDelayed(Action action)
+        //{
+        //    await Task.Delay(TimeSpan.FromSeconds(0.5)).ConfigureAwait(false);
+        //    Application.Current.Dispatcher.BeginInvoke(action);
+        //}
 
         private void MainWindow_Activated(object sender, EventArgs e)
         {
-            if (_wasChangedExternally)
-            {
-                _wasChangedExternally = false;
-                if (_file == null)
-                    return;
-                MessageBox.Show("Changed");
-            }
+            //if (WasChangedExternally)
+            //{
+            //    WasChangedExternally = false;
+            //    if (_file == null)
+            //        return;
+            //    MessageBox.Show("Changed");
+            //}
         }
     }
 
@@ -116,7 +121,39 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
         Dictionary<IFile ,FileChangeWatcher> _watchers  = new Dictionary<IFile, FileChangeWatcher>();
         private static FileChangeService _instance;
 
+        private readonly HashSet<IFile> _queue = new HashSet<IFile>();
+
         public static FileChangeService Instance => _instance ?? (_instance = new FileChangeService());
+
+        public FileChangeService()
+        {
+            if (Application.Current.MainWindow != null)
+                Application.Current.MainWindow.Activated += OnMainWindowOnActivated;
+        }
+
+        private async void OnMainWindowOnActivated(object sender, EventArgs args)
+        {
+            await Task.Delay(TimeSpan.FromSeconds(0.5)).ConfigureAwait(false);
+            var editorProvider = IoC.Get<IEditorProvider>();
+            foreach (var file in _queue.ToList())
+            {
+                if (!editorProvider.IsFileOpen(file.FullFilePath, out var editor)) await file.Unload();
+                var dialog = new FileChangeDialogViewModel(file);
+                var result = dialog.ShowDialog();
+                if (result == ReloadFileDialogResult.NoAll)
+                    break;
+                if (result == ReloadFileDialogResult.No)
+                    continue;
+                if (result == ReloadFileDialogResult.Yes)
+                    await Application.Current.Dispatcher.BeginInvoke((System.Action) (async () => { await editor.Reload(); }));
+                if (result == ReloadFileDialogResult.YesAll)
+                {
+                    await Application.Current.Dispatcher.BeginInvoke((System.Action)(async () => { await editor.Reload(); }));
+                    break;
+                }
+            }
+            _queue.Clear();
+        }
 
 
         public void AdviseFileChange(IFile file)
@@ -129,7 +166,15 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
 
         public void UnadviseFileChange(IFile file)
         {
+            if (_watchers.TryGetValue(file, out var watcher))
+                watcher.Dispose();
+            _watchers.Remove(file);
+        }
 
+
+        public void PushNotification(IFile file)
+        {
+            _queue.Add(file);
         }
 
 
@@ -145,18 +190,5 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
             _watchers.TryGetValue(file, out var fileWatcher);
             return fileWatcher;
         }
-
-
-
-        //internal static string ValidateAndNormalize(string path, string paramName)
-        //{
-        //    Validate.IsNotNull(path, paramName);
-        //    path = Path.GetFullPath(path);
-        //    Validate.IsNotEmpty(path, paramName);
-        //    if (path.Length >= 2 && path[path.Length - 1] == 92 && path[path.Length - 2] != 58)
-        //        path = path.Substring(0, path.Length - 1);
-        //    return path;
-        //}
-
     }
 }

@@ -20,6 +20,8 @@ namespace ModernApplicationFramework.EditorBase.Interfaces.Editor
 
         Task LoadFile(IFile document, string name);
 
+        Task Reload();
+
         Task SaveFile();
 
         bool CanHandleFile(ISupportedFileDefinition fileDefinition);

@@ -7,13 +7,11 @@
              xmlns:mafc="http://modern.framework.com/controls"
              xmlns:general11="clr-namespace:ModernApplicationFramework.Extended.Settings.General"
              xmlns:mafb="http://modern.framework.com/basics"
+             xmlns:styles="clr-namespace:ModernApplicationFramework.Core.Styles;assembly=ModernApplicationFramework"
              mc:Ignorable="d" d:DesignWidth="460" Width="460" HorizontalAlignment="Left">
 
     <UserControl.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/ModernApplicationFramework;component/Themes/Generic/CheckBox.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
             <general:InverseBoolConverter x:Key="InverseBoolConverter"/>
             <general:AndBooleanConverter x:Key="AndBooleanConverter"/>
         </ResourceDictionary>
@@ -34,14 +32,14 @@
                     </ComboBox>
                 </StackPanel>
                 <CheckBox Content="{x:Static general11:GeneralVisualExperienceSettingsResources.UseTitleCaseMenuCheckBox_Text}" Margin="0,5,0,0" 
-                          IsChecked="{Binding UseTitleCaseOnMenu, Mode=TwoWay}" Style="{StaticResource FormsCheckBoxStyle}"/>
+                          IsChecked="{Binding UseTitleCaseOnMenu, Mode=TwoWay}" Style="{DynamicResource {x:Static styles:StyleResourceKeys.FormsCheckBoxStyle}}"/>
                 <CheckBox x:Name="AutoAdjustCheckBox" Content="{x:Static general11:GeneralVisualExperienceSettingsResources.AutoAdjustVisualExperienceCheckBox_Text}" Margin="0,5,0,0"
-                          Style="{StaticResource FormsCheckBoxStyle}" IsChecked="{Binding AutoAdjustExperience, Mode=TwoWay}"/>
+                          Style="{DynamicResource {x:Static styles:StyleResourceKeys.FormsCheckBoxStyle}}" IsChecked="{Binding AutoAdjustExperience, Mode=TwoWay}"/>
                 <CheckBox Content="{x:Static general11:GeneralVisualExperienceSettingsResources.RichClientVisualExperienceCheckBox_Text}" Margin="25,5,0,0" 
-                          Style="{StaticResource FormsCheckBoxStyle}" IsChecked="{Binding UseRichVisualExperience, Mode=TwoWay}"
+                          Style="{DynamicResource {x:Static styles:StyleResourceKeys.FormsCheckBoxStyle}}" IsChecked="{Binding UseRichVisualExperience, Mode=TwoWay}"
                           IsEnabled="{Binding ElementName=AutoAdjustCheckBox, Path=IsChecked, Converter={StaticResource InverseBoolConverter}}"/>
                 <CheckBox Content="{x:Static general11:GeneralVisualExperienceSettingsResources.UseHardwareAccelerationCheckBox_Text}" Margin="25,5,0,0"
-                          Style="{StaticResource FormsCheckBoxStyle}" IsChecked="{Binding UseHardwareAcceleration, Mode=TwoWay}">
+                          Style="{DynamicResource {x:Static styles:StyleResourceKeys.FormsCheckBoxStyle}}" IsChecked="{Binding UseHardwareAcceleration, Mode=TwoWay}">
                     <CheckBox.IsEnabled>
                         <MultiBinding Converter="{StaticResource AndBooleanConverter}">
                             <Binding ElementName="AutoAdjustCheckBox" Path="IsChecked" Converter="{StaticResource InverseBoolConverter}"/>
