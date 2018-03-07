@@ -43,11 +43,16 @@ namespace ModernApplicationFramework.EditorBase.Settings
         internal void AddRange(IEnumerable<string> extensions, AddOption option)
         {
             if (option == AddOption.NewFile)
+            {
                 foreach (var extension in extensions)
                     CreateWithDefaultExtension.Add(new EditorSupportedFileDefinition(extension));
+            }
             else if (option == AddOption.OpenFile)
+            {
                 foreach (var extension in extensions)
                     DefaultExtension.Add(new EditorSupportedFileDefinition(extension));
+            }
+
         }
 
         public EditorFileAssociation()

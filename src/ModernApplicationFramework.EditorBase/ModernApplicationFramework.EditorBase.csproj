@@ -199,6 +199,8 @@
     <Compile Include="Settings\EditorFileAssociationSettings.cs" />
     <Compile Include="Settings\EditorSettingsCategory.cs" />
     <Compile Include="Interfaces\Settings\IEditorFileAssociationSettings.cs" />
+    <Compile Include="Settings\NewFileEditorAssociationSettings.cs" />
+    <Compile Include="Settings\OpenFileEditorAssociationSettings.cs" />
     <EmbeddedResource Include="Commands\CommandsResources.de.resx" />
     <EmbeddedResource Include="Commands\CommandsResources.en.resx" />
     <EmbeddedResource Include="Commands\CommandsResources.resx">
