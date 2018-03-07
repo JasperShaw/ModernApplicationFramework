@@ -68,11 +68,11 @@ namespace ModernApplicationFramework.EditorBase.Editor
             if (!editor.CanHandleFile(args.FileDefinition))
                 throw new FileNotSupportedException("The specified file is not supported by this editor");
 
-            if (IsFileOpen(args.Path, out var openEditor))
-            {
-                _dockingMainWindow.DockingHost.ActiveLayoutItemBase = openEditor;
-                return;
-            }
+            //if (IsFileOpen(args.Path, out var openEditor))
+            //{
+            //    _dockingMainWindow.DockingHost.ActiveLayoutItemBase = openEditor;
+            //    return;
+            //}
 
             IFile file;
             if (!args.FileDefinition.SupportedFileOperation.HasFlag(SupportedFileOperation.Create))
@@ -90,7 +90,7 @@ namespace ModernApplicationFramework.EditorBase.Editor
                 return false;
             //TODO: Use filewatcher here
             var editors = _dockingMainWindow.DockingHost.LayoutItems.OfType<IEditor>();
-            editor = editors.FirstOrDefault(x => x.Document.FilePath.Equals(filePath));
+            editor = editors.FirstOrDefault(x => x.Document.FullFilePath.Equals(filePath));
             if (editor != null)
                 return true;
             return false;

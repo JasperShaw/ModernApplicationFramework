@@ -108,7 +108,8 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
 
         public bool ContainsLayoutItem(ILayoutItem layoutItem)
         {
-            return LayoutItems.Contains(layoutItem);
+            return false;
+            //return LayoutItems.Contains(layoutItem);
         }
 
         public override void ActivateItem(ILayoutItem item)

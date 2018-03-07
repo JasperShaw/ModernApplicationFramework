@@ -99,6 +99,7 @@
     <Compile Include="Editor\EditorException.cs" />
     <Compile Include="Editor\EditorNotFoundException.cs" />
     <Compile Include="FileSupport\Exceptions\FileNotSupportedException.cs" />
+    <Compile Include="FileSupport\FileChangeWatcher.cs" />
     <Compile Include="FileSupport\FileDefinitionContextManager.cs" />
     <Compile Include="FileSupport\FileService.cs" />
     <Compile Include="FileSupport\SupportedFileDefinition.cs" />

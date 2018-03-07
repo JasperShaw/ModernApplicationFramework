@@ -26,7 +26,7 @@ namespace ModernApplicationFramework.Utilities
             while (index2 >= index1 && char.IsWhiteSpace(path[index2]))
                 --index2;
             int num = index2 - index1 + 1;
-            using (ReusableResourceHolder<StringBuilder> reusableResourceHolder = ReusableStringBuilder.AcquireDefault(260))
+            using (var reusableResourceHolder = ReusableStringBuilder.AcquireDefault(260))
             {
                 StringBuilder resource = reusableResourceHolder.Resource;
                 bool flag1 = false;
@@ -206,6 +206,15 @@ namespace ModernApplicationFramework.Utilities
             if (startIndex >= 0 && path[startIndex] == 46)
                 return path.Substring(startIndex);
             return string.Empty;
+        }
+
+        public static string GetBaseFilePath(string fullFilePath)
+        {
+            if (string.IsNullOrEmpty(fullFilePath))
+                return string.Empty;
+            if (!Path.IsPathRooted(fullFilePath))
+                return string.Empty;
+            return Path.GetDirectoryName(fullFilePath).NormalizePath() + Path.DirectorySeparatorChar;
         }
 
         private class PathParser

@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.EditorBase.FileSupport
 {
@@ -13,12 +14,15 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
 
         public string FileName { get; }
 
-        public string FilePath { get; }
+        public string FullFilePath { get; }
+
+        public virtual string Path => PathUtilities.GetBaseFilePath(FullFilePath);
 
         protected MafFile(string path, string name)
         {
             FileName = name;
-            FilePath = path;
+            FullFilePath = path;
+            //FileChangeService.Instance.AdviseFileChange(this);
         }
 
         public abstract Task Load(Action action);

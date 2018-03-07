@@ -55,10 +55,10 @@ namespace ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor
         protected override void LoadFile(IFile document)
         {
             base.LoadFile(document);
-            if (!string.IsNullOrEmpty(document.FilePath) && File.Exists(document.FilePath))
+            if (!string.IsNullOrEmpty(document.FullFilePath) && File.Exists(document.FullFilePath))
             {
-                _text = File.ReadAllText(document.FilePath);
-                _originalText = File.ReadAllText(document.FilePath);
+                _text = File.ReadAllText(document.FullFilePath);
+                _originalText = File.ReadAllText(document.FullFilePath);
                 NotifyOfPropertyChange(nameof(Text));
             }
         }

@@ -89,7 +89,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
         {
             if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
                 throw new ArgumentException("File was not found");
-            var document = new ReadOnlyFile(filePath, Path.GetFileName(filePath));
+            var document = new ReadOnlyFile(filePath, System.IO.Path.GetFileName(filePath));
             return document;
         }
     }

@@ -32,7 +32,7 @@ namespace ModernApplicationFramework.EditorBase.Editor
 
         public async Task SaveFile()
         {
-            var filePath = Path.GetFileName(Document.FilePath);
+            var filePath = Path.GetFileName(Document.FullFilePath);
             if (Document is IStorableFile storableDocument)
                 await storableDocument.Save(() => SaveFile(filePath));
         }
@@ -55,9 +55,9 @@ namespace ModernApplicationFramework.EditorBase.Editor
         {
             if (Document == null || editor.Document == null)
                 return false;
-            if (string.IsNullOrEmpty(Document.FilePath) && string.IsNullOrEmpty(editor.Document.FilePath))
+            if (string.IsNullOrEmpty(Document.FullFilePath) && string.IsNullOrEmpty(editor.Document.FullFilePath))
                 return false;
-            if (Document.FilePath.Equals(editor.Document.FilePath))
+            if (Document.FullFilePath.Equals(editor.Document.FullFilePath))
                 return true;
             return false;
         }

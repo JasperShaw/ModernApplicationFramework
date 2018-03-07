@@ -8,7 +8,9 @@ namespace ModernApplicationFramework.EditorBase.Interfaces.FileSupport
     {
         string FileName { get; }
 
-        string FilePath { get; }
+        string FullFilePath { get; }
+
+        string Path { get; }
 
         Task Load(Action action);
     }

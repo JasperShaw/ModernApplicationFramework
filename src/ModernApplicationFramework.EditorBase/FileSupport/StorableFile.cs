@@ -32,7 +32,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
             IsDirty = isDirty;
         }
 
-        public StorableFile(string fileName, bool isNew, bool isDirty) : this(null, fileName, isNew, isDirty)
+        public StorableFile(string fileName, bool isNew, bool isDirty) : this(string.Empty, fileName, isNew, isDirty)
         {
         }
 
@@ -60,7 +60,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
         {
             if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
                 throw new ArgumentException("File was not found");
-            var document = new StorableFile(filePath, Path.GetFileName(filePath), false, false);
+            var document = new StorableFile(filePath, System.IO.Path.GetFileName(filePath), false, false);
             return document;
         }
     }
