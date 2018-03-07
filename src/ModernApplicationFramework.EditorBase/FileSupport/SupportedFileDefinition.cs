@@ -4,6 +4,7 @@ using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.Settings;
+using ModernApplicationFramework.EditorBase.Interfaces.Settings.EditorAssociation;
 
 namespace ModernApplicationFramework.EditorBase.FileSupport
 {

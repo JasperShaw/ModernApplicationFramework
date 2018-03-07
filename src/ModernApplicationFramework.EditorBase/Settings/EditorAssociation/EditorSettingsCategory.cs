@@ -2,7 +2,7 @@
 using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Settings.SettingsManager;
 
-namespace ModernApplicationFramework.EditorBase.Settings
+namespace ModernApplicationFramework.EditorBase.Settings.EditorAssociation
 {
     public static class EditorSettingsCategory
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace ModernApplicationFramework.EditorBase.Settings
+namespace ModernApplicationFramework.EditorBase.Settings.EditorAssociation
 {
     [Serializable]
     [XmlType(AnonymousType = true)]

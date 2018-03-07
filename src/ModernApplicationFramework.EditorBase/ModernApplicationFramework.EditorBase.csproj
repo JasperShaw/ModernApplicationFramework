@@ -195,14 +195,14 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="FileSupport\TextFile\TextFileDefinition.cs" />
-    <Compile Include="Settings\EditorFileAssociation.cs" />
-    <Compile Include="Settings\EditorFileAssociationSettings.cs" />
-    <Compile Include="Settings\EditorSettingsCategory.cs" />
-    <Compile Include="Interfaces\Settings\IEditorFileAssociationSettings.cs" />
-    <Compile Include="Interfaces\Settings\INewFileEditorAssociationSettings.cs" />
-    <Compile Include="Interfaces\Settings\IOpenFileEditorAssociationSettings.cs" />
-    <Compile Include="Settings\NewFileEditorAssociationSettings.cs" />
-    <Compile Include="Settings\OpenFileEditorAssociationSettings.cs" />
+    <Compile Include="Settings\EditorAssociation\EditorFileAssociation.cs" />
+    <Compile Include="Settings\EditorAssociation\EditorFileAssociationSettings.cs" />
+    <Compile Include="Settings\EditorAssociation\EditorSettingsCategory.cs" />
+    <Compile Include="Interfaces\Settings\EditorAssociation\IEditorFileAssociationSettings.cs" />
+    <Compile Include="Interfaces\Settings\EditorAssociation\INewFileEditorAssociationSettings.cs" />
+    <Compile Include="Interfaces\Settings\EditorAssociation\IOpenFileEditorAssociationSettings.cs" />
+    <Compile Include="Settings\EditorAssociation\NewFileEditorAssociationSettings.cs" />
+    <Compile Include="Settings\EditorAssociation\OpenFileEditorAssociationSettings.cs" />
     <EmbeddedResource Include="Commands\CommandsResources.de.resx" />
     <EmbeddedResource Include="Commands\CommandsResources.en.resx" />
     <EmbeddedResource Include="Commands\CommandsResources.resx">

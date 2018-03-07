@@ -4,29 +4,29 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
-using ModernApplicationFramework.EditorBase.Interfaces.Settings;
+using ModernApplicationFramework.EditorBase.Interfaces.Settings.EditorAssociation;
 using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Settings.SettingsManager;
 using ModernApplicationFramework.Utilities.Interfaces.Settings;
 
-namespace ModernApplicationFramework.EditorBase.Settings
+namespace ModernApplicationFramework.EditorBase.Settings.EditorAssociation
 {
     [Export(typeof(ISettingsDataModel))]
-    [Export(typeof(INewFileEditorAssociationSettings))]
-    internal class NewFileEditorAssociationSettings : EditorFileAssociationSettings, INewFileEditorAssociationSettings
+    [Export(typeof(IOpenFileEditorAssociationSettings))]
+    internal class OpenFileEditorAssociationSettings : EditorFileAssociationSettings, IOpenFileEditorAssociationSettings
     {
         [Export]
-        public static ISettingsCategory NewFileEditorAssociationCategory =
-            new SettingsCategory(Guids.NewFileEditorAssociationId, SettingsCategoryType.Normal,
-                "Editors_NewFileAssociations", EditorSettingsCategory.EditorCategory);
+        public static ISettingsCategory OpenFileEditorAssociationCategory =
+            new SettingsCategory(Guids.OpenFileEditorAssociationId, SettingsCategoryType.Normal,
+                "Editors_OpenFileAssociations", EditorSettingsCategory.EditorCategory);
 
 
-        public override ISettingsCategory Category => NewFileEditorAssociationCategory;
+        public override ISettingsCategory Category => OpenFileEditorAssociationCategory;
 
-        public override string Name => "Editors_NewFileAssociations";
+        public override string Name => "Editors_OpenFileAssociations";
 
         [ImportingConstructor]
-        public NewFileEditorAssociationSettings([ImportMany] IEditor[] editors, ISettingsManager settingsManager, IFileDefinitionManager fileDefinitionManager) : base(editors, fileDefinitionManager)
+        public OpenFileEditorAssociationSettings([ImportMany] IEditor[] editors, ISettingsManager settingsManager, IFileDefinitionManager fileDefinitionManager) : base(editors, fileDefinitionManager)
         {
             SettingsManager = settingsManager;
         }
@@ -37,7 +37,7 @@ namespace ModernApplicationFramework.EditorBase.Settings
             var id = Guid.Empty;
             foreach (var cachedAssociation in CachedAssociations)
             {
-                foreach (var definition in cachedAssociation.Value.CreateWithDefaultExtension)
+                foreach (var definition in cachedAssociation.Value.DefaultExtension)
                 {
                     if (!definition.Extension.Equals(association.FileExtension))
                         continue;
@@ -51,7 +51,7 @@ namespace ModernApplicationFramework.EditorBase.Settings
         protected override EditorFileAssociation CreateAssociation(IEditor editor, IEnumerable<string> list)
         {
             var association = new EditorFileAssociation(editor.EditorId.ToString("B"), editor.Name);
-            association.AddRange(list, AddOption.NewFile);
+            association.AddRange(list, AddOption.OpenFile);
             return association;
         }
 
@@ -66,14 +66,14 @@ namespace ModernApplicationFramework.EditorBase.Settings
                 foreach (var cachedAssociation in cache)
                 {
                     EditorSupportedFileDefinition def = null;
-                    foreach (var definition in cachedAssociation.Value.CreateWithDefaultExtension)
+                    foreach (var definition in cachedAssociation.Value.DefaultExtension)
                     {
                         if (!definition.Extension.Equals(extension))
                             continue;
                         def = definition;
                     }
                     if (def != null)
-                        cachedAssociation.Value.CreateWithDefaultExtension.Remove(def);
+                        cachedAssociation.Value.DefaultExtension.Remove(def);
                 }
             }
         }
@@ -82,7 +82,7 @@ namespace ModernApplicationFramework.EditorBase.Settings
         {
             return (from valuePair in CachedAssociations
                 where valuePair.Key == editor.EditorId.ToString("B")
-                from definition in valuePair.Value.CreateWithDefaultExtension
+                from definition in valuePair.Value.DefaultExtension
                 select definition.Extension).ToList();
         }
     }

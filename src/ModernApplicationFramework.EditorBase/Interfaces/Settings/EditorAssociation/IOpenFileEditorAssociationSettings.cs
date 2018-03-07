@@ -1,4 +1,4 @@
-﻿namespace ModernApplicationFramework.EditorBase.Interfaces.Settings
+﻿namespace ModernApplicationFramework.EditorBase.Interfaces.Settings.EditorAssociation
 {
     public interface IOpenFileEditorAssociationSettings : IEditorFileAssociationSettings
     {

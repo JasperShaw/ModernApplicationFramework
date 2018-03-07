@@ -3,7 +3,7 @@ using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Settings.Interfaces;
 
-namespace ModernApplicationFramework.EditorBase.Interfaces.Settings
+namespace ModernApplicationFramework.EditorBase.Interfaces.Settings.EditorAssociation
 {
     public interface IEditorFileAssociationSettings : ISettingsDataModel
     {

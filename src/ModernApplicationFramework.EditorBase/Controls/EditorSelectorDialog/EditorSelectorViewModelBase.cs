@@ -7,6 +7,7 @@ using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.NewElement;
 using ModernApplicationFramework.EditorBase.Interfaces.Settings;
+using ModernApplicationFramework.EditorBase.Interfaces.Settings.EditorAssociation;
 using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.EditorBase.Controls.EditorSelectorDialog

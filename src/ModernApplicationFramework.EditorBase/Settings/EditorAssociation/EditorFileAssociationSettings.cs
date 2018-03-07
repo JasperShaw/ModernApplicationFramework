@@ -4,9 +4,10 @@ using System.Linq;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.Settings;
+using ModernApplicationFramework.EditorBase.Interfaces.Settings.EditorAssociation;
 using ModernApplicationFramework.Settings.SettingDataModel;
 
-namespace ModernApplicationFramework.EditorBase.Settings
+namespace ModernApplicationFramework.EditorBase.Settings.EditorAssociation
 {
     internal abstract class EditorFileAssociationSettings : SettingsDataModel, IEditorFileAssociationSettings
     {
