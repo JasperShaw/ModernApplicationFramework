@@ -50,5 +50,10 @@ namespace ModernApplicationFramework.Extended.Layout
         {
             return Id.Equals(layoutItem.Id);
         }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
     }
 }

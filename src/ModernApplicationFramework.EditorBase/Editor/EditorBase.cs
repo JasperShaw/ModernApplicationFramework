@@ -44,24 +44,6 @@ namespace ModernApplicationFramework.EditorBase.Editor
             await Document.Load(() => LoadFile(document));
         }
 
-        public override bool Equals(object obj)
-        {
-            if (!(obj is IEditor editor))
-                return false;
-            return Equals(editor);
-        }
-
-        public bool Equals(IEditor editor)
-        {
-            if (Document == null || editor.Document == null)
-                return false;
-            if (string.IsNullOrEmpty(Document.FullFilePath) && string.IsNullOrEmpty(editor.Document.FullFilePath))
-                return false;
-            if (Document.FullFilePath.Equals(editor.Document.FullFilePath))
-                return true;
-            return false;
-        }
-
         protected virtual void UpdateDisplayName()
         {
             DisplayName = Document.FileName;
