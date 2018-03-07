@@ -22,7 +22,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
         {
             FileName = name;
             FullFilePath = path;
-            //FileChangeService.Instance.AdviseFileChange(this);
+            FileChangeService.Instance.AdviseFileChange(this);
         }
 
         public abstract Task Load(Action action);

@@ -68,11 +68,11 @@ namespace ModernApplicationFramework.EditorBase.Editor
             if (!editor.CanHandleFile(args.FileDefinition))
                 throw new FileNotSupportedException("The specified file is not supported by this editor");
 
-            //if (IsFileOpen(args.Path, out var openEditor))
-            //{
-            //    _dockingMainWindow.DockingHost.ActiveLayoutItemBase = openEditor;
-            //    return;
-            //}
+            if (IsFileOpen(args.Path, out var openEditor))
+            {
+                _dockingMainWindow.DockingHost.ActiveLayoutItemBase = openEditor;
+                return;
+            }
 
             IFile file;
             if (!args.FileDefinition.SupportedFileOperation.HasFlag(SupportedFileOperation.Create))
