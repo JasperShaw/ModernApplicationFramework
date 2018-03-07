@@ -95,5 +95,14 @@ namespace ModernApplicationFramework.Extended.Interfaces
         /// <param name="tool">The tool model.</param>
         /// <param name="remove">if set to <see langword="true"/> the tool will be removed.</param>
         void HideTool(ITool tool, bool remove);
+
+        /// <summary>
+        /// Determines whether a layoutItem already exists.
+        /// </summary>
+        /// <param name="layoutItem">The layout item to check.</param>
+        /// <returns>
+        /// <see langword="true"/> if the LayoutItem already exists; <see langword="false"/> otherwise
+        /// </returns>
+        bool ContainsLayoutItem(ILayoutItem layoutItem);
     }
 }

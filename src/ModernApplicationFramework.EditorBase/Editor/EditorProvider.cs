@@ -15,23 +15,24 @@ using ModernApplicationFramework.Extended.Interfaces;
 
 namespace ModernApplicationFramework.EditorBase.Editor
 {
-
-    //TODO: At some point add a FileSystemWatcher so we can edit a file in multiple editor instances without risking data gets lost
     [Export(typeof(IEditorProvider))]
     public class EditorProvider : IEditorProvider
     {
         private readonly IEnumerable<IEditor> _editors;
         private readonly IFileDefinitionManager _fileDefinitionManager;
+        private readonly IDockingMainWindowViewModel _dockingMainWindow;
 
         [ImportingConstructor]
-        public EditorProvider([ImportMany] IEnumerable<IEditor> editors, IFileDefinitionManager fileDefinitionManager)
+        public EditorProvider([ImportMany] IEnumerable<IEditor> editors, IFileDefinitionManager fileDefinitionManager, IDockingMainWindowViewModel dockingMainWindow)
         {
             _editors = editors;
             _fileDefinitionManager = fileDefinitionManager;
+            _dockingMainWindow = dockingMainWindow;
         }
 
         public IEnumerable<ISupportedFileDefinition> SupportedFileDefinitions
             => _fileDefinitionManager.SupportedFileDefinitions.OrderBy(x => x.SortOrder);
+
 
         public bool Handles(string path)
         {
@@ -58,7 +59,7 @@ namespace ModernApplicationFramework.EditorBase.Editor
             if (!editor.CanHandleFile(arguments.FileDefinition))
                 throw new FileNotSupportedException("The specified file is not supported by this editor");
             editor.LoadFile(StorableFile.CreateNew(arguments.FileName), arguments.FileName);
-            IoC.Get<IDockingMainWindowViewModel>().DockingHost.OpenLayoutItem(editor);
+            _dockingMainWindow.DockingHost.OpenLayoutItem(editor);
         }
 
         public async void Open(OpenFileArguments args)
@@ -67,13 +68,32 @@ namespace ModernApplicationFramework.EditorBase.Editor
             if (!editor.CanHandleFile(args.FileDefinition))
                 throw new FileNotSupportedException("The specified file is not supported by this editor");
 
-            IFile document;
+            if (IsFileOpen(args.Path, out var openEditor))
+            {
+                _dockingMainWindow.DockingHost.ActiveLayoutItemBase = openEditor;
+                return;
+            }
+
+            IFile file;
             if (!args.FileDefinition.SupportedFileOperation.HasFlag(SupportedFileOperation.Create))
-                document = ReadOnlyFile.OpenExisting(args.Path);
+                file = ReadOnlyFile.OpenExisting(args.Path);
             else
-                document = StorableFile.OpenExisting(args.Path);
-            await editor.LoadFile(document, args.Name);
-            IoC.Get<IDockingMainWindowViewModel>().DockingHost.OpenLayoutItem(editor);
+                file = StorableFile.OpenExisting(args.Path);
+            await editor.LoadFile(file, args.Name);
+            _dockingMainWindow.DockingHost.OpenLayoutItem(editor);
+        }
+
+        public bool IsFileOpen(string filePath, out IEditor editor)
+        {
+            editor = null;
+            if (string.IsNullOrEmpty(filePath))
+                return false;
+            //TODO: Use filewatcher here
+            var editors = _dockingMainWindow.DockingHost.LayoutItems.OfType<IEditor>();
+            editor = editors.FirstOrDefault(x => x.Document.FilePath.Equals(filePath));
+            if (editor != null)
+                return true;
+            return false;
         }
 
         public static MethodInfo GetMethod<T>(Expression<Action<T>> expr)

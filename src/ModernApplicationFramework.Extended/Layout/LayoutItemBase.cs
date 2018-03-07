@@ -38,5 +38,17 @@ namespace ModernApplicationFramework.Extended.Layout
 
         [Browsable(false)]
         public virtual bool ShouldReopenOnStart => false;
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is ILayoutItemBase layoutItem))
+                return false;
+            return Equals(layoutItem);
+        }
+
+        public bool Equals(ILayoutItemBase layoutItem)
+        {
+            return Id.Equals(layoutItem.Id);
+        }
     }
 }

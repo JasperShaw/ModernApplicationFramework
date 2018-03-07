@@ -106,6 +106,11 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
             Tools.Remove(model);
         }
 
+        public bool ContainsLayoutItem(ILayoutItem layoutItem)
+        {
+            return LayoutItems.Contains(layoutItem);
+        }
+
         public override void ActivateItem(ILayoutItem item)
         {
             if (_closing)
