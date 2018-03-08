@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.Composition;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
-using ModernApplicationFramework.EditorBase.Interfaces.Settings;
 using ModernApplicationFramework.EditorBase.Interfaces.Settings.EditorAssociation;
 
 namespace ModernApplicationFramework.EditorBase.Controls.EditorSelectorDialog

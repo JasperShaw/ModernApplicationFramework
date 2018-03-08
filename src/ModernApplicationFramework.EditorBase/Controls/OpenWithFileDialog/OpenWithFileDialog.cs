@@ -6,7 +6,7 @@ using ModernApplicationFramework.Controls.Dialogs.Native;
 using ModernApplicationFramework.EditorBase.Controls.EditorSelectorDialog;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 
-namespace ModernApplicationFramework.EditorBase.Controls.Dialogs
+namespace ModernApplicationFramework.EditorBase.Controls.OpenWithFileDialog
 {
     public class OpenWithFileDialog : CustomNativeOpenFileDialog
     {

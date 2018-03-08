@@ -1,6 +1,7 @@
 ﻿using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
+using ModernApplicationFramework.EditorBase.Settings.Documents;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Utilities.Interfaces;
 
@@ -8,6 +9,8 @@ namespace ModernApplicationFramework.EditorBase.Controls.FileChangedDialog
 {
     public sealed class FileChangeDialogViewModel : Screen
     {
+        private bool _applyIfClean;
+        private readonly ExternalChangeSettings _settings;
         private ReloadFileDialogResult Result { get; set; }
 
         public bool ShowSettingsMessage { get; }
@@ -15,6 +18,19 @@ namespace ModernApplicationFramework.EditorBase.Controls.FileChangedDialog
         public string FilePath { get; }
 
         public string Message { get; }
+
+        public bool ApplyIfClean
+        {
+            get => _applyIfClean;
+            set
+            {
+                if (value == _applyIfClean)
+                    return;
+                _applyIfClean = value;
+                NotifyOfPropertyChange();
+                _settings.AutoloadExternalChanges = value;
+            }
+        }
 
         public ICommand YesCommand => new DelegateCommand(o =>
         {
@@ -42,6 +58,8 @@ namespace ModernApplicationFramework.EditorBase.Controls.FileChangedDialog
         {
             DisplayName = IoC.Get<IEnvironmentVariables>().ApplicationName;
             FilePath = file.FullFilePath;
+            _settings = IoC.Get<ExternalChangeSettings>();
+            _applyIfClean = _settings.AutoloadExternalChanges;
             if (file is IStorableFile storableFile && storableFile.IsDirty)
             {
                 ShowSettingsMessage = false;

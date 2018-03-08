@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
-using ModernApplicationFramework.EditorBase.Controls.Dialogs;
+using ModernApplicationFramework.EditorBase.Controls.OpenWithFileDialog;
 using ModernApplicationFramework.EditorBase.Core.OpenSaveDialogFilters;
 using ModernApplicationFramework.EditorBase.FileSupport.Exceptions;
 using ModernApplicationFramework.EditorBase.Interfaces;

@@ -73,12 +73,12 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Commands\OpenFileCommandDefinition.cs" />
-    <Compile Include="Controls\Dialogs\DialogResources.Designer.cs">
+    <Compile Include="Controls\OpenWithFileDialog\DialogResources.Designer.cs">
       <DependentUpon>DialogResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Controls\Dialogs\OpenWithFileDialog.cs" />
+    <Compile Include="Controls\OpenWithFileDialog\OpenWithFileDialog.cs" />
     <Compile Include="Controls\EditorSelectorDialog\EditorListItem.cs" />
     <Compile Include="Controls\EditorSelectorDialog\OpenFileEditorSelectorView.xaml.cs">
       <DependentUpon>OpenFileEditorSelectorView.xaml</DependentUpon>
@@ -220,9 +220,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommandsResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\Dialogs\DialogResources.de.resx" />
-    <EmbeddedResource Include="Controls\Dialogs\DialogResources.en.resx" />
-    <EmbeddedResource Include="Controls\Dialogs\DialogResources.resx">
+    <EmbeddedResource Include="Controls\OpenWithFileDialog\DialogResources.de.resx" />
+    <EmbeddedResource Include="Controls\OpenWithFileDialog\DialogResources.en.resx" />
+    <EmbeddedResource Include="Controls\OpenWithFileDialog\DialogResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>DialogResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>

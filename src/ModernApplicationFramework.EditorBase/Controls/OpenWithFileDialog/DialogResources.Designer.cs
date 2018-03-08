@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ModernApplicationFramework.EditorBase.Controls.Dialogs {
+namespace ModernApplicationFramework.EditorBase.Controls.OpenWithFileDialog {
     using System;
     
     
@@ -39,7 +39,8 @@ namespace ModernApplicationFramework.EditorBase.Controls.Dialogs {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ModernApplicationFramework.EditorBase.Controls.Dialogs.DialogResources", typeof(DialogResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ModernApplicationFramework.EditorBase.Controls.OpenWithFileDialog.DialogResources" +
+                            "", typeof(DialogResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

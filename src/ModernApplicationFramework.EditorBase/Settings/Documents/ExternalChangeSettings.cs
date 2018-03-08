@@ -8,6 +8,7 @@ using ModernApplicationFramework.Utilities.Interfaces.Settings;
 namespace ModernApplicationFramework.EditorBase.Settings.Documents
 {
     [Export(typeof(ISettingsDataModel))]
+    [Export(typeof(ExternalChangeSettings))]
     public class ExternalChangeSettings : SettingsDataModel
     {
         [Export]

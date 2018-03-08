@@ -12,7 +12,19 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
 
         private IFile _file;
         private FileSystemWatcher _watcher;
-        public bool WasChangedExternally { get; set; }
+        private bool _enabled;
+
+
+        public bool Enabled
+        {
+            get => _enabled;
+            set
+            {
+                _enabled = value;
+                if (_watcher != null)
+                    _watcher.EnableRaisingEvents = value;
+            }
+        }
 
         public FileChangeWatcher(IFile file)
         {
