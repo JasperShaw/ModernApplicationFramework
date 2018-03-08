@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.EditorBase.Controls.FileChangedDialog;
-using ModernApplicationFramework.EditorBase.Interfaces;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.EditorBase.Settings.Documents;
 
@@ -94,6 +93,11 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
         public void PushNotification(IFile file)
         {
             _queue.Add(file);
+        }
+
+        public void RemoveNotification(IFile file)
+        {
+            _queue.Remove(file);
         }
 
         public void ActivateWatchers(bool activate)

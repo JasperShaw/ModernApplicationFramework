@@ -12,6 +12,8 @@ namespace ModernApplicationFramework.EditorBase.Interfaces.FileSupport
 
         string Path { get; }
 
+        bool IsSaving { get; }
+
         Task Load(Action action);
 
         Task Unload();

@@ -78,6 +78,11 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
                 : CreateOpenFileArguments(dialog.FileNames, dialog.CustomResultData as IEditor);
         }
 
+        public OpenFileArguments ShowSaveFilesDialog()
+        {
+            return null;
+        }
+
         private static IReadOnlyCollection<OpenFileArguments> CreateOpenFileArguments(IReadOnlyCollection<string> files, IEditor preferrEditor)
         {
             var arguments = new List<OpenFileArguments>();

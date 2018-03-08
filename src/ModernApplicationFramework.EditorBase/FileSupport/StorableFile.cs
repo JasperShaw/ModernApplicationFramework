@@ -10,6 +10,8 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
     {
         private bool _isDirty;
 
+        public event EventHandler DirtyChanged;
+
         public bool IsDirty
         {
             get => _isDirty;
@@ -19,6 +21,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
                     return;
                 _isDirty = value;
                 OnPropertyChanged();
+                DirtyChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -36,6 +39,8 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
         {
         }
 
+        public override bool IsSaving { get; protected set; }
+
         public override Task Load(Action loadAction)
         {
             loadAction();
@@ -43,11 +48,20 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
             return Task.CompletedTask;
         }
 
-        public Task Save(Action saveAction)
+        public Task Save(SaveFileArguments arguments, Action saveAction)
         {
-            saveAction();
-            IsDirty = false;
-            IsNew = false;
+            //try
+            //{
+            IsSaving = true;
+                IsDirty = false;
+                IsNew = false;
+                saveAction();
+            IsSaving = false;
+            //}
+            //finally
+            //{
+
+            //}
             return Task.CompletedTask;
         }
 
@@ -63,5 +77,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
             var document = new StorableFile(filePath, System.IO.Path.GetFileName(filePath), false, false);
             return document;
         }
+
+
     }
 }

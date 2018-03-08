@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Interfaces;
@@ -22,7 +23,7 @@ namespace ModernApplicationFramework.EditorBase.Interfaces.Editor
 
         Task Reload();
 
-        Task SaveFile();
+        Task SaveFile(bool saveAs = false);
 
         bool CanHandleFile(ISupportedFileDefinition fileDefinition);
     }

@@ -1,5 +1,8 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.IO;
+using System.Text;
+using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Input.Command;
@@ -44,19 +47,20 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.MyEditor
         public override string LocalizedName => "My TextEditor";
         public override string Name => "My TextEditor";
 
-        protected override void SaveFile(string filePath)
+        protected override async void SaveFile()
         {
-            File.WriteAllText(filePath, _text);
+            using (var stream = new FileStream(Document.FullFilePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read, 4096, true))
+                await stream.WriteAsync(Encoding.ASCII.GetBytes(_text), 0, _text.Length);
             _originalText = _text;
         }
 
-        protected override void LoadFile(IFile document)
+        protected override void LoadFile()
         {
-            base.LoadFile(document);
-            if (!string.IsNullOrEmpty(document.FullFilePath) && File.Exists(document.FullFilePath))
+            base.LoadFile();
+            if (!string.IsNullOrEmpty(Document.FullFilePath) && File.Exists(Document.FullFilePath))
             {
-                _text = File.ReadAllText(document.FullFilePath);
-                _originalText = File.ReadAllText(document.FullFilePath);
+                _text = File.ReadAllText(Document.FullFilePath);
+                _originalText = File.ReadAllText(Document.FullFilePath);
                 NotifyOfPropertyChange(nameof(Text));
             }
         }

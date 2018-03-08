@@ -113,6 +113,7 @@
     <Compile Include="FileSupport\FileChangeWatcher.cs" />
     <Compile Include="FileSupport\FileDefinitionContextManager.cs" />
     <Compile Include="FileSupport\FileService.cs" />
+    <Compile Include="FileSupport\SaveFileArguments.cs" />
     <Compile Include="Interfaces\FileSupport\IFileService.cs" />
     <Compile Include="FileSupport\SupportedFileDefinition.cs" />
     <Compile Include="Interfaces\FileSupport\IFileDefinitionContextManager.cs" />

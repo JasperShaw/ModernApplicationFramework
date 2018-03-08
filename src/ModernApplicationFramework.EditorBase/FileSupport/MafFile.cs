@@ -18,6 +18,8 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
 
         public virtual string Path => PathUtilities.GetBaseFilePath(FullFilePath);
 
+        public virtual bool IsSaving { get; protected set; }
+
         protected MafFile(string path, string name)
         {
             FileName = name;

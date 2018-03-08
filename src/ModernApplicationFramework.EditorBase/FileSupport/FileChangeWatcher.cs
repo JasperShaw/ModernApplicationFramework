@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using ModernApplicationFramework.Core;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
@@ -75,6 +76,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
         {
             if (_file == null)
                 return;
+           
             FileChangeService.Instance.PushNotification(_file);
         }
 

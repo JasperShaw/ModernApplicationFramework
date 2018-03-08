@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Extended.Interfaces;
@@ -56,7 +57,8 @@ namespace ModernApplicationFramework.EditorBase.Commands
 
         private void SaveFile()
         {
-
+            FileService.Instance.ShowSaveFilesDialog();
+            ((IEditor) _dockingHostViewModel.ActiveItem)?.SaveFile();
         }
     }
 }

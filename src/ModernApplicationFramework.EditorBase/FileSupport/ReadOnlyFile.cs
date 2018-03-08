@@ -79,6 +79,8 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
         {
         }
 
+        public override bool IsSaving => false;
+
         public override Task Load(Action loadAction)
         {
             loadAction();

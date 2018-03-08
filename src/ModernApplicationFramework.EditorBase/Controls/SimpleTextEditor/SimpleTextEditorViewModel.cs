@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.IO;
+using System.Text;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Input.Command;
@@ -26,7 +27,6 @@ namespace ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor
                 _text = value;
                 if (!IsReadOnly && Document is IStorableFile storableDocument)
                     storableDocument.IsDirty = string.CompareOrdinal(_originalText, value) != 0;
-                UpdateDisplayName();
                 NotifyOfPropertyChange();
             }
         }
@@ -36,8 +36,7 @@ namespace ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor
         public override bool CanHandleFile(ISupportedFileDefinition fileDefinition)
         {
             //Accept all supported files
-            return fileDefinition != null;
-            
+            return fileDefinition != null;           
         }
 
         public override Guid EditorId => Guids.SimpleEditorId;
@@ -46,33 +45,25 @@ namespace ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor
 
         public override string Name => "Simple TextEditor";
 
-        protected override async void SaveFile(string filePath)
+        protected override async void SaveFile()
         {
-            using (var reader = File.OpenText(filePath))
-            {
-                _text = await reader.ReadToEndAsync();
-                _originalText = _text;
-            }            
+            using (var stream = new FileStream(Document.FullFilePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read, 4096, true))
+                await stream.WriteAsync(Encoding.ASCII.GetBytes(_text), 0, _text.Length);
+            _originalText = _text;
         }
 
-        protected override void LoadFile(IFile document)
+        protected override async void LoadFile()
         {
-            base.LoadFile(document);
-            if (!string.IsNullOrEmpty(document.FullFilePath) && File.Exists(document.FullFilePath))
+            base.LoadFile();
+            if (!string.IsNullOrEmpty(Document.FullFilePath) && File.Exists(Document.FullFilePath))
             {
-                _text = File.ReadAllText(document.FullFilePath);
-                _originalText = File.ReadAllText(document.FullFilePath);
-                NotifyOfPropertyChange(nameof(Text));
+                using (var reader = File.OpenText(Document.FullFilePath))
+                {
+                    _text = await reader.ReadToEndAsync();
+                    _originalText = _text;
+                    NotifyOfPropertyChange(nameof(Text));
+                }
             }
-        }
-
-        protected override void UpdateDisplayName()
-        {
-            if (!(Document is IStorableFile storableDocument)) return;
-            if (storableDocument.IsDirty)
-                DisplayName = Document.FileName + "*";
-            else
-                DisplayName = Document.FileName;
         }
     }
 }
