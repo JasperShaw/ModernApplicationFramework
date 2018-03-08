@@ -62,17 +62,17 @@ namespace ModernApplicationFramework.EditorBase.Settings.EditorAssociation
 
             var editorFileAssociation = CreateAssociation(editor, fullList);
 
-            if (!flag)
-                InsertSettingsModel(editorFileAssociation, true);
-            else
-            {
+            //if (!flag)
+            //    InsertSettingsModel(editorFileAssociation, true);
+            //else
+            //{
                 RemoveAllModels();
                 var list = CachedAssociations;
                 list.Remove(keyValuePair);
                 list.Add(new KeyValuePair<string, EditorFileAssociation>(editor.EditorId.ToString("B"), editorFileAssociation));
                 foreach (var valuePair in list)
                     InsertSettingsModel(valuePair.Value, true);
-            }
+            //}
             OnSettingsChanged();
         }
 
