@@ -19,7 +19,7 @@ namespace ModernApplicationFramework.EditorBase.Commands
     {
         public override string NameUnlocalized => "Open File";
         public override string Name => "OpenFile";
-        public override string Text => "File...";
+        public override string Text => CommandsResources.OpenFileCommandName;
         public override string ToolTip => Text;
         public override Uri IconSource => null;
         public override string IconId => null;
