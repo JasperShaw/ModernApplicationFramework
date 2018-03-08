@@ -55,7 +55,7 @@ namespace ModernApplicationFramework.EditorBase.Settings.EditorAssociation
             return association;
         }
 
-        protected override void RemoveAssociations(IEnumerable<string> associations)
+        protected override void RemoveAssociations(IReadOnlyCollection<string> associations)
         {
             if (associations == null || !associations.Any())
                 return;

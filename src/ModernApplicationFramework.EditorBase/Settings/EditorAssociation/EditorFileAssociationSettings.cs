@@ -12,7 +12,7 @@ namespace ModernApplicationFramework.EditorBase.Settings.EditorAssociation
     {
         protected readonly IEditor[] Editors;
         protected readonly IFileDefinitionManager FileDefinitionManager;
-        // private IDictionary<string, EditorFileAssociation> _cachedAssociations;
+        private IDictionary<string, EditorFileAssociation> _cachedAssociations;
         private readonly object _cachedInfoLock = new object();
 
 
@@ -20,20 +20,22 @@ namespace ModernApplicationFramework.EditorBase.Settings.EditorAssociation
         {
             get
             {
+                if (_cachedAssociations != null)
+                    return _cachedAssociations;
                 lock (_cachedInfoLock)
                 {
-                    IDictionary<string, EditorFileAssociation> result = new Dictionary<string, EditorFileAssociation>();
+                    _cachedAssociations = new Dictionary<string, EditorFileAssociation>();
                     var layouts = GetStoredAssociations();
                     var source = layouts.Select(association =>
                         new KeyValuePair<string, EditorFileAssociation>(association.Id, association)).ToList();
                     foreach (var pair in source)
                     {
-                        if (result.ContainsKey(pair.Key))
+                        if (_cachedAssociations.ContainsKey(pair.Key))
                             continue;
-                        result.Add(pair);
+                        _cachedAssociations.Add(pair);
                     }
-                    return result;
-                }            
+                }
+                return _cachedAssociations;
             }
         }
 
@@ -53,7 +55,7 @@ namespace ModernApplicationFramework.EditorBase.Settings.EditorAssociation
 
         public void CreateAssociations(IEditor editor, IEnumerable<ISupportedFileDefinition> associations, bool ignoreDuplicateCheck = false)
         {
-            var newAssociations = associations.Select(x => x.FileExtension);
+            var newAssociations = associations.Select(x => x.FileExtension).ToList();
             var oldAssociations = GetAssociations(editor);
 
             var fullList = newAssociations.ToList();
@@ -67,20 +69,21 @@ namespace ModernApplicationFramework.EditorBase.Settings.EditorAssociation
 
             var editorFileAssociation = CreateAssociation(editor, fullList);
 
-            //if (!flag)
-            //{
-            //    InsertSettingsModel(editorFileAssociation, true);
-            //}
-            //else
-            //{
-                var list = CachedAssociations.ToList();
+            if (!flag)
+            {
+                InsertSettingsModel(editorFileAssociation, true);
+            }
+            else
+            {
                 RemoveAllModels();
+                var list = CachedAssociations;
+
                 list.Remove(keyValuePair);
                 list.Add(new KeyValuePair<string, EditorFileAssociation>(editor.EditorId.ToString("B"),
                     editorFileAssociation));
                 foreach (var valuePair in list)
                     InsertSettingsModel(valuePair.Value, true);
-           // }
+            }
             OnSettingsChanged();
         }
 
@@ -113,11 +116,11 @@ namespace ModernApplicationFramework.EditorBase.Settings.EditorAssociation
 
         private async void EditorFileAssociationSettings_SettingsChanged(object sender, EventArgs e)
         {
-            //await System.Threading.Tasks.Task.Yield();
-            //lock (_cachedInfoLock)
-            //{
-            //    _cachedAssociations = null;
-            //}
+            await System.Threading.Tasks.Task.Yield();
+            lock (_cachedInfoLock)
+            {
+                _cachedAssociations = null;
+            }
         }
 
         private IEnumerable<EditorFileAssociation> GetStoredAssociations()
@@ -126,7 +129,7 @@ namespace ModernApplicationFramework.EditorBase.Settings.EditorAssociation
             return models;
         }
 
-        protected abstract void RemoveAssociations(IEnumerable<string> associations);
+        protected abstract void RemoveAssociations(IReadOnlyCollection<string> associations);
 
         protected abstract IEnumerable<string> GetAssociations(IEditor editor);
     }

@@ -55,7 +55,7 @@ namespace ModernApplicationFramework.EditorBase.Settings.EditorAssociation
             return association;
         }
 
-        protected override void RemoveAssociations(IEnumerable<string> associations)
+        protected override void RemoveAssociations(IReadOnlyCollection<string> associations)
         {
             if (associations == null || !associations.Any())
                 return;
@@ -71,9 +71,22 @@ namespace ModernApplicationFramework.EditorBase.Settings.EditorAssociation
                         if (!definition.Extension.Equals(extension))
                             continue;
                         def = definition;
+
+                        //var i = CachedAssociations[cachedAssociation.Key].DefaultExtension;
+                        //i.Remove(definition);
+
+                        //var e = new EditorFileAssociation(cachedAssociation.Key, cachedAssociation.Value.Name)
+                        //{
+                        //    DefaultExtension = i
+                        //};
+
+                        //CachedAssociations[cachedAssociation.Key] = e;
+
                     }
                     if (def != null)
+                    {          
                         cachedAssociation.Value.DefaultExtension.Remove(def);
+                    }
                 }
             }
         }

@@ -122,7 +122,11 @@ namespace ModernApplicationFramework.EditorBase.Settings.EditorAssociation
 
         public bool Equals(EditorSupportedFileDefinition other)
         {
-            return other != null && Extension.Equals(other.Extension, StringComparison.CurrentCultureIgnoreCase);
+            if (other == null)
+                return false;
+            if (Extension.Equals(other.Extension, StringComparison.CurrentCultureIgnoreCase))
+                return true;
+            return false;
         }
     }
 
