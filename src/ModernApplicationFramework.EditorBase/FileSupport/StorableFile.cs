@@ -39,8 +39,6 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
         {
         }
 
-        public override bool IsSaving { get; protected set; }
-
         public override Task Load(Action loadAction)
         {
             loadAction();
@@ -50,18 +48,9 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
 
         public Task Save(SaveFileArguments arguments, Action saveAction)
         {
-            //try
-            //{
-            IsSaving = true;
-                IsDirty = false;
-                IsNew = false;
-                saveAction();
-            IsSaving = false;
-            //}
-            //finally
-            //{
-
-            //}
+            IsDirty = false;
+            IsNew = false;
+            saveAction();
             return Task.CompletedTask;
         }
 

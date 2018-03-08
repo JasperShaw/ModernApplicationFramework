@@ -7,10 +7,6 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
 {
     public sealed class ReadOnlyFile : MafFile, IReadOnlyFile
     {
-        //public ICommand SaveFileAsCommand => new Command(SaveFileAs, CanSaveFileAs);
-        //public ICommand SaveFileCommand => new Command(SaveFile, CanSaveFile);
-
-
         //private static async Task DoSaveAs(IStorableDocument storableDocument)
         //{
         //    // Show user dialog to choose filename.
@@ -78,8 +74,6 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
         public ReadOnlyFile(string path, string name) : base(path, name)
         {
         }
-
-        public override bool IsSaving => false;
 
         public override Task Load(Action loadAction)
         {
