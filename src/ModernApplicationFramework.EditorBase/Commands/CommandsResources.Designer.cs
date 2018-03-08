@@ -61,15 +61,6 @@ namespace ModernApplicationFramework.EditorBase.Commands {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Close ähnelt.
-        /// </summary>
-        public static string CloseActiveDocumentCommandName {
-            get {
-                return ResourceManager.GetString("CloseActiveDocumentCommandName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die &amp;File... ähnelt.
         /// </summary>
         public static string NewFileCommandName {
@@ -84,6 +75,15 @@ namespace ModernApplicationFramework.EditorBase.Commands {
         public static string OpenFileCommandName {
             get {
                 return ResourceManager.GetString("OpenFileCommandName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Close ähnelt.
+        /// </summary>
+        public static string SaveActiveDocumentCommandName {
+            get {
+                return ResourceManager.GetString("SaveActiveDocumentCommandName", resourceCulture);
             }
         }
     }

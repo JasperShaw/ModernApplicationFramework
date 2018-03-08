@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
-using ModernApplicationFramework.EditorBase.Controls.OpenWithFileDialog;
-using ModernApplicationFramework.EditorBase.Core.OpenSaveDialogFilters;
 using ModernApplicationFramework.EditorBase.FileSupport.Exceptions;
 using ModernApplicationFramework.EditorBase.Interfaces;
-using ModernApplicationFramework.EditorBase.Interfaces.Editor;
-using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Native.Platform.Enums;
 using ModernApplicationFramework.Utilities.Interfaces;
 

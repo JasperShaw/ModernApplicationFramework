@@ -30,17 +30,24 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
 
         public IFile GetOpenedFile(string fileName)
         {
-            throw new System.NotImplementedException();
+            return OpenedFiles.FirstOrDefault(x => x.FileName.Equals(fileName));
         }
 
         public IFile CreateFile(NewFileArguments arguments)
         {
-            throw new System.NotImplementedException();
+            return new StorableFile(arguments.FileName, true, false);
         }
 
         public IFile OpenExistingFile(OpenFileArguments arguments)
         {
-            throw new System.NotImplementedException();
+            if (!File.Exists(arguments.Path))
+                throw new FileNotFoundException();
+            IFile file;
+            if (!arguments.FileDefinition.SupportedFileOperation.HasFlag(SupportedFileOperation.Create))
+                file = ReadOnlyFile.OpenExisting(arguments.Path);
+            else
+                file = StorableFile.OpenExisting(arguments.Path);
+            return file;
         }
 
         public bool IsFileOpen(string filePath, out IEditor editor)
@@ -104,20 +111,5 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
             filter.AddFilterAnyFile(FileSupportResources.OpenSaveFileFilterAnyText);
             return filter;
         }
-    }
-
-    public interface IFileService
-    {
-        IReadOnlyList<IFile> OpenedFiles { get; }
-
-        IFile GetOpenedFile(string fileName);
-
-        IFile CreateFile(NewFileArguments arguments);
-
-        IFile OpenExistingFile(OpenFileArguments arguments);
-
-        bool IsFileOpen(string filePath, out IEditor editor);
-
-        IReadOnlyCollection<OpenFileArguments> ShowOpenFilesDialog();
     }
 }

@@ -61,7 +61,7 @@ namespace ModernApplicationFramework.EditorBase.Editor
             var editor = Get(arguments.Editor);
             if (!editor.CanHandleFile(arguments.FileDefinition))
                 throw new FileNotSupportedException("The specified file is not supported by this editor");
-            editor.LoadFile(StorableFile.CreateNew(arguments.FileName), arguments.FileName);
+            editor.LoadFile(_fileService.CreateFile(arguments), arguments.FileName);
             _dockingMainWindow.DockingHost.OpenLayoutItem(editor);
         }
 
@@ -76,12 +76,7 @@ namespace ModernApplicationFramework.EditorBase.Editor
                 _dockingMainWindow.DockingHost.ActiveLayoutItemBase = openEditor;
                 return;
             }
-
-            IFile file;
-            if (!args.FileDefinition.SupportedFileOperation.HasFlag(SupportedFileOperation.Create))
-                file = ReadOnlyFile.OpenExisting(args.Path);
-            else
-                file = StorableFile.OpenExisting(args.Path);
+            var file = _fileService.OpenExistingFile(args);
             await editor.LoadFile(file, args.Name);
             _dockingMainWindow.DockingHost.OpenLayoutItem(editor);
         }

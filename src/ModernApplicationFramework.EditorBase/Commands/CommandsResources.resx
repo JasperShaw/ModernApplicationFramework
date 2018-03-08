@@ -123,7 +123,7 @@
   <data name="OpenFileCommandName" xml:space="preserve">
     <value>&amp;File...</value>
   </data>
-  <data name="CloseActiveDocumentCommandName" xml:space="preserve">
+  <data name="SaveActiveDocumentCommandName" xml:space="preserve">
     <value>&amp;Close</value>
   </data>
 </root>

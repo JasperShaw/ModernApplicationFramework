@@ -66,13 +66,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandBarDefinitions\MenuDefinitions\FileMenuDefinitions.cs" />
-    <Compile Include="Commands\CloseActiveDocumentCommandDefinition.cs" />
     <Compile Include="Commands\CommandsResources.Designer.cs">
       <DependentUpon>CommandsResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Commands\OpenFileCommandDefinition.cs" />
+    <Compile Include="Commands\SaveActiveFileCommand.cs" />
     <Compile Include="Controls\OpenWithFileDialog\DialogResources.Designer.cs">
       <DependentUpon>DialogResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -113,6 +113,7 @@
     <Compile Include="FileSupport\FileChangeWatcher.cs" />
     <Compile Include="FileSupport\FileDefinitionContextManager.cs" />
     <Compile Include="FileSupport\FileService.cs" />
+    <Compile Include="Interfaces\FileSupport\IFileService.cs" />
     <Compile Include="FileSupport\SupportedFileDefinition.cs" />
     <Compile Include="Interfaces\FileSupport\IFileDefinitionContextManager.cs" />
     <Compile Include="FileSupport\TextFile\TextFileDefinitionContext.cs" />
