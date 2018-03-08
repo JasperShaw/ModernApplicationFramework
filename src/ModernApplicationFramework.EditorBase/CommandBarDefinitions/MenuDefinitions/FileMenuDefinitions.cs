@@ -49,5 +49,23 @@ namespace ModernApplicationFramework.EditorBase.CommandBarDefinitions.MenuDefini
                 new Guid("{CC88D0C5-163E-480E-A1CE-6A1C748B7807}"), CloseGroup, 0);
 
 
+        [Export]
+        public static CommandBarGroupDefinition SaveGroup =
+            new CommandBarGroupDefinition(Extended.CommandBarDefinitions.MenuDefinitions.FileMenuDefinitions.FileMenu, 3);
+
+        [Export]
+        public static CommandBarItemDefinition SaveFile =
+            new CommandBarCommandItemDefinition<CloseActiveDocumentCommandDefinition>(
+                new Guid("{C68819F7-310A-42AB-A528-344C1C25480B}"), SaveGroup, 0);
+
+        [Export]
+        public static CommandBarItemDefinition SaveFileAs =
+            new CommandBarCommandItemDefinition<CloseActiveDocumentCommandDefinition>(
+                new Guid("{1B63D36E-E79C-463A-AE10-0526C43A391C}"), SaveGroup, 1);
+
+        [Export]
+        public static CommandBarItemDefinition SaveAll =
+            new CommandBarCommandItemDefinition<CloseActiveDocumentCommandDefinition>(
+                new Guid("{0DC3587B-C2E3-4D4B-84F3-BA7F436763A3}"), SaveGroup, 2);
     }
 }

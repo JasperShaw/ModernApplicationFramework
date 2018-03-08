@@ -41,11 +41,11 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
         private async void OnMainWindowOnActivated(object sender, EventArgs args)
         {
             await Task.Delay(TimeSpan.FromSeconds(0.5)).ConfigureAwait(false);
-            var editorProvider = IoC.Get<IEditorProvider>();
+            var fileService = IoC.Get<IFileService>();
             var flag = false;
             foreach (var file in _queue.ToList())
             {
-                if (!editorProvider.IsFileOpen(file.FullFilePath, out var editor))
+                if (!fileService.IsFileOpen(file.FullFilePath, out var editor))
                     await file.Unload();
 
                 if (_settings.AutoloadExternalChanges && file is IStorableFile storableFile && !storableFile.IsDirty)

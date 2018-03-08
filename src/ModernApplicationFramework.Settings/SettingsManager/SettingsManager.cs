@@ -144,14 +144,12 @@ namespace ModernApplicationFramework.Settings.SettingsManager
             return t;
         }
 
-        public Task SetDocumentAsync(string path, XmlDocument document, bool insertRootNode)
+        public async Task SetDocumentAsync(string path, XmlDocument document, bool insertRootNode)
         {
-            var task = new Task(() =>
+            await Task.Run(() =>
             {
-                SettingsFile.InsertDocument(path, document, insertRootNode);              
+                SettingsFile.InsertDocument(path, document, insertRootNode);
             });
-            task.Start();
-            return task;
         }
 
         public XmlNode GetDataModelNode(string settingsFilePath)
@@ -159,14 +157,22 @@ namespace ModernApplicationFramework.Settings.SettingsManager
             return SettingsFile.GetSingleNode(settingsFilePath);
         }
 
-        public Task RemoveModelAsync(string settingsFilePath)
+        public async Task RemoveModelAsync(string settingsFilePath)
         {
-            var task = new Task(() =>
+            await Task.Run(() =>
             {
                 SettingsFile.RemoveNodeContent(settingsFilePath);
             });
-            task.Start();
-            return task;
+        }
+
+        public void RemoveModel(string settingsFilePath)
+        {
+            SettingsFile.RemoveNodeContent(settingsFilePath);
+        }
+
+        public void SetDocument(string path, XmlDocument document, bool insertRootNode)
+        {
+            SettingsFile.InsertDocument(path, document, insertRootNode);
         }
 
         protected GetValueResult GetOrCreatePropertyValueInternal<T>(string propertyPath, string propertyName,

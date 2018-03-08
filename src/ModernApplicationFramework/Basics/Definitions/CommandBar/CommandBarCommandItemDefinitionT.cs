@@ -48,7 +48,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
         public CommandBarCommandItemDefinition(Guid id, CommandBarGroupDefinition group, uint sortOrder,
             bool isVisible = true, bool isChecked = false, bool isCustom = false,
             bool registerVisibilityToCommand = false, bool isCustomizable = true, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
-            : base(null, sortOrder, group, null, isVisible, isChecked, isCustom, isCustomizable, flags)
+            : base(null, sortOrder, group, isVisible, isChecked, isCustom, isCustomizable, flags)
         {
             Id = id;
             RegisterVisibilityToCommand = registerVisibilityToCommand;

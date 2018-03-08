@@ -45,7 +45,7 @@ namespace ModernApplicationFramework.EditorBase.Commands
 
         private void OpenFile()
         {
-            var arguments = OpenFileHelper.ShowOpenFilesDialog();
+            var arguments = FileService.Instance.ShowOpenFilesDialog();
             if (!arguments.Any())
                 return;
             var editorProvider = IoC.Get<IEditorProvider>();

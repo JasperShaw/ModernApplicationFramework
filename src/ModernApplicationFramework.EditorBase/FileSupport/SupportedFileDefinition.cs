@@ -33,7 +33,15 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
 
         public abstract SupportedFileOperation SupportedFileOperation { get; }
 
-        public virtual Guid PreferredEditor => Settigns.GetAssociatedEditor(this).EditorId;
+        public virtual Guid PreferredEditor
+        {
+            get
+            {
+                if (Settigns == null)
+                    return DefaultEditor;
+                return Settigns.GetAssociatedEditor(this).EditorId;
+            }
+        }
 
         public IEnumerable<IFileDefinitionContext> FileContexts { get; }
 

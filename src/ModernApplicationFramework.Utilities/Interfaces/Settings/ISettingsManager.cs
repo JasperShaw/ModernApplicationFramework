@@ -78,6 +78,15 @@ namespace ModernApplicationFramework.Utilities.Interfaces.Settings
         Task SetDocumentAsync(string path, XmlDocument document, bool insertRootNode);
 
         /// <summary>
+        /// Inserts a <see cref="XmlDocument"/> into the settings file
+        /// </summary>
+        /// <param name="path">The path where to insert the document.</param>
+        /// <param name="document">The document.</param>
+        /// <param name="insertRootNode">if set to <see langword="true"/> the root element of the document will also be inserted</param>
+        /// <returns></returns>
+        void SetDocument(string path, XmlDocument document, bool insertRootNode);
+
+        /// <summary>
         /// Gets a <see cref="XmlNode"/> from settings file
         /// </summary>
         /// <param name="settingsFilePath">The path where to expect the node</param>
@@ -90,5 +99,12 @@ namespace ModernApplicationFramework.Utilities.Interfaces.Settings
         /// <param name="settingsFilePath">The path where to expect the subtree</param>
         /// <returns></returns>
         Task RemoveModelAsync(string settingsFilePath);
+
+        /// <summary>
+        /// Removes a complete subtree of the settings file
+        /// </summary>
+        /// <param name="settingsFilePath">The path where to expect the subtree</param>
+        /// <returns></returns>
+        void RemoveModel(string settingsFilePath);
     }
 }

@@ -15,12 +15,6 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 		private string _text;
 		private string _name;
 
-        /// <inheritdoc />
-        /// <summary>
-        /// The command definition of the element
-        /// </summary>
-        public sealed override CommandDefinitionBase CommandDefinition { get; }
-
         /// <summary>
         /// The localized definition's text
         /// </summary>
@@ -52,14 +46,14 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
 			}
 		}
 
-		protected CommandBarItemDefinition(string text, uint sortOrder, CommandBarGroupDefinition group, CommandDefinitionBase definition, 
+		protected CommandBarItemDefinition(string text, uint sortOrder, CommandBarGroupDefinition group, 
 			bool visible, bool isChecked, bool isCustom, bool isCustomizable, CommandBarFlags flags) 
-			: base(text, sortOrder, group, definition, visible, isChecked, isCustom, isCustomizable, flags)
+			: base(text, sortOrder, group, IoC.Get<ICommandService>().GetCommandDefinition(typeof(T)), visible, isChecked, isCustom, isCustomizable, flags)
 		{
-			CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
-		    OriginalText = CommandDefinition.Text;
-            _text = CommandDefinition.Text;
-			_name = CommandDefinition.Name;
+		    var def = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
+            OriginalText = def.Text;
+            _text = def.Text;
+			_name = def.Name;
 		}
 
 	    public override void Reset()

@@ -162,6 +162,8 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             ContainedGroups = new List<CommandBarGroupDefinition>();
             Flags.EnableStyleFlags(flags);
             OriginalFlagStore.EnableStyleFlags(flags);
+            if (definition != null)
+                definition.PropertyChanged += Definition_PropertyChanged;
         }
 
         public virtual void Reset()
@@ -172,10 +174,21 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             Flags.EnableStyleFlags((CommandBarFlags)OriginalFlagStore.AllFlags);
         }
 
+        protected virtual void UpdateText()
+        {
+            Text = CommandDefinition?.Text;
+        }
+
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void Definition_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(CommandDefinition.Text))
+                UpdateText();
         }
     }
 }

@@ -12,23 +12,28 @@ namespace ModernApplicationFramework.EditorBase.Settings.EditorAssociation
     {
         protected readonly IEditor[] Editors;
         protected readonly IFileDefinitionManager FileDefinitionManager;
-        private IList<KeyValuePair<string, EditorFileAssociation>> _cachedAssociations;
+        // private IDictionary<string, EditorFileAssociation> _cachedAssociations;
         private readonly object _cachedInfoLock = new object();
 
 
-        protected IList<KeyValuePair<string, EditorFileAssociation>> CachedAssociations
+        protected IDictionary<string, EditorFileAssociation> CachedAssociations
         {
             get
             {
-                if (_cachedAssociations != null)
-                    return _cachedAssociations;
                 lock (_cachedInfoLock)
                 {
+                    IDictionary<string, EditorFileAssociation> result = new Dictionary<string, EditorFileAssociation>();
                     var layouts = GetStoredAssociations();
-                    var source = layouts.Select(association => new KeyValuePair<string, EditorFileAssociation>(association.Id, association)).ToList();
-                    _cachedAssociations = source.ToList();
-                }
-                return _cachedAssociations;
+                    var source = layouts.Select(association =>
+                        new KeyValuePair<string, EditorFileAssociation>(association.Id, association)).ToList();
+                    foreach (var pair in source)
+                    {
+                        if (result.ContainsKey(pair.Key))
+                            continue;
+                        result.Add(pair);
+                    }
+                    return result;
+                }            
             }
         }
 
@@ -63,16 +68,19 @@ namespace ModernApplicationFramework.EditorBase.Settings.EditorAssociation
             var editorFileAssociation = CreateAssociation(editor, fullList);
 
             //if (!flag)
+            //{
             //    InsertSettingsModel(editorFileAssociation, true);
+            //}
             //else
             //{
+                var list = CachedAssociations.ToList();
                 RemoveAllModels();
-                var list = CachedAssociations;
                 list.Remove(keyValuePair);
-                list.Add(new KeyValuePair<string, EditorFileAssociation>(editor.EditorId.ToString("B"), editorFileAssociation));
+                list.Add(new KeyValuePair<string, EditorFileAssociation>(editor.EditorId.ToString("B"),
+                    editorFileAssociation));
                 foreach (var valuePair in list)
                     InsertSettingsModel(valuePair.Value, true);
-            //}
+           // }
             OnSettingsChanged();
         }
 
@@ -81,9 +89,16 @@ namespace ModernApplicationFramework.EditorBase.Settings.EditorAssociation
         public void CreateDefaultAssociations(IEditor editor)
         {
             var definitions =
-                FileDefinitionManager.SupportedFileDefinitions.Where(x => x.DefaultEditor == editor.EditorId)
-                    .Where(x => GetAssociatedEditor(x) == null);
-            CreateAssociations(editor, definitions, true);
+                FileDefinitionManager.SupportedFileDefinitions.Where(x => x.DefaultEditor.Equals(editor.EditorId));
+
+            var l = new List<ISupportedFileDefinition>();
+            foreach (var fileDefinition in definitions.ToList())
+            {
+                if (GetAssociatedEditor(fileDefinition) == null)
+                    l.Add(fileDefinition);
+            }
+
+            CreateAssociations(editor, l, true);
         }
 
         public override void LoadOrCreate()
@@ -98,9 +113,11 @@ namespace ModernApplicationFramework.EditorBase.Settings.EditorAssociation
 
         private async void EditorFileAssociationSettings_SettingsChanged(object sender, EventArgs e)
         {
-            await System.Threading.Tasks.Task.Yield();
-            lock (_cachedInfoLock)
-                _cachedAssociations = null;
+            //await System.Threading.Tasks.Task.Yield();
+            //lock (_cachedInfoLock)
+            //{
+            //    _cachedAssociations = null;
+            //}
         }
 
         private IEnumerable<EditorFileAssociation> GetStoredAssociations()

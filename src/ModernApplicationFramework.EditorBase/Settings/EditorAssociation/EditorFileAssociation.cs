@@ -9,8 +9,8 @@ namespace ModernApplicationFramework.EditorBase.Settings.EditorAssociation
     [XmlRoot(ElementName = "Editor")]
     public class EditorFileAssociation
     {
-        private List<EditorSupportedFileDefinition> _createWithDefaultExtension;
-        private List<EditorSupportedFileDefinition> _defaultExtension;
+        private HashSet<EditorSupportedFileDefinition> _createWithDefaultExtension;
+        private HashSet<EditorSupportedFileDefinition> _defaultExtension;
 
         [XmlAttribute]
         public string Id { get; set; }
@@ -19,14 +19,14 @@ namespace ModernApplicationFramework.EditorBase.Settings.EditorAssociation
         public string Name { get; set; }
 
         [XmlElement("CreateWithDefaultExtension", Form = System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable = true)]
-        public List<EditorSupportedFileDefinition> CreateWithDefaultExtension
+        public HashSet<EditorSupportedFileDefinition> CreateWithDefaultExtension
         {
             get => _createWithDefaultExtension;
             set => _createWithDefaultExtension = value;
         }
 
         [XmlElement("DefaultExtension", Form = System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable = true)]
-        public List<EditorSupportedFileDefinition> DefaultExtension
+        public HashSet<EditorSupportedFileDefinition> DefaultExtension
         {
             get => _defaultExtension;
             set => _defaultExtension = value;
@@ -36,8 +36,8 @@ namespace ModernApplicationFramework.EditorBase.Settings.EditorAssociation
         {
             Id = id;
             Name = name;
-            CreateWithDefaultExtension = new List<EditorSupportedFileDefinition>();
-            DefaultExtension = new List<EditorSupportedFileDefinition>();
+            CreateWithDefaultExtension = new HashSet<EditorSupportedFileDefinition>();
+            DefaultExtension = new HashSet<EditorSupportedFileDefinition>();
         }
 
         internal void AddRange(IEnumerable<string> extensions, AddOption option)
@@ -59,6 +59,32 @@ namespace ModernApplicationFramework.EditorBase.Settings.EditorAssociation
         {
             
         }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as EditorFileAssociation);
+        }
+
+        public bool Equals(EditorFileAssociation other)
+        {
+            if (other == null)
+                return false;
+            if (!Id.Equals(other.Id))
+                return false;
+            if (DefaultExtension.Count != other.DefaultExtension.Count &&
+                CreateWithDefaultExtension.Count != other.CreateWithDefaultExtension.Count)
+                return false;
+            if (DefaultExtension.Count == 0 && other.DefaultExtension.Count == 0 && 
+                CreateWithDefaultExtension.Count == 0 &&  other.CreateWithDefaultExtension.Count == 0)
+                return true;
+            if (DefaultExtension.Count != 0 && DefaultExtension.SetEquals(other.DefaultExtension))
+                return true;
+            if (CreateWithDefaultExtension.Count != 0 && CreateWithDefaultExtension.SetEquals(other.CreateWithDefaultExtension))
+                return true;
+            return false;
+        }
+
+
     }
 
     [Serializable]
@@ -82,6 +108,21 @@ namespace ModernApplicationFramework.EditorBase.Settings.EditorAssociation
         public EditorSupportedFileDefinition()
         {
 
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as EditorSupportedFileDefinition);
+        }
+
+        public override int GetHashCode()
+        {
+            return Extension.GetHashCode();
+        }
+
+        public bool Equals(EditorSupportedFileDefinition other)
+        {
+            return other != null && Extension.Equals(other.Extension, StringComparison.CurrentCultureIgnoreCase);
         }
     }
 

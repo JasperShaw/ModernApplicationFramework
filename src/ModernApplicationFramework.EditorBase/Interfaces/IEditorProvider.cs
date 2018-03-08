@@ -20,7 +20,5 @@ namespace ModernApplicationFramework.EditorBase.Interfaces
         void New(NewFileArguments arguments);
 
         void Open(OpenFileArguments arguments);
-
-        bool IsFileOpen(string filePath, out IEditor editor);
     }
 }

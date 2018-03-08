@@ -21,13 +21,16 @@ namespace ModernApplicationFramework.EditorBase.Editor
         private readonly IEnumerable<IEditor> _editors;
         private readonly IFileDefinitionManager _fileDefinitionManager;
         private readonly IDockingMainWindowViewModel _dockingMainWindow;
+        private readonly IFileService _fileService;
 
         [ImportingConstructor]
-        public EditorProvider([ImportMany] IEnumerable<IEditor> editors, IFileDefinitionManager fileDefinitionManager, IDockingMainWindowViewModel dockingMainWindow)
+        public EditorProvider([ImportMany] IEnumerable<IEditor> editors, IFileDefinitionManager fileDefinitionManager, 
+            IDockingMainWindowViewModel dockingMainWindow, IFileService fileService)
         {
             _editors = editors;
             _fileDefinitionManager = fileDefinitionManager;
             _dockingMainWindow = dockingMainWindow;
+            _fileService = fileService;
         }
 
         public IEnumerable<ISupportedFileDefinition> SupportedFileDefinitions
@@ -68,7 +71,7 @@ namespace ModernApplicationFramework.EditorBase.Editor
             if (!editor.CanHandleFile(args.FileDefinition))
                 throw new FileNotSupportedException("The specified file is not supported by this editor");
 
-            if (IsFileOpen(args.Path, out var openEditor))
+            if (_fileService.IsFileOpen(args.Path, out var openEditor))
             {
                 _dockingMainWindow.DockingHost.ActiveLayoutItemBase = openEditor;
                 return;
@@ -81,18 +84,6 @@ namespace ModernApplicationFramework.EditorBase.Editor
                 file = StorableFile.OpenExisting(args.Path);
             await editor.LoadFile(file, args.Name);
             _dockingMainWindow.DockingHost.OpenLayoutItem(editor);
-        }
-
-        public bool IsFileOpen(string filePath, out IEditor editor)
-        {
-            editor = null;
-            if (string.IsNullOrEmpty(filePath))
-                return false;
-            var editors = _dockingMainWindow.DockingHost.LayoutItems.OfType<IEditor>();
-            editor = editors.FirstOrDefault(x => x.Document.FullFilePath.Equals(filePath));
-            if (editor != null)
-                return true;
-            return false;
         }
 
         public static MethodInfo GetMethod<T>(Expression<Action<T>> expr)

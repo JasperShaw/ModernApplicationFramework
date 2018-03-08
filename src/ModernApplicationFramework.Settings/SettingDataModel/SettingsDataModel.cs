@@ -158,7 +158,7 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
         /// <param name="insertRoot">if set to <see langword="true"/> the XML's root will be inserted also</param>
         protected void SetSettingsModel<T>(T model, bool insertRoot = false)
         {
-            SettingsManager.RemoveModelAsync(SettingsFilePath);
+            SettingsManager.RemoveModel(SettingsFilePath);
             var document = new XmlDocument();
             var nav = document.CreateNavigator();
 
@@ -169,7 +169,7 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
                 var ser = new XmlSerializer(typeof(T));
                 ser.Serialize(writer, model, ns);
             }
-            SettingsManager.SetDocumentAsync(SettingsFilePath, document, insertRoot);
+            SettingsManager.SetDocument(SettingsFilePath, document, insertRoot);
         }
 
         /// <summary>
@@ -179,8 +179,8 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
         /// <param name="insertRoot">if set to <see langword="true"/> the XML's root will be inserted also</param>
         protected void SetSettingsModel(XmlDocument document, bool insertRoot = false)
         {
-            SettingsManager.RemoveModelAsync(SettingsFilePath);
-            SettingsManager.SetDocumentAsync(SettingsFilePath, document, insertRoot);
+            SettingsManager.RemoveModel(SettingsFilePath);
+            SettingsManager.SetDocument(SettingsFilePath, document, insertRoot);
         }
 
         /// <summary>
@@ -201,7 +201,7 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
                 var ser = new XmlSerializer(typeof(T));
                 ser.Serialize(writer, model, ns);
             }
-            SettingsManager.SetDocumentAsync(SettingsFilePath, document, insertRoot);
+            SettingsManager.SetDocument(SettingsFilePath, document, insertRoot);
         }
 
         /// <summary>
@@ -281,7 +281,7 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
         /// </summary>
         protected void RemoveAllModels()
         {
-            SettingsManager.RemoveModelAsync(SettingsFilePath);
+            SettingsManager.RemoveModel(SettingsFilePath);
         }
 
         protected void OnSettingsChanged(EventArgs args = null)
