@@ -6,6 +6,7 @@ using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.Controls.Dialogs;
 using ModernApplicationFramework.EditorBase.Controls.OpenWithFileDialog;
+using ModernApplicationFramework.EditorBase.Controls.SaveFileDialog;
 using ModernApplicationFramework.EditorBase.Core.OpenSaveDialogFilters;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
@@ -82,7 +83,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
         public SaveFileArguments ShowSaveFilesDialog(SaveFileDialogOptions options)
         {
             var fdm = IoC.Get<IFileDefinitionManager>();
-            var dialog = new NativeSaveFileDialog
+            var dialog = new SaveFileDialog
             {
                 FileName = options.FileName,
                 Title = options.Title,
@@ -90,7 +91,8 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
                 FilterIndex = options.FilterIndex,
                 OverwritePrompt = options.Options.HasFlag(SaveFileDialogFlags.OverwritePrompt),
                 CreatePrompt = options.Options.HasFlag(SaveFileDialogFlags.CreatePrompt),
-                InitialDirectory = options.InitialDirectory
+                InitialDirectory = options.InitialDirectory,
+                DefaultExt = options.DefaultExtension
             };
             if (dialog.ShowDialog() != true)
                 return null;

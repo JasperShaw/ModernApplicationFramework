@@ -14,7 +14,9 @@ namespace ModernApplicationFramework.EditorBase.Editor
     public abstract class EditorBase : KeyBindingLayoutItem, IEditor
     {
         private bool _isReadOnly;
+
         public abstract string Name { get; }
+
         public IFile Document { get; protected set; }
 
         public virtual bool IsReadOnly
@@ -34,6 +36,8 @@ namespace ModernApplicationFramework.EditorBase.Editor
 
         protected virtual string DefaultSaveAsDirectory => string.Empty;
 
+        protected abstract string FallbackSaveExtension { get; }
+
         public abstract bool CanHandleFile(ISupportedFileDefinition fileDefinition);
 
         public virtual async Task Reload()
@@ -47,7 +51,7 @@ namespace ModernApplicationFramework.EditorBase.Editor
                 return;
             var fdm = IoC.Get<IFileDefinitionManager>();
             SaveFileArguments args;
-            if (saveAs || storableDocument.IsNew)
+            if (!saveAs || storableDocument.IsNew)
             {
                 var options = new SaveFileDialogOptions
                 {
@@ -56,7 +60,8 @@ namespace ModernApplicationFramework.EditorBase.Editor
                     FilterIndex = 1,
                     InitialDirectory = DefaultSaveAsDirectory,
                     Title = "Save file as",
-                    Options = SaveFileDialogFlags.OverwritePrompt
+                    Options = SaveFileDialogFlags.OverwritePrompt,
+                    DefaultExtension = FallbackSaveExtension
                 };
                 args = FileService.Instance.ShowSaveFilesDialog(options);
                 if (args == null)
@@ -114,8 +119,14 @@ namespace ModernApplicationFramework.EditorBase.Editor
         {
             var def = IoC.Get<IFileDefinitionManager>().GetDefinitionByFilePath(Document.FileName);
             var fd = new FilterData();
-            if (def != null)
-                fd.AddFilter(new FilterDataEntry(def.Name, def.FileExtension));
+
+            foreach (var definition in IoC.Get<IFileDefinitionManager>().SupportedFileDefinitions)
+            {
+                fd.AddFilter(new FilterDataEntry(definition.Name, definition.FileExtension));
+            }
+
+            //if (def != null)
+            //    fd.AddFilter(new FilterDataEntry(def.Name, def.FileExtension));
             fd.AddFilterAnyFile();
             return fd;
         }

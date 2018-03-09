@@ -59,6 +59,7 @@ namespace ModernApplicationFramework.Controls.Dialogs.Native
 
         public void OnTypeChange(IFileDialog pfd)
         {
+            _dialog.OnTypeChange(pfd);
         }
     }
 }

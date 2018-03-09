@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Text;
+using Caliburn.Micro;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Input.Command;
@@ -32,6 +33,9 @@ namespace ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor
         }
 
         public override GestureScope GestureScope => GestureScopes.GlobalGestureScope;
+
+        protected override string FallbackSaveExtension => IoC.Get<IFileDefinitionManager>()
+            .GetDefinitionByFilePath(Document.FileName).FileExtension;
 
         public override bool CanHandleFile(ISupportedFileDefinition fileDefinition)
         {

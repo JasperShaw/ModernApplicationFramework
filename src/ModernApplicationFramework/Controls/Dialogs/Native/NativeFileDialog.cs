@@ -383,6 +383,10 @@ namespace ModernApplicationFramework.Controls.Dialogs.Native
             result.GetDisplayName(SIGDN.FileSysPath, out _fileNames[0]);
         }
 
+        protected internal virtual void OnTypeChange(IFileDialog pfd)
+        {
+        }
+
         internal bool PromptUser(string text, MessageBoxButton buttons, MessageBoxImage icon,
             MessageBoxResult defaultResult)
         {

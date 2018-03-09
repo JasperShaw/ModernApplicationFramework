@@ -13,5 +13,7 @@
         public SaveFileDialogFlags Options { get; set; }
 
         public string FileName { get; set; }
+
+        public string DefaultExtension { get; set; }
     }
 }

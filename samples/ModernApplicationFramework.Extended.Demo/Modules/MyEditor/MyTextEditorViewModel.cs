@@ -2,7 +2,6 @@
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Text;
-using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Input.Command;
@@ -37,6 +36,8 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.MyEditor
         }
 
         public override GestureScope GestureScope => GestureScopes.GlobalGestureScope;
+
+        protected override string FallbackSaveExtension => ".xml";
 
         public override bool CanHandleFile(ISupportedFileDefinition fileDefinition)
         {

@@ -7,16 +7,25 @@ namespace ModernApplicationFramework.EditorBase.Core.OpenSaveDialogFilters
     {
         public string Text { get; }
 
-        public IEnumerable<string> Extensions { get; }
+        public ICollection<string> Extensions { get; }
 
-        public FilterDataEntry(string text, IEnumerable<string> extensions)
+        public FilterDataEntry(string text, IReadOnlyCollection<string> extensions)
         {
             Text = text;
-            Extensions = extensions;
+            Extensions = new List<string>();
+            foreach (var extension in extensions)
+            {
+                Extensions.Add(extension[0] != '.' ? $".{extension}" : extension);
+            }
         }
 
         public FilterDataEntry(string text, string extension) : this(text, new List<string> { extension })
         {
+        }
+
+        public bool IsAnyFilter()
+        {
+            return Extensions.Count == 1 && Extensions.ElementAt(0).Equals(".*");
         }
 
         public override string ToString()

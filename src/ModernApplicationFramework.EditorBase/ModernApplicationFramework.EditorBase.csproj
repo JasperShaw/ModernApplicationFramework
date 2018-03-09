@@ -104,6 +104,7 @@
     </Compile>
     <Compile Include="Controls\FileChangedDialog\FileChangeDialogViewModel.cs" />
     <Compile Include="Controls\FileChangedDialog\ReloadFileDialogResult.cs" />
+    <Compile Include="Controls\SaveFileDialog\SaveFileDialog.cs" />
     <Compile Include="Core\OpenSaveDialogFilters\FilterData.cs" />
     <Compile Include="Core\OpenSaveDialogFilters\FilterDataEntry.cs" />
     <Compile Include="Editor\EditorBase.cs" />
