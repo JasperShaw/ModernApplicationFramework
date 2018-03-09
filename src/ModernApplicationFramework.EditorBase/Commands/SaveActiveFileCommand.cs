@@ -3,7 +3,6 @@ using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Extended.Interfaces;
@@ -45,7 +44,7 @@ namespace ModernApplicationFramework.EditorBase.Commands
 
         private void _dockingHostViewModel_ActiveLayoutItemChanged(object sender, EventArgs e)
         {
-            _text = _dockingHostViewModel.ActiveItem.DisplayName;
+            _text = _dockingHostViewModel.ActiveItem?.DisplayName;
         }
 
         private bool CanSaveFile()
