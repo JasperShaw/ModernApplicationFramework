@@ -51,7 +51,7 @@ namespace ModernApplicationFramework.EditorBase.Editor
                 return;
             var fdm = IoC.Get<IFileDefinitionManager>();
             SaveFileArguments args;
-            if (!saveAs || storableDocument.IsNew)
+            if (saveAs || storableDocument.IsNew)
             {
                 var options = new SaveFileDialogOptions
                 {
