@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ModernApplicationFramework.EditorBase.FileSupport;
 
 namespace ModernApplicationFramework.EditorBase.Core.OpenSaveDialogFilters
 {
@@ -45,6 +46,11 @@ namespace ModernApplicationFramework.EditorBase.Core.OpenSaveDialogFilters
             _anyFilterOriginalIndex = MaxIndex;
         }
 
+        public void AddFilterAnyFile()
+        {
+            AddFilterAnyFile(FileSupportResources.OpenSaveFileFilterAnyText);
+        }
+
         public void RemoveFileAnyFile()
         {
             AnyFilter = null;
@@ -88,7 +94,7 @@ namespace ModernApplicationFramework.EditorBase.Core.OpenSaveDialogFilters
             else
             {
                 var newList = Filters.ToList();
-                newList.Insert(_anyFilterOriginalIndex, AnyFilter);
+                newList.Insert(_anyFilterOriginalIndex -1, AnyFilter);
                 return newList;
             }
         }
