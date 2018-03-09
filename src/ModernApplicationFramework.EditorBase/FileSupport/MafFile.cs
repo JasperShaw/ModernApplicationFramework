@@ -13,6 +13,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
         private string _fileName;
         private string _fullFilePath;
         private bool _isFileNameChanging;
+        private bool _isFilePathChanging;
         public event PropertyChangedEventHandler PropertyChanged;
 
         public event EventHandler FileChanged;
@@ -26,7 +27,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
                     return;
                 _isFileNameChanging = true;
                 _fileName = value;
-                if (!string.IsNullOrEmpty(FullFilePath))
+                if (!string.IsNullOrEmpty(FullFilePath) && !_isFilePathChanging)
                     FullFilePath = System.IO.Path.Combine(Path, _fileName);
                 _isFileNameChanging = false;
                 OnPropertyChanged();
@@ -40,6 +41,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
             {
                 if (value == _fullFilePath)
                     return;
+                _isFilePathChanging = true;
                 _fullFilePath = value;
                 if (!_isFileNameChanging && !string.IsNullOrEmpty(_fullFilePath))
                 {
@@ -47,6 +49,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
                     if (!possibleNewFileName.Equals(_fileName))
                         FileName = possibleNewFileName;
                 }
+                _isFilePathChanging = false;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(Path));
                 FileChanged?.Invoke(this, EventArgs.Empty);

@@ -78,6 +78,7 @@ namespace ModernApplicationFramework.EditorBase.Editor
                 await Task.Delay(TimeSpan.FromSeconds(0.5)).ConfigureAwait(false);
                 FileChangeService.Instance.AdviseFileChange(Document);
             });
+            DisplayName = Document.FileName;
         }
 
         public async Task LoadFile(IFile document, string name)
@@ -119,14 +120,8 @@ namespace ModernApplicationFramework.EditorBase.Editor
         {
             var def = IoC.Get<IFileDefinitionManager>().GetDefinitionByFilePath(Document.FileName);
             var fd = new FilterData();
-
-            foreach (var definition in IoC.Get<IFileDefinitionManager>().SupportedFileDefinitions)
-            {
-                fd.AddFilter(new FilterDataEntry(definition.Name, definition.FileExtension));
-            }
-
-            //if (def != null)
-            //    fd.AddFilter(new FilterDataEntry(def.Name, def.FileExtension));
+            if (def != null)
+                fd.AddFilter(new FilterDataEntry(def.Name, def.FileExtension));
             fd.AddFilterAnyFile();
             return fd;
         }

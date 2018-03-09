@@ -27,7 +27,9 @@ namespace ModernApplicationFramework.EditorBase.Controls.SaveFileDialog
             }
 
             // Resetting the name is required at this point.
-            dialog.GetFileName(out var fileName); 
+            dialog.GetFileName(out var fileName);
+            if (string.IsNullOrEmpty(fileName))
+                fileName = FileName;
             var fileNameWihtoutExtension = Path.GetFileNameWithoutExtension(fileName);
             dialog.SetFileName($"{fileNameWihtoutExtension}.{ext}");
         }

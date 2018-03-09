@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Threading.Tasks;
 using System.Windows;
 using ModernApplicationFramework.Core;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
@@ -30,12 +29,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
         public FileChangeWatcher(IFile file)
         {
             _file = file ?? throw new ArgumentNullException(nameof(file));
-            _file.FileChanged += _file_FileChanged;
             RegisterEvents();
-        }
-
-        private void _file_FileChanged(object sender, EventArgs e)
-        {
         }
 
         private void RegisterEvents()
@@ -87,15 +81,11 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
 
         public void Dispose()
         {
-            if (_file != null)
-            {
-                _file = null;
-            }
-            if (_watcher != null)
-            {
-                _watcher.Dispose();
-                _watcher = null;
-            }
+            _file = null;
+            if (_watcher == null)
+                return;
+            _watcher.Dispose();
+            _watcher = null;
         }
     }
 }
