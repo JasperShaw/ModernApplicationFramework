@@ -56,7 +56,7 @@ namespace ModernApplicationFramework.Extended.Layout
 
         protected Tool()
         {
-            IsVisible = true; 
+            IsVisible = true;
         }
 
         public void AddInfoBar(InfoBarModel infoBar)

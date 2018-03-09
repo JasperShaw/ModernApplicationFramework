@@ -14,6 +14,7 @@ namespace ModernApplicationFramework.EditorBase.Editor
     public abstract class EditorBase : KeyBindingLayoutItem, IEditor
     {
         private bool _isReadOnly;
+        private string _displayName;
 
         public abstract string Name { get; }
 
@@ -26,6 +27,18 @@ namespace ModernApplicationFramework.EditorBase.Editor
             {
                 if (value == _isReadOnly) return;
                 _isReadOnly = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public override string DisplayName
+        {
+            get => _displayName;
+            set
+            {
+                if (value == _displayName) return;
+                _displayName = value;
+                UpdateToolTip();
                 NotifyOfPropertyChange();
             }
         }
@@ -83,7 +96,6 @@ namespace ModernApplicationFramework.EditorBase.Editor
 
         public async Task LoadFile(IFile document, string name)
         {
-            DisplayName = name;
             Document = document;
             if (document is IStorableFile storableFile)
                 storableFile.DirtyChanged += StorableFile_DirtyChanged;
@@ -93,11 +105,17 @@ namespace ModernApplicationFramework.EditorBase.Editor
             {
                 await Document.Load(LoadFile);
             });
+            DisplayName = name;
         }
 
         protected virtual void UpdateDisplayName()
         {
             DisplayName = Document.FileName;
+        }
+
+        protected virtual void UpdateToolTip()
+        {
+            ToolTip = Document?.FullFilePath;
         }
 
         protected virtual void SaveFile()

@@ -22,6 +22,9 @@ namespace ModernApplicationFramework.Extended.Interfaces
         /// </summary>
         Guid Id { get; }
 
+
+        string ToolTip { get; set; }
+
         /// <summary>
         /// Flag that indicates whether this layout item shall be reloaded on the next application start up
         /// </summary>

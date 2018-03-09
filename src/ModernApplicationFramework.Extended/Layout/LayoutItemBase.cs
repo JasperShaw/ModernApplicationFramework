@@ -9,6 +9,8 @@ namespace ModernApplicationFramework.Extended.Layout
     public abstract class LayoutItemBase : Screen, ILayoutItemBase
     {
         private bool _isSelected;
+
+        private string _toolTip;
         //public abstract ICommand CloseCommand { get; }
 
         [Browsable(false)]
@@ -16,6 +18,17 @@ namespace ModernApplicationFramework.Extended.Layout
 
         [Browsable(false)]
         public Guid Id { get; } = Guid.NewGuid();
+
+        public string ToolTip
+        {
+            get => _toolTip;
+            set
+            {
+                if (value == _toolTip) return;
+                _toolTip = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         [Browsable(false)]
         public bool IsSelected
