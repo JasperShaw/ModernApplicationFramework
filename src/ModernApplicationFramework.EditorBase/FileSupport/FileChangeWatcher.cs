@@ -30,7 +30,12 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
         public FileChangeWatcher(IFile file)
         {
             _file = file ?? throw new ArgumentNullException(nameof(file));
+            _file.FileChanged += _file_FileChanged;
             RegisterEvents();
+        }
+
+        private void _file_FileChanged(object sender, EventArgs e)
+        {
         }
 
         private void RegisterEvents()

@@ -43,7 +43,7 @@ namespace ModernApplicationFramework.Controls.Dialogs.Native
             CustomSelected = false;
         }
 
-        internal override void GetResult(IFileDialog dialog)
+        protected internal override void GetResult(IFileDialog dialog)
         {
             if (IsCustom)
             {

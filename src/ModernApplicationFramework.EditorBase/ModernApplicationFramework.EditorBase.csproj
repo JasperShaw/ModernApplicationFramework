@@ -106,14 +106,18 @@
     <Compile Include="Controls\FileChangedDialog\ReloadFileDialogResult.cs" />
     <Compile Include="Core\OpenSaveDialogFilters\FilterData.cs" />
     <Compile Include="Core\OpenSaveDialogFilters\FilterDataEntry.cs" />
+    <Compile Include="Editor\EditorBase.cs" />
     <Compile Include="Editor\EditorException.cs" />
     <Compile Include="Editor\EditorNotFoundException.cs" />
     <Compile Include="FileSupport\Exceptions\FileNotSupportedException.cs" />
     <Compile Include="FileSupport\FileChangeService.cs" />
     <Compile Include="FileSupport\FileChangeWatcher.cs" />
     <Compile Include="FileSupport\FileDefinitionContextManager.cs" />
+    <Compile Include="FileSupport\FileName.cs" />
     <Compile Include="FileSupport\FileService.cs" />
     <Compile Include="FileSupport\SaveFileArguments.cs" />
+    <Compile Include="FileSupport\SaveFileDialogFlags.cs" />
+    <Compile Include="FileSupport\SaveFileDialogOptions.cs" />
     <Compile Include="Interfaces\FileSupport\IFileService.cs" />
     <Compile Include="FileSupport\SupportedFileDefinition.cs" />
     <Compile Include="Interfaces\FileSupport\IFileDefinitionContextManager.cs" />
@@ -130,7 +134,6 @@
     <Compile Include="Interfaces\Editor\IEditor.cs" />
     <Compile Include="Interfaces\Editor\INormalEditor.cs" />
     <Compile Include="Interfaces\Editor\IStorableEditor.cs" />
-    <Compile Include="Editor\EditorBase.cs" />
     <Compile Include="Interfaces\FileSupport\IFileDefinitionContext.cs" />
     <Compile Include="Interfaces\IEditorSelectorViewModel.cs" />
     <Compile Include="Interfaces\IEditorSelectorViewModelInternal.cs" />

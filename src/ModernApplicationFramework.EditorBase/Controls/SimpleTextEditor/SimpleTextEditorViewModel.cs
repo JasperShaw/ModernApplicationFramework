@@ -15,7 +15,7 @@ namespace ModernApplicationFramework.EditorBase.Controls.SimpleTextEditor
     {
         private string _originalText = string.Empty;
 
-        private string _text;
+        private string _text = string.Empty;
 
         public string Text
         {

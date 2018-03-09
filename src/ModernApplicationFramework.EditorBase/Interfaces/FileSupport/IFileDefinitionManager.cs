@@ -7,5 +7,7 @@ namespace ModernApplicationFramework.EditorBase.Interfaces.FileSupport
         IReadOnlyCollection<ISupportedFileDefinition> SupportedFileDefinitions { get; }
 
         ISupportedFileDefinition GetDefinitionByExtension(string extension);
+
+        ISupportedFileDefinition GetDefinitionByFilePath(string path);
     }
 }

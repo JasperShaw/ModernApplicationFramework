@@ -16,8 +16,8 @@ namespace ModernApplicationFramework.EditorBase.Interfaces.FileSupport
 
         bool IsFileOpen(string filePath, out IEditor editor);
 
-        IReadOnlyCollection<OpenFileArguments> ShowOpenFilesDialog();
+        IReadOnlyCollection<OpenFileArguments> ShowOpenFilesWithDialog();
 
-        OpenFileArguments ShowSaveFilesDialog();
+        SaveFileArguments ShowSaveFilesDialog(SaveFileDialogOptions options);
     }
 }

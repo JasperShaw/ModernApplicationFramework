@@ -3,7 +3,7 @@
 namespace ModernApplicationFramework.Native.Platform.Enums
 {
     [Flags]
-    internal enum Fos : uint
+    public enum Fos : uint
     {
         FosOverwriteprompt = 0x00000002,
         FosStrictfiletypes = 0x00000004,

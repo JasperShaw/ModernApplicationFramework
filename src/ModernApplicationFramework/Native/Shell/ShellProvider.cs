@@ -8,7 +8,7 @@ namespace ModernApplicationFramework.Native.Shell
         AppCompat = 0x00000003
     }
 
-    internal enum SIGDN : uint
+    public enum SIGDN : uint
     {
         // lower word (& with 0xFFFF)
         NormalDisplay = 0x00000000, // SHGDN_NORMAL

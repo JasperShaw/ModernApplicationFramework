@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Threading;
+using ModernApplicationFramework.EditorBase.Core.OpenSaveDialogFilters;
 using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
@@ -42,24 +43,36 @@ namespace ModernApplicationFramework.EditorBase.Editor
 
         public async Task SaveFile(bool saveAs)
         {
-            if (Document is IStorableFile storableDocument)
+            if (!(Document is IStorableFile storableDocument))
+                return;
+            var fdm = IoC.Get<IFileDefinitionManager>();
+            SaveFileArguments args;
+            if (saveAs || storableDocument.IsNew)
             {
-                SaveFileArguments args = null;
-                if (saveAs || storableDocument.IsNew)
+                var options = new SaveFileDialogOptions
                 {
-
-                }
-                else
-                    args = new SaveFileArguments(Document.FullFilePath, Document.FileName);
-                await MafTaskHelper.Run(IoC.Get<IEnvironmentVariables>().ApplicationName, "Saving File...", async () =>
-                {
-                    FileChangeService.Instance.UnadviseFileChange(Document);
-                    await storableDocument.Save(args, SaveFile);
-                    await Task.Delay(TimeSpan.FromSeconds(0.5)).ConfigureAwait(false);
-                    FileChangeService.Instance.AdviseFileChange(Document);
-                });
+                    FileName = Document.FileName,
+                    Filter = BuildSaveAsFilter().Filter,
+                    FilterIndex = 1,
+                    InitialDirectory = DefaultSaveAsDirectory,
+                    Title = "Save file as",
+                    Options = SaveFileDialogFlags.OverwritePrompt
+                };
+                args = FileService.Instance.ShowSaveFilesDialog(options);
+                if (args == null)
+                    return;
             }
+            else
+                args = new SaveFileArguments(Document.FullFilePath, Document.FileName,
+                    fdm.GetDefinitionByFilePath(Document.FileName));
 
+            await MafTaskHelper.Run(IoC.Get<IEnvironmentVariables>().ApplicationName, "Saving File...", async () =>
+            {
+                FileChangeService.Instance.UnadviseFileChange(Document);
+                await storableDocument.Save(args, SaveFile);
+                await Task.Delay(TimeSpan.FromSeconds(0.5)).ConfigureAwait(false);
+                FileChangeService.Instance.AdviseFileChange(Document);
+            });
         }
 
         public async Task LoadFile(IFile document, string name)
@@ -89,6 +102,24 @@ namespace ModernApplicationFramework.EditorBase.Editor
         {
         }
 
+        protected virtual void DirtyDisplayName(bool isDirty)
+        {
+            if (isDirty)
+                DisplayName = Document.FileName + "*";
+            else
+                DisplayName = Document.FileName;
+        }
+
+        protected virtual FilterData BuildSaveAsFilter()
+        {
+            var def = IoC.Get<IFileDefinitionManager>().GetDefinitionByFilePath(Document.FileName);
+            var fd = new FilterData();
+            if (def != null)
+                fd.AddFilter(new FilterDataEntry(def.Name, def.FileExtension));
+            fd.AddFilterAnyFile();
+            return fd;
+        }
+
         protected override void OnDeactivate(bool close)
         {
             if (close)
@@ -99,14 +130,6 @@ namespace ModernApplicationFramework.EditorBase.Editor
                     storableFile.DirtyChanged -= StorableFile_DirtyChanged;
             }
             base.OnDeactivate(close);
-        }
-
-        protected virtual void DirtyDisplayName(bool isDirty)
-        {
-            if (isDirty)
-                DisplayName = Document.FileName + "*";
-            else
-                DisplayName = Document.FileName;
         }
 
         private void StorableFile_DirtyChanged(object sender, EventArgs e)

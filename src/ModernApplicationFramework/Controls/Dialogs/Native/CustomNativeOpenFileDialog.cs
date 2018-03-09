@@ -86,7 +86,7 @@ namespace ModernApplicationFramework.Controls.Dialogs.Native
             }
         }
 
-        internal override void GetResult(IFileDialog dialog)
+        protected internal override void GetResult(IFileDialog dialog)
         {
             if (IsCustom)
             {

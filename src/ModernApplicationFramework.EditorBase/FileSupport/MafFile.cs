@@ -10,11 +10,48 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
 {
     public abstract class MafFile : IFile
     {
+        private string _fileName;
+        private string _fullFilePath;
+        private bool _isFileNameChanging;
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public string FileName { get; }
+        public event EventHandler FileChanged;
 
-        public string FullFilePath { get; }
+        public string FileName
+        {
+            get => _fileName;
+            set
+            {
+                if (value == _fileName)
+                    return;
+                _isFileNameChanging = true;
+                _fileName = value;
+                if (!string.IsNullOrEmpty(FullFilePath))
+                    FullFilePath = System.IO.Path.Combine(Path, _fileName);
+                _isFileNameChanging = false;
+                OnPropertyChanged();
+            }
+        }
+
+        public string FullFilePath
+        {
+            get => _fullFilePath;
+            protected set
+            {
+                if (value == _fullFilePath)
+                    return;
+                _fullFilePath = value;
+                if (!_isFileNameChanging && !string.IsNullOrEmpty(_fullFilePath))
+                {
+                    var possibleNewFileName = System.IO.Path.GetFileName(_fullFilePath);
+                    if (!possibleNewFileName.Equals(_fileName))
+                        FileName = possibleNewFileName;
+                }
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(Path));
+                FileChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
 
         public virtual string Path => PathUtilities.GetBaseFilePath(FullFilePath);
 

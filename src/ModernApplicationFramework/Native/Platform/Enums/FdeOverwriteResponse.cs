@@ -1,6 +1,6 @@
 ﻿namespace ModernApplicationFramework.Native.Platform.Enums
 {
-    internal enum FdeOverwriteResponse
+    public enum FdeOverwriteResponse
     {
         FdeorDefault = 0x00000000,
         FdeorAccept = 0x00000001,

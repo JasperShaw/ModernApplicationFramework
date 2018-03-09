@@ -57,7 +57,6 @@ namespace ModernApplicationFramework.EditorBase.Commands
 
         private void SaveFile()
         {
-            FileService.Instance.ShowSaveFilesDialog();
             ((IEditor) _dockingHostViewModel.ActiveItem)?.SaveFile();
         }
     }

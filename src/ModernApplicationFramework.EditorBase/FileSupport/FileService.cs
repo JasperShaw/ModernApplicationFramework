@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using Caliburn.Micro;
+using ModernApplicationFramework.Controls.Dialogs;
 using ModernApplicationFramework.EditorBase.Controls.OpenWithFileDialog;
 using ModernApplicationFramework.EditorBase.Core.OpenSaveDialogFilters;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
@@ -60,7 +61,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
             return editor != null;
         }
 
-        public IReadOnlyCollection<OpenFileArguments> ShowOpenFilesDialog()
+        public IReadOnlyCollection<OpenFileArguments> ShowOpenFilesWithDialog()
         {
             var fdm = IoC.Get<IFileDefinitionManager>();
             var supportedFileDefinitons =
@@ -78,9 +79,22 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
                 : CreateOpenFileArguments(dialog.FileNames, dialog.CustomResultData as IEditor);
         }
 
-        public OpenFileArguments ShowSaveFilesDialog()
+        public SaveFileArguments ShowSaveFilesDialog(SaveFileDialogOptions options)
         {
-            return null;
+            var fdm = IoC.Get<IFileDefinitionManager>();
+            var dialog = new NativeSaveFileDialog
+            {
+                FileName = options.FileName,
+                Title = options.Title,
+                Filter = options.Filter,
+                FilterIndex = options.FilterIndex,
+                OverwritePrompt = options.Options.HasFlag(SaveFileDialogFlags.OverwritePrompt),
+                CreatePrompt = options.Options.HasFlag(SaveFileDialogFlags.CreatePrompt),
+                InitialDirectory = options.InitialDirectory
+            };
+            if (dialog.ShowDialog() != true)
+                return null;
+            return new SaveFileArguments(dialog.FileName, Path.GetFileName(dialog.FileName), fdm.GetDefinitionByFilePath(dialog.FileName));
         }
 
         private static IReadOnlyCollection<OpenFileArguments> CreateOpenFileArguments(IReadOnlyCollection<string> files, IEditor preferrEditor)

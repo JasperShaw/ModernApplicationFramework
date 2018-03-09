@@ -48,6 +48,9 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
 
         public Task Save(SaveFileArguments arguments, Action saveAction)
         {
+            if (!arguments.FullFilePath.Equals(FullFilePath))
+                FullFilePath = arguments.FullFilePath;
+
             IsDirty = false;
             IsNew = false;
             saveAction();

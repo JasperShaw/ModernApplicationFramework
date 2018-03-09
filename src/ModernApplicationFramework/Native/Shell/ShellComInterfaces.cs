@@ -3,20 +3,19 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using ModernApplicationFramework.Native.Platform.Enums;
 using ModernApplicationFramework.Native.Platform.Structs;
-using ModernApplicationFramework.Native.Standard;
 
 namespace ModernApplicationFramework.Native.Shell
 {
 #pragma warning disable 108, 114
     [ComImport,Guid(IidGuid.ModalWindow), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    internal interface IModalWindow
+    public interface IModalWindow
     {
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime), PreserveSig]
         int Show([In] IntPtr parent);
     }
 
     [ComImport, Guid(IidGuid.FileDialog), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    internal interface IFileDialog : IModalWindow
+    public interface IFileDialog : IModalWindow
     {
         // Defined on IModalWindow - repeated here due to requirements of COM interop layer
         // --------------------------------------------------------------------------------
@@ -189,7 +188,7 @@ namespace ModernApplicationFramework.Native.Shell
     }
 
     [ComImport, Guid(IidGuid.FileDialogEvents), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    internal interface IFileDialogEvents
+    public interface IFileDialogEvents
     {
         // NOTE: some of these callbacks are cancelable - returning S_FALSE means that 
         // the dialog should not proceed (e.g. with closing, changing folder); to 
@@ -220,7 +219,7 @@ namespace ModernApplicationFramework.Native.Shell
     }
 
     [ComImport, Guid(IidGuid.ShellItem), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    internal interface IShellItem
+    public interface IShellItem
     {
         // Not supported: IBindCtx
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]

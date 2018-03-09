@@ -1,6 +1,6 @@
 ﻿namespace ModernApplicationFramework.Native.Platform.Enums
 {
-    internal enum HResult : long
+    public enum HResult : long
     {
         SFalse = 0x0001,
         SOk = 0x0000,

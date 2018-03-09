@@ -6,7 +6,9 @@ namespace ModernApplicationFramework.EditorBase.Interfaces.FileSupport
 {
     public interface IFile : INotifyPropertyChanged
     {
-        string FileName { get; }
+        event EventHandler FileChanged;
+
+        string FileName { get; set; }
 
         string FullFilePath { get; }
 

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.Win32;
 using ModernApplicationFramework.Controls.Dialogs.Native;
@@ -64,7 +59,7 @@ namespace ModernApplicationFramework.Controls.Dialogs
         public Stream OpenFile()
         {
             if (DownlevelDialog != null)
-                return ((SaveFileDialog)DownlevelDialog).OpenFile();
+                return ((SaveFileDialog) DownlevelDialog).OpenFile();
             string fileName = FileName;
             return new FileStream(fileName, FileMode.Create, FileAccess.ReadWrite);
         }

@@ -374,7 +374,7 @@ namespace ModernApplicationFramework.Controls.Dialogs.Native
             return (_options & option) != 0;
         }
 
-        internal virtual void GetResult(IFileDialog dialog)
+        protected internal virtual void GetResult(IFileDialog dialog)
         {
             if (GetOption(Fos.FosAllowmultiselect))
                 return;
@@ -436,7 +436,8 @@ namespace ModernApplicationFramework.Controls.Dialogs.Native
             }
 
             // Default extension
-            if (_addExtension && !string.IsNullOrEmpty(_defaultExt)) dialog.SetDefaultExtension(_defaultExt);
+            if (_addExtension && !string.IsNullOrEmpty(_defaultExt))
+                dialog.SetDefaultExtension(_defaultExt);
 
             // Initial directory
             if (!string.IsNullOrEmpty(_initialDirectory))

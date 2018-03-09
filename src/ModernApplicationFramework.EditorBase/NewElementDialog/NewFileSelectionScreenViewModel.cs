@@ -2,10 +2,8 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
-using ModernApplicationFramework.EditorBase.Commands;
 using ModernApplicationFramework.EditorBase.Controls.EditorSelectorDialog;
 using ModernApplicationFramework.EditorBase.FileSupport;
-using ModernApplicationFramework.EditorBase.Interfaces;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.NewElement;
 using ModernApplicationFramework.EditorBase.NewElementDialog.ViewModels;
@@ -44,7 +42,7 @@ namespace ModernApplicationFramework.EditorBase.NewElementDialog
         {
             return !(SelectedExtension is ISupportedFileDefinition fileArgument)
                 ? null
-                : new NewFileArguments(fileArgument, "UniqueName");
+                : new NewFileArguments(fileArgument, $"UniqueName{fileArgument.FileExtension}");
         }
 
         public override NewFileArguments CreateResultOpenWith(string name, string path)
@@ -55,7 +53,7 @@ namespace ModernApplicationFramework.EditorBase.NewElementDialog
                 return null;
             if (!(SelectedExtension is ISupportedFileDefinition fileArgument))
                 return null;
-            return new NewFileArguments(fileArgument, "UniqueName", selectorModel.Result.EditorId);
+            return new NewFileArguments(fileArgument, $"UniqueName{fileArgument.FileExtension}", selectorModel.Result.EditorId);
         }
     }
 }

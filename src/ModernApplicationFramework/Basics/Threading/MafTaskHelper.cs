@@ -55,7 +55,7 @@ namespace ModernApplicationFramework.Basics.Threading
             TimeSpan? delayToShowDialog = null)
         {
             var data = new WaitDialogProgressData(message);
-            return await Run(title, data, (progress, cancellation) => task(), true, delayToShowDialog ?? TimeSpan.FromSeconds(2));
+            return await Run(title, data, (progress, cancellation) => task(), false, delayToShowDialog ?? TimeSpan.FromSeconds(2));
         }
 
 
