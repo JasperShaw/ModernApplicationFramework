@@ -80,8 +80,16 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.WaitingWindow
         private async Task AsyncMethodCancel(IProgress<WaitDialogProgressData> progress,
             CancellationToken cancellationToken)
         {
-            await Task.Delay(5000, cancellationToken);
-            MessageBox.Show("Completed");
+            try
+            {
+                await Task.Delay(5000, cancellationToken);
+                MessageBox.Show("Completed");
+            }
+            catch (TaskCanceledException)
+            {
+                MessageBox.Show("Canceled");
+            }
+
         }
 
         private async void MafTaskHelperCancel()
@@ -130,18 +138,25 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.WaitingWindow
         private async Task UpdatingMethodCancel(IProgress<WaitDialogProgressData> progress,
             CancellationToken cancellationToken)
         {
-            progress.Report(new WaitDialogProgressData("Wait", string.Empty, "Working", true, 0, 5));
-            await Task.Delay(1000, cancellationToken);
-            progress.Report(new WaitDialogProgressData("Wait", "1", "Working", true, 1, 5));
-            await Task.Delay(1000, cancellationToken);
-            progress.Report(new WaitDialogProgressData("Wait", "2", "Working", true, 2, 5));
-            await Task.Delay(1000, cancellationToken);
-            progress.Report(new WaitDialogProgressData("Wait", "3", "Working", true, 3, 5));
-            await Task.Delay(1000, cancellationToken);
-            progress.Report(new WaitDialogProgressData("Wait", "4", "Working", true, 4, 5));
-            await Task.Delay(1000, cancellationToken);
-            progress.Report(new WaitDialogProgressData("Wait", "5", "Working", true, 5, 5));
-            MessageBox.Show("Completed");
+            try
+            {
+                progress.Report(new WaitDialogProgressData("Wait", string.Empty, "Working", true, 0, 5));
+                await Task.Delay(1000, cancellationToken);
+                progress.Report(new WaitDialogProgressData("Wait", "1", "Working", true, 1, 5));
+                await Task.Delay(1000, cancellationToken);
+                progress.Report(new WaitDialogProgressData("Wait", "2", "Working", true, 2, 5));
+                await Task.Delay(1000, cancellationToken);
+                progress.Report(new WaitDialogProgressData("Wait", "3", "Working", true, 3, 5));
+                await Task.Delay(1000, cancellationToken);
+                progress.Report(new WaitDialogProgressData("Wait", "4", "Working", true, 4, 5));
+                await Task.Delay(1000, cancellationToken);
+                progress.Report(new WaitDialogProgressData("Wait", "5", "Working", true, 5, 5));
+                MessageBox.Show("Completed");
+            }
+            catch (TaskCanceledException )
+            {
+                MessageBox.Show("Canceled");
+            }
         }
 
         private class PrivateCallback : IWaitDialogCallback
