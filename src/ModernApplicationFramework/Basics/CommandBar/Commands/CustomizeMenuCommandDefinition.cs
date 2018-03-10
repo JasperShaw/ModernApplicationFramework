@@ -43,7 +43,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Commands
         private void OpenCustomizeDialog()
         {
             var windowManager = new WindowManager();
-            var customizeDialog = new CustomizeDialogViewModel();
+            var customizeDialog = IoC.Get<CustomizeDialogViewModel>();
             windowManager.ShowDialog(customizeDialog);
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.Interfaces.ViewModels;
 
@@ -10,21 +11,20 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
     /// </summary>
     /// <seealso cref="!:Caliburn.Micro.Conductor{Caliburn.Micro.IScreen}.Collection.OneActive" />
     [Export(typeof(CustomizeDialogViewModel))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     internal sealed class CustomizeDialogViewModel : Conductor<IScreen>.Collection.OneActive
     {
-        public CustomizeDialogViewModel()
+        [ImportingConstructor]
+        public CustomizeDialogViewModel([ImportMany] ICustomizeDialogScreen[] screens)
         {
             DisplayName = Customize_Resources.CustomizeDialog_Title;
+            Items.AddRange(screens.OrderBy(x => x.SortOrder));
+            ActivateItem<IToolBarsPageViewModel>();
         }
 
-        protected override void OnViewLoaded(object view)
+        public void ActivateItem<T>() where T : ICustomizeDialogScreen
         {
-            base.OnViewLoaded(view);
-            var toolbarsViewModel = IoC.Get<IToolBarsPageViewModel>();
-            Items.Add(toolbarsViewModel);
-            var commandsPageViewModel = IoC.Get<ICommandsPageViewModel>();
-            Items.Add(commandsPageViewModel);
-            ActiveItem = toolbarsViewModel;
+            ActiveItem = Items.OfType<T>().FirstOrDefault();
         }
     }
 }

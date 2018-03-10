@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Input;
-using Caliburn.Micro;
 using ModernApplicationFramework.Basics.CustomizeDialog.ViewModels;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 
@@ -9,7 +8,7 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
     /// <summary>
     /// This interfaces provides the view model for a page to manage all command bar items
     /// </summary>
-    public interface ICommandsPageViewModel : IScreen
+    public interface ICommandsPageViewModel : ICustomizeDialogScreen
     {
         /// <summary>
         /// The command to add a new command bar item

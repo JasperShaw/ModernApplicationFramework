@@ -21,6 +21,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
     /// <seealso cref="T:ModernApplicationFramework.Interfaces.ViewModels.IToolBarsPageViewModel" />
     [PartCreationPolicy(CreationPolicy.NonShared)]
     [Export(typeof(IToolBarsPageViewModel))]
+    [Export(typeof(ICustomizeDialogScreen))]
     internal sealed class ToolBarsPageViewModel : Screen, IToolBarsPageViewModel
     {
         private ToolbarDefinition _selectedToolbarDefinition;
@@ -46,6 +47,8 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
                 NotifyOfPropertyChange();
             }
         }
+
+        public uint SortOrder => 0;
 
         [ImportingConstructor]
         public ToolBarsPageViewModel()

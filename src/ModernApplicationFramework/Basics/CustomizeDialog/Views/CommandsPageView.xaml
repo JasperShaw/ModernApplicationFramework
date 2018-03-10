@@ -176,7 +176,7 @@
                          IsChecked="{Binding SelectedOption, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:CustomizeRadioButtonOptions.Menu}, Mode=TwoWay}"
                          Visibility="{Binding CustomizableMenuBars, Converter={StaticResource VisibleIfNotNullConverter}}" />
             <ComboBox x:Name="MenuBarCombo" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"
-                      Margin="6,0,0,5" SelectedIndex="0" TextSearch.TextPath="InternalName"
+                      Margin="6,0,0,5" TextSearch.TextPath="InternalName"
                       DisplayMemberPath="InternalName"
                       ItemContainerStyle="{StaticResource CollectionComboBoxItemStyle}"
                       ItemsSource="{Binding CustomizableMenuBars}"
@@ -191,7 +191,6 @@
                          VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,5"
                          IsChecked="{Binding SelectedOption, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:CustomizeRadioButtonOptions.Toolbar}, Mode=TwoWay}" />
             <ComboBox Name="ToolBarCombo" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="6,0,0,5"
-                      SelectedIndex="0"
                       TextSearch.TextPath="InternalName" DisplayMemberPath="InternalName"
                       ItemContainerStyle="{StaticResource CollectionComboBoxItemStyle}"
                       SelectedItem="{Binding SelectedToolBarItem, Mode=TwoWay}">
@@ -207,7 +206,6 @@
                          VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,5"
                          IsChecked="{Binding SelectedOption, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:CustomizeRadioButtonOptions.ContextMenu}, Mode=TwoWay}" />
             <ComboBox Name="ContextMenuCombo" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="6,0,0,5"
-                      SelectedIndex="0"
                       TextSearch.TextPath="InternalName" DisplayMemberPath="InternalName"
                       ItemContainerStyle="{StaticResource CollectionComboBoxItemStyle}"
                       ItemsSource="{Binding CustomizableContextMenus}"

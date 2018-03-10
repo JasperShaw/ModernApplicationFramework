@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 
@@ -8,7 +7,7 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
     /// <summary>
     /// This interfaces provides the view model for a page to manage toolbars
     /// </summary>
-    internal interface IToolBarsPageViewModel : IScreen
+    internal interface IToolBarsPageViewModel : ICustomizeDialogScreen
     {
         /// <summary>
         /// A collection of all available toolbar data models

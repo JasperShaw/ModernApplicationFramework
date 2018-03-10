@@ -13,9 +13,9 @@ using ModernApplicationFramework.Basics.CustomizeDialog.Views;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
-using ModernApplicationFramework.Basics.Services;
 using ModernApplicationFramework.Core.Converters.AccessKey;
 using ModernApplicationFramework.Core.Converters.Customize;
+using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
@@ -34,6 +34,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
     /// <seealso cref="T:ModernApplicationFramework.Interfaces.ViewModels.ICommandsPageViewModel" />
     [PartCreationPolicy(CreationPolicy.NonShared)]
     [Export(typeof(ICommandsPageViewModel))]
+    [Export(typeof(ICustomizeDialogScreen))]
     public sealed class CommandsPageViewModel : Screen, ICommandsPageViewModel
     {
         private static readonly AccessKeyRemovingConverter AccessKeyRemovingConverter = 
@@ -183,6 +184,8 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             }
         }
 
+        public uint SortOrder => 1;
+
         [ImportingConstructor]
         public CommandsPageViewModel()
         {
@@ -232,16 +235,32 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             {
                 selected = SelectedToolBarItem;
                 CustomizableToolBars =
-                    new ObservableCollection<CommandBarDefinitionBase>(_toolbarHost.GetMenuHeaderItemDefinitions());
+                    new ObservableCollection<CommandBarDefinitionBase>(Sort(_toolbarHost.GetMenuHeaderItemDefinitions().ToList()));
                 SelectedToolBarItem = selected;
             }
             if ((value & CustomizeRadioButtonOptions.ContextMenu) != 0)
             {
                 selected = SelectedContextMenuItem;
                 CustomizableContextMenus =
-                    new ObservableCollection<CommandBarDefinitionBase>(_contextMenuHost.GetMenuHeaderItemDefinitions());
+                    new ObservableCollection<CommandBarDefinitionBase>(Sort(_contextMenuHost.GetMenuHeaderItemDefinitions().ToList()));
                 SelectedContextMenuItem = selected;
             }
+        }
+
+        private static IEnumerable<CommandBarDefinitionBase> Sort(IReadOnlyCollection<CommandBarDefinitionBase> list)
+        {
+            var dict = new List<KeyValuePair<CommandBarDefinitionBase, string>>();
+            var internalNames = list.Where(x => x is IHasInternalName).ToList();
+            var remaining = list.Except(internalNames);
+            foreach (var definition in internalNames)
+            {
+                if (definition is IHasInternalName internalNameDef)
+                    dict.Add(new KeyValuePair<CommandBarDefinitionBase, string>(definition,
+                        internalNameDef.InternalName));
+            }
+            remaining.ForEach(x => dict.Add(new KeyValuePair<CommandBarDefinitionBase, string>(x, x.Name)));
+            var sorted = dict.OrderBy(x => x.Value).Select(x => x.Key);
+            return sorted;
         }
 
         private void BuildItemSources(CustomizeRadioButtonOptions value)

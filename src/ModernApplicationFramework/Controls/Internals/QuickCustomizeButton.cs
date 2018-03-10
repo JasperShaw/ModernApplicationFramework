@@ -2,10 +2,13 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using Caliburn.Micro;
+using ModernApplicationFramework.Basics.CustomizeDialog.ViewModels;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Controls.Buttons;
 using ModernApplicationFramework.Core.Converters.General;
+using ModernApplicationFramework.Interfaces.ViewModels;
 using MenuItem = ModernApplicationFramework.Controls.Menu.MenuItem;
 
 namespace ModernApplicationFramework.Controls.Internals
@@ -13,15 +16,15 @@ namespace ModernApplicationFramework.Controls.Internals
     internal class QuickCustomizeButton : System.Windows.Controls.MenuItem
     {
         public static readonly DependencyProperty QuickCustomizeDataSourceProperty;
-        private static readonly Lazy<ResourceKey> boundMenuItemStyleKey;
-        private static readonly IfElseConverter negBoolToVisConverter;
+        private static readonly Lazy<ResourceKey> _boundMenuItemStyleKey;
+        private static readonly IfElseConverter _negBoolToVisConverter;
 
 
         private readonly System.Windows.Controls.MenuItem _customizeMenuItem;
         private readonly System.Windows.Controls.MenuItem _resetToolbarMenuItem;
 
 
-        public static ResourceKey BoundMenuItemStyleKey => boundMenuItemStyleKey.Value;
+        public static ResourceKey BoundMenuItemStyleKey => _boundMenuItemStyleKey.Value;
 
         public new static ResourceKey SeparatorStyleKey { get; set; }
 
@@ -39,13 +42,13 @@ namespace ModernApplicationFramework.Controls.Internals
         static QuickCustomizeButton()
         {
             QuickCustomizeDataSourceProperty = DependencyProperty.Register("QuickCustomizeDataSource", typeof(ItemCollection), typeof(QuickCustomizeButton), new PropertyMetadata(OnQuickCustomizeDataSourceChanged));
-            boundMenuItemStyleKey = new Lazy<ResourceKey>(InitializeResourcekey);
+            _boundMenuItemStyleKey = new Lazy<ResourceKey>(InitializeResourcekey);
             var ifElseConverter = new IfElseConverter
             {
                 TrueValue = Visibility.Collapsed,
                 FalseValue = Visibility.Visible
             };
-            negBoolToVisConverter = ifElseConverter;
+            _negBoolToVisConverter = ifElseConverter;
             SeparatorStyleKey = new ComponentResourceKey(typeof(QuickCustomizeButton), "SeparatorStyleKey");
             CustomizeMenuItemStyleKey = new ComponentResourceKey(typeof(QuickCustomizeButton), "CustomizeMenuItemStyleKey");
             ResetToolbarMenuItemStyleKey = new ComponentResourceKey(typeof(QuickCustomizeButton), "ResetToolbarMenuItemStyleKey");
@@ -66,14 +69,12 @@ namespace ModernApplicationFramework.Controls.Internals
             var binding = new Binding("DataContext.IsCustom")
             {
                 Source = this,
-                Converter = negBoolToVisConverter
+                Converter = _negBoolToVisConverter
             };
             _resetToolbarMenuItem.SetBinding(VisibilityProperty, binding);
             CreateMenu();
 
         }
-
-
 
         private void CreateMenu()
         {
@@ -85,8 +86,7 @@ namespace ModernApplicationFramework.Controls.Internals
 
             foreach (var data in QuickCustomizeDataSource)
             {
-                var item = data as CommandDefinitionButton;
-                if (item == null)
+                if (!(data is CommandDefinitionButton item))
                     continue;
                 if (item.DataContext is CommandBarDefinitionBase definition && definition.CommandDefinition.ControlType == CommandControlTypes.Separator)
                     continue;
@@ -109,7 +109,17 @@ namespace ModernApplicationFramework.Controls.Internals
 
         private void CustomizeMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Todo");
+            var windowManager = new WindowManager();
+            var customizeDialog = IoC.Get<CustomizeDialogViewModel>();
+            customizeDialog.ActivateItem<ICommandsPageViewModel>();
+
+            if (!(customizeDialog.ActiveItem is ICommandsPageViewModel commandsPage))
+                return;  
+            commandsPage.SelectedOption = CustomizeRadioButtonOptions.Toolbar;
+            commandsPage.SelectedToolBarItem = DataContext as CommandBarDefinitionBase;
+            windowManager.ShowDialog(customizeDialog);
+            
+            
         }
 
         protected override void OnIsKeyboardFocusWithinChanged(DependencyPropertyChangedEventArgs e)
@@ -122,8 +132,7 @@ namespace ModernApplicationFramework.Controls.Internals
 
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
         {
-            var frameworkElement = element as FrameworkElement;
-            if (frameworkElement == null)
+            if (!(element is FrameworkElement frameworkElement))
                 throw new ArgumentException();
             if (Equals(frameworkElement, _customizeMenuItem))
                 frameworkElement.SetResourceReference(StyleProperty, CustomizeMenuItemStyleKey);

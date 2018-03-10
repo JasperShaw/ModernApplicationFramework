@@ -613,6 +613,7 @@
     <Compile Include="Interfaces\IHasMainWindowViewModel.cs" />
     <Compile Include="Interfaces\Utilities\IContextMenuCreator.cs" />
     <Compile Include="Interfaces\ViewModels\ICommandBarHost.cs" />
+    <Compile Include="Interfaces\ViewModels\ICustomizeDialogScreen.cs" />
     <Compile Include="Interfaces\Views\IToolBarsPageView.cs" />
     <Compile Include="Native\Platform\Enums\BrowseInfoFlags.cs" />
     <Compile Include="Native\Platform\Enums\CbtHookAction.cs" />
