@@ -36,9 +36,10 @@ namespace ModernApplicationFramework.EditorBase.Editor
             get => _displayName;
             set
             {
-                if (value == _displayName) return;
-                _displayName = value;
                 UpdateToolTip();
+                if (value == _displayName)
+                    return;
+                _displayName = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -115,7 +116,7 @@ namespace ModernApplicationFramework.EditorBase.Editor
 
         protected virtual void UpdateToolTip()
         {
-            ToolTip = Document?.FullFilePath;
+            ToolTip = !string.IsNullOrEmpty(Document?.FullFilePath) ? Document.FullFilePath : Document?.FileName;
         }
 
         protected virtual void SaveFile()

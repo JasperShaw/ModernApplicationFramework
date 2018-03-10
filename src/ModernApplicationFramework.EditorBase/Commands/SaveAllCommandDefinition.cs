@@ -16,9 +16,8 @@ namespace ModernApplicationFramework.EditorBase.Commands
     [Export(typeof(SaveAllCommandDefinition))]
     public class SaveAllCommandDefinition : CommandDefinition
     {
-        private string _text;
-
         private readonly IDockingHostViewModel _dockingHostViewModel;
+
         public override string NameUnlocalized => "Save active file";
 
         public override string Text => CommandsResources.SaveAllCommandText;
