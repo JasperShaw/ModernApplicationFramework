@@ -44,7 +44,7 @@ namespace ModernApplicationFramework.EditorBase.Commands
 
         public override string Name => "NewFile";
         public override string NameUnlocalized => "New File";
-        public override string Text => CommandsResources.NewFileCommandName;
+        public override string Text => CommandsResources.NewFileCommandText;
         public override string ToolTip => Text;
 
         public NewFileCommandDefinition()

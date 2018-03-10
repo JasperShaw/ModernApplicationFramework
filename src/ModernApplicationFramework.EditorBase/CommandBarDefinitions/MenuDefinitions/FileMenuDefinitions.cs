@@ -46,14 +46,14 @@ namespace ModernApplicationFramework.EditorBase.CommandBarDefinitions.MenuDefini
             new CommandBarCommandItemDefinition<SaveActiveFileCommandDefinition>(
                 new Guid("{C68819F7-310A-42AB-A528-344C1C25480B}"), SaveGroup, 0);
 
-        //[Export]
-        //public static CommandBarItemDefinition SaveFileAs =
-        //    new CommandBarCommandItemDefinition<CloseActiveDocumentCommandDefinition>(
-        //        new Guid("{1B63D36E-E79C-463A-AE10-0526C43A391C}"), SaveGroup, 1);
+        [Export]
+        public static CommandBarItemDefinition SaveFileAs =
+            new CommandBarCommandItemDefinition<SaveActiveFileAsCommandDefinition>(
+                new Guid("{1B63D36E-E79C-463A-AE10-0526C43A391C}"), SaveGroup, 1);
 
-        //[Export]
-        //public static CommandBarItemDefinition SaveAll =
-        //    new CommandBarCommandItemDefinition<CloseActiveDocumentCommandDefinition>(
-        //        new Guid("{0DC3587B-C2E3-4D4B-84F3-BA7F436763A3}"), SaveGroup, 2);
+        [Export]
+        public static CommandBarItemDefinition SaveAll =
+            new CommandBarCommandItemDefinition<SaveAllCommandDefinition>(
+                new Guid("{0DC3587B-C2E3-4D4B-84F3-BA7F436763A3}"), SaveGroup, 2);
     }
 }

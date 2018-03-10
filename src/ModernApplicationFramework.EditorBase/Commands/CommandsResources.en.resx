@@ -117,13 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NewFileCommandName" xml:space="preserve">
+  <data name="NewFileCommandText" xml:space="preserve">
     <value>&amp;File...</value>
   </data>
-  <data name="OpenFileCommandName" xml:space="preserve">
+  <data name="OpenFileCommandText" xml:space="preserve">
     <value>&amp;File...</value>
   </data>
   <data name="SaveActiveDocumentCommandName" xml:space="preserve">
-    <value>&amp;Close</value>
+    <value>&amp;Save Selected Items</value>
+  </data>
+  <data name="SaveActiveDocumentCommandText" xml:space="preserve">
+    <value>&amp;Save {0}</value>
+  </data>
+  <data name="SaveActiveDocumentAsCommandText" xml:space="preserve">
+    <value>Save {0} &amp;As...</value>
+  </data>
+  <data name="SaveActiveDocumentAsCommandName" xml:space="preserve">
+    <value>Save Selected Items &amp;As...</value>
+  </data>
+  <data name="SaveAllCommandText" xml:space="preserve">
+    <value>Save A&amp;ll</value>
   </data>
 </root>

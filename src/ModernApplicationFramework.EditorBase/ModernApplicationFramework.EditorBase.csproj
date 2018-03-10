@@ -72,7 +72,9 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Commands\OpenFileCommandDefinition.cs" />
-    <Compile Include="Commands\SaveActiveFileCommand.cs" />
+    <Compile Include="Commands\SaveActiveFileAsCommandDefinition.cs" />
+    <Compile Include="Commands\SaveAllCommandDefinition.cs" />
+    <Compile Include="Commands\SaveActiveFileCommandDefinition.cs" />
     <Compile Include="Controls\OpenWithFileDialog\DialogResources.Designer.cs">
       <DependentUpon>DialogResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
