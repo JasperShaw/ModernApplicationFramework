@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -141,9 +143,15 @@ namespace ModernApplicationFramework.Controls.Menu
            
             if (string.IsNullOrEmpty(definitionBase?.CommandDefinition?.IconSource?.OriginalString))
                 return;
-            var myResourceDictionary = new ResourceDictionary { Source = definitionBase.CommandDefinition.IconSource };
-            IconSource = myResourceDictionary[definitionBase.CommandDefinition.IconId];
-            this.SetThemedIcon();
+            try
+            {
+                var myResourceDictionary = new ResourceDictionary { Source = definitionBase.CommandDefinition.IconSource };
+                IconSource = myResourceDictionary[definitionBase.CommandDefinition.IconId];
+                this.SetThemedIcon();
+            }
+            catch (IOException)
+            {
+            }         
         }
 
         private void MenuItem_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)

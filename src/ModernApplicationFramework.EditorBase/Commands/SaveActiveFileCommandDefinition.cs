@@ -32,8 +32,9 @@ namespace ModernApplicationFramework.EditorBase.Commands
 
         public override string Name => CommandsResources.SaveActiveDocumentCommandName;
 
-        public override Uri IconSource => null;
-        public override string IconId => null;
+        public override Uri IconSource => new Uri("/ModernApplicationFramework.EditorBase;component/Resources/Icons/Save_16x.xaml",
+            UriKind.RelativeOrAbsolute);
+        public override string IconId => "SaveFileIcon";
         public override CommandCategory Category => CommandCategories.FileCommandCategory;
         public override Guid Id => new Guid("{651EA782-BFCB-4ACA-8F98-6798C117F988}");
         public override MultiKeyGesture DefaultKeyGesture { get; }
