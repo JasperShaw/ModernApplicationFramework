@@ -146,7 +146,7 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             _isVisible = visible;
             _group = group;
             _sortOrder = sortOrder;
-            _text = text;
+            _text = text ?? definition?.Text;
 
             var internalName = new AccessKeyRemovingConverter()
                 .Convert(text, typeof(string), null, CultureInfo.CurrentCulture)

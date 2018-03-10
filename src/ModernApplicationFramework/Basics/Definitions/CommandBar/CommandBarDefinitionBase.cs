@@ -152,9 +152,9 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
             bool isCustomizable, bool isChecked, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
         {
             _sortOrder = sortOrder;
-            _text = text;
-            OriginalText = text;
-	        _name = text;
+            _text = text ?? definition?.Text;
+            OriginalText = text ?? definition?.Text;
+	        _name = text ?? definition?.Text;
             CommandDefinition = definition;
             IsCustom = isCustom;
             _isChecked = isChecked;

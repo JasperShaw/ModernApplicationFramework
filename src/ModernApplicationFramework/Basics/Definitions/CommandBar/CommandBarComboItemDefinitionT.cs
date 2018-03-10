@@ -14,14 +14,10 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.CommandBar.CommandBarItemDefinition`1" />
     public sealed class CommandBarComboItemDefinition<T> : CommandBarComboItemDefinition where T : CommandDefinitionBase
 	{
-	    public override CommandDefinitionBase CommandDefinition { get; }
-
         public CommandBarComboItemDefinition(Guid id, CommandBarGroupDefinition group, uint sortOrder, bool isEditable, bool stretchHorizontally,
-            bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true, CommandBarFlags flags = CommandBarFlags.CommandFlagPictAndText)
-            : base(id, null, sortOrder, group, null, isVisible, isChecked, isCustom, isCustomizable, flags)
+            bool isVisible = true, bool isChecked = false, bool isCustom = false, bool isCustomizable = true, CommandBarFlags flags = CommandBarFlags.CommandFlagNone)
+            : base(id, null, sortOrder, group, IoC.Get<ICommandService>().GetCommandDefinition(typeof(T)), isVisible, isChecked, isCustom, isCustomizable, flags)
         {
-            CommandDefinition = IoC.Get<ICommandService>().GetCommandDefinition(typeof(T));
-
             VisualSource.Flags.StretchHorizontally = stretchHorizontally;
             VisualSource.IsEditable = isEditable;
 
