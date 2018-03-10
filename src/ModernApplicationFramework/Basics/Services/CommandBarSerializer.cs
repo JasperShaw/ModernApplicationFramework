@@ -221,6 +221,7 @@ namespace ModernApplicationFramework.Basics.Services
         {
             var guid = childNode.GetAttributeValue<Guid>("Id");
             var sortOrder = childNode.GetAttributeValue<uint>("SortOrder");
+            childNode.TryGetValueResult("IsVisible", out var visible, true);
             childNode.TryGetValueResult<string>("Text", out var text);
 
             CommandBarSplitItemDefinition item;
@@ -243,6 +244,7 @@ namespace ModernApplicationFramework.Basics.Services
             AssignGroup(item, parentDefinition);
             SetFlags(item, childNode);
             item.SortOrder = sortOrder;
+            item.IsVisible = visible;
             if (text != null)
                 item.Text = text;
             _definitionHost.ItemDefinitions.Add(item);
@@ -262,6 +264,7 @@ namespace ModernApplicationFramework.Basics.Services
         {
             var guid = childNode.GetAttributeValue<Guid>("Id");
             var sortOrder = childNode.GetAttributeValue<uint>("SortOrder");
+            childNode.TryGetValueResult("IsVisible", out var visible, true);
             childNode.TryGetValueResult<string>("Text", out var text);
             MenuDefinition menu;
             if (guid == Guid.Empty)
@@ -279,6 +282,7 @@ namespace ModernApplicationFramework.Basics.Services
             AssignGroup(menu, parentDefinition);
             SetFlags(menu, childNode);
             menu.SortOrder = sortOrder;
+            menu.IsVisible = visible;
             if (text != null)
                 menu.Text = text;
             BuildCommandBar(childNode, menu);
@@ -291,6 +295,7 @@ namespace ModernApplicationFramework.Basics.Services
             var guid = childNode.GetAttributeValue<Guid>("Id");
             var sortOrder = childNode.GetAttributeValue<uint>("SortOrder");
             childNode.TryGetValueResult<string>("Text", out var text);
+            childNode.TryGetValueResult("IsVisible", out var visible, true);
 
             CommandBarItemDefinition item;
             if (guid == Guid.Empty)
@@ -312,6 +317,7 @@ namespace ModernApplicationFramework.Basics.Services
             AssignGroup(item, parentDefinition);
             SetFlags(item, childNode);
             item.SortOrder = sortOrder;
+            item.IsVisible = visible;
             if (text != null)
                 item.Text = text;
             _definitionHost.ItemDefinitions.Add(item);
@@ -321,6 +327,7 @@ namespace ModernApplicationFramework.Basics.Services
         {
             var guid = childNode.GetAttributeValue<Guid>("Id");
             var sortOrder = childNode.GetAttributeValue<uint>("SortOrder");
+            childNode.TryGetValueResult("IsVisible", out var visible, true);
             if (guid == Guid.Empty)
                 throw new NotSupportedException("Menu Controller can not be custom");
 
@@ -332,6 +339,7 @@ namespace ModernApplicationFramework.Basics.Services
             AssignGroup(menuController, parentDefinition);
             SetFlags(menuController, childNode);
             menuController.SortOrder = sortOrder;
+            menuController.IsVisible = visible;
             _definitionHost.ItemDefinitions.Add(menuController);
         }
 
@@ -343,6 +351,7 @@ namespace ModernApplicationFramework.Basics.Services
             var editable = childNode.GetAttributeValue<bool>("IsEditable");
             var dropDownWidth = childNode.GetAttributeValue<double>("DropDownWidth");
             childNode.TryGetValueResult<string>("Text", out var text);
+            childNode.TryGetValueResult("IsVisible", out var visible, true);
 
             CommandBarComboItemDefinition comboboxItem;
             if (guid == Guid.Empty)
@@ -368,6 +377,7 @@ namespace ModernApplicationFramework.Basics.Services
             comboboxItem.VisualSource.Flags.EnableStyleFlags((CommandBarFlags)vFlags);
             comboboxItem.VisualSource.IsEditable = editable;
             comboboxItem.VisualSource.DropDownWidth = dropDownWidth;
+            comboboxItem.IsVisible = visible;
             if (text != null)
                 comboboxItem.Text = text;
             _definitionHost.ItemDefinitions.Add(comboboxItem);
@@ -414,7 +424,11 @@ namespace ModernApplicationFramework.Basics.Services
                     switch (groupItem)
                     {
                         case MenuDefinition menuDefinition:
-                            itemElement = CreateElement(document, "MenuDefinition", menuDefinition);
+                            itemElement = CreateElement(document, "MenuDefinition", menuDefinition, element =>
+                            {
+                                if (!menuDefinition.IsVisible)
+                                    element.SetAttribute("IsVisible", false.ToString());
+                            });
                             break;
                         case CommandBarMenuControllerDefinition menuController:
                             itemElement = CreateElement(document, "MenuControllerDefinition",
@@ -423,7 +437,8 @@ namespace ModernApplicationFramework.Basics.Services
                                 {
                                     element.SetAttribute("AnchroItem",
                                         menuController.AnchorItem?.CommandDefinition?.Id.ToString("B"));
-                                    element.SetAttribute("IsVisible", menuController.IsVisible.ToString());
+                                    if (!menuController.IsVisible)
+                                        element.SetAttribute("IsVisible", false.ToString());
 
                                     if (!(definition.CommandDefinition is CommandMenuControllerDefinition controllerDefinition))
                                         return;
@@ -447,6 +462,8 @@ namespace ModernApplicationFramework.Basics.Services
                                     element.SetAttribute("IsEditable",
                                         comboItemDefinition.VisualSource.IsEditable.ToString());
                                     element.SetAttribute("DropDownWidth", comboItemDefinition.VisualSource.DropDownWidth.ToString(InvariantCulture));
+                                    if (!comboItemDefinition.IsVisible)
+                                        element.SetAttribute("IsVisible", false.ToString());
                                 });
                             break;
                         case CommandBarSplitItemDefinition splitItemDefinition:
@@ -456,6 +473,8 @@ namespace ModernApplicationFramework.Basics.Services
                                 {
                                     element.SetAttribute("Command",
                                         splitItemDefinition.CommandDefinition.Id.ToString("B"));
+                                    if (!splitItemDefinition.IsVisible)
+                                        element.SetAttribute("IsVisible", false.ToString());
                                 });
                             break;
                         case CommandBarItemDefinition commandItem:
@@ -464,6 +483,8 @@ namespace ModernApplicationFramework.Basics.Services
                             {
                                 element.SetAttribute("Command",
                                     commandItem.CommandDefinition.Id.ToString("B"));
+                                if (!commandItem.IsVisible)
+                                    element.SetAttribute("IsVisible", false.ToString());
                             });
                             break;
                     }

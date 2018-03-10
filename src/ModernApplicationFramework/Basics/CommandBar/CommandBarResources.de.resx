@@ -127,7 +127,7 @@
     <value>Sch_altflächen hinzufügen oder entfernen</value>
   </data>
   <data name="ToolBarResetButton" xml:space="preserve">
-    <value>_zurücksetzen</value>
+    <value>_Symbolleiste zurücksetzen</value>
   </data>
   <data name="ToolbarsContextMenu_Name" xml:space="preserve">
     <value>Symbolleistenliste</value>

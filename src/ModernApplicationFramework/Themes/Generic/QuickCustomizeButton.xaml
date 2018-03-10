@@ -2,10 +2,8 @@
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals"
-                    xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
                     xmlns:accessKey="clr-namespace:ModernApplicationFramework.Core.Converters.AccessKey"
                     xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General"
-                    xmlns:properties="clr-namespace:ModernApplicationFramework.Properties"
                     xmlns:commandBar="clr-namespace:ModernApplicationFramework.Basics.CommandBar"
                     xmlns:menu="clr-namespace:ModernApplicationFramework.Controls.Menu"
                     xmlns:windows="clr-namespace:ModernApplicationFramework.Controls.Windows">

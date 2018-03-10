@@ -2,16 +2,21 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.Linq;
+using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Core;
 using ModernApplicationFramework.Core.Comparers;
+using ModernApplicationFramework.Core.Converters.AccessKey;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Interfaces.ViewModels;
+using ModernApplicationFramework.Utilities.Interfaces;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 {
@@ -302,6 +307,15 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         {
             return group.Parent.ContainedGroups.OrderBy(x => x.SortOrder)
                 .LastOrDefault(x => x.SortOrder < group.SortOrder);
+        }
+
+        private static readonly ICommandBarLayoutBackupProvider LayoutBackupProvider =
+            IoC.Get<ICommandBarLayoutBackupProvider>();
+
+        public void Reset(CommandBarDefinitionBase definition)
+        {
+            IoC.Get<ICommandBarSerializer>().ResetFromBackup(LayoutBackupProvider.Backup, definition);
+            Build();
         }
 
         protected void StepwiseMoveUp(CommandBarItemDefinition item, CommandBarDefinitionBase parent)

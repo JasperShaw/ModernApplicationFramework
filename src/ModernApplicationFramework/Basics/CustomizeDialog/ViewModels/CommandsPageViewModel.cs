@@ -422,10 +422,9 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             var result = MessageBox.Show(message, title, MessageBoxButton.YesNo, MessageBoxImage.Question,
                 MessageBoxResult.No);
             if (result == MessageBoxResult.No)
-                return;
-            IoC.Get<ICommandBarSerializer>().ResetFromBackup(LayoutBackupProvider.Backup, item);
+                return;   
             GetModelAndParent(out var host, out var _);
-            host.Build();
+            host.Reset(item);
             BuildCheckBoxItems(SelectedOption);
             BuildItemSources(SelectedOption);
         }

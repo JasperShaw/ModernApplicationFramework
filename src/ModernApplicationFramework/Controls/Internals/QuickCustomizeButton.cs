@@ -1,20 +1,27 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.CustomizeDialog;
 using ModernApplicationFramework.Basics.CustomizeDialog.ViewModels;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Controls.Buttons;
+using ModernApplicationFramework.Core.Converters.AccessKey;
 using ModernApplicationFramework.Core.Converters.General;
 using ModernApplicationFramework.Interfaces.ViewModels;
+using ModernApplicationFramework.Utilities.Interfaces;
 using MenuItem = ModernApplicationFramework.Controls.Menu.MenuItem;
 
 namespace ModernApplicationFramework.Controls.Internals
 {
     internal class QuickCustomizeButton : System.Windows.Controls.MenuItem
     {
+        private static readonly AccessKeyRemovingConverter AccessKeyRemovingConverter =
+            new AccessKeyRemovingConverter();
+
         public static readonly DependencyProperty QuickCustomizeDataSourceProperty;
         private static readonly Lazy<ResourceKey> _boundMenuItemStyleKey;
         private static readonly IfElseConverter _negBoolToVisConverter;
@@ -104,7 +111,18 @@ namespace ModernApplicationFramework.Controls.Internals
 
         private void ResetToolbarMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("This feature will be added sometime later when the framework can load/store current settings");
+            if (!(DataContext is CommandBarDefinitionBase item))
+                return;
+            var message = string.Format(CultureInfo.CurrentCulture, Customize_Resources.Prompt_ResetToolBarConfirmation,
+                AccessKeyRemovingConverter.Convert(item.Text, typeof(string), null,
+                    CultureInfo.CurrentCulture));
+            var title = IoC.Get<IEnvironmentVariables>().ApplicationName;
+            var result = MessageBox.Show(message, title, MessageBoxButton.YesNo, MessageBoxImage.Question,
+                MessageBoxResult.No);
+            if (result == MessageBoxResult.No)
+                return;
+            var host = IoC.Get<IToolBarHostViewModel>();
+            host.Reset(item);
         }
 
         private void CustomizeMenuItem_Click(object sender, RoutedEventArgs e)

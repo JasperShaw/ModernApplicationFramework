@@ -121,5 +121,12 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         /// <param name="group">The group which predecessor is searched</param>
         /// <returns>The found <see cref="CommandBarGroupDefinition"/>. Returns <see langword="null"/> if there was no predecessor</returns>
         CommandBarGroupDefinition GetPreviousGroup(CommandBarGroupDefinition group);
+
+
+        /// <summary>
+        /// Resets the specified definition.
+        /// </summary>
+        /// <param name="definition">The definition.</param>
+        void Reset(CommandBarDefinitionBase definition);
     }
 }
