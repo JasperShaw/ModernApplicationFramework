@@ -61,11 +61,29 @@ namespace ModernApplicationFramework.EditorBase.Commands {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy Full Path.
+        /// </summary>
+        public static string CopyFullPathCommandText {
+            get {
+                return ResourceManager.GetString("CopyFullPathCommandText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &amp;File....
         /// </summary>
         public static string NewFileCommandText {
             get {
                 return ResourceManager.GetString("NewFileCommandText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open Containing Folder.
+        /// </summary>
+        public static string OpenContainingFolderCommandText {
+            get {
+                return ResourceManager.GetString("OpenContainingFolderCommandText", resourceCulture);
             }
         }
         

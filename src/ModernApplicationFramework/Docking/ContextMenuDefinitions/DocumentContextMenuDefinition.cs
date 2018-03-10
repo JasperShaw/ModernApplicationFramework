@@ -32,7 +32,7 @@ namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
 
         [Export]
         public static CommandBarGroupDefinition DocumentFloatContextMenuGroup =
-            new CommandBarGroupDefinition(DocumentContextMenu, 1);
+            new CommandBarGroupDefinition(DocumentContextMenu, 2);
 
         [Export]
         public static CommandBarItemDefinition FloatCommandItemDefinition =
@@ -40,7 +40,7 @@ namespace ModernApplicationFramework.Docking.ContextMenuDefinitions
 
         [Export]
         public static CommandBarGroupDefinition DocumentTabGroupContextMenuGroup =
-            new CommandBarGroupDefinition(DocumentContextMenu, 2);
+            new CommandBarGroupDefinition(DocumentContextMenu, 3);
 
         [Export]
         public static CommandBarItemDefinition NewHorizontalTabGroupItemDefinition =

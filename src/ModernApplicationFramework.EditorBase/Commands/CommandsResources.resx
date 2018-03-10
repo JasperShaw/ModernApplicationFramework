@@ -138,4 +138,10 @@
   <data name="SaveAllCommandText" xml:space="preserve">
     <value>Save A&amp;ll</value>
   </data>
+  <data name="CopyFullPathCommandText" xml:space="preserve">
+    <value>Copy Full Path</value>
+  </data>
+  <data name="OpenContainingFolderCommandText" xml:space="preserve">
+    <value>Open Containing Folder</value>
+  </data>
 </root>

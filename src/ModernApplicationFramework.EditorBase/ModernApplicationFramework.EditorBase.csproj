@@ -65,12 +65,15 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandBarDefinitions\ContextMenuDefinitions\TabbedDocumentContextMenuDefinitions.cs" />
     <Compile Include="CommandBarDefinitions\MenuDefinitions\FileMenuDefinitions.cs" />
     <Compile Include="Commands\CommandsResources.Designer.cs">
       <DependentUpon>CommandsResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Commands\CopyFullPathCommandDefinition.cs" />
+    <Compile Include="Commands\OpenContainingFolderCommandDefinition.cs" />
     <Compile Include="Commands\OpenFileCommandDefinition.cs" />
     <Compile Include="Commands\SaveActiveFileAsCommandDefinition.cs" />
     <Compile Include="Commands\SaveAllCommandDefinition.cs" />
