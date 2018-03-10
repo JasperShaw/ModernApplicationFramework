@@ -7,12 +7,12 @@ namespace ModernApplicationFramework.Core.Converters
     {
         protected override string Convert(string value, object parameter, CultureInfo culture)
         {
-            return value.Trim();
+            return value?.Trim();
         }
 
         protected override string ConvertBack(string value, object parameter, CultureInfo culture)
         {
-            return value.Trim();
+            return value?.Trim();
         }
     }
 }
