@@ -278,6 +278,7 @@
     <Compile Include="Core\WpfSynchronizeInvoke.cs" />
     <Compile Include="Docking\DocumentsClosedEventArgs.cs" />
     <Compile Include="Docking\DocumentsClosingEventArgs.cs" />
+    <Compile Include="Interfaces\IHasIconSource.cs" />
     <Compile Include="Interfaces\Services\ICommandBarLayoutBackupProvider.cs" />
     <Compile Include="Interfaces\Services\ICommandBarSerializer.cs" />
     <Compile Include="Basics\Threading\MafTaskHelper.cs" />

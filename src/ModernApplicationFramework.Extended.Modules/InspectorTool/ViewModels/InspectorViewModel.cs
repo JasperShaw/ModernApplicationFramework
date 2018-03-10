@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Windows.Media;
 using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Extended.Utilities.PaneUtilities;
 
@@ -36,5 +37,7 @@ namespace ModernApplicationFramework.Extended.Modules.InspectorTool.ViewModels
             var handler = SelectedObjectChanged;
             handler?.Invoke(this, EventArgs.Empty);
         }
+
+        public override ImageSource IconSource => null;
     }
 }

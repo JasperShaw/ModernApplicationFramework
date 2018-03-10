@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Caliburn.Micro;
+using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Extended.Interfaces
 {
@@ -10,7 +11,7 @@ namespace ModernApplicationFramework.Extended.Interfaces
     /// </summary>
     /// <seealso cref="T:Caliburn.Micro.IScreen" />
     /// <seealso cref="T:Caliburn.Micro.IViewAware" />
-    public interface ILayoutItemBase : IScreen, IViewAware
+    public interface ILayoutItemBase : IScreen, IViewAware, IHasIconSource
     {
         /// <summary>
         /// Id that denotes the content

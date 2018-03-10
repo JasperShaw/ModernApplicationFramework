@@ -52,6 +52,8 @@ namespace ModernApplicationFramework.EditorBase.Editor
 
         protected abstract string FallbackSaveExtension { get; }
 
+        protected ISupportedFileDefinition OpenedFileDefinition { get; set; }
+
         public abstract bool CanHandleFile(ISupportedFileDefinition fileDefinition);
 
         public virtual async Task Reload()
@@ -92,21 +94,24 @@ namespace ModernApplicationFramework.EditorBase.Editor
                 await Task.Delay(TimeSpan.FromSeconds(0.5)).ConfigureAwait(false);
                 FileChangeService.Instance.AdviseFileChange(Document);
             });
+            OpenedFileDefinition = args.FileDefinition;
             DisplayName = Document.FileName;
+            UpdateIconSource();
         }
 
         public async Task LoadFile(IFile document, string name)
         {
             Document = document;
+            OpenedFileDefinition = IoC.Get<IFileDefinitionManager>().GetDefinitionByFilePath(Document.FileName);
             if (document is IStorableFile storableFile)
                 storableFile.DirtyChanged += StorableFile_DirtyChanged;
             IsReadOnly = !(document is IStorableFile);
-
             await MafTaskHelper.Run(IoC.Get<IEnvironmentVariables>().ApplicationName, "Opening File...", async () =>
             {
                 await Document.Load(LoadFile);
             });
             DisplayName = name;
+            UpdateIconSource();
         }
 
         protected virtual void UpdateDisplayName()
@@ -133,6 +138,11 @@ namespace ModernApplicationFramework.EditorBase.Editor
                 DisplayName = Document.FileName + "*";
             else
                 DisplayName = Document.FileName;
+        }
+
+        protected virtual void UpdateIconSource()
+        {
+            IconSource = OpenedFileDefinition.SmallThumbnailImage;
         }
 
         protected virtual FilterData BuildSaveAsFilter()

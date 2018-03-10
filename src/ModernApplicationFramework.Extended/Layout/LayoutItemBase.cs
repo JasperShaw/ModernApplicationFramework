@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
+using System.Windows.Media;
 using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Interfaces;
 
@@ -11,7 +12,7 @@ namespace ModernApplicationFramework.Extended.Layout
         private bool _isSelected;
 
         private string _toolTip;
-        //public abstract ICommand CloseCommand { get; }
+        private ImageSource _iconSource;
 
         [Browsable(false)]
         public virtual string ContentId => Id.ToString();
@@ -67,6 +68,17 @@ namespace ModernApplicationFramework.Extended.Layout
         public override int GetHashCode()
         {
             return Id.GetHashCode();
+        }
+
+        public virtual ImageSource IconSource
+        {
+            get => _iconSource;
+            set
+            {
+                if (Equals(value, _iconSource)) return;
+                _iconSource = value;
+                NotifyOfPropertyChange();
+            }
         }
     }
 }

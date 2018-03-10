@@ -3,14 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Primitives;
+using System.Drawing;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Controls;
 using ModernApplicationFramework.Utilities.Imaging;
 using Color = System.Windows.Media.Color;
+using Image = System.Windows.Controls.Image;
+using ImageConverter = ModernApplicationFramework.Utilities.Imaging.ImageConverter;
 
 namespace ModernApplicationFramework.Core.Utilities
 {
@@ -49,7 +53,7 @@ namespace ModernApplicationFramework.Core.Utilities
         internal static TV GetValueOrDefault<TV>(this WeakReference wr)
         {
             if (wr == null || !wr.IsAlive)
-                return default(TV);
+                return default;
             return (TV)wr.Target;
         }
 
@@ -77,8 +81,7 @@ namespace ModernApplicationFramework.Core.Utilities
         /// <returns>The unwrapped exception</returns>
         public static System.Exception UnwrapCompositionException(this System.Exception exception)
         {
-            var compositionException = exception as CompositionException;
-            if (compositionException == null)
+            if (!(exception is CompositionException compositionException))
             {
                 return exception;
             }
@@ -98,8 +101,7 @@ namespace ModernApplicationFramework.Core.Utilities
 
                 if (composablePartException?.InnerException != null)
                 {
-                    var innerCompositionException = composablePartException.InnerException as CompositionException;
-                    if (innerCompositionException == null)
+                    if (!(composablePartException.InnerException is CompositionException innerCompositionException))
                     {
                         return currentException.InnerException ?? exception;
                     }
@@ -124,12 +126,32 @@ namespace ModernApplicationFramework.Core.Utilities
 
         public static void SetThemedIcon(this IThemableIconContainer element, Color backgroundColor, bool isEnabled = true)
         {
-            if (!(element.IconSource is Viewbox vb))
-                return;
-            var i = ImageUtilities.IconImageFromFrameworkElement(vb);
-            RenderOptions.SetBitmapScalingMode(i, BitmapScalingMode.Linear);
 
-            var b = ImageUtilities.BitmapFromBitmapSource((BitmapSource)i.Source);
+            var vb = element.IconSource as Viewbox;
+
+            Image image;
+            if (vb == null)
+            {
+                if (element.Icon == null)
+                    return;
+                if (element.Icon is Image elementIcon)
+                    image = elementIcon;
+                else
+                    return;
+            }
+            else
+                image = ImageUtilities.IconImageFromFrameworkElement(vb);
+            
+            RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.Linear);
+
+            Bitmap b;
+            if (image.DataContext is IHasIconSource layoutItem)
+            {
+                var bi = layoutItem.IconSource as BitmapSource;
+                b = ImageUtilities.BitmapFromBitmapSource(bi);
+            }
+            else
+                b = ImageUtilities.BitmapFromBitmapSource((BitmapSource) image.Source);
 
             BitmapSource bitmapSource;
             if (isEnabled)
@@ -143,8 +165,8 @@ namespace ModernApplicationFramework.Core.Utilities
                 bitmapSource = ImageThemingUtilities.CreateThemedBitmapSource(bitmapSourceOrg, backgroundColor, false, Color.FromArgb(64, 255, 255, 255), SystemParameters.HighContrast);
             }
 
-            i.Source = bitmapSource;
-            element.Icon = i;
+            image.Source = bitmapSource;
+            element.Icon = image;
         }
 
 

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using System.Windows.Media;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Extended.Utilities.PaneUtilities;
@@ -14,6 +15,8 @@ namespace ModernApplicationFramework.DynamicModule
         {
             DisplayName = "TestPrinter";
         }
+
+        public override ImageSource IconSource => null;
     }
 
     public interface ITestPrinter : ITool

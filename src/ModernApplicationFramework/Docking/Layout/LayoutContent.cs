@@ -25,13 +25,14 @@ using System.Windows.Media;
 using System.Xml;
 using System.Xml.Serialization;
 using ModernApplicationFramework.Core.Comparers;
+using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Docking.Layout
 {
     [ContentProperty("Content")]
     [Serializable]
     public abstract class LayoutContent : LayoutElement, IXmlSerializable, ILayoutElementForFloatingWindow,
-        IComparable<LayoutContent>, ILayoutPreviousContainer
+        IComparable<LayoutContent>, ILayoutPreviousContainer, IHasIconSource
     {
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.Register("Title", typeof (string), typeof (LayoutContent),

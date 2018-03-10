@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Text;
 using System.Windows.Input;
+using System.Windows.Media;
 using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Extended.Utilities.PaneUtilities;
@@ -71,5 +72,7 @@ namespace ModernApplicationFramework.Extended.Modules.OutputTool
             if (_view != null)
                 Execute.OnUIThread(() => _view.SetText(_stringBuilder.ToString()));
         }
+
+        public override ImageSource IconSource => null;
     }
 }

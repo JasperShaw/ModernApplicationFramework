@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Windows.Input;
+using System.Windows.Media;
 using ModernApplicationFramework.Basics.InfoBar;
 using ModernApplicationFramework.Controls.InfoBar;
 using ModernApplicationFramework.Extended.Layout;
@@ -44,5 +45,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.InfoBarDemo
             var model = new InfoBarModel(infoBarTextSpanArray, imageInfo);
             AddInfoBar(model);
         }
+
+        public override ImageSource IconSource => null;
     }
 }
