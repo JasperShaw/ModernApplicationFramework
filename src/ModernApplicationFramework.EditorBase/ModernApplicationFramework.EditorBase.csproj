@@ -8,7 +8,7 @@
     <OutputType>library</OutputType>
     <RootNamespace>ModernApplicationFramework.EditorBase</RootNamespace>
     <AssemblyName>ModernApplicationFramework.EditorBase</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="CommandBarDefinitions\ContextMenuDefinitions\TabbedDocumentContextMenuDefinitions.cs" />
     <Compile Include="CommandBarDefinitions\MenuDefinitions\FileMenuDefinitions.cs" />
+    <Compile Include="CommandBarDefinitions\MenuDefinitions\WindowMenuDefinitions.cs" />
     <Compile Include="Commands\CommandsResources.Designer.cs">
       <DependentUpon>CommandsResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -78,6 +79,7 @@
     <Compile Include="Commands\SaveActiveFileAsCommandDefinition.cs" />
     <Compile Include="Commands\SaveAllCommandDefinition.cs" />
     <Compile Include="Commands\SaveActiveFileCommandDefinition.cs" />
+    <Compile Include="Commands\WindowSelectCommand.cs" />
     <Compile Include="Controls\OpenWithFileDialog\DialogResources.Designer.cs">
       <DependentUpon>DialogResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -110,8 +112,18 @@
     <Compile Include="Controls\FileChangedDialog\FileChangeDialogViewModel.cs" />
     <Compile Include="Controls\FileChangedDialog\ReloadFileDialogResult.cs" />
     <Compile Include="Controls\SaveFileDialog\SaveFileDialog.cs" />
+    <Compile Include="Controls\WindowSelectionDialog\WindowSelectionDialogResources.Designer.cs">
+      <DependentUpon>WindowSelectionDialogResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Controls\WindowSelectionDialog\WindowSelectionDialogView.xaml.cs">
+      <DependentUpon>WindowSelectionDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\WindowSelectionDialog\WindowSelectionDialogViewModel.cs" />
     <Compile Include="Core\OpenSaveDialogFilters\FilterData.cs" />
     <Compile Include="Core\OpenSaveDialogFilters\FilterDataEntry.cs" />
+    <Compile Include="Core\SortingItem.cs" />
     <Compile Include="Editor\EditorBase.cs" />
     <Compile Include="Editor\EditorException.cs" />
     <Compile Include="Editor\EditorNotFoundException.cs" />
@@ -249,6 +261,12 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>FileChangedDialogResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\WindowSelectionDialog\WindowSelectionDialogResources.de.resx" />
+    <EmbeddedResource Include="Controls\WindowSelectionDialog\WindowSelectionDialogResources.en.resx" />
+    <EmbeddedResource Include="Controls\WindowSelectionDialog\WindowSelectionDialogResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>WindowSelectionDialogResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="FileSupport\FileSupportResources.de.resx" />
     <EmbeddedResource Include="FileSupport\FileSupportResources.en.resx" />
     <EmbeddedResource Include="FileSupport\FileSupportResources.resx">
@@ -302,6 +320,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\FileChangedDialog\FileChangeDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\WindowSelectionDialog\WindowSelectionDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -144,4 +144,7 @@
   <data name="OpenContainingFolderCommandText" xml:space="preserve">
     <value>Enthaltenden Ordner öffnen</value>
   </data>
+  <data name="WindowSelectCommandText" xml:space="preserve">
+    <value>&amp;Fenster...</value>
+  </data>
 </root>

@@ -20,6 +20,10 @@ namespace ModernApplicationFramework.Extended.Interfaces
         /// </summary>
         event EventHandler<LayoutItemsClosedEventArgs> LayoutItemsClosed;
 
+
+        IReadOnlyList<ILayoutItemBase> AllOpenLayoutItemsAsDocuments { get; }
+
+
         /// <summary>
         /// Loads and applys a window layout.
         /// </summary>

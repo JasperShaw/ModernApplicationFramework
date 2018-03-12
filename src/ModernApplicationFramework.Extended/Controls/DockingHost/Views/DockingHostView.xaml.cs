@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using ModernApplicationFramework.Docking.Controls;
 using ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels;
@@ -10,10 +11,19 @@ using ModernApplicationFramework.Extended.Layout;
 
 namespace ModernApplicationFramework.Extended.Controls.DockingHost.Views
 {
-    public partial class DockingHostView : IDockingHost
+    public partial class DockingHostView : IInternalDockingHost
     {
         public event EventHandler<LayoutItemsClosingEventArgs> LayoutItemsClosing;
         public event EventHandler<LayoutItemsClosedEventArgs> LayoutItemsClosed;
+
+        public IReadOnlyList<ILayoutItemBase> AllOpenLayoutItemsAsDocuments
+        {
+            get
+            {
+                return DockingManager.AllOpenDocuments.Where(x => x.Content is ILayoutItemBase).Select(x => x.Content)
+                    .OfType<ILayoutItemBase>().ToList();
+            }
+        }
 
         public DockingHostView()
         {
@@ -46,6 +56,13 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.Views
                 window.Icon = mainWindowIcon;
                 window.ShowInTaskbar = showFloatingWindowsInTaskbar;
             }
+        }
+
+        public bool RaiseDocumentClosing(ILayoutItem layoutItem)
+        {
+            var args = new LayoutItemsClosingEventArgs(new List<ILayoutItem> {layoutItem});
+            OnLayoutItemClosing(args);
+            return args.Cancel;
         }
 
         private void DockingManager_DocumentsClosed(object sender, Docking.DocumentsClosedEventArgs e)
@@ -91,6 +108,11 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.Views
         {
             LayoutItemsClosed?.Invoke(this, e);
         }
+    }
+
+    internal interface IInternalDockingHost : IDockingHost
+    {
+        bool RaiseDocumentClosing(ILayoutItem layoutItem);
     }
 
     public class LayoutItemsClosingEventArgs : CancelEventArgs

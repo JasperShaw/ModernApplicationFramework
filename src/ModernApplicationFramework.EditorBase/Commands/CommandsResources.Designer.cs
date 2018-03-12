@@ -140,5 +140,14 @@ namespace ModernApplicationFramework.EditorBase.Commands {
                 return ResourceManager.GetString("SaveAllCommandText", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Windows....
+        /// </summary>
+        public static string WindowSelectCommandText {
+            get {
+                return ResourceManager.GetString("WindowSelectCommandText", resourceCulture);
+            }
+        }
     }
 }

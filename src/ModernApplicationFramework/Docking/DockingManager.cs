@@ -726,11 +726,15 @@ namespace ModernApplicationFramework.Docking
             }
         }
 
-        internal void _ExecuteCloseAllCommand()
+
+        public IReadOnlyCollection<LayoutContent> AllOpenDocuments => Layout.Descendents()
+            .OfType<LayoutContent>()
+            .Where(d => d.Parent is LayoutDocumentPane || d.Parent is LayoutDocumentFloatingWindow).ToList();
+
+
+        internal void  _ExecuteCloseAllCommand()
         {
-            var layoutContents = Layout.Descendents()
-                .OfType<LayoutContent>()
-                .Where(d => d.Parent is LayoutDocumentPane || d.Parent is LayoutDocumentFloatingWindow).ToList();
+            var layoutContents = AllOpenDocuments;
 
             if (DocumentsClosing != null)
             {

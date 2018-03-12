@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ModernApplicationFramework.EditorBase.Controls.FileChangedDialog {
+namespace ModernApplicationFramework.EditorBase.Controls.WindowSelectionDialog {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace ModernApplicationFramework.EditorBase.Controls.FileChangedDialog {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class FileChangedDialogResources {
+    public class WindowSelectionDialogResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal FileChangedDialogResources() {
+        internal WindowSelectionDialogResources() {
         }
         
         /// <summary>
@@ -39,8 +39,8 @@ namespace ModernApplicationFramework.EditorBase.Controls.FileChangedDialog {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ModernApplicationFramework.EditorBase.Controls.FileChangedDialog.FileChangedDialo" +
-                            "gResources", typeof(FileChangedDialogResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ModernApplicationFramework.EditorBase.Controls.WindowSelectionDialog.WindowSelect" +
+                            "ionDialogResources", typeof(WindowSelectionDialogResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -62,76 +62,65 @@ namespace ModernApplicationFramework.EditorBase.Controls.FileChangedDialog {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to _No.
+        ///   Looks up a localized string similar to _Activate.
         /// </summary>
-        public static string ButtonNo {
+        public static string ButtonActivate {
             get {
-                return ResourceManager.GetString("ButtonNo", resourceCulture);
+                return ResourceManager.GetString("ButtonActivate", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No to A_ll.
+        ///   Looks up a localized string similar to _Close Window(s).
         /// </summary>
-        public static string ButtonNoAll {
+        public static string ButtonClose {
             get {
-                return ResourceManager.GetString("ButtonNoAll", resourceCulture);
+                return ResourceManager.GetString("ButtonClose", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to _Yes.
+        ///   Looks up a localized string similar to OK.
         /// </summary>
-        public static string ButtonYes {
+        public static string ButtonOk {
             get {
-                return ResourceManager.GetString("ButtonYes", resourceCulture);
+                return ResourceManager.GetString("ButtonOk", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Yes to _All.
+        ///   Looks up a localized string similar to _Save.
         /// </summary>
-        public static string ButtonYesAll {
+        public static string ButtonSave {
             get {
-                return ResourceManager.GetString("ButtonYesAll", resourceCulture);
+                return ResourceManager.GetString("ButtonSave", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to _Reload modified files unless there are unsaved changes.
+        ///   Looks up a localized string similar to Windows.
         /// </summary>
-        public static string CheckboxText {
+        public static string DialogTitle {
             get {
-                return ResourceManager.GetString("CheckboxText", resourceCulture);
+                return ResourceManager.GetString("DialogTitle", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The file has been changed externally, and has no unsaved changes inside this editor.
-        ///Do you want to reload it?.
+        ///   Looks up a localized string similar to Name.
         /// </summary>
-        public static string MessageClean {
+        public static string GridColumnName {
             get {
-                return ResourceManager.GetString("MessageClean", resourceCulture);
+                return ResourceManager.GetString("GridColumnName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The file has unsaved changes inside this editor and has been changed externally.
-        ///Do you want to reload it and lose the changes made in the source editor?.
+        ///   Looks up a localized string similar to Path.
         /// </summary>
-        public static string MessageDirty {
+        public static string GridColumnPath {
             get {
-                return ResourceManager.GetString("MessageDirty", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to (You can change this setting in Tools | Options | Environment | Documents).
-        /// </summary>
-        public static string MessageSettings {
-            get {
-                return ResourceManager.GetString("MessageSettings", resourceCulture);
+                return ResourceManager.GetString("GridColumnPath", resourceCulture);
             }
         }
     }

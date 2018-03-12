@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Extended.Controls.DockingHost.Views;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Package;
 
@@ -59,9 +60,12 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
             Application.Current.MainWindow?.Close();
         }
 
-        public virtual void CloseLayoutItem(ILayoutItem document)
+        public virtual bool CloseLayoutItem(ILayoutItem document)
         {
+            if (DockingHostView is IInternalDockingHost internalDocking && internalDocking.RaiseDocumentClosing(document))
+                return false;
             DeactivateItem(document, true);
+            return true;
         }
 
         public IDockingHost DockingHostView { get; protected set; }
@@ -108,8 +112,7 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
 
         public bool ContainsLayoutItem(ILayoutItem layoutItem)
         {
-            return false;
-            //return LayoutItems.Contains(layoutItem);
+            return LayoutItems.Contains(layoutItem);
         }
 
         public override void ActivateItem(ILayoutItem item)
@@ -183,7 +186,7 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
             base.OnViewAttached(view, context);
         }
 
-        private void DockingHostViewLayoutItemsClosed(object sender, Views.LayoutItemsClosedEventArgs e)
+        private void DockingHostViewLayoutItemsClosed(object sender, LayoutItemsClosedEventArgs e)
         {
             e.LayoutItems.ForEach(x => DeactivateItem(x, true));
         }

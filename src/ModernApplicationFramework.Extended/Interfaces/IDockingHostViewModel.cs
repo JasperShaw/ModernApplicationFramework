@@ -58,10 +58,11 @@ namespace ModernApplicationFramework.Extended.Interfaces
         void Close();
 
         /// <summary>
-        /// Closes an <see cref="ILayoutItem"/>.
+        /// Closes an <see cref="ILayoutItem" />.
         /// </summary>
         /// <param name="layoutItem">The layout item.</param>
-        void CloseLayoutItem(ILayoutItem layoutItem);
+        /// <returns>Returns <see langword="false"/> if closing this item was aborted; otherwise <see langword="true"/></returns>
+        bool CloseLayoutItem(ILayoutItem layoutItem);
 
 
         /// <summary>

@@ -154,6 +154,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\Generic\SortingGridViewColumnHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\Generic\TreeView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -272,6 +276,10 @@
     <Compile Include="Controls\Dialogs\Native\NativeFileDialog.cs" />
     <Compile Include="Controls\Dialogs\Native\NativeFileDialogEvents.cs" />
     <Compile Include="Controls\Dialogs\Native\NativeOpenFileDialog.cs" />
+    <Compile Include="Controls\SortingGridViewColumnHeader.cs" />
+    <Compile Include="Interfaces\Controls\IListViewCustomComparer.cs" />
+    <Compile Include="Controls\Utilities\ListViewSorter.cs" />
+    <Compile Include="Controls\Utilities\SortingItem.cs" />
     <Compile Include="Core\Exception\ContractNotFoundException.cs" />
     <Compile Include="Core\Styles\StyleResourceKeys.cs" />
     <Compile Include="Core\Themes\ColorResources.cs" />

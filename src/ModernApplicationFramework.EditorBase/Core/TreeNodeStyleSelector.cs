@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using ModernApplicationFramework.EditorBase.Commands;
 using ModernApplicationFramework.EditorBase.Interfaces.NewElement;
 
 namespace ModernApplicationFramework.EditorBase.Core

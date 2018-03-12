@@ -89,6 +89,8 @@
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/InfoBarHostControl.xaml"
                             />
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/FormsListBoxItem.xaml"/>
+
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/SortingGridViewColumnHeader.xaml"/>
         
     </ResourceDictionary.MergedDictionaries>
 

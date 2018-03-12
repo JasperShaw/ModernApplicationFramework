@@ -117,4 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DialogTitle" xml:space="preserve">
+    <value>Windows</value>
+  </data>
+  <data name="ButtonActivate" xml:space="preserve">
+    <value>_Activate</value>
+  </data>
+  <data name="ButtonSave" xml:space="preserve">
+    <value>_Save</value>
+  </data>
+  <data name="ButtonClose" xml:space="preserve">
+    <value>_Close Window(s)</value>
+  </data>
+  <data name="GridColumnName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="GridColumnPath" xml:space="preserve">
+    <value>Path</value>
+  </data>
+  <data name="ButtonOk" xml:space="preserve">
+    <value>OK</value>
+  </data>
 </root>
