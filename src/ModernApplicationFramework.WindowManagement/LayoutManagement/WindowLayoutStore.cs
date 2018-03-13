@@ -38,9 +38,8 @@ namespace ModernApplicationFramework.WindowManagement.LayoutManagement
         }
 
         [ImportingConstructor]
-        public WindowLayoutStore(ISettingsManager settingsManager)
+        public WindowLayoutStore(ISettingsManager settingsManager) : base(settingsManager)
         {
-            SettingsManager = settingsManager;
             SettingsChanged += WindowLayoutStore_SettingsChanged;
         }
 
@@ -101,14 +100,6 @@ namespace ModernApplicationFramework.WindowManagement.LayoutManagement
                 SaveLayout(valuePair.Value.Name, valuePair.Value.DecompressedPayload);
             lock (_cachedInfoLock)
                 _cachedInfo = null;
-        }
-
-        public override void LoadOrCreate()
-        {
-        }
-
-        public override void StoreSettings()
-        {
         }
 
         private IEnumerable<WindowLayout> GetStoredLayouts()

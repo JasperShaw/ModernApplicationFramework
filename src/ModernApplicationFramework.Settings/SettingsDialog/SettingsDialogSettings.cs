@@ -37,9 +37,8 @@ namespace ModernApplicationFramework.Settings.SettingsDialog
         public override string Name => "SettingsDialog";
 
         [ImportingConstructor]
-        public SettingsDialogSettings(ISettingsManager settingsManager)
+        public SettingsDialogSettings(ISettingsManager settingsManager) : base(settingsManager)
         {
-            SettingsManager = settingsManager;
         }
 
         public override void LoadOrCreate()

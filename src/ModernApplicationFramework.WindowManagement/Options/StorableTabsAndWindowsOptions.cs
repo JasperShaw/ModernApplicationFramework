@@ -16,10 +16,9 @@ namespace ModernApplicationFramework.WindowManagement.Options
         public override string Name => "Environment_TabsAndWindows";
 
         [ImportingConstructor]
-        public StorableTabsAndWindowsOptions(ISettingsManager settingsManager, DockingManagerPreferences localPreferences)
+        public StorableTabsAndWindowsOptions(ISettingsManager settingsManager, DockingManagerPreferences localPreferences) : base(settingsManager)
         {
             _localPreferences = localPreferences;
-            SettingsManager = settingsManager;
             Category = Settings.TabsAndWindowsCategory;
         }
 

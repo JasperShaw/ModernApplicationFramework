@@ -10,18 +10,26 @@ using ModernApplicationFramework.Extended.Interfaces;
 
 namespace ModernApplicationFramework.EditorBase.Controls.WindowSelectionDialog
 {
-    public partial class WindowSelectionDialogView
+    public partial class WindowSelectionDialogView : IRestorableGridColumnControl
     {
-        private static ListSortDirection _lastDirection;
-        private static int? _lastSelectedColumn;
+        private bool _firstInitCompleted;
+        private bool _listViewLoaded;
 
+        private Action _defferedLoad;
 
         public WindowSelectionDialogView()
         {
             InitializeComponent();
             PreviewKeyDown += WindowSelectionDialogView_PreviewKeyDown;
             Loaded += WindowSelectionDialogView_Loaded;
-            Closing += WindowSelectionDialogView_Closing;
+            ListView.SelectionChanged += ListView_SelectionChanged;
+        }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ListView.SelectionChanged -= ListView_SelectionChanged;
+            _defferedLoad?.Invoke();
+            _listViewLoaded = true;
         }
 
         private void WindowSelectionDialogView_Loaded(object sender, RoutedEventArgs e)
@@ -29,31 +37,20 @@ namespace ModernApplicationFramework.EditorBase.Controls.WindowSelectionDialog
             ListView.Focus();
             if (!(ListView.View is GridView g))
                 return;
-            if (_lastSelectedColumn == null)
-                return;
 
-            var i = g.Columns.ElementAtOrDefault(_lastSelectedColumn.Value)?.Header as GridViewColumnHeader;
-            ListViewSorter.ToggleSorting(ListView, i, _lastDirection); 
+            var i = g.Columns.ElementAtOrDefault(0)?.Header as GridViewColumnHeader;
+            ListViewSorter.ToggleSorting(ListView, i, ListSortDirection.Ascending);
         }
-
-        private void WindowSelectionDialogView_Closing(object sender, CancelEventArgs e)
-        {
-            var t = ListViewSorter.GetLastSelected(ListView);
-            if (t.Item1 == null)
-                return;
-            if (!(ListView.View is GridView g))
-                return;
-            var pair = g.Columns.Select((value, index) => new { Value = value, Index = index })
-                .Single(p => Equals(p.Value.Header, t.Item1));
-            _lastSelectedColumn = pair.Index;
-            _lastDirection = t.Item2;
-        }
-
 
         private void WindowSelectionDialogView_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
                 Close();
+            if (_firstInitCompleted)
+                return;
+            var selectedElement = (UIElement)ListView.ItemContainerGenerator.ContainerFromItem(ListView.SelectedItem);
+            selectedElement?.Focus();
+            _firstInitCompleted = true;
         }
 
         private void ListView_OnSizeChanged(object sender, SizeChangedEventArgs e)
@@ -75,6 +72,39 @@ namespace ModernApplicationFramework.EditorBase.Controls.WindowSelectionDialog
                 width = 0;
             gridView.Columns[1].Width = width;
         }
+
+        public void Reset(int? index, ListSortDirection direction)
+        {
+            if (!(ListView.View is GridView g))
+                return;
+            if (index == null)
+                return;
+            var i = g.Columns.ElementAtOrDefault(index.Value)?.Header as GridViewColumnHeader;
+            if (_listViewLoaded)
+                ListViewSorter.ToggleSorting(ListView, i, direction);
+            else
+                _defferedLoad = () => ListViewSorter.ToggleSorting(ListView, i, direction);
+        }
+
+        public Tuple<int?, ListSortDirection> Save()
+        {
+            var tuple = new Tuple<int?, ListSortDirection>(null, ListSortDirection.Ascending);
+            var t = ListViewSorter.GetLastSelected(ListView);
+            if (t.Item1 == null)
+                return tuple;
+            if (!(ListView.View is GridView g))
+                return tuple;
+            var pair = g.Columns.Select((value, index) => new { Value = value, Index = index })
+                .Single(p => Equals(p.Value.Header, t.Item1));
+            return new Tuple<int?, ListSortDirection>(pair.Index, t.Item2);
+        }
+    }
+
+    internal interface IRestorableGridColumnControl
+    {
+        void Reset(int? index, ListSortDirection description);
+
+        Tuple<int?, ListSortDirection> Save();
     }
 
     internal class LayoutItemComparer : SortingItem<ILayoutItemBase>

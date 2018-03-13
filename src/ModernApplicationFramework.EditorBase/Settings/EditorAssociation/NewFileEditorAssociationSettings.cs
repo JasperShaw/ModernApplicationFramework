@@ -26,9 +26,9 @@ namespace ModernApplicationFramework.EditorBase.Settings.EditorAssociation
         public override string Name => "Editors_NewFileAssociations";
 
         [ImportingConstructor]
-        public NewFileEditorAssociationSettings([ImportMany] IEditor[] editors, ISettingsManager settingsManager, IFileDefinitionManager fileDefinitionManager) : base(editors, fileDefinitionManager)
+        public NewFileEditorAssociationSettings([ImportMany] IEditor[] editors, ISettingsManager settingsManager, IFileDefinitionManager fileDefinitionManager) 
+            : base(editors, fileDefinitionManager, settingsManager)
         {
-            SettingsManager = settingsManager;
         }
 
 

@@ -138,4 +138,16 @@
   <data name="GridColumnPath" xml:space="preserve">
     <value>Path</value>
   </data>
+  <data name="MessageWindowClosed" xml:space="preserve">
+    <value>Window closed: {0}</value>
+  </data>
+  <data name="MessageWindowsClosed" xml:space="preserve">
+    <value>{0} windows closed.</value>
+  </data>
+  <data name="MessageFileSaved" xml:space="preserve">
+    <value>Document saved: {0}</value>
+  </data>
+  <data name="MessageFilesSaved" xml:space="preserve">
+    <value>{0} documents saved.</value>
+  </data>
 </root>

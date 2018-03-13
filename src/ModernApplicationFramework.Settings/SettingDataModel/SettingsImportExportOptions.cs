@@ -15,11 +15,11 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
         public override string Name => "Import and Export Settings";
 
         [ImportingConstructor]
-        public SettingsImportExportOptions(ISettingsManager settingsManager, IExtendedEnvironmentVariables environmentVariables)
+        public SettingsImportExportOptions(ISettingsManager settingsManager, IExtendedEnvironmentVariables environmentVariables) 
+            : base(settingsManager)
         {
-            SettingsManager = settingsManager;
             _environmentVariables = environmentVariables;
-            SettingsManager.SettingsLocationChanged += _settingsManager_SettingsLocationChanged;
+            settingsManager.SettingsLocationChanged += _settingsManager_SettingsLocationChanged;
         }
 
         private void _settingsManager_SettingsLocationChanged(object sender, System.EventArgs e)

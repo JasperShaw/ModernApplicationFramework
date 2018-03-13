@@ -44,21 +44,32 @@ namespace ModernApplicationFramework.Settings.SettingDataModel
         /// <summary>
         /// The instance an implementation of an <see cref="ISettingsManager"/>
         /// </summary>
-        protected ISettingsManager SettingsManager { get; set; }
+        protected ISettingsManager SettingsManager { get; }
+
+        protected SettingsDataModel(ISettingsManager settingsManager)
+        {
+            SettingsManager = settingsManager;
+        }
 
 
         /// <inheritdoc />
         /// <summary>
         /// Loads all settings entries from the settings file or creates them if they don't exist.
         /// </summary>
-        public abstract void LoadOrCreate();
+        public virtual void LoadOrCreate()
+        {
+
+        }
 
         /// <inheritdoc />
         /// <summary>
         /// Stores all settings into memory.
         /// <remarks>This should not write the file to disk due to performance and possible mutexes.</remarks>
         /// </summary>
-        public abstract void StoreSettings();
+        public virtual void StoreSettings()
+        {
+
+        }
 
         /// <summary>
         /// Fills a property from a settings value. Creates a new settings entry if it was not found

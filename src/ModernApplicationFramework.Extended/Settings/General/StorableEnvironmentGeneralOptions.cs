@@ -16,9 +16,8 @@ namespace ModernApplicationFramework.Extended.Settings.General
         public override string Name => "General";
 
         [ImportingConstructor]
-        public StorableEnvironmentGeneralOptions(ISettingsManager settingsManager, EnvironmentGeneralOptions generalOptions)
+        public StorableEnvironmentGeneralOptions(ISettingsManager settingsManager, EnvironmentGeneralOptions generalOptions) : base(settingsManager)
         {
-            SettingsManager = settingsManager;
             _generalOptions = generalOptions;
             Category = ToolsOptionsSubCategories.GeneralSubCategory;
         }

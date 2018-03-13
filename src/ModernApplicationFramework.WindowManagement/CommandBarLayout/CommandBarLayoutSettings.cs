@@ -18,14 +18,9 @@ namespace ModernApplicationFramework.WindowManagement.CommandBarLayout
         public XmlNode Layout => GetSingleDataModel().FirstChild;
 
         [ImportingConstructor]
-        public CommandBarLayoutSettings(ISettingsManager settingsManager, ICommandBarSerializer serializer)
+        public CommandBarLayoutSettings(ISettingsManager settingsManager, ICommandBarSerializer serializer) : base(settingsManager)
         {
             _serializer = serializer;
-            SettingsManager = settingsManager;
-        }
-
-        public override void LoadOrCreate()
-        {
         }
 
         public override void StoreSettings()

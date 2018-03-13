@@ -19,6 +19,19 @@ namespace ModernApplicationFramework.Controls.Utilities
             typeof(ListViewSorter),
             new FrameworkPropertyMetadata(null, OnRegisterSortableGrid));
 
+        public static readonly DependencyProperty SortExpressionProperty = DependencyProperty.RegisterAttached(
+            "SortExpression", typeof(string), typeof(ListViewSorter), new PropertyMetadata(default(string)));
+
+        public static void SetSortExpression(DependencyObject element, string value)
+        {
+            element.SetValue(SortExpressionProperty, value);
+        }
+
+        public static string GetSortExpression(DependencyObject element)
+        {
+            return (string) element.GetValue(SortExpressionProperty);
+        }
+
         public static Type GetCustomListViewSorter(DependencyObject obj)
         {
             return (Type)obj.GetValue(CustomListViewSorterProperty);
@@ -76,7 +89,11 @@ namespace ModernApplicationFramework.Controls.Utilities
             // get header name
             var headerBinding = (header.Column.DisplayMemberBinding as Binding)?.Path.Path;
             if (string.IsNullOrEmpty(headerBinding))
-                return;
+            {
+                headerBinding = (GetSortExpression(header.Column));
+                if (string.IsNullOrEmpty(headerBinding))
+                    return;
+            }
 
             // sort listview
             if (listViewSortItem.Comparer != null)

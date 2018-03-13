@@ -49,9 +49,8 @@ namespace ModernApplicationFramework.EditorBase.Settings.Documents
         }
 
         [ImportingConstructor]
-        public ExternalChangeSettings(ISettingsManager settingsManager)
+        public ExternalChangeSettings(ISettingsManager settingsManager) : base(settingsManager)
         {
-            SettingsManager = settingsManager;
             Instance = this;
         }
 

@@ -123,5 +123,41 @@ namespace ModernApplicationFramework.EditorBase.Controls.WindowSelectionDialog {
                 return ResourceManager.GetString("GridColumnPath", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Document saved: {0}.
+        /// </summary>
+        public static string MessageFileSaved {
+            get {
+                return ResourceManager.GetString("MessageFileSaved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} documents saved..
+        /// </summary>
+        public static string MessageFilesSaved {
+            get {
+                return ResourceManager.GetString("MessageFilesSaved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Window closed: {0}.
+        /// </summary>
+        public static string MessageWindowClosed {
+            get {
+                return ResourceManager.GetString("MessageWindowClosed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} windows closed..
+        /// </summary>
+        public static string MessageWindowsClosed {
+            get {
+                return ResourceManager.GetString("MessageWindowsClosed", resourceCulture);
+            }
+        }
     }
 }

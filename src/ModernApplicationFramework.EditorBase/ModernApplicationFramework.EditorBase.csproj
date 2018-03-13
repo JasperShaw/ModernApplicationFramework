@@ -121,6 +121,7 @@
       <DependentUpon>WindowSelectionDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\WindowSelectionDialog\WindowSelectionDialogViewModel.cs" />
+    <Compile Include="Core\Converters\GridColumnWidthConverter.cs" />
     <Compile Include="Core\OpenSaveDialogFilters\FilterData.cs" />
     <Compile Include="Core\OpenSaveDialogFilters\FilterDataEntry.cs" />
     <Compile Include="Core\SortingItem.cs" />
@@ -237,6 +238,7 @@
     <Compile Include="Interfaces\Settings\EditorAssociation\IOpenFileEditorAssociationSettings.cs" />
     <Compile Include="Settings\EditorAssociation\NewFileEditorAssociationSettings.cs" />
     <Compile Include="Settings\EditorAssociation\OpenFileEditorAssociationSettings.cs" />
+    <Compile Include="Settings\WindowSelectionDialog\WindowSelectionDialogSettings.cs" />
     <EmbeddedResource Include="Commands\CommandsResources.de.resx" />
     <EmbeddedResource Include="Commands\CommandsResources.en.resx" />
     <EmbeddedResource Include="Commands\CommandsResources.resx">

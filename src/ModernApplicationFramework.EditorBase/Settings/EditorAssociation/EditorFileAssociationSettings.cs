@@ -5,6 +5,7 @@ using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.Settings.EditorAssociation;
 using ModernApplicationFramework.Settings.SettingDataModel;
+using ModernApplicationFramework.Utilities.Interfaces.Settings;
 
 namespace ModernApplicationFramework.EditorBase.Settings.EditorAssociation
 {
@@ -39,7 +40,8 @@ namespace ModernApplicationFramework.EditorBase.Settings.EditorAssociation
             }
         }
 
-        protected EditorFileAssociationSettings(IEditor[] editors, IFileDefinitionManager fileDefinitionManager)
+        protected EditorFileAssociationSettings(IEditor[] editors, IFileDefinitionManager fileDefinitionManager, ISettingsManager settings)
+            : base(settings)
         {
             SettingsChanged += EditorFileAssociationSettings_SettingsChanged;
             Editors = editors;
@@ -108,10 +110,6 @@ namespace ModernApplicationFramework.EditorBase.Settings.EditorAssociation
         {
             foreach (var editor in Editors)
                 CreateDefaultAssociations(editor);
-        }
-
-        public override void StoreSettings()
-        {
         }
 
         private async void EditorFileAssociationSettings_SettingsChanged(object sender, EventArgs e)

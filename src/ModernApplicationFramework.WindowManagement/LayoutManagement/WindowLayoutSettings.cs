@@ -47,12 +47,7 @@ namespace ModernApplicationFramework.WindowManagement.LayoutManagement
         }
 
         [ImportingConstructor]
-        public WindowLayoutSettings(ISettingsManager settingsManager)
-        {
-            SettingsManager = settingsManager;
-        }
-
-        public override void LoadOrCreate()
+        public WindowLayoutSettings(ISettingsManager settingsManager) : base(settingsManager)
         {
         }
 

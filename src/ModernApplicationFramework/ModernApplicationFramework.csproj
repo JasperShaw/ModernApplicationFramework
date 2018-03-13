@@ -277,6 +277,8 @@
     <Compile Include="Controls\Dialogs\Native\NativeFileDialogEvents.cs" />
     <Compile Include="Controls\Dialogs\Native\NativeOpenFileDialog.cs" />
     <Compile Include="Controls\SortingGridViewColumnHeader.cs" />
+    <Compile Include="Controls\Utilities\MultiSelectionBehavior.cs" />
+    <Compile Include="Controls\Utilities\SelectorDoubleClickCommandBehavior.cs" />
     <Compile Include="Interfaces\Controls\IListViewCustomComparer.cs" />
     <Compile Include="Controls\Utilities\ListViewSorter.cs" />
     <Compile Include="Controls\Utilities\SortingItem.cs" />
@@ -1265,6 +1267,9 @@
       <Project>{2b388979-5b07-4f0a-a302-0c575aaa21c0}</Project>
       <Name>ModernApplicationFramework.Utilities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\split.cur" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

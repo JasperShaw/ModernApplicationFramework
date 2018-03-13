@@ -27,9 +27,8 @@ namespace ModernApplicationFramework.Extended.Input.KeyBindingScheme
         private KeyBindingsSettingsDataModel ShortcutsSettings { get; set; }
 
         [ImportingConstructor]
-        public KeyBindingsSettings(ISettingsManager settingsManager)
+        public KeyBindingsSettings(ISettingsManager settingsManager) : base(settingsManager)
         {
-            SettingsManager = settingsManager;
         }
 
         public override void LoadOrCreate()
