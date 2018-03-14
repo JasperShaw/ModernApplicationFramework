@@ -36,7 +36,7 @@ namespace ModernApplicationFramework.Basics.MostRecentlyUsedManager
             }
         }
 
-        protected abstract string PersistenceData { get; }
+        public abstract string PersistenceData { get; }
 
         public abstract bool Matches(string stringValue);
 

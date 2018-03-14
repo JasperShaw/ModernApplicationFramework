@@ -1,8 +1,4 @@
 ﻿using System;
-using System.ComponentModel.Composition;
-using ModernApplicationFramework.Settings;
-using ModernApplicationFramework.Settings.Interfaces;
-using ModernApplicationFramework.Settings.SettingsManager;
 
 namespace ModernApplicationFramework.EditorBase
 {
@@ -19,5 +15,7 @@ namespace ModernApplicationFramework.EditorBase
         public static Guid DocumentsToolsOptionsCategoryId = new Guid("{EF928BCD-C7D9-4DF5-983B-C1B5677FB3FE}");
 
         public static Guid WindowSelectionDialogSettingsCategoryId = new Guid("{BFC7DDDD-AD8A-450F-A608-23637AB1E3B7}");
+
+        public static Guid MruFilesSettingsCategoryId = new Guid("{75D67868-6EC7-4B0C-805A-CA849E1434A1}");
     }
 }

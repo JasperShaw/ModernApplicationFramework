@@ -62,7 +62,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
             return StringComparer.OrdinalIgnoreCase.GetHashCode(Path);
         }
 
-        protected override string PersistenceData =>
+        public override string PersistenceData =>
             $"{PathUtilities.ReplaceEnvironmentPrefix(Path, "UserProfile")}|{EditorGuid:B}|{Pinned}";
 
 

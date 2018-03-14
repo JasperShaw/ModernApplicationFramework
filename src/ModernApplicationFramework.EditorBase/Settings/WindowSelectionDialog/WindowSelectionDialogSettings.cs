@@ -74,7 +74,7 @@ namespace ModernApplicationFramework.EditorBase.Settings.WindowSelectionDialog
 
         public ListSortDirection LastSortDirection
         {
-            get => (ListSortDirection) GetOrCreatePropertyValueSetting<int>(nameof(LastSortDirection), (int) ListSortDirection.Ascending);
+            get => (ListSortDirection) GetOrCreatePropertyValueSetting<int>(nameof(LastSortDirection));
             set
             {
                 if (LastSortDirection == value || !TrySetLocalEnumSetting(nameof(LastSortDirection), value))

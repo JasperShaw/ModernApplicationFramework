@@ -250,6 +250,8 @@
     <Compile Include="Interfaces\Settings\EditorAssociation\IOpenFileEditorAssociationSettings.cs" />
     <Compile Include="Settings\EditorAssociation\NewFileEditorAssociationSettings.cs" />
     <Compile Include="Settings\EditorAssociation\OpenFileEditorAssociationSettings.cs" />
+    <Compile Include="Settings\MruFiles\MruFile.cs" />
+    <Compile Include="Settings\MruFiles\StoredMruFiles.cs" />
     <Compile Include="Settings\WindowSelectionDialog\WindowSelectionDialogSettings.cs" />
     <EmbeddedResource Include="CommandBarDefinitions\CommandBarResources.de.resx" />
     <EmbeddedResource Include="CommandBarDefinitions\CommandBarResources.en.resx" />
