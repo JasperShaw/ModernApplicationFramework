@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.EditorBase.Controls.WindowSelectionDialog;
+using ModernApplicationFramework.EditorBase.Dialogs.WindowSelectionDialog;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 

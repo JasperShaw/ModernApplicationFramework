@@ -9,7 +9,7 @@ namespace ModernApplicationFramework.EditorBase.Core.OpenSaveDialogFilters
 
         public ICollection<string> Extensions { get; }
 
-        public FilterDataEntry(string text, IReadOnlyCollection<string> extensions)
+        public FilterDataEntry(string text, IEnumerable<string> extensions)
         {
             Text = text;
             Extensions = new List<string>();

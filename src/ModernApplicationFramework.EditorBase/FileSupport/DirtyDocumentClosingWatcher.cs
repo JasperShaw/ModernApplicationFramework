@@ -4,10 +4,9 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using ModernApplicationFramework.EditorBase.Controls.SaveDirtyDocumentsDialog;
+using ModernApplicationFramework.EditorBase.Dialogs.SaveDirtyDocumentsDialog;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
-using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Package;
 
 namespace ModernApplicationFramework.EditorBase.FileSupport

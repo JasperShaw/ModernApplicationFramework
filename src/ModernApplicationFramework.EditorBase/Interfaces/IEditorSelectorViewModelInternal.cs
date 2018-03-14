@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Input;
 using Caliburn.Micro;
-using ModernApplicationFramework.EditorBase.Controls.EditorSelectorDialog;
+using ModernApplicationFramework.EditorBase.Dialogs.EditorSelectorDialog;
 
 namespace ModernApplicationFramework.EditorBase.Interfaces
 {

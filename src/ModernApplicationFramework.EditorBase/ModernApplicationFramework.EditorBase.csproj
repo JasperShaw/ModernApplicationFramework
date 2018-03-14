@@ -87,51 +87,50 @@
     <Compile Include="Commands\SaveAllCommandDefinition.cs" />
     <Compile Include="Commands\SaveActiveFileCommandDefinition.cs" />
     <Compile Include="Commands\WindowSelectCommand.cs" />
-    <Compile Include="Controls\OpenWithFileDialog\DialogResources.Designer.cs">
+    <Compile Include="Dialogs\OpenWithFileDialog\DialogResources.Designer.cs">
       <DependentUpon>DialogResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Controls\OpenWithFileDialog\OpenWithFileDialog.cs" />
-    <Compile Include="Controls\EditorSelectorDialog\EditorListItem.cs" />
-    <Compile Include="Controls\EditorSelectorDialog\OpenFileEditorSelectorView.xaml.cs">
+    <Compile Include="Dialogs\OpenWithFileDialog\OpenWithFileDialog.cs" />
+    <Compile Include="Dialogs\EditorSelectorDialog\EditorListItem.cs" />
+    <Compile Include="Dialogs\EditorSelectorDialog\OpenFileEditorSelectorView.xaml.cs">
       <DependentUpon>OpenFileEditorSelectorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\EditorSelectorDialog\NewFileEditorSelectorView.xaml.cs">
+    <Compile Include="Dialogs\EditorSelectorDialog\NewFileEditorSelectorView.xaml.cs">
       <DependentUpon>NewFileEditorSelectorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\EditorSelectorDialog\EditorSelectorViewModelBase.cs" />
-    <Compile Include="Controls\EditorSelectorDialog\EditorSelectorResources.Designer.cs">
+    <Compile Include="Dialogs\EditorSelectorDialog\EditorSelectorViewModelBase.cs" />
+    <Compile Include="Dialogs\EditorSelectorDialog\EditorSelectorResources.Designer.cs">
       <DependentUpon>EditorSelectorResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Controls\EditorSelectorDialog\OpenFileEditorSelectorViewModel.cs" />
-    <Compile Include="Controls\EditorSelectorDialog\NewFileEditorSelectorViewModel.cs" />
-    <Compile Include="Controls\FileChangedDialog\FileChangedDialogResources.Designer.cs">
+    <Compile Include="Dialogs\EditorSelectorDialog\OpenFileEditorSelectorViewModel.cs" />
+    <Compile Include="Dialogs\EditorSelectorDialog\NewFileEditorSelectorViewModel.cs" />
+    <Compile Include="Dialogs\FileChangedDialog\FileChangedDialogResources.Designer.cs">
       <DependentUpon>FileChangedDialogResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Controls\FileChangedDialog\FileChangeDialogView.xaml.cs">
+    <Compile Include="Dialogs\FileChangedDialog\FileChangeDialogView.xaml.cs">
       <DependentUpon>FileChangeDialogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\FileChangedDialog\FileChangeDialogViewModel.cs" />
-    <Compile Include="Controls\FileChangedDialog\ReloadFileDialogResult.cs" />
-    <Compile Include="Controls\SaveFileDialog\SaveFileDialog.cs" />
-    <Compile Include="Controls\WindowSelectionDialog\WindowSelectionDialogResources.Designer.cs">
+    <Compile Include="Dialogs\FileChangedDialog\FileChangeDialogViewModel.cs" />
+    <Compile Include="Dialogs\FileChangedDialog\ReloadFileDialogResult.cs" />
+    <Compile Include="Dialogs\SaveFileDialog\SaveFileDialog.cs" />
+    <Compile Include="Dialogs\WindowSelectionDialog\WindowSelectionDialogResources.Designer.cs">
       <DependentUpon>WindowSelectionDialogResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Controls\WindowSelectionDialog\WindowSelectionDialogView.xaml.cs">
+    <Compile Include="Dialogs\WindowSelectionDialog\WindowSelectionDialogView.xaml.cs">
       <DependentUpon>WindowSelectionDialogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\WindowSelectionDialog\WindowSelectionDialogViewModel.cs" />
+    <Compile Include="Dialogs\WindowSelectionDialog\WindowSelectionDialogViewModel.cs" />
     <Compile Include="Core\Converters\GridColumnWidthConverter.cs" />
     <Compile Include="Core\OpenSaveDialogFilters\FilterData.cs" />
     <Compile Include="Core\OpenSaveDialogFilters\FilterDataEntry.cs" />
-    <Compile Include="Core\SortingItem.cs" />
     <Compile Include="Editor\EditorBase.cs" />
     <Compile Include="Editor\EditorException.cs" />
     <Compile Include="Editor\EditorNotFoundException.cs" />
@@ -139,7 +138,6 @@
     <Compile Include="FileSupport\FileChangeService.cs" />
     <Compile Include="FileSupport\FileChangeWatcher.cs" />
     <Compile Include="FileSupport\FileDefinitionContextManager.cs" />
-    <Compile Include="FileSupport\FileName.cs" />
     <Compile Include="FileSupport\FileService.cs" />
     <Compile Include="FileSupport\SaveFileArguments.cs" />
     <Compile Include="FileSupport\SaveFileDialogFlags.cs" />
@@ -171,41 +169,38 @@
     <Compile Include="FileSupport\SupportedFileOperation.cs" />
     <Compile Include="NativeMethods\NativeMethods.cs" />
     <Compile Include="NativeMethods\Shell32.cs" />
-    <Compile Include="NewElementDialog\NewElementDialogResources.Designer.cs">
+    <Compile Include="Dialogs\NewElementDialog\NewElementDialogResources.Designer.cs">
       <DependentUpon>NewElementDialogResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="NewElementDialog\NewElementExtensionProvider.cs" />
-    <Compile Include="NewElementDialog\NewElementExtensionTreeNode.cs" />
-    <Compile Include="NewElementDialog\NewElementExtesionRootTreeNode.cs" />
+    <Compile Include="Dialogs\NewElementDialog\NewElementExtensionProvider.cs" />
+    <Compile Include="Dialogs\NewElementDialog\NewElementExtensionTreeNode.cs" />
+    <Compile Include="Dialogs\NewElementDialog\NewElementExtesionRootTreeNode.cs" />
     <Compile Include="Commands\NewFileCommandDefinition.cs" />
     <Compile Include="Core\Converters\ProviderTreeViewVisibilityConverter.cs" />
-    <Compile Include="Core\ListSortDirection.cs" />
-    <Compile Include="NewElementDialog\Views\NewElementPresenterView.xaml.cs">
+    <Compile Include="Dialogs\NewElementDialog\Views\NewElementPresenterView.xaml.cs">
       <DependentUpon>NewElementPresenterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\SortingComboboxItem.cs" />
-    <Compile Include="NewElementDialog\Views\NewElementDialogView.xaml.cs">
+    <Compile Include="Dialogs\NewElementDialog\Views\NewElementDialogView.xaml.cs">
       <DependentUpon>NewElementDialogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NewElementDialog\ViewModels\NewElementDialogViewModel.cs" />
-    <Compile Include="NewElementDialog\ViewModels\NewElementScreenViewModelBase.cs" />
-    <Compile Include="NewElementDialog\NewFileSelectionScreenViewModel.cs" />
-    <Compile Include="Controls\SaveDirtyDocumentsDialog\SaveDirtyDocumentItem.cs" />
-    <Compile Include="Controls\SaveDirtyDocumentsDialog\SaveDirtyDocumentsDialog.xaml.cs">
+    <Compile Include="Dialogs\NewElementDialog\ViewModels\NewElementDialogViewModel.cs" />
+    <Compile Include="Dialogs\NewElementDialog\ViewModels\NewElementScreenViewModelBase.cs" />
+    <Compile Include="Dialogs\NewElementDialog\NewFileSelectionScreenViewModel.cs" />
+    <Compile Include="Dialogs\SaveDirtyDocumentsDialog\SaveDirtyDocumentItem.cs" />
+    <Compile Include="Dialogs\SaveDirtyDocumentsDialog\SaveDirtyDocumentsDialog.xaml.cs">
       <DependentUpon>SaveDirtyDocumentsDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SimpleTextEditor\SimpleTextEditorView.xaml.cs">
+    <Compile Include="Dialogs\SimpleTextEditor\SimpleTextEditorView.xaml.cs">
       <DependentUpon>SimpleTextEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SimpleTextEditor\SimpleTextEditorViewModel.cs" />
+    <Compile Include="Dialogs\SimpleTextEditor\SimpleTextEditorViewModel.cs" />
     <Compile Include="FileSupport\NewFileArguments.cs" />
     <Compile Include="FileSupport\OpenFileArguments.cs" />
-    <Compile Include="Core\Styles\StyleResourceKeys.cs" />
     <Compile Include="Core\TreeNodeStyleSelector.cs" />
     <Compile Include="Editor\EditorProvider.cs" />
-    <Compile Include="Editor\EditorProviderHelper.cs" />
     <Compile Include="FileSupport\FileDefinitionManager.cs" />
     <Compile Include="Interfaces\IEditorProvider.cs" />
     <Compile Include="Interfaces\NewElement\IExtensionDefinition.cs" />
@@ -258,27 +253,27 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommandsResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\OpenWithFileDialog\DialogResources.de.resx" />
-    <EmbeddedResource Include="Controls\OpenWithFileDialog\DialogResources.en.resx" />
-    <EmbeddedResource Include="Controls\OpenWithFileDialog\DialogResources.resx">
+    <EmbeddedResource Include="Dialogs\OpenWithFileDialog\DialogResources.de.resx" />
+    <EmbeddedResource Include="Dialogs\OpenWithFileDialog\DialogResources.en.resx" />
+    <EmbeddedResource Include="Dialogs\OpenWithFileDialog\DialogResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>DialogResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\EditorSelectorDialog\EditorSelectorResources.de.resx" />
-    <EmbeddedResource Include="Controls\EditorSelectorDialog\EditorSelectorResources.en.resx" />
-    <EmbeddedResource Include="Controls\EditorSelectorDialog\EditorSelectorResources.resx">
+    <EmbeddedResource Include="Dialogs\EditorSelectorDialog\EditorSelectorResources.de.resx" />
+    <EmbeddedResource Include="Dialogs\EditorSelectorDialog\EditorSelectorResources.en.resx" />
+    <EmbeddedResource Include="Dialogs\EditorSelectorDialog\EditorSelectorResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>EditorSelectorResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\FileChangedDialog\FileChangedDialogResources.de.resx" />
-    <EmbeddedResource Include="Controls\FileChangedDialog\FileChangedDialogResources.en.resx" />
-    <EmbeddedResource Include="Controls\FileChangedDialog\FileChangedDialogResources.resx">
+    <EmbeddedResource Include="Dialogs\FileChangedDialog\FileChangedDialogResources.de.resx" />
+    <EmbeddedResource Include="Dialogs\FileChangedDialog\FileChangedDialogResources.en.resx" />
+    <EmbeddedResource Include="Dialogs\FileChangedDialog\FileChangedDialogResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>FileChangedDialogResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\WindowSelectionDialog\WindowSelectionDialogResources.de.resx" />
-    <EmbeddedResource Include="Controls\WindowSelectionDialog\WindowSelectionDialogResources.en.resx" />
-    <EmbeddedResource Include="Controls\WindowSelectionDialog\WindowSelectionDialogResources.resx">
+    <EmbeddedResource Include="Dialogs\WindowSelectionDialog\WindowSelectionDialogResources.de.resx" />
+    <EmbeddedResource Include="Dialogs\WindowSelectionDialog\WindowSelectionDialogResources.en.resx" />
+    <EmbeddedResource Include="Dialogs\WindowSelectionDialog\WindowSelectionDialogResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>WindowSelectionDialogResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
@@ -288,13 +283,13 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>FileSupportResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="NewElementDialog\NewElementDialogResources.de.resx" />
-    <EmbeddedResource Include="NewElementDialog\NewElementDialogResources.en.resx" />
-    <EmbeddedResource Include="NewElementDialog\NewElementDialogResources.resx">
+    <EmbeddedResource Include="Dialogs\NewElementDialog\NewElementDialogResources.de.resx" />
+    <EmbeddedResource Include="Dialogs\NewElementDialog\NewElementDialogResources.en.resx" />
+    <EmbeddedResource Include="Dialogs\NewElementDialog\NewElementDialogResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>NewElementDialogResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="NewElementDialog\NewElementDialogResources.ru.resx" />
+    <EmbeddedResource Include="Dialogs\NewElementDialog\NewElementDialogResources.ru.resx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -326,35 +321,35 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Controls\EditorSelectorDialog\OpenFileEditorSelectorView.xaml">
+    <Page Include="Dialogs\EditorSelectorDialog\OpenFileEditorSelectorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\EditorSelectorDialog\NewFileEditorSelectorView.xaml">
+    <Page Include="Dialogs\EditorSelectorDialog\NewFileEditorSelectorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\FileChangedDialog\FileChangeDialogView.xaml">
+    <Page Include="Dialogs\FileChangedDialog\FileChangeDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\WindowSelectionDialog\WindowSelectionDialogView.xaml">
+    <Page Include="Dialogs\WindowSelectionDialog\WindowSelectionDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="NewElementDialog\Views\NewElementPresenterView.xaml">
+    <Page Include="Dialogs\NewElementDialog\Views\NewElementPresenterView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="NewElementDialog\Views\NewElementDialogView.xaml">
+    <Page Include="Dialogs\NewElementDialog\Views\NewElementDialogView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\SaveDirtyDocumentsDialog\SaveDirtyDocumentsDialog.xaml">
+    <Page Include="Dialogs\SaveDirtyDocumentsDialog\SaveDirtyDocumentsDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\SimpleTextEditor\SimpleTextEditorView.xaml">
+    <Page Include="Dialogs\SimpleTextEditor\SimpleTextEditorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -2,10 +2,10 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
+using ModernApplicationFramework.EditorBase.Dialogs.NewElementDialog;
 using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces;
 using ModernApplicationFramework.EditorBase.Interfaces.NewElement;
-using ModernApplicationFramework.EditorBase.NewElementDialog;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.NewFileExtension
 {

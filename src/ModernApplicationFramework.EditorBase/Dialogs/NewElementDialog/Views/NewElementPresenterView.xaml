@@ -1,0 +1,623 @@
+﻿<UserControl x:Class="ModernApplicationFramework.EditorBase.Dialogs.NewElementDialog.Views.NewElementPresenterView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mafc="http://modern.framework.com/controls"
+             xmlns:imaging="clr-namespace:ModernApplicationFramework.Utilities.Imaging;assembly=ModernApplicationFramework.Utilities"
+             xmlns:converters="clr-namespace:ModernApplicationFramework.Utilities.Converters;assembly=ModernApplicationFramework.Utilities"
+             xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
+             xmlns:util="clr-namespace:ModernApplicationFramework.Utilities;assembly=ModernApplicationFramework.Utilities"
+             xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons;assembly=ModernApplicationFramework"
+             xmlns:core="clr-namespace:ModernApplicationFramework.EditorBase.Core"
+             xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General;assembly=ModernApplicationFramework"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:converters1="clr-namespace:ModernApplicationFramework.EditorBase.Core.Converters"
+             xmlns:newElement="clr-namespace:ModernApplicationFramework.EditorBase.Interfaces.NewElement"
+             xmlns:newElementDialog="clr-namespace:ModernApplicationFramework.EditorBase.Dialogs.NewElementDialog"
+             mc:Ignorable="d" Background="{DynamicResource {x:Static themes:ColorResources.BackgroundBrush}}"
+             d:DesignHeight="300" d:DesignWidth="600">
+    <imaging:ImageThemingUtilities.ImageBackgroundColor>
+        <Binding Path="Background" RelativeSource="{RelativeSource Self}">
+            <Binding.Converter>
+                <converters:BrushToColorConverter/>
+            </Binding.Converter>
+        </Binding>
+    </imaging:ImageThemingUtilities.ImageBackgroundColor>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <converters:ThemedImageSourceConverter x:Key="ThemedImageSourceConverter"/>
+            <converters:BrushToColorConverter x:Key="BrushToColorConverter"/>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <general:AreEqualConverter x:Key="AreEqualConverter"/>
+            <converters1:ProviderTreeViewVisibilityConverter x:Key="ProviderTreeViewVisibilityConverter"/>
+
+            <ControlTemplate x:Key="NoItemSelected">
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0">
+                    <TextBlock Foreground="{DynamicResource {x:Static themes:ColorResources.ContentTextBrush}}" TextWrapping="Wrap">
+                        <TextBlock.Text>
+                            <Binding Path="NoItemSelectedMessage"/>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </Grid>
+            </ControlTemplate>
+
+            <Style x:Key="DetailPaneStyle" TargetType="{x:Type ContentControl}">
+                <Setter Property="ContentTemplate"
+            		Value="{DynamicResource DetailViewDataTemplate}"/>
+                <Style.Triggers>
+                    <DataTrigger>
+                        <DataTrigger.Binding>
+                            <Binding ElementName="ListView" UpdateSourceTrigger="PropertyChanged" Path="SelectedItem"/>
+                        </DataTrigger.Binding>
+                        <DataTrigger.Value>
+                            <x:NullExtension/>
+                        </DataTrigger.Value>
+                        <Setter Property="Template"
+                                Value="{DynamicResource NoItemSelected}"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <DataTemplate x:Key="DetailViewDataTemplate" DataType="{x:Type newElement:IExtensionDefinition}">
+                <DataTemplate.Resources>
+                    <Style x:Key="TileToolTipStyle" TargetType="{x:Type TextBlock}">
+                        <Setter Property="MaxWidth" Value="300"/>
+                        <Setter Property="TextWrapping" Value="Wrap"/>
+                    </Style>
+                </DataTemplate.Resources>
+                <mafc:ScrollViewer HorizontalScrollBarVisibility="Disabled" Focusable="false" VerticalScrollBarVisibility="Auto">
+                    <Grid Margin="4,0,4,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" MinHeight="135"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" VerticalAlignment="Top" Orientation="Vertical" Margin="8,3,8,0">
+                            <StackPanel Orientation="Horizontal" Margin="0,3,0,0">
+                                <TextBlock Text="{x:Static newElementDialog:NewElementDialogResources.NewElementDetailsTypeLabel}" 
+                                           FontWeight="Bold" Margin="0,0,0,0"/>
+                                <TextBlock Margin="8,0,0,0" Text="{Binding Name}">
+                                    <TextBlock.ToolTip>
+                                        <TextBlock Style="{StaticResource TileToolTipStyle}" Text="{Binding Name}"/>
+                                    </TextBlock.ToolTip>
+            					</TextBlock>
+                            </StackPanel>
+                            <TextBlock TextWrapping="WrapWithOverflow" Margin="0,8,0,0" TextTrimming="WordEllipsis" 
+                                       Text="{Binding Description}">
+                                <TextBlock.ToolTip>
+                                    <TextBlock Style="{StaticResource TileToolTipStyle}" Text="{Binding Description}"/>
+                                </TextBlock.ToolTip>
+            				</TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </mafc:ScrollViewer>
+            </DataTemplate>
+
+            <ControlTemplate x:Key="NoItemsTemplate" TargetType="{x:Type ListView}">
+                <Grid Background="{DynamicResource {x:Static themes:ColorResources.ContentBrush}}">
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Margin="20">
+                        <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource {x:Static themes:ColorResources.ContentTextBrush}}">
+                            <TextBlock.Text>
+                                <Binding Path="NoItemsMessage"/>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </Grid>
+                </Grid>
+            </ControlTemplate>
+
+            <ItemsPanelTemplate x:Key="WrapStyleTemplate">
+                <WrapPanel Orientation="Vertical"/>
+            </ItemsPanelTemplate>
+
+            <DataTemplate x:Key="SmallIconTemplate" DataType="{x:Type newElement:IExtensionDefinition}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Height="16" Width="16" Margin="4" StretchDirection="DownOnly" Stretch="Uniform">
+                        <Image.Source>
+                            <Binding Path="SmallThumbnailImage"/>
+                        </Image.Source>
+                    </Image>
+                    <TextBlock Width="200" MinHeight="10" Margin="10,0,0,0" VerticalAlignment="Center"
+                               TextWrapping="NoWrap" TextAlignment="Left" TextTrimming="WordEllipsis">
+                        <TextBlock.Text>
+                            <Binding Path="Name"/>
+                        </TextBlock.Text>
+                        <TextBlock.ToolTip>
+                            <Binding Path="Name"/>
+                        </TextBlock.ToolTip>
+                    </TextBlock>
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="MediumIconTemplate" DataType="{x:Type newElement:IExtensionDefinition}">
+                <Grid Margin="0,0,10,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="38"/>
+                        <ColumnDefinition Width="1*" MinWidth="80"/>
+                        <ColumnDefinition Width="Auto" MinWidth="60" MaxWidth="140"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Height="32" Width="32" StretchDirection="DownOnly" Stretch="Uniform"
+                           Margin="0,2,4,2">
+                        <Image.Source>
+                            <MultiBinding Converter="{StaticResource ThemedImageSourceConverter}">
+                                <Binding Path="MediumThumbnailImage"/>
+                                <Binding Path="(imaging:ImageThemingUtilities.ImageBackgroundColor)"
+                                         RelativeSource="{RelativeSource Self}"/>
+                                <Binding Source="{x:Static util:Boxes.BooleanTrue}"/>
+                            </MultiBinding>
+                        </Image.Source>
+                    </Image>
+                    <TextBlock Grid.Column="1" Margin="8,0,0,0" VerticalAlignment="Center"
+                               TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip="{Binding Name}"/>
+                    <TextBlock Grid.Column="2" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left"
+                               Text="{Binding ApplicationContext}" ToolTip="{Binding ApplicationContext}"/>
+                </Grid>
+            </DataTemplate>
+            <DataTemplate x:Key="LargeIconTemplate" DataType="{x:Type newElement:IExtensionDefinition}">
+                <StackPanel>
+                    <Grid Margin="25,20,25,20">
+                        <Border BorderBrush="DarkGray" BorderThickness="0" CornerRadius="4">
+                            <Border.Effect>
+                                <DropShadowEffect Color="Black" Direction="320" ShadowDepth="4" Opacity="0.5"/>
+                            </Border.Effect>
+                            <Image Height="80" Width="80" StretchDirection="DownOnly" Stretch="Uniform">
+                                <Image.Source>
+                                    <MultiBinding Converter="{StaticResource ThemedImageSourceConverter}">
+                                        <Binding Path="MediumThumbnailImage"/>
+                                        <Binding Path="(imaging:ImageThemingUtilities.ImageBackgroundColor)"
+                                                 RelativeSource="{RelativeSource Self}"/>
+                                        <Binding Source="{x:Static util:Boxes.BooleanTrue}"/>
+                                    </MultiBinding>
+                                </Image.Source>
+                            </Image>
+                        </Border>
+                    </Grid>
+                    <TextBlock Width="110" MinHeight="28" MaxHeight="28" Margin="0,0,0,10"
+                               VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center" TextTrimming="CharacterEllipsis">
+                        <TextBlock.Text>
+                            <Binding Path="Name"/>
+                        </TextBlock.Text>
+                        <FrameworkElement.ToolTip>
+                            <Binding Path="Name"/>
+                        </FrameworkElement.ToolTip>
+                    </TextBlock>
+                </StackPanel>
+            </DataTemplate>
+
+            <Style x:Key="ExtensionsListViewStyle" TargetType="{x:Type ListView}">
+                <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"/>
+                <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Background" Value="{DynamicResource {x:Static themes:ColorResources.ContentBrush}}"/>
+                <Setter Property="imaging:ImageThemingUtilities.ImageBackgroundColor">
+                    <Setter.Value>
+                        <Binding Path="Background" RelativeSource="{RelativeSource Self}" Converter="{StaticResource BrushToColorConverter}"/>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="ItemTemplate" Value="{StaticResource LargeIconTemplate}">
+                        <Setter Property="ItemsPanel" Value="{StaticResource WrapStyleTemplate}"/>
+                    </Trigger>
+                    <Trigger Property="ItemTemplate" Value="{StaticResource SmallIconTemplate}">
+                        <Setter Property="ItemsPanel" Value="{StaticResource WrapStyleTemplate}"/>
+                        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+                    </Trigger>
+                    <Trigger Property="ItemTemplate" Value="{StaticResource MediumIconTemplate}">
+                        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+                    </Trigger>
+                    <DataTrigger>
+                        <DataTrigger.Binding>
+                            <Binding RelativeSource="{RelativeSource Self}" Path="ItemsSource"/>
+                        </DataTrigger.Binding>
+                        <DataTrigger.Value>
+                            <x:NullExtension/>
+                        </DataTrigger.Value>
+                        <Setter Property="Control.Template" Value="{StaticResource NoItemsTemplate}"/>
+                    </DataTrigger>
+                    <DataTrigger Value="0">
+                        <DataTrigger.Binding>
+                            <Binding RelativeSource="{RelativeSource Self}" Path="ItemsSource.Count"/>
+                        </DataTrigger.Binding>
+                        <Setter Property="Control.Template" Value="{StaticResource NoItemsTemplate}"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="ExtensionsViewItemStyle" TargetType="{x:Type ListViewItem}">
+                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="FocusVisualStyle" Value="{x:NullExtension}"/>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ColorResources.WindowText}}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListViewItem}">
+                            <Border x:Name="ItemBorder" SnapsToDevicePixels="True" 
+                                    Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    TextElement.Foreground="{DynamicResource {x:Static themes:ColorResources.ContentTextBrush}}">
+                                <Grid>
+                                    <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                      Margin="5,0,2,0"/>
+                                </Grid>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="UIElement.IsMouseOver" Value="true">
+                                    <Setter Value="{DynamicResource {x:Static themes:ColorResources.ContentMouseOverBrush}}"
+                          Property="Panel.Background"/>
+                                    <Setter Value="{DynamicResource {x:Static themes:ColorResources.ContentMouseOverTextBrush}}"
+                          TargetName="ItemBorder" Property="TextElement.Foreground"/>
+                                </Trigger>
+                                <Trigger Property="ListBoxItem.IsSelected" Value="true">
+                                    <Setter Value="{DynamicResource {x:Static themes:ColorResources.ContentSelectedBrush}}"
+                                            Property="Panel.Background"/>
+                                    <Setter Value="{DynamicResource {x:Static themes:ColorResources.ContentSelectedTextBrush}}"
+                                            TargetName="ItemBorder" Property="TextElement.Foreground"/>
+                                    <Setter Value="{DynamicResource {x:Static themes:ColorResources.ContentSelectedBorderBrush}}"
+                                            Property="Border.BorderBrush"/>
+                                </Trigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="ListBoxItem.IsSelected" Value="true"/>
+                                        <Condition Property="Selector.IsSelectionActive" Value="false"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter Value="{DynamicResource {x:Static themes:ColorResources.ContentInactiveSelectedBrush}}"
+                                            Property="Panel.Background"/>
+                                    <Setter Value="{DynamicResource {x:Static themes:ColorResources.ContentInactiveSelectedTextBrush}}"
+                                            TargetName="ItemBorder" Property="TextElement.Foreground"/>
+                                    <Setter Property="Border.BorderBrush" Value="Transparent"/>
+                                </MultiTrigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <PathGeometry x:Key="TreeArrow" Figures="M0,0 L0,6 L6,0 z"/>
+            <Style x:Key="ExpandCollapseToggleStyle" TargetType="{x:Type ToggleButton}">
+                <Setter Property="Focusable" Value="False"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                            <Border Background="Transparent" Height="16" Padding="5" Width="16">
+                                <Path x:Name="ExpandedPath" Data="{StaticResource TreeArrow}" Fill="Transparent"
+                                      Stroke="{TemplateBinding Foreground}">
+                                    <Path.RenderTransform>
+                                        <RotateTransform Angle="135" CenterY="3" CenterX="3"/>
+                                    </Path.RenderTransform>
+                                </Path>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter TargetName="ExpandedPath" Property="RenderTransform">
+                                        <Setter.Value>
+                                            <RotateTransform Angle="180" CenterY="3" CenterX="3"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter TargetName="ExpandedPath" Property="Fill" 
+                                            Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ToggleButton}}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="ProviderTreeViewItemStyle" TargetType="{x:Type TreeViewItem}">
+                <Setter Property="IsExpanded">
+                    <Setter.Value>
+                        <MultiBinding Converter="{StaticResource AreEqualConverter}">
+                            <Binding/>
+                            <Binding Path="DataContext.SelectedProvider"
+                                     RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type TreeViewItem}">
+                            <Grid x:Name="HeaderGrid">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="8" MaxWidth="8"/>
+                                    <ColumnDefinition Width="11" MaxWidth="11"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Border x:Name="HeaderBorder" Grid.ColumnSpan="4"
+                                        Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="1" Padding="{TemplateBinding Padding}">
+                                    <DockPanel LastChildFill="True">
+                                        <ToggleButton x:Name="HeaderExpanderArrow" ClickMode="Press"
+                                                      Style="{StaticResource ExpandCollapseToggleStyle}"
+                                                      IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
+                                                      Foreground="{Binding ElementName=HeaderPresenter, Path=Foreground}"/>
+                                        <TextBlock x:Name="HeaderPresenter" Padding="3,5,15,5"
+                                                   TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" HorizontalAlignment="Left" 
+                                                   Foreground="{DynamicResource {x:Static themes:ColorResources.WonderbarTextBrush}}">
+                                            <TextBlock.Text>
+                                                <Binding Path="Text"/>
+                                            </TextBlock.Text>
+                                            <FrameworkElement.ToolTip>
+                                                <Binding Path="Text"/>
+                                            </FrameworkElement.ToolTip>
+                                        </TextBlock>
+                                    </DockPanel>
+                                </Border>
+                                <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"
+                                        Background="{DynamicResource {x:Static themes:ColorResources.WonderbarBrush}}">
+                                    <ItemsPresenter x:Name="ProviderItemsHost" Margin="0,7"/>
+                                </Border>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter TargetName="HeaderBorder" Property="BorderBrush" 
+                                            Value="{DynamicResource {x:Static themes:ColorResources.WonderbarSelectedBorderBrush}}"/>
+                                </Trigger>
+                                <Trigger Property="IsExpanded" Value="False">
+                                    <Setter TargetName="ProviderItemsHost" Property="Visibility" Value="Collapsed"/>
+                                </Trigger>
+                                <Trigger Property="UIElement.IsMouseOver" Value="true">
+                                    <Setter TargetName="HeaderPresenter"
+                                            Value="{DynamicResource {x:Static themes:ColorResources.WonderbarMouseOverTextBrush}}"
+                                            Property="TextElement.Foreground"/>
+                                    <Setter x:Uid="Setter_50" TargetName="HeaderGrid"
+                                            Value="{DynamicResource {x:Static themes:ColorResources.WonderbarMouseOverBrush}}"
+                                            Property="Panel.Background"/>
+                                </Trigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="TreeViewItem.IsSelected" Value="true"/>
+                                        <Condition Property="Selector.IsSelectionActive" Value="false"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter TargetName="HeaderPresenter"
+                                            Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTreeInactiveSelectedTextBrush}}"
+                                            Property="TextElement.Foreground"/>
+                                    <Setter TargetName="HeaderGrid"
+                                            Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTreeInactiveSelectedBrush}}"
+                                            Property="Panel.Background"/>
+                                    <Setter TargetName="HeaderBorder" Property="Border.BorderBrush" Value="Transparent"/>
+                                </MultiTrigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="CategoryTreeViewItemStyle" TargetType="{x:Type TreeViewItem}">
+                <Setter Property="TextElement.Foreground"
+                        Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTextBrush}}"/>
+                <Setter Property="Panel.Background"
+                        Value="{DynamicResource {x:Static themes:ColorResources.WonderbarBrush}}"/>
+                <Setter Property="Border.BorderBrush" Value="Transparent"/>
+                <!--<Setter Property="IsSelected">
+                    <Setter.Value>
+                        <Binding Path="IsSelected" Mode="TwoWay"/>
+                    </Setter.Value>
+                </Setter>-->
+                <Setter Property="IsExpanded">
+                    <Setter.Value>
+                        <Binding Path="IsExpanded" Mode="TwoWay"/>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="ItemsSource">
+                    <Setter.Value>
+                        <Binding Path="Nodes"/>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type TreeViewItem}">
+                            <Grid Background="{DynamicResource {x:Static themes:ColorResources.WonderbarBrush}}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition MinWidth="19" Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <ToggleButton x:Name="Expander" Style="{StaticResource ExpandCollapseToggleStyle}">
+                                    <ToggleButton.IsChecked>
+                                        <Binding Path="IsExpanded" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                    </ToggleButton.IsChecked>
+                                </ToggleButton>
+                                <Border x:Name="Bd" Grid.Row="0" Grid.Column="1" Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                                        Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                                    <TextBlock x:Name="CategoryName" Padding="2" Margin="-1,0,0,0">
+                                        <TextBlock.Text>
+                                            <Binding Path="Text"/>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </Border>
+                                <ItemsPresenter x:Name="ItemsHost" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"/>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="TreeViewItem.IsSelected" Value="true">
+                                    <Setter TargetName="CategoryName"
+                                            Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTreeSelectedTextBrush}}"
+                                            Property="TextElement.Foreground"/>
+                                    <Setter TargetName="CategoryName"
+                                            Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTreeSelectedBrush}}"
+                                            Property="TextElement.Background"/>
+                                </Trigger>
+                                <Trigger Property="TreeViewItem.IsExpanded" Value="false">
+                                    <Setter TargetName="ItemsHost" Property="UIElement.Visibility" Value="Collapsed"/>
+                                </Trigger>
+                                <Trigger Property="ItemsControl.HasItems" Value="false">
+                                    <Setter TargetName="Expander" Property="UIElement.Visibility" Value="Hidden"/>
+                                </Trigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="TreeViewItem.IsSelected" Value="true"/>
+                                        <Condition Property="Selector.IsSelectionActive" Value="false"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter TargetName="CategoryName" Property="TextElement.Foreground"
+                                            Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTreeInactiveSelectedTextBrush}}"/>
+                                    <Setter TargetName="CategoryName" Property="TextElement.Background"
+                                            Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTreeInactiveSelectedBrush}}"/>
+                                </MultiTrigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <core:TreeNodeStyleSelector x:Key="ProviderTreeStyleSelector" 
+                                        CategoryStyle="{StaticResource CategoryTreeViewItemStyle}"
+                                        ProviderStyle="{StaticResource ProviderTreeViewItemStyle}"/>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid x:Name="ResGrid" DockPanel.Dock="Top" SnapsToDevicePixels="True" Background="Transparent">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="{Binding ProvidersUsed, Converter={StaticResource ProviderTreeViewVisibilityConverter}, 
+                ConverterParameter=240, FallbackValue=240, Mode=OneTime}"/>
+            <ColumnDefinition Width="{Binding ProvidersUsed, Converter={StaticResource ProviderTreeViewVisibilityConverter}, 
+                ConverterParameter=4, FallbackValue=4,  Mode=OneTime}"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <TreeView x:Name="ProvidersTreeView" Background="{DynamicResource {x:Static themes:ColorResources.BackgroundBrush}}"
+                      Padding="0" BorderBrush="Transparent" BorderThickness="1" 
+                      Visibility="{Binding ProvidersUsed, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneTime}"
+                      TreeViewItem.Expanded="ProvidersTreeView_OnExpanded" 
+                      ItemContainerStyleSelector="{StaticResource ProviderTreeStyleSelector}">
+                <TreeView.ItemsSource>
+                    <Binding Path="Providers"/>
+                </TreeView.ItemsSource>
+                <i:Interaction.Behaviors>
+                    <util:BindableSelectedItemBehavior SelectedItem="{Binding SelectedProviderTreeItem, Mode=TwoWay}" />
+                </i:Interaction.Behaviors>
+            </TreeView>
+        </Grid>
+        <Grid Grid.Column="2" Margin="0">
+            <Grid.RowDefinitions>
+                <RowDefinition MinHeight="34" Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="250"/>
+            </Grid.ColumnDefinitions>
+            <DockPanel Grid.Row="0" Grid.ColumnSpan="3">
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" HorizontalAlignment="Stretch">
+                    <TextBlock VerticalAlignment="Center" Margin="4,0,4,0" DockPanel.Dock="Left" 
+                               Text="{x:Static newElementDialog:NewElementDialogResources.NewElementSortByLabel}" 
+                               Focusable="False"
+                               Foreground="{DynamicResource {x:Static themes:ColorResources.ContentTextBrush}}"/>
+                    <mafc:ComboBox Width="160" x:Name="SortComboBox" VerticalAlignment="Center" DockPanel.Dock="Left" TabIndex="1" Margin="0,0,4,0"
+                                   DataSource="{Binding SortDataSource}" ItemsSource="{Binding SortItems}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock>
+                                    <TextBlock.Text>
+                                        <Binding Path="Text"/>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </mafc:ComboBox>
+                    <Grid DockPanel.Dock="Right">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <dialogButtons:DialogToggleButton x:Name="BtntLargeIcons" Grid.Column="0" VerticalAlignment="Center"
+                                                          BorderBrush="Transparent" Background="Transparent" IsChecked="True" TabIndex="2"
+                                                          ToolTip="Large Icons" Height="Auto" Margin="2,0,0,0"
+                                                          Checked="Btnt_OnChecked" Visibility="{Binding IsLargeIconsViewButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <Image Height="Auto" Width="16" RenderOptions.EdgeMode="Aliased" 
+                                   RenderOptions.BitmapScalingMode="NearestNeighbor">
+                                <Image.Source>
+                                    <MultiBinding Converter="{StaticResource ThemedImageSourceConverter}">
+                                        <Binding Source="{imaging:ImageSource ../../../Resources/Images/Medium.png}"/>
+                                        <Binding Path="(imaging:ImageThemingUtilities.ImageBackgroundColor)"
+                                                 RelativeSource="{RelativeSource Self}"/>
+                                        <Binding Source="{x:Static util:Boxes.BooleanTrue}"></Binding>
+                                    </MultiBinding>
+                                </Image.Source>
+                            </Image>
+                        </dialogButtons:DialogToggleButton>
+                        <dialogButtons:DialogToggleButton x:Name="BtntSmallIcons" VerticalAlignment="Center" Grid.Column="1"
+                                                          BorderBrush="Transparent" Background="Transparent" TabIndex="3"
+                                                          Height="Auto" Margin="2,0,0,0" ToolTip="Small Icons"
+                                                          Checked="Btnt_OnChecked" Visibility="{Binding IsSmallIconsViewButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <Image Height="Auto" Width="16" RenderOptions.EdgeMode="Aliased" 
+                                   RenderOptions.BitmapScalingMode="NearestNeighbor">
+                                <Image.Source>
+                                    <MultiBinding Converter="{StaticResource ThemedImageSourceConverter}">
+                                        <Binding Source="{imaging:ImageSource ../../../Resources/Images/List.png}"/>
+                                        <Binding Path="(imaging:ImageThemingUtilities.ImageBackgroundColor)"
+                                                 RelativeSource="{RelativeSource Self}"/>
+                                        <Binding Source="{x:Static util:Boxes.BooleanTrue}"/>
+                                    </MultiBinding>
+                                </Image.Source>
+                            </Image>
+                        </dialogButtons:DialogToggleButton>
+                        <dialogButtons:DialogToggleButton x:Name="BtntMediumIcons" Grid.Column="2" VerticalAlignment="Center"
+                                                          BorderBrush="Transparent" Background="Transparent" TabIndex="4"
+                                                          Height="Auto" Margin="2,0,0,0" ToolTip="Medium Icons"
+                                                          Checked="Btnt_OnChecked" Visibility="{Binding IsMediumIconsViewButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <Image Height="Auto" Width="16" RenderOptions.EdgeMode="Aliased" 
+                                   RenderOptions.BitmapScalingMode="NearestNeighbor">
+                                <Image.Source>
+                                    <MultiBinding Converter="{StaticResource ThemedImageSourceConverter}">
+                                        <Binding Source="{imaging:ImageSource ../../../Resources/Images/Details.png}"/>
+                                        <Binding Path="(imaging:ImageThemingUtilities.ImageBackgroundColor)"
+                                                 RelativeSource="{RelativeSource Self}"/>
+                                        <Binding Source="{x:Static util:Boxes.BooleanTrue}"></Binding>
+                                    </MultiBinding>
+                                </Image.Source>
+                            </Image>
+                        </dialogButtons:DialogToggleButton>
+                    </Grid>
+                </StackPanel>
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.0001*"/>
+                        <ColumnDefinition Width="1*" MaxWidth="254"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Row="0" Grid.Column="1" Margin="4,0,4,0" HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+                            DockPanel.Dock="Right"/>
+                </Grid>
+            </DockPanel>
+            <Grid Grid.Row="1" Grid.Column="0">
+                <ListView x:Name="ListView" 
+                          Style="{DynamicResource ExtensionsListViewStyle}" SelectionMode="Single" 
+                          ItemContainerStyle="{DynamicResource ExtensionsViewItemStyle}" 
+                          Loaded="ListView_OnLoaded" SizeChanged="ListView_OnSizeChanged"
+                          MouseDoubleClick="ListView_OnMouseDoubleClick" VirtualizingPanel.IsVirtualizing ="True"
+                          ItemsSource="{Binding Extensions}"
+                          SelectedIndex="{Binding SelectedExtensionIndex, Mode=TwoWay}"
+                          SelectedItem="{Binding SelectedExtension, Mode=TwoWay}">
+                    <ListView.View>
+                        <GridView>
+                            <GridView.ColumnHeaderContainerStyle>
+                                <Style>
+                                    <Setter Property="UIElement.Visibility" Value="Collapsed"></Setter>
+                                </Style>
+                            </GridView.ColumnHeaderContainerStyle>
+                            <GridViewColumn/>
+                        </GridView>
+                    </ListView.View>
+                    <FrameworkElement.FocusVisualStyle>
+                        <x:NullExtension/>
+                    </FrameworkElement.FocusVisualStyle>
+                </ListView>
+            </Grid>
+            <Border Grid.Row="1" Grid.Column="1" Margin="1,0,0,0" BorderThickness="0" 
+                    Background="{DynamicResource {x:Static themes:ColorResources.DetailsBrush}}">
+                <ContentControl Focusable="False" Style="{StaticResource DetailPaneStyle}"
+                                Foreground="{DynamicResource {x:Static themes:ColorResources.DetailsTextBrush}}"
+					Content="{Binding SelectedItem, ElementName=ListView, UpdateSourceTrigger=PropertyChanged}"/>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
-using ModernApplicationFramework.EditorBase.Controls.FileChangedDialog;
+using ModernApplicationFramework.EditorBase.Dialogs.FileChangedDialog;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.EditorBase.Settings.Documents;
 

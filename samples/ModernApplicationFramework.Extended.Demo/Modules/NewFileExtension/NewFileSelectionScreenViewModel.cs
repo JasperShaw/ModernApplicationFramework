@@ -7,7 +7,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.NewFileExtension
 {
     [Export(typeof(INewFileSelectionModel))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public sealed class NewFileSelectionScreenViewModel : EditorBase.NewElementDialog.NewFileSelectionScreenViewModel
+    public sealed class NewFileSelectionScreenViewModel : EditorBase.Dialogs.NewElementDialog.NewFileSelectionScreenViewModel
     {
         public override ObservableCollection<INewElementExtensionsProvider> Providers => new ObservableCollection<INewElementExtensionsProvider>
         {
