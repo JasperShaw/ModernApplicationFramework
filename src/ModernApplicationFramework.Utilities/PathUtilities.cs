@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Text;
 
@@ -217,6 +218,23 @@ namespace ModernApplicationFramework.Utilities
             return Path.GetDirectoryName(fullFilePath).NormalizePath() + Path.DirectorySeparatorChar;
         }
 
+        public static string ReplaceEnvironmentPrefix(string s, string variableName)
+        {
+            return ReplaceEnvironmentPrefix(s, variableName, CaseSensitivity.Insensitive);
+        }
+
+        public static string ReplaceEnvironmentPrefix(string s, string variableName, CaseSensitivity sensitivity)
+        {
+            if (variableName == null)
+                throw new ArgumentNullException(nameof(variableName));
+            if (string.IsNullOrEmpty(s) || variableName == string.Empty)
+                return s;
+            string environmentVariable = Environment.GetEnvironmentVariable(variableName);
+            if (string.IsNullOrEmpty(environmentVariable) || !s.StartsWith(environmentVariable, sensitivity == CaseSensitivity.Insensitive, CultureInfo.CurrentCulture))
+                return s;
+            return $"%{variableName}%{s.Substring(environmentVariable.Length)}";
+        }
+
         private class PathParser
         {
             private int _startIndex;
@@ -253,5 +271,11 @@ namespace ModernApplicationFramework.Utilities
                 return string.Compare(Path, _startIndex, other.Path, other._startIndex, _length, StringComparison.OrdinalIgnoreCase);
             }
         }
+    }
+
+    public enum CaseSensitivity
+    {
+        Sensitive,
+        Insensitive,
     }
 }

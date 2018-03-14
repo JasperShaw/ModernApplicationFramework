@@ -97,6 +97,15 @@ namespace ModernApplicationFramework.Extended.Settings.General {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to items shown in _recently used file list.
+        /// </summary>
+        public static string MruItemsTextBox_Text {
+            get {
+                return ResourceManager.GetString("MruItemsTextBox_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show status bar.
         /// </summary>
         public static string UseStatusBarCheckBox_Text {

@@ -134,6 +134,11 @@
     <Compile Include="Editor\EditorBase.cs" />
     <Compile Include="Editor\EditorException.cs" />
     <Compile Include="Editor\EditorNotFoundException.cs" />
+    <Compile Include="Editor\EditorBaseResources.Designer.cs">
+      <DependentUpon>EditorBaseResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="FileSupport\Exceptions\FileNotSupportedException.cs" />
     <Compile Include="FileSupport\FileChangeService.cs" />
     <Compile Include="FileSupport\FileChangeWatcher.cs" />
@@ -153,7 +158,6 @@
     </Compile>
     <Compile Include="FileSupport\DirtyDocumentClosingWatcher.cs" />
     <Compile Include="FileSupport\MafFile.cs" />
-    <Compile Include="FileSupport\OpenFileHelper.cs" />
     <Compile Include="Interfaces\FileSupport\IFile.cs" />
     <Compile Include="Interfaces\Editor\IEditor.cs" />
     <Compile Include="Interfaces\Editor\INormalEditor.cs" />
@@ -213,6 +217,10 @@
     <Compile Include="Interfaces\FileSupport\IStorableFile.cs" />
     <Compile Include="FileSupport\ReadOnlyFile.cs" />
     <Compile Include="FileSupport\StorableFile.cs" />
+    <Compile Include="FileSupport\FileSystemMruItem.cs" />
+    <Compile Include="FileSupport\FileSystemMruManager.cs" />
+    <Compile Include="Interfaces\Packages\IMruFilePackage.cs" />
+    <Compile Include="Packages\MruFiles\MruFilePackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -222,6 +230,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="FileSupport\TextFile\TextFileDefinition.cs" />
+    <Compile Include="Interfaces\Services\IOpenFileService.cs" />
+    <Compile Include="Services\OpenDocumentService.cs" />
     <Compile Include="Settings\Documents\DocumentsSettingsResources.Designer.cs">
       <DependentUpon>DocumentsSettingsResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -276,6 +286,12 @@
     <EmbeddedResource Include="Dialogs\WindowSelectionDialog\WindowSelectionDialogResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>WindowSelectionDialogResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Editor\EditorBaseResources.de.resx" />
+    <EmbeddedResource Include="Editor\EditorBaseResources.en.resx" />
+    <EmbeddedResource Include="Editor\EditorBaseResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>EditorBaseResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="FileSupport\FileSupportResources.de.resx" />
     <EmbeddedResource Include="FileSupport\FileSupportResources.en.resx" />

@@ -16,6 +16,7 @@ namespace ModernApplicationFramework.Extended.Settings.General
         private readonly EnvironmentGeneralOptions _generalOptions;
         private readonly StorableEnvironmentGeneralOptions _storableOptions;
         private string _windowListItems;
+        private string _mruListItems;
         public override uint SortOrder => 1;
         public override string Name => GeneralSettingsResources.GeneralSettings_Name;
         public override SettingsPageCategory Category => SettingsPageCategories.EnvironmentCategory;
@@ -28,6 +29,7 @@ namespace ModernApplicationFramework.Extended.Settings.General
             _generalOptions = generalOptions;
             _storableOptions = storableOptions;
             WindowListItems = generalOptions.WindowListItems.ToString();
+            MruListItems = generalOptions.MRUListItems.ToString();
         }
 
         public string WindowListItems
@@ -43,6 +45,19 @@ namespace ModernApplicationFramework.Extended.Settings.General
             }
         }
 
+        public string MruListItems
+        {
+            get => _mruListItems;
+            set
+            {
+                if (value == _mruListItems)
+                    return;
+                DirtyObjectManager.SetData(_mruListItems, value);
+                _mruListItems = value;
+                OnPropertyChanged();
+            }
+        }
+
         protected override bool SetData()
         {
             if (!PreValidate(out int number))
@@ -51,6 +66,7 @@ namespace ModernApplicationFramework.Extended.Settings.General
                 return false;
             }
             _generalOptions.WindowListItems = number;
+            _generalOptions.MRUListItems = number;
             _storableOptions.StoreSettings();
             return true;
         }
@@ -58,6 +74,8 @@ namespace ModernApplicationFramework.Extended.Settings.General
         private bool PreValidate(out int number)
         {
             if (!int.TryParse(WindowListItems, NumberStyles.Integer, CultureInfo.CurrentCulture, out number))
+                return false;
+            if (!int.TryParse(MruListItems, NumberStyles.Integer, CultureInfo.CurrentCulture, out number))
                 return false;
             return EnvironmentGeneralOptions.MinFileListCount <= number && number <= EnvironmentGeneralOptions.MaxFileListCount;
         }

@@ -150,4 +150,7 @@
   <data name="RecentFileListCommand" xml:space="preserve">
     <value>Recent File List</value>
   </data>
+  <data name="RecentFileListCommand_NoItems" xml:space="preserve">
+    <value>No entries in list</value>
+  </data>
 </root>

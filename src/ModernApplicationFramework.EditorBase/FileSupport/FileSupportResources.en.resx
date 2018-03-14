@@ -132,4 +132,7 @@
   <data name="OpenSaveFileFilterAnyText" xml:space="preserve">
     <value>All Files</value>
   </data>
+  <data name="MessageMruFileCouldNotOpen" xml:space="preserve">
+    <value>The file "{0}" cannot be opened. Do you want to remove the reference(s) to it from the Recent list(s)?</value>
+  </data>
 </root>

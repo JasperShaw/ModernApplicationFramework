@@ -38,8 +38,7 @@ namespace ModernApplicationFramework.Utilities
 
         public static bool AcquireWin32Focus(this DependencyObject obj, out IntPtr previousFocus)
         {
-            HwndSource hwndSource = PresentationSource.FromDependencyObject(obj) as HwndSource;
-            if (hwndSource != null)
+            if (PresentationSource.FromDependencyObject(obj) is HwndSource hwndSource)
             {
                 previousFocus = User32.GetFocus();
                 if (previousFocus != hwndSource.Handle)
@@ -68,8 +67,7 @@ namespace ModernApplicationFramework.Utilities
 
         public static TAncestorType FindAncestorOrSelf<TAncestorType, TElementType>(this TElementType obj, Func<TElementType, TElementType> parentEvaluator) where TAncestorType : DependencyObject
         {
-            TAncestorType ancestorType = (object)obj as TAncestorType;
-            if (ancestorType != null)
+            if ((object)obj is TAncestorType ancestorType)
                 return ancestorType;
             return obj.FindAncestor<TAncestorType, TElementType>(parentEvaluator);
         }
@@ -185,6 +183,22 @@ namespace ModernApplicationFramework.Utilities
         public static bool IsNearlyEqual(this double value1, double value2)
         {
             return value1.AreClose(value2);
+        }
+
+        public static int IndexOf<T>(this IEnumerable<T> items, Func<T, bool> predicate)
+        {
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
+            if (predicate == null)
+                throw new ArgumentNullException(nameof(predicate));
+            int num = 0;
+            foreach (T obj in items)
+            {
+                if (predicate(obj))
+                    return num;
+                ++num;
+            }
+            return -1;
         }
     }
 }

@@ -256,6 +256,9 @@
     <Compile Include="Basics\ApplicationEnvironment\FallbackEnvironmentVariables.cs" />
     <Compile Include="Basics\Definitions\Command\ExcludedCommandDefinition.cs" />
     <Compile Include="Basics\Definitions\Command\CommandGestureScopeMapping.cs" />
+    <Compile Include="Basics\MostRecentlyUsedManager\MruItem.cs" />
+    <Compile Include="Interfaces\Services\IMruManager.cs" />
+    <Compile Include="Basics\MostRecentlyUsedManager\MruManager.cs" />
     <Compile Include="Basics\Services\CommandBarLayoutBackupProvider.cs" />
     <Compile Include="Basics\Services\CommandBarSerializer.cs" />
     <Compile Include="Basics\Threading\TaskResult.cs" />
@@ -1271,6 +1274,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\split.cur" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

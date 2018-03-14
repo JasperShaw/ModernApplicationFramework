@@ -255,6 +255,8 @@ namespace ModernApplicationFramework.Controls.Dialogs
             if (waitDialog.Action == null && waitDialog.Function == null)
                 waitDialog.Dispatcher.Invoke(DispatcherPriority.Loaded, new ThreadStart(() =>
                     {
+                        if (waitDialog._isClosing)
+                            return;
                         waitDialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                         waitDialog.ShowDialog();
                     }));

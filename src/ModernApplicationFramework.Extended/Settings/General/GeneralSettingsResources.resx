@@ -135,4 +135,7 @@
   <data name="WindowItemsTextBox_Text" xml:space="preserve">
     <value>items shown in _Window menu</value>
   </data>
+  <data name="MruItemsTextBox_Text" xml:space="preserve">
+    <value>items shown in _recently used file list</value>
+  </data>
 </root>

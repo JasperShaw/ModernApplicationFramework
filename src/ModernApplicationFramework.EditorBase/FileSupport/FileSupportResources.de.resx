@@ -132,4 +132,7 @@
   <data name="OpenSaveFileFilterAnyText" xml:space="preserve">
     <value>Alle Dateien</value>
   </data>
+  <data name="MessageMruFileCouldNotOpen" xml:space="preserve">
+    <value>Die Datei "{0}" konnte nicht geöffnet werden. Möchten Sie die Verweise aus den "Zuletzt geöffnet"-Listen entfernen?</value>
+  </data>
 </root>

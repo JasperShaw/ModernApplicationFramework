@@ -106,6 +106,15 @@ namespace ModernApplicationFramework.EditorBase.Commands {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No entries in list.
+        /// </summary>
+        public static string RecentFileListCommand_NoItems {
+            get {
+                return ResourceManager.GetString("RecentFileListCommand_NoItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save Selected Items &amp;As....
         /// </summary>
         public static string SaveActiveDocumentAsCommandName {

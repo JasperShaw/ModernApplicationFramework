@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ModernApplicationFramework.EditorBase.FileSupport {
+namespace ModernApplicationFramework.EditorBase.Editor {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace ModernApplicationFramework.EditorBase.FileSupport {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class FileSupportResources {
+    public class EditorBaseResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal FileSupportResources() {
+        internal EditorBaseResources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ModernApplicationFramework.EditorBase.FileSupport.FileSupportResources", typeof(FileSupportResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ModernApplicationFramework.EditorBase.Editor.EditorBaseResources", typeof(EditorBaseResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,56 +61,29 @@ namespace ModernApplicationFramework.EditorBase.FileSupport {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The file &quot;{0}&quot; cannot be opened. Do you want to remove the reference(s) to it from the Recent list(s)?.
+        ///   Looks up a localized string similar to Opening File....
         /// </summary>
-        public static string MessageMruFileCouldNotOpen {
+        public static string OpeningProgressMessage {
             get {
-                return ResourceManager.GetString("MessageMruFileCouldNotOpen", resourceCulture);
+                return ResourceManager.GetString("OpeningProgressMessage", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All Files.
+        ///   Looks up a localized string similar to Save File As.
         /// </summary>
-        public static string OpenSaveFileFilterAnyText {
+        public static string SaveAsDialogTitle {
             get {
-                return ResourceManager.GetString("OpenSaveFileFilterAnyText", resourceCulture);
+                return ResourceManager.GetString("SaveAsDialogTitle", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to General.
+        ///   Looks up a localized string similar to Saving File....
         /// </summary>
-        public static string TextFileDefinitionApplicationContext {
+        public static string SavingProgressMessage {
             get {
-                return ResourceManager.GetString("TextFileDefinitionApplicationContext", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Text Files.
-        /// </summary>
-        public static string TextFileDefinitionContext {
-            get {
-                return ResourceManager.GetString("TextFileDefinitionContext", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Opens a plain text file.
-        /// </summary>
-        public static string TextFileDefinitionDescription {
-            get {
-                return ResourceManager.GetString("TextFileDefinitionDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Text File.
-        /// </summary>
-        public static string TextFileDefinitionName {
-            get {
-                return ResourceManager.GetString("TextFileDefinitionName", resourceCulture);
+                return ResourceManager.GetString("SavingProgressMessage", resourceCulture);
             }
         }
     }

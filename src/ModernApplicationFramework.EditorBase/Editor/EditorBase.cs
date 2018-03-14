@@ -6,6 +6,7 @@ using ModernApplicationFramework.EditorBase.Core.OpenSaveDialogFilters;
 using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
+using ModernApplicationFramework.EditorBase.Interfaces.Packages;
 using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Utilities.Interfaces;
 
@@ -75,7 +76,7 @@ namespace ModernApplicationFramework.EditorBase.Editor
                     Filter = BuildSaveAsFilter().Filter,
                     FilterIndex = 1,
                     InitialDirectory = DefaultSaveAsDirectory,
-                    Title = "Save file as",
+                    Title = EditorBaseResources.SaveAsDialogTitle,
                     Options = SaveFileDialogFlags.OverwritePrompt,
                     DefaultExtension = FallbackSaveExtension
                 };
@@ -87,13 +88,14 @@ namespace ModernApplicationFramework.EditorBase.Editor
                 args = new SaveFileArguments(Document.FullFilePath, Document.FileName,
                     fdm.GetDefinitionByFilePath(Document.FileName));
 
-            await MafTaskHelper.Run(IoC.Get<IEnvironmentVariables>().ApplicationName, "Saving File...", async () =>
+            await MafTaskHelper.Run(IoC.Get<IEnvironmentVariables>().ApplicationName, EditorBaseResources.SavingProgressMessage, async () =>
             {
                 FileChangeService.Instance.UnadviseFileChange(Document);
                 await storableDocument.Save(args, SaveFile);
                 await Task.Delay(TimeSpan.FromSeconds(0.5)).ConfigureAwait(false);
                 FileChangeService.Instance.AdviseFileChange(Document);
             });
+            IoC.Get<IMruFilePackage>().Manager.AddItem($"{args.FullFilePath}|{EditorId:B}");
             OpenedFileDefinition = args.FileDefinition;
             DisplayName = Document.FileName;
             UpdateIconSource();
@@ -106,7 +108,7 @@ namespace ModernApplicationFramework.EditorBase.Editor
             if (document is IStorableFile storableFile)
                 storableFile.DirtyChanged += StorableFile_DirtyChanged;
             IsReadOnly = !(document is IStorableFile);
-            await MafTaskHelper.Run(IoC.Get<IEnvironmentVariables>().ApplicationName, "Opening File...", async () =>
+            await MafTaskHelper.Run(IoC.Get<IEnvironmentVariables>().ApplicationName, EditorBaseResources.OpeningProgressMessage, async () =>
             {
                 await Document.Load(LoadFile);
             });

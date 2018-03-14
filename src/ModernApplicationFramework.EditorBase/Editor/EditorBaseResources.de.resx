@@ -117,25 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AutoHideAffectsOnlyActiveCheckBox_Text" xml:space="preserve">
-    <value>Schaltfläche "Automatisch ausblenden " gilt nur für aktives Toolfenster</value>
+  <data name="SaveAsDialogTitle" xml:space="preserve">
+    <value>Datei speichern unter</value>
   </data>
-  <data name="CloseAffectsOnlyActiveCheckBox_Text" xml:space="preserve">
-    <value>Schaltfläche "Schließen" gilt nur für aktives Toolfenster</value>
+  <data name="SavingProgressMessage" xml:space="preserve">
+    <value>Datei speichern...</value>
   </data>
-  <data name="Error_ItemsListCountNotMatching" xml:space="preserve">
-    <value>Das Fenstermenü kann {0} - {1} Elemente enthalten.</value>
-  </data>
-  <data name="GeneralSettings_Name" xml:space="preserve">
-    <value>Allgemein</value>
-  </data>
-  <data name="UseStatusBarCheckBox_Text" xml:space="preserve">
-    <value>Stautsleiste anzeigen</value>
-  </data>
-  <data name="WindowItemsTextBox_Text" xml:space="preserve">
-    <value>im Menü "_Fenster" angezeigte Elemente</value>
-  </data>
-  <data name="MruItemsTextBox_Text" xml:space="preserve">
-    <value>Eint_räge in der List der zuletzt geöffneten Datein</value>
+  <data name="OpeningProgressMessage" xml:space="preserve">
+    <value>Datei öffnen...</value>
   </data>
 </root>

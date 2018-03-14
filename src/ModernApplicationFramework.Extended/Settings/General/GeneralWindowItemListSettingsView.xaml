@@ -6,11 +6,18 @@
              xmlns:general="clr-namespace:ModernApplicationFramework.Extended.Settings.General"
              xmlns:textBoxes="clr-namespace:ModernApplicationFramework.Controls.TextBoxes;assembly=ModernApplicationFramework"
              mc:Ignorable="d" HorizontalAlignment="Left"
-             d:DesignHeight="50" d:DesignWidth="300" Width="460">
-    
-    <StackPanel Orientation="Horizontal" Margin="0,0,0,3">
-        <textBoxes:NumberOnlyTextBox x:Name="TextBox" Width="35" HorizontalAlignment="Left" VerticalContentAlignment="Center" 
-                                NumberStyle="Integer" MaxLength="2" Text="{Binding WindowListItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <Label Target="{Binding ElementName=TextBox}" Content="{x:Static general:GeneralSettingsResources.WindowItemsTextBox_Text}" VerticalAlignment="Center"/>
+             d:DesignHeight="100" d:DesignWidth="300" Width="460">
+
+    <StackPanel Margin="0,0,0,3">
+        <StackPanel Orientation="Horizontal">
+            <textBoxes:NumberOnlyTextBox x:Name="TextBox" Width="35" HorizontalAlignment="Left" VerticalContentAlignment="Center" 
+                                         NumberStyle="Integer" MaxLength="2" Text="{Binding WindowListItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Target="{Binding ElementName=TextBox}" Content="{x:Static general:GeneralSettingsResources.WindowItemsTextBox_Text}" VerticalAlignment="Center"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+            <textBoxes:NumberOnlyTextBox x:Name="MruTextBox" Width="35" HorizontalAlignment="Left" VerticalContentAlignment="Center" 
+                                         NumberStyle="Integer" MaxLength="2" Text="{Binding MruListItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Target="{Binding ElementName=MruTextBox}" Content="{x:Static general:GeneralSettingsResources.MruItemsTextBox_Text}" VerticalAlignment="Center"/>
+        </StackPanel>
     </StackPanel>
 </UserControl>

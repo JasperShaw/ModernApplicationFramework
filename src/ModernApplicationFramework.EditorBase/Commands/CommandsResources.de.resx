@@ -150,4 +150,7 @@
   <data name="RecentFileListCommand" xml:space="preserve">
     <value>List zuletzt geöffneter Dateien</value>
   </data>
+  <data name="RecentFileListCommand_NoItems" xml:space="preserve">
+    <value>Keine Einträge vorhanden</value>
+  </data>
 </root>
