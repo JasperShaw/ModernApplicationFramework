@@ -147,4 +147,7 @@
   <data name="WindowSelectCommandText" xml:space="preserve">
     <value>&amp;Fenster...</value>
   </data>
+  <data name="RecentFileListCommand" xml:space="preserve">
+    <value>List zuletzt geöffneter Dateien</value>
+  </data>
 </root>

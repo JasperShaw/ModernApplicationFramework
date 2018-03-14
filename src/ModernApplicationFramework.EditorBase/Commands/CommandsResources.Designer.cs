@@ -97,6 +97,15 @@ namespace ModernApplicationFramework.EditorBase.Commands {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Recent File List.
+        /// </summary>
+        public static string RecentFileListCommand {
+            get {
+                return ResourceManager.GetString("RecentFileListCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save Selected Items &amp;As....
         /// </summary>
         public static string SaveActiveDocumentAsCommandName {

@@ -65,6 +65,11 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandBarDefinitions\CommandBarResources.Designer.cs">
+      <DependentUpon>CommandBarResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="CommandBarDefinitions\ContextMenuDefinitions\TabbedDocumentContextMenuDefinitions.cs" />
     <Compile Include="CommandBarDefinitions\MenuDefinitions\FileMenuDefinitions.cs" />
     <Compile Include="CommandBarDefinitions\MenuDefinitions\WindowMenuDefinitions.cs" />
@@ -76,6 +81,8 @@
     <Compile Include="Commands\CopyFullPathCommandDefinition.cs" />
     <Compile Include="Commands\OpenContainingFolderCommandDefinition.cs" />
     <Compile Include="Commands\OpenFileCommandDefinition.cs" />
+    <Compile Include="Commands\RecentFilesListCommandHandler.cs" />
+    <Compile Include="Commands\RecentFilesListDefinition.cs" />
     <Compile Include="Commands\SaveActiveFileAsCommandDefinition.cs" />
     <Compile Include="Commands\SaveAllCommandDefinition.cs" />
     <Compile Include="Commands\SaveActiveFileCommandDefinition.cs" />
@@ -239,6 +246,12 @@
     <Compile Include="Settings\EditorAssociation\NewFileEditorAssociationSettings.cs" />
     <Compile Include="Settings\EditorAssociation\OpenFileEditorAssociationSettings.cs" />
     <Compile Include="Settings\WindowSelectionDialog\WindowSelectionDialogSettings.cs" />
+    <EmbeddedResource Include="CommandBarDefinitions\CommandBarResources.de.resx" />
+    <EmbeddedResource Include="CommandBarDefinitions\CommandBarResources.en.resx" />
+    <EmbeddedResource Include="CommandBarDefinitions\CommandBarResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommandBarResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Commands\CommandsResources.de.resx" />
     <EmbeddedResource Include="Commands\CommandsResources.en.resx" />
     <EmbeddedResource Include="Commands\CommandsResources.resx">
