@@ -18,6 +18,8 @@ namespace ModernApplicationFramework.EditorBase.Dialogs.NewElementDialog.ViewMod
         private string _okButtonText;
         private string _path;
 
+        private bool _applied;
+
         public string Name
         {
             get => _name;
@@ -69,7 +71,7 @@ namespace ModernApplicationFramework.EditorBase.Dialogs.NewElementDialog.ViewMod
                 _itemPresenter = value;
                 var firstOrDefault = _itemPresenter.Extensions?.FirstOrDefault();
                 if (firstOrDefault != null)
-                    Name = firstOrDefault.PresetElementName;
+                    Name = firstOrDefault.TemplateName;
                 _itemPresenter.PropertyChanged += _itemPresenter_PropertyChanged;
                 _itemPresenter.ItemDoubledClicked += _itemPresenter_ItemDoubledClicked;
 
@@ -84,7 +86,7 @@ namespace ModernApplicationFramework.EditorBase.Dialogs.NewElementDialog.ViewMod
         private void _itemPresenter_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(ItemPresenter.SelectedExtension))
-                Name = ItemPresenter.SelectedExtension?.PresetElementName;
+                Name = ItemPresenter.SelectedExtension?.TemplateName;
 
         }
 
@@ -92,7 +94,7 @@ namespace ModernApplicationFramework.EditorBase.Dialogs.NewElementDialog.ViewMod
         {
             if (!CanApply())
                 return;
-            Apply();
+            ApplyCommand.Execute(null);
         }
 
         public ICommand ApplyCommand => new UICommand(Apply, CanApply);
@@ -104,10 +106,13 @@ namespace ModernApplicationFramework.EditorBase.Dialogs.NewElementDialog.ViewMod
 
         private void Apply()
         {
+            if (_applied)
+                return;
             ResultData = ItemPresenter.CreateResult(Name, Path);
             if (ResultData == null)
                 TryClose(false);
             TryClose(true);
+            _applied = true;
         }
 
         private void OpenWith()

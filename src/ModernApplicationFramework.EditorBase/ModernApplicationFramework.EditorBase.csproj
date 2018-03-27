@@ -8,7 +8,7 @@
     <OutputType>library</OutputType>
     <RootNamespace>ModernApplicationFramework.EditorBase</RootNamespace>
     <AssemblyName>ModernApplicationFramework.EditorBase</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -231,7 +231,11 @@
     </Compile>
     <Compile Include="FileSupport\TextFile\TextFileDefinition.cs" />
     <Compile Include="Interfaces\Services\IOpenFileService.cs" />
+    <Compile Include="Interfaces\Services\IUniqueNameCreator.cs" />
     <Compile Include="Services\OpenDocumentService.cs" />
+    <Compile Include="Services\UniqueExtensionNameProvider.cs" />
+    <Compile Include="Services\UniqueFileNameProvider.cs" />
+    <Compile Include="Services\UniqueNameCreator.cs" />
     <Compile Include="Settings\Documents\DocumentsSettingsResources.Designer.cs">
       <DependentUpon>DocumentsSettingsResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>

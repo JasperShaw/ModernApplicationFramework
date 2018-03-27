@@ -18,7 +18,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport.TextFile
 
         public override string Name => FileSupportResources.TextFileDefinitionName;
 
-        public override string PresetElementName => "NewTextfile";
+        public override string TemplateName => "NewTextfile";
 
         public override int SortOrder => 1;
 

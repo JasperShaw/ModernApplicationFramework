@@ -23,7 +23,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
         public abstract BitmapSource SmallThumbnailImage { get; }
         public abstract string Name { get; }
 
-        public abstract string PresetElementName { get; }
+        public abstract string TemplateName { get; }
         public abstract int SortOrder { get; }
 
         public abstract string FileExtension { get; }

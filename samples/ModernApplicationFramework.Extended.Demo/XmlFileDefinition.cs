@@ -20,7 +20,7 @@ namespace ModernApplicationFramework.Extended.Demo
             UriKind.RelativeOrAbsolute));
 
         public override string Name => "Xml File";
-        public override string PresetElementName => "NewXmlfile";
+        public override string TemplateName => "NewXmlfile";
         public override int SortOrder => 2;
         public override string ApplicationContext => "General";
         public override string Description => "Opens a plain xml file";

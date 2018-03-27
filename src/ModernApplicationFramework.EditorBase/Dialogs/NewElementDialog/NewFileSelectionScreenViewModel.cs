@@ -7,6 +7,7 @@ using ModernApplicationFramework.EditorBase.Dialogs.NewElementDialog.ViewModels;
 using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.NewElement;
+using ModernApplicationFramework.EditorBase.Interfaces.Services;
 
 namespace ModernApplicationFramework.EditorBase.Dialogs.NewElementDialog
 {
@@ -42,7 +43,8 @@ namespace ModernApplicationFramework.EditorBase.Dialogs.NewElementDialog
         {
             return !(SelectedExtension is ISupportedFileDefinition fileArgument)
                 ? null
-                : new NewFileArguments(fileArgument, $"UniqueName{fileArgument.FileExtension}");
+                : new NewFileArguments(fileArgument,
+                    IoC.Get<IUniqueNameCreator<ISupportedFileDefinition>>().GetUniqueName(fileArgument));
         }
 
         public override NewFileArguments CreateResultOpenWith(string name, string path)
@@ -53,7 +55,7 @@ namespace ModernApplicationFramework.EditorBase.Dialogs.NewElementDialog
                 return null;
             if (!(SelectedExtension is ISupportedFileDefinition fileArgument))
                 return null;
-            return new NewFileArguments(fileArgument, $"UniqueName{fileArgument.FileExtension}", selectorModel.Result.EditorId);
+            return new NewFileArguments(fileArgument, IoC.Get<IUniqueNameCreator<ISupportedFileDefinition>>().GetUniqueName(fileArgument), selectorModel.Result.EditorId);
         }
     }
 }

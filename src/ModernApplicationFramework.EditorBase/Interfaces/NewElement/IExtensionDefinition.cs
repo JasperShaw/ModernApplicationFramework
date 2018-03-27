@@ -14,7 +14,7 @@ namespace ModernApplicationFramework.EditorBase.Interfaces.NewElement
 
         string Name { get; }
 
-        string PresetElementName { get; }
+        string TemplateName { get; }
 
         int SortOrder { get; }
     }
