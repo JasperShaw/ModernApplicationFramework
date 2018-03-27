@@ -1,14 +1,16 @@
 ﻿using System;
-using System.ComponentModel.Composition;
 using System.Windows;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Docking
 {
-    [Export(typeof(DockingManagerPreferences))]
     public class DockingManagerPreferences : DependencyObject
     {
-        public static DockingManagerPreferences Instance { get; private set; }
+        public static DockingManagerPreferences Instance
+        {
+            get => _instance ?? (_instance = new DockingManagerPreferences());
+            private set => _instance = value;
+        }
 
         public static readonly DependencyProperty DocumentDockPreferenceProperty = DependencyProperty.Register(nameof(DocumentDockPreference), typeof(DockPreference), typeof(DockingManagerPreferences), new PropertyMetadata(DockPreference.DockAtBeginning));
         public static readonly DependencyProperty AutoHideHoverDelayProperty = DependencyProperty.Register(nameof(AutoHideHoverDelay), typeof(TimeSpan), typeof(DockingManagerPreferences), new PropertyMetadata(TimeSpan.FromMilliseconds(SystemParameters.MenuShowDelay)));
@@ -17,6 +19,7 @@ namespace ModernApplicationFramework.Docking
         public static readonly DependencyProperty IsPinnedTabPanelSeparateProperty = DependencyProperty.Register(nameof(IsPinnedTabPanelSeparate), typeof(bool), typeof(DockingManagerPreferences), new PropertyMetadata(Boxes.BooleanFalse));
         public static readonly DependencyProperty ShowPinButtonInUnpinnedTabsProperty = DependencyProperty.Register(nameof(ShowPinButtonInUnpinnedTabs), typeof(bool), typeof(DockingManagerPreferences), new PropertyMetadata(Boxes.BooleanTrue));
         public static readonly DependencyProperty ShowAutoHiddenWindowsOnHoverProperty = DependencyProperty.Register(nameof(ShowAutoHiddenWindowsOnHover), typeof(bool), typeof(DockingManagerPreferences), new PropertyMetadata(Boxes.BooleanFalse));
+        private static DockingManagerPreferences _instance;
 
         public TimeSpan AutoHideMouseExitGracePeriod
         {
@@ -61,7 +64,6 @@ namespace ModernApplicationFramework.Docking
             set => SetValue(ShowAutoHiddenWindowsOnHoverProperty, Boxes.Box(value));
         }
 
-        [ImportingConstructor]
         public DockingManagerPreferences()
         {
             Instance = this;
