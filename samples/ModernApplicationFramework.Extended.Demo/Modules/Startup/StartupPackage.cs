@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Services;
-using ModernApplicationFramework.Extended.Interfaces;
-using ModernApplicationFramework.Extended.Modules.InspectorTool;
-using ModernApplicationFramework.Extended.Modules.OutputTool;
 using ModernApplicationFramework.Extended.Package;
 using ModernApplicationFramework.Interfaces.Services;
+using ModernApplicationFramework.Modules.Inspector;
+using ModernApplicationFramework.Modules.Output;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.Startup
 {

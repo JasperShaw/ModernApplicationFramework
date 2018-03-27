@@ -3,8 +3,8 @@ using System.ComponentModel.Composition;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Layout;
-using ModernApplicationFramework.Extended.Modules.OutputTool;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Modules.Output;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.UndoRedoTest
 {

@@ -217,9 +217,13 @@
       <Project>{51911695-6cdb-4833-9782-06c8821d1c4e}</Project>
       <Name>ModernApplicationFramework.Extended</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\ModernApplicationFramework.Extended.Modules\ModernApplicationFramework.Extended.Modules.csproj">
+    <ProjectReference Include="..\..\src\ModernApplicationFramework.Modules.Inspector\ModernApplicationFramework.Modules.Inspector.csproj">
       <Project>{96e6bb64-30ec-49dc-831a-c9d5e25aa46d}</Project>
-      <Name>ModernApplicationFramework.Extended.Modules</Name>
+      <Name>ModernApplicationFramework.Modules.Inspector</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\ModernApplicationFramework.Modules.Output\ModernApplicationFramework.Modules.Output.csproj">
+      <Project>{1AD782C4-4ADA-4053-8E0E-C12242EB478C}</Project>
+      <Name>ModernApplicationFramework.Modules.Output</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\ModernApplicationFramework.Settings\ModernApplicationFramework.Settings.csproj">
       <Project>{240cc7db-f3a0-48e7-a8eb-5785a90128be}</Project>
