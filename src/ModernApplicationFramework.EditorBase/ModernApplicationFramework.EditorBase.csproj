@@ -150,7 +150,6 @@
     <Compile Include="Interfaces\FileSupport\IFileService.cs" />
     <Compile Include="FileSupport\SupportedFileDefinition.cs" />
     <Compile Include="Interfaces\FileSupport\IFileDefinitionContextManager.cs" />
-    <Compile Include="FileSupport\TextFile\TextFileDefinitionContext.cs" />
     <Compile Include="FileSupport\FileSupportResources.Designer.cs">
       <DependentUpon>FileSupportResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -197,10 +196,6 @@
     <Compile Include="Dialogs\SaveDirtyDocumentsDialog\SaveDirtyDocumentsDialog.xaml.cs">
       <DependentUpon>SaveDirtyDocumentsDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\SimpleTextEditor\SimpleTextEditorView.xaml.cs">
-      <DependentUpon>SimpleTextEditorView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\SimpleTextEditor\SimpleTextEditorViewModel.cs" />
     <Compile Include="FileSupport\NewFileArguments.cs" />
     <Compile Include="FileSupport\OpenFileArguments.cs" />
     <Compile Include="Core\TreeNodeStyleSelector.cs" />
@@ -229,7 +224,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="FileSupport\TextFile\TextFileDefinition.cs" />
     <Compile Include="Interfaces\Services\IOpenFileService.cs" />
     <Compile Include="Interfaces\Services\IUniqueNameCreator.cs" />
     <Compile Include="Services\OpenDocumentService.cs" />
@@ -371,10 +365,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Dialogs\SimpleTextEditor\SimpleTextEditorView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Resources\Icons\OpenFolder_16x.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -397,15 +387,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Images\TextFile_32x.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Images\Details.png" />
     <Resource Include="Resources\Images\List.png" />
     <Resource Include="Resources\Images\Medium.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Images\TextFile_16x.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

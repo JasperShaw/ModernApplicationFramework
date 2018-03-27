@@ -3,16 +3,17 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Text;
 using Caliburn.Micro;
+using ModernApplicationFramework.EditorBase;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Input.Command;
 
-namespace ModernApplicationFramework.EditorBase.Dialogs.SimpleTextEditor
+namespace ModernApplicationFramework.Modules.Editors.SimpleTextEditor
 {
     [Export(typeof(IEditor))]
     [Export(typeof(SimpleTextEditorViewModel))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public sealed class SimpleTextEditorViewModel : Editor.EditorBase
+    public sealed class SimpleTextEditorViewModel : EditorBase.Editor.EditorBase
     {
         private string _originalText = string.Empty;
 

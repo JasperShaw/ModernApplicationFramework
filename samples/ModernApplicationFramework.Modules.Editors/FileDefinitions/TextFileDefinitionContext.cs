@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.Composition;
+using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 
-namespace ModernApplicationFramework.EditorBase.FileSupport.TextFile
+namespace ModernApplicationFramework.Modules.Editors.FileDefinitions
 {
     [Export(typeof(TextFileDefinitionContext))]
     [Export(typeof(IFileDefinitionContext))]

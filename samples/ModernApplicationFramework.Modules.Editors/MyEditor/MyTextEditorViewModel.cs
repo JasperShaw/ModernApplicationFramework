@@ -7,7 +7,7 @@ using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Input.Command;
 using File = System.IO.File;
 
-namespace ModernApplicationFramework.Extended.Demo.Modules.MyEditor
+namespace ModernApplicationFramework.Modules.Editors.MyEditor
 {
     [Export(typeof(MyTextEditorViewModel))]
     [Export(typeof(IEditor))]

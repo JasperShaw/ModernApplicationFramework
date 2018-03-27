@@ -99,7 +99,6 @@
     </Compile>
     <Compile Include="Modules\InfoBarDemo\InfoBarDemoViewModel.cs" />
     <Compile Include="Modules\LoadWindowProfile\LoadWindowProfilePackage.cs" />
-    <Compile Include="Modules\MyEditor\Sample.cs" />
     <Compile Include="Modules\NewFileExtension\InstalledFilesExtensionProvider.cs" />
     <Compile Include="Modules\NewFileExtension\NewFileSelectionScreenViewModel.cs" />
     <Compile Include="Modules\SampleExplorer\SampleExplorerModule.cs" />
@@ -121,10 +120,6 @@
     </Compile>
     <Compile Include="Modules\SampleExplorer\SampleViewModel.cs" />
     <Compile Include="Modules\SampleExplorer\ISample.cs" />
-    <Compile Include="Modules\MyEditor\MyTextEditorView.xaml.cs">
-      <DependentUpon>MyTextEditorView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Modules\MyEditor\MyTextEditorViewModel.cs" />
     <Compile Include="Modules\UndoRedoTest\Sample.cs" />
     <Compile Include="Modules\StatusBar\ExtendedStatusBar.cs" />
     <Compile Include="Modules\StatusBar\ExtendedStatusBarService.cs" />
@@ -135,7 +130,6 @@
     </Compile>
     <Compile Include="Modules\UndoRedoTest\UndoRedoViewModel.cs" />
     <Compile Include="TestMenuDefinitions.cs" />
-    <Compile Include="XmlFileDefinition.cs" />
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -153,10 +147,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Modules\SampleExplorer\SampleView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Modules\MyEditor\MyTextEditorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -255,6 +245,10 @@
       <Project>{74f6c6a1-64bb-47d4-9e7f-6cd5c4ca166c}</Project>
       <Name>ModernApplicationFramework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework.Modules.Editors\ModernApplicationFramework.Modules.Editors.csproj">
+      <Project>{3b05fe4c-e6f7-4f18-8073-58f2e81c9446}</Project>
+      <Name>ModernApplicationFramework.Modules.Editors</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\DefaultProfile.winprf" />
@@ -262,12 +256,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\StatusInformation_16x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\XMLFile_32x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\XMLFile_16x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

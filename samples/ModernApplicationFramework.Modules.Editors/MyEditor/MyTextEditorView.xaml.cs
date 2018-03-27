@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace ModernApplicationFramework.Extended.Demo.Modules.MyEditor
+namespace ModernApplicationFramework.Modules.Editors.MyEditor
 {
     /// <summary>
     /// Interaktionslogik für SimpleTextEditorView.xaml
