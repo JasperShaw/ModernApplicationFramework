@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Text;
+using ModernApplicationFramework.Core;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
 using ModernApplicationFramework.Input.Command;
@@ -20,6 +21,7 @@ namespace ModernApplicationFramework.Modules.Editors.MyEditor
 
         private string _text;
 
+        [IgnoreProperty(true)]
         public string Text
         {
             get => _text;

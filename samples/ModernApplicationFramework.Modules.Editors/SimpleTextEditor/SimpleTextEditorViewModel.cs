@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Text;
 using Caliburn.Micro;
+using ModernApplicationFramework.Core;
 using ModernApplicationFramework.EditorBase;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
@@ -19,6 +20,7 @@ namespace ModernApplicationFramework.Modules.Editors.SimpleTextEditor
 
         private string _text = string.Empty;
 
+        [IgnoreProperty(true)]
         public string Text
         {
             get => _text;

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Threading;
+using ModernApplicationFramework.Core;
 using ModernApplicationFramework.EditorBase.Core.OpenSaveDialogFilters;
 using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
@@ -17,6 +18,7 @@ namespace ModernApplicationFramework.EditorBase.Editor
         private bool _isReadOnly;
         private string _displayName;
 
+        [IgnoreProperty(true)]
         public abstract string Name { get; }
 
         public IFile Document { get; protected set; }
@@ -32,6 +34,7 @@ namespace ModernApplicationFramework.EditorBase.Editor
             }
         }
 
+        [IgnoreProperty(true)]
         public override string DisplayName
         {
             get => _displayName;
@@ -47,6 +50,7 @@ namespace ModernApplicationFramework.EditorBase.Editor
 
         public abstract Guid EditorId { get; }
 
+        [IgnoreProperty(true)]
         public abstract string LocalizedName { get; }
 
         protected virtual string DefaultSaveAsDirectory => string.Empty;

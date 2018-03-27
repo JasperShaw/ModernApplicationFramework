@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Media.Imaging;
+using ModernApplicationFramework.Core;
 using ModernApplicationFramework.Extended.Modules.InspectorTool.Inspectors;
 
 namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Conventions
@@ -34,7 +36,12 @@ namespace ModernApplicationFramework.Extended.Modules.InspectorTool.Conventions
         {
             foreach (var inspectorBuilder in InspectorBuilders)
                 if (inspectorBuilder.IsApplicable(propertyDescriptor))
+                {
+                    var attribute = propertyDescriptor.Attributes.OfType<IgnorePropertyAttribute>().FirstOrDefault();
+                    if (attribute != null && attribute.IgnoreProperty)
+                        return null;
                     return inspectorBuilder.BuildEditor(propertyDescriptor);
+                }
             return null;
         }
     }

@@ -257,6 +257,7 @@
     <Compile Include="Basics\Definitions\Command\ExcludedCommandDefinition.cs" />
     <Compile Include="Basics\Definitions\Command\CommandGestureScopeMapping.cs" />
     <Compile Include="Basics\MostRecentlyUsedManager\MruItem.cs" />
+    <Compile Include="Core\IgnorePropertyAttribute.cs" />
     <Compile Include="Interfaces\Services\IMruManager.cs" />
     <Compile Include="Basics\MostRecentlyUsedManager\MruManager.cs" />
     <Compile Include="Basics\Services\CommandBarLayoutBackupProvider.cs" />
