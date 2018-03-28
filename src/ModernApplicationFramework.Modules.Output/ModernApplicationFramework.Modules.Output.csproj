@@ -51,6 +51,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContextMenuDefinition.cs" />
     <Compile Include="IOutput.cs" />
     <Compile Include="IOutputView.cs" />
     <Compile Include="MenuDefinitions.cs" />

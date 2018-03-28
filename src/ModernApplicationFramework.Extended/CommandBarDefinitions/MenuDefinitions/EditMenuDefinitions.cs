@@ -23,5 +23,10 @@ namespace ModernApplicationFramework.Extended.CommandBarDefinitions.MenuDefiniti
         [Export] public static CommandBarItemDefinition EditRedoMenuItem =
             new CommandBarCommandItemDefinition<RedoCommandDefinition>(
                 new Guid("{F41D3A9C-90CA-41EE-BEE3-D3283BEF1D52}"), EditUndoRedoMenuGroup, 0);
+
+        //[Export]
+        //public static CommandBarItemDefinition CopyMenuItem =
+        //    new CommandBarCommandItemDefinition<CopyCommandDefinition>(
+        //        new Guid("{0B5512CB-1DB5-4CBF-B7B6-A87DAF3B0322}"), EditUndoRedoMenuGroup, 1);
     }
 }
