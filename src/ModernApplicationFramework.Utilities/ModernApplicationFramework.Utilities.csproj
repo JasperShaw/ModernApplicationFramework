@@ -74,6 +74,7 @@
     <Compile Include="BitRotator.cs" />
     <Compile Include="Boxes.cs" />
     <Compile Include="Converters\BrushToColorConverter.cs" />
+    <Compile Include="Converters\ColorToBrushConverter.cs" />
     <Compile Include="Converters\GrayscaleBitmapSourceConverter.cs" />
     <Compile Include="Converters\MultiValueConverter.cs" />
     <Compile Include="Converters\MultiValueConverterBase.cs" />
