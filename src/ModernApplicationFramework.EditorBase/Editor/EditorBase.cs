@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Threading;
@@ -18,7 +19,7 @@ namespace ModernApplicationFramework.EditorBase.Editor
         private bool _isReadOnly;
         private string _displayName;
 
-        [IgnoreProperty(true)]
+        [Browsable(false)]
         public abstract string Name { get; }
 
         public IFile Document { get; protected set; }
@@ -34,7 +35,7 @@ namespace ModernApplicationFramework.EditorBase.Editor
             }
         }
 
-        [IgnoreProperty(true)]
+        [Browsable(false)]
         public override string DisplayName
         {
             get => _displayName;
@@ -50,7 +51,7 @@ namespace ModernApplicationFramework.EditorBase.Editor
 
         public abstract Guid EditorId { get; }
 
-        [IgnoreProperty(true)]
+        [Browsable(false)]
         public abstract string LocalizedName { get; }
 
         protected virtual string DefaultSaveAsDirectory => string.Empty;

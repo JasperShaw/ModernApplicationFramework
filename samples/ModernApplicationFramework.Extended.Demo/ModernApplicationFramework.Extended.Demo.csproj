@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <UsingTask AssemblyFile="..\..\lib\ShaderBuildTask.dll" TaskName="ShaderBuildTask.PixelShaderCompile" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -25,6 +26,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -78,6 +80,20 @@
     <Compile Include="DemoBootstrapper.cs" />
     <Compile Include="DemoEnvironmentVariables.cs" />
     <Compile Include="FileKeySchemes\FileKeySchemeManager.cs" />
+    <Compile Include="GraphDesigner\Controls\AnimationHelper.cs" />
+    <Compile Include="GraphDesigner\Controls\BezierLine.cs" />
+    <Compile Include="GraphDesigner\Controls\ConnectionDragCompletedEventArgs.cs" />
+    <Compile Include="GraphDesigner\Controls\ConnectionDragEventArgs.cs" />
+    <Compile Include="GraphDesigner\Controls\ConnectionDraggingEventArgs.cs" />
+    <Compile Include="GraphDesigner\Controls\ConnectionDragStartedEventArgs.cs" />
+    <Compile Include="GraphDesigner\Controls\ConnectorItem.cs" />
+    <Compile Include="GraphDesigner\Controls\ConnectorItemDragCompletedEventArgs.cs" />
+    <Compile Include="GraphDesigner\Controls\ConnectorItemDraggingEventArgs.cs" />
+    <Compile Include="GraphDesigner\Controls\ConnectorItemDragStartedEventArgs.cs" />
+    <Compile Include="GraphDesigner\Controls\ElementItem.cs" />
+    <Compile Include="GraphDesigner\Controls\ElementItemsControl.cs" />
+    <Compile Include="GraphDesigner\Controls\GraphControl.cs" />
+    <Compile Include="GraphDesigner\Controls\ZoomAndPanControl.cs" />
     <Compile Include="Modules\AppIcon\AppIcon.cs" />
     <Compile Include="Modules\ComboBoxMenuTest\Commands\ComboBoxCommandDefinition.cs" />
     <Compile Include="Modules\ComboBoxMenuTest\Commands\TestMenuControllerDefinition.cs" />
@@ -89,6 +105,26 @@
       <DependentUpon>TestWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\DefaultWindowLayout\DefaultWindowProfileProvider.cs" />
+    <Compile Include="Modules\FilterDesigner\Design\DesignTimeGraphViewModel.cs" />
+    <Compile Include="Modules\FilterDesigner\Design\DesignTimeImages.cs" />
+    <Compile Include="Modules\FilterDesigner\Sample.cs" />
+    <Compile Include="Modules\FilterDesigner\ShaderEffects\AddEffect.cs" />
+    <Compile Include="Modules\FilterDesigner\Util\BitmapUtility.cs" />
+    <Compile Include="Modules\FilterDesigner\Util\ShaderEffectUtility.cs" />
+    <Compile Include="Modules\FilterDesigner\ViewModels\Elements\Add.cs" />
+    <Compile Include="Modules\FilterDesigner\ViewModels\ConnectionViewModel.cs" />
+    <Compile Include="Modules\FilterDesigner\ViewModels\ConnectorViewModel.cs" />
+    <Compile Include="Modules\FilterDesigner\ViewModels\Elements\ColorInput.cs" />
+    <Compile Include="Modules\FilterDesigner\ViewModels\Elements\DynamicElement.cs" />
+    <Compile Include="Modules\FilterDesigner\ViewModels\Elements\ImageSource.cs" />
+    <Compile Include="Modules\FilterDesigner\ViewModels\Elements\ShaderEffectElement.cs" />
+    <Compile Include="Modules\FilterDesigner\ViewModels\ElementViewModel.cs" />
+    <Compile Include="Modules\FilterDesigner\ViewModels\GraphViewModel.cs" />
+    <Compile Include="Modules\FilterDesigner\ViewModels\InputConnectorViewModel.cs" />
+    <Compile Include="Modules\FilterDesigner\ViewModels\OutputConnectorViewModel.cs" />
+    <Compile Include="Modules\FilterDesigner\Views\GraphView.xaml.cs">
+      <DependentUpon>GraphView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Modules\InfoBarDemo\InfoBarToolDemoView.xaml.cs">
       <DependentUpon>InfoBarToolDemoView.xaml</DependentUpon>
     </Compile>
@@ -102,6 +138,7 @@
     <Compile Include="Modules\NewFileExtension\InstalledFilesExtensionProvider.cs" />
     <Compile Include="Modules\NewFileExtension\NewFileSelectionScreenViewModel.cs" />
     <Compile Include="Modules\SampleExplorer\SampleExplorerModule.cs" />
+    <Compile Include="Modules\FilterDesigner\ShaderEffects\ShaderEffectBase.cs" />
     <Compile Include="Modules\Startup\StartupPackage.cs" />
     <Compile Include="Modules\WaitingWindow\WaitingDialogDemoView.xaml.cs">
       <DependentUpon>WaitingDialogDemoView.xaml</DependentUpon>
@@ -135,6 +172,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Modules\Commands\TestWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\FilterDesigner\Views\GraphView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -198,6 +239,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
+    <Resource Include="Modules\FilterDesigner\ShaderEffects\AddEffect.ps" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -261,6 +303,9 @@
   <ItemGroup>
     <Resource Include="Resources\StatusInformation_16x.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Modules\FilterDesigner\ShaderEffects\AddEffect.fx" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -269,4 +314,14 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EffectCompile" Condition="'@(Effect)' != '' ">
+    <PixelShaderCompile Sources="@(Effect)">
+      <Output TaskParameter="Outputs" ItemName="Resource" />
+    </PixelShaderCompile>
+  </Target>
+  <PropertyGroup>
+    <!-- Add effect compilation to the PrepareResourcesDependsOn so that the effect fx  get compiled before resources are collected -->
+    <PrepareResourcesDependsOn>EffectCompile;$(PrepareResourcesDependsOn)</PrepareResourcesDependsOn>
+  </PropertyGroup>
 </Project>

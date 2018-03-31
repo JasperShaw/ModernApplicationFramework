@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Text;
@@ -20,7 +21,7 @@ namespace ModernApplicationFramework.Modules.Editors.SimpleTextEditor
 
         private string _text = string.Empty;
 
-        [IgnoreProperty(true)]
+        [Browsable(false)]
         public string Text
         {
             get => _text;

@@ -36,12 +36,7 @@ namespace ModernApplicationFramework.Modules.Inspector.Conventions
         {
             foreach (var inspectorBuilder in InspectorBuilders)
                 if (inspectorBuilder.IsApplicable(propertyDescriptor))
-                {
-                    var attribute = propertyDescriptor.Attributes.OfType<IgnorePropertyAttribute>().FirstOrDefault();
-                    if (attribute != null && attribute.IgnoreProperty)
-                        return null;
                     return inspectorBuilder.BuildEditor(propertyDescriptor);
-                }
             return null;
         }
     }
