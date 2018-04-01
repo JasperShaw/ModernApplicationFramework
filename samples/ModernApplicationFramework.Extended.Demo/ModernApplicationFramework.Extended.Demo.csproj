@@ -267,6 +267,10 @@
       <Project>{1AD782C4-4ADA-4053-8E0E-C12242EB478C}</Project>
       <Name>ModernApplicationFramework.Modules.Output</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\ModernApplicationFramework.Modules.Toolbox\ModernApplicationFramework.Modules.Toolbox.csproj">
+      <Project>{13167f2b-93f8-415f-986b-b1d656721dec}</Project>
+      <Name>ModernApplicationFramework.Modules.Toolbox</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\ModernApplicationFramework.Settings\ModernApplicationFramework.Settings.csproj">
       <Project>{240cc7db-f3a0-48e7-a8eb-5785a90128be}</Project>
       <Name>ModernApplicationFramework.Settings</Name>
@@ -305,6 +309,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Modules\FilterDesigner\ShaderEffects\AddEffect.fx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\action_add_16xLG.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
