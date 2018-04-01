@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.TextFormatting;
 using ModernApplicationFramework.Utilities.NativeMethods;
 
 namespace ModernApplicationFramework.Utilities
@@ -90,6 +92,14 @@ namespace ModernApplicationFramework.Utilities
             where TAncestorType : class
         {
             return FindAncestor(obj, parentEvaluator, ancestor => (object)ancestor is TAncestorType) as TAncestorType;
+        }
+
+        public static TSource GetOriginalSource<TSource>(this MouseButtonEventArgs mouseArgs) where TSource: FrameworkElement
+        {
+            if (!(mouseArgs.OriginalSource is FrameworkElement frameworkElement))
+                return null;
+            var elementItem = frameworkElement.FindAncestorOrSelf<TSource>();
+            return elementItem;
         }
 
         public static object FindAncestor<TElementType>(this TElementType obj,

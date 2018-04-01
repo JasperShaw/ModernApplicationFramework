@@ -17,7 +17,7 @@
             <controls:ZoomAndPanControl x:Name="ZoomAndPanControl" Background="WhiteSmoke">
                 <controls:GraphControl x:Name="GraphControl" Background="Gray"
                                        ElementsSource="{Binding Elements}" ConnectionsSource="{Binding Connections}"
-                                       Width="3000" Height="2000"
+                                       Width="3000" Height="2000" MultiselectEnabled="True"
                                        PreviewMouseRightButtonDown="OnGraphControlRightMouseButtonDown"
                                        PreviewMouseRightButtonUp="OnGraphControlRightMouseButtonUp"
                                        PreviewMouseMove="OnGraphControlMouseMove"

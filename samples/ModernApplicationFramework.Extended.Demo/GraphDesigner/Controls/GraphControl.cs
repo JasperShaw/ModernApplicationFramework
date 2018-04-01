@@ -1,9 +1,13 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Media;
+using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Extended.Demo.GraphDesigner.Controls
 {
@@ -51,6 +55,9 @@ namespace ModernApplicationFramework.Extended.Demo.GraphDesigner.Controls
 
         public static readonly DependencyProperty ConnectionItemTemplateProperty = DependencyProperty.Register(
             "ConnectionItemTemplate", typeof(DataTemplate), typeof(GraphControl));
+
+        public static readonly DependencyProperty MultiselectEnabledProperty = DependencyProperty.Register(
+            "MultiselectEnabled", typeof(bool), typeof(GraphControl), new PropertyMetadata(default(bool)));
 
         public event ConnectionDragStartedEventHandler ConnectionDragStarted
         {
@@ -118,7 +125,28 @@ namespace ModernApplicationFramework.Extended.Demo.GraphDesigner.Controls
             set => SetValue(ConnectionItemTemplateProperty, value);
         }
 
+        public bool MultiselectEnabled
+        {
+            get => (bool)GetValue(MultiselectEnabledProperty);
+            set => SetValue(MultiselectEnabledProperty, value);
+        }
+
         public IList SelectedElements => _elementItemsControl.SelectedItems;
+
+        internal IEnumerable<ElementItem> SelectedElementItems
+        {
+            get
+            {
+                var list = new List<ElementItem>();
+                foreach (var selectedElement in SelectedElements)
+                {
+                    if (!(_elementItemsControl.ItemContainerGenerator.ContainerFromItem(selectedElement) is ElementItem elementItem))
+                        continue;
+                    list.Add(elementItem);
+                }
+                return list;
+            }
+        }
 
         static GraphControl()
         {
@@ -142,8 +170,84 @@ namespace ModernApplicationFramework.Extended.Demo.GraphDesigner.Controls
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
-            _elementItemsControl.SelectedItems.Clear();
+            if (e.OriginalSource is FrameworkElement frameworkElement)
+            {
+                var elementItem = frameworkElement.FindAncestorOrSelf<ListBoxItem>();
+                if (elementItem != null)
+                    return;
+                _elementItemsControl.SelectedItems.Clear();
+            }
             base.OnMouseLeftButtonDown(e);
+        }
+
+        private Point _lastMousePosition;
+        private bool _isLeftMouseButtonDown;
+        private bool _isDragging;
+
+        internal bool IsDragging => _isDragging;
+
+        protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            var elementItem = e.GetOriginalSource<ListBoxItem>();
+            if (elementItem != null)
+            {
+                _lastMousePosition = e.GetPosition(this);
+                _isLeftMouseButtonDown = true;
+            }
+            base.OnPreviewMouseLeftButtonDown(e);
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            var t = VisualTreeHelper.HitTest(this, e.GetPosition(this));
+            var el = t.VisualHit as FrameworkElement;
+            var elm = el?.FindAncestor<ElementItem>();
+            if (elm == null)
+                return;
+
+            if (_isDragging)
+            {
+                var newMousePosition = e.GetPosition(this);
+                var delta = newMousePosition - _lastMousePosition;
+
+                SelectedElementItems.ForEach(x =>
+                {
+                    x.X += delta.X;
+                    x.Y += delta.Y;
+                });
+                _lastMousePosition = newMousePosition;
+            }
+
+            if (_isLeftMouseButtonDown)
+            {
+                _isDragging = true;
+                elm.CaptureMouse();
+            }
+            base.OnMouseMove(e);
+        }
+
+        protected override void OnPreviewMouseLeftButtonUp(MouseButtonEventArgs e)
+        {
+            if (_isLeftMouseButtonDown)
+            {
+                _isLeftMouseButtonDown = false;
+                if (_isDragging)
+                {
+                    WasDragged = true;
+                    _isDragging = false;
+                    e.GetOriginalSource<ListBoxItem>()?.ReleaseMouseCapture();
+                }
+            }
+            base.OnPreviewMouseLeftButtonUp(e);
+            
+        }
+
+        public bool WasDragged { get; protected set; }
+
+        protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonUp(e);
+            WasDragged = false;
         }
 
         internal int GetMaxZIndex()

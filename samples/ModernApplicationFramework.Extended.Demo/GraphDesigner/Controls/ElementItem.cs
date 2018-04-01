@@ -1,15 +1,15 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Extended.Demo.GraphDesigner.Controls
 {
     public class ElementItem : ListBoxItem
     {
-        private Point _lastMousePosition;
-        private bool _isLeftMouseButtonDown;
-        private bool _isDragging;
+        private bool _justSelected;
 
         public static readonly DependencyProperty XProperty = DependencyProperty.Register(
             "X", typeof(double), typeof(ElementItem),
@@ -23,6 +23,7 @@ namespace ModernApplicationFramework.Extended.Demo.GraphDesigner.Controls
             "ZIndex", typeof(int), typeof(ElementItem),
             new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
+        
         public double X
         {
             get => (double)GetValue(XProperty);
@@ -58,53 +59,28 @@ namespace ModernApplicationFramework.Extended.Demo.GraphDesigner.Controls
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             DoSelection();
-
-            var parentGraphControl = ParentGraphControl;
-            if (parentGraphControl != null)
-                _lastMousePosition = e.GetPosition(parentGraphControl);
-
-            _isLeftMouseButtonDown = true;
-
             e.Handled = true;
-
             base.OnMouseLeftButtonDown(e);
-        }
-
-        protected override void OnMouseMove(MouseEventArgs e)
-        {
-            if (_isDragging)
-            {
-                var newMousePosition = e.GetPosition(ParentGraphControl);
-                var delta = newMousePosition - _lastMousePosition;
-
-                X += delta.X;
-                Y += delta.Y;
-
-                _lastMousePosition = newMousePosition;
-            }
-            if (_isLeftMouseButtonDown)
-            {
-                _isDragging = true;
-                CaptureMouse();
-            }
-
-            e.Handled = true;
-
-            base.OnMouseMove(e);
         }
 
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
         {
-            if (_isLeftMouseButtonDown)
+            if (_justSelected)
             {
-                _isLeftMouseButtonDown = false;
-                if (_isDragging)
-                {
-                    ReleaseMouseCapture();
-                    _isDragging = false;
-                }
+                _justSelected = false;
+                return;
             }
-            e.Handled = true;
+
+            var parentGraphControl = ParentGraphControl;
+            if (parentGraphControl == null)
+                return;
+
+            if (IsSelected && parentGraphControl.SelectedElementItems.Count() > 1 && !ParentGraphControl.WasDragged)
+            {
+                var other =  parentGraphControl.SelectedElementItems.Where(x => !Equals(x, this));
+                other.ForEach(x => x.IsSelected = false);
+                e.Handled = true;
+            }
             base.OnMouseLeftButtonUp(e);
         }
 
@@ -125,8 +101,19 @@ namespace ModernApplicationFramework.Extended.Demo.GraphDesigner.Controls
             if (parentGraphControl == null)
                 return;
 
-            parentGraphControl.SelectedElements.Clear();
+            if (IsSelected)
+                return;
+
+            if (!parentGraphControl.MultiselectEnabled)
+            {
+                parentGraphControl.SelectedElements.Clear();
+            }
+            if (parentGraphControl.MultiselectEnabled && !Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
+            {
+                parentGraphControl.SelectedElements.Clear();
+            }
             IsSelected = true;
+            _justSelected = true;
         }
     }
 }
