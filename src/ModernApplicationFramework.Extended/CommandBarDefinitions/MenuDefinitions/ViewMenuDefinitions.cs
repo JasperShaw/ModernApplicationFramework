@@ -13,9 +13,9 @@ namespace ModernApplicationFramework.Extended.CommandBarDefinitions.MenuDefiniti
             new MenuDefinition(new Guid("{78420604-4494-454A-8498-51B6DC540539}"),
                 MainMenuBarDefinition.MainMenuBarGroup, 2, CommandBar_Resources.MenuView_Name);
 
-        [Export] public static CommandBarGroupDefinition ScreenViewGroup = new CommandBarGroupDefinition(ViewMenu, 5);
+        [Export] public static CommandBarGroupDefinition ScreenViewGroup = new CommandBarGroupDefinition(ViewMenu, 4);
 
-        [Export] public static CommandBarGroupDefinition ToolsViewGroup = new CommandBarGroupDefinition(ViewMenu, 4);
+        [Export] public static CommandBarGroupDefinition ToolsViewGroup = new CommandBarGroupDefinition(ViewMenu, 3);
 
         [Export] public static CommandBarItemDefinition FullScreen =
             new CommandBarCommandItemDefinition<FullScreenCommandDefinition>(
