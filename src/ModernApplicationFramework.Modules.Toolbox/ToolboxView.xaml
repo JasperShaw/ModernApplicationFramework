@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:design="clr-namespace:ModernApplicationFramework.Modules.Toolbox.Design"
-             xmlns:mafd="http://modern.framework.com/docking"
              xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
              xmlns:toolbox="clr-namespace:ModernApplicationFramework.Modules.Toolbox"
              x:Class="ModernApplicationFramework.Modules.Toolbox.ToolboxView"
@@ -19,7 +18,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBox Grid.Row="0"/>
-        <ListBox Grid.Row="1" Background="Transparent" BorderThickness="0" ItemsSource="{Binding Items}"
+        <ListBox x:Name="ListBox" Grid.Row="1" Background="Transparent" BorderThickness="0" ItemsSource="{Binding Items}"
                  PreviewMouseLeftButtonDown="OnPreviewMouseLeftButtonDown"
                  MouseMove="OnMouseMove">
             <ListBox.GroupStyle>

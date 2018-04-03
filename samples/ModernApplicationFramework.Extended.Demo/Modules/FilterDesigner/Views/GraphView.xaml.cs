@@ -1,8 +1,10 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using ModernApplicationFramework.Extended.Demo.GraphDesigner.Controls;
 using ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.ViewModels;
+using ModernApplicationFramework.Modules.Toolbox;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.Views
 {
@@ -99,23 +101,23 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.Views
 
         private void OnGraphControlDragEnter(object sender, DragEventArgs e)
         {
-            //if (!e.Data.GetDataPresent(ToolboxDragDrop.DataFormat))
-            //    e.Effects = DragDropEffects.None;
+            if (!e.Data.GetDataPresent(ToolboxDragDrop.DataFormat))
+                e.Effects = DragDropEffects.None;
         }
 
         private void OnGraphControlDrop(object sender, DragEventArgs e)
         {
-            //if (e.Data.GetDataPresent(ToolboxDragDrop.DataFormat))
-            //{
-            //    var mousePosition = e.GetPosition(GraphControl);
+            if (e.Data.GetDataPresent(ToolboxDragDrop.DataFormat))
+            {
+                var mousePosition = e.GetPosition(GraphControl);
 
-            //    var toolboxItem = (ToolboxItem)e.Data.GetData(ToolboxDragDrop.DataFormat);
-            //    var element = (ElementViewModel)Activator.CreateInstance(toolboxItem.ItemType);
-            //    element.X = mousePosition.X;
-            //    element.Y = mousePosition.Y;
+                var toolboxItem = (ToolboxItem)e.Data.GetData(ToolboxDragDrop.DataFormat);
+                var element = (ElementViewModel)Activator.CreateInstance(toolboxItem.ItemType);
+                element.X = mousePosition.X;
+                element.Y = mousePosition.Y;
 
-            //    ViewModel.Elements.Add(element);
-            //}
+                ViewModel.Elements.Add(element);
+            }
         }
     }
 }
