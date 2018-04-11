@@ -19,20 +19,25 @@ namespace ModernApplicationFramework.Modules.Toolbox
         private readonly BindableCollection<ToolboxItemViewModel> _items;
         private readonly IDockingHostViewModel _hostViewModel;
 
+        private readonly BindableCollection<ToolboxItemCategory> _categories;
+
         public override PaneLocation PreferredLocation => PaneLocation.Left;
 
-        public IObservableCollection<ToolboxItemViewModel> Items => _filteredItems.Count == 0 ? _items : _filteredItems;
+        //public IObservableCollection<ToolboxItemViewModel> Items => _filteredItems.Count == 0 ? _items : _filteredItems;
+
+        public IObservableCollection<ToolboxItemCategory> Categories => _categories;
 
         [ImportingConstructor]
         public ToolboxViewModel(IDockingHostViewModel hostViewModel, IToolboxService service)
         {
             DisplayName = "Toolbox";
 
-            _items = new BindableCollection<ToolboxItemViewModel>();
-            _filteredItems = new BindableCollection<ToolboxItemViewModel>();
+            //_items = new BindableCollection<ToolboxItemViewModel>();
+            _categories = new BindableCollection<ToolboxItemCategory>();
 
-            var groupedItems = CollectionViewSource.GetDefaultView(_items);
-            groupedItems.GroupDescriptions.Add(new PropertyGroupDescription("Category"));
+            //_filteredItems = new BindableCollection<ToolboxItemViewModel>();
+            //var groupedItems = CollectionViewSource.GetDefaultView(_items);
+            //groupedItems.GroupDescriptions.Add(new PropertyGroupDescription("Category"));
 
             _toolboxService = service;
             _hostViewModel = hostViewModel;
@@ -46,11 +51,20 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
         private void RefreshToolboxItems()
         {
-            _items.Clear();
+            //_items.Clear();
+            _categories.Clear();
             if (_hostViewModel.ActiveItem == null)
                 return;
-            _items.AddRange(_toolboxService.GetToolboxItems(_hostViewModel.ActiveItem.GetType())
-                .Select(x => new ToolboxItemViewModel(x)));
+
+            var item = IoC.GetAll<IToolboxItem>();
+
+            var categories = IoC.GetAll<ToolboxItemCategory>()
+                .Where(x => x.TargetType == _hostViewModel.ActiveItem.GetType());
+
+            _categories.AddRange(categories);
+
+            //_items.AddRange(_toolboxService.GetToolboxItems(_hostViewModel.ActiveItem.GetType())
+            //    .Select(x => new ToolboxItemViewModel(x)));
         }
     }
 }

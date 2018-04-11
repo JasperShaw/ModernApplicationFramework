@@ -109,6 +109,8 @@
     <Compile Include="Modules\FilterDesigner\Design\DesignTimeImages.cs" />
     <Compile Include="Modules\FilterDesigner\Sample.cs" />
     <Compile Include="Modules\FilterDesigner\ShaderEffects\AddEffect.cs" />
+    <Compile Include="Modules\FilterDesigner\ToolboxItems\Categories.cs" />
+    <Compile Include="Modules\FilterDesigner\ToolboxItems\Items.cs" />
     <Compile Include="Modules\FilterDesigner\Util\BitmapUtility.cs" />
     <Compile Include="Modules\FilterDesigner\Util\ShaderEffectUtility.cs" />
     <Compile Include="Modules\FilterDesigner\ViewModels\Elements\Add.cs" />

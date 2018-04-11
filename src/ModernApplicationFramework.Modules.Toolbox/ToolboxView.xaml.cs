@@ -22,7 +22,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
             var listBoxItem = e.GetOriginalSource<ListBoxItem>();
             _draggingItem = listBoxItem != null;
 
-            _mouseStartPosition = e.GetPosition(ListBox);
+            _mouseStartPosition = e.GetPosition(TreeView);
         }
 
         private void OnMouseMove(object sender, MouseEventArgs e)
@@ -41,7 +41,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
                 if (listBoxItem == null)
                     return;
 
-                var itemViewModel = (ToolboxItemViewModel)ListBox.ItemContainerGenerator.
+                var itemViewModel = (ToolboxItemViewModel)TreeView.ItemContainerGenerator.
                     ItemFromContainer(listBoxItem);
 
                 var dragData = new DataObject(ToolboxDragDrop.DataFormat, itemViewModel.Model);

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using ISettingsCategory = ModernApplicationFramework.Settings.Interfaces.ISettingsCategory;
 using ISettingsPage = ModernApplicationFramework.Settings.Interfaces.ISettingsPage;
 
 namespace ModernApplicationFramework.Settings.SettingsDialog.ViewModels

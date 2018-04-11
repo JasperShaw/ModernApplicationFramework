@@ -4,12 +4,78 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:design="clr-namespace:ModernApplicationFramework.Modules.Toolbox.Design"
-             xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
              xmlns:toolbox="clr-namespace:ModernApplicationFramework.Modules.Toolbox"
              x:Class="ModernApplicationFramework.Modules.Toolbox.ToolboxView"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance {x:Type design:DesignTimeToolboxViewModel}, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="300">
     <FrameworkElement.Resources>
+
+        <!--<PathGeometry x:Key="TreeArrow" Figures="M0,0 L0,6 L6,0 z"/>
+        <Style x:Key="ToogleButtonStyle" TargetType="{x:Type ToggleButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border x:Name="Border" Background="Transparent">
+                            <Grid Background="{TemplateBinding Background}" SnapsToDevicePixels="False">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="19"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Path x:Name="ExpandedPath" Data="{StaticResource TreeArrow}" Fill="Transparent"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center" SnapsToDevicePixels="False"
+                                      Stroke="{TemplateBinding Foreground}">
+                                    <Path.RenderTransform>
+                                        <RotateTransform Angle="135" CenterY="3" CenterX="3"/>
+                                    </Path.RenderTransform>
+                                </Path>
+                                <ContentPresenter Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                  Margin="4,0,0,0" RecognizesAccessKey="True" SnapsToDevicePixels="True"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="ExpandedPath" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <RotateTransform Angle="180" CenterY="3" CenterX="3"/>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter TargetName="ExpandedPath" Property="Fill" 
+                                        Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ToggleButton}}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ExpanderStyle" TargetType="{x:Type Expander}">
+            <Setter Property="Padding" Value="0,2" />
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Expander}">
+                        <DockPanel Background="{TemplateBinding Background}">
+                            <ToggleButton DockPanel.Dock="Top"
+                                IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                Style="{StaticResource ToogleButtonStyle}" Background="{TemplateBinding Background}"
+                                Content="{TemplateBinding Header}" Foreground="{DynamicResource {x:Static themes:ColorResources.WonderbarTextBrush}}"/>
+                            <Border x:Name="ExpandSiteBorder" DockPanel.Dock="Bottom" Visibility="Collapsed">
+                                <ContentPresenter Focusable="False"/>
+                            </Border>
+                        </DockPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsExpanded" Value="true">
+                                <Setter TargetName="ExpandSiteBorder" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}"
+                                         Value="True">
+                                <Setter Property="Background" Value="Red"/>
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>-->
 
     </FrameworkElement.Resources>
     <Grid>
@@ -18,7 +84,18 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBox Grid.Row="0"/>
-        <ListBox x:Name="ListBox" Grid.Row="1" Background="Transparent" BorderThickness="0" ItemsSource="{Binding Items}"
+        <TreeView x:Name="TreeView" Grid.Row="1"
+                  SelectedValuePath="Categories" Background="Transparent" BorderThickness="0" ItemsSource="{Binding Categories}">
+            <TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type toolbox:ToolboxItemCategory}" ItemsSource="{Binding Items}">
+                    <TextBlock Text="{Binding Name}" />
+                </HierarchicalDataTemplate>
+                <DataTemplate DataType="{x:Type toolbox:ToolboxItemEx}" >
+                    <TextBlock Text="{Binding Path=Name}" />
+                </DataTemplate>
+            </TreeView.Resources>
+        </TreeView>
+        <!--<ListBox x:Name="ListBox" Grid.Row="1" Background="Transparent" BorderThickness="0" ItemsSource="{Binding Items}"
                  PreviewMouseLeftButtonDown="OnPreviewMouseLeftButtonDown"
                  MouseMove="OnMouseMove">
             <ListBox.GroupStyle>
@@ -28,7 +105,7 @@
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate>
-                                        <Expander Header="{Binding Name}" IsExpanded="True">
+                                        <Expander x:Name="Expander" Header="{Binding Name}" IsExpanded="True" Style="{StaticResource ExpanderStyle}">
                                             <ItemsPresenter/>
                                         </Expander>
                                     </ControlTemplate>
@@ -54,6 +131,6 @@
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
-        </ListBox>
+        </ListBox>-->
     </Grid>
 </UserControl>

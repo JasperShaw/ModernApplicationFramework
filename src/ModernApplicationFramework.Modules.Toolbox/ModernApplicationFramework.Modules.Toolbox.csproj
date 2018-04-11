@@ -83,6 +83,7 @@
     <Compile Include="ToolboxDragDrop.cs" />
     <Compile Include="ToolboxItem.cs" />
     <Compile Include="ToolboxItemAttribute.cs" />
+    <Compile Include="ToolboxItemCategory.cs" />
     <Compile Include="ToolboxItemViewModel.cs" />
     <Compile Include="ToolboxTreeNodeStyleSelector.cs" />
     <Compile Include="ToolboxView.xaml.cs">
