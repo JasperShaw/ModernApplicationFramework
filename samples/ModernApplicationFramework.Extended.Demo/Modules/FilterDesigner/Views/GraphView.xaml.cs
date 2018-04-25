@@ -98,26 +98,5 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.Views
             var newConnection = (ConnectionViewModel)e.Connection;
             ViewModel.OnConnectionDragCompleted(currentDragPoint, newConnection, sourceConnector);
         }
-
-        private void OnGraphControlDragEnter(object sender, DragEventArgs e)
-        {
-            if (!e.Data.GetDataPresent(ToolboxDragDrop.DataFormat))
-                e.Effects = DragDropEffects.None;
-        }
-
-        private void OnGraphControlDrop(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(ToolboxDragDrop.DataFormat))
-            {
-                var mousePosition = e.GetPosition(GraphControl);
-
-                var toolboxItem = (ToolboxItem)e.Data.GetData(ToolboxDragDrop.DataFormat);
-                var element = (ElementViewModel)Activator.CreateInstance(toolboxItem.ItemType);
-                element.X = mousePosition.X;
-                element.Y = mousePosition.Y;
-
-                ViewModel.Elements.Add(element);
-            }
-        }
     }
 }

@@ -30,12 +30,14 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
     public class ToolboxItemEx : IToolboxItem
     {
+        public Type TargetType { get; }
         public ToolboxItemCategory Parent { get; }
         public string Name { get; }
         public Uri IconSource { get; set; }
 
-        public ToolboxItemEx(ToolboxItemCategory parent, string name, Uri iconSource = null)
+        public ToolboxItemEx(Type targetType, ToolboxItemCategory parent, string name, Uri iconSource = null)
         {
+            TargetType = targetType;
             Parent = parent;
             Name = name;
             IconSource = iconSource;

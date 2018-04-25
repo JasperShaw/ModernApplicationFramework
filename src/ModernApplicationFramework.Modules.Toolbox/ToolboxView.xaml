@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:design="clr-namespace:ModernApplicationFramework.Modules.Toolbox.Design"
              xmlns:toolbox="clr-namespace:ModernApplicationFramework.Modules.Toolbox"
+             xmlns:dd="urn:gong-wpf-dragdrop"
              x:Class="ModernApplicationFramework.Modules.Toolbox.ToolboxView"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance {x:Type design:DesignTimeToolboxViewModel}, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="300">
@@ -84,7 +85,10 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBox Grid.Row="0"/>
-        <TreeView x:Name="TreeView" Grid.Row="1"
+        <TreeView x:Name="TreeView" Grid.Row="1"                 
+                  dd:DragDrop.IsDragSource="True"
+                  dd:DragDrop.IsDropTarget="True"
+                  
                   SelectedValuePath="Categories" Background="Transparent" BorderThickness="0" ItemsSource="{Binding Categories}">
             <TreeView.Resources>
                 <HierarchicalDataTemplate DataType="{x:Type toolbox:ToolboxItemCategory}" ItemsSource="{Binding Items}">

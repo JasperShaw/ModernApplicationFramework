@@ -1,22 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using Caliburn.Micro;
+using GongSolutions.Wpf.DragDrop;
 using ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.Design;
 using ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.Util;
 using ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.ViewModels.Elements;
 using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Modules.Inspector;
+using ModernApplicationFramework.Modules.Toolbox;
 using ImageSource = ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.ViewModels.Elements.ImageSource;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.ViewModels
 {
     [Export(typeof(GraphViewModel))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class GraphViewModel : KeyBindingLayoutItem
+    public class GraphViewModel : KeyBindingLayoutItem, IDropTarget
     {
         private readonly IInspectorTool _inspectorTool;
         private readonly BindableCollection<ElementViewModel> _elements;
@@ -144,6 +147,23 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.ViewMo
         private static bool AreClose(Point point1, Point point2, double distance)
         {
             return (point1 - point2).Length < distance;
+        }
+
+        public void DragOver(IDropInfo dropInfo)
+        {
+            if (dropInfo.Data is ToolboxItemEx)
+                dropInfo.Effects = DragDropEffects.All;
+        }
+
+        public void Drop(IDropInfo dropInfo)
+        {
+            if (!(dropInfo.Data is ToolboxItemEx toolboxItem))
+                return;
+            var mousePosition = dropInfo.DropPosition;
+            var element = (ElementViewModel)Activator.CreateInstance(toolboxItem.TargetType);
+            element.X = mousePosition.X;
+            element.Y = mousePosition.Y;
+            Elements.Add(element);
         }
     }
 }
