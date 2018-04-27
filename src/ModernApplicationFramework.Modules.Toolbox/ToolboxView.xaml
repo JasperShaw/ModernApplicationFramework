@@ -6,9 +6,10 @@
              xmlns:design="clr-namespace:ModernApplicationFramework.Modules.Toolbox.Design"
              xmlns:toolbox="clr-namespace:ModernApplicationFramework.Modules.Toolbox"
              xmlns:dd="urn:gong-wpf-dragdrop"
+             xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
              x:Class="ModernApplicationFramework.Modules.Toolbox.ToolboxView"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance {x:Type design:DesignTimeToolboxViewModel}, IsDesignTimeCreatable=True}"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300" Background="#FFCED5E4">
     <FrameworkElement.Resources>
 
         <!--<PathGeometry x:Key="TreeArrow" Figures="M0,0 L0,6 L6,0 z"/>
@@ -78,6 +79,129 @@
             </Setter>
         </Style>-->
 
+        <PathGeometry x:Key="TreeArrow" Figures="M0,0 L0,6 L6,0 z"/>
+        <Style x:Key="ExpandCollapseToggleStyle" TargetType="{x:Type ToggleButton}">
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border Background="Transparent" Height="16" Width="16" Padding="5">
+                            <Path x:Name="ExpandedPath" Data="{StaticResource TreeArrow}" Fill="Transparent"
+                                  Stroke="{TemplateBinding BorderBrush}" Stretch="UniformToFill">
+                                <Path.RenderTransform>
+                                    <RotateTransform Angle="135" CenterY="3" CenterX="3"/>
+                                </Path.RenderTransform>
+                            </Path>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="ExpandedPath" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <RotateTransform Angle="180" CenterY="3" CenterX="3"/>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter TargetName="ExpandedPath" Property="Fill" 
+                                        Value="{Binding Background, RelativeSource={RelativeSource AncestorType=ToggleButton}}"/>
+                            </Trigger>
+                            <!--<DataTrigger Binding="{Binding IsSelected ,RelativeSource={RelativeSource AncestorType=TreeViewItem, Mode=FindAncestor}}" Value="True">
+                                <Setter TargetName="ExpandedPath" Property="Fill" Value="White"/>
+                                <Setter TargetName="ExpandedPath" Property="Stroke" Value="White"/>
+                            </DataTrigger>-->
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CategoryItemStyle" TargetType="{x:Type TreeViewItem}">
+            <Setter Property="TextElement.Foreground"
+                    Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTextBrush}}"/>
+            <Setter Property="Panel.Background"
+                    Value="{DynamicResource {x:Static themes:ColorResources.WonderbarBrush}}"/>
+            <Setter Property="Border.BorderBrush" Value="Transparent"/>
+            <Setter Property="ItemsSource">
+                <Setter.Value>
+                    <Binding Path="Items"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TreeViewItem}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition MinWidth="19" Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Rectangle x:Name="ItemRect" Grid.Row="0" Grid.ColumnSpan="3"/>
+                            <ToggleButton Grid.Row="0" x:Name="Expander" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
+                                          Style="{StaticResource ExpandCollapseToggleStyle}"
+                                          Background="Transparent" BorderBrush="Black"/>
+                            <Border Grid.Row="0" Grid.Column="1" Padding="{TemplateBinding Padding}" 
+                                    SnapsToDevicePixels="True">
+                                <TextBlock x:Name="CategoryName" Padding="2" Margin="-1,0,0,0" Text="{Binding Name}"/>
+                            </Border>
+                            <ItemsPresenter x:Name="ItemsHost" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsExpanded" Value="True">
+                                <Setter TargetName="Expander" Property="Background" Value="Black"/>
+                                <Setter TargetName="Expander" Property="BorderBrush" Value="Black"/>
+                            </Trigger>
+                            <Trigger Property="TreeViewItem.IsSelected" Value="true">
+                                <Setter TargetName="CategoryName"
+                                        Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTreeSelectedTextBrush}}"
+                                        Property="TextElement.Foreground"/>
+                                <Setter TargetName="ItemRect"
+                                        Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTreeSelectedBrush}}"
+                                        Property="Fill"/>
+                                <Setter TargetName="Expander" Property="BorderBrush" Value="White"/>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="TreeViewItem.IsSelected" Value="true"/>
+                                    <Condition Property="IsExpanded" Value="true"/>
+                                </MultiTrigger.Conditions>
+                                <MultiTrigger.Setters>
+                                    <Setter TargetName="Expander" Property="Background" Value="White"/>
+                                </MultiTrigger.Setters>
+                            </MultiTrigger>
+                            <Trigger Property="TreeViewItem.IsExpanded" Value="false">
+                                <Setter TargetName="ItemsHost" Property="UIElement.Visibility" Value="Collapsed"/>
+                            </Trigger>
+                            <Trigger Property="ItemsControl.HasItems" Value="false">
+                                <Setter TargetName="Expander" Property="UIElement.Visibility" Value="Hidden"/>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="TreeViewItem.IsSelected" Value="true"/>
+                                    <Condition Property="Selector.IsSelectionActive" Value="false"/>
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="CategoryName" Property="TextElement.Foreground"
+                                        Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTreeInactiveSelectedTextBrush}}"/>
+                                <Setter TargetName="ItemRect" Property="Fill"
+                                        Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTreeInactiveSelectedBrush}}"/>
+                                <Setter TargetName="Expander" Property="Background" Value="Black"/>
+                                <Setter TargetName="Expander" Property="BorderBrush" Value="Black"/>
+                            </MultiTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ItemStyle" TargetType="{x:Type TreeViewItem}">
+
+        </Style>
+
+        <toolbox:ToolboxTreeNodeStyleSelector x:Key="ToolboxTreeNodeStyleSelector" 
+                                    CategoryStyle="{StaticResource CategoryItemStyle}"
+                                              ItemStyle="{StaticResource ItemStyle}"/>
     </FrameworkElement.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -85,18 +209,15 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBox Grid.Row="0"/>
-        <TreeView x:Name="TreeView" Grid.Row="1"                 
+        <TreeView x:Name="TreeView" Grid.Row="1" Margin="0,3,0,0"
                   dd:DragDrop.IsDragSource="True"
                   dd:DragDrop.IsDropTarget="True"
-                  
-                  SelectedValuePath="Categories" Background="Transparent" BorderThickness="0" ItemsSource="{Binding Categories}">
+                  ItemContainerStyleSelector="{StaticResource ToolboxTreeNodeStyleSelector}"
+                  SelectedValuePath="Categories" Background="White" BorderThickness="0" ItemsSource="{Binding Categories}">
             <TreeView.Resources>
-                <HierarchicalDataTemplate DataType="{x:Type toolbox:ToolboxItemCategory}" ItemsSource="{Binding Items}">
-                    <TextBlock Text="{Binding Name}" />
-                </HierarchicalDataTemplate>
-                <DataTemplate DataType="{x:Type toolbox:ToolboxItemEx}" >
+                <!--<DataTemplate DataType="{x:Type toolbox:ToolboxNodeItem}" >
                     <TextBlock Text="{Binding Path=Name}" />
-                </DataTemplate>
+                </DataTemplate>-->
             </TreeView.Resources>
         </TreeView>
         <!--<ListBox x:Name="ListBox" Grid.Row="1" Background="Transparent" BorderThickness="0" ItemsSource="{Binding Items}"

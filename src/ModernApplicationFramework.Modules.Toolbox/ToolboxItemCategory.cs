@@ -3,18 +3,27 @@ using System.Collections.ObjectModel;
 
 namespace ModernApplicationFramework.Modules.Toolbox
 {
-    public class ToolboxItemCategory
+
+    public abstract class ToolboxNodeItem
+    {
+        public string Name { get; }
+
+        protected ToolboxNodeItem(string name)
+        {
+            Name = name;
+        }
+    }
+
+
+    public class ToolboxItemCategory : ToolboxNodeItem
     {
         public Type TargetType { get; }
 
-        public string Name { get; }
-
         public ObservableCollection<IToolboxItem> Items { get; }
 
-        public ToolboxItemCategory(Type targetType, string name)
+        public ToolboxItemCategory(Type targetType, string name) : base(name)
         {
             TargetType = targetType;
-            Name = name;
             Items = new ObservableCollection<IToolboxItem>();
         }
     }
@@ -28,18 +37,16 @@ namespace ModernApplicationFramework.Modules.Toolbox
         Uri IconSource { get; set; }
     }
 
-    public class ToolboxItemEx : IToolboxItem
+    public class ToolboxItemEx : ToolboxNodeItem, IToolboxItem
     {
         public Type TargetType { get; }
         public ToolboxItemCategory Parent { get; }
-        public string Name { get; }
         public Uri IconSource { get; set; }
 
-        public ToolboxItemEx(Type targetType, ToolboxItemCategory parent, string name, Uri iconSource = null)
+        public ToolboxItemEx(Type targetType, ToolboxItemCategory parent, string name, Uri iconSource = null) : base(name)
         {
             TargetType = targetType;
             Parent = parent;
-            Name = name;
             IconSource = iconSource;
             parent.Items?.Add(this);
         }

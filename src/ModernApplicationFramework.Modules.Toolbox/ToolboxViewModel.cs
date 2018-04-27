@@ -14,9 +14,9 @@ namespace ModernApplicationFramework.Modules.Toolbox
     [Export(typeof(IToolbox))]
     public class ToolboxViewModel : Tool, IToolbox
     {
-        private readonly IToolboxService _toolboxService;
-        private readonly BindableCollection<ToolboxItemViewModel> _filteredItems;
-        private readonly BindableCollection<ToolboxItemViewModel> _items;
+        //private readonly IToolboxService _toolboxService;
+        //private readonly BindableCollection<ToolboxItemViewModel> _filteredItems;
+        //private readonly BindableCollection<ToolboxItemViewModel> _items;
         private readonly IDockingHostViewModel _hostViewModel;
 
         private readonly BindableCollection<ToolboxItemCategory> _categories;
@@ -28,7 +28,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
         public IObservableCollection<ToolboxItemCategory> Categories => _categories;
 
         [ImportingConstructor]
-        public ToolboxViewModel(IDockingHostViewModel hostViewModel, IToolboxService service)
+        public ToolboxViewModel(IDockingHostViewModel hostViewModel) //, IToolboxService service)
         {
             DisplayName = "Toolbox";
 
@@ -39,7 +39,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
             //var groupedItems = CollectionViewSource.GetDefaultView(_items);
             //groupedItems.GroupDescriptions.Add(new PropertyGroupDescription("Category"));
 
-            _toolboxService = service;
+            //_toolboxService = service;
             _hostViewModel = hostViewModel;
 
             if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))

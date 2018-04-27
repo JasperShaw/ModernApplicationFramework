@@ -11,6 +11,10 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
         public override Style SelectStyle(object item, DependencyObject container)
         {
+            if (item is ToolboxItemCategory)
+                return CategoryStyle;
+            if (item is ToolboxItemEx)
+                return ItemStyle;
             return base.SelectStyle(item, container);
         }
     }

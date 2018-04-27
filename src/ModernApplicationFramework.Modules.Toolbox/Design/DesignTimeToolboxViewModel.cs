@@ -3,7 +3,7 @@
     internal class DesignTimeToolboxViewModel : ToolboxViewModel
     {
         public DesignTimeToolboxViewModel()
-            : base(null, null)
+            : base(null)
         {
 
             var cat1 = new ToolboxItemCategory(null, "Test 1");
