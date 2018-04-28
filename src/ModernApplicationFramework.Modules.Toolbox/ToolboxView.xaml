@@ -7,10 +7,16 @@
              xmlns:toolbox="clr-namespace:ModernApplicationFramework.Modules.Toolbox"
              xmlns:dd="urn:gong-wpf-dragdrop"
              xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
+             xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General;assembly=ModernApplicationFramework"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:utilities="clr-namespace:ModernApplicationFramework.Utilities;assembly=ModernApplicationFramework.Utilities"
+             xmlns:converters="clr-namespace:ModernApplicationFramework.Utilities.Converters;assembly=ModernApplicationFramework.Utilities"
              x:Class="ModernApplicationFramework.Modules.Toolbox.ToolboxView"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance {x:Type design:DesignTimeToolboxViewModel}, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="300" Background="#FFCED5E4">
     <FrameworkElement.Resources>
+
+        <general:AreEqualConverter x:Key="AreEqualConverter"/>
 
         <!--<PathGeometry x:Key="TreeArrow" Figures="M0,0 L0,6 L6,0 z"/>
         <Style x:Key="ToogleButtonStyle" TargetType="{x:Type ToggleButton}">
@@ -120,6 +126,11 @@
             <Setter Property="Panel.Background"
                     Value="{DynamicResource {x:Static themes:ColorResources.WonderbarBrush}}"/>
             <Setter Property="Border.BorderBrush" Value="Transparent"/>
+            <Setter Property="IsExpanded">
+                <Setter.Value>
+                    <Binding Path="IsExpanded" Mode="TwoWay"/>
+                </Setter.Value>
+            </Setter>
             <Setter Property="ItemsSource">
                 <Setter.Value>
                     <Binding Path="Items"/>
@@ -196,7 +207,54 @@
         </Style>
 
         <Style x:Key="ItemStyle" TargetType="{x:Type TreeViewItem}">
-
+            <!--<Setter Property="IsExpanded">
+                <Setter.Value>
+                    <MultiBinding Converter="{StaticResource AreEqualConverter}">
+                        <Binding/>
+                        <Binding Path="DataContext.SelectedNode"
+                                 RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}"/>
+                    </MultiBinding>
+                </Setter.Value>
+            </Setter>-->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TreeViewItem}">
+                        <ControlTemplate.Resources>
+                            <converters:LeftMarginMultiplierConverter Length="19" x:Key="LengthConverter"/>
+                        </ControlTemplate.Resources>
+                        <StackPanel Margin="-19,0,0,0">
+                            <Border x:Name="Bd">
+                                <Grid Margin="{Binding Converter={StaticResource LengthConverter}, RelativeSource={RelativeSource TemplatedParent}}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="19"/>
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="1" x:Name="HeaderPresenter" Padding="3,5,15,5"
+                                               TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" HorizontalAlignment="Left" 
+                                               Foreground="{DynamicResource {x:Static themes:ColorResources.WonderbarTextBrush}}">
+                                        <TextBlock.Text>
+                                            <Binding Path="Name"/>
+                                        </TextBlock.Text>
+                                        <FrameworkElement.ToolTip>
+                                            <Binding Path="Name"/>
+                                        </FrameworkElement.ToolTip>
+                                    </TextBlock>
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter TargetName="HeaderPresenter"
+                                        Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTreeSelectedTextBrush}}"
+                                        Property="Foreground"/>
+                                <Setter TargetName="Bd"
+                                        Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTreeSelectedBrush}}"
+                                        Property="Background"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
         <toolbox:ToolboxTreeNodeStyleSelector x:Key="ToolboxTreeNodeStyleSelector" 
@@ -219,6 +277,9 @@
                     <TextBlock Text="{Binding Path=Name}" />
                 </DataTemplate>-->
             </TreeView.Resources>
+            <!--<i:Interaction.Behaviors>
+                <utilities:BindableSelectedItemBehavior SelectedItem="{Binding SelectedNode, Mode=TwoWay}" />
+            </i:Interaction.Behaviors>-->
         </TreeView>
         <!--<ListBox x:Name="ListBox" Grid.Row="1" Background="Transparent" BorderThickness="0" ItemsSource="{Binding Items}"
                  PreviewMouseLeftButtonDown="OnPreviewMouseLeftButtonDown"

@@ -20,12 +20,24 @@ namespace ModernApplicationFramework.Modules.Toolbox
         private readonly IDockingHostViewModel _hostViewModel;
 
         private readonly BindableCollection<ToolboxItemCategory> _categories;
+        private ToolboxNodeItem _selectedNode;
 
         public override PaneLocation PreferredLocation => PaneLocation.Left;
 
         //public IObservableCollection<ToolboxItemViewModel> Items => _filteredItems.Count == 0 ? _items : _filteredItems;
 
         public IObservableCollection<ToolboxItemCategory> Categories => _categories;
+
+        public ToolboxNodeItem SelectedNode
+        {
+            get => _selectedNode;
+            set
+            {
+                if (Equals(value, _selectedNode)) return;
+                _selectedNode = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         [ImportingConstructor]
         public ToolboxViewModel(IDockingHostViewModel hostViewModel) //, IToolboxService service)

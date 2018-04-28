@@ -12,7 +12,8 @@
             var child1 = new ToolboxItemEx(typeof(object), cat1, "Child 1");
             var child2 = new ToolboxItemEx(typeof(object),cat1, "Child 2");
 
-            
+            cat1.IsExpanded = true;
+
             Categories.Add(cat1);
             Categories.Add(cat2);
 
