@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
@@ -27,6 +28,8 @@ namespace ModernApplicationFramework.Modules.Toolbox
         //public IObservableCollection<ToolboxItemViewModel> Items => _filteredItems.Count == 0 ? _items : _filteredItems;
 
         public IObservableCollection<ToolboxItemCategory> Categories => _categories;
+
+        //public IObservableCollection<TreeModel> Categories { get; }
 
         public ToolboxNodeItem SelectedNode
         {
@@ -59,6 +62,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
             hostViewModel.ActiveLayoutItemChanged += (sender, e) => RefreshToolboxItems();
             RefreshToolboxItems();
+
         }
 
         private void RefreshToolboxItems()
@@ -77,6 +81,29 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
             //_items.AddRange(_toolboxService.GetToolboxItems(_hostViewModel.ActiveItem.GetType())
             //    .Select(x => new ToolboxItemViewModel(x)));
+        }
+    }
+
+    public class TreeModel
+    {
+        public List<Leaf> Items { get; }
+
+        public string Name { get; }
+
+        public TreeModel(string name)
+        {
+            Name = name;
+            Items = new List<Leaf>{new Leaf("Test")};
+        }
+    }
+
+    public class Leaf
+    {
+        public string Name { get; }
+
+        public Leaf(string name)
+        {
+            Name = name;
         }
     }
 }

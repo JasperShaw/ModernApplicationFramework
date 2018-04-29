@@ -28,9 +28,7 @@ namespace ModernApplicationFramework.Utilities
                 tvi2.Focus();
             }
 
-            var tvi = e.NewValue as TreeViewItem;
-
-            if (tvi == null)
+            if (!(e.NewValue is TreeViewItem tvi))
             {
                 var tree = ((BindableSelectedItemBehavior)sender).AssociatedObject;
                 if (!tree.IsLoaded)
@@ -65,9 +63,9 @@ namespace ModernApplicationFramework.Utilities
                 return container as TreeViewItem;
 
             // Expand the current container
-            var viewItem = container as TreeViewItem;
-            if (viewItem != null && !viewItem.IsExpanded)
-                viewItem.SetValue(TreeViewItem.IsExpandedProperty, true);
+            //var viewItem = container as TreeViewItem;
+            //if (viewItem != null && !viewItem.IsExpanded)
+            //    viewItem.SetValue(TreeViewItem.IsExpandedProperty, true);
 
             // Try to generate the ItemsPresenter and the ItemsPanel.
             // by calling ApplyTemplate.  Note that in the 
@@ -92,6 +90,9 @@ namespace ModernApplicationFramework.Utilities
                 }
             }
 
+            if (itemsPresenter == null)
+                return null;
+
             var itemsHostPanel = (Panel)VisualTreeHelper.GetChild(itemsPresenter, 0);
 
             // Ensure that the generator for this panel has been created.
@@ -107,20 +108,18 @@ namespace ModernApplicationFramework.Utilities
                     continue;
                 }
 
-                subContainer.BringIntoView();
+                
 
                 // Search the next level for the object.
                 var resultContainer = GetTreeViewItem(subContainer, item);
                 if (resultContainer != null)
                 {
+                    subContainer.BringIntoView();
                     return resultContainer;
                 }
-                else
-                {
-                    // The object is not under this TreeViewItem
-                    // so collapse it.
-                    //subContainer.IsExpanded = false;
-                }
+                // The object is not under this TreeViewItem
+                // so collapse it.
+                //subContainer.IsExpanded = false;
             }
 
             return null;

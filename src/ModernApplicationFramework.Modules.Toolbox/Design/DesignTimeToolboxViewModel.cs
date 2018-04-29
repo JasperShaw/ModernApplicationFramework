@@ -10,13 +10,12 @@
             var cat2 = new ToolboxItemCategory(null, "Test 2");
 
             var child1 = new ToolboxItemEx(typeof(object), cat1, "Child 1");
-            var child2 = new ToolboxItemEx(typeof(object),cat1, "Child 2");
+            var child2 = new ToolboxItemEx(typeof(object), cat1, "Child 2");
 
             cat1.IsExpanded = true;
 
             Categories.Add(cat1);
             Categories.Add(cat2);
-
 
             //Items.Add(new ToolboxItemViewModel(new ToolboxItem { Name = "Foo", Category = "General" }));
             //Items.Add(new ToolboxItemViewModel(new ToolboxItem { Name = "Bar", Category = "General" }));

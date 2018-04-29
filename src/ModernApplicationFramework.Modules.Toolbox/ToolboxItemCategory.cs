@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Media.Imaging;
 using ModernApplicationFramework.Modules.Toolbox.Annotations;
 
 namespace ModernApplicationFramework.Modules.Toolbox
@@ -55,12 +57,12 @@ namespace ModernApplicationFramework.Modules.Toolbox
     {
         public Type TargetType { get; }
 
-        public ObservableCollection<IToolboxItem> Items { get; }
+        public List<IToolboxItem> Items { get; }
 
         public ToolboxItemCategory(Type targetType, string name) : base(name)
         {
             TargetType = targetType;
-            Items = new ObservableCollection<IToolboxItem>();
+            Items = new List<IToolboxItem>();
         }
     }
 
@@ -70,16 +72,16 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
         string Name { get; }
 
-        Uri IconSource { get; set; }
+        BitmapSource IconSource { get; set; }
     }
 
     public class ToolboxItemEx : ToolboxNodeItem, IToolboxItem
     {
         public Type TargetType { get; }
         public ToolboxItemCategory Parent { get; }
-        public Uri IconSource { get; set; }
+        public BitmapSource IconSource { get; set; }
 
-        public ToolboxItemEx(Type targetType, ToolboxItemCategory parent, string name, Uri iconSource = null) : base(name)
+        public ToolboxItemEx(Type targetType, ToolboxItemCategory parent, string name, BitmapSource iconSource = null) : base(name)
         {
             TargetType = targetType;
             Parent = parent;
