@@ -9,13 +9,15 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
         internal ToolboxItemCategory Parent { get; set; }
 
+        internal ToolboxItemCategory OriginalParent { get; }
+
         public BitmapSource IconSource { get; set; }
 
-        public ToolboxItem(Type targetType, ToolboxItemCategory parent, string name, BitmapSource iconSource = null) : base(name)
+        public ToolboxItem(Type targetType, ToolboxItemCategory originalParent, string name, BitmapSource iconSource = null) : base(name)
         {
             TargetType = targetType;
             IconSource = iconSource;
-            parent.Items?.Add(this);
+            OriginalParent = originalParent;
         }
     }
 }

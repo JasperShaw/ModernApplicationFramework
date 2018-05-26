@@ -1,15 +1,17 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using Caliburn.Micro;
 
 namespace ModernApplicationFramework.Modules.Toolbox
 {
     public class ToolboxItemCategory : ToolboxNodeItem
     {
+        internal static ToolboxItemCategory DefaultCategory = new ToolboxItemCategory(null, "Default");
+
         public Type TargetType { get; }
 
-        private ObservableCollection<ToolboxItem> _items;
+        private IObservableCollection<ToolboxItem> _items;
 
-        public ObservableCollection<ToolboxItem> Items
+        public IObservableCollection<ToolboxItem> Items
         {
             get => _items;
             set
@@ -23,7 +25,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
         public ToolboxItemCategory(Type targetType, string name) : base(name)
         {
             TargetType = targetType;
-            Items = new ObservableCollection<ToolboxItem>();
+            Items = new BindableCollection<ToolboxItem>();
             Items.CollectionChanged += Items_CollectionChanged;
         }
 

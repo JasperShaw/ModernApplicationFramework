@@ -7,13 +7,14 @@ using GongSolutions.Wpf.DragDrop;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Extended.Utilities.PaneUtilities;
+using ModernApplicationFramework.Modules.Toolbox.Services;
 
 namespace ModernApplicationFramework.Modules.Toolbox
 {
     [Export(typeof(IToolbox))]
     public class ToolboxViewModel : Tool, IToolbox
     {
-        //private readonly IToolboxService _toolboxService;
+        private readonly IToolboxService _toolboxService;
         //private readonly BindableCollection<ToolboxItemViewModel> _filteredItems;
         //private readonly BindableCollection<ToolboxItemViewModel> _items;
         private readonly IDockingHostViewModel _hostViewModel;
@@ -29,8 +30,6 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
         public IDropTarget ToolboxDropHandler { get; } = new ToolboxDropHandler();
 
-        //public IObservableCollection<TreeModel> Categories { get; }
-
         public ToolboxNodeItem SelectedNode
         {
             get => _selectedNode;
@@ -43,7 +42,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
         }
 
         [ImportingConstructor]
-        public ToolboxViewModel(IDockingHostViewModel hostViewModel) //, IToolboxService service)
+        public ToolboxViewModel(IDockingHostViewModel hostViewModel, IToolboxService service)
         {
             DisplayName = "Toolbox";
 
@@ -54,33 +53,27 @@ namespace ModernApplicationFramework.Modules.Toolbox
             //var groupedItems = CollectionViewSource.GetDefaultView(_items);
             //groupedItems.GroupDescriptions.Add(new PropertyGroupDescription("Category"));
 
-            //_toolboxService = service;
+            _toolboxService = service;
             _hostViewModel = hostViewModel;
 
             if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
                 return;
 
-            hostViewModel.ActiveLayoutItemChanged += (sender, e) => RefreshToolboxItems();
-            RefreshToolboxItems();
+            hostViewModel.ActiveLayoutItemChanged += (sender, e) => RefreshToolboxItems(e);
+            RefreshToolboxItems(_hostViewModel.ActiveItem);
 
         }
 
-        private void RefreshToolboxItems()
+        private void RefreshToolboxItems(ILayoutItem layoutItem)
         {
-            //_items.Clear();
             _categories.Clear();
-            if (_hostViewModel.ActiveItem == null)
+            if (layoutItem == null)
                 return;
-
-            var item = IoC.GetAll<ToolboxItem>();
-
-            var categories = IoC.GetAll<ToolboxItemCategory>()
-                .Where(x => x.TargetType == _hostViewModel.ActiveItem.GetType());
-
-            _categories.AddRange(categories);
-
-            //_items.AddRange(_toolboxService.GetToolboxItems(_hostViewModel.ActiveItem.GetType())
-            //    .Select(x => new ToolboxItemViewModel(x)));
+            var i = _toolboxService.GetToolboxItemSource(layoutItem.GetType());
+            if (!i.Any())
+                _categories.Add(ToolboxItemCategory.DefaultCategory);
+            else
+                _categories.AddRange(i);
         }
     }
 }

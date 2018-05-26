@@ -88,8 +88,10 @@
     <Compile Include="ToolboxItem.cs" />
     <Compile Include="ToolboxItemAttribute.cs" />
     <Compile Include="ToolboxItemCategory.cs" />
+    <Compile Include="ToolboxItemsBuilder.cs" />
     <Compile Include="ToolboxItemViewModel.cs" />
     <Compile Include="ToolboxNodeItem.cs" />
+    <Compile Include="ToolboxItemStateCache.cs" />
     <Compile Include="ToolboxTreeNodeStyleSelector.cs" />
     <Compile Include="ToolboxView.xaml.cs">
       <DependentUpon>ToolboxView.xaml</DependentUpon>
@@ -109,6 +111,10 @@
     <ProjectReference Include="..\ModernApplicationFramework.Extended\ModernApplicationFramework.Extended.csproj">
       <Project>{51911695-6CDB-4833-9782-06C8821D1C4E}</Project>
       <Name>ModernApplicationFramework.Extended</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework.Modules.Inspector\ModernApplicationFramework.Modules.Inspector.csproj">
+      <Project>{96E6BB64-30EC-49DC-831A-C9D5E25AA46D}</Project>
+      <Name>ModernApplicationFramework.Modules.Inspector</Name>
     </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework.Utilities\ModernApplicationFramework.Utilities.csproj">
       <Project>{2B388979-5B07-4F0A-A302-0C575AAA21C0}</Project>
