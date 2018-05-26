@@ -72,7 +72,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
             if (_hostViewModel.ActiveItem == null)
                 return;
 
-            var item = IoC.GetAll<IToolboxItem>();
+            var item = IoC.GetAll<ToolboxItem>();
 
             var categories = IoC.GetAll<ToolboxItemCategory>()
                 .Where(x => x.TargetType == _hostViewModel.ActiveItem.GetType());

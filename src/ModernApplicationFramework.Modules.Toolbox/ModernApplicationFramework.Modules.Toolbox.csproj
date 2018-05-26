@@ -89,6 +89,7 @@
     <Compile Include="ToolboxItemAttribute.cs" />
     <Compile Include="ToolboxItemCategory.cs" />
     <Compile Include="ToolboxItemViewModel.cs" />
+    <Compile Include="ToolboxNodeItem.cs" />
     <Compile Include="ToolboxTreeNodeStyleSelector.cs" />
     <Compile Include="ToolboxView.xaml.cs">
       <DependentUpon>ToolboxView.xaml</DependentUpon>

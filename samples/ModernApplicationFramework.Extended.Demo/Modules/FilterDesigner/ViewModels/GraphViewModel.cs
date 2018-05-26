@@ -151,13 +151,13 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.ViewMo
 
         public void DragOver(IDropInfo dropInfo)
         {
-            if (dropInfo.Data is ToolboxItemEx)
+            if (dropInfo.Data is ToolboxItem)
                 dropInfo.Effects = DragDropEffects.All;
         }
 
         public void Drop(IDropInfo dropInfo)
         {
-            if (!(dropInfo.Data is ToolboxItemEx toolboxItem))
+            if (!(dropInfo.Data is ToolboxItem toolboxItem))
                 return;
             var mousePosition = dropInfo.DropPosition;
             var element = (ElementViewModel)Activator.CreateInstance(toolboxItem.TargetType);

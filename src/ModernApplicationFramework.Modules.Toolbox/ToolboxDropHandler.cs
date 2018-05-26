@@ -9,7 +9,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
         public void DragOver(IDropInfo dropInfo)
         {
             GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.DragOver(dropInfo);
-            if (dropInfo.TargetItem is ToolboxItemEx &&
+            if (dropInfo.TargetItem is ToolboxItem &&
                 dropInfo.InsertPosition.HasFlag(RelativeInsertPosition.TargetItemCenter))
                 dropInfo.Effects = DragDropEffects.None;
         }

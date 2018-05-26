@@ -1,17 +1,20 @@
 ﻿using System;
+using System.Windows.Media.Imaging;
 
 namespace ModernApplicationFramework.Modules.Toolbox
 {
-    //public class ToolboxItem
-    //{
-    //    public Type LayoutItemType { get; set; }
+    public class ToolboxItem : ToolboxNodeItem
+    {
+        public Type TargetType { get; }
+        public ToolboxItemCategory Parent { get; }
+        public BitmapSource IconSource { get; set; }
 
-    //    public string Name { get; set; }
-
-    //    public string Category { get; set; }
-
-    //    public Uri IconSource { get; set; }
-
-    //    public Type ItemType { get; set; }
-    //}
+        public ToolboxItem(Type targetType, ToolboxItemCategory parent, string name, BitmapSource iconSource = null) : base(name)
+        {
+            TargetType = targetType;
+            Parent = parent;
+            IconSource = iconSource;
+            parent.Items?.Add(this);
+        }
+    }
 }

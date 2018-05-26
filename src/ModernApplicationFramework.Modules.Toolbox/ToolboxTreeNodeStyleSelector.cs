@@ -13,7 +13,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
         {
             if (item is ToolboxItemCategory)
                 return CategoryStyle;
-            if (item is ToolboxItemEx)
+            if (item is ToolboxItem)
                 return ItemStyle;
             return base.SelectStyle(item, container);
         }
