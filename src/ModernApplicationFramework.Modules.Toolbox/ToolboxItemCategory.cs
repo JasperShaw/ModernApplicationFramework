@@ -24,6 +24,21 @@ namespace ModernApplicationFramework.Modules.Toolbox
         {
             TargetType = targetType;
             Items = new ObservableCollection<ToolboxItem>();
+            Items.CollectionChanged += Items_CollectionChanged;
+        }
+
+        private void Items_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.OldItems != null)
+            {
+                foreach (ToolboxItem item in e.OldItems)
+                    item.Parent = null;
+            }
+            if (e.NewItems != null)
+            {
+                foreach (ToolboxItem item in e.NewItems)
+                    item.Parent = this;
+            }
         }
     }
 }
