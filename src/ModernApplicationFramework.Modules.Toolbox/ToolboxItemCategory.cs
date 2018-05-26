@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Media.Imaging;
@@ -9,7 +7,6 @@ using ModernApplicationFramework.Modules.Toolbox.Annotations;
 
 namespace ModernApplicationFramework.Modules.Toolbox
 {
-
     public abstract class ToolboxNodeItem : INotifyPropertyChanged
     {
         private bool _isExpanded;
@@ -52,17 +49,27 @@ namespace ModernApplicationFramework.Modules.Toolbox
         }
     }
 
-
     public class ToolboxItemCategory : ToolboxNodeItem
     {
         public Type TargetType { get; }
 
-        public List<IToolboxItem> Items { get; }
+        private ObservableCollection<IToolboxItem> _items;
+
+        public ObservableCollection<IToolboxItem> Items
+        {
+            get => _items;
+            set
+            {
+                if (Equals(value, _items)) return;
+                _items = value;
+                OnPropertyChanged();
+            }
+        }
 
         public ToolboxItemCategory(Type targetType, string name) : base(name)
         {
             TargetType = targetType;
-            Items = new List<IToolboxItem>();
+            Items = new ObservableCollection<IToolboxItem>();
         }
     }
 

@@ -1,14 +1,12 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
-using System.Windows.Data;
 using Caliburn.Micro;
+using GongSolutions.Wpf.DragDrop;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Extended.Utilities.PaneUtilities;
-using ModernApplicationFramework.Modules.Toolbox.Services;
 
 namespace ModernApplicationFramework.Modules.Toolbox
 {
@@ -28,6 +26,8 @@ namespace ModernApplicationFramework.Modules.Toolbox
         //public IObservableCollection<ToolboxItemViewModel> Items => _filteredItems.Count == 0 ? _items : _filteredItems;
 
         public IObservableCollection<ToolboxItemCategory> Categories => _categories;
+
+        public IDropTarget ToolboxDropHandler { get; } = new ToolboxDropHandler();
 
         //public IObservableCollection<TreeModel> Categories { get; }
 
@@ -81,29 +81,6 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
             //_items.AddRange(_toolboxService.GetToolboxItems(_hostViewModel.ActiveItem.GetType())
             //    .Select(x => new ToolboxItemViewModel(x)));
-        }
-    }
-
-    public class TreeModel
-    {
-        public List<Leaf> Items { get; }
-
-        public string Name { get; }
-
-        public TreeModel(string name)
-        {
-            Name = name;
-            Items = new List<Leaf>{new Leaf("Test")};
-        }
-    }
-
-    public class Leaf
-    {
-        public string Name { get; }
-
-        public Leaf(string name)
-        {
-            Name = name;
         }
     }
 }
