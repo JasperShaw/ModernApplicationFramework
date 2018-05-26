@@ -49,9 +49,9 @@ namespace ModernApplicationFramework.EditorBase.Commands
             _dockingHostViewModel.ActiveLayoutItemChanged += _dockingHostViewModel_ActiveLayoutItemChanged;
         }
 
-        private void _dockingHostViewModel_ActiveLayoutItemChanged(object sender, EventArgs e)
+        private void _dockingHostViewModel_ActiveLayoutItemChanged(object sender, ILayoutItem e)
         {
-            _text = _dockingHostViewModel.ActiveItem?.DisplayName;
+            _text = e?.DisplayName;
             OnPropertyChanged(nameof(Text));
         }
 

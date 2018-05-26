@@ -12,8 +12,8 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
     [Export(typeof(IDockingHostViewModel))]
     public class DockingHostViewModel : Conductor<ILayoutItem>.Collection.OneActive, IDockingHostViewModel
     {
-        public event EventHandler ActiveLayoutItemChanged;
-        public event EventHandler ActiveLayoutItemChanging;
+        public event EventHandler<ILayoutItem> ActiveLayoutItemChanged;
+        public event EventHandler<ILayoutItem> ActiveLayoutItemChanging;
 
 
         private readonly BindableCollection<ITool> _tools;
@@ -119,20 +119,20 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
         {
             if (_closing)
                 return;
-            RaiseActiveDocumentChanging();
+            RaiseActiveDocumentChanging(item);
             var currentActiveItem = ActiveItem;
             base.ActivateItem(item);
             if (!ReferenceEquals(item, currentActiveItem))
-                RaiseActiveDocumentChanged();
+                RaiseActiveDocumentChanged(item);
         }
 
         public override void DeactivateItem(ILayoutItem item, bool close)
         {
-            RaiseActiveDocumentChanging();
+            RaiseActiveDocumentChanging(item);
 
             base.DeactivateItem(item, close);
 
-            RaiseActiveDocumentChanged();
+            RaiseActiveDocumentChanged(item);
         }
 
         protected override void OnActivationProcessed(ILayoutItem item, bool success)
@@ -197,16 +197,16 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
             PackageManager.Instance.LoadPackages(PackageLoadOption.OnMainWindowLoaded);
         }
 
-        private void RaiseActiveDocumentChanged()
+        private void RaiseActiveDocumentChanged(ILayoutItem item)
         {
             var handler = ActiveLayoutItemChanged;
-            handler?.Invoke(this, EventArgs.Empty);
+            handler?.Invoke(this, item);
         }
 
-        private void RaiseActiveDocumentChanging()
+        private void RaiseActiveDocumentChanging(ILayoutItem item)
         {
             var handler = ActiveLayoutItemChanging;
-            handler?.Invoke(this, EventArgs.Empty);
+            handler?.Invoke(this, item);
         }
     }
 }

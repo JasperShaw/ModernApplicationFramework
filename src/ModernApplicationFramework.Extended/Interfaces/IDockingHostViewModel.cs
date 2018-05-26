@@ -15,12 +15,12 @@ namespace ModernApplicationFramework.Extended.Interfaces
         /// <summary>
         /// Occurs when then active layout item changed.
         /// </summary>
-        event EventHandler ActiveLayoutItemChanged;
+        event EventHandler<ILayoutItem> ActiveLayoutItemChanged;
 
         /// <summary>
         /// Occurs when the active layout item is about to change.
         /// </summary>
-        event EventHandler ActiveLayoutItemChanging;
+        event EventHandler<ILayoutItem> ActiveLayoutItemChanging;
 
         /// <summary>
         /// The active <see cref="ILayoutItem"/>.

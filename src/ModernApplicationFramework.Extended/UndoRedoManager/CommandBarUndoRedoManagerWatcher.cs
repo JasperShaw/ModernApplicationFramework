@@ -96,9 +96,9 @@ namespace ModernApplicationFramework.Extended.UndoRedoManager
             Refresh();
         }
 
-        private void ShellActiveLayoutItemChanged(object sender, EventArgs e)
+        private void ShellActiveLayoutItemChanged(object sender, ILayoutItem e)
         {
-            UndoRedoManager = _shell.ActiveItem?.UndoRedoManager;
+            UndoRedoManager = e?.UndoRedoManager;
         }
     }
 }
