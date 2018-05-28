@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
-using GongSolutions.Wpf.DragDrop;
+using ModernApplicationFramework.DragDrop;
 
 namespace ModernApplicationFramework.Modules.Toolbox
 {
@@ -9,7 +9,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
     {
         public void StartDrag(IDragInfo dragInfo)
         {
-            GongSolutions.Wpf.DragDrop.DragDrop.DefaultDragHandler.StartDrag(dragInfo);
+            DragDrop.DragDrop.DefaultDragHandler.StartDrag(dragInfo);
             if (dragInfo.SourceItem is IToolboxItem toolbox)
             {
                 var format = toolbox.Data.GetFormats(false).First();

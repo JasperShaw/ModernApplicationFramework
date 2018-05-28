@@ -1,4 +1,4 @@
-﻿using GongSolutions.Wpf.DragDrop;
+﻿using ModernApplicationFramework.DragDrop;
 using ModernApplicationFramework.Extended.Interfaces;
 
 namespace ModernApplicationFramework.Modules.Toolbox

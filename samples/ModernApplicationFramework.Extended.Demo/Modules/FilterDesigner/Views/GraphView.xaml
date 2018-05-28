@@ -8,6 +8,7 @@
              xmlns:controls="clr-namespace:ModernApplicationFramework.Extended.Demo.GraphDesigner.Controls"
              xmlns:viewModels="clr-namespace:ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.ViewModels"
              xmlns:dd="urn:gong-wpf-dragdrop"
+             xmlns:mafdd="http://modern.framework.com/dragdrop"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance design:DesignTimeGraphViewModel, IsDesignTimeCreatable=True}"
              d:DesignHeight="450" d:DesignWidth="800" Focusable="True">
     <UserControl.Resources>
@@ -28,8 +29,8 @@
                                        ConnectionDragging="OnGraphControlConnectionDragging"
                                        ConnectionDragCompleted="OnGraphControlConnectionDragCompleted"
                                        AllowDrop="True"
-                                       dd:DragDrop.IsDropTarget="True"
-                                       dd:DragDrop.DropHandler="{Binding}">
+                                       mafdd:DragDrop.IsDropTarget="True"
+                                       mafdd:DragDrop.DropHandler="{Binding}">
                     <controls:GraphControl.ElementItemContainerStyle>
                         <Style TargetType="{x:Type controls:ElementItem}">
                             <Setter Property="X" Value="{Binding X}" />

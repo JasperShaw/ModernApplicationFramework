@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JetBrains.Annotations, Version=11.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JetBrains.Annotations.11.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -47,6 +50,20 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultDragHandler.cs" />
+    <Compile Include="DefaultDropHandler.cs" />
+    <Compile Include="DragAdorner.cs" />
+    <Compile Include="DragDrop.cs" />
+    <Compile Include="DragInfo.cs" />
+    <Compile Include="DropInfo.cs" />
+    <Compile Include="DropTargetAdorner.cs" />
+    <Compile Include="DropTargetAdorners.cs" />
+    <Compile Include="DropTargetHighlightAdorner.cs" />
+    <Compile Include="DropTargetInsertionAdorner.cs" />
+    <Compile Include="IDragInfo.cs" />
+    <Compile Include="IDragSource.cs" />
+    <Compile Include="IDropInfo.cs" />
+    <Compile Include="IDropTarget.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -60,14 +77,38 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="RelativeInsertPosition.cs" />
+    <Compile Include="ScrollingMode.cs" />
+    <Compile Include="Utilities\DpiHelper.cs" />
+    <Compile Include="Utilities\DragDropExtensions.cs" />
+    <Compile Include="Utilities\HitTestUtilities.cs" />
+    <Compile Include="Utilities\IconFactory.cs" />
+    <Compile Include="Utilities\RootElementFinder.cs" />
+    <Compile Include="Utilities\TreeViewItemExtensions.cs" />
+    <Compile Include="Utilities\ItemsControlExtensions.cs" />
+    <Compile Include="Utilities\VisualTreeExtensions.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Compile Include="DragDrop.Properties.cs" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ModernApplicationFramework.Utilities\ModernApplicationFramework.Utilities.csproj">
+      <Project>{2b388979-5b07-4f0a-a302-0c575aaa21c0}</Project>
+      <Name>ModernApplicationFramework.Utilities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\EffectCopy.png" />
+    <Resource Include="Icons\EffectLink.png" />
+    <Resource Include="Icons\EffectMove.png" />
+    <Resource Include="Icons\EffectNone.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

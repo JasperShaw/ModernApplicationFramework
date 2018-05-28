@@ -7,6 +7,8 @@ Included 3rd-party libraries:
 
 Modified version of AvalonDock 2.0 (BSD 2-clause License) by Xceed.
 
+.Net Version of the Drag-Drop Framework by GongSolutions (BSD 3-clause License) - get it [here](https://github.com/punker76/gong-wpf-dragdrop).
+
 .Net Version of Calriburn Framework (MIT-License) - get it [here](https://github.com/Caliburn-Micro/Caliburn.Micro/).
 
 Code elements and some ideas from Gemini Framework (MS-PL License) by [tgjones](https://github.com/tgjones).

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using Caliburn.Micro;
-using GongSolutions.Wpf.DragDrop;
+using ModernApplicationFramework.DragDrop;
 using ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.Design;
 using ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.Util;
 using ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.ViewModels.Elements;

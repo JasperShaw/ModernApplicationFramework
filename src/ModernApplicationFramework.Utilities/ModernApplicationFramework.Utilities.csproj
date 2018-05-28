@@ -132,6 +132,7 @@
     <Compile Include="Settings\SettingsValueSerializer.cs" />
     <Compile Include="Splice.cs" />
     <Compile Include="TreeViewItemExtensions.cs" />
+    <Compile Include="TypeUtilities.cs" />
     <Compile Include="Validate.cs" />
     <Compile Include="ValueExtension.cs" />
     <Compile Include="WeakCollectionT.cs" />
