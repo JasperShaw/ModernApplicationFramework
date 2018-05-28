@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
@@ -29,6 +30,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
         public IObservableCollection<ToolboxItemCategory> Categories => _categories;
 
         public IDropTarget ToolboxDropHandler { get; } = new ToolboxDropHandler();
+        public IDragSource ToolboxDragHandler { get; } = new ToolboxDragHandler();
 
         public ToolboxNodeItem SelectedNode
         {

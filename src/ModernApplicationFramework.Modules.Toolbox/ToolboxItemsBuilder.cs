@@ -10,10 +10,10 @@ namespace ModernApplicationFramework.Modules.Toolbox
     internal class ToolboxItemsBuilder
     {
         private readonly IEnumerable<ToolboxItemCategory> _categories;
-        private readonly IEnumerable<ToolboxItem> _items;
+        private readonly IEnumerable<IToolboxItem> _items;
 
         [ImportingConstructor]
-        public ToolboxItemsBuilder([ImportMany] IEnumerable<ToolboxItemCategory> categories, [ImportMany] IEnumerable<ToolboxItem> items)
+        public ToolboxItemsBuilder([ImportMany] IEnumerable<ToolboxItemCategory> categories, [ImportMany] IEnumerable<IToolboxItem> items)
         {
             _categories = categories;
             _items = items;
@@ -29,6 +29,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
                 var matching = items.Where(x => x.OriginalParent == category);
                 category.Items.AddRange(matching);
             }
+            categories.Add(ToolboxItemCategory.DefaultCategory);
             return categories;
         }
     }

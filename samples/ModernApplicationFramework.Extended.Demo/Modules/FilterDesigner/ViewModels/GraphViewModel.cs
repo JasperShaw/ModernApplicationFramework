@@ -151,19 +151,19 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.ViewMo
 
         public void DragOver(IDropInfo dropInfo)
         {
-            if (dropInfo.Data is ToolboxItem)
+            if (dropInfo.Data is IToolboxItem)
                 dropInfo.Effects = DragDropEffects.All;
         }
 
         public void Drop(IDropInfo dropInfo)
         {
-            if (!(dropInfo.Data is ToolboxItem toolboxItem))
-                return;
-            var mousePosition = dropInfo.DropPosition;
-            var element = (ElementViewModel)Activator.CreateInstance(toolboxItem.TargetType);
-            element.X = mousePosition.X;
-            element.Y = mousePosition.Y;
-            Elements.Add(element);
+            //if (!(dropInfo.Data is IToolboxItem toolboxItem))
+            //    return;
+            //var mousePosition = dropInfo.DropPosition;
+            //var element = (ElementViewModel)Activator.CreateInstance(toolboxItem.TargetType);
+            //element.X = mousePosition.X;
+            //element.Y = mousePosition.Y;
+            //Elements.Add(element);
         }
     }
 }

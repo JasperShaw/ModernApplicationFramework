@@ -84,10 +84,12 @@
     </Compile>
     <Compile Include="Services\IToolboxService.cs" />
     <Compile Include="Services\ToolboxService.cs" />
+    <Compile Include="ToolboxDragHandler.cs" />
     <Compile Include="ToolboxDropHandler.cs" />
     <Compile Include="ToolboxItem.cs" />
     <Compile Include="ToolboxItemAttribute.cs" />
     <Compile Include="ToolboxItemCategory.cs" />
+    <Compile Include="ToolboxItemDataFormats.cs" />
     <Compile Include="ToolboxItemsBuilder.cs" />
     <Compile Include="ToolboxItemViewModel.cs" />
     <Compile Include="ToolboxNodeItem.cs" />

@@ -8,8 +8,8 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.Toolbo
 {
     public static class Items
     {
-        [Export] internal  static ToolboxItem AddItem = new ToolboxItem(typeof(Add),Categories.MathCategory, "Add", new BitmapImage(new Uri("pack://application:,,,/Resources/action_add_16xLG.png")));
+        [Export] internal  static IToolboxItem AddItem = new ToolboxItemEx("Add", typeof(Add), Categories.MathCategory, new BitmapImage(new Uri("pack://application:,,,/Resources/action_add_16xLG.png")));
 
-        [Export] internal  static ToolboxItem ImageSourceItem = new ToolboxItem(typeof(ImageSource), Categories.GeneratorCategory, "Image Source");
+        [Export] internal  static IToolboxItem ImageSourceItem = new ToolboxItemEx("Image Source", typeof(ImageSource), Categories.GeneratorCategory);
     }
 }

@@ -9,8 +9,8 @@
             var cat1 = new ToolboxItemCategory(null, "Test 1");
             var cat2 = new ToolboxItemCategory(null, "Test 2");
 
-            var child1 = new ToolboxItem(typeof(object), cat1, "Child 1");
-            var child2 = new ToolboxItem(typeof(object), cat1, "Child 2");
+            var child1 = new ToolboxItemEx("Child 1", typeof(object), cat1);
+            var child2 = new ToolboxItemEx("Child 2", typeof(object), cat1);
 
             cat1.IsExpanded = true;
 

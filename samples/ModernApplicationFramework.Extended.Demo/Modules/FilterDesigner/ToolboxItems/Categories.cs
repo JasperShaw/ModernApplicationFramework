@@ -6,8 +6,9 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.Toolbo
 {
     public static class Categories
     {
-        [Export] internal static ToolboxItemCategory MathCategory =
-            new ToolboxItemCategory(typeof(GraphViewModel) ,"Maths");
+        [Export]
+        internal static ToolboxItemCategory MathCategory =
+            new ToolboxItemCategory(typeof(GraphViewModel), "Maths");
 
         [Export]
         internal static ToolboxItemCategory GeneratorCategory =

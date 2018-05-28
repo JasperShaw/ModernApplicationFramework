@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using Caliburn.Micro;
 
 namespace ModernApplicationFramework.Modules.Toolbox
@@ -7,11 +8,20 @@ namespace ModernApplicationFramework.Modules.Toolbox
     {
         internal static ToolboxItemCategory DefaultCategory = new ToolboxItemCategory(null, "Default");
 
+        static ToolboxItemCategory()
+        {
+            var d = new DataObject(DataFormats.Text, "123Test");
+            var i = new ToolboxItemEx("Test", d, DefaultCategory);
+            var j = new ToolboxItemEx("123", d, DefaultCategory);
+            DefaultCategory.Items.Add(i);
+            DefaultCategory.Items.Add(j);
+        }
+
         public Type TargetType { get; }
 
-        private IObservableCollection<ToolboxItem> _items;
+        private IObservableCollection<IToolboxItem> _items;
 
-        public IObservableCollection<ToolboxItem> Items
+        public IObservableCollection<IToolboxItem> Items
         {
             get => _items;
             set
@@ -25,7 +35,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
         public ToolboxItemCategory(Type targetType, string name) : base(name)
         {
             TargetType = targetType;
-            Items = new BindableCollection<ToolboxItem>();
+            Items = new BindableCollection<IToolboxItem>();
             Items.CollectionChanged += Items_CollectionChanged;
         }
 
@@ -33,12 +43,12 @@ namespace ModernApplicationFramework.Modules.Toolbox
         {
             if (e.OldItems != null)
             {
-                foreach (ToolboxItem item in e.OldItems)
+                foreach (IToolboxItem item in e.OldItems)
                     item.Parent = null;
             }
             if (e.NewItems != null)
             {
-                foreach (ToolboxItem item in e.NewItems)
+                foreach (IToolboxItem item in e.NewItems)
                     item.Parent = this;
             }
         }

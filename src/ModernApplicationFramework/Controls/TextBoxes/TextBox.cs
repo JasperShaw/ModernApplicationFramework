@@ -189,5 +189,20 @@ namespace ModernApplicationFramework.Controls.TextBoxes
             OnPreviewTextChanged(e);
             return e.Handled;
         }
+
+        protected override void OnDragEnter(DragEventArgs e)
+        {
+            base.OnDragEnter(e);
+        }
+
+        protected override void OnDrop(DragEventArgs e)
+        {
+            base.OnDrop(e);
+        }
+
+        protected override void OnPreviewDrop(DragEventArgs e)
+        {
+            base.OnPreviewDrop(e);
+        }
     }
 }
