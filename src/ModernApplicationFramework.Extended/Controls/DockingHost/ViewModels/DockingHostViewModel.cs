@@ -21,6 +21,7 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
         private bool _closing;
 
         private bool _showFloatingWindowsInTaskbar;
+        private bool _changingItem;
 
         public IObservableCollection<ITool> Tools => _tools;
 
@@ -33,7 +34,7 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
                     return;
                 _activeLayoutItemBase = value;
                 if (value is ILayoutItem item)
-                    ActivateItem(item);
+                    OpenLayoutItem(item);
                 NotifyOfPropertyChange(() => ActiveLayoutItemBase);
             }
         }
@@ -51,7 +52,7 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
 
         public DockingHostViewModel()
         {
-            ((IActivate) this).Activate();
+            ((IActivate)this).Activate();
             _tools = new BindableCollection<ITool>();
         }
 
@@ -117,22 +118,24 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
 
         public override void ActivateItem(ILayoutItem item)
         {
-            if (_closing)
+            if (_closing || _changingItem)
                 return;
+            _changingItem = true;
             RaiseActiveDocumentChanging(item);
             var currentActiveItem = ActiveItem;
             base.ActivateItem(item);
             if (!ReferenceEquals(item, currentActiveItem))
-                RaiseActiveDocumentChanged(item);
+                RaiseActiveDocumentChanged(item);    
+            _changingItem = false;
         }
 
         public override void DeactivateItem(ILayoutItem item, bool close)
         {
-            RaiseActiveDocumentChanging(item);
+            //RaiseActiveDocumentChanging(item);
 
             base.DeactivateItem(item, close);
 
-            RaiseActiveDocumentChanged(item);
+            //RaiseActiveDocumentChanged(item);
         }
 
         protected override void OnActivationProcessed(ILayoutItem item, bool success)
@@ -175,7 +178,7 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
 
         protected virtual void PreviewDeactivating(bool close)
         {
-            
+
         }
 
         protected override void OnViewAttached(object view, object context)
