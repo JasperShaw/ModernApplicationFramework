@@ -55,10 +55,6 @@
                                 <Setter TargetName="ExpandedPath" Property="Fill" 
                                         Value="{Binding Background, RelativeSource={RelativeSource AncestorType=ToggleButton}}"/>
                             </Trigger>
-                            <!--<DataTrigger Binding="{Binding IsSelected ,RelativeSource={RelativeSource AncestorType=TreeViewItem, Mode=FindAncestor}}" Value="True">
-                                <Setter TargetName="ExpandedPath" Property="Fill" Value="White"/>
-                                <Setter TargetName="ExpandedPath" Property="Stroke" Value="White"/>
-                            </DataTrigger>-->
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
@@ -67,9 +63,9 @@
 
         <Style x:Key="CategoryItemStyle" TargetType="{x:Type TreeViewItem}">
             <Setter Property="TextElement.Foreground"
-                    Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTextBrush}}"/>
+                    Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxBackgroundText}}"/>
             <Setter Property="Background"
-                    Value="{DynamicResource {x:Static themes:ColorResources.WonderbarBrush}}"/>
+                    Value="Transparent"/>
             <Setter Property="Border.BorderBrush" Value="Transparent"/>
             <Setter Property="IsExpanded">
                 <Setter.Value>
@@ -102,17 +98,14 @@
                             <Rectangle x:Name="ItemRect" Grid.Row="0" Grid.ColumnSpan="3"/>
                             <ToggleButton Grid.Row="0" x:Name="Expander" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
                                           Style="{StaticResource ExpandCollapseToggleStyle}"
-                                          Background="Transparent" BorderBrush="Black"/>
+                                          Background="Transparent" BorderBrush="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxCategoryExtenderBorder}}"/>
                             <Border Grid.Row="0" Grid.Column="1" Padding="{TemplateBinding Padding}" 
                                     SnapsToDevicePixels="True">
                                 <TextBlock x:Name="CategoryName" Padding="2" Margin="-1,0,0,0" Text="{Binding Name}"/>
                             </Border>
                             <TextBlock x:Name="PART_EmptyMessage" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
                                     TextWrapping="WrapWithOverflow" TextAlignment="Center" TextTrimming="None" 
-                                       Margin="-5,15,10,0" 
-                                           Foreground="{DynamicResource {x:Static themes:ColorResources.ContentTextBrush}}"
-                                           Text="No items in this group currently"/>
-
+                                       Margin="-5,15,10,0"  Text="No items in this group currently"/>
                             <ItemsPresenter x:Name="ItemsHost" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"/>
                         </Grid>
                         <ControlTemplate.Triggers>
@@ -126,17 +119,17 @@
                                 </MultiTrigger.Setters>
                             </MultiTrigger>
                             <Trigger Property="IsExpanded" Value="True">
-                                <Setter TargetName="Expander" Property="Background" Value="Black"/>
-                                <Setter TargetName="Expander" Property="BorderBrush" Value="Black"/>
+                                <Setter TargetName="Expander" Property="Background" Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxCategoryExtenderBackground}}"/>
+                                <Setter TargetName="Expander" Property="BorderBrush" Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxCategoryExtenderBorder}}"/>
                             </Trigger>
                             <Trigger Property="TreeViewItem.IsSelected" Value="true">
                                 <Setter TargetName="CategoryName"
-                                        Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTreeSelectedTextBrush}}"
+                                        Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemSelectedText}}"
                                         Property="TextElement.Foreground"/>
                                 <Setter TargetName="ItemRect"
-                                        Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTreeSelectedBrush}}"
+                                        Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemSelected}}"
                                         Property="Fill"/>
-                                <Setter TargetName="Expander" Property="BorderBrush" Value="White"/>
+                                <Setter TargetName="Expander" Property="BorderBrush" Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxCategorySelectedExtenderBorder}}"/>
                             </Trigger>
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
@@ -144,7 +137,7 @@
                                     <Condition Property="IsExpanded" Value="true"/>
                                 </MultiTrigger.Conditions>
                                 <MultiTrigger.Setters>
-                                    <Setter TargetName="Expander" Property="Background" Value="White"/>
+                                    <Setter TargetName="Expander" Property="Background" Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxCategorySelectedExtenderBackground}}"/>
                                 </MultiTrigger.Setters>
                             </MultiTrigger>
                             <Trigger Property="TreeViewItem.IsExpanded" Value="false">
@@ -157,9 +150,9 @@
                                     <Condition Property="Selector.IsSelectionActive" Value="false"/>
                                 </MultiTrigger.Conditions>
                                 <Setter TargetName="CategoryName" Property="TextElement.Foreground"
-                                        Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTreeInactiveSelectedTextBrush}}"/>
+                                        Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemInactiveText}}"/>
                                 <Setter TargetName="ItemRect" Property="Fill"
-                                        Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTreeInactiveSelectedBrush}}"/>
+                                        Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemInactive}}"/>
                                 <Setter TargetName="Expander" Property="Background" Value="Black"/>
                                 <Setter TargetName="Expander" Property="BorderBrush" Value="Black"/>
                             </MultiTrigger>
@@ -209,7 +202,7 @@
                                     <TextBlock Grid.Column="2" x:Name="HeaderPresenter" Padding="3,0,15,0" Margin="12,0,0,0"
                                                TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" HorizontalAlignment="Left" 
                                                VerticalAlignment="Center"
-                                               Foreground="{DynamicResource {x:Static themes:ColorResources.WonderbarTextBrush}}">
+                                               Foreground="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxBackgroundText}}">
                                         <TextBlock.Text>
                                             <Binding Path="Name"/>
                                         </TextBlock.Text>
@@ -223,18 +216,18 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="true">
                                 <Setter TargetName="HeaderPresenter"
-                                        Value="Black"
+                                        Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemHoverText}}"
                                         Property="Foreground"/>
                                 <Setter TargetName="Bd"
-                                        Value="LightBlue"
+                                        Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemHover}}"
                                         Property="Background"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="true">
                                 <Setter TargetName="HeaderPresenter"
-                                        Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTreeSelectedTextBrush}}"
+                                        Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemSelectedText}}"
                                         Property="Foreground"/>
                                 <Setter TargetName="Bd"
-                                        Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTreeSelectedBrush}}"
+                                        Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemSelected}}"
                                         Property="Background"/>
                             </Trigger>
                             <MultiTrigger>
@@ -243,9 +236,9 @@
                                     <Condition Property="Selector.IsSelectionActive" Value="false"/>
                                 </MultiTrigger.Conditions>
                                 <Setter TargetName="HeaderPresenter" Property="TextElement.Foreground"
-                                        Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTreeInactiveSelectedTextBrush}}"/>
+                                        Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemInactiveText}}"/>
                                 <Setter TargetName="Bd" Property="Background"
-                                        Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTreeInactiveSelectedBrush}}"/>
+                                        Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemInactive}}"/>
                             </MultiTrigger>
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
@@ -254,9 +247,9 @@
                                     <Condition Property="Selector.IsSelectionActive" Value="false"/>
                                 </MultiTrigger.Conditions>
                                 <Setter TargetName="HeaderPresenter" Property="TextElement.Foreground"
-                                        Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTreeSelectedTextBrush}}"/>
+                                        Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemSelectedText}}"/>
                                 <Setter TargetName="Bd" Property="Background"
-                                        Value="Blue"/>
+                                        Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemSelected}}"/>
                             </MultiTrigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -281,7 +274,8 @@
                   mafdd:DragDrop.DropHandler="{Binding ToolboxDropHandler}"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   ItemContainerStyleSelector="{StaticResource ToolboxTreeNodeStyleSelector}"
-                  Background="White" BorderThickness="0" ItemsSource="{Binding Categories}">
+                  Background="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxBackground}}" 
+                                  BorderThickness="0" ItemsSource="{Binding Categories}">
             <i:Interaction.Behaviors>
                 <utilities:BindableSelectedItemBehavior SelectedItem="{Binding SelectedNode, Mode=TwoWay}" />
             </i:Interaction.Behaviors>

@@ -83,6 +83,7 @@
     </Compile>
     <Compile Include="Services\IToolboxService.cs" />
     <Compile Include="Services\ToolboxService.cs" />
+    <Compile Include="ToolBoxColors.cs" />
     <Compile Include="ToolboxDragHandler.cs" />
     <Compile Include="ToolboxDropHandler.cs" />
     <Compile Include="ToolboxItem.cs" />
@@ -135,10 +136,19 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic\ColorResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ToolboxView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

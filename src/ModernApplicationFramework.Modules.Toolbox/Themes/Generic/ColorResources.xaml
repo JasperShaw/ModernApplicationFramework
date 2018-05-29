@@ -1,0 +1,48 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:toolbox="clr-namespace:ModernApplicationFramework.Modules.Toolbox">
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type toolbox:ToolBoxColors},
+                     ResourceId=ToolboxBackground}" Color="#FFFFFFFF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type toolbox:ToolBoxColors},
+                     ResourceId=ToolboxBackgroundText}" Color="#FF000000"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type toolbox:ToolBoxColors},
+                     ResourceId=ToolboxItemHover}" Color="#FFFDF4BF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type toolbox:ToolBoxColors},
+                     ResourceId=ToolboxItemHoverText}" Color="#FF1E1E1E"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type toolbox:ToolBoxColors},
+                     ResourceId=ToolboxItemSelected}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type toolbox:ToolBoxColors},
+                     ResourceId=ToolboxItemSelectedText}" Color="#FFFFFFFF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type toolbox:ToolBoxColors},
+                     ResourceId=ToolboxItemInactive}" Color="#FFCCCEDB"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type toolbox:ToolBoxColors},
+                     ResourceId=ToolboxItemInactiveText}" Color="#FF1E1E1E"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type toolbox:ToolBoxColors},
+                     ResourceId=ToolboxCategoryExtenderBackground}" Color="#FF1E1E1E"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type toolbox:ToolBoxColors},
+                     ResourceId=ToolboxCategorySelectedExtenderBackground}" Color="#FFFFFFFF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type toolbox:ToolBoxColors},
+                     ResourceId=ToolboxCategoryExtenderBorder}" Color="#FF1E1E1E"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type toolbox:ToolBoxColors},
+                     ResourceId=ToolboxCategorySelectedExtenderBorder}" Color="#FFFFFFFF"/>
+    
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type toolbox:ToolBoxColors},
+                     ResourceId=ToolboxCategoryInactiveExtenderBorder}" Color="#FF1E1E1E"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type toolbox:ToolBoxColors},
+                     ResourceId=ToolboxCategoryInactiveExtenderBackground}" Color="#FF1E1E1E"/>
+
+
+</ResourceDictionary>
