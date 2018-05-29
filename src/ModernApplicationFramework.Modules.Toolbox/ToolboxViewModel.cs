@@ -1,7 +1,5 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.Composition;
-using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.DragDrop;
@@ -62,8 +60,14 @@ namespace ModernApplicationFramework.Modules.Toolbox
                 return;
 
             hostViewModel.ActiveLayoutItemChanged += (sender, e) => RefreshToolboxItems(e);
+            hostViewModel.ActiveLayoutItemChanging += (sender, item) => StoreItems(item);
             RefreshToolboxItems(_hostViewModel.ActiveItem);
 
+        }
+
+        private void StoreItems(ILayoutItem layoutItem)
+        {
+            _toolboxService.StoreItemSource(_hostViewModel.ActiveItem.GetType(), _categories);
         }
 
         private void RefreshToolboxItems(ILayoutItem layoutItem)
@@ -72,10 +76,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
             if (layoutItem == null)
                 return;
             var i = _toolboxService.GetToolboxItemSource(layoutItem.GetType());
-            if (!i.Any())
-                _categories.Add(ToolboxItemCategory.DefaultCategory);
-            else
-                _categories.AddRange(i);
+            _categories.AddRange(i);
         }
     }
 }

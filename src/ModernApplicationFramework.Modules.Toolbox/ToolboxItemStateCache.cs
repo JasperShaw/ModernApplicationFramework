@@ -1,25 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Controls;
+using System.ComponentModel.Composition;
 
 namespace ModernApplicationFramework.Modules.Toolbox
 {
-    internal class ToolboxItemStateCache
+    [Export(typeof(IToolboxItemStateCache))]
+    internal class ToolboxItemStateCache : IToolboxItemStateCache
     {
+        private readonly ToolboxItemsBuilder _builder;
 
-        public ToolboxItemStateCache()
+        private readonly Dictionary<Type, IReadOnlyCollection<ToolboxItemCategory>> _store = new Dictionary<Type, IReadOnlyCollection<ToolboxItemCategory>>();
+
+        [ImportingConstructor]
+        public ToolboxItemStateCache(ToolboxItemsBuilder builder)
         {
+            _builder = builder;
         }
 
 
-        public IEnumerable<ToolboxItemCategory> GetToolboxItems(Type key)
+        public IReadOnlyCollection<ToolboxItemCategory> GetToolboxItems(Type key)
         {
-            return null;
+            if (!_store.TryGetValue(key, out var result))
+            {
+                result = _builder.Build(key);
+                StoreToolboxItems(key, result);
+            }
+            return result;
         }
 
-        public void StoreToolboxItems(Type key, IEnumerable<ToolboxItemCategory> items)
+        public void StoreToolboxItems(Type key, IReadOnlyCollection<ToolboxItemCategory> items)
         {
-            
+            if (_store.ContainsKey(key))
+                _store[key] = items;
+            else
+                _store.Add(key, items);
         }
+    }
+
+    internal interface IToolboxItemStateCache
+    {
+        IReadOnlyCollection<ToolboxItemCategory> GetToolboxItems(Type key);
+
+        void StoreToolboxItems(Type key, IReadOnlyCollection<ToolboxItemCategory> items);
     }
 }
