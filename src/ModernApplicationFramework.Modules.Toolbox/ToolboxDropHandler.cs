@@ -8,6 +8,11 @@ namespace ModernApplicationFramework.Modules.Toolbox
     {
         public void DragOver(IDropInfo dropInfo)
         {
+            if (dropInfo.IsSameDragDropContextAsSource)
+            {
+                //Restore original data
+                dropInfo.Data = dropInfo.DragInfo.SourceItem;
+            }
             DragDrop.DragDrop.DefaultDropHandler.DragOver(dropInfo);
             if (dropInfo.TargetItem is IToolboxItem &&
                 dropInfo.InsertPosition.HasFlag(RelativeInsertPosition.TargetItemCenter))
