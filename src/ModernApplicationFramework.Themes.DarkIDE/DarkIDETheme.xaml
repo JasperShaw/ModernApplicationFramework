@@ -4,6 +4,7 @@
         <ResourceDictionary Source="/ModernApplicationFramework.Themes.DarkIDE;component/Brushes.xaml"/>
         <ResourceDictionary Source="/ModernApplicationFramework.Themes.DarkIDE;component/OverlayWindow.xaml"/>
         <ResourceDictionary Source="/ModernApplicationFramework.Themes.DarkIDE;component/ColorResources.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework.Themes.DarkIDE;component/ToolboxColorResources.xaml"/>
     </ResourceDictionary.MergedDictionaries>	
     
 </ResourceDictionary>
