@@ -866,7 +866,7 @@
                      ResourceId=AnchorTabItemBorderHover}" Color="#FF3E3E40"/>
 	
 	<SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
-                     ResourceId=AnchorTabItemBorderActive}" Color="#FF252526"/>
+                     ResourceId=AnchorTabItemBorderActive}" Color="#FF3F3F46"/>
 	
 	<SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:EnvironmentColors}, 
                      ResourceId=AnchorTabItemBorderDisabled}" Color="#FF252526"/>
