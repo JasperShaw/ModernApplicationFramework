@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\ToolboxTreeView.cs" />
+    <Compile Include="Controls\ToolboxTreeViewItem.cs" />
     <Compile Include="Design\DesignTimeToolboxViewModel.cs" />
     <Compile Include="IToolbox.cs" />
     <Compile Include="CommandBar\MenuDefinitions.cs" />
