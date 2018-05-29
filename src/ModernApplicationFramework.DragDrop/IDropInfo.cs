@@ -10,7 +10,7 @@ namespace ModernApplicationFramework.DragDrop
     public interface IDropInfo
     {
         /// <summary>
-        /// Gets the drag data.
+        /// Gets or sets the drag data.
         /// </summary>
         /// 
         /// <remarks>
@@ -19,7 +19,7 @@ namespace ModernApplicationFramework.DragDrop
         /// - The dragged data if a single item was dragged.
         /// - A typed IEnumerable if multiple items were dragged.
         /// </remarks>
-        object Data { get; }
+        object Data { get; set; }
 
         /// <summary>
         /// Gets a <see cref="DragInfo"/> object holding information about the source of the drag, 

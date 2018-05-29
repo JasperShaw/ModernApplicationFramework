@@ -14,7 +14,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
             {
                 var format = toolbox.Data.GetFormats(false).First();
                 dragInfo.DataFormat = DataFormats.GetDataFormat(format);
-                //dragInfo.Data = toolbox.Data.GetData(format);
+                dragInfo.Data = toolbox.Data.GetData(format);
                 dragInfo.Effects = dragInfo.Data != null ? DragDropEffects.Copy | DragDropEffects.Move : DragDropEffects.None;
             }
         }

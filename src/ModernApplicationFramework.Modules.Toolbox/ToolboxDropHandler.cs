@@ -16,6 +16,11 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
         public void Drop(IDropInfo dropInfo)
         {
+            if (dropInfo.IsSameDragDropContextAsSource)
+            {
+                //Restore original data
+                dropInfo.Data = dropInfo.DragInfo.SourceItem;
+            }
             DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo);
             if (dropInfo.TargetCollection is ICollectionView view)
                 view.Refresh();
