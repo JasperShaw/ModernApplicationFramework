@@ -125,6 +125,10 @@
       <Project>{2B388979-5B07-4F0A-A302-0C575AAA21C0}</Project>
       <Name>ModernApplicationFramework.Utilities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework.WindowManagement\ModernApplicationFramework.WindowManagement.csproj">
+      <Project>{674F7D84-B3AE-4CD6-AD12-0AFA4ACE516A}</Project>
+      <Name>ModernApplicationFramework.WindowManagement</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework\ModernApplicationFramework.csproj">
       <Project>{74F6C6A1-64BB-47D4-9E7F-6CD5C4CA166C}</Project>
       <Name>ModernApplicationFramework</Name>

@@ -107,7 +107,7 @@
                                     SnapsToDevicePixels="True">
                                 <TextBlock x:Name="CategoryName" Padding="2" Margin="-1,0,0,0" Text="{Binding Name}"/>
                             </Border>
-                            <TextBlock x:Name="EmptyMessage" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
+                            <TextBlock x:Name="PART_EmptyMessage" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
                                     TextWrapping="WrapWithOverflow" TextAlignment="Center" TextTrimming="None" 
                                        Margin="-5,15,10,0" 
                                            Foreground="{DynamicResource {x:Static themes:ColorResources.ContentTextBrush}}"
@@ -122,7 +122,7 @@
                                     <Condition Property="IsExpanded" Value="true"/>
                                 </MultiTrigger.Conditions>
                                 <MultiTrigger.Setters>
-                                    <Setter TargetName="EmptyMessage" Property="UIElement.Visibility" Value="Collapsed"/>
+                                    <Setter TargetName="PART_EmptyMessage" Property="UIElement.Visibility" Value="Collapsed"/>
                                 </MultiTrigger.Setters>
                             </MultiTrigger>
                             <Trigger Property="IsExpanded" Value="True">
@@ -149,7 +149,7 @@
                             </MultiTrigger>
                             <Trigger Property="TreeViewItem.IsExpanded" Value="false">
                                 <Setter TargetName="ItemsHost" Property="UIElement.Visibility" Value="Collapsed"/>
-                                <Setter TargetName="EmptyMessage" Property="UIElement.Visibility" Value="Collapsed"/>
+                                <Setter TargetName="PART_EmptyMessage" Property="UIElement.Visibility" Value="Collapsed"/>
                             </Trigger>
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
