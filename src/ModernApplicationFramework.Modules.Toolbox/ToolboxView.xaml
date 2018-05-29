@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:design="clr-namespace:ModernApplicationFramework.Modules.Toolbox.Design"
              xmlns:toolbox="clr-namespace:ModernApplicationFramework.Modules.Toolbox"
-             xmlns:dd="urn:gong-wpf-dragdrop"
              xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework"
              xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General;assembly=ModernApplicationFramework"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
@@ -13,6 +12,7 @@
              xmlns:converters="clr-namespace:ModernApplicationFramework.Utilities.Converters;assembly=ModernApplicationFramework.Utilities"
              xmlns:imaging="clr-namespace:ModernApplicationFramework.Utilities.Imaging;assembly=ModernApplicationFramework.Utilities"
              xmlns:mafdd="http://modern.framework.com/dragdrop"
+             xmlns:controls="clr-namespace:ModernApplicationFramework.Modules.Toolbox.Controls"
              x:Class="ModernApplicationFramework.Modules.Toolbox.ToolboxView"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance {x:Type design:DesignTimeToolboxViewModel}, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="300" Background="White">
@@ -68,7 +68,7 @@
         <Style x:Key="CategoryItemStyle" TargetType="{x:Type TreeViewItem}">
             <Setter Property="TextElement.Foreground"
                     Value="{DynamicResource {x:Static themes:ColorResources.WonderbarTextBrush}}"/>
-            <Setter Property="Panel.Background"
+            <Setter Property="Background"
                     Value="{DynamicResource {x:Static themes:ColorResources.WonderbarBrush}}"/>
             <Setter Property="Border.BorderBrush" Value="Transparent"/>
             <Setter Property="IsExpanded">
@@ -76,6 +76,13 @@
                     <Binding Path="IsExpanded" Mode="TwoWay"/>
                 </Setter.Value>
             </Setter>
+            
+            <Setter Property="Width">
+                <Setter.Value>
+                    <Binding Path="ActualWidth" RelativeSource="{RelativeSource AncestorType=TreeView}"/>
+                </Setter.Value>
+            </Setter>
+
             <Setter Property="ItemsSource">
                 <Setter.Value>
                     <Binding Path="Items"/>
@@ -102,9 +109,24 @@
                                     SnapsToDevicePixels="True">
                                 <TextBlock x:Name="CategoryName" Padding="2" Margin="-1,0,0,0" Text="{Binding Name}"/>
                             </Border>
+                            <TextBlock x:Name="EmptyMessage" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
+                                    TextWrapping="WrapWithOverflow" TextAlignment="Center" TextTrimming="None" 
+                                       Margin="-5,10,10,0" 
+                                           Foreground="{DynamicResource {x:Static themes:ColorResources.ContentTextBrush}}"
+                                           Text="No items in this group currently"/>
+
                             <ItemsPresenter x:Name="ItemsHost" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"/>
                         </Grid>
                         <ControlTemplate.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="ItemsControl.HasItems" Value="true"/>
+                                    <Condition Property="IsExpanded" Value="true"/>
+                                </MultiTrigger.Conditions>
+                                <MultiTrigger.Setters>
+                                    <Setter TargetName="EmptyMessage" Property="UIElement.Visibility" Value="Collapsed"/>
+                                </MultiTrigger.Setters>
+                            </MultiTrigger>
                             <Trigger Property="IsExpanded" Value="True">
                                 <Setter TargetName="Expander" Property="Background" Value="Black"/>
                                 <Setter TargetName="Expander" Property="BorderBrush" Value="Black"/>
@@ -129,9 +151,7 @@
                             </MultiTrigger>
                             <Trigger Property="TreeViewItem.IsExpanded" Value="false">
                                 <Setter TargetName="ItemsHost" Property="UIElement.Visibility" Value="Collapsed"/>
-                            </Trigger>
-                            <Trigger Property="ItemsControl.HasItems" Value="false">
-                                <Setter TargetName="Expander" Property="UIElement.Visibility" Value="Hidden"/>
+                                <Setter TargetName="EmptyMessage" Property="UIElement.Visibility" Value="Collapsed"/>
                             </Trigger>
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
@@ -145,6 +165,7 @@
                                 <Setter TargetName="Expander" Property="Background" Value="Black"/>
                                 <Setter TargetName="Expander" Property="BorderBrush" Value="Black"/>
                             </MultiTrigger>
+
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
@@ -224,17 +245,17 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBox Grid.Row="0"/>
-        <TreeView x:Name="TreeView" Grid.Row="1" Margin="0,3,0,0"
+        <controls:ToolboxTreeView x:Name="TreeView" Grid.Row="1" Margin="0,3,0,0"
                   mafdd:DragDrop.IsDragSource="True"
                   mafdd:DragDrop.IsDropTarget="True"
                   mafdd:DragDrop.DragHandler="{Binding ToolboxDragHandler}"
                   mafdd:DragDrop.DropHandler="{Binding ToolboxDropHandler}"
-
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   ItemContainerStyleSelector="{StaticResource ToolboxTreeNodeStyleSelector}"
                   Background="White" BorderThickness="0" ItemsSource="{Binding Categories}">
             <i:Interaction.Behaviors>
                 <utilities:BindableSelectedItemBehavior SelectedItem="{Binding SelectedNode, Mode=TwoWay}" />
             </i:Interaction.Behaviors>
-        </TreeView>
+        </controls:ToolboxTreeView>
     </Grid>
 </UserControl>

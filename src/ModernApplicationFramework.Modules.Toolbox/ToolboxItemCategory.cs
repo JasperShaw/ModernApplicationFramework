@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 
@@ -8,18 +9,19 @@ namespace ModernApplicationFramework.Modules.Toolbox
     {
         internal static ToolboxItemCategory DefaultCategory = new ToolboxItemCategory(null, "Default");
 
-        static ToolboxItemCategory()
-        {
-            var d = new DataObject(DataFormats.Text, "123Test");
-            var i = new ToolboxItemEx("Test", d, DefaultCategory);
-            var j = new ToolboxItemEx("123", d, DefaultCategory);
-            DefaultCategory.Items.Add(i);
-            DefaultCategory.Items.Add(j);
-        }
+        //static ToolboxItemCategory()
+        //{
+        //    var d = new DataObject(DataFormats.Text, "123Test");
+        //    var i = new ToolboxItemEx("Test", d, DefaultCategory);
+        //    var j = new ToolboxItemEx("123", d, DefaultCategory);
+        //    DefaultCategory.Items.Add(i);
+        //    DefaultCategory.Items.Add(j);
+        //}
 
         public Type TargetType { get; }
 
         private IObservableCollection<IToolboxItem> _items;
+        private bool _hasItems;
 
         public IObservableCollection<IToolboxItem> Items
         {
@@ -28,6 +30,17 @@ namespace ModernApplicationFramework.Modules.Toolbox
             {
                 if (Equals(value, _items)) return;
                 _items = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool HasItems
+        {
+            get => _hasItems;
+            set
+            {
+                if (value == _hasItems) return;
+                _hasItems = value;
                 OnPropertyChanged();
             }
         }
@@ -51,6 +64,8 @@ namespace ModernApplicationFramework.Modules.Toolbox
                 foreach (IToolboxItem item in e.NewItems)
                     item.Parent = this;
             }
+
+            HasItems = Items.Any();
         }
     }
 }
