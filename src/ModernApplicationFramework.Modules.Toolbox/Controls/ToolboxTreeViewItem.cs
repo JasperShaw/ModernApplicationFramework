@@ -41,6 +41,16 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
             }
         }
 
+        protected override DependencyObject GetContainerForItemOverride()
+        {
+            return new ToolboxTreeViewItem();
+        }
+
+        protected override bool IsItemItsOwnContainerOverride(object item)
+        {
+            return item is ToolboxTreeViewItem;
+        }
+
         private bool IsLogicalLeft(Key key)
         {
             if (FlowDirection != FlowDirection.LeftToRight)
@@ -57,17 +67,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
         {
             var parent = this.FindAncestorOrSelf<TreeView>();
             ((UIElement)parent?.ItemContainerGenerator.ContainerFromItem(parent))?.Focus();
-        }
-
-
-        protected override DependencyObject GetContainerForItemOverride()
-        {
-            return new ToolboxTreeViewItem();
-        }
-
-        protected override bool IsItemItsOwnContainerOverride(object item)
-        {
-            return item is ToolboxTreeViewItem;
         }
     }
 }
