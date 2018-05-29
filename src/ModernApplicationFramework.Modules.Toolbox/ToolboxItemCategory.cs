@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Windows;
 using Caliburn.Micro;
 
 namespace ModernApplicationFramework.Modules.Toolbox
@@ -8,15 +7,6 @@ namespace ModernApplicationFramework.Modules.Toolbox
     public class ToolboxItemCategory : ToolboxNodeItem
     {
         internal static ToolboxItemCategory DefaultCategory = new ToolboxItemCategory(null, "Default");
-
-        //static ToolboxItemCategory()
-        //{
-        //    var d = new DataObject(DataFormats.Text, "123Test");
-        //    var i = new ToolboxItemEx("Test", d, DefaultCategory);
-        //    var j = new ToolboxItemEx("123", d, DefaultCategory);
-        //    DefaultCategory.Items.Add(i);
-        //    DefaultCategory.Items.Add(j);
-        //}
 
         public Type TargetType { get; }
 
