@@ -15,7 +15,7 @@
              xmlns:controls="clr-namespace:ModernApplicationFramework.Modules.Toolbox.Controls"
              x:Class="ModernApplicationFramework.Modules.Toolbox.ToolboxView"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance {x:Type design:DesignTimeToolboxViewModel}, IsDesignTimeCreatable=True}"
-             d:DesignHeight="300" d:DesignWidth="300" Background="White">
+             d:DesignHeight="300" d:DesignWidth="300" Background="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxBackground}}">
 
     <imaging:ImageThemingUtilities.ImageBackgroundColor>
         <Binding Path="Background" RelativeSource="{RelativeSource Self}">
@@ -153,8 +153,8 @@
                                         Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemInactiveText}}"/>
                                 <Setter TargetName="ItemRect" Property="Fill"
                                         Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemInactive}}"/>
-                                <Setter TargetName="Expander" Property="Background" Value="Black"/>
-                                <Setter TargetName="Expander" Property="BorderBrush" Value="Black"/>
+                                <Setter TargetName="Expander" Property="Background" Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxCategoryInactiveExtenderBackground}}"/>
+                                <Setter TargetName="Expander" Property="BorderBrush" Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxCategoryInactiveExtenderBorder}}"/>
                             </MultiTrigger>
 
                         </ControlTemplate.Triggers>
