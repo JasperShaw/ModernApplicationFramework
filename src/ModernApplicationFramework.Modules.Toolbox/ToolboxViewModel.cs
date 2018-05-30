@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.DragDrop;
@@ -67,7 +68,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
         private void StoreItems(ILayoutItem layoutItem)
         {
-            _toolboxService.StoreItemSource(_hostViewModel.ActiveItem.GetType(), _categories);
+            _toolboxService.StoreItemSource(_hostViewModel.ActiveItem.GetType(), _categories.ToList());
         }
 
         private void RefreshToolboxItems(ILayoutItem layoutItem)
