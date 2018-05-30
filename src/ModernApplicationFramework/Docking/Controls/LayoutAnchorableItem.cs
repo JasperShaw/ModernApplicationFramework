@@ -58,25 +58,25 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public ICommand AutoHideCommand
         {
-            get => (ICommand) GetValue(AutoHideCommandProperty);
+            get => (ICommand)GetValue(AutoHideCommandProperty);
             set => SetValue(AutoHideCommandProperty, value);
         }
 
         public bool CanHide
         {
-            get => (bool) GetValue(CanHideProperty);
+            get => (bool)GetValue(CanHideProperty);
             set => SetValue(CanHideProperty, value);
         }
 
         public ICommand DockCommand
         {
-            get => (ICommand) GetValue(DockCommandProperty);
+            get => (ICommand)GetValue(DockCommandProperty);
             set => SetValue(DockCommandProperty, value);
         }
 
         public ICommand HideCommand
         {
-            get => (ICommand) GetValue(HideCommandProperty);
+            get => (ICommand)GetValue(HideCommandProperty);
             set => SetValue(HideCommandProperty, value);
         }
 
@@ -115,7 +115,10 @@ namespace ModernApplicationFramework.Docking.Controls
         protected override void Close(object parameter)
         {
             var dockingManager = _anchorable.Root.Manager;
-            dockingManager._ExecuteCloseCommand(_anchorable);
+            if (parameter is bool flag)
+                dockingManager._ExecuteCloseCommand(_anchorable, flag);
+            else
+                dockingManager._ExecuteCloseCommand(_anchorable);
         }
 
         protected override void Pin()
@@ -140,7 +143,7 @@ namespace ModernApplicationFramework.Docking.Controls
         protected virtual void OnCanHideChanged(DependencyPropertyChangedEventArgs e)
         {
             if (_anchorable != null)
-                _anchorable.CanHide = (bool) e.NewValue;
+                _anchorable.CanHide = (bool)e.NewValue;
         }
 
         protected virtual void OnDockCommandChanged(DependencyPropertyChangedEventArgs e)
@@ -158,7 +161,7 @@ namespace ModernApplicationFramework.Docking.Controls
                     using (_visibilityReentrantFlag.Enter())
                     {
                         if (Visibility == Visibility.Hidden)
-                            _anchorable.Hide(false);
+                            _anchorable.Root.Manager._ExecuteHideCommand(_anchorable);
                         else if (Visibility == Visibility.Visible)
                             _anchorable.Show();
                     }
@@ -196,22 +199,22 @@ namespace ModernApplicationFramework.Docking.Controls
 
         private static void OnAutoHideCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((LayoutAnchorableItem) d).OnAutoHideCommandChanged(e);
+            ((LayoutAnchorableItem)d).OnAutoHideCommandChanged(e);
         }
 
         private static void OnCanHideChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((LayoutAnchorableItem) d).OnCanHideChanged(e);
+            ((LayoutAnchorableItem)d).OnCanHideChanged(e);
         }
 
         private static void OnDockCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((LayoutAnchorableItem) d).OnDockCommandChanged(e);
+            ((LayoutAnchorableItem)d).OnDockCommandChanged(e);
         }
 
         private static void OnHideCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((LayoutAnchorableItem) d).OnHideCommandChanged(e);
+            ((LayoutAnchorableItem)d).OnHideCommandChanged(e);
         }
 
         private void _anchorable_IsVisibleChanged(object sender, EventArgs e)

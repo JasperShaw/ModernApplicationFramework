@@ -257,6 +257,9 @@
     <Compile Include="Basics\Definitions\Command\ExcludedCommandDefinition.cs" />
     <Compile Include="Basics\Definitions\Command\CommandGestureScopeMapping.cs" />
     <Compile Include="Basics\MostRecentlyUsedManager\MruItem.cs" />
+    <Compile Include="Docking\AnchorableCloseMode.cs" />
+    <Compile Include="Docking\AnchorablesClosedEventArgs.cs" />
+    <Compile Include="Docking\AnchorablesClosingEventArgs.cs" />
     <Compile Include="Interfaces\Services\IMruManager.cs" />
     <Compile Include="Basics\MostRecentlyUsedManager\MruManager.cs" />
     <Compile Include="Basics\Services\CommandBarLayoutBackupProvider.cs" />

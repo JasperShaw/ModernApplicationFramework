@@ -287,6 +287,9 @@ namespace ModernApplicationFramework.Docking
 
         public event EventHandler<DocumentsClosingEventArgs> DocumentsClosing;
 
+        public event EventHandler<AnchorablesClosingEventArgs> AnchorablesClosing;
+
+        public event EventHandler<AnchorablesClosedEventArgs> AnchorablesClosed;
 
         public event EventHandler LayoutChanged;
 
@@ -691,11 +694,16 @@ namespace ModernApplicationFramework.Docking
             if (DocumentsClosing != null)
             {
                 var documents = layoutContents.OfType<LayoutDocument>();
-
                 var evargs = new DocumentsClosingEventArgs(documents);
                 DocumentsClosing(this, evargs);
                 if (evargs.Cancel)
                     return;
+            }
+            if (AnchorablesClosing != null)
+            {
+                var anchors = layoutContents.OfType<LayoutAnchorable>();
+                var evargs = new AnchorablesClosingEventArgs(anchors, AnchorableCloseMode.Close);
+                AnchorablesClosing(this, evargs);
             }
 
             foreach (var contentToClose in layoutContents)
@@ -723,6 +731,13 @@ namespace ModernApplicationFramework.Docking
                 var documents = layoutContents.OfType<LayoutDocument>();
                 var evargs = new DocumentsClosedEventArgs(documents);
                 DocumentsClosed(this, evargs);
+            }
+
+            if (AnchorablesClosed != null)
+            {
+                var anchors = layoutContents.OfType<LayoutAnchorable>();
+                var evargs = new AnchorablesClosedEventArgs(anchors, AnchorableCloseMode.Close);
+                AnchorablesClosed(this, evargs);
             }
         }
 
@@ -739,11 +754,17 @@ namespace ModernApplicationFramework.Docking
             if (DocumentsClosing != null)
             {
                 var documents = layoutContents.OfType<LayoutDocument>();
-
                 var evargs = new DocumentsClosingEventArgs(documents); 
                 DocumentsClosing(this, evargs);
                 if (evargs.Cancel)
                     return;
+            }
+
+            if (AnchorablesClosing != null)
+            {
+                var anchors = layoutContents.OfType<LayoutAnchorable>();
+                var evargs = new AnchorablesClosingEventArgs(anchors, AnchorableCloseMode.Close);
+                AnchorablesClosing(this, evargs);
             }
 
             foreach (var contentToClose in layoutContents)
@@ -770,17 +791,38 @@ namespace ModernApplicationFramework.Docking
                 var evargs = new DocumentsClosedEventArgs(documents);
                 DocumentsClosed(this, evargs);
             }
+
+            if (AnchorablesClosed != null)
+            {
+                var anchors = layoutContents.OfType<LayoutAnchorable>();
+                var evargs = new AnchorablesClosedEventArgs(anchors, AnchorableCloseMode.Close);
+                AnchorablesClosed(this, evargs);
+            }
         }
 
-        internal void _ExecuteCloseCommand(LayoutAnchorable anchorable)
+        internal void _ExecuteCloseCommand(LayoutAnchorable anchorable, bool raiseAnchorEvents = true)
         {
-            var model = anchorable;
-            if (model == null || !model.TestCanClose())
+            if (anchorable == null)
                 return;
-            if (model.IsAutoHidden)
-                model.ToggleAutoHide();
+
+            if (raiseAnchorEvents && AnchorablesClosing != null)
+            {
+                var evargs = new AnchorablesClosingEventArgs(new List<LayoutAnchorable> { anchorable }, AnchorableCloseMode.Close);
+                AnchorablesClosing(this, evargs);
+            }
+
+            if (anchorable == null || !anchorable.TestCanClose())
+                return;
+            if (anchorable.IsAutoHidden)
+                anchorable.ToggleAutoHide();
             RemoveViewFromLogicalChild(anchorable);
-            model.Close();
+            anchorable.Close();
+
+            if (raiseAnchorEvents && AnchorablesClosed != null)
+            {
+                var evargs = new AnchorablesClosedEventArgs(new List<LayoutAnchorable> { anchorable }, AnchorableCloseMode.Close);
+                AnchorablesClosed(this, evargs);
+            }
         }
 
         internal void _ExecuteCloseCommand(LayoutDocument document, bool raiseDocumentsEvents = true)
@@ -829,16 +871,42 @@ namespace ModernApplicationFramework.Docking
 
         internal void _ExecuteHideCommand(LayoutAnchorable anchorable)
         {
+            if (anchorable == null)
+                return;
+
             if (EnvironmentGeneralOptions.Instance.DockedWinClose)
             {
-                anchorable?.Hide();
+                if (AnchorablesClosing != null)
+                {
+                    var evargs = new AnchorablesClosingEventArgs(new List<LayoutAnchorable> { anchorable }, AnchorableCloseMode.Hide);
+                    AnchorablesClosing(this, evargs);
+                }
+                anchorable.Hide();
+
+                if (AnchorablesClosed != null)
+                {
+                    var evargs = new AnchorablesClosedEventArgs(new List<LayoutAnchorable> { anchorable }, AnchorableCloseMode.Hide);
+                    AnchorablesClosed(this, evargs);
+                }
             }
             else
             {
                 if (!(anchorable.Parent is LayoutAnchorablePane pane))
                     return;
-                foreach (var child in pane.Children.ToList())
+
+                var children = pane.Children.ToList();
+                if (AnchorablesClosing != null)
+                {
+                    var evargs = new AnchorablesClosingEventArgs(children, AnchorableCloseMode.Hide);
+                    AnchorablesClosing(this, evargs);
+                }
+                foreach (var child in children)
                     child?.Hide();
+                if (AnchorablesClosed != null)
+                {
+                    var evargs = new AnchorablesClosedEventArgs(children, AnchorableCloseMode.Hide);
+                    AnchorablesClosed(this, evargs);
+                }
             }
 
             foreach (var layoutContent in _lastLayoutContentElements)
