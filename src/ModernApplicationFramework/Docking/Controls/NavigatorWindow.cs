@@ -21,7 +21,6 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Docking.Layout;
-using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Docking.Controls
