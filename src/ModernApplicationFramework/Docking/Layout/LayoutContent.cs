@@ -642,9 +642,9 @@ namespace ModernApplicationFramework.Docking.Layout
 
         protected override void OnParentChanged(ILayoutContainer oldValue, ILayoutContainer newValue)
         {
-            if (IsSelected && Parent is ILayoutContentSelector)
+            if (IsSelected && Parent is ILayoutContentSelector selector)
             {
-                var parentSelector = ((ILayoutContentSelector) Parent);
+                var parentSelector = selector;
                 parentSelector.SelectedContentIndex = parentSelector.IndexOf(this);
             }
 

@@ -122,7 +122,8 @@ namespace ModernApplicationFramework.Docking.Layout
                 }
                 else
                 {
-                    Hide();
+                    if (TestCanHide())
+                        Hide();    
                 }
                 RaisePropertyChanging("IsHidden");
                 RaisePropertyChanging("IsVisible");
@@ -217,6 +218,14 @@ namespace ModernApplicationFramework.Docking.Layout
         }
 #endif
 
+        public bool TestCanHide()
+        {
+            var args = new CancelEventArgs();
+            OnHiding(args);
+            return !args.Cancel;
+        }
+
+
         public void Hide(bool cancelable = true)
         {
             if (!IsVisible)
@@ -224,14 +233,6 @@ namespace ModernApplicationFramework.Docking.Layout
                 IsSelected = true;
                 IsActive = true;
                 return;
-            }
-
-            if (cancelable)
-            {
-                CancelEventArgs args = new CancelEventArgs();
-                OnHiding(args);
-                if (args.Cancel)
-                    return;
             }
 
             RaisePropertyChanging("IsHidden");

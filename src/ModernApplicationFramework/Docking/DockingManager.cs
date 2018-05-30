@@ -65,7 +65,7 @@ namespace ModernApplicationFramework.Docking
 
         public static readonly DependencyProperty LayoutUpdateStrategyProperty =
             DependencyProperty.Register("LayoutUpdateStrategy", typeof(ILayoutUpdateStrategy), typeof(DockingManager),
-                new FrameworkPropertyMetadata((ILayoutUpdateStrategy) null));
+                new FrameworkPropertyMetadata((ILayoutUpdateStrategy)null));
 
         public static readonly DependencyProperty DocumentPaneTemplateProperty =
             DependencyProperty.Register("DocumentPaneTemplate", typeof(ControlTemplate), typeof(DockingManager),
@@ -77,15 +77,15 @@ namespace ModernApplicationFramework.Docking
 
         public static readonly DependencyProperty AnchorGroupTemplateProperty =
             DependencyProperty.Register("AnchorGroupTemplate", typeof(ControlTemplate), typeof(DockingManager),
-                new FrameworkPropertyMetadata((ControlTemplate) null));
+                new FrameworkPropertyMetadata((ControlTemplate)null));
 
         public static readonly DependencyProperty AnchorSideTemplateProperty =
             DependencyProperty.Register("AnchorSideTemplate", typeof(ControlTemplate), typeof(DockingManager),
-                new FrameworkPropertyMetadata((ControlTemplate) null));
+                new FrameworkPropertyMetadata((ControlTemplate)null));
 
         public static readonly DependencyProperty AnchorTemplateProperty =
             DependencyProperty.Register("AnchorTemplate", typeof(ControlTemplate), typeof(DockingManager),
-                new FrameworkPropertyMetadata((ControlTemplate) null));
+                new FrameworkPropertyMetadata((ControlTemplate)null));
 
         public static readonly DependencyProperty DocumentPaneControlStyleProperty =
             DependencyProperty.Register("DocumentPaneControlStyle", typeof(Style), typeof(DockingManager),
@@ -209,12 +209,12 @@ namespace ModernApplicationFramework.Docking
 
         public static readonly DependencyProperty IconContentTemplateProperty =
             DependencyProperty.Register("IconContentTemplate", typeof(DataTemplate), typeof(DockingManager),
-                new FrameworkPropertyMetadata((DataTemplate) null));
+                new FrameworkPropertyMetadata((DataTemplate)null));
 
         public static readonly DependencyProperty IconContentTemplateSelectorProperty =
             DependencyProperty.Register("IconContentTemplateSelector", typeof(DataTemplateSelector),
                 typeof(DockingManager),
-                new FrameworkPropertyMetadata((DataTemplateSelector) null));
+                new FrameworkPropertyMetadata((DataTemplateSelector)null));
 
         public static readonly DependencyProperty LayoutItemContainerStyleProperty =
             DependencyProperty.Register("LayoutItemContainerStyle", typeof(Style), typeof(DockingManager),
@@ -308,7 +308,7 @@ namespace ModernApplicationFramework.Docking
 
         public bool AllowMixedOrientation
         {
-            get => (bool) GetValue(AllowMixedOrientationProperty);
+            get => (bool)GetValue(AllowMixedOrientationProperty);
             set => SetValue(AllowMixedOrientationProperty, value);
         }
 
@@ -321,92 +321,98 @@ namespace ModernApplicationFramework.Docking
 
         public DataTemplate AnchorableHeaderTemplate
         {
-            get => (DataTemplate) GetValue(AnchorableHeaderTemplateProperty);
+            get => (DataTemplate)GetValue(AnchorableHeaderTemplateProperty);
             set => SetValue(AnchorableHeaderTemplateProperty, value);
         }
 
         public DataTemplateSelector AnchorableHeaderTemplateSelector
         {
-            get => (DataTemplateSelector) GetValue(AnchorableHeaderTemplateSelectorProperty);
+            get => (DataTemplateSelector)GetValue(AnchorableHeaderTemplateSelectorProperty);
             set => SetValue(AnchorableHeaderTemplateSelectorProperty, value);
         }
 
         public Style AnchorablePaneControlStyle
         {
-            get => (Style) GetValue(AnchorablePaneControlStyleProperty);
+            get => (Style)GetValue(AnchorablePaneControlStyleProperty);
             set => SetValue(AnchorablePaneControlStyleProperty, value);
         }
 
         public ControlTemplate AnchorablePaneTemplate
         {
-            get => (ControlTemplate) GetValue(AnchorablePaneTemplateProperty);
+            get => (ControlTemplate)GetValue(AnchorablePaneTemplateProperty);
             set => SetValue(AnchorablePaneTemplateProperty, value);
         }
 
         public IEnumerable AnchorablesSource
         {
-            get => (IEnumerable) GetValue(AnchorablesSourceProperty);
+            get => (IEnumerable)GetValue(AnchorablesSourceProperty);
             set => SetValue(AnchorablesSourceProperty, value);
         }
 
         public DataTemplate AnchorableTitleTemplate
         {
-            get => (DataTemplate) GetValue(AnchorableTitleTemplateProperty);
+            get => (DataTemplate)GetValue(AnchorableTitleTemplateProperty);
             set => SetValue(AnchorableTitleTemplateProperty, value);
         }
 
         public DataTemplateSelector AnchorableTitleTemplateSelector
         {
-            get => (DataTemplateSelector) GetValue(AnchorableTitleTemplateSelectorProperty);
+            get => (DataTemplateSelector)GetValue(AnchorableTitleTemplateSelectorProperty);
             set => SetValue(AnchorableTitleTemplateSelectorProperty, value);
         }
 
         public ControlTemplate AnchorGroupTemplate
         {
-            get => (ControlTemplate) GetValue(AnchorGroupTemplateProperty);
+            get => (ControlTemplate)GetValue(AnchorGroupTemplateProperty);
             set => SetValue(AnchorGroupTemplateProperty, value);
         }
 
         public ControlTemplate AnchorSideTemplate
         {
-            get => (ControlTemplate) GetValue(AnchorSideTemplateProperty);
+            get => (ControlTemplate)GetValue(AnchorSideTemplateProperty);
             set => SetValue(AnchorSideTemplateProperty, value);
         }
 
         public ControlTemplate AnchorTemplate
         {
-            get => (ControlTemplate) GetValue(AnchorTemplateProperty);
+            get => (ControlTemplate)GetValue(AnchorTemplateProperty);
             set => SetValue(AnchorTemplateProperty, value);
         }
 
         public LayoutAutoHideWindowControl AutoHideWindow
-            => (LayoutAutoHideWindowControl) GetValue(AutoHideWindowProperty);
+            => (LayoutAutoHideWindowControl)GetValue(AutoHideWindowProperty);
 
         public LayoutAnchorSideControl BottomSidePanel
         {
-            get => (LayoutAnchorSideControl) GetValue(BottomSidePanelProperty);
+            get => (LayoutAnchorSideControl)GetValue(BottomSidePanelProperty);
             set => SetValue(BottomSidePanelProperty, value);
         }
 
         public bool CanAdd
         {
-            [ExcludeFromCodeCoverage] get { return (bool) GetValue(CanAddProperty); }
+            [ExcludeFromCodeCoverage]
+            get { return (bool)GetValue(CanAddProperty); }
 
-            [ExcludeFromCodeCoverage] set { SetValue(CanAddProperty, value); }
+            [ExcludeFromCodeCoverage]
+            set { SetValue(CanAddProperty, value); }
         }
 
         public bool CanCloseAll
         {
-            [ExcludeFromCodeCoverage] get { return (bool) GetValue(CanCloseAllProperty); }
+            [ExcludeFromCodeCoverage]
+            get { return (bool)GetValue(CanCloseAllProperty); }
 
-            [ExcludeFromCodeCoverage] set { SetValue(CanCloseAllProperty, value); }
+            [ExcludeFromCodeCoverage]
+            set { SetValue(CanCloseAllProperty, value); }
         }
 
         public bool CanCloseAllButThis
         {
-            [ExcludeFromCodeCoverage] get { return (bool) GetValue(CanCloseAllButThisProperty); }
+            [ExcludeFromCodeCoverage]
+            get { return (bool)GetValue(CanCloseAllButThisProperty); }
 
-            [ExcludeFromCodeCoverage] set { SetValue(CanCloseAllButThisProperty, value); }
+            [ExcludeFromCodeCoverage]
+            set { SetValue(CanCloseAllButThisProperty, value); }
         }
 
         public ContextMenu DocumentContextMenu =>
@@ -414,55 +420,55 @@ namespace ModernApplicationFramework.Docking
 
         public DataTemplate DocumentHeaderTemplate
         {
-            get => (DataTemplate) GetValue(DocumentHeaderTemplateProperty);
+            get => (DataTemplate)GetValue(DocumentHeaderTemplateProperty);
             set => SetValue(DocumentHeaderTemplateProperty, value);
         }
 
         public DataTemplateSelector DocumentHeaderTemplateSelector
         {
-            get => (DataTemplateSelector) GetValue(DocumentHeaderTemplateSelectorProperty);
+            get => (DataTemplateSelector)GetValue(DocumentHeaderTemplateSelectorProperty);
             set => SetValue(DocumentHeaderTemplateSelectorProperty, value);
         }
 
         public Style DocumentPaneControlStyle
         {
-            get => (Style) GetValue(DocumentPaneControlStyleProperty);
+            get => (Style)GetValue(DocumentPaneControlStyleProperty);
             set => SetValue(DocumentPaneControlStyleProperty, value);
         }
 
         public DataTemplate DocumentPaneMenuItemHeaderTemplate
         {
-            get => (DataTemplate) GetValue(DocumentPaneMenuItemHeaderTemplateProperty);
+            get => (DataTemplate)GetValue(DocumentPaneMenuItemHeaderTemplateProperty);
             set => SetValue(DocumentPaneMenuItemHeaderTemplateProperty, value);
         }
 
         public DataTemplateSelector DocumentPaneMenuItemHeaderTemplateSelector
         {
-            get => (DataTemplateSelector) GetValue(DocumentPaneMenuItemHeaderTemplateSelectorProperty);
+            get => (DataTemplateSelector)GetValue(DocumentPaneMenuItemHeaderTemplateSelectorProperty);
             set => SetValue(DocumentPaneMenuItemHeaderTemplateSelectorProperty, value);
         }
 
         public ControlTemplate DocumentPaneTemplate
         {
-            get => (ControlTemplate) GetValue(DocumentPaneTemplateProperty);
+            get => (ControlTemplate)GetValue(DocumentPaneTemplateProperty);
             set => SetValue(DocumentPaneTemplateProperty, value);
         }
 
         public IEnumerable DocumentsSource
         {
-            get => (IEnumerable) GetValue(DocumentsSourceProperty);
+            get => (IEnumerable)GetValue(DocumentsSourceProperty);
             set => SetValue(DocumentsSourceProperty, value);
         }
 
         public DataTemplate DocumentTitleTemplate
         {
-            get => (DataTemplate) GetValue(DocumentTitleTemplateProperty);
+            get => (DataTemplate)GetValue(DocumentTitleTemplateProperty);
             set => SetValue(DocumentTitleTemplateProperty, value);
         }
 
         public DataTemplateSelector DocumentTitleTemplateSelector
         {
-            get => (DataTemplateSelector) GetValue(DocumentTitleTemplateSelectorProperty);
+            get => (DataTemplateSelector)GetValue(DocumentTitleTemplateSelectorProperty);
             set => SetValue(DocumentTitleTemplateSelectorProperty, value);
         }
 
@@ -470,91 +476,91 @@ namespace ModernApplicationFramework.Docking
 
         public double GridSplitterHeight
         {
-            get => (double) GetValue(GridSplitterHeightProperty);
+            get => (double)GetValue(GridSplitterHeightProperty);
             set => SetValue(GridSplitterHeightProperty, value);
         }
 
         public double GridSplitterWidth
         {
-            get => (double) GetValue(GridSplitterWidthProperty);
+            get => (double)GetValue(GridSplitterWidthProperty);
             set => SetValue(GridSplitterWidthProperty, value);
         }
 
         public DataTemplate IconContentTemplate
         {
-            get => (DataTemplate) GetValue(IconContentTemplateProperty);
+            get => (DataTemplate)GetValue(IconContentTemplateProperty);
             set => SetValue(IconContentTemplateProperty, value);
         }
 
         public DataTemplateSelector IconContentTemplateSelector
         {
-            get => (DataTemplateSelector) GetValue(IconContentTemplateSelectorProperty);
+            get => (DataTemplateSelector)GetValue(IconContentTemplateSelectorProperty);
             set => SetValue(IconContentTemplateSelectorProperty, value);
         }
 
         public LayoutRoot Layout
         {
-            get => (LayoutRoot) GetValue(LayoutProperty);
+            get => (LayoutRoot)GetValue(LayoutProperty);
             set => SetValue(LayoutProperty, value);
         }
 
         public Style LayoutItemContainerStyle
         {
-            get => (Style) GetValue(LayoutItemContainerStyleProperty);
+            get => (Style)GetValue(LayoutItemContainerStyleProperty);
             set => SetValue(LayoutItemContainerStyleProperty, value);
         }
 
         public StyleSelector LayoutItemContainerStyleSelector
         {
-            get => (StyleSelector) GetValue(LayoutItemContainerStyleSelectorProperty);
+            get => (StyleSelector)GetValue(LayoutItemContainerStyleSelectorProperty);
             set => SetValue(LayoutItemContainerStyleSelectorProperty, value);
         }
 
         public DataTemplate LayoutItemTemplate
         {
-            get => (DataTemplate) GetValue(LayoutItemTemplateProperty);
+            get => (DataTemplate)GetValue(LayoutItemTemplateProperty);
             set => SetValue(LayoutItemTemplateProperty, value);
         }
 
         public DataTemplateSelector LayoutItemTemplateSelector
         {
-            get => (DataTemplateSelector) GetValue(LayoutItemTemplateSelectorProperty);
+            get => (DataTemplateSelector)GetValue(LayoutItemTemplateSelectorProperty);
             set => SetValue(LayoutItemTemplateSelectorProperty, value);
         }
 
         public LayoutPanelControl LayoutRootPanel
         {
-            get => (LayoutPanelControl) GetValue(LayoutRootPanelProperty);
+            get => (LayoutPanelControl)GetValue(LayoutRootPanelProperty);
             set => SetValue(LayoutRootPanelProperty, value);
         }
 
         public ILayoutUpdateStrategy LayoutUpdateStrategy
         {
-            get => (ILayoutUpdateStrategy) GetValue(LayoutUpdateStrategyProperty);
+            get => (ILayoutUpdateStrategy)GetValue(LayoutUpdateStrategyProperty);
             set => SetValue(LayoutUpdateStrategyProperty, value);
         }
 
         public LayoutAnchorSideControl LeftSidePanel
         {
-            get => (LayoutAnchorSideControl) GetValue(LeftSidePanelProperty);
+            get => (LayoutAnchorSideControl)GetValue(LeftSidePanelProperty);
             set => SetValue(LeftSidePanelProperty, value);
         }
 
         public LayoutAnchorSideControl RightSidePanel
         {
-            get => (LayoutAnchorSideControl) GetValue(RightSidePanelProperty);
+            get => (LayoutAnchorSideControl)GetValue(RightSidePanelProperty);
             set => SetValue(RightSidePanelProperty, value);
         }
 
         public bool ShowSystemMenu
         {
-            get => (bool) GetValue(ShowSystemMenuProperty);
+            get => (bool)GetValue(ShowSystemMenuProperty);
             set => SetValue(ShowSystemMenuProperty, value);
         }
 
         public LayoutAnchorSideControl TopSidePanel
         {
-            get => (LayoutAnchorSideControl) GetValue(TopSidePanelProperty);
+            get => (LayoutAnchorSideControl)GetValue(TopSidePanelProperty);
             set => SetValue(TopSidePanelProperty, value);
         }
 
@@ -704,6 +710,8 @@ namespace ModernApplicationFramework.Docking
                 var anchors = layoutContents.OfType<LayoutAnchorable>();
                 var evargs = new AnchorablesClosingEventArgs(anchors, AnchorableCloseMode.Close);
                 AnchorablesClosing(this, evargs);
+                if (evargs.Cancel)
+                    return;
             }
 
             foreach (var contentToClose in layoutContents)
@@ -747,14 +755,19 @@ namespace ModernApplicationFramework.Docking
             .Where(d => d.Parent is LayoutDocumentPane || d.Parent is LayoutDocumentFloatingWindow).ToList();
 
 
-        internal void  _ExecuteCloseAllCommand()
+        internal void _ExecuteCloseAllCommand()
         {
             var layoutContents = AllOpenDocuments;
+
+
+            if (layoutContents.Any(x => !x.TestCanClose()))
+                return;
+
 
             if (DocumentsClosing != null)
             {
                 var documents = layoutContents.OfType<LayoutDocument>();
-                var evargs = new DocumentsClosingEventArgs(documents); 
+                var evargs = new DocumentsClosingEventArgs(documents);
                 DocumentsClosing(this, evargs);
                 if (evargs.Cancel)
                     return;
@@ -765,25 +778,18 @@ namespace ModernApplicationFramework.Docking
                 var anchors = layoutContents.OfType<LayoutAnchorable>();
                 var evargs = new AnchorablesClosingEventArgs(anchors, AnchorableCloseMode.Close);
                 AnchorablesClosing(this, evargs);
+                if (evargs.Cancel)
+                    return;
             }
 
             foreach (var contentToClose in layoutContents)
             {
                 if (!contentToClose.CanClose)
                     continue;
-                var layoutItem = GetLayoutItemFromModel(contentToClose);
-                if (layoutItem.CloseCommand != null)
-                {
-                    if (layoutItem.CloseCommand.CanExecute(null))
-                        layoutItem.CloseCommand.Execute(false);
-                }
-                else
-                {
-                    if (contentToClose is LayoutDocument document)
-                        _ExecuteCloseCommand(document, false);
-                    else if (contentToClose is LayoutAnchorable anchorable)
-                        _ExecuteCloseCommand(anchorable);
-                }
+                if (contentToClose is LayoutDocument document)
+                    _ExecuteCloseCommand(document, false);
+                else if (contentToClose is LayoutAnchorable anchorable)
+                    _ExecuteCloseCommand(anchorable, false);
             }
             if (DocumentsClosed != null)
             {
@@ -805,14 +811,16 @@ namespace ModernApplicationFramework.Docking
             if (anchorable == null)
                 return;
 
+            if (raiseAnchorEvents && !anchorable.TestCanClose())
+                return;
+
             if (raiseAnchorEvents && AnchorablesClosing != null)
             {
                 var evargs = new AnchorablesClosingEventArgs(new List<LayoutAnchorable> { anchorable }, AnchorableCloseMode.Close);
                 AnchorablesClosing(this, evargs);
+                if (evargs.Cancel)
+                    return;
             }
-
-            if (anchorable == null || !anchorable.TestCanClose())
-                return;
             if (anchorable.IsAutoHidden)
                 anchorable.ToggleAutoHide();
             RemoveViewFromLogicalChild(anchorable);
@@ -828,16 +836,16 @@ namespace ModernApplicationFramework.Docking
         internal void _ExecuteCloseCommand(LayoutDocument document, bool raiseDocumentsEvents = true)
         {
 
+            if (raiseDocumentsEvents && !document.TestCanClose())
+                return;
+
             if (raiseDocumentsEvents && DocumentsClosing != null)
             {
-                var evargs = new DocumentsClosingEventArgs(new List<LayoutDocument>{ document });
+                var evargs = new DocumentsClosingEventArgs(new List<LayoutDocument> { document });
                 DocumentsClosing(this, evargs);
                 if (evargs.Cancel)
                     return;
             }
-
-            if (!document.TestCanClose())
-                return;
 
             document.Close();
             RemoveViewFromLogicalChild(document);
@@ -876,13 +884,16 @@ namespace ModernApplicationFramework.Docking
 
             if (EnvironmentGeneralOptions.Instance.DockedWinClose)
             {
+                if (!anchorable.TestCanHide())
+                    return;
                 if (AnchorablesClosing != null)
                 {
                     var evargs = new AnchorablesClosingEventArgs(new List<LayoutAnchorable> { anchorable }, AnchorableCloseMode.Hide);
                     AnchorablesClosing(this, evargs);
+                    if (evargs.Cancel)
+                        return;
                 }
                 anchorable.Hide();
-
                 if (AnchorablesClosed != null)
                 {
                     var evargs = new AnchorablesClosedEventArgs(new List<LayoutAnchorable> { anchorable }, AnchorableCloseMode.Hide);
@@ -894,14 +905,15 @@ namespace ModernApplicationFramework.Docking
                 if (!(anchorable.Parent is LayoutAnchorablePane pane))
                     return;
 
-                var children = pane.Children.ToList();
+                var children = pane.Children.Where(x => x.TestCanHide()).ToList();
+
                 if (AnchorablesClosing != null)
                 {
                     var evargs = new AnchorablesClosingEventArgs(children, AnchorableCloseMode.Hide);
                     AnchorablesClosing(this, evargs);
                 }
                 foreach (var child in children)
-                    child?.Hide();
+                    child.Hide();
                 if (AnchorablesClosed != null)
                 {
                     var evargs = new AnchorablesClosedEventArgs(children, AnchorableCloseMode.Hide);
@@ -944,28 +956,28 @@ namespace ModernApplicationFramework.Docking
             if (model is LayoutAnchorSide side)
             {
                 var templateModelView = new LayoutAnchorSideControl(side);
-                templateModelView.SetBinding(TemplateProperty, new Binding("AnchorSideTemplate") {Source = this});
+                templateModelView.SetBinding(TemplateProperty, new Binding("AnchorSideTemplate") { Source = this });
                 return templateModelView;
             }
 
             if (model is LayoutAnchorGroup anchorGroup)
             {
                 var templateModelView = new LayoutAnchorGroupControl(anchorGroup);
-                templateModelView.SetBinding(TemplateProperty, new Binding("AnchorGroupTemplate") {Source = this});
+                templateModelView.SetBinding(TemplateProperty, new Binding("AnchorGroupTemplate") { Source = this });
                 return templateModelView;
             }
 
             if (model is LayoutDocumentPane documentPane)
             {
                 var templateModelView = new LayoutDocumentPaneControl(documentPane);
-                templateModelView.SetBinding(StyleProperty, new Binding("DocumentPaneControlStyle") {Source = this});
+                templateModelView.SetBinding(StyleProperty, new Binding("DocumentPaneControlStyle") { Source = this });
                 return templateModelView;
             }
 
             if (model is LayoutAnchorablePane pane)
             {
                 var templateModelView = new LayoutAnchorablePaneControl(pane);
-                templateModelView.SetBinding(StyleProperty, new Binding("AnchorablePaneControlStyle") {Source = this});
+                templateModelView.SetBinding(StyleProperty, new Binding("AnchorablePaneControlStyle") { Source = this });
                 return templateModelView;
             }
 
@@ -1027,7 +1039,7 @@ namespace ModernApplicationFramework.Docking
 
             if (model is LayoutDocument document)
             {
-                var templateModelView = new LayoutDocumentControl {Model = document};
+                var templateModelView = new LayoutDocumentControl { Model = document };
                 return templateModelView;
             }
 
@@ -1049,7 +1061,7 @@ namespace ModernApplicationFramework.Docking
             var windowParentHandle = new WindowInteropHelper(parentWindow).EnsureHandle();
 
             var currentHandle = User32.GetWindow(windowParentHandle,
-                (int) GetWindowCmd.GwHwndfirst);
+                (int)GetWindowCmd.GwHwndfirst);
             while (currentHandle != IntPtr.Zero)
             {
                 var ctrl =
@@ -1057,7 +1069,7 @@ namespace ModernApplicationFramework.Docking
                 if (ctrl != null && Equals(ctrl.Model.Root.Manager, this))
                     yield return ctrl;
 
-                currentHandle = User32.GetWindow(currentHandle, (int) GetWindowCmd.GwHwndnext);
+                currentHandle = User32.GetWindow(currentHandle, (int)GetWindowCmd.GwHwndnext);
             }
         }
 
@@ -1151,7 +1163,7 @@ namespace ModernApplicationFramework.Docking
 
             if (contentModel.FindParent<LayoutFloatingWindow>() == null)
             {
-                ((ILayoutPreviousContainer) contentModel).PreviousContainer = parentPane;
+                ((ILayoutPreviousContainer)contentModel).PreviousContainer = parentPane;
                 contentModel.PreviousContainerIndex = contentModelParentChildrenIndex;
             }
 
@@ -1201,7 +1213,7 @@ namespace ModernApplicationFramework.Docking
 
                 Layout.FloatingWindows.Add(fw);
 
-                fwc = new LayoutAnchorableFloatingWindowControl((LayoutAnchorableFloatingWindow) fw)
+                fwc = new LayoutAnchorableFloatingWindowControl((LayoutAnchorableFloatingWindow)fw)
                 {
                     Width = fwWidth,
                     Height = fwHeight,
@@ -1219,7 +1231,7 @@ namespace ModernApplicationFramework.Docking
 
                 Layout.FloatingWindows.Add(fw);
 
-                fwc = new LayoutDocumentFloatingWindowControl((LayoutDocumentFloatingWindow) fw)
+                fwc = new LayoutDocumentFloatingWindowControl((LayoutDocumentFloatingWindow)fw)
                 {
                     Width = fwWidth,
                     Height = fwHeight,
@@ -1278,7 +1290,7 @@ namespace ModernApplicationFramework.Docking
 
                 if (savePreviousContainer)
                 {
-                    var contentModelAsPreviousContainer = (ILayoutPreviousContainer) contentModel;
+                    var contentModelAsPreviousContainer = (ILayoutPreviousContainer)contentModel;
                     contentModelAsPreviousContainer.PreviousContainer = paneModel;
                     contentModel.PreviousContainerIndex = paneModel.Children.Count - 1;
                 }
@@ -1306,7 +1318,7 @@ namespace ModernApplicationFramework.Docking
             Layout.FloatingWindows.Add(fw);
 
             LayoutFloatingWindowControl fwc = new LayoutAnchorableFloatingWindowControl(
-                (LayoutAnchorableFloatingWindow) fw)
+                (LayoutAnchorableFloatingWindow)fw)
             {
                 Width = fwWidth,
                 Height = fwHeight
@@ -1666,7 +1678,7 @@ namespace ModernApplicationFramework.Docking
                     RootPanel = new LayoutPanel(new LayoutDocumentPaneGroup(new LayoutDocumentPane()))
                 };
 
-            ((DockingManager) d).OnLayoutChanging(value as LayoutRoot);
+            ((DockingManager)d).OnLayoutChanging(value as LayoutRoot);
 
             return value;
         }
@@ -1685,124 +1697,124 @@ namespace ModernApplicationFramework.Docking
 
         private static void OnActiveContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((DockingManager) d).SetLastActiveContent(e.OldValue);
-            ((DockingManager) d).InternalSetActiveContent(e.NewValue);
-            ((DockingManager) d).OnActiveContentChanged(e);
+            ((DockingManager)d).SetLastActiveContent(e.OldValue);
+            ((DockingManager)d).InternalSetActiveContent(e.NewValue);
+            ((DockingManager)d).OnActiveContentChanged(e);
         }
 
         private static void OnAnchorableHeaderTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((DockingManager) d).OnAnchorableHeaderTemplateChanged(e);
+            ((DockingManager)d).OnAnchorableHeaderTemplateChanged(e);
         }
 
         private static void OnAnchorableHeaderTemplateSelectorChanged(DependencyObject d,
             DependencyPropertyChangedEventArgs e)
         {
-            ((DockingManager) d).OnAnchorableHeaderTemplateSelectorChanged(e);
+            ((DockingManager)d).OnAnchorableHeaderTemplateSelectorChanged(e);
         }
 
         private static void OnAnchorablePaneControlStyleChanged(DependencyObject d,
             DependencyPropertyChangedEventArgs e)
         {
-            ((DockingManager) d).OnAnchorablePaneControlStyleChanged(e);
+            ((DockingManager)d).OnAnchorablePaneControlStyleChanged(e);
         }
 
         private static void OnAnchorablePaneTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((DockingManager) d).OnAnchorablePaneTemplateChanged(e);
+            ((DockingManager)d).OnAnchorablePaneTemplateChanged(e);
         }
 
         private static void OnAnchorablesSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((DockingManager) d).OnAnchorablesSourceChanged(e);
+            ((DockingManager)d).OnAnchorablesSourceChanged(e);
         }
 
         private static void OnAnchorableTitleTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((DockingManager) d).OnAnchorableTitleTemplateChanged(e);
+            ((DockingManager)d).OnAnchorableTitleTemplateChanged(e);
         }
 
         private static void OnAnchorableTitleTemplateSelectorChanged(DependencyObject d,
             DependencyPropertyChangedEventArgs e)
         {
-            ((DockingManager) d).OnAnchorableTitleTemplateSelectorChanged(e);
+            ((DockingManager)d).OnAnchorableTitleTemplateSelectorChanged(e);
         }
 
         private static void OnAutoHideWindowChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((DockingManager) d).OnAutoHideWindowChanged(e);
+            ((DockingManager)d).OnAutoHideWindowChanged(e);
         }
 
         private static void OnBottomSidePanelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((DockingManager) d).OnBottomSidePanelChanged(e);
+            ((DockingManager)d).OnBottomSidePanelChanged(e);
         }
 
         private static void OnDocumentHeaderTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((DockingManager) d).OnDocumentHeaderTemplateChanged(e);
+            ((DockingManager)d).OnDocumentHeaderTemplateChanged(e);
         }
 
         private static void OnDocumentHeaderTemplateSelectorChanged(DependencyObject d,
             DependencyPropertyChangedEventArgs e)
         {
-            ((DockingManager) d).OnDocumentHeaderTemplateSelectorChanged(e);
+            ((DockingManager)d).OnDocumentHeaderTemplateSelectorChanged(e);
         }
 
         private static void OnDocumentPaneControlStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((DockingManager) d).OnDocumentPaneControlStyleChanged(e);
+            ((DockingManager)d).OnDocumentPaneControlStyleChanged(e);
         }
 
         private static void OnDocumentPaneMenuItemHeaderTemplateChanged(DependencyObject d,
             DependencyPropertyChangedEventArgs e)
         {
-            ((DockingManager) d).OnDocumentPaneMenuItemHeaderTemplateChanged(e);
+            ((DockingManager)d).OnDocumentPaneMenuItemHeaderTemplateChanged(e);
         }
 
         private static void OnDocumentPaneMenuItemHeaderTemplateSelectorChanged(DependencyObject d,
             DependencyPropertyChangedEventArgs e)
         {
-            ((DockingManager) d).OnDocumentPaneMenuItemHeaderTemplateSelectorChanged(e);
+            ((DockingManager)d).OnDocumentPaneMenuItemHeaderTemplateSelectorChanged(e);
         }
 
         private static void OnDocumentPaneTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((DockingManager) d).OnDocumentPaneTemplateChanged(e);
+            ((DockingManager)d).OnDocumentPaneTemplateChanged(e);
         }
 
         private static void OnDocumentsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((DockingManager) d).OnDocumentsSourceChanged(e);
+            ((DockingManager)d).OnDocumentsSourceChanged(e);
         }
 
         private static void OnDocumentTitleTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((DockingManager) d).OnDocumentTitleTemplateChanged(e);
+            ((DockingManager)d).OnDocumentTitleTemplateChanged(e);
         }
 
         private static void OnDocumentTitleTemplateSelectorChanged(DependencyObject d,
             DependencyPropertyChangedEventArgs e)
         {
-            ((DockingManager) d).OnDocumentTitleTemplateSelectorChanged(e);
+            ((DockingManager)d).OnDocumentTitleTemplateSelectorChanged(e);
         }
 
         private static void OnLayoutChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((DockingManager) d).OnLayoutChanged(e.OldValue as LayoutRoot, e.NewValue as LayoutRoot);
+            ((DockingManager)d).OnLayoutChanged(e.OldValue as LayoutRoot, e.NewValue as LayoutRoot);
         }
 
         private static void OnLayoutItemContainerStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((DockingManager) d).OnLayoutItemContainerStyleChanged(e);
+            ((DockingManager)d).OnLayoutItemContainerStyleChanged(e);
         }
 
         private static void OnLayoutItemContainerStyleSelectorChanged(DependencyObject d,
             DependencyPropertyChangedEventArgs e)
         {
-            ((DockingManager) d).OnLayoutItemContainerStyleSelectorChanged(e);
+            ((DockingManager)d).OnLayoutItemContainerStyleSelectorChanged(e);
 
-            var control = (DockingManager) d;
+            var control = (DockingManager)d;
             if (control == null)
                 return;
 
@@ -1817,33 +1829,33 @@ namespace ModernApplicationFramework.Docking
 
         private static void OnLayoutItemTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((DockingManager) d).OnLayoutItemTemplateChanged(e);
+            ((DockingManager)d).OnLayoutItemTemplateChanged(e);
         }
 
         private static void OnLayoutItemTemplateSelectorChanged(DependencyObject d,
             DependencyPropertyChangedEventArgs e)
         {
-            ((DockingManager) d).OnLayoutItemTemplateSelectorChanged(e);
+            ((DockingManager)d).OnLayoutItemTemplateSelectorChanged(e);
         }
 
         private static void OnLayoutRootPanelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((DockingManager) d).OnLayoutRootPanelChanged(e);
+            ((DockingManager)d).OnLayoutRootPanelChanged(e);
         }
 
         private static void OnLeftSidePanelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((DockingManager) d).OnLeftSidePanelChanged(e);
+            ((DockingManager)d).OnLeftSidePanelChanged(e);
         }
 
         private static void OnRightSidePanelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((DockingManager) d).OnRightSidePanelChanged(e);
+            ((DockingManager)d).OnRightSidePanelChanged(e);
         }
 
         private static void OnTopSidePanelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((DockingManager) d).OnTopSidePanelChanged(e);
+            ((DockingManager)d).OnTopSidePanelChanged(e);
         }
 
         private void AnchorablesSourceElementsChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -1911,7 +1923,7 @@ namespace ModernApplicationFramework.Docking
                         {
                             if (anchorablePane == null)
                             {
-                                var mainLayoutPanel = new LayoutPanel {Orientation = Orientation.Horizontal};
+                                var mainLayoutPanel = new LayoutPanel { Orientation = Orientation.Horizontal };
                                 if (Layout.RootPanel != null)
                                     mainLayoutPanel.Children.Add(Layout.RootPanel);
 
@@ -2009,7 +2021,7 @@ namespace ModernApplicationFramework.Docking
                 {
                     if (anchorablePane == null)
                     {
-                        var mainLayoutPanel = new LayoutPanel {Orientation = Orientation.Horizontal};
+                        var mainLayoutPanel = new LayoutPanel { Orientation = Orientation.Horizontal };
                         if (layout.RootPanel != null)
                             mainLayoutPanel.Children.Add(layout.RootPanel);
 
@@ -2123,18 +2135,18 @@ namespace ModernApplicationFramework.Docking
             }
 
             if (newTheme != null)
-                resources.MergedDictionaries.Add(new ResourceDictionary {Source = newTheme.GetResourceUri()});
+                resources.MergedDictionaries.Add(new ResourceDictionary { Source = newTheme.GetResourceUri() });
 
             foreach (var floatingWindowControl in _fwList)
                 floatingWindowControl.ChangeTheme(oldValue, newValue);
 
             _overlayWindow?.ChangeTheme(oldValue, newValue);
             _navigatorWindow?.ChangeTheme(oldValue, newValue);
-            ((ModernApplicationFramework.Controls.Menu.ContextMenu) DocumentContextMenu)?.ChangeTheme(oldValue,
+            ((ModernApplicationFramework.Controls.Menu.ContextMenu)DocumentContextMenu)?.ChangeTheme(oldValue,
                 newValue);
-            ((ModernApplicationFramework.Controls.Menu.ContextMenu) AnchorableContextMenu)?.ChangeTheme(oldValue,
+            ((ModernApplicationFramework.Controls.Menu.ContextMenu)AnchorableContextMenu)?.ChangeTheme(oldValue,
                 newValue);
-            ((ModernApplicationFramework.Controls.Menu.ContextMenu) AnchorableAsDocumentContextMenu)?.ChangeTheme(
+            ((ModernApplicationFramework.Controls.Menu.ContextMenu)AnchorableAsDocumentContextMenu)?.ChangeTheme(
                 oldValue, newValue);
         }
 
