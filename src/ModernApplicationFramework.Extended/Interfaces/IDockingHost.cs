@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using ModernApplicationFramework.Extended.Controls.DockingHost.Views;
+using ModernApplicationFramework.Extended.Layout;
 
 namespace ModernApplicationFramework.Extended.Interfaces
 {

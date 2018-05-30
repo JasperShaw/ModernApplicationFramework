@@ -60,23 +60,23 @@ namespace ModernApplicationFramework.Modules.Toolbox
             if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
                 return;
 
-            hostViewModel.ActiveLayoutItemChanged += (sender, e) => RefreshToolboxItems(e);
-            hostViewModel.ActiveLayoutItemChanging += (sender, item) => StoreItems(item);
+            hostViewModel.ActiveLayoutItemChanged += (sender, e) => RefreshToolboxItems(e.OldLayoutItem);
+            hostViewModel.ActiveLayoutItemChanging += (sender, e) => StoreItems(e.NewLayoutItem);
             RefreshToolboxItems(_hostViewModel.ActiveItem);
 
         }
 
-        private void StoreItems(ILayoutItem layoutItem)
+        private void StoreItems(ILayoutItem item)
         {
-            _toolboxService.StoreItemSource(_hostViewModel.ActiveItem.GetType(), _categories.ToList());
+            _toolboxService.StoreItemSource(item.GetType(), _categories.ToList());
         }
 
-        private void RefreshToolboxItems(ILayoutItem layoutItem)
+        private void RefreshToolboxItems(ILayoutItem item)
         {
             _categories.Clear();
-            if (layoutItem == null)
+            if (item == null)
                 return;
-            var i = _toolboxService.GetToolboxItemSource(layoutItem.GetType());
+            var i = _toolboxService.GetToolboxItemSource(item.GetType());
             _categories.AddRange(i);
         }
     }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -107,41 +106,6 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.Views
         protected virtual void OnLayoutItemsClosed(LayoutItemsClosedEventArgs e)
         {
             LayoutItemsClosed?.Invoke(this, e);
-        }
-    }
-
-    internal interface IInternalDockingHost : IDockingHost
-    {
-        bool RaiseDocumentClosing(ILayoutItem layoutItem);
-    }
-
-    public class LayoutItemsClosingEventArgs : CancelEventArgs
-    {
-        public IEnumerable<ILayoutItem> LayoutItems { get; }
-
-        public LayoutItemsClosingEventArgs(IEnumerable<ILayoutItem> layoutItems)
-        {
-            LayoutItems = layoutItems;
-        }
-    }
-
-    public class LayoutItemsClosedEventArgs : EventArgs
-    {
-        public IEnumerable<ILayoutItem> LayoutItems { get; }
-
-        public LayoutItemsClosedEventArgs(IEnumerable<ILayoutItem> layoutItems)
-        {
-            LayoutItems = layoutItems;
-        }
-    }
-
-    public class ToolClosedEventArgs : EventArgs
-    {
-        public ITool Tool { get; }
-
-        public ToolClosedEventArgs(ITool tool)
-        {
-            Tool = tool;
         }
     }
 }

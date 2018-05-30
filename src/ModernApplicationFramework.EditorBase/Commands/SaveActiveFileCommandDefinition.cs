@@ -5,6 +5,7 @@ using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
+using ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
@@ -54,9 +55,9 @@ namespace ModernApplicationFramework.EditorBase.Commands
             _dockingHostViewModel.ActiveLayoutItemChanged += _dockingHostViewModel_ActiveLayoutItemChanged;
         }
 
-        private void _dockingHostViewModel_ActiveLayoutItemChanged(object sender, ILayoutItem e)
+        private void _dockingHostViewModel_ActiveLayoutItemChanged(object sender, LayoutChangeEventArgs e)
         {
-            _text = e?.DisplayName;
+            _text = e.NewLayoutItem?.DisplayName;
             OnPropertyChanged(nameof(Text));
         }
 

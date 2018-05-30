@@ -3,17 +3,33 @@ using System.ComponentModel.Composition;
 using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.Core.Utilities;
-using ModernApplicationFramework.Extended.Controls.DockingHost.Views;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Extended.Package;
 
 namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
 {
+
+    public class LayoutChangeEventArgs : EventArgs
+    {
+        public ILayoutItem OldLayoutItem { get; }
+        public ILayoutItem NewLayoutItem { get; }
+
+        public LayoutChangeEventArgs(ILayoutItem oldLayoutItem, ILayoutItem newLayoutItem)
+        {
+            OldLayoutItem = oldLayoutItem;
+            NewLayoutItem = newLayoutItem;
+        }
+    }
+
+
+
+
     [Export(typeof(IDockingHostViewModel))]
     public class DockingHostViewModel : Conductor<ILayoutItem>.Collection.OneActive, IDockingHostViewModel
     {
-        public event EventHandler<ILayoutItem> ActiveLayoutItemChanged;
-        public event EventHandler<ILayoutItem> ActiveLayoutItemChanging;
+        public event EventHandler<LayoutChangeEventArgs> ActiveLayoutItemChanged;
+        public event EventHandler<LayoutChangeEventArgs> ActiveLayoutItemChanging;
 
 
         private readonly BindableCollection<ITool> _tools;
@@ -121,11 +137,11 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
             if (_closing || _changingItem)
                 return;
             _changingItem = true;
-            RaiseActiveDocumentChanging(item);
             var currentActiveItem = ActiveItem;
+            RaiseActiveDocumentChanging(currentActiveItem, item);        
             base.ActivateItem(item);
             if (!ReferenceEquals(item, currentActiveItem))
-                RaiseActiveDocumentChanged(item);    
+                RaiseActiveDocumentChanged(currentActiveItem, item);    
             _changingItem = false;
         }
 
@@ -200,16 +216,16 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
             PackageManager.Instance.LoadPackages(PackageLoadOption.OnMainWindowLoaded);
         }
 
-        private void RaiseActiveDocumentChanged(ILayoutItem item)
+        private void RaiseActiveDocumentChanged(ILayoutItem oldItem, ILayoutItem newItem)
         {
             var handler = ActiveLayoutItemChanged;
-            handler?.Invoke(this, item);
+            handler?.Invoke(this, new LayoutChangeEventArgs(oldItem, newItem));
         }
 
-        private void RaiseActiveDocumentChanging(ILayoutItem item)
+        private void RaiseActiveDocumentChanging(ILayoutItem oldItem, ILayoutItem newItem)
         {
             var handler = ActiveLayoutItemChanging;
-            handler?.Invoke(this, item);
+            handler?.Invoke(this, new LayoutChangeEventArgs(oldItem, newItem));
         }
     }
 }

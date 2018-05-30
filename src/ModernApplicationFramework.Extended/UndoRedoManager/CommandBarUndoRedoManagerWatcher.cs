@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Interfaces;
 
@@ -96,9 +97,9 @@ namespace ModernApplicationFramework.Extended.UndoRedoManager
             Refresh();
         }
 
-        private void ShellActiveLayoutItemChanged(object sender, ILayoutItem e)
+        private void ShellActiveLayoutItemChanged(object sender, LayoutChangeEventArgs e)
         {
-            UndoRedoManager = e?.UndoRedoManager;
+            UndoRedoManager = e.NewLayoutItem?.UndoRedoManager;
         }
     }
 }
