@@ -60,8 +60,9 @@ namespace ModernApplicationFramework.Modules.Toolbox
             if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
                 return;
 
-            hostViewModel.ActiveLayoutItemChanged += (sender, e) => RefreshToolboxItems(e.OldLayoutItem);
-            hostViewModel.ActiveLayoutItemChanging += (sender, e) => StoreItems(e.NewLayoutItem);
+            hostViewModel.ActiveLayoutItemChanging += (sender, e) => StoreItems(e.OldLayoutItem);
+            hostViewModel.ActiveLayoutItemChanged += (sender, e) => RefreshToolboxItems(e.NewLayoutItem);
+            
             RefreshToolboxItems(_hostViewModel.ActiveItem);
 
         }
