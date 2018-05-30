@@ -9,27 +9,13 @@ using ModernApplicationFramework.Extended.Package;
 
 namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
 {
-
-    public class LayoutChangeEventArgs : EventArgs
-    {
-        public ILayoutItem OldLayoutItem { get; }
-        public ILayoutItem NewLayoutItem { get; }
-
-        public LayoutChangeEventArgs(ILayoutItem oldLayoutItem, ILayoutItem newLayoutItem)
-        {
-            OldLayoutItem = oldLayoutItem;
-            NewLayoutItem = newLayoutItem;
-        }
-    }
-
-
-
-
     [Export(typeof(IDockingHostViewModel))]
     public class DockingHostViewModel : Conductor<ILayoutItem>.Collection.OneActive, IDockingHostViewModel
     {
         public event EventHandler<LayoutChangeEventArgs> ActiveLayoutItemChanged;
         public event EventHandler<LayoutChangeEventArgs> ActiveLayoutItemChanging;
+        public event EventHandler<LayoutDeactivateEventArgs> LayoutItemDeactivating;
+        public event EventHandler<LayoutDeactivateEventArgs> LayoutItemDeactivated;
 
 
         private readonly BindableCollection<ITool> _tools;
@@ -148,9 +134,9 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
         public override void DeactivateItem(ILayoutItem item, bool close)
         {
             //RaiseActiveDocumentChanging(item);
-
+            OnLayoutItemDeactivating(new LayoutDeactivateEventArgs(item, close));
             base.DeactivateItem(item, close);
-
+            OnLayoutItemDeactivated(new LayoutDeactivateEventArgs(item, close));
             //RaiseActiveDocumentChanged(item);
         }
 
@@ -226,6 +212,16 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
         {
             var handler = ActiveLayoutItemChanging;
             handler?.Invoke(this, new LayoutChangeEventArgs(oldItem, newItem));
+        }
+
+        protected virtual void OnLayoutItemDeactivating(LayoutDeactivateEventArgs e)
+        {
+            LayoutItemDeactivating?.Invoke(this, e);
+        }
+
+        protected virtual void OnLayoutItemDeactivated(LayoutDeactivateEventArgs e)
+        {
+            LayoutItemDeactivated?.Invoke(this, e);
         }
     }
 }

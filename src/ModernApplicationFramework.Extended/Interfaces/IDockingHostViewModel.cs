@@ -1,6 +1,6 @@
 ﻿using System;
 using Caliburn.Micro;
-using ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels;
+using ModernApplicationFramework.Extended.Layout;
 
 namespace ModernApplicationFramework.Extended.Interfaces
 {
@@ -22,6 +22,16 @@ namespace ModernApplicationFramework.Extended.Interfaces
         /// Occurs when the active layout item is about to change.
         /// </summary>
         event EventHandler<LayoutChangeEventArgs> ActiveLayoutItemChanging;
+
+        /// <summary>
+        /// Occurs when the active layout item is about to get deactivated.
+        /// </summary>
+        event EventHandler<LayoutDeactivateEventArgs> LayoutItemDeactivating;
+
+        /// <summary>
+        /// Occurs when the active layout item was deactivated.
+        /// </summary>
+        event EventHandler<LayoutDeactivateEventArgs> LayoutItemDeactivated;
 
         /// <summary>
         /// The active <see cref="ILayoutItem"/>.

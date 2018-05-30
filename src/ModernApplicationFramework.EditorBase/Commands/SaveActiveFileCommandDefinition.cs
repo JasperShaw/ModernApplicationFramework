@@ -5,8 +5,8 @@ using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
-using ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 

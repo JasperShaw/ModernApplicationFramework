@@ -4,8 +4,8 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Extended.UndoRedoManager
