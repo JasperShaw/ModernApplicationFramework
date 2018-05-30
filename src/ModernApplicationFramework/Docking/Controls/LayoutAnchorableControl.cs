@@ -23,7 +23,7 @@ using ModernApplicationFramework.Docking.Layout;
 namespace ModernApplicationFramework.Docking.Controls
 {
     [ContentProperty(nameof(Content))]
-    public class LayoutAnchorableControl : Control
+    public class LayoutAnchorableControl : Control, ILayoutItemHost
     {
         public static readonly DependencyProperty ModelProperty =
             DependencyProperty.Register("Model", typeof (LayoutAnchorable), typeof (LayoutAnchorableControl),

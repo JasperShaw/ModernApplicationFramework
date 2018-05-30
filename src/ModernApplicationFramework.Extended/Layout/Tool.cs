@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
@@ -18,9 +19,7 @@ namespace ModernApplicationFramework.Extended.Layout
     public abstract class Tool : LayoutItemBase, ITool
     {
         public event EventHandler<InfoBarEventArgs> InfoBarClosed;
-
         public event EventHandler<InfoBarActionItemEventArgs> InfoBarActionItemClicked;
-
 
         private List<object> _pendingInfoBars;
         private ICommand _closeCommand;
@@ -95,21 +94,9 @@ namespace ModernApplicationFramework.Extended.Layout
             ConnectInfoBars();
         }
 
-        protected override void OnViewAttached(object view, object context)
+        protected virtual void OnHiding(CancelEventArgs cancelEventArgs)
         {
-            base.OnViewAttached(view, context);
-            if (view == null)
-            {
-                _frame = null;
-                return;
-            }
-            if (!(view is UIElement uiElement))
-                throw new InvalidCastException("View is not typeof UIElement");
-            _frame = uiElement.FindLogicalAncestor<LayoutAnchorableControl>()?.LayoutItem ?? 
-                uiElement.FindLogicalAncestor<LayoutDocumentControl>()?.LayoutItem;
-            if (_frame == null)
-                throw new ArgumentException("Could not find any host control for Tool");
-            OnToolWindowCreated();
+
         }
 
         protected virtual void OnInfoBarClosed(IInfoBarUiElement infoBarUi, InfoBarModel infoBar)
@@ -125,6 +112,26 @@ namespace ModernApplicationFramework.Extended.Layout
             var actionItemClicked = InfoBarActionItemClicked;
             actionItemClicked?.Invoke(this, new InfoBarActionItemEventArgs(infoBarUi, infoBar, actionItem));
         }
+
+        protected override void OnViewAttached(object view, object context)
+        {
+            base.OnViewAttached(view, context);
+            if (view == null)
+                return;
+            if (!(view is UIElement uiElement))
+                return;
+            var layoutControl = uiElement.FindLogicalAncestor<ILayoutItemHost>();
+            _frame = layoutControl.LayoutItem;
+            if (layoutControl is LayoutAnchorableControl anchorableControl)
+            {
+                anchorableControl.Model.Hiding += Model_Hiding;
+            }
+            if (_frame == null)
+                return;
+            OnToolWindowCreated();
+        }
+
+
 
         private void AddInfoBar(InfoBarEvents events)
         {
@@ -190,6 +197,11 @@ namespace ModernApplicationFramework.Extended.Layout
             }
             uiElement = service.CreateInfoBar(infoBar);
             return uiElement != null;
+        }
+
+        private void Model_Hiding(object sender, CancelEventArgs e)
+        {
+            OnHiding(e);
         }
 
 

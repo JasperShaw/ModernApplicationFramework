@@ -23,7 +23,7 @@ using ModernApplicationFramework.Docking.Layout;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
-    public class LayoutDocumentControl : Control, INotifyPropertyChanged
+    public class LayoutDocumentControl : Control, ILayoutItemHost, INotifyPropertyChanged
     {
         public static readonly DependencyProperty ModelProperty =
             DependencyProperty.Register("Model", typeof (LayoutContent), typeof (LayoutDocumentControl),
