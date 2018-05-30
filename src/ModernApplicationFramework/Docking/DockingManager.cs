@@ -711,10 +711,10 @@ namespace ModernApplicationFramework.Docking
                 }
                 else
                 {
-                    if (contentToClose is LayoutDocument)
-                        _ExecuteCloseCommand(contentToClose as LayoutDocument, false);
-                    else if (contentToClose is LayoutAnchorable)
-                        _ExecuteCloseCommand(contentToClose as LayoutAnchorable);
+                    if (contentToClose is LayoutDocument document)
+                        _ExecuteCloseCommand(document, false);
+                    else if (contentToClose is LayoutAnchorable anchorable)
+                        _ExecuteCloseCommand(anchorable);
                 }
             }
 
@@ -758,10 +758,10 @@ namespace ModernApplicationFramework.Docking
                 }
                 else
                 {
-                    if (contentToClose is LayoutDocument)
-                        _ExecuteCloseCommand(contentToClose as LayoutDocument, false);
-                    else if (contentToClose is LayoutAnchorable)
-                        _ExecuteCloseCommand(contentToClose as LayoutAnchorable);
+                    if (contentToClose is LayoutDocument document)
+                        _ExecuteCloseCommand(document, false);
+                    else if (contentToClose is LayoutAnchorable anchorable)
+                        _ExecuteCloseCommand(anchorable);
                 }
             }
             if (DocumentsClosed != null)
@@ -1112,9 +1112,8 @@ namespace ModernApplicationFramework.Docking
 
             LayoutFloatingWindow fw;
             LayoutFloatingWindowControl fwc;
-            if (contentModel is LayoutAnchorable)
+            if (contentModel is LayoutAnchorable anchorableContent)
             {
-                var anchorableContent = contentModel as LayoutAnchorable;
                 fw = new LayoutAnchorableFloatingWindow
                 {
                     RootPanel = new LayoutAnchorablePaneGroup(
@@ -1138,8 +1137,8 @@ namespace ModernApplicationFramework.Docking
                 {
                     Width = fwWidth,
                     Height = fwHeight,
-                    Left = contentModel.FloatingLeft,
-                    Top = contentModel.FloatingTop
+                    Left = anchorableContent.FloatingLeft,
+                    Top = anchorableContent.FloatingTop
                 };
             }
             else
@@ -2347,8 +2346,8 @@ namespace ModernApplicationFramework.Docking
                 return;
 
             foreach (var content in Layout.Descendents().OfType<LayoutContent>())
-                if (content is LayoutDocument)
-                    CreateDocumentLayoutItem(content as LayoutDocument);
+                if (content is LayoutDocument document)
+                    CreateDocumentLayoutItem(document);
                 else //if (content is LayoutAnchorable)
                     CreateAnchorableLayoutItem(content as LayoutAnchorable);
 
