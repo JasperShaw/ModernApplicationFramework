@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
 namespace ModernApplicationFramework.Modules.Toolbox
 {
-    public class ToolboxItemEx : ToolboxNodeItem, IToolboxItem
+    public class ToolboxItem : ToolboxNodeItem, IToolboxItem
     {
         public IToolboxCategory Parent { get; set; }
 
@@ -13,15 +15,18 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
         public BitmapSource IconSource { get; set; }
 
+        public TypeArray<ILayoutItem> CompatibleTypes { get; }
+
         public IDataObject Data { get; }
 
-        public ToolboxItemEx(Guid id , string name, Type targetType, IToolboxCategory originalParent, BitmapSource iconSource = null) : 
-            this(id, name, (IDataObject) null, originalParent, iconSource)
+        public ToolboxItem(Guid id , string name, Type targetType, IToolboxCategory originalParent, IEnumerable<Type> compatibleTypes,  BitmapSource iconSource = null) : 
+            this(id, name, null, originalParent, iconSource)
         {
+            CompatibleTypes = new TypeArray<ILayoutItem>(compatibleTypes);
             Data = new DataObject(ToolboxItemDataFormats.Type, targetType);
         }
 
-        public ToolboxItemEx(Guid id , string name, IDataObject data, IToolboxCategory originalParent, BitmapSource iconSource = null) : base(id, name)
+        public ToolboxItem(Guid id , string name, IDataObject data, IToolboxCategory originalParent, BitmapSource iconSource = null) : base(id, name)
         {
             Data = data;
             OriginalParent = originalParent;
