@@ -21,70 +21,36 @@ using static System.Globalization.CultureInfo;
 namespace ModernApplicationFramework.Basics.Services
 {
     [Export(typeof(ICommandBarSerializer))]
-    public class CommandBarSerializer : ICommandBarSerializer
+    public class CommandBarSerializer: LayoutSerializer<CommandBarDefinitionBase>, ICommandBarSerializer
     {
         private readonly List<CommandBarDefinitionBase> _allDefinitions = new List<CommandBarDefinitionBase>();
         private ICommandBarDefinitionHost _definitionHost;
         private IEnumerable<CommandBarItemDefinition> _allCommandBarItems;
         private IEnumerable<CommandDefinitionBase> _allCommandDefintions;
 
-        private void EnsureInitialized()
+        protected override string RootNode => "CommandBarDefinitions";
+
+        protected override Stream ValidationScheme => Properties.Resources.validation.ToStream();
+
+        protected override void HandleBackupNodeNull(CommandBarDefinitionBase item)
         {
-            _definitionHost = IoC.Get<ICommandBarDefinitionHost>();
+            foreach (var group in item.ContainedGroups.ToList())
+                _definitionHost.ItemGroupDefinitions.Remove(group);
+            item.ContainedGroups.Clear();
         }
 
-        public void Serialize(Stream stream)
+        protected override XmlNode GetBackupNode(in XmlDocument backup, CommandBarDefinitionBase item)
         {
-            EnsureInitialized();
-
-            var xmlDocument = CreateDocument();
-
-            SerializeCommandBarRoot<IMenuHostViewModel, MenuBarDefinition>(xmlDocument.LastChild, "MenuBars",
-                (document, definition) => document.CreateElement("MenuBar", string.Empty,
-                    new KeyValuePair<string, string>("Id", definition.Id.ToString("B")),
-                    new KeyValuePair<string, string>("SortOrder", definition.SortOrder.ToString())));
-
-            SerializeCommandBarRoot<IToolBarHostViewModel, ToolbarDefinition>(xmlDocument.LastChild, "Toolbars",
-                (document, definition) =>
-                {
-                    var toolBarElement = document.CreateElement("ToolBar", string.Empty,
-                        new KeyValuePair<string, string>("Id", definition.Id.ToString("B")),
-                        new KeyValuePair<string, string>("Position", ((int)definition.Position).ToString()),
-                        new KeyValuePair<string, string>("IsVisible", definition.IsVisible.ToString()),
-                        new KeyValuePair<string, string>("PlacementSlot", definition.PlacementSlot.ToString()),
-                        new KeyValuePair<string, string>("SortOrder", definition.SortOrder.ToString()));
-                    if (definition.IsCustom)
-                        toolBarElement.SetAttribute("Text", definition.Text);
-                    return toolBarElement;
-                });
-
-            SerializeCommandBarRoot<IContextMenuHost, ContextMenuDefinition>(xmlDocument.LastChild, "ContextMenus",
-                (document, definition) => document.CreateElement("ContextMenu", string.Empty,
-                    new KeyValuePair<string, string>("Id", definition.Id.ToString("B"))));
-
-
-            xmlDocument.Save(stream);
+            return backup.SelectSingleNode($"//*[@Id='{item.Id:B}']");
         }
 
-        public void Deserialize(Stream stream)
+        protected override XmlNode GetCurrentNode(in XmlDocument currentLayout, CommandBarDefinitionBase item)
         {
-            var document = new XmlDocument();
-            document.Load(stream);
-            Deserialize(document);         
+            return currentLayout.SelectSingleNode($"//*[@Id='{item.Id:B}']");
         }
 
-        public void Deserialize(XmlDocument document)
+        protected override void Deserialize(ref XmlNode xmlRootNode)
         {
-            Deserialize(document.DocumentElement);
-        }
-
-        public void Deserialize(XmlNode xmlRootNode)
-        {
-            EnsureInitialized();
-            PrepareDeserialize();
-
-            ClearCurrentLayout();
-
             DeserializeCommandBar<MenuBarDefinition, IMenuHostViewModel>(xmlRootNode,
                 "//MenuBars");
             DeserializeCommandBar<ToolbarDefinition, IToolBarHostViewModel>(xmlRootNode,
@@ -110,51 +76,38 @@ namespace ModernApplicationFramework.Basics.Services
                 "//ContextMenus");
         }
 
-        public bool Validate(Stream stream)
+        protected override void Serialize(ref XmlDocument xmlDocument)
         {
-            var validator = new XmlValidator(Properties.Resources.validation.ToStream());
-            if (!validator.Validate(stream))
-                return false;
-            return true;
+            SerializeCommandBarRoot<IMenuHostViewModel, MenuBarDefinition>(xmlDocument.LastChild, "MenuBars",
+                (document, definition) => document.CreateElement("MenuBar", string.Empty,
+                    new KeyValuePair<string, string>("Id", definition.Id.ToString("B")),
+                    new KeyValuePair<string, string>("SortOrder", definition.SortOrder.ToString())));
+
+            SerializeCommandBarRoot<IToolBarHostViewModel, ToolbarDefinition>(xmlDocument.LastChild, "Toolbars",
+                (document, definition) =>
+                {
+                    var toolBarElement = document.CreateElement("ToolBar", string.Empty,
+                        new KeyValuePair<string, string>("Id", definition.Id.ToString("B")),
+                        new KeyValuePair<string, string>("Position", ((int)definition.Position).ToString()),
+                        new KeyValuePair<string, string>("IsVisible", definition.IsVisible.ToString()),
+                        new KeyValuePair<string, string>("PlacementSlot", definition.PlacementSlot.ToString()),
+                        new KeyValuePair<string, string>("SortOrder", definition.SortOrder.ToString()));
+                    if (definition.IsCustom)
+                        toolBarElement.SetAttribute("Text", definition.Text);
+                    return toolBarElement;
+                });
+
+            SerializeCommandBarRoot<IContextMenuHost, ContextMenuDefinition>(xmlDocument.LastChild, "ContextMenus",
+                (document, definition) => document.CreateElement("ContextMenu", string.Empty,
+                    new KeyValuePair<string, string>("Id", definition.Id.ToString("B"))));
         }
 
-        public bool Validate(XmlNode node)
+        protected override void EnsureInitialized()
         {
-            var validator = new XmlValidator(Properties.Resources.validation.ToStream());
-            if (!validator.Validate(node, ConformanceLevel.Fragment))
-                return false;
-            return true;
+            _definitionHost = IoC.Get<ICommandBarDefinitionHost>();
         }
 
-        public void ResetFromBackup(XmlDocument backup, CommandBarDefinitionBase item)
-        {
-            var currentLayout = new XmlDocument();
-            using (var stream = new MemoryStream())
-            {
-                Serialize(stream);
-                stream.Seek(0L, SeekOrigin.Begin);
-                currentLayout.Load(stream);
-            }
-
-            var backupNode = backup.SelectSingleNode($"//*[@Id='{item.Id:B}']");
-            var currentNode = currentLayout.SelectSingleNode($"//*[@Id='{item.Id:B}']");
-
-            if (currentNode == null)
-                throw new ArgumentNullException(nameof(currentNode));
-
-            if (backupNode == null)
-            {
-                foreach (var group in item.ContainedGroups.ToList())
-                    _definitionHost.ItemGroupDefinitions.Remove(group);
-                item.ContainedGroups.Clear();
-                return;
-            }
-            var replaceNode = currentLayout.ImportNode(backupNode, true);
-            currentNode.ParentNode?.ReplaceChild(replaceNode, currentNode);
-            Deserialize(currentLayout);
-        }
-
-        private void PrepareDeserialize()
+        protected override void PrepareDeserialize()
         {
             var allMenuBars = IoC.GetAll<MenuBarDefinition>();
             var allToolBars = IoC.GetAll<ToolbarDefinition>();
@@ -166,6 +119,13 @@ namespace ModernApplicationFramework.Basics.Services
             _allDefinitions.AddRange(allToolBars);
             _allDefinitions.AddRange(allcontextMenus);
             _allDefinitions.AddRange(_allCommandBarItems);
+        }
+
+        protected override void ClearCurrentLayout()
+        {
+            _definitionHost.ItemGroupDefinitions.Clear();
+            _definitionHost.ItemDefinitions.Clear();
+            _definitionHost.ExcludedItemDefinitions.Clear();
         }
 
         #region Deserialize
@@ -497,19 +457,6 @@ namespace ModernApplicationFramework.Basics.Services
             }
         }
 
-        private static XmlDocument CreateDocument()
-        {
-            var xmlDocument = new XmlDocument();
-            var xmlDeclaration = xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-            var root = xmlDocument.DocumentElement;
-            xmlDocument.InsertBefore(xmlDeclaration, root);
-
-            var rootElement = xmlDocument.CreateElement(string.Empty, "CommandBarDefinitions", string.Empty);
-            xmlDocument.AppendChild(rootElement);
-
-            return xmlDocument;
-        }
-
         private static XmlElement CreateElement(XmlDocument document, string name, CommandBarDefinitionBase commandBarDefinition,
             Action<XmlElement> fillElementFunc = null)
         {
@@ -533,13 +480,6 @@ namespace ModernApplicationFramework.Basics.Services
         {
             var definition = _allDefinitions.FirstOrDefault(x => x.Id.Equals(guid));
             return (T)definition;
-        }
-
-        private void ClearCurrentLayout()
-        {
-            _definitionHost.ItemGroupDefinitions.Clear();
-            _definitionHost.ItemDefinitions.Clear();
-            _definitionHost.ExcludedItemDefinitions.Clear();
         }
 
         private static CommandBarGroupDefinition CreateGroup(CommandBarDefinitionBase parent, uint sortOrder)

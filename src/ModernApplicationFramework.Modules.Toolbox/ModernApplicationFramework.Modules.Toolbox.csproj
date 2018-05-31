@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -71,6 +72,9 @@
     <Compile Include="Interfaces\IToolboxCategory.cs" />
     <Compile Include="Interfaces\IToolboxItemStateCache.cs" />
     <Compile Include="Interfaces\IToolboxNode.cs" />
+    <Compile Include="Interfaces\IToolboxStateBackupProvider.cs" />
+    <Compile Include="Interfaces\IToolboxStateSerializer.cs" />
+    <Compile Include="ToolboxStateBackupProvider.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -96,6 +100,7 @@
     <Compile Include="ToolboxItemsBuilder.cs" />
     <Compile Include="ToolboxNodeItem.cs" />
     <Compile Include="ToolboxItemStateCache.cs" />
+    <Compile Include="ToolboxStateSerializer.cs" />
     <Compile Include="ToolboxTreeNodeStyleSelector.cs" />
     <Compile Include="ToolboxView.xaml.cs">
       <DependentUpon>ToolboxView.xaml</DependentUpon>
