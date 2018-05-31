@@ -29,11 +29,11 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ToolboxStatePersister
 
         private void Serialize()
         {
-            //using (var stream = new MemoryStream())
-            //{
-            //    _serializer.Serialize(stream);
-            //    IoC.Get<IToolboxStateBackupProvider>().CreateBackupFromStream(stream);
-            //}
+            using (var stream = new MemoryStream())
+            {
+                _serializer.Serialize(stream);
+                IoC.Get<IToolboxStateBackupProvider>().CreateBackupFromStream(stream);
+            }
         }
     }
 }
