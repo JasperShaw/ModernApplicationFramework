@@ -69,6 +69,8 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
         private void StoreItems(ILayoutItem item)
         {
+            if(item == null)
+                return;
             _toolboxService.StoreItemSource(item.GetType(), _categories.ToList());
         }
 
