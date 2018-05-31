@@ -17,7 +17,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <DockPanel>
-        <mafd:DockingManager x:Name="DockingManager" DocumentsSource="{Binding Items}"
+        <mafd:DockingManager x:FieldModifier="private" x:Name="dockingManager" DocumentsSource="{Binding Items}"
                              AnchorablesSource="{Binding Tools}"
                              ActiveContent="{Binding ActiveLayoutItemBase, Mode=TwoWay}"
                              LayoutUpdated="DockingManager_OnLayoutUpdated">

@@ -1,45 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Windows;
+using ModernApplicationFramework.Docking;
 using ModernApplicationFramework.Docking.Controls;
 using ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels;
 using ModernApplicationFramework.Extended.Interfaces;
-using ModernApplicationFramework.Extended.Layout;
 
 namespace ModernApplicationFramework.Extended.Controls.DockingHost.Views
 {
-    public partial class DockingHostView : IInternalDockingHost
+    [TemplatePart(Name = "PART_DockingManager", Type = typeof(DockingManager))]
+    public partial class DockingHostView : IDockingHost
     {
-        public event EventHandler<LayoutItemsClosingEventArgs> LayoutItemsClosing;
-        public event EventHandler<LayoutItemsClosedEventArgs> LayoutItemsClosed;
-
-        public IReadOnlyList<ILayoutItemBase> AllOpenLayoutItemsAsDocuments
-        {
-            get
-            {
-                return DockingManager.AllOpenDocuments.Where(x => x.Content is ILayoutItemBase).Select(x => x.Content)
-                    .OfType<ILayoutItemBase>().ToList();
-            }
-        }
+        public DockingManager DockingManager { get; }
 
         public DockingHostView()
         {
             InitializeComponent();
-            DockingManager.DocumentsClosing += DockingManager_DocumentsClosing;
-            DockingManager.DocumentsClosed += DockingManager_DocumentsClosed;
-        }
-
-        public void LoadLayout(Stream stream, Action<ITool> addToolCallback, Action<ILayoutItem> addDocumentCallback,
-            Dictionary<string, ILayoutItemBase> itemsState)
-        {
-            LayoutUtilities.LoadLayout(DockingManager, stream, addDocumentCallback, addToolCallback, itemsState);
-        }
-
-        public void SaveLayout(Stream stream)
-        {
-            LayoutUtilities.SaveLayout(DockingManager, stream);
+            DockingManager = dockingManager;
         }
 
         public void UpdateFloatingWindows()
@@ -57,55 +33,9 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.Views
             }
         }
 
-        public bool RaiseDocumentClosing(ILayoutItem layoutItem)
-        {
-            var args = new LayoutItemsClosingEventArgs(new List<ILayoutItem> {layoutItem});
-            OnLayoutItemClosing(args);
-            return args.Cancel;
-        }
-
-        private void DockingManager_DocumentsClosed(object sender, Docking.DocumentsClosedEventArgs e)
-        {
-            var layoutItems = new List<ILayoutItem>();
-            foreach (var layoutDocument in e.Documents)
-                if (layoutDocument.Content is ILayoutItem layoutItem)
-                    layoutItems.Add(layoutItem);
-            if (LayoutItemsClosed == null)
-                return;
-            var eventArgs = new LayoutItemsClosedEventArgs(layoutItems);
-            OnLayoutItemsClosed(eventArgs);
-        }
-
-        private void DockingManager_DocumentsClosing(object sender, Docking.DocumentsClosingEventArgs e)
-        {
-            var layoutItems = new List<ILayoutItem>();
-
-            foreach (var layoutDocument in e.Documents)
-            {
-                if (layoutDocument.Content is ILayoutItem layoutItem)
-                    layoutItems.Add(layoutItem);
-            }
-            if (LayoutItemsClosing != null)
-            {
-                var eventArgs = new LayoutItemsClosingEventArgs(layoutItems);
-                OnLayoutItemClosing(eventArgs);
-                e.Cancel = eventArgs.Cancel;
-            }
-        }
-
         private void DockingManager_OnLayoutUpdated(object sender, EventArgs e)
         {
             UpdateFloatingWindows();
-        }
-
-        protected virtual void OnLayoutItemClosing(LayoutItemsClosingEventArgs e)
-        {
-            LayoutItemsClosing?.Invoke(this, e);
-        }
-
-        protected virtual void OnLayoutItemsClosed(LayoutItemsClosedEventArgs e)
-        {
-            LayoutItemsClosed?.Invoke(this, e);
         }
     }
 }

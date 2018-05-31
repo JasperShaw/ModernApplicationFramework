@@ -28,7 +28,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
 
         private void SetupEventHandlers()
         {
-            DockingHostViewModel.DockingHostView.LayoutItemsClosing += DockingHostViewLayoutItemsClosing;
+            DockingHostViewModel.LayoutItemsClosing += DockingHostViewLayoutItemsClosing;
             MainWindow.WindowClosing += MainWindow_WindowClosing;
         }
 

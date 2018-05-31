@@ -7,6 +7,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Docking.Controls;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Extended.Layout
 {
@@ -43,6 +44,16 @@ namespace ModernApplicationFramework.Extended.Layout
             {
                 _isSelected = value;
                 NotifyOfPropertyChange(() => IsSelected);
+            }
+        }
+
+        protected Docking.Controls.LayoutItem DockingModel
+        {
+            get
+            {
+                var element = GetView() as UIElement;
+                return element.FindLogicalAncestor<LayoutAnchorableControl>()?.LayoutItem ??
+                         element.FindLogicalAncestor<LayoutDocumentControl>()?.LayoutItem;
             }
         }
 

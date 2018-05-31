@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.IO;
+using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Docking;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Extended.Package;
@@ -14,8 +18,10 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
     {
         public event EventHandler<LayoutChangeEventArgs> ActiveLayoutItemChanged;
         public event EventHandler<LayoutChangeEventArgs> ActiveLayoutItemChanging;
-        public event EventHandler<LayoutDeactivateEventArgs> LayoutItemDeactivating;
-        public event EventHandler<LayoutDeactivateEventArgs> LayoutItemDeactivated;
+        public event EventHandler<LayoutItemsClosingEventArgs> LayoutItemsClosing;
+        public event EventHandler<LayoutItemsClosedEventArgs> LayoutItemsClosed;
+        public event EventHandler<ToolsClosingEventArgs> ToolsClosing; 
+        public event EventHandler<ToolsClosedEventArgs> ToolsClosed; 
 
 
         private readonly BindableCollection<ITool> _tools;
@@ -52,6 +58,15 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
             }
         }
 
+        public IReadOnlyList<ILayoutItemBase> AllOpenLayoutItemsAsDocuments
+        {
+            get
+            {
+                return DockingHostView.DockingManager.AllOpenDocuments.Where(x => x.Content is ILayoutItemBase).Select(x => x.Content)
+                    .OfType<ILayoutItemBase>().ToList();
+            }
+        }
+
         public DockingHostViewModel()
         {
             ((IActivate)this).Activate();
@@ -65,13 +80,22 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
 
         public virtual bool CloseLayoutItem(ILayoutItem document)
         {
-            if (DockingHostView is IInternalDockingHost internalDocking && internalDocking.RaiseDocumentClosing(document))
-                return false;
             DeactivateItem(document, true);
-            return true;
+            return !Items.Contains(document);
         }
 
-        public IDockingHost DockingHostView { get; protected set; }
+        public void LoadLayout(Stream stream, Action<ITool> addToolCallback, Action<ILayoutItem> addDocumentCallback,
+            Dictionary<string, ILayoutItemBase> itemsState)
+        {
+            LayoutUtilities.LoadLayout(DockingHostView.DockingManager, stream, addDocumentCallback, addToolCallback, itemsState);
+        }
+
+        public void SaveLayout(Stream stream)
+        {
+            LayoutUtilities.SaveLayout(DockingHostView.DockingManager, stream);
+        }
+
+        protected IDockingHost DockingHostView { get; set; }
 
         public IObservableCollection<ILayoutItem> LayoutItems => Items;
 
@@ -124,20 +148,52 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
                 return;
             _changingItem = true;
             var currentActiveItem = ActiveItem;
-            RaiseActiveDocumentChanging(currentActiveItem, item);        
+            RaiseActiveDocumentChanging(currentActiveItem, item);
             base.ActivateItem(item);
             if (!ReferenceEquals(item, currentActiveItem))
-                RaiseActiveDocumentChanged(currentActiveItem, item);    
+                RaiseActiveDocumentChanged(currentActiveItem, item);
             _changingItem = false;
         }
 
         public override void DeactivateItem(ILayoutItem item, bool close)
         {
-            //RaiseActiveDocumentChanging(item);
-            OnLayoutItemDeactivating(new LayoutDeactivateEventArgs(item, close));
-            base.DeactivateItem(item, close);
-            OnLayoutItemDeactivated(new LayoutDeactivateEventArgs(item, close));
-            //RaiseActiveDocumentChanged(item);
+            item.TryClose();
+        }
+
+        protected virtual void PreviewClosing(bool close)
+        {
+
+        }
+
+        protected virtual void RaiseActiveDocumentChanged(ILayoutItem oldItem, ILayoutItem newItem)
+        {
+            ActiveLayoutItemChanged?.Invoke(this, new LayoutChangeEventArgs(oldItem, newItem));
+        }
+
+        protected virtual void RaiseActiveDocumentChanging(ILayoutItem oldItem, ILayoutItem newItem)
+        {
+            ActiveLayoutItemChanging?.Invoke(this, new LayoutChangeEventArgs(oldItem, newItem));
+        }
+
+        protected virtual void OnLayoutItemsClosing(LayoutItemsClosingEventArgs e)
+        {
+            LayoutItemsClosing?.Invoke(this, e);
+        }
+
+        protected virtual void OnLayoutItemsClosed(LayoutItemsClosedEventArgs e)
+        {
+            e.LayoutItems.ForEach(x => base.DeactivateItem(x, true));
+            LayoutItemsClosed?.Invoke(this, e);
+        }
+
+        protected virtual void OnToolsClosing(ToolsClosingEventArgs eventArgs)
+        {
+            ToolsClosing?.Invoke(this, eventArgs);
+        }
+
+        protected virtual void OnToolsClosed(ToolsClosedEventArgs eventArgs)
+        {
+            ToolsClosed?.Invoke(this, eventArgs);
         }
 
         protected override void OnActivationProcessed(ILayoutItem item, bool success)
@@ -147,6 +203,7 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
 
             base.OnActivationProcessed(item, success);
         }
+
 
         protected sealed override void OnDeactivate(bool close)
         {
@@ -173,27 +230,20 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
             // My workaround is to use the following _closing variable, and ignore activation
             // requests that occur when _closing is true.
             _closing = true;
-            PreviewDeactivating(close);
+            PreviewClosing(close);
             PackageManager.Instance.ClosePackages(PackageCloseOption.OnMainWindowClosed);
             base.OnDeactivate(close);
         }
 
-        protected virtual void PreviewDeactivating(bool close)
-        {
-
-        }
-
         protected override void OnViewAttached(object view, object context)
         {
-            DockingHostView = (IDockingHost)view;
-            DockingHostView.LayoutItemsClosed += DockingHostViewLayoutItemsClosed;
+            DockingHostView = (IDockingHost) view;
+            DockingHostView.DockingManager.DocumentsClosing += InternalDockingHost_LayoutItemsClosing;
+            DockingHostView.DockingManager.DocumentsClosed += DockingHostViewLayoutItemsClosed;
+            DockingHostView.DockingManager.AnchorablesClosing += DockingManager_AnchorablesClosing;
+            DockingHostView.DockingManager.AnchorablesClosed += DockingManager_AnchorablesClosed;
             PackageManager.Instance.LoadPackages(PackageLoadOption.PreviewWindowLoaded);
             base.OnViewAttached(view, context);
-        }
-
-        private void DockingHostViewLayoutItemsClosed(object sender, LayoutItemsClosedEventArgs e)
-        {
-            e.LayoutItems.ForEach(x => DeactivateItem(x, true));
         }
 
         protected override void OnViewLoaded(object view)
@@ -202,26 +252,51 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
             PackageManager.Instance.LoadPackages(PackageLoadOption.OnMainWindowLoaded);
         }
 
-        private void RaiseActiveDocumentChanged(ILayoutItem oldItem, ILayoutItem newItem)
+    
+        private void DockingHostViewLayoutItemsClosed(object sender, DocumentsClosedEventArgs e)
         {
-            var handler = ActiveLayoutItemChanged;
-            handler?.Invoke(this, new LayoutChangeEventArgs(oldItem, newItem));
+            var layoutItems = new List<ILayoutItem>();
+            foreach (var layoutDocument in e.Documents)
+                if (layoutDocument.Content is ILayoutItem layoutItem)
+                    layoutItems.Add(layoutItem);
+            var eventArgs = new LayoutItemsClosedEventArgs(layoutItems);
+            OnLayoutItemsClosed(eventArgs);
         }
 
-        private void RaiseActiveDocumentChanging(ILayoutItem oldItem, ILayoutItem newItem)
+        private void InternalDockingHost_LayoutItemsClosing(object sender, DocumentsClosingEventArgs e)
         {
-            var handler = ActiveLayoutItemChanging;
-            handler?.Invoke(this, new LayoutChangeEventArgs(oldItem, newItem));
+            var layoutItems = new List<ILayoutItem>();
+            foreach (var layoutDocument in e.Documents)
+            {
+                if (layoutDocument.Content is ILayoutItem layoutItem)
+                    layoutItems.Add(layoutItem);
+            }
+            var eventArgs = new LayoutItemsClosingEventArgs(layoutItems);
+            OnLayoutItemsClosing(eventArgs);
+            e.Cancel = eventArgs.Cancel;
         }
 
-        protected virtual void OnLayoutItemDeactivating(LayoutDeactivateEventArgs e)
+        private void DockingManager_AnchorablesClosing(object sender, AnchorablesClosingEventArgs e)
         {
-            LayoutItemDeactivating?.Invoke(this, e);
+            var tools = new List<ITool>();
+            foreach (var anchor in e.Anchors)
+            {
+                if (anchor.Content is ITool tool)
+                    tools.Add(tool);
+            }
+            var eventArgs = new ToolsClosingEventArgs(tools, e.Mode);
+            OnToolsClosing(eventArgs);
+            e.Cancel = eventArgs.Cancel;
         }
 
-        protected virtual void OnLayoutItemDeactivated(LayoutDeactivateEventArgs e)
+        private void DockingManager_AnchorablesClosed(object sender, AnchorablesClosedEventArgs e)
         {
-            LayoutItemDeactivated?.Invoke(this, e);
+            var tools = new List<ITool>();
+            foreach (var anchor in e.Anchors)
+                if (anchor.Content is ITool tool)
+                    tools.Add(tool);
+            var eventArgs = new ToolsClosedEventArgs(tools);
+            OnToolsClosed(eventArgs);
         }
     }
 }

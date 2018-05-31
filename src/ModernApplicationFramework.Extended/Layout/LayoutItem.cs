@@ -17,6 +17,11 @@ namespace ModernApplicationFramework.Extended.Layout
 
         public IUndoRedoManager UndoRedoManager => _undoRedoManager ?? (_undoRedoManager = new Basics.UndoRedoManager.UndoRedoManager());
 
+        public override void TryClose(bool? dialogResult = null)
+        {
+            DockingModel.CloseCommand.Execute(null);
+        }
+
         protected virtual void PushUndoRedoManager(string sender, object value)
         {
             UndoRedoManager.Push(new UndoRedoAction(this, sender, value));

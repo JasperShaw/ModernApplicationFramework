@@ -96,10 +96,7 @@ namespace ModernApplicationFramework.EditorBase.Dialogs.WindowSelectionDialog
             _dockingHostViewModel = dockingHostViewModel;
             _settings = settings;
             OpenLayoutItems =
-                new ObservableCollection<ILayoutItemBase>(_dockingHostViewModel.DockingHostView
-                    .AllOpenLayoutItemsAsDocuments);
-
-
+                new ObservableCollection<ILayoutItemBase>(_dockingHostViewModel.AllOpenLayoutItemsAsDocuments);
             SelectedLayoutItems = new ObservableCollection<ILayoutItemBase> { OpenLayoutItems.FirstOrDefault(x => x.IsActive) };
         }
 

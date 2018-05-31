@@ -12,7 +12,6 @@ namespace ModernApplicationFramework.WindowManagement.LayoutState
     internal class LayoutItemStatePersister : ILayoutItemStatePersister
     {
         private IDockingHostViewModel _dockingHostViewModel;
-        private IDockingHost _dockingHost;
         private bool _initialized;
 
         public static LayoutItemStatePersister Instance { get; private set; }
@@ -31,7 +30,6 @@ namespace ModernApplicationFramework.WindowManagement.LayoutState
 
         private void Va_ViewAttached(object sender, ViewAttachedEventArgs e)
         {
-            _dockingHost = _dockingHostViewModel.DockingHostView;
             _initialized = true;
         }
 
@@ -124,7 +122,7 @@ namespace ModernApplicationFramework.WindowManagement.LayoutState
                         return;
                     }
                     var active = _dockingHostViewModel.ActiveItem; 
-                    _dockingHost.LoadLayout(reader.BaseStream, _dockingHostViewModel.ShowTool, _dockingHostViewModel.OpenLayoutItem, layoutItems);
+                    _dockingHostViewModel.LoadLayout(reader.BaseStream, _dockingHostViewModel.ShowTool, _dockingHostViewModel.OpenLayoutItem, layoutItems);
                     if (_dockingHostViewModel.LayoutItems.Contains(active))
                         _dockingHostViewModel.OpenLayoutItem(active);
                 }
@@ -247,7 +245,7 @@ namespace ModernApplicationFramework.WindowManagement.LayoutState
                 writer.Write(itemCount);
                 writer.BaseStream.Seek(0, SeekOrigin.End);
 
-                _dockingHost.SaveLayout(writer.BaseStream);
+                _dockingHostViewModel.SaveLayout(writer.BaseStream);
             }
             catch
             {

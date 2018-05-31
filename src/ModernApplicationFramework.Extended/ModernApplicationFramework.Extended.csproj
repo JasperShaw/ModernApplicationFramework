@@ -67,11 +67,12 @@
     <Compile Include="ApplicationEnvironment\ApplicationEnvironmentBase.cs" />
     <Compile Include="ApplicationEnvironment\FallbackExtendedEnvironmentVariables.cs" />
     <Compile Include="Commands\CopyCommandDefinition.cs" />
+    <Compile Include="Layout\ToolsClosedEventArgs.cs" />
+    <Compile Include="Layout\ToolsClosingEventArgs.cs" />
     <Compile Include="Layout\LayoutChangeEventArgs.cs" />
     <Compile Include="Layout\LayoutDeactivateEventArgs.cs" />
     <Compile Include="Layout\LayoutItemsClosedEventArgs.cs" />
     <Compile Include="Layout\LayoutItemsClosingEventArgs.cs" />
-    <Compile Include="Interfaces\IInternalDockingHost.cs" />
     <Compile Include="Layout\KeyBindingLayoutItem.cs" />
     <Compile Include="Layout\LayoutInitializer.cs" />
     <Compile Include="Layout\LayoutUtilities.cs" />

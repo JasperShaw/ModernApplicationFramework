@@ -697,6 +697,9 @@ namespace ModernApplicationFramework.Docking
                 .Where(d => !Equals(d, contentSelected) &&
                             (d.Parent is LayoutDocumentPane || d.Parent is LayoutDocumentFloatingWindow)).ToList();
 
+            if (layoutContents.Any(x => !x.TestCanClose()))
+                return;
+
             if (DocumentsClosing != null)
             {
                 var documents = layoutContents.OfType<LayoutDocument>();
@@ -718,20 +721,10 @@ namespace ModernApplicationFramework.Docking
             {
                 if (!contentToClose.CanClose)
                     continue;
-
-                var layoutItem = GetLayoutItemFromModel(contentToClose);
-                if (layoutItem.CloseCommand != null)
-                {
-                    if (layoutItem.CloseCommand.CanExecute(null))
-                        layoutItem.CloseCommand.Execute(false);
-                }
-                else
-                {
-                    if (contentToClose is LayoutDocument document)
-                        _ExecuteCloseCommand(document, false);
-                    else if (contentToClose is LayoutAnchorable anchorable)
-                        _ExecuteCloseCommand(anchorable);
-                }
+                if (contentToClose is LayoutDocument document)
+                    _ExecuteCloseCommand(document, false);
+                else if (contentToClose is LayoutAnchorable anchorable)
+                    _ExecuteCloseCommand(anchorable);
             }
 
             if (DocumentsClosed != null)

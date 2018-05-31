@@ -8,11 +8,12 @@ using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Extended.Package
 {
+    /// <inheritdoc cref="IMafPackage" />
     /// <summary>
-    /// <see cref="Package"/>s are modules that extend the application by providing UI elements, services, etc.
+    /// <see cref="T:ModernApplicationFramework.Extended.Package.Package" />s are modules that extend the application by providing UI elements, services, etc.
     /// </summary>
-    /// <seealso cref="ModernApplicationFramework.Utilities.DisposableObject" />
-    /// <seealso cref="IMafPackage" />
+    /// <seealso cref="T:ModernApplicationFramework.Utilities.DisposableObject" />
+    /// <seealso cref="T:ModernApplicationFramework.Extended.Package.IMafPackage" />
     public abstract class Package : DisposableObject, IMafPackage
     {
         /// <summary>

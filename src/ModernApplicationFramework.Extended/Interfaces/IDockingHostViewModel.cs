@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Layout;
 
@@ -24,24 +26,31 @@ namespace ModernApplicationFramework.Extended.Interfaces
         event EventHandler<LayoutChangeEventArgs> ActiveLayoutItemChanging;
 
         /// <summary>
-        /// Occurs when the active layout item is about to get deactivated.
+        /// Occurs when one or more <see cref="ILayoutItem"/> is about to close.
         /// </summary>
-        event EventHandler<LayoutDeactivateEventArgs> LayoutItemDeactivating;
+        event EventHandler<LayoutItemsClosingEventArgs> LayoutItemsClosing;
 
         /// <summary>
-        /// Occurs when the active layout item was deactivated.
+        /// Occurs when one or more <see cref="ILayoutItem"/> was closed.
         /// </summary>
-        event EventHandler<LayoutDeactivateEventArgs> LayoutItemDeactivated;
+        event EventHandler<LayoutItemsClosedEventArgs> LayoutItemsClosed;
+
+        /// <summary>
+        /// Occurs when tools are about to close or hide.
+        /// </summary>
+        event EventHandler<ToolsClosingEventArgs> ToolsClosing;
+
+        /// <summary>
+        /// Occurs when tools have been closed or hidden.
+        /// </summary>
+        event EventHandler<ToolsClosedEventArgs> ToolsClosed;
+
+        IReadOnlyList<ILayoutItemBase> AllOpenLayoutItemsAsDocuments { get; }
 
         /// <summary>
         /// The active <see cref="ILayoutItem"/>.
         /// </summary>
         ILayoutItem ActiveItem { get; }
-
-        /// <summary>
-        /// The docking host view.
-        /// </summary>
-        IDockingHost DockingHostView { get; }
 
         /// <summary>
         /// Observable collection of all <see cref="ILayoutItem"/>s.
@@ -116,5 +125,22 @@ namespace ModernApplicationFramework.Extended.Interfaces
         /// <see langword="true"/> if the LayoutItem already exists; <see langword="false"/> otherwise
         /// </returns>
         bool ContainsLayoutItem(ILayoutItem layoutItem);
+
+
+        /// <summary>
+        /// Loads and applys a window layout.
+        /// </summary>
+        /// <param name="stream">The stream.</param>
+        /// <param name="addToolCallback">The callback for adding the tools.</param>
+        /// <param name="addDocumentCallback">The callback for adding layout items.</param>
+        /// <param name="itemsState">The dictionary that contains all <see cref="ILayoutItemBase"/> to load.</param>
+        void LoadLayout(Stream stream, Action<ITool> addToolCallback, Action<ILayoutItem> addDocumentCallback,
+            Dictionary<string, ILayoutItemBase> itemsState);
+
+        /// <summary>
+        /// Saves the current layout to a stream.
+        /// </summary>
+        /// <param name="stream">The stream.</param>
+        void SaveLayout(Stream stream);
     }
 }
