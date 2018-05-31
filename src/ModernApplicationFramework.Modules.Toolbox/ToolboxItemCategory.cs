@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Linq;
 using Caliburn.Micro;
+using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
 namespace ModernApplicationFramework.Modules.Toolbox
 {
-    public class ToolboxItemCategory : ToolboxNodeItem
+    public class ToolboxItemCategory : ToolboxNodeItem, IToolboxCategory
     {
-        internal static ToolboxItemCategory DefaultCategory = new ToolboxItemCategory(null, "Default");
+        public static Guid DefaultCategoryId = new Guid("{41047F4D-A2CF-412F-B216-A8B1E3C08F36}");
+        internal static IToolboxCategory DefaultCategory = new ToolboxItemCategory(new Guid("{41047F4D-A2CF-412F-B216-A8B1E3C08F36}") , null, "Default");
 
         public Type TargetType { get; }
 
@@ -35,7 +37,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
             }
         }
 
-        public ToolboxItemCategory(Type targetType, string name) : base(name)
+        public ToolboxItemCategory(Guid id, Type targetType, string name) : base(id, name)
         {
             TargetType = targetType;
             Items = new BindableCollection<IToolboxItem>();

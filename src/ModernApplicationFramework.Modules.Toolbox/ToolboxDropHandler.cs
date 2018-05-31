@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using ModernApplicationFramework.DragDrop;
+using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
 namespace ModernApplicationFramework.Modules.Toolbox
 {

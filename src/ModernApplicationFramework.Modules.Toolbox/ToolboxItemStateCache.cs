@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
 namespace ModernApplicationFramework.Modules.Toolbox
 {
@@ -9,7 +10,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
     {
         private readonly ToolboxItemsBuilder _builder;
 
-        private readonly Dictionary<Type, IReadOnlyCollection<ToolboxItemCategory>> _store = new Dictionary<Type, IReadOnlyCollection<ToolboxItemCategory>>();
+        private readonly Dictionary<Type, IReadOnlyCollection<IToolboxCategory>> _store = new Dictionary<Type, IReadOnlyCollection<IToolboxCategory>>();
 
         [ImportingConstructor]
         public ToolboxItemStateCache(ToolboxItemsBuilder builder)
@@ -18,7 +19,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
         }
 
 
-        public IReadOnlyCollection<ToolboxItemCategory> GetToolboxItems(Type key)
+        public IReadOnlyCollection<IToolboxCategory> GetToolboxItems(Type key)
         {
             if (!_store.TryGetValue(key, out var result))
             {
@@ -28,19 +29,12 @@ namespace ModernApplicationFramework.Modules.Toolbox
             return result;
         }
 
-        public void StoreToolboxItems(Type key, IReadOnlyCollection<ToolboxItemCategory> items)
+        public void StoreToolboxItems(Type key, IReadOnlyCollection<IToolboxCategory> items)
         {
             if (_store.ContainsKey(key))
                 _store[key] = items;
             else
                 _store.Add(key, items);
         }
-    }
-
-    internal interface IToolboxItemStateCache
-    {
-        IReadOnlyCollection<ToolboxItemCategory> GetToolboxItems(Type key);
-
-        void StoreToolboxItems(Type key, IReadOnlyCollection<ToolboxItemCategory> items);
     }
 }

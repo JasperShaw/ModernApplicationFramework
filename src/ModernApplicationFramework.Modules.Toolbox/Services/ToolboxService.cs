@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Services
 {
@@ -15,12 +16,12 @@ namespace ModernApplicationFramework.Modules.Toolbox.Services
             _stateCache = stateCache;
         }
 
-        public IReadOnlyCollection<ToolboxItemCategory> GetToolboxItemSource(Type layoutItemType)
+        public IReadOnlyCollection<IToolboxCategory> GetToolboxItemSource(Type layoutItemType)
         {
             return _stateCache.GetToolboxItems(layoutItemType);
         }
 
-        public void StoreItemSource(Type layoutItemType, IReadOnlyCollection<ToolboxItemCategory> itemsSource)
+        public void StoreItemSource(Type layoutItemType, IReadOnlyCollection<IToolboxCategory> itemsSource)
         {
             _stateCache.StoreToolboxItems(layoutItemType, itemsSource);
         }

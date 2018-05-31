@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
 namespace ModernApplicationFramework.Modules.Toolbox
 {
@@ -9,17 +10,17 @@ namespace ModernApplicationFramework.Modules.Toolbox
     [Export(typeof(ToolboxItemsBuilder))]
     internal class ToolboxItemsBuilder
     {
-        private readonly IEnumerable<ToolboxItemCategory> _categories;
+        private readonly IEnumerable<IToolboxCategory> _categories;
         private readonly IEnumerable<IToolboxItem> _items;
 
         [ImportingConstructor]
-        public ToolboxItemsBuilder([ImportMany] IEnumerable<ToolboxItemCategory> categories, [ImportMany] IEnumerable<IToolboxItem> items)
+        public ToolboxItemsBuilder([ImportMany] IEnumerable<IToolboxCategory> categories, [ImportMany] IEnumerable<IToolboxItem> items)
         {
             _categories = categories;
             _items = items;
         }
 
-        public IReadOnlyCollection<ToolboxItemCategory> Build(Type targetType)
+        public IReadOnlyCollection<IToolboxCategory> Build(Type targetType)
         {
             var items = _items.ToList();
             var categories = _categories.Where(x => x.TargetType == targetType).ToList();

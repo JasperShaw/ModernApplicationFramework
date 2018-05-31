@@ -1,11 +1,9 @@
 ﻿using System.Windows.Media;
 using System.Windows.Media.Effects;
 using ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.ShaderEffects;
-using ModernApplicationFramework.Modules.Toolbox;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.ViewModels.Elements
 {
-    [ToolboxItem(typeof(GraphViewModel), "Add", "Maths", "pack://application:,,,/Resources/action_add_16xLG.png")]
     public class Add : ShaderEffectElement
     {
         protected override Effect GetEffect()

@@ -7,6 +7,7 @@ using ModernApplicationFramework.DragDrop;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Extended.Utilities.PaneUtilities;
+using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Services;
 
 namespace ModernApplicationFramework.Modules.Toolbox
@@ -19,14 +20,14 @@ namespace ModernApplicationFramework.Modules.Toolbox
         //private readonly BindableCollection<ToolboxItemViewModel> _items;
         private readonly IDockingHostViewModel _hostViewModel;
 
-        private readonly BindableCollection<ToolboxItemCategory> _categories;
+        private readonly BindableCollection<IToolboxCategory> _categories;
         private ToolboxNodeItem _selectedNode;
 
         public override PaneLocation PreferredLocation => PaneLocation.Left;
 
         //public IObservableCollection<ToolboxItemViewModel> Items => _filteredItems.Count == 0 ? _items : _filteredItems;
 
-        public IObservableCollection<ToolboxItemCategory> Categories => _categories;
+        public IObservableCollection<IToolboxCategory> Categories => _categories;
 
         public IDropTarget ToolboxDropHandler { get; } = new ToolboxDropHandler();
         public IDragSource ToolboxDragHandler { get; } = new ToolboxDragHandler();
@@ -48,7 +49,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
             DisplayName = "Toolbox";
 
             //_items = new BindableCollection<ToolboxItemViewModel>();
-            _categories = new BindableCollection<ToolboxItemCategory>();
+            _categories = new BindableCollection<IToolboxCategory>();
 
             //_filteredItems = new BindableCollection<ToolboxItemViewModel>();
             //var groupedItems = CollectionViewSource.GetDefaultView(_items);

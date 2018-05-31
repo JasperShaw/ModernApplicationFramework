@@ -142,6 +142,8 @@
     <Compile Include="Modules\SampleExplorer\SampleExplorerModule.cs" />
     <Compile Include="Modules\FilterDesigner\ShaderEffects\ShaderEffectBase.cs" />
     <Compile Include="Modules\Startup\StartupPackage.cs" />
+    <Compile Include="Modules\ToolboxStatePersister\StateBackupPackage.cs" />
+    <Compile Include="Modules\ToolboxStatePersister\StatePersisterPackage.cs" />
     <Compile Include="Modules\WaitingWindow\WaitingDialogDemoView.xaml.cs">
       <DependentUpon>WaitingDialogDemoView.xaml</DependentUpon>
     </Compile>
@@ -322,6 +324,7 @@
   <ItemGroup>
     <Resource Include="Resources\image.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

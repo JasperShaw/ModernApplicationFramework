@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
 namespace ModernApplicationFramework.Modules.Toolbox
 {
@@ -11,7 +12,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
         public override Style SelectStyle(object item, DependencyObject container)
         {
-            if (item is ToolboxItemCategory)
+            if (item is IToolboxCategory)
                 return CategoryStyle;
             if (item is IToolboxItem)
                 return ItemStyle;

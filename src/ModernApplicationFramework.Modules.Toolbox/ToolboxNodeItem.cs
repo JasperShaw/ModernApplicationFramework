@@ -1,14 +1,19 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using ModernApplicationFramework.Modules.Toolbox.Annotations;
+using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
 namespace ModernApplicationFramework.Modules.Toolbox
 {
-    public abstract class ToolboxNodeItem : INotifyPropertyChanged
+    public abstract class ToolboxNodeItem : IToolboxNode
     {
         private bool _isExpanded;
         private bool _isSelected;
+
         public string Name { get; }
+
+        public Guid Id { get; }
 
         public bool IsSelected
         {
@@ -32,8 +37,9 @@ namespace ModernApplicationFramework.Modules.Toolbox
             }
         }
 
-        protected ToolboxNodeItem(string name)
+        protected ToolboxNodeItem(Guid id, string name)
         {
+            Id = id;
             Name = name;
         }
 
