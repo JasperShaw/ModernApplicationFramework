@@ -62,6 +62,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ToolboxStateSettings.cs" />
     <Compile Include="Controls\ToolboxTreeView.cs" />
     <Compile Include="Controls\ToolboxTreeViewItem.cs" />
     <Compile Include="Design\DesignTimeToolboxViewModel.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Interfaces\IToolboxNode.cs" />
     <Compile Include="Interfaces\IToolboxStateBackupProvider.cs" />
     <Compile Include="Interfaces\IToolboxStateSerializer.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="ToolboxStateBackupProvider.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -129,13 +131,13 @@
       <Project>{96E6BB64-30EC-49DC-831A-C9D5E25AA46D}</Project>
       <Name>ModernApplicationFramework.Modules.Inspector</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework.Settings\ModernApplicationFramework.Settings.csproj">
+      <Project>{240CC7DB-F3A0-48E7-A8EB-5785A90128BE}</Project>
+      <Name>ModernApplicationFramework.Settings</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework.Utilities\ModernApplicationFramework.Utilities.csproj">
       <Project>{2B388979-5B07-4F0A-A302-0C575AAA21C0}</Project>
       <Name>ModernApplicationFramework.Utilities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ModernApplicationFramework.WindowManagement\ModernApplicationFramework.WindowManagement.csproj">
-      <Project>{674F7D84-B3AE-4CD6-AD12-0AFA4ACE516A}</Project>
-      <Name>ModernApplicationFramework.WindowManagement</Name>
     </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework\ModernApplicationFramework.csproj">
       <Project>{74F6C6A1-64BB-47D4-9E7F-6CD5C4CA166C}</Project>

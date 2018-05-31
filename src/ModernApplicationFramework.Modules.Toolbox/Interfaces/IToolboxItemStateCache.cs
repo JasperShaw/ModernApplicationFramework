@@ -8,5 +8,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
         IReadOnlyCollection<IToolboxCategory> GetToolboxItems(Type key);
 
         void StoreToolboxItems(Type key, IReadOnlyCollection<IToolboxCategory> items);
+
+        IReadOnlyCollection<Type> GetKeys();
     }
 }

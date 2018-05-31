@@ -15,6 +15,11 @@ namespace ModernApplicationFramework.Modules.Toolbox
         private IObservableCollection<IToolboxItem> _items;
         private bool _hasItems;
 
+        public static bool IsDefaultCategory(IToolboxCategory category)
+        {
+            return category.Id.Equals(DefaultCategoryId);
+        }
+
         public IObservableCollection<IToolboxItem> Items
         {
             get => _items;

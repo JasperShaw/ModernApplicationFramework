@@ -36,5 +36,10 @@ namespace ModernApplicationFramework.Modules.Toolbox
             else
                 _store.Add(key, items);
         }
+
+        public IReadOnlyCollection<Type> GetKeys()
+        {
+            return _store.Keys;
+        }
     }
 }
