@@ -9,8 +9,10 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
 
         IObservableCollection<IToolboxItem> Items { get; set; }
 
-        bool HasItems { get; set; }
+        bool HasItems { get; }
 
-        void EvaluateItems(Type targetType);
+        bool HasVisibleItem { get; }
+
+        void Refresh(Type targetType);
     }
 }

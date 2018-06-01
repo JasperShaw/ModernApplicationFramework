@@ -81,12 +81,12 @@ namespace ModernApplicationFramework.Modules.Toolbox
             if (item == null)
             {
                 //Change targettype to object, which means that it will get accepted by convention
-                ToolboxItemCategory.DefaultCategory.EvaluateItems(typeof(object));
+                ToolboxItemCategory.DefaultCategory.Refresh(typeof(object));
                 _categories.Add(ToolboxItemCategory.DefaultCategory);
                 return;
             }
             var i = _toolboxService.GetToolboxItemSource(item.GetType());
-            i.ForEach(x => x.EvaluateItems(item.GetType()));         
+            i.ForEach(x => x.Refresh(item.GetType()));         
             _categories.AddRange(i);
         }
     }

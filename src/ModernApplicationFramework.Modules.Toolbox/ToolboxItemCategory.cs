@@ -16,6 +16,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
         private IObservableCollection<IToolboxItem> _items;
         private bool _hasItems;
+        private bool _hasVisibleItem;
 
         public static bool IsDefaultCategory(IToolboxCategory category)
         {
@@ -36,10 +37,21 @@ namespace ModernApplicationFramework.Modules.Toolbox
         public bool HasItems
         {
             get => _hasItems;
-            set
+            protected set
             {
                 if (value == _hasItems) return;
                 _hasItems = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool HasVisibleItem
+        {
+            get => _hasVisibleItem;
+            protected set
+            {
+                if (value == _hasVisibleItem) return;
+                _hasVisibleItem = value;
                 OnPropertyChanged();
             }
         }
@@ -60,11 +72,14 @@ namespace ModernApplicationFramework.Modules.Toolbox
             Items.CollectionChanged += Items_CollectionChanged;
         }
 
-        public void EvaluateItems(Type targetType)
+        public void Refresh(Type targetType)
         {
+            HasVisibleItem = false;
             foreach (var item in Items)
             {
                 item.EvaluateVisibility(targetType);
+                if (item.IsVisible)
+                    HasVisibleItem = true;
             }
         }
 
@@ -80,13 +95,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
                 foreach (IToolboxItem item in e.NewItems)
                     item.Parent = this;
             }
-
             HasItems = Items.Any();
         }
-    }
-
-    public class TestClass : LayoutItem
-    {
-
     }
 }
