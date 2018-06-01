@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
+using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.DragDrop;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Layout;
@@ -81,6 +82,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
             if (item == null)
                 return;
             var i = _toolboxService.GetToolboxItemSource(item.GetType());
+            i.ForEach(c => c.Items.ForEach(it => it.EvaluateVisibility(item.GetType())));         
             _categories.AddRange(i);
         }
     }

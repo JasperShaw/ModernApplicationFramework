@@ -62,6 +62,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\ToolboxItemVisibilityConverter.cs" />
     <Compile Include="ToolboxStateSettings.cs" />
     <Compile Include="Controls\ToolboxTreeView.cs" />
     <Compile Include="Controls\ToolboxTreeViewItem.cs" />

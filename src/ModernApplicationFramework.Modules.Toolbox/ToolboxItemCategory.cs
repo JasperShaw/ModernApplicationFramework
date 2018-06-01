@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.InteropServices;
 using Caliburn.Micro;
+using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
 namespace ModernApplicationFramework.Modules.Toolbox
@@ -42,6 +44,13 @@ namespace ModernApplicationFramework.Modules.Toolbox
             }
         }
 
+        static ToolboxItemCategory()
+        {
+            var i = new ToolboxItem(Guid.NewGuid(), "Test", typeof(string), DefaultCategory, new []{ typeof(TestClass) });
+            DefaultCategory.Items.Add(i);            
+        }
+
+
         public ToolboxItemCategory(Guid id, Type targetType, string name) : base(id, name)
         {
             TargetType = targetType;
@@ -64,5 +73,10 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
             HasItems = Items.Any();
         }
+    }
+
+    public class TestClass : LayoutItem
+    {
+
     }
 }

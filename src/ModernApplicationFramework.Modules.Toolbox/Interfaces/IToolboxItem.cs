@@ -17,6 +17,12 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
         BitmapSource IconSource { get; set; }
 
         TypeArray<ILayoutItem> CompatibleTypes { get; }
+
+        bool Serializable { get; set; }
+
+        bool IsVisible { get; }
+
+        void EvaluateVisibility(Type targetType);
     }
 
     public class TypeArray<T>

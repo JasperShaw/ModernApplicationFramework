@@ -27,6 +27,7 @@
 
         <general:AreEqualConverter x:Key="AreEqualConverter"/>
         <converters:ThemedImageSourceConverter x:Key="ThemedImageSourceConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
         <PathGeometry x:Key="TreeArrow" Figures="M0,0 L0,6 L6,0 z"/>
         <Style x:Key="ExpandCollapseToggleStyle" TargetType="{x:Type ToggleButton}">
@@ -171,6 +172,7 @@
                     </MultiBinding>
                 </Setter.Value>
             </Setter>
+            <Setter Property="Visibility" Value="{Binding IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             <Setter Property="MinHeight" Value="22"/>
             <Setter Property="Template">
                 <Setter.Value>
