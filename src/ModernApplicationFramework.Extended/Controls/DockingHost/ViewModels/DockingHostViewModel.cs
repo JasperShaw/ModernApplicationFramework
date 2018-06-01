@@ -41,7 +41,7 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
                 if (ReferenceEquals(_activeLayoutItemBase, value))
                     return;
                 _activeLayoutItemBase = value;
-                if (value is ILayoutItem item)
+               if (value is ILayoutItem item)
                     OpenLayoutItem(item);
                 NotifyOfPropertyChange(() => ActiveLayoutItemBase);
             }
@@ -76,6 +76,19 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
         public virtual void Close()
         {
             Application.Current.MainWindow?.Close();
+        }
+
+        protected override void ChangeActiveItem(ILayoutItem newItem, bool closePrevious)
+        {
+            if (_closing || _changingItem)
+                return;
+            _changingItem = true;
+            var currentActiveItem = ActiveItem;
+            RaiseActiveDocumentChanging(ActiveItem, newItem);
+            base.ChangeActiveItem(newItem, closePrevious);
+            if (!ReferenceEquals(newItem, currentActiveItem))
+                RaiseActiveDocumentChanged(currentActiveItem, newItem);
+            _changingItem = false;
         }
 
         public virtual bool CloseLayoutItem(ILayoutItem document)
@@ -146,13 +159,8 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
         {
             if (_closing || _changingItem)
                 return;
-            _changingItem = true;
-            var currentActiveItem = ActiveItem;
-            RaiseActiveDocumentChanging(currentActiveItem, item);
             base.ActivateItem(item);
-            if (!ReferenceEquals(item, currentActiveItem))
-                RaiseActiveDocumentChanged(currentActiveItem, item);
-            _changingItem = false;
+
         }
 
         public override void DeactivateItem(ILayoutItem item, bool close)
