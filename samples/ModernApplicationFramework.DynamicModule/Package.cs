@@ -7,9 +7,9 @@ using ModernApplicationFramework.Extended.Package;
 namespace ModernApplicationFramework.DynamicModule
 {
     [Export(typeof(IMafPackage))]
-    public sealed class Package : ModernApplicationFramework.Extended.Package.Package
+    public sealed class Package : Extended.Package.Package
     {
-        public override PackageLoadOption LoadOption => PackageLoadOption.OnMainWindowLoaded;
+        public override PackageLoadOption LoadOption => PackageLoadOption.Custom;
         public override PackageCloseOption CloseOption => PackageCloseOption.OnMainWindowClosed;
         public override Guid Id => new Guid("{FF5ACE0B-DB3F-4BD5-890E-36FE84CBE6B1}");
 
