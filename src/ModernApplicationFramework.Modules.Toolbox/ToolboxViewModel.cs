@@ -9,7 +9,6 @@ using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Extended.Utilities.PaneUtilities;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
-using ModernApplicationFramework.Modules.Toolbox.Services;
 
 namespace ModernApplicationFramework.Modules.Toolbox
 {
@@ -80,9 +79,14 @@ namespace ModernApplicationFramework.Modules.Toolbox
         {
             _categories.Clear();
             if (item == null)
+            {
+                //Change targettype to object, which means that it will get accepted by convention
+                ToolboxItemCategory.DefaultCategory.EvaluateItems(typeof(object));
+                _categories.Add(ToolboxItemCategory.DefaultCategory);
                 return;
+            }
             var i = _toolboxService.GetToolboxItemSource(item.GetType());
-            i.ForEach(c => c.Items.ForEach(it => it.EvaluateVisibility(item.GetType())));         
+            i.ForEach(x => x.EvaluateItems(item.GetType()));         
             _categories.AddRange(i);
         }
     }

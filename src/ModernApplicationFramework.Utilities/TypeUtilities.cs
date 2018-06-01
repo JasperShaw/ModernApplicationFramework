@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -71,6 +72,28 @@ namespace ModernApplicationFramework.Utilities
             }
             var list = enumerable as IList;
             return list ?? enumerable?.OfType<object>().ToList();
+        }
+
+        public static bool CrossCheckTypeCompatibility(this Type type, Type other)
+        {
+            if (type == other)
+                return true;
+            if (type == null || other == null)
+                return false;
+            if (other.IsAssignableFrom(type) || type.IsAssignableFrom(other))
+                return true;
+            if (other.GetInterfaces().Contains(type) || type.GetInterfaces().Contains(other))
+                return true;
+            return false;
+        }
+
+        public static bool ImplementsOrInharits(this Type type, Type other)
+        {
+            if (type == null || other == null)
+                return false;
+            if (type == other)
+                return true;
+            return other.IsAssignableFrom(type) || type.GetInterfaces().Contains(other);
         }
     }
 }

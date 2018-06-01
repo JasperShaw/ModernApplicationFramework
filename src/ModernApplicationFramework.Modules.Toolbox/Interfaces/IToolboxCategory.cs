@@ -10,5 +10,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
         IObservableCollection<IToolboxItem> Items { get; set; }
 
         bool HasItems { get; set; }
+
+        void EvaluateItems(Type targetType);
     }
 }

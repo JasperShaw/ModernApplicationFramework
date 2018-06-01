@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Modules.Toolbox
 {
@@ -32,7 +34,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
             Data = data;
             OriginalParent = originalParent;
             IconSource = iconSource;
-            CompatibleTypes = new TypeArray<ILayoutItem>(compatibleTypes);
+            CompatibleTypes = new TypeArray<ILayoutItem>(compatibleTypes, true);
             Serializable = serializable;
         }
 
@@ -44,7 +46,8 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
         protected virtual bool InternalEvaluateVisibility(Type targetType)
         {
-            return true;
+            return CompatibleTypes.Memebers.Contains(typeof(object)) ||
+                   CompatibleTypes.Memebers.Any(targetType.ImplementsOrInharits);
         }
     }
 

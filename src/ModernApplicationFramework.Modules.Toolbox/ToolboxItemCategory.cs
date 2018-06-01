@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using System.Runtime.InteropServices;
 using Caliburn.Micro;
+using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
@@ -10,7 +10,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
     public class ToolboxItemCategory : ToolboxNodeItem, IToolboxCategory
     {
         public static Guid DefaultCategoryId = new Guid("{41047F4D-A2CF-412F-B216-A8B1E3C08F36}");
-        internal static IToolboxCategory DefaultCategory = new ToolboxItemCategory(new Guid("{41047F4D-A2CF-412F-B216-A8B1E3C08F36}") , null, "Default");
+        internal static IToolboxCategory DefaultCategory = new ToolboxItemCategory(new Guid("{41047F4D-A2CF-412F-B216-A8B1E3C08F36}"), null, "Default");
 
         public Type TargetType { get; }
 
@@ -46,8 +46,10 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
         static ToolboxItemCategory()
         {
-            var i = new ToolboxItem(Guid.NewGuid(), "Test", typeof(string), DefaultCategory, new []{ typeof(TestClass) });
-            DefaultCategory.Items.Add(i);            
+            var i = new ToolboxItem(Guid.NewGuid(), "Test", typeof(int), DefaultCategory, new[] { typeof(ILayoutItem) });
+            var j = new ToolboxItem(Guid.NewGuid(), "String", typeof(string), DefaultCategory, new[] { typeof(object) });
+            DefaultCategory.Items.Add(i);
+            DefaultCategory.Items.Add(j);
         }
 
 
@@ -56,6 +58,14 @@ namespace ModernApplicationFramework.Modules.Toolbox
             TargetType = targetType;
             Items = new BindableCollection<IToolboxItem>();
             Items.CollectionChanged += Items_CollectionChanged;
+        }
+
+        public void EvaluateItems(Type targetType)
+        {
+            foreach (var item in Items)
+            {
+                item.EvaluateVisibility(targetType);
+            }
         }
 
         private void Items_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
