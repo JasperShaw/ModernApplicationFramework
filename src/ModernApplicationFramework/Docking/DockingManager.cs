@@ -2279,8 +2279,12 @@ namespace ModernApplicationFramework.Docking
             if (DesignerProperties.GetIsInDesignMode(this))
                 return;
             //load windows not already loaded!
-            foreach (var fw in Layout.FloatingWindows.Where(fw => !_fwList.Any(fwc => Equals(fwc.Model, fw))))
-                _fwList.Add(CreateUIElementForModel(fw) as LayoutFloatingWindowControl);
+            foreach (var fw in Layout.FloatingWindows.Where(fw => !_fwList.Any(fwc => Equals(fwc.Model, fw))).ToList())
+            {
+                if ( CreateUIElementForModel(fw) is LayoutFloatingWindowControl element && element.EnsureHandled())
+                    _fwList.Add(element);
+            }
+                
 
             //create the overlaywindow if it's possible
             if (IsVisible)

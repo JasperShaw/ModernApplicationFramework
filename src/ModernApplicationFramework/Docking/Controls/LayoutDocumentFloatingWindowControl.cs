@@ -57,8 +57,7 @@ namespace ModernApplicationFramework.Docking.Controls
             if (draggingWindow.Model is LayoutAnchorableFloatingWindow)
                 return _dropAreas;
 
-            var floatingWindowContentHost = Content as FloatingWindowContentHost;
-            if (floatingWindowContentHost != null)
+            if (Content is FloatingWindowContentHost floatingWindowContentHost)
             {
                 var rootVisual = floatingWindowContentHost.RootVisual;
 
@@ -143,6 +142,11 @@ namespace ModernApplicationFramework.Docking.Controls
             return base.FilterMessage(hwnd, msg, wParam, lParam, ref handled);
         }
 
+        protected internal override bool EnsureHandled()
+        {
+            return _model.RootDocument != null && base.EnsureHandled();
+        }
+
         protected override void RedockWindow()
         {
             Model.Root.ActiveContent.Dock();
@@ -165,9 +169,7 @@ namespace ModernApplicationFramework.Docking.Controls
         }
 
         protected override void OnInitialized(EventArgs e)
-        {
-            base.OnInitialized(e);
-
+        {        
             if (_model.RootDocument == null)
             {
                 InternalClose();
@@ -180,6 +182,8 @@ namespace ModernApplicationFramework.Docking.Controls
 
                 _model.RootDocumentChanged += _model_RootDocumentChanged;
             }
+
+            base.OnInitialized(e);
         }
 
         protected virtual void OnSingleContentLayoutItemChanged(DependencyPropertyChangedEventArgs e)

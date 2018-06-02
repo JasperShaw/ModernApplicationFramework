@@ -148,7 +148,6 @@ namespace ModernApplicationFramework.WindowManagement.LayoutManagement
             var layoutDataAt = GetLayoutDataAt(index);
             SetStatusBarMessage(WindowManagement_Resources.ApplyLayoutStartedStatusFormat, name);
 
-
             try
             {
                 using (var stream = LayoutManagementUtilities.ConvertLayoutPayloadToStream(layoutDataAt))
@@ -162,24 +161,6 @@ namespace ModernApplicationFramework.WindowManagement.LayoutManagement
                 return false;
             }
             SetStatusBarMessage(WindowManagement_Resources.ApplyLayoutCompletedStatusFormat, name);
-            return true;
-        }
-
-        private bool TryApplyWindowLayoutInternal(string payload)
-        {
-            if (string.IsNullOrEmpty(payload))
-                return false;
-            try
-            {
-                using (var stream = LayoutManagementUtilities.ConvertLayoutPayloadToStream(payload))
-                {
-                    LayoutItemStatePersister.Instance.LoadFromStream(stream, ProcessStateOption.ToolsOnly);
-                }
-            }
-            catch
-            {
-                return false;
-            }
             return true;
         }
 

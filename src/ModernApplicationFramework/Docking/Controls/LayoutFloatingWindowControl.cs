@@ -100,6 +100,8 @@ namespace ModernApplicationFramework.Docking.Controls
 
         protected override void OnSourceInitialized(EventArgs e)
         {
+            if (!EnsureHandled())
+                return;
             var hwndSource = (HwndSource)PresentationSource.FromVisual(this);
             var keyboardInputSink = (IKeyboardInputSink)hwndSource;
             keyboardInputSink?.RegisterKeyboardInputSink(new MnemonicForwardingKeyboardInputSink(this));
@@ -139,9 +141,8 @@ namespace ModernApplicationFramework.Docking.Controls
 
                     if (_dragService != null)
                     {
-                        bool dropFlag;
                         var mousePosition = this.TransformToDeviceDpi(NativeMethods.GetMousePosition());
-                        _dragService.Drop(mousePosition, out dropFlag);
+                        _dragService.Drop(mousePosition, out var dropFlag);
                         _dragService = null;
                         SetIsDragging(false);
 
@@ -330,6 +331,11 @@ namespace ModernApplicationFramework.Docking.Controls
         {
             _internalCloseFlag = true;
             Close();
+        }
+
+        protected internal virtual bool EnsureHandled()
+        {
+            return !_internalCloseFlag;
         }
 
         private static object CoerceContentValue(DependencyObject sender, object content)

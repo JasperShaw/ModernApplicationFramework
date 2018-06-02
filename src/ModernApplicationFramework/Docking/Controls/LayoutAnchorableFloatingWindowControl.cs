@@ -64,8 +64,7 @@ namespace ModernApplicationFramework.Docking.Controls
             if (draggingWindow.Model is LayoutDocumentFloatingWindow)
                 return _dropAreas;
 
-            var floatingWindowContentHost = Content as FloatingWindowContentHost;
-            if (floatingWindowContentHost != null)
+            if (Content is FloatingWindowContentHost floatingWindowContentHost)
             {
                 var rootVisual = floatingWindowContentHost.RootVisual;
 
@@ -167,6 +166,11 @@ namespace ModernApplicationFramework.Docking.Controls
             }
 
             base.OnClosing(e);
+        }
+
+        protected internal override bool EnsureHandled()
+        {
+            return _model.RootPanel != null && base.EnsureHandled();
         }
 
         protected override void OnInitialized(EventArgs e)
