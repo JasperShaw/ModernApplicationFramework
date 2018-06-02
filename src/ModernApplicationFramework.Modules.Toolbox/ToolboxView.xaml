@@ -200,7 +200,7 @@
                                             </MultiBinding>
                                         </Image.Source>
                                     </Image>
-                                    <TextBlock Grid.Column="2" x:Name="HeaderPresenter" Padding="3,0,15,0" Margin="12,0,0,0"
+                                    <TextBlock Grid.Column="2" x:Name="PART_Header" Padding="3,0,15,0" Margin="12,0,0,0"
                                                TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" HorizontalAlignment="Left" 
                                                VerticalAlignment="Center"
                                                Foreground="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxBackgroundText}}">
@@ -216,7 +216,7 @@
                         </StackPanel>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="true">
-                                <Setter TargetName="HeaderPresenter"
+                                <Setter TargetName="PART_Header"
                                         Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemHoverText}}"
                                         Property="Foreground"/>
                                 <Setter TargetName="Bd"
@@ -224,7 +224,7 @@
                                         Property="Background"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="true">
-                                <Setter TargetName="HeaderPresenter"
+                                <Setter TargetName="PART_Header"
                                         Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemSelectedText}}"
                                         Property="Foreground"/>
                                 <Setter TargetName="Bd"
@@ -236,7 +236,7 @@
                                     <Condition Property="TreeViewItem.IsSelected" Value="true"/>
                                     <Condition Property="Selector.IsSelectionActive" Value="false"/>
                                 </MultiTrigger.Conditions>
-                                <Setter TargetName="HeaderPresenter" Property="TextElement.Foreground"
+                                <Setter TargetName="PART_Header" Property="TextElement.Foreground"
                                         Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemInactiveText}}"/>
                                 <Setter TargetName="Bd" Property="Background"
                                         Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemInactive}}"/>
@@ -247,7 +247,7 @@
                                     <Condition Property="TreeViewItem.IsMouseOver" Value="true"/>
                                     <Condition Property="Selector.IsSelectionActive" Value="false"/>
                                 </MultiTrigger.Conditions>
-                                <Setter TargetName="HeaderPresenter" Property="TextElement.Foreground"
+                                <Setter TargetName="PART_Header" Property="TextElement.Foreground"
                                         Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemSelectedText}}"/>
                                 <Setter TargetName="Bd" Property="Background"
                                         Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemSelected}}"/>
