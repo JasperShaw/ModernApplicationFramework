@@ -17,7 +17,12 @@ namespace ModernApplicationFramework.Modules.Toolbox
             DragDrop.DragDrop.DefaultDropHandler.DragOver(dropInfo);
             if (dropInfo.TargetItem is IToolboxItem &&
                 dropInfo.InsertPosition.HasFlag(RelativeInsertPosition.TargetItemCenter))
+            {
                 dropInfo.Effects = DragDropEffects.None;
+                dropInfo.DropTargetAdorner = null;
+            }
+            if (dropInfo.InsertPosition.HasFlag(RelativeInsertPosition.TargetItemCenter))
+                dropInfo.DropTargetAdorner = null;
         }
 
         public void Drop(IDropInfo dropInfo)
