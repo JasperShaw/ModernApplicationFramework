@@ -11,6 +11,8 @@
              xmlns:imaging="clr-namespace:ModernApplicationFramework.Utilities.Imaging;assembly=ModernApplicationFramework.Utilities"
              xmlns:mafdd="http://modern.framework.com/dragdrop"
              xmlns:controls="clr-namespace:ModernApplicationFramework.Modules.Toolbox.Controls"
+             xmlns:mafd="http://modern.framework.com/docking"
+             xmlns:converters1="clr-namespace:ModernApplicationFramework.Modules.Toolbox.Converters"
              x:Class="ModernApplicationFramework.Modules.Toolbox.ToolboxView"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance {x:Type design:DesignTimeToolboxViewModel}, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="300" Background="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxBackground}}">
@@ -28,6 +30,7 @@
         <general:AreEqualConverter x:Key="AreEqualConverter"/>
         <converters:ThemedImageSourceConverter x:Key="ThemedImageSourceConverter"/>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters1:EmptyMessageVisibilityConverter x:Key="EmptyMessageVisibilityConverter"/>
 
         <PathGeometry x:Key="TreeArrow" Figures="M0,0 L0,6 L6,0 z"/>
         <Style x:Key="ExpandCollapseToggleStyle" TargetType="{x:Type ToggleButton}">
@@ -103,12 +106,20 @@
                                 <TextBlock x:Name="CategoryName" Padding="2" Margin="-1,0,0,0" Text="{Binding Name}"/>
                             </Border>
                             <TextBlock x:Name="PART_EmptyMessage" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
-                                    TextWrapping="WrapWithOverflow" TextAlignment="Center" TextTrimming="None" 
-                                       Margin="-5,15,10,0"  Text="No items in this group currently"/>
+                                    TextWrapping="WrapWithOverflow" TextAlignment="Center" TextTrimming="None"
+                                       Margin="-5,15,10,0"  Text="No items in this group currently">
+                                <TextBlock.Visibility>
+                                    <MultiBinding Converter="{StaticResource EmptyMessageVisibilityConverter}">
+                                        <Binding Path="HasItems"/>
+                                        <Binding Path="HasVisibleItems"/>
+                                        <Binding Path="IsExpanded"/>
+                                    </MultiBinding>
+                                </TextBlock.Visibility>
+                            </TextBlock>
                             <ItemsPresenter x:Name="ItemsHost" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"/>
                         </Grid>
                         <ControlTemplate.Triggers>
-                            <MultiTrigger>
+                            <!--<MultiTrigger>
                                 <MultiTrigger.Conditions>
                                     <Condition Property="ItemsControl.HasItems" Value="true"/>
                                     <Condition Property="IsExpanded" Value="true"/>
@@ -116,7 +127,7 @@
                                 <MultiTrigger.Setters>
                                     <Setter TargetName="PART_EmptyMessage" Property="UIElement.Visibility" Value="Collapsed"/>
                                 </MultiTrigger.Setters>
-                            </MultiTrigger>
+                            </MultiTrigger>-->
                             <Trigger Property="IsExpanded" Value="True">
                                 <Setter TargetName="Expander" Property="Background" Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxCategoryExtenderBackground}}"/>
                                 <Setter TargetName="Expander" Property="BorderBrush" Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxCategoryExtenderBorder}}"/>

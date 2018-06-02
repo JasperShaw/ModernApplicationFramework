@@ -11,7 +11,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
 
         bool HasItems { get; }
 
-        bool HasVisibleItem { get; }
+        bool HasVisibleItems { get; }
 
         void Refresh(Type targetType);
     }

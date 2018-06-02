@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Globalization;
+using System.Windows;
+using ModernApplicationFramework.Utilities.Converters;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Converters
 {
-    public class ToolboxItemVisibilityConverter
+    public class EmptyMessageVisibilityConverter : MultiValueConverter<bool, bool, bool, Visibility>
     {
+        protected override Visibility Convert(bool hasItems, bool hasVisibleItems, bool isExpanded, object parameter, CultureInfo culture)
+        {
+            if (isExpanded && (!hasVisibleItems || !hasItems))
+                return Visibility.Visible;
+            return Visibility.Collapsed;
+        }
     }
 }

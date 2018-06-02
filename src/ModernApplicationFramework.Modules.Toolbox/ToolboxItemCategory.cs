@@ -2,7 +2,6 @@
 using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Interfaces;
-using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
 namespace ModernApplicationFramework.Modules.Toolbox
@@ -16,7 +15,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
         private IObservableCollection<IToolboxItem> _items;
         private bool _hasItems;
-        private bool _hasVisibleItem;
+        private bool _hasVisibleItems;
 
         public static bool IsDefaultCategory(IToolboxCategory category)
         {
@@ -45,13 +44,13 @@ namespace ModernApplicationFramework.Modules.Toolbox
             }
         }
 
-        public bool HasVisibleItem
+        public bool HasVisibleItems
         {
-            get => _hasVisibleItem;
+            get => _hasVisibleItems;
             protected set
             {
-                if (value == _hasVisibleItem) return;
-                _hasVisibleItem = value;
+                if (value == _hasVisibleItems) return;
+                _hasVisibleItems = value;
                 OnPropertyChanged();
             }
         }
@@ -74,12 +73,12 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
         public void Refresh(Type targetType)
         {
-            HasVisibleItem = false;
+            HasVisibleItems = false;
             foreach (var item in Items)
             {
                 item.EvaluateVisibility(targetType);
                 if (item.IsVisible)
-                    HasVisibleItem = true;
+                    HasVisibleItems = true;
             }
         }
 
