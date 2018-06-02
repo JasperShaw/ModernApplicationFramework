@@ -85,7 +85,7 @@
             </Setter>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type TreeViewItem}">
+                    <ControlTemplate TargetType="{x:Type controls:ToolboxTreeViewItem}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition MinWidth="19" Width="Auto"/>
@@ -163,7 +163,7 @@
             </Setter>
         </Style>
 
-        <Style x:Key="ItemStyle" TargetType="{x:Type TreeViewItem}">
+        <Style x:Key="ItemStyle" TargetType="{x:Type controls:ToolboxTreeViewItem}">
             <Setter Property="IsExpanded">
                 <Setter.Value>
                     <MultiBinding Converter="{StaticResource AreEqualConverter}">
@@ -177,7 +177,7 @@
             <Setter Property="MinHeight" Value="22"/>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type TreeViewItem}">
+                    <ControlTemplate TargetType="{x:Type controls:ToolboxTreeViewItem}">
                         <ControlTemplate.Resources>
                             <converters:LeftMarginMultiplierConverter Length="19" x:Key="LengthConverter"/>
                         </ControlTemplate.Resources>
