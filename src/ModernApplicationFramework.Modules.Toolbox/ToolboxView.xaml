@@ -11,7 +11,6 @@
              xmlns:imaging="clr-namespace:ModernApplicationFramework.Utilities.Imaging;assembly=ModernApplicationFramework.Utilities"
              xmlns:mafdd="http://modern.framework.com/dragdrop"
              xmlns:controls="clr-namespace:ModernApplicationFramework.Modules.Toolbox.Controls"
-             xmlns:mafd="http://modern.framework.com/docking"
              xmlns:converters1="clr-namespace:ModernApplicationFramework.Modules.Toolbox.Converters"
              x:Class="ModernApplicationFramework.Modules.Toolbox.ToolboxView"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance {x:Type design:DesignTimeToolboxViewModel}, IsDesignTimeCreatable=True}"
@@ -63,7 +62,7 @@
             </Setter>
         </Style>
 
-        <Style x:Key="CategoryItemStyle" TargetType="{x:Type TreeViewItem}">
+        <Style x:Key="CategoryItemStyle" TargetType="{x:Type controls:ToolboxTreeViewItem}">
             <Setter Property="TextElement.Foreground"
                     Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxBackgroundText}}"/>
             <Setter Property="Background"
@@ -103,7 +102,7 @@
                                           Background="Transparent" BorderBrush="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxCategoryExtenderBorder}}"/>
                             <Border Grid.Row="0" Grid.Column="1" Padding="{TemplateBinding Padding}" 
                                     SnapsToDevicePixels="True">
-                                <TextBlock x:Name="CategoryName" Padding="2" Margin="-1,0,0,0" Text="{Binding Name}"/>
+                                <TextBlock x:Name="PART_Header" Padding="2" Margin="-1,0,0,0" Text="{Binding Name}"/>
                             </Border>
                             <TextBlock x:Name="PART_EmptyMessage" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
                                     TextWrapping="WrapWithOverflow" TextAlignment="Center" TextTrimming="None"
@@ -119,21 +118,12 @@
                             <ItemsPresenter x:Name="ItemsHost" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"/>
                         </Grid>
                         <ControlTemplate.Triggers>
-                            <!--<MultiTrigger>
-                                <MultiTrigger.Conditions>
-                                    <Condition Property="ItemsControl.HasItems" Value="true"/>
-                                    <Condition Property="IsExpanded" Value="true"/>
-                                </MultiTrigger.Conditions>
-                                <MultiTrigger.Setters>
-                                    <Setter TargetName="PART_EmptyMessage" Property="UIElement.Visibility" Value="Collapsed"/>
-                                </MultiTrigger.Setters>
-                            </MultiTrigger>-->
                             <Trigger Property="IsExpanded" Value="True">
                                 <Setter TargetName="Expander" Property="Background" Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxCategoryExtenderBackground}}"/>
                                 <Setter TargetName="Expander" Property="BorderBrush" Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxCategoryExtenderBorder}}"/>
                             </Trigger>
                             <Trigger Property="TreeViewItem.IsSelected" Value="true">
-                                <Setter TargetName="CategoryName"
+                                <Setter TargetName="PART_Header"
                                         Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemSelectedText}}"
                                         Property="TextElement.Foreground"/>
                                 <Setter TargetName="ItemRect"
@@ -159,7 +149,7 @@
                                     <Condition Property="TreeViewItem.IsSelected" Value="true"/>
                                     <Condition Property="Selector.IsSelectionActive" Value="false"/>
                                 </MultiTrigger.Conditions>
-                                <Setter TargetName="CategoryName" Property="TextElement.Foreground"
+                                <Setter TargetName="PART_Header" Property="TextElement.Foreground"
                                         Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemInactiveText}}"/>
                                 <Setter TargetName="ItemRect" Property="Fill"
                                         Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemInactive}}"/>
