@@ -39,8 +39,6 @@ namespace ModernApplicationFramework.Docking.Controls
 
             if (_draggingItem == null || Equals(_draggingItem, this) || e.LeftButton != MouseButtonState.Pressed)
                 return;
-            //Trace.WriteLine("Dragging item from {0} to {1}", _draggingItem, this);
-
             var model = Model;
             var container = model.Parent;
             var containerPane = model.Parent as ILayoutPane;
@@ -48,23 +46,24 @@ namespace ModernApplicationFramework.Docking.Controls
             containerPane?.MoveChild(childrenList.IndexOf(_draggingItem.Model), childrenList.IndexOf(model));
         }
 
+
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Middle)
+            {
                 if (LayoutItem.CloseCommand.CanExecute(null))
                     LayoutItem.CloseCommand.Execute(null);
+            }
+            else
+                Model.IsActive = true;
             base.OnMouseDown(e);
         }
 
         protected override void OnMouseLeave(MouseEventArgs e)
         {
             base.OnMouseLeave(e);
-
             if (_isMouseDown && e.LeftButton == MouseButtonState.Pressed)
-            {
                 _draggingItem = this;
-            }
-
             _isMouseDown = false;
         }
 
@@ -72,14 +71,11 @@ namespace ModernApplicationFramework.Docking.Controls
         {
             base.OnMouseLeftButtonDown(e);
 
-
             if (e.ClickCount == 2)
             {
                 if (NativeMethods.IsKeyPressed(17))
                     Model.Float();
             }
-
-
             _isMouseDown = true;
             _draggingItem = this;
         }
@@ -87,10 +83,7 @@ namespace ModernApplicationFramework.Docking.Controls
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
         {
             _isMouseDown = false;
-
             base.OnMouseLeftButtonUp(e);
-
-            Model.IsActive = true;
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
