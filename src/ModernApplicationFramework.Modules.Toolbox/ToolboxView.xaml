@@ -106,7 +106,7 @@
                             </Border>
                             <TextBlock x:Name="PART_EmptyMessage" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
                                     TextWrapping="WrapWithOverflow" TextAlignment="Center" TextTrimming="None"
-                                       Margin="-5,15,10,0"  Text="No items in this group currently">
+                                       Margin="-5,15,10,10"  Text="No items in this group currently">
                                 <TextBlock.Visibility>
                                     <MultiBinding Converter="{StaticResource EmptyMessageVisibilityConverter}">
                                         <Binding Path="HasItems"/>
