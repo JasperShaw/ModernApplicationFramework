@@ -86,7 +86,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type controls:ToolboxTreeViewItem}">
-                        <Grid>
+                        <Grid x:Name="GridGrid" Background="Transparent">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition MinWidth="19" Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>
@@ -271,6 +271,7 @@
         <controls:ToolboxTreeView x:Name="TreeView" Grid.Row="1" Margin="0,3,0,0"
                   mafdd:DragDrop.IsDragSource="True"
                   mafdd:DragDrop.IsDropTarget="True"
+                  mafdd:DragDrop.SelectDroppedItems="True"
                   mafdd:DragDrop.DragHandler="{Binding ToolboxDragHandler}"
                   mafdd:DragDrop.DropHandler="{Binding ToolboxDropHandler}"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"

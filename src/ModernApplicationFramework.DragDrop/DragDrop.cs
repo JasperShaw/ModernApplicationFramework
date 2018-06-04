@@ -8,7 +8,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ModernApplicationFramework.DragDrop.Utilities;
-using ModernApplicationFramework.Utilities;
 using DpiHelper = ModernApplicationFramework.DragDrop.Utilities.DpiHelper;
 
 namespace ModernApplicationFramework.DragDrop

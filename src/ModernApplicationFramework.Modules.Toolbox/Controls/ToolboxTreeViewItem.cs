@@ -16,7 +16,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
         private DispatcherTimer _timer;
         private UIElement _emptyMessageHolder;
 
-
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();

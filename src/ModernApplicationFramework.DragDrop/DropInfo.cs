@@ -97,12 +97,12 @@ namespace ModernApplicationFramework.DragDrop
                 VisualTargetOrientation = itemsControl.GetItemsPanelOrientation();
                 VisualTargetFlowDirection = itemsControl.GetItemsPanelFlowDirection();
 
-                if (item == null)
-                {
-                    // ok, no item found, so maybe we can found an item at top, left, right or bottom
-                    item = itemsControl.GetItemContainerAt(DropPosition, VisualTargetOrientation);
-                    directlyOverItem = DropPosition.DirectlyOverElement(_item, itemsControl);
-                }
+                //if (item == null)
+                //{
+                //    // ok, no item found, so maybe we can found an item at top, left, right or bottom
+                //    item = itemsControl.GetItemContainerAt(DropPosition, VisualTargetOrientation);
+                //    directlyOverItem = DropPosition.DirectlyOverElement(_item, itemsControl);
+                //}
 
                 if (item == null && TargetGroup != null && TargetGroup.IsBottomLevel)
                 {
@@ -131,8 +131,13 @@ namespace ModernApplicationFramework.DragDrop
                         TargetItem = _itemParent.ItemContainerGenerator.ItemFromContainer(item);
                     }
 
-                    var expandedTVItem = tvItem != null && tvItem.HasHeader && tvItem.HasItems && tvItem.IsExpanded;
-                    var itemRenderSize = expandedTVItem ? tvItem.GetHeaderSize() : item.RenderSize;
+                    var expandedTVItem = tvItem != null && tvItem.HasHeader /*&& tvItem.HasItems*/ && tvItem.IsExpanded;
+                    Size itemRenderSize;
+
+                    if (expandedTVItem)
+                        itemRenderSize = tvItem.GetHeaderSize();
+                    else
+                        itemRenderSize = item.RenderSize;
 
                     if (VisualTargetOrientation == Orientation.Vertical)
                     {
@@ -143,7 +148,7 @@ namespace ModernApplicationFramework.DragDrop
                         var bottomGap = targetHeight * 0.75;
                         if (currentYPos > targetHeight / 2)
                         {
-                            if (expandedTVItem && (currentYPos < topGap || currentYPos > bottomGap))
+                            if (expandedTVItem && tvItem.HasItems && currentYPos < topGap && currentYPos > bottomGap)
                             {
                                 VisualTargetItem = tvItem.ItemContainerGenerator.ContainerFromIndex(0) as UIElement;
                                 TargetItem = VisualTargetItem != null
@@ -164,7 +169,7 @@ namespace ModernApplicationFramework.DragDrop
                             InsertPosition = RelativeInsertPosition.BeforeTargetItem;
                         }
 
-                        if (currentYPos > topGap && currentYPos < bottomGap)
+                        if (currentYPos > topGap && currentYPos < bottomGap || (!tvItem.HasItems && expandedTVItem))
                         {
                             if (tvItem != null)
                             {
