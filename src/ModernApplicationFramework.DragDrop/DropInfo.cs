@@ -97,12 +97,12 @@ namespace ModernApplicationFramework.DragDrop
                 VisualTargetOrientation = itemsControl.GetItemsPanelOrientation();
                 VisualTargetFlowDirection = itemsControl.GetItemsPanelFlowDirection();
 
-                //if (item == null)
-                //{
-                //    // ok, no item found, so maybe we can found an item at top, left, right or bottom
-                //    item = itemsControl.GetItemContainerAt(DropPosition, VisualTargetOrientation);
-                //    directlyOverItem = DropPosition.DirectlyOverElement(_item, itemsControl);
-                //}
+                if (item == null)
+                {
+                    // ok, no item found, so maybe we can found an item at top, left, right or bottom
+                    item = itemsControl.GetItemContainerAt(DropPosition, VisualTargetOrientation);
+                    directlyOverItem = DropPosition.DirectlyOverElement(_item, itemsControl);
+                }
 
                 if (item == null && TargetGroup != null && TargetGroup.IsBottomLevel)
                 {

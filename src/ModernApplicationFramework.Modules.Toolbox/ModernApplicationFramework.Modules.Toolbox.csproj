@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Controls\ToolboxInsertAdorner.cs" />
     <Compile Include="Converters\ToolboxItemVisibilityConverter.cs" />
+    <Compile Include="NativeMethods\User32.cs" />
     <Compile Include="ToolboxStateSettings.cs" />
     <Compile Include="Controls\ToolboxTreeView.cs" />
     <Compile Include="Controls\ToolboxTreeViewItem.cs" />
