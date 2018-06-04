@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -12,15 +11,40 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
     [TemplatePart(Name = "PART_EmptyMessage", Type = typeof(UIElement))]
     internal class ToolboxTreeViewItem : TreeViewItem
     {
+        private DispatcherTimer _clickTimer;
         private bool _doubleClicked;
-        private DispatcherTimer _timer;
         private UIElement _emptyMessageHolder;
+        private DispatcherTimer _hoverTimer;
+
+        private bool _isDragHoveringElapsed;
+
+        
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
             _emptyMessageHolder = GetTemplateChild("PART_EmptyMessage") as UIElement;
         }
+
+        protected override DependencyObject GetContainerForItemOverride()
+        {
+            return new ToolboxTreeViewItem();
+        }
+
+        protected override bool IsItemItsOwnContainerOverride(object item)
+        {
+            return item is ToolboxTreeViewItem;
+        }
+
+        protected override void OnDragLeave(DragEventArgs e)
+        {
+            base.OnDragLeave(e);
+            if (!(DataContext is IToolboxCategory))
+                return;
+            StopHoverTimer();
+            _isDragHoveringElapsed = false;
+        }
+
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
@@ -41,10 +65,12 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
                             e.Handled = true;
                             break;
                         }
+
                         HandleLogicalRight();
                         e.Handled = true;
                         break;
                     }
+
                     if (DataContext is IToolboxItem)
                         break;
                     if (IsExpanded)
@@ -56,43 +82,35 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
             }
         }
 
-        protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
-        {
-            if (_doubleClicked || _emptyMessageHolder != null && _emptyMessageHolder.IsMouseOver)
-                return;
-            StartTimer();
-            if (DataContext is ToolboxItemCategory)
-                IsExpanded = !IsExpanded;
-            e.Handled = true;
-            base.OnMouseLeftButtonUp(e);
-        }
-
         protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
         {
             e.Handled = true;
             base.OnMouseDoubleClick(e);
         }
 
-        private void StartTimer()
+        protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
         {
-            if (_timer != null)
+            if (_doubleClicked || _emptyMessageHolder != null && _emptyMessageHolder.IsMouseOver)
                 return;
-            _doubleClicked = true;
-            _timer = new DispatcherTimer(TimeSpan.FromMilliseconds(GetDoubleClickTime()), DispatcherPriority.Input,
-                (sender, e) => StopTimer(), Dispatcher);
-            _timer.Start();
+            StartClickExpandTimer();
+            if (DataContext is ToolboxItemCategory)
+                IsExpanded = !IsExpanded;
+            e.Handled = true;
+            base.OnMouseLeftButtonUp(e);
         }
 
-        [DllImport("user32.dll")]
-        public static extern uint GetDoubleClickTime();
-
-        private void StopTimer()
+        protected override void OnPreviewDragOver(DragEventArgs e)
         {
-            _doubleClicked = false;
-            if (_timer == null)
+            base.OnPreviewDragOver(e);
+            if (!(DataContext is IToolboxCategory))
                 return;
-            _timer.Stop();
-            _timer = null;
+            var dragData = e.Data.GetData(DragDrop.DragDrop.DataFormat.Name);
+            if (dragData is IToolboxCategory)
+                return;
+            StartHoverTimer();
+            if (!_isDragHoveringElapsed)
+                return;
+            IsExpanded = true;
         }
 
         protected override void OnPreviewMouseRightButtonDown(MouseButtonEventArgs e)
@@ -102,14 +120,15 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
             base.OnPreviewMouseRightButtonDown(e);
         }
 
-        protected override DependencyObject GetContainerForItemOverride()
+        private void HandleLogicalLeft()
         {
-            return new ToolboxTreeViewItem();
+            var parent = this.FindAncestorOrSelf<TreeView>();
+            ((UIElement) parent?.ItemContainerGenerator.ContainerFromItem(parent))?.Focus();
         }
 
-        protected override bool IsItemItsOwnContainerOverride(object item)
+        private void HandleLogicalRight()
         {
-            return item is ToolboxTreeViewItem;
+            MoveFocus(new TraversalRequest(FocusNavigationDirection.Down));
         }
 
         private bool IsLogicalLeft(Key key)
@@ -119,15 +138,45 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
             return key == Key.Left;
         }
 
-        private void HandleLogicalRight()
+        private void SetHoverTimeElapsed()
         {
-            MoveFocus(new TraversalRequest(FocusNavigationDirection.Down));
+            _isDragHoveringElapsed = true;
+            StopHoverTimer();
         }
 
-        private void HandleLogicalLeft()
+        private void StartClickExpandTimer()
         {
-            var parent = this.FindAncestorOrSelf<TreeView>();
-            ((UIElement)parent?.ItemContainerGenerator.ContainerFromItem(parent))?.Focus();
+            if (_clickTimer != null)
+                return;
+            _doubleClicked = true;
+            _clickTimer = new DispatcherTimer(TimeSpan.FromMilliseconds(NativeMethods.User32.GetDoubleClickTime()), DispatcherPriority.Input,
+                (sender, e) => StopClickExpandTimer(), Dispatcher);
+            _clickTimer.Start();
+        }
+
+        private void StartHoverTimer()
+        {
+            if (_hoverTimer != null)
+                return;
+            _hoverTimer = new DispatcherTimer(TimeSpan.FromMilliseconds(1500), DispatcherPriority.Input,
+                (sender, e) => SetHoverTimeElapsed(), Dispatcher);
+        }
+
+        private void StopClickExpandTimer()
+        {
+            _doubleClicked = false;
+            if (_clickTimer == null)
+                return;
+            _clickTimer.Stop();
+            _clickTimer = null;
+        }
+
+        private void StopHoverTimer()
+        {
+            if (_hoverTimer == null)
+                return;
+            _hoverTimer.Stop();
+            _hoverTimer = null;
         }
     }
 }
