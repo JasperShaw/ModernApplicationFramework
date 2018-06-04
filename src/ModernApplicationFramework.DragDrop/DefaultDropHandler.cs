@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using JetBrains.Annotations;
@@ -12,6 +11,7 @@ using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.DragDrop
 {
+    /// <inheritdoc />
     /// <summary>
     /// A default insertion drop handler for the most common usages
     /// </summary>
@@ -49,22 +49,13 @@ namespace ModernApplicationFramework.DragDrop
             //      else if (dropInfo.DragInfo.SourceCollection is ItemCollection) {
             //        return false;
             //      }
-            else if (dropInfo.TargetCollection == null)
-            {
+
+            if (dropInfo.TargetCollection == null)
                 return false;
-            }
-            else
-            {
-                if (TestCompatibleTypes(dropInfo.TargetCollection, dropInfo.Data))
-                {
-                    var isChildOf = IsChildOf(dropInfo.VisualTargetItem, dropInfo.DragInfo.VisualSourceItem);
-                    return !isChildOf;
-                }
-                else
-                {
-                    return false;
-                }
-            }
+            if (!TestCompatibleTypes(dropInfo.TargetCollection, dropInfo.Data))
+                return false;
+            var isChildOf = IsChildOf(dropInfo.VisualTargetItem, dropInfo.DragInfo.VisualSourceItem);
+            return !isChildOf;
         }
 
         public static IEnumerable ExtractData(object data)
@@ -276,10 +267,7 @@ namespace ModernApplicationFramework.DragDrop
                 var dataType = TypeUtilities.GetCommonBaseClass(ExtractData(data));
                 return enumerableTypes.Any(t => t.IsAssignableFrom(dataType));
             }
-            else
-            {
-                return target is IList;
-            }
+            return target is IList;
         }
     }
 }
