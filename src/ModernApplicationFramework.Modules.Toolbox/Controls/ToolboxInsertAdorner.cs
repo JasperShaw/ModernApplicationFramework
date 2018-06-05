@@ -11,12 +11,27 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
 {
     internal class ToolboxInsertAdorner : DropTargetAdorner
     {
+        public static readonly DependencyProperty BrushProperty = DependencyProperty.Register(
+            "Brush", typeof(Brush), typeof(ToolboxInsertAdorner), new PropertyMetadata(default(Brush)));
+
+        public Brush Brush
+        {
+            get => (Brush) GetValue(BrushProperty);
+            set => SetValue(BrushProperty, value);
+        }
+
+
         public ToolboxInsertAdorner(UIElement adornedElement) : base(adornedElement, null)
         {
+            SetResourceReference(BrushProperty, ToolBoxColors.ToolboxInserAdornerBrush);
+            Pen = new Pen(Brush, 2);
+
         }
 
         public ToolboxInsertAdorner(UIElement adornedElement, DropInfo dropInfo) : base(adornedElement, dropInfo)
         {
+            SetResourceReference(BrushProperty, ToolBoxColors.ToolboxInserAdornerBrush);
+            Pen = new Pen(Brush, 2);
         }
 
         protected override void OnRender(DrawingContext drawingContext)

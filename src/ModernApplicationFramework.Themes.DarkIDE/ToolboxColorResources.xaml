@@ -44,4 +44,7 @@
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type toolbox:ToolBoxColors},
                      ResourceId=ToolboxCategoryInactiveExtenderBackground}" Color="#FFFFFFFF"/>
 
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type toolbox:ToolBoxColors},
+                     ResourceId=ToolboxInserAdornerBrush}" Color="#FF333337"/>
+
 </ResourceDictionary>

@@ -18,6 +18,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
         private static ComponentResourceKey _toolboxCategorySelectedExtenderBorder;
         private static ComponentResourceKey _toolboxCategoryInactiveExtenderBorder;
         private static ComponentResourceKey _toolboxCategoryInactiveExtenderBackground;
+        private static ComponentResourceKey _toolboxInserAdornerBrush;
 
         public static ComponentResourceKey ToolboxBackground => _toolboxBackground ??
                                                            (_toolboxBackground =
@@ -88,5 +89,10 @@ namespace ModernApplicationFramework.Modules.Toolbox
                                                                                     (_toolboxCategoryInactiveExtenderBackground =
                                                                                         new ComponentResourceKey(typeof(ToolBoxColors),
                                                                                             nameof(ToolboxCategoryInactiveExtenderBackground)));
+
+        public static ComponentResourceKey ToolboxInserAdornerBrush => _toolboxInserAdornerBrush ??
+                                                                                        (_toolboxInserAdornerBrush =
+                                                                                            new ComponentResourceKey(typeof(ToolBoxColors),
+                                                                                                nameof(ToolboxInserAdornerBrush)));
     }
 }
