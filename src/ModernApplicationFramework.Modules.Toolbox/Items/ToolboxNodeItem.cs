@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using ModernApplicationFramework.Modules.Toolbox.Annotations;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
-namespace ModernApplicationFramework.Modules.Toolbox
+namespace ModernApplicationFramework.Modules.Toolbox.Items
 {
     public abstract class ToolboxNodeItem : IToolboxNode
     {

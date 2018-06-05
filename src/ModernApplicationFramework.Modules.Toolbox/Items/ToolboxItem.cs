@@ -7,7 +7,7 @@ using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Modules.Toolbox
+namespace ModernApplicationFramework.Modules.Toolbox.Items
 {
     public class ToolboxItem : ToolboxNodeItem, IToolboxItem
     {

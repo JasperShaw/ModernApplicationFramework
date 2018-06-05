@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
-namespace ModernApplicationFramework.Modules.Toolbox
+namespace ModernApplicationFramework.Modules.Toolbox.State
 {
     [Export(typeof(IToolboxItemStateCache))]
     internal class ToolboxItemStateCache : IToolboxItemStateCache

@@ -5,6 +5,7 @@ using ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.ViewModels
 using ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.ViewModels.Elements;
 using ModernApplicationFramework.Modules.Toolbox;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
+using ModernApplicationFramework.Modules.Toolbox.Items;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.ToolboxItems
 {

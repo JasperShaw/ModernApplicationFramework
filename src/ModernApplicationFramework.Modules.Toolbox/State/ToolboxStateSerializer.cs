@@ -7,9 +7,10 @@ using System.Xml;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Services;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
+using ModernApplicationFramework.Modules.Toolbox.Items;
 using ModernApplicationFramework.Utilities.Xml;
 
-namespace ModernApplicationFramework.Modules.Toolbox
+namespace ModernApplicationFramework.Modules.Toolbox.State
 {
     [Export(typeof(IToolboxStateSerializer))]
     public class ToolboxStateSerializer : LayoutSerializer<IToolboxNode>, IToolboxStateSerializer

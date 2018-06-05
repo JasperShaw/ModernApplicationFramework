@@ -6,7 +6,7 @@ using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Settings.SettingDataModel;
 using ModernApplicationFramework.Utilities.Interfaces.Settings;
 
-namespace ModernApplicationFramework.Modules.Toolbox
+namespace ModernApplicationFramework.Modules.Toolbox.State
 {
     [Export(typeof(ISettingsDataModel))]
     [Export(typeof(ToolboxStateSettings))]

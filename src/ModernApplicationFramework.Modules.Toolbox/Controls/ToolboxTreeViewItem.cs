@@ -132,7 +132,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
             if (_doubleClicked || _emptyMessageHolder != null && _emptyMessageHolder.IsMouseOver)
                 return;
             StartClickExpandTimer();
-            if (DataContext is ToolboxItemCategory)
+            if (DataContext is IToolboxCategory)
                 IsExpanded = !IsExpanded;
             e.Handled = true;
             base.OnMouseLeftButtonUp(e);

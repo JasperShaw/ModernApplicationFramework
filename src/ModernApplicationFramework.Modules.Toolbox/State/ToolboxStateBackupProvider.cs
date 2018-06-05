@@ -2,7 +2,7 @@
 using ModernApplicationFramework.Basics.Services;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
-namespace ModernApplicationFramework.Modules.Toolbox
+namespace ModernApplicationFramework.Modules.Toolbox.State
 {
     [Export(typeof(IToolboxStateBackupProvider))]
     public class ToolboxStateBackupProvider : LayoutBackupProvider, IToolboxStateBackupProvider

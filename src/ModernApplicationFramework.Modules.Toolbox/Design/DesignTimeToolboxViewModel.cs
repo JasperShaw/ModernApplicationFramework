@@ -1,4 +1,6 @@
-﻿namespace ModernApplicationFramework.Modules.Toolbox.Design
+﻿using ModernApplicationFramework.Modules.Toolbox.Items;
+
+namespace ModernApplicationFramework.Modules.Toolbox.Design
 {
     internal class DesignTimeToolboxViewModel : ToolboxViewModel
     {

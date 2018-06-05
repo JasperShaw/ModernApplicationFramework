@@ -5,7 +5,7 @@ using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Services;
 
-namespace ModernApplicationFramework.Modules.Toolbox
+namespace ModernApplicationFramework.Modules.Toolbox.Items
 {
     public class ToolboxItemCategory : ToolboxNodeItem, IToolboxCategory
     {
