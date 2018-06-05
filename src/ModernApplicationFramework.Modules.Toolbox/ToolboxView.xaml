@@ -30,6 +30,20 @@
         <converters:ThemedImageSourceConverter x:Key="ThemedImageSourceConverter"/>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converters1:EmptyMessageVisibilityConverter x:Key="EmptyMessageVisibilityConverter"/>
+        <converters1:TreeNodeEditModeWidthConverter x:Key="TreeNodeEditModeWidthConverter"/>
+
+        <Style x:Key="EditableTextBox" TargetType="{x:Type TextBox}">
+            <Setter Property="Width">
+                <Setter.Value>
+                    <Binding RelativeSource="{RelativeSource AncestorType=controls:ToolboxTreeView}" 
+                             Converter="{StaticResource TreeNodeEditModeWidthConverter}"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Margin" Value="0,1,0,2"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
 
         <PathGeometry x:Key="TreeArrow" Figures="M0,0 L0,6 L6,0 z"/>
         <Style x:Key="ExpandCollapseToggleStyle" TargetType="{x:Type ToggleButton}">
@@ -100,10 +114,17 @@
                             <ToggleButton Grid.Row="0" x:Name="Expander" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
                                           Style="{StaticResource ExpandCollapseToggleStyle}"
                                           Background="Transparent" BorderBrush="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxCategoryExtenderBorder}}"/>
-                            <Border Grid.Row="0" Grid.Column="1" Padding="{TemplateBinding Padding}" 
-                                    SnapsToDevicePixels="True">
-                                <TextBlock x:Name="PART_Header" Padding="2" Margin="-1,0,0,0" Text="{Binding Name}"/>
-                            </Border>
+
+                            <Grid x:Name="PART_Header" Grid.Row="0" Grid.Column="1" SnapsToDevicePixels="True">
+                                <Border x:Name="NormalModeBorder" Padding="{TemplateBinding Padding}">
+                                    <TextBlock Margin="2,1,0,2" Text="{Binding Name}"/>
+                                </Border>
+                                <Border x:Name="EditModeBorder" Padding="{TemplateBinding Padding}" 
+                                        Visibility="{Binding IsInRenameMode, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <TextBox x:Name="PART_EditBox" Style="{StaticResource EditableTextBox}"
+                                             Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+                                </Border>
+                            </Grid>
                             <TextBlock x:Name="PART_EmptyMessage" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
                                     TextWrapping="WrapWithOverflow" TextAlignment="Center" TextTrimming="None"
                                        Margin="-5,15,10,10"  Text="No items in this group currently">
@@ -174,7 +195,7 @@
                 </Setter.Value>
             </Setter>
             <Setter Property="Visibility" Value="{Binding IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-            <Setter Property="MinHeight" Value="22"/>
+            <Setter Property="MinHeight" Value="20"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type controls:ToolboxTreeViewItem}">
@@ -200,17 +221,19 @@
                                             </MultiBinding>
                                         </Image.Source>
                                     </Image>
-                                    <TextBlock Grid.Column="2" x:Name="PART_Header" Padding="3,0,15,0" Margin="12,0,0,0"
-                                               TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" HorizontalAlignment="Left" 
-                                               VerticalAlignment="Center"
-                                               Foreground="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxBackgroundText}}">
-                                        <TextBlock.Text>
-                                            <Binding Path="Name"/>
-                                        </TextBlock.Text>
-                                        <FrameworkElement.ToolTip>
-                                            <Binding Path="Name"/>
-                                        </FrameworkElement.ToolTip>
-                                    </TextBlock>
+                                    <Grid x:Name="PART_Header" Grid.Row="0" Grid.Column="2" SnapsToDevicePixels="True">
+                                        <Border x:Name="NormalModeBorder" Padding="{TemplateBinding Padding}">
+                                            <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}" 
+                                                       Padding="3,0,15,0" Margin="12,0,0,0"
+                                                       TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" HorizontalAlignment="Left" 
+                                                       VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border x:Name="EditModeBorder" Padding="{TemplateBinding Padding}" 
+                                                Visibility="{Binding IsInRenameMode, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <TextBox x:Name="PART_EditBox" Style="{StaticResource EditableTextBox}" Padding="13,0,0,0"
+                                                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+                                        </Border>
+                                    </Grid>
                                 </Grid>
                             </Border>
                         </StackPanel>
@@ -218,7 +241,7 @@
                             <Trigger Property="IsMouseOver" Value="true">
                                 <Setter TargetName="PART_Header"
                                         Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemHoverText}}"
-                                        Property="Foreground"/>
+                                        Property="TextElement.Foreground"/>
                                 <Setter TargetName="Bd"
                                         Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemHover}}"
                                         Property="Background"/>
@@ -226,7 +249,7 @@
                             <Trigger Property="IsSelected" Value="true">
                                 <Setter TargetName="PART_Header"
                                         Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemSelectedText}}"
-                                        Property="Foreground"/>
+                                        Property="TextElement.Foreground"/>
                                 <Setter TargetName="Bd"
                                         Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemSelected}}"
                                         Property="Background"/>
@@ -252,6 +275,9 @@
                                 <Setter TargetName="Bd" Property="Background"
                                         Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemSelected}}"/>
                             </MultiTrigger>
+                            <DataTrigger Binding="{Binding IsInRenameMode}" Value="True">
+                                <Setter Property="Background" Value="White" TargetName="Bd"/>
+                            </DataTrigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
@@ -266,6 +292,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <TextBox Grid.Row="0"/>
         <controls:ToolboxTreeView x:Name="TreeView" Grid.Row="1" Margin="0,3,0,0"
@@ -282,5 +309,6 @@
                 <utilities:BindableSelectedItemBehavior SelectedItem="{Binding SelectedNode, Mode=TwoWay}" />
             </i:Interaction.Behaviors>
         </controls:ToolboxTreeView>
+        <Button Grid.Row="2" Content="Rename Active Item" Command="{Binding RenameTestCommand}"/>
     </Grid>
 </UserControl>

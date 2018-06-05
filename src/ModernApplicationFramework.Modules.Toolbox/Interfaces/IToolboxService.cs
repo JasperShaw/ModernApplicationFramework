@@ -8,5 +8,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
         IReadOnlyCollection<IToolboxCategory> GetToolboxItemSource(Type layoutItemType);
 
         void StoreItemSource(Type layoutItemType, IReadOnlyCollection<IToolboxCategory> itemsSource);
+
+        IReadOnlyCollection<string> GetAllToolboxCategoryNames();
     }
 }

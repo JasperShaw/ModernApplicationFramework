@@ -2,12 +2,15 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.DragDrop;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Extended.Utilities.PaneUtilities;
+using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Modules.Toolbox.CommandBar;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
 namespace ModernApplicationFramework.Modules.Toolbox
@@ -21,7 +24,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
         private readonly IDockingHostViewModel _hostViewModel;
 
         private readonly BindableCollection<IToolboxCategory> _categories;
-        private ToolboxNodeItem _selectedNode;
+        private IToolboxNode _selectedNode;
 
         public override PaneLocation PreferredLocation => PaneLocation.Left;
 
@@ -32,13 +35,29 @@ namespace ModernApplicationFramework.Modules.Toolbox
         public IDropTarget ToolboxDropHandler { get; } = new ToolboxDropHandler();
         public IDragSource ToolboxDragHandler { get; } = new ToolboxDragHandler();
 
-        public ToolboxNodeItem SelectedNode
+        public ICommand RenameTestCommand { get; } = new UICommand(RenameActiveItem, CanRename);
+
+        private static bool CanRename()
+        {
+            return IoC.Get<RenameToolboxItemCommandDefinition>().Command.CanExecute(null);
+        }
+
+        private static void RenameActiveItem()
+        {
+            IoC.Get<RenameToolboxItemCommandDefinition>().Command.Execute(null);
+        }
+
+        public IToolboxNode SelectedNode
         {
             get => _selectedNode;
             set
             {
-                if (Equals(value, _selectedNode)) return;
+                if (Equals(value, _selectedNode))
+                    return;
+                //_selectedNode.IsSelected = false;
                 _selectedNode = value;
+                //if (_selectedNode != null)
+                //    _selectedNode.IsSelected = true;
                 NotifyOfPropertyChange();
             }
         }

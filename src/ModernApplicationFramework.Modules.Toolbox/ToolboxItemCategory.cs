@@ -3,6 +3,7 @@ using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
+using ModernApplicationFramework.Modules.Toolbox.Services;
 
 namespace ModernApplicationFramework.Modules.Toolbox
 {
@@ -80,6 +81,16 @@ namespace ModernApplicationFramework.Modules.Toolbox
                 if (item.IsVisible)
                     HasVisibleItems = true;
             }
+        }
+
+        public override bool IsRenameValid(out string errorMessage)
+        {
+            if (!base.IsRenameValid(out errorMessage))
+                return false;
+            if (!ToolboxService.Instance.GetAllToolboxCategoryNames().Contains(Name))
+                return true;
+            errorMessage = "Already exists";
+            return false;
         }
 
         private void Items_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)

@@ -10,8 +10,21 @@ namespace ModernApplicationFramework.Modules.Toolbox
     {
         private bool _isExpanded;
         private bool _isSelected;
+        private string _name;
+        private bool _isInRenameMode;
 
-        public string Name { get; }
+        private string _renameBackup;
+
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                if (value == _name) return;
+                _name = value;
+                OnPropertyChanged();
+            }
+        }
 
         public Guid Id { get; }
 
@@ -22,6 +35,8 @@ namespace ModernApplicationFramework.Modules.Toolbox
             {
                 if (value == _isSelected) return;
                 _isSelected = value;
+                if (!value)
+                    ExitRenameMode();
                 OnPropertyChanged();
             }
         }
@@ -33,6 +48,17 @@ namespace ModernApplicationFramework.Modules.Toolbox
             {
                 if (value == _isExpanded) return;
                 _isExpanded = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsInRenameMode
+        {
+            get => _isInRenameMode;
+            set
+            {
+                if (value == _isInRenameMode) return;
+                _isInRenameMode = value;
                 OnPropertyChanged();
             }
         }
@@ -49,6 +75,34 @@ namespace ModernApplicationFramework.Modules.Toolbox
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void EnterRenameMode()
+        {
+            _renameBackup = _name;
+            IsInRenameMode = true;
+        }
+
+        public void ExitRenameMode()
+        {
+            IsInRenameMode = false;
+            Name = _renameBackup;
+        }
+
+        public void CommitRename()
+        {
+            IsInRenameMode = false;
+        }
+
+        public virtual bool IsRenameValid(out string errorMessage)
+        {
+            errorMessage = string.Empty;
+            if (Name == _renameBackup)
+                return true;
+            if (!string.IsNullOrEmpty(Name))
+                return true;
+            errorMessage = "Name must not be empty";
+            return false;
         }
     }
 }

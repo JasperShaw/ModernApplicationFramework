@@ -1,29 +1,58 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
+using Caliburn.Micro;
+using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
+using ModernApplicationFramework.Modules.Toolbox.NativeMethods;
 using ModernApplicationFramework.Utilities;
+using Action = System.Action;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Controls
 {
     [TemplatePart(Name = "PART_EmptyMessage", Type = typeof(UIElement))]
+    [TemplatePart(Name = "PART_EditBox", Type = typeof(TextBox))]
     internal class ToolboxTreeViewItem : TreeViewItem
     {
         private DispatcherTimer _clickTimer;
+        private IToolboxNode _currentNode;
         private bool _doubleClicked;
+        private TextBox _editBox;
         private UIElement _emptyMessageHolder;
         private DispatcherTimer _hoverTimer;
 
         private bool _isDragHoveringElapsed;
 
-        
+        public ToolboxTreeViewItem()
+        {
+            DataContextChanged += ToolboxTreeViewItem_DataContextChanged;
+        }
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
             _emptyMessageHolder = GetTemplateChild("PART_EmptyMessage") as UIElement;
+            _editBox = GetTemplateChild("PART_EditBox") as TextBox;
+
+            if (_editBox != null)
+                _editBox.LostKeyboardFocus += _editBox_LostKeyboardFocus;
+        }
+
+        private void _editBox_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            if (InputManager.Current.IsInMenuMode)
+            {
+                if (!(e.NewFocus is ContextMenu newFocus) || !Equals(newFocus.PlacementTarget, _editBox))
+                {
+                    if (!(e.NewFocus is MenuItem))
+                        _currentNode.ExitRenameMode();
+                }
+            }
+            else
+                _currentNode.CommitRename();
         }
 
         protected override DependencyObject GetContainerForItemOverride()
@@ -77,6 +106,16 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
                         IsExpanded = false;
                     else
                         HandleLogicalLeft();
+                    e.Handled = true;
+                    break;
+                case Key.Escape:
+                    if (_currentNode.IsInRenameMode)
+                        _currentNode.ExitRenameMode();
+                    e.Handled = true;
+                    break;
+                case Key.Enter:
+                    if (_currentNode.IsInRenameMode)
+                        TryCommitRename();
                     e.Handled = true;
                     break;
             }
@@ -138,6 +177,12 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
             return key == Key.Left;
         }
 
+        private void Node_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(IToolboxNode.IsInRenameMode))
+                TriggerRename(_currentNode.IsInRenameMode);
+        }
+
         private void SetHoverTimeElapsed()
         {
             _isDragHoveringElapsed = true;
@@ -149,7 +194,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
             if (_clickTimer != null)
                 return;
             _doubleClicked = true;
-            _clickTimer = new DispatcherTimer(TimeSpan.FromMilliseconds(NativeMethods.User32.GetDoubleClickTime()), DispatcherPriority.Input,
+            _clickTimer = new DispatcherTimer(TimeSpan.FromMilliseconds(User32.GetDoubleClickTime()),
+                DispatcherPriority.Input,
                 (sender, e) => StopClickExpandTimer(), Dispatcher);
             _clickTimer.Start();
         }
@@ -177,6 +223,47 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
                 return;
             _hoverTimer.Stop();
             _hoverTimer = null;
+        }
+
+        private void ToolboxTreeViewItem_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (_currentNode != null)
+                _currentNode.PropertyChanged -= Node_PropertyChanged;
+            if (e.NewValue != null && e.NewValue is IToolboxNode node)
+            {
+                _currentNode = node;
+                node.PropertyChanged += Node_PropertyChanged;
+            }
+        }
+
+        private void TriggerRename(bool isRenameMode)
+        {
+            if (isRenameMode)
+            {
+                Dispatcher.BeginInvoke(DispatcherPriority.Input,
+                    new Action(delegate
+                    {
+                        Focus();
+                        Keyboard.Focus(_editBox);
+                    }));
+                _editBox.SelectAll();
+            }
+        }
+
+        private void TryCommitRename()
+        {
+            if (_currentNode == null)
+                return;
+            if (_currentNode.IsRenameValid(out var message))
+            {
+                _currentNode.CommitRename();
+            }
+            else
+            {
+                IoC.Get<IMafUIShell>().GetAppName(out var appName);
+                MessageBox.Show(message, appName, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                TriggerRename(true);
+            }
         }
     }
 }

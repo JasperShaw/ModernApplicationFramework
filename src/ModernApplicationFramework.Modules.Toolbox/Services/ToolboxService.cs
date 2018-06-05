@@ -10,10 +10,13 @@ namespace ModernApplicationFramework.Modules.Toolbox.Services
     {
         private readonly IToolboxItemStateCache _stateCache;
 
+        internal static IToolboxService Instance { get; private set; }
+
         [ImportingConstructor]
         internal  ToolboxService(IToolboxItemStateCache stateCache)
         {
             _stateCache = stateCache;
+            Instance = this;
         }
 
         public IReadOnlyCollection<IToolboxCategory> GetToolboxItemSource(Type layoutItemType)
@@ -24,6 +27,11 @@ namespace ModernApplicationFramework.Modules.Toolbox.Services
         public void StoreItemSource(Type layoutItemType, IReadOnlyCollection<IToolboxCategory> itemsSource)
         {
             _stateCache.StoreToolboxItems(layoutItemType, itemsSource);
+        }
+
+        public IReadOnlyCollection<string> GetAllToolboxCategoryNames()
+        {
+            return new List<string>();
         }
     }
 }
