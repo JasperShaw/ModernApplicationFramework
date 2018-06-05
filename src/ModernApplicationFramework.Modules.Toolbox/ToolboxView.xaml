@@ -276,7 +276,8 @@
                                         Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemSelected}}"/>
                             </MultiTrigger>
                             <DataTrigger Binding="{Binding IsInRenameMode}" Value="True">
-                                <Setter Property="Background" Value="White" TargetName="Bd"/>
+                                <Setter Property="Background" 
+                                        Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemSelectedText}}" TargetName="Bd"/>
                             </DataTrigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
