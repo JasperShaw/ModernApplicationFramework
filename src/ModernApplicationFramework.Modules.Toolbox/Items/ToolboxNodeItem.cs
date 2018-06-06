@@ -9,38 +9,16 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
     public abstract class ToolboxNodeItem : IToolboxNode
     {
         private bool _isExpanded;
+        private bool _isInRenameMode;
         private bool _isSelected;
         private string _name;
-        private bool _isInRenameMode;
 
         private string _renameBackup;
 
-        public string Name
-        {
-            get => _name;
-            set
-            {
-                if (value == _name) return;
-                _name = value;
-                OnPropertyChanged();
-            }
-        }
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public Guid Id { get; }
         public bool IsCustom { get; protected set; }
-
-        public bool IsSelected
-        {
-            get => _isSelected;
-            set
-            {
-                if (value == _isSelected) return;
-                _isSelected = value;
-                if (!value)
-                    ExitRenameMode();
-                OnPropertyChanged();
-            }
-        }
 
         public bool IsExpanded
         {
@@ -64,18 +42,40 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             }
         }
 
-        protected ToolboxNodeItem(Guid id, string name)
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set
+            {
+                if (value == _isSelected) return;
+                _isSelected = value;
+                if (!value)
+                    ExitRenameMode();
+                OnPropertyChanged();
+            }
+        }
+
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                if (value == _name) return;
+                _name = value;
+                OnPropertyChanged();
+            }
+        }
+
+        protected ToolboxNodeItem(Guid id, string name, bool isCustom = false)
         {
             Id = id;
             Name = name;
+            IsCustom = isCustom;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public void CommitRename()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            IsInRenameMode = false;
         }
 
         public void EnterRenameMode()
@@ -90,11 +90,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             Name = _renameBackup;
         }
 
-        public void CommitRename()
-        {
-            IsInRenameMode = false;
-        }
-
         public virtual bool IsRenameValid(out string errorMessage)
         {
             errorMessage = string.Empty;
@@ -104,6 +99,12 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
                 return true;
             errorMessage = "Name must not be empty";
             return false;
+        }
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
