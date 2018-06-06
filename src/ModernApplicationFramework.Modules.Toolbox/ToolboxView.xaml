@@ -122,7 +122,8 @@
                                 <Border x:Name="EditModeBorder" Padding="{TemplateBinding Padding}" 
                                         Visibility="{Binding IsInRenameMode, Converter={StaticResource BooleanToVisibilityConverter}}">
                                     <TextBox x:Name="PART_EditBox" Style="{StaticResource EditableTextBox}"
-                                             Text="{Binding EditingName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                             Text="{Binding EditingName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                             Visibility="{Binding Visibility, ElementName=EditModeBorder}"/>
                                 </Border>
                             </Grid>
                             <TextBlock x:Name="PART_EmptyMessage" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
@@ -231,7 +232,8 @@
                                         <Border x:Name="EditModeBorder" Padding="{TemplateBinding Padding}" 
                                                 Visibility="{Binding IsInRenameMode, Converter={StaticResource BooleanToVisibilityConverter}}">
                                             <TextBox x:Name="PART_EditBox" Style="{StaticResource EditableTextBox}" Padding="13,0,0,0"
-                                                     Text="{Binding EditingName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                                     Text="{Binding EditingName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                     Visibility="{Binding Visibility, ElementName=EditModeBorder}"/>
                                         </Border>
                                     </Grid>
                                 </Grid>
