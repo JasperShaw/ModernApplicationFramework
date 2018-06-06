@@ -9,6 +9,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
 
         Guid Id { get; }
 
+        bool IsCustom { get; }
+
         bool IsSelected { get; set; }
 
         bool IsExpanded { get; set; }

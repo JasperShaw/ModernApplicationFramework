@@ -27,6 +27,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
         }
 
         public Guid Id { get; }
+        public bool IsCustom { get; protected set; }
 
         public bool IsSelected
         {
