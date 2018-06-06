@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandBar\AddCategoryCommandDefinition.cs" />
+    <Compile Include="CommandBar\DeleteActiveToolbarCategoryCommandDefinition.cs" />
     <Compile Include="CommandBar\RenameToolboxItemCommandDefinition.cs" />
     <Compile Include="Controls\ToolboxInsertAdorner.cs" />
     <Compile Include="Converters\ToolboxItemVisibilityConverter.cs" />

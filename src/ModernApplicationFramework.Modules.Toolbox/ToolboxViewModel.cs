@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
@@ -13,7 +12,6 @@ using ModernApplicationFramework.Extended.Utilities.PaneUtilities;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Modules.Toolbox.CommandBar;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
-using ModernApplicationFramework.Modules.Toolbox.Items;
 
 namespace ModernApplicationFramework.Modules.Toolbox
 {
@@ -38,7 +36,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
         public IDragSource ToolboxDragHandler { get; } = new ToolboxDragHandler();
 
         public ICommand RenameTestCommand { get; } = new UICommand(RenameActiveItem, CanRename);
-
+        
         private static bool CanRename()
         {
             return IoC.Get<RenameToolboxItemCommandDefinition>().Command.CanExecute(null);
@@ -49,8 +47,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
             IoC.Get<RenameToolboxItemCommandDefinition>().Command.Execute(null);
         }
 
-
-
+        
         public ICommand AddCategoryCommand { get; } = new UICommand(AddCategory, CanAddCategory);
 
         private static bool CanAddCategory()
@@ -61,6 +58,19 @@ namespace ModernApplicationFramework.Modules.Toolbox
         private static void AddCategory()
         {
             IoC.Get<AddCategoryCommandDefinition>().Command.Execute(null);
+        }
+
+
+        public ICommand DeleteCategoryCommand { get; } = new UICommand(DeleteActiveItem, CanDeleteActiveItem);
+
+        private static bool CanDeleteActiveItem()
+        {
+            return IoC.Get<DeleteActiveToolbarCategoryCommandDefinition>().Command.CanExecute(null);
+        }
+
+        private static void DeleteActiveItem()
+        {
+            IoC.Get<DeleteActiveToolbarCategoryCommandDefinition>().Command.Execute(null);
         }
 
 
