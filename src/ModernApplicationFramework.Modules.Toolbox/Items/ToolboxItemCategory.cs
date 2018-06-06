@@ -10,7 +10,9 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
     public class ToolboxItemCategory : ToolboxNodeItem, IToolboxCategory
     {
         public static Guid DefaultCategoryId = new Guid("{41047F4D-A2CF-412F-B216-A8B1E3C08F36}");
-        internal static IToolboxCategory DefaultCategory = new ToolboxItemCategory(new Guid("{41047F4D-A2CF-412F-B216-A8B1E3C08F36}"), null, "Default");
+        public static Guid CustomCategoryGuid = Guid.Empty;
+
+        internal static IToolboxCategory DefaultCategory = new ToolboxItemCategory(new Guid("{41047F4D-A2CF-412F-B216-A8B1E3C08F36}"), typeof(object), "Default");
 
         public Type TargetType { get; }
 
@@ -64,8 +66,18 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             DefaultCategory.Items.Add(j);
         }
 
+        public ToolboxItemCategory() : this(string.Empty)
+        {
 
-        public ToolboxItemCategory(Guid id, Type targetType, string name) : base(id, name)
+        }
+
+
+        public ToolboxItemCategory(string name) : this(DefaultCategoryId, typeof(object), name, true)
+        {
+
+        }
+
+        public ToolboxItemCategory(Guid id, Type targetType, string name, bool isCustom = false) : base(id, name, isCustom)
         {
             TargetType = targetType;
             Items = new BindableCollection<IToolboxItem>();
