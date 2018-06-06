@@ -39,7 +39,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Services
 
         public IReadOnlyCollection<string> GetAllToolboxCategoryNames()
         {
-            return new List<string>();
+            //return new List<string>();
+            return _host.AllCategories.Select(x => x.Name).ToList();
         }
 
         private void InjectDefaultCustomItems(ref List<IToolboxCategory> categories)
