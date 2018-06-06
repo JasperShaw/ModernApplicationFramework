@@ -16,7 +16,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
     [Export(typeof(AddCategoryCommandDefinition))]
     public class AddCategoryCommandDefinition : CommandDefinition
     {
-        private ToolboxViewModel _toolbox;
+        private readonly ToolboxViewModel _toolbox;
+
         public override string NameUnlocalized => "Add Category";
         public override string Text => NameUnlocalized;
         public override string ToolTip => Text;
@@ -57,22 +58,20 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
 
         private void C_CreatedCancelled(object sender, EventArgs e)
         {
-            if (sender is IToolboxCategory category)
-            {
-                category.Created -= C_Created;
-                category.CreatedCancelled -= C_CreatedCancelled;
-                _toolbox.Categories.Remove(category);
-            }
+            if (!(sender is IToolboxCategory category))
+                return;
+            category.Created -= C_Created;
+            category.CreatedCancelled -= C_CreatedCancelled;
+            _toolbox.Categories.Remove(category);
         }
 
         private void C_Created(object sender, EventArgs e)
         {
-            if (sender is IToolboxNode node)
-            {
-                node.Created -= C_Created;
-                node.CreatedCancelled -= C_CreatedCancelled;
-                IoC.Get<ToolboxItemHost>().RegisterNode(node);
-            }
+            if (!(sender is IToolboxNode node))
+                return;
+            node.Created -= C_Created;
+            node.CreatedCancelled -= C_CreatedCancelled;
+            IoC.Get<ToolboxItemHost>().RegisterNode(node);
         }
     }
 }
