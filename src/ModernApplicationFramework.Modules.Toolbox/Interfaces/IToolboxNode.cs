@@ -5,6 +5,10 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
 {
     public interface IToolboxNode : INotifyPropertyChanged
     {
+        event EventHandler CreatedCancelled;
+
+        event EventHandler Created;
+
         string Name { get; set; }
 
         Guid Id { get; }
@@ -16,6 +20,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
         bool IsExpanded { get; set; }
 
         bool IsInRenameMode { get; set; }
+
+        bool IsNewlyCreated { get; }
 
         void EnterRenameMode();
 

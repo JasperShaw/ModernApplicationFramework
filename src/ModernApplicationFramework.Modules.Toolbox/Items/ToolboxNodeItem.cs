@@ -17,6 +17,9 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public event EventHandler CreatedCancelled;
+        public event EventHandler Created;
+
         public Guid Id { get; }
         public bool IsCustom { get; protected set; }
 
@@ -66,6 +69,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             }
         }
 
+        public bool IsNewlyCreated { get; protected set; }
+
         protected ToolboxNodeItem(Guid id, string name, bool isCustom = false)
         {
             Id = id;
@@ -75,7 +80,10 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
 
         public void CommitRename()
         {
+            if (IsNewlyCreated)
+                OnCreated();
             IsInRenameMode = false;
+            IsNewlyCreated = false;
         }
 
         public void EnterRenameMode()
@@ -86,25 +94,42 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
 
         public void ExitRenameMode()
         {
+            if (IsNewlyCreated)
+            {
+                OnCreatedCancelled();
+                Name = string.Empty;
+            }
+            else
+                Name = _renameBackup;
+            IsNewlyCreated = false;
             IsInRenameMode = false;
-            Name = _renameBackup;
         }
 
         public virtual bool IsRenameValid(out string errorMessage)
         {
             errorMessage = string.Empty;
-            if (Name == _renameBackup)
-                return true;
-            if (!string.IsNullOrEmpty(Name))
-                return true;
-            errorMessage = "Name must not be empty";
-            return false;
+            if (string.IsNullOrEmpty(Name))
+            {
+                errorMessage = "Name must not be empty";
+                return false;
+            }
+            return true;
         }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected virtual void OnCreatedCancelled()
+        {
+            CreatedCancelled?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnCreated()
+        {
+            Created?.Invoke(this, EventArgs.Empty);
         }
     }
 }

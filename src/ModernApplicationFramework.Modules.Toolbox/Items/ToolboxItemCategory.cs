@@ -68,7 +68,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
 
         public ToolboxItemCategory() : this(string.Empty)
         {
-
+            IsNewlyCreated = true;
+            EnterRenameMode();
         }
 
 

@@ -25,6 +25,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
         private DispatcherTimer _hoverTimer;
 
         private bool _isDragHoveringElapsed;
+        private bool _errorShowing;
 
         public ToolboxTreeViewItem()
         {
@@ -52,7 +53,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
                 }
             }
             else
-                _currentNode.CommitRename();
+                TryCommitRename(true);
         }
 
         protected override DependencyObject GetContainerForItemOverride()
@@ -162,7 +163,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
         private void HandleLogicalLeft()
         {
             var parent = this.FindAncestorOrSelf<TreeView>();
-            ((UIElement) parent?.ItemContainerGenerator.ContainerFromItem(parent))?.Focus();
+            ((UIElement)parent?.ItemContainerGenerator.ContainerFromItem(parent))?.Focus();
         }
 
         private void HandleLogicalRight()
@@ -233,6 +234,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
             {
                 _currentNode = node;
                 node.PropertyChanged += Node_PropertyChanged;
+                if (node.IsNewlyCreated)
+                    TriggerRename(true);
             }
         }
 
@@ -246,13 +249,13 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
                         Focus();
                         Keyboard.Focus(_editBox);
                     }));
-                _editBox.SelectAll();
+                _editBox?.SelectAll();
             }
         }
 
-        private void TryCommitRename()
+        private void TryCommitRename(bool silentDiscard = false)
         {
-            if (_currentNode == null)
+            if (_currentNode == null || _errorShowing)
                 return;
             if (_currentNode.IsRenameValid(out var message))
             {
@@ -260,10 +263,18 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
             }
             else
             {
+                if (silentDiscard)
+                {
+                    _currentNode.ExitRenameMode();
+                    return;
+                }
                 IoC.Get<IMafUIShell>().GetAppName(out var appName);
+                _errorShowing = true;
                 MessageBox.Show(message, appName, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                _errorShowing = false;
                 TriggerRename(true);
             }
         }
+
     }
 }

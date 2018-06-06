@@ -45,12 +45,34 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
 
         private void RenameItem()
         {
-            var c = new ToolboxItemCategory("TestCategory");
-            IoC.Get<ToolboxItemHost>().RegisterNode(c);
+            var c = new ToolboxItemCategory();
+            c.CreatedCancelled += C_CreatedCancelled;
+            c.Created += C_Created;
+            
             var index = _toolbox.Categories.Count;
             if (_toolbox.Categories.LastOrDefault() == ToolboxItemCategory.DefaultCategory)
                 index--;
             _toolbox.Categories.Insert(index, c);
+        }
+
+        private void C_CreatedCancelled(object sender, EventArgs e)
+        {
+            if (sender is IToolboxCategory category)
+            {
+                category.Created -= C_Created;
+                category.CreatedCancelled -= C_CreatedCancelled;
+                _toolbox.Categories.Remove(category);
+            }
+        }
+
+        private void C_Created(object sender, EventArgs e)
+        {
+            if (sender is IToolboxNode node)
+            {
+                node.Created -= C_Created;
+                node.CreatedCancelled -= C_CreatedCancelled;
+                IoC.Get<ToolboxItemHost>().RegisterNode(node);
+            }
         }
     }
 }
