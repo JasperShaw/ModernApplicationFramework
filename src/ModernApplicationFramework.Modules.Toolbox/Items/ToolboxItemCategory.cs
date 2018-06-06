@@ -100,7 +100,9 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
         {
             if (!base.IsRenameValid(out errorMessage))
                 return false;
-            if (!ToolboxService.Instance.GetAllToolboxCategoryNames().Contains(Name))
+            if (EditingName == Name)
+                return true;
+            if (!ToolboxService.Instance.GetAllToolboxCategoryNames().Contains(EditingName))
                 return true;
             errorMessage = "Already exists";
             return false;

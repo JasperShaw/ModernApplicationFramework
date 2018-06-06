@@ -13,12 +13,23 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
         private bool _isSelected;
         private string _name;
 
-        private string _renameBackup;
+        private string _editingName;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public event EventHandler CreatedCancelled;
         public event EventHandler Created;
+
+        public string EditingName
+        {
+            get => _editingName;
+            set
+            {
+                if (value == _editingName) return;
+                _editingName = value;
+                OnPropertyChanged();
+            }
+        }
 
         public Guid Id { get; }
         public bool IsCustom { get; protected set; }
@@ -84,11 +95,13 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
                 OnCreated();
             IsInRenameMode = false;
             IsNewlyCreated = false;
+            Name = EditingName;
+            _editingName = string.Empty;
         }
 
         public void EnterRenameMode()
         {
-            _renameBackup = _name;
+            EditingName = _name;
             IsInRenameMode = true;
         }
 
@@ -99,8 +112,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
                 OnCreatedCancelled();
                 Name = string.Empty;
             }
-            else
-                Name = _renameBackup;
             IsNewlyCreated = false;
             IsInRenameMode = false;
         }
@@ -108,7 +119,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
         public virtual bool IsRenameValid(out string errorMessage)
         {
             errorMessage = string.Empty;
-            if (string.IsNullOrEmpty(Name))
+            if (string.IsNullOrEmpty(EditingName))
             {
                 errorMessage = "Name must not be empty";
                 return false;

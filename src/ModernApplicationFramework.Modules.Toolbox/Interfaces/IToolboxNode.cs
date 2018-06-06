@@ -11,6 +11,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
 
         string Name { get; set; }
 
+        string EditingName { get; set; }
+
         Guid Id { get; }
 
         bool IsCustom { get; }
