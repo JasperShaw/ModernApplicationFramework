@@ -25,5 +25,19 @@ namespace ModernApplicationFramework.Utilities
 			}
 			return parent as TreeViewItem;
 		}
-	}
+
+
+	    public static bool IsDragElementUnderLastTreeItem(this ItemsControl control, DragEventArgs e, out FrameworkElement element)
+	    {
+	        element = null;
+	        if (!control.HasItems)
+	            return true;
+	        var i = control.Items.GetItemAt(control.Items.Count - 1);
+	        element = control.ItemContainerGenerator.ContainerFromItem(i) as FrameworkElement;
+	        if (element == null)
+	            return false;
+	        var mp = e.GetPosition(element);
+	        return mp.Y > element.ActualHeight * 1.25;
+	    }
+    }
 }
