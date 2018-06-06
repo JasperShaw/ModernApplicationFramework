@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
@@ -48,6 +49,21 @@ namespace ModernApplicationFramework.Modules.Toolbox
             IoC.Get<RenameToolboxItemCommandDefinition>().Command.Execute(null);
         }
 
+
+
+        public ICommand AddCategoryCommand { get; } = new UICommand(AddCategory, CanAddCategory);
+
+        private static bool CanAddCategory()
+        {
+            return IoC.Get<AddCategoryCommandDefinition>().Command.CanExecute(null);
+        }
+
+        private static void AddCategory()
+        {
+            IoC.Get<AddCategoryCommandDefinition>().Command.Execute(null);
+        }
+
+
         public IToolboxNode SelectedNode
         {
             get => _selectedNode;
@@ -90,23 +106,26 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
         private void StoreItems(ILayoutItem item)
         {
-            if(item == null)
-                return;
-            _toolboxService.StoreItemSource(item.GetType(), _categories.ToList());
+            var type = item == null ? typeof(object) : item.GetType();
+            _toolboxService.StoreItemSource(type, _categories.ToList());
         }
 
         private void RefreshToolboxItems(ILayoutItem item)
         {
             _categories.Clear();
-            if (item == null)
-            {
-                //Change targettype to object, which means that it will get accepted by convention
-                ToolboxItemCategory.DefaultCategory.Refresh(typeof(object));
-                _categories.Add(ToolboxItemCategory.DefaultCategory);
-                return;
-            }
-            var i = _toolboxService.GetToolboxItemSource(item.GetType());
-            i.ForEach(x => x.Refresh(item.GetType()));         
+
+            var type = item == null ? typeof(object) : item.GetType();
+            //if (item == null)
+            //{
+            //    //Change targettype to object, which means that it will get accepted by convention
+            //    ToolboxItemCategory.DefaultCategory.Refresh(typeof(object));
+            //    _categories.Add(ToolboxItemCategory.DefaultCategory);
+            //    return;
+            //}
+            var i = _toolboxService.GetToolboxItemSource(type);
+
+
+            i.ForEach(x => x.Refresh(type));         
             _categories.AddRange(i);
         }
     }

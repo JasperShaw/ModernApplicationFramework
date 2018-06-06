@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using Caliburn.Micro;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Items;
+using ModernApplicationFramework.Modules.Toolbox.State;
 
 namespace ModernApplicationFramework.Modules.Toolbox
 {
@@ -11,26 +13,25 @@ namespace ModernApplicationFramework.Modules.Toolbox
     [Export(typeof(ToolboxItemsBuilder))]
     internal class ToolboxItemsBuilder
     {
-        private readonly IEnumerable<IToolboxCategory> _categories;
-        private readonly IEnumerable<IToolboxItem> _items;
+        private readonly ToolboxItemHost _host;
 
         [ImportingConstructor]
-        public ToolboxItemsBuilder([ImportMany] IEnumerable<IToolboxCategory> categories, [ImportMany] IEnumerable<IToolboxItem> items)
+        public ToolboxItemsBuilder(ToolboxItemHost host)
         {
-            _categories = categories;
-            _items = items;
+            _host = host;
         }
 
         public IReadOnlyCollection<IToolboxCategory> Build(Type targetType)
         {
-            var items = _items.ToList();
-            var categories = _categories.Where(x => x.TargetType == targetType).ToList();
+            var items = _host.AllItems;
+            var categories = _host.AllCategories.Where(x => x.TargetType == targetType).ToList();
             foreach (var category in categories)
             {
                 category.Items.Clear();
                 var matching = items.Where(x => x.OriginalParent == category);
                 category.Items.AddRange(matching);
             }
+            categories.AddRange(_host.AllCategories.Where(x => x.IsCustom));
             categories.Add(ToolboxItemCategory.DefaultCategory);
             return categories;
         }

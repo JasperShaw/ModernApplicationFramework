@@ -5,9 +5,13 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
 {
     internal interface IToolboxItemStateCache
     {
-        IReadOnlyCollection<IToolboxCategory> GetToolboxItems(Type key);
+        IReadOnlyCollection<IToolboxCategory> GetState(Type key);
 
-        void StoreToolboxItems(Type key, IReadOnlyCollection<IToolboxCategory> items);
+        IReadOnlyCollection<IToolboxCategory> GetDefaultAndCustomState();
+
+        void StoreState(Type key, IReadOnlyCollection<IToolboxCategory> items);
+
+        void StoreDefaultAndCustomState(IReadOnlyCollection<IToolboxCategory> itemsSource);
 
         IReadOnlyCollection<Type> GetKeys();
     }

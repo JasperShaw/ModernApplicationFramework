@@ -69,7 +69,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
         {
             var targetElement = document.CreateElement("TargetType", null, new KeyValuePair<string, string>("Type", type.FullName));
 
-            var categories = _stateCache.GetToolboxItems(type);
+            var categories = _stateCache.GetState(type);
             if (categories == null || !categories.Any())
                 return;
 
