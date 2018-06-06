@@ -118,6 +118,16 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
                     item.Parent = this;
             }
             HasItems = Items.Any();
+            InternalRefreshVisibleItems();
+        }
+
+        private void InternalRefreshVisibleItems()
+        {
+            HasVisibleItems = false;
+            if (!HasItems)
+                return;
+            if (Items.Any(x => x.IsVisible))
+                HasVisibleItems = true;
         }
     }
 }
