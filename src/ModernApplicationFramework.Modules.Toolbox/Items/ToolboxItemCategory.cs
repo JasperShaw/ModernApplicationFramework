@@ -4,6 +4,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Services;
+using ModernApplicationFramework.Modules.Toolbox.State;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Items
 {
@@ -94,6 +95,15 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
                 if (item.IsVisible)
                     HasVisibleItems = true;
             }
+        }
+
+        public bool RemoveItem(IToolboxItem item)
+        {
+            if (!Items.Contains(item))
+                return false;
+            Items.Remove(item);
+            IoC.Get<ToolboxItemHost>().DeleteNode(item);
+            return true;
         }
 
         public override bool IsRenameValid(out string errorMessage)

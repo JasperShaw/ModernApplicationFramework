@@ -49,6 +49,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
         {
             if (!(_toolbox.SelectedNode is IToolboxCategory category))
                 return;
+            if (category == ToolboxItemCategory.DefaultCategory)
+                return;
             _toolbox.Categories.Remove(category);
             IoC.Get<ToolboxItemHost>().DeleteNode(category);
         }
