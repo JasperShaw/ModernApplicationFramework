@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Input;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input.Base;
 
@@ -30,15 +31,34 @@ namespace ModernApplicationFramework.Basics.Definitions.CommandBar
                 {
                     if (!(CommandDefinition is CommandDefinition commandDefinition))
                         return;
-                    if (commandDefinition.Command is AbstractCommandWrapper commandWrapper)
-                        commandWrapper.CanExecuteChanged += CommandWrapper_CanExecuteChanged;
+
+                    var commandWrapper = commandDefinition.Command as AbstractCommandWrapper;
+                    var routedCommand = commandDefinition.Command as RoutedCommand;
+
+                    if (commandWrapper != null || routedCommand != null)
+                    {
+                        if (commandWrapper != null)
+                            commandWrapper.CanExecuteChanged += CommandWrapper_CanExecuteChanged;
+                        if (routedCommand != null)
+                            routedCommand.CanExecuteChanged += CommandWrapper_CanExecuteChanged;
+
+                    }
                 }
                 else
                 {
                     if (!(CommandDefinition is CommandDefinition commandDefinition))
                         return;
-                    if (commandDefinition.Command is AbstractCommandWrapper commandWrapper)
-                        commandWrapper.CanExecuteChanged -= CommandWrapper_CanExecuteChanged;
+                    var commandWrapper = commandDefinition.Command as AbstractCommandWrapper;
+                    var routedCommand = commandDefinition.Command as RoutedCommand;
+
+                    if (commandWrapper != null || routedCommand != null)
+                    {
+                        if (commandWrapper != null)
+                            commandWrapper.CanExecuteChanged -= CommandWrapper_CanExecuteChanged;
+                        if (routedCommand != null)
+                            routedCommand.CanExecuteChanged -= CommandWrapper_CanExecuteChanged;
+
+                    }
                 }
             }
         }

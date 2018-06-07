@@ -31,7 +31,7 @@ namespace ModernApplicationFramework.Extended.CommandBarDefinitions.MenuDefiniti
         [Export]
         public static CommandBarItemDefinition DeleteItem =
             new CommandBarCommandItemDefinition<DeleteCommandDefinition>(
-                new Guid("{156C413A-93BE-48C7-8219-B38D23013E53}"), BasicEditGroup, 0);
+                new Guid("{156C413A-93BE-48C7-8219-B38D23013E53}"), BasicEditGroup, 0, true, false, false, true);
 
         //[Export]
         //public static CommandBarItemDefinition CopyMenuItem =
