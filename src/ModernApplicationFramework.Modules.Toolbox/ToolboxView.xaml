@@ -313,6 +313,16 @@
             <i:Interaction.Behaviors>
                 <utilities:BindableSelectedItemBehavior SelectedItem="{Binding SelectedNode, Mode=TwoWay}" />
             </i:Interaction.Behaviors>
+
+            <controls:ToolboxTreeView.ContextMenu>
+                <Binding Path="ContextMenu"/>
+                <!--<ContextMenu.Style>
+                    <Style TargetType="{x:Type ContextMenu}">
+                        <Setter Property="Focusable" Value="False"/>
+                    </Style>
+                </ContextMenu.Style>-->
+            </controls:ToolboxTreeView.ContextMenu>
+
         </controls:ToolboxTreeView>
         <Button Grid.Row="2" Content="Rename Active Item" Command="{Binding RenameTestCommand}"/>
         <Button Grid.Row="3" Content="Add new Category" Command="{Binding AddCategoryCommand}"/>

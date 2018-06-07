@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Core.Utilities;
@@ -10,6 +11,7 @@ using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Extended.Utilities.PaneUtilities;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.CommandBar;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
@@ -36,7 +38,10 @@ namespace ModernApplicationFramework.Modules.Toolbox
         public IDragSource ToolboxDragHandler { get; } = new ToolboxDragHandler();
 
         public ICommand RenameTestCommand { get; } = new UICommand(RenameActiveItem, CanRename);
-        
+
+        public ContextMenu ContextMenu => IoC.Get<IContextMenuHost>()
+            .GetContextMenu(ToolboxContextMenuDefinition.ToolboxContextMenu);
+
         private static bool CanRename()
         {
             return IoC.Get<RenameToolboxItemCommandDefinition>().Command.CanExecute(null);
