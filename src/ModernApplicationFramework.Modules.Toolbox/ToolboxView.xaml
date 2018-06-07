@@ -186,6 +186,8 @@
         </Style>
 
         <Style x:Key="ItemStyle" TargetType="{x:Type controls:ToolboxTreeViewItem}">
+            <Setter Property="TextElement.Foreground"
+                    Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxBackgroundText}}"/>
             <Setter Property="IsExpanded">
                 <Setter.Value>
                     <MultiBinding Converter="{StaticResource AreEqualConverter}">
@@ -316,11 +318,6 @@
 
             <controls:ToolboxTreeView.ContextMenu>
                 <Binding Path="ContextMenu"/>
-                <!--<ContextMenu.Style>
-                    <Style TargetType="{x:Type ContextMenu}">
-                        <Setter Property="Focusable" Value="False"/>
-                    </Style>
-                </ContextMenu.Style>-->
             </controls:ToolboxTreeView.ContextMenu>
 
         </controls:ToolboxTreeView>
