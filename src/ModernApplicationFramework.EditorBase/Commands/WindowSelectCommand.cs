@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
@@ -22,7 +23,7 @@ namespace ModernApplicationFramework.EditorBase.Commands
         public override MultiKeyGesture DefaultKeyGesture => null;
         public override GestureScope DefaultGestureScope => null;
 
-        public override UICommand Command { get; }
+        public override ICommand Command { get; }
 
         public WindowSelectCommand()
         {

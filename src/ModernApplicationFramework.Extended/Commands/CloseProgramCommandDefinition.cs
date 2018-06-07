@@ -19,7 +19,7 @@ namespace ModernApplicationFramework.Extended.Commands
         [Import] private IDockingMainWindowViewModel _shell;
 #pragma warning restore 649
 
-        public override UICommand Command { get; }
+        public override ICommand Command { get; }
 
         public override MultiKeyGesture DefaultKeyGesture { get; }
         public override GestureScope DefaultGestureScope { get; }

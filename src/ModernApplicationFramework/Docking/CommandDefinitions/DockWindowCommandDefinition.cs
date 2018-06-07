@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Globalization;
+using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Docking.Controls;
@@ -14,7 +15,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
     [Export(typeof(DockWindowCommandDefinition))]
     public sealed class DockWindowCommandDefinition : CommandDefinition
     {
-        public override UICommand Command { get; }
+        public override ICommand Command { get; }
 
         public override MultiKeyGesture DefaultKeyGesture => null;
         public override GestureScope DefaultGestureScope => null;

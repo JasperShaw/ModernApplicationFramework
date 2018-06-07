@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Globalization;
+using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.CustomizeDialog.ViewModels;
 using ModernApplicationFramework.Basics.Definitions.Command;
@@ -21,7 +22,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Commands
         public override MultiKeyGesture DefaultKeyGesture => null;
         public override GestureScope DefaultGestureScope => null;
 
-        public override UICommand Command { get; }
+        public override ICommand Command { get; }
         public override string Name => Text;
 
         public override string NameUnlocalized =>

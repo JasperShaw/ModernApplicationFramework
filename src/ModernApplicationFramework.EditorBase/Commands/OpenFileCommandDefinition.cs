@@ -29,7 +29,7 @@ namespace ModernApplicationFramework.EditorBase.Commands
         public override MultiKeyGesture DefaultKeyGesture { get; }
         public override GestureScope DefaultGestureScope { get; }
 
-        public override UICommand Command { get; }
+        public override ICommand Command { get; }
 
         public OpenFileCommandDefinition()
         {

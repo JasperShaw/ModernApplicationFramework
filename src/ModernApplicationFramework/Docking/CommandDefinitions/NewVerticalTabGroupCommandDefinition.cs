@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Windows.Controls;
+using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Docking.Layout;
@@ -14,7 +15,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
     [Export(typeof(NewVerticalTabGroupCommandDefinition))]
     public sealed class NewVerticalTabGroupCommandDefinition : CommandDefinition
     {
-        public override UICommand Command { get; }
+        public override ICommand Command { get; }
         public override MultiKeyGesture DefaultKeyGesture => null;
         public override GestureScope DefaultGestureScope => null;
         public override string Name => Text;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Globalization;
+using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
@@ -18,7 +19,7 @@ namespace ModernApplicationFramework.Extended.Commands
 #pragma warning disable 649
         [Import] private IWindowManager _windowManager;
 #pragma warning restore 649
-        public override UICommand Command { get; }
+        public override ICommand Command { get; }
 
         public override MultiKeyGesture DefaultKeyGesture => null;
         public override GestureScope DefaultGestureScope => null;

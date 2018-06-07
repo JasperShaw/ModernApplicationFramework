@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Windows.Input;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
@@ -116,7 +117,7 @@ namespace ModernApplicationFramework.WindowManagement.Commands
 
         private class ShowLayoutCommandDefinition : CommandDefinition
         {
-            public override UICommand Command => new UICommand(() => {}, () => false);
+            public override ICommand Command => new UICommand(() => {}, () => false);
             public override MultiKeyGesture DefaultKeyGesture => null;
             public override GestureScope DefaultGestureScope => null;
             public override string Name => string.Empty;

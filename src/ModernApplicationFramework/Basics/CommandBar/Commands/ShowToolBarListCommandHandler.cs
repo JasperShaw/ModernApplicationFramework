@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Windows.Input;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Input;
@@ -42,7 +43,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Commands
 
         private class ShowSelectedToolBarCommandDefinition : CommandDefinition
         {
-            public override UICommand Command { get; }
+            public override ICommand Command { get; }
             public override MultiKeyGesture DefaultKeyGesture => null;
             public override GestureScope DefaultGestureScope => null;
             public override string Name => string.Empty;

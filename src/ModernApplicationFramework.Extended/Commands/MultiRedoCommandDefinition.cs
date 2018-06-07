@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Linq;
+using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Creators;
@@ -21,7 +22,7 @@ namespace ModernApplicationFramework.Extended.Commands
     {
         private readonly CommandBarUndoRedoManagerWatcher _watcher;
 
-        public override UICommand Command { get; }
+        public override ICommand Command { get; }
 
         public override MultiKeyGesture DefaultKeyGesture => null;
         public override GestureScope DefaultGestureScope => null;

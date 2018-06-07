@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input.Command;
@@ -34,7 +35,7 @@ namespace ModernApplicationFramework.WindowManagement.Commands
         public sealed override string ToolTip => Text;
         public sealed override string Text => _text;
 
-        public override UICommand Command { get; }
+        public override ICommand Command { get; }
 
         public void SetText(string text)
         {

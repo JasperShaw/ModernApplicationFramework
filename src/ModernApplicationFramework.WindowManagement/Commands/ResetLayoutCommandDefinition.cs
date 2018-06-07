@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Windows;
+using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input;
@@ -29,7 +30,7 @@ namespace ModernApplicationFramework.WindowManagement.Commands
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
         public override Guid Id => new Guid("{A2885FF1-870F-41A3-9259-8A3A2D84286E}");
 
-        public override UICommand Command { get; }
+        public override ICommand Command { get; }
 
         public override MultiKeyGesture DefaultKeyGesture => null;
         public override GestureScope DefaultGestureScope => null;

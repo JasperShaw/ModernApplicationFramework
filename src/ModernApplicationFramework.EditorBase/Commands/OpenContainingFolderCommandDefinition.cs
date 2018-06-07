@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
@@ -29,7 +30,7 @@ namespace ModernApplicationFramework.EditorBase.Commands
         public override MultiKeyGesture DefaultKeyGesture => null;
         public override GestureScope DefaultGestureScope => null;
 
-        public override UICommand Command { get; }
+        public override ICommand Command { get; }
 
         [ImportingConstructor]
         public OpenContainingFolderCommandDefinition(IDockingHostViewModel dockingHostViewModel)

@@ -90,7 +90,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.Commands
         public override string Text => Name;
         public override string ToolTip => Name;
 
-        public override UICommand Command { get; }
+        public override ICommand Command { get; }
 
         public override MultiKeyGesture DefaultKeyGesture { get; }
         public override GestureScope DefaultGestureScope { get; }

@@ -25,7 +25,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
         public override MultiKeyGesture DefaultKeyGesture { get; }
         public override GestureScope DefaultGestureScope { get; }
 
-        public override UICommand Command { get; }
+        public override ICommand Command { get; }
 
         [ImportingConstructor]
         public OpenToolboxCommandDefinition(IDockingHostViewModel hostViewModel)

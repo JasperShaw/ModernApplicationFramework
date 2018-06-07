@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
@@ -46,7 +47,7 @@ namespace ModernApplicationFramework.Extended.Commands
 
         private class ShowSelectedDocumentCommandDefinition : CommandDefinition
         {
-            public override UICommand Command { get; }
+            public override ICommand Command { get; }
 
             public override MultiKeyGesture DefaultKeyGesture => null;
             public override GestureScope DefaultGestureScope => null;

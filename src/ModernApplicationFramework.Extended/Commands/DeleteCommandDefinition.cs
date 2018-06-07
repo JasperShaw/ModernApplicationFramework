@@ -28,12 +28,12 @@ namespace ModernApplicationFramework.Extended.Commands
         public override MultiKeyGesture DefaultKeyGesture { get; }
         public override GestureScope DefaultGestureScope { get; }
 
-        public override UICommand Command { get; }
+        public override ICommand Command => EditingCommands.Delete;
 
         public DeleteCommandDefinition()
         {
-            var command = new UICommand(Delete, CanDelete);
-            Command = command;
+            //var command = new UICommand(Delete, CanDelete);
+            //Command = command;
 
             DefaultKeyGesture = new MultiKeyGesture(Key.Delete);
             DefaultGestureScope = GestureScopes.GlobalGestureScope;

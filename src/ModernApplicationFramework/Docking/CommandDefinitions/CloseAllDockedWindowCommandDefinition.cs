@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Linq;
+using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Docking.Layout;
@@ -14,7 +15,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
     [Export(typeof(CloseAllDockedWindowCommandDefinition))]
     public sealed class CloseAllDockedWindowCommandDefinition : CommandDefinition
     {
-        public override UICommand Command { get; }
+        public override ICommand Command { get; }
 
         public override MultiKeyGesture DefaultKeyGesture => null;
         public override GestureScope DefaultGestureScope => null;

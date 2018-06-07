@@ -18,7 +18,7 @@ namespace ModernApplicationFramework.Extended.Commands
     {
         private readonly CommandBarUndoRedoManagerWatcher _watcher;
 
-        public override UICommand Command { get; }
+        public override ICommand Command { get; }
 
         public override MultiKeyGesture DefaultKeyGesture { get; }
         public override GestureScope DefaultGestureScope { get; }

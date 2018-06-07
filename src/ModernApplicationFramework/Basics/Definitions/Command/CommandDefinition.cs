@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
+using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
@@ -36,7 +37,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         /// <summary>
         ///     The executable command of the definition
         /// </summary>
-        public virtual UICommand Command { get; }
+        public virtual ICommand Command { get; }
 
         public sealed override bool IsList => false;
 
