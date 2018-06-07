@@ -14,7 +14,7 @@ namespace ModernApplicationFramework.Extended.CommandBarDefinitions.MenuDefiniti
                 MainMenuBarDefinition.MainMenuBarGroup, 1, CommandBar_Resources.MenuEdit_Name);
 
         [Export] public static CommandBarGroupDefinition EditUndoRedoMenuGroup =
-            new CommandBarGroupDefinition(EditMenu, 0);
+            new CommandBarGroupDefinition(EditMenu, 1);
 
         [Export] public static CommandBarItemDefinition EditUndoMenuItem =
             new CommandBarCommandItemDefinition<UndoCommandDefinition>(
@@ -23,6 +23,15 @@ namespace ModernApplicationFramework.Extended.CommandBarDefinitions.MenuDefiniti
         [Export] public static CommandBarItemDefinition EditRedoMenuItem =
             new CommandBarCommandItemDefinition<RedoCommandDefinition>(
                 new Guid("{F41D3A9C-90CA-41EE-BEE3-D3283BEF1D52}"), EditUndoRedoMenuGroup, 0);
+
+        [Export]
+        public static CommandBarGroupDefinition BasicEditGroup =
+            new CommandBarGroupDefinition(EditMenu, 2);
+
+        [Export]
+        public static CommandBarItemDefinition DeleteItem =
+            new CommandBarCommandItemDefinition<DeleteCommandDefinition>(
+                new Guid("{156C413A-93BE-48C7-8219-B38D23013E53}"), BasicEditGroup, 0);
 
         //[Export]
         //public static CommandBarItemDefinition CopyMenuItem =
