@@ -263,6 +263,7 @@
     <Compile Include="Docking\AnchorablesClosedEventArgs.cs" />
     <Compile Include="Docking\AnchorablesClosingEventArgs.cs" />
     <Compile Include="Docking\Controls\ILayoutItemHost.cs" />
+    <Compile Include="Input\Command\CommandHelpers.cs" />
     <Compile Include="Interfaces\Services\ILayoutBackupProvider.cs" />
     <Compile Include="Interfaces\Services\ILayoutSerializer.cs" />
     <Compile Include="Interfaces\Services\IMruManager.cs" />
