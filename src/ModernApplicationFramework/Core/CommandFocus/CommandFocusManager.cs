@@ -16,6 +16,7 @@ namespace ModernApplicationFramework.Core.CommandFocus
         private static readonly List<Type> RegisteredCommandFocusElementTypes = new List<Type>();
         private static PresentationSource _currentMenuModeSource;
         private static RestoreFocusScope _restoreFocusScope;
+        private static bool _isChecking;
 
         private static PresentationSource CurrentMenuModeSource
         {
@@ -56,20 +57,22 @@ namespace ModernApplicationFramework.Core.CommandFocus
             EventManager.RegisterClassHandler(typeof(UIElement), System.Windows.Controls.ContextMenu.ClosedEvent,
                 new RoutedEventHandler(OnContextMenuClosed));
             InputManager.Current.LeaveMenuMode += (param1, param2) => CorrectDetachedHwndFocus();
-
-
-            //Application.Current.MainWindow?.AddHandler(CommandManager.CanExecuteEvent, new CanExecuteRoutedEventHandler(Window_CanExecute));
-
+            Application.Current.MainWindow?.AddHandler(CommandManager.PreviewCanExecuteEvent, new CanExecuteRoutedEventHandler(CorrectFocusLookup));
         }
 
-        private static void Window_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        private static void CorrectFocusLookup(object sender, CanExecuteRoutedEventArgs e)
         {
             if (InputManager.Current.IsInMenuMode)
             {
                 if (e.Command is RoutedCommand routed)
                 {
-                    e.Handled = true;
+                    if (_isChecking)
+                        return;
+                    _isChecking = true;
                     e.CanExecute = routed.CanExecute(e.Parameter, _restoreFocusScope.RestoreFocus);
+                    _isChecking = false;
+                    if (e.CanExecute)
+                        e.Handled = true;
                 }
             }
         }
