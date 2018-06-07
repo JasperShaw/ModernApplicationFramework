@@ -152,7 +152,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
             if (InputManager.Current.IsInMenuMode)
             {
                 if (!(e.NewFocus is ContextMenu newFocus) || !Equals(newFocus.PlacementTarget, _editBox))
-                    if (!(e.NewFocus is MenuItem) || !(e.NewFocus is CommandDefinitionButton))
+                    if (!(e.NewFocus is MenuItem || e.NewFocus is CommandDefinitionButton))
                         _currentNode.ExitRenameMode();
             }
             else
