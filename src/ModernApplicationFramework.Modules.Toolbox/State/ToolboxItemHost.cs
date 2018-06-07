@@ -40,7 +40,9 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
 
         public void DeleteNode(IToolboxNode node)
         {
-
+            if (node is IToolboxCategory category)
+                if (_customCategories.Contains(category))
+                    _customCategories.Remove(category);
         }
     }
 }

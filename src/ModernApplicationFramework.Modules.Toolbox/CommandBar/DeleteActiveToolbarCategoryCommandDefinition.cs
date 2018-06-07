@@ -1,10 +1,13 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
+using ModernApplicationFramework.Modules.Toolbox.Items;
+using ModernApplicationFramework.Modules.Toolbox.State;
 
 namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
 {
@@ -37,11 +40,16 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
 
         private bool CanDeleteItem()
         {
-            return _toolbox.SelectedNode != null;
+            return _toolbox.SelectedNode is IToolboxCategory &&
+                   _toolbox.SelectedNode != ToolboxItemCategory.DefaultCategory;
         }
 
         private void DeleteItem()
         {
+            if (!(_toolbox.SelectedNode is IToolboxCategory category))
+                return;
+            _toolbox.Categories.Remove(category);
+            IoC.Get<ToolboxItemHost>().DeleteNode(category);
         }
     }
 }
