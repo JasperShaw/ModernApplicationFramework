@@ -140,6 +140,7 @@
     <Style TargetType="{x:Type menu:ContextMenu}" BasedOn="{StaticResource {x:Type ContextMenu}}">
         <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarTextActive}}"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Focusable" Value="False"/>
         <Setter Property="PopupAnimation" Value="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}"/>
         <Setter Property="extensions:MenuBehavior.UpdateCommandUiItems" Value="True" />
         <Setter Property="Template">
@@ -199,6 +200,7 @@
     </Style>
     
     <Style TargetType="{x:Type menu:ContextMenuItem}">
+        <Setter Property="Focusable" Value="False"/>
         <Setter Property="Foreground" Value="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type menu:ContextMenu}}}"/>
         <Setter Property="Template" Value="{StaticResource MenuItemTemplate}"/>
     </Style>
