@@ -44,12 +44,12 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
         private static bool CanRename()
         {
-            return IoC.Get<RenameToolboxItemCommandDefinition>().Command.CanExecute(null);
+            return IoC.Get<RenameToolboxCategoryCommandDefinition>().Command.CanExecute(null);
         }
 
         private static void RenameActiveItem()
         {
-            IoC.Get<RenameToolboxItemCommandDefinition>().Command.Execute(null);
+            IoC.Get<RenameToolboxCategoryCommandDefinition>().Command.Execute(null);
         }
 
         

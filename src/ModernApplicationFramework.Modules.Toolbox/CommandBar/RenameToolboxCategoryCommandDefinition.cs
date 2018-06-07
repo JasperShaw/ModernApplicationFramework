@@ -10,12 +10,12 @@ using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
 {
     [Export(typeof(CommandDefinitionBase))]
-    [Export(typeof(RenameToolboxItemCommandDefinition))]
-    public class RenameToolboxItemCommandDefinition : CommandDefinition
+    [Export(typeof(RenameToolboxCategoryCommandDefinition))]
+    public class RenameToolboxCategoryCommandDefinition : CommandDefinition
     {
         private readonly ToolboxViewModel _toolbox;
-        public override string NameUnlocalized => "Rename";
-        public override string Text => "Rename";
+        public override string NameUnlocalized => "Rename Category";
+        public override string Text => "Rename Category";
         public override string ToolTip => Text;
         public override Uri IconSource => null;
         public override string IconId => null;
@@ -27,17 +27,16 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
         public override ICommand Command { get; }
 
         [ImportingConstructor]
-        public RenameToolboxItemCommandDefinition(IToolbox toolbox)
+        public RenameToolboxCategoryCommandDefinition(IToolbox toolbox)
         {
             _toolbox = toolbox as ToolboxViewModel;
-
             var command = new UICommand(RenameItem, CanRenameItem);
             Command = command;
         }
 
         private bool CanRenameItem()
         {
-            return _toolbox.SelectedNode != null;
+            return _toolbox.SelectedNode is IToolboxCategory;
         }
 
         private void RenameItem()
