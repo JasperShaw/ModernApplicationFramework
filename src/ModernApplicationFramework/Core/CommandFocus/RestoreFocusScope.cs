@@ -11,7 +11,7 @@ namespace ModernApplicationFramework.Core.CommandFocus
     {
         private List<DependencyObject> _focusAncestors;
 
-        protected IInputElement RestoreFocus
+        protected internal IInputElement RestoreFocus
         {
             get
             {
