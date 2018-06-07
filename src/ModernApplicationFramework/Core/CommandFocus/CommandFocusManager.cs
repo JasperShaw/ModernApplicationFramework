@@ -69,7 +69,7 @@ namespace ModernApplicationFramework.Core.CommandFocus
                     if (_isChecking)
                         return;
                     _isChecking = true;
-                    e.CanExecute = routed.CanExecute(e.Parameter, _restoreFocusScope.RestoreFocus);
+                    e.CanExecute = routed.CanExecute(e.Parameter, _restoreFocusScope?.RestoreFocus);
                     _isChecking = false;
                     if (e.CanExecute)
                         e.Handled = true;
