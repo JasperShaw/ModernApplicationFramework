@@ -56,6 +56,7 @@ namespace ModernApplicationFramework.Core.CommandFocus
             RegisterClassHandlers(typeof(ToolBar));
             EventManager.RegisterClassHandler(typeof(UIElement), System.Windows.Controls.ContextMenu.ClosedEvent,
                 new RoutedEventHandler(OnContextMenuClosed));
+
             InputManager.Current.LeaveMenuMode += (param1, param2) => CorrectDetachedHwndFocus();
             Application.Current.MainWindow?.AddHandler(CommandManager.PreviewCanExecuteEvent, new CanExecuteRoutedEventHandler(CorrectFocusLookup));
         }
@@ -106,7 +107,7 @@ namespace ModernApplicationFramework.Core.CommandFocus
         internal static bool IsRegisteredCommandFocusElement(DependencyObject element)
         {
             if (!(element is Menu) && !(element is ContextMenu) && !(element is ToolBar))
-                return (uint) CommandBarNavigationHelper.GetCommandFocusMode(element) > 0U;
+                return (uint)CommandBarNavigationHelper.GetCommandFocusMode(element) > 0U;
             return true;
         }
 
@@ -170,7 +171,7 @@ namespace ModernApplicationFramework.Core.CommandFocus
         private static void OnCommandFocusModePropertyChanged(DependencyObject obj,
             DependencyPropertyChangedEventArgs e)
         {
-            var newValue = (CommandBarNavigationHelper.CommandFocusMode) e.NewValue;
+            var newValue = (CommandBarNavigationHelper.CommandFocusMode)e.NewValue;
             var type = obj.GetType();
             if (newValue == CommandBarNavigationHelper.CommandFocusMode.None ||
                 RegisteredCommandFocusElementTypes.Contains(type) || type.IsEquivalentTo(typeof(Menu)) ||
@@ -243,20 +244,48 @@ namespace ModernApplicationFramework.Core.CommandFocus
         {
             if (!IsCurrentThreadMainUiThread())
                 return;
+
             if (!(sender is DependencyObject dependencyObject) || !IsRegisteredCommandFocusElement(dependencyObject))
                 return;
+
             if (_restoreFocusScope == null && IsCommandContainerGainingFocus(args.OldFocus, args.NewFocus))
             {
+
                 if (!IsAttachedCommandFocusElement(dependencyObject))
                     CurrentMenuModeSource = PresentationSource.FromDependencyObject(dependencyObject);
+
                 IntPtr restoreFocusWindow = args.OldFocus != null ? IntPtr.Zero : User32.GetFocus();
                 IntPtr expectedDefocusWindow = ComputeExpectedDefocusWindow(args.OldFocus as DependencyObject);
-                _restoreFocusScope = (RestoreFocusScope)new CommandRestoreFocusScope(args.OldFocus, restoreFocusWindow, expectedDefocusWindow);
-                PreventFocusScopeCommandRedirection(args.NewFocus as DependencyObject);
+                _restoreFocusScope = new CommandRestoreFocusScope(args.OldFocus, restoreFocusWindow, expectedDefocusWindow);
+
+                //Disable because this seems to fuck up context menus
+                //PreventFocusScopeCommandRedirection(args.NewFocus as DependencyObject);
             }
+
+
+
+
             if (PresentationSource.FromDependencyObject(dependencyObject) != null)
                 return;
             args.Handled = true;
+
+
+            //if (!IsCurrentThreadMainUiThread())
+            //    return;
+            //if (!(sender is DependencyObject dependencyObject) || !IsRegisteredCommandFocusElement(dependencyObject))
+            //    return;
+            //if (_restoreFocusScope == null && IsCommandContainerGainingFocus(args.OldFocus, args.NewFocus))
+            //{
+            //    if (!IsAttachedCommandFocusElement(dependencyObject))
+            //        CurrentMenuModeSource = PresentationSource.FromDependencyObject(dependencyObject);
+            //    IntPtr restoreFocusWindow = args.OldFocus != null ? IntPtr.Zero : User32.GetFocus();
+            //    IntPtr expectedDefocusWindow = ComputeExpectedDefocusWindow(args.OldFocus as DependencyObject);
+            //    _restoreFocusScope = (RestoreFocusScope)new CommandRestoreFocusScope(args.OldFocus, restoreFocusWindow, expectedDefocusWindow);
+            //    PreventFocusScopeCommandRedirection(args.NewFocus as DependencyObject);
+            //}
+            //if (PresentationSource.FromDependencyObject(dependencyObject) != null)
+            //    return;
+
         }
 
         private static void OnPreviewLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs args)
