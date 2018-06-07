@@ -32,9 +32,6 @@ namespace ModernApplicationFramework.Extended.Commands
 
         public DeleteCommandDefinition()
         {
-            //var command = new UICommand(Delete, CanDelete);
-            //Command = command;
-
             DefaultKeyGesture = new MultiKeyGesture(Key.Delete);
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
         }

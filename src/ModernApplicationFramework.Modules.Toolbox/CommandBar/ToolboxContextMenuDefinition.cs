@@ -20,10 +20,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
         public static CommandBarItemDefinition CloseCommandItemDefinition =
             new CommandBarCommandItemDefinition<DeleteCommandDefinition>(new Guid("{180D3794-7914-4B4C-BD5E-F4A101FAF831}"), BasicEditGroup, 1, true, false, false, true);
 
-
-
-
-
         [Export]
         public static CommandBarGroupDefinition CategoryCommandGroup =
             new CommandBarGroupDefinition(ToolboxContextMenu, 3);
@@ -39,8 +35,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
         [Export]
         public static CommandBarItemDefinition RenameCategoryDefinition =
             new CommandBarCommandItemDefinition<RenameToolboxCategoryCommandDefinition>(new Guid("{1D6FB604-BF18-44F1-8EE4-50C8015D29C8}"), CategoryCommandGroup, 2, true, false, false, true);
-
-
 
         [Export]
         public static CommandBarGroupDefinition ItemMoveCommandGroup =
