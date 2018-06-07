@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Caliburn.Micro;
+using ModernApplicationFramework.Controls.Buttons;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.NativeMethods;
@@ -22,10 +23,10 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
         private bool _doubleClicked;
         private TextBox _editBox;
         private UIElement _emptyMessageHolder;
+        private bool _errorShowing;
         private DispatcherTimer _hoverTimer;
 
         private bool _isDragHoveringElapsed;
-        private bool _errorShowing;
 
         public ToolboxTreeViewItem()
         {
@@ -40,20 +41,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
 
             if (_editBox != null)
                 _editBox.LostKeyboardFocus += _editBox_LostKeyboardFocus;
-        }
-
-        private void _editBox_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            if (InputManager.Current.IsInMenuMode)
-            {
-                if (!(e.NewFocus is ContextMenu newFocus) || !Equals(newFocus.PlacementTarget, _editBox))
-                {
-                    if (!(e.NewFocus is MenuItem))
-                        _currentNode.ExitRenameMode();
-                }
-            }
-            else
-                TryCommitRename(true);
         }
 
         protected override DependencyObject GetContainerForItemOverride()
@@ -160,10 +147,24 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
             base.OnPreviewMouseRightButtonDown(e);
         }
 
+        private void _editBox_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            if (InputManager.Current.IsInMenuMode)
+            {
+                if (!(e.NewFocus is ContextMenu newFocus) || !Equals(newFocus.PlacementTarget, _editBox))
+                    if (!(e.NewFocus is MenuItem) || !(e.NewFocus is CommandDefinitionButton))
+                        _currentNode.ExitRenameMode();
+            }
+            else
+            {
+                TryCommitRename(true);
+            }
+        }
+
         private void HandleLogicalLeft()
         {
             var parent = this.FindAncestorOrSelf<TreeView>();
-            ((UIElement)parent?.ItemContainerGenerator.ContainerFromItem(parent))?.Focus();
+            ((UIElement) parent?.ItemContainerGenerator.ContainerFromItem(parent))?.Focus();
         }
 
         private void HandleLogicalRight()
@@ -268,6 +269,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
                     _currentNode.ExitRenameMode();
                     return;
                 }
+
                 IoC.Get<IMafUIShell>().GetAppName(out var appName);
                 _errorShowing = true;
                 MessageBox.Show(message, appName, MessageBoxButton.OK, MessageBoxImage.Exclamation);
@@ -275,6 +277,5 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
                 TriggerRename(true);
             }
         }
-
     }
 }
