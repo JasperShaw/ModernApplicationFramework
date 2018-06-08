@@ -39,5 +39,13 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
         [Export]
         public static CommandBarGroupDefinition ItemMoveCommandGroup =
             new CommandBarGroupDefinition(ToolboxContextMenu, 3);
+
+        [Export]
+        public static CommandBarItemDefinition MoveUpCommandDefinition=
+            new CommandBarCommandItemDefinition<ToolboxNodeUpCommandDefinition>(new Guid("{F4E38EF2-9D9E-45B6-BD5D-72C3CE062F09}"), ItemMoveCommandGroup, 0);
+
+        [Export]
+        public static CommandBarItemDefinition MoveDownCommandDefinition =
+            new CommandBarCommandItemDefinition<ToolboxNodeDownCommandDefinition>(new Guid("{F0411BF9-0D4A-46F0-84C6-E9CA0C303EA7}"), ItemMoveCommandGroup, 1);
     }
 }

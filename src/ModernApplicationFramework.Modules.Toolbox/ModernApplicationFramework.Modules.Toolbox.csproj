@@ -67,6 +67,8 @@
     <Compile Include="CommandBar\DeleteActiveToolbarCategoryCommandDefinition.cs" />
     <Compile Include="CommandBar\RenameToolboxCategoryCommandDefinition.cs" />
     <Compile Include="CommandBar\ToolboxContextMenuDefinition.cs" />
+    <Compile Include="CommandBar\ToolboxNodeDownCommandDefinition.cs" />
+    <Compile Include="CommandBar\ToolboxNodeUpCommandDefinition.cs" />
     <Compile Include="Controls\ToolboxInsertAdorner.cs" />
     <Compile Include="Converters\ToolboxItemVisibilityConverter.cs" />
     <Compile Include="Converters\TreeNodeEditModeWidthConverter.cs" />
