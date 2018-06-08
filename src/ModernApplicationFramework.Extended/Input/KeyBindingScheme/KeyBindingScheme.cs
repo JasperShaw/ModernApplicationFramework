@@ -29,6 +29,8 @@ namespace ModernApplicationFramework.Extended.Input.KeyBindingScheme
             var list = new List<CommandGestureScopeMapping>();
             var scopes = IoC.GetAll<GestureScope>().ToList();       
             var service = IoC.Get<ICommandService>();
+            if (file.Shortcuts == null)
+                return new KeyBindingScheme(file.Name, list);
             foreach (var shortcut in file.Shortcuts)
             {
                 var cdb = service.GetCommandDefinitionBy("t" ,shortcut.Command);
