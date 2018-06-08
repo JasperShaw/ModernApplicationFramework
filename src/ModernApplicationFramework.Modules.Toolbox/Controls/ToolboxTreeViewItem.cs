@@ -142,8 +142,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
 
         protected override void OnPreviewMouseRightButtonDown(MouseButtonEventArgs e)
         {
-            if (!IsKeyboardFocusWithin)
-                Focus();
+            Focus();
             base.OnPreviewMouseRightButtonDown(e);
         }
 
