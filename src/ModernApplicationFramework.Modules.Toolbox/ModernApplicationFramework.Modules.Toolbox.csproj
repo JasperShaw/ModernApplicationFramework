@@ -72,6 +72,7 @@
     <Compile Include="Controls\ToolboxInsertAdorner.cs" />
     <Compile Include="Converters\ToolboxItemVisibilityConverter.cs" />
     <Compile Include="Converters\TreeNodeEditModeWidthConverter.cs" />
+    <Compile Include="NativeMethods\NativeMethods.cs" />
     <Compile Include="NativeMethods\User32.cs" />
     <Compile Include="State\ToolboxItemHost.cs" />
     <Compile Include="State\ToolboxStateSettings.cs" />
