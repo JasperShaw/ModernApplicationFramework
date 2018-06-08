@@ -74,7 +74,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
 
         private static void RegisterCommandHandlers(Type controlType)
         {
-            CommandHelpers.RegisterCommandHandler(controlType, EditingCommands.Delete, OnDelete, CanDelete, Key.Delete);
+            CommandHelpers.RegisterCommandHandler(controlType, EditingCommands.Delete, OnDelete, CanDelete);
         }
 
         private bool CanDelete()
