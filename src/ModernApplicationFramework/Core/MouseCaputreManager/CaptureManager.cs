@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -17,6 +18,7 @@ namespace ModernApplicationFramework.Core.MouseCaputreManager
             InputManager.Current.PostProcessInput += Current_PostProcessInput;
         }
 
+        [DebuggerStepThrough]
         private static void Current_PostProcessInput(object sender, ProcessInputEventArgs e)
         {
             if (_isSpoofingInput)
