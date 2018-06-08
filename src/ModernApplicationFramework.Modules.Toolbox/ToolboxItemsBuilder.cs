@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using Caliburn.Micro;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Items;
 using ModernApplicationFramework.Modules.Toolbox.State;
@@ -28,8 +27,9 @@ namespace ModernApplicationFramework.Modules.Toolbox
             foreach (var category in categories)
             {
                 category.Items.Clear();
-                var matching = items.Where(x => x.OriginalParent == category);
-                category.Items.AddRange(matching);
+                var matching = items.Where(x => x.OriginalParent == category).ToList();
+                //AddRange does currently not work because the triggered event has wrong args
+                matching.ForEach(x => category.Items.Add(x));
             }
             categories.AddRange(_host.AllCategories.Where(x => x.IsCustom));
             categories.Add(ToolboxItemCategory.DefaultCategory);
