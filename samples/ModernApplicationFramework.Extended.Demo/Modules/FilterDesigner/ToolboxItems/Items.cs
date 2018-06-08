@@ -3,7 +3,6 @@ using System.ComponentModel.Composition;
 using System.Windows.Media.Imaging;
 using ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.ViewModels;
 using ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.ViewModels.Elements;
-using ModernApplicationFramework.Modules.Toolbox;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Items;
 
