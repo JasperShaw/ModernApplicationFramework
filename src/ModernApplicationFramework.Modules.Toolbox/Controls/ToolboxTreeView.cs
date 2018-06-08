@@ -15,11 +15,13 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
 {
     internal class ToolboxTreeView : TreeView
     {
-
         private static readonly DependencyPropertyKey IsContextMenuOpenPropertyKey =
             DependencyProperty.RegisterAttachedReadOnly("IsContextMenuOpen", typeof(bool), typeof(ToolboxTreeView),
                 new FrameworkPropertyMetadata(Boxes.BooleanFalse,
                     FrameworkPropertyMetadataOptions.Inherits));
+
+
+        private ContextMenuScope _contextMenuScope;
 
         public static readonly DependencyProperty IsContextMenuOpenProperty = IsContextMenuOpenPropertyKey.DependencyProperty;
 
@@ -28,9 +30,15 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
             RegisterCommandHandlers(typeof(ToolboxTreeView));
         }
 
-        public IDisposable EnterContextMenuVisualState()
+        private void EnterContextMenuVisualState()
         {
-            return new ContextMenuScope(this);
+            _contextMenuScope = new ContextMenuScope(this);
+        }
+
+        private void LeaveContextMenuVisualState()
+        {
+            _contextMenuScope?.Dispose();
+            _contextMenuScope = null;
         }
 
         protected override DependencyObject GetContainerForItemOverride()
@@ -61,15 +69,21 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
                 return;
             if (ContextMenu == null)
                 return;
-            using (EnterContextMenuVisualState())
-            {
-                var point = GetContextMenuLocation();
-                ContextMenu.Placement = PlacementMode.AbsolutePoint;
-                ContextMenu.VerticalOffset = point.Y;
-                ContextMenu.HorizontalOffset = point.X;
-                ContextMenu.IsOpen = true;
-                e.Handled = true;
-            }
+            EnterContextMenuVisualState();
+            var point = GetContextMenuLocation();
+            ContextMenu.Placement = PlacementMode.Absolute;
+            ContextMenu.VerticalOffset = point.Y;
+            ContextMenu.HorizontalOffset = point.X;
+            ContextMenu.IsOpen = true;
+            ContextMenu.Closed += ContextMenu_Closed;
+            e.Handled = true;
+        }
+
+        private void ContextMenu_Closed(object sender, RoutedEventArgs e)
+        {
+            if (sender is ContextMenu contextMenu)
+                contextMenu.Closed -= ContextMenu_Closed;
+            LeaveContextMenuVisualState();
         }
 
         private Point GetContextMenuLocation()

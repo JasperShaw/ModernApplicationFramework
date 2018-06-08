@@ -31,6 +31,7 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converters1:EmptyMessageVisibilityConverter x:Key="EmptyMessageVisibilityConverter"/>
         <converters1:TreeNodeEditModeWidthConverter x:Key="TreeNodeEditModeWidthConverter"/>
+        <general:OrBooleanConverter x:Key="OrBooleanConverter"/>
 
         <Style x:Key="EditableTextBox" TargetType="{x:Type TextBox}">
             <Setter Property="Width">
@@ -178,7 +179,25 @@
                                 <Setter TargetName="Expander" Property="Background" Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxCategoryInactiveExtenderBackground}}"/>
                                 <Setter TargetName="Expander" Property="BorderBrush" Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxCategoryInactiveExtenderBorder}}"/>
                             </MultiTrigger>
-
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource Self}}" Value="True"/>
+                                    <Condition Value="True">
+                                        <Condition.Binding>
+                                            <MultiBinding Converter="{StaticResource OrBooleanConverter}">
+                                                <Binding Path="(Selector.IsSelectionActive)" RelativeSource="{RelativeSource Self}"/>
+                                                <Binding Path="(controls:ToolboxTreeView.IsContextMenuOpen)" RelativeSource="{RelativeSource Self}"/>
+                                            </MultiBinding>
+                                        </Condition.Binding>
+                                    </Condition>
+                                </MultiDataTrigger.Conditions>
+                                <Setter TargetName="PART_Header" Property="TextElement.Foreground"
+                                        Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemSelectedText}}"/>
+                                <Setter TargetName="ItemRect" Property="Fill"
+                                        Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemSelected}}"/>
+                                <Setter TargetName="Expander" Property="Background" Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxCategorySelectedExtenderBackground}}"/>
+                                <Setter TargetName="Expander" Property="BorderBrush" Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxCategorySelectedExtenderBorder}}"/>
+                            </MultiDataTrigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
@@ -289,6 +308,23 @@
                                 <Setter Property="Background" 
                                         Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemSelectedText}}" TargetName="Bd"/>
                             </DataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource Self}}" Value="True"/>
+                                    <Condition Value="True">
+                                        <Condition.Binding>
+                                            <MultiBinding Converter="{StaticResource OrBooleanConverter}">
+                                                <Binding Path="(Selector.IsSelectionActive)" RelativeSource="{RelativeSource Self}"/>
+                                                <Binding Path="(controls:ToolboxTreeView.IsContextMenuOpen)" RelativeSource="{RelativeSource Self}"/>
+                                            </MultiBinding>
+                                        </Condition.Binding>
+                                    </Condition>
+                                </MultiDataTrigger.Conditions>
+                                <Setter TargetName="PART_Header" Property="TextElement.Foreground"
+                                        Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemSelectedText}}"/>
+                                <Setter TargetName="Bd" Property="Background"
+                                        Value="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxItemSelected}}"/>
+                            </MultiDataTrigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
