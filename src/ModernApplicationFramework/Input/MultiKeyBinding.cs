@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows.Input;
 using System.Windows.Markup;
 
 namespace ModernApplicationFramework.Input
 {
+    [DebuggerStepThrough]
     public class MultiKeyBinding : InputBinding
     {
         [TypeConverter(typeof(MultiKeyGestureConverter))]
