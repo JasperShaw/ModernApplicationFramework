@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
@@ -28,18 +27,18 @@ namespace ModernApplicationFramework.Extended.Commands
         public override MultiKeyGesture DefaultKeyGesture { get; }
         public override GestureScope DefaultGestureScope { get; }
 
-        public override ICommand Command => EditingCommands.Delete;
+        public override ICommand Command { get; }
 
         public DeleteCommandDefinition()
         {
+            //Apparently even Routed Commands like the Editing Commands need to get wrapped so keybinding changes will be recognized
+            Command = new UICommand(Delete, CanDelete);
             DefaultKeyGesture = new MultiKeyGesture(Key.Delete);
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
         }
 
         private bool CanDelete()
         {
-            var f = Keyboard.FocusedElement;
-            var tb = new TextBox();
             return EditingCommands.Delete.CanExecute(null, null);
         }
 
