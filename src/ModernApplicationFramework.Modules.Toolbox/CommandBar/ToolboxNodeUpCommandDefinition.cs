@@ -35,11 +35,56 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
 
         private bool CanMoveNodeUp()
         {
+            if (_toolbox.SelectedNode is IToolboxCategory category)
+                return CheckCategoryUp(category);
+            if (_toolbox.SelectedNode is IToolboxItem item)
+                return CheckItemUp(item);
+            return false;
+        }
+
+        private bool CheckItemUp(IToolboxItem item)
+        {
+            if (item.Parent.Items.IndexOf(item) <= 0)
+                return false;
+            return true;
+        }
+
+        private bool CheckCategoryUp(IToolboxCategory category)
+        {
+            if (!_toolbox.Categories.Contains(category))
+                return false;
+            if (_toolbox.Categories.IndexOf(category) <= 0)
+                return false;
             return true;
         }
 
         private void MoveNodeUp()
         {
+            if (_toolbox.SelectedNode is IToolboxCategory category)
+                MoveCategoryUp(category);
+            if (_toolbox.SelectedNode is IToolboxItem item)
+                MoveItemUp(item);
+        }
+
+        private void MoveItemUp(IToolboxItem item)
+        {
+            if (item.Parent == null)
+                return;
+            var parent = item.Parent;
+            var index = item.Parent.Items.IndexOf(item);
+            parent.Items.RemoveAt(index);
+            parent.Items.Insert(index - 1, item);
+            _toolbox.SelectedNode = item;
+        }
+
+        private void MoveCategoryUp(IToolboxCategory category)
+        {
+            if (category == null)
+                return;
+            var index = _toolbox.Categories.IndexOf(category);
+            _toolbox.Categories.RemoveAt(index);
+            _toolbox.Categories.Insert(index - 1, category);
+            _toolbox.SelectedNode = category;
         }
     }
 }
