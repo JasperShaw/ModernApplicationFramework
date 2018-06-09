@@ -1,8 +1,11 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using ModernApplicationFramework.DragDrop;
 using ModernApplicationFramework.Modules.Toolbox.Controls;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
+using ModernApplicationFramework.Modules.Toolbox.Items;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Modules.Toolbox
 {
@@ -10,20 +13,38 @@ namespace ModernApplicationFramework.Modules.Toolbox
     {
         public void DragOver(IDropInfo dropInfo)
         {
-            if (dropInfo.IsSameDragDropContextAsSource)
+
+            dropInfo.DropTargetAdorner = null;
+            var stringFlag = false;
+
+            if (IsTextObjectInDragSource(dropInfo, out var dataObject))
+            {
+                dropInfo.Effects = DragDropEffects.Copy | DragDropEffects.Move;
+                dropInfo.DropTargetAdorner = typeof(ToolboxInsertAdorner);
+                dropInfo.Data = new ToolboxItem("Text1223", dataObject, new[] { typeof(object) });
+
+                stringFlag = true;
+            }
+
+            if (dropInfo.IsSameDragDropContextAsSource && !stringFlag)
             {
                 //Restore original data
                 dropInfo.Data = dropInfo.DragInfo.SourceItem;
             }
+
+
             DragDrop.DragDrop.DefaultDropHandler.DragOver(dropInfo);
+
+            if (!CanDropToolboxItem(dropInfo, dropInfo.Data as IToolboxItem))
+                dropInfo.Effects = DragDropEffects.None;
 
             if (dropInfo.IsSameDragDropContextAsSource)
             {
-                if (dropInfo.TargetItem == dropInfo.DragInfo.SourceItem)
+                if (dropInfo.DragInfo != null && dropInfo.TargetItem == dropInfo.DragInfo.SourceItem)
                     dropInfo.Effects = DragDropEffects.None;
                 else
                 {
-                    if (Equals(dropInfo.TargetCollection, dropInfo.DragInfo.SourceCollection))
+                    if (!stringFlag && Equals(dropInfo.TargetCollection, dropInfo.DragInfo.SourceCollection))
                     {
                         var targetSource = dropInfo.TargetCollection.Cast<object>().ToList();
                         var indexTarget = targetSource.IndexOf(dropInfo.TargetItem);
@@ -44,74 +65,73 @@ namespace ModernApplicationFramework.Modules.Toolbox
                 }
             }
 
-            if (dropInfo.TargetItem is IToolboxItem &&
-                dropInfo.InsertPosition.HasFlag(RelativeInsertPosition.TargetItemCenter))
-            {
-                dropInfo.Effects = DragDropEffects.None;
-                dropInfo.DropTargetAdorner = null;
-            }
             if (dropInfo.InsertPosition.HasFlag(RelativeInsertPosition.TargetItemCenter))
                 dropInfo.DropTargetAdorner = null;
             else
             {
                 dropInfo.DropTargetAdorner = dropInfo.Effects == DragDropEffects.None ? null : typeof(ToolboxInsertAdorner);
             }
-
         }
 
         public void Drop(IDropInfo dropInfo)
         {
-            if (dropInfo.IsSameDragDropContextAsSource)
+            bool stringFlag = false;
+            if (dropInfo.DragInfo == null && dropInfo.Data is IToolboxItem item && dropInfo.IsSameDragDropContextAsSource)
+            {
+                if (!item.Data.GetDataPresent(DataFormats.Text))
+                    return;
+                stringFlag = true;
+            }
+            if (dropInfo.IsSameDragDropContextAsSource && !stringFlag)
             {
                 //Restore original data
                 dropInfo.Data = dropInfo.DragInfo.SourceItem;
             }
+            if (stringFlag)
+            {
+                var destinationList = dropInfo.TargetCollection.TryGetList();
+                if (destinationList != null)
+                {
+                    destinationList.Insert(dropInfo.InsertIndex, dropInfo.Data);
 
-            DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo);
-            //FocusMovedElement(dropInfo);
+                    var selectDroppedItems = DragDrop.DragDrop.GetSelectDroppedItems(dropInfo.VisualTarget);
+                    if (selectDroppedItems)
+                    {
+                        DefaultDropHandler.SelectDroppedItems(dropInfo, new List<object>{dropInfo.Data});
+                    }
+                }
+            }
+            else
+            {
+                DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo);
+            }
+            
         }
 
-        //private void FocusMovedElement(IDropInfo dropInfo)
-        //{
-        //    var targetSource = dropInfo.TargetCollection.Cast<object>().ToList();
-        //    try
-        //    {
-        //        var insertIndex = dropInfo.InsertIndex;
-        //        if (dropInfo.InsertPosition == RelativeInsertPosition.AfterTargetItem &&
-        //            Equals(dropInfo.TargetCollection, dropInfo.DragInfo.SourceCollection))
-        //            insertIndex = --insertIndex;
+        public static bool CanDropToolboxItem(IDropInfo dropInfo, IToolboxItem item)
+        {
+            if (dropInfo.TargetItem == null && item != null)
+                return false;
+            if (dropInfo.TargetItem is IToolboxCategory && item != null &&
+                !dropInfo.InsertPosition.HasFlag(RelativeInsertPosition.TargetItemCenter))
+                return false;
+            if (dropInfo.TargetItem is IToolboxItem &&
+                dropInfo.InsertPosition.HasFlag(RelativeInsertPosition.TargetItemCenter))
+                return false;
+            return true;
+        }
 
-        //        var itemModel = targetSource.ElementAt(insertIndex);
-
-        //        if (!(dropInfo.VisualTarget is ToolboxTreeView tv))
-        //            return;
-        //        var item = ContainerFromItem(tv.ItemContainerGenerator, itemModel);
-        //        if (item is UIElement uiElement)
-        //            uiElement.Focus();
-        //    }
-        //    catch
-        //    {
-        //    }
-        //}
-
-        //private static TreeViewItem ContainerFromItem(ItemContainerGenerator containerGenerator, object item)
-        //{
-        //    var container = (TreeViewItem)containerGenerator.ContainerFromItem(item);
-        //    if (container != null)
-        //        return container;
-        //    foreach (var childItem in containerGenerator.Items)
-        //    {
-        //        var parent = containerGenerator.ContainerFromItem(childItem) as TreeViewItem;
-        //        if (parent == null)
-        //            continue;
-        //        container = parent.ItemContainerGenerator.ContainerFromItem(item) as TreeViewItem;
-        //        if (container != null)
-        //            return container;
-        //        container = ContainerFromItem(parent.ItemContainerGenerator, item);
-        //        if (container != null)
-        //            return container;
-        //    }
-        //    return null;
-        //}
+        public static bool IsTextObjectInDragSource(IDropInfo dropInfo, out IDataObject stringData)
+        {
+            stringData = null;
+            if (dropInfo.DragInfo == null && dropInfo.Data is IDataObject dataObject &&
+                dropInfo.IsSameDragDropContextAsSource)
+            {
+                if (!dataObject.GetDataPresent(DataFormats.Text))
+                    return false;
+                stringData = dataObject;
+            }
+            return true;
+        }
     }
 }

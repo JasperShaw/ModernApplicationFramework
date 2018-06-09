@@ -24,12 +24,18 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
 
         public IDataObject Data { get; }
 
-        public ToolboxItem(Guid id , string name, Type targetType, IToolboxCategory originalParent, IEnumerable<Type> compatibleTypes,  BitmapSource iconSource = null, bool serializable = true) : 
+        public ToolboxItem(string name, IDataObject data, IEnumerable<Type> compatibleTypes) : this(Guid.Empty, name, data, null, compatibleTypes, null, true, true)
+        {
+
+        }
+
+        public ToolboxItem(Guid id, string name, Type targetType, IToolboxCategory originalParent, IEnumerable<Type> compatibleTypes, BitmapSource iconSource = null, bool serializable = true) :
             this(id, name, new DataObject(ToolboxItemDataFormats.Type, targetType), originalParent, compatibleTypes, iconSource, serializable)
         {
         }
 
-        public ToolboxItem(Guid id , string name, IDataObject data, IToolboxCategory originalParent, IEnumerable<Type> compatibleTypes, BitmapSource iconSource = null, bool serializable = true) : base(id, name)
+        public ToolboxItem(Guid id, string name, IDataObject data, IToolboxCategory originalParent, IEnumerable<Type> compatibleTypes, 
+            BitmapSource iconSource = null, bool serializable = true, bool isCustom = false) : base(id, name, isCustom)
         {
             Data = data;
             OriginalParent = originalParent;

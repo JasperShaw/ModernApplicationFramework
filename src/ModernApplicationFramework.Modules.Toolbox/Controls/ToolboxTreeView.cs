@@ -5,9 +5,11 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Input;
 using Caliburn.Micro;
+using ModernApplicationFramework.DragDrop;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Modules.Toolbox.CommandBar;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
+using ModernApplicationFramework.Modules.Toolbox.Items;
 using ModernApplicationFramework.Modules.Toolbox.NativeMethods;
 using ModernApplicationFramework.Utilities;
 
@@ -53,15 +55,45 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
 
         protected override void OnDragOver(DragEventArgs e)
         {
-            base.OnDragOver(e);
+            base.OnDragOver(e);          
             var dragData = e.Data.GetData(DragDrop.DragDrop.DataFormat.Name);
             if (dragData is IToolboxCategory)
                 return;
-
             if (this.IsDragElementUnderLastTreeItem(e, out var element))
                 if (element is TreeViewItem tvi)
                     tvi.IsExpanded = true;
         }
+
+        protected override void OnDragEnter(DragEventArgs e)
+        {
+            var dropInfo = new DropInfo(this, e, null);
+            if (!IsTextObjectInDragSource(dropInfo, out var dataObject))
+                return;
+
+            dropInfo.Effects = DragDropEffects.Copy | DragDropEffects.Move;
+            var tempItem = new ToolboxItem(string.Empty, dataObject, new[] { typeof(object) });
+
+            if (!ToolboxDropHandler.CanDropToolboxItem(dropInfo, tempItem))
+                e.Effects = DragDropEffects.None;
+            e.Handled = true;
+        }
+
+
+        private static bool IsTextObjectInDragSource(IDropInfo dropInfo, out IDataObject stringData)
+        {
+            stringData = null;
+            if (dropInfo.DragInfo == null && dropInfo.Data is IDataObject dataObject &&
+                dropInfo.IsSameDragDropContextAsSource)
+            {
+                if (!dataObject.GetDataPresent(DataFormats.Text))
+                {
+                    return false;
+                }
+                stringData = dataObject;
+            }
+            return true;
+        }
+
 
         protected override void OnContextMenuOpening(ContextMenuEventArgs e)
         {
@@ -136,6 +168,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
         {
             CommandHelpers.RegisterCommandHandler(controlType, EditingCommands.Delete, OnDelete, CanDelete);
         }
+
+
 
         private bool CanDelete()
         {
