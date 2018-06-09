@@ -69,13 +69,17 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
                 return;
             if (ContextMenu == null)
                 return;
+
             EnterContextMenuVisualState();
             var point = GetContextMenuLocation();
+
             ContextMenu.Placement = PlacementMode.Absolute;
             ContextMenu.VerticalOffset = point.Y;
             ContextMenu.HorizontalOffset = point.X;
-            ContextMenu.IsOpen = true;
+            ContextMenu.PlacementTarget = this;
             ContextMenu.Closed += ContextMenu_Closed;
+
+            ContextMenu.IsOpen = true;
             e.Handled = true;
         }
 
