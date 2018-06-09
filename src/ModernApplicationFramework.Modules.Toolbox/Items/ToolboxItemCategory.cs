@@ -20,6 +20,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
         private IObservableCollection<IToolboxItem> _items;
         private bool _hasItems;
         private bool _hasVisibleItems;
+        private Type _currentType;
 
         public static bool IsDefaultCategory(IToolboxCategory category)
         {
@@ -88,6 +89,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
 
         public void Refresh(Type targetType)
         {
+            _currentType = targetType;
             HasVisibleItems = false;
             foreach (var item in Items)
             {
@@ -128,7 +130,10 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             if (e.NewItems != null)
             {
                 foreach (IToolboxItem item in e.NewItems)
+                {
                     item.Parent = this;
+                    item.EvaluateVisibility(_currentType);
+                }
             }
             HasItems = Items.Any();
             InternalRefreshVisibleItems();
