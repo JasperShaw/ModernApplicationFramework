@@ -1,11 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Markup;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Xml;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Utilities;
+using ModernApplicationFramework.Utilities.Imaging;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Items
 {
@@ -24,8 +31,14 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
 
         public IDataObject Data { get; }
 
-        public ToolboxItem(string name, IDataObject data, IEnumerable<Type> compatibleTypes) : this(Guid.Empty, name, data, null, compatibleTypes, null, true, true)
+        public ToolboxItem(string name, IDataObject data, IEnumerable<Type> compatibleTypes, BitmapSource iconSource = null) : this(Guid.Empty, name, data, null, compatibleTypes, iconSource, true, true)
         {
+
+            //var uri = new Uri("/ModernApplicationFramework.Modules.Toolbox;component/TextFile_16x.xaml",
+            //    UriKind.RelativeOrAbsolute);
+
+            //var myResourceDictionary = new ResourceDictionary { Source = uri };
+            //var visual = myResourceDictionary["TextFileIcon"] as Visual;
 
         }
 

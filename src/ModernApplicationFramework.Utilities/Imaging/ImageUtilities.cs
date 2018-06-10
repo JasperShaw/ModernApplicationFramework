@@ -5,6 +5,8 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Image = System.Windows.Controls.Image;
+using Point = System.Windows.Point;
+using Size = System.Windows.Size;
 
 namespace ModernApplicationFramework.Utilities.Imaging
 {
@@ -56,6 +58,33 @@ namespace ModernApplicationFramework.Utilities.Imaging
             var i = new Image { Source = bmp };
             RenderOptions.SetBitmapScalingMode(i, BitmapScalingMode.Fant);
             return i;
+        }
+
+        public static BitmapSource FrameworkElementToBitmapSource(FrameworkElement target)
+        {
+            return FrameworkElementToBitmapSource(target, 96,96);
+        }
+
+        public static BitmapSource FrameworkElementToBitmapSource(FrameworkElement target, double dpiX, double dpiY)
+        {
+            if (target == null)
+                return null;
+
+            var size = new Size(target.Width, target.Height);
+            target.Measure(size);
+            target.Arrange(new Rect(size));       
+            
+            var bounds = VisualTreeHelper.GetDescendantBounds(target);
+            var rtb = new RenderTargetBitmap((int)(bounds.Width * dpiX / 96.0), (int)(bounds.Height * dpiY / 96.0),dpiX, dpiY, PixelFormats.Pbgra32);
+            var dv = new DrawingVisual();
+
+            using (var ctx = dv.RenderOpen())
+            {
+                var brush = new VisualBrush(target);
+                ctx.DrawRectangle(brush, null, new Rect(new Point(), bounds.Size));
+            }
+            rtb.Render(dv);
+            return rtb;
         }
     }
 }

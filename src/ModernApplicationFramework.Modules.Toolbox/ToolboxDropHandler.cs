@@ -1,11 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Markup;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Xml;
 using ModernApplicationFramework.DragDrop;
 using ModernApplicationFramework.Modules.Toolbox.Controls;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Items;
 using ModernApplicationFramework.Utilities;
+using ModernApplicationFramework.Utilities.Imaging;
 
 namespace ModernApplicationFramework.Modules.Toolbox
 {
@@ -21,7 +28,24 @@ namespace ModernApplicationFramework.Modules.Toolbox
             {
                 dropInfo.Effects = DragDropEffects.Copy | DragDropEffects.Move;
                 dropInfo.DropTargetAdorner = typeof(ToolboxInsertAdorner);
-                dropInfo.Data = new ToolboxItem("Text1223", dataObject, new[] { typeof(object) });
+                //dropInfo.Data = new ToolboxItem("Text1223", dataObject, new[] { typeof(object) }, new BitmapImage(new Uri("pack://application:,,,/ModernApplicationFramework.Modules.Toolbox;component/text1.ico")));
+
+
+
+
+                FrameworkElement visual;
+                using (var stream = GetType().Assembly
+                    .GetManifestResourceStream("ModernApplicationFramework.Modules.Toolbox.TextFile_16x2.xaml"))
+                {
+                    using (var stringReader = new StreamReader(stream))
+                    {
+                        using (var xmlReader = new XmlTextReader(stringReader))
+                        {
+                            visual = (FrameworkElement) XamlReader.Load(xmlReader);
+                        }
+                    }
+                }
+                dropInfo.Data = new ToolboxItem("Text1223", dataObject, new[] { typeof(object) }, ImageUtilities.FrameworkElementToBitmapSource(visual));
 
                 stringFlag = true;
             }
@@ -53,13 +77,13 @@ namespace ModernApplicationFramework.Modules.Toolbox
                         if (indexTarget == -1)
                         {
                             if (indexSource == dropInfo.InsertIndex - 1 && (dropInfo.InsertPosition & RelativeInsertPosition.TargetItemCenter) == 0)
-                            dropInfo.Effects = DragDropEffects.None;
+                                dropInfo.Effects = DragDropEffects.None;
                         }
-                           
+
 
                         if (indexSource == indexTarget + 1 && dropInfo.InsertPosition == RelativeInsertPosition.AfterTargetItem && (dropInfo.InsertPosition & RelativeInsertPosition.TargetItemCenter) == 0)
                             dropInfo.Effects = DragDropEffects.None;
-                        if (indexSource == indexTarget -1 && dropInfo.InsertPosition == RelativeInsertPosition.BeforeTargetItem)
+                        if (indexSource == indexTarget - 1 && dropInfo.InsertPosition == RelativeInsertPosition.BeforeTargetItem)
                             dropInfo.Effects = DragDropEffects.None;
                     }
                 }
@@ -97,7 +121,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
                     var selectDroppedItems = DragDrop.DragDrop.GetSelectDroppedItems(dropInfo.VisualTarget);
                     if (selectDroppedItems)
                     {
-                        DefaultDropHandler.SelectDroppedItems(dropInfo, new List<object>{dropInfo.Data});
+                        DefaultDropHandler.SelectDroppedItems(dropInfo, new List<object> { dropInfo.Data });
                     }
                 }
             }
@@ -105,7 +129,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
             {
                 DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo);
             }
-            
+
         }
 
         public static bool CanDropToolboxItem(IDropInfo dropInfo, IToolboxItem item)

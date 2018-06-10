@@ -28,9 +28,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.WindowManagement", "src\ModernApplicationFramework.WindowManagement\ModernApplicationFramework.WindowManagement.csproj", "{674F7D84-B3AE-4CD6-AD12-0AFA4ACE516A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4D1C8100-FF4F-4F76-B4F3-AA904214A46E}"
-	ProjectSection(SolutionItems) = preProject
-		src\ModernApplicationFramework.Extended\Resources\Icons\Delete_16x.xaml = src\ModernApplicationFramework.Extended\Resources\Icons\Delete_16x.xaml
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{6930D16E-6FB9-4292-B9D4-55E4E9C458B9}"
 EndProject
