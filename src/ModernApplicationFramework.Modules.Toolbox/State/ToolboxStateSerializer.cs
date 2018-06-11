@@ -15,9 +15,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
     [Export(typeof(IToolboxStateSerializer))]
     public class ToolboxStateSerializer : LayoutSerializer<IToolboxNode>, IToolboxStateSerializer
     {
-        private IToolboxItemStateCache _stateCache;
-
-
         protected override string RootNode => "ToolboxLayoutState";
 
         protected override Stream ValidationScheme => Stream.Null;
@@ -32,7 +29,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
 
         protected override void EnsureInitialized()
         {
-            _stateCache = IoC.Get<IToolboxItemStateCache>();
         }
 
         protected override XmlNode GetBackupNode(in XmlDocument backup, IToolboxNode item)
@@ -58,30 +54,30 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
             if (xmlDocument == null)
                 return;
             var lastChild = xmlDocument.LastChild;
-            foreach (var type in _stateCache.GetKeys())
-            {
-                SerializeTargetType(type, ref lastChild, ref xmlDocument);   
-            }
-            SerializeDefaultCategory(ref lastChild, ref xmlDocument);
+            //foreach (var type in _stateCache.GetKeys())
+            //{
+            //    SerializeTargetType(type, ref lastChild, ref xmlDocument);   
+            //}
+            //SerializeDefaultCategory(ref lastChild, ref xmlDocument);
         }
 
         private void SerializeTargetType(Type type, ref XmlNode parentElement, ref XmlDocument document)
         {
-            var targetElement = document.CreateElement("TargetType", null, new KeyValuePair<string, string>("Type", type.FullName));
+            //var targetElement = document.CreateElement("TargetType", null, new KeyValuePair<string, string>("Type", type.FullName));
 
-            var categories = _stateCache.GetState(type);
-            if (categories == null || !categories.Any())
-                return;
+            //var categories = _stateCache.GetState(type);
+            //if (categories == null || !categories.Any())
+            //    return;
 
-            //We do not need to save default-only types
-            if (categories.Count == 1 && ToolboxItemCategory.IsDefaultCategory(categories.First()))
-                return;
+            ////We do not need to save default-only types
+            //if (categories.Count == 1 && ToolboxItemCategory.IsDefaultCategory(categories.First()))
+            //    return;
 
-            foreach (var category in categories)
-            {
-                SerializeCategory(category, ref targetElement, ref document);
-            }
-            parentElement.AppendChild(targetElement);
+            //foreach (var category in categories)
+            //{
+            //    SerializeCategory(category, ref targetElement, ref document);
+            //}
+            //parentElement.AppendChild(targetElement);
         }
 
 

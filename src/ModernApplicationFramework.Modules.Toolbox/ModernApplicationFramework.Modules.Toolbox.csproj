@@ -87,7 +87,6 @@
     <Compile Include="Commands\OpenToolboxCommandDefinition.cs" />
     <Compile Include="Interfaces\IToolboxItem.cs" />
     <Compile Include="Interfaces\IToolboxCategory.cs" />
-    <Compile Include="Interfaces\IToolboxItemStateCache.cs" />
     <Compile Include="Interfaces\IToolboxNode.cs" />
     <Compile Include="Interfaces\IToolboxStateBackupProvider.cs" />
     <Compile Include="Interfaces\IToolboxStateSerializer.cs" />
@@ -117,7 +116,6 @@
     <Compile Include="ToolboxItemDataFormats.cs" />
     <Compile Include="ToolboxItemsBuilder.cs" />
     <Compile Include="Items\ToolboxNodeItem.cs" />
-    <Compile Include="State\ToolboxItemStateCache.cs" />
     <Compile Include="State\ToolboxStateSerializer.cs" />
     <Compile Include="ToolboxTreeNodeStyleSelector.cs" />
     <Compile Include="ToolboxView.xaml.cs">

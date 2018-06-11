@@ -5,15 +5,9 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
 {
     public interface IToolboxService
     {
-        IReadOnlyCollection<IToolboxCategory> GetToolboxItemSource(Type layoutItemType);
+        IReadOnlyCollection<IToolboxCategory> GetToolboxItemSource();
 
-        void StoreItemSource(Type layoutItemType, IReadOnlyCollection<IToolboxCategory> itemsSource);
-
-        void StoreItemSource(Type layoutItemType, IEnumerable<IToolboxCategory> itemsSource);
-
-
-        //void StoreItemSource(Type type, IEnumerable<Guid> categoriesToStore);
-
+        void StoreItemsSource(IEnumerable<IToolboxCategory> itemsSource);
 
         IReadOnlyCollection<string> GetAllToolboxCategoryNames();
     }
