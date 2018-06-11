@@ -19,20 +19,15 @@ namespace ModernApplicationFramework.Modules.Toolbox
         public ToolboxItemsBuilder(ToolboxItemHost host)
         {
             _host = host;
-
-
-
-            Initialize();
         }
 
-        private void Initialize()
+        public void Initialize()
         {
             foreach (var category in _host.AllCategories)
             {
                 var items = _host.AllItems.Where(x => x.OriginalParent == category);
                 items.ForEach(x => category.Items.Add(x));
             }
-
         }
 
 

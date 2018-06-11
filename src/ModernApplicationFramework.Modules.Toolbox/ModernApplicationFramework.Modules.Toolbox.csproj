@@ -21,7 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>7.2</LangVersion>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,7 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>7.2</LangVersion>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
@@ -71,11 +71,13 @@
     <Compile Include="Commands\ToolboxNodeDownCommandDefinition.cs" />
     <Compile Include="Commands\ToolboxNodeUpCommandDefinition.cs" />
     <Compile Include="Controls\ToolboxInsertAdorner.cs" />
+    <Compile Include="Converters\CategoryVisibilityConverter.cs" />
     <Compile Include="Converters\ToolboxItemVisibilityConverter.cs" />
     <Compile Include="Converters\TreeNodeEditModeWidthConverter.cs" />
     <Compile Include="NativeMethods\NativeMethods.cs" />
     <Compile Include="NativeMethods\User32.cs" />
     <Compile Include="State\ToolboxItemHost.cs" />
+    <Compile Include="State\ToolboxStateProvider.cs" />
     <Compile Include="State\ToolboxStateSettings.cs" />
     <Compile Include="Controls\ToolboxTreeView.cs" />
     <Compile Include="Controls\ToolboxTreeViewItem.cs" />
