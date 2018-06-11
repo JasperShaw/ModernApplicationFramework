@@ -28,24 +28,24 @@ namespace ModernApplicationFramework.Modules.Toolbox
             {
                 dropInfo.Effects = DragDropEffects.Copy | DragDropEffects.Move;
                 dropInfo.DropTargetAdorner = typeof(ToolboxInsertAdorner);
-                //dropInfo.Data = new ToolboxItem("Text1223", dataObject, new[] { typeof(object) }, new BitmapImage(new Uri("pack://application:,,,/ModernApplicationFramework.Modules.Toolbox;component/text1.ico")));
+                dropInfo.Data = new ToolboxItem("Text1223", dataObject, new[] { typeof(object) }, new BitmapImage(new Uri("pack://application:,,,/ModernApplicationFramework.Modules.Toolbox;component/text.png")));
 
 
 
 
-                FrameworkElement visual;
-                using (var stream = GetType().Assembly
-                    .GetManifestResourceStream("ModernApplicationFramework.Modules.Toolbox.TextFile_16x2.xaml"))
-                {
-                    using (var stringReader = new StreamReader(stream))
-                    {
-                        using (var xmlReader = new XmlTextReader(stringReader))
-                        {
-                            visual = (FrameworkElement) XamlReader.Load(xmlReader);
-                        }
-                    }
-                }
-                dropInfo.Data = new ToolboxItem("Text1223", dataObject, new[] { typeof(object) }, ImageUtilities.FrameworkElementToBitmapSource(visual));
+                //FrameworkElement visual;
+                //using (var stream = GetType().Assembly
+                //    .GetManifestResourceStream("ModernApplicationFramework.Modules.Toolbox.TextFile_16x2.xaml"))
+                //{
+                //    using (var stringReader = new StreamReader(stream))
+                //    {
+                //        using (var xmlReader = new XmlTextReader(stringReader))
+                //        {
+                //            visual = (FrameworkElement) XamlReader.Load(xmlReader);
+                //        }
+                //    }
+                //}
+                //dropInfo.Data = new ToolboxItem("Text1223", dataObject, new[] { typeof(object) }, ImageUtilities.FrameworkElementToBitmapSource(visual));
 
                 stringFlag = true;
             }

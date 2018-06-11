@@ -20,6 +20,20 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
         public static CommandBarItemDefinition CloseCommandItemDefinition =
             new CommandBarCommandItemDefinition<DeleteCommandDefinition>(new Guid("{180D3794-7914-4B4C-BD5E-F4A101FAF831}"), BasicEditGroup, 1, true, false, false, true);
 
+
+
+
+        [Export]
+        public static CommandBarGroupDefinition ItemDisplayCommandGroup =
+            new CommandBarGroupDefinition(ToolboxContextMenu, 1);
+
+        [Export]
+        public static CommandBarItemDefinition ShowAllItemsDefinition =
+            new CommandBarCommandItemDefinition<ShowAllItemsCommandDefinition>(new Guid("{FBA2C1B5-993B-4939-9A0F-0D3025E9BA75}"), ItemDisplayCommandGroup, 0);
+
+
+
+
         [Export]
         public static CommandBarGroupDefinition CategoryCommandGroup =
             new CommandBarGroupDefinition(ToolboxContextMenu, 3);

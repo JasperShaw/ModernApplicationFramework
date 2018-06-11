@@ -66,6 +66,7 @@
     <Compile Include="CommandBar\AddCategoryCommandDefinition.cs" />
     <Compile Include="CommandBar\DeleteActiveToolbarCategoryCommandDefinition.cs" />
     <Compile Include="CommandBar\RenameToolboxCategoryCommandDefinition.cs" />
+    <Compile Include="CommandBar\ShowAllItemsCommandDefinition.cs" />
     <Compile Include="CommandBar\ToolboxContextMenuDefinition.cs" />
     <Compile Include="CommandBar\ToolboxNodeDownCommandDefinition.cs" />
     <Compile Include="CommandBar\ToolboxNodeUpCommandDefinition.cs" />
@@ -174,6 +175,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="text.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
