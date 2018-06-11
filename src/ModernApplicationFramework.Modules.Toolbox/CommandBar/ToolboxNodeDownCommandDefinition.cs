@@ -13,7 +13,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
     [Export(typeof(ToolboxNodeDownCommandDefinition))]
     public class ToolboxNodeDownCommandDefinition : CommandDefinition
     {
-        private readonly ToolboxViewModel _toolbox;
+        private readonly IToolbox _toolbox;
         public override string NameUnlocalized => "Move Down";
         public override string Text => "Move Down";
         public override string ToolTip => Text;
@@ -29,7 +29,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
         [ImportingConstructor]
         public ToolboxNodeDownCommandDefinition(IToolbox toolbox)
         {
-            _toolbox = toolbox as ToolboxViewModel;
+            _toolbox = toolbox;
             Command = new UICommand(MoveNodeDown, CanMoveNodeDown);
         }
 

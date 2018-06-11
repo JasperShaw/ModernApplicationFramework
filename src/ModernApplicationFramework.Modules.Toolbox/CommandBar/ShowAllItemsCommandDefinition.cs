@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
 namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
 {
@@ -16,6 +13,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
     [Export(typeof(ShowAllItemsCommandDefinition))]
     public class ShowAllItemsCommandDefinition : CommandDefinition
     {
+        private readonly IToolbox _toolbox;
+
         public override string NameUnlocalized => "Show All";
         public override string Text => "Show All";
         public override string ToolTip => Text;
@@ -28,10 +27,11 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
 
         public override ICommand Command { get; }
 
-        public ShowAllItemsCommandDefinition()
+        [ImportingConstructor]
+        public ShowAllItemsCommandDefinition(IToolbox toolbox)
         {
+            _toolbox = toolbox;
             Command = new UICommand(ShowAll, CanShowAll);
-            IsChecked = true;
         }
 
         private void ShowAll()

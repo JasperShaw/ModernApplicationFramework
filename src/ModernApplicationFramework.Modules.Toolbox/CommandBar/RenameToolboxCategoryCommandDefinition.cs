@@ -13,7 +13,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
     [Export(typeof(RenameToolboxCategoryCommandDefinition))]
     public class RenameToolboxCategoryCommandDefinition : CommandDefinition
     {
-        private readonly ToolboxViewModel _toolbox;
+        private readonly IToolbox _toolbox;
         public override string NameUnlocalized => "Rename Category";
         public override string Text => "Rename Category";
         public override string ToolTip => Text;
@@ -29,7 +29,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
         [ImportingConstructor]
         public RenameToolboxCategoryCommandDefinition(IToolbox toolbox)
         {
-            _toolbox = toolbox as ToolboxViewModel;
+            _toolbox = toolbox;
             var command = new UICommand(RenameItem, CanRenameItem);
             Command = command;
         }

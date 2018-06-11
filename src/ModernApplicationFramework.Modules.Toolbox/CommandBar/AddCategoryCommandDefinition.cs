@@ -17,7 +17,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
     [Export(typeof(AddCategoryCommandDefinition))]
     public class AddCategoryCommandDefinition : CommandDefinition
     {
-        private readonly ToolboxViewModel _toolbox;
+        private readonly IToolbox _toolbox;
 
         public override string NameUnlocalized => "Add Category";
         public override string Text => NameUnlocalized;
@@ -34,7 +34,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
         [ImportingConstructor]
         public AddCategoryCommandDefinition(IToolbox toolbox)
         {
-            _toolbox = toolbox as ToolboxViewModel;
+            _toolbox = toolbox;
 
             var command = new UICommand(RenameItem, CanRenameItem);
             Command = command;

@@ -16,7 +16,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
     [Export(typeof(DeleteActiveToolbarCategoryCommandDefinition))]
     public class DeleteActiveToolbarCategoryCommandDefinition : CommandDefinition
     {
-        private readonly ToolboxViewModel _toolbox;
+        private readonly IToolbox _toolbox;
         public override string NameUnlocalized => "Delete Active";
         public override string Text => NameUnlocalized;
         public override string ToolTip => Text;
@@ -33,7 +33,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
         [ImportingConstructor]
         public DeleteActiveToolbarCategoryCommandDefinition(IToolbox toolbox)
         {
-            _toolbox = toolbox as ToolboxViewModel;
+            _toolbox = toolbox;
 
             var command = new UICommand(DeleteItem, CanDeleteItem);
             Command = command;

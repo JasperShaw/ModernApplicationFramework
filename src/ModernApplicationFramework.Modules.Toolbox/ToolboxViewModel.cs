@@ -3,14 +3,12 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.DragDrop;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Extended.Utilities.PaneUtilities;
-using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.CommandBar;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
@@ -37,46 +35,8 @@ namespace ModernApplicationFramework.Modules.Toolbox
         public IDropTarget ToolboxDropHandler { get; } = new ToolboxDropHandler();
         public IDragSource ToolboxDragHandler { get; } = new ToolboxDragHandler();
 
-        public ICommand RenameTestCommand { get; } = new UICommand(RenameActiveItem, CanRename);
-
         public ContextMenu ContextMenu => IoC.Get<IContextMenuHost>()
             .GetContextMenu(ToolboxContextMenuDefinition.ToolboxContextMenu);
-
-        private static bool CanRename()
-        {
-            return IoC.Get<RenameToolboxCategoryCommandDefinition>().Command.CanExecute(null);
-        }
-
-        private static void RenameActiveItem()
-        {
-            IoC.Get<RenameToolboxCategoryCommandDefinition>().Command.Execute(null);
-        }
-
-        
-        public ICommand AddCategoryCommand { get; } = new UICommand(AddCategory, CanAddCategory);
-
-        private static bool CanAddCategory()
-        {
-            return IoC.Get<AddCategoryCommandDefinition>().Command.CanExecute(null);
-        }
-
-        private static void AddCategory()
-        {
-            IoC.Get<AddCategoryCommandDefinition>().Command.Execute(null);
-        }
-
-
-        public ICommand DeleteCategoryCommand { get; } = new UICommand(DeleteActiveItem, CanDeleteActiveItem);
-
-        private static bool CanDeleteActiveItem()
-        {
-            return IoC.Get<DeleteActiveToolbarCategoryCommandDefinition>().Command.CanExecute(null);
-        }
-
-        private static void DeleteActiveItem()
-        {
-            IoC.Get<DeleteActiveToolbarCategoryCommandDefinition>().Command.Execute(null);
-        }
 
 
         public IToolboxNode SelectedNode

@@ -13,7 +13,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
     [Export(typeof(ToolboxNodeUpCommandDefinition))]
     public class ToolboxNodeUpCommandDefinition : CommandDefinition
     {
-        private ToolboxViewModel _toolbox;
+        private readonly IToolbox _toolbox;
         public override string NameUnlocalized => "Move up";
         public override string Text => "Move up";
         public override string ToolTip => Text;
@@ -29,7 +29,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
         [ImportingConstructor]
         public ToolboxNodeUpCommandDefinition(IToolbox toolbox)
         {
-            _toolbox = toolbox as ToolboxViewModel;
+            _toolbox = toolbox;
             Command = new UICommand(MoveNodeUp, CanMoveNodeUp);
         }
 
