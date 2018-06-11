@@ -7,83 +7,83 @@ using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
-namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
+namespace ModernApplicationFramework.Modules.Toolbox.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
-    [Export(typeof(ToolboxNodeDownCommandDefinition))]
-    public class ToolboxNodeDownCommandDefinition : CommandDefinition
+    [Export(typeof(ToolboxNodeUpCommandDefinition))]
+    public class ToolboxNodeUpCommandDefinition : CommandDefinition
     {
         private readonly IToolbox _toolbox;
-        public override string NameUnlocalized => "Move Down";
-        public override string Text => "Move Down";
+        public override string NameUnlocalized => "Move up";
+        public override string Text => "Move up";
         public override string ToolTip => Text;
         public override Uri IconSource => null;
         public override string IconId => null;
         public override CommandCategory Category => CommandCategories.EditCommandCategory;
-        public override Guid Id => new Guid("{FC1C2BD3-A600-4C0D-BE5A-63DE8EED2EA9}");
+        public override Guid Id => new Guid("{3543E589-5D75-4CF5-88BC-254A14578C69}");
         public override MultiKeyGesture DefaultKeyGesture => null;
         public override GestureScope DefaultGestureScope => null;
 
         public override ICommand Command { get; }
 
         [ImportingConstructor]
-        public ToolboxNodeDownCommandDefinition(IToolbox toolbox)
+        public ToolboxNodeUpCommandDefinition(IToolbox toolbox)
         {
             _toolbox = toolbox;
-            Command = new UICommand(MoveNodeDown, CanMoveNodeDown);
+            Command = new UICommand(MoveNodeUp, CanMoveNodeUp);
         }
 
-        private bool CanMoveNodeDown()
+        private bool CanMoveNodeUp()
         {
             if (_toolbox.SelectedNode is IToolboxCategory category)
-                return CheckCategoryDown(category);
+                return CheckCategoryUp(category);
             if (_toolbox.SelectedNode is IToolboxItem item)
-                return CheckItemDown(item);
+                return CheckItemUp(item);
             return false;
         }
 
-        private bool CheckItemDown(IToolboxItem item)
+        private bool CheckItemUp(IToolboxItem item)
         {
-            if (item.Parent.Items.IndexOf(item) >= item.Parent.Items.Count - 1)
+            if (item.Parent.Items.IndexOf(item) <= 0)
                 return false;
             return true;
         }
 
-        private bool CheckCategoryDown(IToolboxCategory category)
+        private bool CheckCategoryUp(IToolboxCategory category)
         {
             if (!_toolbox.Categories.Contains(category))
                 return false;
-            if (_toolbox.Categories.IndexOf(category) >= _toolbox.Categories.Count - 1)
+            if (_toolbox.Categories.IndexOf(category) <= 0)
                 return false;
             return true;
         }
 
-        private void MoveNodeDown()
+        private void MoveNodeUp()
         {
             if (_toolbox.SelectedNode is IToolboxCategory category)
-                MoveCategoryDown(category);
+                MoveCategoryUp(category);
             if (_toolbox.SelectedNode is IToolboxItem item)
-                MoveItemDown(item);
+                MoveItemUp(item);
         }
 
-        private void MoveItemDown(IToolboxItem item)
+        private void MoveItemUp(IToolboxItem item)
         {
             if (item.Parent == null)
                 return;
             var parent = item.Parent;
             var index = item.Parent.Items.IndexOf(item);
             parent.Items.RemoveAt(index);
-            parent.Items.Insert(index + 1, item);
+            parent.Items.Insert(index - 1, item);
             _toolbox.SelectedNode = item;
         }
 
-        private void MoveCategoryDown(IToolboxCategory category)
+        private void MoveCategoryUp(IToolboxCategory category)
         {
             if (category == null)
                 return;
             var index = _toolbox.Categories.IndexOf(category);
             _toolbox.Categories.RemoveAt(index);
-            _toolbox.Categories.Insert(index + 1, category);
+            _toolbox.Categories.Insert(index - 1, category);
             _toolbox.SelectedNode = category;
         }
     }

@@ -63,13 +63,13 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandBar\AddCategoryCommandDefinition.cs" />
-    <Compile Include="CommandBar\DeleteActiveToolbarCategoryCommandDefinition.cs" />
-    <Compile Include="CommandBar\RenameToolboxCategoryCommandDefinition.cs" />
-    <Compile Include="CommandBar\ShowAllItemsCommandDefinition.cs" />
+    <Compile Include="Commands\AddCategoryCommandDefinition.cs" />
+    <Compile Include="Commands\DeleteActiveToolbarCategoryCommandDefinition.cs" />
+    <Compile Include="Commands\RenameToolboxCategoryCommandDefinition.cs" />
+    <Compile Include="Commands\ToggleShowAllItemsCommandDefinition.cs" />
     <Compile Include="CommandBar\ToolboxContextMenuDefinition.cs" />
-    <Compile Include="CommandBar\ToolboxNodeDownCommandDefinition.cs" />
-    <Compile Include="CommandBar\ToolboxNodeUpCommandDefinition.cs" />
+    <Compile Include="Commands\ToolboxNodeDownCommandDefinition.cs" />
+    <Compile Include="Commands\ToolboxNodeUpCommandDefinition.cs" />
     <Compile Include="Controls\ToolboxInsertAdorner.cs" />
     <Compile Include="Converters\ToolboxItemVisibilityConverter.cs" />
     <Compile Include="Converters\TreeNodeEditModeWidthConverter.cs" />
@@ -82,7 +82,7 @@
     <Compile Include="Design\DesignTimeToolboxViewModel.cs" />
     <Compile Include="Interfaces\IToolbox.cs" />
     <Compile Include="CommandBar\MenuDefinitions.cs" />
-    <Compile Include="CommandBar\OpenToolboxCommandDefinition.cs" />
+    <Compile Include="Commands\OpenToolboxCommandDefinition.cs" />
     <Compile Include="Interfaces\IToolboxItem.cs" />
     <Compile Include="Interfaces\IToolboxCategory.cs" />
     <Compile Include="Interfaces\IToolboxItemStateCache.cs" />
@@ -179,5 +179,6 @@
   <ItemGroup>
     <Resource Include="text.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

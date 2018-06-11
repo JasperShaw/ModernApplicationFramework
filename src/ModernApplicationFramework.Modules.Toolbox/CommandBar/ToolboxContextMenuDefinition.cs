@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.ContextMenu;
 using ModernApplicationFramework.Extended.Commands;
+using ModernApplicationFramework.Modules.Toolbox.Commands;
 
 namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
 {
@@ -29,7 +30,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
 
         [Export]
         public static CommandBarItemDefinition ShowAllItemsDefinition =
-            new CommandBarCommandItemDefinition<ShowAllItemsCommandDefinition>(new Guid("{FBA2C1B5-993B-4939-9A0F-0D3025E9BA75}"), ItemDisplayCommandGroup, 0);
+            new CommandBarCommandItemDefinition<ToggleShowAllItemsCommandDefinition>(new Guid("{FBA2C1B5-993B-4939-9A0F-0D3025E9BA75}"), ItemDisplayCommandGroup, 0);
 
 
 

@@ -7,41 +7,41 @@ using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
-namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
+namespace ModernApplicationFramework.Modules.Toolbox.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
-    [Export(typeof(ShowAllItemsCommandDefinition))]
-    public class ShowAllItemsCommandDefinition : CommandDefinition
+    [Export(typeof(RenameToolboxCategoryCommandDefinition))]
+    public class RenameToolboxCategoryCommandDefinition : CommandDefinition
     {
         private readonly IToolbox _toolbox;
-
-        public override string NameUnlocalized => "Show All";
-        public override string Text => "Show All";
+        public override string NameUnlocalized => "Rename Category";
+        public override string Text => "Rename Category";
         public override string ToolTip => Text;
         public override Uri IconSource => null;
         public override string IconId => null;
-        public override CommandCategory Category => CommandCategories.FileCommandCategory;
-        public override Guid Id => new Guid("{BB1C5EAB-A114-4A06-995C-E311F9DA8C11}");
+        public override CommandCategory Category => CommandCategories.ViewCommandCategory;
+        public override Guid Id => new Guid("{0524D1D9-DF40-4D62-85DB-966AED7F8C35}");
         public override MultiKeyGesture DefaultKeyGesture => null;
         public override GestureScope DefaultGestureScope => null;
 
         public override ICommand Command { get; }
 
         [ImportingConstructor]
-        public ShowAllItemsCommandDefinition(IToolbox toolbox)
+        public RenameToolboxCategoryCommandDefinition(IToolbox toolbox)
         {
             _toolbox = toolbox;
-            Command = new UICommand(ShowAll, CanShowAll);
+            var command = new UICommand(RenameItem, CanRenameItem);
+            Command = command;
         }
 
-        private void ShowAll()
+        private bool CanRenameItem()
         {
-            
+            return _toolbox.SelectedNode is IToolboxCategory;
         }
 
-        private bool CanShowAll()
+        private void RenameItem()
         {
-            return true;
+            _toolbox.SelectedNode.EnterRenameMode();
         }
     }
 }

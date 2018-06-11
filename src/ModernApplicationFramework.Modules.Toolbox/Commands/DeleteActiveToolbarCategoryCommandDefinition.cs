@@ -10,7 +10,7 @@ using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Items;
 using ModernApplicationFramework.Modules.Toolbox.State;
 
-namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
+namespace ModernApplicationFramework.Modules.Toolbox.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(DeleteActiveToolbarCategoryCommandDefinition))]

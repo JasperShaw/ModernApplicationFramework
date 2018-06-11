@@ -339,9 +339,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <TextBox Grid.Row="0"/>
         <controls:ToolboxTreeView x:Name="TreeView" Grid.Row="1" Margin="0,3,0,0"
@@ -363,8 +360,5 @@
             </controls:ToolboxTreeView.ContextMenu>
 
         </controls:ToolboxTreeView>
-        <Button Grid.Row="2" Content="Rename Active Item" Command="{Binding RenameTestCommand}"/>
-        <Button Grid.Row="3" Content="Add new Category" Command="{Binding AddCategoryCommand}"/>
-        <Button Grid.Row="4" Content="Delete Active Category" Command="{Binding DeleteCategoryCommand}"/>
     </Grid>
 </UserControl>

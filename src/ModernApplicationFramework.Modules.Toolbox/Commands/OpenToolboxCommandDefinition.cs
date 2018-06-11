@@ -9,7 +9,7 @@ using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
-namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
+namespace ModernApplicationFramework.Modules.Toolbox.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
     public class OpenToolboxCommandDefinition : CommandDefinition

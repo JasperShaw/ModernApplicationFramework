@@ -25,6 +25,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
         private readonly BindableCollection<IToolboxCategory> _categories;
         private IToolboxNode _selectedNode;
+        private bool _showAllItems;
 
         public override PaneLocation PreferredLocation => PaneLocation.Left;
 
@@ -34,6 +35,17 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
         public IDropTarget ToolboxDropHandler { get; } = new ToolboxDropHandler();
         public IDragSource ToolboxDragHandler { get; } = new ToolboxDragHandler();
+
+        public bool ShowAllItems
+        {
+            get => _showAllItems;
+            set
+            {
+                if (value == _showAllItems) return;
+                _showAllItems = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         public ContextMenu ContextMenu => IoC.Get<IContextMenuHost>()
             .GetContextMenu(ToolboxContextMenuDefinition.ToolboxContextMenu);

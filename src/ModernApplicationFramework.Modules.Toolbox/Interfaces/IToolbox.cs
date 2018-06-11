@@ -10,6 +10,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
 
         IDragSource ToolboxDragHandler { get; }
 
+        bool ShowAllItems { get; set; }
+
         IObservableCollection<IToolboxCategory> Categories { get; }
 
         IToolboxNode SelectedNode { get; set; }
