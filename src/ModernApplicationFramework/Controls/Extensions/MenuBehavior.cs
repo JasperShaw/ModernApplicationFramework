@@ -1,10 +1,13 @@
 ﻿using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using Caliburn.Micro;
-using ModernApplicationFramework.Controls.Menu;
+using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Core.Exception;
 using ModernApplicationFramework.Interfaces.Command;
 using ModernApplicationFramework.Interfaces.Controls;
+using MenuItem = ModernApplicationFramework.Controls.Menu.MenuItem;
 
 namespace ModernApplicationFramework.Controls.Extensions
 {
@@ -43,14 +46,15 @@ namespace ModernApplicationFramework.Controls.Extensions
                 if (contextMenu.IsOpen)
                     ContextMenuOpened(contextMenu, new RoutedEventArgs());
             }
-            
+
         }
 
         private static void ContextMenuOpened(object sender, RoutedEventArgs e)
         {
-            var contextMenu = (System.Windows.Controls.ContextMenu)sender;
+            var contextMenu = (ContextMenu)sender;
             if (sender == null)
                 return;
+            UpdateChekcedStatus(contextMenu);
             var menuItems = contextMenu.Items.OfType<IDummyListMenuItem>().ToList();
             if (menuItems.Count == 0)
                 return;
@@ -70,12 +74,30 @@ namespace ModernApplicationFramework.Controls.Extensions
             var menuItem = (MenuItem)sender;
             if (sender == null)
                 return;
+            UpdateChekcedStatus(menuItem);
             var menuItems = menuItem.Items.OfType<IDummyListMenuItem>().ToList();
             if (menuItems.Count == 0)
                 return;
+
             var commandRouter = IoC.Get<ICommandRouter>();
             foreach (var item in menuItems)
                 item.Update(commandRouter.GetCommandHandler(item.CommandBarItemDefinition.CommandDefinition));
+        }
+
+
+
+        private static void UpdateChekcedStatus(ItemsControl menuItem)
+        {
+            var menuItems = menuItem.Items.OfType<MenuItem>().ToList();
+            if (menuItems.Count == 0)
+                return;
+            foreach (var item in menuItems)
+            {
+                if (item.DataContext is CommandBarDefinitionBase definition &&
+                    definition.CommandDefinition is CommandDefinition command)
+                    definition.IsChecked = command.IsChecked;
+            }
+
         }
     }
 }
