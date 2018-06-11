@@ -1,23 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Markup;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Xml;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Utilities;
-using ModernApplicationFramework.Utilities.Imaging;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Items
 {
     public class ToolboxItem : ToolboxNodeItem, IToolboxItem
     {
+        private bool _isVisible;
+        private bool _isEnabled;
         public IToolboxCategory Parent { get; set; }
 
         public IToolboxCategory OriginalParent { get; }
@@ -27,7 +22,27 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
         public TypeArray<ILayoutItem> CompatibleTypes { get; }
         public bool Serializable { get; set; }
 
-        public bool IsVisible { get; protected set; }
+        public bool IsVisible
+        {
+            get => _isVisible;
+            set
+            {
+                if (value == _isVisible) return;
+                _isVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsEnabled
+        {
+            get => _isEnabled;
+            set
+            {
+                if (value == _isEnabled) return;
+                _isEnabled = value;
+                OnPropertyChanged();
+            }
+        }
 
         public IDataObject Data { get; }
 
@@ -60,7 +75,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
         public void EvaluateVisibility(Type targetType)
         {
             IsVisible = InternalEvaluateVisibility(targetType);
-            OnPropertyChanged(nameof(IsVisible));
         }
 
         protected virtual bool InternalEvaluateVisibility(Type targetType)

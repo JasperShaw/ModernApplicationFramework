@@ -20,7 +20,9 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
 
         bool Serializable { get; set; }
 
-        bool IsVisible { get; }
+        bool IsVisible { get; set; }
+
+        bool IsEnabled { get; set; }
 
         void EvaluateVisibility(Type targetType);
     }

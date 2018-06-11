@@ -50,4 +50,7 @@
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type toolbox:ToolBoxColors},
                      ResourceId=ToolboxItemRenameBackground}" Color="#FFFEFEFE"/>
 
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type toolbox:ToolBoxColors},
+                     ResourceId=ToolboxBackgroundTextDisabled}" Color="#FF656565"/>
+
 </ResourceDictionary>

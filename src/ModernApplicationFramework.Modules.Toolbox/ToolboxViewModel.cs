@@ -11,6 +11,7 @@ using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Extended.Utilities.PaneUtilities;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.CommandBar;
+using ModernApplicationFramework.Modules.Toolbox.Commands;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
 namespace ModernApplicationFramework.Modules.Toolbox
@@ -41,8 +42,10 @@ namespace ModernApplicationFramework.Modules.Toolbox
             get => _showAllItems;
             set
             {
-                if (value == _showAllItems) return;
+                if (value == _showAllItems)
+                    return;
                 _showAllItems = value;
+                ToggleShowAllItems(_showAllItems);
                 NotifyOfPropertyChange();
             }
         }
@@ -114,6 +117,14 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
             i.ForEach(x => x.Refresh(type));         
             _categories.AddRange(i);
+        }
+
+        private void ToggleShowAllItems(bool showAllItems)
+        {
+            foreach (var category in Categories)
+            {
+                category.Items.ForEach(x => x.IsVisible = true);
+            }
         }
     }
 }
