@@ -13,6 +13,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
 
         bool HasVisibleItems { get; }
 
+        bool HasEnabledItems { get; }
+
         void Refresh(Type targetType, bool forceVisibile = false);
 
         bool RemoveItem(IToolboxItem item);

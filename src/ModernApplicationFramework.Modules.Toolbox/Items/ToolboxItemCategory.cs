@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Interfaces;
@@ -13,7 +14,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
         public static Guid DefaultCategoryId = new Guid("{41047F4D-A2CF-412F-B216-A8B1E3C08F36}");
         public static Guid CustomCategoryGuid = Guid.Empty;
 
-        internal static IToolboxCategory DefaultCategory = new ToolboxItemCategory(new Guid("{41047F4D-A2CF-412F-B216-A8B1E3C08F36}"), typeof(object), "Default");
+        [Export] internal static IToolboxCategory DefaultCategory = new ToolboxItemCategory(new Guid("{41047F4D-A2CF-412F-B216-A8B1E3C08F36}"), typeof(object), "Default");
 
         public Type TargetType { get; }
 
@@ -22,6 +23,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
         private bool _hasVisibleItems;
         private Type _currentType;
         private bool _currentVisibleStatus;
+        private bool _hasEnabledItems;
 
         public static bool IsDefaultCategory(IToolboxCategory category)
         {
@@ -61,6 +63,17 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             }
         }
 
+        public bool HasEnabledItems
+        {
+            get => _hasEnabledItems;
+            protected set
+            {
+                if (value == _hasEnabledItems) return;
+                _hasEnabledItems = value;
+                OnPropertyChanged();
+            }
+        }
+
         static ToolboxItemCategory()
         {
             var i = new ToolboxItem(Guid.NewGuid(), "Test", typeof(int), DefaultCategory, new[] { typeof(ILayoutItem) });
@@ -92,16 +105,13 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
         {
             _currentType = targetType;
             _currentVisibleStatus = forceVisible;
-            HasVisibleItems = false;
             foreach (var item in Items)
             {
                 var flag = item.EvaluateEnabled(targetType);
                 item.IsEnabled = flag;
                 item.IsVisible = forceVisible || flag;
-
-                if (item.IsVisible)
-                    HasVisibleItems = true;
             }
+            InternalRefreshState();
         }
 
         public bool RemoveItem(IToolboxItem item)
@@ -144,16 +154,19 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
                 }
             }
             HasItems = Items.Any();
-            InternalRefreshVisibleItems();
+            InternalRefreshState();
         }
 
-        private void InternalRefreshVisibleItems()
+        private void InternalRefreshState()
         {
             HasVisibleItems = false;
+            HasEnabledItems = false;
             if (!HasItems)
                 return;
             if (Items.Any(x => x.IsVisible))
                 HasVisibleItems = true;
+            if (Items.Any(x => x.IsEnabled))
+                HasEnabledItems = true;
         }
     }
 }

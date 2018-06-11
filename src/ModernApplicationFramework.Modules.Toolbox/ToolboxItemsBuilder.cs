@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Items;
 using ModernApplicationFramework.Modules.Toolbox.State;
@@ -18,7 +19,25 @@ namespace ModernApplicationFramework.Modules.Toolbox
         public ToolboxItemsBuilder(ToolboxItemHost host)
         {
             _host = host;
+
+
+
+            Initialize();
         }
+
+        private void Initialize()
+        {
+            foreach (var category in _host.AllCategories)
+            {
+                var items = _host.AllItems.Where(x => x.OriginalParent == category);
+                items.ForEach(x => category.Items.Add(x));
+            }
+
+        }
+
+
+
+
 
         public IReadOnlyCollection<IToolboxCategory> Build(Type targetType)
         {
@@ -34,6 +53,23 @@ namespace ModernApplicationFramework.Modules.Toolbox
             categories.AddRange(_host.AllCategories.Where(x => x.IsCustom));
             categories.Add(ToolboxItemCategory.DefaultCategory);
             return categories;
+        }
+
+
+        public IEnumerable<Guid> NewBuild(Type targetType)
+        {
+            var items = _host.AllItems;
+            var categories = _host.AllCategories.Where(x => x.TargetType == targetType).ToList();
+            foreach (var category in categories)
+            {
+                category.Items.Clear();
+                var matching = items.Where(x => x.OriginalParent == category).ToList();
+                //AddRange does currently not work because the triggered event has wrong args
+                matching.ForEach(x => category.Items.Add(x));
+            }
+            categories.AddRange(_host.AllCategories.Where(x => x.IsCustom));
+            categories.Add(ToolboxItemCategory.DefaultCategory);
+            return categories.Select(x => x.Id);
         }
     }
 }

@@ -11,7 +11,6 @@ using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Extended.Utilities.PaneUtilities;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.CommandBar;
-using ModernApplicationFramework.Modules.Toolbox.Commands;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
 namespace ModernApplicationFramework.Modules.Toolbox
@@ -97,7 +96,12 @@ namespace ModernApplicationFramework.Modules.Toolbox
         private void StoreItems(ILayoutItem item)
         {
             var type = item == null ? typeof(object) : item.GetType();
-            _toolboxService.StoreItemSource(type, _categories.ToList());
+
+            //Do not store categories into cache that have no enabled items.
+            var categoriesToStore = _categories.Where(x => x.HasEnabledItems);
+            _toolboxService.StoreItemSource(type, categoriesToStore);
+
+            //_toolboxService.StoreItemSource(type, _categories.ToList());
         }
 
         private void RefreshToolboxItems(ILayoutItem item)
@@ -116,7 +120,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
 
             i.ForEach(x => x.Refresh(type, _showAllItems));         
-            _categories.AddRange(i);
+            _categories.AddRange(i.Where(x => x.HasEnabledItems));
         }
 
         private void ToggleShowAllItems(bool showAllItems)

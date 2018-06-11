@@ -9,6 +9,12 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
 
         void StoreItemSource(Type layoutItemType, IReadOnlyCollection<IToolboxCategory> itemsSource);
 
+        void StoreItemSource(Type layoutItemType, IEnumerable<IToolboxCategory> itemsSource);
+
+
+        //void StoreItemSource(Type type, IEnumerable<Guid> categoriesToStore);
+
+
         IReadOnlyCollection<string> GetAllToolboxCategoryNames();
     }
 }

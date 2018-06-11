@@ -24,18 +24,35 @@ namespace ModernApplicationFramework.Modules.Toolbox.Services
             Instance = this;
         }
 
+        //public IReadOnlyCollection<IToolboxCategory> GetToolboxItemSource(Type layoutItemType)
+        //{
+        //    var state = _stateCache.GetState(layoutItemType).ToList();
+        //    InjectDefaultCustomItems(ref state);
+        //    return state;
+        //}
+
+
+
         public IReadOnlyCollection<IToolboxCategory> GetToolboxItemSource(Type layoutItemType)
         {
-            var state = _stateCache.GetState(layoutItemType).ToList();
-            InjectDefaultCustomItems(ref state);
-            return state;
+            //var state = _stateCache.GetNewState(layoutItemType);
+            //InjectDefaultCustomItems(ref state);
+            return _host.AllCategories;
         }
+
+
 
         public void StoreItemSource(Type layoutItemType, IReadOnlyCollection<IToolboxCategory> itemsSource)
         {
             _stateCache.StoreState(layoutItemType, itemsSource);
             _stateCache.StoreDefaultAndCustomState(itemsSource.Where(x => x.IsCustom || x == ToolboxItemCategory.DefaultCategory).ToList());
         }
+
+        public void StoreItemSource(Type layoutItemType, IEnumerable<IToolboxCategory> itemsSource)
+        {
+            //_stateCache.StoreState(layoutItemType, itemsSource.Select(x => x.Id));
+        }
+
 
         public IReadOnlyCollection<string> GetAllToolboxCategoryNames()
         {
