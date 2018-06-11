@@ -7,7 +7,6 @@ using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.DragDrop;
 using ModernApplicationFramework.Input.Command;
-using ModernApplicationFramework.Modules.Toolbox.CommandBar;
 using ModernApplicationFramework.Modules.Toolbox.Commands;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Items;

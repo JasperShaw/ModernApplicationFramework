@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Windows.Markup;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Xml;
 using ModernApplicationFramework.DragDrop;
 using ModernApplicationFramework.Modules.Toolbox.Controls;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Items;
 using ModernApplicationFramework.Utilities;
-using ModernApplicationFramework.Utilities.Imaging;
 
 namespace ModernApplicationFramework.Modules.Toolbox
 {
@@ -59,7 +54,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
             DragDrop.DragDrop.DefaultDropHandler.DragOver(dropInfo);
 
-            if (!CanDropToolboxItem(dropInfo, dropInfo.Data as IToolboxItem))
+            if (!CanDropToolboxItem(dropInfo, dropInfo.Data as IToolboxNode))
                 dropInfo.Effects = DragDropEffects.None;
 
             if (dropInfo.IsSameDragDropContextAsSource)
@@ -132,11 +127,12 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
         }
 
-        public static bool CanDropToolboxItem(IDropInfo dropInfo, IToolboxItem item)
+        public static bool CanDropToolboxItem(IDropInfo dropInfo, IToolboxNode item)
         {
-            if (dropInfo.TargetItem == null && item != null)
+            if (dropInfo.TargetItem == null && item != null && !(item is IToolboxCategory))
                 return false;
             if (dropInfo.TargetItem is IToolboxCategory && item != null &&
+                !(item is IToolboxCategory) && 
                 !dropInfo.InsertPosition.HasFlag(RelativeInsertPosition.TargetItemCenter))
                 return false;
             if (dropInfo.TargetItem is IToolboxItem &&
@@ -154,8 +150,9 @@ namespace ModernApplicationFramework.Modules.Toolbox
                 if (!dataObject.GetDataPresent(DataFormats.Text))
                     return false;
                 stringData = dataObject;
+                return true;
             }
-            return true;
+            return false;
         }
     }
 }
