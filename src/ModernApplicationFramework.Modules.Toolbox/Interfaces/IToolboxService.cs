@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
 {
@@ -7,8 +6,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
     {
         IReadOnlyCollection<IToolboxCategory> GetToolboxItemSource();
 
-        void StoreItemsSource(IEnumerable<IToolboxCategory> itemsSource);
-
         IReadOnlyCollection<string> GetAllToolboxCategoryNames();
+
+        void StoreItemsSource(IEnumerable<IToolboxCategory> itemsSource);
     }
 }

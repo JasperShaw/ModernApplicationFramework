@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Composition;
+﻿using System.Collections.Specialized;
+using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
@@ -13,11 +14,10 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
             builder.Initialize();
             ItemsSource = new BindableCollection<IToolboxCategory>(host.AllCategories);
         }
+  
+        public IObservableCollection<IToolboxCategory> ItemsSource { get; }    }
 
-        public IObservableCollection<IToolboxCategory> ItemsSource { get; }
-    }
-
-    public interface IToolboxStateProvider
+    internal interface IToolboxStateProvider
     {
         IObservableCollection<IToolboxCategory> ItemsSource { get; }
     }

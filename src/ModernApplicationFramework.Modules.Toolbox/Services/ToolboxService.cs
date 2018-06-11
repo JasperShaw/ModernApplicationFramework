@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
@@ -8,7 +7,7 @@ using ModernApplicationFramework.Modules.Toolbox.State;
 namespace ModernApplicationFramework.Modules.Toolbox.Services
 {
     [Export(typeof(IToolboxService))]
-    public class ToolboxService : IToolboxService
+    internal class ToolboxService : IToolboxService
     {
         private readonly ToolboxItemHost _host;
         private readonly IToolboxStateProvider _stateProvider;
@@ -16,7 +15,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Services
         internal static IToolboxService Instance { get; private set; }
 
         [ImportingConstructor]
-        internal  ToolboxService(ToolboxItemHost host, IToolboxStateProvider stateProvider)
+        public ToolboxService(ToolboxItemHost host, IToolboxStateProvider stateProvider)
         {
             _host = host;
             _stateProvider = stateProvider;
@@ -34,7 +33,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.Services
             _stateProvider.ItemsSource.Clear();
             _stateProvider.ItemsSource.AddRange(itemsSource);
         }
-
 
         public IReadOnlyCollection<string> GetAllToolboxCategoryNames()
         {
