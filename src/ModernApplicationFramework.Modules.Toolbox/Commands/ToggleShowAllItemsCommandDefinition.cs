@@ -37,6 +37,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
         private void ShowAll()
         {
             _toolbox.ShowAllItems = !_toolbox.ShowAllItems;
+            IsChecked = _toolbox.ShowAllItems;
         }
 
         private bool CanShowAll()

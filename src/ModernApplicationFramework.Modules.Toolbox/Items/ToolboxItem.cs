@@ -48,13 +48,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
 
         public ToolboxItem(string name, IDataObject data, IEnumerable<Type> compatibleTypes, BitmapSource iconSource = null) : this(Guid.Empty, name, data, null, compatibleTypes, iconSource, true, true)
         {
-
-            //var uri = new Uri("/ModernApplicationFramework.Modules.Toolbox;component/TextFile_16x.xaml",
-            //    UriKind.RelativeOrAbsolute);
-
-            //var myResourceDictionary = new ResourceDictionary { Source = uri };
-            //var visual = myResourceDictionary["TextFileIcon"] as Visual;
-
         }
 
         public ToolboxItem(Guid id, string name, Type targetType, IToolboxCategory originalParent, IEnumerable<Type> compatibleTypes, BitmapSource iconSource = null, bool serializable = true) :
@@ -72,12 +65,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             Serializable = serializable;
         }
 
-        public void EvaluateVisibility(Type targetType)
-        {
-            IsVisible = InternalEvaluateVisibility(targetType);
-        }
-
-        protected virtual bool InternalEvaluateVisibility(Type targetType)
+        public virtual bool EvaluateEnabled(Type targetType)
         {
             return CompatibleTypes.Memebers.Contains(typeof(object)) ||
                    CompatibleTypes.Memebers.Any(targetType.ImplementsOrInharits);

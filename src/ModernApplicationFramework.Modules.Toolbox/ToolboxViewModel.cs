@@ -115,15 +115,19 @@ namespace ModernApplicationFramework.Modules.Toolbox
             var i = _toolboxService.GetToolboxItemSource(type);
 
 
-            i.ForEach(x => x.Refresh(type));         
+            i.ForEach(x => x.Refresh(type, _showAllItems));         
             _categories.AddRange(i);
         }
 
         private void ToggleShowAllItems(bool showAllItems)
         {
+            var type = typeof(object);
+            if (_hostViewModel.ActiveItem != null)
+                type = _hostViewModel.ActiveItem.GetType();
+
             foreach (var category in Categories)
             {
-                category.Items.ForEach(x => x.IsVisible = true);
+                category.Refresh(type, showAllItems);
             }
         }
     }

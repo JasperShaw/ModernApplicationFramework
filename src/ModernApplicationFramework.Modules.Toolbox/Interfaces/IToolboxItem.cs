@@ -24,6 +24,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
 
         bool IsEnabled { get; set; }
 
-        void EvaluateVisibility(Type targetType);
+        bool EvaluateEnabled(Type targetType);
     }
 }
