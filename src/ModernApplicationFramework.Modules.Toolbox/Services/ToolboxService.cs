@@ -67,6 +67,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Services
         {
             if (_stateProvider.ItemsSource.Contains(category))
                 _stateProvider.ItemsSource.Remove(category);
+            foreach (var item in category.Items.ToList())
+                category.RemoveItem(item);
             _host.DeleteNode(category);
             if (!supressRefresh)
                 _toolbox.RefreshView();

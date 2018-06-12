@@ -37,7 +37,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
 
         private void ResetToolbox()
         {
-            
+            _serializer.ResetFromBackup(_backupProvider.Backup);
         }
 
         private bool CanResetToolbox()

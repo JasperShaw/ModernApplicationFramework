@@ -31,6 +31,12 @@ namespace ModernApplicationFramework.Interfaces.Services
         void ResetFromBackup(XmlDocument backup, T item);
 
         /// <summary>
+        /// Restores from backup.
+        /// </summary>
+        /// <param name="backup">The backup.</param>
+        void ResetFromBackup(XmlDocument backup);
+
+        /// <summary>
         ///     Serializes the current layout to a stream.
         /// </summary>
         /// <param name="stream">The stream.</param>

@@ -2,7 +2,6 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
-using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Services;
 using ModernApplicationFramework.Modules.Toolbox.State;
@@ -12,7 +11,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
     public class ToolboxItemCategory : ToolboxNodeItem, IToolboxCategory
     {
         public static Guid DefaultCategoryId = new Guid("{41047F4D-A2CF-412F-B216-A8B1E3C08F36}");
-        public static Guid CustomCategoryGuid = Guid.Empty;
 
         [Export] internal static IToolboxCategory DefaultCategory = new ToolboxItemCategory(new Guid("{41047F4D-A2CF-412F-B216-A8B1E3C08F36}"), "Default");
 
@@ -72,20 +70,11 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             }
         }
 
-        static ToolboxItemCategory()
-        {
-            var i = new ToolboxItem("Test", typeof(int), new[] { typeof(ILayoutItem) });
-            var j = new ToolboxItem("String", typeof(string), new[] { typeof(object) });
-            DefaultCategory.Items.Add(i);
-            DefaultCategory.Items.Add(j);
-        }
-
         public ToolboxItemCategory() : this(Guid.Empty, string.Empty, true)
         {
             IsNewlyCreated = true;
             EnterRenameMode();
         }
-
 
         public ToolboxItemCategory(string name) : this(Guid.Empty, name, true)
         {
@@ -144,7 +133,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
                 foreach (IToolboxItem item in e.NewItems)
                 {
                     item.Parent = this;
-
+                    IoC.Get<ToolboxItemHost>().RegisterNode(item);
                     var flag2 = item.EvaluateEnabled(_currentType);
                     item.IsEnabled = flag2;
                     item.IsVisible = _currentVisibleStatus || flag2;

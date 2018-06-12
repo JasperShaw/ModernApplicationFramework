@@ -60,6 +60,11 @@ namespace ModernApplicationFramework.Basics.Services
             Deserialize(currentLayout);
         }
 
+        public virtual void ResetFromBackup(XmlDocument backup)
+        {
+            Deserialize(backup);
+        }
+
         protected abstract void HandleBackupNodeNull(T item);
         protected abstract XmlNode GetBackupNode(in XmlDocument backup, T item);
         protected abstract XmlNode GetCurrentNode(in XmlDocument currentLayout, T item);

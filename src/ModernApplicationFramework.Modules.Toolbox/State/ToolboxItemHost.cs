@@ -36,6 +36,10 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
             if(node is IToolboxCategory category)
                 if (!_customCategories.Contains(category))
                     _customCategories.Add(category);
+
+            if (node is IToolboxItem item)
+                if (!_customItems.Contains(item))
+                    _customItems.Add(item);
         }
 
         public void DeleteNode(IToolboxNode node)

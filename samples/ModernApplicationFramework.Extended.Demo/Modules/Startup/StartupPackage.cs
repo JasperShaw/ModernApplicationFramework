@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Services;
+using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Package;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Modules.Inspector;
 using ModernApplicationFramework.Modules.Output;
+using ModernApplicationFramework.Modules.Toolbox.Interfaces;
+using ModernApplicationFramework.Modules.Toolbox.Items;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.Startup
 {
@@ -15,6 +19,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.Startup
         private readonly IOutput _output;
         private readonly IInspectorTool _inspectorTool;
         private readonly IStatusBarDataModelService _statusBarService;
+        private readonly IToolboxService _toolboxService;
         public override PackageLoadOption LoadOption => PackageLoadOption.OnMainWindowLoaded;
         public override PackageCloseOption CloseOption => PackageCloseOption.OnMainWindowClosed;
 
@@ -26,11 +31,12 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.Startup
         }
 
         [ImportingConstructor]
-        public StartupPackage(IOutput output, IInspectorTool inspectorTool, IStatusBarDataModelService statusBarService)
+        public StartupPackage(IOutput output, IInspectorTool inspectorTool, IStatusBarDataModelService statusBarService, IToolboxService toolboxService)
         {
             _output = output;
             _inspectorTool = inspectorTool;
             _statusBarService = statusBarService;
+            _toolboxService = toolboxService;
         }
 
         public override void Initialize()
@@ -43,7 +49,19 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.Startup
 
             DockingHostViewModel.ActiveLayoutItemChanged += (sender, e) => RefreshInspector();
             RefreshInspector();
+
+            InitializeToolbox();
+
             base.Initialize();
+        }
+
+        private void InitializeToolbox()
+        {
+            var i = new ToolboxItem("Test", typeof(int), new[] { typeof(ILayoutItem) });
+            var j = new ToolboxItem("String", typeof(string), new[] { typeof(object) });
+            var c = _toolboxService.GetCategoryById(ToolboxItemCategory.DefaultCategoryId);
+            c.Items.Add(i);
+            c.Items.Add(j);
         }
 
         private void RefreshInspector()
