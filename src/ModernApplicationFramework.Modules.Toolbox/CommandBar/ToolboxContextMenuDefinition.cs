@@ -60,7 +60,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
 
         [Export]
         public static CommandBarItemDefinition RemoveCategoryDefinition =
-            new CommandBarCommandItemDefinition<DeleteActiveToolbarCategoryCommandDefinition>(new Guid("{BF87A03B-EAFB-4778-8243-90BE338F67EA}"), CategoryCommandGroup, 1);
+            new CommandBarCommandItemDefinition<DeleteActiveToolbarCategoryCommandDefinition>(new Guid("{BF87A03B-EAFB-4778-8243-90BE338F67EA}"), CategoryCommandGroup, 1, true, false, false, true);
 
         [Export]
         public static CommandBarItemDefinition RenameCategoryDefinition =
