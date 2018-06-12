@@ -8,6 +8,7 @@ using ModernApplicationFramework.Extended.Package;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Modules.Inspector;
 using ModernApplicationFramework.Modules.Output;
+using ModernApplicationFramework.Modules.Toolbox;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Items;
 
@@ -59,7 +60,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.Startup
         {
             var i = new ToolboxItem("Test", typeof(int), new[] { typeof(ILayoutItem) });
             var j = new ToolboxItem("String", typeof(string), new[] { typeof(object) });
-            var c = _toolboxService.GetCategoryById(ToolboxCategory.DefaultCategoryId);
+            var c = _toolboxService.GetCategoryById(Guids.DefaultCategoryId);
             c.Items.Add(i);
             c.Items.Add(j);
         }
