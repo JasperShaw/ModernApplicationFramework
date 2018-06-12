@@ -85,7 +85,6 @@
     <Compile Include="State\ToolboxStateSettings.cs" />
     <Compile Include="Controls\ToolboxTreeView.cs" />
     <Compile Include="Controls\ToolboxTreeViewItem.cs" />
-    <Compile Include="Design\DesignTimeToolboxViewModel.cs" />
     <Compile Include="Interfaces\IToolbox.cs" />
     <Compile Include="CommandBar\MenuDefinitions.cs" />
     <Compile Include="Commands\OpenToolboxCommandDefinition.cs" />
@@ -94,7 +93,7 @@
     <Compile Include="Interfaces\IToolboxNode.cs" />
     <Compile Include="Interfaces\IToolboxStateBackupProvider.cs" />
     <Compile Include="Interfaces\IToolboxStateSerializer.cs" />
-    <Compile Include="Settings.cs" />
+    <Compile Include="Guids.cs" />
     <Compile Include="State\ToolboxStateBackupProvider.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -111,16 +110,15 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Interfaces\IToolboxService.cs" />
-    <Compile Include="Services\ToolboxService.cs" />
+    <Compile Include="ToolboxService.cs" />
     <Compile Include="ToolBoxColors.cs" />
     <Compile Include="CommandBar\ToolboxContextMenuProvider.cs" />
     <Compile Include="ToolboxDragHandler.cs" />
     <Compile Include="ToolboxDropHandler.cs" />
     <Compile Include="Items\ToolboxItem.cs" />
-    <Compile Include="Items\ToolboxItemCategory.cs" />
+    <Compile Include="Items\ToolboxCategory.cs" />
     <Compile Include="ToolboxItemDataFormats.cs" />
-    <Compile Include="ToolboxItemsBuilder.cs" />
-    <Compile Include="Items\ToolboxNodeItem.cs" />
+    <Compile Include="Items\ToolboxNode.cs" />
     <Compile Include="State\ToolboxStateSerializer.cs" />
     <Compile Include="ToolboxTreeNodeStyleSelector.cs" />
     <Compile Include="ToolboxView.xaml.cs">

@@ -9,7 +9,7 @@ using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Items
 {
-    public class ToolboxItem : ToolboxNodeItem, IToolboxItem
+    public class ToolboxItem : ToolboxNode, IToolboxItem
     {
         private bool _isVisible;
         private bool _isEnabled;

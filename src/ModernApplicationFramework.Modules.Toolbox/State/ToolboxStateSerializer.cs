@@ -44,7 +44,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
                 node =>
                 {
                     node.TryGetValueResult<string>("Name", out var name);
-                    return string.IsNullOrEmpty(name) ? null : new ToolboxItemCategory(Guid.Empty, name, true);
+                    return string.IsNullOrEmpty(name) ? null : new ToolboxCategory(Guid.Empty, name, true);
                 },
                 (category, node) =>
                 {
@@ -61,7 +61,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
                         if (data == null || typeList == null)
                             return null;
 
-                        return new ToolboxItem(name, data, typeList);
+                        return new Items.ToolboxItem(name, data, typeList);
                     });
                     foreach (var item in items)
                         category.Items.Add(item);

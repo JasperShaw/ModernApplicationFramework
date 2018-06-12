@@ -42,14 +42,14 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
         private bool CanDeleteItem()
         {
             return _toolbox.SelectedNode is IToolboxCategory &&
-                   !Equals(_toolbox.SelectedNode, ToolboxItemCategory.DefaultCategory);
+                   !Equals(_toolbox.SelectedNode, ToolboxCategory.DefaultCategory);
         }
 
         private void DeleteItem()
         {
             if (!(_toolbox.SelectedNode is IToolboxCategory category))
                 return;
-            if (category == ToolboxItemCategory.DefaultCategory)
+            if (category == ToolboxCategory.DefaultCategory)
                 return;
             _service.RemoveCategory(category);
         }

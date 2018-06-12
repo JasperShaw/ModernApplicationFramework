@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
+using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
 namespace ModernApplicationFramework.Modules.Toolbox.State
@@ -26,6 +27,15 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
             _items = new ObservableCollection<IToolboxItem>(items);
             _customCategories = new ObservableCollection<IToolboxCategory>();
             _customItems = new ObservableCollection<IToolboxItem>();
+        }
+
+        internal void Initialize()
+        {
+            foreach (var category in AllCategories)
+            {
+                var items = AllItems.Where(x => x.OriginalParent == category);
+                items.ForEach(x => category.Items.Add(x));
+            }
         }
 
         public void RegisterNode(IToolboxNode node)

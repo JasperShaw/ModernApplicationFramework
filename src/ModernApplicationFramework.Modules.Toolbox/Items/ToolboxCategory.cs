@@ -3,16 +3,13 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
-using ModernApplicationFramework.Modules.Toolbox.Services;
 using ModernApplicationFramework.Modules.Toolbox.State;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Items
 {
-    public class ToolboxItemCategory : ToolboxNodeItem, IToolboxCategory
+    public class ToolboxCategory : ToolboxNode, IToolboxCategory
     {
-        public static Guid DefaultCategoryId = new Guid("{41047F4D-A2CF-412F-B216-A8B1E3C08F36}");
-
-        [Export] internal static IToolboxCategory DefaultCategory = new ToolboxItemCategory(new Guid("{41047F4D-A2CF-412F-B216-A8B1E3C08F36}"), "Default");
+        [Export] internal static IToolboxCategory DefaultCategory = new ToolboxCategory(Guids.DefaultCategoryId, "Default");
 
         private IObservableCollection<IToolboxItem> _items;
         private bool _hasItems;
@@ -23,7 +20,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
 
         public static bool IsDefaultCategory(IToolboxCategory category)
         {
-            return category.Id.Equals(DefaultCategoryId);
+            return category.Id.Equals(Guids.DefaultCategoryId);
         }
 
         public IObservableCollection<IToolboxItem> Items
@@ -70,18 +67,18 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             }
         }
 
-        public ToolboxItemCategory() : this(Guid.Empty, string.Empty, true)
+        public ToolboxCategory() : this(Guid.Empty, string.Empty, true)
         {
             IsNewlyCreated = true;
             EnterRenameMode();
         }
 
-        public ToolboxItemCategory(string name) : this(Guid.Empty, name, true)
+        public ToolboxCategory(string name) : this(Guid.Empty, name, true)
         {
 
         }
 
-        public ToolboxItemCategory(Guid id, string name, bool isCustom = false) : base(id, name, isCustom)
+        public ToolboxCategory(Guid id, string name, bool isCustom = false) : base(id, name, isCustom)
         {
             Items = new BindableCollection<IToolboxItem>();
             Items.CollectionChanged += Items_CollectionChanged;

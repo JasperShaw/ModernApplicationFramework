@@ -6,7 +6,7 @@ using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Items
 {
-    public abstract class ToolboxNodeItem : IToolboxNode
+    public abstract class ToolboxNode : IToolboxNode
     {
         private string _editingName;
         private bool _isExpanded;
@@ -75,7 +75,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
 
         protected string OriginalName { get; set; }
 
-        protected ToolboxNodeItem(Guid id, string name, bool isCustom = false)
+        protected ToolboxNode(Guid id, string name, bool isCustom = false)
         {
             Id = id;
             _name = name;

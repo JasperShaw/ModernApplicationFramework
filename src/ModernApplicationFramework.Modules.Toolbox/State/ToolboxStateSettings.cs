@@ -2,8 +2,10 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Xml;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
+using ModernApplicationFramework.Settings;
 using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Settings.SettingDataModel;
+using ModernApplicationFramework.Settings.SettingsManager;
 using ModernApplicationFramework.Utilities.Interfaces.Settings;
 
 namespace ModernApplicationFramework.Modules.Toolbox.State
@@ -12,8 +14,13 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
     [Export(typeof(ToolboxStateSettings))]
     public sealed class ToolboxStateSettings : SettingsDataModel
     {
+        [Export]
+        public static ISettingsCategory ToolboxStateCategoryCategory =
+            new SettingsCategory(Guids.ToolboxStateCategoryId,
+                SettingsCategoryType.Normal, "Environment_Toolbox", SettingsCategories.EnvironmentCategory);
+
         private readonly IToolboxStateSerializer _serializer;
-        public override ISettingsCategory Category => Settings.ToolboxStateCategoryCategory;
+        public override ISettingsCategory Category => ToolboxStateCategoryCategory;
         public override string Name => "Environment_Toolbox";
         public XmlNode Layout => GetSingleDataModel().FirstChild;
 

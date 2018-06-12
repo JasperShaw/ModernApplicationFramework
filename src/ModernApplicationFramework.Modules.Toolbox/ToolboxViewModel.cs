@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
 using Caliburn.Micro;
 using ModernApplicationFramework.DragDrop;
@@ -91,9 +89,6 @@ namespace ModernApplicationFramework.Modules.Toolbox
             //_toolboxService = service;
             _hostViewModel = hostViewModel;
             _stateProvider = stateProvider;
-
-            if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
-                return;
 
             //TODO: change to collection changed?
             hostViewModel.ActiveLayoutItemChanging += (sender, e) => StoreItems();

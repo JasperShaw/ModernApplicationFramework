@@ -82,7 +82,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
                 return;
 
             dropInfo.Effects = DragDropEffects.Copy | DragDropEffects.Move;
-            var tempItem = new ToolboxItem(string.Empty, dataObject, new[] { typeof(object) });
+            var tempItem = new Items.ToolboxItem(string.Empty, dataObject, new[] { typeof(object) });
 
             if (!ToolboxDropHandler.CanDropToolboxItem(dropInfo, tempItem))
                 e.Effects = DragDropEffects.None;

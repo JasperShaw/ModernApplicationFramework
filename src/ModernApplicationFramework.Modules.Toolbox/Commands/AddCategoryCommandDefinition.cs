@@ -44,7 +44,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
 
         private void AddCategory()
         {
-            var c = new ToolboxItemCategory();
+            var c = new ToolboxCategory();
             c.CreatedCancelled += C_CreatedCancelled;
             c.Created += C_Created;           
             _service.AddCategory(c);

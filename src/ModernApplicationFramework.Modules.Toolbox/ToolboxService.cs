@@ -6,7 +6,7 @@ using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Items;
 using ModernApplicationFramework.Modules.Toolbox.State;
 
-namespace ModernApplicationFramework.Modules.Toolbox.Services
+namespace ModernApplicationFramework.Modules.Toolbox
 {
     [Export(typeof(IToolboxService))]
     internal  class ToolboxService : IToolboxService
@@ -55,7 +55,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Services
 
         public void InsertCategory(int index, IToolboxCategory category, bool supressRefresh = false)
         {
-            if (_stateProvider.ItemsSource.LastOrDefault() == ToolboxItemCategory.DefaultCategory)
+            if (_stateProvider.ItemsSource.LastOrDefault() == ToolboxCategory.DefaultCategory)
                 index--;
             _stateProvider.ItemsSource.Insert(index, category);
             _host.RegisterNode(category);

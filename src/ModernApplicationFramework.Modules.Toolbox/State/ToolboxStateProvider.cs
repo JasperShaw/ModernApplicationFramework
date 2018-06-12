@@ -10,9 +10,9 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
         public IObservableCollection<IToolboxCategory> ItemsSource { get; }
 
         [ImportingConstructor]
-        public ToolboxStateProvider(ToolboxItemsBuilder builder, ToolboxItemHost host)
+        public ToolboxStateProvider(ToolboxItemHost host)
         {
-            builder.Initialize();
+            host.Initialize();
             ItemsSource = new BindableCollection<IToolboxCategory>(host.AllCategories);
         }
     }
