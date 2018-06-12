@@ -10,36 +10,36 @@ using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 namespace ModernApplicationFramework.Modules.Toolbox.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
-    [Export(typeof(RenameToolboxCategoryCommandDefinition))]
-    public class RenameToolboxCategoryCommandDefinition : CommandDefinition
+    [Export(typeof(RenameToolboxItemCommandDefinition))]
+    public class RenameToolboxItemCommandDefinition : CommandDefinition
     {
         private readonly IToolbox _toolbox;
-        public override string NameUnlocalized => "Rename Category";
-        public override string Text => "Rename Category";
+        public override string NameUnlocalized => "Rename Item";
+        public override string Text => "Rename item";
         public override string ToolTip => Text;
         public override Uri IconSource => null;
         public override string IconId => null;
         public override CommandCategory Category => CommandCategories.ViewCommandCategory;
-        public override Guid Id => new Guid("{0524D1D9-DF40-4D62-85DB-966AED7F8C35}");
+        public override Guid Id => new Guid("{03E545BE-2ED2-4396-B641-A9582FFF3452}");
         public override MultiKeyGesture DefaultKeyGesture => null;
         public override GestureScope DefaultGestureScope => null;
 
         public override ICommand Command { get; }
 
         [ImportingConstructor]
-        public RenameToolboxCategoryCommandDefinition(IToolbox toolbox)
+        public RenameToolboxItemCommandDefinition(IToolbox toolbox)
         {
             _toolbox = toolbox;
-            var command = new UICommand(RenameCategory, CanRenameCategory);
+            var command = new UICommand(RenameItem, CanRenameItem);
             Command = command;
         }
 
-        private bool CanRenameCategory()
+        private bool CanRenameItem()
         {
-            return _toolbox.SelectedNode is IToolboxCategory;
+            return _toolbox.SelectedNode is IToolboxItem;
         }
 
-        private void RenameCategory()
+        private void RenameItem()
         {
             _toolbox.SelectedNode.EnterRenameMode();
         }

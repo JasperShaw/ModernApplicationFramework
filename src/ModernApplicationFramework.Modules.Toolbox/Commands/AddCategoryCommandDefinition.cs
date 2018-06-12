@@ -33,16 +33,16 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
         {
             _service = service;
 
-            var command = new UICommand(RenameItem, CanRenameItem);
+            var command = new UICommand(AddCategory, CanAddCategory);
             Command = command;
         }
 
-        private static bool CanRenameItem()
+        private static bool CanAddCategory()
         {
             return true;
         }
 
-        private void RenameItem()
+        private void AddCategory()
         {
             var c = new ToolboxItemCategory();
             c.CreatedCancelled += C_CreatedCancelled;

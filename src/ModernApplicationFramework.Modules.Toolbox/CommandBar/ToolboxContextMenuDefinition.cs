@@ -21,6 +21,10 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
         public static CommandBarItemDefinition CloseCommandItemDefinition =
             new CommandBarCommandItemDefinition<DeleteCommandDefinition>(new Guid("{180D3794-7914-4B4C-BD5E-F4A101FAF831}"), BasicEditGroup, 1, true, false, false, true);
 
+        [Export]
+        public static CommandBarItemDefinition RenametemDefinition =
+            new CommandBarCommandItemDefinition<RenameToolboxItemCommandDefinition>(new Guid("{61AEA91B-E3EF-40DE-8969-696F4D056003}"), BasicEditGroup, uint.MaxValue, true, false, false, true);
+
 
 
 
