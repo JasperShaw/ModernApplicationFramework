@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Services;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Package;
@@ -58,8 +57,8 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.Startup
 
         private void InitializeToolbox()
         {
-            var i = new ToolboxItem("Test", typeof(int), new[] { typeof(ILayoutItem) });
-            var j = new ToolboxItem("String", typeof(string), new[] { typeof(object) });
+            var i = new ToolboxItem("Test", typeof(int), new[] { typeof(ILayoutItem) }, null, false);
+            var j = new ToolboxItem("String", typeof(string), new[] { typeof(object) }, null, false);
             var c = _toolboxService.GetCategoryById(Guids.DefaultCategoryId);
             c.Items.Add(i);
             c.Items.Add(j);
