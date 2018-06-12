@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
 {
@@ -18,5 +19,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
 
         void RemoveCategory(IToolboxCategory category, bool supressRefresh = false);
 
+        IToolboxCategory GetCategoryById(Guid guid);
+
+        IToolboxItem GetItemById(Guid guid);
     }
 }

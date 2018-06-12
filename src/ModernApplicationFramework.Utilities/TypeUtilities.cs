@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 
 namespace ModernApplicationFramework.Utilities
 {
@@ -94,6 +95,16 @@ namespace ModernApplicationFramework.Utilities
             if (type == other)
                 return true;
             return other.IsAssignableFrom(type) || type.GetInterfaces().Contains(other);
+        }
+
+
+        public static Type GetTypeFromAllLoadedAssemblies(string name)
+        {
+            return
+                AppDomain.CurrentDomain.GetAssemblies()
+                    .Where(a => !a.IsDynamic)
+                    .SelectMany(a => a.GetTypes())
+                    .FirstOrDefault(t => t.FullName != null && t.FullName.Equals(name));
         }
     }
 }

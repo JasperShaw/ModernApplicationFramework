@@ -2,6 +2,6 @@
 {
     public static class ToolboxItemDataFormats
     {
-        public static readonly string Type = "ToolboxType";
+        public const string Type = "ToolboxType";
     }
 }

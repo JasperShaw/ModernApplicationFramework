@@ -7,7 +7,7 @@ using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 namespace ModernApplicationFramework.Modules.Toolbox.State
 {
     [Export(typeof(ToolboxItemHost))]
-    public class ToolboxItemHost
+    internal class ToolboxItemHost
     {
 
         public IReadOnlyCollection<IToolboxCategory> AllCategories => new List<IToolboxCategory>(_categories.ToList().Concat(_customCategories));

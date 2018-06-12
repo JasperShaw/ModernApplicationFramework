@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
@@ -8,7 +9,7 @@ using ModernApplicationFramework.Modules.Toolbox.State;
 namespace ModernApplicationFramework.Modules.Toolbox.Services
 {
     [Export(typeof(IToolboxService))]
-    public  class ToolboxService : IToolboxService
+    internal  class ToolboxService : IToolboxService
     {
         private readonly ToolboxItemHost _host;
         private readonly IToolboxStateProvider _stateProvider;
@@ -69,6 +70,16 @@ namespace ModernApplicationFramework.Modules.Toolbox.Services
             _host.DeleteNode(category);
             if (!supressRefresh)
                 _toolbox.RefreshView();
+        }
+
+        public IToolboxCategory GetCategoryById(Guid guid)
+        {
+            return guid == Guid.Empty ? null : _host.AllCategories.FirstOrDefault(x => x.Id.Equals(guid));
+        }
+
+        public IToolboxItem GetItemById(Guid guid)
+        {
+            return guid == Guid.Empty ? null : _host.AllItems.FirstOrDefault(x => x.Id.Equals(guid));
         }
 
         public IReadOnlyCollection<string> GetAllToolboxCategoryNames()

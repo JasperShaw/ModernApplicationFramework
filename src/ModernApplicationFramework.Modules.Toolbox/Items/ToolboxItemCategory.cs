@@ -74,8 +74,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
 
         static ToolboxItemCategory()
         {
-            var i = new ToolboxItem(Guid.NewGuid(), "Test", typeof(int), DefaultCategory, new[] { typeof(ILayoutItem) });
-            var j = new ToolboxItem(Guid.NewGuid(), "String", typeof(string), DefaultCategory, new[] { typeof(object) });
+            var i = new ToolboxItem("Test", typeof(int), new[] { typeof(ILayoutItem) });
+            var j = new ToolboxItem("String", typeof(string), new[] { typeof(object) });
             DefaultCategory.Items.Add(i);
             DefaultCategory.Items.Add(j);
         }

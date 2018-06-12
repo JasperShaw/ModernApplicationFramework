@@ -47,6 +47,11 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
 
         public IDataObject Data { get; }
 
+        public ToolboxItem(string name, Type targetType, IEnumerable<Type> compatibleTypes, BitmapSource iconSource = null, bool serializable = true)
+            : this(Guid.Empty, name, new DataObject(ToolboxItemDataFormats.Type, targetType), null, compatibleTypes, iconSource, serializable, true)
+        {
+        }
+
         public ToolboxItem(string name, IDataObject data, IEnumerable<Type> compatibleTypes, BitmapSource iconSource = null, bool serializable = true) 
             : this(Guid.Empty, name, data, null, compatibleTypes, iconSource, serializable, true)
         {
