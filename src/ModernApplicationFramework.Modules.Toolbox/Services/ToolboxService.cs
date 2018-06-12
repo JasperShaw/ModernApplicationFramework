@@ -33,8 +33,19 @@ namespace ModernApplicationFramework.Modules.Toolbox.Services
 
         public void StoreCurrentLayout()
         {
+            InternalStoreLayout(_toolbox.CurrentLayout);
+        }
+
+        public void StoreAndApplyLayout(IEnumerable<IToolboxCategory> layout)
+        {
+            InternalStoreLayout(layout);
+            _toolbox.RefreshView();
+        }
+
+        private void InternalStoreLayout(IEnumerable<IToolboxCategory> layout)
+        {
             _stateProvider.ItemsSource.Clear();
-            _stateProvider.ItemsSource.AddRange(_toolbox.CurrentLayout);
+            _stateProvider.ItemsSource.AddRange(layout);
         }
 
         public void AddCategory(IToolboxCategory category, bool supressRefresh = false)
