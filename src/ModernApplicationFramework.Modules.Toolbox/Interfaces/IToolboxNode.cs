@@ -25,6 +25,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
 
         bool IsNewlyCreated { get; }
 
+        bool IsNameModified { get; }
+
         void EnterRenameMode();
 
         void ExitRenameMode();
@@ -32,5 +34,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
         void CommitRename();
 
         bool IsRenameValid(out string errorMessage);
+
+        void Reset();
     }
 }

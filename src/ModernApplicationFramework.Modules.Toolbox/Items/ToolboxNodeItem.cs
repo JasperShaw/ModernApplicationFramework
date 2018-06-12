@@ -8,17 +8,16 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
 {
     public abstract class ToolboxNodeItem : IToolboxNode
     {
+        private string _editingName;
         private bool _isExpanded;
         private bool _isInRenameMode;
         private bool _isSelected;
         private string _name;
-
-        private string _editingName;
-
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler Created;
 
         public event EventHandler CreatedCancelled;
-        public event EventHandler Created;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public string EditingName
         {
@@ -32,6 +31,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
         }
 
         public Guid Id { get; }
+
         public bool IsCustom { get; protected set; }
 
         public bool IsExpanded
@@ -56,6 +56,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             }
         }
 
+        public bool IsNewlyCreated { get; protected set; }
+
         public bool IsSelected
         {
             get => _isSelected;
@@ -69,23 +71,27 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             }
         }
 
+        public virtual bool IsNameModified { get; protected set; }
+
         public string Name
         {
             get => _name;
             set
             {
-                if (value == _name) return;
+                if (value == _name)
+                    return;
                 _name = value;
+                IsNameModified = true;
                 OnPropertyChanged();
             }
         }
 
-        public bool IsNewlyCreated { get; protected set; }
+        protected string OriginalName { get; set; }
 
         protected ToolboxNodeItem(Guid id, string name, bool isCustom = false)
         {
             Id = id;
-            Name = name;
+            _name = name;
             IsCustom = isCustom;
         }
 
@@ -105,6 +111,15 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             IsInRenameMode = true;
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+            if (obj is IToolboxNode sequence)
+                return Equals(sequence);
+            return false;
+        }
+
         public void ExitRenameMode()
         {
             if (IsNewlyCreated)
@@ -112,6 +127,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
                 OnCreatedCancelled();
                 Name = string.Empty;
             }
+
             IsNewlyCreated = false;
             IsInRenameMode = false;
         }
@@ -124,16 +140,15 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
                 errorMessage = "Name must not be empty";
                 return false;
             }
+
             return true;
         }
 
-        public override bool Equals(object obj)
+        public virtual void Reset()
         {
-            if (obj == null)
-                return false;
-            if (obj is IToolboxNode sequence)
-                return Equals(sequence);
-            return false;
+            IsNameModified = false;
+            _name = OriginalName;
+            OnPropertyChanged(nameof(Name));
         }
 
         protected virtual bool Equals(IToolboxNode other)
@@ -143,11 +158,9 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             return false;
         }
 
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnCreated()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            Created?.Invoke(this, EventArgs.Empty);
         }
 
         protected virtual void OnCreatedCancelled()
@@ -155,9 +168,11 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             CreatedCancelled?.Invoke(this, EventArgs.Empty);
         }
 
-        protected virtual void OnCreated()
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            Created?.Invoke(this, EventArgs.Empty);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

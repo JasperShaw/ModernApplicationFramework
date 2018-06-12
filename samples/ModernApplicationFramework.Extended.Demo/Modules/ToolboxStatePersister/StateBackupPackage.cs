@@ -16,7 +16,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ToolboxStatePersister
         public override Guid Id => new Guid("{71A7BA90-458C-4812-A100-A6EA0E97AF1B}");
 
         [ImportingConstructor]
-        public StateBackupPackage(IToolboxStateSerializer serializer)
+        internal StateBackupPackage(IToolboxStateSerializer serializer)
         {
             _serializer = serializer;
         }

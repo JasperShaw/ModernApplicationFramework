@@ -20,6 +20,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
         public BitmapSource IconSource { get; set; }
 
         public TypeArray<ILayoutItem> CompatibleTypes { get; }
+
         public bool Serializable { get; set; }
 
         public bool IsVisible
@@ -46,7 +47,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
 
         public IDataObject Data { get; }
 
-        public ToolboxItem(string name, IDataObject data, IEnumerable<Type> compatibleTypes, BitmapSource iconSource = null) : this(Guid.Empty, name, data, null, compatibleTypes, iconSource, true, true)
+        public ToolboxItem(string name, IDataObject data, IEnumerable<Type> compatibleTypes, BitmapSource iconSource = null, bool serializable = true) 
+            : this(Guid.Empty, name, data, null, compatibleTypes, iconSource, serializable, true)
         {
         }
 

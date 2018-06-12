@@ -1,23 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
-using System.Linq;
 using System.Xml;
-using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Services;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
-using ModernApplicationFramework.Modules.Toolbox.Items;
-using ModernApplicationFramework.Utilities.Xml;
 
 namespace ModernApplicationFramework.Modules.Toolbox.State
 {
     [Export(typeof(IToolboxStateSerializer))]
-    public class ToolboxStateSerializer : LayoutSerializer<IToolboxNode>, IToolboxStateSerializer
+    internal class ToolboxStateSerializer : LayoutSerializer<IToolboxNode>, IToolboxStateSerializer
     {
+        private readonly IToolbox _toolbox;
+        private readonly IToolboxService _service;
+        private readonly IToolboxStateProvider _provider;
+
         protected override string RootNode => "ToolboxLayoutState";
 
         protected override Stream ValidationScheme => Stream.Null;
+
+        [ImportingConstructor]
+        public ToolboxStateSerializer(IToolbox toolbox, IToolboxService service, IToolboxStateProvider provider)
+        {
+            _toolbox = toolbox;
+            _service = service;
+            _provider = provider;
+        }
 
         protected override void ClearCurrentLayout()
         {
@@ -29,6 +36,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
 
         protected override void EnsureInitialized()
         {
+            _service.StoreItemsSource(_toolbox.Categories);
         }
 
         protected override XmlNode GetBackupNode(in XmlDocument backup, IToolboxNode item)
@@ -54,68 +62,57 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
             if (xmlDocument == null)
                 return;
             var lastChild = xmlDocument.LastChild;
-            //foreach (var type in _stateCache.GetKeys())
-            //{
-            //    SerializeTargetType(type, ref lastChild, ref xmlDocument);   
-            //}
-            //SerializeDefaultCategory(ref lastChild, ref xmlDocument);
-        }
 
-        private void SerializeTargetType(Type type, ref XmlNode parentElement, ref XmlDocument document)
-        {
-            //var targetElement = document.CreateElement("TargetType", null, new KeyValuePair<string, string>("Type", type.FullName));
-
-            //var categories = _stateCache.GetState(type);
-            //if (categories == null || !categories.Any())
-            //    return;
-
-            ////We do not need to save default-only types
-            //if (categories.Count == 1 && ToolboxItemCategory.IsDefaultCategory(categories.First()))
-            //    return;
-
-            //foreach (var category in categories)
-            //{
-            //    SerializeCategory(category, ref targetElement, ref document);
-            //}
-            //parentElement.AppendChild(targetElement);
-        }
-
-
-        private void SerializeCategory(IToolboxCategory category, ref XmlElement parentElement, ref XmlDocument document)
-        {
-            XmlElement xCategory;
-            if (ToolboxItemCategory.IsDefaultCategory(category))
+            foreach (var category in _provider.ItemsSource)
             {
-                xCategory = document.CreateElement(null, "DefaultCategory", null);
+                SerializeCategory(category, ref lastChild, ref xmlDocument);
             }
-            else
-            {
-                xCategory = document.CreateElement("Category", null,
-                    new KeyValuePair<string, string>("Id", category.Id.ToString("B")));
-                foreach (var toolboxItem in category.Items)
-                {
-                    SerializeItem(toolboxItem, ref xCategory, ref document);
-                }
-            }
-            parentElement.AppendChild(xCategory);
         }
 
-        private void SerializeItem(IToolboxItem item, ref XmlElement parentElement, ref XmlDocument document)
+        private void SerializeCategory(IToolboxCategory category, ref XmlNode parentElement, ref XmlDocument document)
         {
-            var xItem = document.CreateElement("Item", null,
-                new KeyValuePair<string, string>("Id", item.Id.ToString("B")));
-            parentElement.AppendChild(xItem);
-        }
+            var xCategory = CreateElement(ref document, "Category", category);
 
-        private void SerializeDefaultCategory(ref XmlNode parentElement, ref XmlDocument document)
-        {
-            var category = ToolboxItemCategory.DefaultCategory;
-            var xCategory = document.CreateElement("DefaultCategoryDefinition", null, new KeyValuePair<string, string>("Id", category.Id.ToString("B")));
             foreach (var toolboxItem in category.Items)
             {
                 SerializeItem(toolboxItem, ref xCategory, ref document);
             }
             parentElement.AppendChild(xCategory);
+        }
+
+        private void SerializeItem(IToolboxItem item, ref XmlNode parentElement, ref XmlDocument document)
+        {
+            if (!item.Serializable)
+                return;
+
+            var doc = document;
+            var xItem = CreateElement(ref document, "Item", item, element =>
+            {
+                foreach (var type in item.CompatibleTypes.Memebers)
+                {
+                    var xType = doc.CreateElement("CompatibleType");
+                    xType.SetAttribute("Type", type.FullName);
+                    element.AppendChild(xType);
+                }              
+            });
+
+            parentElement.AppendChild(xItem);
+        }
+
+
+        private static XmlNode CreateElement(ref XmlDocument document, string name, IToolboxNode node,
+            Action<XmlNode> fillElementFunc = null)
+        {
+            var element = document.CreateElement(name);
+
+            element.SetAttribute("Id", node.Id.ToString("B"));
+
+            if (node.IsNameModified || node.IsCustom)
+                element.SetAttribute("Text", node.Name);
+
+            fillElementFunc?.Invoke(element);
+
+            return element;
         }
     }
 }
