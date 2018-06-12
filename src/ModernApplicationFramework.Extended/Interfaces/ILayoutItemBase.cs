@@ -23,7 +23,9 @@ namespace ModernApplicationFramework.Extended.Interfaces
         /// </summary>
         Guid Id { get; }
 
-
+        /// <summary>
+        /// Gets or sets the tooltip string.
+        /// </summary>
         string ToolTip { get; set; }
 
         /// <summary>
@@ -35,6 +37,12 @@ namespace ModernApplicationFramework.Extended.Interfaces
         /// Indicates whether this layout item is selected
         /// </summary>
         bool IsSelected { get; set; }
+
+
+        /// <summary>
+        /// Gets or sets an <see cref="IContextMenuProvider"/>.
+        /// </summary>
+        IContextMenuProvider ContextMenuProvider { get; set; }
 
         /// <summary>
         /// Loads the state from a given <see cref="BinaryReader"/>  

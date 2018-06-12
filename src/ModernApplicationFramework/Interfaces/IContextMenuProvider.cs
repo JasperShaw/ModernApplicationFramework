@@ -10,8 +10,8 @@ namespace ModernApplicationFramework.Interfaces
         /// <summary>
         /// Gets a <see cref="ContextMenu"/> by a given condition
         /// </summary>
-        /// <param name="dataContext">Option do determinate which context menu to return</param>
+        /// <param name="data">Option do determinate which context menu to return</param>
         /// <returns>Returns the context menu</returns>
-        ContextMenu Provide(object dataContext);
+        ContextMenu Provide(object data);
     }
 }

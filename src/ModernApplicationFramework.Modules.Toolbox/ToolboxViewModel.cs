@@ -73,9 +73,6 @@ namespace ModernApplicationFramework.Modules.Toolbox
         }
 
 
-        public IContextMenuProvider ContextMenuProvider { get; }
-
-
         [ImportingConstructor]
         public ToolboxViewModel(IDockingHostViewModel hostViewModel, IToolboxStateProvider stateProvider)
         {

@@ -7,7 +7,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Docking.Controls;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Extended.Interfaces;
-using ModernApplicationFramework.Utilities;
+using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Extended.Layout
 {
@@ -18,6 +18,7 @@ namespace ModernApplicationFramework.Extended.Layout
         private string _toolTip;
         private ImageSource _iconSource;
         private LayoutContent _frame;
+        private IContextMenuProvider _contextMenuProvider;
 
         [Browsable(false)]
         public virtual string ContentId => Id.ToString();
@@ -44,6 +45,18 @@ namespace ModernApplicationFramework.Extended.Layout
             {
                 _isSelected = value;
                 NotifyOfPropertyChange(() => IsSelected);
+            }
+        }
+
+        [Browsable(false)]
+        public IContextMenuProvider ContextMenuProvider
+        {
+            get => _contextMenuProvider;
+            set
+            {
+                if (Equals(value, _contextMenuProvider)) return;
+                _contextMenuProvider = value;
+                NotifyOfPropertyChange();
             }
         }
 
