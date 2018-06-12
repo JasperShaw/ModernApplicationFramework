@@ -11,8 +11,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
         private string _editingName;
         private bool _isExpanded;
         private bool _isInRenameMode;
-        private bool _isSelected;
         private string _name;
+
         public event EventHandler Created;
 
         public event EventHandler CreatedCancelled;
@@ -57,19 +57,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
         }
 
         public bool IsNewlyCreated { get; protected set; }
-
-        public bool IsSelected
-        {
-            get => _isSelected;
-            set
-            {
-                if (value == _isSelected) return;
-                _isSelected = value;
-                if (!value)
-                    ExitRenameMode();
-                OnPropertyChanged();
-            }
-        }
 
         public virtual bool IsNameModified { get; protected set; }
 

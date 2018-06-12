@@ -38,6 +38,17 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
 
 
 
+        [Export]
+        public static CommandBarGroupDefinition ItemManageCommandGroup =
+            new CommandBarGroupDefinition(ToolboxContextMenu, 2);
+
+        [Export]
+        public static CommandBarItemDefinition SortItemsAlphabeticallyDefinition =
+            new CommandBarCommandItemDefinition<SortItemsAlphabeticallyCommandDefinition>(new Guid("{DCDA21B7-179B-4F9D-805E-BC2266761A43}"), ItemManageCommandGroup, 2);
+
+
+
+
 
         [Export]
         public static CommandBarGroupDefinition CategoryCommandGroup =

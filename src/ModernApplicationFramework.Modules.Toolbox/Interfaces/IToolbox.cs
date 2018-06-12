@@ -14,6 +14,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
 
         IToolboxNode SelectedNode { get; set; }
 
+        IToolboxCategory SelectedCategory { get; }
+
         IReadOnlyCollection<IToolboxCategory> CurrentLayout { get; }
 
         void RefreshView();

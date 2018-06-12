@@ -17,8 +17,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
 
         bool IsCustom { get; }
 
-        bool IsSelected { get; set; }
-
         bool IsExpanded { get; set; }
 
         bool IsInRenameMode { get; set; }

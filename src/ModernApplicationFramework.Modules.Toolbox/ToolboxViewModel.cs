@@ -38,6 +38,8 @@ namespace ModernApplicationFramework.Modules.Toolbox
         public IDropTarget ToolboxDropHandler { get; } = new ToolboxDropHandler();
         public IDragSource ToolboxDragHandler { get; } = new ToolboxDragHandler();
 
+        public IToolboxCategory SelectedCategory { get; private set; }
+
         public IReadOnlyCollection<IToolboxCategory> CurrentLayout => _categories.ToList();
 
         public bool ShowAllItems
@@ -64,10 +66,8 @@ namespace ModernApplicationFramework.Modules.Toolbox
             {
                 if (Equals(value, _selectedNode))
                     return;
-                //_selectedNode.IsSelected = false;
                 _selectedNode = value;
-                //if (_selectedNode != null)
-                //    _selectedNode.IsSelected = true;
+                UpdateSelectedCategory(_selectedNode);
                 NotifyOfPropertyChange();
             }
         }
@@ -132,6 +132,16 @@ namespace ModernApplicationFramework.Modules.Toolbox
             {
                 category.Refresh(type, showAllItems);
             }
+        }
+
+        private void UpdateSelectedCategory(IToolboxNode selectedNode)
+        {
+            if (selectedNode is IToolboxCategory category)
+                SelectedCategory = category;
+            else if (selectedNode is IToolboxItem item)
+                SelectedCategory = item.Parent;
+            else
+                SelectedCategory = null;
         }
     }
 }

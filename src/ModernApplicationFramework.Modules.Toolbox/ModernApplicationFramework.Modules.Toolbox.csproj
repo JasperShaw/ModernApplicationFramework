@@ -67,6 +67,7 @@
     <Compile Include="Commands\DeleteActiveToolbarCategoryCommandDefinition.cs" />
     <Compile Include="Commands\RenameToolboxItemCommandDefinition.cs" />
     <Compile Include="Commands\RenameToolboxCategoryCommandDefinition.cs" />
+    <Compile Include="Commands\SortItemsAlphabeticallyCommandDefinition.cs" />
     <Compile Include="Commands\ToggleShowAllItemsCommandDefinition.cs" />
     <Compile Include="CommandBar\ToolboxContextMenuDefinition.cs" />
     <Compile Include="Commands\ToolboxNodeDownCommandDefinition.cs" />
