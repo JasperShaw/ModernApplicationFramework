@@ -10,7 +10,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
     [Export(typeof(IToolboxStateSerializer))]
     internal class ToolboxStateSerializer : LayoutSerializer<IToolboxNode>, IToolboxStateSerializer
     {
-        private readonly IToolbox _toolbox;
         private readonly IToolboxService _service;
         private readonly IToolboxStateProvider _provider;
 
@@ -19,9 +18,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
         protected override Stream ValidationScheme => Stream.Null;
 
         [ImportingConstructor]
-        public ToolboxStateSerializer(IToolbox toolbox, IToolboxService service, IToolboxStateProvider provider)
+        public ToolboxStateSerializer(IToolboxService service, IToolboxStateProvider provider)
         {
-            _toolbox = toolbox;
             _service = service;
             _provider = provider;
         }
@@ -36,7 +34,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
 
         protected override void EnsureInitialized()
         {
-            _service.StoreItemsSource(_toolbox.Categories);
+            _service.StoreCurrentLayout();
         }
 
         protected override XmlNode GetBackupNode(in XmlDocument backup, IToolboxNode item)

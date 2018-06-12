@@ -1,4 +1,4 @@
-﻿using Caliburn.Micro;
+﻿using System.Collections.Generic;
 using ModernApplicationFramework.DragDrop;
 using ModernApplicationFramework.Extended.Interfaces;
 
@@ -12,8 +12,10 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
 
         bool ShowAllItems { get; set; }
 
-        IObservableCollection<IToolboxCategory> Categories { get; }
-
         IToolboxNode SelectedNode { get; set; }
+
+        IReadOnlyCollection<IToolboxCategory> CurrentLayout { get; }
+
+        void RefreshView();
     }
 }

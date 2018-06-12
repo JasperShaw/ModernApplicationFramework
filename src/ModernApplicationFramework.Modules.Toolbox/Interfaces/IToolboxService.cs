@@ -8,6 +8,13 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
 
         IReadOnlyCollection<string> GetAllToolboxCategoryNames();
 
-        void StoreItemsSource(IEnumerable<IToolboxCategory> itemsSource);
+        void StoreCurrentLayout();
+
+        void AddCategory(IToolboxCategory category, bool supressRefresh = false);
+
+        void InsertCategory(int index, IToolboxCategory category, bool supressRefresh = false);
+
+        void RemoveCategory(IToolboxCategory category, bool supressRefresh = false);
+
     }
 }

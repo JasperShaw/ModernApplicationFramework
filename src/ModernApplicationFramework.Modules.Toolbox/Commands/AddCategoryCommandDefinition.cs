@@ -1,15 +1,12 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using System.Linq;
 using System.Windows.Input;
-using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Items;
-using ModernApplicationFramework.Modules.Toolbox.State;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Commands
 {
@@ -17,7 +14,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
     [Export(typeof(AddCategoryCommandDefinition))]
     public class AddCategoryCommandDefinition : CommandDefinition
     {
-        private readonly IToolbox _toolbox;
+        private readonly IToolboxService _service;
 
         public override string NameUnlocalized => "Add Category";
         public override string Text => NameUnlocalized;
@@ -32,9 +29,9 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
         public override ICommand Command { get; }
 
         [ImportingConstructor]
-        public AddCategoryCommandDefinition(IToolbox toolbox)
+        public AddCategoryCommandDefinition(IToolboxService service)
         {
-            _toolbox = toolbox;
+            _service = service;
 
             var command = new UICommand(RenameItem, CanRenameItem);
             Command = command;
@@ -49,21 +46,18 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
         {
             var c = new ToolboxItemCategory();
             c.CreatedCancelled += C_CreatedCancelled;
-            c.Created += C_Created;
-            
-            var index = _toolbox.Categories.Count;
-            if (_toolbox.Categories.LastOrDefault() == ToolboxItemCategory.DefaultCategory)
-                index--;
-            _toolbox.Categories.Insert(index, c);
+            c.Created += C_Created;           
+            _service.AddCategory(c);
         }
 
         private void C_CreatedCancelled(object sender, EventArgs e)
         {
             if (!(sender is IToolboxCategory category))
                 return;
+
             category.Created -= C_Created;
             category.CreatedCancelled -= C_CreatedCancelled;
-            _toolbox.Categories.Remove(category);
+            _service.RemoveCategory(category);
         }
 
         private void C_Created(object sender, EventArgs e)
@@ -72,7 +66,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
                 return;
             node.Created -= C_Created;
             node.CreatedCancelled -= C_CreatedCancelled;
-            IoC.Get<ToolboxItemHost>().RegisterNode(node);
         }
     }
 }

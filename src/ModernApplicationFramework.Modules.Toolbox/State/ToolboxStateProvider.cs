@@ -1,5 +1,4 @@
-﻿using System.Collections.Specialized;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using Caliburn.Micro;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
@@ -8,17 +7,13 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
     [Export(typeof(IToolboxStateProvider))]
     internal class ToolboxStateProvider : IToolboxStateProvider
     {
+        public IObservableCollection<IToolboxCategory> ItemsSource { get; }
+
         [ImportingConstructor]
         public ToolboxStateProvider(ToolboxItemsBuilder builder, ToolboxItemHost host)
         {
             builder.Initialize();
             ItemsSource = new BindableCollection<IToolboxCategory>(host.AllCategories);
         }
-  
-        public IObservableCollection<IToolboxCategory> ItemsSource { get; }    }
-
-    internal interface IToolboxStateProvider
-    {
-        IObservableCollection<IToolboxCategory> ItemsSource { get; }
     }
 }

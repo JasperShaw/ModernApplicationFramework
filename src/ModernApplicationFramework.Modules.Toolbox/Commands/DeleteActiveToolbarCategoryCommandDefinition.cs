@@ -1,14 +1,12 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
-using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Items;
-using ModernApplicationFramework.Modules.Toolbox.State;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Commands
 {
@@ -17,6 +15,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
     public class DeleteActiveToolbarCategoryCommandDefinition : CommandDefinition
     {
         private readonly IToolbox _toolbox;
+        private readonly IToolboxService _service;
         public override string NameUnlocalized => "Delete Active";
         public override string Text => NameUnlocalized;
         public override string ToolTip => Text;
@@ -31,9 +30,10 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
 
 
         [ImportingConstructor]
-        public DeleteActiveToolbarCategoryCommandDefinition(IToolbox toolbox)
+        public DeleteActiveToolbarCategoryCommandDefinition(IToolbox toolbox, IToolboxService service)
         {
             _toolbox = toolbox;
+            _service = service;
 
             var command = new UICommand(DeleteItem, CanDeleteItem);
             Command = command;
@@ -42,7 +42,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
         private bool CanDeleteItem()
         {
             return _toolbox.SelectedNode is IToolboxCategory &&
-                   _toolbox.SelectedNode != ToolboxItemCategory.DefaultCategory;
+                   !Equals(_toolbox.SelectedNode, ToolboxItemCategory.DefaultCategory);
         }
 
         private void DeleteItem()
@@ -51,8 +51,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
                 return;
             if (category == ToolboxItemCategory.DefaultCategory)
                 return;
-            _toolbox.Categories.Remove(category);
-            IoC.Get<ToolboxItemHost>().DeleteNode(category);
+            _service.RemoveCategory(category);
         }
     }
 }

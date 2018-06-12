@@ -1,9 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using Caliburn.Micro;
-using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.DragDrop;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Layout;
@@ -17,11 +18,12 @@ namespace ModernApplicationFramework.Modules.Toolbox
     [Export(typeof(IToolbox))]
     public class ToolboxViewModel : Tool, IToolbox
     {
-        private readonly IToolboxService _toolboxService;
+        //private readonly IToolboxService _toolboxService;
 
         //private readonly BindableCollection<ToolboxItemViewModel> _filteredItems;
         //private readonly BindableCollection<ToolboxItemViewModel> _items;
         private readonly IDockingHostViewModel _hostViewModel;
+        private readonly IToolboxStateProvider _stateProvider;
 
         private readonly BindableCollection<IToolboxCategory> _categories;
         private IToolboxNode _selectedNode;
@@ -35,6 +37,8 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
         public IDropTarget ToolboxDropHandler { get; } = new ToolboxDropHandler();
         public IDragSource ToolboxDragHandler { get; } = new ToolboxDragHandler();
+
+        public IReadOnlyCollection<IToolboxCategory> CurrentLayout => _categories.ToList();
 
         public bool ShowAllItems
         {
@@ -69,7 +73,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
         }
 
         [ImportingConstructor]
-        public ToolboxViewModel(IDockingHostViewModel hostViewModel, IToolboxService service)
+        public ToolboxViewModel(IDockingHostViewModel hostViewModel, IToolboxStateProvider stateProvider)
         {
             DisplayName = "Toolbox";
 
@@ -81,8 +85,9 @@ namespace ModernApplicationFramework.Modules.Toolbox
             //var groupedItems = CollectionViewSource.GetDefaultView(_items);
             //groupedItems.GroupDescriptions.Add(new PropertyGroupDescription("Category"));
 
-            _toolboxService = service;
+            //_toolboxService = service;
             _hostViewModel = hostViewModel;
+            _stateProvider = stateProvider;
 
             if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
                 return;
@@ -91,19 +96,25 @@ namespace ModernApplicationFramework.Modules.Toolbox
             hostViewModel.ActiveLayoutItemChanging += (sender, e) => StoreItems();
             hostViewModel.ActiveLayoutItemChanged += (sender, e) => RefreshToolboxItems(e.NewLayoutItem);
 
-            RefreshToolboxItems(_hostViewModel.ActiveItem);
+            RefreshView();
+        }
 
+
+        public void RefreshView()
+        {
+            RefreshToolboxItems(_hostViewModel.ActiveItem);
         }
 
         private void StoreItems()
         {
-            _toolboxService.StoreItemsSource(_categories);
+            _stateProvider.ItemsSource.Clear();
+            _stateProvider.ItemsSource.AddRange(_categories);
         }
 
         private void RefreshToolboxItems(ILayoutItem item)
         {
             _categories.Clear();
-            var i = _toolboxService.GetToolboxItemSource();
+            var i = _stateProvider.ItemsSource.ToList();
 
             //Change type to object when current item is null, which means that it will get accepted by convention
             var type = item == null ? typeof(object) : item.GetType();

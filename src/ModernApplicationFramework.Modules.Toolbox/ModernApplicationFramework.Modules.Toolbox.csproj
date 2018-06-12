@@ -76,6 +76,7 @@
     <Compile Include="Converters\TreeNodeEditModeWidthConverter.cs" />
     <Compile Include="NativeMethods\NativeMethods.cs" />
     <Compile Include="NativeMethods\User32.cs" />
+    <Compile Include="Interfaces\IToolboxStateProvider.cs" />
     <Compile Include="State\ToolboxItemHost.cs" />
     <Compile Include="State\ToolboxStateProvider.cs" />
     <Compile Include="State\ToolboxStateSettings.cs" />

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Commands
 {
@@ -14,6 +16,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
     public class ToolboxNodeDownCommandDefinition : CommandDefinition
     {
         private readonly IToolbox _toolbox;
+        private readonly IToolboxService _service;
         public override string NameUnlocalized => "Move Down";
         public override string Text => "Move Down";
         public override string ToolTip => Text;
@@ -27,9 +30,10 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
         public override ICommand Command { get; }
 
         [ImportingConstructor]
-        public ToolboxNodeDownCommandDefinition(IToolbox toolbox)
+        public ToolboxNodeDownCommandDefinition(IToolbox toolbox, IToolboxService service)
         {
             _toolbox = toolbox;
+            _service = service;
             Command = new UICommand(MoveNodeDown, CanMoveNodeDown);
         }
 
@@ -51,9 +55,11 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
 
         private bool CheckCategoryDown(IToolboxCategory category)
         {
-            if (!_toolbox.Categories.Contains(category))
+            var items = _service.GetToolboxItemSource();
+
+            if (!items.Contains(category))
                 return false;
-            if (_toolbox.Categories.IndexOf(category) >= _toolbox.Categories.Count - 1)
+            if (items.IndexOf(x => x.Equals(category)) >= items.Count - 1)
                 return false;
             return true;
         }
@@ -81,9 +87,10 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
         {
             if (category == null)
                 return;
-            var index = _toolbox.Categories.IndexOf(category);
-            _toolbox.Categories.RemoveAt(index);
-            _toolbox.Categories.Insert(index + 1, category);
+            var items = _service.GetToolboxItemSource();
+            var index = items.IndexOf(x => x.Equals(category));
+            _service.RemoveCategory(category, true);
+            _service.InsertCategory(index +1, category);
             _toolbox.SelectedNode = category;
         }
     }
