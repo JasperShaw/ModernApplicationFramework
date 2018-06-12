@@ -40,6 +40,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
 
             var groups = host.ItemGroupDefinitions.Where(x => x.Parent == menuDefinition)
                 .Where(x => !host.ExcludedItemDefinitions.Contains(x))
+                .Where(x => x.Items.Any(y => y.IsVisible))
                 .OrderBy(x => x.SortOrder)
                 .ToList();
             for (var i = 0; i < groups.Count; i++)
