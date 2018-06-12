@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Xml;
@@ -30,6 +31,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
 
         protected override void Deserialize(ref XmlNode xmlRootNode)
         {
+
         }
 
         protected override void EnsureInitialized()

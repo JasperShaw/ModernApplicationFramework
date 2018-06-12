@@ -30,7 +30,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.Services
             return _stateProvider.ItemsSource.ToList();
         }
 
-
         public void StoreCurrentLayout()
         {
             InternalStoreLayout(_toolbox.CurrentLayout);

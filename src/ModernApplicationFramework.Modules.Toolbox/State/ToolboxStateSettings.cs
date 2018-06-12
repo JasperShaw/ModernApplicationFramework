@@ -10,7 +10,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
 {
     [Export(typeof(ISettingsDataModel))]
     [Export(typeof(ToolboxStateSettings))]
-    internal sealed class ToolboxStateSettings : SettingsDataModel
+    public sealed class ToolboxStateSettings : SettingsDataModel
     {
         private readonly IToolboxStateSerializer _serializer;
         public override ISettingsCategory Category => Settings.ToolboxStateCategoryCategory;
