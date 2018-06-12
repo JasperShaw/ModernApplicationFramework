@@ -256,7 +256,7 @@
                                                 <Binding Path="IconSource"/>
                                                 <Binding Path="(imaging:ImageThemingUtilities.ImageBackgroundColor)"
                                                          RelativeSource="{RelativeSource Self}"/>
-                                                <Binding Source="{x:Static utilities:Boxes.BooleanTrue}"/>
+                                                <Binding Path="IsEnabled"/>
                                             </MultiBinding>
                                         </Image.Source>
                                     </Image>
