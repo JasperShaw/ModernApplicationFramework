@@ -127,6 +127,23 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             return true;
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+            if (obj is IToolboxNode sequence)
+                return Equals(sequence);
+            return false;
+        }
+
+        protected virtual bool Equals(IToolboxNode other)
+        {
+            if (other.Id.Equals(Id) && other.Name.Equals(Name))
+                return true;
+            return false;
+        }
+
+
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

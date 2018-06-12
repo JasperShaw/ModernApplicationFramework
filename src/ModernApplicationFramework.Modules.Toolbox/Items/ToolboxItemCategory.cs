@@ -80,15 +80,14 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             DefaultCategory.Items.Add(j);
         }
 
-        public ToolboxItemCategory() : this(string.Empty)
+        public ToolboxItemCategory() : this(Guid.Empty, string.Empty, true)
         {
             IsNewlyCreated = true;
             EnterRenameMode();
         }
 
 
-        //TODO: Remove or protect this 
-        public ToolboxItemCategory(string name) : this(DefaultCategoryId, name, true)
+        public ToolboxItemCategory(string name) : this(Guid.Empty, name, true)
         {
 
         }
