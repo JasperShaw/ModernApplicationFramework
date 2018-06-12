@@ -72,10 +72,16 @@ namespace ModernApplicationFramework.Modules.Toolbox
             }
         }
 
+
+        public IContextMenuProvider ContextMenuProvider { get; }
+
+
         [ImportingConstructor]
         public ToolboxViewModel(IDockingHostViewModel hostViewModel, IToolboxStateProvider stateProvider)
         {
             DisplayName = "Toolbox";
+
+            ContextMenuProvider = new ToolboxContextMenuProvider();
 
             //_items = new BindableCollection<ToolboxItemViewModel>();
             _categories = new BindableCollection<IToolboxCategory>();

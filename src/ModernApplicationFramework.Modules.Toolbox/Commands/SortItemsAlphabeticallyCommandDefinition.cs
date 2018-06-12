@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
@@ -35,7 +36,14 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
 
         private void Sort()
         {
-            
+            if (_toolbox.SelectedCategory == null)
+                return;
+            var selectedNode = _toolbox.SelectedNode;
+            var oldLayout = _toolbox.SelectedCategory.Items.ToList();
+            var newLayout = oldLayout.OrderBy(x => x.Name);
+            _toolbox.SelectedCategory.Items.Clear();
+            _toolbox.SelectedCategory.Items.AddRange(newLayout);
+            _toolbox.SelectedNode = selectedNode;
         }
 
         private bool CanSort()

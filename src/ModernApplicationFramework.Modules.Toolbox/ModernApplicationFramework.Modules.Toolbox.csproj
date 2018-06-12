@@ -112,6 +112,7 @@
     <Compile Include="Interfaces\IToolboxService.cs" />
     <Compile Include="Services\ToolboxService.cs" />
     <Compile Include="ToolBoxColors.cs" />
+    <Compile Include="CommandBar\ToolboxContextMenuProvider.cs" />
     <Compile Include="ToolboxDragHandler.cs" />
     <Compile Include="ToolboxDropHandler.cs" />
     <Compile Include="Items\ToolboxItem.cs" />

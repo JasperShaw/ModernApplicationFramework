@@ -7,6 +7,7 @@ using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.DragDrop;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Commands;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Items;
@@ -21,6 +22,16 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
             DependencyProperty.RegisterAttachedReadOnly("IsContextMenuOpen", typeof(bool), typeof(ToolboxTreeView),
                 new FrameworkPropertyMetadata(Boxes.BooleanFalse,
                     FrameworkPropertyMetadataOptions.Inherits));
+
+
+        public static readonly DependencyProperty ContextMenuProviderProperty = DependencyProperty.Register(
+            "ContextMenuProvider", typeof(IContextMenuProvider), typeof(ToolboxTreeView), new PropertyMetadata(default(IContextMenuProvider)));
+
+        public IContextMenuProvider ContextMenuProvider
+        {
+            get => (IContextMenuProvider) GetValue(ContextMenuProviderProperty);
+            set => SetValue(ContextMenuProviderProperty, value);
+        }
 
 
         private ContextMenuScope _contextMenuScope;
@@ -105,6 +116,12 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
             EnterContextMenuVisualState();
             var point = GetContextMenuLocation();
 
+
+            var contextMenu = ContextMenuProvider.Provide(GetType());
+            if (contextMenu == null)
+                return;
+
+            ContextMenu = contextMenu;
             ContextMenu.Placement = PlacementMode.Absolute;
             ContextMenu.VerticalOffset = point.Y;
             ContextMenu.HorizontalOffset = point.X;
