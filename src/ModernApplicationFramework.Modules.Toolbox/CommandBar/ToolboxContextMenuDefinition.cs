@@ -44,7 +44,11 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
 
         [Export]
         public static CommandBarItemDefinition SortItemsAlphabeticallyDefinition =
-            new CommandBarCommandItemDefinition<SortItemsAlphabeticallyCommandDefinition>(new Guid("{DCDA21B7-179B-4F9D-805E-BC2266761A43}"), ItemManageCommandGroup, 2);
+            new CommandBarCommandItemDefinition<SortItemsAlphabeticallyCommandDefinition>(new Guid("{DCDA21B7-179B-4F9D-805E-BC2266761A43}"), ItemManageCommandGroup, 1);
+
+        [Export]
+        public static CommandBarItemDefinition ResetToolboxDefinition =
+            new CommandBarCommandItemDefinition<ResetToolboxCommandDefinition>(new Guid("{716EA4A5-19D5-4997-90DA-360214073D51}"), ItemManageCommandGroup, 2);
 
 
 
