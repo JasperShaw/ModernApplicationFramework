@@ -82,7 +82,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
                 return;
 
             dropInfo.Effects = DragDropEffects.Copy | DragDropEffects.Move;
-            var tempItem = new Items.ToolboxItem(string.Empty, dataObject, new[] { typeof(object) });
+            var tempItem = new ToolboxItem(string.Empty, dataObject, new[] { typeof(object) });
 
             if (!ToolboxDropHandler.CanDropToolboxItem(dropInfo, tempItem))
                 e.Effects = DragDropEffects.None;
@@ -141,13 +141,18 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
 
         private Point GetContextMenuLocation()
         {
+            var p = new Point();
             if (InputManager.Current.MostRecentInputDevice is KeyboardDevice)
             {
                 if (Keyboard.FocusedElement is UIElement focusedElement)
-                    return focusedElement.PointToScreen(new Point(0, focusedElement.RenderSize.Height));
+                    p = focusedElement.PointToScreen(new Point(0, focusedElement.RenderSize.Height));
             }
-            var messagePos = User32.GetMessagePos();
-            return new Point(NativeMethods.NativeMethods.SignedLoword(messagePos), NativeMethods.NativeMethods.SignedHiword(messagePos));
+            else
+            {
+                var messagePos = User32.GetMessagePos();
+                p = new Point(NativeMethods.NativeMethods.SignedLoword(messagePos), NativeMethods.NativeMethods.SignedHiword(messagePos));
+            }
+            return DpiHelper.Default.DeviceToLogicalUnits(p);    
         }
 
         protected override void OnPreviewKeyDown(KeyEventArgs e)
