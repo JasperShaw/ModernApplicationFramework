@@ -29,7 +29,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
 
         public IContextMenuProvider ContextMenuProvider
         {
-            get => (IContextMenuProvider) GetValue(ContextMenuProviderProperty);
+            get => (IContextMenuProvider)GetValue(ContextMenuProviderProperty);
             set => SetValue(ContextMenuProviderProperty, value);
         }
 
@@ -66,7 +66,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
 
         protected override void OnDragOver(DragEventArgs e)
         {
-            base.OnDragOver(e);          
+            base.OnDragOver(e);
             var dragData = e.Data.GetData(DragDrop.DragDrop.DataFormat.Name);
             if (dragData is IToolboxCategory)
                 return;
@@ -152,7 +152,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
                 var messagePos = User32.GetMessagePos();
                 p = new Point(NativeMethods.NativeMethods.SignedLoword(messagePos), NativeMethods.NativeMethods.SignedHiword(messagePos));
             }
-            return DpiHelper.Default.DeviceToLogicalUnits(p);    
+            return DpiHelper.Default.DeviceToLogicalUnits(p);
         }
 
         protected override void OnPreviewKeyDown(KeyEventArgs e)
@@ -203,7 +203,11 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
             if (SelectedItem is IToolboxCategory)
                 IoC.Get<DeleteActiveToolbarCategoryCommandDefinition>().Command.Execute(null);
             if (SelectedItem is IToolboxItem item)
-                item.Parent?.RemoveItem(item);
+            {
+                var command = DeleteActiveItemCommand.Instance;
+                command.CommandParamenter = item;
+                command.Command.Execute(null);
+            }
         }
 
         private static void SetIsContextMenuOpen(UIElement element, bool value)

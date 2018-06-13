@@ -52,7 +52,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
         {
         }
 
-        public ToolboxItem(string name, IDataObject data, IEnumerable<Type> compatibleTypes, BitmapSource iconSource = null, bool serializable = true) 
+        public ToolboxItem(string name, IDataObject data, IEnumerable<Type> compatibleTypes, BitmapSource iconSource = null, bool serializable = true)
             : this(Guid.Empty, name, data, null, compatibleTypes, iconSource, serializable, true)
         {
         }
@@ -62,7 +62,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
         {
         }
 
-        public ToolboxItem(Guid id, string name, IDataObject data, IToolboxCategory originalParent, IEnumerable<Type> compatibleTypes, 
+        public ToolboxItem(Guid id, string name, IDataObject data, IToolboxCategory originalParent, IEnumerable<Type> compatibleTypes,
             BitmapSource iconSource = null, bool serializable = true, bool isCustom = false) : base(id, name, isCustom)
         {
             Data = data;
@@ -78,7 +78,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
                 new Uri("pack://application:,,,/ModernApplicationFramework.Modules.Toolbox;component/text.png"));
 
             var text = data.GetData(DataFormats.Text);
-            var item = new ToolboxItem($"Text: {text}", data, new []{typeof(object)}, bitmap, true);
+            var item = new ToolboxItem($"Text: {text}", data, new[] { typeof(object) }, bitmap, true);
             return item;
         }
 
