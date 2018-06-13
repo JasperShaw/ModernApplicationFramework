@@ -93,6 +93,23 @@ namespace ModernApplicationFramework.Utilities
             return FindAncestor(obj, parentEvaluator, ancestor => (object)ancestor is TAncestorType) as TAncestorType;
         }
 
+        public static bool IsAncestorOf<TElementType>(this TElementType element, TElementType other, Func<TElementType, TElementType> parentEvaluator) where TElementType : class
+        {
+            for (var elementType = parentEvaluator(other); elementType != null; elementType = parentEvaluator(elementType))
+            {
+                if (elementType == element)
+                    return true;
+            }
+            return false;
+        }
+
+        public static bool IsLogicalAncestorOf(this DependencyObject element, DependencyObject other)
+        {
+            if (other == null)
+                return false;
+            return element.IsAncestorOf(other, GetVisualOrLogicalParent);
+        }
+
         public static TSource GetOriginalSource<TSource>(this MouseButtonEventArgs mouseArgs) where TSource: FrameworkElement
         {
             if (!(mouseArgs.OriginalSource is FrameworkElement frameworkElement))

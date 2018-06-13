@@ -12,7 +12,7 @@
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
-	<ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <ExpressionBlendVersion>12.0.51020.0</ExpressionBlendVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -73,6 +73,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\Dialogs\TextInputDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SearchControl\SearchControlTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -264,7 +268,14 @@
     <Compile Include="Basics\MostRecentlyUsedManager\MruItem.cs" />
     <Compile Include="Basics\Services\LayoutBackupProvider.cs" />
     <Compile Include="Basics\Services\LayoutSerializer.cs" />
-    <Compile Include="Controls\SearchControl.cs" />
+    <Compile Include="Controls\LiveTextBlock.cs" />
+    <Compile Include="Controls\SearchControl\SearchControl.cs" />
+    <Compile Include="Controls\SearchControl\SearchControlPopup.cs" />
+    <Compile Include="Controls\SearchControl\SearchControlTest.xaml.cs">
+      <DependentUpon>SearchControlTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SearchControl\SearchTextBox.cs" />
+    <Compile Include="Controls\SmoothProgressBar.cs" />
     <Compile Include="Docking\AnchorableCloseMode.cs" />
     <Compile Include="Docking\AnchorablesClosedEventArgs.cs" />
     <Compile Include="Docking\AnchorablesClosingEventArgs.cs" />
@@ -643,6 +654,7 @@
     <Compile Include="Interfaces\ViewModels\ICommandBarHost.cs" />
     <Compile Include="Interfaces\ViewModels\ICustomizeDialogScreen.cs" />
     <Compile Include="Interfaces\Views\IToolBarsPageView.cs" />
+    <Compile Include="Native\NativeMethods\Imm32.cs" />
     <Compile Include="Native\Platform\Enums\BrowseInfoFlags.cs" />
     <Compile Include="Native\Platform\Enums\CbtHookAction.cs" />
     <Compile Include="Native\Platform\Enums\ShellFileType.cs" />

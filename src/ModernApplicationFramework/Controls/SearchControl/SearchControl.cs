@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace ModernApplicationFramework.Controls
+namespace ModernApplicationFramework.Controls.SearchControl
 {
     public class SearchControl : Control
     {
