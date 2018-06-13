@@ -61,7 +61,9 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
                         if (data == null || typeList == null)
                             return null;
 
-                        return new Items.ToolboxItem(name, data, typeList);
+                        if (data.GetFormats().Contains(DataFormats.Text))
+                            return ToolboxItem.CreateTextItem(data);
+                        return new ToolboxItem(name, data, typeList);
                     });
                     foreach (var item in items)
                         category.Items.Add(item);

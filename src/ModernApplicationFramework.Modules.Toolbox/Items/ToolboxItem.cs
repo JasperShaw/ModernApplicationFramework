@@ -72,6 +72,16 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             Serializable = serializable;
         }
 
+        internal static IToolboxItem CreateTextItem(IDataObject data)
+        {
+            var bitmap = new BitmapImage(
+                new Uri("pack://application:,,,/ModernApplicationFramework.Modules.Toolbox;component/text.png"));
+
+            var text = data.GetData(DataFormats.Text);
+            var item = new ToolboxItem($"Text: {text}", data, new []{typeof(object)}, bitmap, true);
+            return item;
+        }
+
         public virtual bool EvaluateEnabled(Type targetType)
         {
             return CompatibleTypes.Memebers.Contains(typeof(object)) ||

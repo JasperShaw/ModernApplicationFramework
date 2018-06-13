@@ -23,9 +23,9 @@ namespace ModernApplicationFramework.Modules.Toolbox
             {
                 dropInfo.Effects = DragDropEffects.Copy | DragDropEffects.Move;
                 dropInfo.DropTargetAdorner = typeof(ToolboxInsertAdorner);
-                dropInfo.Data = new Items.ToolboxItem("Text1223", dataObject, new[] { typeof(object) }, new BitmapImage(new Uri("pack://application:,,,/ModernApplicationFramework.Modules.Toolbox;component/text.png")));
 
 
+                dropInfo.Data = ToolboxItem.CreateTextItem(dataObject);
 
 
                 //FrameworkElement visual;
