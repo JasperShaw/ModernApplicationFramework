@@ -63,12 +63,15 @@ namespace ModernApplicationFramework.Modules.Toolbox
                 _toolbox.RefreshView();
         }
 
-        public void RemoveCategory(IToolboxCategory category, bool supressRefresh = false)
+        public void RemoveCategory(IToolboxCategory category, bool cascading = true, bool supressRefresh = false)
         {
             if (_stateProvider.ItemsSource.Contains(category))
                 _stateProvider.ItemsSource.Remove(category);
-            foreach (var item in category.Items.ToList())
-                category.RemoveItem(item);
+            if (cascading)
+            {
+                foreach (var item in category.Items.ToList())
+                    category.RemoveItem(item);
+            }
             _host.DeleteNode(category);
             if (!supressRefresh)
                 _toolbox.RefreshView();

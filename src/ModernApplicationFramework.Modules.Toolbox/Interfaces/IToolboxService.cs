@@ -17,7 +17,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
 
         void InsertCategory(int index, IToolboxCategory category, bool supressRefresh = false);
 
-        void RemoveCategory(IToolboxCategory category, bool supressRefresh = false);
+        void RemoveCategory(IToolboxCategory category, bool cascading = true, bool supressRefresh = false);
 
         IToolboxCategory GetCategoryById(Guid guid);
 

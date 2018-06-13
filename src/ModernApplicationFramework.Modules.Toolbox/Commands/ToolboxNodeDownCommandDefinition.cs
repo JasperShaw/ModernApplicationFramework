@@ -95,7 +95,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
                 return;
             var items = _service.GetToolboxItemSource();
             var index = items.IndexOf(x => x.Equals(category));
-            _service.RemoveCategory(category, true);
+            _service.RemoveCategory(category, false, true);
             _service.InsertCategory(index +1, category);
             _toolbox.SelectedNode = category;
         }
