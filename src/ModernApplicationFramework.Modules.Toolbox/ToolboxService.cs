@@ -9,7 +9,7 @@ using ModernApplicationFramework.Modules.Toolbox.State;
 namespace ModernApplicationFramework.Modules.Toolbox
 {
     [Export(typeof(IToolboxService))]
-    internal  class ToolboxService : IToolboxService
+    internal class ToolboxService : IToolboxService
     {
         private readonly ToolboxItemHost _host;
         private readonly IToolboxStateProvider _stateProvider;
@@ -48,15 +48,16 @@ namespace ModernApplicationFramework.Modules.Toolbox
             _stateProvider.ItemsSource.AddRange(layout);
         }
 
-        public void AddCategory(IToolboxCategory category, bool supressRefresh = false)
+        public void AddCategory(IToolboxCategory category, bool suppressRefresh = false)
         {
-            InsertCategory(_stateProvider.ItemsSource.Count, category);
+            var index = _stateProvider.ItemsSource.Count;
+            if (_stateProvider.ItemsSource.LastOrDefault() == ToolboxCategory.DefaultCategory)
+                index--;
+            InsertCategory(index, category);
         }
 
         public void InsertCategory(int index, IToolboxCategory category, bool supressRefresh = false)
         {
-            if (_stateProvider.ItemsSource.LastOrDefault() == ToolboxCategory.DefaultCategory)
-                index--;
             _stateProvider.ItemsSource.Insert(index, category);
             _host.RegisterNode(category);
             if (!supressRefresh)

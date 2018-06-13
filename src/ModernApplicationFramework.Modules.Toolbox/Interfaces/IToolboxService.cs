@@ -13,7 +13,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
 
         void StoreAndApplyLayout(IEnumerable<IToolboxCategory> layout);
 
-        void AddCategory(IToolboxCategory category, bool supressRefresh = false);
+        void AddCategory(IToolboxCategory category, bool suppressRefresh = false);
 
         void InsertCategory(int index, IToolboxCategory category, bool supressRefresh = false);
 

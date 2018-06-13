@@ -83,6 +83,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
         {
             IsNewlyCreated = true;
             EnterRenameMode();
+            IsVisible = true;
         }
 
         public ToolboxCategory(string name) : this(Guid.Empty, name, true)
