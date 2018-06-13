@@ -74,6 +74,11 @@
     <Compile Include="CommandBar\ToolboxContextMenuDefinition.cs" />
     <Compile Include="Commands\ToolboxNodeDownCommandDefinition.cs" />
     <Compile Include="Commands\ToolboxNodeUpCommandDefinition.cs" />
+    <Compile Include="ToolboxResources.Designer.cs">
+      <DependentUpon>ToolboxResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Controls\ToolboxInsertAdorner.cs" />
     <Compile Include="Converters\CategoryVisibilityConverter.cs" />
     <Compile Include="Converters\ToolboxItemVisibilityConverter.cs" />
@@ -126,6 +131,12 @@
       <DependentUpon>ToolboxView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ToolboxViewModel.cs" />
+    <EmbeddedResource Include="ToolboxResources.de.resx" />
+    <EmbeddedResource Include="ToolboxResources.en.resx" />
+    <EmbeddedResource Include="ToolboxResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ToolboxResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
