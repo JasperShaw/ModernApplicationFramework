@@ -1,0 +1,21 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:ModernApplicationFramework.Controls">
+
+    
+    
+    
+    
+    
+    
+    
+    <Style TargetType="{x:Type controls:SearchControl}">
+        <Style.Setters>
+            <Setter Property="AllowDrop" Value="True"/>
+            <Setter Property="KeyboardNavigation.TabNavigation" Value="Local"/>
+            <Setter Property="KeyboardNavigation.IsTabStop" Value="False"/>
+            <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
+        </Style.Setters>
+    </Style>
+
+</ResourceDictionary>

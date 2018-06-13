@@ -126,6 +126,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\Generic\SearchControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\Generic\DialogToggleButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -259,6 +263,7 @@
     <Compile Include="Basics\MostRecentlyUsedManager\MruItem.cs" />
     <Compile Include="Basics\Services\LayoutBackupProvider.cs" />
     <Compile Include="Basics\Services\LayoutSerializer.cs" />
+    <Compile Include="Controls\SearchControl.cs" />
     <Compile Include="Docking\AnchorableCloseMode.cs" />
     <Compile Include="Docking\AnchorablesClosedEventArgs.cs" />
     <Compile Include="Docking\AnchorablesClosingEventArgs.cs" />

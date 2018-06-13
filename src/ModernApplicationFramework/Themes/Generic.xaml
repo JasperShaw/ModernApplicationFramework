@@ -91,7 +91,11 @@
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/FormsListBoxItem.xaml"/>
 
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/SortingGridViewColumnHeader.xaml"/>
-        
+
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/SearchControl.xaml"/>
+
+
+
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>
