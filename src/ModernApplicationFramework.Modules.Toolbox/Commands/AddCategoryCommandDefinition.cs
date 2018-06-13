@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
@@ -16,12 +17,13 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
     {
         private readonly IToolboxService _service;
 
-        public override string NameUnlocalized => "Add Category";
-        public override string Text => NameUnlocalized;
+        public override string Name => ToolboxResources.AddCategoryCommand_Name;
+        public override string NameUnlocalized => ToolboxResources.ResourceManager.GetString(nameof(ToolboxResources.AddCategoryCommand_Name), CultureInfo.InvariantCulture);
+        public override string Text => ToolboxResources.AddCategoryCommand_Text;
         public override string ToolTip => Text;
         public override Uri IconSource => null;
         public override string IconId => null;
-        public override CommandCategory Category => CommandCategories.ViewCommandCategory;
+        public override CommandCategory Category => CommandCategories.ToolsCommandCategory;
         public override Guid Id => new Guid("{D7D3206E-0BBD-41E4-96DF-07EA57571586}");
         public override MultiKeyGesture DefaultKeyGesture => null;
         public override GestureScope DefaultGestureScope => null;

@@ -26,7 +26,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
 
         internal static CommandDefinition Instance => _instance ?? (_instance = new DeleteActiveItemCommand());
 
-        public DeleteActiveItemCommand()
+        private DeleteActiveItemCommand()
         {
             Command = new Command(DeleteItem, CanDeleteItem);
         }

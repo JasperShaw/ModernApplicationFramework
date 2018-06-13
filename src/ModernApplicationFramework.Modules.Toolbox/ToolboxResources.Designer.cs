@@ -61,11 +61,173 @@ namespace ModernApplicationFramework.Modules.Toolbox {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string AddCategoryCommand_Name {
+            get {
+                return ResourceManager.GetString("AddCategoryCommand_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string AddCategoryCommand_Text {
+            get {
+                return ResourceManager.GetString("AddCategoryCommand_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string DeleteCategoryCommand_Name {
+            get {
+                return ResourceManager.GetString("DeleteCategoryCommand_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string DeleteCategoryCommand_Text {
+            get {
+                return ResourceManager.GetString("DeleteCategoryCommand_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string RenameCategoryCommand_Name {
+            get {
+                return ResourceManager.GetString("RenameCategoryCommand_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string RenameCategoryCommand_Text {
+            get {
+                return ResourceManager.GetString("RenameCategoryCommand_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string RenameItemCommand_Name {
+            get {
+                return ResourceManager.GetString("RenameItemCommand_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string RenameItemCommand_Text {
+            get {
+                return ResourceManager.GetString("RenameItemCommand_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string ResetToolboxCommand_Name {
+            get {
+                return ResourceManager.GetString("ResetToolboxCommand_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string ResetToolboxCommand_Text {
+            get {
+                return ResourceManager.GetString("ResetToolboxCommand_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string ShowAllNodesCommand_Name {
+            get {
+                return ResourceManager.GetString("ShowAllNodesCommand_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string ShowAllNodesCommand_Text {
+            get {
+                return ResourceManager.GetString("ShowAllNodesCommand_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string SortItemsAlphabeticallyCommand_Name {
+            get {
+                return ResourceManager.GetString("SortItemsAlphabeticallyCommand_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string SortItemsAlphabeticallyCommand_Text {
+            get {
+                return ResourceManager.GetString("SortItemsAlphabeticallyCommand_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Toolbox ähnelt.
         /// </summary>
         public static string ToolboxCommandName {
             get {
                 return ResourceManager.GetString("ToolboxCommandName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string ToolboxNodeDownCommand_Name {
+            get {
+                return ResourceManager.GetString("ToolboxNodeDownCommand_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string ToolboxNodeDownCommand_Text {
+            get {
+                return ResourceManager.GetString("ToolboxNodeDownCommand_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string ToolboxNodeUpCommand_Name {
+            get {
+                return ResourceManager.GetString("ToolboxNodeUpCommand_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string ToolboxNodeUpCommand_Text {
+            get {
+                return ResourceManager.GetString("ToolboxNodeUpCommand_Text", resourceCulture);
             }
         }
     }

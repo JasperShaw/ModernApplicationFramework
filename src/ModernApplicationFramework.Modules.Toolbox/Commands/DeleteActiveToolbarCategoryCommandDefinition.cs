@@ -21,7 +21,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
         public override string ToolTip => Text;
         public override Uri IconSource => null;
         public override string IconId => null;
-        public override CommandCategory Category => CommandCategories.ViewCommandCategory;
+        public override CommandCategory Category => CommandCategories.ToolsCommandCategory;
         public override Guid Id => new Guid("{2A33CF7A-4C10-4FA7-A766-A45F1661F4DF}");
         public override MultiKeyGesture DefaultKeyGesture => null;
         public override GestureScope DefaultGestureScope => null;

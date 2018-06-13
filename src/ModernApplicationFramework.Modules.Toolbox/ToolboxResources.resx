@@ -120,4 +120,58 @@
   <data name="ToolboxCommandName" xml:space="preserve">
     <value>Toolbox</value>
   </data>
+  <data name="AddCategoryCommand_Name" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="AddCategoryCommand_Text" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="DeleteCategoryCommand_Name" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="DeleteCategoryCommand_Text" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="RenameCategoryCommand_Name" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="RenameCategoryCommand_Text" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="RenameItemCommand_Name" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="RenameItemCommand_Text" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="ResetToolboxCommand_Name" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="ResetToolboxCommand_Text" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="SortItemsAlphabeticallyCommand_Name" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="SortItemsAlphabeticallyCommand_Text" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="ShowAllNodesCommand_Name" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="ShowAllNodesCommand_Text" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="ToolboxNodeUpCommand_Name" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="ToolboxNodeUpCommand_Text" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="ToolboxNodeDownCommand_Name" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="ToolboxNodeDownCommand_Text" xml:space="preserve">
+    <value></value>
+  </data>
 </root>
