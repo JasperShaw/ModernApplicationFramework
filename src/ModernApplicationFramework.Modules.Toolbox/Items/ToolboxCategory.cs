@@ -15,8 +15,9 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
         private bool _hasItems;
         private bool _hasVisibleItems;
         private Type _currentType;
-        private bool _currentVisibleStatus;
+        private bool _showAllStatus;
         private bool _hasEnabledItems;
+        private bool _isVisible;
 
         public static bool IsDefaultCategory(IToolboxCategory category)
         {
@@ -41,6 +42,17 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             {
                 if (value == _hasItems) return;
                 _hasItems = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsVisible
+        {
+            get => _isVisible;
+            set
+            {
+                if (value == _isVisible) return;
+                _isVisible = value;
                 OnPropertyChanged();
             }
         }
@@ -87,7 +99,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
         public void Refresh(Type targetType, bool forceVisible = false)
         {
             _currentType = targetType;
-            _currentVisibleStatus = forceVisible;
+            _showAllStatus = forceVisible;
             foreach (var item in Items)
             {
                 var flag = item.EvaluateEnabled(targetType);
@@ -133,7 +145,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
                     IoC.Get<ToolboxItemHost>().RegisterNode(item);
                     var flag2 = item.EvaluateEnabled(_currentType);
                     item.IsEnabled = flag2;
-                    item.IsVisible = _currentVisibleStatus || flag2;
+                    item.IsVisible = _showAllStatus || flag2;
                 }
             }
             HasItems = Items.Any();
@@ -150,6 +162,15 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
                 HasVisibleItems = true;
             if (Items.Any(x => x.IsEnabled))
                 HasEnabledItems = true;
+            InternalEvaluateVisibility();
+        }
+
+        private void InternalEvaluateVisibility()
+        {
+            if (_showAllStatus || HasEnabledItems || HasVisibleItems || IsCustom || IsDefaultCategory(this))
+                IsVisible = true;
+            else
+                IsVisible = false;
         }
     }
 }

@@ -88,17 +88,7 @@
                 </Setter.Value>
             </Setter>
 
-            <Setter Property="Visibility">
-                <Setter.Value>
-                    <MultiBinding Converter="{StaticResource CategoryVisibilityConverter}">
-                        <Binding Path="HasVisibleItems"/>
-                        <Binding Path="HasEnabledItems"/>
-                        <Binding Path="IsCustom"/>
-                        <Binding Path="DataContext.ShowAllItems" RelativeSource="{RelativeSource AncestorType={x:Type toolbox:ToolboxView}}"/>
-                        <Binding Path="Id"/>
-                    </MultiBinding>
-                </Setter.Value>
-            </Setter>
+            <Setter Property="Visibility" Value="{Binding IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
             <Setter Property="Width">
                 <Setter.Value>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Controls;
@@ -26,6 +27,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
         private readonly BindableCollection<IToolboxCategory> _categories;
         private IToolboxNode _selectedNode;
         private bool _showAllItems;
+        private bool _supressStore;
 
         public override PaneLocation PreferredLocation => PaneLocation.Left;
 
@@ -91,11 +93,16 @@ namespace ModernApplicationFramework.Modules.Toolbox
             _stateProvider = stateProvider;
 
             //TODO: change to collection changed?
+            
+
             hostViewModel.ActiveLayoutItemChanging += (sender, e) => StoreItems();
             hostViewModel.ActiveLayoutItemChanged += (sender, e) => RefreshToolboxItems(e.NewLayoutItem);
 
             RefreshView();
+
+            Categories.CollectionChanged += (sender, args) => StoreItems();
         }
+
 
 
         public void RefreshView()
@@ -105,12 +112,15 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
         private void StoreItems()
         {
+            if (_supressStore)
+                return;
             _stateProvider.ItemsSource.Clear();
             _stateProvider.ItemsSource.AddRange(_categories);
         }
 
         private void RefreshToolboxItems(ILayoutItem item)
         {
+            _supressStore = true;
             _categories.Clear();
             var i = _stateProvider.ItemsSource.ToList();
 
@@ -118,6 +128,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
             var type = item == null ? typeof(object) : item.GetType();
             i.ForEach(x => x.Refresh(type, _showAllItems));
             _categories.AddRange(i);
+            _supressStore = false;
         }
 
         private void ToggleShowAllItems(bool showAllItems)

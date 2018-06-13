@@ -55,12 +55,16 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
 
         private bool CheckCategoryUp(IToolboxCategory category)
         {
-            var items = _service.GetToolboxItemSource();
+            var items = _service.GetToolboxItemSource().ToList();
             if (!items.Contains(category))
                 return false;
-            if (items.IndexOf(x => x.Equals(category)) <= 0)
+
+            var index = items.IndexOf(category);
+            if (index <= 0)
                 return false;
-            return true;
+            if (items.GetRange(0, index).Any(x => x.IsVisible))
+                return true;
+            return false;
         }
 
         private void MoveNodeUp()
@@ -89,7 +93,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
             var items = _service.GetToolboxItemSource();
             var index = items.IndexOf(x => x.Equals(category));
             _service.RemoveCategory(category, true);
-            _service.InsertCategory(index + 1, category);
+            _service.InsertCategory(index - 1, category);
             _toolbox.SelectedNode = category;
         }
     }

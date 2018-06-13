@@ -55,13 +55,19 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
 
         private bool CheckCategoryDown(IToolboxCategory category)
         {
-            var items = _service.GetToolboxItemSource();
+            var items = _service.GetToolboxItemSource().ToList();
 
             if (!items.Contains(category))
                 return false;
-            if (items.IndexOf(x => x.Equals(category)) >= items.Count - 1)
+
+            var index = items.IndexOf(category);
+            if (index >= items.Count - 1)
                 return false;
-            return true;
+
+            if (items.GetRange(index +1, items.Count - index -1).Any(x => x.IsVisible))
+                return true;
+
+            return false;
         }
 
         private void MoveNodeDown()
