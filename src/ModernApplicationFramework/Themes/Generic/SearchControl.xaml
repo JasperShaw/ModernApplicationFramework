@@ -2,11 +2,23 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:control="clr-namespace:ModernApplicationFramework.Controls.SearchControl"
                     xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
-                    xmlns:windows="clr-namespace:ModernApplicationFramework.Controls.Windows">
+                    xmlns:windows="clr-namespace:ModernApplicationFramework.Controls.Windows"
+                    xmlns:vsui="clr-namespace:ModernApplicationFramework.Basics"
+                    xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General"
+                    xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters">
 
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    <general:IsNullOrEmptyConverter x:Key="IsNullOrEmptyConverter"/>
+    <general:NotNullConverter x:Key="NotNullConverter"/>
+    <converters:SearchStatusConverter x:Key="SearchStatusConverter"/>
 
-    <Geometry x:Key="DownArrowGeometry" x:Uid="Geometry_1">M 0 0 L 3 3 L 6 0 Z</Geometry>
+    <Geometry x:Key="DownArrowGeometry">M 0 0 L 3 3 L 6 0 Z</Geometry>
+    <Geometry x:Key="SearchGeometry">
+        F1 M 8.5,7.0 C 7.12,7.00 6.0,5.88 6.0,4.5 C 6.0,3.12 7.12,2.0 8.5,2.0 C 9.88,2.0 11.0,3.12 11.0,4.5 C 11.0,5.88 9.88,7.0 8.5,7.0 Z M 8.5,0.0 C 6.02,0.0 4.0,2.02 4.0,4.500 C 4.0,5.23 4.19,5.9 4.49,6.5 L 0.0,11.0 L 2.0,13.0 L 6.49,8.51 C 7.1,8.81 7.77,9.0 8.5,9.0 C 11.0,9.0 13.0,7.0 13.0,4.5 C 13.0,2.02 11.0,0.0 8.5,0.0 Z
+    </Geometry>
+    <Geometry x:Key="SearchClearStopGeometry">
+        F1 M 0,1 L 1,0 L 4,3 L 7,0 L 8,1 L 5,4 L 8,7 L 7,8 L 4,5 L 1,8 L 0,7 L 3,4 L 0,1 Z
+    </Geometry>
 
 
     <ControlTemplate x:Key="ProgressBarTemplate" TargetType="{x:Type ProgressBar}">
@@ -113,10 +125,24 @@
         <Style.Setters>
             <Setter Property="Focusable" Value="False"/>
             <Setter Property="IsTabStop" Value="False"/>
-            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Background" Value="Red"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="Template" Value="{StaticResource SearchButtonTemplate}"/>
         </Style.Setters>
+        <Style.Triggers>
+            <!--<DataTrigger Value="{x:Static control:SearchStatus.NotStarted}"
+                         Binding="{Binding Path=SearchStatus, Converter={StaticResource SearchStatusConverter}}">
+                <Setter Property="Content" Value="{StaticResource SearchGeometry}"/>
+            </DataTrigger>
+            <DataTrigger Value="{x:Static control:SearchStatus.InProgress}"
+                         Binding="{Binding Path=SearchStatus, Converter={StaticResource SearchClearStopGeometry}}">
+                <Setter Property="Content" Value="{StaticResource SearchGeometry}"/>
+            </DataTrigger>
+            <DataTrigger Value="{x:Static control:SearchStatus.Complete}"
+                         Binding="{Binding Path=SearchStatus, Converter={StaticResource SearchClearStopGeometry}}">
+                <Setter Property="Content" Value="{StaticResource SearchGeometry}"/>
+            </DataTrigger>-->
+        </Style.Triggers>
     </Style>
 
 
@@ -165,10 +191,10 @@
             </Grid.ColumnDefinitions>
             <Border x:Name="Border" Grid.ColumnSpan="3"/>
             <TextBlock x:Name="PART_SearchWatermark" Margin="5,1,5,1"
-                       Style="{StaticResource SearchWatermarkStyle}" Text="Test123"/>
+                       Style="{StaticResource SearchWatermarkStyle}" Text="123"/>
             <control:SearchTextBox x:Name="PART_SearchBox" Grid.Row="0" Grid.Column="0" Padding="4,1,4,1"
-                                         Style="{StaticResource SearchBoxStyle}"
-                                     FocusRoot="{Binding RelativeSource={RelativeSource TemplatedParent}}"/>
+                                   Style="{StaticResource SearchBoxStyle}"  
+                                   FocusRoot="{Binding RelativeSource={RelativeSource TemplatedParent}}" Text="Test"/>
             <Button x:Name="PART_SearchButton" Width="17" Grid.Row="0" Grid.Column="1"
                     Style="{StaticResource SearchButtonStyle}"/>
             <Border x:Name="PART_SearchDropdownSeparator" Grid.Row="0" Grid.Column="2" BorderThickness="1,0,0,0">
@@ -182,7 +208,7 @@
             </controls:LiveTextBlock>
             <controls:SmoothProgressBar x:Name="PART_SearchProgressBar" Grid.ColumnSpan="3" Focusable="False" Visibility="Collapsed" 
                                         Style="{StaticResource ProgressBarStyle}"
-                                    Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="2"/>
+                                        Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="2"/>
             <control:SearchControlPopup x:Name="PART_SearchPopup" Grid.Row="0" Grid.ColumnSpan="3" AllowsTransparency="True" Placement="Bottom"
                                           StaysOpen="False" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                           Width="{Binding ElementName=Placement, Path=ActualWidth}" PlacementTarget="{Binding ElementName=PART_SearchBox}"
@@ -194,9 +220,53 @@
                 </windows:SystemDropShadowChrome>
             </control:SearchControlPopup>
         </Grid>
+        <ControlTemplate.Triggers>
+            <DataTrigger Value="{x:Static control:SearchStatus.InProgress}"
+                         Binding="{Binding Path=SearchStatus, Converter={StaticResource SearchStatusConverter}}">
+
+            </DataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding ElementName=PART_SearchPopup, Path=(Popup.HasDropShadow)}"
+                               Value="True"/>
+                    <Condition Binding="{Binding Source={x:Static vsui:EnvironmentRenderCapabilities.Current}, Path=AreGradientsAllowed}"
+                               Value="True"/>
+                </MultiDataTrigger.Conditions>
+                <Setter TargetName="Shdw" Property="FrameworkElement.Margin" Value="0,0,5,5"/>
+            </MultiDataTrigger>
+            <DataTrigger Value="False" Binding="{Binding Source={x:Static vsui:EnvironmentRenderCapabilities.Current}, Path=AreAnimationsAllowed}">
+                <Setter TargetName="PART_SearchPopup" Property="Popup.PopupAnimation" Value="None"/>
+            </DataTrigger>
+            <DataTrigger Value="False" Binding="{Binding ElementName=PART_SearchBox, Path=Text, Converter={StaticResource IsNullOrEmptyConverter}}">
+                <Setter Property="Visibility" Value="Collapsed" TargetName="PART_SearchWatermark"/>
+            </DataTrigger>
+            <Trigger Property="IsKeyboardFocusWithin" Value="False">
+                <Setter TargetName="PART_SearchBox" Property="CaretBrush" Value="Transparent"/>
+            </Trigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Path=IsKeyboardFocusWithin, RelativeSource={RelativeSource Self}}" Value="True"/>
+                    <!-- TODO: Search for watermark -->
+                </MultiDataTrigger.Conditions>
+                <Setter TargetName="PART_SearchWatermark" Property="Visibility" Value="Collapsed"/>
+            </MultiDataTrigger>
+            <Trigger Property="UIElement.IsKeyboardFocusWithin" Value="true">
+
+            </Trigger>
+            <Trigger Property="UIElement.IsMouseOver" Value="true">
+
+            </Trigger>
+            <Trigger Property="UIElement.IsEnabled" Value="false">
+
+            </Trigger>
+            <Trigger Property="HasPopup" Value="False">
+                <Setter TargetName="PART_SearchButton" Property="Width" Value="18"/>
+            </Trigger>
+            <DataTrigger Value="True" Binding="{Binding Converter={StaticResource NotNullConverter}}">
+                <Setter Property="IsEnabled" Value="True"/>
+            </DataTrigger>
+        </ControlTemplate.Triggers>
     </ControlTemplate>
-
-
     <Style TargetType="{x:Type control:SearchControl}">
         <Style.Setters>
             <Setter Property="AllowDrop" Value="True"/>

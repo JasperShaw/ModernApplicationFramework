@@ -282,5 +282,8 @@ namespace ModernApplicationFramework.Native.NativeMethods
 
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto, BestFitMapping = false, ThrowOnUnmappableChar = true)]
         public static extern int LoadString(SafeModuleHandle hInstance, uint uID, StringBuilder lpBuffer, int nBufferMax);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetCapture();
     }
 }

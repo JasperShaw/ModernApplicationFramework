@@ -11,6 +11,7 @@
              xmlns:mafdd="http://modern.framework.com/dragdrop"
              xmlns:controls="clr-namespace:ModernApplicationFramework.Modules.Toolbox.Controls"
              xmlns:converters1="clr-namespace:ModernApplicationFramework.Modules.Toolbox.Converters"
+             xmlns:searchControl="clr-namespace:ModernApplicationFramework.Controls.SearchControl;assembly=ModernApplicationFramework"
              x:Class="ModernApplicationFramework.Modules.Toolbox.ToolboxView"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" Background="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxBackground}}">
 
@@ -346,7 +347,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBox Grid.Row="0"/>
+        <searchControl:SearchControl Grid.Row="0"/>
         <controls:ToolboxTreeView x:Name="TreeView" Grid.Row="1" Margin="0,3,0,0"
                   mafdd:DragDrop.IsDragSource="True"
                   mafdd:DragDrop.IsDropTarget="True"
