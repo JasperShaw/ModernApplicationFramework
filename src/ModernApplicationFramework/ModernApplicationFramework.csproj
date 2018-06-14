@@ -270,10 +270,12 @@
     <Compile Include="Basics\Services\LayoutSerializer.cs" />
     <Compile Include="Controls\LiveTextBlock.cs" />
     <Compile Include="Controls\SearchControl\SearchControl.cs" />
+    <Compile Include="Controls\SearchControl\SearchControlDataSource.cs" />
     <Compile Include="Controls\SearchControl\SearchControlPopup.cs" />
     <Compile Include="Controls\SearchControl\SearchControlTest.xaml.cs">
       <DependentUpon>SearchControlTest.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SearchControl\SearchSettingsDataSource.cs" />
     <Compile Include="Controls\SearchControl\SearchTextBox.cs" />
     <Compile Include="Controls\SmoothProgressBar.cs" />
     <Compile Include="Core\Converters\General\IsNullOrEmptyConverter.cs" />

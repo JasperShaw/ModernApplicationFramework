@@ -54,9 +54,6 @@ namespace ModernApplicationFramework.Controls.SearchControl
 
         private bool LastSearchCleared { get; set; }
 
-
-
-
         static SearchControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SearchControl), new FrameworkPropertyMetadata(typeof(SearchControl)));
@@ -218,10 +215,26 @@ namespace ModernApplicationFramework.Controls.SearchControl
 
         }
 
+        private void StartSearch(string searchText, bool fAutomaticSearch = false)
+        {
+
+        }
+
+        private void OnSearchTextOrOptionsChanged()
+        {
+        }
+
         private void SetSearchBoxText(string text)
         {
             //Set DataSource
             SearchBox.CaretIndex = text.Length;
+        }
+
+        private void ClearCurrentNavigationLocation()
+        {
+            if (!HasPopup)
+                return;
+            //SearchPopupNavigationService.ClearCurrentLocation(SearchPopup);
         }
 
         //private bool NotifyKeyPress(Key key, KeyEventArgs e)
@@ -249,22 +262,41 @@ namespace ModernApplicationFramework.Controls.SearchControl
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
+            OnSearchButtonClicked();
         }
 
         private void SearchBox_TextInput(object sender, RoutedEventArgs e)
         {
+            IsTextInputInProgress = false;
+            if (!IsTextChangedDuringInput)
+                return;
+            IsTextChangedDuringInput = false;
+            OnSearchTextOrOptionsChanged();
         }
 
         private void SearchBox_TextInputStart(object sender, TextCompositionEventArgs e)
         {
+            IsTextChangedDuringInput = false;
+            IsTextInputInProgress = true;
         }
 
         private void SearchBox_SourceUpdated(object sender, DataTransferEventArgs e)
         {
+            ClearCurrentNavigationLocation();
+            if (IsTextInputInProgress)
+                IsTextChangedDuringInput = true;
+            else
+                OnSearchTextOrOptionsChanged();
         }
 
         private void SearchBox_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
+            if (IsKeyboardFocusWithin)
+                return;
+            IsPopupOpen = false;
+            //if (!IsDataSourceAvailable || SearchStatus == SearchStatus.NotStarted)
+            //    return;
+            //this.AddToMRUItems(TrimSearchString(SearchBox.Text));
         }
 
         private void SearchControl_Unloaded(object sender, RoutedEventArgs e)
@@ -277,6 +309,26 @@ namespace ModernApplicationFramework.Controls.SearchControl
 
         private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
+        }
+
+
+        private void OnSearchButtonClicked()
+        {
+            FocusSearchBox();
+            switch (SearchStatus)
+            {
+                case SearchStatus.NotStarted:
+                    var str = TrimSearchString(SearchBox.Text);
+                    StartSearch(str, false);
+                    //AddToMRUItems(str);
+                    break;
+                case SearchStatus.InProgress:
+                    StopSearch();
+                    break;
+                case SearchStatus.Complete:
+                    ClearSearch();
+                    break;
+            }
         }
 
         private static void OnLostMouseCapture(object sender, MouseEventArgs e)
