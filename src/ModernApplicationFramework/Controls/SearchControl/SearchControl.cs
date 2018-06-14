@@ -1,10 +1,12 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.SearchControl
@@ -22,6 +24,18 @@ namespace ModernApplicationFramework.Controls.SearchControl
         private Popup SearchPopup;
         private SmoothProgressBar SearchProgressBar;
         private LiveTextBlock LiveSearchTextBlock;
+        private SearchControlTimer[] Timers;
+
+        private SearchStartType SearchStartType = DefaultSettings.SearchStartType;
+        private uint DelayedSearchStartMilliseconds = DefaultSettings.SearchStartDelay;
+        private bool RestartSearchIfUnchanged = DefaultSettings.RestartSearchIfUnchanged;
+        private bool SearchTrimsWhitespaces = DefaultSettings.SearchTrimsWhitespaces;
+        private uint SearchStartMinChars = DefaultSettings.SearchStartMinChars;
+        private SearchProgressType SearchProgressType = DefaultSettings.SearchProgressType;
+        private uint DelayedShowProgressMilliseconds = DefaultSettings.SearchProgressShowDelay;
+        private bool ForwardEnterKeyOnSearch = DefaultSettings.ForwardEnterKeyOnSearchStart;
+
+        private static SearchSettingsDataSource DefaultSettings = new SearchSettingsDataSource();
 
 
         public static readonly DependencyProperty HasPopupProperty = DependencyProperty.Register(
@@ -53,6 +67,10 @@ namespace ModernApplicationFramework.Controls.SearchControl
         private string LastSearchText { get; set; }
 
         private bool LastSearchCleared { get; set; }
+
+        private SearchControlDataSource DataSource => DataContext as SearchControlDataSource;
+
+        private bool IsDataSourceAvailable => DataSource != null;
 
         static SearchControl()
         {
@@ -260,6 +278,94 @@ namespace ModernApplicationFramework.Controls.SearchControl
         }
 
 
+        private void InitializeSearchStatus()
+        {
+            SearchStatus = DataSource.SeachStatus;
+            if (SearchProgressBar != null)
+            {
+                //TODO
+            }
+            if(InternalStatusChange)
+                return;
+            if (SearchStatus == SearchStatus.NotStarted)
+            {
+                LastSearchCleared = true;
+                LastSearchText = string.Empty;
+            }
+            else
+            {
+                if (SearchStatus != SearchStatus.InProgress)
+                    return;
+                LastSearchCleared = false;
+                LastSearchText = DataSource.SearchText;
+            }
+        }
+
+        private void InitializeTimers()
+        {
+            TerminateTimers();
+            Timers = new[]
+            {
+                new SearchControlTimer(InitiateSearchTimer_Tick,DelayedSearchStartMilliseconds, DispatcherPriority.Background),
+                new SearchControlTimer(ShowProgressTimer_Tick, DelayedShowProgressMilliseconds),
+            };
+        }
+
+        private void TerminateTimers()
+        {
+            if (Timers == null)
+                return;
+            foreach (var timer in Timers)
+                timer.Stop();
+            Timers = null;
+        }
+
+        private SearchControlTimer GetTimer(TimerId timerId)
+        {
+            if ((int) timerId == 2)
+                return null;
+            return Timers?[(int) timerId];
+        }
+
+        private void StartTimer(TimerId timerId)
+        {
+            if ((int)timerId == 2)
+                return;
+            Timers?[(int)timerId].Start();
+        }
+
+        private void StopTimer(TimerId timerId)
+        {
+            if ((int)timerId == 2)
+                return;
+            Timers?[(int)timerId].Stop();
+        }
+
+        private void ShowProgressBar()
+        {
+            if (SearchProgressBar == null)
+                return;
+            var searchProgressType = SearchProgressType;
+            switch (searchProgressType)
+            {
+                case SearchProgressType.None:
+                    HideProgressBar();
+                    break;
+                case SearchProgressType.Indeterminate:
+                case SearchProgressType.Determinate:
+                    SearchProgressBar.Visibility = Visibility.Visible;
+                    break;
+            }
+        }
+
+        private void HideProgressBar()
+        {
+            if (SearchProgressBar == null)
+                return;
+            SearchProgressBar.Visibility = Visibility.Collapsed;
+        }
+
+
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
             OnSearchButtonClicked();
@@ -309,8 +415,32 @@ namespace ModernApplicationFramework.Controls.SearchControl
 
         private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
+            if (e.OldValue is INotifyPropertyChanged oldValue)
+                oldValue.PropertyChanged -= OnDataSourcePropertyChanged;
+            if (e.NewValue is SearchControlDataSource newValue)
+            {
+                InitializeSearchStatus();
+                newValue.PropertyChanged += OnDataSourcePropertyChanged;
+                var searchSettings = newValue.SearchSettings;
+                SearchStartType = searchSettings.SearchStartType;
+                DelayedSearchStartMilliseconds = searchSettings.SearchStartDelay;
+                RestartSearchIfUnchanged = searchSettings.RestartSearchIfUnchanged;
+                SearchTrimsWhitespaces = searchSettings.SearchTrimsWhitespaces;
+                SearchStartMinChars = searchSettings.SearchStartMinChars;
+                SearchProgressType = searchSettings.SearchProgressType;
+                DelayedShowProgressMilliseconds = searchSettings.SearchProgressShowDelay;
+                ForwardEnterKeyOnSearch = searchSettings.ForwardEnterKeyOnSearchStart;
+                InitializeTimers();
+            }
+            else
+                TerminateTimers();
         }
 
+        private void OnDataSourcePropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(SearchControlDataSource.SeachStatus))
+                InitializeSearchStatus();
+        }
 
         private void OnSearchButtonClicked()
         {
@@ -383,6 +513,76 @@ namespace ModernApplicationFramework.Controls.SearchControl
 
         private static void OnIsPopupOpenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+        }
+
+        private void InitiateSearchTimer_Tick(object sender, EventArgs e)
+        {
+            StartSearch(TrimSearchString(SearchBox.Text), true);
+        }
+
+        private void ShowProgressTimer_Tick(object sender, EventArgs e)
+        {
+            StopTimer(TimerId.ShowProgress);
+            ShowProgressBar();
+        }
+
+
+
+        private class SearchControlTimer
+        {
+            public DispatcherTimer Timer;
+            private readonly DispatcherPriority TimerPriority;
+            private EventHandler TickHandler;
+            private TimeSpan Interval;
+
+            public bool IsEnabled
+            {
+                get
+                {
+                    if (Timer != null)
+                        return Timer.IsEnabled;
+                    return false;
+                }
+                set
+                {
+                    if (Timer == null)
+                        return;
+                    Timer.IsEnabled = value;
+                }
+            }
+
+            public SearchControlTimer(EventHandler tick, double interval, DispatcherPriority timerPriority = DispatcherPriority.Render)
+            {
+                TickHandler = tick;
+                Interval = TimeSpan.FromMilliseconds(interval);
+                TimerPriority = timerPriority;
+            }
+
+            public void Start()
+            {
+                if (Timer == null)
+                {
+                    Timer = new DispatcherTimer(TimerPriority) {Interval = Interval};
+                    Timer.Tick += TickHandler;
+                }
+                Timer.Start();
+            }
+
+            public void Stop()
+            {
+                if (Timer == null)
+                    return;
+                Timer.Stop();
+                Timer.Tick -= TickHandler;
+                Timer = null;
+            }
+        }
+
+        private enum TimerId
+        {
+            InitiateSearch,
+            ShowProgress,
+            //ClosePopup,
         }
     }
 

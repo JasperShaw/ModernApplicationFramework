@@ -11,6 +11,7 @@
     <general:IsNullOrEmptyConverter x:Key="IsNullOrEmptyConverter"/>
     <general:NotNullConverter x:Key="NotNullConverter"/>
     <converters:SearchStatusConverter x:Key="SearchStatusConverter"/>
+    <converters:SearchControlThicknessConverter x:Key="SearchControlThicknessConverter"/>
 
     <Geometry x:Key="DownArrowGeometry">M 0 0 L 3 3 L 6 0 Z</Geometry>
     <Geometry x:Key="SearchGeometry">
@@ -189,19 +190,23 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Border x:Name="Border" Grid.ColumnSpan="3"/>
+            <Border x:Name="Border" Grid.ColumnSpan="3"
+                    BorderThickness="{Binding Path=SearchSettings.ControlBorderThickness}"/>
             <TextBlock x:Name="PART_SearchWatermark" Margin="5,1,5,1"
-                       Style="{StaticResource SearchWatermarkStyle}" Text="123"/>
+                       Style="{StaticResource SearchWatermarkStyle}" Text="{Binding Path=SearchSettings.SearchWatermark}"/>
             <control:SearchTextBox x:Name="PART_SearchBox" Grid.Row="0" Grid.Column="0" Padding="4,1,4,1"
                                    Style="{StaticResource SearchBoxStyle}"  
-                                   FocusRoot="{Binding RelativeSource={RelativeSource TemplatedParent}}" Text="Test"/>
+                                   FocusRoot="{Binding RelativeSource={RelativeSource TemplatedParent}}" 
+                                   Text="{Binding Path=SearchText, Mode=TwoWay, NotifyOnSourceUpdated=true, UpdateSourceTrigger=PropertyChanged}"/>
             <Button x:Name="PART_SearchButton" Width="17" Grid.Row="0" Grid.Column="1"
-                    Style="{StaticResource SearchButtonStyle}"/>
+                    Style="{StaticResource SearchButtonStyle}"
+                    BorderThickness="{Binding Path=SearchSettings.ControlBorderThickness, Converter={StaticResource SearchControlThicknessConverter}, ConverterParameter={x:Static converters:BorderType.TopBottom}}"/>
             <Border x:Name="PART_SearchDropdownSeparator" Grid.Row="0" Grid.Column="2" BorderThickness="1,0,0,0">
                 <ToggleButton x:Name="PART_SearchDropdownButton"
                               Style="{StaticResource SearchDropdownButtonStyle}"
                           Visibility="{Binding Path=HasPopup ,RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}"
-                          IsChecked="{Binding Path=IsPopupOpen, RelativeSource={RelativeSource TemplatedParent}}"/>
+                              BorderThickness="{Binding Path=SearchSettings.ControlBorderThickness, Converter={StaticResource SearchControlThicknessConverter}, ConverterParameter={x:Static converters:BorderType.TopRightBottom}}"
+                              IsChecked="{Binding Path=IsPopupOpen, RelativeSource={RelativeSource TemplatedParent}}"/>
             </Border>
             <controls:LiveTextBlock x:Name="PART_LiveSearchTextBlock" Visibility="Collapsed">
 
@@ -270,6 +275,8 @@
     <Style TargetType="{x:Type control:SearchControl}">
         <Style.Setters>
             <Setter Property="AllowDrop" Value="True"/>
+            <Setter Property="MinWidth" Value="{Binding Path=SearchSettings.ControlMinWidth}"/>
+            <Setter Property="MaxWidth" Value="{Binding Path=SearchSettings.ControlMaxWidth}"/>
             <Setter Property="KeyboardNavigation.TabNavigation" Value="Local"/>
             <Setter Property="IsEnabled" Value="False"/>
             <Setter Property="Template" Value="{StaticResource SearchControlTemplate}"/>

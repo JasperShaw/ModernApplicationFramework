@@ -279,6 +279,7 @@
     <Compile Include="Controls\SearchControl\SearchTextBox.cs" />
     <Compile Include="Controls\SmoothProgressBar.cs" />
     <Compile Include="Core\Converters\General\IsNullOrEmptyConverter.cs" />
+    <Compile Include="Core\Converters\SearchControlThicknessConverter.cs" />
     <Compile Include="Core\Converters\SearchStatusConverter.cs" />
     <Compile Include="Docking\AnchorableCloseMode.cs" />
     <Compile Include="Docking\AnchorablesClosedEventArgs.cs" />

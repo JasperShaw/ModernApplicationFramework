@@ -6,24 +6,24 @@ namespace ModernApplicationFramework.Controls.SearchControl
 {
     public class SearchSettingsDataSource : INotifyPropertyChanged
     {
-        private SearchStartType _searchStartType;
-        private uint _searchStartDelay;
-        private uint _searchStartMinChars;
-        private string _controlPaddingThickness;
-        private string _controlBorderThickness;
+        private SearchStartType _searchStartType = SearchStartType.Delayed;
+        private uint _searchStartDelay = 1000;
+        private uint _searchStartMinChars = 1;
+        private string _controlPaddingThickness = "0";
+        private string _controlBorderThickness = "1";
         private bool _forwardEnterKeyOnSearchStart;
-        private bool _searchButtonVisible;
-        private uint _controlMaxWidth;
-        private uint _controlMinWidth;
+        private bool _searchButtonVisible = true;
+        private uint _controlMaxWidth = 400;
+        private uint _controlMinWidth = 100;
         private string _searchClearTooltip;
         private string _searchStopTooltip;
         private string _searchStartTooltip;
         private string _searchTooltip;
         private bool _searchWatermarkWhenFocused;
         private string _searchWatermark;
-        private uint _searchProgressShowDelay;
-        private SearchProgressType _searchProgressType;
-        private bool _searchTrimsWhitespaces;
+        private uint _searchProgressShowDelay = 200;
+        private SearchProgressType _searchProgressType = SearchProgressType.Indeterminate;
+        private bool _searchTrimsWhitespaces = true;
         private bool _restartSearchIfUnchanged;
         public event PropertyChangedEventHandler PropertyChanged;
 

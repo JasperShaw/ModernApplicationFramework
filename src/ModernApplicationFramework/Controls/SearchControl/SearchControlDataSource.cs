@@ -6,13 +6,14 @@ namespace ModernApplicationFramework.Controls.SearchControl
 {
     public class SearchControlDataSource : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private string _searchText;
         private SearchStatus _seachStatus;
         private int _searchProgress;
         private int _searchResultsCount;
         private SearchSettingsDataSource _searchSettings;
-        public event PropertyChangedEventHandler PropertyChanged;
-
+        
         public string SearchText
         {
             get => _searchText;
