@@ -244,7 +244,7 @@ namespace ModernApplicationFramework.Controls.SearchControl
             {
                 InternalStatusChange = false;
             }
-            // TODO: Invoke Clear Search on DataSource
+            SearchControlDataSource.ClearSearchAction(DataSource);
         }
 
         private void StopSearch()
@@ -266,7 +266,7 @@ namespace ModernApplicationFramework.Controls.SearchControl
             {
                 InternalStatusChange = false;
             }
-            // TODO: Invoke Stop Search on DataSource
+            SearchControlDataSource.StropSearchAction(DataSource);
         }
 
         private void StartSearch(string searchText, bool fAutomaticSearch = false)
@@ -296,7 +296,7 @@ namespace ModernApplicationFramework.Controls.SearchControl
                 {
                     InternalStatusChange = false;
                 }
-                // TODO: Invoke StartSearch on DataSource
+                SearchControlDataSource.StartSearchAction(DataSource, searchText);
             }
         }
 
@@ -424,14 +424,13 @@ namespace ModernApplicationFramework.Controls.SearchControl
                     return false;
             }
             var uiAccelModifiers = GetUiAccelModifiers(NativeMethods.ModifierKeys);
-            return false;
 
-            //TODO: Invoke Data Source
-            //return (bool)Utilities.Invoke(DataSource, SearchControlDataSource.VerbNames.NotifyNavigationKey, new[]
-            //{
-            //    searchNavigationKeys,
-            //    uiAccelModifiers
-            //});
+            var parameter = new object[]
+            {
+                searchNavigationKeys,
+                uiAccelModifiers
+            };
+            return (bool) SearchControlDataSource.NotifyNavigationKeyAction(DataSource, parameter);
         }
 
         private static UIAccelModifiers GetUiAccelModifiers(ModifierKeys modifiers)

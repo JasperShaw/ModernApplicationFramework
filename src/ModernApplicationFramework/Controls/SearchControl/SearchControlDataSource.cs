@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.SearchControl
 {
@@ -67,6 +68,46 @@ namespace ModernApplicationFramework.Controls.SearchControl
                 _searchSettings = value;
                 OnPropertyChanged();
             }
+        }
+
+        protected virtual void OnStartSearch(string searchText)
+        {
+        }
+
+        protected virtual void OnStopSearch()
+        {
+        }
+
+        protected virtual void OnClearSearch()
+        {
+        }
+
+        protected virtual bool OnNotifyNavigationKey(SearchNavigationKeys searchNavigationKeys, UIAccelModifiers uiAccelModifiers)
+        {
+            return false;
+        }
+
+        internal static void StartSearchAction(SearchControlDataSource dataSource, string searchText)
+        {
+            dataSource.SearchResultsCount = -1;
+            dataSource.OnStartSearch(searchText);
+        }
+
+        internal static void StropSearchAction(SearchControlDataSource dataSource)
+        {
+            dataSource.OnStopSearch();
+        }
+
+        internal static void ClearSearchAction(SearchControlDataSource dataSource)
+        {
+            dataSource.SearchResultsCount = -1;
+            dataSource.OnClearSearch();
+        }
+
+        internal static object NotifyNavigationKeyAction(SearchControlDataSource dataSource, object parameter)
+        {
+            return Boxes.Box(dataSource.OnNotifyNavigationKey((SearchNavigationKeys) ((object[]) parameter)[0],
+                (UIAccelModifiers) ((object[]) parameter)[1]));
         }
 
         [NotifyPropertyChangedInvocator]
