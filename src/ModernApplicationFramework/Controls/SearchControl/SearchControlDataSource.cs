@@ -8,11 +8,11 @@ namespace ModernApplicationFramework.Controls.SearchControl
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private string _searchText;
-        private SearchStatus _seachStatus;
+        private string _searchText = string.Empty;
+        private SearchStatus _searchStatus = SearchStatus.NotStarted;
         private int _searchProgress;
-        private int _searchResultsCount;
-        private SearchSettingsDataSource _searchSettings;
+        private int _searchResultsCount = -1;
+        private SearchSettingsDataSource _searchSettings = new SearchSettingsDataSource();
         
         public string SearchText
         {
@@ -25,13 +25,13 @@ namespace ModernApplicationFramework.Controls.SearchControl
             }
         }
 
-        public SearchStatus SeachStatus
+        public SearchStatus SearchStatus
         {
-            get => _seachStatus;
+            get => _searchStatus;
             set
             {
-                if (value == _seachStatus) return;
-                _seachStatus = value;
+                if (value == _searchStatus) return;
+                _searchStatus = value;
                 OnPropertyChanged();
             }
         }

@@ -11,7 +11,9 @@
     <general:IsNullOrEmptyConverter x:Key="IsNullOrEmptyConverter"/>
     <general:NotNullConverter x:Key="NotNullConverter"/>
     <converters:SearchStatusConverter x:Key="SearchStatusConverter"/>
+    <converters:SearchProgressTypeConverter x:Key="SearchProgressTypeConverter"/>
     <converters:SearchControlThicknessConverter x:Key="SearchControlThicknessConverter"/>
+    <converters:LiveSearchTextConverter x:Key="LiveSearchTextConverter"/>
 
     <Geometry x:Key="DownArrowGeometry">M 0 0 L 3 3 L 6 0 Z</Geometry>
     <Geometry x:Key="SearchGeometry">
@@ -96,11 +98,12 @@
             <Setter Property="CaretBrush" Value="{Binding RelativeSource={RelativeSource Self}, Path=Foreground}"/>
             <Setter Property="SelectionBrush" Value="Blue"/>
             <Setter Property="AllowDrop" Value="True"/>
-            <!--<Setter Property="Margin" Value="{Binding Path=SearchSettings.ControlPaddingThickness, Converter={StaticResource SearchControlThicknessConverter}, ConverterParameter={x:Static vsui:BorderType.LeftTopRightBottom}}"/>-->
+            <Setter Property="Margin" Value="{Binding Path=SearchSettings.ControlPaddingThickness, Converter={StaticResource SearchControlThicknessConverter}, ConverterParameter={x:Static converters:BorderType.LeftTopRightBottom}}"/>
             <Setter Property="MaxLines" Value="1"/>
             <Setter Property="MaxLength" Value="1000"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="ToolTip" Value="{Binding Path=SearchSettings.SearchTooltip}"/>
             <Setter Property="Template" Value="{StaticResource SearchBoxTemplate}"/>
         </Style.Setters>
         <Style.Triggers>
@@ -131,18 +134,18 @@
             <Setter Property="Template" Value="{StaticResource SearchButtonTemplate}"/>
         </Style.Setters>
         <Style.Triggers>
-            <!--<DataTrigger Value="{x:Static control:SearchStatus.NotStarted}"
-                         Binding="{Binding Path=SearchStatus, Converter={StaticResource SearchStatusConverter}}">
+            <DataTrigger Value="{x:Static control:SearchStatus.NotStarted}"
+                         Binding="{Binding Path=SearchStatus}">
                 <Setter Property="Content" Value="{StaticResource SearchGeometry}"/>
             </DataTrigger>
             <DataTrigger Value="{x:Static control:SearchStatus.InProgress}"
-                         Binding="{Binding Path=SearchStatus, Converter={StaticResource SearchClearStopGeometry}}">
-                <Setter Property="Content" Value="{StaticResource SearchGeometry}"/>
+                         Binding="{Binding Path=SearchStatus}">
+                <Setter Property="Content" Value="{StaticResource SearchClearStopGeometry}"/>
             </DataTrigger>
             <DataTrigger Value="{x:Static control:SearchStatus.Complete}"
-                         Binding="{Binding Path=SearchStatus, Converter={StaticResource SearchClearStopGeometry}}">
-                <Setter Property="Content" Value="{StaticResource SearchGeometry}"/>
-            </DataTrigger>-->
+                         Binding="{Binding Path=SearchStatus}">
+                <Setter Property="Content" Value="{StaticResource SearchClearStopGeometry}"/>
+            </DataTrigger>
         </Style.Triggers>
     </Style>
 
@@ -209,10 +212,18 @@
                               IsChecked="{Binding Path=IsPopupOpen, RelativeSource={RelativeSource TemplatedParent}}"/>
             </Border>
             <controls:LiveTextBlock x:Name="PART_LiveSearchTextBlock" Visibility="Collapsed">
-
+                <TextBlock.Text>
+                    <MultiBinding Converter="{StaticResource LiveSearchTextConverter}">
+                        <Binding Path="SearchText"/>
+                        <Binding Path="SearchStatus"/>
+                        <Binding Path="SearchResultsCount"/>
+                    </MultiBinding>
+                </TextBlock.Text>
             </controls:LiveTextBlock>
             <controls:SmoothProgressBar x:Name="PART_SearchProgressBar" Grid.ColumnSpan="3" Focusable="False" Visibility="Collapsed" 
                                         Style="{StaticResource ProgressBarStyle}"
+                                        TargetValue="{Binding Path=SearchProgress}"
+                                        IsIndeterminate="{Binding Mode=OneTime, Path=SearchSettings.SearchProgressType, Converter={StaticResource SearchProgressTypeConverter}}"
                                         Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="2"/>
             <control:SearchControlPopup x:Name="PART_SearchPopup" Grid.Row="0" Grid.ColumnSpan="3" AllowsTransparency="True" Placement="Bottom"
                                           StaysOpen="False" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
@@ -251,7 +262,7 @@
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
                     <Condition Binding="{Binding Path=IsKeyboardFocusWithin, RelativeSource={RelativeSource Self}}" Value="True"/>
-                    <!-- TODO: Search for watermark -->
+                    <Condition Binding="{Binding Path=SearchSettings.SearchWatermarkWhenFocused}" Value="False"/>
                 </MultiDataTrigger.Conditions>
                 <Setter TargetName="PART_SearchWatermark" Property="Visibility" Value="Collapsed"/>
             </MultiDataTrigger>

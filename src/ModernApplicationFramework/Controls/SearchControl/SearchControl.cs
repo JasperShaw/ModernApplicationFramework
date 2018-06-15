@@ -7,6 +7,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.SearchControl
@@ -113,10 +114,9 @@ namespace ModernApplicationFramework.Controls.SearchControl
             SearchProgressBar = GetTemplateChild("PART_SearchProgressBar") as SmoothProgressBar;
             LiveSearchTextBlock = GetTemplateChild("PART_LiveSearchTextBlock") as LiveTextBlock;
 
-
-            //if (this.DataSource == null)
-            //    return;
-            //InitializeSearchStatus();
+            if (DataSource == null)
+                return;
+            InitializeSearchStatus();
         }
 
         protected override void OnPreviewKeyDown(KeyEventArgs e)
@@ -126,25 +126,25 @@ namespace ModernApplicationFramework.Controls.SearchControl
                 case Key.Return:
                     if (IsPopupOpen)
                     {
-                        //OnPopupControlKeyPress(e.Key, e);
+                        OnPopupControlKeyPress(e.Key, e);
                         if (e.Handled)
                             break;
                     }
                     var str = TrimSearchString(SearchBox.Text);
                     //AddToMRUItems(str);
-                    //if (this.ShouldSearchRestart(str))
-                    //{
-                    //    this.IsPopupOpen = false;
-                    //    this.StopTimer(SearchControl.TimerId.InitiateSearch);
-                    //    if (this.SearchStatus == SearchStatus.InProgress)
-                    //        this.StopSearch();
-                    //    this.StartSearch(str, false);
-                    //    if (this.ForwardEnterKeyOnSearch)
-                    //        this.NotifyKeyPress(e.Key, e);
-                    //    e.Handled = true;
-                    //    break;
-                    //}
-                    //e.Handled = NotifyKeyPress(e.Key, e);
+                    if (ShouldSearchRestart(str))
+                    {
+                        IsPopupOpen = false;
+                        StopTimer(TimerId.InitiateSearch);
+                        if (SearchStatus == SearchStatus.InProgress)
+                            StopSearch();
+                        StartSearch(str);
+                        if (ForwardEnterKeyOnSearch)
+                            NotifyKeyPress(e.Key, e);
+                        e.Handled = true;
+                        break;
+                    }
+                    e.Handled = NotifyKeyPress(e.Key, e);
                     break;
                 case Key.Escape:
                     if (IsPopupOpen)
@@ -163,7 +163,7 @@ namespace ModernApplicationFramework.Controls.SearchControl
                                 e.Handled = true;
                                 break;
                             }
-                            //e.Handled = NotifyKeyPress(e.Key, e);
+                            e.Handled = NotifyKeyPress(e.Key, e);
                             break;
                         case SearchStatus.InProgress:
                             StopSearch();
@@ -184,15 +184,20 @@ namespace ModernApplicationFramework.Controls.SearchControl
                         e.Handled = true;
                         break;
                     }
-                    //e.Handled = this.NotifyKeyPress(e.SystemKey, e);
+                    e.Handled = NotifyKeyPress(e.SystemKey, e);
                     break;
                 default:
-                    //e.Handled = this.NotifyKeyPress(e.SystemKey, e);
+                    e.Handled = NotifyKeyPress(e.SystemKey, e);
                     break;
             }
             if (e.Handled)
                 return;
             base.OnPreviewKeyDown(e);
+        }
+
+        private bool ShouldSearchRestart(string searchText)
+        {
+            return searchText != LastSearchText || RestartSearchIfUnchanged;
         }
 
 
@@ -221,6 +226,25 @@ namespace ModernApplicationFramework.Controls.SearchControl
 
         private void ClearSearch(bool fClearSearchText)
         {
+            if (fClearSearchText)
+            {
+                SetSearchBoxText(string.Empty);
+                LastSearchText = string.Empty;
+                IsPopupOpen = false;
+            }
+            if (LastSearchCleared)
+                return;
+            LastSearchCleared = true;
+            try
+            {
+                InternalStatusChange = true;
+                DataSource.SearchStatus = SearchStatus.NotStarted;
+            }
+            finally
+            {
+                InternalStatusChange = false;
+            }
+            // TODO: Invoke Clear Search on DataSource
         }
 
         private void StopSearch()
@@ -230,21 +254,81 @@ namespace ModernApplicationFramework.Controls.SearchControl
 
         private void StopSearch(bool fClosePopup)
         {
-
+            if (fClosePopup)
+                IsPopupOpen = false;
+            LastSearchText = null;
+            try
+            {
+                InternalStatusChange = true;
+                DataSource.SearchStatus = SearchStatus.Complete;
+            }
+            finally
+            {
+                InternalStatusChange = false;
+            }
+            // TODO: Invoke Stop Search on DataSource
         }
 
         private void StartSearch(string searchText, bool fAutomaticSearch = false)
         {
-
+            StopTimer(TimerId.InitiateSearch);
+            //StopTimer(ClosePopup);
+            if (fAutomaticSearch)
+            {
+                //StartTimer(ClosePopup);
+            }
+            else
+                IsPopupOpen = false;
+            if (!ShouldSearchRestart(searchText))
+                return;
+            LastSearchText = searchText;
+            if (searchText.Length == 0 || searchText.Length < SearchStartMinChars & fAutomaticSearch)
+                ClearSearch(false);
+            else
+            {
+                LastSearchCleared = false;
+                try
+                {
+                    InternalStatusChange = true;
+                    DataSource.SearchStatus = SearchStatus.InProgress;
+                }
+                finally
+                {
+                    InternalStatusChange = false;
+                }
+                // TODO: Invoke StartSearch on DataSource
+            }
         }
 
         private void OnSearchTextOrOptionsChanged()
         {
+            var searchText = TrimSearchString(DataSource.SearchText);
+            if (SearchStatus == SearchStatus.InProgress)
+                StopSearch(false);
+            //PopulateMRUItemsList(!this.PrefixFilterMRUItems ? string.Empty : searchText, true);
+            if (SearchStartType == SearchStartType.Instant)
+                StartSearch(searchText);
+            else
+            {
+                //if (HasPopup && !SearchUseMRU && SearchPopupAutoDropdown)
+                //    IsPopupOpen = true;
+                if (SearchStartType == SearchStartType.Delayed)
+                {
+                    StopTimer(TimerId.InitiateSearch);
+                    StartTimer(TimerId.InitiateSearch);
+                }
+            }
+            TemporarilyDisableNavigationLocationChanges();
+        }
+
+        private void TemporarilyDisableNavigationLocationChanges()
+        {
+            
         }
 
         private void SetSearchBoxText(string text)
         {
-            //Set DataSource
+            DataSource.SearchText = text;
             SearchBox.CaretIndex = text.Length;
         }
 
@@ -252,38 +336,140 @@ namespace ModernApplicationFramework.Controls.SearchControl
         {
             if (!HasPopup)
                 return;
-            //SearchPopupNavigationService.ClearCurrentLocation(SearchPopup);
+            SearchPopupNavigationService.ClearCurrentLocation(SearchPopup);
         }
 
-        //private bool NotifyKeyPress(Key key, KeyEventArgs e)
-        //{
-        //    bool flag;
-        //    if (!IsPopupOpen)
-        //        flag = NotifyNavigationKeyPress(key);
-        //    else
-        //    {
-        //        flag = OnPopupControlKeyPress(key, e);
-        //        if (!flag)
-        //            flag = NotifyNavigationKeyPress(key);
-        //    }
-        //    return flag;
-        //}
+        private bool NotifyKeyPress(Key key, KeyEventArgs e)
+        {
+            bool flag;
+            if (!IsPopupOpen)
+                flag = NotifyNavigationKeyPress(key);
+            else
+            {
+                flag = OnPopupControlKeyPress(key, e);
+                if (!flag)
+                    flag = NotifyNavigationKeyPress(key);
+            }
+            return flag;
+        }
+
+        private bool OnPopupControlKeyPress(Key key, KeyEventArgs e)
+        {
+            switch (key)
+            {
+                case Key.Prior:
+                    SearchPopupNavigationService.NavigateFirst(SearchPopup);
+                    break;
+                case Key.Next:
+                    SearchPopupNavigationService.NavigateLast(SearchPopup);
+                    break;
+                case Key.End:
+                    if (SearchPopupNavigationService.GetCurrentLocation(SearchPopup) == null)
+                        return false;
+                    SearchPopupNavigationService.NavigateLast(SearchPopup);
+                    break;
+                case Key.Home:
+                    if (SearchPopupNavigationService.GetCurrentLocation(SearchPopup) == null)
+                        return false;
+                    SearchPopupNavigationService.NavigateFirst(SearchPopup);
+                    break;
+                case Key.Up:
+                    SearchPopupNavigationService.NavigatePrevious(SearchPopup);
+                    break;
+                case Key.Down:
+                    SearchPopupNavigationService.NavigateNext(SearchPopup);
+                    break;
+                default:
+                    //var currentLocation = SearchPopupNavigationService.GetCurrentLocation(SearchPopup) as ISearchControlPopupLocation;
+                    //if (currentLocation == null || SearchPopupNavigationService.GetCurrentLocationSetMode(SearchPopup) == CurrentLocationSetMode.ByMouse)
+                    //    return false;
+                    //currentLocation.OnKeyDown(e);
+                    return e.Handled;
+            }
+            //using (new TemporarilyPauseTimer(GetTimer(TimerId.ClosePopup)))
+            //    ;
+            return true;
+        }
+
+        private bool NotifyNavigationKeyPress(Key key)
+        {
+            SearchNavigationKeys searchNavigationKeys;
+            switch (key)
+            {
+                case Key.Return:
+                    searchNavigationKeys = SearchNavigationKeys.Enter;
+                    break;
+                case Key.Escape:
+                    searchNavigationKeys = SearchNavigationKeys.Escape;
+                    break;
+                case Key.Prior:
+                    searchNavigationKeys = SearchNavigationKeys.PageUp;
+                    break;
+                case Key.Next:
+                    searchNavigationKeys = SearchNavigationKeys.PageDown;
+                    break;
+                case Key.End:
+                    searchNavigationKeys = SearchNavigationKeys.End;
+                    break;
+                case Key.Home:
+                    searchNavigationKeys = SearchNavigationKeys.Home;
+                    break;
+                case Key.Up:
+                    searchNavigationKeys = SearchNavigationKeys.Up;
+                    break;
+                case Key.Down:
+                    searchNavigationKeys = SearchNavigationKeys.Down;
+                    break;
+                default:
+                    return false;
+            }
+            var uiAccelModifiers = GetUiAccelModifiers(NativeMethods.ModifierKeys);
+            return false;
+
+            //TODO: Invoke Data Source
+            //return (bool)Utilities.Invoke(DataSource, SearchControlDataSource.VerbNames.NotifyNavigationKey, new[]
+            //{
+            //    searchNavigationKeys,
+            //    uiAccelModifiers
+            //});
+        }
+
+        private static UIAccelModifiers GetUiAccelModifiers(ModifierKeys modifiers)
+        {
+            var uiAccelModifiers = UIAccelModifiers.None;
+            if ((modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+                uiAccelModifiers |= UIAccelModifiers.Control;
+            if ((modifiers & ModifierKeys.Shift) == ModifierKeys.Shift)
+                uiAccelModifiers |= UIAccelModifiers.Shift;
+            if ((modifiers & ModifierKeys.Alt) == ModifierKeys.Alt)
+                uiAccelModifiers |= UIAccelModifiers.Alt;
+            if ((modifiers & ModifierKeys.Windows) == ModifierKeys.Windows)
+                uiAccelModifiers |= UIAccelModifiers.Windows;
+            return uiAccelModifiers;
+        }
 
 
         private string TrimSearchString(string originalText)
         {
-            //if (!this.SearchTrimsWhitespaces)
-            //    return originalText;
+            if (!SearchTrimsWhitespaces)
+                return originalText;
             return originalText.Trim();
         }
 
 
         private void InitializeSearchStatus()
         {
-            SearchStatus = DataSource.SeachStatus;
+            SearchStatus = DataSource.SearchStatus;
             if (SearchProgressBar != null)
             {
-                //TODO
+                StopTimer(TimerId.ShowProgress);
+                if (SearchStatus != SearchStatus.InProgress)
+                    HideProgressBar();
+                else
+                {
+                    SearchProgressBar.InitializeProgress();
+                    StartTimer(TimerId.ShowProgress);
+                }
             }
             if(InternalStatusChange)
                 return;
@@ -400,8 +586,8 @@ namespace ModernApplicationFramework.Controls.SearchControl
             if (IsKeyboardFocusWithin)
                 return;
             IsPopupOpen = false;
-            //if (!IsDataSourceAvailable || SearchStatus == SearchStatus.NotStarted)
-            //    return;
+            if (!IsDataSourceAvailable || SearchStatus == SearchStatus.NotStarted)
+                return;
             //this.AddToMRUItems(TrimSearchString(SearchBox.Text));
         }
 
@@ -438,7 +624,7 @@ namespace ModernApplicationFramework.Controls.SearchControl
 
         private void OnDataSourcePropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(SearchControlDataSource.SeachStatus))
+            if (e.PropertyName == nameof(SearchControlDataSource.SearchStatus))
                 InitializeSearchStatus();
         }
 
@@ -449,7 +635,7 @@ namespace ModernApplicationFramework.Controls.SearchControl
             {
                 case SearchStatus.NotStarted:
                     var str = TrimSearchString(SearchBox.Text);
-                    StartSearch(str, false);
+                    StartSearch(str);
                     //AddToMRUItems(str);
                     break;
                 case SearchStatus.InProgress:
@@ -478,7 +664,7 @@ namespace ModernApplicationFramework.Controls.SearchControl
             else if (element.IsLogicalAncestorOf(originalSource))
             {
                 if (!element.IsPopupOpen || Mouse.Captured != null ||
-                    !(Native.NativeMethods.User32.GetCapture() == IntPtr.Zero))
+                    !(User32.GetCapture() == IntPtr.Zero))
                     return;
                 Mouse.Capture(element, CaptureMode.SubTree);
                 e.Handled = true;
@@ -530,51 +716,74 @@ namespace ModernApplicationFramework.Controls.SearchControl
 
         private class SearchControlTimer
         {
-            public DispatcherTimer Timer;
-            private readonly DispatcherPriority TimerPriority;
-            private EventHandler TickHandler;
-            private TimeSpan Interval;
+            private DispatcherTimer _timer;
+            private readonly DispatcherPriority _timerPriority;
+            private readonly EventHandler _tickHandler;
+            private readonly TimeSpan _interval;
 
             public bool IsEnabled
             {
                 get
                 {
-                    if (Timer != null)
-                        return Timer.IsEnabled;
+                    if (_timer != null)
+                        return _timer.IsEnabled;
                     return false;
                 }
                 set
                 {
-                    if (Timer == null)
+                    if (_timer == null)
                         return;
-                    Timer.IsEnabled = value;
+                    _timer.IsEnabled = value;
                 }
             }
 
             public SearchControlTimer(EventHandler tick, double interval, DispatcherPriority timerPriority = DispatcherPriority.Render)
             {
-                TickHandler = tick;
-                Interval = TimeSpan.FromMilliseconds(interval);
-                TimerPriority = timerPriority;
+                _tickHandler = tick;
+                _interval = TimeSpan.FromMilliseconds(interval);
+                _timerPriority = timerPriority;
             }
 
             public void Start()
             {
-                if (Timer == null)
+                if (_timer == null)
                 {
-                    Timer = new DispatcherTimer(TimerPriority) {Interval = Interval};
-                    Timer.Tick += TickHandler;
+                    _timer = new DispatcherTimer(_timerPriority) {Interval = _interval};
+                    _timer.Tick += _tickHandler;
                 }
-                Timer.Start();
+                _timer.Start();
             }
 
             public void Stop()
             {
-                if (Timer == null)
+                if (_timer == null)
                     return;
-                Timer.Stop();
-                Timer.Tick -= TickHandler;
-                Timer = null;
+                _timer.Stop();
+                _timer.Tick -= _tickHandler;
+                _timer = null;
+            }
+        }
+
+        private class TemporarilyPauseTimer : DisposableObject
+        {
+            private SearchControlTimer Timer { get; }
+
+            private bool TimerPaused { get; set; }
+
+            public TemporarilyPauseTimer(SearchControlTimer timer)
+            {
+                Timer = timer;
+                if (Timer == null || !Timer.IsEnabled)
+                    return;
+                timer.IsEnabled = false;
+                TimerPaused = true;
+            }
+
+            protected override void DisposeManagedResources()
+            {
+                if (TimerPaused)
+                    Timer.IsEnabled = true;
+                base.DisposeManagedResources();
             }
         }
 
@@ -591,5 +800,27 @@ namespace ModernApplicationFramework.Controls.SearchControl
         NotStarted,
         InProgress,
         Complete,
+    }
+
+    public enum SearchNavigationKeys : uint
+    {
+        Enter,
+        Down,
+        Up,
+        PageDown,
+        PageUp,
+        Home,
+        End,
+        Escape
+    }
+
+    [Flags]
+    public enum UIAccelModifiers : uint
+    {
+        None = 0,
+        Shift = 1,
+        Control = 2,
+        Alt = 4,
+        Windows = 8,
     }
 }

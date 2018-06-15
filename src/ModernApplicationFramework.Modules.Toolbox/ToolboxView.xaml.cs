@@ -7,9 +7,8 @@ namespace ModernApplicationFramework.Modules.Toolbox
         public ToolboxView()
         {
             InitializeComponent();
-            var d = new SearchControlDataSource {SearchSettings = new SearchSettingsDataSource()};
+            var d = new SearchControlDataSource {SearchSettings = {SearchWatermark = "Test"}};
 
-            d.SearchSettings.SearchWatermark = "Test";
             SearchControl.DataContext = d;
         }
     }

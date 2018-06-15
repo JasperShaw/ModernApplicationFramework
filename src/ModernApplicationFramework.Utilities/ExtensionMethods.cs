@@ -68,7 +68,7 @@ namespace ModernApplicationFramework.Utilities
 
         public static TAncestorType FindAncestorOrSelf<TAncestorType, TElementType>(this TElementType obj, Func<TElementType, TElementType> parentEvaluator) where TAncestorType : DependencyObject
         {
-            if ((object)obj is TAncestorType ancestorType)
+            if (obj is TAncestorType ancestorType)
                 return ancestorType;
             return obj.FindAncestor<TAncestorType, TElementType>(parentEvaluator);
         }
@@ -141,16 +141,64 @@ namespace ModernApplicationFramework.Utilities
             return descendants;
         }
 
-        public static void TraverseVisualTree<T>(this DependencyObject obj, Action<T> action) where T : class
+        public static T FindDescendant<T>(this DependencyObject obj) where T : class
         {
             if (obj == null)
-                return;
-            for (int childIndex = 0; childIndex < VisualTreeHelper.GetChildrenCount(obj); ++childIndex)
+                return default;
+            var obj1 = default(T);
+            for (var childIndex = 0; childIndex < VisualTreeHelper.GetChildrenCount(obj); ++childIndex)
+            {
+                var child = VisualTreeHelper.GetChild(obj, childIndex);
+                if (child != null)
+                {
+                    obj1 = child as T;
+                    if (obj1 == null)
+                    {
+                        obj1 = child.FindDescendant<T>();
+                        if (obj1 != null)
+                            break;
+                    }
+                    else
+                        break;
+                }
+            }
+            return obj1;
+        }
+
+        public static T FindDescendantReverse<T>(this DependencyObject obj) where T : class
+        {
+            if (obj == null)
+                return default;
+            T obj1 = default;
+            for (int childIndex = VisualTreeHelper.GetChildrenCount(obj) - 1; childIndex >= 0; --childIndex)
             {
                 DependencyObject child = VisualTreeHelper.GetChild(obj, childIndex);
                 if (child != null)
                 {
-                    T obj1 = child as T;
+                    obj1 = child as T;
+                    if (obj1 == null)
+                    {
+                        obj1 = child.FindDescendantReverse<T>();
+                        if (obj1 != null)
+                            break;
+                    }
+                    else
+                        break;
+                }
+            }
+            return obj1;
+        }
+
+        public static void TraverseVisualTree<T>(this DependencyObject obj, Action<T> action) where T : class
+        {
+            if (obj == null)
+                return;
+            for (var childIndex = 0; childIndex < VisualTreeHelper.GetChildrenCount(obj); ++childIndex)
+            {
+                var child = VisualTreeHelper.GetChild(obj, childIndex);
+                if (child != null)
+                {
+                    var obj1 = child as T;
                     child.TraverseVisualTreeReverse(action);
                     if (obj1 != null)
                         action(obj1);
@@ -162,12 +210,12 @@ namespace ModernApplicationFramework.Utilities
         {
             if (obj == null)
                 return;
-            for (int childIndex = VisualTreeHelper.GetChildrenCount(obj) - 1; childIndex >= 0; --childIndex)
+            for (var childIndex = VisualTreeHelper.GetChildrenCount(obj) - 1; childIndex >= 0; --childIndex)
             {
-                DependencyObject child = VisualTreeHelper.GetChild(obj, childIndex);
+                var child = VisualTreeHelper.GetChild(obj, childIndex);
                 if (child != null)
                 {
-                    T obj1 = child as T;
+                    var obj1 = child as T;
                     child.TraverseVisualTreeReverse(action);
                     if (obj1 != null)
                         action(obj1);
@@ -193,7 +241,7 @@ namespace ModernApplicationFramework.Utilities
                 return value1.CompareTo(value2) == 0;
             if (value1 == value2)
                 return true;
-            double num = value1 - value2;
+            var num = value1 - value2;
             if (num < 1.53E-06)
                 return num > -1.53E-06;
             return false;
@@ -217,8 +265,8 @@ namespace ModernApplicationFramework.Utilities
                 throw new ArgumentNullException(nameof(items));
             if (predicate == null)
                 throw new ArgumentNullException(nameof(predicate));
-            int num = 0;
-            foreach (T obj in items)
+            var num = 0;
+            foreach (var obj in items)
             {
                 if (predicate(obj))
                     return num;
