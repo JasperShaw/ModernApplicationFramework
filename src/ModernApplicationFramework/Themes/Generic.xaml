@@ -4,6 +4,9 @@
 
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/Brushes.xaml"/>
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/ColorResources.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/SearchControlColors.xaml"/>
+        
+
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/Button.xaml"/>
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/DialogToggleButton.xaml"/>
 
