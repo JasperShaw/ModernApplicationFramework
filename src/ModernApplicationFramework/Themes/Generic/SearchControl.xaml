@@ -5,7 +5,8 @@
                     xmlns:windows="clr-namespace:ModernApplicationFramework.Controls.Windows"
                     xmlns:vsui="clr-namespace:ModernApplicationFramework.Basics"
                     xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General"
-                    xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters">
+                    xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
+                    xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes">
 
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     <general:IsNullOrEmptyConverter x:Key="IsNullOrEmptyConverter"/>
@@ -65,11 +66,11 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
     <Style x:Key="ProgressBarStyle" TargetType="{x:Type ProgressBar}">
-        <Setter Property="TextElement.Foreground" Value="Yellow"/>
-        <Setter Property="Background" Value="Blue"/>
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.ProgressBarIndicator}}"/>
+        <Setter Property="Background" Value="{DynamicResource {x:Static themes:SearchControlColors.ProgressBarBackground}}"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Template" Value="{StaticResource ProgressBarTemplate}"></Setter>
+        <Setter Property="Template" Value="{StaticResource ProgressBarTemplate}"/>
     </Style>
 
 
@@ -77,7 +78,7 @@
         <Style.Setters>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.UnfocusedWatermarkText}}"/>
             <Setter Property="Background" Value="Transparent"/>
         </Style.Setters>
     </Style>
@@ -94,9 +95,9 @@
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.UnfocusedText}}"/>
             <Setter Property="CaretBrush" Value="{Binding RelativeSource={RelativeSource Self}, Path=Foreground}"/>
-            <Setter Property="SelectionBrush" Value="Blue"/>
+            <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static themes:SearchControlColors.Selection}}"/>
             <Setter Property="AllowDrop" Value="True"/>
             <Setter Property="Margin" Value="{Binding Path=SearchSettings.ControlPaddingThickness, Converter={StaticResource SearchControlThicknessConverter}, ConverterParameter={x:Static converters:BorderType.LeftTopRightBottom}}"/>
             <Setter Property="MaxLines" Value="1"/>
@@ -109,7 +110,7 @@
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="Foreground" Value="Gray"/>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.DisabledText}}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -124,28 +125,94 @@
                       Fill="{TemplateBinding Foreground}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Border>
         </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:SearchControlColors.ActionButtonMouseDown}}"/>
+                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource {x:Static themes:SearchControlColors.ActionButtonMouseOverBorder}}"/>
+                <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.ActionButtonMouseOverGlyph}}"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:SearchControlColors.ActionButtonMouseDown}}"/>
+                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource {x:Static themes:SearchControlColors.ActionButtonMouseDownBorder}}"/>
+                <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.ActionButtonMouseDownGlyph}}"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="Border" Property="Background" Value="Transparent"/>
+                <Setter TargetName="Border" Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.ActionButtonDisabledGlyph}}"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
     </ControlTemplate>
     <Style x:Key="SearchButtonStyle" TargetType="{x:Type Button}">
         <Style.Setters>
             <Setter Property="Focusable" Value="False"/>
             <Setter Property="IsTabStop" Value="False"/>
-            <Setter Property="Background" Value="Red"/>
+            <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="Template" Value="{StaticResource SearchButtonTemplate}"/>
+            <Setter Property="Visibility" Value="{Binding Path=SearchSettings.SearchButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
         </Style.Setters>
         <Style.Triggers>
             <DataTrigger Value="{x:Static control:SearchStatus.NotStarted}"
                          Binding="{Binding Path=SearchStatus}">
                 <Setter Property="Content" Value="{StaticResource SearchGeometry}"/>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.SearchGlyph}}"/>
+                <Setter Property="ToolTip" Value="{Binding SearchSettings.SearchStartTooltip}"/>
             </DataTrigger>
             <DataTrigger Value="{x:Static control:SearchStatus.InProgress}"
                          Binding="{Binding Path=SearchStatus}">
                 <Setter Property="Content" Value="{StaticResource SearchClearStopGeometry}"/>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.StopGlyph}}"/>
+                <Setter Property="ToolTip" Value="{Binding SearchSettings.SearchStopTooltip}"/>
             </DataTrigger>
             <DataTrigger Value="{x:Static control:SearchStatus.Complete}"
                          Binding="{Binding Path=SearchStatus}">
                 <Setter Property="Content" Value="{StaticResource SearchClearStopGeometry}"/>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.ClearGlyph}}"/>
+                <Setter Property="ToolTip" Value="{Binding SearchSettings.SearchClearTooltip}"/>
             </DataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Value="{x:Static control:SearchStatus.NotStarted}" Binding="{Binding Path=SearchStatus}"/>
+                    <Condition Value="True" Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type control:SearchControl}}}"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.MouseOverSearchGlyph}}"/>
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Value="{x:Static control:SearchStatus.NotStarted}" Binding="{Binding Path=SearchStatus}"/>
+                    <Condition Value="True" Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type control:SearchControl}}}"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.FocusedSearchGlyph}}"/>
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Value="{x:Static control:SearchStatus.InProgress}" Binding="{Binding Path=SearchStatus}"/>
+                    <Condition Value="True" Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type control:SearchControl}}}"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.MouseOverStopGlyph}}"/>
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Value="{x:Static control:SearchStatus.InProgress}" Binding="{Binding Path=SearchStatus}"/>
+                    <Condition Value="True" Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type control:SearchControl}}}"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.FocusedStopGlyph}}"/>
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Value="{x:Static control:SearchStatus.Complete}" Binding="{Binding Path=SearchStatus}"/>
+                    <Condition Value="True" Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type control:SearchControl}}}"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.MouseOverClearGlyph}}"/>
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Value="{x:Static control:SearchStatus.Complete}" Binding="{Binding Path=SearchStatus}"/>
+                    <Condition Value="True" Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type control:SearchControl}}}"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.FocusedClearGlyph}}"/>
+            </MultiDataTrigger>
         </Style.Triggers>
     </Style>
 
@@ -159,12 +226,29 @@
                       Data="{StaticResource DownArrowGeometry}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Border>
         </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:SearchControlColors.MouseDownDropDownButton}}"/>
+                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource {x:Static themes:SearchControlColors.MouseDownDropDownButtonBorder}}"/>
+                <Setter TargetName="Arrow" Property="Fill" Value="{DynamicResource {x:Static themes:SearchControlColors.MouseDownDropDownButtonGlyph}}"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="ToolTip" Value="Close Dropdown"/>
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:SearchControlColors.MouseDownDropDownButton}}"/>
+                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource {x:Static themes:SearchControlColors.MouseDownDropDownButtonBorder}}"/>
+                <Setter TargetName="Arrow" Property="Fill" Value="{DynamicResource {x:Static themes:SearchControlColors.MouseDownDropDownButtonGlyph}}"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
     </ControlTemplate>
     <Style x:Key="SearchDropdownButtonStyle" TargetType="{x:Type ToggleButton}">
         <Style.Setters>
+            <Setter Property="Background" Value="{DynamicResource {x:Static themes:SearchControlColors.UnfocusedDropDownButton}}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:SearchControlColors.UnfocusedDropDownButtonBorder}}"/>
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.UnfocusedDropDownButtonGlyph}}"/>
             <Setter Property="Focusable" Value="False"/>
             <Setter Property="IsTabStop" Value="False"/>
             <Setter Property="ClickMode" Value="Press"/>
+            <Setter Property="ToolTip" Value="Show Dropdown"/>
             <Setter Property="Template" Value="{StaticResource SearchDropdownButtonTemplate}"/>
         </Style.Setters>
     </Style>
@@ -194,6 +278,8 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Border x:Name="Border" Grid.ColumnSpan="3"
+                    BorderBrush="{DynamicResource {x:Static themes:SearchControlColors.UnfocusedBorder}}"
+                    Background="{DynamicResource {x:Static themes:SearchControlColors.Unfocused}}"
                     BorderThickness="{Binding Path=SearchSettings.ControlBorderThickness}"/>
             <TextBlock x:Name="PART_SearchWatermark" Margin="5,1,5,1"
                        Style="{StaticResource SearchWatermarkStyle}" Text="{Binding Path=SearchSettings.SearchWatermark}"/>
@@ -204,7 +290,8 @@
             <Button x:Name="PART_SearchButton" Width="17" Grid.Row="0" Grid.Column="1"
                     Style="{StaticResource SearchButtonStyle}"
                     BorderThickness="{Binding Path=SearchSettings.ControlBorderThickness, Converter={StaticResource SearchControlThicknessConverter}, ConverterParameter={x:Static converters:BorderType.TopBottom}}"/>
-            <Border x:Name="PART_SearchDropdownSeparator" Grid.Row="0" Grid.Column="2" BorderThickness="1,0,0,0">
+            <Border x:Name="PART_SearchDropdownSeparator" Grid.Row="0" Grid.Column="2" BorderThickness="1,0,0,0"
+                    BorderBrush="{DynamicResource {x:Static themes:SearchControlColors.DropDownSeparator}}">
                 <ToggleButton x:Name="PART_SearchDropdownButton"
                               Style="{StaticResource SearchDropdownButtonStyle}"
                           Visibility="{Binding Path=HasPopup ,RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}"
@@ -238,8 +325,14 @@
         </Grid>
         <ControlTemplate.Triggers>
             <DataTrigger Value="{x:Static control:SearchStatus.InProgress}"
-                         Binding="{Binding Path=SearchStatus, Converter={StaticResource SearchStatusConverter}}">
-
+                         Binding="{Binding Path=SearchStatus}">
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:SearchControlColors.SearchActiveBackground}}"/>
+                <Setter TargetName="PART_SearchBox" Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.SearchActiveBackgroundText}}"/>
+            </DataTrigger>
+            <DataTrigger Value="{x:Static control:SearchStatus.Complete}"
+                         Binding="{Binding Path=SearchStatus}">
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:SearchControlColors.SearchActiveBackground}}"/>
+                <Setter TargetName="PART_SearchBox" Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.SearchActiveBackgroundText}}"/>
             </DataTrigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
@@ -249,6 +342,7 @@
                                Value="True"/>
                 </MultiDataTrigger.Conditions>
                 <Setter TargetName="Shdw" Property="FrameworkElement.Margin" Value="0,0,5,5"/>
+                <Setter TargetName="Shdw" Property="Color" Value="{DynamicResource {x:Static themes:EnvironmentColors.DropShadowBackground}}"/>
             </MultiDataTrigger>
             <DataTrigger Value="False" Binding="{Binding Source={x:Static vsui:EnvironmentRenderCapabilities.Current}, Path=AreAnimationsAllowed}">
                 <Setter TargetName="PART_SearchPopup" Property="Popup.PopupAnimation" Value="None"/>
@@ -267,13 +361,33 @@
                 <Setter TargetName="PART_SearchWatermark" Property="Visibility" Value="Collapsed"/>
             </MultiDataTrigger>
             <Trigger Property="UIElement.IsKeyboardFocusWithin" Value="true">
-
+                <Setter TargetName="PART_SearchWatermark" Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.MouseOverWatermarkText}}"/>
+                <Setter TargetName="PART_SearchDropdownButton" Property="Background" Value="{DynamicResource {x:Static themes:SearchControlColors.FocusedDropDownButton}}"/>
+                <Setter TargetName="PART_SearchDropdownButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:SearchControlColors.FocusedDropDownButtonBorder}}"/>
+                <Setter TargetName="PART_SearchDropdownButton" Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.FocusedDropDownButtonGlyph}}"/>
+                <Setter TargetName="PART_SearchDropdownSeparator" Property="BorderBrush" Value="{DynamicResource {x:Static themes:SearchControlColors.FocusedDropDownSeparator}}"/>
+                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource {x:Static themes:SearchControlColors.FocusedBorder}}"/>
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:SearchControlColors.FocusedBackground}}"/>
+                <Setter TargetName="PART_SearchBox" Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.FocusedBackgroundText}}"/>
             </Trigger>
             <Trigger Property="UIElement.IsMouseOver" Value="true">
-
+                <Setter TargetName="PART_SearchWatermark" Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.MouseOverWatermarkText}}"/>
+                <Setter TargetName="PART_SearchDropdownButton" Property="Background" Value="{DynamicResource {x:Static themes:SearchControlColors.MouseOverDropDownButton}}"/>
+                <Setter TargetName="PART_SearchDropdownButton" Property="BorderBrush" Value="{DynamicResource {x:Static themes:SearchControlColors.MouseOverDropDownButtonBorder}}"/>
+                <Setter TargetName="PART_SearchDropdownButton" Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.MouseOverDropDownButtonGlyph}}"/>
+                <Setter TargetName="PART_SearchDropdownSeparator" Property="BorderBrush" Value="{DynamicResource {x:Static themes:SearchControlColors.MouseOverDropDownSeparator}}"/>
+                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource {x:Static themes:SearchControlColors.MouseOverBorder}}"/>
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:SearchControlColors.MouseOverBackground}}"/>
+                <Setter TargetName="PART_SearchBox" Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.MouseOverBackgroundText}}"/>
             </Trigger>
             <Trigger Property="UIElement.IsEnabled" Value="false">
-
+                <Setter TargetName="PART_SearchWatermark" Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.DisabledText}}"/>
+                <Setter TargetName="PART_SearchBox" Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.DisabledText}}"/>
+                <Setter TargetName="PART_SearchDropdownButton" Property="Background" Value="Transparent"/>
+                <Setter TargetName="PART_SearchDropdownButton" Property="BorderBrush" Value="Transparent"/>
+                <Setter TargetName="PART_SearchDropdownButton" Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.DisabledDownButtonGlyph}}"/>
+                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource {x:Static themes:SearchControlColors.DisabledBorder}}"/>
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:SearchControlColors.Disabled}}"/>
             </Trigger>
             <Trigger Property="HasPopup" Value="False">
                 <Setter TargetName="PART_SearchButton" Property="Width" Value="18"/>

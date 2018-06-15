@@ -86,6 +86,14 @@ namespace ModernApplicationFramework.Core.Themes
         private static ComponentResourceKey _unfocusedDropDownButtonBorder;
         private static ComponentResourceKey _unfocusedDropDownButtonGlyph;
         private static ComponentResourceKey _unfocusedWatermarkText;
+        private static ComponentResourceKey _progressBarBackground;
+        private static ComponentResourceKey _progressBarIndicator;
+
+        public static ComponentResourceKey ProgressBarBackground => _progressBarBackground ??
+                                                                        (_progressBarBackground = new ComponentResourceKey(typeof(SearchControlColors), nameof(ProgressBarBackground)));
+
+        public static ComponentResourceKey ProgressBarIndicator => _progressBarIndicator ??
+                                                                        (_progressBarIndicator = new ComponentResourceKey(typeof(SearchControlColors), nameof(ProgressBarIndicator)));
 
         public static ComponentResourceKey ActionButtonDisabledGlyph => _actionButtonDisabledGlyph ??
                                                                         (_actionButtonDisabledGlyph = new ComponentResourceKey(typeof(SearchControlColors), nameof(ActionButtonDisabledGlyph)));

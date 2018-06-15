@@ -270,5 +270,11 @@
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
                      ResourceId=UnfocusedWatermarkText}" Color="#FF717171"/>
 
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=ProgressBarBackground}" Color="#FFF6F6F6"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=ProgressBarIndicator}" Color="#FF007ACC"/>
+
 
 </ResourceDictionary>
