@@ -38,6 +38,8 @@ namespace ModernApplicationFramework.Modules.Toolbox
         public IDropTarget ToolboxDropHandler { get; } = new ToolboxDropHandler();
         public IDragSource ToolboxDragHandler { get; } = new ToolboxDragHandler();
 
+        public override bool SearchEnabled => true;
+
         public IToolboxCategory SelectedCategory { get; private set; }
 
         public IReadOnlyCollection<IToolboxCategory> CurrentLayout => _categories.ToList();

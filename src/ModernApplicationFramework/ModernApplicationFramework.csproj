@@ -282,6 +282,7 @@
     <Compile Include="Controls\SearchControl\SearchPopupNavigationService.cs" />
     <Compile Include="Controls\SearchControl\SearchSettingsDataSource.cs" />
     <Compile Include="Controls\SearchControl\SearchTextBox.cs" />
+    <Compile Include="Controls\SearchControl\WindowSearchHost.cs" />
     <Compile Include="Controls\SmoothProgressBar.cs" />
     <Compile Include="Core\Converters\General\IsNullOrEmptyConverter.cs" />
     <Compile Include="Core\Converters\LiveSearchTextConverter.cs" />

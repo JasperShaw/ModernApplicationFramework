@@ -18,9 +18,11 @@ using System;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media;
 using Caliburn.Micro;
+using ModernApplicationFramework.Controls.SearchControl;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Native.NativeMethods;
@@ -149,5 +151,22 @@ namespace ModernApplicationFramework.Native
         }
 
 
+        public static bool CreateChildElement(FrameworkElement element, FrameworkElement parent)
+        {
+            element.Visibility = Visibility.Visible;
+            switch (parent)
+            {
+                case Decorator decorator:
+                    decorator.Child = element;
+                    return true;
+                case ContentControl contentControl:
+                    contentControl.Content = element;
+                    return true;
+                case Panel panel:
+                    panel.Children.Add(element);
+                    return true;
+            }
+            return false;
+        }
     }
 }

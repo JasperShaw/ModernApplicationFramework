@@ -25,108 +25,110 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml.Serialization;
 using ModernApplicationFramework.Controls.InfoBar;
+using ModernApplicationFramework.Controls.SearchControl;
 using ModernApplicationFramework.Core.MenuModeHelper;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Docking.Controls
 {
     public abstract class LayoutItem : FrameworkElement
     {
         public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register("Title", typeof (string), typeof (LayoutItem),
+            DependencyProperty.Register("Title", typeof(string), typeof(LayoutItem),
                 new FrameworkPropertyMetadata(null,
                     OnTitleChanged));
 
         public static readonly DependencyProperty IconSourceProperty =
-            DependencyProperty.Register("IconSource", typeof (ImageSource), typeof (LayoutItem),
+            DependencyProperty.Register("IconSource", typeof(ImageSource), typeof(LayoutItem),
                 new FrameworkPropertyMetadata(null,
                     OnIconSourceChanged));
 
         public static readonly DependencyProperty ContentIdProperty =
-            DependencyProperty.Register("ContentId", typeof (string), typeof (LayoutItem),
+            DependencyProperty.Register("ContentId", typeof(string), typeof(LayoutItem),
                 new FrameworkPropertyMetadata(null,
                     OnContentIdChanged));
 
         public static readonly DependencyProperty IsSelectedProperty =
-            DependencyProperty.Register("IsSelected", typeof (bool), typeof (LayoutItem),
+            DependencyProperty.Register("IsSelected", typeof(bool), typeof(LayoutItem),
                 new FrameworkPropertyMetadata(false,
                     OnIsSelectedChanged));
 
         public static readonly DependencyProperty IsActiveProperty =
-            DependencyProperty.Register("IsActive", typeof (bool), typeof (LayoutItem),
+            DependencyProperty.Register("IsActive", typeof(bool), typeof(LayoutItem),
                 new FrameworkPropertyMetadata(false,
                     OnIsActiveChanged));
 
         public static readonly DependencyProperty CanCloseProperty =
-            DependencyProperty.Register("CanClose", typeof (bool), typeof (LayoutItem),
+            DependencyProperty.Register("CanClose", typeof(bool), typeof(LayoutItem),
                 new FrameworkPropertyMetadata(true,
                     OnCanCloseChanged));
 
         public static readonly DependencyProperty CanFloatProperty =
-            DependencyProperty.Register("CanFloat", typeof (bool), typeof (LayoutItem),
+            DependencyProperty.Register("CanFloat", typeof(bool), typeof(LayoutItem),
                 new FrameworkPropertyMetadata(true,
                     OnCanFloatChanged));
 
         public static readonly DependencyProperty CloseCommandProperty =
-            DependencyProperty.Register("CloseCommand", typeof (ICommand), typeof (LayoutItem),
+            DependencyProperty.Register("CloseCommand", typeof(ICommand), typeof(LayoutItem),
                 new FrameworkPropertyMetadata(null,
                     OnCloseCommandChanged,
                     CoerceCloseCommandValue));
 
         public static readonly DependencyProperty FloatCommandProperty =
-            DependencyProperty.Register("FloatCommand", typeof (ICommand), typeof (LayoutItem),
+            DependencyProperty.Register("FloatCommand", typeof(ICommand), typeof(LayoutItem),
                 new FrameworkPropertyMetadata(null,
                     OnFloatCommandChanged,
                     CoerceFloatCommandValue));
 
         public static readonly DependencyProperty DockAsDocumentCommandProperty =
-            DependencyProperty.Register("DockAsDocumentCommand", typeof (ICommand), typeof (LayoutItem),
+            DependencyProperty.Register("DockAsDocumentCommand", typeof(ICommand), typeof(LayoutItem),
                 new FrameworkPropertyMetadata(null,
                     OnDockAsDocumentCommandChanged,
                     CoerceDockAsDocumentCommandValue));
 
         public static readonly DependencyProperty CloseAllButThisCommandProperty =
-            DependencyProperty.Register("CloseAllButThisCommand", typeof (ICommand), typeof (LayoutItem),
+            DependencyProperty.Register("CloseAllButThisCommand", typeof(ICommand), typeof(LayoutItem),
                 new FrameworkPropertyMetadata(null,
                     OnCloseAllButThisCommandChanged,
                     CoerceCloseAllButThisCommandValue));
 
         public static readonly DependencyProperty ActivateCommandProperty =
-            DependencyProperty.Register("ActivateCommand", typeof (ICommand), typeof (LayoutItem),
+            DependencyProperty.Register("ActivateCommand", typeof(ICommand), typeof(LayoutItem),
                 new FrameworkPropertyMetadata(null,
                     OnActivateCommandChanged,
                     CoerceActivateCommandValue));
 
         public static readonly DependencyProperty NewVerticalTabGroupCommandProperty =
-            DependencyProperty.Register("NewVerticalTabGroupCommand", typeof (ICommand), typeof (LayoutItem),
+            DependencyProperty.Register("NewVerticalTabGroupCommand", typeof(ICommand), typeof(LayoutItem),
                 new FrameworkPropertyMetadata(null,
                     OnNewVerticalTabGroupCommandChanged));
 
         public static readonly DependencyProperty NewHorizontalTabGroupCommandProperty =
-            DependencyProperty.Register("NewHorizontalTabGroupCommand", typeof (ICommand), typeof (LayoutItem),
+            DependencyProperty.Register("NewHorizontalTabGroupCommand", typeof(ICommand), typeof(LayoutItem),
                 new FrameworkPropertyMetadata(null,
                     OnNewHorizontalTabGroupCommandChanged));
 
         public static readonly DependencyProperty MoveToNextTabGroupCommandProperty =
-            DependencyProperty.Register("MoveToNextTabGroupCommand", typeof (ICommand), typeof (LayoutItem),
+            DependencyProperty.Register("MoveToNextTabGroupCommand", typeof(ICommand), typeof(LayoutItem),
                 new FrameworkPropertyMetadata(null, OnMoveToNextTabGroupCommandChanged));
 
         public static readonly DependencyProperty MoveToPreviousTabGroupCommandProperty =
-            DependencyProperty.Register("MoveToPreviousTabGroupCommand", typeof (ICommand), typeof (LayoutItem),
+            DependencyProperty.Register("MoveToPreviousTabGroupCommand", typeof(ICommand), typeof(LayoutItem),
                 new FrameworkPropertyMetadata(null,
                     OnMoveToPreviousTabGroupCommandChanged));
 
         public static readonly DependencyProperty AddCommandProperty =
-            DependencyProperty.Register("AddCommand", typeof (ICommand), typeof (LayoutItem),
+            DependencyProperty.Register("AddCommand", typeof(ICommand), typeof(LayoutItem),
                 new FrameworkPropertyMetadata(null,
                     OnAddCommandChanged,
                     CoerceAddCommandValue));
 
 
         public static readonly DependencyProperty CloseAllCommandProperty =
-            DependencyProperty.Register("CloseAllCommand", typeof (ICommand), typeof (LayoutItem),
+            DependencyProperty.Register("CloseAllCommand", typeof(ICommand), typeof(LayoutItem),
                 new FrameworkPropertyMetadata(null,
                     OnCloseAllCommandChanged,
                     CoerceCloseAllCommandValue));
@@ -141,7 +143,7 @@ namespace ModernApplicationFramework.Docking.Controls
 
 
         public static readonly DependencyProperty IsFloatingProperty = DependencyProperty.Register("IsFloating",
-            typeof (bool), typeof (LayoutItem),
+            typeof(bool), typeof(LayoutItem),
             new UIPropertyMetadata(false));
 
 
@@ -160,15 +162,19 @@ namespace ModernApplicationFramework.Docking.Controls
         private ICommand _defaultNewVerticalTabGroupCommand;
         private ICommand _defaultPinCommand;
         private ContentPresenter _view;
-        
+
+        private SearchPlacement _searchControlPlacement = SearchPlacement.Dynamic;
+        private bool searchControlHandledKey;
+        private uint SearchControlMaxWidth = uint.MaxValue;
+
         internal LayoutItem()
         {
         }
 
         static LayoutItem()
         {
-            ToolTipProperty.OverrideMetadata(typeof (LayoutItem), new FrameworkPropertyMetadata(null, OnToolTipChanged));
-            VisibilityProperty.OverrideMetadata(typeof (LayoutItem),
+            ToolTipProperty.OverrideMetadata(typeof(LayoutItem), new FrameworkPropertyMetadata(null, OnToolTipChanged));
+            VisibilityProperty.OverrideMetadata(typeof(LayoutItem),
                 new FrameworkPropertyMetadata(Visibility.Visible, OnVisibilityChanged));
         }
 
@@ -196,6 +202,7 @@ namespace ModernApplicationFramework.Docking.Controls
         private class AdornmentHostingPanel : StackPanel
         {
             private InfoBarHostControl _infoBarHost;
+            private ToolbarTrayAndSearchHostingPanel _searchHostingPanel;
 
             public InfoBarHostControl InfoBarHost
             {
@@ -211,6 +218,19 @@ namespace ModernApplicationFramework.Docking.Controls
                 }
             }
 
+            public ToolbarTrayAndSearchHostingPanel SearchHostingPanel
+            {
+                get
+                {
+                    if (_searchHostingPanel == null)
+                    {
+                        _searchHostingPanel = new ToolbarTrayAndSearchHostingPanel();
+                        Children.Insert(0, _searchHostingPanel);
+                    }
+                    return _searchHostingPanel;
+                }
+            }
+
             public AdornmentHostingPanel()
             {
                 SetResourceReference(BackgroundProperty, EnvironmentColors.CommandBarMenuBackgroundGradientBegin);
@@ -219,7 +239,200 @@ namespace ModernApplicationFramework.Docking.Controls
                 KeyboardNavigation.SetDirectionalNavigation(this, KeyboardNavigationMode.Cycle);
                 KeyboardNavigation.SetControlTabNavigation(this, KeyboardNavigationMode.Cycle);
             }
+
+            internal bool TryGetInfoBarHostIfCreated(out InfoBarHostControl control)
+            {
+                control = _infoBarHost;
+                return control != null;
+            }
         }
+
+        private class ToolbarTrayAndSearchHostingPanel : DockPanel
+        {
+            private ContentControl _searchControlParent;
+
+            public ContentControl SearchControlParent
+            {
+                get => _searchControlParent;
+                set
+                {
+                    if (_searchControlParent != null)
+                        throw new InvalidOperationException();
+                    _searchControlParent = value;
+                    SearchControlParent.Focusable = false;
+                    SearchControlParent.VerticalAlignment = VerticalAlignment.Center;
+                    SearchControlParent.Margin = new Thickness(0, 0, 0, 2);
+                    Children.Add(SearchControlParent);
+                }
+            }
+
+            public ToolbarTrayAndSearchHostingPanel()
+            {
+                SearchControlParent = new ContentControl();
+                SetResourceReference(BackgroundProperty, EnvironmentColors.CommandBarGradientBegin);
+                Focusable = false;
+            }
+        }
+
+        [XmlIgnore]
+        internal IWindowSearchHost SearchHost { get; private set; }
+
+
+        private SearchPlacement SearchControlPlacement
+        {
+            get
+            {
+                if (SearchHost == null)
+                    return SearchPlacement.None;
+                var searchHost = SearchHost as WindowSearchHost;
+                if (searchHost == null || AdornmentHost.SearchHostingPanel == null || searchHost.SearchParentControl !=
+                    AdornmentHost.SearchHostingPanel.SearchControlParent)
+                    return SearchPlacement.Custom;
+                return _searchControlPlacement;
+            }
+            set
+            {
+                var controlPlacement = SearchControlPlacement;
+                if (value == SearchPlacement.Custom)
+                {
+                    if (value != controlPlacement)
+                        throw new InvalidOperationException();
+
+                }
+                else
+                {
+                    if (controlPlacement == SearchPlacement.Custom)
+                        throw new InvalidOperationException();
+                    _searchControlPlacement = value;
+                }
+                AdjustSearchControlPlacement();
+            }
+        }
+
+        internal void CreateSearchHostAndControl()
+        {
+            if (SearchHost != null)
+                return;
+            SearchHost = new WindowSearchHost(AdornmentHost.SearchHostingPanel.SearchControlParent);
+            ((WindowSearchHost)SearchHost).SearchControl.SetBinding(WidthProperty, new Binding
+            {
+                Source = AdornmentHost.SearchHostingPanel.SearchControlParent,
+                Path = new PropertyPath(ActualWidthProperty.Name),
+                Mode = BindingMode.OneWay
+            });
+            ConnectSearchControlEvents();
+            AdjustSearchControlPlacement();
+        }
+
+        private void AdjustSearchControlPlacement()
+        {
+            if (SearchHost == null)
+                return;
+            var contolPlacement = SearchControlPlacement;
+            if (contolPlacement == SearchPlacement.Custom)
+                return;
+            var dock = Dock.Top;
+            var horizontalAlignment = HorizontalAlignment.Left;
+            var num1 = 0;
+            var num2 = double.PositiveInfinity;
+            var searchControl = ((WindowSearchHost) SearchHost).SearchControl;
+
+            if (contolPlacement == SearchPlacement.Dynamic)
+            {
+                //if (AdornmentHost.SearchHostingPanel.ToolbarTray != null)
+                //{
+
+                //}
+                //if (num1 == 1 && searchControl != null)
+                //{
+
+                //}
+            }
+
+            if (searchControl != null)
+            {
+                searchControl.HorizontalAlignment = horizontalAlignment;
+                AdjustSearchControlMaxWidth();
+            }
+            //if (AdornmentHost.SearchHostingPanel.ToolbarTray == null)
+            //    return;
+            //AdornmentHost.SearchHostingPanel.ToolbarTray.MaxWidth = num2;
+            //DockPanel.SetDock((UIElement)AdornmentHost.SearchHostingPanel.ToolbarTray, dock);
+        }
+
+        private void AdjustSearchControlMaxWidth()
+        {
+            var searchControl = ((WindowSearchHost)SearchHost).SearchControl;
+            var num = uint.MaxValue;
+            if (searchControl.HorizontalAlignment == HorizontalAlignment.Right)
+                num = SearchControlMaxWidth;
+            var dataContext = searchControl.DataContext as SearchControlDataSource;
+            if (dataContext == null)
+                return;
+            dataContext.SearchSettings.ControlMaxWidth = num;
+        }
+
+
+        private void ConnectSearchControlEvents()
+        {
+            if (SearchHost == null)
+                return;
+            AdornmentHost.SearchHostingPanel.SizeChanged += SearchHostingPanel_SizeChanged;
+            Control searchControl = ((WindowSearchHost)SearchHost).SearchControl;
+            if (searchControl == null)
+                return;
+            searchControl.KeyDown += SearchControl_KeyDown;
+            CommandBarNavigationHelper.SetCommandFocusMode(searchControl, CommandBarNavigationHelper.CommandFocusMode.Container);
+        }
+
+        private void SearchControl_KeyDown(object sender, KeyEventArgs e)
+        {
+            searchControlHandledKey = e.Handled;
+        }
+
+        private void SearchHostingPanel_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            AdjustSearchControlPlacement();
+        }
+
+
+        public void SetupSearch(IWindowSearch windowSearch)
+        {
+            if (!windowSearch.SearchEnabled)
+                return;
+
+            CreateSearchHostAndControl();
+            SearchHost.SetupSearch(windowSearch);
+            InitializeSearchControlMaxWidth();
+            AdjustSearchControlMaxWidth();
+        }
+
+        private void InitializeSearchControlMaxWidth()
+        {
+            SearchControlMaxWidth =
+                ((SearchControlDataSource) ((WindowSearchHost) SearchHost).SearchControl.DataContext)
+                .SearchSettings.ControlMaxWidth;
+        }
+
+        public bool FocusSearchControl()
+        {
+            if (!IsVisible)
+                ExecuteActivateCommand(null);
+            var searchHost = (WindowSearchHost) SearchHost;
+            var searchControl = searchHost?.SearchControl;
+            if (searchControl == null || !searchHost.IsVisible || !searchHost.IsEnabled)
+                return false;
+            PendingFocusHelper.SetFocusOnLoad(searchControl);
+            return true;
+        }
+
+        public IWindowSearchHost GetSearchHost()
+        {
+            CreateSearchHostAndControl();
+            return SearchHost;
+        }
+
+
 
         public ContentPresenter View
         {
@@ -247,73 +460,73 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public ICommand ActivateCommand
         {
-            get => (ICommand) GetValue(ActivateCommandProperty);
+            get => (ICommand)GetValue(ActivateCommandProperty);
             set => SetValue(ActivateCommandProperty, value);
         }
 
         public ICommand AddCommand
         {
-            get => (ICommand) GetValue(AddCommandProperty);
+            get => (ICommand)GetValue(AddCommandProperty);
             set => SetValue(AddCommandProperty, value);
         }
 
         public bool CanClose
         {
-            get => (bool) GetValue(CanCloseProperty);
+            get => (bool)GetValue(CanCloseProperty);
             set => SetValue(CanCloseProperty, value);
         }
 
         public bool CanFloat
         {
-            get => (bool) GetValue(CanFloatProperty);
+            get => (bool)GetValue(CanFloatProperty);
             set => SetValue(CanFloatProperty, value);
         }
 
         public ICommand CloseAllButThisCommand
         {
-            get => (ICommand) GetValue(CloseAllButThisCommandProperty);
+            get => (ICommand)GetValue(CloseAllButThisCommandProperty);
             set => SetValue(CloseAllButThisCommandProperty, value);
         }
 
         public ICommand CloseAllCommand
         {
-            get => (ICommand) GetValue(CloseAllCommandProperty);
+            get => (ICommand)GetValue(CloseAllCommandProperty);
             set => SetValue(CloseAllCommandProperty, value);
         }
 
         public ICommand CloseCommand
         {
-            get => (ICommand) GetValue(CloseCommandProperty);
+            get => (ICommand)GetValue(CloseCommandProperty);
             set => SetValue(CloseCommandProperty, value);
         }
 
         public string ContentId
         {
-            get => (string) GetValue(ContentIdProperty);
+            get => (string)GetValue(ContentIdProperty);
             set => SetValue(ContentIdProperty, value);
         }
 
         public ICommand DockAsDocumentCommand
         {
-            get => (ICommand) GetValue(DockAsDocumentCommandProperty);
+            get => (ICommand)GetValue(DockAsDocumentCommandProperty);
             set => SetValue(DockAsDocumentCommandProperty, value);
         }
 
         public ICommand FloatCommand
         {
-            get => (ICommand) GetValue(FloatCommandProperty);
+            get => (ICommand)GetValue(FloatCommandProperty);
             set => SetValue(FloatCommandProperty, value);
         }
 
         public ImageSource IconSource
         {
-            get => (ImageSource) GetValue(IconSourceProperty);
+            get => (ImageSource)GetValue(IconSourceProperty);
             set => SetValue(IconSourceProperty, value);
         }
 
         public bool IsActive
         {
-            get => (bool) GetValue(IsActiveProperty);
+            get => (bool)GetValue(IsActiveProperty);
             set => SetValue(IsActiveProperty, value);
         }
 
@@ -325,14 +538,16 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public bool IsFloating
         {
-            [ExcludeFromCodeCoverage] get { return (bool) GetValue(IsFloatingProperty); }
+            [ExcludeFromCodeCoverage]
+            get { return (bool)GetValue(IsFloatingProperty); }
 
-            [ExcludeFromCodeCoverage] set { SetValue(IsFloatingProperty, value); }
+            [ExcludeFromCodeCoverage]
+            set { SetValue(IsFloatingProperty, value); }
         }
 
         public bool IsSelected
         {
-            get => (bool) GetValue(IsSelectedProperty);
+            get => (bool)GetValue(IsSelectedProperty);
             set => SetValue(IsSelectedProperty, value);
         }
 
@@ -341,31 +556,31 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public ICommand MoveToNextTabGroupCommand
         {
-            get => (ICommand) GetValue(MoveToNextTabGroupCommandProperty);
+            get => (ICommand)GetValue(MoveToNextTabGroupCommandProperty);
             set => SetValue(MoveToNextTabGroupCommandProperty, value);
         }
 
         public ICommand MoveToPreviousTabGroupCommand
         {
-            get => (ICommand) GetValue(MoveToPreviousTabGroupCommandProperty);
+            get => (ICommand)GetValue(MoveToPreviousTabGroupCommandProperty);
             set => SetValue(MoveToPreviousTabGroupCommandProperty, value);
         }
 
         public ICommand NewHorizontalTabGroupCommand
         {
-            get => (ICommand) GetValue(NewHorizontalTabGroupCommandProperty);
+            get => (ICommand)GetValue(NewHorizontalTabGroupCommandProperty);
             set => SetValue(NewHorizontalTabGroupCommandProperty, value);
         }
 
         public ICommand NewVerticalTabGroupCommand
         {
-            get => (ICommand) GetValue(NewVerticalTabGroupCommandProperty);
+            get => (ICommand)GetValue(NewVerticalTabGroupCommandProperty);
             set => SetValue(NewVerticalTabGroupCommandProperty, value);
         }
 
         public string Title
         {
-            get => (string) GetValue(TitleProperty);
+            get => (string)GetValue(TitleProperty);
             set => SetValue(TitleProperty, value);
         }
 
@@ -449,13 +664,13 @@ namespace ModernApplicationFramework.Docking.Controls
         protected virtual void OnCanCloseChanged(DependencyPropertyChangedEventArgs e)
         {
             if (LayoutElement != null)
-                LayoutElement.CanClose = (bool) e.NewValue;
+                LayoutElement.CanClose = (bool)e.NewValue;
         }
 
         protected virtual void OnCanFloatChanged(DependencyPropertyChangedEventArgs e)
         {
             if (LayoutElement != null)
-                LayoutElement.CanFloat = (bool) e.NewValue;
+                LayoutElement.CanFloat = (bool)e.NewValue;
         }
 
         protected virtual void OnCloseAllButThisCommandChanged(DependencyPropertyChangedEventArgs e)
@@ -477,7 +692,7 @@ namespace ModernApplicationFramework.Docking.Controls
         protected virtual void OnContentIdChanged(DependencyPropertyChangedEventArgs e)
         {
             if (LayoutElement != null)
-                LayoutElement.ContentId = (string) e.NewValue;
+                LayoutElement.ContentId = (string)e.NewValue;
         }
 
         protected virtual void OnDockAsDocumentCommandChanged(DependencyPropertyChangedEventArgs e)
@@ -501,7 +716,7 @@ namespace ModernApplicationFramework.Docking.Controls
                 using (_isActiveReentrantFlag.Enter())
                 {
                     if (LayoutElement != null)
-                        LayoutElement.IsActive = (bool) e.NewValue;
+                        LayoutElement.IsActive = (bool)e.NewValue;
                 }
             }
         }
@@ -513,7 +728,7 @@ namespace ModernApplicationFramework.Docking.Controls
                 using (_isSelectedReentrantFlag.Enter())
                 {
                     if (LayoutElement != null)
-                        LayoutElement.IsSelected = (bool) e.NewValue;
+                        LayoutElement.IsSelected = (bool)e.NewValue;
                 }
             }
         }
@@ -537,7 +752,7 @@ namespace ModernApplicationFramework.Docking.Controls
         protected virtual void OnTitleChanged(DependencyPropertyChangedEventArgs e)
         {
             if (LayoutElement != null)
-                LayoutElement.Title = (string) e.NewValue;
+                LayoutElement.Title = (string)e.NewValue;
         }
 
         protected virtual void OnVisibilityChanged()
@@ -654,104 +869,104 @@ namespace ModernApplicationFramework.Docking.Controls
 
         private static void OnActivateCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((LayoutItem) d).OnActivateCommandChanged(e);
+            ((LayoutItem)d).OnActivateCommandChanged(e);
         }
 
         private static void OnAddCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((LayoutItem) d).OnAddCommandChanged(e);
+            ((LayoutItem)d).OnAddCommandChanged(e);
         }
 
         private static void OnCanCloseChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((LayoutItem) d).OnCanCloseChanged(e);
+            ((LayoutItem)d).OnCanCloseChanged(e);
         }
 
         private static void OnCanFloatChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((LayoutItem) d).OnCanFloatChanged(e);
+            ((LayoutItem)d).OnCanFloatChanged(e);
         }
 
         private static void OnCloseAllButThisCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((LayoutItem) d).OnCloseAllButThisCommandChanged(e);
+            ((LayoutItem)d).OnCloseAllButThisCommandChanged(e);
         }
 
         private static void OnCloseAllCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((LayoutItem) d).OnCloseAllCommandChanged(e);
+            ((LayoutItem)d).OnCloseAllCommandChanged(e);
         }
 
         private static void OnCloseCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((LayoutItem) d).OnCloseCommandChanged(e);
+            ((LayoutItem)d).OnCloseCommandChanged(e);
         }
 
         private static void OnContentIdChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((LayoutItem) d).OnContentIdChanged(e);
+            ((LayoutItem)d).OnContentIdChanged(e);
         }
 
         private static void OnDockAsDocumentCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((LayoutItem) d).OnDockAsDocumentCommandChanged(e);
+            ((LayoutItem)d).OnDockAsDocumentCommandChanged(e);
         }
 
         private static void OnFloatCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((LayoutItem) d).OnFloatCommandChanged(e);
+            ((LayoutItem)d).OnFloatCommandChanged(e);
         }
 
         private static void OnIconSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((LayoutItem) d).OnIconSourceChanged(e);
+            ((LayoutItem)d).OnIconSourceChanged(e);
         }
 
         private static void OnIsActiveChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((LayoutItem) d).OnIsActiveChanged(e);
+            ((LayoutItem)d).OnIsActiveChanged(e);
         }
 
         private static void OnIsSelectedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((LayoutItem) d).OnIsSelectedChanged(e);
+            ((LayoutItem)d).OnIsSelectedChanged(e);
         }
 
         private static void OnMoveToNextTabGroupCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((LayoutItem) d).OnMoveToNextTabGroupCommandChanged(e);
+            ((LayoutItem)d).OnMoveToNextTabGroupCommandChanged(e);
         }
 
         private static void OnMoveToPreviousTabGroupCommandChanged(DependencyObject d,
             DependencyPropertyChangedEventArgs e)
         {
-            ((LayoutItem) d).OnMoveToPreviousTabGroupCommandChanged(e);
+            ((LayoutItem)d).OnMoveToPreviousTabGroupCommandChanged(e);
         }
 
         private static void OnNewHorizontalTabGroupCommandChanged(DependencyObject d,
             DependencyPropertyChangedEventArgs e)
         {
-            ((LayoutItem) d).OnNewHorizontalTabGroupCommandChanged(e);
+            ((LayoutItem)d).OnNewHorizontalTabGroupCommandChanged(e);
         }
 
         private static void OnNewVerticalTabGroupCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((LayoutItem) d).OnNewVerticalTabGroupCommandChanged(e);
+            ((LayoutItem)d).OnNewVerticalTabGroupCommandChanged(e);
         }
 
         private static void OnTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((LayoutItem) d).OnTitleChanged(e);
+            ((LayoutItem)d).OnTitleChanged(e);
         }
 
         private static void OnToolTipChanged(DependencyObject s, DependencyPropertyChangedEventArgs e)
         {
-            ((LayoutItem) s).OnToolTipChanged();
+            ((LayoutItem)s).OnToolTipChanged();
         }
 
         private static void OnVisibilityChanged(DependencyObject s, DependencyPropertyChangedEventArgs e)
         {
-            ((LayoutItem) s).OnVisibilityChanged();
+            ((LayoutItem)s).OnVisibilityChanged();
         }
 
         private static void OnPinCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -964,7 +1179,7 @@ namespace ModernApplicationFramework.Docking.Controls
                 if (parentDocumentPane != null)
                 {
                     var grandParent = parentDocumentPane.Parent;
-                    parentDocumentGroup = new LayoutDocumentPaneGroup() {Orientation = Orientation.Vertical};
+                    parentDocumentGroup = new LayoutDocumentPaneGroup() { Orientation = Orientation.Vertical };
                     grandParent.ReplaceChild(parentDocumentPane, parentDocumentGroup);
                 }
                 parentDocumentGroup?.Children.Add(parentDocumentPane);
@@ -990,7 +1205,7 @@ namespace ModernApplicationFramework.Docking.Controls
                 if (parentDocumentPane != null)
                 {
                     var grandParent = parentDocumentPane.Parent;
-                    parentDocumentGroup = new LayoutDocumentPaneGroup() {Orientation = Orientation.Horizontal};
+                    parentDocumentGroup = new LayoutDocumentPaneGroup() { Orientation = Orientation.Horizontal };
                     grandParent.ReplaceChild(parentDocumentPane, parentDocumentGroup);
                 }
                 parentDocumentGroup?.Children.Add(parentDocumentPane);
@@ -1035,6 +1250,7 @@ namespace ModernApplicationFramework.Docking.Controls
 
 
         private FrameworkElement _contentControl;
+        
 
         [XmlIgnore]
         public FrameworkElement Content

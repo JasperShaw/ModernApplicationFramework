@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+using ModernApplicationFramework.Controls.SearchControl;
 using ModernApplicationFramework.Extended.Utilities.PaneUtilities;
 
 namespace ModernApplicationFramework.Extended.Interfaces
@@ -8,7 +9,7 @@ namespace ModernApplicationFramework.Extended.Interfaces
     /// Special <see cref="T:ModernApplicationFramework.Extended.Interfaces.ILayoutItemBase" /> that's used for anchorable side tools
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Extended.Interfaces.ILayoutItemBase" />
-    public interface ITool : ILayoutItemBase
+    public interface ITool : ILayoutItemBase, IWindowSearch
     {
         /// <summary>
         /// Command to close the tool
@@ -34,5 +35,8 @@ namespace ModernApplicationFramework.Extended.Interfaces
         /// Indicates and triggers the tool's visibility
         /// </summary>
         bool IsVisible { get; set; }
+
+
+        IWindowSearchHost SearchHost { get; }
     }
 }

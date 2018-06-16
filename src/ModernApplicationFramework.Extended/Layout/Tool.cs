@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.InfoBar;
+using ModernApplicationFramework.Controls.SearchControl;
 using ModernApplicationFramework.Docking.Controls;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Utilities.PaneUtilities;
@@ -45,6 +46,8 @@ namespace ModernApplicationFramework.Extended.Layout
                 NotifyOfPropertyChange(() => IsVisible);
             }
         }
+
+        public IWindowSearchHost SearchHost => _frame?.GetSearchHost();
 
         public virtual double PreferredHeight => 200;
 
@@ -92,6 +95,7 @@ namespace ModernApplicationFramework.Extended.Layout
         public virtual void OnToolWindowCreated()
         {
             ConnectInfoBars();
+            _frame.SetupSearch(this);
         }
 
         protected virtual void OnHiding(CancelEventArgs cancelEventArgs)
@@ -130,7 +134,6 @@ namespace ModernApplicationFramework.Extended.Layout
                 return;
             OnToolWindowCreated();
         }
-
 
 
         private void AddInfoBar(InfoBarEvents events)
@@ -234,6 +237,26 @@ namespace ModernApplicationFramework.Extended.Layout
                 _infoBarUi.Unadvise(_eventCookie);
                 _pane.OnInfoBarClosed(infoBarUiElement, _infoBar);
             }
+        }
+
+        public virtual bool SearchEnabled => false;
+
+        public virtual ISearchTask CreateSearch(uint cookie, ISearchQuery searchQuery, ISearchCallback searchCallback)
+        {
+            return new SearchTask(cookie, searchQuery, searchCallback);
+        }
+
+        public virtual void ClearSearch()
+        {
+        }
+
+        public virtual void ProvideSearchSettings(SearchSettingsDataSource dataSource)
+        {
+        }
+
+        public virtual bool OnNavigationKeyDown(uint navigationKey, uint modifiers)
+        {
+            return false;
         }
     }
 }
