@@ -139,11 +139,8 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         {
             
             var host = IoC.Get<ICommandBarDefinitionHost>();
-            var groups = host.ItemGroupDefinitions.Where(x => x.Parent == toolbarDefinition)
-                .Where(x => !host.ExcludedItemDefinitions.Contains(x))
-                .Where(x => x.Items.Any(y => y.IsVisible))
-                .OrderBy(x => x.SortOrder)
-                .ToList();
+
+            var groups = DefinitionHost.GetSortedGroupsOfDefinition(toolbarDefinition);
 
             BuildLogical(toolbarDefinition, groups, group =>
             {

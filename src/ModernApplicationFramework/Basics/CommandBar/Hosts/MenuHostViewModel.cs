@@ -6,6 +6,7 @@ using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Controls.Internals;
 using ModernApplicationFramework.Controls.Menu;
+using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ContextMenu = System.Windows.Controls.ContextMenu;
@@ -78,7 +79,9 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                 Build();
             else
             {
-                var newItem = IoC.Get<IMainMenuCreator>().CreateMenuItem(definition);  
+
+                var groups = DefinitionHost.GetSortedGroupsOfDefinition(definition);
+                var newItem = IoC.Get<IMainMenuCreator>().CreateMenuItem(definition, groups, DefinitionHost.GetItemsOfGroup);  
                 var olditem = Items.FirstOrDefault(x => x.DataContext.Equals(definition));    
                 if (olditem == null)
                     Items.Add(newItem);

@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 
@@ -28,5 +30,9 @@ namespace ModernApplicationFramework.Interfaces
         /// Collection of excluded command definitions
         /// </summary>
         ObservableCollection<CommandDefinitionBase> ExcludedCommandDefinitions { get; }
+
+        IReadOnlyList<CommandBarGroupDefinition> GetSortedGroupsOfDefinition(CommandBarDefinitionBase definition, bool onlyGroupsWithVisibleItems = true);
+
+        Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDefinition>> GetItemsOfGroup { get; }
     }
 }

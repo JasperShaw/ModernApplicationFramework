@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel.Composition;
 using System.Linq;
@@ -54,6 +56,22 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         public ObservableCollection<CommandBarDefinitionBase> ExcludedItemDefinitions { get; }
 
         public ObservableCollection<CommandDefinitionBase> ExcludedCommandDefinitions { get; }
+
+        public IReadOnlyList<CommandBarGroupDefinition> GetSortedGroupsOfDefinition(CommandBarDefinitionBase definition, bool onlyGroupsWithVisibleItems = true)
+        {
+            var groups = ItemGroupDefinitions.Where(x => x.Parent == definition)
+                .Where(x => !ExcludedItemDefinitions.Contains(x));
+            if (onlyGroupsWithVisibleItems)
+                groups = groups.Where(x => x.Items.Any(y => y.IsVisible)).ToList();
+            return groups.OrderBy(x => x.SortOrder).ToList();
+        }
+
+        public Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDefinition>> GetItemsOfGroup => group =>
+        {
+            return ItemDefinitions.Where(x => x.Group == group)
+                .Where(x => !ExcludedItemDefinitions.Contains(x))
+                .OrderBy(x => x.SortOrder).ToList();
+        };
 
         private void ExcludedCommandDefinitions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {

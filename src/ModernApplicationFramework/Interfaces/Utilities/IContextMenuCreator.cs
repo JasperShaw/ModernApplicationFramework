@@ -1,4 +1,6 @@
-﻿using ModernApplicationFramework.Basics.Definitions.CommandBar;
+﻿using System;
+using System.Collections.Generic;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ContextMenu = ModernApplicationFramework.Controls.Menu.ContextMenu;
 
 namespace ModernApplicationFramework.Interfaces.Utilities
@@ -13,6 +15,6 @@ namespace ModernApplicationFramework.Interfaces.Utilities
         /// </summary>
         /// <param name="contextMenuDefinition">The data model of the context menu</param>
         /// <returns>Returns the context menu</returns>
-        ContextMenu CreateContextMenu(CommandBarDefinitionBase contextMenuDefinition);
+        ContextMenu CreateContextMenu(CommandBarDefinitionBase contextMenuDefinition, IReadOnlyList<CommandBarGroupDefinition> groups, Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDefinition>> itemsFunc);
     }
 }

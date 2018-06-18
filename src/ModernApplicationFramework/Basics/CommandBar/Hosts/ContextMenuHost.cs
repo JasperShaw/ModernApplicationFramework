@@ -46,7 +46,9 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             if (!(definition is Definitions.ContextMenu.ContextMenuDefinition contextMenuDefinition))
                 return;
             BuildLogical(contextMenuDefinition);
-            var contextMenu = IoC.Get<IContextMenuCreator>().CreateContextMenu(definition);
+
+            var groups = DefinitionHost.GetSortedGroupsOfDefinition(definition);
+            var contextMenu = IoC.Get<IContextMenuCreator>().CreateContextMenu(definition, groups, DefinitionHost.GetItemsOfGroup);
             if (!_hostedContextMenus.ContainsKey(contextMenuDefinition))
                 _hostedContextMenus.Add(contextMenuDefinition, contextMenu);
             else

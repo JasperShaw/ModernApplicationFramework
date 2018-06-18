@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Controls.Menu;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
+using MenuItem = ModernApplicationFramework.Controls.Menu.MenuItem;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Creators
 {
@@ -16,10 +18,10 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
     [Export(typeof(IMainMenuCreator))]
     public class MenuCreator : MenuCreatorBase, IMainMenuCreator
     {
-        public MenuItem CreateMenuItem(CommandBarDefinitionBase contextMenuDefinition)
+        public MenuItem CreateMenuItem(CommandBarDefinitionBase contextMenuDefinition, IReadOnlyList<CommandBarGroupDefinition> groups, Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDefinition>> itemsFunc)
         {
             var menuItem = new MenuItem(contextMenuDefinition);
-            CreateRecursive(ref menuItem, contextMenuDefinition);
+            CreateRecursive(ref menuItem, contextMenuDefinition, groups, itemsFunc);
             return menuItem;
         }
 
@@ -30,13 +32,15 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
 
             foreach (var topLevelDefinition in topLevelDefinitions)
             {
-                model.BuildLogical(topLevelDefinition);
-                var t = GetSingleSubDefinitions(topLevelDefinition);
+                var groups = model.DefinitionHost.GetSortedGroupsOfDefinition(topLevelDefinition);
+                model.BuildLogical(topLevelDefinition, groups, model.DefinitionHost.GetItemsOfGroup);
+                var t = GetSingleSubDefinitions(topLevelDefinition, groups, model.DefinitionHost.GetItemsOfGroup);
 
                 foreach (var definition in t)
                 {
                     var menuitem = new MenuItem(definition);
-                    CreateRecursive(ref menuitem, definition);
+                    groups = model.DefinitionHost.GetSortedGroupsOfDefinition(definition);
+                    CreateRecursive(ref menuitem, definition, groups, model.DefinitionHost.GetItemsOfGroup);
                     model.Items.Add(menuitem);
                 }
             }

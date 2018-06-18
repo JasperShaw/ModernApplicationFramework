@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Controls.Menu;
+using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Creators
 {
@@ -42,7 +45,30 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
         public override void CreateRecursive<T>(ref T itemsControl, CommandBarDefinitionBase itemDefinition, IReadOnlyList<CommandBarGroupDefinition> groups,
             Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDefinition>> itemFunc)
         {
-            throw new NotImplementedException();
+
+            var host = IoC.Get<ICommandBarDefinitionHost>();
+
+            var topItem = GetSingleSubDefinitions(itemDefinition, groups, itemFunc);
+            foreach (var item in topItem)
+            {
+                MenuItem menuItemControl;
+                if (item.CommandDefinition is CommandListDefinition)
+                    menuItemControl = new DummyListMenuItem(item, itemsControl);
+                else
+                    menuItemControl = new MenuItem(item);
+
+                if (item is MenuDefinition)
+                {
+                    groups = host.ItemGroupDefinitions.Where(x => x.Parent == item)
+                        .Where(x => !host.ExcludedItemDefinitions.Contains(x))
+                        .Where(x => x.Items.Any(y => y.IsVisible))
+                        .OrderBy(x => x.SortOrder)
+                        .ToList();
+                    CreateRecursive(ref menuItemControl, item, groups, itemFunc);
+                }
+
+                itemsControl.Items.Add(menuItemControl);
+            }
         }
     }
 }
