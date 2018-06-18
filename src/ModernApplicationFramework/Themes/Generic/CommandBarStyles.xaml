@@ -2463,7 +2463,25 @@
             </Setter.Value>
         </Setter>
     </Style>
-
+    <Style TargetType="{x:Type this:ToolBarTray}"
+           BasedOn="{StaticResource {x:Type ToolBarTray}}"/>
+    <Style TargetType="{x:Type this:AnchorableToolBarTray}" BasedOn="{StaticResource {x:Type this:ToolBarTray}}">
+        <Style.Resources>
+            <Style TargetType="{x:Type this:ToolBar}" BasedOn="{StaticResource {x:Type this:ToolBar}}">
+                <Setter Property="IsStretching" Value="True"/>
+                <Setter Property="IsQuickCustomizeEnabled" Value="false"/>
+                <Setter Property="Padding" Value="4,2,4,2"/>
+                <Setter Property="Margin" Value="0"/>
+                <Setter Property="UseLayoutRounding" Value="True"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="BorderBrush" Value="{x:Null}"/>
+                <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
+                <Setter Property="RenderOptions.BitmapScalingMode" Value="{x:Static native:DpiHelper.BitmapScalingMode}"/>
+            </Style>
+        </Style.Resources>
+        <Setter Property="IsLocked" Value="True"/>
+        <Setter Property="Margin" Value="0"/>
+    </Style>
     <Style x:Key="{x:Static menu:MenuController.ButtonStyleKey}"
            BasedOn="{StaticResource {x:Static menu:MenuItem.ButtonStyleKey}}"
            TargetType="{x:Type menu:MenuItem}"/>

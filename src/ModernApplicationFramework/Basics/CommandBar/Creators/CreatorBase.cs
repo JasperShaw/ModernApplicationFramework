@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
@@ -68,6 +69,42 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
                     }
                 }
                 list.AddRange(menuItems);
+            }
+            return list;
+        }
+
+
+        public IEnumerable<CommandBarItemDefinition> GetSingleSubDefinitions(CommandBarDefinitionBase menuDefinition, IReadOnlyList<CommandBarGroupDefinition> groups,
+            Func<CommandBarGroupDefinition ,IReadOnlyList<CommandBarItemDefinition>> items,
+            CommandBarCreationOptions options = CommandBarCreationOptions.DisplaySeparatorsOnlyIfGroupNotEmpty)
+        {
+            var list = new List<CommandBarItemDefinition>();
+
+            groups = groups.Where(x => x.Items.Any(y => y.IsVisible))
+                .OrderBy(x => x.SortOrder)
+                .ToList();
+            for (var i = 0; i < groups.Count; i++)
+            {
+                var itemList =  items.Invoke(groups[i]).ToList();
+                if (i > 0 && i <= groups.Count - 1)
+                {
+                    if (options == CommandBarCreationOptions.DisplaySeparatorsOnlyIfGroupNotEmpty)
+                    {
+                        if (itemList.Any(x => x.IsVisible))
+                        {
+                            var separatorDefinition = CommandBarSeparatorDefinition.SeparatorDefinition;
+                            separatorDefinition.Group = groups[i - 1];
+                            list.Add(separatorDefinition);
+                        }
+                    }
+                    else
+                    {
+                        var separatorDefinition = CommandBarSeparatorDefinition.SeparatorDefinition;
+                        separatorDefinition.Group = groups[i - 1];
+                        list.Add(separatorDefinition);
+                    }
+                }
+                list.AddRange(itemList);
             }
             return list;
         }

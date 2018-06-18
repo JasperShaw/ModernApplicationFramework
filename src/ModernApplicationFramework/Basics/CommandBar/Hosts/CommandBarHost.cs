@@ -136,6 +136,48 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             }
         }
 
+
+        public void BuildLogical(CommandBarDefinitionBase definition, IReadOnlyList<CommandBarGroupDefinition> groups)
+        {
+            var topGroups = groups.Where(x => x.Parent == definition)
+                .OrderBy(x => x.SortOrder)
+                .ToList();
+
+            if (definition is MenuDefinition && !groups.Any())
+                definition.IsEnabled = false;
+            else
+                definition.IsEnabled = true;
+       
+            var veryFirstItem = true;
+            uint newGroupSortOrder = 0;
+
+            for (var i = 0; i < topGroups.Count; i++)
+            {
+                var group = groups[i];
+                group.SortOrder = newGroupSortOrder++;
+                var items = group.Items
+                    .OrderBy(x => x.SortOrder).ToList();
+
+
+                var precededBySeparator = false;
+                if (i > 0 && i <= groups.Count - 1 && items.Any())
+                    if (items.Any(menuItemDefinition => menuItemDefinition.IsVisible))
+                        precededBySeparator = true;
+                uint newSortOrder = 0;
+
+                foreach (var menuItemDefinition in items)
+                {
+                    menuItemDefinition.PrecededBySeparator = precededBySeparator;
+                    precededBySeparator = false;
+                    BuildLogical(menuItemDefinition, groups);
+                    menuItemDefinition.SortOrder = newSortOrder++;
+                    menuItemDefinition.IsVeryFirst = veryFirstItem;
+                    veryFirstItem = false;
+                }
+            }
+        }
+
+
         public void DeleteGroup(CommandBarGroupDefinition group, AppendTo option = AppendTo.Next)
         {
             var definitionsInCurrentGroup = group.Items;

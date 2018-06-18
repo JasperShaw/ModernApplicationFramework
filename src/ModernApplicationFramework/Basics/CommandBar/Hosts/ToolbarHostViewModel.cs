@@ -111,7 +111,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         {
             _toolbars.Clear();
             InternalHideAllToolbars();
-            var definitions = TopLevelDefinitions.OrderBy(x => x.SortOrder).Cast<ToolbarDefinition>();
+            var definitions = TopLevelDefinitions.OrderBy(x => x.SortOrder).Cast<ToolbarDefinition>().Where(x => x.ToolbarScope == ToolbarScope.MainWindow);
             foreach (var definition in definitions)
                 Build(definition);
         }

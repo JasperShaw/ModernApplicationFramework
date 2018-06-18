@@ -56,8 +56,8 @@ namespace ModernApplicationFramework.WindowManagement.CommandBarLayout
         private void Deserialize()
         {
             //Disable because startup gets very slow with attached debugger
-            if (Debugger.IsAttached)
-                return;
+            //if (Debugger.IsAttached)
+            //    return;
             var settings = IoC.Get<CommandBarLayoutSettings>();
             var layout = settings.Layout;
             if (layout == null)

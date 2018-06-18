@@ -84,15 +84,18 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
             }
         }
 
+        public ToolbarScope ToolbarScope { get; }
+
         public override Guid Id { get; }
 
-        public ToolbarDefinition(Guid id, string text, uint sortOrder, bool visible, Dock position, bool isCustomizable = true,
+        public ToolbarDefinition(Guid id, string text, uint sortOrder, bool visible, Dock position, ToolbarScope scope = ToolbarScope.MainWindow, bool isCustomizable = true,
             bool isCustom = false) : base(text, sortOrder, new ToolbarCommandDefinition(), isCustom, isCustomizable,
             false)
         {
             Id = id;
             _position = position;
             _isVisible = visible;
+            ToolbarScope = scope;
             _internalName = new AccessKeyRemovingConverter()
                 .Convert(text, typeof(string), null, CultureInfo.CurrentCulture)
                 ?.ToString();
@@ -112,5 +115,11 @@ namespace ModernApplicationFramework.Basics.Definitions.Toolbar
             public override CommandControlTypes ControlType => CommandControlTypes.Menu;
             public override Guid Id => new Guid("{18C535DB-1E23-4B27-9BB9-A38F0BC6E036}");
         }
+    }
+
+    public enum ToolbarScope
+    {
+        MainWindow,
+        Anchorable
     }
 }

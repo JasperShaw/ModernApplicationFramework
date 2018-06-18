@@ -1,5 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
+using System.Linq;
+using System.Windows.Controls;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
@@ -20,20 +24,41 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
         public override void CreateRecursive<T>(ref T itemsControl, CommandBarDefinitionBase itemDefinition)
         {
             var topItem = GetSingleSubDefinitions(itemDefinition);
+            if (!(itemDefinition is ToolbarDefinition))
+                return;
             foreach (var item in topItem)
             {
-                if (itemDefinition is ToolbarDefinition)
+                if (item is MenuDefinition)
                 {
-                    if (item is MenuDefinition)
-                    {
-                        var list = new ObservableCollection<CommandBarItemDefinition>();
-                        Fill(ref list, item);
-                        item.Items = list;
-                        itemsControl.Items.Add(new CommandDefinitionButton(item));
-                    }
-                    else
-                        itemsControl.Items.Add(new CommandDefinitionButton(item));
+                    var list = new ObservableCollection<CommandBarItemDefinition>();
+                    Fill(ref list, item);
+                    item.Items = list;
+                    itemsControl.Items.Add(new CommandDefinitionButton(item));
                 }
+                else
+                    itemsControl.Items.Add(new CommandDefinitionButton(item));
+            }
+        }
+
+        public void CreateToolbarDefinition<T>(ref T itemsControl, ToolbarDefinition toolbarDefinition,
+            Func<IReadOnlyCollection<CommandBarGroupDefinition>> groupAction) where T : ItemsControl
+        {
+
+            var groups = groupAction();
+
+            var topItem = GetSingleSubDefinitions(toolbarDefinition, groups.ToList(), group => groups.SelectMany(x => x.Items).ToList());
+
+            foreach (var item in topItem)
+            {
+                if (item is MenuDefinition)
+                {
+                    var list = new ObservableCollection<CommandBarItemDefinition>();
+                    Fill(ref list, item);
+                    item.Items = list;
+                    itemsControl.Items.Add(new CommandDefinitionButton(item));
+                }
+                else
+                    itemsControl.Items.Add(new CommandDefinitionButton(item));
             }
         }
 

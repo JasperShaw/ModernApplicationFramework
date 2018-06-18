@@ -60,7 +60,7 @@ namespace ModernApplicationFramework.Basics.Services
                     node.TryGetValueResult<uint>("SortOrder", out var sortOrder);
                     node.TryGetValueResult<bool>("IsVisible", out var visible);
                     node.TryGetValueResult<int>("Position", out var position);
-                    return new ToolbarDefinition(Guid.Empty, text, sortOrder, visible, (Dock)position, true, true);
+                    return new ToolbarDefinition(Guid.Empty, text, sortOrder, visible, (Dock)position, ToolbarScope.MainWindow,true, true);
                 }, (definition, node) =>
                 {
                     if (!(definition is ToolbarDefinition toolbar))

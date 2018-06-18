@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Core.InfoBarUtilities;
 using ModernApplicationFramework.Native;
 using ModernApplicationFramework.Utilities;
@@ -243,6 +244,8 @@ namespace ModernApplicationFramework.Controls.SearchControl
     {
         bool SearchEnabled { get; }
 
+        SearchPlacement SearchControlPlacement { get; set; }
+
         ISearchTask CreateSearch(uint cookie, ISearchQuery searchQuery, ISearchCallback searchCallback);
 
         void ClearSearch();
@@ -387,6 +390,13 @@ namespace ModernApplicationFramework.Controls.SearchControl
                 return true;
             }
         }
+    }
+
+    public interface IToolbarProvider
+    {
+        bool HasToolbar { get; }
+
+        ToolbarDefinition Toolbar { get; }
     }
 
     public enum SearchTaskStatus

@@ -15,6 +15,7 @@
   **********************************************************************/
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -24,12 +25,19 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml.Serialization;
+using Caliburn.Micro;
+using ModernApplicationFramework.Basics.CommandBar.Creators;
+using ModernApplicationFramework.Basics.CommandBar.Hosts;
+using ModernApplicationFramework.Basics.Definitions.Toolbar;
+using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Controls.InfoBar;
 using ModernApplicationFramework.Controls.SearchControl;
 using ModernApplicationFramework.Core.MenuModeHelper;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Interfaces.Utilities;
+using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Docking.Controls
@@ -250,11 +258,12 @@ namespace ModernApplicationFramework.Docking.Controls
         private class ToolbarTrayAndSearchHostingPanel : DockPanel
         {
             private ContentControl _searchControlParent;
+            private AnchorableToolBarTray _toolbarTray;
 
             public ContentControl SearchControlParent
             {
                 get => _searchControlParent;
-                set
+                private set
                 {
                     if (_searchControlParent != null)
                         throw new InvalidOperationException();
@@ -263,6 +272,21 @@ namespace ModernApplicationFramework.Docking.Controls
                     SearchControlParent.VerticalAlignment = VerticalAlignment.Center;
                     SearchControlParent.Margin = new Thickness(0, 0, 0, 2);
                     Children.Add(SearchControlParent);
+                }
+            }
+
+            public AnchorableToolBarTray ToolbarTray
+            {
+                get => _toolbarTray;
+                set
+                {
+                    if (_toolbarTray != null)
+                        throw new InvalidOperationException();
+                    _toolbarTray = value;
+                    ToolbarTray.SetResourceReference(BackgroundProperty, EnvironmentColors.CommandBarGradientBegin);
+                    ToolbarTray.HorizontalAlignment = HorizontalAlignment.Left;
+                    SetDock(ToolbarTray, Dock.Left);
+                    Children.Insert(0, ToolbarTray);
                 }
             }
 
@@ -276,7 +300,6 @@ namespace ModernApplicationFramework.Docking.Controls
 
         [XmlIgnore]
         internal IWindowSearchHost SearchHost { get; private set; }
-
 
         private SearchPlacement SearchControlPlacement
         {
@@ -324,6 +347,40 @@ namespace ModernApplicationFramework.Docking.Controls
             AdjustSearchControlPlacement();
         }
 
+
+        internal bool TryGetInfoBarHostIfCreated(out InfoBarHostControl control)
+        {
+            return AdornmentHost.TryGetInfoBarHostIfCreated(out control);
+        }
+
+
+        private void AddTopToolbarTray(AnchorableToolBarTray tray)
+        {
+            AdornmentHost.SearchHostingPanel.ToolbarTray = tray;
+            OnTopToolbarsChanged();
+        }
+
+    
+        private void OnTopToolbarsChanged()
+        {
+            AdjustSearchControlPlacement();
+            SetToolbarsKeyboardNavigation();
+        }
+
+        private void SetToolbarsKeyboardNavigation()
+        {
+            var tray = AdornmentHost.SearchHostingPanel?.ToolbarTray;
+            if (tray == null)
+                return;
+            KeyboardNavigation.SetControlTabNavigation(tray, KeyboardNavigationMode.Continue);
+            foreach (var toolBar in tray.ToolBars)
+            {
+                KeyboardNavigation.SetTabNavigation(toolBar, KeyboardNavigationMode.Continue);
+                KeyboardNavigation.SetDirectionalNavigation(toolBar, KeyboardNavigationMode.Continue);
+            }
+        }
+
+
         private void AdjustSearchControlPlacement()
         {
             if (SearchHost == null)
@@ -333,20 +390,28 @@ namespace ModernApplicationFramework.Docking.Controls
                 return;
             var dock = Dock.Top;
             var horizontalAlignment = HorizontalAlignment.Left;
-            var num1 = 0;
+            var flag = false;
             var num2 = double.PositiveInfinity;
             var searchControl = ((WindowSearchHost) SearchHost).SearchControl;
 
             if (contolPlacement == SearchPlacement.Dynamic)
             {
-                //if (AdornmentHost.SearchHostingPanel.ToolbarTray != null)
-                //{
-
-                //}
-                //if (num1 == 1 && searchControl != null)
-                //{
-
-                //}
+                if (AdornmentHost.SearchHostingPanel.ToolbarTray != null)
+                {
+                    AdornmentHost.SearchHostingPanel.ToolbarTray.MaxWidth = num2;
+                    flag = true;
+                }
+                if (flag && searchControl != null)
+                {
+                    AdornmentHost.SearchHostingPanel.ToolbarTray.Measure(new Size(double.MaxValue, double.MaxValue));
+                    if (AdornmentHost.SearchHostingPanel.ActualWidth - AdornmentHost.SearchHostingPanel.ToolbarTray.DesiredSize.Width >= searchControl.MinWidth)
+                    {
+                        dock = Dock.Left;
+                        horizontalAlignment = HorizontalAlignment.Right;
+                        num2 = Math.Max(AdornmentHost.SearchHostingPanel.ToolbarTray.DesiredSize.Width,
+                            AdornmentHost.SearchHostingPanel.ActualWidth - SearchControlMaxWidth);
+                    }
+                }
             }
 
             if (searchControl != null)
@@ -354,10 +419,10 @@ namespace ModernApplicationFramework.Docking.Controls
                 searchControl.HorizontalAlignment = horizontalAlignment;
                 AdjustSearchControlMaxWidth();
             }
-            //if (AdornmentHost.SearchHostingPanel.ToolbarTray == null)
-            //    return;
-            //AdornmentHost.SearchHostingPanel.ToolbarTray.MaxWidth = num2;
-            //DockPanel.SetDock((UIElement)AdornmentHost.SearchHostingPanel.ToolbarTray, dock);
+            if (AdornmentHost.SearchHostingPanel.ToolbarTray == null)
+                return;
+            AdornmentHost.SearchHostingPanel.ToolbarTray.MaxWidth = num2;
+            DockPanel.SetDock(AdornmentHost.SearchHostingPanel.ToolbarTray, dock);
         }
 
         private void AdjustSearchControlMaxWidth()
@@ -371,7 +436,6 @@ namespace ModernApplicationFramework.Docking.Controls
                 return;
             dataContext.SearchSettings.ControlMaxWidth = num;
         }
-
 
         private void ConnectSearchControlEvents()
         {
@@ -393,18 +457,6 @@ namespace ModernApplicationFramework.Docking.Controls
         private void SearchHostingPanel_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             AdjustSearchControlPlacement();
-        }
-
-
-        public void SetupSearch(IWindowSearch windowSearch)
-        {
-            if (!windowSearch.SearchEnabled)
-                return;
-
-            CreateSearchHostAndControl();
-            SearchHost.SetupSearch(windowSearch);
-            InitializeSearchControlMaxWidth();
-            AdjustSearchControlMaxWidth();
         }
 
         private void InitializeSearchControlMaxWidth()
@@ -431,6 +483,58 @@ namespace ModernApplicationFramework.Docking.Controls
             CreateSearchHostAndControl();
             return SearchHost;
         }
+
+        public void SetupSearch(IWindowSearch windowSearch)
+        {
+            if (!windowSearch.SearchEnabled)
+                return;
+
+            CreateSearchHostAndControl();
+            SearchHost.SetupSearch(windowSearch);
+            windowSearch.SearchControlPlacement = SearchPlacement.Dynamic;
+            InitializeSearchControlMaxWidth();
+            AdjustSearchControlMaxWidth();
+        }
+
+        public void AddToolbar(IToolbarProvider provider)
+        {
+            if (!provider.HasToolbar || provider.Toolbar == null)
+                return;
+
+            var t = new AnchorableToolBarTray();
+            var to = new ModernApplicationFramework.Controls.ToolBar(provider.Toolbar);
+            var tc = IoC.Get<IToolbarCreator>() as ToolbarCreator;
+
+
+            tc.CreateToolbarDefinition(ref to, provider.Toolbar, () => provider.Toolbar.ContainedGroups.ToList());
+            t.AddToolBar(to);
+            AddTopToolbarTray(t);
+        }
+
+        public void SetSearchPlacement(SearchPlacement placement)
+        {
+            SearchControlPlacement = placement;
+        }
+
+        public SearchPlacement GetSearchPlacement()
+        {
+            return SearchControlPlacement;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1250,7 +1354,7 @@ namespace ModernApplicationFramework.Docking.Controls
 
 
         private FrameworkElement _contentControl;
-        
+
 
         [XmlIgnore]
         public FrameworkElement Content

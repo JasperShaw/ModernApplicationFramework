@@ -4,6 +4,8 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Controls;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.DragDrop;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Layout;
@@ -39,6 +41,12 @@ namespace ModernApplicationFramework.Modules.Toolbox
         public IDragSource ToolboxDragHandler { get; } = new ToolboxDragHandler();
 
         public override bool SearchEnabled => true;
+
+        public override bool HasToolbar => true;
+
+        protected override IEnumerable<CommandBarGroupDefinition> ToolbarGroups => new List<CommandBarGroupDefinition>{ToolboxToolbar.TestGroup};
+
+        public override ToolbarDefinition Toolbar => ToolboxToolbar.ToolboxToolbarDefinition;
 
         public IToolboxCategory SelectedCategory { get; private set; }
 

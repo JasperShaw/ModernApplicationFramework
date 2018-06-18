@@ -1,18 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.CommandBar.Creators;
+using ModernApplicationFramework.Basics.CommandBar.Hosts;
+using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Basics.InfoBar;
 using ModernApplicationFramework.Controls.SearchControl;
+using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Docking.Controls;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Utilities.PaneUtilities;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Controls.InfoBar;
 using ModernApplicationFramework.Interfaces.Services;
+using ModernApplicationFramework.Interfaces.Utilities;
+using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Extended.Layout
@@ -47,13 +55,17 @@ namespace ModernApplicationFramework.Extended.Layout
             }
         }
 
-        public IWindowSearchHost SearchHost => _frame?.GetSearchHost();
+        //public IWindowSearchHost SearchHost => _frame?.GetSearchHost();
 
         public virtual double PreferredHeight => 200;
 
         public abstract PaneLocation PreferredLocation { get; }
 
         public virtual double PreferredWidth => 200;
+
+        public virtual bool HasToolbar => false;
+
+        public virtual ToolbarDefinition Toolbar => null;
 
 
         protected Tool()
@@ -92,10 +104,17 @@ namespace ModernApplicationFramework.Extended.Layout
         }
 
 
+        protected virtual IEnumerable<CommandBarGroupDefinition> ToolbarGroups => null;
+
         public virtual void OnToolWindowCreated()
         {
             ConnectInfoBars();
             _frame.SetupSearch(this);
+
+            if (Toolbar == null || ToolbarGroups == null)
+                return;
+
+            _frame.AddToolbar(this);
         }
 
         protected virtual void OnHiding(CancelEventArgs cancelEventArgs)
@@ -240,6 +259,12 @@ namespace ModernApplicationFramework.Extended.Layout
         }
 
         public virtual bool SearchEnabled => false;
+
+        public SearchPlacement SearchControlPlacement
+        {
+            get => _frame.GetSearchPlacement();
+            set => _frame.SetSearchPlacement(value);
+        }
 
         public virtual ISearchTask CreateSearch(uint cookie, ISearchQuery searchQuery, ISearchCallback searchCallback)
         {

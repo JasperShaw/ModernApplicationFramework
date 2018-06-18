@@ -272,6 +272,7 @@
     <Compile Include="Basics\MostRecentlyUsedManager\MruItem.cs" />
     <Compile Include="Basics\Services\LayoutBackupProvider.cs" />
     <Compile Include="Basics\Services\LayoutSerializer.cs" />
+    <Compile Include="Controls\AnchorableToolBarTray.cs" />
     <Compile Include="Controls\LiveTextBlock.cs" />
     <Compile Include="Controls\SearchControl\SearchControl.cs" />
     <Compile Include="Controls\SearchControl\SearchControlDataSource.cs" />
@@ -284,6 +285,7 @@
     <Compile Include="Controls\SearchControl\SearchTextBox.cs" />
     <Compile Include="Controls\SearchControl\WindowSearchHost.cs" />
     <Compile Include="Controls\SmoothProgressBar.cs" />
+    <Compile Include="Controls\Toolbar\IAnchorableToolbarHost.cs" />
     <Compile Include="Core\Converters\General\IsNullOrEmptyConverter.cs" />
     <Compile Include="Core\Converters\LiveSearchTextConverter.cs" />
     <Compile Include="Core\Converters\SearchControlThicknessConverter.cs" />

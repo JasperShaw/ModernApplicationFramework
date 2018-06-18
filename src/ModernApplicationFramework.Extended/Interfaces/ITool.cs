@@ -9,7 +9,7 @@ namespace ModernApplicationFramework.Extended.Interfaces
     /// Special <see cref="T:ModernApplicationFramework.Extended.Interfaces.ILayoutItemBase" /> that's used for anchorable side tools
     /// </summary>
     /// <seealso cref="T:ModernApplicationFramework.Extended.Interfaces.ILayoutItemBase" />
-    public interface ITool : ILayoutItemBase, IWindowSearch
+    public interface ITool : ILayoutItemBase, IWindowSearch, IToolbarProvider
     {
         /// <summary>
         /// Command to close the tool
@@ -37,6 +37,6 @@ namespace ModernApplicationFramework.Extended.Interfaces
         bool IsVisible { get; set; }
 
 
-        IWindowSearchHost SearchHost { get; }
+        //IWindowSearchHost SearchHost { get; }
     }
 }
