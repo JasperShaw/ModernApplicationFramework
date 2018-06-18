@@ -1,4 +1,6 @@
-﻿using ModernApplicationFramework.Basics.Definitions.Command;
+﻿using System;
+using System.Collections.Generic;
+using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Controls.Menu;
@@ -35,6 +37,12 @@ namespace ModernApplicationFramework.Basics.CommandBar.Creators
 
                 itemsControl.Items.Add(menuItemControl);
             }
+        }
+
+        public override void CreateRecursive<T>(ref T itemsControl, CommandBarDefinitionBase itemDefinition, IReadOnlyList<CommandBarGroupDefinition> groups,
+            Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDefinition>> itemFunc)
+        {
+            throw new NotImplementedException();
         }
     }
 }

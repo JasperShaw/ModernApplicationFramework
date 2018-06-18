@@ -15,7 +15,6 @@
   **********************************************************************/
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -27,7 +26,6 @@ using System.Windows.Media;
 using System.Xml.Serialization;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.CommandBar.Creators;
-using ModernApplicationFramework.Basics.CommandBar.Hosts;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Controls.InfoBar;
@@ -37,7 +35,6 @@ using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Utilities;
-using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Docking.Controls
@@ -498,16 +495,16 @@ namespace ModernApplicationFramework.Docking.Controls
 
         public void AddToolbar(IToolbarProvider provider)
         {
-            if (!provider.HasToolbar || provider.Toolbar == null)
+            if (!provider.HasToolbar || provider.Toolbar == null || provider.Toolbar.ToolbarScope != ToolbarScope.Anchorable)
                 return;
 
             var t = new AnchorableToolBarTray();
-            var to = new ModernApplicationFramework.Controls.ToolBar(provider.Toolbar);
-            var tc = IoC.Get<IToolbarCreator>() as ToolbarCreator;
+            var toolbar = new ModernApplicationFramework.Controls.ToolBar(provider.Toolbar);
 
+            var tc = IoC.Get<IToolbarCreator>();
+            tc?.CreateRecursive(ref toolbar, provider.Toolbar, provider.Toolbar.ContainedGroups.ToList(), group => group.Items);
 
-            tc.CreateToolbarDefinition(ref to, provider.Toolbar, () => provider.Toolbar.ContainedGroups.ToList());
-            t.AddToolBar(to);
+            t.AddToolBar(toolbar);
             AddTopToolbarTray(t);
         }
 

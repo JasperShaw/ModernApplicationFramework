@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using ModernApplicationFramework.Basics.CommandBar.Hosts;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
@@ -36,6 +37,10 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         /// </summary>
         /// <param name="definition"></param>
         void BuildLogical(CommandBarDefinitionBase definition);
+
+
+        void BuildLogical(CommandBarDefinitionBase definition, IReadOnlyList<CommandBarGroupDefinition> groups,
+            Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDefinition>> itemFunc);
 
         /// <summary>
         /// Adds a <see cref="CommandBarDefinitionBase"/> to the parent's sub-tree

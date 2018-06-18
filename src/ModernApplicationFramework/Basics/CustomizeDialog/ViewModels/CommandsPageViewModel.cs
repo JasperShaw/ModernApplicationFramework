@@ -60,6 +60,7 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         private CommandBarDefinitionBase _selectedMenuItem;
         private CustomizeRadioButtonOptions _selectedOption;
         private CommandBarDefinitionBase _selectedToolBarItem;
+        private ICommandBarDefinitionHost _definitionHost;
 
         public IEnumerable<CommandBarDefinitionBase> CustomizableContextMenus
         {
@@ -196,6 +197,9 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
             _toolbarHost = IoC.Get<IToolBarHostViewModel>();
             _contextMenuHost = IoC.Get<IContextMenuHost>();
 
+
+            _definitionHost = IoC.Get<ICommandBarDefinitionHost>();
+
             DisplayName = Customize_Resources.CustomizeDialog_Commands;
             Items = new List<CommandBarItemDefinition>();
             BuildCheckBoxItems(CustomizeRadioButtonOptions.All);
@@ -266,14 +270,29 @@ namespace ModernApplicationFramework.Basics.CustomizeDialog.ViewModels
         private void BuildItemSources(CustomizeRadioButtonOptions value)
         {
             if ((value & CustomizeRadioButtonOptions.Menu) != 0)
-                Items = _menuCreator.GetSingleSubDefinitions(SelectedMenuItem,
-                    CommandBarCreationOptions.DisplaySeparatorsInAnyCase);
+            {
+                Items = BuildItemSourcesCore(_menuCreator, SelectedMenuItem);
+            }
             if ((value & CustomizeRadioButtonOptions.Toolbar) != 0)
-                Items = _toolbarCreator.GetSingleSubDefinitions(SelectedToolBarItem,
-                    CommandBarCreationOptions.DisplaySeparatorsInAnyCase);
+                Items = BuildItemSourcesCore(_toolbarCreator, SelectedToolBarItem);
             if ((value & CustomizeRadioButtonOptions.ContextMenu) != 0)
-                Items = _contextMenuCreator.GetSingleSubDefinitions(SelectedContextMenuItem,
-                    CommandBarCreationOptions.DisplaySeparatorsInAnyCase);
+                Items = BuildItemSourcesCore(_contextMenuCreator, SelectedContextMenuItem);
+        }
+
+        private IEnumerable<CommandBarItemDefinition> BuildItemSourcesCore(ICreatorBase creator, CommandBarDefinitionBase definition)
+        {
+            var groups = _definitionHost.ItemGroupDefinitions.Where(x => x.Parent == definition)
+                .Where(x => !_definitionHost.ExcludedItemDefinitions.Contains(x))
+                .Where(x => x.Items.Any(y => y.IsVisible))
+                .OrderBy(x => x.SortOrder)
+                .ToList();
+            return creator.GetSingleSubDefinitions(definition, groups, group =>
+                {
+                    return _definitionHost.ItemDefinitions.Where(x => x.Group == group)
+                        .Where(x => !_definitionHost.ExcludedItemDefinitions.Contains(x))
+                        .OrderBy(x => x.SortOrder).ToList();
+                },
+                CommandBarCreationOptions.DisplaySeparatorsInAnyCase);
         }
 
         private string ChooseResetFormatString()

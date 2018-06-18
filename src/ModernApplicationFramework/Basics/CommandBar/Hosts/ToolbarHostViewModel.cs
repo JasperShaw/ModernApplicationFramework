@@ -120,23 +120,44 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         {
             if (!(definition is ToolbarDefinition toolbarDefinition))
                 return;
-            BuildLogical(toolbarDefinition);
-
+           
             if (!_toolbars.ContainsKey(toolbarDefinition))
             {
-                var toolBar = new ToolBar(toolbarDefinition);
-                IoC.Get<IToolbarCreator>().CreateRecursive(ref toolBar, toolbarDefinition);
+                BuildToolbarCore(toolbarDefinition, out var toolBar);
                 _toolbars.Add(toolbarDefinition, toolBar);
-                ChangeToolBarVisibility(toolbarDefinition);
             }
             else
             {
                 InternalHideToolBar(toolbarDefinition);
-                var toolBar = new ToolBar(definition);
-                IoC.Get<IToolbarCreator>().CreateRecursive(ref toolBar, toolbarDefinition);
-                _toolbars[toolbarDefinition] = toolBar;
-                ChangeToolBarVisibility(toolbarDefinition);
+                BuildToolbarCore(toolbarDefinition, out var toolBar);
+                _toolbars[toolbarDefinition] = toolBar;             
             }
+            ChangeToolBarVisibility(toolbarDefinition);
+        }
+
+        private void BuildToolbarCore(CommandBarDefinitionBase toolbarDefinition, out ToolBar toolBar)
+        {
+            
+            var host = IoC.Get<ICommandBarDefinitionHost>();
+            var groups = host.ItemGroupDefinitions.Where(x => x.Parent == toolbarDefinition)
+                .Where(x => !host.ExcludedItemDefinitions.Contains(x))
+                .Where(x => x.Items.Any(y => y.IsVisible))
+                .OrderBy(x => x.SortOrder)
+                .ToList();
+
+            BuildLogical(toolbarDefinition, groups, group =>
+            {
+                return group.Items.Where(x => !DefinitionHost.ExcludedItemDefinitions.Contains(x))
+                    .OrderBy(x => x.SortOrder).ToList();
+            });
+
+            toolBar = new ToolBar(toolbarDefinition);
+            IoC.Get<IToolbarCreator>().CreateRecursive(ref toolBar, toolbarDefinition, groups, group =>
+            {
+                return host.ItemDefinitions.Where(x => x.Group == group)
+                    .Where(x => !host.ExcludedItemDefinitions.Contains(x))
+                    .OrderBy(x => x.SortOrder).ToList();
+            });
         }
 
         public override void AddItemDefinition(CommandBarItemDefinition definition, CommandBarDefinitionBase parent,

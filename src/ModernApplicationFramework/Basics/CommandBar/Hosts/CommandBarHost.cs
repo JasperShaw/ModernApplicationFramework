@@ -2,21 +2,17 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
-using System.Globalization;
 using System.Linq;
-using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Core;
 using ModernApplicationFramework.Core.Comparers;
-using ModernApplicationFramework.Core.Converters.AccessKey;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Interfaces.ViewModels;
-using ModernApplicationFramework.Utilities.Interfaces;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 {
@@ -137,7 +133,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         }
 
 
-        public void BuildLogical(CommandBarDefinitionBase definition, IReadOnlyList<CommandBarGroupDefinition> groups)
+        public void BuildLogical(CommandBarDefinitionBase definition, IReadOnlyList<CommandBarGroupDefinition> groups, Func<CommandBarGroupDefinition, IReadOnlyList<CommandBarItemDefinition>> itemFunc)
         {
             var topGroups = groups.Where(x => x.Parent == definition)
                 .OrderBy(x => x.SortOrder)
@@ -155,9 +151,8 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             {
                 var group = groups[i];
                 group.SortOrder = newGroupSortOrder++;
-                var items = group.Items
-                    .OrderBy(x => x.SortOrder).ToList();
 
+                var items = itemFunc(group);
 
                 var precededBySeparator = false;
                 if (i > 0 && i <= groups.Count - 1 && items.Any())
@@ -169,7 +164,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
                 {
                     menuItemDefinition.PrecededBySeparator = precededBySeparator;
                     precededBySeparator = false;
-                    BuildLogical(menuItemDefinition, groups);
+                    BuildLogical(menuItemDefinition, groups, itemFunc);
                     menuItemDefinition.SortOrder = newSortOrder++;
                     menuItemDefinition.IsVeryFirst = veryFirstItem;
                     veryFirstItem = false;
