@@ -780,8 +780,8 @@
                     <Condition Property="MenuItem.Role" Value="SubmenuItem"/>
                     <Condition Property="menu:MenuItem.IsUserCreatedMenu" Value="true"/>
                 </MultiTrigger.Conditions>
-                <Setter Property="Control.Padding" Value="2,0,2,3"/>
-                <Setter Property="Control.Template" Value="{DynamicResource {ComponentResourceKey  TypeInTargetAssembly={x:Type menu:MenuItem}, ResourceId=SubmenuHeaderTemplateKey}}"/>
+                <Setter Property="Control.Padding" Value="2,0,2,0"/>
+                <Setter Property="Control.Template" Value="{DynamicResource {ComponentResourceKey  TypeInTargetAssembly={x:Type menu:MenuItem}, ResourceId=SubmenuItemTemplateKey}}"/>
             </MultiTrigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
