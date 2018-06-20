@@ -7,6 +7,6 @@
         Toolbar,
         NavigableControl,
         InfoBar,
-        //SearchControl,
+        SearchControl,
     }
 }

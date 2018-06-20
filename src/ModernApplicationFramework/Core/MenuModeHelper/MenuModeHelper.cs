@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using ModernApplicationFramework.Controls.InfoBar;
+using ModernApplicationFramework.Controls.SearchControl;
 using ModernApplicationFramework.Interfaces.Controls.InfoBar;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Utilities;
@@ -43,7 +44,12 @@ namespace ModernApplicationFramework.Core.MenuModeHelper
                     DependencyObject Func3(DependencyObject e) => e.GetVisualOrLogicalParent();
                     bool Func4(DependencyObject e) => e is IInfoBarHost;
                     if (dependencyObject3.FindAncestorOrSelf(Func3, Func4) != null)
-                        return CommandBarModeKind.InfoBar; 
+                        return CommandBarModeKind.InfoBar;
+                    DependencyObject dependencyObject4 = focusedElement;
+                    DependencyObject Func5(DependencyObject e) => e.GetVisualOrLogicalParent();
+                    Func<DependencyObject, bool> ancestorSelector2 = IsCommandModeSearchControl;
+                    if (dependencyObject4.FindAncestorOrSelf(Func5, ancestorSelector2) != null)
+                        return CommandBarModeKind.SearchControl;
                     DependencyObject dependencyObject5 = focusedElement;
                     DependencyObject Func7(DependencyObject e) => e.GetVisualOrLogicalParent();
                     Func<DependencyObject, bool> func8 = CommandBarNavigationHelper.GetIsCommandNavigable;
@@ -52,6 +58,11 @@ namespace ModernApplicationFramework.Core.MenuModeHelper
                 }
                 return CommandBarModeKind.None;
             }
+        }
+
+        private static bool IsCommandModeSearchControl(DependencyObject e)
+        {
+            return e is SearchControl && CommandBarNavigationHelper.GetCommandFocusMode(e) != CommandBarNavigationHelper.CommandFocusMode.None;
         }
 
         internal static bool IsInCommandMode => (uint) CommandModeKind > 0U;

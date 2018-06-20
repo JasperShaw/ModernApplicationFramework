@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace ModernApplicationFramework.Core.MenuModeHelper
@@ -21,6 +22,21 @@ namespace ModernApplicationFramework.Core.MenuModeHelper
             var flag1 = false;
             if (MenuModeHelper.IsInCommandMode)
             {
+                if (MenuModeHelper.CommandModeKind == CommandBarModeKind.SearchControl)
+                {
+                    if (IsAltKey(realKey) && TestModifierKeys(modifierKeys, ModifierKeys.Shift,
+                            ModifierKeys.Control | ModifierKeys.Windows))
+                    {
+                        Keyboard.Focus(null);
+                        flag1 = true;
+                    }
+                    else if (ShouldHandleSearchControlEscapeKey(realKey))
+                    {
+                        Keyboard.Focus(null);
+                        flag1 = true;
+                    }
+
+                }
                 var flag2 = false;
                 if (IsTabKey(realKey) && TestModifierKeys(modifierKeys, ModifierKeys.Control,
                         ModifierKeys.Alt | ModifierKeys.Windows))
@@ -76,6 +92,16 @@ namespace ModernApplicationFramework.Core.MenuModeHelper
             return flag1;
         }
 
+        private bool ShouldHandleSearchControlEscapeKey(Key realKey)
+        {
+            if (realKey != Key.Escape)
+                return false;
+
+            if (!(Keyboard.FocusedElement is TextBox focusedElement))
+                return false;
+            return string.IsNullOrEmpty(focusedElement.Text);
+        }
+
         public bool FilterKeyUpMessage(Key realKey)
         {
             if (realKey == _encounteredTabKey)
@@ -93,6 +119,13 @@ namespace ModernApplicationFramework.Core.MenuModeHelper
         private static bool IsTabKey(Key key)
         {
             return key == Key.Tab;
+        }
+
+        private static bool IsAltKey(Key key)
+        {
+            if (key != Key.LeftAlt)
+                return key == Key.RightAlt;
+            return true;
         }
 
         private static bool TestModifierKeys(ModifierKeys modifierKeys, ModifierKeys requiredKeys,
