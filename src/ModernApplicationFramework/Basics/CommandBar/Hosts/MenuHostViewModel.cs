@@ -1,15 +1,16 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections;
+using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
-using System.Linq;
+using System.Windows.Controls;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Controls.Internals;
-using ModernApplicationFramework.Controls.Menu;
-using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ContextMenu = System.Windows.Controls.ContextMenu;
+using MenuItem = ModernApplicationFramework.Controls.Menu.MenuItem;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 {
@@ -81,16 +82,8 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             {
 
                 var groups = DefinitionHost.GetSortedGroupsOfDefinition(definition);
-                var newItem = IoC.Get<IMainMenuCreator>().CreateMenuItem(definition, groups, DefinitionHost.GetItemsOfGroup);  
-                var olditem = Items.FirstOrDefault(x => x.DataContext.Equals(definition));    
-                if (olditem == null)
-                    Items.Add(newItem);
-                else
-                {
-                    var index = Items.IndexOf(olditem);
-                    Items.Remove(olditem);
-                    Items.Insert(index, newItem);
-                }
+                var newItem = IoC.Get<IMainMenuCreator>().CreateMenuItem(definition, groups, DefinitionHost.GetItemsOfGroup);
+                ReplaceItemWithinList(Items, newItem, item => definition == item.DataContext);
             }
         }
 
@@ -104,6 +97,23 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         {
             base.DeleteItemDefinition(definition);
             Build(definition.Group.Parent);
+        }
+
+        private static bool ReplaceItemWithinList<T>(IList items, T newItem, Func<T, bool> func) where T: ItemsControl
+        {
+            for (var i = 0; i < items.Count; i++)
+            {
+                if (!(items[i] is T itemsControl))
+                    continue;
+                if (func(itemsControl))
+                {
+                    items[i] = newItem;
+                    return true;
+                }
+                if (ReplaceItemWithinList(itemsControl.Items, newItem, func))
+                    return true;
+            }
+            return false;
         }
     }
 }
