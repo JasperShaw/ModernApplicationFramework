@@ -6,7 +6,6 @@ using System.Windows.Interop;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Controls.Menu;
 using ModernApplicationFramework.Core.MenuModeHelper;
-using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Core.CommandFocus
@@ -72,7 +71,10 @@ namespace ModernApplicationFramework.Core.CommandFocus
                     _isChecking = true;
                     e.CanExecute = routed.CanExecute(e.Parameter, _restoreFocusScope?.RestoreFocus);
                     _isChecking = false;
-                    if (e.CanExecute)
+
+                    // I'm not sure if this can be ommited but apparently it does not break anything.
+                    // Omitting fixes menus not beeing updated when entering menu mode in searchcontrols
+                    //if (e.CanExecute)
                         e.Handled = true;
                 }
             }
@@ -111,42 +113,11 @@ namespace ModernApplicationFramework.Core.CommandFocus
             return true;
         }
 
-        private static IntPtr ComputeExpectedDefocusWindow(DependencyObject oldFocus)
-        {
-            if (oldFocus != null)
-            {
-                if (!(PresentationSource.FromDependencyObject(oldFocus) is HwndSource hwndSource))
-                    return IntPtr.Zero;
-                return hwndSource.Handle;
-            }
-            var hWnd = User32.GetFocus();
-            if (hWnd == IntPtr.Zero)
-                return IntPtr.Zero;
-            var desktopWindow = User32.GetDesktopWindow();
-            while (true)
-            {
-                var ancestor = User32.GetAncestor(hWnd, 1);
-                if (!(ancestor == IntPtr.Zero) && !(ancestor == desktopWindow))
-                    hWnd = ancestor;
-                else
-                    break;
-            }
-            return hWnd;
-        }
-
         private static void CorrectDetachedHwndFocus()
         {
             if (!(Keyboard.FocusedElement is DependencyObject focusedElement))
                 return;
             focusedElement.AcquireWin32Focus(out _);
-        }
-
-        private static DependencyObject GetParentFocusScope(DependencyObject focusScope)
-        {
-            var visualOrLogicalParent = focusScope?.GetVisualOrLogicalParent();
-            if (visualOrLogicalParent != null)
-                return FocusManager.GetFocusScope(visualOrLogicalParent);
-            return null;
         }
 
         private static bool IsCommandContainerGainingFocus(IInputElement oldFocus, IInputElement newFocus)
@@ -252,12 +223,7 @@ namespace ModernApplicationFramework.Core.CommandFocus
             {
                 if (!IsAttachedCommandFocusElement(dependencyObject))
                     CurrentMenuModeSource = PresentationSource.FromDependencyObject(dependencyObject);
-                IntPtr restoreFocusWindow = args.OldFocus != null ? IntPtr.Zero : User32.GetFocus();
-                IntPtr expectedDefocusWindow = ComputeExpectedDefocusWindow(args.OldFocus as DependencyObject);
-                _restoreFocusScope = new CommandRestoreFocusScope(args.OldFocus, restoreFocusWindow, expectedDefocusWindow);
-
-                //Disable because this seems to fuck up context menus
-                //PreventFocusScopeCommandRedirection(args.NewFocus as DependencyObject);
+                _restoreFocusScope = new CommandRestoreFocusScope(args.OldFocus);
             }
             if (PresentationSource.FromDependencyObject(dependencyObject) != null)
                 return;
@@ -276,20 +242,11 @@ namespace ModernApplicationFramework.Core.CommandFocus
             _restoreFocusScope = null;
             if (IsAttachedCommandFocusElement(element))
                 return;
-            restoreFocusScope.PerformRestoration();
+
+            if (((FrameworkElement)sender).FindAncestor<AnchorableToolBarTray>() == null)
+                restoreFocusScope.PerformRestoration();
             args.Handled = true;
         }
-
-        private static void PreventFocusScopeCommandRedirection(DependencyObject newFocus)
-        {
-            if (newFocus == null)
-                return;
-            var parentFocusScope = GetParentFocusScope(FocusManager.GetFocusScope(newFocus));
-            if (parentFocusScope == null)
-                return;
-            FocusManager.SetFocusedElement(parentFocusScope, null);
-        }
-
 
         private static void RegisterClassHandlers(Type type)
         {
