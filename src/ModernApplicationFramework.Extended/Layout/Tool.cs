@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
@@ -61,6 +62,19 @@ namespace ModernApplicationFramework.Extended.Layout
         public virtual bool HasToolbar => false;
 
         public virtual ToolbarDefinition Toolbar => null;
+
+        Guid IWindowSearch.Category => SearchCategory;
+
+        public virtual Guid SearchCategory
+        {
+            get
+            {
+                var attributes = GetType().GetCustomAttributes(typeof(GuidAttribute), true);
+                if (attributes.Length == 0)
+                    throw new InvalidOperationException("The Tool does not have a Guid attribteassociated");
+                return new Guid(((GuidAttribute)attributes[0]).Value);
+            }
+        }
 
 
         protected Tool()
@@ -260,8 +274,6 @@ namespace ModernApplicationFramework.Extended.Layout
             get => _frame.GetSearchPlacement();
             set => _frame.SetSearchPlacement(value);
         }
-
-        public virtual Guid Category { get; }
 
         public virtual ISearchTask CreateSearch(uint cookie, ISearchQuery searchQuery, ISearchCallback searchCallback)
         {

@@ -17,7 +17,7 @@ namespace ModernApplicationFramework.Controls.SearchControl
         private int _searchProgress;
         private int _searchResultsCount = -1;
         private SearchSettingsDataSource _searchSettings = new SearchSettingsDataSource();
-        private IList<SearchMruItem> _searchMruItems;
+        private IList<SearchMruItem> _searchMruItems = new List<SearchMruItem>();
 
         public IList<SearchMruItem> SearchMruItems
         {

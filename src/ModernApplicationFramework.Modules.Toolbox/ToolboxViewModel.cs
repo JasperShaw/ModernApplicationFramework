@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Controls;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
@@ -18,6 +18,7 @@ using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 namespace ModernApplicationFramework.Modules.Toolbox
 {
     [Export(typeof(IToolbox))]
+    [Guid("DD8E4CE1-7431-47C1-9496-B8C91D6E0B55")]
     public class ToolboxViewModel : Tool, IToolbox
     {
         //private readonly IToolboxService _toolboxService;

@@ -266,6 +266,7 @@
     <Compile Include="Basics\Definitions\Command\ExcludedCommandDefinition.cs" />
     <Compile Include="Basics\Definitions\Command\CommandGestureScopeMapping.cs" />
     <Compile Include="Basics\MostRecentlyUsedManager\MruItem.cs" />
+    <Compile Include="Basics\Search\Internal\SearchMruItemStore.cs" />
     <Compile Include="Basics\Services\LayoutBackupProvider.cs" />
     <Compile Include="Basics\Services\LayoutSerializer.cs" />
     <Compile Include="Controls\AnchorableToolBarTray.cs" />

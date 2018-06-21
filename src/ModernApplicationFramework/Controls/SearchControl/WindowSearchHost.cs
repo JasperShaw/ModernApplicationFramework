@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Windows;
 using ModernApplicationFramework.Basics.Search.Internal;
 using ModernApplicationFramework.Interfaces.Controls.Search;
@@ -11,6 +12,7 @@ namespace ModernApplicationFramework.Controls.SearchControl
     public class WindowSearchHost : DisposableObject, IWindowSearchHost, IWindowSearchHostPrivate, IWindowSearchEvents, IWindowSearchEventsHandler, ISearchCallback
     {
         private uint _searchCookie;
+        private Guid _searchCategory = Guid.Empty;
 
         public ISearchQuery SearchQuery => new SearchQuery(SearchString);
 
@@ -58,6 +60,7 @@ namespace ModernApplicationFramework.Controls.SearchControl
                 if (WindowSearch != null)
                     throw new InvalidOperationException("WindowSearchHost.cs -- Already Setted up");
                 WindowSearch = windowSearch;
+                _searchCategory = WindowSearch.Category;
                 CreateDataSource();
                 WindowSearch.ProvideSearchSettings(DataSource.SearchSettings);
                 SearchControl.DataContext = DataSource;
@@ -82,6 +85,7 @@ namespace ModernApplicationFramework.Controls.SearchControl
                 DataSource = null;
                 if (SearchControl != null)
                     SearchControl.DataContext = null;
+                _searchCategory = Guid.Empty;
                 WindowSearch = null;
             });
         }
@@ -137,6 +141,7 @@ namespace ModernApplicationFramework.Controls.SearchControl
         public void OnAddMruItem(string searchedText)
         {
             ThrowIfDisposedOrSearchNotSetup();
+
         }
 
         public bool OnNotifyNavigationKey(SearchNavigationKeys key, UIAccelModifiers modifiers)
@@ -163,8 +168,15 @@ namespace ModernApplicationFramework.Controls.SearchControl
             if (search == null)
                 ReportComplete(null, uint.MaxValue);
             else
-                search.Start();
+            {
+                ThreadPool.QueueUserWorkItem(task =>
+                {
+                    if (!(task is ISearchTask searchTask) || searchTask != SearchTask)
+                        return;
+                    searchTask.Start();
 
+                }, search);
+            }
         }
 
         private void ThrowIfDisposedOrSearchNotSetup()
