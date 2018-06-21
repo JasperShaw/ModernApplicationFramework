@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
-using ModernApplicationFramework.Basics.Definitions.Toolbar;
-using ModernApplicationFramework.Core.InfoBarUtilities;
+using ModernApplicationFramework.Basics.Search.Internal;
+using ModernApplicationFramework.Interfaces.Controls.Search;
+using ModernApplicationFramework.Interfaces.Search;
 using ModernApplicationFramework.Native;
 using ModernApplicationFramework.Utilities;
 
@@ -10,7 +10,6 @@ namespace ModernApplicationFramework.Controls.SearchControl
 {
     public class WindowSearchHost : DisposableObject, IWindowSearchHost, IWindowSearchHostPrivate, IWindowSearchEvents, IWindowSearchEventsHandler, ISearchCallback
     {
-        private static HybridDictionary<IntPtr, WindowSearchHost> _hwndToInstanceMap = new HybridDictionary<IntPtr, WindowSearchHost>();
         private uint _searchCookie;
 
         public ISearchQuery SearchQuery => new SearchQuery(SearchString);
@@ -25,7 +24,7 @@ namespace ModernApplicationFramework.Controls.SearchControl
 
         private SearchControlDataSource DataSource { get; set; }
 
-        internal object SearchParentControl { get; private set; }
+        internal object SearchParentControl { get; }
 
         private IWindowSearch WindowSearch { get; set; }
 
@@ -189,231 +188,11 @@ namespace ModernApplicationFramework.Controls.SearchControl
                     DataSource.SearchResultsCount += (int)resultsFound;
             });
         }
-    }
 
-    internal class SearchQuery : ISearchQuery
-    {
-        public string SearchString { get; }
-
-        public SearchQuery(string searchString)
+        public void SearchOptionsChanged()
         {
-            SearchString = searchString;
+            
         }
-    }
-
-    public interface IWindowSearchEventsHandler
-    {
-        void OnStartSearch(string searchText);
-
-        void OnStopSearch();
-
-        void OnClearSearch();
-
-        bool OnNotifyNavigationKey(SearchNavigationKeys key, UIAccelModifiers modifiers);
-    }
-
-    public interface IWindowSearchEvents
-    {
-        //void SearchOptionsChanged();
-    }
-
-    public interface IWindowSearchHostPrivate
-    {
-        SearchControl SearchControl { get; }
-    }
-
-    public interface IWindowSearchHost
-    {
-        ISearchQuery SearchQuery { get; }
-
-        ISearchTask SearchTask { get; }
-
-        bool IsVisible { get; set; }
-        bool IsEnabled { get; set; }
-
-        void SetupSearch(IWindowSearch windowSearch);
-
-        void TerminateSearch();
-
-        void Activate();
-    }
-
-
-    //This is a ITool for example
-    public interface IWindowSearch
-    {
-        bool SearchEnabled { get; }
-
-        SearchPlacement SearchControlPlacement { get; set; }
-
-        ISearchTask CreateSearch(uint cookie, ISearchQuery searchQuery, ISearchCallback searchCallback);
-
-        void ClearSearch();
-
-        void ProvideSearchSettings(SearchSettingsDataSource dataSource);
-
-        bool OnNavigationKeyDown(uint navigationKey, uint modifiers);
-    }
-
-    public interface ISearchCallback
-    {
-        void ReportProgress(ISearchTask task, uint progress, uint maxProgress);
-
-        void ReportComplete(ISearchTask task, uint resultsFound);
-
-    }
-
-    public interface ISearchTask
-    {
-        void Start();
-
-        void Stop();
-
-        ISearchQuery SearchQuery { get; }
-
-        uint Status { get; }
-
-        int ErrorCode { get; }
-    }
-
-    public interface ISearchQuery
-    {
-        string SearchString { get; }
-    }
-
-    internal class WindowSearchDataSource : SearchControlDataSource
-    {
-        private IWindowSearchEventsHandler EventsHandler { get; }
-
-        public WindowSearchDataSource(IWindowSearchEventsHandler eventsHandler)
-        {
-            EventsHandler = eventsHandler;
-            SearchSettings.ControlMaxWidth = 200;
-        }
-
-        protected override void OnStartSearch(string searchText)
-        {
-            EventsHandler.OnStartSearch(searchText);
-        }
-
-        protected override void OnStopSearch()
-        {
-            EventsHandler.OnStopSearch();
-        }
-
-        protected override void OnClearSearch()
-        {
-            EventsHandler.OnClearSearch();
-        }
-
-        protected override bool OnNotifyNavigationKey(SearchNavigationKeys searchNavigationKeys, UIAccelModifiers uiAccelModifiers)
-        {
-            return EventsHandler.OnNotifyNavigationKey(searchNavigationKeys, uiAccelModifiers);
-        }
-    }
-
-    public class SearchTask : ISearchTask
-    {
-        private object syncObj = new object();
-
-        public ISearchQuery SearchQuery { get; }
-        public uint Status => (uint) TaskStatus;
-        public int ErrorCode { get; }
-
-        public SearchTaskStatus TaskStatus { get; private set; }
-
-        protected ISearchCallback SearchCallback { get; private set; }
-
-        public uint SearchResults { get; protected set; }
-
-        public uint Id { get; private set; }
-
-        public SearchTask(uint cookie, ISearchQuery query, ISearchCallback callback)
-        {
-            if (query == null)
-                throw new ArgumentNullException(nameof(query));
-            if (callback == null)
-                throw new ArgumentNullException(nameof(callback));
-            if (cookie == 0)
-                throw new ArgumentException(nameof(cookie));
-            if (query.SearchString == null || string.IsNullOrEmpty(query.SearchString))
-                throw new ArgumentException("Empty search string");
-            Id = cookie;
-            SearchQuery = query;
-            SearchCallback = callback;
-            ErrorCode = 0;
-            TaskStatus = SearchTaskStatus.Created;
-
-        }
-
-        public void Start()
-        {
-            if (!SetTaskStatus(SearchTaskStatus.Started))
-                return;
-            OnStartSearch();
-        }
-
-        public void Stop()
-        {
-            lock (syncObj)
-            {
-                if (!SetTaskStatus(SearchTaskStatus.Stopped))
-                    return;
-                OnStopSearch();
-                SearchCallback.ReportComplete(this, SearchResults);
-            }
-        }
-
-        protected virtual void OnStartSearch()
-        {
-            if (!SetTaskStatus(SearchTaskStatus.Completed))
-                return;
-            SearchCallback.ReportComplete(this, SearchResults);
-        }
-
-        protected virtual void OnStopSearch()
-        {
-        }
-
-        protected bool SetTaskStatus(SearchTaskStatus status)
-        {
-            lock (syncObj)
-            {
-                if (status == SearchTaskStatus.Started && TaskStatus != SearchTaskStatus.Created ||
-                    status == SearchTaskStatus.Stopped && TaskStatus != SearchTaskStatus.Created &&
-                    TaskStatus != SearchTaskStatus.Started || 
-                    TaskStatus == SearchTaskStatus.Stopped ||
-                    (status == SearchTaskStatus.Completed || status == SearchTaskStatus.Error) &&
-                    TaskStatus != SearchTaskStatus.Started)
-                    return false;
-                TaskStatus = status;
-                return true;
-            }
-        }
-    }
-
-    public interface IToolbarProvider
-    {
-        bool HasToolbar { get; }
-
-        ToolbarDefinition Toolbar { get; }
-    }
-
-    public enum SearchTaskStatus
-    {
-        Created,
-        Started,
-        Completed,
-        Stopped,
-        Error,
-    }
-
-    public enum SearchPlacement
-    {
-        None,
-        Dynamic,
-        Stretch,
-        Custom
     }
 }
 

@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 
-namespace ModernApplicationFramework.Controls.SearchControl
+namespace ModernApplicationFramework.Basics.Search
 {
     public class SearchSettingsDataSource : INotifyPropertyChanged
     {

@@ -7,6 +7,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using ModernApplicationFramework.Basics.Search;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Utilities;
 

@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
+using ModernApplicationFramework.Basics.Search;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.SearchControl

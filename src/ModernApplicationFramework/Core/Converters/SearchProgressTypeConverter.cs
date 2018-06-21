@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using ModernApplicationFramework.Basics.Search;
 using ModernApplicationFramework.Controls.SearchControl;
 using ModernApplicationFramework.Core.Converters.General;
 

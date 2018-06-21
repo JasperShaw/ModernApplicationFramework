@@ -27,6 +27,7 @@ using System.Xml.Serialization;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.CommandBar.Creators;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
+using ModernApplicationFramework.Basics.Search;
 using ModernApplicationFramework.Controls;
 using ModernApplicationFramework.Controls.InfoBar;
 using ModernApplicationFramework.Controls.SearchControl;
@@ -34,6 +35,9 @@ using ModernApplicationFramework.Core.MenuModeHelper;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Controls.Search;
+using ModernApplicationFramework.Interfaces.Search;
 using ModernApplicationFramework.Interfaces.Utilities;
 using ModernApplicationFramework.Utilities;
 

@@ -76,10 +76,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\SearchControl\SearchControlTest.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Resources\Icons\SplitScreenVertical.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
@@ -274,18 +270,28 @@
     <Compile Include="Basics\Services\LayoutSerializer.cs" />
     <Compile Include="Controls\AnchorableToolBarTray.cs" />
     <Compile Include="Controls\LiveTextBlock.cs" />
+    <Compile Include="Interfaces\Search\ISearchCallback.cs" />
+    <Compile Include="Interfaces\Search\ISearchQuery.cs" />
+    <Compile Include="Interfaces\Search\ISearchTask.cs" />
+    <Compile Include="Interfaces\IToolbarProvider.cs" />
+    <Compile Include="Interfaces\Search\IWindowSearch.cs" />
+    <Compile Include="Interfaces\Search\IWindowSearchEvents.cs" />
+    <Compile Include="Interfaces\Search\IWindowSearchEventsHandler.cs" />
+    <Compile Include="Interfaces\Controls\Search\IWindowSearchHost.cs" />
+    <Compile Include="Interfaces\Controls\Search\IWindowSearchHostPrivate.cs" />
     <Compile Include="Controls\SearchControl\SearchControl.cs" />
     <Compile Include="Controls\SearchControl\SearchControlDataSource.cs" />
     <Compile Include="Controls\SearchControl\SearchControlPopup.cs" />
-    <Compile Include="Controls\SearchControl\SearchControlTest.xaml.cs">
-      <DependentUpon>SearchControlTest.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Basics\Search\SearchPlacement.cs" />
     <Compile Include="Controls\SearchControl\SearchPopupNavigationService.cs" />
-    <Compile Include="Controls\SearchControl\SearchSettingsDataSource.cs" />
+    <Compile Include="Basics\Search\Internal\SearchQuery.cs" />
+    <Compile Include="Basics\Search\SearchSettingsDataSource.cs" />
+    <Compile Include="Basics\Search\SearchTask.cs" />
+    <Compile Include="Basics\Search\SearchTaskStatus.cs" />
     <Compile Include="Controls\SearchControl\SearchTextBox.cs" />
+    <Compile Include="Basics\Search\Internal\WindowSearchDataSource.cs" />
     <Compile Include="Controls\SearchControl\WindowSearchHost.cs" />
     <Compile Include="Controls\SmoothProgressBar.cs" />
-    <Compile Include="Controls\Toolbar\IAnchorableToolbarHost.cs" />
     <Compile Include="Core\Converters\General\IsNullOrEmptyConverter.cs" />
     <Compile Include="Core\Converters\LiveSearchTextConverter.cs" />
     <Compile Include="Core\Converters\SearchControlThicknessConverter.cs" />

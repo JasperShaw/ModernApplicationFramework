@@ -128,9 +128,6 @@ namespace ModernApplicationFramework.Controls.SearchControl
                 _searchBox.Select(0, _searchBox.Text.Length);
                 return true;
             }
-        }
-
-
-        
+        }     
     }
 }
