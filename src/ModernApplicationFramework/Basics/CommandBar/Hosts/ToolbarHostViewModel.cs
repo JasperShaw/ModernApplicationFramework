@@ -47,6 +47,8 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
 
         public IMainWindowViewModel MainWindowViewModel { get; set; }
 
+        public ToolbarScope ToolbarScope => ToolbarScope.MainWindow;
+
         public ToolBarTray BottomToolBarTray
         {
             get => _bottomToolBarTay;
@@ -97,7 +99,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
             _toolbars = new Dictionary<ToolbarDefinition, ToolBar>();
 
             TopLevelDefinitions = new ObservableCollectionEx<CommandBarDefinitionBase>();
-            foreach (var definition in toolbarDefinitions)
+            foreach (var definition in toolbarDefinitions.Where(x => x.ToolbarScope == ToolbarScope))
                 TopLevelDefinitions.Add(definition);
 
             ((ObservableCollectionEx<CommandBarDefinitionBase>) TopLevelDefinitions).CollectionChanged +=
@@ -176,6 +178,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Hosts
         {
             return InternalGetUniqueToolBarName(1);
         }
+
 
         public void AddToolbarDefinition(ToolbarDefinition definition)
         {

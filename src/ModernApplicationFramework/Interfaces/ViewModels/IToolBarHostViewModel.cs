@@ -40,6 +40,12 @@ namespace ModernApplicationFramework.Interfaces.ViewModels
         /// </summary>
         ToolBarTray BottomToolBarTray { get; set; }
 
+
+        /// <summary>
+        /// Defines the toolbar scope of the host.
+        /// </summary>
+        ToolbarScope ToolbarScope { get; }
+
         /// <summary>
         /// Adds a new tool bar to the host
         /// </summary>
