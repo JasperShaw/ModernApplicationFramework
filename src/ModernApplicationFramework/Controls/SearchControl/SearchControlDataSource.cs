@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using ModernApplicationFramework.Basics.Search;
@@ -15,7 +17,21 @@ namespace ModernApplicationFramework.Controls.SearchControl
         private int _searchProgress;
         private int _searchResultsCount = -1;
         private SearchSettingsDataSource _searchSettings = new SearchSettingsDataSource();
-        
+        private IList<SearchMruItem> _searchMruItems;
+
+        public IList<SearchMruItem> SearchMruItems
+        {
+            get => _searchMruItems;
+            set
+            {
+                if (Equals(value, _searchMruItems))
+                    return;
+                _searchMruItems = value;
+                OnPropertyChanged();
+            }
+        }
+
+
         public string SearchText
         {
             get => _searchText;
@@ -83,6 +99,14 @@ namespace ModernApplicationFramework.Controls.SearchControl
         {
         }
 
+        protected virtual void OnPopulateMruItem(string searchPrefix)
+        {
+        }
+
+        protected virtual void OnAddMruItem(string searchedText)
+        {
+        }
+
         protected virtual bool OnNotifyNavigationKey(SearchNavigationKeys searchNavigationKeys, UIAccelModifiers uiAccelModifiers)
         {
             return false;
@@ -110,6 +134,60 @@ namespace ModernApplicationFramework.Controls.SearchControl
             return Boxes.Box(dataSource.OnNotifyNavigationKey((SearchNavigationKeys) ((object[]) parameter)[0],
                 (UIAccelModifiers) ((object[]) parameter)[1]));
         }
+
+        internal static void PopulateMruItem(SearchControlDataSource dataSource, string text)
+        {
+            dataSource.OnPopulateMruItem(text);
+        }
+
+        internal static void AddMruItemAction(SearchControlDataSource dataSource, string text)
+        {
+            dataSource.OnAddMruItem(text);
+        }
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
+    public class SearchMruItem : INotifyPropertyChanged
+    {
+        private string _text;
+
+        public string Text
+        {
+            get => _text;
+            set
+            {
+                if (value == _text) return;
+                _text = value;
+                OnPropertyChanged();
+            }
+        }
+
+        internal static void Select(SearchMruItem item)
+        {
+            item.OnSelect();
+        }
+
+        internal static void Delete(SearchMruItem item)
+        {
+            item.OnDelete();
+        }
+
+        protected virtual void OnDelete()
+        {
+            
+        }
+
+        protected virtual void OnSelect()
+        {
+        }
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

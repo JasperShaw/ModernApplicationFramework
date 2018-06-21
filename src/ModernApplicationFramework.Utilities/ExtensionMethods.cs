@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -247,6 +249,21 @@ namespace ModernApplicationFramework.Utilities
             return false;
         }
 
+        public static bool AreClose(Rect rect1, Rect rect2)
+        {
+            return rect1.Location.AreClose(rect2.Location) && rect1.Size.AreClose(rect2.Size);
+        }
+
+        public static bool AreClose(this Size size1, Size size2)
+        {
+            return size1.Width.AreClose(size2.Width) && size1.Height.AreClose(size2.Height);
+        }
+
+        public static bool AreClose(this Point size1, Point size2)
+        {
+            return size1.X.AreClose(size2.X) && size1.Y.AreClose(size2.Y);
+        }
+
         public static bool IsNonreal(this double value)
         {
             if (!double.IsNaN(value))
@@ -273,6 +290,51 @@ namespace ModernApplicationFramework.Utilities
                 ++num;
             }
             return -1;
+        }
+
+        public static bool IsClipped(this UIElement element)
+        {
+            ScrollContentPresenter ancestor = element.FindAncestor<ScrollContentPresenter>();
+            if (ancestor == null)
+                return false;
+            Rect rect = element.TransformToAncestor(ancestor).TransformBounds(new Rect(0.0, 0.0, element.RenderSize.Width, element.RenderSize.Height));
+            Rect rect2 = new Rect();
+            ref Rect local = ref rect2;
+            double x = 0.0;
+            double y = 0.0;
+            Size renderSize = ancestor.RenderSize;
+            double width = renderSize.Width;
+            renderSize = ancestor.RenderSize;
+            double height = renderSize.Height;
+            local = new Rect(x, y, width, height);
+            rect2.Intersect(rect);
+            return !AreClose(rect, rect2);
+        }
+
+        public static bool IsTrimmed(this UIElement element)
+        {
+            if (!(element is TextBlock textBlock))
+                return false;
+            return textBlock.IsTextTrimmed();
+        }
+
+        public static bool IsTextTrimmed(this TextBlock textBlock)
+        {
+            if (textBlock.TextTrimming == TextTrimming.None)
+                return false;
+            TextFormattingMode textFormattingMode = TextOptions.GetTextFormattingMode((DependencyObject)textBlock);
+            Typeface typeface = new Typeface(textBlock.FontFamily, textBlock.FontStyle, textBlock.FontWeight, textBlock.FontStretch);
+            FormattedText formattedText = new FormattedText(textBlock.Text, CultureInfo.CurrentCulture, textBlock.FlowDirection, typeface, textBlock.FontSize, textBlock.Foreground, new NumberSubstitution(), textFormattingMode);
+            if (textBlock.SnapsToDevicePixels || textBlock.UseLayoutRounding || textFormattingMode == TextFormattingMode.Display)
+                return (int)textBlock.ActualWidth < (int)formattedText.Width;
+            return textBlock.ActualWidth.LessThan(formattedText.Width);
+        }
+
+        public static bool LessThan(this double value1, double value2)
+        {
+            if (value1 < value2)
+                return !value1.AreClose(value2);
+            return false;
         }
     }
 }

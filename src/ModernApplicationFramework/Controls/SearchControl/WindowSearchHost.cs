@@ -119,6 +119,26 @@ namespace ModernApplicationFramework.Controls.SearchControl
             WindowSearch.ClearSearch();
         }
 
+        public void OnDeleteMruItem(SearchMruItem item)
+        {
+            ThrowIfDisposedOrSearchNotSetup();
+        }
+
+        public void OnSelectMruItem(SearchMruItem item)
+        {
+            ThrowIfDisposedOrSearchNotSetup();
+        }
+
+        public void OnPopulateMruItems(string searchPrefix)
+        {
+            ThrowIfDisposedOrSearchNotSetup();
+        }
+
+        public void OnAddMruItem(string searchedText)
+        {
+            ThrowIfDisposedOrSearchNotSetup();
+        }
+
         public bool OnNotifyNavigationKey(SearchNavigationKeys key, UIAccelModifiers modifiers)
         {
             ThrowIfDisposedOrSearchNotSetup();
@@ -191,7 +211,8 @@ namespace ModernApplicationFramework.Controls.SearchControl
 
         public void SearchOptionsChanged()
         {
-            
+            ThrowIfDisposed();
+            //TODO:
         }
     }
 }

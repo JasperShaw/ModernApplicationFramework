@@ -6,7 +6,9 @@
                     xmlns:vsui="clr-namespace:ModernApplicationFramework.Basics"
                     xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General"
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
-                    xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes">
+                    xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib"
+                    xmlns:utilities="clr-namespace:ModernApplicationFramework.Controls.Utilities">
 
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     <general:IsNullOrEmptyConverter x:Key="IsNullOrEmptyConverter"/>
@@ -15,6 +17,10 @@
     <converters:SearchProgressTypeConverter x:Key="SearchProgressTypeConverter"/>
     <converters:SearchControlThicknessConverter x:Key="SearchControlThicknessConverter"/>
     <converters:LiveSearchTextConverter x:Key="LiveSearchTextConverter"/>
+    <general:IsEqualConverter x:Key="IsEqualConverter"/>
+
+    <system:Int32 x:Key="IntZero">0</system:Int32>
+
 
     <Geometry x:Key="DownArrowGeometry">M 0 0 L 3 3 L 6 0 Z</Geometry>
     <Geometry x:Key="SearchGeometry">
@@ -253,15 +259,92 @@
         </Style.Setters>
     </Style>
 
+    <Style x:Key="SearchMruListBoxStyle" TargetType="{x:Type control:SearchMruListBox}">
+        <Style.Setters>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="{DynamicResource {x:Static themes:SearchControlColors.PopupItemsListBackgroundGradientBegin}}"/>
+            <Setter Property="Visibility" Value="{Binding Path=SearchSettings.SearchUseMru, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+            <Setter Property="MinHeight" Value="95"/>
+        </Style.Setters>
+        <Style.Triggers>
+            <DataTrigger Value="true" Binding="{Binding Path=SearchMruItems.Count, Converter={StaticResource IsEqualConverter}, ConverterParameter={}}">
+                <Setter Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Path=SearchMruItems.Count, Converter={StaticResource IsEqualConverter}, ConverterParameter={StaticResource IntZero}}"
+                               Value="true"/>
+                    <!--<Condition Binding="{Binding Path=SearchOptions.Count, Converter={StaticResource IsEqualConverter}, ConverterParameter={vsui:Int32 0}}"
+                               Value="true"/>
+                    <Condition Binding="{Binding Path=SearchFilters.Count, Converter={StaticResource IsEqualConverter}, ConverterParameter={vsui:Int32 0}}"
+                               Value="true"/>-->
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter Property="MinHeight" Value="95"/>
+                    <Setter Property="Visibility" Value="{Binding Path=SearchSettings.SearchUseMru, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+        </Style.Triggers>
+    </Style>
+
+
+    <ControlTemplate x:Key="SearchMruListBoxItemTemplate" TargetType="{x:Type control:SearchMruListBoxItem}">
+        <Grid x:Name="Placement">
+            <Border x:Name="Border" Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                    SnapsToDevicePixels="True">
+                <TextBlock Text="{TemplateBinding Content}" TextWrapping="NoWrap"
+                           TextTrimming="CharacterEllipsis" Margin="{TemplateBinding Padding}"
+                           utilities:TextToolTipService.AutoShowToolTipWhenObscured="True"
+                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                           utilities:TextToolTipService.ToolTipText="{Binding Text, RelativeSource={RelativeSource Self}}"/>
+            </Border>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="control:SearchPopupNavigationService.IsCurrentLocation" Value="True">
+                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource {x:Static themes:SearchControlColors.PopupControlMouseOverBorder}}"/>
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:SearchControlColors.PopupControlMouseOverBackgroundGradientEnd}}"/>
+                <Setter TargetName="Placement" Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.PopupMouseOverItemText}}"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <Style x:Key="SearchMruListBoxItemStyle" TargetType="{x:Type control:SearchMruListBoxItem}">
+        <Style.Setters>
+            <Setter Property="Template" Value="{StaticResource SearchMruListBoxItemTemplate}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.PopupItemText}}"/>
+            <Setter Property="control:SearchPopupNavigationService.IsNavigable" Value="True"/>
+            <Setter Property="Content" Value="{Binding Mode=OneWay, Path=Text}"/>
+            <Setter Property="Margin" Value="2,0,2,0"/>
+            <Setter Property="Padding" Value="2,1,2,1"/>
+            <Setter Property="InputMethod.IsInputMethodSuspended" Value="True"/>
+        </Style.Setters>
+    </Style>
+
 
     <ControlTemplate x:Key="SearchPopupContentTemplate" TargetType="{x:Type UserControl}">
-        <Border x:Name="Border" BorderThickness="1">
+        <Border x:Name="Border" BorderThickness="1" Background="{DynamicResource {x:Static themes:SearchControlColors.PopupBorder}}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
+                <control:SearchMruListBox Grid.Row="0" Style="{StaticResource SearchMruListBoxStyle}" 
+                                          ItemContainerStyle="{StaticResource SearchMruListBoxItemStyle}"
+                                          ItemsSource="{Binding SearchMruItems}"/>
+                <StackPanel Grid.Row="1">
+
+                </StackPanel>
+                <StackPanel Grid.Row="2">
+
+                </StackPanel>
             </Grid>
         </Border>
     </ControlTemplate>

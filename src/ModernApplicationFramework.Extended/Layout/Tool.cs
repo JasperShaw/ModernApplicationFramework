@@ -261,6 +261,8 @@ namespace ModernApplicationFramework.Extended.Layout
             set => _frame.SetSearchPlacement(value);
         }
 
+        public virtual Guid Category { get; }
+
         public virtual ISearchTask CreateSearch(uint cookie, ISearchQuery searchQuery, ISearchCallback searchCallback)
         {
             return new SearchTask(cookie, searchQuery, searchCallback);

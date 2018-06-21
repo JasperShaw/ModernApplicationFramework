@@ -10,6 +10,14 @@ namespace ModernApplicationFramework.Interfaces.Search
 
         void OnClearSearch();
 
+        void OnDeleteMruItem(SearchMruItem item);
+
+        void OnSelectMruItem(SearchMruItem item);
+
+        void OnPopulateMruItems(string searchPrefix);
+
+        void OnAddMruItem(string searchedText);
+
         bool OnNotifyNavigationKey(SearchNavigationKeys key, UIAccelModifiers modifiers);
     }
 }

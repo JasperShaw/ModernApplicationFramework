@@ -347,7 +347,6 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <!--<searchControl:SearchControl Grid.Row="0" x:Name="SearchControl"/>-->
         <controls:ToolboxTreeView x:Name="TreeView" Grid.Row="1" Margin="0,3,0,0"
                   mafdd:DragDrop.IsDragSource="True"
                   mafdd:DragDrop.IsDropTarget="True"

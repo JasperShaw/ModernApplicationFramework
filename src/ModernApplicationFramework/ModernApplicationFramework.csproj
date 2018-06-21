@@ -270,6 +270,10 @@
     <Compile Include="Basics\Services\LayoutSerializer.cs" />
     <Compile Include="Controls\AnchorableToolBarTray.cs" />
     <Compile Include="Controls\LiveTextBlock.cs" />
+    <Compile Include="Controls\SearchControl\SearchMruListBox.cs" />
+    <Compile Include="Controls\SearchControl\SearchMruListBoxItem.cs" />
+    <Compile Include="Controls\Utilities\TextToolTipService.cs" />
+    <Compile Include="Core\Converters\General\IsEqualConverter.cs" />
     <Compile Include="Interfaces\Search\ISearchCallback.cs" />
     <Compile Include="Interfaces\Search\ISearchQuery.cs" />
     <Compile Include="Interfaces\Search\ISearchTask.cs" />

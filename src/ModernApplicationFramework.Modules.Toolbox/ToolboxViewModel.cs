@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
+using ModernApplicationFramework.Basics.Search;
 using ModernApplicationFramework.DragDrop;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Layout;
@@ -161,6 +162,10 @@ namespace ModernApplicationFramework.Modules.Toolbox
                 SelectedCategory = item.Parent;
             else
                 SelectedCategory = null;
+        }
+
+        public override void ProvideSearchSettings(SearchSettingsDataSource dataSource)
+        {
         }
     }
 }

@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using Caliburn.Micro;
 using ModernApplicationFramework.Basics.MostRecentlyUsedManager;
-using ModernApplicationFramework.EditorBase.Interfaces.Packages;
 using ModernApplicationFramework.Settings;
 using ModernApplicationFramework.Settings.Interfaces;
 using ModernApplicationFramework.Settings.SettingDataModel;

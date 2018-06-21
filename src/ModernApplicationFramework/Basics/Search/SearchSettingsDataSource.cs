@@ -25,7 +25,84 @@ namespace ModernApplicationFramework.Basics.Search
         private SearchProgressType _searchProgressType = SearchProgressType.Indeterminate;
         private bool _searchTrimsWhitespaces = true;
         private bool _restartSearchIfUnchanged;
+
+        private bool _searchUseMru = true;
+        private bool _prefixFilterMruItems = true;
+        private uint _maximumMruItem = 5;
+        private bool _searchPopupAutoDropdown = true;
+        private uint _searchPopupCloseDelay = 4000;
+        private uint _controlMinPopupWidth = 200;
+
+
         public event PropertyChangedEventHandler PropertyChanged;
+
+
+        public bool SearchUseMru
+        {
+            get => _searchUseMru;
+            set
+            {
+                if (value == _searchUseMru) return;
+                _searchUseMru = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool PrefixFilterMruItems
+        {
+            get => _prefixFilterMruItems;
+            set
+            {
+                if (value == _prefixFilterMruItems) return;
+                _prefixFilterMruItems = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public uint MaximumMruItem
+        {
+            get => _maximumMruItem;
+            set
+            {
+                if (value == _maximumMruItem) return;
+                _maximumMruItem = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool SearchPopupAutoDropdown
+        {
+            get => _searchPopupAutoDropdown;
+            set
+            {
+                if (value == _searchPopupAutoDropdown) return;
+                _searchPopupAutoDropdown = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public uint SearchPopupCloseDelay
+        {
+            get => _searchPopupCloseDelay;
+            set
+            {
+                if (value == _searchPopupCloseDelay) return;
+                _searchPopupCloseDelay = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public uint ControlMinPopupWidth
+        {
+            get => _controlMinPopupWidth;
+            set
+            {
+                if (value == _controlMinPopupWidth) return;
+                _controlMinPopupWidth = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         public SearchStartType SearchStartType
         {
