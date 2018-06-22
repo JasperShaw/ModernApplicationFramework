@@ -28,7 +28,7 @@ namespace ModernApplicationFramework.Basics.Search
 
         private bool _searchUseMru = true;
         private bool _prefixFilterMruItems = true;
-        private uint _maximumMruItem = 5;
+        private uint _maximumMruItems = 5;
         private bool _searchPopupAutoDropdown = true;
         private uint _searchPopupCloseDelay = 4000;
         private uint _controlMinPopupWidth = 200;
@@ -59,13 +59,13 @@ namespace ModernApplicationFramework.Basics.Search
             }
         }
 
-        public uint MaximumMruItem
+        public uint MaximumMruItems
         {
-            get => _maximumMruItem;
+            get => _maximumMruItems;
             set
             {
-                if (value == _maximumMruItem) return;
-                _maximumMruItem = value;
+                if (value == _maximumMruItems) return;
+                _maximumMruItems = value;
                 OnPropertyChanged();
             }
         }

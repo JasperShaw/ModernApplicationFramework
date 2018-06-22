@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
@@ -107,7 +106,7 @@ namespace ModernApplicationFramework.Controls.SearchControl
         {
         }
 
-        protected virtual bool OnNotifyNavigationKey(SearchNavigationKeys searchNavigationKeys, UIAccelModifiers uiAccelModifiers)
+        protected virtual bool OnNotifyNavigationKey(SearchNavigationKeys searchNavigationKeys, UiAccelModifiers uiAccelModifiers)
         {
             return false;
         }
@@ -132,7 +131,7 @@ namespace ModernApplicationFramework.Controls.SearchControl
         internal static object NotifyNavigationKeyAction(SearchControlDataSource dataSource, object parameter)
         {
             return Boxes.Box(dataSource.OnNotifyNavigationKey((SearchNavigationKeys) ((object[]) parameter)[0],
-                (UIAccelModifiers) ((object[]) parameter)[1]));
+                (UiAccelModifiers) ((object[]) parameter)[1]));
         }
 
         internal static void PopulateMruItem(SearchControlDataSource dataSource, string text)
@@ -144,50 +143,6 @@ namespace ModernApplicationFramework.Controls.SearchControl
         {
             dataSource.OnAddMruItem(text);
         }
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
-
-    public class SearchMruItem : INotifyPropertyChanged
-    {
-        private string _text;
-
-        public string Text
-        {
-            get => _text;
-            set
-            {
-                if (value == _text) return;
-                _text = value;
-                OnPropertyChanged();
-            }
-        }
-
-        internal static void Select(SearchMruItem item)
-        {
-            item.OnSelect();
-        }
-
-        internal static void Delete(SearchMruItem item)
-        {
-            item.OnDelete();
-        }
-
-        protected virtual void OnDelete()
-        {
-            
-        }
-
-        protected virtual void OnSelect()
-        {
-        }
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

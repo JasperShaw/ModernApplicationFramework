@@ -1,4 +1,5 @@
-﻿using ModernApplicationFramework.Controls.SearchControl;
+﻿using ModernApplicationFramework.Basics.Search;
+using ModernApplicationFramework.Controls.SearchControl;
 
 namespace ModernApplicationFramework.Interfaces.Search
 {
@@ -18,6 +19,6 @@ namespace ModernApplicationFramework.Interfaces.Search
 
         void OnAddMruItem(string searchedText);
 
-        bool OnNotifyNavigationKey(SearchNavigationKeys key, UIAccelModifiers modifiers);
+        bool OnNotifyNavigationKey(SearchNavigationKeys key, UiAccelModifiers modifiers);
     }
 }

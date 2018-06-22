@@ -1,5 +1,4 @@
-﻿using System;
-using ModernApplicationFramework.Controls.SearchControl;
+﻿using ModernApplicationFramework.Controls.SearchControl;
 using ModernApplicationFramework.Interfaces.Search;
 
 namespace ModernApplicationFramework.Basics.Search.Internal
@@ -29,7 +28,7 @@ namespace ModernApplicationFramework.Basics.Search.Internal
             EventsHandler.OnClearSearch();
         }
 
-        protected override bool OnNotifyNavigationKey(SearchNavigationKeys searchNavigationKeys, UIAccelModifiers uiAccelModifiers)
+        protected override bool OnNotifyNavigationKey(SearchNavigationKeys searchNavigationKeys, UiAccelModifiers uiAccelModifiers)
         {
             return EventsHandler.OnNotifyNavigationKey(searchNavigationKeys, uiAccelModifiers);
         }
@@ -42,31 +41,6 @@ namespace ModernApplicationFramework.Basics.Search.Internal
         protected override void OnAddMruItem(string searchedText)
         {
             EventsHandler.OnAddMruItem(searchedText);
-        }
-    }
-
-    internal class WindowSearchMruItem : SearchMruItem
-    {
-        private IWindowSearchEventsHandler EventsHandler { get; }
-
-        public WindowSearchMruItem(string text, IWindowSearchEventsHandler eventsHandler)
-        {
-            if (text == null)
-                throw new ArgumentNullException(nameof(text));
-            if (string.IsNullOrEmpty(text))
-                throw new ArgumentException(nameof(text));
-            Text = text;
-            EventsHandler = eventsHandler ?? throw new ArgumentNullException(nameof(eventsHandler));
-        }
-
-        protected override void OnDelete()
-        {
-            EventsHandler.OnDeleteMruItem(this);
-        }
-
-        protected override void OnSelect()
-        {
-            EventsHandler.OnSelectMruItem(this);
         }
     }
 }

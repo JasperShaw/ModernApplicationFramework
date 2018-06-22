@@ -8,7 +8,8 @@
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:system="clr-namespace:System;assembly=mscorlib"
-                    xmlns:utilities="clr-namespace:ModernApplicationFramework.Controls.Utilities">
+                    xmlns:utilities="clr-namespace:ModernApplicationFramework.Controls.Utilities"
+                    xmlns:search="clr-namespace:ModernApplicationFramework.Basics.Search">
 
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     <general:IsNullOrEmptyConverter x:Key="IsNullOrEmptyConverter"/>
@@ -159,19 +160,19 @@
             <Setter Property="Visibility" Value="{Binding Path=SearchSettings.SearchButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
         </Style.Setters>
         <Style.Triggers>
-            <DataTrigger Value="{x:Static control:SearchStatus.NotStarted}"
+            <DataTrigger Value="{x:Static search:SearchStatus.NotStarted}"
                          Binding="{Binding Path=SearchStatus}">
                 <Setter Property="Content" Value="{StaticResource SearchGeometry}"/>
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.SearchGlyph}}"/>
                 <Setter Property="ToolTip" Value="{Binding SearchSettings.SearchStartTooltip}"/>
             </DataTrigger>
-            <DataTrigger Value="{x:Static control:SearchStatus.InProgress}"
+            <DataTrigger Value="{x:Static search:SearchStatus.InProgress}"
                          Binding="{Binding Path=SearchStatus}">
                 <Setter Property="Content" Value="{StaticResource SearchClearStopGeometry}"/>
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.StopGlyph}}"/>
                 <Setter Property="ToolTip" Value="{Binding SearchSettings.SearchStopTooltip}"/>
             </DataTrigger>
-            <DataTrigger Value="{x:Static control:SearchStatus.Complete}"
+            <DataTrigger Value="{x:Static search:SearchStatus.Complete}"
                          Binding="{Binding Path=SearchStatus}">
                 <Setter Property="Content" Value="{StaticResource SearchClearStopGeometry}"/>
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.ClearGlyph}}"/>
@@ -179,42 +180,42 @@
             </DataTrigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Value="{x:Static control:SearchStatus.NotStarted}" Binding="{Binding Path=SearchStatus}"/>
+                    <Condition Value="{x:Static search:SearchStatus.NotStarted}" Binding="{Binding Path=SearchStatus}"/>
                     <Condition Value="True" Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type control:SearchControl}}}"/>
                 </MultiDataTrigger.Conditions>
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.MouseOverSearchGlyph}}"/>
             </MultiDataTrigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Value="{x:Static control:SearchStatus.NotStarted}" Binding="{Binding Path=SearchStatus}"/>
+                    <Condition Value="{x:Static search:SearchStatus.NotStarted}" Binding="{Binding Path=SearchStatus}"/>
                     <Condition Value="True" Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type control:SearchControl}}}"/>
                 </MultiDataTrigger.Conditions>
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.FocusedSearchGlyph}}"/>
             </MultiDataTrigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Value="{x:Static control:SearchStatus.InProgress}" Binding="{Binding Path=SearchStatus}"/>
+                    <Condition Value="{x:Static search:SearchStatus.InProgress}" Binding="{Binding Path=SearchStatus}"/>
                     <Condition Value="True" Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type control:SearchControl}}}"/>
                 </MultiDataTrigger.Conditions>
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.MouseOverStopGlyph}}"/>
             </MultiDataTrigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Value="{x:Static control:SearchStatus.InProgress}" Binding="{Binding Path=SearchStatus}"/>
+                    <Condition Value="{x:Static search:SearchStatus.InProgress}" Binding="{Binding Path=SearchStatus}"/>
                     <Condition Value="True" Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type control:SearchControl}}}"/>
                 </MultiDataTrigger.Conditions>
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.FocusedStopGlyph}}"/>
             </MultiDataTrigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Value="{x:Static control:SearchStatus.Complete}" Binding="{Binding Path=SearchStatus}"/>
+                    <Condition Value="{x:Static search:SearchStatus.Complete}" Binding="{Binding Path=SearchStatus}"/>
                     <Condition Value="True" Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type control:SearchControl}}}"/>
                 </MultiDataTrigger.Conditions>
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.MouseOverClearGlyph}}"/>
             </MultiDataTrigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Value="{x:Static control:SearchStatus.Complete}" Binding="{Binding Path=SearchStatus}"/>
+                    <Condition Value="{x:Static search:SearchStatus.Complete}" Binding="{Binding Path=SearchStatus}"/>
                     <Condition Value="True" Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type control:SearchControl}}}"/>
                 </MultiDataTrigger.Conditions>
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.FocusedClearGlyph}}"/>
@@ -407,12 +408,12 @@
             </control:SearchControlPopup>
         </Grid>
         <ControlTemplate.Triggers>
-            <DataTrigger Value="{x:Static control:SearchStatus.InProgress}"
+            <DataTrigger Value="{x:Static search:SearchStatus.InProgress}"
                          Binding="{Binding Path=SearchStatus}">
                 <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:SearchControlColors.SearchActiveBackground}}"/>
                 <Setter TargetName="PART_SearchBox" Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.SearchActiveBackgroundText}}"/>
             </DataTrigger>
-            <DataTrigger Value="{x:Static control:SearchStatus.Complete}"
+            <DataTrigger Value="{x:Static search:SearchStatus.Complete}"
                          Binding="{Binding Path=SearchStatus}">
                 <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:SearchControlColors.SearchActiveBackground}}"/>
                 <Setter TargetName="PART_SearchBox" Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.SearchActiveBackgroundText}}"/>
