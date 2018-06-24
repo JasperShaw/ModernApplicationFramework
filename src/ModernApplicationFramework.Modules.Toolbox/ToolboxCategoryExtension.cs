@@ -24,6 +24,9 @@ namespace ModernApplicationFramework.Modules.Toolbox
                     categoryItem.IsVisible = true;
                 }        
             }
+
+            if (count > 0)
+                category.IsExpanded = true;
             category.InvalidateState();
             return count;
         }

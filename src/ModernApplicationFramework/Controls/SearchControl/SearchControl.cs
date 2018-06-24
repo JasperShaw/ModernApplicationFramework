@@ -157,9 +157,6 @@ namespace ModernApplicationFramework.Controls.SearchControl
         {
             Validate.IsNotNull(searchOption, nameof(searchOption));
 
-            //if (searchOption.Type == SearchOptionType.Boolean)
-            //    searchOption.Value = !searchOption.Value;
-
             using (new TemporarilyPauseTimer(GetTimer(TimerId.ClosePopup)))
             {
                 using (new TemporarilyPauseTimer(GetTimer(TimerId.InitiateSearch)))
@@ -445,10 +442,8 @@ namespace ModernApplicationFramework.Controls.SearchControl
 
         private void InitializeSearchPopupStatus()
         {
-            //TODO: Filter stuff
-
-            var typedValue2 = DataSource.SearchOptions;
-            AreOptionsOrFiltersAvailable = typedValue2.Any();
+            var options = DataSource.SearchOptions;
+            AreOptionsOrFiltersAvailable = options.Any();
             HasPopup = _searchUseMru || AreOptionsOrFiltersAvailable;
         }
 
@@ -850,7 +845,7 @@ namespace ModernApplicationFramework.Controls.SearchControl
             if (!validatePopupAutoShowState || _searchStartType == SearchStartType.Instant || !HasPopup ||
                 !_searchPopupAutoDropdown)
                 return;
-            IsPopupOpen = !IsPopupOpen;
+            IsPopupOpen = !IsPopupEmpty;
         }
 
         private void ShowProgressBar()

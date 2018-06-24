@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using ModernApplicationFramework.Basics.Search;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces.Search;
@@ -9,6 +10,8 @@ namespace ModernApplicationFramework.Modules.Toolbox
     public class ToolboxSearchTask : SearchTask
     {
         private readonly IToolbox _toolbox;
+
+        public event EventHandler<EventArgs> SearchComplete;
 
         internal ToolboxSearchTask(uint cookie, ISearchQuery query, ISearchCallback callback, IToolbox toolbox) : base(cookie, query, callback)
         {
@@ -28,12 +31,18 @@ namespace ModernApplicationFramework.Modules.Toolbox
             });
 
             SearchResults = result;
+            OnSearchComplete();
             base.OnStartSearch();
         }
 
         protected override void OnStopSearch()
         {
             SearchResults = 0;
+        }
+
+        protected virtual void OnSearchComplete()
+        {
+            SearchComplete?.Invoke(this, EventArgs.Empty);
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Controls;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Search;
+using ModernApplicationFramework.Controls.SearchControl;
 using ModernApplicationFramework.DragDrop;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Layout;
@@ -29,6 +30,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
         private bool _supressStore;
 
         private bool _isSearching;
+        private int _searchResultCount;
 
         public override PaneLocation PreferredLocation => PaneLocation.Left;
 
@@ -74,6 +76,17 @@ namespace ModernApplicationFramework.Modules.Toolbox
             }
         }
 
+        public int SearchResultCount
+        {
+            get => _searchResultCount;
+            set
+            {
+                if (value == _searchResultCount) return;
+                _searchResultCount = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
 
         [ImportingConstructor]
         public ToolboxViewModel(IDockingHostViewModel hostViewModel, IToolboxStateProvider stateProvider)
@@ -83,6 +96,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
             _categories = new BindableCollection<IToolboxCategory>();
             _hostViewModel = hostViewModel;
             _stateProvider = stateProvider;
+            _searchResultCount = -1;
             //TODO: change to collection changed         
             hostViewModel.ActiveLayoutItemChanging += (sender, e) => StoreItems();
             hostViewModel.ActiveLayoutItemChanged += (sender, e) => RefreshToolboxItems(e.NewLayoutItem);
@@ -105,6 +119,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
         private void RefreshToolboxItems(ILayoutItem item)
         {
+            ClearSearchInternal();
             _supressStore = true;
             _categories.Clear();
             var i = _stateProvider.ItemsSource.ToList();
@@ -148,14 +163,33 @@ namespace ModernApplicationFramework.Modules.Toolbox
             if (searchQuery == null || searchCallback == null)
                 return null;
             _isSearching = true;
-            return new ToolboxSearchTask(cookie, searchQuery, searchCallback, this);
+            var task = new ToolboxSearchTask(cookie, searchQuery, searchCallback, this);
+            task.SearchComplete += Task_SearchComplete;
+            return task;
+        }
+
+        private void Task_SearchComplete(object sender, System.EventArgs e)
+        {
+            if (!(sender is SearchTask task))
+                return;
+            SearchResultCount = (int) task.SearchResults;
         }
 
         public override void ClearSearch()
         {
+            ClearSearchInternal();        
+            RefreshView();            
+        }
+
+        private void ClearSearchInternal()
+        {
             _isSearching = false;
-            RefreshView();
+            SearchResultCount = -1;
+            var host = SearchHost as WindowSearchHost;
+            if (host?.SearchControl.DataContext is SearchControlDataSource dataSource)
+                dataSource.SearchText = string.Empty;
             base.ClearSearch();
         }
+
     }
 }

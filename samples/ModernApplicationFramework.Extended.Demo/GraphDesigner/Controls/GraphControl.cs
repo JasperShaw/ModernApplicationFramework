@@ -200,6 +200,8 @@ namespace ModernApplicationFramework.Extended.Demo.GraphDesigner.Controls
         protected override void OnMouseMove(MouseEventArgs e)
         {
             var t = VisualTreeHelper.HitTest(this, e.GetPosition(this));
+            if (t == null)
+                return;
             var el = t.VisualHit as FrameworkElement;
             var elm = el?.FindAncestor<ElementItem>();
             if (elm == null)

@@ -336,7 +336,27 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style> 
+        </Style>
+
+
+        <ControlTemplate x:Key="NoItemsTemplate" TargetType="{x:Type TreeView}">
+            <Grid Background="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxBackground}}">
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Margin="20">
+                    <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxBackgroundText}}" Text="Test"/>
+                </Grid>
+            </Grid>
+        </ControlTemplate>
+
+        <Style x:Key="ToolboxTreeViewStyle" TargetType="{x:Type TreeView}">
+            <Style.Triggers>
+                <DataTrigger Value="0">
+                    <DataTrigger.Binding>
+                        <Binding Path="SearchResultCount"/>
+                    </DataTrigger.Binding>
+                    <Setter Property="Control.Template" Value="{StaticResource NoItemsTemplate}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
 
         <toolbox:ToolboxTreeNodeStyleSelector x:Key="ToolboxTreeNodeStyleSelector" 
                                     CategoryStyle="{StaticResource CategoryItemStyle}"
@@ -348,7 +368,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <controls:ToolboxTreeView x:Name="TreeView" Grid.Row="1" Margin="0,3,0,0"
-                  mafdd:DragDrop.IsDragSource="True"
+                  mafdd:DragDrop.IsDragSource="True" Style="{StaticResource ToolboxTreeViewStyle}"
                   mafdd:DragDrop.IsDropTarget="True"
                   mafdd:DragDrop.SelectDroppedItems="True"
                   mafdd:DragDrop.DragHandler="{Binding ToolboxDragHandler}"
