@@ -18,5 +18,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
         void Refresh(Type targetType, bool forceVisibile = false);
 
         bool RemoveItem(IToolboxItem item);
+
+        void InvalidateState();
     }
 }

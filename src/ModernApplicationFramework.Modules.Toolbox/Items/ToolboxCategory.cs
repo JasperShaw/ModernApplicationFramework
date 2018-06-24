@@ -107,7 +107,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
                 item.IsEnabled = flag;
                 item.IsVisible = forceVisible || flag;
             }
-            InternalRefreshState();
+            InvalidateState();
         }
 
         public bool RemoveItem(IToolboxItem item)
@@ -150,10 +150,10 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
                 }
             }
             HasItems = Items.Any();
-            InternalRefreshState();
+            InvalidateState();
         }
 
-        private void InternalRefreshState()
+        public void InvalidateState()
         {
             HasVisibleItems = false;
             HasEnabledItems = false;

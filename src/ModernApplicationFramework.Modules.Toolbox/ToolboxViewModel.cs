@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -19,7 +18,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
 {
     [Export(typeof(IToolbox))]
     [Guid("DD8E4CE1-7431-47C1-9496-B8C91D6E0B55")]
-    public class ToolboxViewModel : Tool, IToolbox
+    public class ToolboxViewModel : Tool, IToolboxPrivate
     {
         //private readonly IToolboxService _toolboxService;
 
@@ -32,7 +31,8 @@ namespace ModernApplicationFramework.Modules.Toolbox
         private IToolboxNode _selectedNode;
         private bool _showAllItems;
         private bool _supressStore;
-        private IEnumWindowSearchOptions _searchOptionsEnum;
+
+        private bool _isSearching;
 
         public override PaneLocation PreferredLocation => PaneLocation.Left;
 
@@ -46,51 +46,6 @@ namespace ModernApplicationFramework.Modules.Toolbox
         public override bool SearchEnabled => true;
 
         public IToolboxCategory SelectedCategory { get; private set; }
-
-        public override IEnumWindowSearchOptions SearchOptionsEnum
-        {
-            get
-            {
-                if (_searchOptionsEnum == null)
-                {
-                    _searchOptionsEnum = new WindowSearchOptionEnumerator(new []
-                    {
-                        TestSearchOption
-                    });
-                }
-
-                return _searchOptionsEnum;
-            }
-        }
-
-
-        private WindowSearchBooleanOption _testSearchOption;
-        private static bool _testSeachOptionValue;
-
-        private WindowSearchBooleanOption TestSearchOption
-        {
-            get
-            {
-                var testOption = _testSearchOption;
-                if (testOption != null)
-                    return testOption;
-
-                Func<bool> func = () => TestSeachOptionValue;
-                return _testSearchOption =
-                    new WindowSearchBooleanOption("Test Option", "Test Tooltip", func, b => TestSeachOptionValue = b);
-            }
-        }
-
-
-        public bool TestSeachOptionValue
-        {
-            get => _testSeachOptionValue;
-            set
-            {
-                _testSeachOptionValue = value;
-                SearchHost?.SearchEvents?.SearchOptionValueChanged(TestSearchOption);
-            }
-        }
 
 
         public IReadOnlyCollection<IToolboxCategory> CurrentLayout => _categories.ToList();
@@ -165,7 +120,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
         private void StoreItems()
         {
-            if (_supressStore)
+            if (_supressStore || _isSearching)
                 return;
             _stateProvider.ItemsSource.Clear();
             _stateProvider.ItemsSource.AddRange(_categories);
@@ -208,6 +163,27 @@ namespace ModernApplicationFramework.Modules.Toolbox
 
         public override void ProvideSearchSettings(SearchSettingsDataSource dataSource)
         {
+            dataSource.SearchStartType = SearchStartType.Instant;
         }
+
+        public override ISearchTask CreateSearch(uint cookie, ISearchQuery searchQuery, ISearchCallback searchCallback)
+        {
+            if (searchQuery == null || searchCallback == null)
+                return null;
+            _isSearching = true;
+            return new ToolboxSearchTask(cookie, searchQuery, searchCallback, this);
+        }
+
+        public override void ClearSearch()
+        {
+            _isSearching = false;
+            RefreshView();
+            base.ClearSearch();
+        }
+    }
+
+    internal interface IToolboxPrivate : IToolbox
+    {
+        IObservableCollection<IToolboxCategory> Categories { get; }
     }
 }

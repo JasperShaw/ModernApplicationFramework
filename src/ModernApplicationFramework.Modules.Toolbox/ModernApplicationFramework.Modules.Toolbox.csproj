@@ -116,6 +116,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Interfaces\IToolboxService.cs" />
+    <Compile Include="ToolboxSearchTask.cs" />
     <Compile Include="ToolboxService.cs" />
     <Compile Include="ToolBoxColors.cs" />
     <Compile Include="CommandBar\ToolboxContextMenuProvider.cs" />
