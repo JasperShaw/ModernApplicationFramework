@@ -45,6 +45,14 @@ namespace ModernApplicationFramework.Extended.Interfaces
         /// </summary>
         event EventHandler<ToolsClosedEventArgs> ToolsClosed;
 
+
+
+
+        event EventHandler<LayoutBaselChangeEventArgs> ActiveModelChanging;
+        event EventHandler<LayoutBaselChangeEventArgs> ActiveModelChanged;
+
+
+
         IReadOnlyList<ILayoutItemBase> AllOpenLayoutItemsAsDocuments { get; }
 
         /// <summary>

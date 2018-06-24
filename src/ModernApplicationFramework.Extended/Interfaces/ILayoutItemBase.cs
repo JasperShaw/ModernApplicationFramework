@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Interfaces;
 
@@ -43,6 +44,26 @@ namespace ModernApplicationFramework.Extended.Interfaces
         /// Gets or sets an <see cref="IContextMenuProvider"/>.
         /// </summary>
         IContextMenuProvider ContextMenuProvider { get; set; }
+
+
+        /// <summary>
+        /// The redo command.
+        /// </summary>
+        ICommand RedoCommand { get; }
+
+        /// <summary>
+        /// The undo command.
+        /// </summary>
+        ICommand UndoCommand { get; }
+
+        /// <summary>
+        /// The undo redo manager for this Layout Item.
+        /// </summary>
+        IUndoRedoManager UndoRedoManager { get; }
+
+
+    
+
 
         /// <summary>
         /// Loads the state from a given <see cref="BinaryReader"/>  

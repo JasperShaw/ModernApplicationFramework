@@ -21,7 +21,11 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
         public event EventHandler<LayoutItemsClosingEventArgs> LayoutItemsClosing;
         public event EventHandler<LayoutItemsClosedEventArgs> LayoutItemsClosed;
         public event EventHandler<ToolsClosingEventArgs> ToolsClosing; 
-        public event EventHandler<ToolsClosedEventArgs> ToolsClosed; 
+        public event EventHandler<ToolsClosedEventArgs> ToolsClosed;
+
+
+        public event EventHandler<LayoutBaselChangeEventArgs> ActiveModelChanging;
+        public event EventHandler<LayoutBaselChangeEventArgs> ActiveModelChanged;
 
 
         private readonly BindableCollection<ITool> _tools;
@@ -40,9 +44,12 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
             {
                 if (ReferenceEquals(_activeLayoutItemBase, value))
                     return;
+                var oldModel = _activeLayoutItemBase;
+                OnActiveModelChanging(new LayoutBaselChangeEventArgs(oldModel, value));
                 _activeLayoutItemBase = value;
                if (value is ILayoutItem item)
                     OpenLayoutItem(item);
+                OnActiveModelChanged(new LayoutBaselChangeEventArgs(oldModel, _activeLayoutItemBase));
                 NotifyOfPropertyChange(() => ActiveLayoutItemBase);
             }
         }
@@ -202,6 +209,16 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
         protected virtual void OnToolsClosed(ToolsClosedEventArgs eventArgs)
         {
             ToolsClosed?.Invoke(this, eventArgs);
+        }
+
+        protected virtual void OnActiveModelChanging(LayoutBaselChangeEventArgs e)
+        {
+            ActiveModelChanging?.Invoke(this, e);
+        }
+
+        protected virtual void OnActiveModelChanged(LayoutBaselChangeEventArgs e)
+        {
+            ActiveModelChanged?.Invoke(this, e);
         }
 
         protected override void OnActivationProcessed(ILayoutItem item, bool success)

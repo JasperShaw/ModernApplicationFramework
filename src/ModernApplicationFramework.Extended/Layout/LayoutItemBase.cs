@@ -2,10 +2,13 @@
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.UndoRedoManager;
 using ModernApplicationFramework.Docking.Controls;
 using ModernApplicationFramework.Docking.Layout;
+using ModernApplicationFramework.Extended.Commands;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Interfaces;
 
@@ -19,12 +22,16 @@ namespace ModernApplicationFramework.Extended.Layout
         private ImageSource _iconSource;
         private LayoutContent _frame;
         private IContextMenuProvider _contextMenuProvider;
+        private IUndoRedoManager _undoRedoManager;
 
         [Browsable(false)]
         public virtual string ContentId => Id.ToString();
 
         [Browsable(false)]
         public Guid Id { get; } = Guid.NewGuid();
+
+        [Browsable(false)]
+        public virtual bool ShouldReopenOnStart => false;
 
         public string ToolTip
         {
@@ -60,14 +67,25 @@ namespace ModernApplicationFramework.Extended.Layout
             }
         }
 
-        protected Docking.Controls.LayoutItem DockingModel
+        public virtual ImageSource IconSource
         {
-            get
+            get => _iconSource;
+            set
             {
-                var element = GetView() as UIElement;
-                return element.FindLogicalAncestor<LayoutAnchorableControl>()?.LayoutItem ??
-                         element.FindLogicalAncestor<LayoutDocumentControl>()?.LayoutItem;
+                if (Equals(value, _iconSource)) return;
+                _iconSource = value;
+                NotifyOfPropertyChange();
             }
+        }
+
+        public ICommand RedoCommand => IoC.Get<RedoCommandDefinition>().Command;
+
+        public ICommand UndoCommand => IoC.Get<UndoCommandDefinition>().Command;
+
+        public IUndoRedoManager UndoRedoManager
+        {
+            get => _undoRedoManager ?? (_undoRedoManager = new Basics.UndoRedoManager.UndoRedoManager());
+            protected set => _undoRedoManager = value;
         }
 
         public virtual void LoadState(BinaryReader reader)
@@ -78,8 +96,6 @@ namespace ModernApplicationFramework.Extended.Layout
         {
         }
 
-        [Browsable(false)]
-        public virtual bool ShouldReopenOnStart => false;
 
         public override bool Equals(object obj)
         {
@@ -98,17 +114,6 @@ namespace ModernApplicationFramework.Extended.Layout
             return Id.GetHashCode();
         }
 
-        public virtual ImageSource IconSource
-        {
-            get => _iconSource;
-            set
-            {
-                if (Equals(value, _iconSource)) return;
-                _iconSource = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
         protected override void OnViewAttached(object view, object context)
         {
             base.OnViewAttached(view, context);
@@ -125,6 +130,21 @@ namespace ModernApplicationFramework.Extended.Layout
                 return;
             _frame.Closing += _frame_Closing;
             _frame.Closed += _frame_Closed;
+        }
+
+        protected virtual void PushUndoRedoManager(string sender, object value)
+        {
+            UndoRedoManager.Push(new UndoRedoAction(this, sender, value));
+        }
+
+        protected Docking.Controls.LayoutItem DockingModel
+        {
+            get
+            {
+                var element = GetView() as UIElement;
+                return element.FindLogicalAncestor<LayoutAnchorableControl>()?.LayoutItem ??
+                       element.FindLogicalAncestor<LayoutDocumentControl>()?.LayoutItem;
+            }
         }
 
 

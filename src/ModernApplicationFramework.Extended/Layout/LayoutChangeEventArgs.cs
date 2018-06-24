@@ -14,4 +14,16 @@ namespace ModernApplicationFramework.Extended.Layout
             NewLayoutItem = newLayoutItem;
         }
     }
+
+    public class LayoutBaselChangeEventArgs : EventArgs
+    {
+        public ILayoutItemBase OldLayoutItem { get; }
+        public ILayoutItemBase NewLayoutItem { get; }
+
+        public LayoutBaselChangeEventArgs(ILayoutItemBase oldLayoutItem, ILayoutItemBase newLayoutItem)
+        {
+            OldLayoutItem = oldLayoutItem;
+            NewLayoutItem = newLayoutItem;
+        }
+    }
 }

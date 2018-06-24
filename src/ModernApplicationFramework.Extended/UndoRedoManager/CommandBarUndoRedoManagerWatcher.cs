@@ -13,7 +13,6 @@ namespace ModernApplicationFramework.Extended.UndoRedoManager
     [Export(typeof(CommandBarUndoRedoManagerWatcher))]
     public class CommandBarUndoRedoManagerWatcher
     {
-        private readonly IDockingHostViewModel _shell;
         private IUndoRedoManager _undoRedoManager;
 
         public IObservableCollection<IHasTextProperty> RedoItems { get; set; }
@@ -61,11 +60,10 @@ namespace ModernApplicationFramework.Extended.UndoRedoManager
         {
             if (shell == null)
                 return;
-            _shell = shell;
-
             UndoItems = new BindableCollection<IHasTextProperty>();
             RedoItems = new BindableCollection<IHasTextProperty>();
-            shell.ActiveLayoutItemChanged += ShellActiveLayoutItemChanged;
+            //shell.ActiveLayoutItemChanged += ShellActiveLayoutItemChanged;
+            shell.ActiveModelChanged += ShellOnActiveModelChanged;
             UndoRedoManager = shell.ActiveItem?.UndoRedoManager;
         }
 
@@ -97,7 +95,8 @@ namespace ModernApplicationFramework.Extended.UndoRedoManager
             Refresh();
         }
 
-        private void ShellActiveLayoutItemChanged(object sender, LayoutChangeEventArgs e)
+
+        private void ShellOnActiveModelChanged(object sender, LayoutBaselChangeEventArgs e)
         {
             UndoRedoManager = e.NewLayoutItem?.UndoRedoManager;
         }
