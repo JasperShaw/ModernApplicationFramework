@@ -69,12 +69,22 @@ namespace ModernApplicationFramework.Core.CommandFocus
                     if (_isChecking)
                         return;
                     _isChecking = true;
-                    e.CanExecute = routed.CanExecute(e.Parameter, _restoreFocusScope?.RestoreFocus);
+
+
+                    if (MenuModeHelper.MenuModeHelper.CommandModeKind == CommandBarModeKind.SearchControl)
+                    {
+                        e.CanExecute = routed.CanExecute(e.Parameter, null);
+                    }
+                    else
+                    {
+                        e.CanExecute = routed.CanExecute(e.Parameter, _restoreFocusScope?.RestoreFocus);
+                    }
                     _isChecking = false;
 
                     // I'm not sure if this can be ommited but apparently it does not break anything.
                     // Omitting fixes menus not beeing updated when entering menu mode in searchcontrols
-                    //if (e.CanExecute)
+                    // EDIT: Omitting causes Search controls sometime not beeing able to use backspace/space key
+                    if (e.CanExecute)
                         e.Handled = true;
                 }
             }
