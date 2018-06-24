@@ -63,7 +63,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandBar\ToolboxToolbar.cs" />
     <Compile Include="Commands\DeleteActiveItemCommand.cs" />
     <Compile Include="Commands\ResetToolboxCommandDefinition.cs" />
     <Compile Include="Commands\AddCategoryCommandDefinition.cs" />

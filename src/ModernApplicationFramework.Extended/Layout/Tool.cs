@@ -115,15 +115,12 @@ namespace ModernApplicationFramework.Extended.Layout
             uiElement?.Close();
         }
 
-
-        protected virtual IEnumerable<CommandBarGroupDefinition> ToolbarGroups => null;
-
         public virtual void OnToolWindowCreated()
         {
             ConnectInfoBars();
             _frame.SetupSearch(this);
 
-            if (Toolbar == null || ToolbarGroups == null)
+            if (Toolbar == null)
                 return;
 
             _frame.AddToolbar(this);

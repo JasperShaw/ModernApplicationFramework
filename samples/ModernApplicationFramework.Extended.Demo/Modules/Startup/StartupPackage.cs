@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Services;
+using ModernApplicationFramework.Extended.Demo.Modules.ToolSearch;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Package;
 using ModernApplicationFramework.Interfaces.Services;
@@ -46,6 +47,8 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.Startup
             _output.AppendLine("Started up");
             _statusBarService.SetBackgroundColor(AbstractStatusBarService.DefaultColors.Blue);
             _statusBarService.SetText(1, "Test");
+
+            DockingHostViewModel.ShowTool<ToolSearchExampleViewModel>();
 
             DockingHostViewModel.ActiveLayoutItemChanged += (sender, e) => RefreshInspector();
             RefreshInspector();

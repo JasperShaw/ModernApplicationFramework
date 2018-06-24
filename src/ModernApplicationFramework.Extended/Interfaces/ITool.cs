@@ -1,5 +1,4 @@
 ﻿using System.Windows.Input;
-using ModernApplicationFramework.Controls.SearchControl;
 using ModernApplicationFramework.Extended.Utilities.PaneUtilities;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Search;

@@ -144,6 +144,11 @@
     <Compile Include="Modules\Startup\StartupPackage.cs" />
     <Compile Include="Modules\ToolboxStatePersister\StateBackupPackage.cs" />
     <Compile Include="Modules\ToolboxStatePersister\StatePersisterPackage.cs" />
+    <Compile Include="Modules\ToolSearch\TestToolbar.cs" />
+    <Compile Include="Modules\ToolSearch\ToolSearchExampleView.xaml.cs">
+      <DependentUpon>ToolSearchExampleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\ToolSearch\ToolSearchExampleViewModel.cs" />
     <Compile Include="Modules\WaitingWindow\WaitingDialogDemoView.xaml.cs">
       <DependentUpon>WaitingDialogDemoView.xaml</DependentUpon>
     </Compile>
@@ -194,6 +199,10 @@
     <Page Include="Modules\SampleExplorer\SampleView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\ToolSearch\ToolSearchExampleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Modules\UndoRedoTest\UndoRedoView.xaml">
       <SubType>Designer</SubType>
