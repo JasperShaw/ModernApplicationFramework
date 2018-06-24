@@ -22,6 +22,15 @@ namespace ModernApplicationFramework.Controls.SearchControl
 
         public bool IsEnabled { get; set; }
 
+        public IWindowSearchEvents SearchEvents
+        {
+            get
+            {
+                ThrowIfDisposed();
+                return this;
+            }
+        }
+
         public bool IsVisible { get; set; }
 
         public SearchControl SearchControl { get; }
@@ -197,7 +206,20 @@ namespace ModernApplicationFramework.Controls.SearchControl
         public void SearchOptionsChanged()
         {
             ThrowIfDisposed();
-            //TODO:
+            UpdateSearchOptions();
+        }
+
+        public void SearchOptionValueChanged(IWindowSearchBooleanOption option)
+        {
+            ThrowIfDisposed();
+            using (var enumerator = DataSource.SearchOptions.GetEnumerator())
+            {
+                while (enumerator.MoveNext())
+                {
+                    if (enumerator.Current is WindowSearchBooleanOptionDataSource current && option == current.Option)
+                        current.Value = option.Value;
+                }
+            }
         }
 
         public void SetupSearch(IWindowSearch windowSearch)
@@ -244,6 +266,41 @@ namespace ModernApplicationFramework.Controls.SearchControl
         private void CreateDataSource()
         {
             DataSource = new WindowSearchDataSource(this);
+            UpdateSearchOptions();
+            //TODO: Update filter options
+
+        }
+
+        private void UpdateSearchOptions()
+        {
+            var collection = new List<SearchOptionDataSource>();
+            var searchOptions = WindowSearch.SearchOptionsEnum;
+
+            if (searchOptions != null)
+            {
+                using (var enumerator = new EnumerableSearchOptionsCollection(searchOptions).GetEnumerator())
+                {
+                    while (enumerator.MoveNext())
+                    {
+                        var current = enumerator.Current;
+                        WindowSearchOptionDataSource optionDataSource;
+
+                        switch (current)
+                        {
+                            case IWindowSearchBooleanOption option1:
+                                optionDataSource = new WindowSearchBooleanOptionDataSource(option1);
+                                break;
+                            case IWindowSearchCommandOption option2:
+                                optionDataSource = new WindowSearchCommandOptionDataSource(option2);
+                                break;
+                            default:
+                                continue;
+                        }
+                        collection.Add(optionDataSource);
+                    }              
+                }
+            }
+            DataSource.SearchOptions = collection;
         }
 
         private bool RemoveItem(ref List<SearchMruItem> collection, SearchMruItem item)

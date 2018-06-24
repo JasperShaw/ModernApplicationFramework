@@ -15,6 +15,7 @@ using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Utilities.PaneUtilities;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Controls.InfoBar;
+using ModernApplicationFramework.Interfaces.Controls.Search;
 using ModernApplicationFramework.Interfaces.Search;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Utilities;
@@ -51,7 +52,7 @@ namespace ModernApplicationFramework.Extended.Layout
             }
         }
 
-        //public IWindowSearchHost SearchHost => _frame?.GetSearchHost();
+        public IWindowSearchHost SearchHost => _frame?.GetSearchHost();
 
         public virtual double PreferredHeight => 200;
 
@@ -64,6 +65,8 @@ namespace ModernApplicationFramework.Extended.Layout
         public virtual ToolbarDefinition Toolbar => null;
 
         Guid IWindowSearch.Category => SearchCategory;
+
+        public virtual IEnumWindowSearchOptions SearchOptionsEnum => null;
 
         public virtual Guid SearchCategory
         {

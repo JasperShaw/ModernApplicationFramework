@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using ModernApplicationFramework.Interfaces.Controls.Search;
 
 namespace ModernApplicationFramework.Controls.SearchControl
 {
@@ -49,10 +50,5 @@ namespace ModernApplicationFramework.Controls.SearchControl
             RaiseEvent(new RoutedEventArgs(MruItemSelectedEvent));
             e.Handled = true;
         }
-    }
-
-    internal interface ISearchControlPopupLocation
-    {
-        void OnKeyDown(KeyEventArgs e);
     }
 }

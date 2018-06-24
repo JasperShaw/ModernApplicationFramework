@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -335,6 +336,35 @@ namespace ModernApplicationFramework.Utilities
             if (value1 < value2)
                 return !value1.AreClose(value2);
             return false;
+        }
+
+        public static int Count(this IEnumerable source)
+        {
+            if (source is ICollection col)
+                return col.Count;
+
+            var c = 0;
+            var e = source.GetEnumerator();
+            DynamicUsing(e, () =>
+            {
+                while (e.MoveNext())
+                    c++;
+            });
+
+            return c;
+        }
+
+        internal static void DynamicUsing(object resource, Action action)
+        {
+            try
+            {
+                action();
+            }
+            finally
+            {
+                if (resource is IDisposable d)
+                    d.Dispose();
+            }
         }
     }
 }

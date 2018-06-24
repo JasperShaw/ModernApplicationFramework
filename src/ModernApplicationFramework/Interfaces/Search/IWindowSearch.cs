@@ -11,6 +11,8 @@ namespace ModernApplicationFramework.Interfaces.Search
 
         Guid Category { get; }
 
+        IEnumWindowSearchOptions SearchOptionsEnum { get; }
+
         ISearchTask CreateSearch(uint cookie, ISearchQuery searchQuery, ISearchCallback searchCallback);
 
         void ClearSearch();

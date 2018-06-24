@@ -19,6 +19,7 @@
     <converters:SearchControlThicknessConverter x:Key="SearchControlThicknessConverter"/>
     <converters:LiveSearchTextConverter x:Key="LiveSearchTextConverter"/>
     <general:IsEqualConverter x:Key="IsEqualConverter"/>
+    <converters:VisibleIfNotEmptyCollectionConverter x:Key="VisibleIfNotEmptyCollectionConverter"/>
 
     <system:Int32 x:Key="IntZero">0</system:Int32>
 
@@ -267,19 +268,18 @@
             <Setter Property="Visibility" Value="{Binding Path=SearchSettings.SearchUseMru, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
             <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
-            <Setter Property="MinHeight" Value="95"/>
         </Style.Setters>
         <Style.Triggers>
-            <DataTrigger Value="true" Binding="{Binding Path=SearchMruItems.Count, Converter={StaticResource IsEqualConverter}, ConverterParameter={}}">
+            <DataTrigger Value="true" Binding="{Binding Path=SearchMruItems.Count, Converter={StaticResource IsEqualConverter}, ConverterParameter={StaticResource IntZero}}">
                 <Setter Property="Visibility" Value="Collapsed"/>
             </DataTrigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
                     <Condition Binding="{Binding Path=SearchMruItems.Count, Converter={StaticResource IsEqualConverter}, ConverterParameter={StaticResource IntZero}}"
                                Value="true"/>
-                    <!--<Condition Binding="{Binding Path=SearchOptions.Count, Converter={StaticResource IsEqualConverter}, ConverterParameter={vsui:Int32 0}}"
+                    <Condition Binding="{Binding Path=SearchOptions.Count, Converter={StaticResource IsEqualConverter}, ConverterParameter={StaticResource IntZero}}"
                                Value="true"/>
-                    <Condition Binding="{Binding Path=SearchFilters.Count, Converter={StaticResource IsEqualConverter}, ConverterParameter={vsui:Int32 0}}"
+                    <!--<Condition Binding="{Binding Path=SearchFilters.Count, Converter={StaticResource IsEqualConverter}, ConverterParameter={vsui:Int32 0}}"
                                Value="true"/>-->
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
@@ -329,6 +329,104 @@
     </Style>
 
 
+
+    <ControlTemplate x:Key="SearchPopupCheckBoxTemplate" TargetType="{x:Type CheckBox}">
+        <Grid x:Name="PlacementGrid">
+            <Border x:Name="Border" Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}"
+                    SnapsToDevicePixels="True"/>
+            <CheckBox x:Name="ContentCheckBox" ToolTip="{TemplateBinding ToolTip}"
+                      Margin="{TemplateBinding Padding}" Foreground="{DynamicResource {x:Static themes:SearchControlColors.PopupCheckboxCheckmark}}"
+                      Focusable="{TemplateBinding Focusable}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                      IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsChecked, Mode=TwoWay}">
+                <AccessText x:Name="ContentCheckBoxText" Text="{TemplateBinding Content}"
+                            Foreground="{DynamicResource {x:Static themes:SearchControlColors.PopupCheckboxText}}"/>
+            </CheckBox>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="control:SearchPopupNavigationService.IsCurrentLocation" Value="True">
+                <Setter Property="BorderBrush" TargetName="Border" Value="{DynamicResource {x:Static themes:SearchControlColors.PopupControlMouseOverBorder}}"/>
+                <Setter Property="Background" TargetName="Border" Value="{DynamicResource {x:Static themes:SearchControlColors.PopupControlMouseOverBackgroundGradientBegin}}"/>
+                <Setter Property="Foreground" TargetName="ContentCheckBoxText" Value="{DynamicResource {x:Static themes:SearchControlColors.PopupCheckboxMouseOverText}}"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="BorderBrush" TargetName="Border" Value="{DynamicResource {x:Static themes:SearchControlColors.PopupControlMouseDownBorder}}"/>
+                <Setter Property="Background" TargetName="Border" Value="{DynamicResource {x:Static themes:SearchControlColors.PopupControlMouseDownBackgroundGradientBegin}}"/>
+                <Setter Property="Foreground" TargetName="ContentCheckBoxText" Value="{DynamicResource {x:Static themes:SearchControlColors.PopupCheckboxMouseDownText}}"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <Style x:Key="SearchPopupCheckBoxStyle" TargetType="{x:Type CheckBox}">
+        <Style.Setters>
+            <Setter Property="Template" Value="{StaticResource SearchPopupCheckBoxTemplate}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.PopupCheckboxText}}"/>
+            <Setter Property="Padding" Value="4,1,4,1"/>
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="control:SearchPopupNavigationService.IsNavigable" Value="True"/>
+        </Style.Setters>
+    </Style>
+
+    <ControlTemplate x:Key="SearchPopupButtonTemplate" TargetType="{x:Type Button}">
+        <Grid x:Name="PlacementGrid">
+            <Border x:Name="Border" Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                    SnapsToDevicePixels="True"/>
+            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                              Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                              RecognizesAccessKey="True"/>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="control:SearchPopupNavigationService.IsCurrentLocation" Value="True">
+                <Setter Property="BorderBrush" TargetName="Border" Value="{DynamicResource {x:Static themes:SearchControlColors.PopupControlMouseOverBorder}}"/>
+                <Setter Property="Background" TargetName="Border" Value="{DynamicResource {x:Static themes:SearchControlColors.PopupControlMouseOverBackgroundGradientBegin}}"/>
+                <Setter Property="TextElement.Foreground" TargetName="PlacementGrid" Value="{DynamicResource {x:Static themes:SearchControlColors.PopupButtonMouseOverText}}"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="BorderBrush" TargetName="Border" Value="{DynamicResource {x:Static themes:SearchControlColors.PopupControlMouseDownBorder}}"/>
+                <Setter Property="Background" TargetName="Border" Value="{DynamicResource {x:Static themes:SearchControlColors.PopupControlMouseDownBackgroundGradientBegin}}"/>
+                <Setter Property="TextElement.Foreground" TargetName="PlacementGrid" Value="{DynamicResource {x:Static themes:SearchControlColors.PopupButtonMouseDownText}}"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <Style x:Key="SearchPopupButtonStyle" TargetType="{x:Type Button}">
+        <Style.Setters>
+            <Setter Property="Template" Value="{StaticResource SearchPopupButtonTemplate}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.PopupButtonText}}"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="3,1,3,1"/>
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="control:SearchPopupNavigationService.IsNavigable" Value="True"/>
+        </Style.Setters>
+    </Style>
+
+    <Style x:Key="SearchPopupSectionStyle" TargetType="{x:Type StackPanel}">
+        <Style.Setters>
+            <Setter Property="Background" Value="{DynamicResource {x:Static themes:SearchControlColors.PopupSectionBackgroundGradientBegin}}"/>
+        </Style.Setters>
+    </Style>
+    <Style x:Key="SearchPopupSectionHeaderBackgroundStyle" TargetType="{x:Type Rectangle}">
+        <Style.Setters>
+            <Setter Property="Fill" Value="{DynamicResource {x:Static themes:SearchControlColors.PopupSectionHeaderGradientBegin}}"/>
+        </Style.Setters>
+    </Style>
+    <ControlTemplate x:Key="SearchPopupHeaderTemplate" TargetType="{x:Type ContentControl}">
+        <StackPanel>
+            <Border x:Name="SectionHeaderSeparator" Height="1" BorderThickness="1" BorderBrush="{DynamicResource {x:Static themes:SearchControlColors.PopupSectionHeaderSeparator}}"/>
+            <Rectangle x:Name="SectionHeaderBackground" Height="6" Stroke="Transparent" StrokeThickness="0" Style="{StaticResource SearchPopupSectionHeaderBackgroundStyle}"/>
+            <TextBlock x:Name="SectionHeaderText" Text="{TemplateBinding Content}" Padding="3,0,3,3"
+                       Foreground="{DynamicResource {x:Static themes:SearchControlColors.PopupSectionHeaderText}}"/>
+        </StackPanel>
+    </ControlTemplate>
     <ControlTemplate x:Key="SearchPopupContentTemplate" TargetType="{x:Type UserControl}">
         <Border x:Name="Border" BorderThickness="1" Background="{DynamicResource {x:Static themes:SearchControlColors.PopupBorder}}">
             <Grid>
@@ -343,8 +441,26 @@
                 <StackPanel Grid.Row="1">
 
                 </StackPanel>
-                <StackPanel Grid.Row="2">
-
+                <StackPanel Grid.Row="2" Style="{StaticResource SearchPopupSectionStyle}" 
+                            Visibility="{Binding Path=SearchOptions, Converter={StaticResource VisibleIfNotEmptyCollectionConverter}}">
+                    <StackPanel.Resources>
+                        <DataTemplate x:Key="{x:Static search:SearchOptionItemTemplates.Boolean}">
+                            <control:SearchBooleanOptionButton x:Name="OptionCheckbox" Style="{StaticResource SearchPopupCheckBoxStyle}"
+                                                               Content="{Binding Path=DisplayText}" ToolTip="{Binding Path=Tooltip}"
+                                                               IsChecked="{Binding Path=Value}"/>
+                        </DataTemplate>
+                        <DataTemplate x:Key="{x:Static search:SearchOptionItemTemplates.Command}">
+                            <control:SearchCommandOptionButton x:Name="OptionButton" Style="{StaticResource SearchPopupButtonStyle}"
+                                                               HorizontalContentAlignment="Left" Content="{Binding Path=DisplayText}"
+                                                               ToolTip="{Binding Path=Tooltip}"/>
+                        </DataTemplate>
+                        <search:SearchOptionsItemTemplateSelector x:Key="OptionsItemTemplateSelectorKey"/>
+                    </StackPanel.Resources>
+                    <ContentControl x:Name="SearchOptionsHeader" Content="Search option"
+                                    Template="{StaticResource SearchPopupHeaderTemplate}"/>
+                    <ItemsControl x:Name="SearchOptions" Margin="0,0,0,1"
+                                  ItemTemplateSelector="{StaticResource OptionsItemTemplateSelectorKey}"
+                                  ItemsSource="{Binding Path=SearchOptions}"/>
                 </StackPanel>
             </Grid>
         </Border>

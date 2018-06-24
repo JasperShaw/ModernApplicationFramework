@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -12,6 +13,7 @@ using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Extended.Utilities.PaneUtilities;
 using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Search;
 using ModernApplicationFramework.Modules.Toolbox.CommandBar;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
@@ -32,6 +34,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
         private IToolboxNode _selectedNode;
         private bool _showAllItems;
         private bool _supressStore;
+        private IEnumWindowSearchOptions _searchOptionsEnum;
 
         public override PaneLocation PreferredLocation => PaneLocation.Left;
 
@@ -51,6 +54,52 @@ namespace ModernApplicationFramework.Modules.Toolbox
         public override ToolbarDefinition Toolbar => ToolboxToolbar.ToolboxToolbarDefinition;
 
         public IToolboxCategory SelectedCategory { get; private set; }
+
+        public override IEnumWindowSearchOptions SearchOptionsEnum
+        {
+            get
+            {
+                if (_searchOptionsEnum == null)
+                {
+                    _searchOptionsEnum = new WindowSearchOptionEnumerator(new []
+                    {
+                        TestSearchOption
+                    });
+                }
+
+                return _searchOptionsEnum;
+            }
+        }
+
+
+        private WindowSearchBooleanOption _testSearchOption;
+        private static bool _testSeachOptionValue;
+
+        private WindowSearchBooleanOption TestSearchOption
+        {
+            get
+            {
+                var testOption = _testSearchOption;
+                if (testOption != null)
+                    return testOption;
+
+                Func<bool> func = () => TestSeachOptionValue;
+                return _testSearchOption =
+                    new WindowSearchBooleanOption("Test Option", "Test Tooltip", func, b => TestSeachOptionValue = b);
+            }
+        }
+
+
+        public bool TestSeachOptionValue
+        {
+            get => _testSeachOptionValue;
+            set
+            {
+                _testSeachOptionValue = value;
+                SearchHost?.SearchEvents?.SearchOptionValueChanged(TestSearchOption);
+            }
+        }
+
 
         public IReadOnlyCollection<IToolboxCategory> CurrentLayout => _categories.ToList();
 

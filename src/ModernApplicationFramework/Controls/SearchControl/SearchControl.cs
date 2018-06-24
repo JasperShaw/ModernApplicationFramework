@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using ModernApplicationFramework.Basics.Search;
+using ModernApplicationFramework.Interfaces.Controls.Search;
 using ModernApplicationFramework.Native.NativeMethods;
 using ModernApplicationFramework.Utilities;
 
@@ -125,6 +126,8 @@ namespace ModernApplicationFramework.Controls.SearchControl
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+
+            AddHandler(SearchOptionButton.OptionButtonClickedEvent, new RoutedEventHandler(OnOptionButtonClicked));
             AddHandler(SearchMruListBoxItem.MruItemSelectedEvent, new RoutedEventHandler(OnMruItemSelected));
             AddHandler(SearchMruListBoxItem.MruItemDeletedEvent, new RoutedEventHandler(OnMruItemDeleted));
             _searchBox = GetTemplateChild("PART_SearchBox") as SearchTextBox;
@@ -145,6 +148,29 @@ namespace ModernApplicationFramework.Controls.SearchControl
             InitializeSearchStatus();
         }
 
+        private void OnOptionButtonClicked(object sender, RoutedEventArgs e)
+        {
+            OnOptionButtonClicked((e.OriginalSource as FrameworkElement)?.DataContext as SearchOptionDataSource);
+        }
+
+        private void OnOptionButtonClicked(SearchOptionDataSource searchOption)
+        {
+            Validate.IsNotNull(searchOption, nameof(searchOption));
+
+            //if (searchOption.Type == SearchOptionType.Boolean)
+            //    searchOption.Value = !searchOption.Value;
+
+            using (new TemporarilyPauseTimer(GetTimer(TimerId.ClosePopup)))
+            {
+                using (new TemporarilyPauseTimer(GetTimer(TimerId.InitiateSearch)))
+                {
+                    SearchOptionDataSource.Select(searchOption);
+                    LastSearchText = null;
+                    ClearCurrentNavigationLocation();
+                    OnSearchTextOrOptionsChanged();
+                }
+            }
+        }
 
         protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
         {
@@ -420,8 +446,25 @@ namespace ModernApplicationFramework.Controls.SearchControl
         private void InitializeSearchPopupStatus()
         {
             //TODO: Filter stuff
-            HasPopup = _searchUseMru;
+
+            var typedValue2 = DataSource.SearchOptions;
+            AreOptionsOrFiltersAvailable = typedValue2.Any();
+            HasPopup = _searchUseMru || AreOptionsOrFiltersAvailable;
         }
+
+        private bool AreOptionsOrFiltersAvailable { get; set; }
+
+        private bool IsPopupEmpty
+        {
+            get
+            {
+                if (!AreMruItemsAvailable)
+                    return !AreOptionsOrFiltersAvailable;
+                return false;
+            }
+        }
+
+        private bool AreMruItemsAvailable => DataSource.SearchMruItems.Count > 0;
 
 
         private void InitializeSearchStatus()
@@ -571,7 +614,12 @@ namespace ModernApplicationFramework.Controls.SearchControl
             if (e.PropertyName == nameof(SearchControlDataSource.SearchStatus))
                 InitializeSearchStatus();
             else
+            {
+                if (e.PropertyName != nameof(SearchControlDataSource.SearchOptions))
+                    return;
                 InitializeSearchPopupStatus();
+            }
+                
         }
 
         private void OnMruItemDeleted(object sender, RoutedEventArgs e)

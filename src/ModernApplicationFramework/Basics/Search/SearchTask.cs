@@ -13,11 +13,11 @@ namespace ModernApplicationFramework.Basics.Search
 
         public SearchTaskStatus TaskStatus { get; private set; }
 
-        protected ISearchCallback SearchCallback { get; private set; }
+        protected ISearchCallback SearchCallback { get; }
 
         public uint SearchResults { get; protected set; }
 
-        public uint Id { get; private set; }
+        public uint Id { get; }
 
         public SearchTask(uint cookie, ISearchQuery query, ISearchCallback callback)
         {

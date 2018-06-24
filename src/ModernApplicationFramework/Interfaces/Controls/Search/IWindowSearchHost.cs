@@ -8,6 +8,8 @@ namespace ModernApplicationFramework.Interfaces.Controls.Search
 
         ISearchTask SearchTask { get; }
 
+        IWindowSearchEvents SearchEvents { get; }
+
         bool IsVisible { get; set; }
 
         bool IsEnabled { get; set; }

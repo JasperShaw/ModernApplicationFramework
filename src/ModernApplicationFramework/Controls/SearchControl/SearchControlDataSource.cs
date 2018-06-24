@@ -17,6 +17,7 @@ namespace ModernApplicationFramework.Controls.SearchControl
         private int _searchResultsCount = -1;
         private SearchSettingsDataSource _searchSettings = new SearchSettingsDataSource();
         private IList<SearchMruItem> _searchMruItems = new List<SearchMruItem>();
+        private IEnumerable<SearchOptionDataSource> _searchOptions = new List<SearchOptionDataSource>();
 
         public IList<SearchMruItem> SearchMruItems
         {
@@ -26,6 +27,17 @@ namespace ModernApplicationFramework.Controls.SearchControl
                 if (Equals(value, _searchMruItems))
                     return;
                 _searchMruItems = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public IEnumerable<SearchOptionDataSource> SearchOptions
+        {
+            get => _searchOptions;
+            set
+            {
+                if (Equals(value, _searchOptions)) return;
+                _searchOptions = value;
                 OnPropertyChanged();
             }
         }
