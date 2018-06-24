@@ -498,18 +498,8 @@
                               BorderThickness="{Binding Path=SearchSettings.ControlBorderThickness, Converter={StaticResource SearchControlThicknessConverter}, ConverterParameter={x:Static converters:BorderType.TopRightBottom}}"
                               IsChecked="{Binding Path=IsPopupOpen, RelativeSource={RelativeSource TemplatedParent}}"/>
             </Border>
-            <controls:LiveTextBlock x:Name="PART_LiveSearchTextBlock" Visibility="Collapsed">
-                <TextBlock.Text>
-                    <MultiBinding Converter="{StaticResource LiveSearchTextConverter}">
-                        <Binding Path="SearchText"/>
-                        <Binding Path="SearchStatus"/>
-                        <Binding Path="SearchResultsCount"/>
-                    </MultiBinding>
-                </TextBlock.Text>
-            </controls:LiveTextBlock>
             <controls:SmoothProgressBar x:Name="PART_SearchProgressBar" Grid.ColumnSpan="3" Focusable="False" Visibility="Collapsed" 
-                                        Style="{StaticResource ProgressBarStyle}"
-                                        TargetValue="{Binding Path=SearchProgress}"
+                                        Style="{StaticResource ProgressBarStyle}" TargetValue="{Binding Path=SearchProgress}"
                                         IsIndeterminate="{Binding Mode=OneTime, Path=SearchSettings.SearchProgressType, Converter={StaticResource SearchProgressTypeConverter}}"
                                         Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="2"/>
             <control:SearchControlPopup x:Name="PART_SearchPopup" Grid.Row="0" Grid.ColumnSpan="3" AllowsTransparency="True" Placement="Bottom"
