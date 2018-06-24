@@ -74,6 +74,7 @@
     <Compile Include="CommandBar\ToolboxContextMenuDefinition.cs" />
     <Compile Include="Commands\ToolboxNodeDownCommandDefinition.cs" />
     <Compile Include="Commands\ToolboxNodeUpCommandDefinition.cs" />
+    <Compile Include="ToolboxCategoryExtension.cs" />
     <Compile Include="ToolboxResources.Designer.cs">
       <DependentUpon>ToolboxResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>

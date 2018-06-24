@@ -18,12 +18,8 @@ namespace ModernApplicationFramework.Modules.Toolbox
 {
     [Export(typeof(IToolbox))]
     [Guid("DD8E4CE1-7431-47C1-9496-B8C91D6E0B55")]
-    public class ToolboxViewModel : Tool, IToolboxPrivate
+    public sealed class ToolboxViewModel : Tool, IToolbox
     {
-        //private readonly IToolboxService _toolboxService;
-
-        //private readonly BindableCollection<ToolboxItemViewModel> _filteredItems;
-        //private readonly BindableCollection<ToolboxItemViewModel> _items;
         private readonly IDockingHostViewModel _hostViewModel;
         private readonly IToolboxStateProvider _stateProvider;
 
@@ -35,8 +31,6 @@ namespace ModernApplicationFramework.Modules.Toolbox
         private bool _isSearching;
 
         public override PaneLocation PreferredLocation => PaneLocation.Left;
-
-        //public IObservableCollection<ToolboxItemViewModel> Items => _filteredItems.Count == 0 ? _items : _filteredItems;
 
         public IObservableCollection<IToolboxCategory> Categories => _categories;
 
@@ -85,33 +79,16 @@ namespace ModernApplicationFramework.Modules.Toolbox
         public ToolboxViewModel(IDockingHostViewModel hostViewModel, IToolboxStateProvider stateProvider)
         {
             DisplayName = "Toolbox";
-
             ContextMenuProvider = new ToolboxContextMenuProvider();
-
-            //_items = new BindableCollection<ToolboxItemViewModel>();
             _categories = new BindableCollection<IToolboxCategory>();
-
-
-            //_filteredItems = new BindableCollection<ToolboxItemViewModel>();
-            //var groupedItems = CollectionViewSource.GetDefaultView(_items);
-            //groupedItems.GroupDescriptions.Add(new PropertyGroupDescription("Category"));
-
-            //_toolboxService = service;
             _hostViewModel = hostViewModel;
             _stateProvider = stateProvider;
-
-            //TODO: change to collection changed?
-            
-
+            //TODO: change to collection changed         
             hostViewModel.ActiveLayoutItemChanging += (sender, e) => StoreItems();
             hostViewModel.ActiveLayoutItemChanged += (sender, e) => RefreshToolboxItems(e.NewLayoutItem);
-
             RefreshView();
-
             Categories.CollectionChanged += (sender, args) => StoreItems();
         }
-
-
 
         public void RefreshView()
         {
@@ -180,10 +157,5 @@ namespace ModernApplicationFramework.Modules.Toolbox
             RefreshView();
             base.ClearSearch();
         }
-    }
-
-    internal interface IToolboxPrivate : IToolbox
-    {
-        IObservableCollection<IToolboxCategory> Categories { get; }
     }
 }

@@ -279,8 +279,6 @@
                                Value="true"/>
                     <Condition Binding="{Binding Path=SearchOptions.Count, Converter={StaticResource IsEqualConverter}, ConverterParameter={StaticResource IntZero}}"
                                Value="true"/>
-                    <!--<Condition Binding="{Binding Path=SearchFilters.Count, Converter={StaticResource IsEqualConverter}, ConverterParameter={vsui:Int32 0}}"
-                               Value="true"/>-->
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
                     <Setter Property="MinHeight" Value="95"/>
@@ -438,10 +436,7 @@
                 <control:SearchMruListBox Grid.Row="0" Style="{StaticResource SearchMruListBoxStyle}" 
                                           ItemContainerStyle="{StaticResource SearchMruListBoxItemStyle}"
                                           ItemsSource="{Binding SearchMruItems}"/>
-                <StackPanel Grid.Row="1">
-
-                </StackPanel>
-                <StackPanel Grid.Row="2" Style="{StaticResource SearchPopupSectionStyle}" 
+                <StackPanel Grid.Row="1" Style="{StaticResource SearchPopupSectionStyle}" 
                             Visibility="{Binding Path=SearchOptions, Converter={StaticResource VisibleIfNotEmptyCollectionConverter}}">
                     <StackPanel.Resources>
                         <DataTemplate x:Key="{x:Static search:SearchOptionItemTemplates.Boolean}">
