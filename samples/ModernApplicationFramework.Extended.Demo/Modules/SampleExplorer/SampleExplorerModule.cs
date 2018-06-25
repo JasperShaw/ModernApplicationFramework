@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using Caliburn.Micro;
-using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Package;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.SampleExplorer
@@ -14,7 +13,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.SampleExplorer
 
         public override Guid Id => new Guid("{E3C144F0-E251-4BC5-BC83-42FB8B7BCD41}");
 
-        public override void Initialize()
+        protected override void Initialize()
         {
             DockingHostViewModel.OpenLayoutItem(IoC.Get<SampleViewModel>());
             base.Initialize();

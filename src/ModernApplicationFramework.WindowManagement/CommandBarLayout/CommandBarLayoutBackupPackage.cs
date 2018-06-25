@@ -21,7 +21,7 @@ namespace ModernApplicationFramework.WindowManagement.CommandBarLayout
             _serializer = serializer;
         }
 
-        public override void Initialize()
+        protected override void Initialize()
         {
             base.Initialize();
             Serialize();

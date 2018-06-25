@@ -33,7 +33,7 @@ namespace ModernApplicationFramework.WindowManagement.CommandBarLayout
             _settings = settings;
         }
 
-        public override void Initialize()
+        protected override void Initialize()
         {
             base.Initialize();
             Deserialize();

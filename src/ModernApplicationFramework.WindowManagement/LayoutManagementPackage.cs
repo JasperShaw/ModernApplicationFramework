@@ -30,7 +30,7 @@ namespace ModernApplicationFramework.WindowManagement
             Instance = this;
         }
 
-        public override void Initialize()
+        protected override void Initialize()
         {
             _layoutManagementService = new LayoutManagementService();
             _layoutManagementService.Initialize();

@@ -40,7 +40,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.Startup
             _toolboxService = toolboxService;
         }
 
-        public override void Initialize()
+        protected override void Initialize()
         {
             DockingHostViewModel.ShowFloatingWindowsInTaskbar = true;
 

@@ -47,6 +47,6 @@ namespace ModernApplicationFramework.Extended.Package
         /// <summary>
         /// Initializes this instance.
         /// </summary>
-        void Initialize();
+        //void Initialize();
     }
 }

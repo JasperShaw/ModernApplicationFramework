@@ -11,8 +11,6 @@ using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.State;
 using ModernApplicationFramework.Utilities;
-using ModernApplicationFramework.WindowManagement;
-using ModernApplicationFramework.WindowManagement.Properties;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.ToolboxStatePersister
 {
@@ -35,7 +33,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ToolboxStatePersister
         }
 
 
-        public override void Initialize()
+        protected override void Initialize()
         {
             base.Initialize();
             Deserialize();

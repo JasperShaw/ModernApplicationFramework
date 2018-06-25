@@ -88,11 +88,20 @@ namespace ModernApplicationFramework.Extended.Package
         /// <summary>
         /// Initializes this instance.
         /// </summary>
-        public virtual void Initialize()
+        protected virtual void Initialize()
         {
             foreach (var globalResourceDictionary in GlobalResourceDictionaries)
-                Application.Current.Resources.MergedDictionaries.Add(globalResourceDictionary);
-            Initialized = true;      
+                Application.Current.Resources.MergedDictionaries.Add(globalResourceDictionary);       
+        }
+
+        internal void InitializeInternal()
+        {
+            if (IsDisposed)
+                throw new InvalidOperationException("Cannot initialize a disposed package");
+            if (Initialized)
+                return;
+            Initialize();
+            Initialized = true;
         }
 
 #pragma warning disable 649

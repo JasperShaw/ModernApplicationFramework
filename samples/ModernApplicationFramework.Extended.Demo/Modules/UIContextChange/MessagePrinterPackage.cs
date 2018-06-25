@@ -18,7 +18,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.UIContextChange
             TriggerUiContextViewModel.TestContext2.WhenActivated(Print);
         }
 
-        public override void Initialize()
+        protected override void Initialize()
         {
             base.Initialize();
             Print();

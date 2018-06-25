@@ -14,7 +14,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.LoadWindowProfile
 
         public override Guid Id => new Guid("{DC9C672E-A0EB-4D77-A825-C8690DD115C1}");
 
-        public override void Initialize()
+        protected override void Initialize()
         {
             base.Initialize();
             LayoutManagementPackage.Instance.LayoutManagementSystem.LoadOrCreateProfile("Default");

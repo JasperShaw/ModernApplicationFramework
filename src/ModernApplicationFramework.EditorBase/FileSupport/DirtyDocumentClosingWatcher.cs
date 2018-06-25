@@ -20,7 +20,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
         public override PackageCloseOption CloseOption => PackageCloseOption.OnMainWindowClosed;
         public override Guid Id => new Guid("{A6B83B74-3ED5-49FE-B11C-F7335A9057BC}");
 
-        public override void Initialize()
+        protected override void Initialize()
         {
             base.Initialize();
             SetupEventHandlers();

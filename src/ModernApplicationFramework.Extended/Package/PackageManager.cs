@@ -111,7 +111,8 @@ namespace ModernApplicationFramework.Extended.Package
         {
             if (!Packages.TryGetValue(id.ToString("N"), out var package))
                 throw new ArgumentException("Package was not found");
-            package.Initialize();
+
+            ((Package) package).InitializeInternal();
         }
 
         /// <inheritdoc />
@@ -123,7 +124,7 @@ namespace ModernApplicationFramework.Extended.Package
         {
             foreach (var mafPackage in Packages.Where(x => x.Value.LoadOption == loadOption))
                 if (!mafPackage.Value.Initialized)
-                    mafPackage.Value.Initialize();
+                    ((Package) mafPackage.Value).InitializeInternal();
         }
 
         /// <inheritdoc />

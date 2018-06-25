@@ -36,7 +36,7 @@ namespace ModernApplicationFramework.EditorBase.Packages.MruFiles
                 UpdateMaxItems(_options.MRUListItems);
         }
 
-        public override void Initialize()
+        protected override void Initialize()
         {
             base.Initialize();
             var items = _store.GetSotredItems();
