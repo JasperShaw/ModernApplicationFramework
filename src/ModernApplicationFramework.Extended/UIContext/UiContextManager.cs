@@ -20,8 +20,11 @@ namespace ModernApplicationFramework.Extended.UIContext
             var index = _uiContextGuids.IndexOf(x => x.Equals(contextGuid));
 
             if (index == -1)
+            {
                 _uiContextGuids.Add(contextGuid);
-            cookie = (uint) _uiContextGuids.Count;
+                index = _uiContextGuids.IndexOf(x => x.Equals(contextGuid));
+            }
+            cookie = (uint) index +1;
             return 0;
         }
 

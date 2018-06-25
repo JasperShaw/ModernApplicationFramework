@@ -34,12 +34,12 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.UIContextChange
 
         private void ExecuteActivate(object obj)
         {
-           //UiContext.FromUiContextGuid(new Guid("{CA2D40CF-F606-4FE6-ABEB-5B3E07839C55}"));
-           // var m = IoC.Get<IUiContextManager>();
-           // m.GetUiContextCookie(new Guid("{CA2D40CF-F606-4FE6-ABEB-5B3E07839C55}"), out var cookie);
-           // m.SetUiContext(cookie, true);
+            UiContext.FromUiContextGuid(new Guid("{CA2D40CF-F606-4FE6-ABEB-5B3E07839C55}"));
+            var m = IoC.Get<IUiContextManager>();
+            m.GetUiContextCookie(new Guid("{CA2D40CF-F606-4FE6-ABEB-5B3E07839C55}"), out var cookie);
+            m.SetUiContext(cookie, true);
 
-            TestContext.IsActive = true;
+            //TestContext.IsActive = true;
         }
 
         private void ExecuteDeactivate(object obj)
