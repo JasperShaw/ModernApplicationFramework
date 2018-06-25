@@ -11,14 +11,13 @@ namespace ModernApplicationFramework.Extended.UIContext
     {
         private static readonly PropertyChangedEventArgs IsActivePropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(IsActive));
         private bool _isActive;
-        private bool _isKnown;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public event EventHandler<UiContextChangedEventArgs> UiContextChanged;
 
-        internal Guid Guid { get; private set; }
-        internal uint Cookie { get; private set; }
+        internal Guid Guid { get; }
+        internal uint Cookie { get; }
 
 
         public bool IsActive
@@ -26,8 +25,6 @@ namespace ModernApplicationFramework.Extended.UIContext
             get => _isActive;
             set
             {
-                if (_isKnown)
-                    throw new NotSupportedException();
                 if (_isActive == value)
                     return;
                 _isActive = value;
@@ -35,17 +32,16 @@ namespace ModernApplicationFramework.Extended.UIContext
             }
         }
 
-        internal UiContext(Guid contextGuid, uint cookie, bool isActive, bool isKnown)
+        internal UiContext(Guid contextGuid, uint cookie, bool isActive)
         {
             Guid = contextGuid;
             Cookie = cookie;
             _isActive = isActive;
-            _isKnown = isKnown;
         }
 
-        public static UiContext FromUIContextGuid(Guid contextGuid)
+        public static UiContext FromUiContextGuid(Guid contextGuid)
         {
-            return UiContextImpl.Instance.Register(contextGuid, false);
+            return UiContextImpl.Instance.Register(contextGuid);
         }
 
         public void WhenActivated(Action action)
@@ -93,12 +89,12 @@ namespace ModernApplicationFramework.Extended.UIContext
         private class WhenActivatedHandler
         {
             private readonly Action _action;
-            private readonly ExecutionContextTrackerHelper.CapturedContext _capturedContext;
+            //private readonly ExecutionContextTrackerHelper.CapturedContext _capturedContext;
 
             public WhenActivatedHandler(UiContext context, Action action)
             {
                 _action = action;
-                _capturedContext = ExecutionContextTrackerHelper.CaptureCurrentContext();
+                //_capturedContext = ExecutionContextTrackerHelper.CaptureCurrentContext();
                 context.UiContextChanged += OnContextChanged;
             }
 
@@ -107,8 +103,9 @@ namespace ModernApplicationFramework.Extended.UIContext
                 if (!e.Activated)
                     return;
                 ((UiContext)sender).UiContextChanged -= OnContextChanged;
-                _capturedContext.ExecuteUnderContext(_action);
-                _capturedContext.Dispose();
+                _action();
+                //_capturedContext.ExecuteUnderContext(_action);
+                //_capturedContext.Dispose();
             }
         }
     }

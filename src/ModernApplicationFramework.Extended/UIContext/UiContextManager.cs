@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel.Composition;
+using System.Linq;
 using ModernApplicationFramework.Core.InfoBarUtilities;
 using ModernApplicationFramework.Utilities;
 
@@ -16,13 +18,10 @@ namespace ModernApplicationFramework.Extended.UIContext
         public int GetUiContextCookie(Guid contextGuid, out uint cookie)
         {
             var index = _uiContextGuids.IndexOf(x => x.Equals(contextGuid));
-            if (index < 0)
-            {
-                cookie = (uint) _uiContexts.Count;
+
+            if (index == -1)
                 _uiContextGuids.Add(contextGuid);
-            }
-            else
-                cookie = (uint) index;
+            cookie = (uint) _uiContextGuids.Count;
             return 0;
         }
 

@@ -6,7 +6,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel>
-        <Button Height="21" VerticalAlignment="Top" Content="Activate Context" Command="{Binding ActivateContextCommand}"/>
-        <Button Height="21" VerticalAlignment="Top" Content="Deactivate Context" Command="{Binding DeactivateContextCommand}"/>
+        <Button Height="21" VerticalAlignment="Top" Content="Activate Context 1" Command="{Binding ActivateContextCommand}"/>
+        <Button Height="21" VerticalAlignment="Top" Content="Deactivate Context 1" Command="{Binding DeactivateContextCommand}"/>
+        <Button Height="21" VerticalAlignment="Top" Content="Activate Context 2" Command="{Binding ActivateContext2Command}"/>
+        <Button Height="21" VerticalAlignment="Top" Content="Deactivate Context 2" Command="{Binding DeactivateContext2Command}"/>
     </StackPanel>
 </UserControl>

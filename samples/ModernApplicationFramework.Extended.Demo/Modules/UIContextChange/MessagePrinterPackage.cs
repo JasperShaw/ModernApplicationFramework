@@ -15,11 +15,17 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.UIContextChange
         public MessagePrinterPackage()
         {
             TriggerUiContextViewModel.TestContext.WhenActivated(Initialize);
+            TriggerUiContextViewModel.TestContext2.WhenActivated(Print);
         }
 
         public override void Initialize()
         {
             base.Initialize();
+            Print();
+        }
+
+        public void Print()
+        {
             MessageBox.Show("Initialized");
         }
     }

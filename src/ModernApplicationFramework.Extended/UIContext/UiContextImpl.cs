@@ -8,7 +8,7 @@ namespace ModernApplicationFramework.Extended.UIContext
     internal sealed class UiContextImpl : IUiContextEvents
     {
         internal static UiContextImpl Instance = new UiContextImpl();
-        private static readonly UiContext DummyContext = new UiContext(Guid.Empty, 0, false, false);
+        private static readonly UiContext DummyContext = new UiContext(Guid.Empty, 0, false);
         private FrugalMap _registeredContexts;
 
         private readonly Lazy<IUiContextManager> _contextManager = new Lazy<IUiContextManager>(() => IoC.Get<IUiContextManager>());
@@ -19,7 +19,7 @@ namespace ModernApplicationFramework.Extended.UIContext
         {
         }
 
-        public UiContext Register(Guid contextGuid, bool isKnown)
+        public UiContext Register(Guid contextGuid)
         {
             var result = _contextManager.Value.GetUiContextCookie(contextGuid, out var cookie);
             if (result < 0)
@@ -32,20 +32,20 @@ namespace ModernApplicationFramework.Extended.UIContext
 
                 if (_eventCookie == 0)
                 {
-                    var instance = ExecutionContextTrackerHelper.Instance;
-                    var contextElementGuid = instance?.SetAndGetContextElement(new Guid("{C64A39C6-DA78-4B8F-AFDF-EA3FE13E9389}"), Guid.Empty) ?? Guid.Empty;
+                    //var instance = ExecutionContextTrackerHelper.Instance;
+                    //var contextElementGuid = instance?.SetAndGetContextElement(new Guid("{C64A39C6-DA78-4B8F-AFDF-EA3FE13E9389}"), Guid.Empty) ?? Guid.Empty;
                     try
                     {
                         _contextManager.Value.AdviseContextEvents(this, out _eventCookie);
                     }
                     finally
                     {
-                        instance?.SetContextElement(new Guid("{C64A39C6-DA78-4B8F-AFDF-EA3FE13E9389}"), contextElementGuid);
+                        //instance?.SetContextElement(new Guid("{C64A39C6-DA78-4B8F-AFDF-EA3FE13E9389}"), contextElementGuid);
                     }
                 }
 
                 _contextManager.Value.IsUiContextActive(cookie, out var active);
-                var uiContext = new UiContext(contextGuid, cookie, active, isKnown);
+                var uiContext = new UiContext(contextGuid, cookie, active);
                 _registeredContexts[(int) cookie] = uiContext;
                 return uiContext;
             }
