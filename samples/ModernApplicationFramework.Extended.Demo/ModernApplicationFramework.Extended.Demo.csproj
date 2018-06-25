@@ -149,6 +149,12 @@
       <DependentUpon>ToolSearchExampleView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\ToolSearch\ToolSearchExampleViewModel.cs" />
+    <Compile Include="Modules\UIContextChange\MessagePrinterPackage.cs" />
+    <Compile Include="Modules\UIContextChange\Sample.cs" />
+    <Compile Include="Modules\UIContextChange\TriggerUiContextView.xaml.cs">
+      <DependentUpon>TriggerUiContextView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\UIContextChange\TriggerUiContextViewModel.cs" />
     <Compile Include="Modules\WaitingWindow\WaitingDialogDemoView.xaml.cs">
       <DependentUpon>WaitingDialogDemoView.xaml</DependentUpon>
     </Compile>
@@ -201,6 +207,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Modules\ToolSearch\ToolSearchExampleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\UIContextChange\TriggerUiContextView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

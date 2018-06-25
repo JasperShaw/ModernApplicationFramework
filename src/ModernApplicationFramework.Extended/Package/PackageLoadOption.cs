@@ -21,5 +21,9 @@
         /// Initializes when the Main Window was loaded
         /// </summary>
         OnMainWindowLoaded,
+        /// <summary>
+        /// Initializes when the UIContext of the Application was changed
+        /// </summary>
+        OnContextActivated
     }
 }
