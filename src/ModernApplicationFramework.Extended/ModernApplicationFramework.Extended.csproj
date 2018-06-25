@@ -115,6 +115,7 @@
     <Compile Include="UIContext\UiContext.cs" />
     <Compile Include="UIContext\UiContextChangedEventArgs.cs" />
     <Compile Include="UIContext\UiContextImpl.cs" />
+    <Compile Include="UIContext\UiContextManager.cs" />
     <Compile Include="Utilities\PaneUtilities\PaneLocation.cs" />
     <Compile Include="Utilities\PaneUtilities\PanesStyleSelector.cs" />
     <Compile Include="Utilities\PaneUtilities\PanesTemplateSelector.cs" />

@@ -44,7 +44,7 @@ namespace ModernApplicationFramework.Extended.UIContext
 
         public uint GetCurrentContext()
         {
-            throw new NotImplementedException();
+            return 0;
         }
 
         public void ReleaseContext(uint cookie)

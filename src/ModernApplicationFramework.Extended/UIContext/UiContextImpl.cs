@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections;
 using System.Windows;
+using Caliburn.Micro;
 
 namespace ModernApplicationFramework.Extended.UIContext
 {
-    internal sealed class UiContextImpl
+    internal sealed class UiContextImpl : IUiContextEvents
     {
         internal static UiContextImpl Instance = new UiContextImpl();
         private static readonly UiContext DummyContext = new UiContext(Guid.Empty, 0, false, false);
         private FrugalMap _registeredContexts;
+
+        private readonly Lazy<IUiContextManager> _contextManager = new Lazy<IUiContextManager>(() => IoC.Get<IUiContextManager>());
+
         private uint _eventCookie;
 
         private UiContextImpl()
@@ -17,18 +21,47 @@ namespace ModernApplicationFramework.Extended.UIContext
 
         public UiContext Register(Guid contextGuid, bool isKnown)
         {
+            var result = _contextManager.Value.GetUiContextCookie(contextGuid, out var cookie);
+            if (result < 0)
+                return DummyContext;
             lock (this)
             {
-                var registeredContext = _registeredContexts[0];
+                var registeredContext = _registeredContexts[(int) cookie];
                 if (registeredContext != DependencyProperty.UnsetValue)
                     return (UiContext) registeredContext;
-            }
 
-            return null;
+                if (_eventCookie == 0)
+                {
+                    var instance = ExecutionContextTrackerHelper.Instance;
+                    var contextElementGuid = instance?.SetAndGetContextElement(new Guid("{C64A39C6-DA78-4B8F-AFDF-EA3FE13E9389}"), Guid.Empty) ?? Guid.Empty;
+                    try
+                    {
+                        _contextManager.Value.AdviseContextEvents(this, out _eventCookie);
+                    }
+                    finally
+                    {
+                        instance?.SetContextElement(new Guid("{C64A39C6-DA78-4B8F-AFDF-EA3FE13E9389}"), contextElementGuid);
+                    }
+                }
+
+                _contextManager.Value.IsUiContextActive(cookie, out var active);
+                var uiContext = new UiContext(contextGuid, cookie, active, isKnown);
+                _registeredContexts[(int) cookie] = uiContext;
+                return uiContext;
+            }
         }
 
         public void SetContext(UiContext context)
         {
+            _contextManager.Value.SetUiContext(context.Cookie, context.IsActive);
+        }
+
+        public int OnUiContextChanged(uint cookie, bool active)
+        {
+            var context = _registeredContexts[(int) cookie];
+            if (context != DependencyProperty.UnsetValue)
+                ((UiContext)context)?.OnActivated(active);
+            return 0;
         }
     }
 

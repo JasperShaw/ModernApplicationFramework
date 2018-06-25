@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ModernApplicationFramework.Core.InfoBarUtilities
 {
-    internal class CookieTable<TCookie, TValue> where TCookie : IComparable<TCookie>
+    public class CookieTable<TCookie, TValue> where TCookie : IComparable<TCookie>
     {
         private readonly object _syncLock = new object();
         private TCookie _currentCookie;

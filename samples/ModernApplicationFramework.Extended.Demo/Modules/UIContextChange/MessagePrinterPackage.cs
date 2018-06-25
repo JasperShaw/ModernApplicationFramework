@@ -12,6 +12,11 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.UIContextChange
         public override PackageCloseOption CloseOption => PackageCloseOption.OnMainWindowClosed;
         public override Guid Id => new Guid("{B765F5CC-554A-4506-8CA0-CC956CC723EE}");
 
+        public MessagePrinterPackage()
+        {
+            TriggerUiContextViewModel.TestContext.WhenActivated(Initialize);
+        }
+
         public override void Initialize()
         {
             base.Initialize();
