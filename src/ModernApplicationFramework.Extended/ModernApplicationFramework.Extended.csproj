@@ -108,6 +108,13 @@
     <Compile Include="Input\CommandRouter.cs" />
     <Compile Include="Layout\LayoutItem.cs" />
     <Compile Include="Layout\LayoutItemBase.cs" />
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="UIContext\ExecutionContextTracker.cs" />
+    <Compile Include="UIContext\ExecutionContextTrackerHelper.cs" />
+    <Compile Include="UIContext\IExecutionContextTracker.cs" />
+    <Compile Include="UIContext\UiContext.cs" />
+    <Compile Include="UIContext\UiContextChangedEventArgs.cs" />
+    <Compile Include="UIContext\UiContextImpl.cs" />
     <Compile Include="Utilities\PaneUtilities\PaneLocation.cs" />
     <Compile Include="Utilities\PaneUtilities\PanesStyleSelector.cs" />
     <Compile Include="Utilities\PaneUtilities\PanesTemplateSelector.cs" />

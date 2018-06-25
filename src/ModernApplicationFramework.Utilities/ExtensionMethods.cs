@@ -30,6 +30,11 @@ namespace ModernApplicationFramework.Utilities
             eventHandler?.Invoke(source, args);
         }
 
+        public static void RaiseEvent(this PropertyChangedEventHandler eventHandler, object source, PropertyChangedEventArgs args)
+        {
+            eventHandler?.Invoke(source, args);
+        }
+
         public static void RaiseEvent(this PropertyChangedEventHandler eventHandler, object source, string propertyName)
         {
             eventHandler?.Invoke(source, new PropertyChangedEventArgs(propertyName));
