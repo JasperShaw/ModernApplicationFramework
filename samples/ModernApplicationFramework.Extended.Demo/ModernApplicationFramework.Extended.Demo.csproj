@@ -144,11 +144,13 @@
     <Compile Include="Modules\Startup\StartupPackage.cs" />
     <Compile Include="Modules\ToolboxStatePersister\StateBackupPackage.cs" />
     <Compile Include="Modules\ToolboxStatePersister\StatePersisterPackage.cs" />
+    <Compile Include="Modules\ToolSearch\Sample.cs" />
     <Compile Include="Modules\ToolSearch\TestToolbar.cs" />
     <Compile Include="Modules\ToolSearch\ToolSearchExampleView.xaml.cs">
       <DependentUpon>ToolSearchExampleView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\ToolSearch\ToolSearchExampleViewModel.cs" />
+    <Compile Include="Modules\UIContextChange\MessagePrinterPackage2.cs" />
     <Compile Include="Modules\UIContextChange\MessagePrinterPackage.cs" />
     <Compile Include="Modules\UIContextChange\Sample.cs" />
     <Compile Include="Modules\UIContextChange\TriggerUiContextView.xaml.cs">

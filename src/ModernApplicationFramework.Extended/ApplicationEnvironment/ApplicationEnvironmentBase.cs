@@ -92,7 +92,7 @@ namespace ModernApplicationFramework.Extended.ApplicationEnvironment
         {
             _packageManager = new PackageManager();
             _packageManager.Initialize();
-            _packageManager.LoadPackages(PackageLoadOption.OnApplicationStart);
+            _packageManager.LoadApplicationStartPackages();
         }
     }
 }

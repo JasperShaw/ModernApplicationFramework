@@ -7,6 +7,7 @@ using System.Windows;
 using ModernApplicationFramework.EditorBase.Dialogs.SaveDirtyDocumentsDialog;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
+using ModernApplicationFramework.Extended;
 using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Extended.Package;
 
@@ -14,9 +15,10 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
 {
 
     [Export(typeof(IMafPackage))]
+    [PackageAutoLoad(UiContextGuids.ShellInitializedContextGuid)]
     internal class DirtyDocumentClosingWatcherPackage : Package
     {
-        public override PackageLoadOption LoadOption => PackageLoadOption.OnMainWindowLoaded;
+        public override PackageLoadOption LoadOption => PackageLoadOption.OnContextActivated;
         public override PackageCloseOption CloseOption => PackageCloseOption.OnMainWindowClosed;
         public override Guid Id => new Guid("{A6B83B74-3ED5-49FE-B11C-F7335A9057BC}");
 

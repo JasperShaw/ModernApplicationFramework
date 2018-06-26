@@ -8,7 +8,7 @@ namespace ModernApplicationFramework.Extended.Settings
     public static class ToolsOptionsSubCategories
     {
         [Export] public static ISettingsCategory GeneralSubCategory =
-            new SettingsCategory(GuidCollection.ToolsOptionsGeneralSettingsCategoryId,
+            new SettingsCategory(SettingsGuids.ToolsOptionsGeneralSettingsCategoryId,
                 SettingsCategoryType.ToolsOptionSub, "General", SettingsCategories.ToolsOptionEnvironmentCategory);
     }
 }

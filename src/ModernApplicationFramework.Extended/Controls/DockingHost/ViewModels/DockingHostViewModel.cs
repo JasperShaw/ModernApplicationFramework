@@ -267,14 +267,15 @@ namespace ModernApplicationFramework.Extended.Controls.DockingHost.ViewModels
             DockingHostView.DockingManager.DocumentsClosed += DockingHostViewLayoutItemsClosed;
             DockingHostView.DockingManager.AnchorablesClosing += DockingManager_AnchorablesClosing;
             DockingHostView.DockingManager.AnchorablesClosed += DockingManager_AnchorablesClosed;
-            PackageManager.Instance.LoadPackages(PackageLoadOption.PreviewWindowLoaded);
+            GeneralUiContexts.ShellInitializingContext.IsActive = true;
             base.OnViewAttached(view, context);
         }
 
         protected override void OnViewLoaded(object view)
         {
             base.OnViewLoaded(view);
-            PackageManager.Instance.LoadPackages(PackageLoadOption.OnMainWindowLoaded);
+            GeneralUiContexts.ShellInitializingContext.IsActive = false;
+            GeneralUiContexts.ShellInitializedContext.IsActive = true;
         }
 
     

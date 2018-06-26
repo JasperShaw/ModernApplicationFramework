@@ -6,9 +6,10 @@ using ModernApplicationFramework.Extended.Package;
 namespace ModernApplicationFramework.Extended.Demo.Modules.SampleExplorer
 {
     [Export(typeof(IMafPackage))]
+    [PackageAutoLoad(UiContextGuids.ShellInitializedContextGuid)]
     public class SampleExplorerModule : Package.Package
     {
-        public override PackageLoadOption LoadOption => PackageLoadOption.OnMainWindowLoaded;
+        public override PackageLoadOption LoadOption => PackageLoadOption.OnContextActivated;
         public override PackageCloseOption CloseOption => PackageCloseOption.OnMainWindowClosed;
 
         public override Guid Id => new Guid("{E3C144F0-E251-4BC5-BC83-42FB8B7BCD41}");

@@ -68,6 +68,7 @@
     <Compile Include="ApplicationEnvironment\FallbackExtendedEnvironmentVariables.cs" />
     <Compile Include="Commands\CopyCommandDefinition.cs" />
     <Compile Include="Commands\DeleteCommandDefinition.cs" />
+    <Compile Include="GeneralUiContexts.cs" />
     <Compile Include="Layout\ToolsClosedEventArgs.cs" />
     <Compile Include="Layout\ToolsClosingEventArgs.cs" />
     <Compile Include="Layout\LayoutChangeEventArgs.cs" />
@@ -80,10 +81,12 @@
     <Compile Include="Package\IMafPackage.cs" />
     <Compile Include="Package\IPackageManager.cs" />
     <Compile Include="Package\Package.cs" />
+    <Compile Include="Package\PackageAutoLoadAttribute.cs" />
+    <Compile Include="Package\PackageAutoLoadManager.cs" />
     <Compile Include="Package\PackageCloseOption.cs" />
     <Compile Include="Package\PackageLoadOption.cs" />
     <Compile Include="Package\PackageManager.cs" />
-    <Compile Include="GuidCollection.cs" />
+    <Compile Include="SettingsGuids.cs" />
     <Compile Include="Input\KeyBindingScheme\KeyBindingSchemeManager.cs" />
     <Compile Include="Input\KeyBindingScheme\FileSchemeDefinition.cs" />
     <Compile Include="Interfaces\IKeyBindingManager.cs" />
@@ -109,6 +112,7 @@
     <Compile Include="Layout\LayoutItem.cs" />
     <Compile Include="Layout\LayoutItemBase.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="UiContextGuids.cs" />
     <Compile Include="UIContext\ExecutionContextTracker.cs" />
     <Compile Include="UIContext\ExecutionContextTrackerHelper.cs" />
     <Compile Include="UIContext\IExecutionContextTracker.cs" />

@@ -14,14 +14,6 @@
         /// </summary>
         OnApplicationStart,
         /// <summary>
-        /// Initializes when the Main Window is about the get loaded
-        /// </summary>
-        PreviewWindowLoaded,
-        /// <summary>
-        /// Initializes when the Main Window was loaded
-        /// </summary>
-        OnMainWindowLoaded,
-        /// <summary>
         /// Initializes when the UIContext of the Application was changed
         /// </summary>
         OnContextActivated

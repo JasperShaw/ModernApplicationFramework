@@ -15,12 +15,13 @@ using ModernApplicationFramework.Utilities;
 namespace ModernApplicationFramework.Extended.Demo.Modules.ToolboxStatePersister
 {
     [Export(typeof(IMafPackage))]
+    [PackageAutoLoad(UiContextGuids.ShellInitializedContextGuid)]
     public class StatePersisterPackage : Package.Package, IInfoBarUiEvents
     {
         private readonly IDockingMainWindowViewModel _mainWindow;
         private readonly IToolboxStateSerializer _serializer;
         private readonly ToolboxStateSettings _settings;
-        public override PackageLoadOption LoadOption => PackageLoadOption.OnMainWindowLoaded;
+        public override PackageLoadOption LoadOption => PackageLoadOption.OnContextActivated;
         public override PackageCloseOption CloseOption => PackageCloseOption.OnMainWindowClosed;
         public override Guid Id => new Guid("{AD27146F-101A-4C39-A0F0-07C809EA53D7}");
 

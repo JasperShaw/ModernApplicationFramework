@@ -8,7 +8,6 @@ namespace ModernApplicationFramework.Extended.Package
     public sealed class PackageManager : IPackageManager
     {
         private bool _initialized;
-
         /// <summary>
         /// Gets current instance.
         /// </summary>
@@ -22,15 +21,10 @@ namespace ModernApplicationFramework.Extended.Package
             Instance = this;
         }
 
-        /// <inheritdoc />
-        /// <summary>
-        /// Adds a single package to the <see cref="T:ModernApplicationFramework.Extended.Package.IPackageManager" />.
-        /// </summary>
-        /// <param name="package">The package.</param>
-        /// <param name="initialize">if set to <see langword="true" />the package will be initialized</param>
-        /// <exception cref="T:System.InvalidOperationException">Can not add duplicate Package</exception>
         public void AddSinglePackage(IMafPackage package, bool initialize)
         {
+            if (package.LoadOption != PackageLoadOption.Custom)
+                throw new InvalidOperationException("Only can load packages that have custom load option set");
             var id = package.Id.ToString("N");
             if (Packages.ContainsKey(id))
                 throw new InvalidOperationException("Can not add duplicate Package");
@@ -40,12 +34,6 @@ namespace ModernApplicationFramework.Extended.Package
             LoadPackage(package.Id);
         }
 
-        /// <inheritdoc />
-        /// <summary>
-        /// Closes a single <see cref="T:ModernApplicationFramework.Extended.Package.IMafPackage" />.
-        /// </summary>
-        /// <param name="id">The identifier of the <see cref="T:ModernApplicationFramework.Extended.Package.IMafPackage" />.</param>
-        /// <exception cref="T:System.ArgumentException">Package was not found</exception>
         public void ClosePackage(Guid id)
         {
             if (!Packages.TryGetValue(id.ToString("N"), out var package))
@@ -54,11 +42,6 @@ namespace ModernApplicationFramework.Extended.Package
                 package.Close();
         }
 
-        /// <inheritdoc />
-        /// <summary>
-        /// Closes all <see cref="T:ModernApplicationFramework.Extended.Package.IMafPackage" />s matching the specified options.
-        /// </summary>
-        /// <param name="option">The option.</param>
         public void ClosePackages(PackageCloseOption option)
         {
             foreach (var mafPackage in Packages.Values.Where(x => x.CloseOption == option))
@@ -66,11 +49,6 @@ namespace ModernApplicationFramework.Extended.Package
                     mafPackage.Close();
         }
 
-        /// <inheritdoc />
-        /// <summary>
-        /// Initializes the <see cref="T:ModernApplicationFramework.Extended.Package.IPackageManager" />.
-        /// </summary>
-        /// <exception cref="T:System.InvalidOperationException">Can not import Packages twice</exception>
         public void Initialize()
         {
             if (_initialized)
@@ -81,19 +59,11 @@ namespace ModernApplicationFramework.Extended.Package
                 if (Packages.ContainsKey(mafPackage.Id.ToString("N")))
                     continue;
                 Packages.Add(mafPackage.Id.ToString("N"), mafPackage);
+                this.RegisterAutoLoadPackages(mafPackage, () => LoadPackage(mafPackage.Id));
             }
             _initialized = true;
         }
 
-        /// <inheritdoc />
-        /// <summary>
-        /// Determines whether a <see cref="T:ModernApplicationFramework.Extended.Package.IMafPackage" /> is initialized.
-        /// </summary>
-        /// <param name="id">The identifier of the <see cref="T:ModernApplicationFramework.Extended.Package.IMafPackage" /></param>
-        /// <returns>
-        ///   <see langword="true" /> if the package is loaded; otherwise, <see langword="false" />.
-        /// </returns>
-        /// <exception cref="T:System.ArgumentException">Package was not found</exception>
         public bool IsPackageLoaded(Guid id)
         {
             if (!Packages.TryGetValue(id.ToString("N"), out var package))
@@ -101,36 +71,13 @@ namespace ModernApplicationFramework.Extended.Package
             return package.Initialized;
         }
 
-        /// <inheritdoc />
-        /// <summary>
-        /// Loads a single package.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <exception cref="T:System.ArgumentException">Package was not found</exception>
-        public void LoadPackage(Guid id)
+        public void LoadApplicationStartPackages()
         {
-            if (!Packages.TryGetValue(id.ToString("N"), out var package))
-                throw new ArgumentException("Package was not found");
-
-            ((Package) package).InitializeInternal();
-        }
-
-        /// <inheritdoc />
-        /// <summary>
-        /// Loads the packages.
-        /// </summary>
-        /// <param name="loadOption">The load option.</param>
-        public void LoadPackages(PackageLoadOption loadOption)
-        {
-            foreach (var mafPackage in Packages.Where(x => x.Value.LoadOption == loadOption))
+            foreach (var mafPackage in Packages.Where(x => x.Value.LoadOption == PackageLoadOption.OnApplicationStart))
                 if (!mafPackage.Value.Initialized)
                     ((Package) mafPackage.Value).InitializeInternal();
         }
 
-        /// <inheritdoc />
-        /// <summary>
-        /// Shuts down the <see cref="T:ModernApplicationFramework.Extended.Package.IPackageManager" /> and closes all <see cref="T:ModernApplicationFramework.Extended.Package.IMafPackage" />s.
-        /// </summary>
         public void ShutDown()
         {
             EnsureInitialized();
@@ -143,6 +90,20 @@ namespace ModernApplicationFramework.Extended.Package
             if (_initialized)
                 return;
             Initialize();
+        }
+
+        private void LoadPackage(Guid id)
+        {
+            if (!Packages.TryGetValue(id.ToString("N"), out var package))
+                throw new ArgumentException("Package was not found");
+
+            LoadPackage(package);
+        }
+
+
+        private void LoadPackage(IMafPackage package)
+        {
+            ((Package)package).InitializeInternal();
         }
     }
 }

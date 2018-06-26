@@ -7,11 +7,12 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.UIContextChange
 {
     [Export(typeof(IMafPackage))]
     [PackageAutoLoad("CA2D40CF-F606-4FE6-ABEB-5B3E07839C55")]
-    public class MessagePrinterPackage : Package.Package
+    [PackageAutoLoad("4C800FF2-6D1D-45DE-80A2-9ADE26037208")]
+    public class MessagePrinterPackage2 : Package.Package
     {
         public override PackageLoadOption LoadOption => PackageLoadOption.OnContextActivated;
         public override PackageCloseOption CloseOption => PackageCloseOption.OnMainWindowClosed;
-        public override Guid Id => new Guid("{4ACE8691-108C-4C4B-B291-76708E4ACA5B}");
+        public override Guid Id => new Guid("{B765F5CC-554A-4506-8CA0-CC956CC723EE}");
 
         protected override void Initialize()
         {
@@ -21,7 +22,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.UIContextChange
 
         public void Print()
         {
-            MessageBox.Show("Initialized 1");
+            MessageBox.Show("Initialized 2");
         }
     }
 }

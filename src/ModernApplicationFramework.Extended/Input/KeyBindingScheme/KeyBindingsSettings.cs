@@ -50,7 +50,7 @@ namespace ModernApplicationFramework.Extended.Input.KeyBindingScheme
     internal static class EnvironmentGroupSettingsCategories
     {
         [Export] public static ISettingsCategory KeyBindingsCategory =
-            new SettingsCategory(GuidCollection.KeyBindingSettingsCategoryId, SettingsCategoryType.Normal,
+            new SettingsCategory(SettingsGuids.KeyBindingSettingsCategoryId, SettingsCategoryType.Normal,
                 "Environment_KeyBindings", SettingsCategories.EnvironmentCategory);
     }
 }

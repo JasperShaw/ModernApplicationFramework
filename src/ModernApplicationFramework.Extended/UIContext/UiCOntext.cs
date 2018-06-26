@@ -71,7 +71,7 @@ namespace ModernApplicationFramework.Extended.UIContext
                     {
                         handler(this, e);
                     }
-                    catch
+                    catch (Exception ex)
                     {          
                     }
                 }

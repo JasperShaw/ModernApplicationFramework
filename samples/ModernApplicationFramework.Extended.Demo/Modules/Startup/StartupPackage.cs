@@ -15,13 +15,14 @@ using ModernApplicationFramework.Modules.Toolbox.Items;
 namespace ModernApplicationFramework.Extended.Demo.Modules.Startup
 {
     [Export(typeof(IMafPackage))]
+    [PackageAutoLoad(UiContextGuids.ShellInitializedContextGuid)]
     public class StartupPackage : Package.Package
     {
         private readonly IOutput _output;
         private readonly IInspectorTool _inspectorTool;
         private readonly IStatusBarDataModelService _statusBarService;
         private readonly IToolboxService _toolboxService;
-        public override PackageLoadOption LoadOption => PackageLoadOption.OnMainWindowLoaded;
+        public override PackageLoadOption LoadOption => PackageLoadOption.OnContextActivated;
         public override PackageCloseOption CloseOption => PackageCloseOption.OnMainWindowClosed;
 
         public override Guid Id => new Guid("{0C922534-3BBA-43D1-82DC-EBF3B024F13A}");
@@ -47,8 +48,6 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.Startup
             _output.AppendLine("Started up");
             _statusBarService.SetBackgroundColor(AbstractStatusBarService.DefaultColors.Blue);
             _statusBarService.SetText(1, "Test");
-
-            DockingHostViewModel.ShowTool<ToolSearchExampleViewModel>();
 
             DockingHostViewModel.ActiveLayoutItemChanged += (sender, e) => RefreshInspector();
             RefreshInspector();

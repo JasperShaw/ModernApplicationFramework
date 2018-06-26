@@ -5,17 +5,19 @@ using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.Packages;
 using ModernApplicationFramework.EditorBase.Settings.MruFiles;
+using ModernApplicationFramework.Extended;
 using ModernApplicationFramework.Extended.Package;
 
 namespace ModernApplicationFramework.EditorBase.Packages.MruFiles
 {
     [Export(typeof(IMafPackage))]
     [Export(typeof(IMruFilePackage))]
+    [PackageAutoLoad(UiContextGuids.ShellInitializedContextGuid)]
     public class MruFilePackage : Package, IMruFilePackage
     {
         private readonly EnvironmentGeneralOptions _options;
         private readonly StoredMruFiles _store;
-        public override PackageLoadOption LoadOption => PackageLoadOption.OnMainWindowLoaded;
+        public override PackageLoadOption LoadOption => PackageLoadOption.OnContextActivated;
         public override PackageCloseOption CloseOption => PackageCloseOption.OnMainWindowClosed;
         public override Guid Id => new Guid("{054BEBB2-8128-48C5-A656-A93B183DE420}");
 
