@@ -355,10 +355,14 @@ namespace ModernApplicationFramework.Basics.Services
                 throw new InvalidOperationException();
             var document = parentElement.OwnerDocument;
             var rootElement = parentElement.OwnerDocument.CreateElement(string.Empty, path, string.Empty);
-            var commandBarRootItems = IoC.Get<T>().GetMenuHeaderItemDefinitions()
+
+            var host = IoC.Get<T>();
+
+            var commandBarRootItems = host.GetMenuHeaderItemDefinitions()
                 .Where(x => x is TV).Cast<TV>();
             foreach (var item in commandBarRootItems)
             {
+                host.BuildLogical(item);
                 var element = createElementFunc(document, item);
                 ExplodeGroups(item, element, document);
                 rootElement.AppendChild(element);
