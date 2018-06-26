@@ -13,6 +13,12 @@ namespace ModernApplicationFramework.Input.Base
     /// <seealso cref="ICommand" />
     public abstract class AbstractCommandWrapper : ICommand
     {
+
+        internal AbstractCommandWrapper()
+        {
+            
+        }
+
         protected AbstractCommandWrapper(Action executeAction, Func<bool> cantExectueFunc)
         {
             if (executeAction == null)
@@ -27,10 +33,12 @@ namespace ModernApplicationFramework.Input.Base
             WrappedCommand = wrappedCommand ?? throw new ArgumentNullException(nameof(wrappedCommand));
         }
 
-        public ICommand WrappedCommand { get; }
+        public ICommand WrappedCommand { get; internal set; }
 
         public bool CanExecute(object parameter)
         {
+            if (WrappedCommand == null)
+                return false;
             return WrappedCommand.CanExecute(parameter);
         }
 
@@ -43,7 +51,7 @@ namespace ModernApplicationFramework.Input.Base
         [DebuggerHidden]
         public void Execute(object parameter)
         {
-            WrappedCommand.Execute(parameter);
+            WrappedCommand?.Execute(parameter);
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Globalization;
-using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
@@ -14,13 +13,8 @@ namespace ModernApplicationFramework.Extended.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(OpenSettingsCommandDefinition))]
-    public sealed class OpenSettingsCommandDefinition : CommandDefinition
+    public sealed class OpenSettingsCommandDefinition : CommandDefinition<IOpenSettingsCommand>
     {
-#pragma warning disable 649
-        [Import] private IWindowManager _windowManager;
-#pragma warning restore 649
-        public override ICommand Command { get; }
-
         public override MultiKeyGesture DefaultKeyGesture => null;
         public override GestureScope DefaultGestureScope => null;
 
@@ -39,18 +33,32 @@ namespace ModernApplicationFramework.Extended.Commands
 
         public override CommandCategory Category => CommandCategories.ToolsCommandCategory;
         public override Guid Id => new Guid("{71F57742-F483-4E3C-A5DD-79596A86CEC7}");
+    }
 
-        public OpenSettingsCommandDefinition()
+
+
+    public interface IOpenSettingsCommand : ICommandDefinitionCommand
+    {
+    }
+
+
+    [Export(typeof(IOpenSettingsCommand))]
+    internal class OpenSettingsCommand : CommandDefinitionCommand, IOpenSettingsCommand
+    {
+        private readonly IWindowManager _windowManager;
+
+        [ImportingConstructor]
+        public OpenSettingsCommand(IWindowManager windowManager)
         {
-            Command = new UICommand(OpenSettings, CanOpenSettings);
+            _windowManager = windowManager;
         }
 
-        private bool CanOpenSettings()
+        protected override bool CanExecute()
         {
-            return AllowExecution;
+            return true;
         }
 
-        private void OpenSettings()
+        protected override void Execute()
         {
             _windowManager.ShowDialog(IoC.Get<SettingsWindowViewModel>());
         }
