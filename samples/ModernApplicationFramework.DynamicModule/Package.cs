@@ -14,7 +14,7 @@ namespace ModernApplicationFramework.DynamicModule
         public override Guid Id => new Guid("{FF5ACE0B-DB3F-4BD5-890E-36FE84CBE6B1}");
 
 
-        public override void Initialize()
+        protected override void Initialize()
         {
             IoC.Get<IDockingMainWindowViewModel>().DockingHost.ShowTool<ITestPrinter>();
         }
