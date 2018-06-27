@@ -25,7 +25,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml.Serialization;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.CommandBar.Creators;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Basics.Search;
 using ModernApplicationFramework.Controls;
@@ -173,8 +172,7 @@ namespace ModernApplicationFramework.Docking.Controls
         private ContentPresenter _view;
 
         private SearchPlacement _searchControlPlacement = SearchPlacement.Dynamic;
-        private bool searchControlHandledKey;
-        private uint SearchControlMaxWidth = uint.MaxValue;
+        private uint _searchControlMaxWidth = uint.MaxValue;
 
         internal LayoutItem()
         {
@@ -395,6 +393,8 @@ namespace ModernApplicationFramework.Docking.Controls
             var num2 = double.PositiveInfinity;
             var searchControl = ((WindowSearchHost) SearchHost).SearchControl;
 
+            AdornmentHost.Measure(new Size(double.MaxValue, double.MaxValue));
+
             if (contolPlacement == SearchPlacement.Dynamic)
             {
                 if (AdornmentHost.SearchHostingPanel.ToolbarTray != null)
@@ -410,7 +410,7 @@ namespace ModernApplicationFramework.Docking.Controls
                         dock = Dock.Left;
                         horizontalAlignment = HorizontalAlignment.Right;
                         num2 = Math.Max(AdornmentHost.SearchHostingPanel.ToolbarTray.DesiredSize.Width,
-                            AdornmentHost.SearchHostingPanel.ActualWidth - SearchControlMaxWidth);
+                            AdornmentHost.SearchHostingPanel.ActualWidth - _searchControlMaxWidth);
                     }
                 }
             }
@@ -431,7 +431,7 @@ namespace ModernApplicationFramework.Docking.Controls
             var searchControl = ((WindowSearchHost)SearchHost).SearchControl;
             var num = uint.MaxValue;
             if (searchControl.HorizontalAlignment == HorizontalAlignment.Right)
-                num = SearchControlMaxWidth;
+                num = _searchControlMaxWidth;
             var dataContext = searchControl.DataContext as SearchControlDataSource;
             if (dataContext == null)
                 return;
@@ -446,13 +446,7 @@ namespace ModernApplicationFramework.Docking.Controls
             Control searchControl = ((WindowSearchHost)SearchHost).SearchControl;
             if (searchControl == null)
                 return;
-            searchControl.KeyDown += SearchControl_KeyDown;
             CommandBarNavigationHelper.SetCommandFocusMode(searchControl, CommandBarNavigationHelper.CommandFocusMode.Container);
-        }
-
-        private void SearchControl_KeyDown(object sender, KeyEventArgs e)
-        {
-            searchControlHandledKey = e.Handled;
         }
 
         private void SearchHostingPanel_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -462,7 +456,7 @@ namespace ModernApplicationFramework.Docking.Controls
 
         private void InitializeSearchControlMaxWidth()
         {
-            SearchControlMaxWidth =
+            _searchControlMaxWidth =
                 ((SearchControlDataSource) ((WindowSearchHost) SearchHost).SearchControl.DataContext)
                 .SearchSettings.ControlMaxWidth;
         }
@@ -492,7 +486,7 @@ namespace ModernApplicationFramework.Docking.Controls
 
             CreateSearchHostAndControl();
             SearchHost.SetupSearch(windowSearch);
-            windowSearch.SearchControlPlacement = SearchPlacement.Dynamic;
+            SearchControlPlacement = windowSearch.SearchControlPlacement;
             InitializeSearchControlMaxWidth();
             AdjustSearchControlMaxWidth();
         }
