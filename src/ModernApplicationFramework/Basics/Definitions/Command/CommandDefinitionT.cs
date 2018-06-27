@@ -1,15 +1,13 @@
 ﻿using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Input.Base;
-using ModernApplicationFramework.Interfaces.Services;
+using ModernApplicationFramework.Input.Command;
 
 namespace ModernApplicationFramework.Basics.Definitions.Command
 {
     public abstract class CommandDefinition<T> : CommandDefinition where T : ICommandDefinitionCommand
     {
         public sealed override ICommand Command { get; }
-
-        public override object CommandParamenter { get; set; }
 
         protected CommandDefinition()
         {
@@ -19,20 +17,22 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
 
     public interface ICommandDefinitionCommand : ICommand
     {
-        object CommandParamenter { get; set; }
     }
 
     public abstract class CommandDefinitionCommand : AbstractCommandWrapper, ICommandDefinitionCommand
     {
         protected CommandDefinitionCommand()
         {
-            WrappedCommand = new Input.Command.Command(Execute, CanExecute);
+            WrappedCommand = new CommandEx(OnExecute, OnCanExecute);
         }
 
-        protected abstract bool CanExecute();
+        protected CommandDefinitionCommand(object args)
+        {
+            WrappedCommand = new CommandEx(o => OnExecute(args), o => OnCanExecute(args));
+        }
 
-        protected abstract void Execute();
+        protected abstract bool OnCanExecute(object parameter);
 
-        public object CommandParamenter { get; set; }
+        protected abstract void OnExecute(object parameter);
     }
 }

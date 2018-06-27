@@ -205,8 +205,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
             if (SelectedItem is IToolboxItem item)
             {
                 var command = DeleteActiveItemCommand.Instance;
-                command.CommandParamenter = item;
-                command.Command.Execute(null);
+                command.Command.Execute(item);
             }
         }
 

@@ -44,11 +44,6 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         public override CommandControlTypes ControlType => CommandControlTypes.Button;
 
         /// <summary>
-        ///     A command specific parameter
-        /// </summary>
-        public virtual object CommandParamenter { get; set; }
-
-        /// <summary>
         ///     Indicated whether the command is checked or not.
         /// </summary>
         public virtual bool IsChecked { get; set; }

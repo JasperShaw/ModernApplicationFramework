@@ -53,12 +53,12 @@ namespace ModernApplicationFramework.Extended.Commands
             _windowManager = windowManager;
         }
 
-        protected override bool CanExecute()
+        protected override bool OnCanExecute(object parameter)
         {
             return true;
         }
 
-        protected override void Execute()
+        protected override void OnExecute(object parameter)
         {
             _windowManager.ShowDialog(IoC.Get<SettingsWindowViewModel>());
         }

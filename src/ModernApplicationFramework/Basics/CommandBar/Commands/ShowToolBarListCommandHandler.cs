@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Windows.Input;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
-using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Command;
 using ModernApplicationFramework.Interfaces.ViewModels;
@@ -31,45 +28,29 @@ namespace ModernApplicationFramework.Basics.CommandBar.Commands
             foreach (var toolbarDefinition in _toolBarHost.TopLevelDefinitions)
             {
                 var definition =
-                    new ShowSelectedToolBarCommandDefinition(toolbarDefinition.Text)
-                    {
-                        CommandParamenter = toolbarDefinition
-                    };
+                    new CommandListHandlerDefinition(toolbarDefinition.Text,
+                        new ShowSelectedToolBarCommand(toolbarDefinition));
+
                 if (((ToolbarDefinition) toolbarDefinition).IsVisible)
                     definition.IsChecked = true;
                 commands.Add(definition);
             }
         }
 
-        private class ShowSelectedToolBarCommandDefinition : CommandDefinition
+        private class ShowSelectedToolBarCommand : CommandDefinitionCommand
         {
-            public override ICommand Command { get; }
-            public override MultiKeyGesture DefaultKeyGesture => null;
-            public override GestureScope DefaultGestureScope => null;
-            public override string Name => string.Empty;
-            public override string NameUnlocalized => string.Empty;
-            public override string Text { get; }
-            public override string ToolTip => string.Empty;
-            public override Uri IconSource => null;
-            public override string IconId => null;
-            public override CommandCategory Category => null;
-            public override Guid Id => new Guid("{12D2820B-940A-4494-8418-16794D89924F}");
-
-            public ShowSelectedToolBarCommandDefinition(string name)
-            {
-                Text = name;
-                Command = new UICommand(ShowSelectedItem, CanShowSelectedItem);
+            public ShowSelectedToolBarCommand(object args) : base(args)
+            {    
             }
 
-            private bool CanShowSelectedItem()
+            protected override bool OnCanExecute(object parameter)
             {
-                return CommandParamenter is ToolbarDefinition;
+                return parameter is ToolbarDefinition;
             }
 
-            private void ShowSelectedItem()
+            protected override void OnExecute(object parameter)
             {
-                var toolBarDef = CommandParamenter as ToolbarDefinition;
-                if (toolBarDef == null)
+                if (!(parameter is ToolbarDefinition toolBarDef))
                     return;
                 toolBarDef.IsVisible = !toolBarDef.IsVisible;
             }

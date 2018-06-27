@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Extended.Interfaces;
-using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Command;
 
@@ -34,10 +31,9 @@ namespace ModernApplicationFramework.Extended.Commands
                 var document = _shell.LayoutItems[i];
 
                 var definition =
-                    new ShowSelectedDocumentCommandDefinition($"&{i + 1} {document.DisplayName}")
-                    {
-                        CommandParamenter = document
-                    };
+                    new CommandListHandlerDefinition($"&{i + 1} {document.DisplayName}",
+                        new ShowSelectedDocumentCommand(document));
+
                 if (document.IsActive)
                     definition.IsChecked = true;
 
@@ -45,36 +41,20 @@ namespace ModernApplicationFramework.Extended.Commands
             }
         }
 
-        private class ShowSelectedDocumentCommandDefinition : CommandDefinition
+        private class ShowSelectedDocumentCommand : CommandDefinitionCommand
         {
-            public override ICommand Command { get; }
-
-            public override MultiKeyGesture DefaultKeyGesture => null;
-            public override GestureScope DefaultGestureScope => null;
-
-            public override string Name => string.Empty;
-            public override string NameUnlocalized => string.Empty;
-            public override string Text { get; }
-            public override string ToolTip => string.Empty;
-            public override Uri IconSource => null;
-            public override string IconId => null;
-            public override CommandCategory Category => null;
-            public override Guid Id => new Guid("{332801C8-4E96-4C16-9369-E17C845B5848}");
-
-            public ShowSelectedDocumentCommandDefinition(string name)
+            public ShowSelectedDocumentCommand(object args) : base(args)
             {
-                Text = name;
-                Command = new UICommand(ShowSelectedItem, CanShowSelectedItem);
             }
 
-            private bool CanShowSelectedItem()
+            protected override bool OnCanExecute(object parameter)
             {
-                return CommandParamenter is ILayoutItem;
+                return parameter is ILayoutItem;
             }
 
-            private void ShowSelectedItem()
+            protected override void OnExecute(object parameter)
             {
-                IoC.Get<IDockingHostViewModel>().OpenLayoutItem((ILayoutItem) CommandParamenter);
+                IoC.Get<IDockingHostViewModel>().OpenLayoutItem((ILayoutItem) parameter);
             }
         }
     }

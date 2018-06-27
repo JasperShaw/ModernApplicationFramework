@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.Packages;
-using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Command;
 
@@ -34,7 +31,8 @@ namespace ModernApplicationFramework.EditorBase.Commands
 
             if (itemCount == 0)
             {
-                var definition = new OpenMruFileCommandDefinition(-1, CommandsResources.RecentFileListCommand_NoItems);
+                var args = new MruCommandParameter(-1, null);
+                var definition = new CommandListHandlerDefinition(CommandsResources.RecentFileListCommand_NoItems, new OpenMruFileCommand(args));
                 commands.Add(definition);
                 return;
             }
@@ -42,10 +40,8 @@ namespace ModernApplicationFramework.EditorBase.Commands
             for (var i = 0; i < itemCount; i++)
             {
                 var item = _mruFilePackage.Manager.Items[i];
-                var definition = new OpenMruFileCommandDefinition(i,$"&{i+1} {ShrinkPath(item.Path, 50)}")
-                {
-                    CommandParamenter = item
-                };
+                var args = new MruCommandParameter(i, item);
+                var definition = new CommandListHandlerDefinition($"&{i + 1} {ShrinkPath(item.Path, 50)}", new OpenMruFileCommand(args));
                 commands.Add(definition);
             }
         }
@@ -70,40 +66,34 @@ namespace ModernApplicationFramework.EditorBase.Commands
             return start + mid + end;
         }
 
-        private class OpenMruFileCommandDefinition : CommandDefinition
+        private class OpenMruFileCommand : CommandDefinitionCommand
         {
-            public override ICommand Command { get; }
+            public OpenMruFileCommand(object args) : base(args)
+            {
+            }
 
-            public override MultiKeyGesture DefaultKeyGesture => null;
-            public override GestureScope DefaultGestureScope => null;
+            protected override bool OnCanExecute(object parameter)
+            {
+                if (!(parameter is MruCommandParameter mruCommandParameter))
+                    return false;
+                return mruCommandParameter.Item != null;
+            }
 
-            public override string Name => string.Empty;
-            public override string NameUnlocalized => string.Empty;
+            protected override void OnExecute(object parameter)
+            {
+                IoC.Get<IMruFilePackage>().Manager.OpenItem(((MruCommandParameter)parameter).Index);
+            }
+        }
 
-            private int Index { get; }
+        private struct MruCommandParameter
+        {
+            public readonly int Index;
+            public readonly FileSystemMruItem Item;
 
-            public override string Text { get; }
-            public override string ToolTip => string.Empty;
-            public override Uri IconSource => null;
-            public override string IconId => null;
-            public override CommandCategory Category => null;
-            public override Guid Id => new Guid("{5DF9C8CC-9916-4E62-B186-4463D41F2705}");
-
-            public OpenMruFileCommandDefinition(int index, string name)
+            public MruCommandParameter(int index, FileSystemMruItem item)
             {
                 Index = index;
-                Text = name;
-                Command = new UICommand(OpenMruFile, CanOpenMruFile);
-            }
-
-            private bool CanOpenMruFile()
-            {
-                return CommandParamenter is FileSystemMruItem;
-            }
-
-            private void OpenMruFile()
-            {
-                IoC.Get<IMruFilePackage>().Manager.OpenItem(Index);
+                Item = item;
             }
         }
     }

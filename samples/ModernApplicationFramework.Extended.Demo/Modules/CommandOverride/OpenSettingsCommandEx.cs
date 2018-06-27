@@ -18,12 +18,12 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.CommandOverride
             _windowManager = windowManager;
         }
 
-        protected override bool CanExecute()
+        protected override bool OnCanExecute(object parameter)
         {
             return true;
         }
 
-        protected override void Execute()
+        protected override void OnExecute(object parameter)
         {
             MessageBox.Show("Message first");
             _windowManager.ShowDialog(IoC.Get<SettingsWindowViewModel>());

@@ -264,6 +264,7 @@
     <Compile Include="Basics\ApplicationEnvironment\AbstractEnvironmentVariables.cs" />
     <Compile Include="Basics\ApplicationEnvironment\FallbackEnvironmentVariables.cs" />
     <Compile Include="Basics\Definitions\Command\CommandDefinitionT.cs" />
+    <Compile Include="Basics\Definitions\Command\CommandListHandlerDefinition.cs" />
     <Compile Include="Basics\Definitions\Command\ExcludedCommandDefinition.cs" />
     <Compile Include="Basics\Definitions\Command\CommandGestureScopeMapping.cs" />
     <Compile Include="Basics\MostRecentlyUsedManager\MruItem.cs" />
@@ -272,6 +273,7 @@
     <Compile Include="Basics\Search\WindowSearchCommandOption.cs" />
     <Compile Include="Basics\Search\WindowSearchOption.cs" />
     <Compile Include="Controls\SearchControl\SearchCommandOptionButton.cs" />
+    <Compile Include="Input\Command\CommandEx.cs" />
     <Compile Include="Interfaces\Search\IEnumWindowSearchOptions.cs" />
     <Compile Include="Basics\Search\Internal\CategoryMruItems.cs" />
     <Compile Include="Basics\Search\Internal\EnumerableSearchOptionsCollection.cs" />

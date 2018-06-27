@@ -28,17 +28,17 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
 
         private DeleteActiveItemCommand()
         {
-            Command = new Command(DeleteItem, CanDeleteItem);
+            Command = new CommandEx(DeleteItem, CanDeleteItem);
         }
 
-        private bool CanDeleteItem()
+        private bool CanDeleteItem(object args)
         {
-            return CommandParamenter is IToolboxItem;
+            return args is IToolboxItem;
         }
 
-        private void DeleteItem()
+        private void DeleteItem(object args)
         {
-            if (!(CommandParamenter is IToolboxItem item))
+            if (!(args is IToolboxItem item))
                 return;
             if (AskUserForRemove(item) == MessageBoxResult.Yes)
                 item.Parent?.RemoveItem(item);
