@@ -1,19 +1,16 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Core.CommandFocus;
+using ModernApplicationFramework.Extended.Clipboard;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
-using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Extended.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
-    public class CopyCommandDefinition : CommandDefinition
+    public class CopyCommandDefinition : CommandDefinition<ICopyCommand>
     {
         public override string NameUnlocalized => "Copy";
         public override string Text => "Copy";
@@ -25,96 +22,29 @@ namespace ModernApplicationFramework.Extended.Commands
         public override MultiKeyGesture DefaultKeyGesture { get; }
         public override GestureScope DefaultGestureScope { get; }
 
-        public override ICommand Command { get; }
-
         public CopyCommandDefinition()
         {
-            var command = new UICommand(Copy, CanCopy);
-            Command = command;
-
             DefaultKeyGesture = new MultiKeyGesture(Key.C, ModifierKeys.Control);
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
         }
+    }
 
-        private void Copy()
+    [Export(typeof(ICopyCommand))]
+    public class CopyCommand : CommandDefinitionCommand, ICopyCommand
+    {
+        protected override bool OnCanExecute(object parameter)
         {
-            MessageBox.Show(Keyboard.FocusedElement.ToString());
+            return ApplicationCommands.Copy.CanExecute(parameter, null);
         }
 
-        private bool CanCopy()
+        protected override void OnExecute(object parameter)
         {
-            return true;
+            ApplicationCommands.Copy.Execute(parameter, null);
+            CopyCutWatcher.PushClipboard();
         }
     }
 
-    public class CopyPasteCutManager : ICopyPasteCutManager
+    public interface ICopyCommand : ICommandDefinitionCommand
     {
-        private static CopyPasteCutManager _instance;
-
-        public static CopyPasteCutManager Instance
-        {
-            get => _instance ?? (_instance = new CopyPasteCutManager());
-            set => _instance = value;
-        }
-
-        public void CopyToClipboard()
-        {
-            
-        }
-
-        public object Copy()
-        {
-            return null;
-        }
-
-        public void Paste(object data)
-        {
-        }
-
-        public object Cut()
-        {
-            return null;
-        }
-
-        public void CutToClipboard()
-        {
-        }
-    }
-
-    public interface ICopyPasteCutManager
-    {
-        void CopyToClipboard();
-
-        object Copy();
-
-        void Paste(object data);
-
-        object Cut();
-
-        void CutToClipboard();
-    }
-
-
-    public interface ICopyVisitor
-    {
-
-    }
-
-    public interface ICopyVisitor<T> : ICopyVisitor where T : ICopyable
-    {
-        void Visit(T t);
-    }
-
-    public interface ICopyable
-    {
-        object Copy(ICopyVisitor visitor);
-    }
-
-    public class MyControll : ICopyable
-    {
-        public object Copy(ICopyVisitor visitor)
-        {
-            return 1;
-        }
     }
 }

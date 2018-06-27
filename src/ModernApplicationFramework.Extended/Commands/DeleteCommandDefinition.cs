@@ -11,7 +11,7 @@ namespace ModernApplicationFramework.Extended.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(DeleteCommandDefinition))]
-    public class DeleteCommandDefinition : CommandDefinition
+    public class DeleteCommandDefinition : CommandDefinition<IDeleteCommand>
     {
         public override string NameUnlocalized => "Delete";
         public override string Text => NameUnlocalized;
@@ -27,24 +27,29 @@ namespace ModernApplicationFramework.Extended.Commands
         public override MultiKeyGesture DefaultKeyGesture { get; }
         public override GestureScope DefaultGestureScope { get; }
 
-        public override ICommand Command { get; }
-
         public DeleteCommandDefinition()
         {
-            //Apparently even Routed Commands like the Editing Commands need to get wrapped so keybinding changes will be recognized
-            Command = new UICommand(Delete, CanDelete);
             DefaultKeyGesture = new MultiKeyGesture(Key.Delete);
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
         }
+    }
 
-        private bool CanDelete()
+    public interface IDeleteCommand : ICommandDefinitionCommand
+    {
+
+    }
+
+    [Export(typeof(IDeleteCommand))]
+    public class DeleteCommand : CommandDefinitionCommand, IDeleteCommand
+    {
+        protected override bool OnCanExecute(object parameter)
         {
-            return EditingCommands.Delete.CanExecute(null, null);
+            return EditingCommands.Delete.CanExecute(parameter, null);
         }
 
-        private static void Delete()
+        protected override void OnExecute(object parameter)
         {
-            EditingCommands.Delete.Execute(null, null);
+            EditingCommands.Delete.Execute(parameter, null);
         }
     }
 }
