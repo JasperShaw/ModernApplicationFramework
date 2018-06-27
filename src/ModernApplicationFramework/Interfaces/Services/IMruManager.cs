@@ -3,7 +3,7 @@ using ModernApplicationFramework.Basics.MostRecentlyUsedManager;
 
 namespace ModernApplicationFramework.Interfaces.Services
 {
-    public interface IMruManager<T> where T : MruItem
+    public interface IMruManager<T> where T : IMruFile
     {
         int MaxCount { get; set; }
 

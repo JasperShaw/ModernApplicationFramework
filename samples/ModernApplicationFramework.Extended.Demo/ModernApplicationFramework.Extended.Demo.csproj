@@ -143,6 +143,12 @@
     <Compile Include="Modules\SampleExplorer\SampleExplorerModule.cs" />
     <Compile Include="Modules\FilterDesigner\ShaderEffects\ShaderEffectBase.cs" />
     <Compile Include="Modules\Startup\StartupPackage.cs" />
+    <Compile Include="Modules\TextStackClipboard\Sample.cs" />
+    <Compile Include="Modules\TextStackClipboard\TextStackClipboard.cs" />
+    <Compile Include="Modules\TextStackClipboard\TextStackClipboardToolView.xaml.cs">
+      <DependentUpon>TextStackClipboardToolView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\TextStackClipboard\TextStackClipboardToolViewModel.cs" />
     <Compile Include="Modules\ToolboxStatePersister\StateBackupPackage.cs" />
     <Compile Include="Modules\ToolboxStatePersister\StatePersisterPackage.cs" />
     <Compile Include="Modules\ToolSearch\Sample.cs" />
@@ -208,6 +214,10 @@
     <Page Include="Modules\SampleExplorer\SampleView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\TextStackClipboard\TextStackClipboardToolView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Modules\ToolSearch\ToolSearchExampleView.xaml">
       <SubType>Designer</SubType>

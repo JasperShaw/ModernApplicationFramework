@@ -5,7 +5,7 @@ using ModernApplicationFramework.Interfaces;
 
 namespace ModernApplicationFramework.Basics.MostRecentlyUsedManager
 {
-    public abstract class MruItem : IHasTextProperty
+    public abstract class MruItem : IMruFile
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -45,5 +45,14 @@ namespace ModernApplicationFramework.Basics.MostRecentlyUsedManager
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+    }
+
+    public interface IMruFile : IHasTextProperty
+    {
+        bool Pinned { get; set; }
+
+        string PersistenceData { get; }
+
+        bool Matches(string stringValue);
     }
 }

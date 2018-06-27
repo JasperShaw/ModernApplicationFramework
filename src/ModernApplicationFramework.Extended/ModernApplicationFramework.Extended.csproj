@@ -66,6 +66,7 @@
     <Compile Include="ApplicationEnvironment\ExtendedEnvironmentVariables.cs" />
     <Compile Include="ApplicationEnvironment\ApplicationEnvironmentBase.cs" />
     <Compile Include="ApplicationEnvironment\FallbackExtendedEnvironmentVariables.cs" />
+    <Compile Include="Clipboard\StackClipboard.cs" />
     <Compile Include="Commands\CopyCommandDefinition.cs" />
     <Compile Include="Commands\DeleteCommandDefinition.cs" />
     <Compile Include="GeneralUiContexts.cs" />
@@ -394,5 +395,6 @@
   <ItemGroup>
     <Resource Include="Resources\Icons\CS_16x.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

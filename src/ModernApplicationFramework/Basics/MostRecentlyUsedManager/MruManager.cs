@@ -7,7 +7,7 @@ using ModernApplicationFramework.Utilities;
 namespace ModernApplicationFramework.Basics.MostRecentlyUsedManager
 {
     [DebuggerDisplay("Count = {Items.Count}")]
-    public abstract class MruManager<T> : IMruManager<T> where T: MruItem
+    public abstract class MruManager<T> : IMruManager<T> where T: IMruFile
     {
         private int _maxCount;
 

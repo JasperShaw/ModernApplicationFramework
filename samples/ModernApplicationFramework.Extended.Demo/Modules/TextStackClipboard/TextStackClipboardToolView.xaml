@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="ModernApplicationFramework.Extended.Demo.Modules.TextStackClipboard.TextStackClipboardToolView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ModernApplicationFramework.Extended.Demo.Modules.TextStackClipboard"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock TextAlignment="Left" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"
+                   Text="When even the Copy, Cut or Past Command is triggered (explicit by using the menu or by a implemented control) and the clipboard contains a text, the text will be added to the stack"/>
+        <ListBox Grid.Row="1" ItemsSource="{Binding Stack.Items}"/>
+    </Grid>
+</UserControl>
