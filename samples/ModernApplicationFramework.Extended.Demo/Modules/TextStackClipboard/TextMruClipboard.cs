@@ -5,9 +5,9 @@ using ModernApplicationFramework.Extended.Clipboard;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.TextStackClipboard
 {
-    public sealed class TextStackClipboard : StackClipboard<TextClipboadData>
+    public sealed class TextMruClipboard : MruClipboard<TextClipboadData>
     {
-        public TextStackClipboard(int maxCount) : base(maxCount)
+        public TextMruClipboard(int maxCount) : base(maxCount)
         {
         }
 

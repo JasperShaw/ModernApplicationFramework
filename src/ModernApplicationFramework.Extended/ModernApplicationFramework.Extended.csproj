@@ -66,7 +66,10 @@
     <Compile Include="ApplicationEnvironment\ExtendedEnvironmentVariables.cs" />
     <Compile Include="ApplicationEnvironment\ApplicationEnvironmentBase.cs" />
     <Compile Include="ApplicationEnvironment\FallbackExtendedEnvironmentVariables.cs" />
-    <Compile Include="Clipboard\StackClipboard.cs" />
+    <Compile Include="Clipboard\ClipboardPushEventArgs.cs" />
+    <Compile Include="Clipboard\ClipboardPushOption.cs" />
+    <Compile Include="Clipboard\CopyCutWatcher.cs" />
+    <Compile Include="Clipboard\MruClipboard.cs" />
     <Compile Include="Commands\CopyCommandDefinition.cs" />
     <Compile Include="Commands\DeleteCommandDefinition.cs" />
     <Compile Include="GeneralUiContexts.cs" />

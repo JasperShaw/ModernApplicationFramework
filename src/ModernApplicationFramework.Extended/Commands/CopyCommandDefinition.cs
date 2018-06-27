@@ -40,7 +40,7 @@ namespace ModernApplicationFramework.Extended.Commands
         protected override void OnExecute(object parameter)
         {
             ApplicationCommands.Copy.Execute(parameter, null);
-            CopyCutWatcher.PushClipboard();
+            CopyCutWatcher.PushClipboard(ClipboardPushOption.Copy);
         }
     }
 

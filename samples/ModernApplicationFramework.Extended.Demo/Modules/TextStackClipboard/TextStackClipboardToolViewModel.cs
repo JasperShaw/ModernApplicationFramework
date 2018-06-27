@@ -9,11 +9,11 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.TextStackClipboard
     {
         public override PaneLocation PreferredLocation => PaneLocation.Right;
 
-        public TextStackClipboard Stack { get; }
+        public TextMruClipboard Stack { get; }
 
         public TextStackClipboardToolViewModel()
         {
-            Stack = new TextStackClipboard(10);
+            Stack = new TextMruClipboard(10);
         }
     }
 }

@@ -12,7 +12,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBlock TextAlignment="Left" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"
-                   Text="When even the Copy, Cut or Past Command is triggered (explicit by using the menu or by a implemented control) and the clipboard contains a text, the text will be added to the stack"/>
+                   Text="When the Copy, Cut or Paste Command is triggered (explicit by using the menu or by a implemented control) and the clipboard contains a text, the text will be added to the stack"/>
         <ListBox Grid.Row="1" ItemsSource="{Binding Stack.Items}">
             <ListBox.ItemTemplate>
                 <DataTemplate DataType="{x:Type services:IMruItem}">
