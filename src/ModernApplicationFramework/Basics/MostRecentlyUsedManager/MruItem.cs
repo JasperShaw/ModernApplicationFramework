@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
-using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Basics.MostRecentlyUsedManager
 {
-    public abstract class MruItem : IMruFile
+    public abstract class MruItem : IMruItem
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -36,23 +36,14 @@ namespace ModernApplicationFramework.Basics.MostRecentlyUsedManager
             }
         }
 
-        public abstract string PersistenceData { get; }
+        public abstract object PersistenceData { get; }
 
-        public abstract bool Matches(string stringValue);
+        public abstract bool Matches(object data);
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-    }
-
-    public interface IMruFile : IHasTextProperty
-    {
-        bool Pinned { get; set; }
-
-        string PersistenceData { get; }
-
-        bool Matches(string stringValue);
     }
 }

@@ -267,6 +267,7 @@
     <Compile Include="Basics\Definitions\Command\CommandListHandlerDefinition.cs" />
     <Compile Include="Basics\Definitions\Command\ExcludedCommandDefinition.cs" />
     <Compile Include="Basics\Definitions\Command\CommandGestureScopeMapping.cs" />
+    <Compile Include="Interfaces\Services\IMruItem.cs" />
     <Compile Include="Basics\MostRecentlyUsedManager\MruItem.cs" />
     <Compile Include="Basics\Search\SearchOptionType.cs" />
     <Compile Include="Basics\Search\WindowSearchBooleanOption.cs" />

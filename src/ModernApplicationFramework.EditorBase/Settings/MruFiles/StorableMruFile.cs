@@ -6,17 +6,17 @@ namespace ModernApplicationFramework.EditorBase.Settings.MruFiles
     [Serializable]
     [XmlType(AnonymousType = true)]
     [XmlRoot(ElementName = "MruFile")]
-    public class MruFile
+    public class StorableMruFile
     {
         [XmlAttribute]
         public string PersistenceData { get; set; }
 
-        public MruFile(string data)
+        public StorableMruFile(string data)
         {
             PersistenceData = data;
         }
 
-        public MruFile()
+        public StorableMruFile()
         {
             
         }

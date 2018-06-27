@@ -7,7 +7,7 @@ using ModernApplicationFramework.Utilities;
 namespace ModernApplicationFramework.Basics.MostRecentlyUsedManager
 {
     [DebuggerDisplay("Count = {Items.Count}")]
-    public abstract class MruManager<T> : IMruManager<T> where T: IMruFile
+    public abstract class MruManager<T> : IMruManager<T> where T: IMruItem
     {
         private int _maxCount;
 
@@ -33,7 +33,7 @@ namespace ModernApplicationFramework.Basics.MostRecentlyUsedManager
             Items = new ObservableCollection<T>();
         }
 
-        public void AddItem(string persistenceData)
+        public void AddItem(object persistenceData)
         {
             if (!IsValidMruItem(persistenceData) || TryPromoteItem(persistenceData))
                 return;
@@ -58,9 +58,9 @@ namespace ModernApplicationFramework.Basics.MostRecentlyUsedManager
             OnItemRemoved(obj);
         }
 
-        protected abstract T CreateItem(string persistenceData);
+        protected abstract T CreateItem(object persistenceData);
 
-        protected virtual bool IsValidMruItem(string stringValue)
+        protected virtual bool IsValidMruItem(object stringValue)
         {
             return true;
         }
@@ -100,7 +100,7 @@ namespace ModernApplicationFramework.Basics.MostRecentlyUsedManager
             return num >= Items.Count;
         }
 
-        private bool TryPromoteItem(string persistenceData)
+        private bool TryPromoteItem(object persistenceData)
         {
             var index = Items.IndexOf(i => i.Matches(persistenceData));
             if (index <= -1)

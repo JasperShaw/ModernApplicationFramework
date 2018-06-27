@@ -26,10 +26,11 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
             }
         }
 
-        private FileSystemMruItem(string persistenceData)
+        private FileSystemMruItem(object persistenceData)
         {
-            Validate.IsNotNullAndNotEmpty(persistenceData, nameof(persistenceData));
-            TryParsePath(persistenceData, out var path, out var optionalData);
+            Validate.IsNotNull((string) persistenceData, nameof(persistenceData));
+            Validate.IsNotNullAndNotEmpty((string) persistenceData, nameof(persistenceData));
+            TryParsePath((string) persistenceData, out var path, out var optionalData);
             var strArray = (optionalData ?? string.Empty).Split('|');
             var result1 = Guid.Empty;
             if (strArray.Length != 0)
@@ -43,7 +44,7 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
             EditorGuid = result1;
         }
 
-        public static FileSystemMruItem Create(string persistenceData)
+        public static FileSystemMruItem Create(object persistenceData)
         {
             return new FileSystemMruItem(persistenceData);
         }
@@ -62,13 +63,14 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
             return StringComparer.OrdinalIgnoreCase.GetHashCode(Path);
         }
 
-        public override string PersistenceData =>
+        public override object PersistenceData =>
             $"{PathUtilities.ReplaceEnvironmentPrefix(Path, "UserProfile")}|{EditorGuid:B}|{Pinned}";
 
 
-        public sealed override bool Matches(string stringValue)
+        public sealed override bool Matches(object data)
         {
-            if (TryParsePath(stringValue, out var path, out _))
+            Validate.IsNotNull((string) data, nameof(data));
+            if (TryParsePath((string) data, out var path, out _))
                 return string.Equals(Path, path, StringComparison.OrdinalIgnoreCase);
             return false;
         }
@@ -80,9 +82,10 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
             return false;
         }
 
-        internal static bool TryParsePath(string persistenceData, out string path, out string optionalData)
+        internal static bool TryParsePath(object persistenceData, out string path, out string optionalData)
         {
-            var strArray = persistenceData.Split(new[]
+            Validate.IsNotNull((string)persistenceData, nameof(persistenceData));
+            var strArray = ((string)persistenceData).Split(new[]
             {
                 '|'
             }, 2, StringSplitOptions.RemoveEmptyEntries);

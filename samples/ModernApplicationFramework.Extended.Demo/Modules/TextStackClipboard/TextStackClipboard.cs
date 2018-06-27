@@ -11,7 +11,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.TextStackClipboard
         {
         }
 
-        protected override TextClipboadData CreateItem(string persistenceData)
+        protected override TextClipboadData CreateItem(object persistenceData)
         {
             return TextClipboadData.Create(persistenceData);
         }
@@ -22,28 +22,34 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.TextStackClipboard
             if (t == null)
                 return;
             var f = t.GetFormats();
-            if (f.Any(x => x == DataFormats.Text || x == DataFormats.UnicodeText))
-                AddItem("");
+            if (f.Any(x => x == DataFormats.Text))
+                AddItem(System.Windows.Clipboard.GetData(DataFormats.Text));
         }
     }
 
     public class TextClipboadData : MruItem
     {
 
-        private TextClipboadData(string data)
+        private TextClipboadData(object data)
         {
+            if (!(data is string text))
+                return;
+            Text = text;
+            PersistenceData = text;
         }
 
-        public static TextClipboadData Create(string data)
+        public static TextClipboadData Create(object data)
         {
             return new TextClipboadData(data);
         }
 
-        public override string PersistenceData { get; }
+        public override object PersistenceData { get; }
 
-        public override bool Matches(string stringValue)
+        public override bool Matches(object data)
         {
-            return false;
+            if (!(data is string text))
+                return false;
+            return Text.Equals(text);
         }
     }
 }

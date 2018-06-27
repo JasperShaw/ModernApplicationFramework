@@ -3,7 +3,7 @@ using ModernApplicationFramework.Basics.MostRecentlyUsedManager;
 
 namespace ModernApplicationFramework.Interfaces.Services
 {
-    public interface IMruManager<T> where T : IMruFile
+    public interface IMruManager<T> where T : IMruItem
     {
         int MaxCount { get; set; }
 
@@ -11,7 +11,7 @@ namespace ModernApplicationFramework.Interfaces.Services
 
         ObservableCollection<T> Items { get; }
 
-        void AddItem(string persistenceData);
+        void AddItem(object persistenceData);
 
         void OpenItem(int index);
 

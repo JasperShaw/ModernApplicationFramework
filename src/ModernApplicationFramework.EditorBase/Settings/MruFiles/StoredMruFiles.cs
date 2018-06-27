@@ -29,7 +29,7 @@ namespace ModernApplicationFramework.EditorBase.Settings.MruFiles
 
         public IReadOnlyCollection<string> GetSotredItems()
         {
-            GetAllDataModel(out ICollection<MruFile> models);
+            GetAllDataModel(out ICollection<StorableMruFile> models);
             return models.Select(x => x.PersistenceData).ToList();
         }
 
@@ -38,7 +38,7 @@ namespace ModernApplicationFramework.EditorBase.Settings.MruFiles
             RemoveAllModels();
 
             foreach (var mruItem in items)
-                InsertSettingsModel(new MruFile(mruItem.PersistenceData), true);
+                InsertSettingsModel(new StorableMruFile(mruItem.PersistenceData.ToString()), true);
         }
     }
 }

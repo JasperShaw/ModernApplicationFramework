@@ -12,12 +12,12 @@ namespace ModernApplicationFramework.EditorBase.FileSupport
         {
         }
 
-        protected override FileSystemMruItem CreateItem(string persistenceData)
+        protected override FileSystemMruItem CreateItem(object persistenceData)
         {
             return FileSystemMruItem.Create(persistenceData);
         }
 
-        protected sealed override bool IsValidMruItem(string stringData)
+        protected sealed override bool IsValidMruItem(object stringData)
         {
             try
             {
