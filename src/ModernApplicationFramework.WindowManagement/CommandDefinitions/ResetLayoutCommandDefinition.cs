@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
-using System.Windows;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
-using ModernApplicationFramework.Interfaces.Commands;
-using ModernApplicationFramework.Utilities.Interfaces;
+using ModernApplicationFramework.WindowManagement.Interfaces.Commands;
 using ModernApplicationFramework.WindowManagement.Properties;
 
-namespace ModernApplicationFramework.WindowManagement.Commands
+namespace ModernApplicationFramework.WindowManagement.CommandDefinitions
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(ResetLayoutCommandDefinition))]
@@ -32,37 +30,5 @@ namespace ModernApplicationFramework.WindowManagement.Commands
 
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
-    }
-
-    public interface IResetLayoutCommand : ICommandDefinitionCommand
-    {
-    }
-
-    [Export(typeof(IResetLayoutCommand))]
-    internal class ResetLayoutCommand : CommandDefinitionCommand, IResetLayoutCommand
-    {
-        private readonly IExtendedEnvironmentVariables _environmentVariables;
-
-        [ImportingConstructor]
-        public ResetLayoutCommand(IExtendedEnvironmentVariables environmentVariables)
-        {
-            _environmentVariables = environmentVariables;
-        }
-
-        protected override bool OnCanExecute(object parameter)
-        {
-            if (LayoutManagementService.Instance == null)
-                return false;
-            return true;
-        }
-
-        protected override void OnExecute(object parameter)
-        {
-            var result = MessageBox.Show(WindowManagement_Resources.ResetLayoutConfirmation, _environmentVariables.ApplicationName, MessageBoxButton.YesNo,
-                MessageBoxImage.Question, MessageBoxResult.Yes);
-            if (result != MessageBoxResult.Yes)
-                return;
-            LayoutManagementService.Instance.RestoreProfiles();
-        }
     }
 }

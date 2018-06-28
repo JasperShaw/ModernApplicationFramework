@@ -5,7 +5,7 @@ using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.WindowManagement.Properties;
 
-namespace ModernApplicationFramework.WindowManagement.Commands
+namespace ModernApplicationFramework.WindowManagement.CommandDefinitions
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(ListWindowLayoutsCommandDefinition))]

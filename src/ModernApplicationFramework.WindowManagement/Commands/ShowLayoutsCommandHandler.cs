@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Windows.Input;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Services;
+using ModernApplicationFramework.WindowManagement.CommandDefinitions;
 using ModernApplicationFramework.WindowManagement.LayoutManagement;
 using ModernApplicationFramework.WindowManagement.Properties;
 

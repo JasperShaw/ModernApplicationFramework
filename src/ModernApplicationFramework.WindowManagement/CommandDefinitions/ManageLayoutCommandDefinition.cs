@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
-using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
-using ModernApplicationFramework.Interfaces.Commands;
+using ModernApplicationFramework.WindowManagement.Interfaces.Commands;
 using ModernApplicationFramework.WindowManagement.Properties;
 
-namespace ModernApplicationFramework.WindowManagement.Commands
+namespace ModernApplicationFramework.WindowManagement.CommandDefinitions
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(ManageLayoutCommandDefinition))]
@@ -31,25 +30,5 @@ namespace ModernApplicationFramework.WindowManagement.Commands
 
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
-    }
-
-    public interface IManageLayoutCommand : ICommandDefinitionCommand
-    {
-    }
-
-    [Export(typeof(IManageLayoutCommand))]
-    internal class ManageLayoutCommand : CommandDefinitionCommand, IManageLayoutCommand
-    {
-        protected override bool OnCanExecute(object parameter)
-        {
-            if (LayoutManagementService.Instance == null)
-                return false;
-            return true;
-        }
-
-        protected override void OnExecute(object parameter)
-        {
-            LayoutManagementService.Instance.LayoutManager.ManageWindowLayouts();
-        }
     }
 }

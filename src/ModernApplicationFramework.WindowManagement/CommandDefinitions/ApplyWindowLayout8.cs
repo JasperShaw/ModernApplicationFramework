@@ -6,24 +6,24 @@ using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 
-namespace ModernApplicationFramework.WindowManagement.Commands
+namespace ModernApplicationFramework.WindowManagement.CommandDefinitions
 {
     [Export(typeof(CommandDefinitionBase))]
-    [Export(typeof(ApplyWindowLayout9))]
-    public sealed class ApplyWindowLayout9 : ApplyWindowLayoutBase
+    [Export(typeof(ApplyWindowLayout8))]
+    public sealed class ApplyWindowLayout8 : ApplyWindowLayoutBase
     {
-        public override int Index => 9;
+        public override int Index => 8;
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
         public override GestureScope DefaultGestureScope { get; }
 
         [ImportingConstructor]
-        public ApplyWindowLayout9()
+        public ApplyWindowLayout8()
         {
-            DefaultKeyGestures = new []{new MultiKeyGesture(Key.D9, ModifierKeys.Control | ModifierKeys.Alt)};
+            DefaultKeyGestures = new []{ new MultiKeyGesture(Key.D8, ModifierKeys.Control | ModifierKeys.Alt)};
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
             SetCommand();
         }
 
-        public override Guid Id => new Guid("{0A351097-2140-46B8-9A24-7CE7321C9B92}");
+        public override Guid Id => new Guid("{E95C96CE-2D44-4EE7-AC18-0AFBA0BFA3F7}");
     }
 }

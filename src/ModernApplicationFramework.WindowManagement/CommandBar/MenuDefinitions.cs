@@ -2,10 +2,11 @@
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
+using ModernApplicationFramework.WindowManagement.CommandDefinitions;
 using ModernApplicationFramework.WindowManagement.Commands;
 using ModernApplicationFramework.WindowManagement.Properties;
 
-namespace ModernApplicationFramework.WindowManagement
+namespace ModernApplicationFramework.WindowManagement.CommandBar
 {
     public static class MenuDefinitions
     {

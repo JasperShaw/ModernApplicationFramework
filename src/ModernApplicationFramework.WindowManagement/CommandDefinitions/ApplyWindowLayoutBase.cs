@@ -2,10 +2,10 @@ using System;
 using System.Globalization;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.WindowManagement.Commands;
 using ModernApplicationFramework.WindowManagement.Properties;
 
-namespace ModernApplicationFramework.WindowManagement.Commands
+namespace ModernApplicationFramework.WindowManagement.CommandDefinitions
 {
     public abstract class ApplyWindowLayoutBase : CommandDefinition
     {
@@ -42,28 +42,6 @@ namespace ModernApplicationFramework.WindowManagement.Commands
         protected void SetCommand()
         {
             Command = new ApplyWindowLayoutCommand(Index);
-        }
-    }
-
-    internal class ApplyWindowLayoutCommand : CommandDefinitionCommand
-    {
-        public ApplyWindowLayoutCommand(int index) : base(index)
-        {
-            
-        }
-
-        protected override bool OnCanExecute(object parameter)
-        {
-            if (!(parameter is int))
-                return false;
-            if ((int)parameter <= LayoutManagementService.Instance?.LayoutManager.LayoutCount)
-                return true;
-            return false;
-        }
-
-        protected override void OnExecute(object parameter)
-        {
-            LayoutManagementService.Instance.LayoutManager.ApplyWindowLayout((int)parameter - 1);
         }
     }
 }
