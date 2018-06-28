@@ -63,6 +63,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\AddTextItemToSelectedNodeCommand.cs" />
     <Compile Include="Commands\DeleteActiveItemCommandDefinition.cs" />
     <Compile Include="Commands\ResetToolboxCommandDefinition.cs" />
     <Compile Include="Commands\AddCategoryCommandDefinition.cs" />

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -186,11 +187,28 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
             }
         }
 
+        private static void OnPaste(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (sender is ToolboxTreeView tv)
+            {
+                tv.OnPaste();
+                e.Handled = true;
+            }
+
+        }
+
+        private static void CanPaste(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (sender is ToolboxTreeView tv)
+                e.CanExecute = tv.CanPaste();
+
+        }
+
         private static void RegisterCommandHandlers(Type controlType)
         {
             CommandHelpers.RegisterCommandHandler(controlType, EditingCommands.Delete, OnDelete, CanDelete);
+            CommandHelpers.RegisterCommandHandler(controlType, ApplicationCommands.Paste, OnPaste, CanPaste);
         }
-
 
 
         private bool CanDelete()
@@ -207,6 +225,22 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
                 var command = DeleteActiveItemCommandDefinition.Instance;
                 command.Command.Execute(item);
             }
+        }
+
+        private bool CanPaste()
+        {
+            if (SelectedItem == null)
+                return false;
+            var t = Clipboard.GetDataObject();
+            if (t == null)
+                return false;
+            var f = t.GetFormats();
+            return f.Any(x => x == DataFormats.Text);
+        }
+
+        private void OnPaste()
+        {
+            IoC.Get<IAddTextItemToSelectedNodeCommand>().Execute(Clipboard.GetDataObject());
         }
 
         private static void SetIsContextMenuOpen(UIElement element, bool value)
