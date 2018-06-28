@@ -22,6 +22,7 @@ namespace ModernApplicationFramework.WindowManagement.Commands
         {
             DefaultKeyGestures = new []{ new MultiKeyGesture(Key.D5, ModifierKeys.Control | ModifierKeys.Alt)};
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
+            SetCommand();
         }
 
         public override Guid Id => new Guid("{93CC5445-1FD1-4E9F-910F-34E96B2B8B32}");

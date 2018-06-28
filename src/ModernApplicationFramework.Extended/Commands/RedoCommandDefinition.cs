@@ -15,12 +15,8 @@ namespace ModernApplicationFramework.Extended.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(RedoCommandDefinition))]
-    public sealed class RedoCommandDefinition : CommandDefinition
+    public sealed class RedoCommandDefinition : CommandDefinition<IRedoCommand>
     {
-        private readonly CommandBarUndoRedoManagerWatcher _watcher;
-
-        public override ICommand Command { get; }
-
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
         public override GestureScope DefaultGestureScope { get; }
 
@@ -40,23 +36,34 @@ namespace ModernApplicationFramework.Extended.Commands
         public override CommandCategory Category => CommandCategories.EditCommandCategory;
         public override Guid Id => new Guid("{6B8097A9-50BE-4966-83ED-CC3EA25CF5B7}");
 
-        [ImportingConstructor]
-        public RedoCommandDefinition(CommandBarUndoRedoManagerWatcher watcher)
+        public RedoCommandDefinition()
         {
-            _watcher = watcher;
-            var command = new UICommand(Redo, CanRedo);
-            Command = command;
-
             DefaultKeyGestures = new []{ new MultiKeyGesture(Key.Y, ModifierKeys.Control)};
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
         }
+    }
 
-        private bool CanRedo()
+    public interface IRedoCommand : ICommandDefinitionCommand
+    {
+    }
+
+    [Export(typeof(IRedoCommand))]
+    internal class RedoCommand : CommandDefinitionCommand, IRedoCommand
+    {
+        private readonly CommandBarUndoRedoManagerWatcher _watcher;
+
+        [ImportingConstructor]
+        public RedoCommand(CommandBarUndoRedoManagerWatcher watcher)
+        {
+            _watcher = watcher;
+        }
+
+        protected override bool OnCanExecute(object parameter)
         {
             return _watcher?.UndoRedoManager != null && _watcher.UndoRedoManager.RedoStack.Any();
         }
 
-        private void Redo()
+        protected override void OnExecute(object parameter)
         {
             _watcher.UndoRedoManager.Redo(1);
         }

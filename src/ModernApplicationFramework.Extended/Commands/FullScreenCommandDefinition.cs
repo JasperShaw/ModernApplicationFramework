@@ -15,10 +15,8 @@ namespace ModernApplicationFramework.Extended.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(FullScreenCommandDefinition))]
-    public sealed class FullScreenCommandDefinition : CommandDefinition
+    public sealed class FullScreenCommandDefinition : CommandDefinition<IFullScreenCommand>
     {
-        public override ICommand Command { get; }
-
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
         public override GestureScope DefaultGestureScope { get; }
 
@@ -43,22 +41,27 @@ namespace ModernApplicationFramework.Extended.Commands
 
         public FullScreenCommandDefinition()
         {
-            var command = new UICommand(TriggerFullScreen, CanTriggerFullScreen);
-            Command = command;
-
             DefaultKeyGestures = new[] {new MultiKeyGesture(Key.Enter, ModifierKeys.Shift | ModifierKeys.Alt)};
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
         }
+    }
 
-        private bool CanTriggerFullScreen()
+    public interface IFullScreenCommand : ICommandDefinitionCommand
+    {
+    }
+
+    [Export(typeof(IFullScreenCommand))]
+    internal class FullScreenCommand : CommandDefinitionCommand, IFullScreenCommand
+    {
+        protected override bool OnCanExecute(object parameter)
         {
             return Application.Current.MainWindow is ModernChromeWindow;
         }
 
-        private void TriggerFullScreen()
+        protected override void OnExecute(object parameter)
         {
-            ((ModernChromeWindow) Application.Current.MainWindow).FullScreen =
-                !((ModernChromeWindow) Application.Current.MainWindow).FullScreen;
+            ((ModernChromeWindow)Application.Current.MainWindow).FullScreen =
+                !((ModernChromeWindow)Application.Current.MainWindow).FullScreen;
         }
     }
 }

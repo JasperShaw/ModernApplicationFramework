@@ -4,7 +4,6 @@ using System.ComponentModel.Composition;
 using System.Drawing;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Extended.Demo.Modules.UndoRedoTest;
@@ -20,8 +19,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.Commands
     {
         public TestCommandDefinition()
         {
-            var command = new UICommand(Test, CanTest);
-            Command = command;
+            Command = new TestCommand();
 
             DefaultKeyGestures = new[]
             {
@@ -35,14 +33,28 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.Commands
             DefaultGestureScope = UndoRedoViewModel.UndoRedoScope;
         }
 
-        private bool CanTest()
+        public override string IconId => null;
+        public override CommandCategory Category => new CommandCategory("Test");
+        public override Guid Id => new Guid("{837D016F-1B20-45AC-B86F-BEE2555406B0}");
+        public override Uri IconSource => null;
+        public override string Name => "MultiHotKey";
+        public override string NameUnlocalized => Name;
+        public override string Text => Name;
+        public override string ToolTip => Name;
+
+        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
+        public override GestureScope DefaultGestureScope { get; }
+    }
+
+    internal class TestCommand : CommandDefinitionCommand
+    {
+        protected override bool OnCanExecute(object parameter)
         {
             return true;
         }
 
-        private void Test()
+        protected override void OnExecute(object parameter)
         {
-
             var s = new Bitmap(Properties.Resources.png_undo_16_16);
 
             var w = new TestWindow
@@ -71,32 +83,5 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.Commands
 
             //new FolderBrowserDialog().ShowDialog();
         }
-
-        public BitmapSource Convert(Bitmap bitmap)
-        {
-            var bitmapData = bitmap.LockBits(
-                new Rectangle(0, 0, bitmap.Width, bitmap.Height),
-                System.Drawing.Imaging.ImageLockMode.ReadOnly, bitmap.PixelFormat);
-
-            var bitmapSource = BitmapSource.Create(
-                bitmapData.Width, bitmapData.Height, 96, 96, PixelFormats.Bgr24, null,
-                bitmapData.Scan0, bitmapData.Stride * bitmapData.Height, bitmapData.Stride);
-
-            bitmap.UnlockBits(bitmapData);
-            return bitmapSource;
-        }
-        public override string IconId => null;
-        public override CommandCategory Category => new CommandCategory("Test");
-        public override Guid Id => new Guid("{837D016F-1B20-45AC-B86F-BEE2555406B0}");
-        public override Uri IconSource => null;
-        public override string Name => "MultiHotKey";
-        public override string NameUnlocalized => Name;
-        public override string Text => Name;
-        public override string ToolTip => Name;
-
-        public override ICommand Command { get; }
-
-        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
-        public override GestureScope DefaultGestureScope { get; }
     }
 }

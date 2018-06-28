@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
-using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Docking.Controls;
@@ -14,10 +13,8 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(HideDockedWindowCommandDefinition))]
-    public sealed class HideDockedWindowCommandDefinition : CommandDefinition
+    public sealed class HideDockedWindowCommandDefinition : CommandDefinition<IHideDockedWindowCommand>
     {
-        public override ICommand Command { get; }
-
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
 
@@ -38,19 +35,22 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
         public override Guid Id => new Guid("{E1BBFA22-EADF-445D-810A-4984E91D17B7}");
+    }
 
-        public HideDockedWindowCommandDefinition()
-        {
-            Command = new UICommand(HideDockedWindow, CanHideDockedWindow);
-        }
+    public interface IHideDockedWindowCommand : ICommandDefinitionCommand
+    {
+    }
 
-        private bool CanHideDockedWindow()
+    [Export(typeof(IHideDockedWindowCommand))]
+    internal class HideDockedWindowCommand : CommandDefinitionCommand, IHideDockedWindowCommand
+    {
+        protected override bool OnCanExecute(object parameter)
         {
             var dm = DockingManager.Instance?.Layout.ActiveContent;
             return dm is LayoutAnchorable;
         }
 
-        private void HideDockedWindow()
+        protected override void OnExecute(object parameter)
         {
             var dm = DockingManager.Instance?.Layout.ActiveContent;
             var item = DockingManager.Instance?.GetLayoutItemFromModel(dm) as LayoutAnchorableItem;

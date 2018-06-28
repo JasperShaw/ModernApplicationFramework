@@ -46,7 +46,7 @@ namespace ModernApplicationFramework.EditorBase.Commands
             }
         }
 
-        public string ShrinkPath(string path, int maxLength)
+        private string ShrinkPath(string path, int maxLength)
         {
             if (path.Length <= maxLength)
                 return path;

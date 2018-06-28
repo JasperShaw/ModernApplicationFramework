@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Linq;
-using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Creators;
@@ -19,12 +18,8 @@ namespace ModernApplicationFramework.Extended.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(MultiUndoCommandDefinition))]
-    public sealed class MultiUndoCommandDefinition : CommandSplitButtonDefinition
+    public sealed class MultiUndoCommandDefinition : CommandSplitButtonDefinition<IMultiUndoCommand>
     {
-        private readonly CommandBarUndoRedoManagerWatcher _watcher;
-
-
-        public override ICommand Command { get; }
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
 
@@ -49,21 +44,7 @@ namespace ModernApplicationFramework.Extended.Commands
         [ImportingConstructor]
         public MultiUndoCommandDefinition(CommandBarUndoRedoManagerWatcher watcher)
         {
-            var command = new UICommand(Undo, CanUndo);
-            Command = command;
-
-            _watcher = watcher;
-            Items = _watcher.UndoItems;
-        }
-
-        private bool CanUndo()
-        {
-            return _watcher.UndoRedoManager != null && _watcher.UndoRedoManager.UndoStack.Any();
-        }
-
-        private void Undo()
-        {
-            _watcher.UndoRedoManager.Undo(1);
+            Items = watcher.UndoItems;
         }
 
         public override IObservableCollection<IHasTextProperty> Items { get; set; }
@@ -71,10 +52,34 @@ namespace ModernApplicationFramework.Extended.Commands
         public override IStatusStringCreator StatusStringCreator =>
             new NumberStatusStringCreator(Commands_Resources.MultiUndoCommandDefinition_StatusText,
                 Commands_Resources.MultiRedoCommandDefinition_StatusSuffix);
+    }
 
-        public override void Execute(int count)
+    public interface IMultiUndoCommand : ICommandDefinitionCommand
+    {
+    }
+
+    [Export(typeof(IMultiUndoCommand))]
+    internal class MultiUndoCommand : CommandDefinitionCommand, IMultiUndoCommand
+    {
+        private readonly CommandBarUndoRedoManagerWatcher _watcher;
+
+        [ImportingConstructor]
+        public MultiUndoCommand(CommandBarUndoRedoManagerWatcher watcher)
         {
-            _watcher.UndoRedoManager?.Undo(count);
+            _watcher = watcher;
+        }
+
+        protected override bool OnCanExecute(object parameter)
+        {
+            return _watcher.UndoRedoManager != null && _watcher.UndoRedoManager.UndoStack.Any();
+        }
+
+        protected override void OnExecute(object parameter)
+        {
+            if (!(parameter is int number))
+                _watcher.UndoRedoManager.Undo(1);
+            else
+                _watcher.UndoRedoManager.Undo(number);
         }
     }
 }

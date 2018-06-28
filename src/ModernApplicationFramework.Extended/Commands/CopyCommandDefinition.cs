@@ -36,7 +36,7 @@ namespace ModernApplicationFramework.Extended.Commands
     }
 
     [Export(typeof(ICopyCommand))]
-    public class CopyCommand : CommandDefinitionCommand, ICopyCommand
+    internal class CopyCommand : CommandDefinitionCommand, ICopyCommand
     {
         protected override bool OnCanExecute(object parameter)
         {

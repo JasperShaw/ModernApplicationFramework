@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Windows;
-using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
@@ -13,9 +12,8 @@ using ModernApplicationFramework.Input.Command;
 namespace ModernApplicationFramework.EditorBase.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
-    public class CopyFullPathCommandDefinition : CommandDefinition
+    public class CopyFullPathCommandDefinition : CommandDefinition<ICopyFullPathCommand>
     {
-        private readonly IDockingHostViewModel _dockingHostViewModel;
         public override string NameUnlocalized => "Copy Full Path";
         public override string Text => CommandsResources.CopyFullPathCommandText;
         public override string ToolTip => Text;
@@ -25,23 +23,29 @@ namespace ModernApplicationFramework.EditorBase.Commands
         public override Guid Id => new Guid("{1F2CAB1F-3624-4D2E-9855-4CD6F62F7B13}");
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
+    }
 
-        public override ICommand Command { get; }
+    public interface ICopyFullPathCommand : ICommandDefinitionCommand
+    {
+    }
+
+    [Export(typeof(ICopyFullPathCommand))]
+    internal class CopyFullPathCommand : CommandDefinitionCommand, ICopyFullPathCommand
+    {
+        private readonly IDockingHostViewModel _dockingHostViewModel;
 
         [ImportingConstructor]
-        public CopyFullPathCommandDefinition(IDockingHostViewModel dockingHostViewModel)
+        public CopyFullPathCommand(IDockingHostViewModel dockingHostViewModel)
         {
             _dockingHostViewModel = dockingHostViewModel;
-            var command = new UICommand(CopyFullPath, CanCopyFullPath);
-            Command = command;
         }
 
-        private bool CanCopyFullPath()
+        protected override bool OnCanExecute(object parameter)
         {
             return _dockingHostViewModel.ActiveItem is IEditor editor && !string.IsNullOrEmpty(editor.Document.FileName);
         }
 
-        private void CopyFullPath()
+        protected override void OnExecute(object parameter)
         {
             Clipboard.SetText(((IEditor)_dockingHostViewModel.ActiveItem)?.Document.FullFilePath);
         }

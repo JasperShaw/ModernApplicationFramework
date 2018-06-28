@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Linq;
-using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Docking.Layout;
@@ -14,10 +13,8 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(CloseAllDockedWindowCommandDefinition))]
-    public sealed class CloseAllDockedWindowCommandDefinition : CommandDefinition
+    public sealed class CloseAllDockedWindowCommandDefinition : CommandDefinition<ICloseAllDockedWindowCommand>
     {
-        public override ICommand Command { get; }
-
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
 
@@ -38,13 +35,16 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
         public override Guid Id => new Guid("{343572A0-6C5A-4FFE-9E84-E1B6E68C82FB}");
+    }
 
-        public CloseAllDockedWindowCommandDefinition()
-        {
-            Command = new UICommand(CloseAllDockedWindows, CanCloseAllDockedWindows);
-        }
+    public interface ICloseAllDockedWindowCommand : ICommandDefinitionCommand
+    {
+    }
 
-        private bool CanCloseAllDockedWindows()
+    [Export(typeof(ICloseAllDockedWindowCommand))]
+    internal class CloseAllDockedWindowCommand : CommandDefinitionCommand, ICloseAllDockedWindowCommand
+    {
+        protected override bool OnCanExecute(object parameter)
         {
             if (DockingManager.Instance == null)
                 return false;
@@ -61,7 +61,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
                 .Any(d => d.Parent is LayoutDocumentPane || d.Parent is LayoutDocumentFloatingWindow);
         }
 
-        private void CloseAllDockedWindows()
+        protected override void OnExecute(object parameter)
         {
             DockingManager.Instance?._ExecuteCloseAllCommand();
         }

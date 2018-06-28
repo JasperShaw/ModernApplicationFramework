@@ -15,11 +15,9 @@ namespace ModernApplicationFramework.Extended.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(UndoCommandDefinition))]
-    public sealed class UndoCommandDefinition : CommandDefinition
+    public sealed class UndoCommandDefinition : CommandDefinition<IUndoCommand>
     {
         private readonly CommandBarUndoRedoManagerWatcher _watcher;
-
-        public override ICommand Command { get; }
 
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
         public override GestureScope DefaultGestureScope { get; }
@@ -40,24 +38,34 @@ namespace ModernApplicationFramework.Extended.Commands
         public override CommandCategory Category => CommandCategories.EditCommandCategory;
         public override Guid Id => new Guid("{1A236C59-DA8D-424F-804B-22D80CFA15D6}");
 
-        [ImportingConstructor]
-        public UndoCommandDefinition(CommandBarUndoRedoManagerWatcher watcher)
+        public UndoCommandDefinition()
         {
-            var command = new UICommand(Undo, CanUndo);
-            Command = command;
-
             DefaultKeyGestures = new []{ new MultiKeyGesture(Key.Z, ModifierKeys.Control)};
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
+        }
+    }
 
+    public interface IUndoCommand : ICommandDefinitionCommand
+    {
+    }
+
+    [Export(typeof(IUndoCommand))]
+    internal class UndoCommand : CommandDefinitionCommand, IUndoCommand
+    {
+        private readonly CommandBarUndoRedoManagerWatcher _watcher;
+
+        [ImportingConstructor]
+        public UndoCommand(CommandBarUndoRedoManagerWatcher watcher)
+        {
             _watcher = watcher;
         }
 
-        private bool CanUndo()
+        protected override bool OnCanExecute(object parameter)
         {
             return _watcher?.UndoRedoManager != null && _watcher.UndoRedoManager.UndoStack.Any();
         }
 
-        private void Undo()
+        protected override void OnExecute(object parameter)
         {
             _watcher.UndoRedoManager.Undo(1);
         }

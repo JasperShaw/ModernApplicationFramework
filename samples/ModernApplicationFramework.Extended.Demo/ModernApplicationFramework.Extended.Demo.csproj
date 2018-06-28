@@ -100,7 +100,6 @@
     <Compile Include="Modules\ComboBoxMenuTest\ToolbarDefinitions.cs" />
     <Compile Include="Modules\CommandOverride\OpenSettingsCommandEx.cs" />
     <Compile Include="Modules\Commands\MenuDefinitions.cs" />
-    <Compile Include="Modules\Commands\TestCommandDefinitionRealMulti.cs" />
     <Compile Include="Modules\Commands\TestCommandDefinition.cs" />
     <Compile Include="Modules\Commands\TestWindow.xaml.cs">
       <DependentUpon>TestWindow.xaml</DependentUpon>

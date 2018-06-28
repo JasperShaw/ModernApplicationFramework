@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.EditorBase.Interfaces.Editor;
@@ -15,17 +14,16 @@ namespace ModernApplicationFramework.EditorBase.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(SaveActiveFileAsCommandDefinition))]
-    public class SaveActiveFileAsCommandDefinition : CommandDefinition
+    public class SaveActiveFileAsCommandDefinition : CommandDefinition<ISaveActiveFileAsCommand>
     {
         private string _text;
 
-        private readonly IDockingHostViewModel _dockingHostViewModel;
         public override string NameUnlocalized => "Save Selected Items As...";
         public override string Text => BuildText();
 
         private string BuildText()
         {
-            if (CanSaveFileAs())
+            if (Command.CanExecute(null))
                 return string.Format(CommandsResources.SaveActiveDocumentAsCommandText, _text);
             return CommandsResources.SaveActiveDocumentAsCommandName;
         }
@@ -41,15 +39,10 @@ namespace ModernApplicationFramework.EditorBase.Commands
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
 
-        public override ICommand Command { get; }
-
         [ImportingConstructor]
         public SaveActiveFileAsCommandDefinition(IDockingHostViewModel dockingHostViewModel)
         {
-            _dockingHostViewModel = dockingHostViewModel;
-            var command = new UICommand(SaveFileAs, CanSaveFileAs);
-            Command = command;
-            _dockingHostViewModel.ActiveLayoutItemChanged += _dockingHostViewModel_ActiveLayoutItemChanged;
+            dockingHostViewModel.ActiveLayoutItemChanged += _dockingHostViewModel_ActiveLayoutItemChanged;
         }
 
         private void _dockingHostViewModel_ActiveLayoutItemChanged(object sender, LayoutChangeEventArgs e)
@@ -57,17 +50,33 @@ namespace ModernApplicationFramework.EditorBase.Commands
             _text = e.NewLayoutItem?.DisplayName;
             OnPropertyChanged(nameof(Text));
         }
+    }
 
-        private bool CanSaveFileAs()
+    public interface ISaveActiveFileAsCommand : ICommandDefinitionCommand
+    {
+    }
+
+    [Export(typeof(ISaveActiveFileAsCommand))]
+    internal class SaveActiveFileAsCommand : CommandDefinitionCommand, ISaveActiveFileAsCommand
+    {
+        private readonly IDockingHostViewModel _dockingHostViewModel;
+
+        [ImportingConstructor]
+        public SaveActiveFileAsCommand(IDockingHostViewModel dockingHostViewModel)
+        {
+            _dockingHostViewModel = dockingHostViewModel;
+        }
+
+        protected override bool OnCanExecute(object parameter)
         {
             if (_dockingHostViewModel.ActiveItem == null)
                 return false;
             return _dockingHostViewModel.ActiveItem is IEditor editor && editor.Document is IStorableFile;
         }
 
-        private void SaveFileAs()
+        protected override void OnExecute(object parameter)
         {
-            ((IEditor) _dockingHostViewModel.ActiveItem)?.SaveFile(true);
+            ((IEditor)_dockingHostViewModel.ActiveItem)?.SaveFile(true);
         }
     }
 }

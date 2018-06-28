@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
@@ -12,7 +11,7 @@ using ModernApplicationFramework.Input.Command;
 namespace ModernApplicationFramework.EditorBase.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
-    public class WindowSelectCommand : CommandDefinition
+    public class WindowSelectCommandDefinition : CommandDefinition<IWindowSelectCommand>
     {
         public override string NameUnlocalized => "Window";
         public override string Text => CommandsResources.WindowSelectCommandText;
@@ -23,16 +22,21 @@ namespace ModernApplicationFramework.EditorBase.Commands
         public override Guid Id => new Guid("{40A3EA90-739D-4569-AF50-3C69C7D44438}");
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
+    }
 
-        public override ICommand Command { get; }
+    public interface IWindowSelectCommand : ICommandDefinitionCommand
+    {
+    }
 
-        public WindowSelectCommand()
+    [Export(typeof(IWindowSelectCommand))]
+    internal class WindowSelectCommand : CommandDefinitionCommand, IWindowSelectCommand
+    {
+        protected override bool OnCanExecute(object parameter)
         {
-            var command = new UICommand(OpenWindowSelectDialog, () => true);
-            Command = command;
+            return true;
         }
 
-        private static void OpenWindowSelectDialog()
+        protected override void OnExecute(object parameter)
         {
             IoC.Get<IWindowManager>().ShowDialog(IoC.Get<IWindowSelectionDialogViewModel>());
         }

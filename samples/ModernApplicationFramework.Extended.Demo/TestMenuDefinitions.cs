@@ -20,10 +20,6 @@ namespace ModernApplicationFramework.Extended.Demo
             new CommandBarCommandItemDefinition<TestCommandDefinition>(
                 new Guid("{3C4FD58F-7EF4-4E0F-A993-8E0349850395}"), TestGroup1, 1);
 
-        [Export] public static CommandBarItemDefinition TestCommand2 =
-            new CommandBarCommandItemDefinition<TestCommandDefinitionRealMulti>(
-                new Guid("{1F363181-E4B4-4A37-AA43-C96CF37706A4}"), TestGroup1, 1);
-
         [Export] public static CommandBarItemDefinition TestSub =
             new MenuDefinition(new Guid("{3F544F5A-8D20-428F-AC3A-40763840314E}"), TestGroup1, 0, "Test", true);
 

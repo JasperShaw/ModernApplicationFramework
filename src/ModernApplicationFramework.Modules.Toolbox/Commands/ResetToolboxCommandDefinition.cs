@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input;
@@ -12,10 +11,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(ResetToolboxCommandDefinition))]
-    public class ResetToolboxCommandDefinition : CommandDefinition
+    public class ResetToolboxCommandDefinition : CommandDefinition<IResetToolboxCommand>
     {
-        private readonly IToolboxStateSerializer _serializer;
-        private readonly IToolboxStateBackupProvider _backupProvider;
         public override string NameUnlocalized => "Reset";
         public override string Text => "Reset";
         public override string ToolTip => Text;
@@ -25,25 +22,33 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
         public override Guid Id => new Guid("{BF0ED4C1-518C-4B30-8FD3-2085A19C63D2}");
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
+    }
 
-        public override ICommand Command { get; }
+    public interface IResetToolboxCommand : ICommandDefinitionCommand
+    {
+    }
+
+    [Export(typeof(IResetToolboxCommand))]
+    internal class ResetToolboxCommand : CommandDefinitionCommand, IResetToolboxCommand
+    {
+        private readonly IToolboxStateSerializer _serializer;
+        private readonly IToolboxStateBackupProvider _backupProvider;
 
         [ImportingConstructor]
-        public ResetToolboxCommandDefinition(IToolboxStateSerializer serializer, IToolboxStateBackupProvider backupProvider)
+        public ResetToolboxCommand(IToolboxStateSerializer serializer, IToolboxStateBackupProvider backupProvider)
         {
             _serializer = serializer;
             _backupProvider = backupProvider;
-            Command = new UICommand(ResetToolbox, CanResetToolbox);
         }
 
-        private void ResetToolbox()
-        {
-            _serializer.ResetFromBackup(_backupProvider.Backup);
-        }
-
-        private bool CanResetToolbox()
+        protected override bool OnCanExecute(object parameter)
         {
             return _backupProvider.Backup != null;
+        }
+
+        protected override void OnExecute(object parameter)
+        {
+            _serializer.ResetFromBackup(_backupProvider.Backup);
         }
     }
 }

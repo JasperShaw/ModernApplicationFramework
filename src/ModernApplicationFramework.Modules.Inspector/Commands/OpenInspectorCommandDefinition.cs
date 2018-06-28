@@ -11,14 +11,8 @@ using ModernApplicationFramework.Input.Command;
 namespace ModernApplicationFramework.Modules.Inspector.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
-    public sealed class OpenInspectorCommandDefinition : CommandDefinition
+    public sealed class OpenInspectorCommandDefinition : CommandDefinition<IOpenInspectorCommand>
     {
-#pragma warning disable 649
-        [Import] private IDockingMainWindowViewModel _shell;
-#pragma warning restore 649
-
-        public override ICommand Command { get; }
-
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
         public override GestureScope DefaultGestureScope { get; }
 
@@ -36,25 +30,30 @@ namespace ModernApplicationFramework.Modules.Inspector.Commands
         public override CommandCategory Category => CommandCategories.ViewCommandCategory;
         public override Guid Id => new Guid("{A948FC05-72EF-4309-BF54-E697F42C32D1}");
 
-        public string MyText { get; set; }
-
         public OpenInspectorCommandDefinition()
         {
-            var command = new UICommand(Open, CanOpen);
-            Command = command;
-
             DefaultKeyGestures = new []{new MultiKeyGesture(Key.F4)};
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
         }
+    }
 
-        private bool CanOpen()
+    public interface IOpenInspectorCommand : ICommandDefinitionCommand
+    {
+    }
+
+    [Export(typeof(IOpenInspectorCommand))]
+    internal class OpenInspectorCommand : CommandDefinitionCommand, IOpenInspectorCommand
+    {
+#pragma warning disable 649
+        [Import] private IDockingMainWindowViewModel _shell;
+#pragma warning restore 649
+
+        protected override bool OnCanExecute(object parameter)
         {
-            if (!AllowExecution)
-                return false;
             return _shell != null;
         }
 
-        private void Open()
+        protected override void OnExecute(object parameter)
         {
             _shell.DockingHost.ShowTool<IInspectorTool>();
         }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
-using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Docking.Layout;
@@ -13,9 +12,8 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(MoveToPreviousTabGroupCommandDefinition))]
-    public sealed class MoveToPreviousTabGroupCommandDefinition : CommandDefinition
+    public sealed class MoveToPreviousTabGroupCommandDefinition : CommandDefinition<IMoveToPreviousTabGroupCommand>
     {
-        public override ICommand Command { get; }
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
         public override string Name => Text;
@@ -32,13 +30,16 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
         public override Guid Id => new Guid("{8E11AADE-8B7D-44C1-815F-8D5D6C3C9644}");
+    }
 
-        public MoveToPreviousTabGroupCommandDefinition()
-        {
-            Command = new UICommand(MoveToPreviousTabGroup, CanMoveToPreviousTabGroup);
-        }
+    public interface IMoveToPreviousTabGroupCommand : ICommandDefinitionCommand
+    {
+    }
 
-        private bool CanMoveToPreviousTabGroup()
+    [Export(typeof(IMoveToPreviousTabGroupCommand))]
+    internal class MoveToPreviousTabGroupCommand : CommandDefinitionCommand, IMoveToPreviousTabGroupCommand
+    {
+        protected override bool OnCanExecute(object parameter)
         {
             if (DockingManager.Instance?.Layout.ActiveContent == null)
                 return false;
@@ -53,7 +54,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
                        LayoutDocumentPane;
         }
 
-        private void MoveToPreviousTabGroup()
+        protected override void OnExecute(object parameter)
         {
             var layoutElement = DockingManager.Instance?.Layout.ActiveContent;
             if (layoutElement == null)

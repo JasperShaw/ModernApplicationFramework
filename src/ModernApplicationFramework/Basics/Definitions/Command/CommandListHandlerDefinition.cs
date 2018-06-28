@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Input;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 
@@ -8,8 +7,6 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
 {
     public sealed class CommandListHandlerDefinition : CommandDefinition
     {
-        public override ICommand Command { get; }
-
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
 
@@ -23,7 +20,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         public override CommandCategory Category => null;
         public override Guid Id => Guid.Empty;
 
-        public CommandListHandlerDefinition(string text, ICommand command)
+        public CommandListHandlerDefinition(string text, ICommandDefinitionCommand command)
         {
             Text = text;
             Command = command;

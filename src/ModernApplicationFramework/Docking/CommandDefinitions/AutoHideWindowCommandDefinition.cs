@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
-using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Docking.Controls;
@@ -14,10 +13,8 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(AutoHideWindowCommandDefinition))]
-    public sealed class AutoHideWindowCommandDefinition : CommandDefinition
+    public sealed class AutoHideWindowCommandDefinition : CommandDefinition<IAutoHideWindowCommand>
     {
-        public override ICommand Command { get; }
-
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
 
@@ -35,13 +32,17 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
         public override Guid Id => new Guid("{2CD1E686-B6D8-4719-875E-9535DE2FF119}");
+    }
 
-        public AutoHideWindowCommandDefinition()
-        {
-            Command = new UICommand(AutoHideWindow, CanAutoHideWindow);
-        }
+    public interface IAutoHideWindowCommand : ICommandDefinitionCommand
+    {
+    }
 
-        private bool CanAutoHideWindow()
+
+    [Export(typeof(IAutoHideWindowCommand))]
+    internal class AutoHideWindowCommand : CommandDefinitionCommand, IAutoHideWindowCommand
+    {
+        protected override bool OnCanExecute(object parameter)
         {
             if (DockingManager.Instance == null)
                 return false;
@@ -61,7 +62,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
                    !layoutItem.IsAutoHidden;
         }
 
-        private void AutoHideWindow()
+        protected override void OnExecute(object parameter)
         {
             var dc = DockingManager.Instance?.Layout.ActiveContent;
             if (dc == null)

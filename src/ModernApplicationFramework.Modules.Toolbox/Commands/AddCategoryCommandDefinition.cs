@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
-using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input;
@@ -14,10 +13,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(AddCategoryCommandDefinition))]
-    public class AddCategoryCommandDefinition : CommandDefinition
+    public class AddCategoryCommandDefinition : CommandDefinition<IAddCategoryCommand>
     {
-        private readonly IToolboxService _service;
-
         public override string Name => ToolboxResources.AddCategoryCommand_Name;
         public override string NameUnlocalized => ToolboxResources.ResourceManager.GetString(nameof(ToolboxResources.AddCategoryCommand_Name), CultureInfo.InvariantCulture);
         public override string Text => ToolboxResources.AddCategoryCommand_Text;
@@ -28,28 +25,33 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
         public override Guid Id => new Guid("{D7D3206E-0BBD-41E4-96DF-07EA57571586}");
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
+    }
 
-        public override ICommand Command { get; }
+    public interface IAddCategoryCommand : ICommandDefinitionCommand
+    {
+    }
+
+    [Export(typeof(IAddCategoryCommand))]
+    internal class AddCategoryCommand : CommandDefinitionCommand, IAddCategoryCommand
+    {
+        private readonly IToolboxService _service;
 
         [ImportingConstructor]
-        public AddCategoryCommandDefinition(IToolboxService service)
+        public AddCategoryCommand(IToolboxService service)
         {
             _service = service;
-
-            var command = new UICommand(AddCategory, CanAddCategory);
-            Command = command;
         }
 
-        private static bool CanAddCategory()
+        protected override bool OnCanExecute(object parameter)
         {
             return true;
         }
 
-        private void AddCategory()
+        protected override void OnExecute(object parameter)
         {
             var c = new ToolboxCategory();
             c.CreatedCancelled += C_CreatedCancelled;
-            c.Created += C_Created;           
+            c.Created += C_Created;
             _service.AddCategory(c);
         }
 

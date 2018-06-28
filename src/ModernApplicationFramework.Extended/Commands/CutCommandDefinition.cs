@@ -30,7 +30,7 @@ namespace ModernApplicationFramework.Extended.Commands
     }
 
     [Export(typeof(ICutCommand))]
-    public class CutCommand : CommandDefinitionCommand, ICutCommand
+    internal class CutCommand : CommandDefinitionCommand, ICutCommand
     {
         protected override bool OnCanExecute(object parameter)
         {

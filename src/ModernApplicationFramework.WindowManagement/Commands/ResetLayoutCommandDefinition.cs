@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Windows;
-using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input;
@@ -15,9 +14,8 @@ namespace ModernApplicationFramework.WindowManagement.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(ResetLayoutCommandDefinition))]
-    public sealed class ResetLayoutCommandDefinition : CommandDefinition
+    public sealed class ResetLayoutCommandDefinition : CommandDefinition<IResetLayoutCommand>
     {
-        private readonly IExtendedEnvironmentVariables _environmentVariables;
         public override string Name => WindowManagement_Resources.ResetLayoutCommandDefinition_Name;
         public override string Text => WindowManagement_Resources.ResetLayoutCommandDefinition_Text;
 
@@ -31,28 +29,33 @@ namespace ModernApplicationFramework.WindowManagement.Commands
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
         public override Guid Id => new Guid("{A2885FF1-870F-41A3-9259-8A3A2D84286E}");
 
-        public override ICommand Command { get; }
-
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
+    }
+
+    public interface IResetLayoutCommand : ICommandDefinitionCommand
+    {
+    }
+
+    [Export(typeof(IResetLayoutCommand))]
+    internal class ResetLayoutCommand : CommandDefinitionCommand, IResetLayoutCommand
+    {
+        private readonly IExtendedEnvironmentVariables _environmentVariables;
 
         [ImportingConstructor]
-        internal ResetLayoutCommandDefinition(IExtendedEnvironmentVariables environmentVariables)
+        public ResetLayoutCommand(IExtendedEnvironmentVariables environmentVariables)
         {
             _environmentVariables = environmentVariables;
-
-            var command = new UICommand(Manage, CanManage);
-            Command = command;
         }
 
-        private bool CanManage()
+        protected override bool OnCanExecute(object parameter)
         {
             if (LayoutManagementService.Instance == null)
                 return false;
             return true;
         }
 
-        private void Manage()
+        protected override void OnExecute(object parameter)
         {
             var result = MessageBox.Show(WindowManagement_Resources.ResetLayoutConfirmation, _environmentVariables.ApplicationName, MessageBoxButton.YesNo,
                 MessageBoxImage.Question, MessageBoxResult.Yes);

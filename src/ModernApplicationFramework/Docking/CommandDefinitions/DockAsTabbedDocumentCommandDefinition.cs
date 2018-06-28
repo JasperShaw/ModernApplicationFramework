@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
-using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Docking.Layout;
@@ -13,10 +12,8 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(DockAsTabbedDocumentCommandDefinition))]
-    public sealed class DockAsTabbedDocumentCommandDefinition : CommandDefinition
+    public sealed class DockAsTabbedDocumentCommandDefinition : CommandDefinition<IDockAsTabbedDocumentCommand>
     {
-        public override ICommand Command { get; }
-
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
 
@@ -34,23 +31,26 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
         public override Guid Id => new Guid("{D82DF723-6ED3-43D3-805A-918CC256F6F4}");
+    }
 
-        public DockAsTabbedDocumentCommandDefinition()
-        {
-            Command = new UICommand(DockAsTabbedDocument, CanDockAsTabbedDocument);
-        }
+    public interface IDockAsTabbedDocumentCommand : ICommandDefinitionCommand
+    {
+    }
 
-        private bool CanDockAsTabbedDocument()
+    [Export(typeof(IDockAsTabbedDocumentCommand))]
+    internal class DockAsTabbedDocumentCommand : CommandDefinitionCommand, IDockAsTabbedDocumentCommand
+    {
+        protected override bool OnCanExecute(object parameter)
         {
             var dc = DockingManager.Instance.Layout.ActiveContent;
             if (dc == null)
                 return false;
 
             var di = DockingManager.Instance.GetLayoutItemFromModel(dc);
-            return di?.LayoutElement != null && di.LayoutElement.FindParent<LayoutAnchorablePane>() != null;
+            return di?.LayoutElement?.FindParent<LayoutAnchorablePane>() != null;
         }
 
-        private void DockAsTabbedDocument()
+        protected override void OnExecute(object parameter)
         {
             var dc = DockingManager.Instance.Layout.ActiveContent;
             if (dc == null)

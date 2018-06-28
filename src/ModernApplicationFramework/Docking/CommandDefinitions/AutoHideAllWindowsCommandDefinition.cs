@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Linq;
-using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Docking.Layout;
@@ -14,10 +13,8 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(AutoHideAllWindowsCommandDefinition))]
-    public sealed class AutoHideAllWindowsCommandDefinition : CommandDefinition
+    public sealed class AutoHideAllWindowsCommandDefinition : CommandDefinition<IAutoHideAllWindowsCommand>
     {
-        public override ICommand Command { get; }
-
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
 
@@ -35,19 +32,22 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
 
         public override Guid Id => new Guid("{ABF14EC8-CC6D-4B2A-A1A1-9A0F44690266}");
+    }
 
-        public AutoHideAllWindowsCommandDefinition()
-        {
-            Command = new UICommand(AutoHideAllWindows, CanAutoHideAllWindows);
-        }
+    public interface IAutoHideAllWindowsCommand : ICommandDefinitionCommand
+    {
+    }
 
-        private bool CanAutoHideAllWindows()
+    [Export(typeof(IAutoHideAllWindowsCommand))]
+    internal class AutoHideAllWindowsCommand : CommandDefinitionCommand, IAutoHideAllWindowsCommand
+    {
+        protected override bool OnCanExecute(object parameter)
         {
             return DockingManager.Instance != null && DockingManager.Instance.Layout.Descendents()
                        .OfType<LayoutAnchorable>().Any(x => !x.IsAutoHidden);
         }
 
-        private void AutoHideAllWindows()
+        protected override void OnExecute(object parameter)
         {
             var layoutAnchorables = DockingManager.Instance?.Layout.Descendents().OfType<LayoutAnchorable>();
             if (layoutAnchorables == null)
@@ -58,10 +58,6 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
                 if (!anchorable.IsAutoHidden)
                     anchorable.ToggleAutoHide();
             }
-
-            //var di = DockingManager.Instace?.GetLayoutItemFromModel(dc) as LayoutAnchorableItem;
-
-            //di?.AutoHideCommand.Execute(null);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace ModernApplicationFramework.WindowManagement.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(SaveCurrentLayoutCommandDefinition))]
-    public sealed class SaveCurrentLayoutCommandDefinition : CommandDefinition
+    public sealed class SaveCurrentLayoutCommandDefinition : CommandDefinition<ISaveCurrentLayoutCommand>
     {
         public override string Name => WindowManagement_Resources.SaveLayoutCommandDefinition_Name;
         public override string Text => WindowManagement_Resources.SaveLayoutCommandDefinition_Text;
@@ -26,24 +26,23 @@ namespace ModernApplicationFramework.WindowManagement.Commands
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
         public override Guid Id => new Guid("{046EC243-92CC-4490-83C5-587EB89358DB}");
 
-        public override ICommand Command { get; }
-
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
+    }
 
-        [ImportingConstructor]
-        public SaveCurrentLayoutCommandDefinition()
-        {
-            var command = new UICommand(Save, CanSave);
-            Command = command;
-        }
+    public interface ISaveCurrentLayoutCommand : ICommandDefinitionCommand
+    {
+    }
 
-        private bool CanSave()
+    [Export(typeof(ISaveCurrentLayoutCommand))]
+    internal class SaveCurrentLayoutCommand : CommandDefinitionCommand, ISaveCurrentLayoutCommand
+    {
+        protected override bool OnCanExecute(object parameter)
         {
             return LayoutManagementService.Instance != null;
         }
 
-        private void Save()
+        protected override void OnExecute(object parameter)
         {
             LayoutManagementService.Instance.LayoutManager.SaveWindowLayout();
         }

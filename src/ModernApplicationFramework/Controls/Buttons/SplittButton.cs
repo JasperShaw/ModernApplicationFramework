@@ -188,7 +188,7 @@ namespace ModernApplicationFramework.Controls.Buttons
             var selectedIndex = SelectedIndex;
             IsSubmenuOpen = false;
             SelectedIndex = 0;
-            splitCommandDefinition.Execute(selectedIndex + 1);
+            splitCommandDefinition.Command.Execute(selectedIndex +1);
             if (System.Windows.Automation.Peers.AutomationPeer.ListenerExists(AutomationEvents.InvokePatternOnInvoked))
                 AutomationPeerHelper.CreatePeerFromElement<SplitButtonAutomationPeer>(this).RaiseAutomationEvent(AutomationEvents.InvokePatternOnInvoked);
             if (!IsKeyboardFocusWithin)

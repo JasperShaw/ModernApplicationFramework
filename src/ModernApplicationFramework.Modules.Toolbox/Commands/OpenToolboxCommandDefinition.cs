@@ -12,9 +12,8 @@ using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 namespace ModernApplicationFramework.Modules.Toolbox.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
-    public class OpenToolboxCommandDefinition : CommandDefinition
+    public class OpenToolboxCommandDefinition : CommandDefinition<IOpenToolboxCommand>
     {
-        private readonly IDockingHostViewModel _hostViewModel;
         public override string NameUnlocalized => "Toolbox";
         public override string Text => "Toolbox";
         public override string ToolTip => Text;
@@ -25,14 +24,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
         public override GestureScope DefaultGestureScope { get; }
 
-        public override ICommand Command { get; }
-
-        [ImportingConstructor]
-        public OpenToolboxCommandDefinition(IDockingHostViewModel hostViewModel)
+        public OpenToolboxCommandDefinition()
         {
-            _hostViewModel = hostViewModel;
-            var command = new UICommand(OpenToolbox, () => true);
-            Command = command;
             DefaultKeyGestures = new[]
             {
                 new MultiKeyGesture(new List<KeySequence>
@@ -43,8 +36,29 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
             };
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
         }
+    }
 
-        private void OpenToolbox()
+    public interface IOpenToolboxCommand : ICommandDefinitionCommand
+    {
+    }
+
+    [Export(typeof(IOpenToolboxCommand))]
+    internal class OpenToolboxCommand : CommandDefinitionCommand, IOpenToolboxCommand
+    {
+        private readonly IDockingHostViewModel _hostViewModel;
+
+        [ImportingConstructor]
+        public OpenToolboxCommand(IDockingHostViewModel hostViewModel)
+        {
+            _hostViewModel = hostViewModel;
+        }
+
+        protected override bool OnCanExecute(object parameter)
+        {
+            return true;
+        }
+
+        protected override void OnExecute(object parameter)
         {
             _hostViewModel.ShowTool<IToolbox>();
         }

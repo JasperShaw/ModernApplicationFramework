@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input;
@@ -14,10 +13,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(ToolboxNodeUpCommandDefinition))]
-    public class ToolboxNodeUpCommandDefinition : CommandDefinition
+    public class ToolboxNodeUpCommandDefinition : CommandDefinition<IToolboxNodeUpCommand>
     {
-        private readonly IToolbox _toolbox;
-        private readonly IToolboxService _service;
         public override string NameUnlocalized => "Move up";
         public override string Text => "Move up";
         public override string ToolTip => Text;
@@ -27,24 +24,40 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
         public override Guid Id => new Guid("{3543E589-5D75-4CF5-88BC-254A14578C69}");
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
+    }
 
-        public override ICommand Command { get; }
+    public interface IToolboxNodeUpCommand : ICommandDefinitionCommand
+    {
+    }
+
+    [Export(typeof(IToolboxNodeUpCommand))]
+    internal class ToolboxNodeUpCommand : CommandDefinitionCommand, IToolboxNodeUpCommand
+    {
+        private readonly IToolbox _toolbox;
+        private readonly IToolboxService _service;
 
         [ImportingConstructor]
-        public ToolboxNodeUpCommandDefinition(IToolbox toolbox, IToolboxService service)
+        public ToolboxNodeUpCommand(IToolbox toolbox, IToolboxService service)
         {
             _toolbox = toolbox;
             _service = service;
-            Command = new UICommand(MoveNodeUp, CanMoveNodeUp);
         }
 
-        private bool CanMoveNodeUp()
+        protected override bool OnCanExecute(object parameter)
         {
             if (_toolbox.SelectedNode is IToolboxCategory category)
                 return CheckCategoryUp(category);
             if (_toolbox.SelectedNode is IToolboxItem item)
                 return CheckItemUp(item);
             return false;
+        }
+
+        protected override void OnExecute(object parameter)
+        {
+            if (_toolbox.SelectedNode is IToolboxCategory category)
+                MoveCategoryUp(category);
+            if (_toolbox.SelectedNode is IToolboxItem item)
+                MoveItemUp(item);
         }
 
         private bool CheckItemUp(IToolboxItem item)
@@ -68,14 +81,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
             return false;
         }
 
-        private void MoveNodeUp()
-        {
-            if (_toolbox.SelectedNode is IToolboxCategory category)
-                MoveCategoryUp(category);
-            if (_toolbox.SelectedNode is IToolboxItem item)
-                MoveItemUp(item);
-        }
-
         private void MoveItemUp(IToolboxItem item)
         {
             if (item.Parent == null)
@@ -94,7 +99,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
             var items = _service.GetToolboxItemSource();
             var index = items.IndexOf(x => x.Equals(category));
             _service.RemoveCategory(category, false, true);
-            _service.InsertCategory(index -1, category);
+            _service.InsertCategory(index - 1, category);
             _toolbox.SelectedNode = category;
         }
     }

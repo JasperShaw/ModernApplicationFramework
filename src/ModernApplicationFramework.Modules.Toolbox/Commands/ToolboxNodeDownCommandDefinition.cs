@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input;
@@ -14,10 +13,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(ToolboxNodeDownCommandDefinition))]
-    public class ToolboxNodeDownCommandDefinition : CommandDefinition
+    public class ToolboxNodeDownCommandDefinition : CommandDefinition<IToolboxNodeDownCommand>
     {
-        private readonly IToolbox _toolbox;
-        private readonly IToolboxService _service;
         public override string NameUnlocalized => "Move Down";
 
         public override string Name => "Toolbox Down";
@@ -30,24 +27,39 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
         public override Guid Id => new Guid("{FC1C2BD3-A600-4C0D-BE5A-63DE8EED2EA9}");
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
+    }
 
-        public override ICommand Command { get; }
+    public interface IToolboxNodeDownCommand : ICommandDefinitionCommand
+    {
+    }
+
+    [Export(typeof(IToolboxNodeDownCommand))]
+    internal class ToolboxNodeDownCommand : CommandDefinitionCommand, IToolboxNodeDownCommand
+    {
+        private readonly IToolbox _toolbox;
+        private readonly IToolboxService _service;
 
         [ImportingConstructor]
-        public ToolboxNodeDownCommandDefinition(IToolbox toolbox, IToolboxService service)
+        public ToolboxNodeDownCommand(IToolbox toolbox, IToolboxService service)
         {
             _toolbox = toolbox;
             _service = service;
-            Command = new UICommand(MoveNodeDown, CanMoveNodeDown);
         }
 
-        private bool CanMoveNodeDown()
+        protected override bool OnCanExecute(object parameter)
         {
             if (_toolbox.SelectedNode is IToolboxCategory category)
                 return CheckCategoryDown(category);
             if (_toolbox.SelectedNode is IToolboxItem item)
                 return CheckItemDown(item);
             return false;
+        }
+        protected override void OnExecute(object parameter)
+        {
+            if (_toolbox.SelectedNode is IToolboxCategory category)
+                MoveCategoryDown(category);
+            if (_toolbox.SelectedNode is IToolboxItem item)
+                MoveItemDown(item);
         }
 
         private bool CheckItemDown(IToolboxItem item)
@@ -68,18 +80,10 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
             if (index >= items.Count - 1)
                 return false;
 
-            if (items.GetRange(index +1, items.Count - index -1).Any(x => x.IsVisible))
+            if (items.GetRange(index + 1, items.Count - index - 1).Any(x => x.IsVisible))
                 return true;
 
             return false;
-        }
-
-        private void MoveNodeDown()
-        {
-            if (_toolbox.SelectedNode is IToolboxCategory category)
-                MoveCategoryDown(category);
-            if (_toolbox.SelectedNode is IToolboxItem item)
-                MoveItemDown(item);
         }
 
         private void MoveItemDown(IToolboxItem item)
@@ -99,8 +103,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
                 return;
             var items = _service.GetToolboxItemSource();
             var index = items.IndexOf(x => x.Equals(category));
-            _service.RemoveCategory(category,false, true);
-            _service.InsertCategory(index +1, category);
+            _service.RemoveCategory(category, false, true);
+            _service.InsertCategory(index + 1, category);
             _toolbox.SelectedNode = category;
         }
     }

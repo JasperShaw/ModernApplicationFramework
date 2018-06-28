@@ -19,11 +19,13 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         public abstract IObservableCollection<IHasTextProperty> Items { get; set; }
 
         public abstract IStatusStringCreator StatusStringCreator { get; }
+    }
 
-        /// <summary>
-        /// The action performed after selecting items in the drop down list 
-        /// </summary>
-        /// <param name="count">The amount of items that have been selected</param>
-        public abstract void Execute(int count);
+    public abstract class CommandSplitButtonDefinition<T> : CommandSplitButtonDefinition where T : ICommandDefinitionCommand
+    {
+        protected CommandSplitButtonDefinition()
+        {
+            Command = IoC.Get<T>();
+        }
     }
 }

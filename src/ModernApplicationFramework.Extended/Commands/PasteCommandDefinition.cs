@@ -36,7 +36,7 @@ namespace ModernApplicationFramework.Extended.Commands
     }
 
     [Export(typeof(IPasteCommand))]
-    public class PasteCommand : CommandDefinitionCommand, IPasteCommand
+    internal class PasteCommand : CommandDefinitionCommand, IPasteCommand
     {
         protected override bool OnCanExecute(object parameter)
         {

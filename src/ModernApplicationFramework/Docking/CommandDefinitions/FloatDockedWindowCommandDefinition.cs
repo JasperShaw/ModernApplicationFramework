@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
-using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Docking.Layout;
@@ -13,10 +12,8 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(FloatDockedWindowCommandDefinition))]
-    public sealed class FloatDockedWindowCommandDefinition : CommandDefinition
+    public sealed class FloatDockedWindowCommandDefinition : CommandDefinition<IFloatDockedWindowCommand>
     {
-        public override ICommand Command { get; }
-
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
         public override string Name => Text;
@@ -33,13 +30,16 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
         public override Guid Id => new Guid("{A4C7C240-998D-40CF-9BA0-D9BD0AE2BC1D}");
+    }
 
-        public FloatDockedWindowCommandDefinition()
-        {
-            Command = new UICommand(FloatDockedWindow, CanFloatDockedWindow);
-        }
+    public interface IFloatDockedWindowCommand : ICommandDefinitionCommand
+    {
+    }
 
-        private bool CanFloatDockedWindow()
+    [Export(typeof(IFloatDockedWindowCommand))]
+    internal class FloatDockedWindowCommand : CommandDefinitionCommand, IFloatDockedWindowCommand
+    {
+        protected override bool OnCanExecute(object parameter)
         {
             var dc = DockingManager.Instance?.Layout.ActiveContent;
             if (dc == null)
@@ -51,7 +51,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
             return false;
         }
 
-        private void FloatDockedWindow()
+        protected override void OnExecute(object parameter)
         {
             var dc = DockingManager.Instance?.Layout.ActiveContent;
             if (dc == null)

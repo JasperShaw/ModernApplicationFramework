@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Windows.Controls;
-using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Docking.Layout;
@@ -14,9 +13,8 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(NewVerticalTabGroupCommandDefinition))]
-    public sealed class NewVerticalTabGroupCommandDefinition : CommandDefinition
+    public sealed class NewVerticalTabGroupCommandDefinition : CommandDefinition<INewVerticalTabGroupCommand>
     {
-        public override ICommand Command { get; }
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
         public override string Name => Text;
@@ -35,28 +33,30 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
         public override string IconId => "SplitScreenVertical";
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
         public override Guid Id => new Guid("{5667C276-A91F-428A-86A3-7D95814B4B9F}");
+    }
 
-        public NewVerticalTabGroupCommandDefinition()
-        {
-            Command = new UICommand(CreateNewVerticalTabGroup, CanCreateNewVerticalTabGroup);
-        }
+    public interface INewVerticalTabGroupCommand : ICommandDefinitionCommand
+    {
+    }
 
-        private bool CanCreateNewVerticalTabGroup()
+    [Export(typeof(INewVerticalTabGroupCommand))]
+    internal  class NewVerticalTabGroupCommand : CommandDefinitionCommand, INewVerticalTabGroupCommand
+    {
+        protected override bool OnCanExecute(object parameter)
         {
             if (DockingManager.Instance?.Layout.ActiveContent == null)
                 return false;
             var parentDocumentGroup = DockingManager.Instance?.Layout.ActiveContent
                 .FindParent<LayoutDocumentPaneGroup>();
-            var parentDocumentPane = DockingManager.Instance?.Layout.ActiveContent.Parent as LayoutDocumentPane;
             return (parentDocumentGroup == null ||
                     parentDocumentGroup.ChildrenCount == 1 ||
                     parentDocumentGroup.Root.Manager.AllowMixedOrientation ||
                     parentDocumentGroup.Orientation == Orientation.Horizontal) &&
-                   parentDocumentPane != null &&
+                   DockingManager.Instance?.Layout.ActiveContent.Parent is LayoutDocumentPane parentDocumentPane &&
                    parentDocumentPane.ChildrenCount > 1;
         }
 
-        private void CreateNewVerticalTabGroup()
+        protected override void OnExecute(object parameter)
         {
             var layoutElement = DockingManager.Instance?.Layout.ActiveContent;
             if (layoutElement == null)
@@ -69,7 +69,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
                 if (parentDocumentPane != null)
                 {
                     var grandParent = parentDocumentPane.Parent;
-                    parentDocumentGroup = new LayoutDocumentPaneGroup {Orientation = Orientation.Horizontal};
+                    parentDocumentGroup = new LayoutDocumentPaneGroup { Orientation = Orientation.Horizontal };
                     grandParent.ReplaceChild(parentDocumentPane, parentDocumentGroup);
                 }
                 parentDocumentGroup?.Children.Add(parentDocumentPane);

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Linq;
-using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Creators;
@@ -19,12 +18,8 @@ namespace ModernApplicationFramework.Extended.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(MultiRedoCommandDefinition))]
-    public sealed class MultiRedoCommandDefinition : CommandSplitButtonDefinition
+    public sealed class MultiRedoCommandDefinition : CommandSplitButtonDefinition<IMultiRedoCommand>
     {
-        private readonly CommandBarUndoRedoManagerWatcher _watcher;
-
-        public override ICommand Command { get; }
-
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
 
@@ -49,21 +44,7 @@ namespace ModernApplicationFramework.Extended.Commands
         [ImportingConstructor]
         public MultiRedoCommandDefinition(CommandBarUndoRedoManagerWatcher watcher)
         {
-            var command = new UICommand(Redo, CanRedo);
-            Command = command;
-
-            _watcher = watcher;
-            Items = _watcher.RedoItems;
-        }
-
-        private bool CanRedo()
-        {
-            return _watcher.UndoRedoManager != null && _watcher.UndoRedoManager.RedoStack.Any();
-        }
-
-        private void Redo()
-        {
-            _watcher.UndoRedoManager.Redo(1);
+            Items = watcher.RedoItems;
         }
 
         public override IObservableCollection<IHasTextProperty> Items { get; set; }
@@ -72,9 +53,34 @@ namespace ModernApplicationFramework.Extended.Commands
             new NumberStatusStringCreator(Commands_Resources.MultiRedoCommandDefinition_StatusText,
                 Commands_Resources.MultiRedoCommandDefinition_StatusSuffix);
 
-        public override void Execute(int count)
+    }
+
+    public interface IMultiRedoCommand : ICommandDefinitionCommand
+    {
+    }
+
+    [Export(typeof(IMultiRedoCommand))]
+    internal class MultiRedoCommand : CommandDefinitionCommand, IMultiRedoCommand
+    {
+        private readonly CommandBarUndoRedoManagerWatcher _watcher;
+
+        [ImportingConstructor]
+        public MultiRedoCommand(CommandBarUndoRedoManagerWatcher watcher)
         {
-            _watcher.UndoRedoManager?.Redo(count);
+            _watcher = watcher;
+        }
+
+        protected override bool OnCanExecute(object parameter)
+        {
+            return _watcher.UndoRedoManager != null && _watcher.UndoRedoManager.RedoStack.Any();
+        }
+
+        protected override void OnExecute(object parameter)
+        {
+            if (!(parameter is int number))
+                _watcher.UndoRedoManager.Redo(1);
+            else
+                _watcher.UndoRedoManager.Redo(number);
         }
     }
 }

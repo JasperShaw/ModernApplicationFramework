@@ -7,8 +7,6 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
 {
     public abstract class CommandDefinition<T> : CommandDefinition where T : ICommandDefinitionCommand
     {
-        public sealed override ICommand Command { get; }
-
         protected CommandDefinition()
         {
             Command = IoC.Get<T>();

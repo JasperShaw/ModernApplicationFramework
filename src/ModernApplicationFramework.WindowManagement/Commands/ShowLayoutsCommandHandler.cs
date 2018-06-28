@@ -117,7 +117,6 @@ namespace ModernApplicationFramework.WindowManagement.Commands
 
         private class ShowLayoutCommandDefinition : CommandDefinition
         {
-            public override ICommand Command => new UICommand(() => {}, () => false);
             public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
             public override GestureScope DefaultGestureScope => null;
             public override string Name => string.Empty;

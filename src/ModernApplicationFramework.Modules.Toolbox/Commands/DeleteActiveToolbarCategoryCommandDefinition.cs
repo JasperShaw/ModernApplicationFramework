@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input;
@@ -13,10 +12,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(DeleteActiveToolbarCategoryCommandDefinition))]
-    public class DeleteActiveToolbarCategoryCommandDefinition : CommandDefinition
+    public class DeleteActiveToolbarCategoryCommandDefinition : CommandDefinition<IDeleteActiveToolbarCategoryCommand>
     {
-        private readonly IToolbox _toolbox;
-        private readonly IToolboxService _service;
         public override string NameUnlocalized => "Delete Active";
         public override string Text => NameUnlocalized;
         public override string ToolTip => Text;
@@ -26,27 +23,32 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
         public override Guid Id => new Guid("{2A33CF7A-4C10-4FA7-A766-A45F1661F4DF}");
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
+    }
 
-        public override ICommand Command { get; }
+    public interface IDeleteActiveToolbarCategoryCommand : ICommandDefinitionCommand
+    {
+    }
 
+    [Export(typeof(IDeleteActiveToolbarCategoryCommand))]
+    internal class DeleteActiveToolbarCategoryCommand : CommandDefinitionCommand, IDeleteActiveToolbarCategoryCommand
+    {
+        private readonly IToolbox _toolbox;
+        private readonly IToolboxService _service;
 
         [ImportingConstructor]
-        public DeleteActiveToolbarCategoryCommandDefinition(IToolbox toolbox, IToolboxService service)
+        public DeleteActiveToolbarCategoryCommand(IToolbox toolbox, IToolboxService service)
         {
             _toolbox = toolbox;
             _service = service;
-
-            var command = new UICommand(DeleteItem, CanDeleteItem);
-            Command = command;
         }
 
-        private bool CanDeleteItem()
+        protected override bool OnCanExecute(object parameter)
         {
             return _toolbox.SelectedNode is IToolboxCategory &&
                    !Equals(_toolbox.SelectedNode, ToolboxCategory.DefaultCategory);
         }
 
-        private void DeleteItem()
+        protected override void OnExecute(object parameter)
         {
             if (!(_toolbox.SelectedNode is IToolboxCategory category))
                 return;

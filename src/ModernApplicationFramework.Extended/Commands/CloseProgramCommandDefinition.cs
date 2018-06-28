@@ -14,14 +14,8 @@ namespace ModernApplicationFramework.Extended.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(CloseProgramCommandDefinition))]
-    public sealed class CloseProgramCommandDefinition : CommandDefinition
+    public sealed class CloseProgramCommandDefinition : CommandDefinition<ICloseProgramCommand>
     {
-#pragma warning disable 649
-        [Import] private IDockingMainWindowViewModel _shell;
-#pragma warning restore 649
-
-        public override ICommand Command { get; }
-
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
         public override GestureScope DefaultGestureScope { get; }
 
@@ -45,19 +39,29 @@ namespace ModernApplicationFramework.Extended.Commands
 
         public CloseProgramCommandDefinition()
         {
-            var command = new UICommand(Close, CanClose);
-            Command = command;
-
             DefaultKeyGestures = new[] {new MultiKeyGesture(Key.F4, ModifierKeys.Alt)};
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
         }
+    }
 
-        private bool CanClose()
+    public interface ICloseProgramCommand : ICommandDefinitionCommand
+    {
+    }
+
+    [Export(typeof(ICloseProgramCommand))]
+    internal class CloseProgramCommand : CommandDefinitionCommand, ICloseProgramCommand
+    {
+
+#pragma warning disable 649
+        [Import] private IDockingMainWindowViewModel _shell;
+#pragma warning restore 649
+
+        protected override bool OnCanExecute(object parameter)
         {
             return _shell != null;
         }
 
-        private void Close()
+        protected override void OnExecute(object parameter)
         {
             _shell.CloseCommand.Execute(null);
         }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
-using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Docking.Controls;
@@ -14,10 +13,8 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(DockWindowCommandDefinition))]
-    public sealed class DockWindowCommandDefinition : CommandDefinition
+    public sealed class DockWindowCommandDefinition : CommandDefinition<IDockWindowCommand>
     {
-        public override ICommand Command { get; }
-
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
 
@@ -35,13 +32,16 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
         public override Guid Id => new Guid("{5CC255C6-4D81-4B39-AF49-D80FE4C813EC}");
+    }
 
-        public DockWindowCommandDefinition()
-        {
-            Command = new UICommand(DockWindow, CanDockWindow);
-        }
+    public interface IDockWindowCommand : ICommandDefinitionCommand
+    {
+    }
 
-        private bool CanDockWindow()
+    [Export(typeof(IDockWindowCommand))]
+    internal class DockWindowCommand : CommandDefinitionCommand, IDockWindowCommand
+    {
+        protected override bool OnCanExecute(object parameter)
         {
             var dc = DockingManager.Instance?.Layout.ActiveContent;
             if (dc == null)
@@ -49,11 +49,11 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
             var di = DockingManager.Instance?.GetLayoutItemFromModel(dc);
 
             return di?.LayoutElement?.FindParent<LayoutFloatingWindow>() != null ||
-                   di?.LayoutElement?.FindParent<LayoutDocumentPane>() != null && di.LayoutElement is LayoutAnchorable || 
+                   di?.LayoutElement?.FindParent<LayoutDocumentPane>() != null && di.LayoutElement is LayoutAnchorable ||
                    di?.LayoutElement is LayoutAnchorable layoutItem && layoutItem.IsAutoHidden;
         }
 
-        private void DockWindow()
+        protected override void OnExecute(object parameter)
         {
             var dc = DockingManager.Instance?.Layout.ActiveContent;
             if (dc == null)

@@ -15,17 +15,16 @@ namespace ModernApplicationFramework.EditorBase.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(SaveActiveFileCommandDefinition))]
-    public class SaveActiveFileCommandDefinition : CommandDefinition
+    public class SaveActiveFileCommandDefinition : CommandDefinition<ISaveActiveFileCommand>
     {
         private string _text;
 
-        private readonly IDockingHostViewModel _dockingHostViewModel;
         public override string NameUnlocalized => "Save active file";
         public override string Text => BuildText();
 
         private string BuildText()
         {
-            if (CanSaveFile())
+            if (Command.CanExecute(null))
                 return string.Format(CommandsResources.SaveActiveDocumentCommandText, _text);
             return CommandsResources.SaveActiveDocumentCommandName;
         }
@@ -42,18 +41,13 @@ namespace ModernApplicationFramework.EditorBase.Commands
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
         public override GestureScope DefaultGestureScope { get; }
 
-        public override ICommand Command { get; }
-
         [ImportingConstructor]
         public SaveActiveFileCommandDefinition(IDockingHostViewModel dockingHostViewModel)
         {
-            _dockingHostViewModel = dockingHostViewModel;
-            var command = new UICommand(SaveFile, CanSaveFile);
-            Command = command;
             DefaultKeyGestures = new []{ new MultiKeyGesture(Key.S, ModifierKeys.Control)};
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
 
-            _dockingHostViewModel.ActiveLayoutItemChanged += _dockingHostViewModel_ActiveLayoutItemChanged;
+            dockingHostViewModel.ActiveLayoutItemChanged += _dockingHostViewModel_ActiveLayoutItemChanged;
         }
 
         private void _dockingHostViewModel_ActiveLayoutItemChanged(object sender, LayoutChangeEventArgs e)
@@ -61,17 +55,32 @@ namespace ModernApplicationFramework.EditorBase.Commands
             _text = e.NewLayoutItem?.DisplayName;
             OnPropertyChanged(nameof(Text));
         }
+    }
 
-        private bool CanSaveFile()
+    public interface ISaveActiveFileCommand : ICommandDefinitionCommand
+    {
+    }
+
+    [Export(typeof(ISaveActiveFileCommand))]
+    internal class SaveActiveFileCommand : CommandDefinitionCommand, ISaveActiveFileCommand
+    {
+        private readonly IDockingHostViewModel _dockingHostViewModel;
+
+        [ImportingConstructor]
+        public SaveActiveFileCommand(IDockingHostViewModel dockingHostViewModel)
+        {
+            _dockingHostViewModel = dockingHostViewModel;
+        }
+        protected override bool OnCanExecute(object parameter)
         {
             if (_dockingHostViewModel.ActiveItem == null)
                 return false;
             return _dockingHostViewModel.ActiveItem is IEditor editor && editor.Document is IStorableFile;
         }
 
-        private void SaveFile()
+        protected override void OnExecute(object parameter)
         {
-            ((IEditor) _dockingHostViewModel.ActiveItem)?.SaveFile();
+            ((IEditor)_dockingHostViewModel.ActiveItem)?.SaveFile();
         }
     }
 }

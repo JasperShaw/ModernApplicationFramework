@@ -13,7 +13,7 @@ namespace ModernApplicationFramework.WindowManagement.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(ManageLayoutCommandDefinition))]
-    public sealed class ManageLayoutCommandDefinition : CommandDefinition
+    public sealed class ManageLayoutCommandDefinition : CommandDefinition<IManageLayoutCommand>
     {
         public override string Name => WindowManagement_Resources.ManageLayoutCommandDefinition_Name;
         public override string Text => WindowManagement_Resources.ManageLayoutCommandDefinition_Text;
@@ -28,26 +28,25 @@ namespace ModernApplicationFramework.WindowManagement.Commands
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
         public override Guid Id => new Guid("{F843A14E-3840-4CC9-AA3F-D70B04DD0ED3}");
 
-        public override ICommand Command { get; }
-
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
+    }
 
-        [ImportingConstructor]
-        public ManageLayoutCommandDefinition()
-        {
-            var command = new UICommand(Manage, CanManage);
-            Command = command;
-        }
+    public interface IManageLayoutCommand : ICommandDefinitionCommand
+    {
+    }
 
-        private bool CanManage()
+    [Export(typeof(IManageLayoutCommand))]
+    internal class ManageLayoutCommand : CommandDefinitionCommand, IManageLayoutCommand
+    {
+        protected override bool OnCanExecute(object parameter)
         {
             if (LayoutManagementService.Instance == null)
                 return false;
             return true;
         }
 
-        private void Manage()
+        protected override void OnExecute(object parameter)
         {
             LayoutManagementService.Instance.LayoutManager.ManageWindowLayouts();
         }

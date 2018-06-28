@@ -21,15 +21,10 @@ namespace ModernApplicationFramework.EditorBase.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(NewFileCommandDefinition))]
-    public sealed class NewFileCommandDefinition : CommandDefinition
+    public sealed class NewFileCommandDefinition : CommandDefinition<INewFileCommand>
     {
-        private IEditorProvider _editorProvider;
-
-        private IEditorProvider EditorProvider => _editorProvider ?? (_editorProvider = IoC.Get<IEditorProvider>());
-
-        public override ICommand Command { get; }
-
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
+
         public override GestureScope DefaultGestureScope { get; }
 
         public override string IconId => "NewFileIcon";
@@ -50,18 +45,29 @@ namespace ModernApplicationFramework.EditorBase.Commands
 
         public NewFileCommandDefinition()
         {
-            var command = new UICommand(CreateNewFile, CanCreateNewFile);
-            Command = command;
             DefaultKeyGestures = new []{ new MultiKeyGesture(Key.N, ModifierKeys.Control)};
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
         }
+    }
 
-        private bool CanCreateNewFile()
+    public interface INewFileCommand : ICommandDefinitionCommand
+    {
+    }
+
+    [Export(typeof(INewFileCommand))]
+    internal class NewFileCommand : CommandDefinitionCommand, INewFileCommand
+    {
+        private IEditorProvider _editorProvider;
+
+        private IEditorProvider EditorProvider => _editorProvider ?? (_editorProvider = IoC.Get<IEditorProvider>());
+
+
+        protected override bool OnCanExecute(object parameter)
         {
             return EditorProvider.SupportedFileDefinitions.Any();
         }
 
-        private void CreateNewFile()
+        protected override void OnExecute(object parameter)
         {
             var vm = new NewElementDialogViewModel<NewFileArguments>();
 
@@ -82,7 +88,6 @@ namespace ModernApplicationFramework.EditorBase.Commands
                 MessageBox.Show(exception.Message, IoC.Get<IEnvironmentVariables>().ApplicationName,
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            
         }
     }
 }

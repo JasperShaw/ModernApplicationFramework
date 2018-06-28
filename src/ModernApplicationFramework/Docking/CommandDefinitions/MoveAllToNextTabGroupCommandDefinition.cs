@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
-using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Docking.Layout;
@@ -13,9 +12,8 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(MoveAllToNextTabGroupCommandDefinition))]
-    public sealed class MoveAllToNextTabGroupCommandDefinition : CommandDefinition
+    public sealed class MoveAllToNextTabGroupCommandDefinition : CommandDefinition<IMoveAllToNextTabGroupCommand>
     {
-        public override ICommand Command { get; }
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
 
@@ -33,22 +31,24 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
         public override Guid Id => new Guid("{4719104D-6589-4899-84E7-5B00F89FA513}");
+    }
 
-        public MoveAllToNextTabGroupCommandDefinition()
-        {
-            Command = new UICommand(MoveAllToNextTabGroup, CanAllMoveToNextTabGroup);
-        }
+    public interface IMoveAllToNextTabGroupCommand : ICommandDefinitionCommand
+    {
+    }
 
-        private bool CanAllMoveToNextTabGroup()
+    [Export(typeof(IMoveAllToNextTabGroupCommand))]
+    internal class MoveAllToNextTabGroupCommand : CommandDefinitionCommand, IMoveAllToNextTabGroupCommand
+    {
+        protected override bool OnCanExecute(object parameter)
         {
             if (DockingManager.Instance?.Layout.ActiveContent == null)
                 return false;
 
             var parentDocumentGroup = DockingManager.Instance?.Layout.ActiveContent
                 .FindParent<LayoutDocumentPaneGroup>();
-            var parentDocumentPane = DockingManager.Instance?.Layout.ActiveContent.Parent as LayoutDocumentPane;
             return parentDocumentGroup != null &&
-                   parentDocumentPane != null &&
+                   DockingManager.Instance?.Layout.ActiveContent.Parent is LayoutDocumentPane parentDocumentPane &&
                    parentDocumentGroup.ChildrenCount > 1 &&
                    parentDocumentGroup.IndexOfChild(parentDocumentPane) < parentDocumentGroup.ChildrenCount - 1 &&
                    parentDocumentGroup.Children[parentDocumentGroup.IndexOfChild(parentDocumentPane) + 1] is
@@ -56,7 +56,7 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
                    parentDocumentGroup.Children[parentDocumentGroup.IndexOfChild(parentDocumentPane)].ChildrenCount > 1;
         }
 
-        private void MoveAllToNextTabGroup()
+        protected override void OnExecute(object parameter)
         {
             var layoutElement = DockingManager.Instance?.Layout.ActiveContent;
             if (layoutElement == null)

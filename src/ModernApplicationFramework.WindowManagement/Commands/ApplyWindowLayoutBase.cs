@@ -1,9 +1,7 @@
 using System;
 using System.Globalization;
-using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.WindowManagement.Properties;
 
 namespace ModernApplicationFramework.WindowManagement.Commands
@@ -35,29 +33,36 @@ namespace ModernApplicationFramework.WindowManagement.Commands
         public sealed override string ToolTip => Text;
         public sealed override string Text => _text;
 
-        public override ICommand Command { get; }
-
         public void SetText(string text)
         {
             _text = text;
         }
 
-        protected ApplyWindowLayoutBase()
+        protected void SetCommand()
         {
-            var command = new UICommand(ApplyLayout, CanApplyLayout);
-            Command = command;
+            Command = new ApplyWindowLayoutCommand(Index);
+        }
+    }
+
+    internal class ApplyWindowLayoutCommand : CommandDefinitionCommand
+    {
+        public ApplyWindowLayoutCommand(int index) : base(index)
+        {
+            
         }
 
-        private bool CanApplyLayout()
+        protected override bool OnCanExecute(object parameter)
         {
-            if (Index <= LayoutManagementService.Instance?.LayoutManager.LayoutCount)
+            if (!(parameter is int))
+                return false;
+            if ((int)parameter <= LayoutManagementService.Instance?.LayoutManager.LayoutCount)
                 return true;
             return false;
         }
 
-        private void ApplyLayout()
+        protected override void OnExecute(object parameter)
         {
-            LayoutManagementService.Instance.LayoutManager.ApplyWindowLayout(Index - 1);
+            LayoutManagementService.Instance.LayoutManager.ApplyWindowLayout((int)parameter - 1);
         }
     }
 }

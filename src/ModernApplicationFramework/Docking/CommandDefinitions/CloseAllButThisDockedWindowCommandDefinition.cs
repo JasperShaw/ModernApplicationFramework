@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Linq;
-using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Docking.Layout;
@@ -14,10 +13,8 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(CloseAllButThisDockedWindowCommandDefinition))]
-    public sealed class CloseAllButThisDockedWindowCommandDefinition : CommandDefinition
+    public sealed class CloseAllButThisDockedWindowCommandDefinition : CommandDefinition<ICloseAllButThisDockedWindowCommand>
     {
-        public override ICommand Command { get; }
-
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
 
@@ -34,13 +31,16 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public override CommandCategory Category => CommandCategories.FileCommandCategory;
         public override Guid Id => new Guid("{D323EFFE-7A78-40FB-A1A8-393B4010D848}");
+    }
 
-        public CloseAllButThisDockedWindowCommandDefinition()
-        {
-            Command = new UICommand(CloseAllButThisDockedWindows, CanCloseAllButThisDockedWindows);
-        }
+    public interface ICloseAllButThisDockedWindowCommand : ICommandDefinitionCommand
+    {
+    }
 
-        private bool CanCloseAllButThisDockedWindows()
+    [Export(typeof(ICloseAllButThisDockedWindowCommand))]
+    internal class CloseAllButThisDockedWindowCommand : CommandDefinitionCommand, ICloseAllButThisDockedWindowCommand
+    {
+        protected override bool OnCanExecute(object parameter)
         {
             if (DockingManager.Instance == null)
                 return false;
@@ -57,10 +57,10 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
                     d =>
                         // I know this does not make much sense but VS behaves like this...
                         //!Equals(d, LayoutElement) &&
-                            d.Parent is LayoutDocumentPane || d.Parent is LayoutDocumentFloatingWindow);
+                        d.Parent is LayoutDocumentPane || d.Parent is LayoutDocumentFloatingWindow);
         }
 
-        private void CloseAllButThisDockedWindows()
+        protected override void OnExecute(object parameter)
         {
             var dm = DockingManager.Instance?.Layout.ActiveContent;
             DockingManager.Instance?._ExecuteCloseAllButThisCommand(dm);

@@ -15,10 +15,8 @@ namespace ModernApplicationFramework.EditorBase.Commands
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(SaveAllCommandDefinition))]
-    public class SaveAllCommandDefinition : CommandDefinition
+    public class SaveAllCommandDefinition : CommandDefinition<ISaveAllCommand>
     {
-        private readonly IDockingHostViewModel _dockingHostViewModel;
-
         public override string NameUnlocalized => "Save active file";
 
         public override string Text => CommandsResources.SaveAllCommandText;
@@ -33,32 +31,41 @@ namespace ModernApplicationFramework.EditorBase.Commands
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
         public override GestureScope DefaultGestureScope { get; }
 
-        public override ICommand Command { get; }
-
-        [ImportingConstructor]
-        public SaveAllCommandDefinition(IDockingHostViewModel dockingHostViewModel)
+        public SaveAllCommandDefinition()
         {
-            _dockingHostViewModel = dockingHostViewModel;
-            var command = new UICommand(SaveAll, CanSaveAll);
-            Command = command;
             DefaultKeyGestures = new []{ new MultiKeyGesture(Key.S, ModifierKeys.Control | ModifierKeys.Shift)};
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
         }
+    }
 
+    public interface ISaveAllCommand : ICommandDefinitionCommand
+    {
+    }
 
-        private bool CanSaveAll()
+    [Export(typeof(ISaveAllCommand))]
+    internal class SaveAllCommand : CommandDefinitionCommand, ISaveAllCommand
+    {
+        private readonly IDockingHostViewModel _dockingHostViewModel;
+
+        [ImportingConstructor]
+        public SaveAllCommand(IDockingHostViewModel dockingHostViewModel)
+        {
+            _dockingHostViewModel = dockingHostViewModel;
+        }
+
+        protected override bool OnCanExecute(object parameter)
         {
             if (_dockingHostViewModel.LayoutItems == null || _dockingHostViewModel.LayoutItems.Count == 0)
                 return false;
             return _dockingHostViewModel.LayoutItems.Any(x => x is IEditor editor && editor.Document is IStorableFile);
         }
 
-        private void SaveAll()
+        protected override void OnExecute(object parameter)
         {
             foreach (var editor in _dockingHostViewModel.LayoutItems.OfType<IEditor>().Where(x => x.Document is IStorableFile))
             {
                 editor.SaveFile();
-            }         
+            }
         }
     }
 }

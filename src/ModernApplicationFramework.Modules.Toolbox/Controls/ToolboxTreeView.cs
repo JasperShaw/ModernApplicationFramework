@@ -204,7 +204,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
                 IoC.Get<DeleteActiveToolbarCategoryCommandDefinition>().Command.Execute(null);
             if (SelectedItem is IToolboxItem item)
             {
-                var command = DeleteActiveItemCommand.Instance;
+                var command = DeleteActiveItemCommandDefinition.Instance;
                 command.Command.Execute(item);
             }
         }

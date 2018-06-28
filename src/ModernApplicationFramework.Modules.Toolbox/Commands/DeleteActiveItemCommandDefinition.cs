@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Windows;
-using System.Windows.Input;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input;
@@ -11,9 +11,9 @@ using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Commands
 {
-    internal class DeleteActiveItemCommand : CommandDefinition
+    internal class DeleteActiveItemCommandDefinition : CommandDefinition<IDeleteActiveItemCommand>
     {
-        private static DeleteActiveItemCommand _instance;
+        private static DeleteActiveItemCommandDefinition _instance;
         public override string NameUnlocalized => null;
         public override string Text => null;
         public override string ToolTip => Text;
@@ -23,23 +23,24 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
         public override Guid Id => Guid.Empty;
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
-        public override ICommand Command { get; }
+        internal static CommandDefinition Instance => _instance ?? (_instance = new DeleteActiveItemCommandDefinition());
+    }
 
-        internal static CommandDefinition Instance => _instance ?? (_instance = new DeleteActiveItemCommand());
+    internal interface IDeleteActiveItemCommand : ICommandDefinitionCommand
+    {
+    }
 
-        private DeleteActiveItemCommand()
+    [Export(typeof(IDeleteActiveItemCommand))]
+    internal class DeleteActiveItemCommand : CommandDefinitionCommand, IDeleteActiveItemCommand
+    {
+        protected override bool OnCanExecute(object parameter)
         {
-            Command = new CommandEx(DeleteItem, CanDeleteItem);
+            return parameter is IToolboxItem;
         }
 
-        private bool CanDeleteItem(object args)
+        protected override void OnExecute(object parameter)
         {
-            return args is IToolboxItem;
-        }
-
-        private void DeleteItem(object args)
-        {
-            if (!(args is IToolboxItem item))
+            if (!(parameter is IToolboxItem item))
                 return;
             if (AskUserForRemove(item) == MessageBoxResult.Yes)
                 item.Parent?.RemoveItem(item);

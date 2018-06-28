@@ -41,7 +41,7 @@ namespace ModernApplicationFramework.Extended.Commands
     }
 
     [Export(typeof(IDeleteCommand))]
-    public class DeleteCommand : CommandDefinitionCommand, IDeleteCommand
+    internal class DeleteCommand : CommandDefinitionCommand, IDeleteCommand
     {
         protected override bool OnCanExecute(object parameter)
         {
