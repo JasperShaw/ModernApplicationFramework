@@ -263,10 +263,12 @@
   <ItemGroup>
     <Compile Include="Basics\ApplicationEnvironment\AbstractEnvironmentVariables.cs" />
     <Compile Include="Basics\ApplicationEnvironment\FallbackEnvironmentVariables.cs" />
+    <Compile Include="Input\Command\CommandDefinitionCommand.cs" />
     <Compile Include="Basics\Definitions\Command\CommandDefinitionT.cs" />
     <Compile Include="Basics\Definitions\Command\CommandListHandlerDefinition.cs" />
     <Compile Include="Basics\Definitions\Command\ExcludedCommandDefinition.cs" />
     <Compile Include="Basics\Definitions\Command\CommandGestureScopeMapping.cs" />
+    <Compile Include="Interfaces\Commands\ICommandDefinitionCommand.cs" />
     <Compile Include="Interfaces\Services\IMruItem.cs" />
     <Compile Include="Basics\MostRecentlyUsedManager\MruItem.cs" />
     <Compile Include="Basics\Search\SearchOptionType.cs" />
@@ -1361,9 +1363,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\split.cur" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Interfaces\Command\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

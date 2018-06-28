@@ -10,6 +10,7 @@ using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Interfaces.Commands;
 
 namespace ModernApplicationFramework.EditorBase.Commands
 {

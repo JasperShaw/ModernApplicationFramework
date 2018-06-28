@@ -10,6 +10,7 @@ using ModernApplicationFramework.Extended.Properties;
 using ModernApplicationFramework.Extended.UndoRedoManager;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Interfaces.Commands;
 
 namespace ModernApplicationFramework.Extended.Commands
 {

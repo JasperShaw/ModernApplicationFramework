@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Interfaces.Commands;
 
 namespace ModernApplicationFramework.Basics.Definitions.Command
 {

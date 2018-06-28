@@ -12,6 +12,7 @@ using ModernApplicationFramework.Extended.UndoRedoManager;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Commands;
 using ModernApplicationFramework.Interfaces.Utilities;
 
 namespace ModernApplicationFramework.Extended.Commands

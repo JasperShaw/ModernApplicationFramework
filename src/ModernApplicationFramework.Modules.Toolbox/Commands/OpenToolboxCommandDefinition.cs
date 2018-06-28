@@ -7,6 +7,7 @@ using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Interfaces.Commands;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Commands

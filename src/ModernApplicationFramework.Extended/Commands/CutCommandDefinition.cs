@@ -7,6 +7,7 @@ using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Extended.Clipboard;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Interfaces.Commands;
 
 namespace ModernApplicationFramework.Extended.Commands
 {

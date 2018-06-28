@@ -8,6 +8,7 @@ using ModernApplicationFramework.Docking.Controls;
 using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Interfaces.Commands;
 
 namespace ModernApplicationFramework.Docking.CommandDefinitions
 {

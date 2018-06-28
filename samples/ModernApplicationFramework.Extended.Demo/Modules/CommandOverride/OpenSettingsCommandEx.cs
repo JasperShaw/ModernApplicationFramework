@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Extended.Commands;
+using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Settings.SettingsDialog.ViewModels;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.CommandOverride

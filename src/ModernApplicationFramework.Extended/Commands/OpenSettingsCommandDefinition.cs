@@ -8,6 +8,7 @@ using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Extended.Properties;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Interfaces.Commands;
 using ModernApplicationFramework.Settings.SettingsDialog.ViewModels;
 
 namespace ModernApplicationFramework.Extended.Commands

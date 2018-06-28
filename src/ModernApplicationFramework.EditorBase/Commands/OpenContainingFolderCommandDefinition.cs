@@ -8,6 +8,7 @@ using ModernApplicationFramework.EditorBase.Interfaces.Editor;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Interfaces.Commands;
 
 namespace ModernApplicationFramework.EditorBase.Commands
 {

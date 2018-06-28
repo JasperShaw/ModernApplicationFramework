@@ -6,6 +6,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Interfaces.Commands;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 

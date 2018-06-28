@@ -8,6 +8,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Commands;
 using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Basics.Definitions.Command

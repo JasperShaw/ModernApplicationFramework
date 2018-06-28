@@ -7,6 +7,7 @@ using ModernApplicationFramework.Basics.CustomizeDialog.ViewModels;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Interfaces.Commands;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Commands
 {

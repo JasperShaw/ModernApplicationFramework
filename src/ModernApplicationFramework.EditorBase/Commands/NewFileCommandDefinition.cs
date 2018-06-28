@@ -15,6 +15,7 @@ using ModernApplicationFramework.EditorBase.Interfaces;
 using ModernApplicationFramework.EditorBase.Interfaces.NewElement;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Interfaces.Commands;
 using ModernApplicationFramework.Utilities.Interfaces;
 
 namespace ModernApplicationFramework.EditorBase.Commands

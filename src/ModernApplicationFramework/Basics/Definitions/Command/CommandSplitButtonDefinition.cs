@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using ModernApplicationFramework.Interfaces;
+using ModernApplicationFramework.Interfaces.Commands;
 using ModernApplicationFramework.Interfaces.Utilities;
 
 namespace ModernApplicationFramework.Basics.Definitions.Command
