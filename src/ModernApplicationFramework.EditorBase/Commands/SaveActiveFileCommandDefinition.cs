@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
@@ -38,7 +39,7 @@ namespace ModernApplicationFramework.EditorBase.Commands
         public override string IconId => "SaveFileIcon";
         public override CommandCategory Category => CommandCategories.FileCommandCategory;
         public override Guid Id => new Guid("{651EA782-BFCB-4ACA-8F98-6798C117F988}");
-        public override MultiKeyGesture DefaultKeyGesture { get; }
+        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
         public override GestureScope DefaultGestureScope { get; }
 
         public override ICommand Command { get; }
@@ -49,7 +50,7 @@ namespace ModernApplicationFramework.EditorBase.Commands
             _dockingHostViewModel = dockingHostViewModel;
             var command = new UICommand(SaveFile, CanSaveFile);
             Command = command;
-            DefaultKeyGesture = new MultiKeyGesture(Key.S, ModifierKeys.Control);
+            DefaultKeyGestures = new []{ new MultiKeyGesture(Key.S, ModifierKeys.Control)};
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
 
             _dockingHostViewModel.ActiveLayoutItemChanged += _dockingHostViewModel_ActiveLayoutItemChanged;

@@ -2,10 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
@@ -19,7 +15,7 @@ namespace ModernApplicationFramework.EditorBase.Commands
     [Export(typeof(CommandDefinitionBase))]
     public class OpenContainingFolderCommandDefinition : CommandDefinition
     {
-        private IDockingHostViewModel _dockingHostViewModel;
+        private readonly IDockingHostViewModel _dockingHostViewModel;
         public override string NameUnlocalized => "Open Containing Folder";
         public override string Text => CommandsResources.OpenContainingFolderCommandText;
         public override string ToolTip => Text;
@@ -27,7 +23,7 @@ namespace ModernApplicationFramework.EditorBase.Commands
         public override string IconId => null;
         public override CommandCategory Category => CommandCategories.FileCommandCategory;
         public override Guid Id => new Guid("{1E11050B-F441-4C18-8A0E-B6C46D4265DE}");
-        public override MultiKeyGesture DefaultKeyGesture => null;
+        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
 
         public override ICommand Command { get; }

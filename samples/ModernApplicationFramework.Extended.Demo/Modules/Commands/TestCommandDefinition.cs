@@ -23,11 +23,15 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.Commands
             var command = new UICommand(Test, CanTest);
             Command = command;
 
-            DefaultKeyGesture = new MultiKeyGesture(new List<KeySequence>
+            DefaultKeyGestures = new[]
             {
-                new KeySequence(ModifierKeys.Control, Key.W),
-                new KeySequence(Key.K)
-            });
+                new MultiKeyGesture(new List<KeySequence>
+                {
+                    new KeySequence(ModifierKeys.Control, Key.W),
+                    new KeySequence(Key.K)
+                })
+            };
+
             DefaultGestureScope = UndoRedoViewModel.UndoRedoScope;
         }
 
@@ -92,7 +96,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.Commands
 
         public override ICommand Command { get; }
 
-        public override MultiKeyGesture DefaultKeyGesture { get; }
+        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
         public override GestureScope DefaultGestureScope { get; }
     }
 }

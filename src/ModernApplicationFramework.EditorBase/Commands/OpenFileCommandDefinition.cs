@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Input;
@@ -26,7 +27,7 @@ namespace ModernApplicationFramework.EditorBase.Commands
         public override string IconId => "OpenFileIcon";
         public override CommandCategory Category => CommandCategories.FileCommandCategory;
         public override Guid Id => new Guid("{47E7AF89-3733-4FBF-A3FA-E8AD5D5C693E}");
-        public override MultiKeyGesture DefaultKeyGesture { get; }
+        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
         public override GestureScope DefaultGestureScope { get; }
 
         public override ICommand Command { get; }
@@ -35,7 +36,7 @@ namespace ModernApplicationFramework.EditorBase.Commands
         {
             var command = new UICommand(OpenFile, CanOpenFile);
             Command = command;
-            DefaultKeyGesture = new MultiKeyGesture(Key.O, ModifierKeys.Control);
+            DefaultKeyGestures = new []{new MultiKeyGesture(Key.O, ModifierKeys.Control)};
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
         }
 

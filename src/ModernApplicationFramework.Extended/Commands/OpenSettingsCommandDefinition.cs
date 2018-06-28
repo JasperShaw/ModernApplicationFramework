@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using Caliburn.Micro;
@@ -15,7 +16,7 @@ namespace ModernApplicationFramework.Extended.Commands
     [Export(typeof(OpenSettingsCommandDefinition))]
     public sealed class OpenSettingsCommandDefinition : CommandDefinition<IOpenSettingsCommand>
     {
-        public override MultiKeyGesture DefaultKeyGesture => null;
+        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
 
         public override string IconId => "SettingsIcon";

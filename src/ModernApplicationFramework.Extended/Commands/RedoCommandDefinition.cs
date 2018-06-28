@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace ModernApplicationFramework.Extended.Commands
 
         public override ICommand Command { get; }
 
-        public override MultiKeyGesture DefaultKeyGesture { get; }
+        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
         public override GestureScope DefaultGestureScope { get; }
 
         public override string IconId => "RedoIcon";
@@ -46,7 +47,7 @@ namespace ModernApplicationFramework.Extended.Commands
             var command = new UICommand(Redo, CanRedo);
             Command = command;
 
-            DefaultKeyGesture = new MultiKeyGesture(Key.Y, ModifierKeys.Control);
+            DefaultKeyGestures = new []{ new MultiKeyGesture(Key.Y, ModifierKeys.Control)};
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
         }
 

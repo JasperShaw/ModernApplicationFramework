@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Input;
@@ -24,7 +25,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
         public override string IconId => null;
         public override CommandCategory Category => CommandCategories.ToolsCommandCategory;
         public override Guid Id => new Guid("{3543E589-5D75-4CF5-88BC-254A14578C69}");
-        public override MultiKeyGesture DefaultKeyGesture => null;
+        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
 
         public override ICommand Command { get; }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
@@ -20,7 +21,7 @@ namespace ModernApplicationFramework.Extended.Commands
         public override string IconId => "CutIcon";
         public override CommandCategory Category => CommandCategories.EditCommandCategory;
         public override Guid Id => new Guid("{E0C9B4B8-C72E-43C4-AE1C-1FF00D3AB4CA}");
-        public override MultiKeyGesture DefaultKeyGesture => new MultiKeyGesture(Key.X, ModifierKeys.Control);
+        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => new []{new MultiKeyGesture(Key.X, ModifierKeys.Control)};
         public override GestureScope DefaultGestureScope => GestureScopes.GlobalGestureScope;
     }
 

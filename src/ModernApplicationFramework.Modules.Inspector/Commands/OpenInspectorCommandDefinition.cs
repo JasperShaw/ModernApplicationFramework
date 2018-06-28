@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
@@ -18,7 +19,7 @@ namespace ModernApplicationFramework.Modules.Inspector.Commands
 
         public override ICommand Command { get; }
 
-        public override MultiKeyGesture DefaultKeyGesture { get; }
+        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
         public override GestureScope DefaultGestureScope { get; }
 
         public override string IconId => "PropertyIcon";
@@ -42,7 +43,7 @@ namespace ModernApplicationFramework.Modules.Inspector.Commands
             var command = new UICommand(Open, CanOpen);
             Command = command;
 
-            DefaultKeyGesture = new MultiKeyGesture(Key.F4);
+            DefaultKeyGestures = new []{new MultiKeyGesture(Key.F4)};
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
         }
 

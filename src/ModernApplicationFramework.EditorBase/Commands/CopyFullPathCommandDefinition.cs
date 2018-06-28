@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Input;
@@ -22,7 +23,7 @@ namespace ModernApplicationFramework.EditorBase.Commands
         public override string IconId => null;
         public override CommandCategory Category => CommandCategories.FileCommandCategory;
         public override Guid Id => new Guid("{1F2CAB1F-3624-4D2E-9855-4CD6F62F7B13}");
-        public override MultiKeyGesture DefaultKeyGesture => null;
+        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
 
         public override ICommand Command { get; }

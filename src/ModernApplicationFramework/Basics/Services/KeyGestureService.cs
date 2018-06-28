@@ -197,12 +197,15 @@ namespace ModernApplicationFramework.Basics.Services
         public void LoadDefaultGestures()
         {
             var defaultCommands =
-                _keyboardShortcuts.Where(x => x.DefaultGestureScope != null && x.DefaultKeyGesture != null);
+                _keyboardShortcuts.Where(x => x.DefaultGestureScope != null && x.DefaultKeyGestures != null);
 
             foreach (var cd in defaultCommands)
             {
                 cd.Gestures.Clear();
-                cd.Gestures.Add(new GestureScopeMapping(cd.DefaultGestureScope, cd.DefaultKeyGesture));
+                foreach (var gesture in cd.DefaultKeyGestures)
+                {
+                    cd.Gestures.Add(new GestureScopeMapping(cd.DefaultGestureScope, gesture));
+                }     
             }
         }
 

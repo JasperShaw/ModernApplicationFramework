@@ -31,7 +31,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.Commands
 
             var gesture = new MultiKeyGesture(l);
                      
-            DefaultKeyGesture = gesture;
+            DefaultKeyGestures = new []{gesture};
             DefaultGestureScope = UndoRedoViewModel.UndoRedoScope;
         }
 
@@ -99,7 +99,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.Commands
 
         public override ICommand Command { get; }
 
-        public override MultiKeyGesture DefaultKeyGesture { get; }
+        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
         public override GestureScope DefaultGestureScope { get; }
     }
 }

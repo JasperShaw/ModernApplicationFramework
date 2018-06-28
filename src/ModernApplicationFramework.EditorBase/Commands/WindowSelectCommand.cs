@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 using Caliburn.Micro;
@@ -20,7 +21,7 @@ namespace ModernApplicationFramework.EditorBase.Commands
         public override string IconId => null;
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
         public override Guid Id => new Guid("{40A3EA90-739D-4569-AF50-3C69C7D44438}");
-        public override MultiKeyGesture DefaultKeyGesture => null;
+        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
 
         public override ICommand Command { get; }

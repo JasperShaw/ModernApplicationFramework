@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Windows;
@@ -18,7 +19,7 @@ namespace ModernApplicationFramework.Extended.Commands
     {
         public override ICommand Command { get; }
 
-        public override MultiKeyGesture DefaultKeyGesture { get; }
+        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
         public override GestureScope DefaultGestureScope { get; }
 
         public override string IconId => "FullScreenIcon";
@@ -45,7 +46,7 @@ namespace ModernApplicationFramework.Extended.Commands
             var command = new UICommand(TriggerFullScreen, CanTriggerFullScreen);
             Command = command;
 
-            DefaultKeyGesture = new MultiKeyGesture(Key.Enter, ModifierKeys.Shift | ModifierKeys.Alt);
+            DefaultKeyGestures = new[] {new MultiKeyGesture(Key.Enter, ModifierKeys.Shift | ModifierKeys.Alt)};
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
         }
 

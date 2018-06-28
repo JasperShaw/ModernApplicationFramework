@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace ModernApplicationFramework.Extended.Commands
 
         public override ICommand Command { get; }
 
-        public override MultiKeyGesture DefaultKeyGesture { get; }
+        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
         public override GestureScope DefaultGestureScope { get; }
 
         public override string IconId => "UndoIcon";
@@ -45,7 +46,7 @@ namespace ModernApplicationFramework.Extended.Commands
             var command = new UICommand(Undo, CanUndo);
             Command = command;
 
-            DefaultKeyGesture = new MultiKeyGesture(Key.Z, ModifierKeys.Control);
+            DefaultKeyGestures = new []{ new MultiKeyGesture(Key.Z, ModifierKeys.Control)};
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
 
             _watcher = watcher;

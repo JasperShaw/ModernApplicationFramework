@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -24,12 +25,12 @@ namespace ModernApplicationFramework.Extended.Commands
         public override string IconId => "DeleteIcon";
         public override CommandCategory Category => CommandCategories.EditCommandCategory;
         public override Guid Id => new Guid("{667CA2DA-8DBD-4D93-8167-007A38A82A2B}");
-        public override MultiKeyGesture DefaultKeyGesture { get; }
+        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
         public override GestureScope DefaultGestureScope { get; }
 
         public DeleteCommandDefinition()
         {
-            DefaultKeyGesture = new MultiKeyGesture(Key.Delete);
+            DefaultKeyGestures = new []{new MultiKeyGesture(Key.Delete)};
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
         }
     }

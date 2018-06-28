@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics.Definitions.Command;
@@ -12,14 +13,14 @@ namespace ModernApplicationFramework.WindowManagement.Commands
     public sealed class ApplyWindowLayout1 : ApplyWindowLayoutBase
     {
         public override int Index => 1;
-        public override MultiKeyGesture DefaultKeyGesture { get; }
+        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
         public override GestureScope DefaultGestureScope { get; }
 
 
         [ImportingConstructor]
         public ApplyWindowLayout1()
         {
-            DefaultKeyGesture = new MultiKeyGesture(Key.D1, ModifierKeys.Control | ModifierKeys.Alt);
+            DefaultKeyGestures = new []{ new MultiKeyGesture(Key.D1, ModifierKeys.Control | ModifierKeys.Alt)};
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
@@ -20,7 +21,13 @@ namespace ModernApplicationFramework.Extended.Commands
         public override string IconId => "PasteIcon";
         public override CommandCategory Category => CommandCategories.EditCommandCategory;
         public override Guid Id => new Guid("{7820A125-F085-4338-81B3-22985BE24B55}");
-        public override MultiKeyGesture DefaultKeyGesture => new MultiKeyGesture(Key.V, ModifierKeys.Control);
+
+        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures =>
+            new[]
+            {
+                new MultiKeyGesture(Key.V, ModifierKeys.Control),
+                new MultiKeyGesture(Key.Insert, ModifierKeys.Shift)
+            };
         public override GestureScope DefaultGestureScope => GestureScopes.GlobalGestureScope;
     }
 

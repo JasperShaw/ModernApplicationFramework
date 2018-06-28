@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
@@ -28,7 +29,7 @@ namespace ModernApplicationFramework.EditorBase.Commands
 
         public override ICommand Command { get; }
 
-        public override MultiKeyGesture DefaultKeyGesture { get; }
+        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
         public override GestureScope DefaultGestureScope { get; }
 
         public override string IconId => "NewFileIcon";
@@ -51,7 +52,7 @@ namespace ModernApplicationFramework.EditorBase.Commands
         {
             var command = new UICommand(CreateNewFile, CanCreateNewFile);
             Command = command;
-            DefaultKeyGesture = new MultiKeyGesture(Key.N, ModifierKeys.Control);
+            DefaultKeyGestures = new []{ new MultiKeyGesture(Key.N, ModifierKeys.Control)};
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
         }
 

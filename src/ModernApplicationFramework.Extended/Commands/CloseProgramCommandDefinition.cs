@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Windows.Input;
@@ -21,7 +22,7 @@ namespace ModernApplicationFramework.Extended.Commands
 
         public override ICommand Command { get; }
 
-        public override MultiKeyGesture DefaultKeyGesture { get; }
+        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
         public override GestureScope DefaultGestureScope { get; }
 
         public override string IconId => "CloseProgramIcon";
@@ -47,7 +48,7 @@ namespace ModernApplicationFramework.Extended.Commands
             var command = new UICommand(Close, CanClose);
             Command = command;
 
-            DefaultKeyGesture = new MultiKeyGesture(Key.F4, ModifierKeys.Alt);
+            DefaultKeyGestures = new[] {new MultiKeyGesture(Key.F4, ModifierKeys.Alt)};
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
         }
 

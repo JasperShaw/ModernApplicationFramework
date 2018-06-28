@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
@@ -9,7 +10,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
     {
         public override ICommand Command { get; }
 
-        public override MultiKeyGesture DefaultKeyGesture => null;
+        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
 
         public override string Name => string.Empty;

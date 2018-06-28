@@ -22,7 +22,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
         public override string IconId => null;
         public override CommandCategory Category => CommandCategories.ViewCommandCategory;
         public override Guid Id => new Guid("{D3CD6E1A-D2E9-4EDF-A83E-FB0B110BCA7F}");
-        public override MultiKeyGesture DefaultKeyGesture { get; }
+        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
         public override GestureScope DefaultGestureScope { get; }
 
         public override ICommand Command { get; }
@@ -33,11 +33,14 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
             _hostViewModel = hostViewModel;
             var command = new UICommand(OpenToolbox, () => true);
             Command = command;
-            DefaultKeyGesture = new MultiKeyGesture(new List<KeySequence>
+            DefaultKeyGestures = new[]
             {
-                new KeySequence(ModifierKeys.Control, Key.W),
-                new KeySequence(Key.X)
-            });
+                new MultiKeyGesture(new List<KeySequence>
+                {
+                    new KeySequence(ModifierKeys.Control, Key.W),
+                    new KeySequence(Key.X)
+                })
+            };
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Windows.Input;
@@ -19,7 +20,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Commands
     [Export(typeof(CustomizeMenuCommandDefinition))]
     public sealed class CustomizeMenuCommandDefinition : CommandDefinition
     {
-        public override MultiKeyGesture DefaultKeyGesture => null;
+        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
 
         public override ICommand Command { get; }
