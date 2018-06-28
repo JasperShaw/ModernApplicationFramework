@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Input.Command;
-using ModernApplicationFramework.Interfaces.Command;
+using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Interfaces.ViewModels;
 
 namespace ModernApplicationFramework.Basics.CommandBar.Commands
@@ -11,7 +11,7 @@ namespace ModernApplicationFramework.Basics.CommandBar.Commands
     /// <summary>
     /// Implementation to list all tool bars as a menu item. By clicking on the menu item the tool bars visibility will be toggled
     /// </summary>
-    /// <seealso cref="Interfaces.Command.ICommandListHandler{ListToolBarsCommandListDefinition}" />
+    /// <seealso cref="ICommandListHandler{TCommandDefinition}" />
     [Export(typeof(ICommandHandler))]
     public class ShowToolBarListCommandHandler : ICommandListHandler<ListToolBarsCommandListDefinition>
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using ModernApplicationFramework.Basics.Definitions.Command;
 
-namespace ModernApplicationFramework.Interfaces.Command
+namespace ModernApplicationFramework.Interfaces.Services
 {
     public interface ICommandListHandler<TCommandDefinition> : ICommandHandler
         where TCommandDefinition : CommandListDefinition

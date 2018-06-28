@@ -1,7 +1,7 @@
 ﻿using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input.Command;
 
-namespace ModernApplicationFramework.Interfaces.Command
+namespace ModernApplicationFramework.Interfaces.Services
 {
     public interface ICommandRouter
     {

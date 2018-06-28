@@ -5,8 +5,8 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Core.Exception;
-using ModernApplicationFramework.Interfaces.Command;
 using ModernApplicationFramework.Interfaces.Controls;
+using ModernApplicationFramework.Interfaces.Services;
 using MenuItem = ModernApplicationFramework.Controls.Menu.MenuItem;
 
 namespace ModernApplicationFramework.Controls.Extensions

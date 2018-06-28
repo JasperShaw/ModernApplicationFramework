@@ -9,7 +9,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Input.Command;
-using ModernApplicationFramework.Interfaces.Command;
+using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.Extended.Input
 {

@@ -7,7 +7,7 @@ using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.Packages;
 using ModernApplicationFramework.Input.Command;
-using ModernApplicationFramework.Interfaces.Command;
+using ModernApplicationFramework.Interfaces.Services;
 
 namespace ModernApplicationFramework.EditorBase.Commands
 {

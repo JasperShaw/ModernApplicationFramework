@@ -7,7 +7,7 @@ using System.Windows.Input;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
-using ModernApplicationFramework.Interfaces.Command;
+using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.WindowManagement.LayoutManagement;
 using ModernApplicationFramework.WindowManagement.Properties;
 

@@ -663,9 +663,9 @@
     <Compile Include="Docking\ContextMenuDefinitions\AnchorableContextMenuDefinition.cs" />
     <Compile Include="Docking\ContextMenuDefinitions\AnchorableAsDocumentContextMenuDefinition.cs" />
     <Compile Include="Docking\ContextMenuDefinitions\DocumentContextMenuDefinition.cs" />
-    <Compile Include="Interfaces\Command\ICommandHandler.cs" />
-    <Compile Include="Interfaces\Command\ICommandListHandler.cs" />
-    <Compile Include="Interfaces\Command\ICommandRouter.cs" />
+    <Compile Include="Interfaces\Services\ICommandHandler.cs" />
+    <Compile Include="Interfaces\Services\ICommandListHandler.cs" />
+    <Compile Include="Interfaces\Services\ICommandRouter.cs" />
     <Compile Include="Interfaces\Services\ICommandService.cs" />
     <Compile Include="Input\Command\Command.cs" />
     <Compile Include="Input\Base\CommandBase.cs" />
@@ -1361,7 +1361,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\split.cur" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Interfaces\Command\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
