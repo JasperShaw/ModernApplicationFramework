@@ -23,6 +23,16 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
         public override Guid Id => new Guid("{BB1C5EAB-A114-4A06-995C-E311F9DA8C11}");
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
+
+        public ToggleShowAllItemsCommandDefinition()
+        {
+            Command.Executed += Command_Executed;
+        }
+
+        private void Command_Executed(object sender, EventArgs e)
+        {
+            IsChecked = !IsChecked;
+        }
     }
 
     public interface IToggleShowAllItemsCommand : ICommandDefinitionCommand
