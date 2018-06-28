@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
 using ModernApplicationFramework.Extended.CommandBar.CommandDefinitions;
-using ModernApplicationFramework.Extended.Properties;
+using ModernApplicationFramework.Extended.CommandBar.Resources;
 
 namespace ModernApplicationFramework.Extended.CommandBar.ToolbarDefinitions
 {

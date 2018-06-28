@@ -69,6 +69,11 @@
     <Compile Include="MenuDefinitions\ViewMenuDefinitions.cs" />
     <Compile Include="MenuDefinitions\WindowMenuDefinitions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\CommandBar.Resources.Designer.cs">
+      <DependentUpon>CommandBar.Resources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Resources\Commands.Resources.Designer.cs">
       <DependentUpon>Commands.Resources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -140,10 +145,28 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\CommandBar.Resources.de.resx">
+      <LastGenOutput>CommandBar.Resources.de.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\CommandBar.Resources.en.resx">
+      <LastGenOutput>CommandBar.Resources.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\CommandBar.Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommandBar.Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\CommandBar.Resources.ru.resx" />
+    <EmbeddedResource Include="Resources\Commands.Resources.de.resx">
+      <LastGenOutput>Commands.Resources.de.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Commands.Resources.en.resx">
+      <LastGenOutput>Commands.Resources.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Commands.Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Commands.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Commands.Resources.ru.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

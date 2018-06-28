@@ -170,11 +170,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Properties\Commands.Resources.Designer.cs">
-      <DependentUpon>Commands.Resources.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -271,17 +266,6 @@
       <LastGenOutput>CommandBar.Resources.en.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\CommandBar.Resources.ru.resx" />
-    <EmbeddedResource Include="Properties\Commands.Resources.de.resx">
-      <LastGenOutput>Commands.Resources.de.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Commands.Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Commands.Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Commands.Resources.en.resx">
-      <LastGenOutput>Commands.Resources.en.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Commands.Resources.ru.resx" />
     <EmbeddedResource Include="Settings\General\GeneralSettingsResources.de.resx">
       <LastGenOutput>GeneralSettingsResources.de.Designer.cs</LastGenOutput>
     </EmbeddedResource>
