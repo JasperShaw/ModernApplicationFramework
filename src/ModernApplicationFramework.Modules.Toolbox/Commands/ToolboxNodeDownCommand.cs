@@ -1,39 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.Linq;
-using ModernApplicationFramework.Basics;
-using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
-using ModernApplicationFramework.Interfaces.Commands;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
+using ModernApplicationFramework.Modules.Toolbox.Interfaces.Commands;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Commands
 {
-    [Export(typeof(CommandDefinitionBase))]
-    [Export(typeof(ToolboxNodeDownCommandDefinition))]
-    public class ToolboxNodeDownCommandDefinition : CommandDefinition<IToolboxNodeDownCommand>
-    {
-        public override string NameUnlocalized => "Move Down";
-
-        public override string Name => "Toolbox Down";
-
-        public override string Text => "Move Down";
-        public override string ToolTip => Text;
-        public override Uri IconSource => null;
-        public override string IconId => null;
-        public override CommandCategory Category => CommandCategories.ToolsCommandCategory;
-        public override Guid Id => new Guid("{FC1C2BD3-A600-4C0D-BE5A-63DE8EED2EA9}");
-        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
-        public override GestureScope DefaultGestureScope => null;
-    }
-
-    public interface IToolboxNodeDownCommand : ICommandDefinitionCommand
-    {
-    }
-
     [Export(typeof(IToolboxNodeDownCommand))]
     internal class ToolboxNodeDownCommand : CommandDefinitionCommand, IToolboxNodeDownCommand
     {

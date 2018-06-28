@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows;
 using ModernApplicationFramework.Input.Command;
-using ModernApplicationFramework.Interfaces.Commands;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
+using ModernApplicationFramework.Modules.Toolbox.Interfaces.Commands;
 using ModernApplicationFramework.Modules.Toolbox.Items;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Commands
@@ -44,9 +44,5 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
                 selectedCategory.Items.Insert(0, item);
             }
         }
-    }
-
-    public interface IAddTextItemToSelectedNodeCommand : ICommandDefinitionCommand
-    {
     }
 }

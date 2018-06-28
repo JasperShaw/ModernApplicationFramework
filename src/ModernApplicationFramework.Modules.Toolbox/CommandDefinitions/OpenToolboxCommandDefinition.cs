@@ -4,13 +4,11 @@ using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
-using ModernApplicationFramework.Interfaces.Commands;
-using ModernApplicationFramework.Modules.Toolbox.Interfaces;
+using ModernApplicationFramework.Modules.Toolbox.Interfaces.Commands;
 
-namespace ModernApplicationFramework.Modules.Toolbox.Commands
+namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions
 {
     [Export(typeof(CommandDefinitionBase))]
     public class OpenToolboxCommandDefinition : CommandDefinition<IOpenToolboxCommand>
@@ -36,32 +34,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
                 })
             };
             DefaultGestureScope = GestureScopes.GlobalGestureScope;
-        }
-    }
-
-    public interface IOpenToolboxCommand : ICommandDefinitionCommand
-    {
-    }
-
-    [Export(typeof(IOpenToolboxCommand))]
-    internal class OpenToolboxCommand : CommandDefinitionCommand, IOpenToolboxCommand
-    {
-        private readonly IDockingHostViewModel _hostViewModel;
-
-        [ImportingConstructor]
-        public OpenToolboxCommand(IDockingHostViewModel hostViewModel)
-        {
-            _hostViewModel = hostViewModel;
-        }
-
-        protected override bool OnCanExecute(object parameter)
-        {
-            return true;
-        }
-
-        protected override void OnExecute(object parameter)
-        {
-            _hostViewModel.ShowTool<IToolbox>();
         }
     }
 }

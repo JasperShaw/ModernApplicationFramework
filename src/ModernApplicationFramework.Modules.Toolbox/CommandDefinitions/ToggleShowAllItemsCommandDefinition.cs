@@ -5,10 +5,9 @@ using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
-using ModernApplicationFramework.Interfaces.Commands;
-using ModernApplicationFramework.Modules.Toolbox.Interfaces;
+using ModernApplicationFramework.Modules.Toolbox.Interfaces.Commands;
 
-namespace ModernApplicationFramework.Modules.Toolbox.Commands
+namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(ToggleShowAllItemsCommandDefinition))]
@@ -32,32 +31,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
         private void Command_Executed(object sender, EventArgs e)
         {
             IsChecked = !IsChecked;
-        }
-    }
-
-    public interface IToggleShowAllItemsCommand : ICommandDefinitionCommand
-    {
-    }
-
-    [Export(typeof(IToggleShowAllItemsCommand))]
-    internal class ToggleShowAllItemsCommand : CommandDefinitionCommand, IToggleShowAllItemsCommand
-    {
-        private readonly IToolbox _toolbox;
-
-        [ImportingConstructor]
-        public ToggleShowAllItemsCommand(IToolbox toolbox)
-        {
-            _toolbox = toolbox;
-        }
-
-        protected override bool OnCanExecute(object parameter)
-        {
-            return true;
-        }
-
-        protected override void OnExecute(object parameter)
-        {
-            _toolbox.ShowAllItems = !_toolbox.ShowAllItems;
         }
     }
 }

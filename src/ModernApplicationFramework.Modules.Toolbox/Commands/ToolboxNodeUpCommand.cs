@@ -1,36 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.Linq;
-using ModernApplicationFramework.Basics;
-using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
-using ModernApplicationFramework.Interfaces.Commands;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
+using ModernApplicationFramework.Modules.Toolbox.Interfaces.Commands;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Commands
 {
-    [Export(typeof(CommandDefinitionBase))]
-    [Export(typeof(ToolboxNodeUpCommandDefinition))]
-    public class ToolboxNodeUpCommandDefinition : CommandDefinition<IToolboxNodeUpCommand>
-    {
-        public override string NameUnlocalized => "Move up";
-        public override string Text => "Move up";
-        public override string ToolTip => Text;
-        public override Uri IconSource => null;
-        public override string IconId => null;
-        public override CommandCategory Category => CommandCategories.ToolsCommandCategory;
-        public override Guid Id => new Guid("{3543E589-5D75-4CF5-88BC-254A14578C69}");
-        public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
-        public override GestureScope DefaultGestureScope => null;
-    }
-
-    public interface IToolboxNodeUpCommand : ICommandDefinitionCommand
-    {
-    }
-
     [Export(typeof(IToolboxNodeUpCommand))]
     internal class ToolboxNodeUpCommand : CommandDefinitionCommand, IToolboxNodeUpCommand
     {
