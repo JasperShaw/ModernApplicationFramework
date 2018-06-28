@@ -10,12 +10,12 @@ namespace ModernApplicationFramework.Input.Command
 
         protected CommandDefinitionCommand()
         {
-            WrappedCommand = new CommandEx(OnExecuteInternal, OnCanExecute);
+            WrappedCommand = new Command(OnExecuteInternal, OnCanExecute);
         }
 
         protected CommandDefinitionCommand(object args)
         {
-            WrappedCommand = new CommandEx(o => OnExecuteInternal(args), o => OnCanExecute(args));
+            WrappedCommand = new Command(o => OnExecuteInternal(args), o => OnCanExecute(args));
         }
 
         protected abstract bool OnCanExecute(object parameter);

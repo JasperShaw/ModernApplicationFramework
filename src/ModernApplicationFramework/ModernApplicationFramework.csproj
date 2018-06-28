@@ -276,7 +276,6 @@
     <Compile Include="Basics\Search\WindowSearchCommandOption.cs" />
     <Compile Include="Basics\Search\WindowSearchOption.cs" />
     <Compile Include="Controls\SearchControl\SearchCommandOptionButton.cs" />
-    <Compile Include="Input\Command\CommandEx.cs" />
     <Compile Include="Interfaces\Search\IEnumWindowSearchOptions.cs" />
     <Compile Include="Basics\Search\Internal\CategoryMruItems.cs" />
     <Compile Include="Basics\Search\Internal\EnumerableSearchOptionsCollection.cs" />
