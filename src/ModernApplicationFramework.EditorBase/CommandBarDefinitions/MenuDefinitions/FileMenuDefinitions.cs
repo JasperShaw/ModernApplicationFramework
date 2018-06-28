@@ -13,7 +13,7 @@ namespace ModernApplicationFramework.EditorBase.CommandBarDefinitions.MenuDefini
 
         [Export]
         public static CommandBarGroupDefinition OpenNewFileGroup =
-            new CommandBarGroupDefinition(Extended.CommandBarDefinitions.MenuDefinitions.FileMenuDefinitions.FileMenu, 0);
+            new CommandBarGroupDefinition(Extended.CommandBarDefinitions.TopLevelMenuDefinitions.FileMenu, 0);
 
         [Export] public static CommandBarItemDefinition NewMenu =
             new MenuDefinition(new Guid("{2EDA6AB7-5780-4E8D-AA3E-193300AC484A}"), OpenNewFileGroup, 0, CommandBarResources.MenuNew);
@@ -45,7 +45,7 @@ namespace ModernApplicationFramework.EditorBase.CommandBarDefinitions.MenuDefini
 
         [Export]
         public static CommandBarGroupDefinition SaveGroup =
-            new CommandBarGroupDefinition(Extended.CommandBarDefinitions.MenuDefinitions.FileMenuDefinitions.FileMenu, 3);
+            new CommandBarGroupDefinition(Extended.CommandBarDefinitions.TopLevelMenuDefinitions.FileMenu, 3);
 
         [Export]
         public static CommandBarItemDefinition SaveFile =
@@ -66,7 +66,7 @@ namespace ModernApplicationFramework.EditorBase.CommandBarDefinitions.MenuDefini
 
         [Export]
         public static CommandBarGroupDefinition RecentlyUsedGroup =
-            new CommandBarGroupDefinition(Extended.CommandBarDefinitions.MenuDefinitions.FileMenuDefinitions.FileMenu, 6);
+            new CommandBarGroupDefinition(Extended.CommandBarDefinitions.TopLevelMenuDefinitions.FileMenu, 6);
 
         [Export]
         public static CommandBarItemDefinition RecentFilesMenu =

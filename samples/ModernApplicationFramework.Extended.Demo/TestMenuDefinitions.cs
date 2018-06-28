@@ -2,7 +2,8 @@
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
-using ModernApplicationFramework.Extended.CommandBarDefinitions.MenuDefinitions;
+using ModernApplicationFramework.Extended.CommandBar.CommandDefinitions;
+using ModernApplicationFramework.Extended.CommandBarDefinitions;
 using ModernApplicationFramework.Extended.Commands;
 using ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest.Commands;
 using ModernApplicationFramework.Extended.Demo.Modules.Commands;

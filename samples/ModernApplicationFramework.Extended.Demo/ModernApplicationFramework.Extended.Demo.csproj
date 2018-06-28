@@ -294,6 +294,10 @@
       <Project>{c5f062e8-48c1-425e-831f-511a541e18d8}</Project>
       <Name>ModernApplicationFramework.EditorBase</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\ModernApplicationFramework.Extended.CommandBar\ModernApplicationFramework.Extended.CommandBar.csproj">
+      <Project>{E3F05145-F9A9-42A4-B67D-ADE61980B20A}</Project>
+      <Name>ModernApplicationFramework.Extended.CommandBar</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\ModernApplicationFramework.Extended\ModernApplicationFramework.Extended.csproj">
       <Project>{51911695-6cdb-4833-9782-06c8821d1c4e}</Project>
       <Name>ModernApplicationFramework.Extended</Name>

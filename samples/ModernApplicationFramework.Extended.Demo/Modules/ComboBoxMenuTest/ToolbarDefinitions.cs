@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
 using ModernApplicationFramework.Basics.Definitions.Toolbar;
+using ModernApplicationFramework.Extended.CommandBar.CommandDefinitions;
 using ModernApplicationFramework.Extended.Commands;
 using ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest.Commands;
 using ModernApplicationFramework.Extended.Properties;

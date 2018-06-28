@@ -2,7 +2,6 @@
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
-using ModernApplicationFramework.Extended.CommandBarDefinitions.MenuDefinitions;
 using ModernApplicationFramework.WindowManagement.Commands;
 using ModernApplicationFramework.WindowManagement.Properties;
 
@@ -13,7 +12,7 @@ namespace ModernApplicationFramework.WindowManagement
         //LayoutGroup
         [Export]
         public static CommandBarGroupDefinition LayoutGroup =
-            new CommandBarGroupDefinition(WindowMenuDefinitions.WindowMenu, 3);
+            new CommandBarGroupDefinition(Extended.CommandBarDefinitions.TopLevelMenuDefinitions.WindowMenu, 3);
 
         [Export]
         public static CommandBarItemDefinition SaveLayout =

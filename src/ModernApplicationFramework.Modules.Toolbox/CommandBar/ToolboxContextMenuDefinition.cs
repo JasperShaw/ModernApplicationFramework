@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.ContextMenu;
+using ModernApplicationFramework.Extended.CommandBar.CommandDefinitions;
 using ModernApplicationFramework.Extended.Commands;
 using ModernApplicationFramework.Modules.Toolbox.Commands;
 

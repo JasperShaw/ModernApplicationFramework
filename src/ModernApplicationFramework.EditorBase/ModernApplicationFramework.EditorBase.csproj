@@ -319,6 +319,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ModernApplicationFramework.Extended.CommandBar\ModernApplicationFramework.Extended.CommandBar.csproj">
+      <Project>{e3f05145-f9a9-42a4-b67d-ade61980b20a}</Project>
+      <Name>ModernApplicationFramework.Extended.CommandBar</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework.Extended\ModernApplicationFramework.Extended.csproj">
       <Project>{51911695-6cdb-4833-9782-06c8821d1c4e}</Project>
       <Name>ModernApplicationFramework.Extended</Name>

@@ -70,10 +70,30 @@
     <Compile Include="Clipboard\ClipboardPushOption.cs" />
     <Compile Include="Clipboard\CopyCutWatcher.cs" />
     <Compile Include="Clipboard\MruClipboard.cs" />
-    <Compile Include="Commands\CopyCommandDefinition.cs" />
-    <Compile Include="Commands\CutCommandDefinition.cs" />
-    <Compile Include="Commands\DeleteCommandDefinition.cs" />
-    <Compile Include="Commands\PasteCommandDefinition.cs" />
+    <Compile Include="CommandBarDefinitions\MainMenuBarDefinition.cs" />
+    <Compile Include="CommandBarDefinitions\TopLevelMenuDefinitions.cs" />
+    <Compile Include="Commands\CloseProgramCommand.cs" />
+    <Compile Include="Commands\CopyCommand.cs" />
+    <Compile Include="Commands\CutCommand.cs" />
+    <Compile Include="Commands\DeleteCommand.cs" />
+    <Compile Include="Commands\FullScreenCommand.cs" />
+    <Compile Include="Interfaces\Commands\ICloseProgramCommand.cs" />
+    <Compile Include="Interfaces\Commands\ICopyCommand.cs" />
+    <Compile Include="Interfaces\Commands\ICutCommand.cs" />
+    <Compile Include="Interfaces\Commands\IDeleteCommand.cs" />
+    <Compile Include="Interfaces\Commands\IFullScreenCommand.cs" />
+    <Compile Include="Interfaces\Commands\IMultiRedoCommand.cs" />
+    <Compile Include="Interfaces\Commands\IMultiUndoCommand.cs" />
+    <Compile Include="Interfaces\Commands\IOpenSettingsCommand.cs" />
+    <Compile Include="Interfaces\Commands\IPasteCommand.cs" />
+    <Compile Include="Interfaces\Commands\IRedoCommand.cs" />
+    <Compile Include="Interfaces\Commands\IUndoCommand.cs" />
+    <Compile Include="Commands\MultiRedoCommand.cs" />
+    <Compile Include="Commands\MultiUndoCommand.cs" />
+    <Compile Include="Commands\OpenSettingsCommand.cs" />
+    <Compile Include="Commands\PasteCommand.cs" />
+    <Compile Include="Commands\RedoCommand.cs" />
+    <Compile Include="Commands\UndoCommand.cs" />
     <Compile Include="GeneralUiContexts.cs" />
     <Compile Include="Layout\ToolsClosedEventArgs.cs" />
     <Compile Include="Layout\ToolsClosingEventArgs.cs" />
@@ -105,15 +125,6 @@
     <Compile Include="Input\KeyBindingScheme\KeyBindingScheme.cs" />
     <Compile Include="Interfaces\IApplicationEnvironment.cs" />
     <Compile Include="ExtendedBootstrapper.cs" />
-    <Compile Include="Commands\CloseProgramCommandDefinition.cs" />
-    <Compile Include="Commands\FullScreenCommandDefinition.cs" />
-    <Compile Include="Commands\MultiRedoCommandDefinition.cs" />
-    <Compile Include="Commands\OpenSettingsCommandDefinition.cs" />
-    <Compile Include="Commands\RedoCommandDefinition.cs" />
-    <Compile Include="Commands\SwitchToDocumentCommandListDefinition.cs" />
-    <Compile Include="Commands\SwitchToDocumentListCommandHandler.cs" />
-    <Compile Include="Commands\UndoCommandDefinition.cs" />
-    <Compile Include="Commands\MultiUndoCommandDefinition.cs" />
     <Compile Include="Input\CommandRouter.cs" />
     <Compile Include="Layout\LayoutItem.cs" />
     <Compile Include="Layout\LayoutItemBase.cs" />
@@ -151,13 +162,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="CommandBarDefinitions\MenuDefinitions\EditMenuDefinitions.cs" />
-    <Compile Include="CommandBarDefinitions\MenuDefinitions\FileMenuDefinitions.cs" />
-    <Compile Include="CommandBarDefinitions\MenuDefinitions\MainMenuBarDefinition.cs" />
-    <Compile Include="CommandBarDefinitions\MenuDefinitions\MenuBarItemDefinitions.cs" />
-    <Compile Include="CommandBarDefinitions\MenuDefinitions\ToolsMenuDefinitions.cs" />
-    <Compile Include="CommandBarDefinitions\MenuDefinitions\ViewMenuDefinitions.cs" />
-    <Compile Include="CommandBarDefinitions\MenuDefinitions\WindowMenuDefinitions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -228,7 +232,6 @@
       <DependentUpon>SettingsImportExportView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\SettingsImportExport\SettingsImportExportViewModel.cs" />
-    <Compile Include="CommandBarDefinitions\ToolbarDefinitions\StandardToolbarDefinition.cs" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -340,50 +343,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Resources\Icons\CloseProgram_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Icons\Copy_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Icons\Cut_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Icons\Delete_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Icons\FitToScreen_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Icons\MoveDown.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Icons\Paste_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Icons\Redo_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Icons\Settings_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Icons\MoveUp.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Icons\Undo_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Settings\General\GeneralWindowItemListSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -412,5 +371,6 @@
   <ItemGroup>
     <Resource Include="Resources\Icons\CS_16x.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -5,6 +5,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Extended.CommandBar.CommandDefinitions;
 using ModernApplicationFramework.Extended.Commands;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest.Commands

@@ -10,6 +10,6 @@ namespace ModernApplicationFramework.EditorBase.CommandBarDefinitions.MenuDefini
         [Export] public static CommandBarItemDefinition WindowSelectDefinition=
             new CommandBarCommandItemDefinition<WindowSelectCommandDefinition>(
                 new Guid("{B0DE0162-4DCF-409D-AEEB-2F827E93A4A3}"),
-                Extended.CommandBarDefinitions.MenuDefinitions.WindowMenuDefinitions.OpenWindowsGroup, uint.MaxValue);
+                Extended.CommandBar.MenuDefinitions.WindowMenuDefinitions.OpenWindowsGroup, uint.MaxValue);
     }
 }

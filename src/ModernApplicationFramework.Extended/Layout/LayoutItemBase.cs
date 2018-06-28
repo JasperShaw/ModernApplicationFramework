@@ -78,9 +78,9 @@ namespace ModernApplicationFramework.Extended.Layout
             }
         }
 
-        public ICommand RedoCommand => IoC.Get<RedoCommandDefinition>().Command;
+        public ICommand RedoCommand => IoC.Get<IRedoCommand>();
 
-        public ICommand UndoCommand => IoC.Get<UndoCommandDefinition>().Command;
+        public ICommand UndoCommand => IoC.Get<IUndoCommand>();
 
         public IUndoRedoManager UndoRedoManager
         {
