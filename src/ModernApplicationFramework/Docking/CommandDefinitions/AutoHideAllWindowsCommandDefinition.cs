@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
-using System.Linq;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Commands;
@@ -33,32 +31,5 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
 
         public override Guid Id => new Guid("{ABF14EC8-CC6D-4B2A-A1A1-9A0F44690266}");
-    }
-
-    public interface IAutoHideAllWindowsCommand : ICommandDefinitionCommand
-    {
-    }
-
-    [Export(typeof(IAutoHideAllWindowsCommand))]
-    internal class AutoHideAllWindowsCommand : CommandDefinitionCommand, IAutoHideAllWindowsCommand
-    {
-        protected override bool OnCanExecute(object parameter)
-        {
-            return DockingManager.Instance != null && DockingManager.Instance.Layout.Descendents()
-                       .OfType<LayoutAnchorable>().Any(x => !x.IsAutoHidden);
-        }
-
-        protected override void OnExecute(object parameter)
-        {
-            var layoutAnchorables = DockingManager.Instance?.Layout.Descendents().OfType<LayoutAnchorable>();
-            if (layoutAnchorables == null)
-                return;
-
-            foreach (var anchorable in layoutAnchorables.ToList())
-            {
-                if (!anchorable.IsAutoHidden)
-                    anchorable.ToggleAutoHide();
-            }
-        }
     }
 }

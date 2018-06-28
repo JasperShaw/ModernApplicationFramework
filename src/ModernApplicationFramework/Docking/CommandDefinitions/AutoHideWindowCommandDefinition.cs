@@ -4,8 +4,6 @@ using System.ComponentModel.Composition;
 using System.Globalization;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Docking.Controls;
-using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Commands;
@@ -33,45 +31,5 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
         public override Guid Id => new Guid("{2CD1E686-B6D8-4719-875E-9535DE2FF119}");
-    }
-
-    public interface IAutoHideWindowCommand : ICommandDefinitionCommand
-    {
-    }
-
-
-    [Export(typeof(IAutoHideWindowCommand))]
-    internal class AutoHideWindowCommand : CommandDefinitionCommand, IAutoHideWindowCommand
-    {
-        protected override bool OnCanExecute(object parameter)
-        {
-            if (DockingManager.Instance == null)
-                return false;
-            var dc = DockingManager.Instance.Layout.ActiveContent;
-            if (dc == null)
-                return false;
-
-            var di = DockingManager.Instance.GetLayoutItemFromModel(dc);
-
-            if (di?.LayoutElement == null)
-                return false;
-
-            if (di.LayoutElement.FindParent<LayoutAnchorableFloatingWindow>() != null)
-                return false;
-
-            return di.LayoutElement is LayoutAnchorable layoutItem && layoutItem.CanAutoHide &&
-                   !layoutItem.IsAutoHidden;
-        }
-
-        protected override void OnExecute(object parameter)
-        {
-            var dc = DockingManager.Instance?.Layout.ActiveContent;
-            if (dc == null)
-                return;
-
-            var di = DockingManager.Instance?.GetLayoutItemFromModel(dc) as LayoutAnchorableItem;
-
-            di?.AutoHideCommand.Execute(null);
-        }
     }
 }

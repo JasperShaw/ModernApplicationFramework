@@ -4,7 +4,6 @@ using System.ComponentModel.Composition;
 using System.Globalization;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Docking.Layout;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Commands;
@@ -32,32 +31,5 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
         public override Guid Id => new Guid("{D82DF723-6ED3-43D3-805A-918CC256F6F4}");
-    }
-
-    public interface IDockAsTabbedDocumentCommand : ICommandDefinitionCommand
-    {
-    }
-
-    [Export(typeof(IDockAsTabbedDocumentCommand))]
-    internal class DockAsTabbedDocumentCommand : CommandDefinitionCommand, IDockAsTabbedDocumentCommand
-    {
-        protected override bool OnCanExecute(object parameter)
-        {
-            var dc = DockingManager.Instance.Layout.ActiveContent;
-            if (dc == null)
-                return false;
-
-            var di = DockingManager.Instance.GetLayoutItemFromModel(dc);
-            return di?.LayoutElement?.FindParent<LayoutAnchorablePane>() != null;
-        }
-
-        protected override void OnExecute(object parameter)
-        {
-            var dc = DockingManager.Instance.Layout.ActiveContent;
-            if (dc == null)
-                return;
-            var di = DockingManager.Instance.GetLayoutItemFromModel(dc);
-            di?.DockAsDocumentCommand.Execute(null);
-        }
     }
 }

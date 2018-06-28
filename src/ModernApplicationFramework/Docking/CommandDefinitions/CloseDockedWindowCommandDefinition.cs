@@ -31,25 +31,4 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
         public override CommandCategory Category => CommandCategories.FileCommandCategory;
         public override Guid Id => new Guid("{3CFF0A7E-3BE7-47FD-B12F-6195773866DE}");
     }
-
-    public interface ICloseDockedWindowCommand : ICommandDefinitionCommand
-    {
-    }
-
-    [Export(typeof(ICloseDockedWindowCommand))]
-    internal class CloseDockedWindowCommand : CommandDefinitionCommand, ICloseDockedWindowCommand
-    {
-        protected override bool OnCanExecute(object parameter)
-        {
-            var dm = DockingManager.Instance?.Layout.ActiveContent;
-            return dm != null;
-        }
-
-        protected override void OnExecute(object parameter)
-        {
-            var dm = DockingManager.Instance?.Layout.ActiveContent;
-            var item = DockingManager.Instance?.GetLayoutItemFromModel(dm);
-            item?.CloseCommand.Execute(null);
-        }
-    }
 }
