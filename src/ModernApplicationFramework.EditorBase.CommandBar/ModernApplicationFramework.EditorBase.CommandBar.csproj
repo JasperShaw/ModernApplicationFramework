@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5E12D862-3219-48F4-A32E-491D53296EBF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ModernApplicationFramework.EditorBase.CommandBar</RootNamespace>
+    <AssemblyName>ModernApplicationFramework.EditorBase.CommandBar</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Caliburn.Micro, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Caliburn.Micro.Core.3.2.0\lib\net45\Caliburn.Micro.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CommandDefinitions\CopyFullPathCommandDefinition.cs" />
+    <Compile Include="CommandDefinitions\NewFileCommandDefinition.cs" />
+    <Compile Include="CommandDefinitions\OpenContainingFolderCommandDefinition.cs" />
+    <Compile Include="CommandDefinitions\OpenFileCommandDefinition.cs" />
+    <Compile Include="CommandDefinitions\RecentFilesListCommandHandler.cs" />
+    <Compile Include="CommandDefinitions\RecentFilesListDefinition.cs" />
+    <Compile Include="CommandDefinitions\SaveActiveFileAsCommandDefinition.cs" />
+    <Compile Include="CommandDefinitions\SaveActiveFileCommandDefinition.cs" />
+    <Compile Include="CommandDefinitions\SaveAllCommandDefinition.cs" />
+    <Compile Include="CommandDefinitions\WindowSelectCommandDefinition.cs" />
+    <Compile Include="ContextMenuDefinitions\TabbedDocumentContextMenuDefinitions.cs" />
+    <Compile Include="MenuDefinitions\FileMenuDefinitions.cs" />
+    <Compile Include="MenuDefinitions\WindowMenuDefinitions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\CommandBarResources.Designer.cs">
+      <DependentUpon>CommandBarResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\CommandsResources.Designer.cs">
+      <DependentUpon>CommandsResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ModernApplicationFramework.EditorBase\ModernApplicationFramework.EditorBase.csproj">
+      <Project>{C5F062E8-48C1-425E-831F-511A541E18D8}</Project>
+      <Name>ModernApplicationFramework.EditorBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework.Extended.CommandBar\ModernApplicationFramework.Extended.CommandBar.csproj">
+      <Project>{e3f05145-f9a9-42a4-b67d-ade61980b20a}</Project>
+      <Name>ModernApplicationFramework.Extended.CommandBar</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework.Extended\ModernApplicationFramework.Extended.csproj">
+      <Project>{51911695-6CDB-4833-9782-06C8821D1C4E}</Project>
+      <Name>ModernApplicationFramework.Extended</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework\ModernApplicationFramework.csproj">
+      <Project>{74F6C6A1-64BB-47D4-9E7F-6CD5C4CA166C}</Project>
+      <Name>ModernApplicationFramework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\CommandBarResources.de.resx" />
+    <EmbeddedResource Include="Resources\CommandBarResources.en.resx" />
+    <EmbeddedResource Include="Resources\CommandBarResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommandBarResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\CommandsResources.de.resx" />
+    <EmbeddedResource Include="Resources\CommandsResources.en.resx" />
+    <EmbeddedResource Include="Resources\CommandsResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommandsResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Resources\Icons\OpenFolder_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Icons\SaveAll_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Icons\Save_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Icons\VSO_NewFile_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

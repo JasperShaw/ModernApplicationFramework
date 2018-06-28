@@ -4,12 +4,13 @@ using System.Linq;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.EditorBase.CommandBar.Resources;
 using ModernApplicationFramework.EditorBase.FileSupport;
 using ModernApplicationFramework.EditorBase.Interfaces.Packages;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Services;
 
-namespace ModernApplicationFramework.EditorBase.Commands
+namespace ModernApplicationFramework.EditorBase.CommandBar.CommandDefinitions
 {
     [Export(typeof(ICommandHandler))]
     public class RecentFilesListCommandHandler :ICommandListHandler<RecentFilesListDefinition>

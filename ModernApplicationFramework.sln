@@ -51,6 +51,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Extended.CommandBar", "src\ModernApplicationFramework.Extended.CommandBar\ModernApplicationFramework.Extended.CommandBar.csproj", "{E3F05145-F9A9-42A4-B67D-ADE61980B20A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.EditorBase.CommandBar", "src\ModernApplicationFramework.EditorBase.CommandBar\ModernApplicationFramework.EditorBase.CommandBar.csproj", "{5E12D862-3219-48F4-A32E-491D53296EBF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -141,6 +143,10 @@ Global
 		{E3F05145-F9A9-42A4-B67D-ADE61980B20A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3F05145-F9A9-42A4-B67D-ADE61980B20A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3F05145-F9A9-42A4-B67D-ADE61980B20A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E12D862-3219-48F4-A32E-491D53296EBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E12D862-3219-48F4-A32E-491D53296EBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E12D862-3219-48F4-A32E-491D53296EBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E12D862-3219-48F4-A32E-491D53296EBF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -167,6 +173,7 @@ Global
 		{72168066-609B-43E3-B474-54D1ADB4AF5B} = {4D1C8100-FF4F-4F76-B4F3-AA904214A46E}
 		{DBAC0DF4-578D-424D-AFF7-8208515EF2B4} = {D0CC4283-1D90-4E58-8AB5-4C40B1835720}
 		{E3F05145-F9A9-42A4-B67D-ADE61980B20A} = {4D1C8100-FF4F-4F76-B4F3-AA904214A46E}
+		{5E12D862-3219-48F4-A32E-491D53296EBF} = {4D1C8100-FF4F-4F76-B4F3-AA904214A46E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3A9B2099-61B4-452F-BF63-91B31A07DD83}

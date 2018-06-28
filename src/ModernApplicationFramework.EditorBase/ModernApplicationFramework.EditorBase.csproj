@@ -65,28 +65,22 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandBarDefinitions\CommandBarResources.Designer.cs">
-      <DependentUpon>CommandBarResources.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="CommandBarDefinitions\ContextMenuDefinitions\TabbedDocumentContextMenuDefinitions.cs" />
-    <Compile Include="CommandBarDefinitions\MenuDefinitions\FileMenuDefinitions.cs" />
-    <Compile Include="CommandBarDefinitions\MenuDefinitions\WindowMenuDefinitions.cs" />
-    <Compile Include="Commands\CommandsResources.Designer.cs">
-      <DependentUpon>CommandsResources.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Commands\CopyFullPathCommandDefinition.cs" />
-    <Compile Include="Commands\OpenContainingFolderCommandDefinition.cs" />
-    <Compile Include="Commands\OpenFileCommandDefinition.cs" />
-    <Compile Include="Commands\RecentFilesListCommandHandler.cs" />
-    <Compile Include="Commands\RecentFilesListDefinition.cs" />
-    <Compile Include="Commands\SaveActiveFileAsCommandDefinition.cs" />
-    <Compile Include="Commands\SaveAllCommandDefinition.cs" />
-    <Compile Include="Commands\SaveActiveFileCommandDefinition.cs" />
-    <Compile Include="Commands\WindowSelectCommandDefinition.cs" />
+    <Compile Include="Commands\CopyFullPathCommand.cs" />
+    <Compile Include="Interfaces\Commands\ICopyFullPathCommand.cs" />
+    <Compile Include="Interfaces\Commands\INewFileCommand.cs" />
+    <Compile Include="Interfaces\Commands\IOpenContainingFolderCommand.cs" />
+    <Compile Include="Interfaces\Commands\IOpenFileCommand.cs" />
+    <Compile Include="Interfaces\Commands\ISaveActiveFileAsCommand.cs" />
+    <Compile Include="Interfaces\Commands\ISaveActiveFileCommand.cs" />
+    <Compile Include="Interfaces\Commands\ISaveAllCommand.cs" />
+    <Compile Include="Interfaces\Commands\IWindowSelectCommand.cs" />
+    <Compile Include="Commands\NewFileCommand.cs" />
+    <Compile Include="Commands\OpenContainingFolderCommand.cs" />
+    <Compile Include="Commands\OpenFileCommand.cs" />
+    <Compile Include="Commands\SaveActiveFileAsCommand.cs" />
+    <Compile Include="Commands\SaveActiveFileCommand.cs" />
+    <Compile Include="Commands\SaveAllCommand.cs" />
+    <Compile Include="Commands\WindowSelectCommand.cs" />
     <Compile Include="Dialogs\OpenWithFileDialog\DialogResources.Designer.cs">
       <DependentUpon>DialogResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -180,7 +174,6 @@
     <Compile Include="Dialogs\NewElementDialog\NewElementExtensionProvider.cs" />
     <Compile Include="Dialogs\NewElementDialog\NewElementExtensionTreeNode.cs" />
     <Compile Include="Dialogs\NewElementDialog\NewElementExtesionRootTreeNode.cs" />
-    <Compile Include="Commands\NewFileCommandDefinition.cs" />
     <Compile Include="Core\Converters\ProviderTreeViewVisibilityConverter.cs" />
     <Compile Include="Dialogs\NewElementDialog\Views\NewElementPresenterView.xaml.cs">
       <DependentUpon>NewElementPresenterView.xaml</DependentUpon>
@@ -219,11 +212,6 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Interfaces\Services\IOpenFileService.cs" />
     <Compile Include="Interfaces\Services\IUniqueNameCreator.cs" />
     <Compile Include="Services\OpenDocumentService.cs" />
@@ -251,18 +239,6 @@
     <Compile Include="Settings\MruFiles\StorableMruFile.cs" />
     <Compile Include="Settings\MruFiles\StoredMruFiles.cs" />
     <Compile Include="Settings\WindowSelectionDialog\WindowSelectionDialogSettings.cs" />
-    <EmbeddedResource Include="CommandBarDefinitions\CommandBarResources.de.resx" />
-    <EmbeddedResource Include="CommandBarDefinitions\CommandBarResources.en.resx" />
-    <EmbeddedResource Include="CommandBarDefinitions\CommandBarResources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>CommandBarResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Commands\CommandsResources.de.resx" />
-    <EmbeddedResource Include="Commands\CommandsResources.en.resx" />
-    <EmbeddedResource Include="Commands\CommandsResources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>CommandsResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\OpenWithFileDialog\DialogResources.de.resx" />
     <EmbeddedResource Include="Dialogs\OpenWithFileDialog\DialogResources.en.resx" />
     <EmbeddedResource Include="Dialogs\OpenWithFileDialog\DialogResources.resx">
@@ -306,10 +282,6 @@
       <LastGenOutput>NewElementDialogResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\NewElementDialog\NewElementDialogResources.ru.resx" />
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="Settings\Documents\DocumentsSettingsResources.de.resx" />
     <EmbeddedResource Include="Settings\Documents\DocumentsSettingsResources.en.resx" />
     <EmbeddedResource Include="Settings\Documents\DocumentsSettingsResources.resx">
@@ -369,22 +341,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Resources\Icons\OpenFolder_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Icons\SaveAll_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Icons\Save_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Icons\VSO_NewFile_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Settings\Documents\DocumentsSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -395,6 +351,8 @@
     <Resource Include="Resources\Images\List.png" />
     <Resource Include="Resources\Images\Medium.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="CommandBarDefinitions\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

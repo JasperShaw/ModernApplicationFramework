@@ -3,8 +3,9 @@ using System.ComponentModel.Composition;
 using System.Globalization;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.EditorBase.CommandBar.Resources;
 
-namespace ModernApplicationFramework.EditorBase.Commands
+namespace ModernApplicationFramework.EditorBase.CommandBar.CommandDefinitions
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(RecentFilesListDefinition))]

@@ -2,10 +2,10 @@
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.Menu;
-using ModernApplicationFramework.EditorBase.Commands;
-using ModernApplicationFramework.Extended.Commands;
+using ModernApplicationFramework.EditorBase.CommandBar.CommandDefinitions;
+using ModernApplicationFramework.EditorBase.CommandBar.Resources;
 
-namespace ModernApplicationFramework.EditorBase.CommandBarDefinitions.MenuDefinitions
+namespace ModernApplicationFramework.EditorBase.CommandBar.MenuDefinitions
 {
     public static class FileMenuDefinitions
     {

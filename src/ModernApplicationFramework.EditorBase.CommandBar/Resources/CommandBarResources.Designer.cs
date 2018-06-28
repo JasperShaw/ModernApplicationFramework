@@ -8,10 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ModernApplicationFramework.EditorBase.Properties {
-    using System;
-    
-    
+namespace ModernApplicationFramework.EditorBase.CommandBar.Resources {
     /// <summary>
     ///   Eine stark typisierte Ressourcenklasse zum Suchen von lokalisierten Zeichenfolgen usw.
     /// </summary>
@@ -22,24 +19,24 @@ namespace ModernApplicationFramework.EditorBase.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    internal class CommandBarResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal CommandBarResources() {
         }
         
         /// <summary>
         ///   Gibt die zwischengespeicherte ResourceManager-Instanz zurück, die von dieser Klasse verwendet wird.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ModernApplicationFramework.EditorBase.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ModernApplicationFramework.EditorBase.CommandBar.Resources.CommandBarResources", typeof(CommandBarResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,12 +48,39 @@ namespace ModernApplicationFramework.EditorBase.Properties {
         ///   Ressourcenzuordnungen, die diese stark typisierte Ressourcenklasse verwenden.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;New ähnelt.
+        /// </summary>
+        public static string MenuNew {
+            get {
+                return ResourceManager.GetString("MenuNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Open ähnelt.
+        /// </summary>
+        public static string MenuOpen {
+            get {
+                return ResourceManager.GetString("MenuOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Recent &amp;Files ähnelt.
+        /// </summary>
+        public static string MenuRecentFiles {
+            get {
+                return ResourceManager.GetString("MenuRecentFiles", resourceCulture);
             }
         }
     }

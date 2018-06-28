@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.EditorBase.Commands;
+using ModernApplicationFramework.EditorBase.CommandBar.CommandDefinitions;
 
-namespace ModernApplicationFramework.EditorBase.CommandBarDefinitions.ContextMenuDefinitions
+namespace ModernApplicationFramework.EditorBase.CommandBar.ContextMenuDefinitions
 {
     public static class TabbedDocumentContextMenuDefinitions
     {

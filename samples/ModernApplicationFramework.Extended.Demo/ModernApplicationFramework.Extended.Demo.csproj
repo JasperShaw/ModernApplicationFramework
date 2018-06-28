@@ -290,6 +290,10 @@
       <Project>{72168066-609b-43e3-b474-54d1adb4af5b}</Project>
       <Name>ModernApplicationFramework.DragDrop</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\ModernApplicationFramework.EditorBase.CommandBar\ModernApplicationFramework.EditorBase.CommandBar.csproj">
+      <Project>{5e12d862-3219-48f4-a32e-491d53296ebf}</Project>
+      <Name>ModernApplicationFramework.EditorBase.CommandBar</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\ModernApplicationFramework.EditorBase\ModernApplicationFramework.EditorBase.csproj">
       <Project>{c5f062e8-48c1-425e-831f-511a541e18d8}</Project>
       <Name>ModernApplicationFramework.EditorBase</Name>

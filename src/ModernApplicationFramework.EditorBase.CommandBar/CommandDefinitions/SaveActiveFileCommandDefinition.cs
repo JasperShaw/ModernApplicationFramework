@@ -4,15 +4,14 @@ using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.EditorBase.Interfaces.Editor;
-using ModernApplicationFramework.EditorBase.Interfaces.FileSupport;
+using ModernApplicationFramework.EditorBase.CommandBar.Resources;
+using ModernApplicationFramework.EditorBase.Interfaces.Commands;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
-using ModernApplicationFramework.Interfaces.Commands;
 
-namespace ModernApplicationFramework.EditorBase.Commands
+namespace ModernApplicationFramework.EditorBase.CommandBar.CommandDefinitions
 {
     [Export(typeof(CommandDefinitionBase))]
     [Export(typeof(SaveActiveFileCommandDefinition))]
@@ -34,7 +33,7 @@ namespace ModernApplicationFramework.EditorBase.Commands
 
         public override string Name => CommandsResources.SaveActiveDocumentCommandName;
 
-        public override Uri IconSource => new Uri("/ModernApplicationFramework.EditorBase;component/Resources/Icons/Save_16x.xaml",
+        public override Uri IconSource => new Uri("/ModernApplicationFramework.EditorBase.CommandBar;component/Resources/Icons/Save_16x.xaml",
             UriKind.RelativeOrAbsolute);
         public override string IconId => "SaveFileIcon";
         public override CommandCategory Category => CommandCategories.FileCommandCategory;
@@ -55,33 +54,6 @@ namespace ModernApplicationFramework.EditorBase.Commands
         {
             _text = e.NewLayoutItem?.DisplayName;
             OnPropertyChanged(nameof(Text));
-        }
-    }
-
-    public interface ISaveActiveFileCommand : ICommandDefinitionCommand
-    {
-    }
-
-    [Export(typeof(ISaveActiveFileCommand))]
-    internal class SaveActiveFileCommand : CommandDefinitionCommand, ISaveActiveFileCommand
-    {
-        private readonly IDockingHostViewModel _dockingHostViewModel;
-
-        [ImportingConstructor]
-        public SaveActiveFileCommand(IDockingHostViewModel dockingHostViewModel)
-        {
-            _dockingHostViewModel = dockingHostViewModel;
-        }
-        protected override bool OnCanExecute(object parameter)
-        {
-            if (_dockingHostViewModel.ActiveItem == null)
-                return false;
-            return _dockingHostViewModel.ActiveItem is IEditor editor && editor.Document is IStorableFile;
-        }
-
-        protected override void OnExecute(object parameter)
-        {
-            ((IEditor)_dockingHostViewModel.ActiveItem)?.SaveFile();
         }
     }
 }

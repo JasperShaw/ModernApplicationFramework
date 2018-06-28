@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.EditorBase.Commands;
+using ModernApplicationFramework.EditorBase.CommandBar.CommandDefinitions;
 
-namespace ModernApplicationFramework.EditorBase.CommandBarDefinitions.MenuDefinitions
+namespace ModernApplicationFramework.EditorBase.CommandBar.MenuDefinitions
 {
     public static class WindowMenuDefinitions
     {

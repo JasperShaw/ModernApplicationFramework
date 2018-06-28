@@ -8,10 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ModernApplicationFramework.EditorBase.Commands {
-    using System;
-    
-    
+namespace ModernApplicationFramework.EditorBase.CommandBar.Resources {
     /// <summary>
     ///   Eine stark typisierte Ressourcenklasse zum Suchen von lokalisierten Zeichenfolgen usw.
     /// </summary>
@@ -22,7 +19,7 @@ namespace ModernApplicationFramework.EditorBase.Commands {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class CommandsResources {
+    internal class CommandsResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -39,7 +36,7 @@ namespace ModernApplicationFramework.EditorBase.Commands {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ModernApplicationFramework.EditorBase.Commands.CommandsResources", typeof(CommandsResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ModernApplicationFramework.EditorBase.CommandBar.Resources.CommandsResources", typeof(CommandsResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
