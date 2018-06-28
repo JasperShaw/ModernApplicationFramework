@@ -39,5 +39,10 @@ namespace ModernApplicationFramework.Extended.CommandBar.MenuDefinitions
         public static CommandBarItemDefinition CopyMenuItem =
             new CommandBarCommandItemDefinition<CopyCommandDefinition>(
                 new Guid("{0B5512CB-1DB5-4CBF-B7B6-A87DAF3B0322}"), BasicEditGroup, 1);
+
+        [Export]
+        public static CommandBarItemDefinition PasteMenuItem =
+            new CommandBarCommandItemDefinition<PasteCommandDefinition>(
+                new Guid("{D89F2DB8-BA86-4835-9D31-228862980304}"), BasicEditGroup, 2);
     }
 }
