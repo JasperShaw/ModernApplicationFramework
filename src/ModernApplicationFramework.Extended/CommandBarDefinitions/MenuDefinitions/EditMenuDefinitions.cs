@@ -38,6 +38,11 @@ namespace ModernApplicationFramework.Extended.CommandBarDefinitions.MenuDefiniti
                 new Guid("{156C413A-93BE-48C7-8219-B38D23013E53}"), BasicEditGroup, int.MaxValue, true, false, false, true);
 
         [Export]
+        public static CommandBarItemDefinition CutMenuItem =
+            new CommandBarCommandItemDefinition<CutCommandDefinition>(
+                new Guid("{AA71F39E-6485-4142-A453-FF0D1CE1C7E6}"), BasicEditGroup, 0);
+
+        [Export]
         public static CommandBarItemDefinition CopyMenuItem =
             new CommandBarCommandItemDefinition<CopyCommandDefinition>(
                 new Guid("{0B5512CB-1DB5-4CBF-B7B6-A87DAF3B0322}"), BasicEditGroup, 1);

@@ -71,7 +71,9 @@
     <Compile Include="Clipboard\CopyCutWatcher.cs" />
     <Compile Include="Clipboard\MruClipboard.cs" />
     <Compile Include="Commands\CopyCommandDefinition.cs" />
+    <Compile Include="Commands\CutCommandDefinition.cs" />
     <Compile Include="Commands\DeleteCommandDefinition.cs" />
+    <Compile Include="Commands\PasteCommandDefinition.cs" />
     <Compile Include="GeneralUiContexts.cs" />
     <Compile Include="Layout\ToolsClosedEventArgs.cs" />
     <Compile Include="Layout\ToolsClosingEventArgs.cs" />
@@ -342,6 +344,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Resources\Icons\Copy_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Icons\Cut_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\Icons\Delete_16x.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -351,6 +361,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\Icons\MoveDown.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Icons\Paste_16x.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -398,6 +412,5 @@
   <ItemGroup>
     <Resource Include="Resources\Icons\CS_16x.png" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

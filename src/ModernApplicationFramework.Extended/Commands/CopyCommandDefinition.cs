@@ -15,8 +15,9 @@ namespace ModernApplicationFramework.Extended.Commands
         public override string NameUnlocalized => "Copy";
         public override string Text => "Copy";
         public override string ToolTip => Text;
-        public override Uri IconSource => null;
-        public override string IconId => null;
+        public override Uri IconSource => new Uri("/ModernApplicationFramework.Extended;component/Resources/Icons/Copy_16x.xaml",
+            UriKind.RelativeOrAbsolute);
+        public override string IconId => "CopyIcon";
         public override CommandCategory Category => CommandCategories.EditCommandCategory;
         public override Guid Id => new Guid("{E98D986F-AACB-4BC7-A60B-E758CA847BA9}");
         public override MultiKeyGesture DefaultKeyGesture { get; }
