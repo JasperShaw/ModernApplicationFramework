@@ -268,7 +268,16 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
             if (t == null)
                 return false;
             var f = t.GetFormats();
-            return f.Any(x => x == DataFormats.Text || x == ToolboxItemDataFormats.Type);
+
+            if (f.Any(x =>
+                x == ToolboxItemDataFormats.Type && t.GetData(ToolboxItemDataFormats.Type) is Type type &&
+                type.GetAttributes<ToolboxItemDataAttribute>(false).Any()))
+                return true;
+
+            if (f.Any(x => x == DataFormats.Text))
+                return true;
+
+            return false;
         }
 
         [SecurityCritical]
