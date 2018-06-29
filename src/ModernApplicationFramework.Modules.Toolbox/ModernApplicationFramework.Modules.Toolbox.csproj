@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\AddCategoryCommand.cs" />
+    <Compile Include="Commands\AddItemToSelectedNodeCommand.cs" />
     <Compile Include="Commands\AddTextItemToSelectedNodeCommand.cs" />
     <Compile Include="Commands\DeleteActiveItemCommand.cs" />
     <Compile Include="CommandDefinitions\DeleteActiveItemCommandDefinition.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="CommandDefinitions\ToolboxNodeDownCommandDefinition.cs" />
     <Compile Include="Commands\ToolboxNodeUpCommand.cs" />
     <Compile Include="CommandDefinitions\ToolboxNodeUpCommandDefinition.cs" />
+    <Compile Include="Items\ToolboxItemDataAttribute.cs" />
     <Compile Include="ToolboxCategoryExtension.cs" />
     <Compile Include="ToolboxResources.Designer.cs">
       <DependentUpon>ToolboxResources.resx</DependentUpon>

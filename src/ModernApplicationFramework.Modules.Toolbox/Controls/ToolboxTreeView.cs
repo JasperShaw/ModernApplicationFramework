@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Security;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -10,7 +11,6 @@ using ModernApplicationFramework.DragDrop;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.CommandDefinitions;
-using ModernApplicationFramework.Modules.Toolbox.Commands;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces.Commands;
 using ModernApplicationFramework.Modules.Toolbox.Items;
@@ -210,8 +210,23 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
         {
             CommandHelpers.RegisterCommandHandler(controlType, EditingCommands.Delete, OnDelete, CanDelete);
             CommandHelpers.RegisterCommandHandler(controlType, ApplicationCommands.Paste, OnPaste, CanPaste);
+            CommandHelpers.RegisterCommandHandler(controlType, ApplicationCommands.Copy, OnCopy, CanCopy);
         }
 
+        private static void CanCopy(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (sender is ToolboxTreeView tv)
+                e.CanExecute = tv.CanCopy();
+        }
+
+        private static void OnCopy(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (sender is ToolboxTreeView tv)
+            {
+                tv.OnCopy();
+                e.Handled = true;
+            }
+        }
 
         private bool CanDelete()
         {
@@ -237,12 +252,30 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
             if (t == null)
                 return false;
             var f = t.GetFormats();
-            return f.Any(x => x == DataFormats.Text);
+            return f.Any(x => x == DataFormats.Text || x == ToolboxItemDataFormats.Type);
         }
 
+        [SecurityCritical]
         private void OnPaste()
         {
-            IoC.Get<IAddTextItemToSelectedNodeCommand>().Execute(Clipboard.GetDataObject());
+            IoC.Get<IAddItemToSelectedNodeCommand>().Execute(Clipboard.GetDataObject());
+        }
+
+        private bool CanCopy()
+        {
+            if (SelectedItem == null)
+                return false;
+            if (!(SelectedItem is IToolboxItem))
+                return false;
+            return true;
+        }
+
+        private void OnCopy()
+        {
+            if (!(SelectedItem is IToolboxItem item))
+                return;
+
+            Clipboard.SetDataObject(item.Data, true);
         }
 
         private static void SetIsContextMenuOpen(UIElement element, bool value)

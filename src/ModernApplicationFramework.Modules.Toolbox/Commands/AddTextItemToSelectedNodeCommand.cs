@@ -1,9 +1,7 @@
 ﻿using System.ComponentModel.Composition;
-using System.Windows;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces.Commands;
-using ModernApplicationFramework.Modules.Toolbox.Items;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Commands
 {
@@ -29,20 +27,20 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
 
         protected override void OnExecute(object parameter)
         {
-            if (!(parameter is IDataObject data))
-                return;
-            var item = ToolboxItem.CreateTextItem(data);
+            //if (!(parameter is IDataObject data))
+            //    return;
+            //var item = ToolboxItem.CreateTextItem(data);
 
-            if (_toolbox.SelectedNode is IToolboxItem selectedItem)
-            {
-                var category = selectedItem.Parent;
-                var index = category.Items.IndexOf(selectedItem);
-                category.Items.Insert(index +1, item);
-            }
-            else if (_toolbox.SelectedNode is IToolboxCategory selectedCategory)
-            {
-                selectedCategory.Items.Insert(0, item);
-            }
+            //if (_toolbox.SelectedNode is IToolboxItem selectedItem)
+            //{
+            //    var category = selectedItem.Parent;
+            //    var index = category.Items.IndexOf(selectedItem);
+            //    category.Items.Insert(index +1, item);
+            //}
+            //else if (_toolbox.SelectedNode is IToolboxCategory selectedCategory)
+            //{
+            //    selectedCategory.Items.Insert(0, item);
+            //}
         }
     }
 }
