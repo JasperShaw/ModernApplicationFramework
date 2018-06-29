@@ -65,12 +65,14 @@
   <ItemGroup>
     <Compile Include="Commands\AddCategoryCommand.cs" />
     <Compile Include="Commands\AddItemToSelectedNodeCommand.cs" />
-    <Compile Include="Commands\AddTextItemToSelectedNodeCommand.cs" />
+    <Compile Include="Commands\CopySelectedItemCommand.cs" />
     <Compile Include="Commands\DeleteActiveItemCommand.cs" />
     <Compile Include="CommandDefinitions\DeleteActiveItemCommandDefinition.cs" />
     <Compile Include="Commands\DeleteActiveToolbarCategoryCommand.cs" />
+    <Compile Include="Commands\RemoveItemDilalog.cs" />
+    <Compile Include="Interfaces\Commands\IAddItemToSelectedNodeCommand.cs" />
     <Compile Include="Interfaces\Commands\IAddCategoryCommand.cs" />
-    <Compile Include="Interfaces\Commands\IAddTextItemToSelectedNodeCommand.cs" />
+    <Compile Include="Interfaces\Commands\ICopySelectedItemCommand.cs" />
     <Compile Include="Interfaces\Commands\IDeleteActiveItemCommand.cs" />
     <Compile Include="Interfaces\Commands\IDeleteActiveToolbarCategoryCommand.cs" />
     <Compile Include="Interfaces\Commands\IOpenToolboxCommand.cs" />

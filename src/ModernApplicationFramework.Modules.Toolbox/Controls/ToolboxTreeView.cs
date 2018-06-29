@@ -211,6 +211,22 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
             CommandHelpers.RegisterCommandHandler(controlType, EditingCommands.Delete, OnDelete, CanDelete);
             CommandHelpers.RegisterCommandHandler(controlType, ApplicationCommands.Paste, OnPaste, CanPaste);
             CommandHelpers.RegisterCommandHandler(controlType, ApplicationCommands.Copy, OnCopy, CanCopy);
+            CommandHelpers.RegisterCommandHandler(controlType, ApplicationCommands.Cut, OnCut, CanCut);
+        }
+
+        private static void CanCut(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (sender is ToolboxTreeView tv)
+                e.CanExecute = tv.CanCopy();
+        }
+
+        private static void OnCut(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (sender is ToolboxTreeView tv)
+            {
+                tv.OnCopy(true);
+                e.Handled = true;
+            }
         }
 
         private static void CanCopy(object sender, CanExecuteRoutedEventArgs e)
@@ -270,12 +286,9 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
             return true;
         }
 
-        private void OnCopy()
+        private void OnCopy(bool cut = false)
         {
-            if (!(SelectedItem is IToolboxItem item))
-                return;
-
-            Clipboard.SetDataObject(item.Data, true);
+            IoC.Get<ICopySelectedItemCommand>().Execute(cut);
         }
 
         private static void SetIsContextMenuOpen(UIElement element, bool value)

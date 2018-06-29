@@ -2,10 +2,6 @@
 
 namespace ModernApplicationFramework.Modules.Toolbox.Interfaces.Commands
 {
-    public interface IAddTextItemToSelectedNodeCommand : ICommandDefinitionCommand
-    {
-    }
-
     public interface IAddItemToSelectedNodeCommand : ICommandDefinitionCommand
     {
     }

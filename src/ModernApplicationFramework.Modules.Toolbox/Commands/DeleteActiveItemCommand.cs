@@ -20,14 +20,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
         {
             if (!(parameter is IToolboxItem item))
                 return;
-            if (AskUserForRemove(item) == MessageBoxResult.Yes)
+            if (RemoveItemDilalog.AskUserForRemove(item) == MessageBoxResult.Yes)
                 item.Parent?.RemoveItem(item);
-        }
-
-        private MessageBoxResult AskUserForRemove(IToolboxItem item)
-        {
-            IoC.Get<IMafUIShell>().GetAppName(out var name);
-            return MessageBox.Show("Delete", name, MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
         }
     }
 }
