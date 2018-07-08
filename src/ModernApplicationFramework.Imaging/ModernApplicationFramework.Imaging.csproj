@@ -60,16 +60,16 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActualDpiConverter.cs" />
-    <Compile Include="ActualGrayscaleBiasColorConverter.cs" />
-    <Compile Include="ActualHighContrastConverter.cs" />
+    <Compile Include="Converters\ActualDpiConverter.cs" />
+    <Compile Include="Converters\ActualGrayscaleBiasColorConverter.cs" />
+    <Compile Include="Converters\ActualHighContrastConverter.cs" />
     <Compile Include="CrispImage.cs" />
-    <Compile Include="CrispImageSourceConverter.cs" />
-    <Compile Include="GrayscaleBitmapSourceConverter.cs" />
+    <Compile Include="Converters\CrispImageSourceConverter.cs" />
+    <Compile Include="Converters\GrayscaleBitmapSourceConverter.cs" />
     <Compile Include="ImageAttributes.cs" />
     <Compile Include="ImageLibrary.cs" />
     <Compile Include="ImageThemingUtilities.cs" />
-    <Compile Include="MonikerSourceToImageConverter.cs" />
+    <Compile Include="Converters\MonikerSourceToImageConverter.cs" />
     <Compile Include="ObservableTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -84,7 +84,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ThemedImageSourceConverter.cs" />
+    <Compile Include="Converters\ThemedImageSourceConverter.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -111,8 +111,6 @@
       <Name>ModernApplicationFramework.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Converters\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

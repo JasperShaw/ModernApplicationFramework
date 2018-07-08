@@ -12,6 +12,7 @@
              xmlns:converters1="clr-namespace:ModernApplicationFramework.Modules.Toolbox.Converters"
              xmlns:searchControl="clr-namespace:ModernApplicationFramework.Controls.SearchControl;assembly=ModernApplicationFramework"
              xmlns:imaging="clr-namespace:ModernApplicationFramework.Imaging;assembly=ModernApplicationFramework.Imaging"
+             xmlns:converters2="clr-namespace:ModernApplicationFramework.Imaging.Converters;assembly=ModernApplicationFramework.Imaging"
              x:Class="ModernApplicationFramework.Modules.Toolbox.ToolboxView"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" Background="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxBackground}}">
 
@@ -26,7 +27,7 @@
     <FrameworkElement.Resources>
 
         <general:AreEqualConverter x:Key="AreEqualConverter"/>
-        <imaging:ThemedImageSourceConverter x:Key="ThemedImageSourceConverter"/>
+        <converters2:ThemedImageSourceConverter x:Key="ThemedImageSourceConverter"/>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converters1:EmptyMessageVisibilityConverter x:Key="EmptyMessageVisibilityConverter"/>
         <converters1:TreeNodeEditModeWidthConverter x:Key="TreeNodeEditModeWidthConverter"/>

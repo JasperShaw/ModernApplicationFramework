@@ -8,12 +8,13 @@
                     xmlns:menu="clr-namespace:ModernApplicationFramework.Controls.Menu"
                     xmlns:windows="clr-namespace:ModernApplicationFramework.Controls.Windows"
                     xmlns:util="clr-namespace:ModernApplicationFramework.Utilities;assembly=ModernApplicationFramework.Utilities"
-                    xmlns:imaging1="clr-namespace:ModernApplicationFramework.Imaging;assembly=ModernApplicationFramework.Imaging">
+                    xmlns:imaging1="clr-namespace:ModernApplicationFramework.Imaging;assembly=ModernApplicationFramework.Imaging"
+                    xmlns:converters="clr-namespace:ModernApplicationFramework.Imaging.Converters;assembly=ModernApplicationFramework.Imaging">
 
     <accessKey:AccessKeyRemovingConverter x:Key="AccessKeyRemovingConverter"/>
     <accessKey:AccessKeyConverter x:Key="AccessKeyConverter"/>
     <general:NegateBooleanConverter x:Key="NegateBooleanConverter"/>
-    <imaging1:MonikerSourceToImageConverter x:Key="MonikerSourceToImageConverter"/>
+    <converters:MonikerSourceToImageConverter x:Key="MonikerSourceToImageConverter"/>
 
     <Geometry x:Key="Checkmark">
         F1 M 5,11 L 3,7 L 5,7 L 6,9 L 9,3 L 11,3 L 7,11 L 5,11 Z

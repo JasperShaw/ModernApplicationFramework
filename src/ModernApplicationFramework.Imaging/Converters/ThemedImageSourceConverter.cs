@@ -4,7 +4,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ModernApplicationFramework.Utilities.Converters;
 
-namespace ModernApplicationFramework.Imaging
+namespace ModernApplicationFramework.Imaging.Converters
 {
     public class ThemedImageSourceConverter : MultiValueConverter<ImageSource, Color, bool, ImageSource>
     {

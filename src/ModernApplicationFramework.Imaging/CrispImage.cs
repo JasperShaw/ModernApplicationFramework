@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
+using ModernApplicationFramework.Imaging.Converters;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Imaging

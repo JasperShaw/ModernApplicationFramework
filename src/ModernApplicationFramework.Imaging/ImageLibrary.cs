@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
+using ModernApplicationFramework.Imaging.Converters;
 using ModernApplicationFramework.Utilities;
 using ModernApplicationFramework.Utilities.Converters;
 using ModernApplicationFramework.Utilities.Imaging;

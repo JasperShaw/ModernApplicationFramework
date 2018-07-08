@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using ModernApplicationFramework.Utilities.Converters;
 
-namespace ModernApplicationFramework.Imaging
+namespace ModernApplicationFramework.Imaging.Converters
 {
     public sealed class ActualHighContrastConverter : MultiValueConverter<bool?, bool, bool>
     {

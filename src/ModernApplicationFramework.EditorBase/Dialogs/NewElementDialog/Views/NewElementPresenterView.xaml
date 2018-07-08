@@ -16,6 +16,7 @@
              xmlns:newElementDialog="clr-namespace:ModernApplicationFramework.EditorBase.Dialogs.NewElementDialog"
              xmlns:imaging="clr-namespace:ModernApplicationFramework.Imaging;assembly=ModernApplicationFramework.Imaging"
              xmlns:imaging1="clr-namespace:ModernApplicationFramework.Utilities.Imaging;assembly=ModernApplicationFramework.Utilities"
+             xmlns:converters2="clr-namespace:ModernApplicationFramework.Imaging.Converters;assembly=ModernApplicationFramework.Imaging"
              mc:Ignorable="d" Background="{DynamicResource {x:Static themes:ColorResources.BackgroundBrush}}"
              d:DesignHeight="300" d:DesignWidth="600">
     <imaging:ImageThemingUtilities.ImageBackgroundColor>
@@ -27,7 +28,7 @@
     </imaging:ImageThemingUtilities.ImageBackgroundColor>
     <UserControl.Resources>
         <ResourceDictionary>
-            <imaging:ThemedImageSourceConverter x:Key="ThemedImageSourceConverter"/>
+            <converters2:ThemedImageSourceConverter x:Key="ThemedImageSourceConverter"/>
             <converters:BrushToColorConverter x:Key="BrushToColorConverter"/>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
             <general:AreEqualConverter x:Key="AreEqualConverter"/>

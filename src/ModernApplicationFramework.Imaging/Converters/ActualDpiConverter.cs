@@ -2,7 +2,7 @@
 using ModernApplicationFramework.Utilities;
 using ModernApplicationFramework.Utilities.Converters;
 
-namespace ModernApplicationFramework.Imaging
+namespace ModernApplicationFramework.Imaging.Converters
 {
     public sealed class ActualDpiConverter : ValueConverter<double, double>
     {

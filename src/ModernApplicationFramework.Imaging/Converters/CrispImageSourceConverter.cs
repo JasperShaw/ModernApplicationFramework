@@ -5,7 +5,7 @@ using System.Windows.Media;
 using ModernApplicationFramework.Utilities.Converters;
 using DpiHelper = ModernApplicationFramework.Utilities.DpiHelper;
 
-namespace ModernApplicationFramework.Imaging
+namespace ModernApplicationFramework.Imaging.Converters
 {
     internal class CrispImageSourceConverter : MultiValueConverter<ImageMoniker, double, double, Color, bool, Color, bool, double, double, ObservableTask<ImageSource>>
     {

@@ -5,7 +5,7 @@ using System.Windows.Media.Imaging;
 using ModernApplicationFramework.Utilities;
 using ModernApplicationFramework.Utilities.Converters;
 
-namespace ModernApplicationFramework.Imaging
+namespace ModernApplicationFramework.Imaging.Converters
 {
     public class GrayscaleBitmapSourceConverter : ValueConverter<BitmapSource, BitmapSource>
     {
