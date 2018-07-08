@@ -10,7 +10,6 @@ using ModernApplicationFramework.Interfaces.Controls.InfoBar;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.State;
-using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.ToolboxStatePersister
 {
@@ -71,10 +70,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ToolboxStatePersister
             };
 
 
-            var imageInfo =
-                new ImageInfo(
-                    "/ModernApplicationFramework.WindowManagement;component/Resources/StatusInformation_16x.png");
-            var model = new InfoBarModel(infoBarTextSpanArray, new List<IInfoBarActionItem>(), imageInfo);
+            var model = new InfoBarModel(infoBarTextSpanArray, new List<IInfoBarActionItem>(), ImageCatalog.Monikers.Undo);
             var ui = IoC.Get<IInfoBarUiFactory>().CreateInfoBar(model);
             ui.Advise(this, out _);
             _mainWindow.InfoBarHost.AddInfoBar(ui);

@@ -306,6 +306,10 @@
       <Project>{51911695-6cdb-4833-9782-06c8821d1c4e}</Project>
       <Name>ModernApplicationFramework.Extended</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\ModernApplicationFramework.ImageCatalog\ModernApplicationFramework.ImageCatalog.csproj">
+      <Project>{a011f6f0-84ad-41ee-a920-a599b695855f}</Project>
+      <Name>ModernApplicationFramework.ImageCatalog</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\ModernApplicationFramework.Imaging\ModernApplicationFramework.Imaging.csproj">
       <Project>{D8B696A7-BA7D-4762-8C34-13B7F212074F}</Project>
       <Name>ModernApplicationFramework.Imaging</Name>

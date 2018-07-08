@@ -1,19 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Imaging.Interop;
 using ModernApplicationFramework.Input.Command;
-using ModernApplicationFramework.Interfaces.Controls;
 using ModernApplicationFramework.Interfaces.Controls.InfoBar;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Basics.InfoBar.Internal
 {
-    internal sealed class InfoBarViewModel : ObservableObject, IThemableIconContainer
+    internal sealed class InfoBarViewModel : ObservableObject
     {
         public bool IsCloseButtonVisible { get; }
 
@@ -21,11 +16,7 @@ namespace ModernApplicationFramework.Basics.InfoBar.Internal
 
         public ICommand CloseCommand { get; }
 
-        public object IconSource { get; }
-
-        public object Icon { get; set; }
-
-        public bool IsEnabled => true;
+        public ImageMoniker Icon { get; set; }
 
         public IEnumerable<InfoBarTextViewModel> MainText { get; }
 
@@ -35,6 +26,7 @@ namespace ModernApplicationFramework.Basics.InfoBar.Internal
         {
             Validate.IsNotNull(infoBar, nameof(infoBar));
             IsCloseButtonVisible = infoBar.IsCloseButtonVisible;
+            Icon = infoBar.Image;
             var barTextViewModelArray = new InfoBarTextViewModel[infoBar.TextSpans.Count];
             var stringBuilder = new StringBuilder();
             for (var index = 0; index < infoBar.TextSpans.Count; ++index)
@@ -62,22 +54,6 @@ namespace ModernApplicationFramework.Basics.InfoBar.Internal
             MainText = barTextViewModelArray;
             ActionItems = barActionViewModelArray;
             CloseCommand = new DelegateCommand(OnCloseCommandExecuted, CanExecuteCloseCommand);
-
-
-            if (!infoBar.UseImageInfo)
-                return;
-
-            if (infoBar.ImageInfo.FromXamlResource == true)
-            {
-                var myResourceDictionary = new ResourceDictionary
-                {
-                    Source = infoBar.ImageInfo.Path
-                };
-                IconSource = myResourceDictionary[infoBar.ImageInfo.Id];
-                this.SetThemedIcon((Color) ColorConverter.ConvertFromString("#F6F6F6"));
-            }
-            else
-                Icon = new Image {Source = new BitmapImage(infoBar.ImageInfo.Path)};
         }
 
         private bool CanExecuteCloseCommand(object obj)

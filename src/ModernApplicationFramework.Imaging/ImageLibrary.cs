@@ -76,7 +76,7 @@ namespace ModernApplicationFramework.Imaging
             var image = ImageUtilities.FrameworkElementToBitmapSource(visual);
 
             if (attributes.Background.HasValue)
-                image = (BitmapSource)ThemedImageSourceConverter.ConvertCore(image, attributes.Background.Value, attributes.Grayscale,
+                image = (BitmapSource)ThemedImageSourceConverter.ConvertCore(image, attributes.Background.Value, !attributes.Grayscale,
                     attributes.HighContrast, attributes.GrayscaleBiasColor);
             else if (attributes.Grayscale)
                 image = GrayscaleBitmapSourceConverter.ConvertCore(image, attributes.GrayscaleBiasColor);

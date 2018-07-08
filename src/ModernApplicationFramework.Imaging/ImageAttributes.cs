@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
 using ModernApplicationFramework.Utilities;
-using ModernApplicationFramework.Utilities.Imaging;
 
 namespace ModernApplicationFramework.Imaging
 {
@@ -59,6 +58,22 @@ namespace ModernApplicationFramework.Imaging
             set => SetPackedValue(1, 0, Convert.ToByte(value));
         }
 
+        public ImageAttributes(Int16Size deviceSize)
+        {
+            this = new ImageAttributes(deviceSize, new Color?(), false, ImageLibrary.DefaultGrayscaleBiasColor, false);
+        }
+
+        public ImageAttributes(Int16Size deviceSize, Color? background,
+            bool grayscale, Color grayscaleBiasColor, bool highContrast)
+        {
+            _packedFields = 0;
+            DeviceSize = deviceSize;
+            Background = background;
+            _grayscaleBiasColor = grayscaleBiasColor;
+            Grayscale = grayscale;
+            HighContrast = highContrast;
+        }
+
         public override string ToString()
         {
             return ToString("g", null);
@@ -100,8 +115,8 @@ namespace ModernApplicationFramework.Imaging
         {
             if (_packedFields != other._packedFields)
                 return false;
-            Color? background1 = Background;
-            Color? background2 = other.Background;
+            var background1 = Background;
+            var background2 = other.Background;
             return (background1.HasValue == background2.HasValue
                        ? (background1.HasValue
                            ? (background1.GetValueOrDefault() != background2.GetValueOrDefault() ? 1 : 0)

@@ -10,7 +10,6 @@ using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Package;
 using ModernApplicationFramework.Interfaces.Controls.InfoBar;
 using ModernApplicationFramework.Interfaces.Services;
-using ModernApplicationFramework.Utilities;
 using ModernApplicationFramework.WindowManagement.Properties;
 
 namespace ModernApplicationFramework.WindowManagement.CommandBarLayout
@@ -74,10 +73,8 @@ namespace ModernApplicationFramework.WindowManagement.CommandBarLayout
                 {
                     new InfoBarTextSpan(WindowManagement_Resources.ErrorLoadCommandBarLayout)
                 };
-                var imageInfo =
-                    new ImageInfo(
-                        "/ModernApplicationFramework.WindowManagement;component/Resources/StatusInformation_16x.png");
-                var model = new InfoBarModel(infoBarTextSpanArray, new List<IInfoBarActionItem>(), imageInfo);
+
+                var model = new InfoBarModel(infoBarTextSpanArray, new List<IInfoBarActionItem>(), ImageCatalog.Monikers.Undo);
                 var ui = IoC.Get<IInfoBarUiFactory>().CreateInfoBar(model);
                 ui.Advise(this, out _);
                 _mainWindow.InfoBarHost.AddInfoBar(ui);

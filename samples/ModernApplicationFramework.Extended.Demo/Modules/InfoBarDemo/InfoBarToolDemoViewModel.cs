@@ -39,10 +39,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.InfoBarDemo
                 new InfoBarHyperlink("www.google.de")
             };
 
-            var imageInfo = new ImageInfo("StatusInfoIcon",
-                "/ModernApplicationFramework;component/Resources/Icons/StatusInfo.xaml", true);
-
-            var model = new InfoBarModel(infoBarTextSpanArray, imageInfo);
+            var model = new InfoBarModel(infoBarTextSpanArray);
             AddInfoBar(model);
         }
 

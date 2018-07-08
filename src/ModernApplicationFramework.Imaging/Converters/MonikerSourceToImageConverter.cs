@@ -10,7 +10,7 @@ namespace ModernApplicationFramework.Imaging.Converters
             var image = new CrispImage
             {
                 Moniker = moniker,
-                Grayscale = enabled
+                Grayscale = !enabled
             };
             return image;
         }

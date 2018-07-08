@@ -3,19 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Primitives;
-using System.Drawing;
 using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using ModernApplicationFramework.Imaging;
-using ModernApplicationFramework.Interfaces;
-using ModernApplicationFramework.Interfaces.Controls;
-using ModernApplicationFramework.Utilities.Imaging;
-using Color = System.Windows.Media.Color;
-using Image = System.Windows.Controls.Image;
-using ImageConverter = ModernApplicationFramework.Utilities.Imaging.ImageConverter;
 
 namespace ModernApplicationFramework.Core.Utilities
 {
@@ -113,73 +101,6 @@ namespace ModernApplicationFramework.Core.Utilities
             }
 
             return exception;
-        }
-
-        /// <summary>
-        /// Sets a themed icon for an <see cref="IThemableIconContainer"/>
-        /// </summary>
-        /// <param name="element">The element.</param>
-        public static void SetThemedIcon(this IThemableIconContainer element)
-        {
-            element.SetThemedIcon(element.IsEnabled);
-        }
-
-
-        public static void SetThemedIcon(this IThemableIconContainer element, Color backgroundColor, bool isEnabled = true)
-        {
-
-            var vb = element.IconSource as Viewbox;
-
-            Image image;
-            if (vb == null)
-            {
-                if (element.Icon == null)
-                    return;
-                if (element.Icon is Image elementIcon)
-                    image = elementIcon;
-                else
-                    return;
-            }
-            else
-                image = ImageUtilities.IconImageFromFrameworkElement(vb);
-            
-            RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.Linear);
-
-            Bitmap b;
-            if (image.DataContext is IHasIconSource layoutItem)
-            {
-                var bi = layoutItem.IconSource as BitmapSource;
-                b = ImageUtilities.BitmapFromBitmapSource(bi);
-            }
-            else
-                b = ImageUtilities.BitmapFromBitmapSource((BitmapSource) image.Source);
-
-            BitmapSource bitmapSource;
-            if (isEnabled)
-            {
-                var bitmap = ImageThemingUtilities.GetThemedBitmap(b, backgroundColor.ToRgba());
-                bitmapSource = ImageConverter.BitmapSourceFromBitmap(bitmap);
-            }
-            else
-            {
-                var bitmapSourceOrg = ImageConverter.BitmapSourceFromBitmap(b);
-                bitmapSource = ImageThemingUtilities.CreateThemedBitmapSource(bitmapSourceOrg, backgroundColor, false, Color.FromArgb(64, 255, 255, 255), SystemParameters.HighContrast);
-            }
-
-            image.Source = bitmapSource;
-            element.Icon = image;
-        }
-
-
-        /// <summary>
-        ///  Sets a themed icon for an <see cref="IThemableIconContainer"/>. Supports gray scale if the element is not enabled
-        /// </summary>
-        /// <param name="element">The element.</param>
-        /// <param name="isEnabled">if set to <see langword="true"/> no gray scale will be applied</param>
-        public static void SetThemedIcon(this IThemableIconContainer element, bool isEnabled)
-        {
-            var backgroundColor = ImageThemingUtilities.GetImageBackgroundColor(element as DependencyObject);
-            SetThemedIcon(element, backgroundColor, isEnabled);
         }
 
         internal static void AddSorted<T>(this IList<T> list, T item, IComparer<T> comparer = null)

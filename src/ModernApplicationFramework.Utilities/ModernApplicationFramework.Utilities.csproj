@@ -87,7 +87,6 @@
     <Compile Include="FocusHelper.cs" />
     <Compile Include="GZip.cs" />
     <Compile Include="HashHelpers.cs" />
-    <Compile Include="ImageInfo.cs" />
     <Compile Include="ImageScalingMode.cs" />
     <Compile Include="Imaging\BitmapLocker.cs" />
     <Compile Include="Imaging\ColorExtensions.cs" />

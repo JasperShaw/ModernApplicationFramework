@@ -735,7 +735,6 @@
     <Compile Include="Core\Converters\General\NotNullConverter.cs" />
     <Compile Include="Core\Events\ItemDoubleClickedEventArgs.cs" />
     <Compile Include="Interfaces\Controls\IDummyListMenuItem.cs" />
-    <Compile Include="Interfaces\Controls\IThemableIconContainer.cs" />
     <Compile Include="Interfaces\ICommandBarDefinitionHost.cs" />
     <Compile Include="Interfaces\IContextMenuHost.cs" />
     <Compile Include="Interfaces\IHasInternalName.cs" />

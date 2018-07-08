@@ -42,13 +42,10 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.InfoBarDemo
             };
 
 
-            var imageInfo = new ImageInfo("/ModernApplicationFramework.Extended.Demo;component/Resources/StatusInformation_16x.png");
-
-
-            var model = new InfoBarModel(infoBarTextSpanArray, ai, imageInfo);
+            var model = new InfoBarModel(infoBarTextSpanArray, ai);
             var ui = IoC.Get<IInfoBarUiFactory>().CreateInfoBar(model);
 
-            ui.Advise(this, out var _);
+            ui.Advise(this, out _);
 
             _mainWindow.InfoBarHost.AddInfoBar(ui);
         }

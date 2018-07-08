@@ -3,17 +3,13 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using Caliburn.Micro;
 using JetBrains.Annotations;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Controls.Buttons;
 using ModernApplicationFramework.Controls.Utilities;
-using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces.Controls;
-using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Controls.Menu
@@ -22,7 +18,6 @@ namespace ModernApplicationFramework.Controls.Menu
     /// A custom menu item control which visual style changes based on it's data model. Supports themable icons.
     /// </summary>
     /// <seealso cref="System.Windows.Controls.MenuItem" />
-    /// <seealso cref="ModernApplicationFramework.Interfaces.Controls.IThemableIconContainer" />
     /// <seealso cref="ModernApplicationFramework.Interfaces.Controls.IExposeStyleKeys" />
     /// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
     /// <inheritdoc cref="System.Windows.Controls.MenuItem" />
@@ -30,7 +25,7 @@ namespace ModernApplicationFramework.Controls.Menu
     /// <seealso cref="T:ModernApplicationFramework.Interfaces.Controls.IThemableIconContainer" />
     /// <seealso cref="T:ModernApplicationFramework.Interfaces.Controls.IExposeStyleKeys" />
     /// <seealso cref="T:System.ComponentModel.INotifyPropertyChanged" />
-    public class MenuItem : System.Windows.Controls.MenuItem, IThemableIconContainer, IExposeStyleKeys,
+    public class MenuItem : System.Windows.Controls.MenuItem, IExposeStyleKeys,
         INotifyPropertyChanged
     {
         /// <summary>
@@ -61,21 +56,14 @@ namespace ModernApplicationFramework.Controls.Menu
                 new FrameworkPropertyMetadata(Boxes.BooleanFalse));
         }
 
-        public MenuItem(CommandBarDefinitionBase definitionBase) : this()
+        public MenuItem(CommandBarDefinitionBase definitionBase)
         {
             DataContext = definitionBase;
-            if (string.IsNullOrEmpty(definitionBase.CommandDefinition?.IconSource?.OriginalString))
-                return;
-            var myResourceDictionary = new ResourceDictionary { Source = definitionBase.CommandDefinition.IconSource };
-            IconSource = myResourceDictionary[definitionBase.CommandDefinition.IconId];
         }
 
         public MenuItem()
         {
-            var themeManager = IoC.Get<IThemeManager>();
-            themeManager.OnThemeChanged += ThemeManager_OnThemeChanged;
-            IsEnabledChanged += MenuItem_IsEnabledChanged;
-            DataContextChanged += MenuItem_DataContextChanged;
+            
         }
 
         public bool IsUserCreatedMenu
@@ -127,45 +115,6 @@ namespace ModernApplicationFramework.Controls.Menu
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        /// <inheritdoc />
-        /// <summary>
-        ///     This is the original source to icon. Usually this is a resource containing a
-        ///     <see cref="T:System.Windows.Controls.Viewbox" /> element.
-        /// </summary>
-        public object IconSource { get; protected set; }
-
-        private void MenuItem_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            //if (!(DataContext is CommandBarDefinitionBase definitionBase))
-            //    return;
-           
-            //if (string.IsNullOrEmpty(definitionBase?.CommandDefinition?.IconSource?.OriginalString))
-            //    return;
-            //try
-            //{
-            //    var myResourceDictionary = new ResourceDictionary { Source = definitionBase.CommandDefinition.IconSource };
-            //    IconSource = myResourceDictionary[definitionBase.CommandDefinition.IconId];
-
-            //    if (definitionBase.CommandDefinition.ImageMonikerSource != default)
-            //        Icon = ImageLibrary.Instance.GetImage(definitionBase.CommandDefinition.ImageMonikerSource);
-            //    else
-            //        this.SetThemedIcon();
-
-            //}
-            //catch (IOException ex)
-            //{
-            //}         
-        }
-
-        private void MenuItem_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            //this.SetThemedIcon();
-        }
-
-        protected override void OnRender(DrawingContext drawingContext)
-        {
-            //this.SetThemedIcon();
-        }
 
         protected override void OnVisualParentChanged(DependencyObject oldParent)
         {
@@ -177,12 +126,6 @@ namespace ModernApplicationFramework.Controls.Menu
         private void NotifyPropertyChanged(string propertyName)
         {
             PropertyChanged.RaiseEvent(this, propertyName);
-        }
-
-
-        private void ThemeManager_OnThemeChanged(object sender, ThemeChangedEventArgs e)
-        {
-            //this.SetThemedIcon();
         }
 
         protected override DependencyObject GetContainerForItemOverride()

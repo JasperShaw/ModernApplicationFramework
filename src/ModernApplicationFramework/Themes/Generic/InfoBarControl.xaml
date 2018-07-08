@@ -7,6 +7,7 @@
                           xmlns:infoBarUtilities="clr-namespace:ModernApplicationFramework.Core.InfoBarUtilities"
                           xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
                           xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
+                          xmlns:imaging="clr-namespace:ModernApplicationFramework.Imaging;assembly=ModernApplicationFramework.Imaging"
                           Background="{DynamicResource {x:Static themes:EnvironmentColors.InfoBarBackground}}"
                         Foreground="{DynamicResource {x:Static themes:EnvironmentColors.InfoBarBackgroundText}}"
                         Focusable="True" IsTabStop="True">
@@ -126,8 +127,8 @@
         <Grid Grid.Column="0" VerticalAlignment="Top" Margin="6,0,0,0"
               Visibility="{Binding Icon, Mode=OneTime, Converter={StaticResource IconToVisibilityConverter}}">
             <TextBlock Visibility="Hidden" Margin="6,5"/>
-            <ContentPresenter Width="16" Height="16" VerticalAlignment="Center" 
-                              Content="{Binding Icon}"/>
+            <imaging:CrispImage Width="16" Height="16" VerticalAlignment="Center" 
+                                Moniker="{Binding Icon, Mode=OneTime}"/>
         </Grid>
         <internal:InfoBarTextPanel Grid.Column="1" MinWidth="20" Margin="6,4,6,5">
             <internal:InfoBarTextPanel.MainTextControl>

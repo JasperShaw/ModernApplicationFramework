@@ -14,6 +14,7 @@ namespace ModernApplicationFramework.Imaging
 
         public static readonly DependencyProperty ConverterTaskProperty =
             DependencyProperty.Register(nameof(ConverterTask), typeof(ObservableTask<ImageSource>), typeof(CrispImage));
+
         public static readonly DependencyProperty GrayscaleProperty = DependencyProperty.Register(nameof(Grayscale), typeof(bool), typeof(CrispImage), new FrameworkPropertyMetadata(Boxes.BooleanFalse));
 
         public static readonly DependencyProperty ActualGrayscaleBiasColorProperty = DependencyProperty.Register(nameof(ActualGrayscaleBiasColor), typeof(Color), typeof(CrispImage));
