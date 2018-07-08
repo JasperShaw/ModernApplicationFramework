@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
+using ModernApplicationFramework.Utilities;
 using ModernApplicationFramework.Utilities.Converters;
 using ModernApplicationFramework.Utilities.Imaging;
 
@@ -16,6 +17,7 @@ namespace ModernApplicationFramework.Basics.Imaging
     {
         private readonly IEnumerable<IImageCatalog> _catalogs;
         private bool _initialized;
+        private readonly ImageCache _imageCache;
 
         public static readonly Color DefaultGrayscaleBiasColor = Color.FromArgb(64, byte.MaxValue, byte.MaxValue, byte.MaxValue);
         public static readonly Color HighContrastGrayscaleBiasColor = Color.FromArgb(192, byte.MaxValue, byte.MaxValue, byte.MaxValue);
@@ -40,6 +42,7 @@ namespace ModernApplicationFramework.Basics.Imaging
             _catalogs = catalogs;
             Instance = this;
             Initialized = true;
+            _imageCache = new ImageCache();
         }
 
         internal static ImageLibrary Load()
@@ -58,6 +61,9 @@ namespace ModernApplicationFramework.Basics.Imaging
             if (!catalog.GetDefinition(monkier.Id, out var imageDefinition))
                 return null;
 
+            var cachedImage = _imageCache.GetImage(monkier, attributes);
+            if (cachedImage != null)
+                return cachedImage;
 
             var visual = Application.LoadComponent(imageDefinition.Source) as FrameworkElement;
             var image = ImageUtilities.FrameworkElementToBitmapSource(visual);
@@ -70,9 +76,97 @@ namespace ModernApplicationFramework.Basics.Imaging
             else
                 image = ImageThemingUtilities.SetOptOutPixel(image);
 
+            _imageCache.AddImage(image, monkier, attributes);
             return image;
         }
     }
+
+    internal class ImageCache
+    {
+        private readonly Dictionary<MonikerAttributeTuple, BitmapSource> _store;
+
+        public ImageCache()
+        {
+            _store = new Dictionary<MonikerAttributeTuple, BitmapSource>();
+        }
+
+        public BitmapSource GetImage(ImageMoniker moniker, ImageAttributes attributes)
+        {
+            var key = MakeKey(moniker, attributes);
+            _store.TryGetValue(key, out var image);
+            return image;
+        }
+
+        public bool AddImage(BitmapSource image, ImageMoniker moniker, ImageAttributes attributes)
+        {
+            return AddImage(image, moniker, attributes, out _);
+        }
+
+        public bool AddImage(BitmapSource image, ImageMoniker moniker, ImageAttributes attributes, out MonikerAttributeTuple key)
+        {
+            Validate.IsNotNull(image, nameof(image));
+            key = MakeKey(moniker, attributes);
+            if (_store.ContainsKey(key))
+                _store[key] = image;
+            else
+                _store.Add(key, image);
+            return true;
+        }
+
+        public bool RemoveImage(ImageMoniker moniker, ImageAttributes attributes)
+        {
+            var key = MakeKey(moniker, attributes);
+            return _store.Remove(key);
+        }
+
+        internal static MonikerAttributeTuple MakeKey(ImageMoniker moniker, ImageAttributes attributes)
+        {
+            return new MonikerAttributeTuple(moniker, attributes);
+        }
+    }
+
+    internal struct MonikerAttributeTuple : IEquatable<MonikerAttributeTuple>
+    {
+        public ImageMoniker Moniker { get; }
+
+        public ImageAttributes Attributes { get; }
+
+        public MonikerAttributeTuple(ImageMoniker moniker, ImageAttributes attributes)
+        {
+            Moniker = moniker;
+            Attributes = attributes;
+        }
+
+        public static bool operator ==(MonikerAttributeTuple tuple1, MonikerAttributeTuple tuple2)
+        {
+            return tuple1.Equals(tuple2);
+        }
+
+        public static bool operator !=(MonikerAttributeTuple tuple1, MonikerAttributeTuple tuple2)
+        {
+            return !tuple1.Equals(tuple2);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is MonikerAttributeTuple))
+                return false;
+            return Equals((MonikerAttributeTuple)obj);
+        }
+
+        public bool Equals(MonikerAttributeTuple other)
+        {
+            if (Moniker == other.Moniker)
+                return Attributes == other.Attributes;
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashHelpers.CombineHashes(Moniker.GetHashCode(), Attributes.GetHashCode());
+        }
+    }
+
 
     public interface IImageCatalog
     {
