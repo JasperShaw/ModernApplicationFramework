@@ -3,7 +3,8 @@
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:listBoxes="clr-namespace:ModernApplicationFramework.Controls.ListBoxes"
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Utilities.Converters;assembly=ModernApplicationFramework.Utilities"
-                    xmlns:imaging="clr-namespace:ModernApplicationFramework.Utilities.Imaging;assembly=ModernApplicationFramework.Utilities">
+                    xmlns:imaging="clr-namespace:ModernApplicationFramework.Utilities.Imaging;assembly=ModernApplicationFramework.Utilities"
+                    xmlns:menu="clr-namespace:ModernApplicationFramework.Controls.Menu">
     <converters:BrushToColorConverter x:Key="BrushToColorConverter"/>
     <Style TargetType="{x:Type listBoxes:CustomizeControlsListBox}">
         <Setter Property="BorderBrush" Value="#828790"/>
@@ -26,7 +27,9 @@
                                     <Border Width="28" Background="{DynamicResource {x:Static themes:EnvironmentColors.CommandBarMenuBackgroundGradientBegin}}"
                                             HorizontalAlignment="Left"/>
                                 </Border>
-                                <ItemsPresenter Margin="3,0,3,0" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Grid.IsSharedSizeScope="True"/>
+                                <menu:MenuScrollViewer>
+                                    <ItemsPresenter Margin="3,0,3,0" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Grid.IsSharedSizeScope="True"/>
+                                </menu:MenuScrollViewer>
                             </Grid>
                         </ScrollViewer>
                     </Border>

@@ -1,7 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
-                    xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
                     xmlns:menu="clr-namespace:ModernApplicationFramework.Controls.Menu">
 
 	<ResourceDictionary.MergedDictionaries>

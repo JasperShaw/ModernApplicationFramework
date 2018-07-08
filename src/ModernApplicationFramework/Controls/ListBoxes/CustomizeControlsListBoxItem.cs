@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Imaging;
-using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Core.Utilities;
-using ModernApplicationFramework.Interfaces.Controls;
 
 namespace ModernApplicationFramework.Controls.ListBoxes
 {
@@ -14,7 +10,7 @@ namespace ModernApplicationFramework.Controls.ListBoxes
     /// </summary>
     /// <seealso cref="T:System.Windows.Controls.ListBoxItem" />
     /// <seealso cref="T:ModernApplicationFramework.Interfaces.Controls.IThemableIconContainer" />
-    public class CustomizeControlsListBoxItem : ListBoxItem, IThemableIconContainer
+    public class CustomizeControlsListBoxItem : ListBoxItem
     {
         public static DependencyProperty IsCheckedProperty;
         public static DependencyProperty IconProperty;
@@ -29,15 +25,8 @@ namespace ModernApplicationFramework.Controls.ListBoxes
             set => SetValue(IsCheckedProperty, value);
         }
 
-        /// <inheritdoc />
         /// <summary>
-        /// This is the original source to icon. Usually this is a resource containing a <see cref="T:System.Windows.Controls.Viewbox" /> element.
-        /// </summary>
-        public object IconSource { get; private set; }
-
-        /// <inheritdoc />
-        /// <summary>
-        /// This is the icon converted from <see cref="P:ModernApplicationFramework.Controls.ListBoxes.CustomizeControlsListBoxItem.IconSource" />. Usually the object is a <see cref="T:System.Windows.Media.Imaging.BitmapSource" />.
+        /// The icon
         /// </summary>
         public object Icon
         {
@@ -45,21 +34,10 @@ namespace ModernApplicationFramework.Controls.ListBoxes
             set => SetValue(IconProperty, value);
         }
 
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-            var definitionBase = DataContext as CommandBarDefinitionBase;
-            if (string.IsNullOrEmpty(definitionBase?.CommandDefinition?.IconSource?.OriginalString))
-                return;
-            var myResourceDictionary = new ResourceDictionary { Source = definitionBase.CommandDefinition.IconSource };
-            IconSource = myResourceDictionary[definitionBase.CommandDefinition.IconId];
-            this.SetThemedIcon();
-        }
-
         static CustomizeControlsListBoxItem()
         {
-            IsCheckedProperty = DependencyProperty.Register("IsChecked", typeof(bool?), typeof(CustomizeControlsListBoxItem), new FrameworkPropertyMetadata());
-            IconProperty = DependencyProperty.Register("Icon", typeof(object), typeof(CustomizeControlsListBoxItem), new FrameworkPropertyMetadata());
+            IsCheckedProperty = DependencyProperty.Register(nameof(IsChecked), typeof(bool?), typeof(CustomizeControlsListBoxItem), new FrameworkPropertyMetadata());
+            IconProperty = DependencyProperty.Register(nameof(Icon), typeof(object), typeof(CustomizeControlsListBoxItem), new FrameworkPropertyMetadata());
         }
 
         public CustomizeControlsListBoxItem()
