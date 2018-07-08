@@ -22,6 +22,8 @@ namespace ModernApplicationFramework.Basics.Imaging
         public static readonly Color DefaultGrayscaleBiasColor = Color.FromArgb(64, byte.MaxValue, byte.MaxValue, byte.MaxValue);
         public static readonly Color HighContrastGrayscaleBiasColor = Color.FromArgb(192, byte.MaxValue, byte.MaxValue, byte.MaxValue);
 
+        public static readonly ImageMoniker EmptyMoniker = new ImageMoniker();
+
         public bool Initialized
         {
             get => _initialized;

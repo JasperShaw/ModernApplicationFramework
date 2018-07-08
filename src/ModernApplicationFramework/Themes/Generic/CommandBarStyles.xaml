@@ -49,6 +49,7 @@
     <converters:DockLocationConverter x:Key="DockLocationConverter"/>
     <converters:StringUppercaseConverter x:Key="StringUppercaseConverter"/>
     <imaging1:MonikerSourceToImageConverter x:Key="MonikerSourceToImageConverter"/>
+    <imaging1:EmptyMonikerToBoolConverter x:Key="EmptyMonikerToBoolConverter"/>
 
     <Style TargetType="{x:Type menu:Menu}" BasedOn="{StaticResource {x:Type Menu}}">
         <Setter Property="Background" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandShelfHighlight}}"/>
@@ -385,6 +386,15 @@
             </MultiTrigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
+                    <Condition Value="True" 
+                               Binding="{Binding CommandDefinition.ImageMonikerSource, Converter={StaticResource EmptyMonikerToBoolConverter}}"/>
+                    <Condition Value="true" Binding="{Binding IsChecked}"/>
+                </MultiDataTrigger.Conditions>
+                <Setter TargetName="Icon" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="GlyphPanel" Property="UIElement.Visibility" Value="Visible"/>
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
                     <Condition Value="True">
                         <Condition.Binding>
                             <Binding Path="Icon" RelativeSource="{RelativeSource Self}" Converter="{StaticResource NotNullConverter}"/>
@@ -653,6 +663,11 @@
                         </MultiDataTrigger>
                         <DataTrigger Value="True" Binding="{Binding Flags.TextOnly}">
                             <Setter TargetName="Text" Property="UIElement.Visibility" Value="Visible"/>
+                        </DataTrigger>
+                        <DataTrigger Value="True" 
+                                     Binding="{Binding CommandDefinition.ImageMonikerSource, Converter={StaticResource EmptyMonikerToBoolConverter}}">
+                            <Setter TargetName="Text" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="Image" Property="Visibility" Value="Collapsed"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Icon, RelativeSource={RelativeSource Self}}" Value="{x:Null}">
                             <Setter TargetName="Image" Property="Visibility" Value="Collapsed"/>

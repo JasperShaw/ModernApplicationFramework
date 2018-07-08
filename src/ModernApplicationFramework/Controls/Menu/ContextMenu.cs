@@ -159,11 +159,11 @@ namespace ModernApplicationFramework.Controls.Menu
         {
             _scrollViewer?.ScrollToVerticalOffset(0.0);
 
-            foreach (var item in Items)
-            {
-                if (item is MenuItem menuItem)
-                    menuItem.SetThemedIcon();
-            }
+            //foreach (var item in Items)
+            //{
+            //    if (item is MenuItem menuItem)
+            //        menuItem.SetThemedIcon();
+            //}
             base.OnOpened(e);
         }
 
@@ -239,11 +239,11 @@ namespace ModernApplicationFramework.Controls.Menu
         {
             if (e.Property == ItemsSourceProperty && e.NewValue != null)
             {
-                foreach (var item in Items)
-                {
-                    if (item is MenuItem menuItem)
-                        menuItem.SetThemedIcon();
-                }
+                //foreach (var item in Items)
+                //{
+                //    if (item is MenuItem menuItem)
+                //        menuItem.SetThemedIcon();
+                //}
             }
             base.OnPropertyChanged(e);
             if (e.NewValue != null && (e.Property != ShowKeyboardCuesProperty || (bool)e.NewValue))

@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Image = System.Windows.Controls.Image;
-using Point = System.Windows.Point;
 using Size = System.Windows.Size;
 
 namespace ModernApplicationFramework.Utilities.Imaging
@@ -38,7 +37,7 @@ namespace ModernApplicationFramework.Utilities.Imaging
 
         public static Image ImageFromFrameworkElement(FrameworkElement e, int width, int height)
         {
-            var size = new System.Windows.Size(width, height);
+            var size = new Size(width, height);
             e.Measure(size);
             e.Arrange(new Rect(size));
 
@@ -67,17 +66,17 @@ namespace ModernApplicationFramework.Utilities.Imaging
 
         public static BitmapSource FrameworkElementToBitmapSource(FrameworkElement element, double dpiX, double dpiY)
         {
-            Rect rect = new Rect(0.0, 0.0, 16, 16);
+            var rect = new Rect(0.0, 0.0, 16, 16);
             var size = new Size(16, 16);
-            RenderTargetBitmap renderTargetBitmap = new RenderTargetBitmap(16, 16, DpiHelper.Default.LogicalDpiX, DpiHelper.Default.LogicalDpiY, PixelFormats.Pbgra32);
+            var renderTargetBitmap = new RenderTargetBitmap(16, 16, DpiHelper.Default.LogicalDpiX, DpiHelper.Default.LogicalDpiY, PixelFormats.Pbgra32);
             element.Width = rect.Width;
             element.Height = rect.Height;
             element.Measure(size);
             element.Arrange(rect);
-            DrawingVisual drawingVisual = new DrawingVisual();
-            using (DrawingContext drawingContext = drawingVisual.RenderOpen())
+            var drawingVisual = new DrawingVisual();
+            using (var drawingContext = drawingVisual.RenderOpen())
             {
-                VisualBrush visualBrush = new VisualBrush( element) {Stretch = Stretch.Uniform};
+                var visualBrush = new VisualBrush( element) {Stretch = Stretch.Uniform};
                 drawingContext.DrawRectangle(visualBrush, null, rect);
             }
             renderTargetBitmap.Render(drawingVisual);
