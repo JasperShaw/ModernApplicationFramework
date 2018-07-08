@@ -65,26 +65,23 @@ namespace ModernApplicationFramework.Utilities.Imaging
             return FrameworkElementToBitmapSource(target, 96,96);
         }
 
-        public static BitmapSource FrameworkElementToBitmapSource(FrameworkElement target, double dpiX, double dpiY)
+        public static BitmapSource FrameworkElementToBitmapSource(FrameworkElement element, double dpiX, double dpiY)
         {
-            if (target == null)
-                return null;
-
-            var size = new Size(target.Width, target.Height);
-            target.Measure(size);
-            target.Arrange(new Rect(size));       
-            
-            var bounds = VisualTreeHelper.GetDescendantBounds(target);
-            var rtb = new RenderTargetBitmap((int)(bounds.Width * dpiX / 96.0), (int)(bounds.Height * dpiY / 96.0),dpiX, dpiY, PixelFormats.Pbgra32);
-            var dv = new DrawingVisual();
-
-            using (var ctx = dv.RenderOpen())
+            Rect rect = new Rect(0.0, 0.0, 16, 16);
+            var size = new Size(16, 16);
+            RenderTargetBitmap renderTargetBitmap = new RenderTargetBitmap(16, 16, DpiHelper.Default.LogicalDpiX, DpiHelper.Default.LogicalDpiY, PixelFormats.Pbgra32);
+            element.Width = rect.Width;
+            element.Height = rect.Height;
+            element.Measure(size);
+            element.Arrange(rect);
+            DrawingVisual drawingVisual = new DrawingVisual();
+            using (DrawingContext drawingContext = drawingVisual.RenderOpen())
             {
-                var brush = new VisualBrush(target);
-                ctx.DrawRectangle(brush, null, new Rect(new Point(), bounds.Size));
+                VisualBrush visualBrush = new VisualBrush( element) {Stretch = Stretch.Uniform};
+                drawingContext.DrawRectangle(visualBrush, null, rect);
             }
-            rtb.Render(dv);
-            return rtb;
+            renderTargetBitmap.Render(drawingVisual);
+            return new FormatConvertedBitmap(renderTargetBitmap, PixelFormats.Bgra32, null, 0.0);
         }
     }
 }

@@ -267,9 +267,15 @@
   <ItemGroup>
     <Compile Include="Basics\ApplicationEnvironment\AbstractEnvironmentVariables.cs" />
     <Compile Include="Basics\ApplicationEnvironment\FallbackEnvironmentVariables.cs" />
+    <Compile Include="Basics\Imaging\ActualDpiConverter.cs" />
+    <Compile Include="Basics\Imaging\ActualGrayscaleBiasColorConverter.cs" />
+    <Compile Include="Basics\Imaging\ActualHighContrastConverter.cs" />
     <Compile Include="Basics\Imaging\CrispImage.cs" />
+    <Compile Include="Basics\Imaging\CrispImageSourceConverter.cs" />
+    <Compile Include="Basics\Imaging\ImageAttributes.cs" />
     <Compile Include="Basics\Imaging\ImageLibrary.cs" />
     <Compile Include="Basics\Imaging\MonikerSourceToImageConverter.cs" />
+    <Compile Include="Basics\ObservableTask.cs" />
     <Compile Include="Docking\Commands\AutoHideAllWindowsCommand.cs" />
     <Compile Include="Docking\Commands\AutoHideWindowCommand.cs" />
     <Compile Include="Docking\Commands\CloseAllButThisDockedWindowCommand.cs" />

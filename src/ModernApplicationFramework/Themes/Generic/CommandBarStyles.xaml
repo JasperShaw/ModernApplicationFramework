@@ -602,7 +602,10 @@
 
         <Setter Property="Icon">
             <Setter.Value>
-                <Binding Converter="{StaticResource MonikerSourceToImageConverter}" Path="CommandDefinition.ImageMonikerSource"/>
+                <MultiBinding Converter="{StaticResource MonikerSourceToImageConverter}">
+                    <Binding Path="CommandDefinition.ImageMonikerSource"/>
+                    <Binding Path="IsEnabled"/>
+                </MultiBinding>
             </Setter.Value>
         </Setter>
 
@@ -967,7 +970,10 @@
 
         <Setter Property="Icon">
             <Setter.Value>
-                <Binding Converter="{StaticResource MonikerSourceToImageConverter}" Path="CommandDefinition.ImageMonikerSource"/>
+                <MultiBinding Converter="{StaticResource MonikerSourceToImageConverter}">
+                    <Binding Path="CommandDefinition.ImageMonikerSource"/>
+                    <Binding Path="IsEnabled" RelativeSource="{RelativeSource Self}"/>
+                </MultiBinding>
             </Setter.Value>
         </Setter>
 

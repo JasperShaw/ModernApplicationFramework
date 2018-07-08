@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Drawing.Design;
-using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Windows.Markup;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Xml;
 using Caliburn.Micro;
+using ModernApplicationFramework.Utilities.Converters;
 using ModernApplicationFramework.Utilities.Imaging;
 
 namespace ModernApplicationFramework.Basics.Imaging
@@ -18,6 +16,9 @@ namespace ModernApplicationFramework.Basics.Imaging
     {
         private readonly IEnumerable<IImageCatalog> _catalogs;
         private bool _initialized;
+
+        public static readonly Color DefaultGrayscaleBiasColor = Color.FromArgb(64, byte.MaxValue, byte.MaxValue, byte.MaxValue);
+        public static readonly Color HighContrastGrayscaleBiasColor = Color.FromArgb(192, byte.MaxValue, byte.MaxValue, byte.MaxValue);
 
         public bool Initialized
         {
@@ -35,7 +36,7 @@ namespace ModernApplicationFramework.Basics.Imaging
 
         [ImportingConstructor]
         private ImageLibrary([ImportMany] IEnumerable<IImageCatalog> catalogs)
-        {     
+        {
             _catalogs = catalogs;
             Instance = this;
             Initialized = true;
@@ -49,7 +50,7 @@ namespace ModernApplicationFramework.Basics.Imaging
         public static ImageLibrary Instance { get; internal set; }
 
 
-        public BitmapSource GetImage(ImageMoniker monkier)
+        public BitmapSource GetImage(ImageMoniker monkier, ImageAttributes attributes)
         {
             var catalog = _catalogs.FirstOrDefault(x => x.ImageCataloGuid == monkier.CatalogGuid);
             if (catalog == null)
@@ -58,19 +59,18 @@ namespace ModernApplicationFramework.Basics.Imaging
                 return null;
 
 
-            FrameworkElement visual;
-            //using (var stream = imageDefinition.GetType().Assembly.GetManifestResourceStream(imageDefinition.Source.LocalPath))
-            using (var stream = Application.GetResourceStream(imageDefinition.Source).Stream)
-            {
-                using (var stringReader = new StreamReader(stream))
-                {
-                    using (var xmlReader = new XmlTextReader(stringReader))
-                    {
-                        visual = (FrameworkElement)XamlReader.Load(xmlReader);
-                    }
-                }
-            }
-            return ImageUtilities.FrameworkElementToBitmapSource(visual);
+            var visual = Application.LoadComponent(imageDefinition.Source) as FrameworkElement;
+            var image = ImageUtilities.FrameworkElementToBitmapSource(visual);
+
+            if (attributes.Background.HasValue)
+                image = (BitmapSource)ThemedImageSourceConverter.ConvertCore(image, attributes.Background.Value, attributes.Grayscale,
+                    attributes.HighContrast, attributes.GrayscaleBiasColor);
+            else if (attributes.Grayscale)
+                image = GrayscaleBitmapSourceConverter.ConvertCore(image, attributes.GrayscaleBiasColor);
+            else
+                image = ImageThemingUtilities.SetOptOutPixel(image);
+
+            return image;
         }
     }
 

@@ -1,10 +1,29 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:imaging="clr-namespace:ModernApplicationFramework.Basics.Imaging">
-    
+                    xmlns:imaging="clr-namespace:ModernApplicationFramework.Basics.Imaging"
+                    xmlns:ui="clr-namespace:ModernApplicationFramework.Utilities.Imaging;assembly=ModernApplicationFramework.Utilities">
+
+    <imaging:CrispImageSourceConverter x:Key="CrispImageSourceConverter"/>
+
     <Style TargetType="{x:Type imaging:CrispImage}">
         <Setter Property="Width" Value="16"/>
         <Setter Property="Height" Value="{Binding Width, RelativeSource={RelativeSource Self}}"/>
+        <Setter Property="ConverterTask">
+            <Setter.Value>
+                <MultiBinding Converter="{StaticResource CrispImageSourceConverter}">
+                    <Binding Path="Moniker" RelativeSource="{RelativeSource Self}"/>
+                    <Binding Path="Width" RelativeSource="{RelativeSource Self}"/>
+                    <Binding Path="Height" RelativeSource="{RelativeSource Self}"/>
+                    <Binding Path="(ui:ImageThemingUtilities.ImageBackgroundColor)" RelativeSource="{RelativeSource Self}"/>
+                    <Binding Path="Grayscale" RelativeSource="{RelativeSource Self}"/>
+                    <Binding Path="ActualGrayscaleBiasColor" RelativeSource="{RelativeSource Self}"/>
+                    <Binding Path="ActualHighContrast" RelativeSource="{RelativeSource Self}"/>
+                    <Binding Path="ActualDpi" RelativeSource="{RelativeSource Self}"/>
+                    <Binding Path="ScaleFactor" RelativeSource="{RelativeSource Self}"/>
+                </MultiBinding>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Source" Value="{Binding ConverterTask.Result, RelativeSource={RelativeSource Self}}"/>
     </Style>
 
 </ResourceDictionary>

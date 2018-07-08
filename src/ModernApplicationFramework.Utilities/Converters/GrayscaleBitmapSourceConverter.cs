@@ -18,7 +18,7 @@ namespace ModernApplicationFramework.Utilities.Converters
         public static BitmapSource ConvertCore(BitmapSource image, Color biasColor)
         {
             if (image == null)
-                return (BitmapSource)null;
+                return null;
             BitmapSource bitmapSource;
             if (image.Format == PixelFormats.Bgra32 && image.PixelWidth <= 128 && image.PixelHeight <= 128)
             {
@@ -49,7 +49,7 @@ namespace ModernApplicationFramework.Utilities.Converters
 
         private static unsafe BitmapSource ConvertToGrayScale(BitmapSource image, Color biasColor)
         {
-            Validate.IsNotNull((object)image, nameof(image));
+            Validate.IsNotNull(image, nameof(image));
             if (image.Format != PixelFormats.Bgra32)
                 throw new ArgumentException();
             int stride = image.PixelWidth * 4;

@@ -22,7 +22,7 @@ namespace ModernApplicationFramework.Utilities.Imaging
         static ImageThemingUtilities()
         {
             ImageBackgroundColorProperty = DependencyProperty.RegisterAttached("ImageBackgroundColor", typeof(Color), typeof(ImageThemingUtilities), new FrameworkPropertyMetadata(Colors.Transparent, FrameworkPropertyMetadataOptions.Inherits));
-            IsImageThemingEnabled  = true;
+            IsImageThemingEnabled = true;
             conversionBuffer = new ReusableArray<byte>(false);
         }
 
@@ -109,6 +109,46 @@ namespace ModernApplicationFramework.Utilities.Imaging
             }
             return true;
         }
+
+        public static unsafe BitmapSource SetOptOutPixel(BitmapSource source)
+        {
+            return ModifyBitmap(source, (s, pixels) =>
+            {
+                SetOptOutPixel(pixels, s.PixelWidth, s.PixelHeight, true);
+                return true;
+            });
+        }
+
+        public static unsafe void SetOptOutPixel(byte* pPixelBytes, int width, int height, bool isTopDownBitmap)
+        {
+            int offsetToOptOutPixel = ComputeOffsetToOptOutPixel(width, height, isTopDownBitmap);
+            *(int*)(pPixelBytes + ((IntPtr)(offsetToOptOutPixel * 4)).ToInt64()) = -16711681;
+        }
+
+
+        public static unsafe BitmapSource ModifyBitmap(BitmapSource source, ModifyPixelCallback modifier)
+        {
+            Validate.IsNotNull(source, nameof(source));
+            if (source.Format.BitsPerPixel != 32)
+                source = new FormatConvertedBitmap(source, PixelFormats.Bgra32, null, 0.0);
+            int stride = source.PixelWidth * (source.Format.BitsPerPixel / 8);
+            uint[] numArray1 = new uint[source.PixelWidth * source.PixelHeight];
+            source.CopyPixels(numArray1, stride, 0);
+
+
+            uint[] numArray2 = {};
+            fixed (uint* numPtr = (numArray2 = numArray1) == null || numArray2.Length == 0 ? null : numArray2)
+            {
+                if (!modifier(source, (byte*)numPtr))
+                    return source;
+            }
+            numArray2 = null;
+            source = BitmapSource.Create(source.PixelWidth, source.PixelHeight, source.DpiX, source.DpiY, source.Format, source.Palette, numArray1, stride);
+            return source;
+        }
+
+        public unsafe delegate bool ModifyPixelCallback(BitmapSource originalSource, byte* pixels);
+
 
         public static unsafe bool IsOptOutPixelSet(byte[] pixels, int width, int height, bool isTopDownBitmap)
         {
@@ -262,6 +302,16 @@ namespace ModernApplicationFramework.Utilities.Imaging
             {
                 return !(_background != other._background) && !(_grayscaleBias != other._grayscaleBias) && _isEnabled == other._isEnabled;
             }
+        }
+
+        public static bool IsDark(this Color color)
+        {
+            return HslColor.FromColor(color).Luminosity < 0.5;
+        }
+
+        public static bool IsLight(this Color color)
+        {
+            return !color.IsDark();
         }
     }
 }

@@ -12,7 +12,7 @@ namespace ModernApplicationFramework.Utilities.Converters
         {
             if (!(inputImage is BitmapSource inputImage1) || backgroundColor.A == 0 & isEnabled)
                 return inputImage;
-            Color biasColor = GrayscaleBitmapSourceConverter.GetBiasColor(parameter);
+            var biasColor = GrayscaleBitmapSourceConverter.GetBiasColor(parameter);
             return ImageThemingUtilities.GetOrCreateThemedBitmapSource(inputImage1, backgroundColor, isEnabled, biasColor, isHighContrast);
         }
 
