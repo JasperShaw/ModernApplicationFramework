@@ -53,7 +53,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         public abstract string IconId { get; }
 
 
-        public virtual ImageMoniker ImageMonikerSource { get; }
+        public virtual Imaging.Interop.ImageMoniker ImageMonikerSource { get; }
 
 
         /// <summary>

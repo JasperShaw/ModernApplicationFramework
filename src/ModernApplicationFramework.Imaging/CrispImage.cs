@@ -10,7 +10,7 @@ namespace ModernApplicationFramework.Imaging
     public sealed class CrispImage : Image
     {
         public static readonly DependencyProperty MonikerProperty =
-            DependencyProperty.Register(nameof(Moniker), typeof(ImageMoniker), typeof(CrispImage));
+            DependencyProperty.Register(nameof(Moniker), typeof(Interop.ImageMoniker), typeof(CrispImage));
 
         public static readonly DependencyProperty ConverterTaskProperty =
             DependencyProperty.Register(nameof(ConverterTask), typeof(ObservableTask<ImageSource>), typeof(CrispImage));
@@ -32,14 +32,18 @@ namespace ModernApplicationFramework.Imaging
 
         public static readonly DependencyProperty ScaleFactorProperty = DependencyProperty.RegisterAttached("ScaleFactor", typeof(double), typeof(CrispImage), new FrameworkPropertyMetadata(1.0, FrameworkPropertyMetadataOptions.Inherits));
 
+        internal static readonly DependencyProperty InternalMonikerProperty = DependencyProperty.Register(nameof(InternalMoniker), typeof(ImageMoniker), typeof(CrispImage));
+
         public Color ActualGrayscaleBiasColor => (Color)GetValue(ActualGrayscaleBiasColorProperty);
 
 
         public double ActualDpi => (double)GetValue(ActualDpiProperty);
 
-        public ImageMoniker Moniker
+        internal ImageMoniker InternalMoniker => (ImageMoniker)GetValue(InternalMonikerProperty);
+
+        public Interop.ImageMoniker Moniker
         {
-            get => (ImageMoniker) GetValue(MonikerProperty);
+            get => (Interop.ImageMoniker) GetValue(MonikerProperty);
             set => SetValue(MonikerProperty, value);
         }
 
@@ -89,6 +93,7 @@ namespace ModernApplicationFramework.Imaging
             InitializeDpiBindings();
             InitializeGrayscaleBiasColorBindings();
             InitializeHighContrastBindings();
+            InitializeMonikerBindings();
         }
 
         private void InitializeDpiBindings()
@@ -98,6 +103,16 @@ namespace ModernApplicationFramework.Imaging
                 Source = this,
                 Path = new PropertyPath(DpiProperty),
                 Converter = ActualDpiConverter.Instance
+            });
+        }
+
+        private void InitializeMonikerBindings()
+        {
+            BindingOperations.SetBinding(this, InternalMonikerProperty, new Binding
+            {
+                Source = this,
+                Path = new PropertyPath(MonikerProperty),
+                Converter = InternalImageMonikerConverter.Instance
             });
         }
 

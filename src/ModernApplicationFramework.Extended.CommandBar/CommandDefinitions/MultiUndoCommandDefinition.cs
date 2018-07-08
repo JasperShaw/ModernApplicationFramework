@@ -32,7 +32,7 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
                     UriKind.RelativeOrAbsolute);
 
 
-        public override ImageMoniker ImageMonikerSource => ImageCatalog.Monikers.Undo;
+        public override Imaging.Interop.ImageMoniker ImageMonikerSource => ImageCatalog.Monikers.Undo;
 
 
         public override string Name => Commands_Resources.MultiUndoCommandDefinition_Name;

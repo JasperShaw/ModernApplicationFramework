@@ -3,9 +3,9 @@ using ModernApplicationFramework.Utilities.Converters;
 
 namespace ModernApplicationFramework.Imaging.Converters
 {
-    public class MonikerSourceToImageConverter : MultiValueConverter<ImageMoniker, bool, CrispImage>
+    public class MonikerSourceToImageConverter : MultiValueConverter<Interop.ImageMoniker, bool, CrispImage>
     {
-        protected override CrispImage Convert(ImageMoniker moniker, bool enabled, object parameter, CultureInfo culture)
+        protected override CrispImage Convert(Interop.ImageMoniker moniker, bool enabled, object parameter, CultureInfo culture)
         {
             var image = new CrispImage
             {
@@ -16,11 +16,11 @@ namespace ModernApplicationFramework.Imaging.Converters
         }
     }
 
-    public class EmptyMonikerToBoolConverter : ValueConverter<ImageMoniker, bool>
+    public class EmptyMonikerToBoolConverter : ValueConverter<Interop.ImageMoniker, bool>
     {
-        protected override bool Convert(ImageMoniker value, object parameter, CultureInfo culture)
+        protected override bool Convert(Interop.ImageMoniker value, object parameter, CultureInfo culture)
         {
-            return value == ImageLibrary.EmptyMoniker;
+            return value.Equals(ImageLibrary.EmptyMoniker);
         }
     }
 }

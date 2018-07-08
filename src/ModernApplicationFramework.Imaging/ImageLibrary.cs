@@ -8,7 +8,6 @@ using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using ModernApplicationFramework.Imaging.Converters;
 using ModernApplicationFramework.Utilities;
-using ModernApplicationFramework.Utilities.Converters;
 using ModernApplicationFramework.Utilities.Imaging;
 
 namespace ModernApplicationFramework.Imaging
@@ -23,7 +22,7 @@ namespace ModernApplicationFramework.Imaging
         public static readonly Color DefaultGrayscaleBiasColor = Color.FromArgb(64, byte.MaxValue, byte.MaxValue, byte.MaxValue);
         public static readonly Color HighContrastGrayscaleBiasColor = Color.FromArgb(192, byte.MaxValue, byte.MaxValue, byte.MaxValue);
 
-        public static readonly ImageMoniker EmptyMoniker = new ImageMoniker();
+        public static readonly Interop.ImageMoniker EmptyMoniker = new Interop.ImageMoniker();
 
         public bool Initialized
         {
@@ -56,15 +55,20 @@ namespace ModernApplicationFramework.Imaging
         public static ImageLibrary Instance { get; internal set; }
 
 
-        public BitmapSource GetImage(ImageMoniker monkier, ImageAttributes attributes)
+        public BitmapSource GetImage(Interop.ImageMoniker monkier, ImageAttributes attributes)
         {
-            var catalog = _catalogs.FirstOrDefault(x => x.ImageCataloGuid == monkier.CatalogGuid);
+            return GetImage(monkier.ToInternalType(), attributes);
+        }
+
+        internal BitmapSource GetImage(ImageMoniker moniker, ImageAttributes attributes)
+        {
+            var catalog = _catalogs.FirstOrDefault(x => x.ImageCataloGuid == moniker.CatalogGuid);
             if (catalog == null)
                 return null;
-            if (!catalog.GetDefinition(monkier.Id, out var imageDefinition))
+            if (!catalog.GetDefinition(moniker.Id, out var imageDefinition))
                 return null;
 
-            var cachedImage = _imageCache.GetImage(monkier, attributes);
+            var cachedImage = _imageCache.GetImage(moniker, attributes);
             if (cachedImage != null)
                 return cachedImage;
 
@@ -79,7 +83,7 @@ namespace ModernApplicationFramework.Imaging
             else
                 image = ImageThemingUtilities.SetOptOutPixel(image);
 
-            _imageCache.AddImage(image, monkier, attributes);
+            _imageCache.AddImage(image, moniker, attributes);
             return image;
         }
     }
@@ -178,7 +182,7 @@ namespace ModernApplicationFramework.Imaging
         bool GetDefinition(int id, out ImageDefinition imageDefinition);
     }
 
-    public struct ImageMoniker : IComparable<ImageMoniker>, IEquatable<ImageMoniker>
+    internal struct ImageMoniker : IComparable<ImageMoniker>, IEquatable<ImageMoniker>
     {
         public readonly Guid CatalogGuid;
         public readonly int Id;
@@ -225,11 +229,20 @@ namespace ModernApplicationFramework.Imaging
         {
             return !monkier1.Equals(monkier2);
         }
+
+        public Interop.ImageMoniker ToInteropType()
+        {
+            return new Interop.ImageMoniker
+            {
+                CatalogGuid = CatalogGuid,
+                Id = Id
+            };
+        }
     }
 
     public struct ImageDefinition
     {
-        public ImageMoniker Monkier;
+        public Interop.ImageMoniker Monkier;
         public Uri Source;
         public ImageType Type;
     }

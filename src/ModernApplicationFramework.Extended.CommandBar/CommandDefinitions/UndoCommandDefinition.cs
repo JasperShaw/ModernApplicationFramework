@@ -20,7 +20,7 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
         public override GestureScope DefaultGestureScope { get; }
 
-        public override ImageMoniker ImageMonikerSource => ImageCatalog.Monikers.Undo;
+        public override Imaging.Interop.ImageMoniker ImageMonikerSource => ImageCatalog.Monikers.Undo;
 
         public override string IconId => "UndoIcon";
 

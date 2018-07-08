@@ -4,7 +4,11 @@ namespace ModernApplicationFramework.ImageCatalog
 {
     public static class Monikers
     {
-        public static ImageMoniker Undo =>
-            new ImageMoniker(FrameworkImageCatalog.FrameworkImageCatalogGuid, ImageIds.Undo);
+        public static Imaging.Interop.ImageMoniker Undo =>
+            new Imaging.Interop.ImageMoniker
+            {
+                CatalogGuid = FrameworkImageCatalog.FrameworkImageCatalogGuid,
+                Id = ImageIds.Undo
+            };
     }
 }

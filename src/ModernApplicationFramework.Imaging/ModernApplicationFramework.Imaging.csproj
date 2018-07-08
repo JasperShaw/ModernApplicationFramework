@@ -63,13 +63,16 @@
     <Compile Include="Converters\ActualDpiConverter.cs" />
     <Compile Include="Converters\ActualGrayscaleBiasColorConverter.cs" />
     <Compile Include="Converters\ActualHighContrastConverter.cs" />
+    <Compile Include="Converters\InternalImageMonikerConverter.cs" />
     <Compile Include="CrispImage.cs" />
     <Compile Include="Converters\CrispImageSourceConverter.cs" />
     <Compile Include="Converters\GrayscaleBitmapSourceConverter.cs" />
+    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="ImageAttributes.cs" />
     <Compile Include="ImageLibrary.cs" />
     <Compile Include="ImageThemingUtilities.cs" />
     <Compile Include="Converters\MonikerSourceToImageConverter.cs" />
+    <Compile Include="Interop\ImageMoniker.cs" />
     <Compile Include="ObservableTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
