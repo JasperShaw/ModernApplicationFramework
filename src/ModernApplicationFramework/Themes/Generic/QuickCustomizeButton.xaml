@@ -6,11 +6,14 @@
                     xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General"
                     xmlns:commandBar="clr-namespace:ModernApplicationFramework.Basics.CommandBar"
                     xmlns:menu="clr-namespace:ModernApplicationFramework.Controls.Menu"
-                    xmlns:windows="clr-namespace:ModernApplicationFramework.Controls.Windows">
+                    xmlns:windows="clr-namespace:ModernApplicationFramework.Controls.Windows"
+                    xmlns:imaging="clr-namespace:ModernApplicationFramework.Basics.Imaging"
+                    xmlns:util="clr-namespace:ModernApplicationFramework.Utilities;assembly=ModernApplicationFramework.Utilities">
 
     <accessKey:AccessKeyRemovingConverter x:Key="AccessKeyRemovingConverter"/>
     <accessKey:AccessKeyConverter x:Key="AccessKeyConverter"/>
     <general:NegateBooleanConverter x:Key="NegateBooleanConverter"/>
+    <imaging:MonikerSourceToImageConverter x:Key="MonikerSourceToImageConverter"/>
 
     <Geometry x:Key="Checkmark">
         F1 M 5,11 L 3,7 L 5,7 L 6,9 L 9,3 L 11,3 L 7,11 L 5,11 Z
@@ -112,6 +115,14 @@
         <Setter Property="Header">
             <Setter.Value>
                 <Binding Path="Text" Mode="OneWay" Converter="{StaticResource AccessKeyConverter}"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Icon">
+            <Setter.Value>
+                <MultiBinding Converter="{StaticResource MonikerSourceToImageConverter}">
+                    <Binding Path="CommandDefinition.ImageMonikerSource"/>
+                    <Binding Source="{x:Static util:Boxes.BooleanTrue}"/>
+                </MultiBinding>
             </Setter.Value>
         </Setter>
         <Setter Property="InputGestureText">
