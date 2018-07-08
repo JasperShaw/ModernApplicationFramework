@@ -82,20 +82,19 @@ namespace ModernApplicationFramework.Controls.Menu
         private void AnchorItemChanged(DependencyPropertyChangedEventArgs e)
         {
             var anchorItem = e.NewValue as CommandBarItemDefinition;
-            var oldAnchorItem = e.OldValue as CommandBarItemDefinition;
 
-            if (oldAnchorItem != null)
+            if (e.OldValue is CommandBarItemDefinition oldAnchorItem)
             {
                 if (oldAnchorItem.CommandDefinition is CommandDefinition commandDefinition)
                     commandDefinition.Command.CanExecuteChanged -= Command_CanExecuteChanged;
             }
             if (anchorItem != null)
             {
-                if (string.IsNullOrEmpty(anchorItem.CommandDefinition?.IconSource?.OriginalString))
-                    return;
-                var myResourceDictionary = new ResourceDictionary { Source = anchorItem.CommandDefinition.IconSource };
-                IconSource = myResourceDictionary[anchorItem.CommandDefinition.IconId];
-                this.SetThemedIcon();
+                //if (string.IsNullOrEmpty(anchorItem.CommandDefinition?.IconSource?.OriginalString))
+                //    return;
+                //var myResourceDictionary = new ResourceDictionary { Source = anchorItem.CommandDefinition.IconSource };
+                //IconSource = myResourceDictionary[anchorItem.CommandDefinition.IconId];
+                //this.SetThemedIcon();
 
                 if (anchorItem.CommandDefinition is CommandDefinition commandDefinition)
                     commandDefinition.Command.CanExecuteChanged += Command_CanExecuteChanged;
@@ -104,8 +103,7 @@ namespace ModernApplicationFramework.Controls.Menu
 
         private void Command_CanExecuteChanged(object sender, System.EventArgs e)
         {
-            var cd = AnchorItem.CommandDefinition as CommandDefinition;
-            if (cd == null)
+            if (!(AnchorItem.CommandDefinition is CommandDefinition cd))
                 return;
             IsEnabled = cd.Command.CanExecute(null);
         }

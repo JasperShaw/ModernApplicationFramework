@@ -45,14 +45,14 @@ namespace ModernApplicationFramework.Controls.Buttons
 
         public CommandDefinitionButton(CommandBarDefinitionBase definition) : this()
         {
-            var themeManager = IoC.Get<IThemeManager>();
-            themeManager.OnThemeChanged += ThemeManager_OnThemeChanged;
-            IsEnabledChanged += CommandDefinitionButton_IsEnabledChanged;
+            //var themeManager = IoC.Get<IThemeManager>();
+            //themeManager.OnThemeChanged += ThemeManager_OnThemeChanged;
+            //IsEnabledChanged += CommandDefinitionButton_IsEnabledChanged;
             DataContext = definition;
 
             if (string.IsNullOrEmpty(definition.CommandDefinition.IconSource?.OriginalString))
                 return;
-            var myResourceDictionary = new ResourceDictionary {Source = definition.CommandDefinition.IconSource};
+            var myResourceDictionary = new ResourceDictionary { Source = definition.CommandDefinition.IconSource };
             IconSource = myResourceDictionary[definition.CommandDefinition.IconId];
         }
 
@@ -95,7 +95,7 @@ namespace ModernApplicationFramework.Controls.Buttons
         protected override void OnRender(DrawingContext drawingContext)
         {
             base.OnRender(drawingContext);
-            this.SetThemedIcon();
+            //this.SetThemedIcon();
         }
 
         private void ThemeManager_OnThemeChanged(object sender, Core.Events.ThemeChangedEventArgs e)

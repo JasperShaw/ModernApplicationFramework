@@ -16,10 +16,10 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ToolSearch
 
         [Export]
         public static CommandBarItemDefinition Undo =
-            new CommandBarSplitItemDefinition<UndoCommandDefinition>(Guid.NewGuid(),
+            new CommandBarCommandItemDefinition<UndoCommandDefinition>(Guid.NewGuid(),
                 TestGroup, uint.MinValue);
         [Export]
         public static CommandBarItemDefinition Options =
-            new CommandBarSplitItemDefinition<OpenSettingsCommandDefinition>(Guid.NewGuid(), TestGroup, 1);
+            new CommandBarCommandItemDefinition<OpenSettingsCommandDefinition>(Guid.NewGuid(), TestGroup, 1);
     }
 }

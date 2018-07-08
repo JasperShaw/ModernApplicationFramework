@@ -913,11 +913,22 @@
                 <Binding Path="Text" Converter="{StaticResource AccessKeyConverter}"/>
             </Setter.Value>
         </Setter>
-        <Setter Property="Icon">
+        <!--<Setter Property="Icon">
             <Setter.Value>
                 <Binding Path="Icon"/>
             </Setter.Value>
+        </Setter>-->
+
+        <Setter Property="Icon">
+            <Setter.Value>
+                <MultiBinding Converter="{StaticResource MonikerSourceToImageConverter}">
+                    <Binding Path="AnchorItem.CommandDefinition.ImageMonikerSource"/>
+                    <Binding Path="IsEnabled"/>
+                </MultiBinding>
+            </Setter.Value>
         </Setter>
+
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type menu:MenuItem}">
@@ -1603,7 +1614,7 @@
                         <DataTrigger Value="True" Binding="{Binding Flags.TextOnly}">
                             <Setter TargetName="Text" Property="UIElement.Visibility" Value="Visible"/>
                         </DataTrigger>
-                        <DataTrigger Value="{x:Null}" Binding="{Binding Icon, RelativeSource={RelativeSource Self}}">
+                        <DataTrigger Value="True" Binding="{Binding CommandDefinition.ImageMonikerSource, Converter={StaticResource EmptyMonikerToBoolConverter}}">
                             <Setter TargetName="Image" Property="UIElement.Visibility" Value="Collapsed"/>
                             <Setter TargetName="Text" Property="UIElement.Visibility" Value="Visible"/>
                         </DataTrigger>
@@ -1769,7 +1780,14 @@
                 <Binding Path="IsVisible" Converter="{StaticResource BoolToVisConverter}"/>
             </Setter.Value>
         </Setter>
-        <Setter Property="Content" Value="{Binding Icon, RelativeSource={RelativeSource Self}}"/>
+        <Setter Property="Content">
+            <Setter.Value>
+                <MultiBinding Converter="{StaticResource MonikerSourceToImageConverter}">
+                    <Binding Path="CommandDefinition.ImageMonikerSource"/>
+                    <Binding Path="IsEnabled" RelativeSource="{RelativeSource Self}"/>
+                </MultiBinding>
+            </Setter.Value>
+        </Setter>
         <Setter Property="InputMethod.IsInputMethodSuspended" Value="true"/>
         <Style.Triggers>
             <DataTrigger Value="True">
@@ -1983,8 +2001,7 @@
                         <ContentPresenter x:Name="Image" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                          Margin="2" Grid.Column="0"
-                                          Content="{Binding Path=Icon, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type menu:MenuController}}}"/>
+                                          Margin="2" Grid.Column="0"/>
                         <AccessText x:Name="Text" Margin="2" Grid.Column="1" VerticalAlignment="Center"
                                     HorizontalAlignment="Center" Visibility="Collapsed"/>
                     </Grid>
@@ -1997,7 +2014,18 @@
                                     </Binding.RelativeSource>
                                 </Binding>
                             </DataTrigger.Binding>
-
+                            <Setter Property="ContentControl.Content">
+                                <Setter.Value>
+                                    <MultiBinding Converter="{StaticResource MonikerSourceToImageConverter}">
+                                        <Binding Path="CommandDefinition.ImageMonikerSource"/>
+                                        <Binding Path="IsEnabled">
+                                            <Binding.RelativeSource>
+                                                <RelativeSource Mode="FindAncestor" AncestorType="{x:Type menu:MenuController}"/>
+                                            </Binding.RelativeSource>
+                                        </Binding>
+                                    </MultiBinding>
+                                </Setter.Value>
+                            </Setter>
                         </DataTrigger>
                         <DataTrigger Value="True">
                             <DataTrigger.Binding>
