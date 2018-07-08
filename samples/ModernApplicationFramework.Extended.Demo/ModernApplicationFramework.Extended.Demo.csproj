@@ -95,6 +95,11 @@
     <Compile Include="GraphDesigner\Controls\GraphControl.cs" />
     <Compile Include="GraphDesigner\Controls\ZoomAndPanControl.cs" />
     <Compile Include="Modules\AppIcon\AppIcon.cs" />
+    <Compile Include="Modules\BallonTooltip\BallonTooltipView.xaml.cs">
+      <DependentUpon>BallonTooltipView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\BallonTooltip\BallonTooltipViewModel.cs" />
+    <Compile Include="Modules\BallonTooltip\Sample.cs" />
     <Compile Include="Modules\ComboBoxMenuTest\Commands\ComboBoxCommandDefinition.cs" />
     <Compile Include="Modules\ComboBoxMenuTest\Commands\TestMenuControllerDefinition.cs" />
     <Compile Include="Modules\ComboBoxMenuTest\ToolbarDefinitions.cs" />
@@ -194,6 +199,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Modules\BallonTooltip\BallonTooltipView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Modules\Commands\TestWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
