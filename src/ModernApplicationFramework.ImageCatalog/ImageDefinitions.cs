@@ -31,5 +31,33 @@ namespace ModernApplicationFramework.ImageCatalog
             Monkier = Monikers.StatusError,
             Source = UriCreator.Create("StatusCriticalError_16x", ImageType.Xaml)
         };
+
+        public static ImageDefinition CloseDocumentGroupDefinition => new ImageDefinition
+        {
+            Type = ImageType.Xaml,
+            Monkier = Monikers.CloseDocumentGroup,
+            Source = UriCreator.Create("CloseDocumentGroup", ImageType.Xaml)
+        };
+
+        public static ImageDefinition HideToolWindowDefinition => new ImageDefinition
+        {
+            Type = ImageType.Xaml,
+            Monkier = Monikers.HideToolWindow,
+            Source = UriCreator.Create("HideToolWindow", ImageType.Xaml)
+        };
+
+        public static ImageDefinition SplitScreenHorizontalDefinition => new ImageDefinition
+        {
+            Type = ImageType.Xaml,
+            Monkier = Monikers.SplitScreenHorizontal,
+            Source = UriCreator.Create("SplitScreenHorizontal_16x", ImageType.Xaml)
+        };
+
+        public static ImageDefinition SplitScreenVerticalDefinition => new ImageDefinition
+        {
+            Type = ImageType.Xaml,
+            Monkier = Monikers.SplitScreenVertical,
+            Source = UriCreator.Create("SplitScreenVertical_16x", ImageType.Xaml)
+        };
     }
 }

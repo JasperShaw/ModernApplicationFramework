@@ -4,6 +4,8 @@ using System.ComponentModel.Composition;
 using System.Globalization;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.ImageCatalog;
+using ModernApplicationFramework.Imaging.Interop;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Commands;
@@ -30,6 +32,8 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
                 UriKind.RelativeOrAbsolute);
 
         public override string IconId => "SplitScreenVertical";
+
+        public override ImageMoniker ImageMonikerSource => Monikers.SplitScreenVertical;
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
         public override Guid Id => new Guid("{5667C276-A91F-428A-86A3-7D95814B4B9F}");
     }

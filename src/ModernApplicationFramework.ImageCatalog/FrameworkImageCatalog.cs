@@ -28,6 +28,18 @@ namespace ModernApplicationFramework.ImageCatalog
                 case ImageIds.StatusError:
                     imageDefinition = ImageDefinitions.StatusErrorDefinition;
                     return true;
+                case ImageIds.CloseDocumentGroup:
+                    imageDefinition = ImageDefinitions.CloseDocumentGroupDefinition;
+                    return true;
+                case ImageIds.HideToolWindow:
+                    imageDefinition = ImageDefinitions.HideToolWindowDefinition;
+                    return true;
+                case ImageIds.SplitScreenHorizontal:
+                    imageDefinition = ImageDefinitions.SplitScreenHorizontalDefinition;
+                    return true;
+                case ImageIds.SplitScreenVertical:
+                    imageDefinition = ImageDefinitions.SplitScreenVerticalDefinition;
+                    return true;
                 default:
                     return false;
             }           

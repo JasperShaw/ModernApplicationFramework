@@ -4,6 +4,8 @@ using System.ComponentModel.Composition;
 using System.Globalization;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.ImageCatalog;
+using ModernApplicationFramework.Imaging.Interop;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Commands;
@@ -30,6 +32,8 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
                 UriKind.RelativeOrAbsolute);
 
         public override string IconId => "SplitScreenHorizontal";
+
+        public override ImageMoniker ImageMonikerSource => Monikers.SplitScreenHorizontal;
 
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
         public override Guid Id => new Guid("{4860E5BB-2518-4785-B448-9B8CFE85F13F}");

@@ -4,6 +4,8 @@ using System.ComponentModel.Composition;
 using System.Globalization;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.ImageCatalog;
+using ModernApplicationFramework.Imaging.Interop;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Commands;
@@ -31,6 +33,9 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
                 UriKind.RelativeOrAbsolute);
 
         public override string IconId => "HideToolWindow";
+
+
+        public override ImageMoniker ImageMonikerSource => Monikers.HideToolWindow;
 
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
         public override Guid Id => new Guid("{E1BBFA22-EADF-445D-810A-4984E91D17B7}");

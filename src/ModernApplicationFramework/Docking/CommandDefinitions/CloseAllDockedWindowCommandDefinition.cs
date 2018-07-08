@@ -4,6 +4,8 @@ using System.ComponentModel.Composition;
 using System.Globalization;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.ImageCatalog;
+using ModernApplicationFramework.Imaging.Interop;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Commands;
@@ -31,6 +33,8 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
             UriKind.RelativeOrAbsolute);
 
         public override string IconId => "CloseDocumentGroup";
+
+        public override ImageMoniker ImageMonikerSource => Monikers.CloseDocumentGroup;
 
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
         public override Guid Id => new Guid("{343572A0-6C5A-4FFE-9E84-E1B6E68C82FB}");

@@ -29,5 +29,33 @@
                 CatalogGuid = FrameworkImageCatalog.FrameworkImageCatalogGuid,
                 Id = ImageIds.StatusInfo
             };
+
+        public static Imaging.Interop.ImageMoniker CloseDocumentGroup =>
+            new Imaging.Interop.ImageMoniker
+            {
+                CatalogGuid = FrameworkImageCatalog.FrameworkImageCatalogGuid,
+                Id = ImageIds.CloseDocumentGroup
+            };
+
+        public static Imaging.Interop.ImageMoniker HideToolWindow =>
+            new Imaging.Interop.ImageMoniker
+            {
+                CatalogGuid = FrameworkImageCatalog.FrameworkImageCatalogGuid,
+                Id = ImageIds.HideToolWindow
+            };
+
+        public static Imaging.Interop.ImageMoniker SplitScreenHorizontal =>
+            new Imaging.Interop.ImageMoniker
+            {
+                CatalogGuid = FrameworkImageCatalog.FrameworkImageCatalogGuid,
+                Id = ImageIds.SplitScreenHorizontal
+            };
+
+        public static Imaging.Interop.ImageMoniker SplitScreenVertical =>
+            new Imaging.Interop.ImageMoniker
+            {
+                CatalogGuid = FrameworkImageCatalog.FrameworkImageCatalogGuid,
+                Id = ImageIds.SplitScreenVertical
+            };
     }
 }

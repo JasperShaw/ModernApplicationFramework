@@ -2,13 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:textBoxes="clr-namespace:ModernApplicationFramework.Controls.TextBoxes"
-                    xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
                     xmlns:imaging="clr-namespace:ModernApplicationFramework.Imaging;assembly=ModernApplicationFramework.Imaging"
                     xmlns:imageCatalog="clr-namespace:ModernApplicationFramework.ImageCatalog;assembly=ModernApplicationFramework.ImageCatalog">
-
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../../Resources/Icons/StatusError.xaml" />
-    </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="{x:Type textBoxes:ModernTextBox}">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:EnvironmentColors.TextBoxForeground}}"/>
