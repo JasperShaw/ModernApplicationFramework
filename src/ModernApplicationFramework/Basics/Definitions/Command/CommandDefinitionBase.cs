@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using JetBrains.Annotations;
 using ModernApplicationFramework.Core.Converters.AccessKey;
 using ModernApplicationFramework.Imaging;
+using ModernApplicationFramework.Imaging.Interop;
 
 namespace ModernApplicationFramework.Basics.Definitions.Command
 {
@@ -53,7 +54,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         public abstract string IconId { get; }
 
 
-        public virtual Imaging.Interop.ImageMoniker ImageMonikerSource { get; }
+        public virtual ImageMoniker ImageMonikerSource => ImageLibrary.EmptyMoniker;
 
 
         /// <summary>
