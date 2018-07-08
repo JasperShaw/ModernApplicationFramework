@@ -25,10 +25,6 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public override string Text => DockingResources.DockWindowCommandDefinition_Text;
         public override string ToolTip => null;
-        public override Uri IconSource => null;
-
-        public override string IconId => null;
-
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
         public override Guid Id => new Guid("{5CC255C6-4D81-4B39-AF49-D80FE4C813EC}");
     }

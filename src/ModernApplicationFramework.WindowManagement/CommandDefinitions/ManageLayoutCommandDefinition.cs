@@ -23,8 +23,6 @@ namespace ModernApplicationFramework.WindowManagement.CommandDefinitions
                 CultureInfo.InvariantCulture);
 
         public override string ToolTip => null;
-        public override Uri IconSource => null;
-        public override string IconId => null;
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
         public override Guid Id => new Guid("{F843A14E-3840-4CC9-AA3F-D70B04DD0ED3}");
 

@@ -18,8 +18,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions
         public override string NameUnlocalized => ToolboxResources.ResourceManager.GetString(nameof(ToolboxResources.AddCategoryCommand_Name), CultureInfo.InvariantCulture);
         public override string Text => ToolboxResources.AddCategoryCommand_Text;
         public override string ToolTip => Text;
-        public override Uri IconSource => null;
-        public override string IconId => null;
         public override CommandCategory Category => CommandCategories.ToolsCommandCategory;
         public override Guid Id => new Guid("{D7D3206E-0BBD-41E4-96DF-07EA57571586}");
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;

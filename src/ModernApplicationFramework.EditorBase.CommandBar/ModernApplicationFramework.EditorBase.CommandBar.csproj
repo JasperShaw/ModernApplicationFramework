@@ -85,6 +85,14 @@
       <Project>{51911695-6CDB-4833-9782-06C8821D1C4E}</Project>
       <Name>ModernApplicationFramework.Extended</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework.ImageCatalog\ModernApplicationFramework.ImageCatalog.csproj">
+      <Project>{A011F6F0-84AD-41EE-A920-A599B695855F}</Project>
+      <Name>ModernApplicationFramework.ImageCatalog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework.Imaging\ModernApplicationFramework.Imaging.csproj">
+      <Project>{D8B696A7-BA7D-4762-8C34-13B7F212074F}</Project>
+      <Name>ModernApplicationFramework.Imaging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework\ModernApplicationFramework.csproj">
       <Project>{74F6C6A1-64BB-47D4-9E7F-6CD5C4CA166C}</Project>
       <Name>ModernApplicationFramework</Name>
@@ -107,24 +115,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Resources\Icons\OpenFolder_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Icons\SaveAll_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Icons\Save_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Icons\VSO_NewFile_16x.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -24,9 +24,6 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public override string Text => DockingResources.AutoHideAllWindowsCommandDefinition_Text;
         public override string ToolTip => null;
-        public override Uri IconSource => null;
-
-        public override string IconId => null;
 
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
 

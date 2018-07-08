@@ -9,10 +9,8 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
     /// <seealso cref="T:ModernApplicationFramework.Basics.Definitions.Command.CommandDefinitionBase" />
     public abstract class CommandListDefinition : CommandDefinitionBase
     {
-        public override string IconId => null;
         public sealed override bool IsList => true;
         public override CommandControlTypes ControlType => CommandControlTypes.Button;
-        public override Uri IconSource => null;
         public override string Name => string.Empty;
         public override string Text => Name;
         public override string ToolTip => string.Empty;

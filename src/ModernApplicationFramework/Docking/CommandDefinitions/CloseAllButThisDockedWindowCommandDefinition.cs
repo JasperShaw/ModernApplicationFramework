@@ -25,8 +25,6 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
 
         public override string Text => DockingResources.CloseAllButThisDockedWindowCommandDefinition_Text;
         public override string ToolTip => null;
-        public override Uri IconSource => null;
-        public override string IconId => null;
 
         public override CommandCategory Category => CommandCategories.FileCommandCategory;
         public override Guid Id => new Guid("{D323EFFE-7A78-40FB-A1A8-393B4010D848}");

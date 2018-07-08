@@ -13,26 +13,18 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary
                     Source="pack://application:,,,/ModernApplicationFramework;component/Themes/Generic/ScrollViewer.xaml" />
-                <ResourceDictionary
-                    Source="pack://application:,,,/ModernApplicationFramework.Modules.Output;component/Resources/ClearWindowContent_16x.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
 
     <mafc:ScrollViewer x:Name="ScrollViewer" VerticalScrollBarVisibility="Visible">
-    
-    <TextBox x:Name="OutputText" IsReadOnly="True" VerticalAlignment="Stretch"
+
+        <TextBox x:Name="OutputText" IsReadOnly="True" VerticalAlignment="Stretch"
                  HorizontalAlignment="Stretch" AcceptsReturn="True" FontFamily="Consolas"
                  Foreground="{DynamicResource {x:Static core:EnvironmentColors.GlobalForeground}}"
                  Cursor="{x:Static Cursors.Arrow}" BorderThickness="0"
                  Background="{DynamicResource {x:Static core:EnvironmentColors.TextBoxBackground}}">
-            <TextBox.ContextMenu>
-                <menu:ContextMenu>
-                    <menu:ContextMenuItem Header="Clear" Command="{Binding ClearCommand}"
-                                              Icon="{StaticResource ClearContentIcon}" />
-                </menu:ContextMenu>
-        </TextBox.ContextMenu>
-    </TextBox>
+        </TextBox>
     </mafc:ScrollViewer>
 
 

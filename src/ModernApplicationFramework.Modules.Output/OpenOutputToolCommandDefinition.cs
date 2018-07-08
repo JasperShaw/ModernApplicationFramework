@@ -5,6 +5,8 @@ using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.ImageCatalog;
+using ModernApplicationFramework.Imaging.Interop;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Commands;
@@ -17,12 +19,7 @@ namespace ModernApplicationFramework.Modules.Output
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
         public override GestureScope DefaultGestureScope { get; }
 
-        public override string IconId => "OutputIcon";
-
-        public override Uri IconSource
-            =>
-                new Uri("/ModernApplicationFramework.Modules.Output;component/Resources/Output_16x.xaml",
-                    UriKind.RelativeOrAbsolute);
+        public override ImageMoniker ImageMonikerSource => Monikers.Output;
 
         public override string Name => "View.Output";
         public override string NameUnlocalized => "Output";

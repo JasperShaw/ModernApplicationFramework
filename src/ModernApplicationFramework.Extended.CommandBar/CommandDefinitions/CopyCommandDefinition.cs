@@ -5,6 +5,8 @@ using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Extended.Commands;
+using ModernApplicationFramework.ImageCatalog;
+using ModernApplicationFramework.Imaging.Interop;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 
@@ -16,9 +18,7 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
         public override string NameUnlocalized => "Copy";
         public override string Text => "Copy";
         public override string ToolTip => Text;
-        public override Uri IconSource => new Uri("/ModernApplicationFramework.Extended.CommandBar;component/Resources/Icons/Copy_16x.xaml",
-            UriKind.RelativeOrAbsolute);
-        public override string IconId => "CopyIcon";
+        public override ImageMoniker ImageMonikerSource => Monikers.Copy;
         public override CommandCategory Category => CommandCategories.EditCommandCategory;
         public override Guid Id => new Guid("{E98D986F-AACB-4BC7-A60B-E758CA847BA9}");
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }

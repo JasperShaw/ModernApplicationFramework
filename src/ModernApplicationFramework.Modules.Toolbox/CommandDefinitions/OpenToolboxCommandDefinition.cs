@@ -4,6 +4,8 @@ using System.ComponentModel.Composition;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.ImageCatalog;
+using ModernApplicationFramework.Imaging.Interop;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces.Commands;
@@ -16,9 +18,10 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions
         public override string NameUnlocalized => "Toolbox";
         public override string Text => "Toolbox";
         public override string ToolTip => Text;
-        public override Uri IconSource => null;
-        public override string IconId => null;
         public override CommandCategory Category => CommandCategories.ViewCommandCategory;
+
+        public override ImageMoniker ImageMonikerSource => Monikers.Toolbox;
+
         public override Guid Id => new Guid("{D3CD6E1A-D2E9-4EDF-A83E-FB0B110BCA7F}");
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
         public override GestureScope DefaultGestureScope { get; }

@@ -27,12 +27,6 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
         public override string Text => DockingResources.NewHorizontalTabGroupCommandDefinition_Text;
         public override string ToolTip => null;
 
-        public override Uri IconSource =>
-            new Uri("/ModernApplicationFramework;component/Resources/Icons/SplitScreenHorizontal.xaml",
-                UriKind.RelativeOrAbsolute);
-
-        public override string IconId => "SplitScreenHorizontal";
-
         public override ImageMoniker ImageMonikerSource => Monikers.SplitScreenHorizontal;
 
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;

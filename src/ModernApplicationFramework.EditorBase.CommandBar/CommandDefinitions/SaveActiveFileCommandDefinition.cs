@@ -8,6 +8,8 @@ using ModernApplicationFramework.EditorBase.CommandBar.Resources;
 using ModernApplicationFramework.EditorBase.Interfaces.Commands;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Layout;
+using ModernApplicationFramework.ImageCatalog;
+using ModernApplicationFramework.Imaging.Interop;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 
@@ -33,9 +35,7 @@ namespace ModernApplicationFramework.EditorBase.CommandBar.CommandDefinitions
 
         public override string Name => CommandsResources.SaveActiveDocumentCommandName;
 
-        public override Uri IconSource => new Uri("/ModernApplicationFramework.EditorBase.CommandBar;component/Resources/Icons/Save_16x.xaml",
-            UriKind.RelativeOrAbsolute);
-        public override string IconId => "SaveFileIcon";
+        public override ImageMoniker ImageMonikerSource => Monikers.Save;
         public override CommandCategory Category => CommandCategories.FileCommandCategory;
         public override Guid Id => new Guid("{651EA782-BFCB-4ACA-8F98-6798C117F988}");
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }

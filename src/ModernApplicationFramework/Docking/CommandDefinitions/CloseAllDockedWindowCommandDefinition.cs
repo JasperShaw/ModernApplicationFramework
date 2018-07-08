@@ -28,12 +28,6 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
         public override string Text => DockingResources.CloseAllDockedWindowCommandDefinition_Text;
         public override string ToolTip => null;
 
-        public override Uri IconSource => new Uri(
-            "/ModernApplicationFramework;component/Resources/Icons/CloseDocumentGroup.xaml",
-            UriKind.RelativeOrAbsolute);
-
-        public override string IconId => "CloseDocumentGroup";
-
         public override ImageMoniker ImageMonikerSource => Monikers.CloseDocumentGroup;
 
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;

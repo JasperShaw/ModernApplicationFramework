@@ -5,6 +5,8 @@ using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.ImageCatalog;
+using ModernApplicationFramework.Imaging.Interop;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces.Commands;
@@ -17,11 +19,7 @@ namespace ModernApplicationFramework.Modules.Inspector.Commands
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
         public override GestureScope DefaultGestureScope { get; }
 
-        public override string IconId => "PropertyIcon";
-
-        public override Uri IconSource =>
-            new Uri("/ModernApplicationFramework.Modules.Inspector;component/Resources/Icons/Property_16x.xaml",
-                UriKind.RelativeOrAbsolute);
+        public override ImageMoniker ImageMonikerSource => Monikers.Property;
 
         public override string Name => "View.Inspector";
         public override string Text => "Inspector";

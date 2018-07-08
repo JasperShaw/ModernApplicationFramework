@@ -21,8 +21,6 @@ namespace ModernApplicationFramework.WindowManagement.CommandDefinitions
             WindowManagement_Resources.ResourceManager.GetString("SaveLayoutCommandDefinition_Text",
                 CultureInfo.InvariantCulture);
         public override string ToolTip => null;
-        public override Uri IconSource => null;
-        public override string IconId => null;
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
         public override Guid Id => new Guid("{046EC243-92CC-4490-83C5-587EB89358DB}");
 

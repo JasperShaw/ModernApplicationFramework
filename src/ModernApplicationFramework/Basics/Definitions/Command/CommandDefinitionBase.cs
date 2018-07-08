@@ -44,16 +44,8 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         public abstract string ToolTip { get; }
 
         /// <summary>
-        /// An URI to a resource that holds an icon
+        /// The image moniker of the command definition.
         /// </summary>
-        public abstract Uri IconSource { get; }
-
-        /// <summary>
-        /// The key or ID of the icon inside the <see cref="IconSource"/>
-        /// </summary>
-        public abstract string IconId { get; }
-
-
         public virtual ImageMoniker ImageMonikerSource => ImageLibrary.EmptyMoniker;
 
 

@@ -16,8 +16,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions
         public override string NameUnlocalized => "Show All";
         public override string Text => "Show All";
         public override string ToolTip => Text;
-        public override Uri IconSource => null;
-        public override string IconId => null;
         public override CommandCategory Category => CommandCategories.ToolsCommandCategory;
         public override Guid Id => new Guid("{BB1C5EAB-A114-4A06-995C-E311F9DA8C11}");
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;

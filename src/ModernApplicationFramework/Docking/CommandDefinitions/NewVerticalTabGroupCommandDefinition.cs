@@ -27,12 +27,6 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
         public override string Text => DockingResources.NewVerticalTabGroupCommandDefinition_Text;
         public override string ToolTip => null;
 
-        public override Uri IconSource =>
-            new Uri("/ModernApplicationFramework;component/Resources/Icons/SplitScreenVertical.xaml",
-                UriKind.RelativeOrAbsolute);
-
-        public override string IconId => "SplitScreenVertical";
-
         public override ImageMoniker ImageMonikerSource => Monikers.SplitScreenVertical;
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;
         public override Guid Id => new Guid("{5667C276-A91F-428A-86A3-7D95814B4B9F}");

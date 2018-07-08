@@ -6,6 +6,8 @@ using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.EditorBase.CommandBar.Resources;
 using ModernApplicationFramework.EditorBase.Interfaces.Commands;
+using ModernApplicationFramework.ImageCatalog;
+using ModernApplicationFramework.Imaging.Interop;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 
@@ -19,9 +21,7 @@ namespace ModernApplicationFramework.EditorBase.CommandBar.CommandDefinitions
         public override string Name => "OpenFile";
         public override string Text => CommandsResources.OpenFileCommandText;
         public override string ToolTip => Text;
-        public override Uri IconSource => new Uri("/ModernApplicationFramework.EditorBase.CommandBar;component/Resources/Icons/OpenFolder_16x.xaml",
-            UriKind.RelativeOrAbsolute);
-        public override string IconId => "OpenFileIcon";
+        public override ImageMoniker ImageMonikerSource => Monikers.OpenFolder;
         public override CommandCategory Category => CommandCategories.FileCommandCategory;
         public override Guid Id => new Guid("{47E7AF89-3733-4FBF-A3FA-E8AD5D5C693E}");
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }

@@ -28,13 +28,6 @@ namespace ModernApplicationFramework.Docking.CommandDefinitions
         public override string Text => DockingResources.HideDockedWindowCommandDefinition_Text;
         public override string ToolTip => null;
 
-        public override Uri IconSource =>
-            new Uri("/ModernApplicationFramework;component/Resources/Icons/HideToolWindow.xaml",
-                UriKind.RelativeOrAbsolute);
-
-        public override string IconId => "HideToolWindow";
-
-
         public override ImageMoniker ImageMonikerSource => Monikers.HideToolWindow;
 
         public override CommandCategory Category => CommandCategories.WindowCommandCategory;

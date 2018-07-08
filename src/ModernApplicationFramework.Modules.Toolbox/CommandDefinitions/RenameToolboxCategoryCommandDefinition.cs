@@ -16,8 +16,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions
         public override string NameUnlocalized => "Rename Category";
         public override string Text => "Rename Category";
         public override string ToolTip => Text;
-        public override Uri IconSource => null;
-        public override string IconId => null;
         public override CommandCategory Category => CommandCategories.ToolsCommandCategory;
         public override Guid Id => new Guid("{0524D1D9-DF40-4D62-85DB-966AED7F8C35}");
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;

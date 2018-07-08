@@ -123,8 +123,6 @@ namespace ModernApplicationFramework.WindowManagement.Commands
             public override string NameUnlocalized => string.Empty;
             public override string Text { get; }
             public override string ToolTip => string.Empty;
-            public override Uri IconSource => null;
-            public override string IconId => null;
             public override CommandCategory Category => null;
             public override Guid Id => new Guid("{16ECEBFA-61B5-4C4E-ABAF-E64D4018B230}");
 

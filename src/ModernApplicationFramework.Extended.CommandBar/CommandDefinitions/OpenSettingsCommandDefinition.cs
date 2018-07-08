@@ -6,6 +6,8 @@ using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Extended.CommandBar.Resources;
 using ModernApplicationFramework.Extended.Commands;
+using ModernApplicationFramework.ImageCatalog;
+using ModernApplicationFramework.Imaging.Interop;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 
@@ -18,12 +20,7 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
 
-        public override string IconId => "SettingsIcon";
-
-        public override Uri IconSource
-            =>
-                new Uri("/ModernApplicationFramework.Extended.CommandBar;component/Resources/Icons/Settings_16x.xaml",
-                    UriKind.RelativeOrAbsolute);
+        public override ImageMoniker ImageMonikerSource => Monikers.Settings;
 
         public override string Text => Commands_Resources.OpenSettingsCommandDefinition_Text;
         public override string NameUnlocalized =>

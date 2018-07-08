@@ -9,6 +9,8 @@ using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Extended.CommandBar.Resources;
 using ModernApplicationFramework.Extended.Commands;
 using ModernApplicationFramework.Extended.UndoRedoManager;
+using ModernApplicationFramework.ImageCatalog;
+using ModernApplicationFramework.Imaging.Interop;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
@@ -23,12 +25,7 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;
         public override GestureScope DefaultGestureScope => null;
 
-        public override string IconId => "RedoIcon";
-
-        public override Uri IconSource
-            =>
-                new Uri("/ModernApplicationFramework.Extended.CommandBar;component/Resources/Icons/Redo_16x.xaml",
-                    UriKind.RelativeOrAbsolute);
+        public override ImageMoniker ImageMonikerSource => Monikers.Redo;
 
         public override string Name => Commands_Resources.MultiRedoCommandDefinition_Name;
         public override string Text => Commands_Resources.MultiRedoCommandDefinition_Text;

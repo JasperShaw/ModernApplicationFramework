@@ -12,10 +12,6 @@ namespace ModernApplicationFramework.WindowManagement.CommandDefinitions
         private string _text;
         public abstract int Index { get; }
 
-        public sealed override string IconId => null;
-
-        public sealed override Uri IconSource => null;
-
         public sealed override CommandCategory Category => CommandCategories.WindowCommandCategory;
 
         public sealed override string Name => string.Format(CultureInfo.CurrentUICulture,

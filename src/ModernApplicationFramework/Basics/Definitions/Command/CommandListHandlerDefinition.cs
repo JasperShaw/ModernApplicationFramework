@@ -16,8 +16,7 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
 
         public override string Text { get; }
         public override string ToolTip => string.Empty;
-        public override Uri IconSource => null;
-        public override string IconId => null;
+
         public override CommandCategory Category => null;
         public override Guid Id => Guid.Empty;
 

@@ -31,9 +31,6 @@ namespace ModernApplicationFramework.EditorBase.CommandBar.CommandDefinitions
         public override string ToolTip => Text;
 
         public override string Name => CommandsResources.SaveActiveDocumentAsCommandName;
-
-        public override Uri IconSource => null;
-        public override string IconId => null;
         public override CommandCategory Category => CommandCategories.FileCommandCategory;
         public override Guid Id => new Guid("{651EA782-BFCB-4ACA-8F98-6798C117F988}");
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => null;

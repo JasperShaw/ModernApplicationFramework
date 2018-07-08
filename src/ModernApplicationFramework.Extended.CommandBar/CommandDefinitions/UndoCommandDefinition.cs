@@ -22,13 +22,6 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
 
         public override Imaging.Interop.ImageMoniker ImageMonikerSource => ImageCatalog.Monikers.Undo;
 
-        public override string IconId => "UndoIcon";
-
-        public override Uri IconSource
-            =>
-                new Uri("/ModernApplicationFramework.Extended.CommandBar;component/Resources/Icons/Undo_16x.xaml",
-                    UriKind.RelativeOrAbsolute);
-
         public override string Text => Commands_Resources.UndoCommandDefinition_Text;
         public override string NameUnlocalized =>
             Commands_Resources.ResourceManager.GetString("UndoCommandDefinition_Text",

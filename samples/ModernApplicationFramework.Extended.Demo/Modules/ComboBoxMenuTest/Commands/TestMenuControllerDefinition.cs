@@ -6,7 +6,6 @@ using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Extended.CommandBar.CommandDefinitions;
-using ModernApplicationFramework.Extended.Commands;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest.Commands
 {
@@ -14,9 +13,6 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ComboBoxMenuTest.Comm
     [Export(typeof(TestMenuControllerDefinition))]
     public sealed class TestMenuControllerDefinition : CommandMenuControllerDefinition
     {
-        public override string IconId => null;
-        public override Uri IconSource => null;
-
         public override string Name => "MenuController";
         public override string NameUnlocalized => Text;
         public override string Text => "MenuController";
