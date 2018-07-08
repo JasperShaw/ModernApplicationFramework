@@ -127,10 +127,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\Generic\CrispImage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Themes\Generic\SearchControlColors.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -267,15 +263,6 @@
   <ItemGroup>
     <Compile Include="Basics\ApplicationEnvironment\AbstractEnvironmentVariables.cs" />
     <Compile Include="Basics\ApplicationEnvironment\FallbackEnvironmentVariables.cs" />
-    <Compile Include="Basics\Imaging\ActualDpiConverter.cs" />
-    <Compile Include="Basics\Imaging\ActualGrayscaleBiasColorConverter.cs" />
-    <Compile Include="Basics\Imaging\ActualHighContrastConverter.cs" />
-    <Compile Include="Basics\Imaging\CrispImage.cs" />
-    <Compile Include="Basics\Imaging\CrispImageSourceConverter.cs" />
-    <Compile Include="Basics\Imaging\ImageAttributes.cs" />
-    <Compile Include="Basics\Imaging\ImageLibrary.cs" />
-    <Compile Include="Basics\Imaging\MonikerSourceToImageConverter.cs" />
-    <Compile Include="Basics\ObservableTask.cs" />
     <Compile Include="Docking\Commands\AutoHideAllWindowsCommand.cs" />
     <Compile Include="Docking\Commands\AutoHideWindowCommand.cs" />
     <Compile Include="Docking\Commands\CloseAllButThisDockedWindowCommand.cs" />
@@ -1397,6 +1384,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ModernApplicationFramework.Imaging\ModernApplicationFramework.Imaging.csproj">
+      <Project>{D8B696A7-BA7D-4762-8C34-13B7F212074F}</Project>
+      <Name>ModernApplicationFramework.Imaging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework.Utilities\ModernApplicationFramework.Utilities.csproj">
       <Project>{2b388979-5b07-4f0a-a302-0c575aaa21c0}</Project>
       <Name>ModernApplicationFramework.Utilities</Name>

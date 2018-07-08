@@ -7,6 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Extended.Demo.Modules.UndoRedoTest;
+using ModernApplicationFramework.Imaging;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Utilities.Imaging;

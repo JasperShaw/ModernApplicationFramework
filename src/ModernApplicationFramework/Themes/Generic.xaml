@@ -97,11 +97,6 @@
 
         <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/SearchControl.xaml"/>
         
-
-        <ResourceDictionary Source="/ModernApplicationFramework;component/Themes/Generic/CrispImage.xaml"/>
-
-
-
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

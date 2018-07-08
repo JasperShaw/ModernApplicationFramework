@@ -5,14 +5,13 @@
                     xmlns:core="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:internals="clr-namespace:ModernApplicationFramework.Controls.Internals"
                     xmlns:primitives="clr-namespace:ModernApplicationFramework.Controls.Primitives"
-                    xmlns:utilities1="clr-namespace:ModernApplicationFramework.Controls.Utilities"
                     xmlns:native="clr-namespace:ModernApplicationFramework.Native"
                     xmlns:properties="clr-namespace:ModernApplicationFramework.Properties"
                     xmlns:window="clr-namespace:ModernApplicationFramework.Controls.Windows"
                     xmlns:services="clr-namespace:ModernApplicationFramework.Basics.Services"
                     xmlns:converters1="clr-namespace:ModernApplicationFramework.Utilities.Converters;assembly=ModernApplicationFramework.Utilities"
-                    xmlns:imaging="clr-namespace:ModernApplicationFramework.Utilities.Imaging;assembly=ModernApplicationFramework.Utilities"
-                    xmlns:extensions="clr-namespace:ModernApplicationFramework.Controls.Extensions">
+                    xmlns:extensions="clr-namespace:ModernApplicationFramework.Controls.Extensions"
+                    xmlns:imaging="clr-namespace:ModernApplicationFramework.Imaging;assembly=ModernApplicationFramework.Imaging">
 
     <Style TargetType="{x:Type window:MainWindow}">
         <Style.Resources>

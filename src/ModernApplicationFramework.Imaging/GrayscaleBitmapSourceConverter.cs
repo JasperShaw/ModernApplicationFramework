@@ -2,9 +2,10 @@
 using System.Globalization;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using ModernApplicationFramework.Utilities.Imaging;
+using ModernApplicationFramework.Utilities;
+using ModernApplicationFramework.Utilities.Converters;
 
-namespace ModernApplicationFramework.Utilities.Converters
+namespace ModernApplicationFramework.Imaging
 {
     public class GrayscaleBitmapSourceConverter : ValueConverter<BitmapSource, BitmapSource>
     {

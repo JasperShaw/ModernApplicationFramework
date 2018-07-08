@@ -79,7 +79,7 @@ namespace ModernApplicationFramework.Core.Utilities
             BitmapSource bitmapSource = null;
             if (iconHandle != IntPtr.Zero)
             {
-                bitmapSource = Imaging.CreateBitmapSourceFromHIcon(iconHandle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                bitmapSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(iconHandle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
                 User32.DestroyIcon(iconHandle);
                 FreezeImage(bitmapSource);
             }

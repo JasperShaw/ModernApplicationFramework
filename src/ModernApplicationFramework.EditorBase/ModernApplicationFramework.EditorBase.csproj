@@ -299,6 +299,10 @@
       <Project>{51911695-6cdb-4833-9782-06c8821d1c4e}</Project>
       <Name>ModernApplicationFramework.Extended</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework.Imaging\ModernApplicationFramework.Imaging.csproj">
+      <Project>{D8B696A7-BA7D-4762-8C34-13B7F212074F}</Project>
+      <Name>ModernApplicationFramework.Imaging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework.Settings\ModernApplicationFramework.Settings.csproj">
       <Project>{240cc7db-f3a0-48e7-a8eb-5785a90128be}</Project>
       <Name>ModernApplicationFramework.Settings</Name>

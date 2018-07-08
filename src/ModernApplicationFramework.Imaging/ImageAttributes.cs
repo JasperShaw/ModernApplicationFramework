@@ -5,7 +5,7 @@ using System.Windows.Media;
 using ModernApplicationFramework.Utilities;
 using ModernApplicationFramework.Utilities.Imaging;
 
-namespace ModernApplicationFramework.Basics.Imaging
+namespace ModernApplicationFramework.Imaging
 {
     public struct ImageAttributes : IEquatable<ImageAttributes>, IFormattable
     {

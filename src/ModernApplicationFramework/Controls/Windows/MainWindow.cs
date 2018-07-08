@@ -15,6 +15,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Controls.AutomationPeer;
 using ModernApplicationFramework.Controls.Internals;
 using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Imaging;
 using ModernApplicationFramework.Interfaces.ViewModels;
 using ModernApplicationFramework.Native;
 using ModernApplicationFramework.Native.NativeMethods;

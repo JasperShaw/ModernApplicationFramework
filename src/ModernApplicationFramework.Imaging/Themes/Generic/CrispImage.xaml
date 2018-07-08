@@ -1,7 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:imaging="clr-namespace:ModernApplicationFramework.Basics.Imaging"
-                    xmlns:ui="clr-namespace:ModernApplicationFramework.Utilities.Imaging;assembly=ModernApplicationFramework.Utilities">
+                    xmlns:imaging="clr-namespace:ModernApplicationFramework.Imaging">
 
     <imaging:CrispImageSourceConverter x:Key="CrispImageSourceConverter"/>
 
@@ -14,7 +13,7 @@
                     <Binding Path="Moniker" RelativeSource="{RelativeSource Self}"/>
                     <Binding Path="Width" RelativeSource="{RelativeSource Self}"/>
                     <Binding Path="Height" RelativeSource="{RelativeSource Self}"/>
-                    <Binding Path="(ui:ImageThemingUtilities.ImageBackgroundColor)" RelativeSource="{RelativeSource Self}"/>
+                    <Binding Path="(imaging:ImageThemingUtilities.ImageBackgroundColor)" RelativeSource="{RelativeSource Self}"/>
                     <Binding Path="Grayscale" RelativeSource="{RelativeSource Self}"/>
                     <Binding Path="ActualGrayscaleBiasColor" RelativeSource="{RelativeSource Self}"/>
                     <Binding Path="ActualHighContrast" RelativeSource="{RelativeSource Self}"/>

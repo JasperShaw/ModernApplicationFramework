@@ -10,7 +10,7 @@ using ModernApplicationFramework.Utilities;
 using ModernApplicationFramework.Utilities.Converters;
 using ModernApplicationFramework.Utilities.Imaging;
 
-namespace ModernApplicationFramework.Basics.Imaging
+namespace ModernApplicationFramework.Imaging
 {
     [Export(typeof(ImageLibrary))]
     public class ImageLibrary
@@ -47,7 +47,7 @@ namespace ModernApplicationFramework.Basics.Imaging
             _imageCache = new ImageCache();
         }
 
-        internal static ImageLibrary Load()
+        public static ImageLibrary Load()
         {
             return IoC.Get<ImageLibrary>();
         }

@@ -7,11 +7,11 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:utilities="clr-namespace:ModernApplicationFramework.Utilities;assembly=ModernApplicationFramework.Utilities"
              xmlns:converters="clr-namespace:ModernApplicationFramework.Utilities.Converters;assembly=ModernApplicationFramework.Utilities"
-             xmlns:imaging="clr-namespace:ModernApplicationFramework.Utilities.Imaging;assembly=ModernApplicationFramework.Utilities"
              xmlns:mafdd="http://modern.framework.com/dragdrop"
              xmlns:controls="clr-namespace:ModernApplicationFramework.Modules.Toolbox.Controls"
              xmlns:converters1="clr-namespace:ModernApplicationFramework.Modules.Toolbox.Converters"
              xmlns:searchControl="clr-namespace:ModernApplicationFramework.Controls.SearchControl;assembly=ModernApplicationFramework"
+             xmlns:imaging="clr-namespace:ModernApplicationFramework.Imaging;assembly=ModernApplicationFramework.Imaging"
              x:Class="ModernApplicationFramework.Modules.Toolbox.ToolboxView"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" Background="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxBackground}}">
 
@@ -26,7 +26,7 @@
     <FrameworkElement.Resources>
 
         <general:AreEqualConverter x:Key="AreEqualConverter"/>
-        <converters:ThemedImageSourceConverter x:Key="ThemedImageSourceConverter"/>
+        <imaging:ThemedImageSourceConverter x:Key="ThemedImageSourceConverter"/>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converters1:EmptyMessageVisibilityConverter x:Key="EmptyMessageVisibilityConverter"/>
         <converters1:TreeNodeEditModeWidthConverter x:Key="TreeNodeEditModeWidthConverter"/>

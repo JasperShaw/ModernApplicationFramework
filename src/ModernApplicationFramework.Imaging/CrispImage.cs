@@ -4,7 +4,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Basics.Imaging
+namespace ModernApplicationFramework.Imaging
 {
     public sealed class CrispImage : Image
     {

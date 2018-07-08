@@ -1,9 +1,7 @@
-﻿using System.ComponentModel;
-using System.Globalization;
-using ModernApplicationFramework.Core.Converters.General;
+﻿using System.Globalization;
 using ModernApplicationFramework.Utilities.Converters;
 
-namespace ModernApplicationFramework.Basics.Imaging
+namespace ModernApplicationFramework.Imaging
 {
     public class MonikerSourceToImageConverter : MultiValueConverter<ImageMoniker, bool, CrispImage>
     {
@@ -18,7 +16,7 @@ namespace ModernApplicationFramework.Basics.Imaging
         }
     }
 
-    public class EmptyMonikerToBoolConverter : ToBooleanValueConverter<ImageMoniker>
+    public class EmptyMonikerToBoolConverter : ValueConverter<ImageMoniker, bool>
     {
         protected override bool Convert(ImageMoniker value, object parameter, CultureInfo culture)
         {

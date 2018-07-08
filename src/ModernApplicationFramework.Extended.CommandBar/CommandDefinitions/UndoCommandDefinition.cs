@@ -5,9 +5,9 @@ using System.Globalization;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
-using ModernApplicationFramework.Basics.Imaging;
 using ModernApplicationFramework.Extended.CommandBar.Resources;
 using ModernApplicationFramework.Extended.Commands;
+using ModernApplicationFramework.Imaging;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 

@@ -5,9 +5,9 @@
                     xmlns:menu="clr-namespace:ModernApplicationFramework.Controls.Menu"
                     xmlns:windows="clr-namespace:ModernApplicationFramework.Controls.Windows"
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Utilities.Converters;assembly=ModernApplicationFramework.Utilities"
-                    xmlns:imaging="clr-namespace:ModernApplicationFramework.Utilities.Imaging;assembly=ModernApplicationFramework.Utilities"
                     xmlns:extensions="clr-namespace:ModernApplicationFramework.Controls.Extensions"
-                    xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General">
+                    xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General"
+                    xmlns:imaging="clr-namespace:ModernApplicationFramework.Imaging;assembly=ModernApplicationFramework.Imaging">
 
     <converters:BrushToColorConverter x:Key="BrushToColorConverter"/>
     <general:NotNullConverter x:Key="NotNullConverter"/>

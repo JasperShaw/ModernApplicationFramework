@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
-using ModernApplicationFramework.Basics.Imaging;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Imaging;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Utilities;
 

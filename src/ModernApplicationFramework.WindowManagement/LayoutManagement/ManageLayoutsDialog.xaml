@@ -2,11 +2,10 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mafc="http://modern.framework.com/controls"
-             xmlns:buttons="clr-namespace:ModernApplicationFramework.Controls.Buttons;assembly=ModernApplicationFramework"
              xmlns:converters="clr-namespace:ModernApplicationFramework.Utilities.Converters;assembly=ModernApplicationFramework.Utilities"
-             xmlns:imaging="clr-namespace:ModernApplicationFramework.Utilities.Imaging;assembly=ModernApplicationFramework.Utilities"
              xmlns:properties="clr-namespace:ModernApplicationFramework.WindowManagement.Properties"
              xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons;assembly=ModernApplicationFramework"
+             xmlns:imaging1="clr-namespace:ModernApplicationFramework.Imaging;assembly=ModernApplicationFramework.Imaging"
              WindowStartupLocation="CenterOwner" HasDialogFrame="True" ShowInTaskbar="False" 
                    Title="{x:Static properties:WindowManagement_Resources.ManageLayoutsDialogTitle}"
                    ResizeMode="CanResizeWithGrip" Width="380" Height="380" MinWidth="380" MinHeight="380"
@@ -23,7 +22,7 @@
                 <Setter Property="SnapsToDevicePixels" Value="True"/>
                 <Setter Property="Width" Value="24"/>
                 <Setter Property="Height" Value="24"/>
-                <Setter Property="imaging:ImageThemingUtilities.ImageBackgroundColor"
+                <Setter Property="imaging1:ImageThemingUtilities.ImageBackgroundColor"
                         Value="{Binding Background, RelativeSource={RelativeSource Self}, Converter={StaticResource BrushToColorConverter}}"/>
             </Style>
         </ResourceDictionary>

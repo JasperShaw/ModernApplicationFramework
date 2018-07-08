@@ -2,9 +2,9 @@
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using ModernApplicationFramework.Utilities.Imaging;
+using ModernApplicationFramework.Utilities.Converters;
 
-namespace ModernApplicationFramework.Utilities.Converters
+namespace ModernApplicationFramework.Imaging
 {
     public class ThemedImageSourceConverter : MultiValueConverter<ImageSource, Color, bool, ImageSource>
     {

@@ -4,8 +4,8 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using JetBrains.Annotations;
-using ModernApplicationFramework.Basics.Imaging;
 using ModernApplicationFramework.Core.Converters.AccessKey;
+using ModernApplicationFramework.Imaging;
 
 namespace ModernApplicationFramework.Basics.Definitions.Command
 {

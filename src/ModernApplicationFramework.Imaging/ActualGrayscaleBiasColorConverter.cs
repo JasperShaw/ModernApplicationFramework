@@ -2,7 +2,7 @@
 using System.Windows.Media;
 using ModernApplicationFramework.Utilities.Converters;
 
-namespace ModernApplicationFramework.Basics.Imaging
+namespace ModernApplicationFramework.Imaging
 {
     public sealed class ActualGrayscaleBiasColorConverter : MultiValueConverter<Color?, bool, Color>
     {

@@ -77,10 +77,8 @@
     <Compile Include="Boxes.cs" />
     <Compile Include="Converters\BrushToColorConverter.cs" />
     <Compile Include="Converters\ColorToBrushConverter.cs" />
-    <Compile Include="Converters\GrayscaleBitmapSourceConverter.cs" />
     <Compile Include="Converters\MultiValueConverter.cs" />
     <Compile Include="Converters\MultiValueConverterBase.cs" />
-    <Compile Include="Converters\ThemedImageSourceConverter.cs" />
     <Compile Include="Converters\ValueConverter.cs" />
     <Compile Include="DirtyObjectManager.cs" />
     <Compile Include="DisposableObject.cs" />
@@ -96,7 +94,6 @@
     <Compile Include="Imaging\HslColor.cs" />
     <Compile Include="Imaging\ImageConverter.cs" />
     <Compile Include="Imaging\ImageSourceExtension.cs" />
-    <Compile Include="Imaging\ImageThemingUtilities.cs" />
     <Compile Include="Imaging\ImageUtilities.cs" />
     <Compile Include="Interfaces\IDirtyObjectManager.cs" />
     <Compile Include="Interfaces\ICanBeDirty.cs" />

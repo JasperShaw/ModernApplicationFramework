@@ -12,6 +12,7 @@ using ModernApplicationFramework.Controls.Utilities;
 using ModernApplicationFramework.Core.Events;
 using ModernApplicationFramework.Core.Themes;
 using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Imaging;
 using ModernApplicationFramework.Interfaces.Controls;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Utilities;

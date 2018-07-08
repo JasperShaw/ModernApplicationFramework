@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System.Windows.Threading;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Basics
+namespace ModernApplicationFramework.Imaging
 {
     public class ObservableTask<TResult> : ObservableObject
     {

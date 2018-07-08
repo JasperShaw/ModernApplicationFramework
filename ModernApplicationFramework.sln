@@ -55,6 +55,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.ImageCatalog", "src\ModernApplicationFramework.ImageCatalog\ModernApplicationFramework.ImageCatalog.csproj", "{A011F6F0-84AD-41EE-A920-A599B695855F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernApplicationFramework.Imaging", "src\ModernApplicationFramework.Imaging\ModernApplicationFramework.Imaging.csproj", "{D8B696A7-BA7D-4762-8C34-13B7F212074F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -153,6 +155,10 @@ Global
 		{A011F6F0-84AD-41EE-A920-A599B695855F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A011F6F0-84AD-41EE-A920-A599B695855F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A011F6F0-84AD-41EE-A920-A599B695855F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8B696A7-BA7D-4762-8C34-13B7F212074F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8B696A7-BA7D-4762-8C34-13B7F212074F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8B696A7-BA7D-4762-8C34-13B7F212074F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8B696A7-BA7D-4762-8C34-13B7F212074F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -181,6 +187,7 @@ Global
 		{E3F05145-F9A9-42A4-B67D-ADE61980B20A} = {4D1C8100-FF4F-4F76-B4F3-AA904214A46E}
 		{5E12D862-3219-48F4-A32E-491D53296EBF} = {4D1C8100-FF4F-4F76-B4F3-AA904214A46E}
 		{A011F6F0-84AD-41EE-A920-A599B695855F} = {4D1C8100-FF4F-4F76-B4F3-AA904214A46E}
+		{D8B696A7-BA7D-4762-8C34-13B7F212074F} = {4D1C8100-FF4F-4F76-B4F3-AA904214A46E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3A9B2099-61B4-452F-BF63-91B31A07DD83}

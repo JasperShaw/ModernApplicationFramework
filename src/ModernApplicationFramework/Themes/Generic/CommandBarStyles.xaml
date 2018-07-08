@@ -16,9 +16,8 @@
                     xmlns:windows="clr-namespace:ModernApplicationFramework.Controls.Windows"
                     xmlns:comboBox="clr-namespace:ModernApplicationFramework.Controls.ComboBox"
                     xmlns:converters1="clr-namespace:ModernApplicationFramework.Utilities.Converters;assembly=ModernApplicationFramework.Utilities"
-                    xmlns:imaging="clr-namespace:ModernApplicationFramework.Utilities.Imaging;assembly=ModernApplicationFramework.Utilities"
                     xmlns:extensions="clr-namespace:ModernApplicationFramework.Controls.Extensions"
-                    xmlns:imaging1="clr-namespace:ModernApplicationFramework.Basics.Imaging">
+                    xmlns:imaging="clr-namespace:ModernApplicationFramework.Imaging;assembly=ModernApplicationFramework.Imaging">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ComboBox.xaml"/>
@@ -48,8 +47,8 @@
     <converters:MultiToolTipMultiConverter x:Key="MultiToolTipMultiConverter"/>
     <converters:DockLocationConverter x:Key="DockLocationConverter"/>
     <converters:StringUppercaseConverter x:Key="StringUppercaseConverter"/>
-    <imaging1:MonikerSourceToImageConverter x:Key="MonikerSourceToImageConverter"/>
-    <imaging1:EmptyMonikerToBoolConverter x:Key="EmptyMonikerToBoolConverter"/>
+    <imaging:MonikerSourceToImageConverter x:Key="MonikerSourceToImageConverter"/>
+    <imaging:EmptyMonikerToBoolConverter x:Key="EmptyMonikerToBoolConverter"/>
 
     <Style TargetType="{x:Type menu:Menu}" BasedOn="{StaticResource {x:Type Menu}}">
         <Setter Property="Background" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandShelfHighlight}}"/>

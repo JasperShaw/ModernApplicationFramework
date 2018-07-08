@@ -1,13 +1,12 @@
 ﻿<listBoxes:CustomizeControlsListBoxItem x:Class="ModernApplicationFramework.Themes.Generic.CustomizeControlsListBoxItem"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
              xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
              xmlns:accessKey="clr-namespace:ModernApplicationFramework.Core.Converters.AccessKey"
              xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
              xmlns:listBoxes="clr-namespace:ModernApplicationFramework.Controls.ListBoxes"
-             xmlns:imaging="clr-namespace:ModernApplicationFramework.Basics.Imaging"
-             xmlns:utilities="clr-namespace:ModernApplicationFramework.Utilities;assembly=ModernApplicationFramework.Utilities">
+             xmlns:utilities="clr-namespace:ModernApplicationFramework.Utilities;assembly=ModernApplicationFramework.Utilities"
+             xmlns:imaging="clr-namespace:ModernApplicationFramework.Imaging;assembly=ModernApplicationFramework.Imaging">
     <FrameworkElement.Resources>
         <accessKey:AccessKeyRemovingConverter x:Key="AccessKeyRemovingConverter"/>
         <accessKey:AccessKeyUnderliningConverter x:Key="AccessKeyUnderliningConverter"/>

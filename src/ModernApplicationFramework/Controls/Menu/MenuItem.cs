@@ -1,16 +1,12 @@
-﻿using System;
-using System.ComponentModel;
-using System.IO;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
-using ModernApplicationFramework.Basics.Imaging;
 using ModernApplicationFramework.Controls.Buttons;
 using ModernApplicationFramework.Controls.Utilities;
 using ModernApplicationFramework.Core.Events;
@@ -19,7 +15,6 @@ using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces.Controls;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Utilities;
-using ModernApplicationFramework.Utilities.Imaging;
 
 namespace ModernApplicationFramework.Controls.Menu
 {
