@@ -16,7 +16,6 @@ using ModernApplicationFramework.Imaging;
 using ModernApplicationFramework.Interfaces.Controls;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Utilities;
-using ModernApplicationFramework.Utilities.Imaging;
 
 namespace ModernApplicationFramework.Controls.Menu
 {
@@ -159,12 +158,6 @@ namespace ModernApplicationFramework.Controls.Menu
         protected override void OnOpened(RoutedEventArgs e)
         {
             _scrollViewer?.ScrollToVerticalOffset(0.0);
-
-            //foreach (var item in Items)
-            //{
-            //    if (item is MenuItem menuItem)
-            //        menuItem.SetThemedIcon();
-            //}
             base.OnOpened(e);
         }
 
@@ -238,14 +231,6 @@ namespace ModernApplicationFramework.Controls.Menu
 
         protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            if (e.Property == ItemsSourceProperty && e.NewValue != null)
-            {
-                //foreach (var item in Items)
-                //{
-                //    if (item is MenuItem menuItem)
-                //        menuItem.SetThemedIcon();
-                //}
-            }
             base.OnPropertyChanged(e);
             if (e.NewValue != null && (e.Property != ShowKeyboardCuesProperty || (bool)e.NewValue))
                 return;

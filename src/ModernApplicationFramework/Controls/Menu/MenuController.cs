@@ -90,12 +90,6 @@ namespace ModernApplicationFramework.Controls.Menu
             }
             if (anchorItem != null)
             {
-                //if (string.IsNullOrEmpty(anchorItem.CommandDefinition?.IconSource?.OriginalString))
-                //    return;
-                //var myResourceDictionary = new ResourceDictionary { Source = anchorItem.CommandDefinition.IconSource };
-                //IconSource = myResourceDictionary[anchorItem.CommandDefinition.IconId];
-                //this.SetThemedIcon();
-
                 if (anchorItem.CommandDefinition is CommandDefinition commandDefinition)
                     commandDefinition.Command.CanExecuteChanged += Command_CanExecuteChanged;
             }    
