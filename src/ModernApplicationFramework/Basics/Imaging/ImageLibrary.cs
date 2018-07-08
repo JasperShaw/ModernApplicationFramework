@@ -1,30 +1,77 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Runtime.InteropServices;
+using System.Drawing.Design;
+using System.IO;
+using System.Linq;
+using System.Windows;
+using System.Windows.Markup;
 using System.Windows.Media.Imaging;
+using System.Xml;
+using Caliburn.Micro;
+using ModernApplicationFramework.Utilities.Imaging;
 
 namespace ModernApplicationFramework.Basics.Imaging
 {
-    [Export(typeof(IImageLibrary))]
-    internal class ImageLibrary : IImageLibrary
+    [Export(typeof(ImageLibrary))]
+    public class ImageLibrary
     {
         private readonly IEnumerable<IImageCatalog> _catalogs;
+        private bool _initialized;
 
-        public ImageLibrary([ImportMany] IEnumerable<IImageCatalog> catalogs)
+        public bool Initialized
         {
+            get => _initialized;
+            private set
+            {
+                if (_initialized == value)
+                    return;
+                _initialized = value;
+                if (!_initialized)
+                    return;
+                //InitializedChanged.RaiseEvent(this);
+            }
+        }
+
+        [ImportingConstructor]
+        private ImageLibrary([ImportMany] IEnumerable<IImageCatalog> catalogs)
+        {     
             _catalogs = catalogs;
+            Instance = this;
+            Initialized = true;
         }
 
-        public BitmapSource GetImage(ImageMonkier monkier)
+        internal static ImageLibrary Load()
         {
-            throw new NotImplementedException();
+            return IoC.Get<ImageLibrary>();
         }
-    }
 
-    public interface IImageLibrary
-    {
-        BitmapSource GetImage(ImageMonkier monkier);
+        public static ImageLibrary Instance { get; internal set; }
+
+
+        public BitmapSource GetImage(ImageMoniker monkier)
+        {
+            var catalog = _catalogs.FirstOrDefault(x => x.ImageCataloGuid == monkier.CatalogGuid);
+            if (catalog == null)
+                return null;
+            if (!catalog.GetDefinition(monkier.Id, out var imageDefinition))
+                return null;
+
+
+            FrameworkElement visual;
+            //using (var stream = imageDefinition.GetType().Assembly.GetManifestResourceStream(imageDefinition.Source.LocalPath))
+            using (var stream = Application.GetResourceStream(imageDefinition.Source).Stream)
+            {
+                using (var stringReader = new StreamReader(stream))
+                {
+                    using (var xmlReader = new XmlTextReader(stringReader))
+                    {
+                        visual = (FrameworkElement)XamlReader.Load(xmlReader);
+                    }
+                }
+            }
+            return ImageUtilities.FrameworkElementToBitmapSource(visual);
+        }
     }
 
     public interface IImageCatalog
@@ -34,18 +81,18 @@ namespace ModernApplicationFramework.Basics.Imaging
         bool GetDefinition(int id, out ImageDefinition imageDefinition);
     }
 
-    public struct ImageMonkier : IComparable<ImageMonkier>, IEquatable<ImageMonkier>
+    public struct ImageMoniker : IComparable<ImageMoniker>, IEquatable<ImageMoniker>
     {
         public readonly Guid CatalogGuid;
         public readonly int Id;
 
-        public ImageMonkier(Guid catalogGuid, int id)
+        public ImageMoniker(Guid catalogGuid, int id)
         {
             CatalogGuid = catalogGuid;
             Id = id;
         }
 
-        public int CompareTo(ImageMonkier other)
+        public int CompareTo(ImageMoniker other)
         {
             var num = CatalogGuid.CompareTo(other.CatalogGuid);
             if (num != 0)
@@ -53,7 +100,7 @@ namespace ModernApplicationFramework.Basics.Imaging
             return Id - other.Id;
         }
 
-        public bool Equals(ImageMonkier other)
+        public bool Equals(ImageMoniker other)
         {
             if (Id == other.Id)
                 return CatalogGuid == other.CatalogGuid;
@@ -62,7 +109,7 @@ namespace ModernApplicationFramework.Basics.Imaging
 
         public override bool Equals(object obj)
         {
-            if (!(obj is ImageMonkier monkier))
+            if (!(obj is ImageMoniker monkier))
                 return false;
             return Equals(monkier);
         }
@@ -72,12 +119,12 @@ namespace ModernApplicationFramework.Basics.Imaging
             return CatalogGuid.GetHashCode() ^ Id;
         }
 
-        public static bool operator ==(ImageMonkier monkier1, ImageMonkier monkier2)
+        public static bool operator ==(ImageMoniker monkier1, ImageMoniker monkier2)
         {
             return monkier1.Equals(monkier2);
         }
 
-        public static bool operator !=(ImageMonkier monkier1, ImageMonkier monkier2)
+        public static bool operator !=(ImageMoniker monkier1, ImageMoniker monkier2)
         {
             return !monkier1.Equals(monkier2);
         }
@@ -85,7 +132,7 @@ namespace ModernApplicationFramework.Basics.Imaging
 
     public struct ImageDefinition
     {
-        public ImageMonkier Monkier;
+        public ImageMoniker Monkier;
         public Uri Source;
         public ImageType Type;
     }

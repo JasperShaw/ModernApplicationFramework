@@ -7,7 +7,7 @@ namespace ModernApplicationFramework.ImageCatalog
         public static ImageDefinition UndoDefinition => new ImageDefinition
         {
             Type = ImageType.Xaml,
-            Monkier = Monkiers.Undo,
+            Monkier = Monikers.Undo,
             Source = UriCreator.Create("Undo_16x", ImageType.Xaml)
         };
     }

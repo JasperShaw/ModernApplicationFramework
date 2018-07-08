@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Imaging;
 using ModernApplicationFramework.Extended.CommandBar.Resources;
 using ModernApplicationFramework.Extended.Commands;
 using ModernApplicationFramework.Input;
@@ -18,6 +19,8 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
     {
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures { get; }
         public override GestureScope DefaultGestureScope { get; }
+
+        public override ImageMoniker ImageMonikerSource => ImageCatalog.Monikers.Undo;
 
         public override string IconId => "UndoIcon";
 

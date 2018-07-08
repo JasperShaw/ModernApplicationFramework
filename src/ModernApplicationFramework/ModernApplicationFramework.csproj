@@ -127,6 +127,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\Generic\CrispImage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Generic\SearchControlColors.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -263,7 +267,9 @@
   <ItemGroup>
     <Compile Include="Basics\ApplicationEnvironment\AbstractEnvironmentVariables.cs" />
     <Compile Include="Basics\ApplicationEnvironment\FallbackEnvironmentVariables.cs" />
+    <Compile Include="Basics\Imaging\CrispImage.cs" />
     <Compile Include="Basics\Imaging\ImageLibrary.cs" />
+    <Compile Include="Basics\Imaging\MonikerSourceToImageConverter.cs" />
     <Compile Include="Docking\Commands\AutoHideAllWindowsCommand.cs" />
     <Compile Include="Docking\Commands\AutoHideWindowCommand.cs" />
     <Compile Include="Docking\Commands\CloseAllButThisDockedWindowCommand.cs" />

@@ -17,7 +17,8 @@
                     xmlns:comboBox="clr-namespace:ModernApplicationFramework.Controls.ComboBox"
                     xmlns:converters1="clr-namespace:ModernApplicationFramework.Utilities.Converters;assembly=ModernApplicationFramework.Utilities"
                     xmlns:imaging="clr-namespace:ModernApplicationFramework.Utilities.Imaging;assembly=ModernApplicationFramework.Utilities"
-                    xmlns:extensions="clr-namespace:ModernApplicationFramework.Controls.Extensions">
+                    xmlns:extensions="clr-namespace:ModernApplicationFramework.Controls.Extensions"
+                    xmlns:imaging1="clr-namespace:ModernApplicationFramework.Basics.Imaging">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ComboBox.xaml"/>
@@ -47,6 +48,7 @@
     <converters:MultiToolTipMultiConverter x:Key="MultiToolTipMultiConverter"/>
     <converters:DockLocationConverter x:Key="DockLocationConverter"/>
     <converters:StringUppercaseConverter x:Key="StringUppercaseConverter"/>
+    <imaging1:MonikerSourceToImageConverter x:Key="MonikerSourceToImageConverter"/>
 
     <Style TargetType="{x:Type menu:Menu}" BasedOn="{StaticResource {x:Type Menu}}">
         <Setter Property="Background" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandShelfHighlight}}"/>
@@ -596,6 +598,15 @@
         <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static colors:EnvironmentColors.CommandBarTextActive}}"/>
         <Setter Property="Visibility"
                 Value="{Binding IsVisible, Converter={StaticResource BoolToVisConverter}}"/>
+
+
+        <Setter Property="Icon">
+            <Setter.Value>
+                <Binding Converter="{StaticResource MonikerSourceToImageConverter}" Path="CommandDefinition.ImageMonikerSource"/>
+            </Setter.Value>
+        </Setter>
+
+
         <Setter Property="Command">
             <Setter.Value>
                 <Binding Converter="{StaticResource CommandBarItemCommandConverter}"/>
@@ -952,6 +963,15 @@
         <Setter Property="Template"
                 Value="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type menu:MenuItem}, ResourceId=SubmenuItemTemplateKey}}"/>
         <Setter Property="Padding" Value="2,3,2,3"/>
+
+
+        <Setter Property="Icon">
+            <Setter.Value>
+                <Binding Converter="{StaticResource MonikerSourceToImageConverter}" Path="CommandDefinition.ImageMonikerSource"/>
+            </Setter.Value>
+        </Setter>
+
+
         <Setter Property="Command">
             <Setter.Value>
                 <Binding Converter="{StaticResource CommandBarItemCommandConverter}"/>

@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Imaging;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Utilities;
@@ -76,8 +77,12 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
 
         internal static IToolboxItem CreateTextItem(IDataObject data)
         {
-            var bitmap = new BitmapImage(
-                new Uri("pack://application:,,,/ModernApplicationFramework.Modules.Toolbox;component/text.png"));
+            //var bitmap = new BitmapImage(
+            //    new Uri("pack://application:,,,/ModernApplicationFramework.Modules.Toolbox;component/text.png"));
+
+
+            var bitmap = ImageLibrary.Instance.GetImage(ImageCatalog.Monikers.Undo);
+
 
             string text;
             try

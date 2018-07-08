@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{A011F6F0-84AD-41EE-A920-A599B695855F}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>ModernApplicationFramework.ImageCatalog</RootNamespace>
     <AssemblyName>ModernApplicationFramework.ImageCatalog</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
@@ -32,6 +32,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -85,10 +88,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Resources\Xaml\Undo_16x.xaml">
+    <Resource Include="Resources\Xaml\Undo_16x.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

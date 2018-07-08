@@ -6,9 +6,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
+using ModernApplicationFramework.Basics.Imaging;
 using ModernApplicationFramework.Controls.Buttons;
 using ModernApplicationFramework.Controls.Utilities;
 using ModernApplicationFramework.Core.Events;
@@ -17,6 +19,7 @@ using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces.Controls;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Utilities;
+using ModernApplicationFramework.Utilities.Imaging;
 
 namespace ModernApplicationFramework.Controls.Menu
 {
@@ -138,31 +141,35 @@ namespace ModernApplicationFramework.Controls.Menu
 
         private void MenuItem_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (!(DataContext is CommandBarDefinitionBase definitionBase))
-                return;
+            //if (!(DataContext is CommandBarDefinitionBase definitionBase))
+            //    return;
            
-            if (string.IsNullOrEmpty(definitionBase?.CommandDefinition?.IconSource?.OriginalString))
-                return;
-            try
-            {
-                var myResourceDictionary = new ResourceDictionary { Source = definitionBase.CommandDefinition.IconSource };
-                IconSource = myResourceDictionary[definitionBase.CommandDefinition.IconId];
-                this.SetThemedIcon();
-            }
-            catch (IOException)
-            {
-            }         
+            //if (string.IsNullOrEmpty(definitionBase?.CommandDefinition?.IconSource?.OriginalString))
+            //    return;
+            //try
+            //{
+            //    var myResourceDictionary = new ResourceDictionary { Source = definitionBase.CommandDefinition.IconSource };
+            //    IconSource = myResourceDictionary[definitionBase.CommandDefinition.IconId];
+
+            //    if (definitionBase.CommandDefinition.ImageMonikerSource != default)
+            //        Icon = ImageLibrary.Instance.GetImage(definitionBase.CommandDefinition.ImageMonikerSource);
+            //    else
+            //        this.SetThemedIcon();
+
+            //}
+            //catch (IOException ex)
+            //{
+            //}         
         }
 
         private void MenuItem_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            this.SetThemedIcon();
+            //this.SetThemedIcon();
         }
 
         protected override void OnRender(DrawingContext drawingContext)
         {
-            base.OnRender(drawingContext);
-            this.SetThemedIcon();
+            //this.SetThemedIcon();
         }
 
         protected override void OnVisualParentChanged(DependencyObject oldParent)
@@ -180,7 +187,7 @@ namespace ModernApplicationFramework.Controls.Menu
 
         private void ThemeManager_OnThemeChanged(object sender, ThemeChangedEventArgs e)
         {
-            this.SetThemedIcon();
+            //this.SetThemedIcon();
         }
 
         protected override DependencyObject GetContainerForItemOverride()

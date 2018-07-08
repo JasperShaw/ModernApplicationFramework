@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using JetBrains.Annotations;
+using ModernApplicationFramework.Basics.Imaging;
 using ModernApplicationFramework.Core.Converters.AccessKey;
 
 namespace ModernApplicationFramework.Basics.Definitions.Command
@@ -50,6 +51,10 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         /// The key or ID of the icon inside the <see cref="IconSource"/>
         /// </summary>
         public abstract string IconId { get; }
+
+
+        public virtual ImageMoniker ImageMonikerSource { get; }
+
 
         /// <summary>
         /// Options that identifies the definition as a container of a list of definitions

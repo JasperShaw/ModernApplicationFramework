@@ -6,6 +6,7 @@ using Caliburn.Micro;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Creators;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Basics.Imaging;
 using ModernApplicationFramework.Extended.CommandBar.Resources;
 using ModernApplicationFramework.Extended.Commands;
 using ModernApplicationFramework.Extended.UndoRedoManager;
@@ -29,6 +30,10 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
             =>
                 new Uri("/ModernApplicationFramework.Extended.CommandBar;component/Resources/Icons/Undo_16x.xaml",
                     UriKind.RelativeOrAbsolute);
+
+
+        public override ImageMoniker ImageMonikerSource => ImageCatalog.Monikers.Undo;
+
 
         public override string Name => Commands_Resources.MultiUndoCommandDefinition_Name;
         public override string Text => Commands_Resources.MultiUndoCommandDefinition_Text;

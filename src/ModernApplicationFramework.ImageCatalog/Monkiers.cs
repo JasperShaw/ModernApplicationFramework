@@ -2,9 +2,9 @@
 
 namespace ModernApplicationFramework.ImageCatalog
 {
-    public static class Monkiers
+    public static class Monikers
     {
-        public static ImageMonkier Undo =>
-            new ImageMonkier(FrameworkImageCatalog.FrameworkImageCatalogGuid, ImageIds.Undo);
+        public static ImageMoniker Undo =>
+            new ImageMoniker(FrameworkImageCatalog.FrameworkImageCatalogGuid, ImageIds.Undo);
     }
 }

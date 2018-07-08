@@ -7,7 +7,7 @@ namespace ModernApplicationFramework.ImageCatalog
     {
         public static Uri Create(string fileName, ImageType type)
         {
-            return new Uri($"/ModernApplicationFramework.ImageCatalog;component/Resources/{type.ToString()}/{fileName}.xaml");
+            return new Uri($"/ModernApplicationFramework.ImageCatalog;component/Resources/{type.ToString()}/{fileName}.xaml", UriKind.RelativeOrAbsolute);
         }
     }
 }

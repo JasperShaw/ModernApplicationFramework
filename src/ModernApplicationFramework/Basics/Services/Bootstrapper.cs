@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using Caliburn.Micro;
 using ModernApplicationFramework.Basics.ApplicationEnvironment;
+using ModernApplicationFramework.Basics.Imaging;
 using ModernApplicationFramework.Core.Exception;
 using ModernApplicationFramework.Core.Localization;
 using ModernApplicationFramework.Interfaces.Services;
@@ -68,6 +69,7 @@ namespace ModernApplicationFramework.Basics.Services
         protected virtual void PostInitialize()
         {
             SetLanguage();
+            ImageLibrary.Load();
         }
 
         /// <summary>
