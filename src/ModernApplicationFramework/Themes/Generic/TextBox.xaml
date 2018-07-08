@@ -2,7 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:textBoxes="clr-namespace:ModernApplicationFramework.Controls.TextBoxes"
-                    xmlns:controls="clr-namespace:ModernApplicationFramework.Controls">
+                    xmlns:controls="clr-namespace:ModernApplicationFramework.Controls"
+                    xmlns:imaging="clr-namespace:ModernApplicationFramework.Imaging;assembly=ModernApplicationFramework.Imaging"
+                    xmlns:imageCatalog="clr-namespace:ModernApplicationFramework.ImageCatalog;assembly=ModernApplicationFramework.ImageCatalog">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../../Resources/Icons/StatusError.xaml" />
@@ -61,11 +63,11 @@
     <ControlTemplate x:Key="ErrorTextBoxTemplateKey">
         <Grid>
             <AdornedElementPlaceholder x:Name="Holder"/>
-            <ContentPresenter Height="16" Width="16" Margin="0,0,5,0" HorizontalAlignment="Right" Content="{StaticResource StatusErrorIcon}">
+            <imaging:CrispImage Height="16" Width="16" Margin="0,0,5,0" HorizontalAlignment="Right" Moniker="{x:Static imageCatalog:Monikers.StatusError}">
                 <FrameworkElement.ToolTip>
                     <Binding ElementName="Holder" Path="AdornedElement.(Validation.Errors)[0].ErrorContent"/>
                 </FrameworkElement.ToolTip>
-            </ContentPresenter>
+            </imaging:CrispImage>
         </Grid>
     </ControlTemplate>
     

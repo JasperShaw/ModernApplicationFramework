@@ -4,19 +4,25 @@
                     xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes"
                     xmlns:converters="clr-namespace:ModernApplicationFramework.Core.Converters"
                     xmlns:basics="clr-namespace:ModernApplicationFramework.Basics"
-                    xmlns:windows="clr-namespace:ModernApplicationFramework.Controls.Windows">
-
-    <ResourceDictionary.MergedDictionaries>
-		<ResourceDictionary Source="../../Resources/Icons/Icons.xaml"/>
-	</ResourceDictionary.MergedDictionaries>
+                    xmlns:windows="clr-namespace:ModernApplicationFramework.Controls.Windows"
+                    xmlns:imageing="clr-namespace:ModernApplicationFramework.ImageCatalog;assembly=ModernApplicationFramework.ImageCatalog"
+                    xmlns:imaging="clr-namespace:ModernApplicationFramework.Imaging;assembly=ModernApplicationFramework.Imaging"
+                    xmlns:converters1="clr-namespace:ModernApplicationFramework.Utilities.Converters;assembly=ModernApplicationFramework.Utilities">
 
     <converters:EmptyStringToVisibilityConverter  x:Key="EmptyStringToVisibilityConverter"/>
+    <converters1:BrushToColorConverter x:Key="BrushToColorConverter"/>
 
     <Style TargetType="{x:Type this:BalloonTooltip}">
         <Setter Property="Background" Value="White"/>
         <Setter Property="BorderBrush" Value="Black"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="Foreground" Value="{x:Static SystemColors.InfoTextBrush}"/>
+        <Setter Property="imaging:ImageThemingUtilities.ImageBackgroundColor">
+            <Setter.Value>
+                <Binding Path="Background" RelativeSource="{RelativeSource Self}"
+                         Converter="{StaticResource BrushToColorConverter}"/>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type this:BalloonTooltip}">
@@ -58,8 +64,8 @@
                                         <RowDefinition Height="*"/>
                                         <RowDefinition Height="8"/>
                                     </Grid.RowDefinitions>
-                                    <ContentPresenter x:Name="Image" Grid.Column="1" Grid.Row="1" Height="16" Width="16" VerticalAlignment="Center"
-                                                          HorizontalAlignment="Right" Content="{StaticResource StatusErrorIcon}"
+                                    <imaging:CrispImage x:Name="Image" Grid.Column="1" Grid.Row="1" Height="16" Width="16" VerticalAlignment="Center"
+                                                          HorizontalAlignment="Right" Moniker="{x:Static imageing:Monikers.StatusError}"
                                                           Visibility="{Binding Path=TitleText ,RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource EmptyStringToVisibilityConverter}}"/>
                                     <TextBlock Grid.Row="1" Grid.Column="2" FontSize="16" Text="{TemplateBinding TitleText}" Foreground="{TemplateBinding TitleForeground}"
                                                    Visibility="{Binding Path=TitleText ,RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource EmptyStringToVisibilityConverter}}"
@@ -105,13 +111,13 @@
                             <Setter Property="Visibility" Value="Collapsed" TargetName="Image"/>
                         </Trigger>
                         <Trigger Property="BalloonType" Value="Error">
-                            <Setter Property="Content" Value="{StaticResource StatusErrorIcon}" TargetName="Image"/>
+                            <Setter Property="Moniker" Value="{x:Static imageing:Monikers.StatusError}" TargetName="Image"/>
                         </Trigger>
                         <Trigger Property="BalloonType" Value="Info">
-                            <Setter Property="Content" Value="{StaticResource StatusInfoIcon}" TargetName="Image"/>
+                            <Setter Property="Moniker" Value="{x:Static imageing:Monikers.StatusInfo}" TargetName="Image"/>
                         </Trigger>
                         <Trigger Property="BalloonType" Value="Warning">
-                            <Setter Property="Content" Value="{StaticResource StatusWarningIcon}" TargetName="Image"/>
+                            <Setter Property="Moniker" Value="{x:Static imageing:Monikers.StatusWarning}" TargetName="Image"/>
                         </Trigger>
                         <DataTrigger Value="True">
                             <DataTrigger.Binding>

@@ -13,8 +13,24 @@ namespace ModernApplicationFramework.ImageCatalog
 
         public bool GetDefinition(int id, out ImageDefinition imageDefinition)
         {
-            imageDefinition = ImageDefinitions.UndoDefinition;
-            return true;
+            imageDefinition = default;
+            switch (id)
+            {
+                case ImageIds.Undo:
+                    imageDefinition = ImageDefinitions.UndoDefinition;
+                    return true;
+                case ImageIds.StatusInfo:
+                    imageDefinition = ImageDefinitions.StatusInfoDefinition;
+                    return true;
+                case ImageIds.StatusWarning:
+                    imageDefinition = ImageDefinitions.StatusWarningDefinition;
+                    return true;
+                case ImageIds.StatusError:
+                    imageDefinition = ImageDefinitions.StatusErrorDefinition;
+                    return true;
+                default:
+                    return false;
+            }           
         }
     }
 }

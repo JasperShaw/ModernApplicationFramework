@@ -1,6 +1,4 @@
-﻿using ModernApplicationFramework.Imaging;
-
-namespace ModernApplicationFramework.ImageCatalog
+﻿namespace ModernApplicationFramework.ImageCatalog
 {
     public static class Monikers
     {
@@ -9,6 +7,27 @@ namespace ModernApplicationFramework.ImageCatalog
             {
                 CatalogGuid = FrameworkImageCatalog.FrameworkImageCatalogGuid,
                 Id = ImageIds.Undo
+            };
+
+        public static Imaging.Interop.ImageMoniker StatusError =>
+            new Imaging.Interop.ImageMoniker
+            {
+                CatalogGuid = FrameworkImageCatalog.FrameworkImageCatalogGuid,
+                Id = ImageIds.StatusError
+            };
+
+        public static Imaging.Interop.ImageMoniker StatusWarning =>
+            new Imaging.Interop.ImageMoniker
+            {
+                CatalogGuid = FrameworkImageCatalog.FrameworkImageCatalogGuid,
+                Id = ImageIds.StatusWarning
+            };
+
+        public static Imaging.Interop.ImageMoniker StatusInfo =>
+            new Imaging.Interop.ImageMoniker
+            {
+                CatalogGuid = FrameworkImageCatalog.FrameworkImageCatalogGuid,
+                Id = ImageIds.StatusInfo
             };
     }
 }

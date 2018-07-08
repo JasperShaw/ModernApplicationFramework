@@ -10,7 +10,7 @@
                           xmlns:imaging="clr-namespace:ModernApplicationFramework.Imaging;assembly=ModernApplicationFramework.Imaging"
                           Background="{DynamicResource {x:Static themes:EnvironmentColors.InfoBarBackground}}"
                         Foreground="{DynamicResource {x:Static themes:EnvironmentColors.InfoBarBackgroundText}}"
-                        Focusable="True" IsTabStop="True">
+                        Focusable="True" IsTabStop="True" imaging:ImageThemingUtilities.ImageBackgroundColor="#F6F6F6">
     <FrameworkElement.Resources>
 
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>

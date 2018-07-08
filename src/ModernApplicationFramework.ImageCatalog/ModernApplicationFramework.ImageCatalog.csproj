@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -85,10 +86,6 @@
     <ProjectReference Include="..\ModernApplicationFramework.Imaging\ModernApplicationFramework.Imaging.csproj">
       <Project>{D8B696A7-BA7D-4762-8C34-13B7F212074F}</Project>
       <Name>ModernApplicationFramework.Imaging</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ModernApplicationFramework\ModernApplicationFramework.csproj">
-      <Project>{74F6C6A1-64BB-47D4-9E7F-6CD5C4CA166C}</Project>
-      <Name>ModernApplicationFramework</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -74,7 +74,7 @@ namespace ModernApplicationFramework.WindowManagement.CommandBarLayout
                     new InfoBarTextSpan(WindowManagement_Resources.ErrorLoadCommandBarLayout)
                 };
 
-                var model = new InfoBarModel(infoBarTextSpanArray, new List<IInfoBarActionItem>(), ImageCatalog.Monikers.Undo);
+                var model = new InfoBarModel(infoBarTextSpanArray, new List<IInfoBarActionItem>(), ImageCatalog.Monikers.StatusInfo);
                 var ui = IoC.Get<IInfoBarUiFactory>().CreateInfoBar(model);
                 ui.Advise(this, out _);
                 _mainWindow.InfoBarHost.AddInfoBar(ui);
