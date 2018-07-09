@@ -361,6 +361,10 @@
       <Project>{74f6c6a1-64bb-47d4-9e7f-6cd5c4ca166c}</Project>
       <Name>ModernApplicationFramework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ModernApplicationFramework.Extended.Demo.ImageCatalog\ModernApplicationFramework.Extended.Demo.ImageCatalog.csproj">
+      <Project>{0c253408-42ae-4698-83bc-48347f8e5357}</Project>
+      <Name>ModernApplicationFramework.Extended.Demo.ImageCatalog</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ModernApplicationFramework.Modules.Editors\ModernApplicationFramework.Modules.Editors.csproj">
       <Project>{3b05fe4c-e6f7-4f18-8073-58f2e81c9446}</Project>
       <Name>ModernApplicationFramework.Modules.Editors</Name>

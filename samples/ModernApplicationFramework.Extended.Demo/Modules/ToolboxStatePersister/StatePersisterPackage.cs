@@ -6,6 +6,7 @@ using ModernApplicationFramework.Basics.InfoBar;
 using ModernApplicationFramework.Controls.InfoBar;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Package;
+using ModernApplicationFramework.ImageCatalog;
 using ModernApplicationFramework.Interfaces.Controls.InfoBar;
 using ModernApplicationFramework.Interfaces.Services;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
@@ -70,7 +71,7 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ToolboxStatePersister
             };
 
 
-            var model = new InfoBarModel(infoBarTextSpanArray, new List<IInfoBarActionItem>(), ImageCatalog.Monikers.StatusInfo);
+            var model = new InfoBarModel(infoBarTextSpanArray, new List<IInfoBarActionItem>(), Monikers.StatusInfo);
             var ui = IoC.Get<IInfoBarUiFactory>().CreateInfoBar(model);
             ui.Advise(this, out _);
             _mainWindow.InfoBarHost.AddInfoBar(ui);
