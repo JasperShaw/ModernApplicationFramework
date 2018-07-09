@@ -11,22 +11,22 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
     internal class ToolboxItemHost
     {
 
-        public IReadOnlyCollection<IToolboxCategory> AllCategories => new List<IToolboxCategory>(_categories.ToList().Concat(_customCategories));
-        public IReadOnlyCollection<IToolboxItem> AllItems => new List<IToolboxItem>(_items.ToList().Concat(_customItems));
+        public IReadOnlyCollection<IToolboxCategory> AllCategories => new List<IToolboxCategory>(Categories.ToList().Concat(CustomCategories));
+        public IReadOnlyCollection<IToolboxItem> AllItems => new List<IToolboxItem>(Items.ToList().Concat(CustomItems));
 
-        private ObservableCollection<IToolboxCategory> _categories { get; }
-        private ObservableCollection<IToolboxCategory> _customCategories { get; }
-        private ObservableCollection<IToolboxItem> _items { get; }
-        private ObservableCollection<IToolboxItem> _customItems { get; }
+        private ObservableCollection<IToolboxCategory> Categories { get; }
+        private ObservableCollection<IToolboxCategory> CustomCategories { get; }
+        private ObservableCollection<IToolboxItem> Items { get; }
+        private ObservableCollection<IToolboxItem> CustomItems { get; }
 
 
         [ImportingConstructor]
         public ToolboxItemHost([ImportMany] IEnumerable<IToolboxCategory> categories, [ImportMany] IEnumerable<IToolboxItem> items)
         {
-            _categories = new ObservableCollection<IToolboxCategory>(categories);
-            _items = new ObservableCollection<IToolboxItem>(items);
-            _customCategories = new ObservableCollection<IToolboxCategory>();
-            _customItems = new ObservableCollection<IToolboxItem>();
+            Categories = new ObservableCollection<IToolboxCategory>(categories);
+            Items = new ObservableCollection<IToolboxItem>(items);
+            CustomCategories = new ObservableCollection<IToolboxCategory>();
+            CustomItems = new ObservableCollection<IToolboxItem>();
         }
 
         internal void Initialize()
@@ -44,22 +44,22 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
                 return;
 
             if(node is IToolboxCategory category)
-                if (!_customCategories.Contains(category))
-                    _customCategories.Add(category);
+                if (!CustomCategories.Contains(category))
+                    CustomCategories.Add(category);
 
             if (node is IToolboxItem item)
-                if (!_customItems.Contains(item))
-                    _customItems.Add(item);
+                if (!CustomItems.Contains(item))
+                    CustomItems.Add(item);
         }
 
         public void DeleteNode(IToolboxNode node)
         {
             if (node is IToolboxCategory category)
-                if (_customCategories.Contains(category))
-                    _customCategories.Remove(category);
+                if (CustomCategories.Contains(category))
+                    CustomCategories.Remove(category);
             if (node is IToolboxItem item)
-                if (_customItems.Contains(item))
-                    _customItems.Remove(item);
+                if (CustomItems.Contains(item))
+                    CustomItems.Remove(item);
         }
     }
 }

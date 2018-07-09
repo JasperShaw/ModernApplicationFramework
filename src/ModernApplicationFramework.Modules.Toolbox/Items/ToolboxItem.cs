@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.ImageCatalog;
-using ModernApplicationFramework.Imaging;
 using ModernApplicationFramework.Imaging.Interop;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Utilities;
@@ -22,7 +20,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
 
         public IToolboxCategory OriginalParent { get; }
 
-        public ImageMoniker ImageMoniker { get; private set; }
+        public ImageMoniker ImageMoniker { get; }
 
         public TypeArray<ILayoutItem> CompatibleTypes { get; }
 
@@ -90,9 +88,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             }
 
             var dataObject = new DataObject(DataFormats.Text, text);
-
-            var item = new ToolboxItem($"Text: {text}", dataObject, new[] { typeof(object) }, Monikers.Win32Text);
-            
+            var item = new ToolboxItem($"Text: {text}", dataObject, new[] { typeof(object) }, Monikers.Win32Text);      
             return item;
         }
 
