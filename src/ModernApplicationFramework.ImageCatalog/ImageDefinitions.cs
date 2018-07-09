@@ -183,7 +183,7 @@ namespace ModernApplicationFramework.ImageCatalog
         {
             Type = ImageType.Png,
             Monkier = Monikers.Win32Text,
-            Source = UriCreator.Create("Win32TextFile", ImageType.Xaml)
+            Source = UriCreator.Create("Win32TextFile", ImageType.Png)
         };
     }
 }

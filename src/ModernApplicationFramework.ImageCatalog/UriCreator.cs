@@ -7,7 +7,12 @@ namespace ModernApplicationFramework.ImageCatalog
     {
         public static Uri Create(string fileName, ImageType type)
         {
-            return new Uri($"/ModernApplicationFramework.ImageCatalog;component/Resources/{type.ToString()}/{fileName}.xaml", UriKind.RelativeOrAbsolute);
+            var prefix = string.Empty;
+            if (type == ImageType.Png)
+                prefix = "pack://application:,,,";
+            return new Uri(
+                $"{prefix}/ModernApplicationFramework.ImageCatalog;component/Resources/{type.ToString()}/{fileName}.{type.ToString().ToLowerInvariant()}",
+                UriKind.RelativeOrAbsolute);
         }
     }
 }

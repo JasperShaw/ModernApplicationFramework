@@ -81,7 +81,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             //    new Uri("pack://application:,,,/ModernApplicationFramework.Modules.Toolbox;component/text.png"));
 
 
-            var bitmap = ImageLibrary.Instance.GetImage(ImageCatalog.Monikers.Undo, new ImageAttributes());
+            var bitmap = ImageLibrary.Instance.GetImage(ImageCatalog.Monikers.Win32Text, new ImageAttributes());
 
 
             string text;

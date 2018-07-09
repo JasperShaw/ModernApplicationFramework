@@ -72,8 +72,23 @@ namespace ModernApplicationFramework.Imaging
             if (cachedImage != null)
                 return cachedImage;
 
-            var visual = Application.LoadComponent(imageDefinition.Source) as FrameworkElement;
-            var image = ImageUtilities.FrameworkElementToBitmapSource(visual);
+
+            BitmapSource image;
+            try
+            {
+                
+                if (imageDefinition.Type == ImageType.Xaml)
+                {
+                    var visual = Application.LoadComponent(imageDefinition.Source) as FrameworkElement;
+                    image = ImageUtilities.FrameworkElementToBitmapSource(visual);
+                }
+                else
+                    image = new BitmapImage(imageDefinition.Source);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
 
             if (attributes.Background.HasValue)
                 image = (BitmapSource)ThemedImageSourceConverter.ConvertCore(image, attributes.Background.Value, !attributes.Grayscale,
