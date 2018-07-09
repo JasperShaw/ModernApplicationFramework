@@ -174,4 +174,25 @@
   <data name="ToolboxNodeDownCommand_Text" xml:space="preserve">
     <value></value>
   </data>
+  <data name="ToolboxEmptyMessage" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="ToolboxSearchWatermark" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="ToolboxSearchNoResults" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="ToolboxItemDeleteMessage" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="DefaultCategoryName" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Error_NameEmpty" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Error_Duplicate" xml:space="preserve">
+    <value></value>
+  </data>
 </root>

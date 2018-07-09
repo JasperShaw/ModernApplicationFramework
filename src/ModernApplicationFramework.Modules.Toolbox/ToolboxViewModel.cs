@@ -156,6 +156,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
         public override void ProvideSearchSettings(SearchSettingsDataSource dataSource)
         {
             dataSource.SearchStartType = SearchStartType.Instant;
+            dataSource.SearchWatermark = ToolboxResources.ToolboxSearchWatermark;
         }
 
         public override ISearchTask CreateSearch(uint cookie, ISearchQuery searchQuery, ISearchCallback searchCallback)

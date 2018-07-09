@@ -10,7 +10,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
         public static MessageBoxResult AskUserForRemove(IToolboxItem item)
         {
             IoC.Get<IMafUIShell>().GetAppName(out var name);
-            return MessageBox.Show("Delete", name, MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
+            return MessageBox.Show(string.Format(ToolboxResources.ToolboxItemDeleteMessage, item.Name), name,
+                MessageBoxButton.OKCancel, MessageBoxImage.Warning, MessageBoxResult.OK);
         }
     }
 }

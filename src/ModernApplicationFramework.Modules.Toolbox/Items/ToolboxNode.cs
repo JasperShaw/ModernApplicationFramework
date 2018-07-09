@@ -124,7 +124,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             errorMessage = string.Empty;
             if (string.IsNullOrEmpty(EditingName))
             {
-                errorMessage = "Name must not be empty";
+                errorMessage = ToolboxResources.Error_NameEmpty;
                 return false;
             }
 

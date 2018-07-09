@@ -120,4 +120,79 @@
   <data name="ToolboxCommandName" xml:space="preserve">
     <value>Toolbox</value>
   </data>
+  <data name="AddCategoryCommand_Name" xml:space="preserve">
+    <value>Toolbox: Registerkarte hinzufügen</value>
+  </data>
+  <data name="AddCategoryCommand_Text" xml:space="preserve">
+    <value>&amp;Registerkarte hinzufügen</value>
+  </data>
+  <data name="DeleteCategoryCommand_Name" xml:space="preserve">
+    <value>Toolbox: Registerkarte entfernen</value>
+  </data>
+  <data name="DeleteCategoryCommand_Text" xml:space="preserve">
+    <value>Re&amp;gisterkarte löschen</value>
+  </data>
+  <data name="RenameCategoryCommand_Text" xml:space="preserve">
+    <value>Registerkarte umbe&amp;nennen</value>
+  </data>
+  <data name="RenameCategoryCommand_Name" xml:space="preserve">
+    <value>Toolbox: Registerkarte umbenennen</value>
+  </data>
+  <data name="RenameItemCommand_Text" xml:space="preserve">
+    <value>Ele&amp;ment umbenennen</value>
+  </data>
+  <data name="RenameItemCommand_Name" xml:space="preserve">
+    <value>Toolbox: Element umbenennen</value>
+  </data>
+  <data name="ResetToolboxCommand_Text" xml:space="preserve">
+    <value>Toolbox &amp;zurücksetzen</value>
+  </data>
+  <data name="ResetToolboxCommand_Name" xml:space="preserve">
+    <value>Toolbox zurücksetzen</value>
+  </data>
+  <data name="SortItemsAlphabeticallyCommand_Text" xml:space="preserve">
+    <value>Elemente al&amp;phabetisch sortieren</value>
+  </data>
+  <data name="SortItemsAlphabeticallyCommand_Name" xml:space="preserve">
+    <value>Toolbox: Elemente sortieren</value>
+  </data>
+  <data name="ShowAllNodesCommand_Text" xml:space="preserve">
+    <value>Alle an&amp;zeigen</value>
+  </data>
+  <data name="ShowAllNodesCommand_Name" xml:space="preserve">
+    <value>Toolbox: Alle anzeigen</value>
+  </data>
+  <data name="ToolboxNodeUpCommand_Text" xml:space="preserve">
+    <value>Nach &amp;oben</value>
+  </data>
+  <data name="ToolboxNodeDownCommand_Text" xml:space="preserve">
+    <value>Nach &amp;unten</value>
+  </data>
+  <data name="ToolboxNodeUpCommand_Name" xml:space="preserve">
+    <value>Toolbox: Registerkarte nach oben verschieben</value>
+  </data>
+  <data name="ToolboxNodeDownCommand_Name" xml:space="preserve">
+    <value>Toolbox: Registerkarte nach unten verschieben</value>
+  </data>
+  <data name="ToolboxEmptyMessage" xml:space="preserve">
+    <value>In dieser Gruppe sind keine verwendbaren Steuerelemente vorhanden. Ziehen Sie ein Element auf diesen Text, um es der Toolbox hinzuzufügen.</value>
+  </data>
+  <data name="ToolboxSearchNoResults" xml:space="preserve">
+    <value>Es wurden keine Ergebnisse gefunden.</value>
+  </data>
+  <data name="ToolboxSearchWatermark" xml:space="preserve">
+    <value>In Toolbox suchen</value>
+  </data>
+  <data name="ToolboxItemDeleteMessage" xml:space="preserve">
+    <value>"{0}" wird aus der Toolbox entfernt.</value>
+  </data>
+  <data name="DefaultCategoryName" xml:space="preserve">
+    <value>Allgemein</value>
+  </data>
+  <data name="Error_Duplicate" xml:space="preserve">
+    <value>Der Registerkartenname "{0}" ist bereits vorhanden.</value>
+  </data>
+  <data name="Error_NameEmpty" xml:space="preserve">
+    <value>Der Titel darf nicht leer sein.</value>
+  </data>
 </root>

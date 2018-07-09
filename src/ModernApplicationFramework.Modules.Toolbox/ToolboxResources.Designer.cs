@@ -81,6 +81,15 @@ namespace ModernApplicationFramework.Modules.Toolbox {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
+        public static string DefaultCategoryName {
+            get {
+                return ResourceManager.GetString("DefaultCategoryName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
         public static string DeleteCategoryCommand_Name {
             get {
                 return ResourceManager.GetString("DeleteCategoryCommand_Name", resourceCulture);
@@ -93,6 +102,24 @@ namespace ModernApplicationFramework.Modules.Toolbox {
         public static string DeleteCategoryCommand_Text {
             get {
                 return ResourceManager.GetString("DeleteCategoryCommand_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string Error_Duplicate {
+            get {
+                return ResourceManager.GetString("Error_Duplicate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string Error_NameEmpty {
+            get {
+                return ResourceManager.GetString("Error_NameEmpty", resourceCulture);
             }
         }
         
@@ -198,6 +225,24 @@ namespace ModernApplicationFramework.Modules.Toolbox {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
+        public static string ToolboxEmptyMessage {
+            get {
+                return ResourceManager.GetString("ToolboxEmptyMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string ToolboxItemDeleteMessage {
+            get {
+                return ResourceManager.GetString("ToolboxItemDeleteMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
         public static string ToolboxNodeDownCommand_Name {
             get {
                 return ResourceManager.GetString("ToolboxNodeDownCommand_Name", resourceCulture);
@@ -228,6 +273,24 @@ namespace ModernApplicationFramework.Modules.Toolbox {
         public static string ToolboxNodeUpCommand_Text {
             get {
                 return ResourceManager.GetString("ToolboxNodeUpCommand_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string ToolboxSearchNoResults {
+            get {
+                return ResourceManager.GetString("ToolboxSearchNoResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string ToolboxSearchWatermark {
+            get {
+                return ResourceManager.GetString("ToolboxSearchWatermark", resourceCulture);
             }
         }
     }

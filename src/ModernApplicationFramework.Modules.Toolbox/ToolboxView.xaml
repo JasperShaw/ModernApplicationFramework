@@ -132,7 +132,7 @@
                             </Grid>
                             <TextBlock x:Name="PART_EmptyMessage" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
                                     TextWrapping="WrapWithOverflow" TextAlignment="Center" TextTrimming="None"
-                                       Margin="-5,15,10,10"  Text="No items in this group currently">
+                                       Margin="-5,15,10,10"  Text="{x:Static toolbox:ToolboxResources.ToolboxEmptyMessage}">
                                 <TextBlock.Visibility>
                                     <MultiBinding Converter="{StaticResource EmptyMessageVisibilityConverter}">
                                         <Binding Path="HasItems"/>
@@ -342,7 +342,8 @@
         <ControlTemplate x:Key="NoItemsTemplate" TargetType="{x:Type TreeView}">
             <Grid Background="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxBackground}}">
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Margin="20">
-                    <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxBackgroundText}}" Text="Test"/>
+                    <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxBackgroundText}}" 
+                               Text="{x:Static toolbox:ToolboxResources.ToolboxSearchNoResults}"/>
                 </Grid>
             </Grid>
         </ControlTemplate>

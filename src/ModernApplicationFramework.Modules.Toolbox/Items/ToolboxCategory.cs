@@ -9,7 +9,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
 {
     public class ToolboxCategory : ToolboxNode, IToolboxCategory
     {
-        [Export] internal static IToolboxCategory DefaultCategory = new ToolboxCategory(Guids.DefaultCategoryId, "Default");
+        [Export] internal static IToolboxCategory DefaultCategory =
+            new ToolboxCategory(Guids.DefaultCategoryId, ToolboxResources.DefaultCategoryName);
 
         private IObservableCollection<IToolboxItem> _items;
         private bool _hasItems;
@@ -127,7 +128,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
                 return true;
             if (!ToolboxService.Instance.GetAllToolboxCategoryNames().Contains(EditingName))
                 return true;
-            errorMessage = "Already exists";
+            errorMessage = string.Format(ToolboxResources.Error_Duplicate, EditingName);
             return false;
         }
 

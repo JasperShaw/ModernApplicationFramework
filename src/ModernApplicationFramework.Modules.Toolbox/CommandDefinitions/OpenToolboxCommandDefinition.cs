@@ -16,7 +16,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions
     public class OpenToolboxCommandDefinition : CommandDefinition<IOpenToolboxCommand>
     {
         public override string NameUnlocalized => "Toolbox";
-        public override string Text => "Toolbox";
+        public override string Text => ToolboxResources.ToolboxCommandName;
         public override string ToolTip => Text;
         public override CommandCategory Category => CommandCategories.ViewCommandCategory;
 

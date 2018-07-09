@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Input;
@@ -13,8 +14,10 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandDefinitions
     [Export(typeof(ToggleShowAllItemsCommandDefinition))]
     public class ToggleShowAllItemsCommandDefinition : CommandDefinition<IToggleShowAllItemsCommand>
     {
-        public override string NameUnlocalized => "Show All";
-        public override string Text => "Show All";
+        public override string NameUnlocalized => ToolboxResources.ResourceManager.GetString(nameof(ToolboxResources.SortItemsAlphabeticallyCommand_Name),
+            CultureInfo.InvariantCulture);
+        public override string Name => ToolboxResources.SortItemsAlphabeticallyCommand_Name;
+        public override string Text => ToolboxResources.ShowAllNodesCommand_Text;
         public override string ToolTip => Text;
         public override CommandCategory Category => CommandCategories.ToolsCommandCategory;
         public override Guid Id => new Guid("{BB1C5EAB-A114-4A06-995C-E311F9DA8C11}");
