@@ -61,7 +61,7 @@ namespace ModernApplicationFramework.Modules.Toolbox {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Toolbox Add Tab ähnelt.
         /// </summary>
         public static string AddCategoryCommand_Name {
             get {
@@ -70,7 +70,7 @@ namespace ModernApplicationFramework.Modules.Toolbox {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Add Tab ähnelt.
         /// </summary>
         public static string AddCategoryCommand_Text {
             get {
@@ -79,7 +79,7 @@ namespace ModernApplicationFramework.Modules.Toolbox {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die General ähnelt.
         /// </summary>
         public static string DefaultCategoryName {
             get {
@@ -88,7 +88,7 @@ namespace ModernApplicationFramework.Modules.Toolbox {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Toolbox Delete Tab ähnelt.
         /// </summary>
         public static string DeleteCategoryCommand_Name {
             get {
@@ -97,7 +97,7 @@ namespace ModernApplicationFramework.Modules.Toolbox {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die $Delete Tab ähnelt.
         /// </summary>
         public static string DeleteCategoryCommand_Text {
             get {
@@ -106,7 +106,7 @@ namespace ModernApplicationFramework.Modules.Toolbox {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Tab name &apos;{0}&apos; already exists. ähnelt.
         /// </summary>
         public static string Error_Duplicate {
             get {
@@ -115,7 +115,7 @@ namespace ModernApplicationFramework.Modules.Toolbox {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Caption cannot be empty. ähnelt.
         /// </summary>
         public static string Error_NameEmpty {
             get {
@@ -124,7 +124,7 @@ namespace ModernApplicationFramework.Modules.Toolbox {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Toolbox Rename Tab ähnelt.
         /// </summary>
         public static string RenameCategoryCommand_Name {
             get {
@@ -133,7 +133,7 @@ namespace ModernApplicationFramework.Modules.Toolbox {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Rename Tab ähnelt.
         /// </summary>
         public static string RenameCategoryCommand_Text {
             get {
@@ -142,7 +142,7 @@ namespace ModernApplicationFramework.Modules.Toolbox {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Toolbox Rename Item ähnelt.
         /// </summary>
         public static string RenameItemCommand_Name {
             get {
@@ -151,7 +151,7 @@ namespace ModernApplicationFramework.Modules.Toolbox {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Rename Item ähnelt.
         /// </summary>
         public static string RenameItemCommand_Text {
             get {
@@ -160,7 +160,7 @@ namespace ModernApplicationFramework.Modules.Toolbox {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Reset Toolbox ähnelt.
         /// </summary>
         public static string ResetToolboxCommand_Name {
             get {
@@ -169,7 +169,7 @@ namespace ModernApplicationFramework.Modules.Toolbox {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die R&amp;eset Toolbox ähnelt.
         /// </summary>
         public static string ResetToolboxCommand_Text {
             get {
@@ -178,7 +178,7 @@ namespace ModernApplicationFramework.Modules.Toolbox {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Toolbox Show All ähnelt.
         /// </summary>
         public static string ShowAllNodesCommand_Name {
             get {
@@ -187,7 +187,7 @@ namespace ModernApplicationFramework.Modules.Toolbox {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Show All ähnelt.
         /// </summary>
         public static string ShowAllNodesCommand_Text {
             get {
@@ -196,7 +196,7 @@ namespace ModernApplicationFramework.Modules.Toolbox {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Toolbox Sort Items ähnelt.
         /// </summary>
         public static string SortItemsAlphabeticallyCommand_Name {
             get {
@@ -205,7 +205,7 @@ namespace ModernApplicationFramework.Modules.Toolbox {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die S&amp;ort Items Alphabetically ähnelt.
         /// </summary>
         public static string SortItemsAlphabeticallyCommand_Text {
             get {
@@ -223,7 +223,7 @@ namespace ModernApplicationFramework.Modules.Toolbox {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die There are no usable controls in this group. Drag an item onto this text to add it to the toolbox. ähnelt.
         /// </summary>
         public static string ToolboxEmptyMessage {
             get {
@@ -232,7 +232,7 @@ namespace ModernApplicationFramework.Modules.Toolbox {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die &apos;{0}&apos; will be removed from the Toolbox. ähnelt.
         /// </summary>
         public static string ToolboxItemDeleteMessage {
             get {
@@ -241,7 +241,7 @@ namespace ModernApplicationFramework.Modules.Toolbox {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Toolbox Move Tab Down ähnelt.
         /// </summary>
         public static string ToolboxNodeDownCommand_Name {
             get {
@@ -250,7 +250,7 @@ namespace ModernApplicationFramework.Modules.Toolbox {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Move Do&amp;wn ähnelt.
         /// </summary>
         public static string ToolboxNodeDownCommand_Text {
             get {
@@ -259,7 +259,7 @@ namespace ModernApplicationFramework.Modules.Toolbox {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Toolbox Move Tab Up ähnelt.
         /// </summary>
         public static string ToolboxNodeUpCommand_Name {
             get {
@@ -268,7 +268,7 @@ namespace ModernApplicationFramework.Modules.Toolbox {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Move &amp;Up ähnelt.
         /// </summary>
         public static string ToolboxNodeUpCommand_Text {
             get {
@@ -277,7 +277,7 @@ namespace ModernApplicationFramework.Modules.Toolbox {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die No results found. ähnelt.
         /// </summary>
         public static string ToolboxSearchNoResults {
             get {
@@ -286,7 +286,7 @@ namespace ModernApplicationFramework.Modules.Toolbox {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Search Toolbox ähnelt.
         /// </summary>
         public static string ToolboxSearchWatermark {
             get {

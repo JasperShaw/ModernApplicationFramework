@@ -121,78 +121,78 @@
     <value>Toolbox</value>
   </data>
   <data name="AddCategoryCommand_Name" xml:space="preserve">
-    <value></value>
+    <value>Toolbox Add Tab</value>
   </data>
   <data name="AddCategoryCommand_Text" xml:space="preserve">
-    <value></value>
+    <value>&amp;Add Tab</value>
   </data>
   <data name="DeleteCategoryCommand_Name" xml:space="preserve">
-    <value></value>
+    <value>Toolbox Delete Tab</value>
   </data>
   <data name="DeleteCategoryCommand_Text" xml:space="preserve">
-    <value></value>
+    <value>$Delete Tab</value>
   </data>
   <data name="RenameCategoryCommand_Name" xml:space="preserve">
-    <value></value>
+    <value>Toolbox Rename Tab</value>
   </data>
   <data name="RenameCategoryCommand_Text" xml:space="preserve">
-    <value></value>
+    <value>&amp;Rename Tab</value>
   </data>
   <data name="RenameItemCommand_Name" xml:space="preserve">
-    <value></value>
+    <value>Toolbox Rename Item</value>
   </data>
   <data name="RenameItemCommand_Text" xml:space="preserve">
-    <value></value>
+    <value>&amp;Rename Item</value>
   </data>
   <data name="ResetToolboxCommand_Name" xml:space="preserve">
-    <value></value>
+    <value>Reset Toolbox</value>
   </data>
   <data name="ResetToolboxCommand_Text" xml:space="preserve">
-    <value></value>
+    <value>R&amp;eset Toolbox</value>
   </data>
   <data name="SortItemsAlphabeticallyCommand_Name" xml:space="preserve">
-    <value></value>
+    <value>Toolbox Sort Items</value>
   </data>
   <data name="SortItemsAlphabeticallyCommand_Text" xml:space="preserve">
-    <value></value>
+    <value>S&amp;ort Items Alphabetically</value>
   </data>
   <data name="ShowAllNodesCommand_Name" xml:space="preserve">
-    <value></value>
+    <value>Toolbox Show All</value>
   </data>
   <data name="ShowAllNodesCommand_Text" xml:space="preserve">
-    <value></value>
+    <value>&amp;Show All</value>
   </data>
   <data name="ToolboxNodeUpCommand_Name" xml:space="preserve">
-    <value></value>
+    <value>Toolbox Move Tab Up</value>
   </data>
   <data name="ToolboxNodeUpCommand_Text" xml:space="preserve">
-    <value></value>
+    <value>Move &amp;Up</value>
   </data>
   <data name="ToolboxNodeDownCommand_Name" xml:space="preserve">
-    <value></value>
+    <value>Toolbox Move Tab Down</value>
   </data>
   <data name="ToolboxNodeDownCommand_Text" xml:space="preserve">
-    <value></value>
+    <value>Move Do&amp;wn</value>
   </data>
   <data name="ToolboxEmptyMessage" xml:space="preserve">
-    <value></value>
+    <value>There are no usable controls in this group. Drag an item onto this text to add it to the toolbox.</value>
   </data>
   <data name="ToolboxSearchWatermark" xml:space="preserve">
-    <value></value>
+    <value>Search Toolbox</value>
   </data>
   <data name="ToolboxSearchNoResults" xml:space="preserve">
-    <value></value>
+    <value>No results found.</value>
   </data>
   <data name="ToolboxItemDeleteMessage" xml:space="preserve">
-    <value></value>
+    <value>'{0}' will be removed from the Toolbox.</value>
   </data>
   <data name="DefaultCategoryName" xml:space="preserve">
-    <value></value>
+    <value>General</value>
   </data>
   <data name="Error_NameEmpty" xml:space="preserve">
-    <value></value>
+    <value>Caption cannot be empty.</value>
   </data>
   <data name="Error_Duplicate" xml:space="preserve">
-    <value></value>
+    <value>Tab name '{0}' already exists.</value>
   </data>
 </root>
