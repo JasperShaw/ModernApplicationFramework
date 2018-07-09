@@ -165,4 +165,16 @@
   <data name="UndoCommandDefinition_Text" xml:space="preserve">
     <value>&amp;Rückgängig</value>
   </data>
+  <data name="DeleteCommandDefinition_Text" xml:space="preserve">
+    <value>&amp;Löschen</value>
+  </data>
+  <data name="CopyCommandDefinition_Text" xml:space="preserve">
+    <value>&amp;Kopieren</value>
+  </data>
+  <data name="PasteCommandDefinition_Text" xml:space="preserve">
+    <value>&amp;Einfügen</value>
+  </data>
+  <data name="CutCommandDefinition_Text" xml:space="preserve">
+    <value>Auss&amp;chneiden</value>
+  </data>
 </root>

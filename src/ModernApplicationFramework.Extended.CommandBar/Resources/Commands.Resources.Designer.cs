@@ -203,5 +203,37 @@ namespace ModernApplicationFramework.Extended.CommandBar.Resources {
                 return ResourceManager.GetString("UndoCommandDefinition_Text", resourceCulture);
             }
         }
+
+        internal static string PasteCommandDefinition_Text
+        {
+            get
+            {
+                return ResourceManager.GetString("PasteCommandDefinition_Text", resourceCulture);
+            }
+        }
+
+        internal static string CopyCommandDefinition_Text
+        {
+            get
+            {
+                return ResourceManager.GetString("CopyCommandDefinition_Text", resourceCulture);
+            }
+        }
+
+        internal static string CutCommandDefinition_Text
+        {
+            get
+            {
+                return ResourceManager.GetString("CutCommandDefinition_Text", resourceCulture);
+            }
+        }
+
+        internal static string DeleteCommandDefinition_Text
+        {
+            get
+            {
+                return ResourceManager.GetString("DeleteCommandDefinition_Text", resourceCulture);
+            }
+        }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.Windows.Input;
 using ModernApplicationFramework.Basics;
 using ModernApplicationFramework.Basics.Definitions.Command;
+using ModernApplicationFramework.Extended.CommandBar.Resources;
 using ModernApplicationFramework.Extended.Commands;
 using ModernApplicationFramework.ImageCatalog;
 using ModernApplicationFramework.Imaging.Interop;
@@ -15,8 +17,9 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
     [Export(typeof(CommandDefinitionBase))]
     public class PasteCommandDefinition : CommandDefinition<IPasteCommand>
     {
-        public override string NameUnlocalized => "Paste";
-        public override string Text => "Paste";
+        public override string NameUnlocalized => Commands_Resources.ResourceManager.GetString(nameof(Commands_Resources.PasteCommandDefinition_Text),
+            CultureInfo.InvariantCulture);
+        public override string Text => Commands_Resources.PasteCommandDefinition_Text;
         public override string ToolTip => Text;
         public override ImageMoniker ImageMonikerSource => Monikers.Paste;
         public override CommandCategory Category => CommandCategories.EditCommandCategory;
