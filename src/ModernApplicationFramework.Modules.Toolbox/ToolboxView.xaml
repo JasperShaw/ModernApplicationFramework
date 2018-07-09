@@ -249,11 +249,9 @@
                                         <ColumnDefinition Width="18"/>
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
-                                    
-                                    <ContentControl Grid.Column="1" Width="16" Height="16" 
+                                    <ContentControl Grid.Column="1" Width="16" Height="16" Focusable="False"
                                                     Content="{Binding Icon, RelativeSource={RelativeSource TemplatedParent}}"/>
 
-                                    <!--<imaging:CrispImage Grid.Column="1" Moniker="{Binding ImageMoniker}"/>-->
                                     <Grid x:Name="PART_Header" Grid.Row="0" Grid.Column="2" SnapsToDevicePixels="True">
                                         <Border x:Name="NormalModeBorder" Padding="{TemplateBinding Padding}">
                                             <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}" 
