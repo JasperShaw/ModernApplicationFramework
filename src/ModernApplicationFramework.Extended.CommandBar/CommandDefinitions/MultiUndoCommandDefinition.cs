@@ -9,7 +9,6 @@ using ModernApplicationFramework.Basics.Definitions.Command;
 using ModernApplicationFramework.Extended.CommandBar.Resources;
 using ModernApplicationFramework.Extended.Commands;
 using ModernApplicationFramework.Extended.UndoRedoManager;
-using ModernApplicationFramework.Imaging;
 using ModernApplicationFramework.Input;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Interfaces;
@@ -36,6 +35,8 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
 
         public override CommandCategory Category => CommandCategories.EditCommandCategory;
         public override Guid Id => new Guid("{D2043E14-F0AF-4C12-933A-F753BA1F9488}");
+
+        public override bool AllowGestureMapping => false;
 
         [ImportingConstructor]
         public MultiUndoCommandDefinition(CommandBarUndoRedoManagerWatcher watcher)

@@ -38,6 +38,8 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
         public override CommandCategory Category => CommandCategories.EditCommandCategory;
         public override Guid Id => new Guid("{7225AF5F-4039-4686-89EC-71AFE605FEF5}");
 
+        public override bool AllowGestureMapping => false;
+
         [ImportingConstructor]
         public MultiRedoCommandDefinition(CommandBarUndoRedoManagerWatcher watcher)
         {

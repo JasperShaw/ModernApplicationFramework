@@ -48,7 +48,7 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
             _keyBindingManager = keyBindingManager;
             Schemes = _keyBindingManager.SchemeManager.SchemeDefinitions;
             _selectedScheme = _keyBindingManager.SchemeManager.CurrentScheme;
-            AllCommands = keyBindingManager.KeyGestureService.GetAllCommandDefinitions();
+            AllCommands = keyBindingManager.KeyGestureService.GetAllCommandDefinitions().Where(x => x.AllowGestureMapping);
             Scopes = new BindableCollection<GestureScope>(keyBindingManager.KeyGestureService.GetAllCommandGestureScopes());
             SelectedScope = GestureScopes.GlobalGestureScope;
             AvailableGestureBindings = new ObservableCollection<GestureScopeMapping>();
@@ -292,7 +292,9 @@ namespace ModernApplicationFramework.Extended.Settings.Keyboard
 
         private bool CanAssignGesture()
         {
-            return !string.IsNullOrEmpty(GestureInput);
+            if (SelectedCommand.AllowGestureMapping)
+                return !string.IsNullOrEmpty(GestureInput);
+            return false;
         }
 
         private void ExecuteAssignGesture()

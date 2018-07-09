@@ -50,6 +50,8 @@ namespace ModernApplicationFramework.Basics.Definitions.Command
         /// </summary>
         public bool AllowExecution { get; set; } = true;
 
+        public virtual bool AllowGestureMapping => true;
+
 
         /// <summary>
         /// The gesture text of the first known KeyGesture.
