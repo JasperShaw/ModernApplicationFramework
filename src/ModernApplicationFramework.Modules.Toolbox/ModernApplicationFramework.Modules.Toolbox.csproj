@@ -63,6 +63,16 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChooseItemsDialog\ChooseItemsDialogView.xaml.cs">
+      <DependentUpon>ChooseItemsDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ChooseItemsDialog\ChooseItemsDialogViewModel.cs" />
+    <Compile Include="ChooseItemsDialog\ChooseItemsPageView.xaml.cs">
+      <DependentUpon>ChooseItemsPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ChooseItemsDialog\ChooseItemsPage2.cs" />
+    <Compile Include="ChooseItemsDialog\ChooseItemsPage.cs" />
+    <Compile Include="ChooseItemsDialog\IToolboxItemPage.cs" />
     <Compile Include="Commands\AddItemCommand.cs" />
     <Compile Include="CommandDefinitions\AddItemCommandDefinition.cs" />
     <Compile Include="Interfaces\Commands\IAddItemCommand.cs" />
@@ -223,6 +233,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="ChooseItemsDialog\ChooseItemsDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ChooseItemsDialog\ChooseItemsPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

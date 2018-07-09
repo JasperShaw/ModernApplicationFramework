@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using Caliburn.Micro;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces.Commands;
 
@@ -14,6 +15,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
 
         protected override void OnExecute(object parameter)
         {
+            IoC.Get<IWindowManager>().ShowDialog(IoC.Get<ChooseItemsDialog.ChooseItemsDialogViewModel>());
         }
     }
 }

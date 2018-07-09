@@ -1,0 +1,110 @@
+﻿<UserControl x:Class="ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog.ChooseItemsPageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons;assembly=ModernApplicationFramework"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock HorizontalAlignment="Center" Text="Items getting loaded"/>
+            <ProgressBar Margin="0,5,0,5" Height="20" Width="150" HorizontalAlignment="Center"/>
+            <TextBlock HorizontalAlignment="Center" Text="Current Assembly"/>
+        </StackPanel>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                   TextWrapping="Wrap" Text="Error Message">
+            <TextBlock.Visibility>
+                Visible
+            </TextBlock.Visibility>
+        </TextBlock>
+        <ListView x:Name="ListView" Grid.Row="0" Margin="0,0,0,5" ItemsSource="{Binding Items}">
+            <ListView.Visibility>
+                Visible
+            </ListView.Visibility>
+        </ListView>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <Grid Margin="0,0,0,3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="_Filter:" Grid.Column="0">
+                        <Label.Target>
+                            <Binding ElementName="FilterBox"/>
+                        </Label.Target>
+                    </Label>
+                    <TextBox x:Name="FilterBox" Grid.Column="1" Text="{Binding FilterString, UpdateSourceTrigger=PropertyChanged}">
+                        <TextBox.IsEnabled>
+                            True
+                        </TextBox.IsEnabled>
+                    </TextBox>
+                </Grid>
+                <GroupBox Padding="3">
+                    <FrameworkElement.Resources>
+                        <system:String x:Key="NoItemsSelected">(keine)</system:String>
+                    </FrameworkElement.Resources>
+                    <GroupBox.Header>
+                        Test
+                    </GroupBox.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Center" Margin="3,3,23,3"
+                               Width="16" Height="16"/>
+                        <TextBlock Grid.Column="1" Grid.Row="0" VerticalAlignment="Bottom" Margin="3" Text="Sprache:">
+                            <TextBlock.Visibility>
+                                Visible
+                            </TextBlock.Visibility>
+                        </TextBlock>
+                        <TextBlock Grid.Column="2" Grid.Row="0" VerticalAlignment="Bottom" Margin="3" TextWrapping="Wrap" Text="langValue">
+                            <TextBlock.Visibility>
+                                Visible
+                            </TextBlock.Visibility>
+                        </TextBlock>
+                        <TextBlock Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" Margin="3" Text="Version:">
+                            <TextBlock.Visibility>
+                                Visible
+                            </TextBlock.Visibility>
+                        </TextBlock>
+                        <TextBlock Grid.Column="2" Grid.Row="1" VerticalAlignment="Top" Margin="3" TextWrapping="Wrap" Text="versionValue">
+                            <TextBlock.Visibility>
+                                Visible
+                            </TextBlock.Visibility>
+                        </TextBlock>
+                    </Grid>
+                </GroupBox>
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+                <dialogButtons:DialogButton Content="Löschen" Margin="10,0,0,10">
+                    <dialogButtons:DialogButton.IsEnabled>
+                        True
+                    </dialogButtons:DialogButton.IsEnabled>
+                </dialogButtons:DialogButton>
+                <dialogButtons:DialogButton Content="Durchsuchen" Margin="10,0,0,10">
+                    <dialogButtons:DialogButton.IsEnabled>
+                        True
+                    </dialogButtons:DialogButton.IsEnabled>
+                </dialogButtons:DialogButton>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>
