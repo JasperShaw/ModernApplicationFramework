@@ -15,6 +15,7 @@ using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces.Commands;
 using ModernApplicationFramework.Modules.Toolbox.Items;
 using ModernApplicationFramework.Modules.Toolbox.NativeMethods;
+using ModernApplicationFramework.Modules.Toolbox.Utilities;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Controls

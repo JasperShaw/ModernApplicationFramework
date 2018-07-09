@@ -4,7 +4,7 @@ using System.Windows;
 using ModernApplicationFramework.DragDrop;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
-namespace ModernApplicationFramework.Modules.Toolbox
+namespace ModernApplicationFramework.Modules.Toolbox.Utilities
 {
     internal class ToolboxDragHandler : IDragSource
     {

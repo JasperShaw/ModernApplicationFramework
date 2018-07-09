@@ -13,7 +13,8 @@
              xmlns:imaging="clr-namespace:ModernApplicationFramework.Imaging;assembly=ModernApplicationFramework.Imaging"
              xmlns:converters2="clr-namespace:ModernApplicationFramework.Imaging.Converters;assembly=ModernApplicationFramework.Imaging"
              xmlns:resources="clr-namespace:ModernApplicationFramework.Modules.Toolbox.Resources"
-             x:Class="ModernApplicationFramework.Modules.Toolbox.ToolboxView"
+             xmlns:utilities1="clr-namespace:ModernApplicationFramework.Modules.Toolbox.Utilities"
+             x:Class="ModernApplicationFramework.Modules.Toolbox.Tool.ToolboxView"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" Background="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxBackground}}">
 
     <imaging:ImageThemingUtilities.ImageBackgroundColor>
@@ -360,7 +361,7 @@
             </Style.Triggers>
         </Style>
 
-        <toolbox:ToolboxTreeNodeStyleSelector x:Key="ToolboxTreeNodeStyleSelector" 
+        <utilities1:ToolboxTreeNodeStyleSelector x:Key="ToolboxTreeNodeStyleSelector" 
                                     CategoryStyle="{StaticResource CategoryItemStyle}"
                                               ItemStyle="{StaticResource ItemStyle}"/>
     </FrameworkElement.Resources>

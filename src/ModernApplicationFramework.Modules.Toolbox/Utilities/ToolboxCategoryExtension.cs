@@ -1,11 +1,11 @@
 ﻿using System;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
-namespace ModernApplicationFramework.Modules.Toolbox
+namespace ModernApplicationFramework.Modules.Toolbox.Utilities
 {
     public static class ToolboxCategoryExtension
     {
-        public static uint SetItemsVisibleWhere(this IToolboxCategory category, Func<IToolboxItem, bool> func)
+        internal static uint SetItemsVisibleWhere(this IToolboxCategory category, Func<IToolboxItem, bool> func)
         {
             if (!category.HasItems)
                 return 0;

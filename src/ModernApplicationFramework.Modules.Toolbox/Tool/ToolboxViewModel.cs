@@ -8,19 +8,19 @@ using ModernApplicationFramework.Basics.Search;
 using ModernApplicationFramework.Controls.SearchControl;
 using ModernApplicationFramework.DragDrop;
 using ModernApplicationFramework.Extended.Interfaces;
-using ModernApplicationFramework.Extended.Layout;
 using ModernApplicationFramework.Extended.Utilities.PaneUtilities;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Search;
 using ModernApplicationFramework.Modules.Toolbox.CommandBar;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Resources;
+using ModernApplicationFramework.Modules.Toolbox.Utilities;
 
-namespace ModernApplicationFramework.Modules.Toolbox
+namespace ModernApplicationFramework.Modules.Toolbox.Tool
 {
     [Export(typeof(IToolbox))]
     [Guid("DD8E4CE1-7431-47C1-9496-B8C91D6E0B55")]
-    public sealed class ToolboxViewModel : Tool, IToolbox
+    public sealed class ToolboxViewModel : Extended.Layout.Tool, IToolbox
     {
         private readonly IDockingHostViewModel _hostViewModel;
         private readonly IToolboxStateProvider _stateProvider;

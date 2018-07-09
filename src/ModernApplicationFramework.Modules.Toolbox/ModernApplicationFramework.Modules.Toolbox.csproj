@@ -106,7 +106,7 @@
     <Compile Include="Commands\ToolboxNodeUpCommand.cs" />
     <Compile Include="CommandDefinitions\ToolboxNodeUpCommandDefinition.cs" />
     <Compile Include="Items\ToolboxItemDataAttribute.cs" />
-    <Compile Include="ToolboxCategoryExtension.cs" />
+    <Compile Include="Utilities\ToolboxCategoryExtension.cs" />
     <Compile Include="Resources\ToolboxResources.Designer.cs">
       <DependentUpon>ToolboxResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -149,22 +149,22 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Interfaces\IToolboxService.cs" />
-    <Compile Include="ToolboxSearchTask.cs" />
+    <Compile Include="Utilities\ToolboxSearchTask.cs" />
     <Compile Include="ToolboxService.cs" />
     <Compile Include="ToolBoxColors.cs" />
     <Compile Include="CommandBar\ToolboxContextMenuProvider.cs" />
-    <Compile Include="ToolboxDragHandler.cs" />
-    <Compile Include="ToolboxDropHandler.cs" />
+    <Compile Include="Utilities\ToolboxDragHandler.cs" />
+    <Compile Include="Utilities\ToolboxDropHandler.cs" />
     <Compile Include="Items\ToolboxItem.cs" />
     <Compile Include="Items\ToolboxCategory.cs" />
     <Compile Include="ToolboxItemDataFormats.cs" />
     <Compile Include="Items\ToolboxNode.cs" />
     <Compile Include="State\ToolboxStateSerializer.cs" />
-    <Compile Include="ToolboxTreeNodeStyleSelector.cs" />
-    <Compile Include="ToolboxView.xaml.cs">
+    <Compile Include="Utilities\ToolboxTreeNodeStyleSelector.cs" />
+    <Compile Include="Tool\ToolboxView.xaml.cs">
       <DependentUpon>ToolboxView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ToolboxViewModel.cs" />
+    <Compile Include="Tool\ToolboxViewModel.cs" />
     <EmbeddedResource Include="Resources\ToolboxResources.de.resx" />
     <EmbeddedResource Include="Resources\ToolboxResources.en.resx" />
     <EmbeddedResource Include="Resources\ToolboxResources.resx">
@@ -231,7 +231,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ToolboxView.xaml">
+    <Page Include="Tool\ToolboxView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

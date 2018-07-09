@@ -2,9 +2,9 @@
 using System.Windows.Controls;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
-namespace ModernApplicationFramework.Modules.Toolbox
+namespace ModernApplicationFramework.Modules.Toolbox.Utilities
 {
-    public class ToolboxTreeNodeStyleSelector : StyleSelector
+    internal class ToolboxTreeNodeStyleSelector : StyleSelector
     {
         public Style ItemStyle { get; set; }
 

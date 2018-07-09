@@ -1,4 +1,4 @@
-﻿namespace ModernApplicationFramework.Modules.Toolbox
+﻿namespace ModernApplicationFramework.Modules.Toolbox.Tool
 {
     public partial class ToolboxView
     {

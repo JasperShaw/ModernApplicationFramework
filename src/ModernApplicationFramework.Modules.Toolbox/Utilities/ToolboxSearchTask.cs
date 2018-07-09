@@ -5,9 +5,9 @@ using ModernApplicationFramework.Core.Utilities;
 using ModernApplicationFramework.Interfaces.Search;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 
-namespace ModernApplicationFramework.Modules.Toolbox
+namespace ModernApplicationFramework.Modules.Toolbox.Utilities
 {
-    public class ToolboxSearchTask : SearchTask
+    internal class ToolboxSearchTask : SearchTask
     {
         private readonly IToolbox _toolbox;
 

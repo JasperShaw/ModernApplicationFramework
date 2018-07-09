@@ -7,9 +7,9 @@ using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Items;
 using ModernApplicationFramework.Utilities;
 
-namespace ModernApplicationFramework.Modules.Toolbox
+namespace ModernApplicationFramework.Modules.Toolbox.Utilities
 {
-    public class ToolboxDropHandler : IDropTarget
+    internal class ToolboxDropHandler : IDropTarget
     {
         public void DragOver(IDropInfo dropInfo)
         {
@@ -21,25 +21,7 @@ namespace ModernApplicationFramework.Modules.Toolbox
             {
                 dropInfo.Effects = DragDropEffects.Copy | DragDropEffects.Move;
                 dropInfo.DropTargetAdorner = typeof(ToolboxInsertAdorner);
-
-
                 dropInfo.Data = ToolboxItem.CreateTextItem(dataObject);
-
-
-                //FrameworkElement visual;
-                //using (var stream = GetType().Assembly
-                //    .GetManifestResourceStream("ModernApplicationFramework.Modules.Toolbox.TextFile_16x2.xaml"))
-                //{
-                //    using (var stringReader = new StreamReader(stream))
-                //    {
-                //        using (var xmlReader = new XmlTextReader(stringReader))
-                //        {
-                //            visual = (FrameworkElement) XamlReader.Load(xmlReader);
-                //        }
-                //    }
-                //}
-                //dropInfo.Data = new ToolboxItem("Text1223", dataObject, new[] { typeof(object) }, ImageUtilities.FrameworkElementToBitmapSource(visual));
-
                 stringFlag = true;
             }
 
