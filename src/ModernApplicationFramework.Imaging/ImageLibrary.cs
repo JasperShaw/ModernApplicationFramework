@@ -16,7 +16,6 @@ namespace ModernApplicationFramework.Imaging
     public class ImageLibrary
     {
         private readonly IEnumerable<IImageCatalog> _catalogs;
-        private bool _initialized;
         private readonly ImageCache _imageCache;
 
         public static readonly Color DefaultGrayscaleBiasColor = Color.FromArgb(64, byte.MaxValue, byte.MaxValue, byte.MaxValue);
@@ -24,19 +23,7 @@ namespace ModernApplicationFramework.Imaging
 
         public static readonly Interop.ImageMoniker EmptyMoniker = new Interop.ImageMoniker();
 
-        public bool Initialized
-        {
-            get => _initialized;
-            private set
-            {
-                if (_initialized == value)
-                    return;
-                _initialized = value;
-                if (!_initialized)
-                    return;
-                //InitializedChanged.RaiseEvent(this);
-            }
-        }
+        public bool Initialized { get; }
 
         [ImportingConstructor]
         private ImageLibrary([ImportMany] IEnumerable<IImageCatalog> catalogs)
