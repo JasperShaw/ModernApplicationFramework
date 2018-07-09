@@ -63,6 +63,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\AddItemCommand.cs" />
+    <Compile Include="CommandDefinitions\AddItemCommandDefinition.cs" />
+    <Compile Include="Interfaces\Commands\IAddItemCommand.cs" />
     <Compile Include="Commands\AddCategoryCommand.cs" />
     <Compile Include="Commands\AddItemToSelectedNodeCommand.cs" />
     <Compile Include="Commands\CopySelectedItemCommand.cs" />

@@ -3,9 +3,7 @@ using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Definitions.CommandBar;
 using ModernApplicationFramework.Basics.Definitions.ContextMenu;
 using ModernApplicationFramework.Extended.CommandBar.CommandDefinitions;
-using ModernApplicationFramework.Extended.Commands;
 using ModernApplicationFramework.Modules.Toolbox.CommandDefinitions;
-using ModernApplicationFramework.Modules.Toolbox.Commands;
 
 namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
 {
@@ -20,8 +18,20 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
             new CommandBarGroupDefinition(ToolboxContextMenu, uint.MinValue);
 
         [Export]
-        public static CommandBarItemDefinition CloseCommandItemDefinition =
-            new CommandBarCommandItemDefinition<DeleteCommandDefinition>(new Guid("{180D3794-7914-4B4C-BD5E-F4A101FAF831}"), BasicEditGroup, 1, true, false, false, true);
+        public static CommandBarItemDefinition CutCommandItemDefinition =
+            new CommandBarCommandItemDefinition<CutCommandDefinition>(new Guid("{7ACF2153-61EB-4C78-84D9-0F4261C13D37}"), BasicEditGroup, 0, true, true, false, true);
+
+        [Export]
+        public static CommandBarItemDefinition CopyCommandItemDefinition =
+            new CommandBarCommandItemDefinition<CopyCommandDefinition>(new Guid("{913939F3-CED0-4810-8597-DAB9476B5792}"), BasicEditGroup, 1, true, true, false, true);
+
+        [Export]
+        public static CommandBarItemDefinition PasteCommandItemDefinition =
+            new CommandBarCommandItemDefinition<PasteCommandDefinition>(new Guid("{59C5F4F3-F0D5-43F5-9525-931DE67405A4}"), BasicEditGroup, 2);
+
+        [Export]
+        public static CommandBarItemDefinition DeleteCommandItemDefinition =
+            new CommandBarCommandItemDefinition<DeleteCommandDefinition>(new Guid("{180D3794-7914-4B4C-BD5E-F4A101FAF831}"), BasicEditGroup, 3, true, false, false, true);
 
         [Export]
         public static CommandBarItemDefinition RenametemDefinition =
@@ -43,6 +53,10 @@ namespace ModernApplicationFramework.Modules.Toolbox.CommandBar
         [Export]
         public static CommandBarGroupDefinition ItemManageCommandGroup =
             new CommandBarGroupDefinition(ToolboxContextMenu, 2);
+
+        [Export]
+        public static CommandBarItemDefinition AddItemDefinition =
+            new CommandBarCommandItemDefinition<AddItemCommandDefinition>(new Guid("{3CBD7ED4-B9CE-4134-A36E-B5DE6587FE94}"), ItemManageCommandGroup, 0);
 
         [Export]
         public static CommandBarItemDefinition SortItemsAlphabeticallyDefinition =
