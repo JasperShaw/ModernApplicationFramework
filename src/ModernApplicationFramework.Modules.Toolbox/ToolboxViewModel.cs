@@ -14,6 +14,7 @@ using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Search;
 using ModernApplicationFramework.Modules.Toolbox.CommandBar;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
+using ModernApplicationFramework.Modules.Toolbox.Resources;
 
 namespace ModernApplicationFramework.Modules.Toolbox
 {

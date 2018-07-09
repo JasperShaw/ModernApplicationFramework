@@ -107,7 +107,7 @@
     <Compile Include="CommandDefinitions\ToolboxNodeUpCommandDefinition.cs" />
     <Compile Include="Items\ToolboxItemDataAttribute.cs" />
     <Compile Include="ToolboxCategoryExtension.cs" />
-    <Compile Include="ToolboxResources.Designer.cs">
+    <Compile Include="Resources\ToolboxResources.Designer.cs">
       <DependentUpon>ToolboxResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -165,9 +165,9 @@
       <DependentUpon>ToolboxView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ToolboxViewModel.cs" />
-    <EmbeddedResource Include="ToolboxResources.de.resx" />
-    <EmbeddedResource Include="ToolboxResources.en.resx" />
-    <EmbeddedResource Include="ToolboxResources.resx">
+    <EmbeddedResource Include="Resources\ToolboxResources.de.resx" />
+    <EmbeddedResource Include="Resources\ToolboxResources.en.resx" />
+    <EmbeddedResource Include="Resources\ToolboxResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ToolboxResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>

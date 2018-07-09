@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ModernApplicationFramework.Modules.Toolbox {
+namespace ModernApplicationFramework.Modules.Toolbox.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace ModernApplicationFramework.Modules.Toolbox {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ModernApplicationFramework.Modules.Toolbox.ToolboxResources", typeof(ToolboxResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ModernApplicationFramework.Modules.Toolbox.Resources.ToolboxResources", typeof(ToolboxResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

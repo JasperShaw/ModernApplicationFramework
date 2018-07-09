@@ -12,6 +12,7 @@
              xmlns:converters1="clr-namespace:ModernApplicationFramework.Modules.Toolbox.Converters"
              xmlns:imaging="clr-namespace:ModernApplicationFramework.Imaging;assembly=ModernApplicationFramework.Imaging"
              xmlns:converters2="clr-namespace:ModernApplicationFramework.Imaging.Converters;assembly=ModernApplicationFramework.Imaging"
+             xmlns:resources="clr-namespace:ModernApplicationFramework.Modules.Toolbox.Resources"
              x:Class="ModernApplicationFramework.Modules.Toolbox.ToolboxView"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" Background="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxBackground}}">
 
@@ -132,7 +133,7 @@
                             </Grid>
                             <TextBlock x:Name="PART_EmptyMessage" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
                                     TextWrapping="WrapWithOverflow" TextAlignment="Center" TextTrimming="None"
-                                       Margin="-5,15,10,10"  Text="{x:Static toolbox:ToolboxResources.ToolboxEmptyMessage}">
+                                       Margin="-5,15,10,10"  Text="{x:Static resources:ToolboxResources.ToolboxEmptyMessage}">
                                 <TextBlock.Visibility>
                                     <MultiBinding Converter="{StaticResource EmptyMessageVisibilityConverter}">
                                         <Binding Path="HasItems"/>
@@ -343,7 +344,7 @@
             <Grid Background="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxBackground}}">
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Margin="20">
                     <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource {x:Static toolbox:ToolBoxColors.ToolboxBackgroundText}}" 
-                               Text="{x:Static toolbox:ToolboxResources.ToolboxSearchNoResults}"/>
+                               Text="{x:Static resources:ToolboxResources.ToolboxSearchNoResults}"/>
                 </Grid>
             </Grid>
         </ControlTemplate>
