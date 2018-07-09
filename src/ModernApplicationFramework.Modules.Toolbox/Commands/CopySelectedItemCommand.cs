@@ -38,7 +38,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
             if ((bool)parameter)
             {
                 var result = RemoveItemDilalog.AskUserForRemove(item);
-                if (result == MessageBoxResult.No)
+                if (result == MessageBoxResult.Cancel)
                     return;
                 var category = item.Parent;
                 category.Items.Remove(item);
