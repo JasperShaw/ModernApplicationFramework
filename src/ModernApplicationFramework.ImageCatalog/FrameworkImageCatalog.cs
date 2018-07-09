@@ -7,7 +7,9 @@ namespace ModernApplicationFramework.ImageCatalog
     [Export(typeof(IImageCatalog))]
     public class FrameworkImageCatalog : IImageCatalog
     {
-        public static Guid FrameworkImageCatalogGuid = new Guid("{8282D95C-62FB-46D0-813E-12B417B5BDF0}");
+        public const string Guid = "8282D95C-62FB-46D0-813E-12B417B5BDF0";
+
+        public static Guid FrameworkImageCatalogGuid = new Guid(Guid);
 
         public Guid ImageCataloGuid => FrameworkImageCatalogGuid;
 
