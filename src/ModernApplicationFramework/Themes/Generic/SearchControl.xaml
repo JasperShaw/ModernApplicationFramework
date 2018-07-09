@@ -135,14 +135,14 @@
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:SearchControlColors.ActionButtonMouseDown}}"/>
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:SearchControlColors.ActionButtonMouseOver}}"/>
                 <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource {x:Static themes:SearchControlColors.ActionButtonMouseOverBorder}}"/>
-                <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.ActionButtonMouseOverGlyph}}"/>
+                <Setter TargetName="SearchButtonImage" Property="Fill" Value="{DynamicResource {x:Static themes:SearchControlColors.ActionButtonMouseOverGlyph}}"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
                 <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:SearchControlColors.ActionButtonMouseDown}}"/>
                 <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource {x:Static themes:SearchControlColors.ActionButtonMouseDownBorder}}"/>
-                <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static themes:SearchControlColors.ActionButtonMouseDownGlyph}}"/>
+                <Setter TargetName="SearchButtonImage" Property="Fill" Value="{DynamicResource {x:Static themes:SearchControlColors.ActionButtonMouseDownGlyph}}"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter TargetName="Border" Property="Background" Value="Transparent"/>
