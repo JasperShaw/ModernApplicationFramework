@@ -8,6 +8,7 @@ using System.Windows;
 using System.Xml;
 using ModernApplicationFramework.Basics.Services;
 using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Modules.Toolbox.Extensions;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Items;
 using ModernApplicationFramework.Utilities;
@@ -23,7 +24,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
 
         protected override string RootNode => "ToolboxLayoutState";
 
-        protected override Stream ValidationScheme => Stream.Null;
+        protected override Stream ValidationScheme => Properties.Resources.ToolboxStateScheme.ToStream();
 
         [ImportingConstructor]
         public ToolboxStateSerializer(IToolboxService service, IToolboxStateProvider provider)

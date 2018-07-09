@@ -70,6 +70,7 @@
     <Compile Include="CommandDefinitions\DeleteActiveItemCommandDefinition.cs" />
     <Compile Include="Commands\DeleteActiveToolbarCategoryCommand.cs" />
     <Compile Include="Commands\RemoveItemDilalog.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Interfaces\Commands\IAddItemToSelectedNodeCommand.cs" />
     <Compile Include="Interfaces\Commands\IAddCategoryCommand.cs" />
     <Compile Include="Interfaces\Commands\ICopySelectedItemCommand.cs" />
@@ -176,6 +177,9 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Resource Include="Resources\ToolboxStateScheme.xsd">
+      <SubType>Designer</SubType>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ModernApplicationFramework.DragDrop\ModernApplicationFramework.DragDrop.csproj">

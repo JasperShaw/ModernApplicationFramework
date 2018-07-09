@@ -60,22 +60,23 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.ToolboxStatePersister
             if (layout == null)
                 return;
 
-            //if (_serializer.Validate(layout))
-            //{
-            _serializer.Deserialize(layout);
-            //}
-
-            var infoBarTextSpanArray = new[]
+            if (_serializer.Validate(layout))
             {
-                new InfoBarTextSpan("Loaded Toolbox")
-            };
+                _serializer.Deserialize(layout);
+            }
+            else
+            {
+                var infoBarTextSpanArray = new[]
+                {
+                    new InfoBarTextSpan("Loaded Toolbox")
+                };
 
 
-            var model = new InfoBarModel(infoBarTextSpanArray, new List<IInfoBarActionItem>(), Monikers.StatusInfo);
-            var ui = IoC.Get<IInfoBarUiFactory>().CreateInfoBar(model);
-            ui.Advise(this, out _);
-            _mainWindow.InfoBarHost.AddInfoBar(ui);
-
+                var model = new InfoBarModel(infoBarTextSpanArray, new List<IInfoBarActionItem>(), Monikers.StatusInfo);
+                var ui = IoC.Get<IInfoBarUiFactory>().CreateInfoBar(model);
+                ui.Advise(this, out _);
+                _mainWindow.InfoBarHost.AddInfoBar(ui);
+            }
         }
     }
 }
