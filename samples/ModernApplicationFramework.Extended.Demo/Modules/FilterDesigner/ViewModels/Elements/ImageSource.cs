@@ -4,7 +4,7 @@ using ModernApplicationFramework.Modules.Toolbox.Items;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.ViewModels.Elements
 {
-    [ToolboxItemData("ImageSource", "pack://application:,,,/Resources/action_add_16xLG.png", true, typeof(GraphViewModel))]
+    [ToolboxItemData("Add", "00000000-0000-0000-0000-000000000000", 0, true, typeof(GraphViewModel))]
     public class ImageSource : ElementViewModel
     {
         private BitmapSource _bitmap;

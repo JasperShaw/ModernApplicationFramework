@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Media.Imaging;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.Imaging.Interop;
 using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
@@ -12,9 +12,9 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
 
         IToolboxCategory OriginalParent { get; }
 
-        IDataObject Data { get; }
+        ImageMoniker ImageMoniker { get; }
 
-        BitmapSource IconSource { get; set; }
+        IDataObject Data { get; }
 
         TypeArray<ILayoutItem> CompatibleTypes { get; }
 

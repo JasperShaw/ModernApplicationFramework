@@ -59,8 +59,8 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.Startup
 
         private void InitializeToolbox()
         {
-            var i = new ToolboxItem("Test", typeof(int), new[] { typeof(ILayoutItem) }, null, false);
-            var j = new ToolboxItem("String", typeof(string), new[] { typeof(object) }, null, false);
+            var i = new ToolboxItem("Test", typeof(int), new[] { typeof(ILayoutItem) }, default, false);
+            var j = new ToolboxItem("String", typeof(string), new[] { typeof(object) }, default, false);
             var c = _toolboxService.GetCategoryById(Guids.DefaultCategoryId);
             c.Items.Add(i);
             c.Items.Add(j);

@@ -6,7 +6,9 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using ModernApplicationFramework.Extended.Interfaces;
+using ModernApplicationFramework.ImageCatalog;
 using ModernApplicationFramework.Imaging;
+using ModernApplicationFramework.Imaging.Interop;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Utilities;
 
@@ -20,7 +22,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
 
         public IToolboxCategory OriginalParent { get; }
 
-        public BitmapSource IconSource { get; set; }
+        public ImageMoniker ImageMoniker { get; private set; }
 
         public TypeArray<ILayoutItem> CompatibleTypes { get; }
 
@@ -50,53 +52,47 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
 
         public IDataObject Data { get; }
 
-        public ToolboxItem(string name, Type targetType, IEnumerable<Type> compatibleTypes, BitmapSource iconSource = null, bool serializable = true)
-            : this(Guid.Empty, name, new DataObject(ToolboxItemDataFormats.Type, targetType), null, compatibleTypes, iconSource, serializable, true)
+        public ToolboxItem(string name, Type targetType, IEnumerable<Type> compatibleTypes, ImageMoniker moniker = default, bool serializable = true)
+            : this(Guid.Empty, name, new DataObject(ToolboxItemDataFormats.Type, targetType), null, compatibleTypes, moniker, serializable, true)
         {
         }
 
-        public ToolboxItem(string name, IDataObject data, IEnumerable<Type> compatibleTypes, BitmapSource iconSource = null, bool serializable = true)
-            : this(Guid.Empty, name, data, null, compatibleTypes, iconSource, serializable, true)
+        public ToolboxItem(string name, IDataObject data, IEnumerable<Type> compatibleTypes, ImageMoniker moniker = default, bool serializable = true)
+            : this(Guid.Empty, name, data, null, compatibleTypes, moniker, serializable, true)
         {
         }
 
-        public ToolboxItem(Guid id, string name, Type targetType, IToolboxCategory originalParent, IEnumerable<Type> compatibleTypes, BitmapSource iconSource = null, bool serializable = true) :
-            this(id, name, new DataObject(ToolboxItemDataFormats.Type, targetType), originalParent, compatibleTypes, iconSource, serializable)
+        public ToolboxItem(Guid id, string name, Type targetType, IToolboxCategory originalParent, IEnumerable<Type> compatibleTypes, ImageMoniker moniker = default, bool serializable = true) :
+            this(id, name, new DataObject(ToolboxItemDataFormats.Type, targetType), originalParent, compatibleTypes, moniker, serializable)
         {
         }
 
         public ToolboxItem(Guid id, string name, IDataObject data, IToolboxCategory originalParent, IEnumerable<Type> compatibleTypes,
-            BitmapSource iconSource = null, bool serializable = true, bool isCustom = false) : base(id, name, isCustom)
+            ImageMoniker moniker = default, bool serializable = true, bool isCustom = false) : base(id, name, isCustom)
         {
             Data = data;
             OriginalParent = originalParent;
-            IconSource = iconSource;
+            ImageMoniker = moniker;
             CompatibleTypes = new TypeArray<ILayoutItem>(compatibleTypes, true);
             Serializable = serializable;
         }
 
         internal static IToolboxItem CreateTextItem(IDataObject data)
         {
-            //var bitmap = new BitmapImage(
-            //    new Uri("pack://application:,,,/ModernApplicationFramework.Modules.Toolbox;component/text.png"));
-
-
-            var bitmap = ImageLibrary.Instance.GetImage(ImageCatalog.Monikers.Win32Text, new ImageAttributes());
-
-
             string text;
             try
             {
                 text = (string)data.GetData(DataFormats.Text);
             }
-            catch (ExternalException e)
+            catch (ExternalException)
             {
                 return null;
             }
 
             var dataObject = new DataObject(DataFormats.Text, text);
 
-            var item = new ToolboxItem($"Text: {text}", dataObject, new[] { typeof(object) }, bitmap, true);
+            var item = new ToolboxItem($"Text: {text}", dataObject, new[] { typeof(object) }, Monikers.Win32Text);
+            
             return item;
         }
 
@@ -107,7 +103,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             if (attributes?.FirstOrDefault() == null)
                 throw new InvalidOperationException("Item type must have ToolboxItemDataAttribute assigned");
             var attribute = attributes.First();
-            return new ToolboxItem(attribute.Name, sourceType, attribute.CompatibleTypes, attribute.IconSource,
+            return new ToolboxItem(attribute.Name, sourceType, attribute.CompatibleTypes, attribute.Moniker,
                 attribute.Serializable);
         }
 

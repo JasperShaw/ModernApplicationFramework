@@ -28,6 +28,15 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
 
         private bool _isDragHoveringElapsed;
 
+        public static readonly DependencyProperty IconProperty = DependencyProperty.Register(
+            "Icon", typeof(object), typeof(ToolboxTreeViewItem), new PropertyMetadata(default(object)));
+
+        public object Icon
+        {
+            get =>  GetValue(IconProperty);
+            set => SetValue(IconProperty, value);
+        }
+
         public ToolboxTreeViewItem()
         {
             DataContextChanged += ToolboxTreeViewItem_DataContextChanged;
