@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Imaging;
+using ModernApplicationFramework.Imaging.Interfaces;
+using ModernApplicationFramework.Imaging.Interop;
 
 namespace ModernApplicationFramework.Extended.Demo.ImageCatalog
 {

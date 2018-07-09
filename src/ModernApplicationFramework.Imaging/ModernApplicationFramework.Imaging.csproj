@@ -68,11 +68,17 @@
     <Compile Include="Converters\CrispImageSourceConverter.cs" />
     <Compile Include="Converters\GrayscaleBitmapSourceConverter.cs" />
     <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="Interfaces\IImageCatalog.cs" />
     <Compile Include="ImageAttributes.cs" />
+    <Compile Include="ImageCache.cs" />
+    <Compile Include="Interop\ImageDefinition.cs" />
     <Compile Include="ImageLibrary.cs" />
+    <Compile Include="ImageMoniker.cs" />
     <Compile Include="ImageThemingUtilities.cs" />
     <Compile Include="Converters\MonikerSourceToImageConverter.cs" />
+    <Compile Include="ImageType.cs" />
     <Compile Include="Interop\ImageMoniker.cs" />
+    <Compile Include="MonikerAttributeTuple.cs" />
     <Compile Include="ObservableTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

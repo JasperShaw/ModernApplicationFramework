@@ -1,4 +1,5 @@
 ﻿using ModernApplicationFramework.Imaging;
+using ModernApplicationFramework.Imaging.Interop;
 
 namespace ModernApplicationFramework.ImageCatalog
 {
