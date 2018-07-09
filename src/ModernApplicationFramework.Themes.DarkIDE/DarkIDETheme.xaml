@@ -5,6 +5,7 @@
         <ResourceDictionary Source="/ModernApplicationFramework.Themes.DarkIDE;component/OverlayWindow.xaml"/>
         <ResourceDictionary Source="/ModernApplicationFramework.Themes.DarkIDE;component/ColorResources.xaml"/>
         <ResourceDictionary Source="/ModernApplicationFramework.Themes.DarkIDE;component/ToolboxColorResources.xaml"/>
+        <ResourceDictionary Source="/ModernApplicationFramework.Themes.DarkIDE;component/SearchControlColors.xaml"/>
     </ResourceDictionary.MergedDictionaries>	
     
 </ResourceDictionary>
