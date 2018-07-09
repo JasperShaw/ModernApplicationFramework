@@ -15,12 +15,12 @@ namespace ModernApplicationFramework.Basics.Search
         private bool _searchButtonVisible = true;
         private uint _controlMaxWidth = 400;
         private uint _controlMinWidth = 100;
-        private string _searchClearTooltip;
-        private string _searchStopTooltip;
-        private string _searchStartTooltip;
-        private string _searchTooltip;
+        private string _searchClearTooltip = Search_Resources.SearchClearTooltip;
+        private string _searchStopTooltip = Search_Resources.SearchStopTooltip;
+        private string _searchStartTooltip = Search_Resources.SearchStartTooltip;
+        private string _searchTooltip = Search_Resources.SearchTooltip;
         private bool _searchWatermarkWhenFocused;
-        private string _searchWatermark;
+        private string _searchWatermark = Search_Resources.SearchWatermark;
         private uint _searchProgressShowDelay = 200;
         private SearchProgressType _searchProgressType = SearchProgressType.Indeterminate;
         private bool _searchTrimsWhitespaces = true;

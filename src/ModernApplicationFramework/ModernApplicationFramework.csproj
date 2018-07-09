@@ -232,6 +232,11 @@
   <ItemGroup>
     <Compile Include="Basics\ApplicationEnvironment\AbstractEnvironmentVariables.cs" />
     <Compile Include="Basics\ApplicationEnvironment\FallbackEnvironmentVariables.cs" />
+    <Compile Include="Basics\Search\Search.Resources.Designer.cs">
+      <DependentUpon>Search.Resources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Docking\Commands\AutoHideAllWindowsCommand.cs" />
     <Compile Include="Docking\Commands\AutoHideWindowCommand.cs" />
     <Compile Include="Docking\Commands\CloseAllButThisDockedWindowCommand.cs" />
@@ -1277,6 +1282,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Basics\CommandBar\CommandBarResources.ru.resx" />
     <EmbeddedResource Include="Basics\CustomizeDialog\Customize.Resources.ru.resx" />
+    <EmbeddedResource Include="Basics\Search\Search.Resources.de.resx" />
+    <EmbeddedResource Include="Basics\Search\Search.Resources.en.resx" />
+    <EmbeddedResource Include="Basics\Search\Search.Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Search.Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\Dialogs\DialogResourcesResources.de.resx">
       <LastGenOutput>DialogResourcesResources.de.Designer.cs</LastGenOutput>
     </EmbeddedResource>
