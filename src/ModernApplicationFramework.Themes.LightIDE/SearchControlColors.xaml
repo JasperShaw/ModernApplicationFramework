@@ -1,0 +1,280 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:themes="clr-namespace:ModernApplicationFramework.Core.Themes;assembly=ModernApplicationFramework">
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=ActionButtonDisabledGlyph}" Color="#FFA2A4A5"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=ActionButtonMouseDown}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=ActionButtonMouseDownBorder}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=ActionButtonMouseDownGlyph}" Color="#FFFFFFFF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=ActionButtonMouseOver}" Color="#FFC9DEF5"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=ActionButtonMouseOverBorder}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=ActionButtonMouseOverGlyph}" Color="#FF1E1E1E"/>
+    
+
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=ClearGlyph}" Color="#FF0E70C0"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=Disabled}" Color="#FFEFEFF2"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=DisabledText}" Color="#FFA2A4A5"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=DisabledBorder}" Color="#FFCCCEDB"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=DisabledDownButtonGlyph}" Color="#FFA2A4A5"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=DropDownSeparator}" Color="#00FFFFFF"/>
+    
+
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=FocusedBackground}" Color="#FFFFFFFF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=FocusedBackgroundText}" Color="#FF1E1E1E"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=FocusedBorder}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=FocusedClearGlyph}" Color="#FF0E70C0"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=FocusedDropDownButton}" Color="#FFC9DEF5"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=FocusedDropDownButtonBorder}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=FocusedDropDownButtonGlyph}" Color="#FF1E1E1E"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=FocusedDropDownSeparator}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=FocusedSearchGlyph}" Color="#FF717171"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=FocusedStopGlyph}" Color="#FFE51400"/>
+    
+
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=MouseDownDropDownButton}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=MouseDownDropDownButtonBorder}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=MouseDownDropDownButtonGlyph}" Color="#FFFFFFFF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=MouseOverBackground}" Color="#FFFFFFFF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=MouseOverBackgroundText}" Color="#FF1E1E1E"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=MouseOverBorder}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=MouseOverClearGlyph}" Color="#FF0E70C0"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=MouseOverDropDownButton}" Color="#FFC9DEF5"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=MouseOverDropDownButtonBorder}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=MouseOverDropDownButtonGlyph}" Color="#FF1E1E1E"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=MouseOverDropDownSeparator}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=MouseOverSearchGlyph}" Color="#FF717171"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=MouseOverStopGlyph}" Color="#FFE51400"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=MouseOverWatermarkText}" Color="#FF1E1E1E"/>
+    
+
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupBorder}" Color="#FFCCCEDB"/>
+    
+
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupButtonMouseDownBackgroundGradientBegin}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupButtonMouseDownBackgroundGradientEnd}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupButtonMouseDownBackgroundGradientMiddle1}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupButtonMouseDownBackgroundGradientMiddle2}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupButtonMouseDownBorder}" Color="#FF007ACC"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupButtonMouseDownText}" Color="#FFFFFFFF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupButtonMouseOverText}" Color="#FF0E70C0"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupButtonText}" Color="#FF0E70C0"/>
+    
+
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupCheckboxCheckmark}" Color="#FF1E1E1E"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupCheckboxMouseDownText}" Color="#FF1E1E1E"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupCheckboxMouseOverText}" Color="#FF1E1E1E"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupCheckboxText}" Color="#FF1E1E1E"/>
+    
+
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupControlMouseDownBackgroundGradientBegin}" Color="#FFC9DEF5"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupControlMouseDownBackgroundGradientEnd}" Color="#FFC9DEF5"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupControlMouseDownBackgroundGradientMiddle1}" Color="#FFC9DEF5"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupControlMouseDownBackgroundGradientMiddle2}" Color="#FFC9DEF5"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupControlMouseDownBorder}" Color="#FFC9DEF5"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupControlMouseOverBackgroundGradientBegin}" Color="#FFC9DEF5"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupControlMouseOverBackgroundGradientEnd}" Color="#FFC9DEF5"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupControlMouseOverBackgroundGradientMiddle1}" Color="#FFC9DEF5"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupControlMouseOverBackgroundGradientMiddle2}" Color="#FFC9DEF5"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupControlMouseOverBorder}" Color="#FFC9DEF5"/>
+    
+
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupItemsListBackgroundGradientBegin}" Color="#FFF6F6F6"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupItemsListBackgroundGradientEnd}" Color="#FFF6F6F6"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupItemText}" Color="#FF1E1E1E"/>
+    
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupMouseOverItemText}" Color="#FF1E1E1E"/>
+    
+
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupSectionBackgroundGradientBegin}" Color="#FFF6F6F6"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupSectionBackgroundGradientEnd}" Color="#FFF6F6F6"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupSectionHeaderGradientBegin}" Color="#FFF6F6F6"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupSectionHeaderGradientEnd}" Color="#FFF6F6F6"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupSectionHeaderSeparator}" Color="#FFE0E3E6"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=PopupSectionHeaderText}" Color="#FF717171"/>
+    
+
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=SearchActiveBackground}" Color="#FFFFFFFF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=SearchActiveBackgroundText}" Color="#FF1E1E1E"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=SearchGlyph}" Color="#FF717171"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=Selection}" Color="#FF3399FF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=StopGlyph}" Color="#FFE51400"/>
+
+
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=Unfocused}" Color="#FFFFFFFF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=UnfocusedText}" Color="#FF1E1E1E"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=UnfocusedBorder}" Color="#FFCCCEDB"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=UnfocusedDropDownButton}" Color="#FFFFFFFF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=UnfocusedDropDownButtonBorder}" Color="#FFCCCEDB"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=UnfocusedDropDownButtonGlyph}" Color="#FF717171"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=UnfocusedWatermarkText}" Color="#FF717171"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=ProgressBarBackground}" Color="#FFF5F5F5"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type themes:SearchControlColors},
+                     ResourceId=ProgressBarIndicator}" Color="#FF007ACC"/>
+
+
+</ResourceDictionary>
