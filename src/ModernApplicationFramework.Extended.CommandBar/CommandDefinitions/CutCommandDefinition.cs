@@ -21,7 +21,7 @@ namespace ModernApplicationFramework.Extended.CommandBar.CommandDefinitions
             CultureInfo.InvariantCulture);
         public override string Text => Commands_Resources.CutCommandDefinition_Text;
         public override string ToolTip => Text;
-        public override ImageMoniker ImageMonikerSource => Monikers.Redo;
+        public override ImageMoniker ImageMonikerSource => Monikers.Cut;
         public override CommandCategory Category => CommandCategories.EditCommandCategory;
         public override Guid Id => new Guid("{E0C9B4B8-C72E-43C4-AE1C-1FF00D3AB4CA}");
         public override IEnumerable<MultiKeyGesture> DefaultKeyGestures => new []{new MultiKeyGesture(Key.X, ModifierKeys.Control)};
