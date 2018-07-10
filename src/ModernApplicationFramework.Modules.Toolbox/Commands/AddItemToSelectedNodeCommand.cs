@@ -1,6 +1,6 @@
-﻿using System;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
@@ -27,18 +27,26 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
 
         protected override void OnExecute(object parameter)
         {
+
             if (!(parameter is IDataObject dataObject))
                 return;
 
             IToolboxItem item;
             if (dataObject.GetFormats().Any(x => x == DataFormats.Text))
             {
-                item = ToolboxItem.CreateTextItem(dataObject);
+                item = ToolboxItem.CreateTextItem(new ToolboxItemData(DataFormats.Text, dataObject.GetData(DataFormats.Text)));
             }
-            else if (dataObject.GetFormats().Any(x => x == ToolboxItemDataFormats.Type))
+            else if (dataObject.GetDataPresent(ToolboxItemDataFormats.DataSource))
             {
-                var type = dataObject.GetData(ToolboxItemDataFormats.Type) as Type;
-                item = ToolboxItem.CreateCustomItem(type);
+                try
+                {
+                    var dataSource = dataObject.GetData(ToolboxItemDataFormats.DataSource) as ToolboxItemDefinition;
+                    item = new ToolboxItem(dataSource);
+                }
+                catch (ExternalException)
+                {
+                    return;
+                }            
             }
             else
                 return;

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using ModernApplicationFramework.Basics.Services;
-using ModernApplicationFramework.Extended.Demo.Modules.ToolSearch;
 using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.Extended.Package;
 using ModernApplicationFramework.Interfaces.Services;
@@ -59,11 +58,12 @@ namespace ModernApplicationFramework.Extended.Demo.Modules.Startup
 
         private void InitializeToolbox()
         {
-            var i = new ToolboxItem("Test", typeof(int), new[] { typeof(ILayoutItem) }, default, false);
-            var j = new ToolboxItem("String", typeof(string), new[] { typeof(object) }, default, false);
+            var data = new ToolboxItemDefinition("Test", new ToolboxItemData(ToolboxItemDataFormats.Type, typeof(int)),
+                new[] {typeof(ILayoutItem)}, default, false);
+            var i = new ToolboxItem(data);
+
             var c = _toolboxService.GetCategoryById(Guids.DefaultCategoryId);
             c.Items.Add(i);
-            c.Items.Add(j);
         }
 
         private void RefreshInspector()

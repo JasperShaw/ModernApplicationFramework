@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Xml;
@@ -62,9 +61,11 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
                         if (data == null || typeList == null)
                             return null;
 
-                        if (data.GetFormats().Contains(DataFormats.Text))
+                        if (data.Format == DataFormats.Text)
                             return ToolboxItem.CreateTextItem(data);
-                        return new ToolboxItem(name, data, typeList);
+
+                        var dataSource = new ToolboxItemDefinition(name, data, typeList);
+                        return new ToolboxItem(dataSource);
                     });
                     foreach (var item in items)
                         category.Items.Add(item);
@@ -120,7 +121,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
 
         private static void SerializeItem(IToolboxItem item, ref XmlNode parentElement, ref XmlDocument document)
         {
-            if (!item.Serializable)
+            if (!item.DataSource.Serializable)
                 return;
 
             var doc = document;
@@ -129,14 +130,13 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
                 if (!item.IsCustom)
                     return;
 
-                foreach (var type in item.CompatibleTypes.Memebers)
+                foreach (var type in item.DataSource.CompatibleTypes.Memebers)
                 {
                     var xType = doc.CreateElement("CompatibleType");
                     xType.SetAttribute("Type", type.FullName);
                     element.AppendChild(xType);
                 }
-
-                var data = SerializeItemData(ref doc, item.Data);
+                var data = SerializeItemData(ref doc, item.DataSource.Data);
                 if (data != null)
                     element.AppendChild(data);
             });
@@ -144,16 +144,16 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
             parentElement.AppendChild(xItem);
         }
 
-        private static XmlNode SerializeItemData(ref XmlDocument doc, IDataObject data)
+        private static XmlNode SerializeItemData(ref XmlDocument doc, ToolboxItemData data)
         {
             var xData = doc.CreateElement("Data");
 
-            var format = data.GetFormats().FirstOrDefault();
+            var format = data.Format;
             if (format == null)
                 return null;
 
 
-            var rawString = data.GetData(format)?.ToString() ?? string.Empty;
+            var rawString = data.Data?.ToString() ?? string.Empty;
             var value = Convert.ToBase64String(GZip.Compress(Encoding.UTF8.GetBytes(rawString)));
 
             xData.SetAttribute("Format", format);
@@ -205,7 +205,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
             return list;
         }
 
-        private static IDataObject ParseData(in XmlNode node)
+        private static ToolboxItemData ParseData(in XmlNode node)
         {
             var dataNode = node.SelectSingleNode("Data");
 
@@ -243,7 +243,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
                 default:
                     return null;
             }
-            return new DataObject(format, data);
+            return new ToolboxItemData(format, data);
         }
 
         private static IEnumerable<Type> GetCompatibleTypeList(in XmlNode node)

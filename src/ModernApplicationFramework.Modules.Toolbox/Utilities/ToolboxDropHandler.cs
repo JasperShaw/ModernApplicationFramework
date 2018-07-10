@@ -21,7 +21,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.Utilities
             {
                 dropInfo.Effects = DragDropEffects.Copy | DragDropEffects.Move;
                 dropInfo.DropTargetAdorner = typeof(ToolboxInsertAdorner);
-                dropInfo.Data = ToolboxItem.CreateTextItem(dataObject);
+                var format = dataObject.GetFormats().First();
+                dropInfo.Data = ToolboxItem.CreateTextItem(new ToolboxItemData(format, dataObject.GetData(format)));
                 stringFlag = true;
             }
 
@@ -77,7 +78,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Utilities
             bool stringFlag = false;
             if (dropInfo.DragInfo == null && dropInfo.Data is IToolboxItem item && dropInfo.IsSameDragDropContextAsSource)
             {
-                if (!item.Data.GetDataPresent(DataFormats.Text))
+                if (item.DataSource.Data.Format != DataFormats.Text)
                     return;
                 stringFlag = true;
             }

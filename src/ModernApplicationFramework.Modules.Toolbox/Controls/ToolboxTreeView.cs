@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Security;
 using System.Windows;
 using System.Windows.Controls;
@@ -82,11 +82,12 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
         protected override void OnDragEnter(DragEventArgs e)
         {
             var dropInfo = new DropInfo(this, e, null);
-            if (!IsTextObjectInDragSource(dropInfo, out var dataObject))
+            if (!IsTextObjectInDragSource(dropInfo, out _))
                 return;
 
             dropInfo.Effects = DragDropEffects.Copy | DragDropEffects.Move;
-            var tempItem = new ToolboxItem(string.Empty, dataObject, new[] { typeof(object) });
+
+            var tempItem = new ToolboxItem(new ToolboxItemDefinition(string.Empty, null, new List<Type>()));
 
             if (!ToolboxDropHandler.CanDropToolboxItem(dropInfo, tempItem))
                 e.Effects = DragDropEffects.None;
@@ -265,20 +266,24 @@ namespace ModernApplicationFramework.Modules.Toolbox.Controls
         {
             if (SelectedItem == null)
                 return false;
-            var t = Clipboard.GetDataObject();
-            if (t == null)
-                return false;
-            var f = t.GetFormats();
 
-            if (f.Any(x =>
-                x == ToolboxItemDataFormats.Type && t.GetData(ToolboxItemDataFormats.Type) is Type type &&
-                type.GetAttributes<ToolboxItemDataAttribute>(false).Any()))
+            if (Clipboard.ContainsData(ToolboxItemDataFormats.DataSource) || Clipboard.ContainsData(DataFormats.Text))
                 return true;
-
-            if (f.Any(x => x == DataFormats.Text))
-                return true;
-
             return false;
+
+            //var t = Clipboard.GetDataObject();
+            //if (t == null)
+            //    return false;
+
+            //var f = t.GetFormats();
+
+            //if (f.Any(x => x == ToolboxItemDataFormats.DataSource))
+            //    return true;
+
+            //if (f.Any(x => x == DataFormats.Text))
+            //    return true;
+
+            //return false;
         }
 
         [SecurityCritical]

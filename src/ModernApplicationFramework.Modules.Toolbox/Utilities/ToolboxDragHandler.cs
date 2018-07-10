@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Windows;
 using ModernApplicationFramework.DragDrop;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
@@ -13,9 +12,9 @@ namespace ModernApplicationFramework.Modules.Toolbox.Utilities
             DragDrop.DragDrop.DefaultDragHandler.StartDrag(dragInfo);
             if (dragInfo.SourceItem is IToolboxItem toolbox)
             {
-                var format = toolbox.Data.GetFormats(false).First();
+                var format = toolbox.DataSource.Data.Format;
                 dragInfo.DataFormat = DataFormats.GetDataFormat(format);
-                dragInfo.Data = toolbox.Data.GetData(format);
+                dragInfo.Data = toolbox.DataSource.Data.Data;
                 dragInfo.Effects = dragInfo.Data != null ? DragDropEffects.Copy | DragDropEffects.Move : DragDropEffects.None;
             }
         }

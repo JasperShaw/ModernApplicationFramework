@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
-using Caliburn.Micro;
-using ModernApplicationFramework.Extended.Interfaces;
 using ModernApplicationFramework.ImageCatalog;
-using ModernApplicationFramework.Imaging.Interop;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Utilities;
 
@@ -20,11 +16,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
 
         public IToolboxCategory OriginalParent { get; }
 
-        public ImageMoniker ImageMoniker { get; }
-
-        public TypeArray<ILayoutItem> CompatibleTypes { get; }
-
-        public bool Serializable { get; set; }
+        public ToolboxItemDefinitionBase DataSource { get; }
 
         public bool IsVisible
         {
@@ -48,65 +40,44 @@ namespace ModernApplicationFramework.Modules.Toolbox.Items
             }
         }
 
-        public IDataObject Data { get; }
-
-        public ToolboxItem(string name, Type targetType, IEnumerable<Type> compatibleTypes, ImageMoniker moniker = default, bool serializable = true)
-            : this(Guid.Empty, name, new DataObject(ToolboxItemDataFormats.Type, targetType), null, compatibleTypes, moniker, serializable, true)
+        public ToolboxItem(ToolboxItemDefinitionBase dataSource)
+            : this(Guid.Empty, null, dataSource, true)
         {
         }
 
-        public ToolboxItem(string name, IDataObject data, IEnumerable<Type> compatibleTypes, ImageMoniker moniker = default, bool serializable = true)
-            : this(Guid.Empty, name, data, null, compatibleTypes, moniker, serializable, true)
-        {
-        }
 
-        public ToolboxItem(Guid id, string name, Type targetType, IToolboxCategory originalParent, IEnumerable<Type> compatibleTypes, ImageMoniker moniker = default, bool serializable = true) :
-            this(id, name, new DataObject(ToolboxItemDataFormats.Type, targetType), originalParent, compatibleTypes, moniker, serializable)
+        public ToolboxItem(Guid id, IToolboxCategory originalParent, ToolboxItemDefinitionBase dataSource, bool isCustom = false) 
+            : base(id, dataSource.Name, isCustom)
         {
-        }
-
-        public ToolboxItem(Guid id, string name, IDataObject data, IToolboxCategory originalParent, IEnumerable<Type> compatibleTypes,
-            ImageMoniker moniker = default, bool serializable = true, bool isCustom = false) : base(id, name, isCustom)
-        {
-            Data = data;
             OriginalParent = originalParent;
-            ImageMoniker = moniker;
-            CompatibleTypes = new TypeArray<ILayoutItem>(compatibleTypes, true);
-            Serializable = serializable;
+            DataSource = dataSource;
         }
 
-        internal static IToolboxItem CreateTextItem(IDataObject data)
+        internal static IToolboxItem CreateTextItem(ToolboxItemData data)
         {
             string text;
             try
             {
-                text = (string)data.GetData(DataFormats.Text);
+                text = data.Data.ToString();
             }
             catch (ExternalException)
             {
                 return null;
             }
 
-            var dataObject = new DataObject(DataFormats.Text, text);
-            var item = new ToolboxItem($"Text: {text}", dataObject, new[] { typeof(object) }, Monikers.Win32Text);      
+            var dataSource = new ToolboxItemDefinition($"Text: {text}", new ToolboxItemData(DataFormats.Text, text),
+                new[] {typeof(object)}, Monikers.Win32Text);
+
+            var item = new ToolboxItem(dataSource);      
             return item;
-        }
-
-
-        public static IToolboxItem CreateCustomItem(Type sourceType)
-        {
-            var attributes = sourceType?.GetAttributes<ToolboxItemDataAttribute>(false).ToList();
-            if (attributes?.FirstOrDefault() == null)
-                throw new InvalidOperationException("Item type must have ToolboxItemDataAttribute assigned");
-            var attribute = attributes.First();
-            return new ToolboxItem(attribute.Name, sourceType, attribute.CompatibleTypes, attribute.Moniker,
-                attribute.Serializable);
         }
 
         public virtual bool EvaluateEnabled(Type targetType)
         {
-            return CompatibleTypes.Memebers.Contains(typeof(object)) ||
-                   CompatibleTypes.Memebers.Any(targetType.ImplementsOrInharits);
+            if (DataSource != null)
+                return DataSource.CompatibleTypes.Memebers.Contains(typeof(object)) ||
+                       DataSource.CompatibleTypes.Memebers.Any(targetType.ImplementsOrInharits);
+            return false;
         }
     }
 

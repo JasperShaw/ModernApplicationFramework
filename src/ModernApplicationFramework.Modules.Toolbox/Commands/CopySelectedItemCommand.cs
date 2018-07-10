@@ -1,21 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.ComponentModel.Composition.Primitives;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
 using ModernApplicationFramework.Input.Command;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces.Commands;
+using ModernApplicationFramework.Modules.Toolbox.Items;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Commands
 {
     [Export(typeof(ICopySelectedItemCommand))]
     public class CopySelectedItemCommand : CommandDefinitionCommand, ICopySelectedItemCommand
     {
-
         private readonly IToolbox _toolbox;
 
         [ImportingConstructor]
@@ -33,7 +29,18 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
         {
             if (!(_toolbox.SelectedNode is IToolboxItem item))
                 return;
-            Clipboard.SetDataObject(item.Data, true);
+
+            IDataObject dataObject;
+            if (item.DataSource.Data.Format == DataFormats.Text)
+                dataObject = new DataObject(DataFormats.Text, item.DataSource.Data.Data);
+            else
+            {
+                var dataSource = new ToolboxItemDefinition(item.DataSource);
+                if (!IsSerializable(dataSource))
+                    return;
+                dataObject = new DataObject(ToolboxItemDataFormats.DataSource, dataSource);
+            }
+            Clipboard.SetDataObject(dataObject, true);
 
             if ((bool)parameter)
             {
@@ -43,6 +50,21 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
                 var category = item.Parent;
                 category.Items.Remove(item);
                 _toolbox.SelectedNode = category;
+            }
+        }
+
+        private static bool IsSerializable(object obj)
+        {
+            var mem = new System.IO.MemoryStream();
+            var bin = new BinaryFormatter();
+            try
+            {
+                bin.Serialize(mem, obj);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
     }

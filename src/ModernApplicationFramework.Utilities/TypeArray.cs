@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace ModernApplicationFramework.Utilities
 {
+    [Serializable]
     public class TypeArray<T>
     {
         public bool IncludeObjectType { get; }

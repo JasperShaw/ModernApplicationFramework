@@ -232,7 +232,7 @@
             <Setter Property="Icon">
                 <Setter.Value>
                     <MultiBinding Converter="{StaticResource MonikerSourceToImageConverter}">
-                        <Binding Path="ImageMoniker"/>
+                        <Binding Path="DataSource.ImageMoniker"/>
                         <Binding Path="IsEnabled"/>
                     </MultiBinding>
                 </Setter.Value>

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Windows;
-using ModernApplicationFramework.Extended.Interfaces;
-using ModernApplicationFramework.Imaging.Interop;
-using ModernApplicationFramework.Utilities;
+using ModernApplicationFramework.Modules.Toolbox.Items;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
 {
@@ -12,13 +9,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
 
         IToolboxCategory OriginalParent { get; }
 
-        ImageMoniker ImageMoniker { get; }
-
-        IDataObject Data { get; }
-
-        TypeArray<ILayoutItem> CompatibleTypes { get; }
-
-        bool Serializable { get; set; }
+        ToolboxItemDefinitionBase DataSource { get; }
 
         bool IsVisible { get; set; }
 
