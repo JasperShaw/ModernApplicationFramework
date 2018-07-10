@@ -14,7 +14,7 @@
               <xs:element name="Item" minOccurs="0" maxOccurs="unbounded">
                 <xs:complexType mixed="true">
                   <xs:sequence>
-                    <xs:element name="CompatibleType" minOccurs="0" maxOccurs="1">
+                    <xs:element name="CompatibleType" minOccurs="0" maxOccurs="unbounded">
                       <xs:complexType>
                         <xs:attribute name="Type" type="xs:string" />
                       </xs:complexType>
@@ -23,6 +23,12 @@
                       <xs:complexType>
                         <xs:attribute name="Format" type="xs:string" />
                         <xs:attribute name="Value" type="xs:string" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Image" minOccurs="0" maxOccurs="1">
+                      <xs:complexType>
+                        <xs:attribute name="CatalogGuid" type="guid"/>
+                        <xs:attribute name="Id" type="xs:int"/>
                       </xs:complexType>
                     </xs:element>
                   </xs:sequence>

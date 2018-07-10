@@ -7,6 +7,8 @@ using System.Windows;
 using System.Xml;
 using ModernApplicationFramework.Basics.Services;
 using ModernApplicationFramework.Core.Utilities;
+using ModernApplicationFramework.Imaging;
+using ModernApplicationFramework.Imaging.Interop;
 using ModernApplicationFramework.Modules.Toolbox.Extensions;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Modules.Toolbox.Items;
@@ -64,7 +66,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
                         if (data.Format == DataFormats.Text)
                             return ToolboxItem.CreateTextItem(data);
 
-                        var dataSource = new ToolboxItemDefinition(name, data, typeList);
+                        var image = GetImageMoniker(in itemNode);
+                        var dataSource = new ToolboxItemDefinition(name, data, typeList, image);
                         return new ToolboxItem(dataSource);
                     });
                     foreach (var item in items)
@@ -139,9 +142,26 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
                 var data = SerializeItemData(ref doc, item.DataSource.Data);
                 if (data != null)
                     element.AppendChild(data);
+
+                if (item.DataSource.Data.Format == DataFormats.Text)
+                    return;
+                var image = SerializeImageMoniker(ref doc, item.DataSource.ImageMoniker);
+                if (image != null)
+                    element.AppendChild(image);
             });
 
             parentElement.AppendChild(xItem);
+        }
+
+        private static XmlNode SerializeImageMoniker(ref XmlDocument doc, ImageMoniker moniker)
+        {
+            var xData = doc.CreateElement("Image");
+            if (moniker.Equals(ImageLibrary.EmptyMoniker))
+                return null;
+
+            xData.SetAttribute("CatalogGuid", moniker.CatalogGuid.ToString("B"));
+            xData.SetAttribute("Id", moniker.Id.ToString());
+            return xData;
         }
 
         private static XmlNode SerializeItemData(ref XmlDocument doc, ToolboxItemData data)
@@ -259,6 +279,17 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
                 typeList.Add(convertedType);
             }
             return typeList;
+        }
+
+        private static ImageMoniker GetImageMoniker(in XmlNode node)
+         {
+            var imageNode = node.SelectSingleNode("Image");
+            if (imageNode == null)
+                return default;
+            var guid = imageNode.GetAttributeValue<Guid>("CatalogGuid");
+            var id = imageNode.GetAttributeValue<int>("Id");
+
+            return new ImageMoniker {CatalogGuid = guid, Id = id};
         }
     }
 }
