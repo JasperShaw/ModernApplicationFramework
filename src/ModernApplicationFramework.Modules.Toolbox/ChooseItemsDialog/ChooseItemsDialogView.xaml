@@ -12,9 +12,9 @@
             </Grid.RowDefinitions>
         <TabControl Grid.Row="0" x:Name="Items"/>
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
-            <dialogButtons:DialogButton IsDefault="True" Content="OK" Margin="0,10,6,0" Command="{Binding OkCommand}"/>
-            <dialogButtons:DialogButton IsCancel="True" Content="Cancel" Margin="0,10,6,0" Command="{Binding CancelCommand}"/>
-            <dialogButtons:DialogButton Content="Reset" Margin="0,10,0,0" Command="{Binding ResetCommand}"/>
+            <dialogButtons:DialogButton x:Name="OkButton" IsDefault="True" Content="OK" Margin="0,10,6,0" Command="{Binding OkCommand}"/>
+            <dialogButtons:DialogButton x:Name="CancelButton" IsCancel="True" Content="Cancel" Margin="0,10,6,0" Command="{Binding CancelCommand}"/>
+            <dialogButtons:DialogButton x:Name="ResetButton" Content="Reset" Margin="0,10,0,0" Command="{Binding ResetCommand}"/>
         </StackPanel>
     </Grid>
 </mafc:DialogWindow>

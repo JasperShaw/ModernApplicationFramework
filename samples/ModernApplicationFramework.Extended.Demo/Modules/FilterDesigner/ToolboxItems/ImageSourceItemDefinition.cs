@@ -9,7 +9,7 @@ using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.ToolboxItems
 {
-    [Export(typeof(ImageSourceItemDefinition))]
+    [Export(typeof(ToolboxItemDefinitionBase))]
     public class ImageSourceItemDefinition : ToolboxItemDefinitionBase
     {
         public override ToolboxItemData Data => new ToolboxItemData(ToolboxItemDataFormats.Type, typeof(ImageSource));

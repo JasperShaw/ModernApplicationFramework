@@ -3,11 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:dialogButtons="clr-namespace:ModernApplicationFramework.Controls.Buttons.DialogButtons;assembly=ModernApplicationFramework"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:general="clr-namespace:ModernApplicationFramework.Core.Converters.General;assembly=ModernApplicationFramework"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <general:BooleanToHiddenVisibilityConverter x:Key="BooleanToHiddenVisibilityConverter"/>
+    </UserControl.Resources>
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -24,10 +28,42 @@
                 Visible
             </TextBlock.Visibility>
         </TextBlock>
-        <ListView x:Name="ListView" Grid.Row="0" Margin="0,0,0,5" ItemsSource="{Binding Items}">
+        <ListView x:Name="ListView" Grid.Row="0" Margin="0,0,0,5" ItemsSource="{Binding Items}"
+                  cal:Message.Attach="[Event SelectionChanged] = [Action OnSelectionChanged($this,$eventArgs)]">
             <ListView.Visibility>
                 Visible
             </ListView.Visibility>
+            <FrameworkElement.Resources>
+                <Style TargetType="{x:Type GridViewColumnHeader}">
+                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                    <Setter Property="Padding" Value="6,3,6,3"/>
+                </Style>
+            </FrameworkElement.Resources>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="Margin" Value="0"/>
+                    <EventSetter Event="MouseDoubleClick" Handler="ItemDoubleClicked"/>
+                    <EventSetter Event="KeyDown" Handler="ItemKeyDown"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.View>
+                <GridView x:Name="GridView">
+                    <GridViewColumn Width="Auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center"
+                                          Margin="0" IsTabStop="False" x:Name="Choose"
+                                          IsChecked="{Binding IsChecked}" Click="ItemCheckboxClicked"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
         </ListView>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -56,7 +92,10 @@
                         <system:String x:Key="NoItemsSelected">(keine)</system:String>
                     </FrameworkElement.Resources>
                     <GroupBox.Header>
-                        Test
+                        <PriorityBinding>
+                            <Binding Path="CaretItem.Name"/>
+                            <Binding Source="{StaticResource NoItemsSelected}"/>
+                        </PriorityBinding>
                     </GroupBox.Header>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -69,25 +108,25 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Center" Margin="3,3,23,3"
-                               Width="16" Height="16"/>
-                        <TextBlock Grid.Column="1" Grid.Row="0" VerticalAlignment="Bottom" Margin="3" Text="Sprache:">
+                               Width="16" Height="16" Source="{Binding CaretItem.Icon}"/>
+                        <TextBlock Grid.Column="1" Grid.Row="0" VerticalAlignment="Bottom" Margin="3" Text="Assembly:">
                             <TextBlock.Visibility>
-                                Visible
+                                <Binding Path="ShowAssembly" Converter="{StaticResource BooleanToHiddenVisibilityConverter}"/>
                             </TextBlock.Visibility>
                         </TextBlock>
-                        <TextBlock Grid.Column="2" Grid.Row="0" VerticalAlignment="Bottom" Margin="3" TextWrapping="Wrap" Text="langValue">
+                        <TextBlock Grid.Column="2" Grid.Row="0" VerticalAlignment="Bottom" Margin="3" TextWrapping="Wrap" Text="{Binding CaretItem.Assembly}">
                             <TextBlock.Visibility>
-                                Visible
+                                <Binding Path="ShowAssembly" Converter="{StaticResource BooleanToHiddenVisibilityConverter}"/>
                             </TextBlock.Visibility>
                         </TextBlock>
                         <TextBlock Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" Margin="3" Text="Version:">
                             <TextBlock.Visibility>
-                                Visible
+                                <Binding Path="ShowVersion" Converter="{StaticResource BooleanToHiddenVisibilityConverter}"/>
                             </TextBlock.Visibility>
                         </TextBlock>
-                        <TextBlock Grid.Column="2" Grid.Row="1" VerticalAlignment="Top" Margin="3" TextWrapping="Wrap" Text="versionValue">
+                        <TextBlock Grid.Column="2" Grid.Row="1" VerticalAlignment="Top" Margin="3" TextWrapping="Wrap" Text="{Binding CaretItem.Version}">
                             <TextBlock.Visibility>
-                                Visible
+                                <Binding Path="ShowVersion" Converter="{StaticResource BooleanToHiddenVisibilityConverter}"/>
                             </TextBlock.Visibility>
                         </TextBlock>
                     </Grid>

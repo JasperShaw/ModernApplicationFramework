@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using System.Windows;
 using ModernApplicationFramework.Extended.Demo.ImageCatalog;
 using ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.ViewModels;
 using ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.ViewModels.Elements;
@@ -12,11 +11,9 @@ using ModernApplicationFramework.Utilities;
 
 namespace ModernApplicationFramework.Extended.Demo.Modules.FilterDesigner.ToolboxItems
 {
-    [Export(typeof(AddToolboxItemDefinition))]
+    [Export(typeof(ToolboxItemDefinitionBase))]
     public class AddToolboxItemDefinition : ToolboxItemDefinitionBase
     {
-        //public override IDataObject Data => new DataObject(ToolboxItemDataFormats.Type, typeof(Add));
-
         public override TypeArray<ILayoutItem> CompatibleTypes =>
             new TypeArray<ILayoutItem>(new[] {typeof(GraphViewModel)}, true);
 
