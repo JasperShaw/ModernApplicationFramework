@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using ModernApplicationFramework.Extended.Annotations;
 using ModernApplicationFramework.Modules.Toolbox.Items;
@@ -38,12 +39,23 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
             }
         }
 
+        public string AssemblyName { get; }
+
+        public string AssemblyVersion { get; }
+
+        public string Namespace { get; }
+
         public IEnumerable<string> SearchableStrings { get; }
 
         public ItemDataSource(ToolboxItemDefinitionBase definition)
         {
             Definition = definition;
             Name = definition.Name;
+
+            AssemblyName = Assembly.GetAssembly(definition.GetType()).GetName().Name;
+            AssemblyVersion = Assembly.GetAssembly(definition.GetType()).GetName().Version.ToString();
+            Namespace = definition.GetType().Namespace;
+
             SearchableStrings = new List<string> {Name};
         }
 

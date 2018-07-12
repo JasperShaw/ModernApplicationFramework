@@ -39,6 +39,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
             foreach (var itemType in ItemDiscoveryService.Instance.ItemTypes)
             {
                 var pageDataSource = new ToolboxControlledPageDataSource(itemType, this);
+                pageDataSource.PropertyChanged += PageDataSourceOnPropertyChanged;
                 ControlledPages.Add(pageDataSource);
             }
         }
@@ -57,6 +58,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+        //public event EventHandler<ToolboxControlledPageDataSource> PagePropertyChanged; 
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -71,9 +73,19 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
                 ClientInfoLoader.Dispose();
                 ClientInfoLoader = null;
             }
-            //foreach (var page in ControlledPages)
-            //    page.PropertyChanged -= PageDataSourceOnPropertyChanged;
+            foreach (var page in ControlledPages)
+                page.PropertyChanged -= PageDataSourceOnPropertyChanged;
             ControlledPages.Clear();
         }
+
+        private void PageDataSourceOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            PropertyChanged?.Invoke(sender, e);
+        }
+
+        //protected virtual void OnPagePropertyChanged(ToolboxControlledPageDataSource e)
+        //{
+        //    PagePropertyChanged?.Invoke(this, e);
+        //}
     }
 }

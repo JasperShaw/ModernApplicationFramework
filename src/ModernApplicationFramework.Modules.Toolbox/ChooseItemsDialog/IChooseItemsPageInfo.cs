@@ -13,6 +13,10 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
 
         int Order { get; }
 
+        bool ShowAssembly { get; }
+
+        bool ShowVersion { get; }
+
         IEnumerable<ColumnInformation> Columns { get; }
 
         Predicate<ToolboxItemDefinitionBase> Selector { get; }
@@ -26,13 +30,26 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
         public string Name => "All Items";
         public Guid Id => new Guid("{EFC137BE-4E39-4A7E-8D6E-7310B9CA40B9}");
         public int Order => 0;
+        public bool ShowAssembly { get; } = true;
+        public bool ShowVersion { get; } = true;
+
         public IEnumerable<ColumnInformation> Columns => new List<ColumnInformation>
         {
-            new ColumnInformation("Name", "Header")
+            new ColumnInformation(nameof(ItemDataSource.Name), "Name"),
+            new ColumnInformation(nameof(ItemDataSource.Namespace), "Namespace"),
+            new ColumnInformation(nameof(ItemDataSource.AssemblyName), "Assembly"),
+            new CustomSortColumnDataSource(nameof(ItemDataSource.AssemblyVersion), "Version", VersionComare)
         };
 
         public Predicate<ToolboxItemDefinitionBase> Selector => definition => true;
         public IItemDataFactory ItemFactory => DefaultItemDataFactory.Default;
+
+        private int VersionComare(string first, string second)
+        {
+            if (Version.TryParse(first, out var version1) && Version.TryParse(second, out var version2))
+                return version1.CompareTo(version2);
+            return string.Compare(first, second, StringComparison.CurrentCulture);
+        }
     }
 
     [Export(typeof(IChooseItemsPageInfo))]
@@ -41,6 +58,9 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
         public string Name => "Not All Items";
         public Guid Id => new Guid("{3C4E8AAB-3192-4A3C-A6C2-F4D095813EED}");
         public int Order => 1;
+        public bool ShowAssembly { get; } = true;
+        public bool ShowVersion { get; } = true;
+
         public IEnumerable<ColumnInformation> Columns => new List<ColumnInformation>
         {
             new ColumnInformation("Name", "Header 1"),

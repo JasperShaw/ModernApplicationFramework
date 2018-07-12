@@ -31,7 +31,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
         private readonly Dictionary<TabItem, ToolboxControlledPageDataSource> _tabItemDataSourceMap = new Dictionary<TabItem, ToolboxControlledPageDataSource>();
 
         public ICommand OkCommand => new Command(OnOk);
-        public ICommand CancelCommand => new Command(OnCancel);
         public ICommand ResetCommand => new Command(OnReset);
 
 
@@ -144,11 +143,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
             //}
         }
 
-        private void OnCancel()
-        {
-            DiscardChangesAndClose();
-        }
-
         private void OnReset()
         {
             IoC.Get<IResetToolboxCommand>().Execute(null);
@@ -156,7 +150,6 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
 
             SyncAfterReset();
             //TODO: Show Message
-            //TODO: Update Pages
 
             _window.FocusButton(ChooseItemsDialogView.ButtonType.Ok);
             _window.EnsureDialogVisible();
@@ -202,7 +195,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
             ActiveTab = tabItem;
         }
 
-        private void GetControlledPages(ChooseItemsDataSource dataSource, IDictionary<PageOrderKey, TabItem> tabItems,
+        private void GetControlledPages(ChooseItemsDataSource dataSource, SortedList<PageOrderKey, TabItem> tabItems,
             IDictionary<TabItem, ToolboxControlledPageDataSource> tabItemDataSourceMap)
         {
             using (var enumerator = dataSource.ControlledPages.GetEnumerator())
@@ -251,8 +244,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
                     if (_order == -1)
                     {
                         _order = _page.Order;
-                        if (_order == 0)
-                            _order = int.MaxValue;
+                        //if (_order == 0)
+                        //    _order = int.MaxValue;
                     }
                     return _order;
                 }

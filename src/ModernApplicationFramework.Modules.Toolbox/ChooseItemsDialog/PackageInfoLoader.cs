@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
+using System.Windows;
 using Caliburn.Micro;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces;
 using ModernApplicationFramework.Utilities;
@@ -33,6 +34,23 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
         {
             if (e.PropertyName == nameof(ChooseItemsDataSource.ActivePageGuid))
                 OnActivePageChanged();
+            else if (e.PropertyName == nameof(ToolboxControlledPageDataSource.ListPopulationComplete))
+            {
+                if (!(sender is ToolboxControlledPageDataSource dataSource))
+                    return;
+                AddInstalledNotRegisteredItemsToList(dataSource);
+                RefreshExistingItemsCheckState(dataSource);
+            }
+        }
+
+        private void AddInstalledNotRegisteredItemsToList(ToolboxControlledPageDataSource dataSource)
+        {
+            if (!Application.Current.CheckAccess())
+                Execute.OnUIThread(() => AddInstalledNotRegisteredItemsToList(dataSource));
+            else
+            {
+                
+            }
         }
 
         public ToolboxControlledPageDataSource GetActivePage()
@@ -68,11 +86,17 @@ namespace ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog
         public void SyncToToolbox(ToolboxControlledPageDataSource page)
         {
             RefreshExistingItemsCheckState(page);
+
+            //var items = page.Items;
         }
 
         private void RefreshExistingItemsCheckState(ToolboxControlledPageDataSource page)
         {
-
+            foreach (var item in page.Items)
+                item.IsChecked = IsItemOnToolbox(item);
+            if (page.ListPopulationComplete)
+                return;
+            page.ListPopulationComplete = true;
         }
     }
 }
