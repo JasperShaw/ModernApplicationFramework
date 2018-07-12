@@ -14,15 +14,17 @@ namespace ModernApplicationFramework.Modules.Toolbox
         private readonly ToolboxItemHost _host;
         private readonly IToolboxStateProvider _stateProvider;
         private readonly IToolbox _toolbox;
+        private readonly ToolboxItemDefinitionHost _definitionHost;
 
         internal static IToolboxService Instance { get; private set; }
 
         [ImportingConstructor]
-        public ToolboxService(ToolboxItemHost host, IToolboxStateProvider stateProvider, IToolbox toolbox)
+        public ToolboxService(ToolboxItemHost host, IToolboxStateProvider stateProvider, IToolbox toolbox, ToolboxItemDefinitionHost definitionHost)
         {
             _host = host;
             _stateProvider = stateProvider;
             _toolbox = toolbox;
+            _definitionHost = definitionHost;
             Instance = this;
         }
 
@@ -86,6 +88,11 @@ namespace ModernApplicationFramework.Modules.Toolbox
         public IToolboxItem GetItemById(Guid guid)
         {
             return guid == Guid.Empty ? null : _host.AllItems.FirstOrDefault(x => x.Id.Equals(guid));
+        }
+
+        public IEnumerable<IToolboxItem> FindItemsByDefintion(ToolboxItemDefinitionBase definition)
+        {
+            return _host.AllItems.Where(x => x.DataSource.Id == definition.Id);
         }
 
         public IReadOnlyCollection<string> GetAllToolboxCategoryNames()

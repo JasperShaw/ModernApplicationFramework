@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ModernApplicationFramework.Modules.Toolbox.Items;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
 {
@@ -22,5 +23,7 @@ namespace ModernApplicationFramework.Modules.Toolbox.Interfaces
         IToolboxCategory GetCategoryById(Guid guid);
 
         IToolboxItem GetItemById(Guid guid);
+
+        IEnumerable<IToolboxItem> FindItemsByDefintion(ToolboxItemDefinitionBase definition);
     }
 }

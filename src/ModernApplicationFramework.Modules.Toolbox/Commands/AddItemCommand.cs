@@ -1,6 +1,10 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using Caliburn.Micro;
+using ModernApplicationFramework.Basics.Threading;
 using ModernApplicationFramework.Input.Command;
+using ModernApplicationFramework.Interfaces.Services;
+using ModernApplicationFramework.Modules.Toolbox.ChooseItemsDialog;
 using ModernApplicationFramework.Modules.Toolbox.Interfaces.Commands;
 
 namespace ModernApplicationFramework.Modules.Toolbox.Commands
@@ -15,7 +19,17 @@ namespace ModernApplicationFramework.Modules.Toolbox.Commands
 
         protected override void OnExecute(object parameter)
         {
-            IoC.Get<IWindowManager>().ShowDialog(IoC.Get<ChooseItemsDialog.ChooseItemsDialogViewModel>());
+            var window = IoC.Get<ChooseItemsDialogViewModel>();
+            var dataSource = GetDataSource();
+            window.DataSource = dataSource;
+            IoC.Get<IWindowManager>().ShowDialog(window);
+        }
+
+        private static ChooseItemsDataSource GetDataSource()
+        {
+            var factory = IoC.Get<IWaitDialogFactory>();
+            using (factory?.StartWaitDialog("Loading", null, TimeSpan.FromSeconds(0.0)))
+                return new ChooseItemsDataSource();
         }
     }
 }

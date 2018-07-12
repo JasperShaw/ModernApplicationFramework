@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Media.Animation;
 using ModernApplicationFramework.Interfaces;
 using ModernApplicationFramework.Interfaces.Controls;
 using ModernApplicationFramework.Interfaces.Services;
@@ -89,17 +90,33 @@ namespace ModernApplicationFramework.Basics.Threading
                 session.Callback);
         }
 
+        public static Session StartWaitDialog(this IWaitDialogFactory factory, string waitCatption,
+            WaitDialogProgressData initialProgress = null, TimeSpan delayToShow = default)
+        {
+            var instance = factory.CreateInstance();
+            var cancellationSource = new CancellationTokenSource();
+            var progress = new ProgressAdapter(instance, cancellationSource);
+            var callback = new CancellationCallback(cancellationSource);
+            instance.StartWaitDialogWithCallback(waitCatption, initialProgress?.WaitMessage,
+                initialProgress?.ProgressText, initialProgress?.StatusBarText,
+                initialProgress != null && initialProgress.IsCancelable, (int) delayToShow.TotalSeconds, true, initialProgress?.TotalSteps ?? 0, 
+                initialProgress?.CurrentStep ?? 0, callback);
+            return new Session(instance, progress, cancellationSource.Token, callback);
+        }
 
         public static Session CreateSession(IWaitDialog waitDialog)
         {
             var cancellationTokenSource = new CancellationTokenSource();
             var progress = (IProgress<WaitDialogProgressData>) new ProgressAdapter(waitDialog, cancellationTokenSource);
             var cancellationCallback = new CancellationCallback(cancellationTokenSource);
-            return new Session(progress, cancellationTokenSource.Token, cancellationCallback);
+            return new Session(waitDialog, progress, cancellationTokenSource.Token, cancellationCallback);
         }
 
-        public class Session
+        public class Session : IDisposable
         {
+            private readonly IWaitDialog _dialog;
+            private bool _disposed;
+
             /// <summary>
             /// The callback instance.
             /// </summary>
@@ -115,13 +132,22 @@ namespace ModernApplicationFramework.Basics.Threading
             /// </summary>
             public CancellationToken UserCancellationToken { get; }
 
-            internal Session(IProgress<WaitDialogProgressData> progress, CancellationToken token,
+            internal Session(IWaitDialog dialog,IProgress<WaitDialogProgressData> progress, CancellationToken token,
                 IWaitDialogCallback callback)
             {
+                _dialog = dialog;
                 Validate.IsNotNull(progress, nameof(progress));
                 Progress = progress;
                 UserCancellationToken = token;
                 Callback = callback;
+            }
+
+            public void Dispose()
+            {
+                if (_disposed)
+                    return;
+                _disposed = true;
+                _dialog.EndWaitDialog();
             }
         }
 

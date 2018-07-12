@@ -11,13 +11,13 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
     internal class ToolboxItemHost
     {
 
-        public IReadOnlyCollection<IToolboxCategory> AllCategories => new List<IToolboxCategory>(Categories.ToList().Concat(CustomCategories));
-        public IReadOnlyCollection<IToolboxItem> AllItems => new List<IToolboxItem>(Items.ToList().Concat(CustomItems));
+        public IReadOnlyCollection<IToolboxCategory> AllCategories => new List<IToolboxCategory>(Categories.ToList());//.Concat(CustomCategories));
+        public IReadOnlyCollection<IToolboxItem> AllItems => new List<IToolboxItem>(Items.ToList());//.Concat(CustomItems));
 
         private ObservableCollection<IToolboxCategory> Categories { get; }
-        private ObservableCollection<IToolboxCategory> CustomCategories { get; }
+        //private ObservableCollection<IToolboxCategory> CustomCategories { get; }
         private ObservableCollection<IToolboxItem> Items { get; }
-        private ObservableCollection<IToolboxItem> CustomItems { get; }
+        //private ObservableCollection<IToolboxItem> CustomItems { get; }
 
 
         [ImportingConstructor]
@@ -25,8 +25,8 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
         {
             Categories = new ObservableCollection<IToolboxCategory>(categories);
             Items = new ObservableCollection<IToolboxItem>(items);
-            CustomCategories = new ObservableCollection<IToolboxCategory>();
-            CustomItems = new ObservableCollection<IToolboxItem>();
+            //CustomCategories = new ObservableCollection<IToolboxCategory>();
+            //CustomItems = new ObservableCollection<IToolboxItem>();
         }
 
         internal void Initialize()
@@ -44,22 +44,22 @@ namespace ModernApplicationFramework.Modules.Toolbox.State
                 return;
 
             if(node is IToolboxCategory category)
-                if (!CustomCategories.Contains(category))
-                    CustomCategories.Add(category);
+                if (!Categories.Contains(category))
+                    Categories.Add(category);
 
             if (node is IToolboxItem item)
-                if (!CustomItems.Contains(item))
-                    CustomItems.Add(item);
+                if (!Items.Contains(item))
+                    Items.Add(item);
         }
 
         public void DeleteNode(IToolboxNode node)
         {
             if (node is IToolboxCategory category)
-                if (CustomCategories.Contains(category))
-                    CustomCategories.Remove(category);
+                if (Categories.Contains(category))
+                    Categories.Remove(category);
             if (node is IToolboxItem item)
-                if (CustomItems.Contains(item))
-                    CustomItems.Remove(item);
+                if (Items.Contains(item))
+                    Items.Remove(item);
         }
     }
 }
